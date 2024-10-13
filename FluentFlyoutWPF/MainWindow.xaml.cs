@@ -7,11 +7,12 @@ using Windows.Media.Control;
 using System.Windows.Media.Imaging;
 using Windows.Storage.Streams;
 using System.Drawing;
+using MicaWPF.Controls;
 
 
 namespace FluentFlyoutWPF
 {
-    public partial class MainWindow : Window
+    public partial class MainWindow : MicaWindow
     {
         //private HotKeyManager hotKeyManager;
         private const int WH_KEYBOARD_LL = 13;
@@ -42,11 +43,15 @@ namespace FluentFlyoutWPF
             WindowStartupLocation = WindowStartupLocation.Manual;
             Left = SystemParameters.WorkArea.Width/2 - Width/2;
             Top = SystemParameters.WorkArea.Height - Height - 80;
+
+            mediaManager.OnAnyMediaPropertyChanged += MediaManager_OnAnyMediaPropertyChanged;
         }
+
+         
 
         private void MediaManager_OnAnyMediaPropertyChanged(MediaSession mediaSession, GlobalSystemMediaTransportControlsSessionMediaProperties mediaProperties)
         {
-            throw new NotImplementedException();
+            //UpdateUI(mediaSession);
         }
 
         private static IntPtr SetHook(LowLevelKeyboardProc proc)
@@ -94,7 +99,7 @@ namespace FluentFlyoutWPF
 
             try
             {
-                await Task.Delay(5000, token);
+                await Task.Delay(3000, token);
                 this.Visibility = Visibility.Hidden;
             }
             catch (TaskCanceledException)
@@ -186,5 +191,11 @@ namespace FluentFlyoutWPF
 
         [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         private static extern IntPtr GetModuleHandle(string lpModuleName);
+
+
+        private void MicaWindow_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            ShowMediaFlyout();
+        }
     }
 }
