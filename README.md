@@ -5,7 +5,7 @@ A lightweight and modern Fluent 2 Design audio flyout for Windows.
 - Native Windows-like design
 - Makes use of Fluent 2 components
 - Utilises Windows Mica blur
-- Supports Light and Dark mode
+- Supports ~~Light~~ and Dark mode
 - Matches with your device theme
 - Smooth animations
 - Listens to both volume and media inputs
@@ -16,17 +16,18 @@ A lightweight and modern Fluent 2 Design audio flyout for Windows.
 **Displays Cover, Title, Artist and media controls**  
 | Dark Mode 🌘 | Light Mode ☀️ |
 | ------------- | ------------- |
-| ![image](https://github.com/user-attachments/assets/418a308c-8434-4cdf-acb9-5ab83b70965f) | ![image](https://github.com/user-attachments/assets/418a308c-8434-4cdf-acb9-5ab83b70965f) |
+| ![image](https://github.com/user-attachments/assets/418a308c-8434-4cdf-acb9-5ab83b70965f) | TBD |
 
 ## Upcoming features 📝
 - [ ] More animations
 - [ ] Settings
-- [ ] Change flyout timeout
+- [ ] Editable flyout timeout
 
 ## Contributing 💖
 Please feel free to contribute in any way you can!
 
 ## Credits 🙌
-- WPFUI
-- MicaWindow
-- Audio
+- Dubya.WindowsMediaController
+- H.NotifyIcon.Wpf
+- MicaWPF
+- WPF-UI
