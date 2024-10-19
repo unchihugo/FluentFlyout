@@ -8,8 +8,20 @@
         xmlns:controls="clr-namespace:MicaWPF.Controls;assembly=MicaWPF"
         Title="MainWindow" Height="116" Width="310"
         WindowStyle="None" mc:Ignorable="d" ShowInTaskbar="False"
-        Topmost="True" ResizeMode="NoResize" Background="#000000" MouseEnter="MicaWindow_MouseEnter" 
+        Topmost="True" ResizeMode="NoResize" Background="#000000" MouseEnter="MicaWindow_MouseEnter" Opacity="0.995" 
         >
+    <Window.Triggers>
+        <EventTrigger RoutedEvent="Window.Loaded">
+            <EventTrigger.Actions>
+                <BeginStoryboard>
+                    <Storyboard>
+                        <DoubleAnimation Storyboard.TargetProperty="(Window.Top)" Duration="0:0:0.3"/>
+                        <DoubleAnimation Storyboard.TargetProperty="(Window.Opacity)" Duration="0:0:0.4"/>
+                    </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger.Actions>
+        </EventTrigger>
+    </Window.Triggers>
     <Grid>
         <StackPanel Margin="12">
             <StackPanel Orientation="Horizontal">

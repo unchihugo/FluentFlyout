@@ -10,6 +10,7 @@ using System.Drawing;
 using MicaWPF.Controls;
 using Forms = System.Windows.Forms;
 using System.IO;
+using System.Windows.Media.Animation;
 
 
 namespace FluentFlyoutWPF
@@ -55,9 +56,26 @@ namespace FluentFlyoutWPF
 
             WindowStartupLocation = WindowStartupLocation.Manual;
             Left = SystemParameters.WorkArea.Width/2 - Width/2;
-            Top = SystemParameters.WorkArea.Height - Height - 80;
+            Top = SystemParameters.WorkArea.Height - Height - 60;
 
             mediaManager.OnAnyMediaPropertyChanged += MediaManager_OnAnyMediaPropertyChanged;
+        }
+
+        private void OpenAnimation()
+        {
+            var eventTriggers = this.Triggers[0] as EventTrigger;
+            var beginStoryboard = eventTriggers.Actions[0] as BeginStoryboard;
+            var storyboard = beginStoryboard.Storyboard;
+
+            DoubleAnimation moveAnimation = (DoubleAnimation)storyboard.Children[0];
+            moveAnimation.From = SystemParameters.WorkArea.Height - Height - 60;
+            moveAnimation.To = SystemParameters.WorkArea.Height - Height - 80;
+
+            DoubleAnimation opacityAnimation = (DoubleAnimation)storyboard.Children[1];
+            opacityAnimation.From = 0;
+            opacityAnimation.To = 1;
+
+            storyboard.Begin(this);
         }
 
         private void reportBug(object? sender, EventArgs e)
@@ -92,7 +110,8 @@ namespace FluentFlyoutWPF
             {
                 int vkCode = Marshal.ReadInt32(lParam);
 
-                if (vkCode == 0xB3) // Play/Pause
+                if (vkCode == 0xB3 || vkCode == 0xB0 || vkCode == 0xB1 || vkCode == 0xB2 // Play/Pause, next, previous, stop
+                    || vkCode == 0xAD || vkCode == 0xAE || vkCode == 0xAF) // Mute, Volume Down, Volume Up
                 {
                     ShowMediaFlyout();
                 }
@@ -104,6 +123,11 @@ namespace FluentFlyoutWPF
                 {
                     ShowMediaFlyout();
                 }
+                else if (vkCode == 0xB2) // Stop
+                {
+                    ShowMediaFlyout();
+                }
+
             }
             return CallNextHookEx(_hookId, nCode, wParam, lParam);
         }
@@ -115,13 +139,14 @@ namespace FluentFlyoutWPF
             cts = new CancellationTokenSource();
             var token = cts.Token;
 
+            if (Visibility == Visibility.Hidden) OpenAnimation();
             this.Visibility = Visibility.Visible;
             this.Topmost = true;
 
             try
             {
                 await Task.Delay(3000, token);
-                this.Visibility = Visibility.Hidden;
+                this.Hide();
             }
             catch (TaskCanceledException)
             {
