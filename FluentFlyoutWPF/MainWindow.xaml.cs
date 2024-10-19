@@ -8,6 +8,8 @@ using System.Windows.Media.Imaging;
 using Windows.Storage.Streams;
 using System.Drawing;
 using MicaWPF.Controls;
+using Forms = System.Windows.Forms;
+using System.IO;
 
 
 namespace FluentFlyoutWPF
@@ -28,10 +30,21 @@ namespace FluentFlyoutWPF
         private static readonly MediaManager mediaManager = new MediaManager();
         private static MediaSession? currentSession = null;
 
+        Forms.NotifyIcon notifyIcon = new NotifyIcon();
+
         public MainWindow()
         {
             InitializeComponent();
-            this.Visibility = Visibility.Hidden;
+            Visibility = Visibility.Hidden;
+            string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "icon.ico");
+            notifyIcon.Icon = new Icon(path);
+            notifyIcon.Text = "Media Flyout";
+            notifyIcon.ContextMenuStrip = new ContextMenuStrip();
+            notifyIcon.ContextMenuStrip.Items.Add("Repository", null, openRepository);
+            notifyIcon.ContextMenuStrip.Items.Add("Report bug", null, reportBug);
+            notifyIcon.ContextMenuStrip.Items.Add("Exit", null, (s, e) => System.Windows.Application.Current.Shutdown());
+            notifyIcon.Visible = true;
+            notifyIcon.ShowBalloonTip(5000, "Moved to tray", "The media flyout is running in the background", ToolTipIcon.Info);
 
             cts = new CancellationTokenSource();
 
@@ -47,11 +60,19 @@ namespace FluentFlyoutWPF
             mediaManager.OnAnyMediaPropertyChanged += MediaManager_OnAnyMediaPropertyChanged;
         }
 
-         
+        private void reportBug(object? sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void openRepository(object? sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
 
         private void MediaManager_OnAnyMediaPropertyChanged(MediaSession mediaSession, GlobalSystemMediaTransportControlsSessionMediaProperties mediaProperties)
         {
-            //UpdateUI(mediaSession);
+            UpdateUI(mediaManager.GetFocusedSession());
         }
 
         private static IntPtr SetHook(LowLevelKeyboardProc proc)
@@ -110,6 +131,8 @@ namespace FluentFlyoutWPF
 
         private void UpdateUI(MediaSession mediaSession)
         {
+            Dispatcher.Invoke(() =>
+            {
             //var mediaProperties = mediaSession.ControlSession.GetPlaybackInfo();
             //if (mediaProperties != null)
             //{
@@ -127,12 +150,14 @@ namespace FluentFlyoutWPF
                 SongArtist.Text = songInfo.Artist;
                 SongImage.Source = Helper.GetThumbnail(songInfo.Thumbnail);
             }
+            });
         }
 
         protected override void OnClosed(EventArgs e)
         {
             UnhookWindowsHookEx(_hookId);
             base.OnClosed(e);
+            notifyIcon.Dispose();
         }
 
         internal static class Helper

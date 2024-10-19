@@ -4,7 +4,8 @@
              xmlns:local="clr-namespace:FluentFlyoutWPF"
              StartupUri="MainWindow.xaml"
              xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
-             xmlns:mica="clr-namespace:MicaWPF.Styles;assembly=MicaWPF">
+             xmlns:mica="clr-namespace:MicaWPF.Styles;assembly=MicaWPF"
+             ShutdownMode="OnExplicitShutdown">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

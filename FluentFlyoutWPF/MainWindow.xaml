@@ -8,7 +8,7 @@
         xmlns:controls="clr-namespace:MicaWPF.Controls;assembly=MicaWPF"
         Title="MainWindow" Height="116" Width="310"
         WindowStyle="None" mc:Ignorable="d" ShowInTaskbar="False"
-        Topmost="True" ResizeMode="NoResize" Background="#000000" MouseEnter="MicaWindow_MouseEnter"
+        Topmost="True" ResizeMode="NoResize" Background="#000000" MouseEnter="MicaWindow_MouseEnter" 
         >
     <Grid>
         <StackPanel Margin="12">
