@@ -8,15 +8,23 @@
         xmlns:controls="clr-namespace:MicaWPF.Controls;assembly=MicaWPF"
         Title="MainWindow" Height="116" Width="310"
         WindowStyle="None" mc:Ignorable="d" ShowInTaskbar="False"
-        Topmost="True" ResizeMode="NoResize" Background="#000000" MouseEnter="MicaWindow_MouseEnter" Opacity="0.995" 
+        Topmost="True" ResizeMode="NoResize" Background="#000000" MouseEnter="MicaWindow_MouseEnter"
         >
     <Window.Triggers>
         <EventTrigger RoutedEvent="Window.Loaded">
             <EventTrigger.Actions>
                 <BeginStoryboard>
                     <Storyboard>
-                        <DoubleAnimation Storyboard.TargetProperty="(Window.Top)" Duration="0:0:0.3"/>
-                        <DoubleAnimation Storyboard.TargetProperty="(Window.Opacity)" Duration="0:0:0.4"/>
+                        <DoubleAnimation Storyboard.TargetProperty="(Window.Top)" Duration="0:0:0.3">
+                            <DoubleAnimation.EasingFunction>
+                                <CubicEase EasingMode="EaseOut"/>
+                            </DoubleAnimation.EasingFunction>
+                        </DoubleAnimation>
+                        <DoubleAnimation Storyboard.TargetProperty="(Window.Opacity)" Duration="0:0:0.3">
+                            <DoubleAnimation.EasingFunction>
+                                <CubicEase EasingMode="EaseOut"/>
+                            </DoubleAnimation.EasingFunction>
+                        </DoubleAnimation>
                     </Storyboard>
                 </BeginStoryboard>
             </EventTrigger.Actions>
@@ -29,32 +37,35 @@
                     <Image.Clip>
                         <RectangleGeometry Rect="0,0,80,80" RadiusX="8" RadiusY="8" />
                     </Image.Clip>
-                    </Image>
-                </Border>
+                </Image>
+            </Border>
             <StackPanel Orientation="Vertical" VerticalAlignment="Center" Width="196">
                 <StackPanel Orientation="Horizontal">
-                <StackPanel Margin="12,0,0,0" Orientation="Vertical" VerticalAlignment="Center">
-                    <TextBlock Name="SongTitle" Text="Song Title" Foreground="White" FontSize="14" FontFamily="Segoe UI Variable" FontWeight="Medium" />
-                    <TextBlock Name="SongArtist" Text="Artist Name" Foreground="DarkGray" FontSize="14" FontFamily="Segoe UI Variable" FontWeight="Medium"/>
+                    <StackPanel Margin="12,0,0,0" Orientation="Vertical" VerticalAlignment="Center">
+                        <TextBlock Name="SongTitle" Text="Song Title" Foreground="White" FontSize="14" FontFamily="Segoe UI Variable" FontWeight="Medium"/>
+                        <TextBlock Name="SongArtist" Text="Artist Name" Foreground="DarkGray" FontSize="14" FontFamily="Segoe UI Variable" FontWeight="Medium"/>
+                    </StackPanel>
                 </StackPanel>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="35" Width="290" Margin="12,8,0,0">
-                <ui:Button Icon="{ui:SymbolIcon Previous20, Filled=True}"  Width="28" Height="28" Padding="0" CornerRadius="999" Margin="0,0,8,0"/>
-                <controls:Button
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="35" Width="184" Margin="12,8,0,0">
+                    <ui:Button Name="ControlBack" Icon="{ui:SymbolIcon Previous20, Filled=True}"  Width="28" Height="28" Padding="0" CornerRadius="999" Margin="0,0,8,0" Click="Back_Click"/>
+                    <controls:Button
                     Height="32" Width="32"
-                    Margin="0,1,8,0"
+                    Margin="0,1,8,0" Click="PlayPause_Click"
                     Style="{StaticResource MicaWPF.Styles.AccentedButton}" VerticalAlignment="Top" HorizontalAlignment="Left">
-                    <ui:SymbolIcon Symbol="Pause16" Filled="True" />
-                </controls:Button>
-                <ui:Button Icon="{ui:SymbolIcon Next20, Filled=True}" Width="28" Height="28" CornerRadius="999" Padding="0"/>
-                <!--<StackPanel Margin="8,0,0,0" Orientation="Vertical" VerticalAlignment="Center">
+                        <ui:SymbolIcon Name="SymbolPlayPause" Symbol="Pause16" Filled="True"/>
+                    </controls:Button>
+                    <ui:Button Name="ControlForward" Icon="{ui:SymbolIcon Next20, Filled=True}" Width="28" Height="28" CornerRadius="999" Margin="0,0,8,0" Padding="0" Click="Forward_Click"/>
+                    <!--<ui:Button Name="ControlShuffle" Icon="{ui:SymbolIcon Next20, Filled=True}" Width="28" Height="28" CornerRadius="999" Padding="0" Click="Shuffle_Click"/>-->
+                    <TextBlock Name="MediaId" Foreground="#5c5c5c" VerticalAlignment="Center" FontSize="10" FontFamily="Segoe UI Variable" FontWeight="Medium"/>
+
+                    <!--<StackPanel Margin="8,0,0,0" Orientation="Vertical" VerticalAlignment="Center">
                     <TextBlock Text="0:00" Foreground="Gray" FontSize="12" />
                 </StackPanel>
                 <Slider Name="SongProgress" Value="0" Maximum="100" Minimum="0" Width="126" Height="4" Margin="2,0,0,0"/>
                 <StackPanel Margin="2,0,0,0" Orientation="Vertical" VerticalAlignment="Center">
                     <TextBlock Text="9:99" Foreground="Gray" FontSize="12" />
                 </StackPanel>-->
-            </StackPanel>
+                </StackPanel>
             </StackPanel>
         </StackPanel>
     </Grid>

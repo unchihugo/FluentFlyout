@@ -17,7 +17,6 @@ namespace FluentFlyoutWPF
 {
     public partial class MainWindow : MicaWindow
     {
-        //private HotKeyManager hotKeyManager;
         private const int WH_KEYBOARD_LL = 13;
         private const int WM_KEYDOWN = 0x0100;
         private const int WM_KEYUP = 0x0101;
@@ -55,15 +54,14 @@ namespace FluentFlyoutWPF
             _hookId = SetHook(_hookProc);
 
             WindowStartupLocation = WindowStartupLocation.Manual;
-            Left = SystemParameters.WorkArea.Width/2 - Width/2;
-            Top = SystemParameters.WorkArea.Height - Height - 60;
+            Left = SystemParameters.WorkArea.Width / 2 - Width / 2;
 
             mediaManager.OnAnyMediaPropertyChanged += MediaManager_OnAnyMediaPropertyChanged;
         }
 
         private void OpenAnimation()
         {
-            var eventTriggers = this.Triggers[0] as EventTrigger;
+            var eventTriggers = Triggers[0] as EventTrigger;
             var beginStoryboard = eventTriggers.Actions[0] as BeginStoryboard;
             var storyboard = beginStoryboard.Storyboard;
 
@@ -74,6 +72,29 @@ namespace FluentFlyoutWPF
             DoubleAnimation opacityAnimation = (DoubleAnimation)storyboard.Children[1];
             opacityAnimation.From = 0;
             opacityAnimation.To = 1;
+
+            EasingFunctionBase easing = new CubicEase { EasingMode = EasingMode.EaseOut };
+            moveAnimation.EasingFunction = opacityAnimation.EasingFunction = easing;
+
+            storyboard.Begin(this);
+        }
+
+        private void CloseAnimation()
+        {
+            var eventTriggers = Triggers[0] as EventTrigger;
+            var beginStoryboard = eventTriggers.Actions[0] as BeginStoryboard;
+            var storyboard = beginStoryboard.Storyboard;
+
+            DoubleAnimation moveAnimation = (DoubleAnimation)storyboard.Children[0];
+            moveAnimation.From = SystemParameters.WorkArea.Height - Height - 80;
+            moveAnimation.To = SystemParameters.WorkArea.Height - Height - 60;
+
+            DoubleAnimation opacityAnimation = (DoubleAnimation)storyboard.Children[1];
+            opacityAnimation.From = 1;
+            opacityAnimation.To = 0;
+
+            EasingFunctionBase easing = new CubicEase { EasingMode = EasingMode.EaseIn };
+            moveAnimation.EasingFunction = opacityAnimation.EasingFunction = easing;
 
             storyboard.Begin(this);
         }
@@ -140,13 +161,15 @@ namespace FluentFlyoutWPF
             var token = cts.Token;
 
             if (Visibility == Visibility.Hidden) OpenAnimation();
-            this.Visibility = Visibility.Visible;
-            this.Topmost = true;
+            Visibility = Visibility.Visible;
+            Topmost = true;
 
             try
             {
                 await Task.Delay(3000, token);
-                this.Hide();
+                CloseAnimation();
+                await Task.Delay(300);
+                Hide();
             }
             catch (TaskCanceledException)
             {
@@ -158,25 +181,67 @@ namespace FluentFlyoutWPF
         {
             Dispatcher.Invoke(() =>
             {
-            //var mediaProperties = mediaSession.ControlSession.GetPlaybackInfo();
-            //if (mediaProperties != null)
-            //{
-            //    if (mediaSession.ControlSession.GetPlaybackInfo().Controls.IsPauseEnabled)
-            //        ControlPlayPause.Content = "II";
-            //    else
-            //        ControlPlayPause.Content = "▶️";
-            //    ControlBack.IsEnabled = ControlForward.IsEnabled = mediaProperties.Controls.IsNextEnabled;
-            //}
+                if (mediaSession == null)
+                {
+                    SongTitle.Text = "No media playing";
+                    SongArtist.Text = "";
+                    SongImage.Source = null;
+                    SymbolPlayPause.Symbol = Wpf.Ui.Controls.SymbolRegular.Stop16;
+                    ControlBack.IsEnabled = ControlForward.IsEnabled = false;      
+                    return;
+                }
 
-            var songInfo = mediaSession.ControlSession.TryGetMediaPropertiesAsync().GetAwaiter().GetResult();
-            if (songInfo != null)
-            {
-                SongTitle.Text = songInfo.Title;
-                SongArtist.Text = songInfo.Artist;
-                SongImage.Source = Helper.GetThumbnail(songInfo.Thumbnail);
-            }
+                var mediaProperties = mediaSession.ControlSession.GetPlaybackInfo();
+                if (mediaProperties != null)
+                {
+                    if (mediaSession.ControlSession.GetPlaybackInfo().Controls.IsPauseEnabled)
+                        SymbolPlayPause.Symbol = Wpf.Ui.Controls.SymbolRegular.Pause16;
+                    else
+                        SymbolPlayPause.Symbol = Wpf.Ui.Controls.SymbolRegular.Play16;
+                    ControlBack.IsEnabled = ControlForward.IsEnabled = mediaProperties.Controls.IsNextEnabled;
+                    MediaId.Text = mediaSession.Id;
+                }
+
+
+                var songInfo = mediaSession.ControlSession.TryGetMediaPropertiesAsync().GetAwaiter().GetResult();
+                if (songInfo != null)
+                {
+                    SongTitle.Text = songInfo.Title;
+                    SongArtist.Text = songInfo.Artist;
+                    SongImage.Source = Helper.GetThumbnail(songInfo.Thumbnail);
+                }
             });
         }
+
+        private async void Back_Click(object sender, RoutedEventArgs e)
+        {
+            if (mediaManager.GetFocusedSession() == null)
+                return;
+
+            await mediaManager.GetFocusedSession().ControlSession.TrySkipPreviousAsync();
+        }
+
+        private async void PlayPause_Click(object sender, RoutedEventArgs e)
+        {
+            if (mediaManager.GetFocusedSession() == null)
+                return;
+
+            var controlsInfo = mediaManager.GetFocusedSession().ControlSession.GetPlaybackInfo().Controls;
+
+            if (controlsInfo.IsPauseEnabled == true)
+                await mediaManager.GetFocusedSession().ControlSession.TryPauseAsync();
+            else if (controlsInfo.IsPlayEnabled == true)
+                await mediaManager.GetFocusedSession().ControlSession.TryPlayAsync();
+        }
+
+        private async void Forward_Click(object sender, RoutedEventArgs e)
+        {
+            if (mediaManager.GetFocusedSession() == null)
+                return;
+
+            await mediaManager.GetFocusedSession().ControlSession.TrySkipNextAsync();
+        }
+
 
         protected override void OnClosed(EventArgs e)
         {
