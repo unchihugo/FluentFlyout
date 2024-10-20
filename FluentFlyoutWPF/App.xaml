@@ -11,7 +11,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ui:ThemesDictionary Theme="Dark" />
                 <ui:ControlsDictionary />
-                <mica:ThemeDictionary DesignModeTheme="Dark" Theme="Dark" />
+                <mica:ThemeDictionary DesignModeTheme="Dark" Theme="Auto" />
                 <mica:ControlsDictionary />
             </ResourceDictionary.MergedDictionaries>
             <FontFamily x:Key="SegoeFluentIcons">pack://application:,,,/;component/Fonts/#Segoe Fluent Icons</FontFamily>

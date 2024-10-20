@@ -11,6 +11,7 @@ using MicaWPF.Controls;
 using Forms = System.Windows.Forms;
 using System.IO;
 using System.Windows.Media.Animation;
+using FluentFlyout;
 
 
 namespace FluentFlyoutWPF
@@ -31,20 +32,22 @@ namespace FluentFlyoutWPF
         private static MediaSession? currentSession = null;
 
         Forms.NotifyIcon notifyIcon = new NotifyIcon();
+        private int _position = 0;
 
         public MainWindow()
         {
             InitializeComponent();
             Visibility = Visibility.Hidden;
-            string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "icon.ico");
+            string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "FluentFlyout.ico");
             notifyIcon.Icon = new Icon(path);
             notifyIcon.Text = "Media Flyout";
             notifyIcon.ContextMenuStrip = new ContextMenuStrip();
+            notifyIcon.ContextMenuStrip.Items.Add("Settings", null, openSettings);
             notifyIcon.ContextMenuStrip.Items.Add("Repository", null, openRepository);
             notifyIcon.ContextMenuStrip.Items.Add("Report bug", null, reportBug);
             notifyIcon.ContextMenuStrip.Items.Add("Exit", null, (s, e) => System.Windows.Application.Current.Shutdown());
             notifyIcon.Visible = true;
-            notifyIcon.ShowBalloonTip(5000, "Moved to tray", "The media flyout is running in the background", ToolTipIcon.Info);
+            //notifyIcon.ShowBalloonTip(5000, "Moved to tray", "The media flyout is running in the background", ToolTipIcon.Info);
 
             cts = new CancellationTokenSource();
 
@@ -54,20 +57,45 @@ namespace FluentFlyoutWPF
             _hookId = SetHook(_hookProc);
 
             WindowStartupLocation = WindowStartupLocation.Manual;
-            Left = SystemParameters.WorkArea.Width / 2 - Width / 2;
 
             mediaManager.OnAnyMediaPropertyChanged += MediaManager_OnAnyMediaPropertyChanged;
         }
 
+        private void openSettings(object? sender, EventArgs e)
+        {
+            var settingsWindow = new SettingsWindow(_position);
+            if (settingsWindow.ShowDialog() == true)
+            {
+                _position = settingsWindow.Position;
+            }
+        }
+
         private void OpenAnimation()
         {
+
             var eventTriggers = Triggers[0] as EventTrigger;
             var beginStoryboard = eventTriggers.Actions[0] as BeginStoryboard;
             var storyboard = beginStoryboard.Storyboard;
 
             DoubleAnimation moveAnimation = (DoubleAnimation)storyboard.Children[0];
-            moveAnimation.From = SystemParameters.WorkArea.Height - Height - 60;
-            moveAnimation.To = SystemParameters.WorkArea.Height - Height - 80;
+            if (_position == 0)
+            {
+                Left = 16;
+                moveAnimation.From = SystemParameters.WorkArea.Height - Height - 0;
+                moveAnimation.To = SystemParameters.WorkArea.Height - Height - 16;
+            }
+            else if (_position == 1)
+            {
+                Left = SystemParameters.WorkArea.Width / 2 - Width / 2;
+                moveAnimation.From = SystemParameters.WorkArea.Height - Height - 60;
+                moveAnimation.To = SystemParameters.WorkArea.Height - Height - 80;
+            }
+            else
+            {
+                Left = SystemParameters.WorkArea.Width - Width - 16;
+                moveAnimation.From = SystemParameters.WorkArea.Height - Height - 0;
+                moveAnimation.To = SystemParameters.WorkArea.Height - Height - 16;
+            }
 
             DoubleAnimation opacityAnimation = (DoubleAnimation)storyboard.Children[1];
             opacityAnimation.From = 0;
@@ -86,8 +114,21 @@ namespace FluentFlyoutWPF
             var storyboard = beginStoryboard.Storyboard;
 
             DoubleAnimation moveAnimation = (DoubleAnimation)storyboard.Children[0];
-            moveAnimation.From = SystemParameters.WorkArea.Height - Height - 80;
-            moveAnimation.To = SystemParameters.WorkArea.Height - Height - 60;
+            if (_position == 0)
+            {
+                moveAnimation.From = SystemParameters.WorkArea.Height - Height - 16;
+                moveAnimation.To = SystemParameters.WorkArea.Height - Height - 0;
+            }
+            else if (_position == 1)
+            {
+                moveAnimation.From = SystemParameters.WorkArea.Height - Height - 80;
+                moveAnimation.To = SystemParameters.WorkArea.Height - Height - 60;
+            }
+            else
+            {
+                moveAnimation.From = SystemParameters.WorkArea.Height - Height - 16;
+                moveAnimation.To = SystemParameters.WorkArea.Height - Height - 0;
+            }
 
             DoubleAnimation opacityAnimation = (DoubleAnimation)storyboard.Children[1];
             opacityAnimation.From = 1;
@@ -107,6 +148,11 @@ namespace FluentFlyoutWPF
         private void openRepository(object? sender, EventArgs e)
         {
             throw new NotImplementedException();
+        }
+
+        private void CurrentSession_OnPlaybackStateChanged(MediaSession mediaSession, GlobalSystemMediaTransportControlsSessionPlaybackInfo? playbackInfo = null)
+        {
+            UpdateUI(mediaManager.GetFocusedSession());
         }
 
         private void MediaManager_OnAnyMediaPropertyChanged(MediaSession mediaSession, GlobalSystemMediaTransportControlsSessionMediaProperties mediaProperties)
@@ -223,8 +269,8 @@ namespace FluentFlyoutWPF
 
         private async void PlayPause_Click(object sender, RoutedEventArgs e)
         {
-            if (mediaManager.GetFocusedSession() == null)
-                return;
+            //if (mediaManager.GetFocusedSession() == null)
+                //return;
 
             var controlsInfo = mediaManager.GetFocusedSession().ControlSession.GetPlaybackInfo().Controls;
 

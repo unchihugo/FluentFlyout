@@ -103,6 +103,26 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="FluentFlyoutMSIX_TemporaryKey.pfx" />
+    <Content Include="Images\FluentFlyout.altform-lightunplated_targetsize-16.png" />
+    <Content Include="Images\FluentFlyout.altform-lightunplated_targetsize-24.png" />
+    <Content Include="Images\FluentFlyout.altform-lightunplated_targetsize-256.png" />
+    <Content Include="Images\FluentFlyout.altform-lightunplated_targetsize-32.png" />
+    <Content Include="Images\FluentFlyout.altform-lightunplated_targetsize-48.png" />
+    <Content Include="Images\FluentFlyout.altform-unplated_targetsize-16.png" />
+    <Content Include="Images\FluentFlyout.altform-unplated_targetsize-24.png" />
+    <Content Include="Images\FluentFlyout.altform-unplated_targetsize-256.png" />
+    <Content Include="Images\FluentFlyout.altform-unplated_targetsize-32.png" />
+    <Content Include="Images\FluentFlyout.altform-unplated_targetsize-48.png" />
+    <Content Include="Images\FluentFlyout.scale-100.png" />
+    <Content Include="Images\FluentFlyout.scale-125.png" />
+    <Content Include="Images\FluentFlyout.scale-150.png" />
+    <Content Include="Images\FluentFlyout.scale-200.png" />
+    <Content Include="Images\FluentFlyout.scale-400.png" />
+    <Content Include="Images\FluentFlyout.targetsize-16.png" />
+    <Content Include="Images\FluentFlyout.targetsize-24.png" />
+    <Content Include="Images\FluentFlyout.targetsize-256.png" />
+    <Content Include="Images\FluentFlyout.targetsize-32.png" />
+    <Content Include="Images\FluentFlyout.targetsize-48.png" />
     <Content Include="Images\SplashScreen.scale-200.png" />
     <Content Include="Images\LockScreenLogo.scale-200.png" />
     <Content Include="Images\Square150x150Logo.scale-200.png" />

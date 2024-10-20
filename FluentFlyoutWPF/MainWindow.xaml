@@ -9,6 +9,8 @@
         Title="MainWindow" Height="116" Width="310"
         WindowStyle="None" mc:Ignorable="d" ShowInTaskbar="False"
         Topmost="True" ResizeMode="NoResize" Background="#000000" MouseEnter="MicaWindow_MouseEnter"
+        SystemBackdropType="Mica" ChangeTitleColorWhenInactive="False" 
+        TextOptions.TextRenderingMode="ClearType" TextOptions.TextFormattingMode="Ideal"
         >
     <Window.Triggers>
         <EventTrigger RoutedEvent="Window.Loaded">

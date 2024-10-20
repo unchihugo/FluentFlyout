@@ -15,7 +15,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="FluentFlyout.ico" />
     <None Remove="icon.ico" />
+    <None Remove="Resources\FluentFlyout.ico" />
   </ItemGroup>
 
   <ItemGroup>
@@ -27,9 +29,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="Resources\FluentFlyout.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\icon.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="FluentFlyout.ico" />
   </ItemGroup>
 
 </Project>
