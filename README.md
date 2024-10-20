@@ -108,8 +108,10 @@
 </svg>
 
 
-FluentFlyout is a modern audio flyout for Windows, built with Fluent 2 Design principles.
-It features smooth animations, supports both light and dark modes, blends with your system's theme, and includes multiple layout positions while providing media controls and information in a nice and modern looking popup flyout, just above the native volume flyout.
+FluentFlyout is a simple and modern audio flyout for Windows, built with Fluent 2 Design principles.  
+The UI seemingly blends in with Windows 10/11, providing you an uninterrupted native-like experience when controlling your media.  
+
+FluentFlyout features smooth animations, supports both light and dark modes, blends with your system's theme, and includes multiple layout positions while providing media controls and information in a nice and modern looking popup flyout, just above the native volume flyout.
 
 ## Features ✨
 - Native Windows-like design
