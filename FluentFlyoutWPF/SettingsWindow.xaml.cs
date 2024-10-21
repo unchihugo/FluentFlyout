@@ -1,18 +1,7 @@
-﻿using MicaWPF.Controls;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using FluentFlyout.Properties;
+using MicaWPF.Controls;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+
 
 namespace FluentFlyout
 {
@@ -28,11 +17,29 @@ namespace FluentFlyout
             InitializeComponent();
 
             PositionComboBox.SelectedIndex = currentPosition;
+            StartupSwitch.IsChecked = Settings.Default.Startup;
         }
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
             Position = PositionComboBox.SelectedIndex;
+            Settings.Default.Position = Position;
+            Settings.Default.Startup = StartupSwitch.IsChecked ?? true;
+            Settings.Default.Save();
             DialogResult = true;
+        }
+
+        private void StartupSwitch_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (StartupSwitch.IsEnabled)
+            {
+                Microsoft.Win32.RegistryKey key = Microsoft.Win32.Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+                key.SetValue("FluentFlyout", System.Windows.Forms.Application.ExecutablePath);
+            }
+            else
+            {
+                Microsoft.Win32.RegistryKey key = Microsoft.Win32.Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+                key.DeleteValue("FluentFlyout", false);
+            }
         }
     }
 }

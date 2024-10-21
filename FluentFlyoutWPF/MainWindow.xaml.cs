@@ -6,18 +6,20 @@ using WindowsMediaController;
 using Windows.Media.Control;
 using System.Windows.Media.Imaging;
 using Windows.Storage.Streams;
-using System.Drawing;
 using MicaWPF.Controls;
 using Forms = System.Windows.Forms;
 using System.IO;
 using System.Windows.Media.Animation;
 using FluentFlyout;
+using FluentFlyout.Properties;
 
 
 namespace FluentFlyoutWPF
 {
     public partial class MainWindow : MicaWindow
     {
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern void keybd_event(byte virtualKey, byte scanCode, uint flags, IntPtr extraInfo);
         private const int WH_KEYBOARD_LL = 13;
         private const int WM_KEYDOWN = 0x0100;
         private const int WM_KEYUP = 0x0101;
@@ -32,15 +34,16 @@ namespace FluentFlyoutWPF
         private static MediaSession? currentSession = null;
 
         Forms.NotifyIcon notifyIcon = new NotifyIcon();
-        private int _position = 0;
+        private int _position = Settings.Default.Position;
 
         public MainWindow()
         {
             InitializeComponent();
             Visibility = Visibility.Hidden;
-            string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "FluentFlyout.ico");
+            string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "FluentFlyout2.ico");
             notifyIcon.Icon = new Icon(path);
             notifyIcon.Text = "Media Flyout";
+            notifyIcon.DoubleClick += openSettings;
             notifyIcon.ContextMenuStrip = new ContextMenuStrip();
             notifyIcon.ContextMenuStrip.Items.Add("Settings", null, openSettings);
             notifyIcon.ContextMenuStrip.Items.Add("Repository", null, openRepository);
@@ -48,6 +51,12 @@ namespace FluentFlyoutWPF
             notifyIcon.ContextMenuStrip.Items.Add("Exit", null, (s, e) => System.Windows.Application.Current.Shutdown());
             notifyIcon.Visible = true;
             //notifyIcon.ShowBalloonTip(5000, "Moved to tray", "The media flyout is running in the background", ToolTipIcon.Info);
+
+            if (Settings.Default.Startup)
+            {
+                Microsoft.Win32.RegistryKey key = Microsoft.Win32.Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+                key.SetValue("FluentFlyout", Forms.Application.ExecutablePath);
+            }
 
             cts = new CancellationTokenSource();
 
@@ -59,6 +68,7 @@ namespace FluentFlyoutWPF
             WindowStartupLocation = WindowStartupLocation.Manual;
 
             mediaManager.OnAnyMediaPropertyChanged += MediaManager_OnAnyMediaPropertyChanged;
+            mediaManager.OnAnyPlaybackStateChanged += CurrentSession_OnPlaybackStateChanged;
         }
 
         private void openSettings(object? sender, EventArgs e)
@@ -142,12 +152,20 @@ namespace FluentFlyoutWPF
 
         private void reportBug(object? sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = "https://github.com/unchihugo/FluentFlyout/issues/new",
+                UseShellExecute = true
+            });
         }
 
         private void openRepository(object? sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = "https://github.com/unchihugo/FluentFlyout",
+                UseShellExecute = true
+            });
         }
 
         private void CurrentSession_OnPlaybackStateChanged(MediaSession mediaSession, GlobalSystemMediaTransportControlsSessionPlaybackInfo? playbackInfo = null)
@@ -179,18 +197,6 @@ namespace FluentFlyoutWPF
 
                 if (vkCode == 0xB3 || vkCode == 0xB0 || vkCode == 0xB1 || vkCode == 0xB2 // Play/Pause, next, previous, stop
                     || vkCode == 0xAD || vkCode == 0xAE || vkCode == 0xAF) // Mute, Volume Down, Volume Up
-                {
-                    ShowMediaFlyout();
-                }
-                else if (vkCode == 0xB0) // Next Track
-                {
-                    ShowMediaFlyout();
-                }
-                else if (vkCode == 0xB1) // Previous Track
-                {
-                    ShowMediaFlyout();
-                }
-                else if (vkCode == 0xB2) // Stop
                 {
                     ShowMediaFlyout();
                 }
@@ -269,15 +275,23 @@ namespace FluentFlyoutWPF
 
         private async void PlayPause_Click(object sender, RoutedEventArgs e)
         {
-            //if (mediaManager.GetFocusedSession() == null)
-                //return;
+            keybd_event(0xB3, 0, 0, IntPtr.Zero);
 
-            var controlsInfo = mediaManager.GetFocusedSession().ControlSession.GetPlaybackInfo().Controls;
+            if (mediaManager.GetFocusedSession() == null)
+                return;
 
-            if (controlsInfo.IsPauseEnabled == true)
-                await mediaManager.GetFocusedSession().ControlSession.TryPauseAsync();
-            else if (controlsInfo.IsPlayEnabled == true)
-                await mediaManager.GetFocusedSession().ControlSession.TryPlayAsync();
+            //var controlsInfo = mediaManager.GetFocusedSession().ControlSession.GetPlaybackInfo().Controls;
+
+            //if (controlsInfo.IsPauseEnabled == true)
+            //{
+            //    await mediaManager.GetFocusedSession().ControlSession.TryPauseAsync();
+            //}
+            //else if (controlsInfo.IsPlayEnabled == true)
+            //    await mediaManager.GetFocusedSession().ControlSession.TryPlayAsync();
+            if (mediaManager.GetFocusedSession().ControlSession.GetPlaybackInfo().Controls.IsPauseEnabled)
+                SymbolPlayPause.Dispatcher.Invoke(() => SymbolPlayPause.Symbol = Wpf.Ui.Controls.SymbolRegular.Pause16);
+            else
+                SymbolPlayPause.Dispatcher.Invoke(() => SymbolPlayPause.Symbol = Wpf.Ui.Controls.SymbolRegular.Play16);
         }
 
         private async void Forward_Click(object sender, RoutedEventArgs e)

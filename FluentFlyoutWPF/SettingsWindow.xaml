@@ -7,23 +7,23 @@
       xmlns:controls="clr-namespace:MicaWPF.Controls;assembly=MicaWPF"
       mc:Ignorable="d" 
       Height="230" Width="400" Background="Black" MinHeight="230" MinWidth="400"
-      Title="Settings" Icon="/FluentFlyout.ico"
+      Title="Settings" Icon="/Resources/FluentFlyout2.ico"
       TextOptions.TextRenderingMode="ClearType" TextOptions.TextFormattingMode="Ideal"
       >
 
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="147*"/>
-            <ColumnDefinition Width="53*"/>
-        </Grid.ColumnDefinitions>
         <StackPanel Orientation="Vertical" Margin="12,12,12,12" Grid.ColumnSpan="2">
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                <Image Source="/Resources/FluentFlyout.ico" Width="48" Height="48"/>
-                <TextBlock Text="FluentFlyout Settings" FontSize="24" FontWeight="Medium" Foreground="White" Margin="8,0,0,0" VerticalAlignment="Center"/>
+                <Image Source="/Resources/FluentFlyout2.ico" Width="48" Height="48"/>
+                <TextBlock Text="FluentFlyout Settings" FontSize="24" FontWeight="Medium" Foreground="White" Margin="12,0,0,0" VerticalAlignment="Center"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,12,0,0">
                 <TextBlock Text="Compact Layout" FontSize="14" FontWeight="Regular" Foreground="LightGray"/>
-                <controls:ToggleSwitch Name="ThemeComboBox" Width="150" Margin="12,0,0,0"/>
+                <controls:ToggleSwitch Name="ThemeSwitch" Width="150" Margin="12,0,0,0"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,12,0,0">
+                <TextBlock Text="Launch on Startup" FontSize="14" FontWeight="Regular" Foreground="LightGray"/>
+                <controls:ToggleSwitch Name="StartupSwitch" Width="150" Margin="12,0,0,0" IsEnabledChanged="StartupSwitch_IsEnabledChanged"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,12,0,0">
                 <TextBlock Text="Position" FontSize="14" FontWeight="Regular" Foreground="LightGray" VerticalAlignment="Center"/>

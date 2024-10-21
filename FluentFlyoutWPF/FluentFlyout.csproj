@@ -18,6 +18,7 @@
     <None Remove="FluentFlyout.ico" />
     <None Remove="icon.ico" />
     <None Remove="Resources\FluentFlyout.ico" />
+    <None Remove="Resources\FluentFlyout2.ico" />
   </ItemGroup>
 
   <ItemGroup>
@@ -39,6 +40,24 @@
 
   <ItemGroup>
     <Resource Include="FluentFlyout.ico" />
+    <Content Include="Resources\FluentFlyout2.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Settings.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
   </ItemGroup>
 
 </Project>
