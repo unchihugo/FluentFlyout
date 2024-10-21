@@ -6,7 +6,7 @@
       xmlns:local="clr-namespace:FluentFlyout"
       xmlns:controls="clr-namespace:MicaWPF.Controls;assembly=MicaWPF"
       mc:Ignorable="d" 
-      Height="230" Width="400" Background="Black" MinHeight="230" MinWidth="400"
+      Height="260" Width="400" Background="Black" MinHeight="260" MinWidth="400"
       Title="Settings" Icon="/Resources/FluentFlyout2.ico"
       TextOptions.TextRenderingMode="ClearType" TextOptions.TextFormattingMode="Ideal"
       >
