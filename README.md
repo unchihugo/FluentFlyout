@@ -113,13 +113,13 @@
 FluentFlyout is a simple and modern audio flyout for Windows, built with Fluent 2 Design principles.  
 The UI seemingly blends in with Windows 10/11, providing you an uninterrupted, clean, and native-like experience when controlling your media.  
 
-FluentFlyout features smooth animations, supports both light and dark modes, blends with your system's theme, and includes multiple layout positions while providing media controls and information in a nice and modern looking popup flyout, just above the native volume flyout.
+FluentFlyout features smooth animations, supports both light and dark modes, blends with your system's color theme, and includes multiple layout positions while providing media controls and information in a nice and modern looking popup flyout, just above the native volume flyout.
 
 ## Features ✨
 - Native Windows-like design
 - Uses Fluent 2 components
 - Utilises Windows Mica blur
-- Supports ~~Light~~ and Dark mode
+- Supports Light and Dark mode
 - Matches your device color theme
 - Smooth animations
 - Customizable flyout positions
@@ -129,15 +129,16 @@ FluentFlyout features smooth animations, supports both light and dark modes, ble
 - **Audio flyout: Displays Cover, Title, Artist and media controls**  
 
 ## Audio flyout 🎵
-| Dark Mode 🌘 | Light Mode ☀️ Coming Soon |
+| Dark Mode 🌘 | Light Mode ☀️ |
 | ------------- | ------------- |
-| ![image](https://github.com/user-attachments/assets/418a308c-8434-4cdf-acb9-5ab83b70965f) | ![image](https://github.com/user-attachments/assets/e86b7ff5-be6f-4fd8-b059-48605165c31d)|
+| ![image](https://github.com/user-attachments/assets/418a308c-8434-4cdf-acb9-5ab83b70965f) | ![image](https://github.com/user-attachments/assets/d2919ae0-da45-4061-99dc-cc19e06628ff)|
 
 ## Upcoming features 📝
 - [ ] More animations
 - [x] Settings
-- [ ] Editable flyout timeout
+- [x] Editable flyout timeout
 - [ ] Implement compact layout
+- [ ] Remove Windows Forms dependency (NotifyIcon)
 
 ## Contributing 💖
 Please feel free to contribute in any way you can!
