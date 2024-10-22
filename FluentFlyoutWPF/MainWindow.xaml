@@ -34,31 +34,43 @@
     </Window.Triggers>
     <Grid>
         <StackPanel Margin="12" Orientation="Horizontal">
-            <Border CornerRadius="6" BorderThickness="1" BorderBrush="#3c3c3c" Margin="6" ClipToBounds="False">
-                <Image Name="SongImage" Stretch="UniformToFill" Width="80" Height="80">
+            <Border CornerRadius="6" BorderThickness="1" BorderBrush="#26FFFFFF" Margin="6" ClipToBounds="False">
+                <Image Name="SongImage" Stretch="UniformToFill" Width="78" Height="78">
                     <Image.Clip>
-                        <RectangleGeometry Rect="0,0,80,80" RadiusX="6" RadiusY="6" />
+                        <RectangleGeometry Rect="0,0,78,78" RadiusX="6" RadiusY="6" />
                     </Image.Clip>
                 </Image>
             </Border>
             <StackPanel Orientation="Vertical" VerticalAlignment="Center" Width="196">
                 <StackPanel Orientation="Horizontal">
                     <StackPanel Margin="12,0,0,0" Orientation="Vertical" VerticalAlignment="Center">
-                        <TextBlock Name="SongTitle" Text="Song Title" Foreground="White" FontSize="14" FontFamily="Segoe UI Variable" FontWeight="Medium"/>
-                        <TextBlock Name="SongArtist" Text="Artist Name" Foreground="DarkGray" FontSize="14" FontFamily="Segoe UI Variable" FontWeight="Medium"/>
+                        <ui:TextBlock Name="SongTitle" Text="Song Title" FontSize="14" FontFamily="Segoe UI Variable" FontWeight="Medium"/>
+                        <TextBlock Name="SongArtist" Text="Artist Name" FontSize="14" FontFamily="Segoe UI Variable" FontWeight="Medium" Opacity="0.5"/>
                     </StackPanel>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="35" Width="184" Margin="12,8,0,0">
-                    <ui:Button Name="ControlBack" Icon="{ui:SymbolIcon Previous20, Filled=True}" Width="28" Height="28" Padding="0" CornerRadius="999" Margin="0,0,8,0" Click="Back_Click" Focusable="False"/>
+                    <!--<ui:Button Name="ControlBack" Icon="{ui:SymbolIcon Previous20, Filled=True}" Width="28" Height="28" Padding="0" CornerRadius="999" Margin="0,0,8,0" Click="Back_Click" Focusable="False"/>-->
                     <controls:Button
-                    Height="32" Width="32"
-                    Margin="0,1,8,0" Click="PlayPause_Click" Focusable="False"
-                    Style="{StaticResource MicaWPF.Styles.AccentedButton}" VerticalAlignment="Top" HorizontalAlignment="Left">
+                    Height="28" Width="28" Name="ControlBack"
+                    Margin="0,0,8,0" Click="Back_Click" Focusable="False"
+                    Style="{StaticResource MicaWPF.Styles.TransparentButton}" VerticalAlignment="Center">
+                        <ui:SymbolIcon Name="SymbolBack" Symbol="Previous20" Filled="True"/>
+                    </controls:Button>
+                    <controls:Button
+                    Height="32" Width="32" Name="ControlPlayPause"
+                    Margin="0,0,8,0" Click="PlayPause_Click" Focusable="False"
+                    Style="{StaticResource MicaWPF.Styles.AccentedButton}" VerticalAlignment="Center">
                         <ui:SymbolIcon Name="SymbolPlayPause" Symbol="Pause16" Filled="True"/>
                     </controls:Button>
-                    <ui:Button Name="ControlForward" Icon="{ui:SymbolIcon Next20, Filled=True}" Width="28" Height="28" CornerRadius="999" Margin="0,0,8,0" Padding="0" Click="Forward_Click" Focusable="False"/>
+                    <controls:Button
+                    Height="28" Width="28" Name="ControlForward"
+                    Margin="0,0,8,0" Click="Forward_Click" Focusable="False"
+                    Style="{StaticResource MicaWPF.Styles.TransparentButton}" VerticalAlignment="Center">
+                        <ui:SymbolIcon Name="SymbolForward" Symbol="Next20" Filled="True"/>
+                    </controls:Button>
+                    <!--<ui:Button Name="ControlForward" Icon="{ui:SymbolIcon Next20, Filled=True}" Width="28" Height="28" CornerRadius="999" Margin="0,0,8,0" Padding="0" Click="Forward_Click" Focusable="False"/>-->
                     <!--<ui:Button Name="ControlShuffle" Icon="{ui:SymbolIcon Next20, Filled=True}" Width="28" Height="28" CornerRadius="999" Padding="0" Click="Shuffle_Click"/>-->
-                    <TextBlock Name="MediaId" Foreground="#5c5c5c" VerticalAlignment="Center" FontSize="10" FontFamily="Segoe UI Variable" FontWeight="Medium"/>
+                    <TextBlock Name="MediaId" VerticalAlignment="Center" FontSize="10" FontFamily="Segoe UI Variable" FontWeight="Medium" Opacity="0.25"/>
 
                     <!--<StackPanel Margin="8,0,0,0" Orientation="Vertical" VerticalAlignment="Center">
                     <TextBlock Text="0:00" Foreground="Gray" FontSize="12" />

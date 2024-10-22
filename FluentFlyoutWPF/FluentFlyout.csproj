@@ -17,7 +17,6 @@
   <ItemGroup>
     <None Remove="FluentFlyout.ico" />
     <None Remove="icon.ico" />
-    <None Remove="Resources\FluentFlyout.ico" />
     <None Remove="Resources\FluentFlyout2.ico" />
   </ItemGroup>
 

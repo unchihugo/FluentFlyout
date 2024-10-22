@@ -46,5 +46,17 @@ namespace FluentFlyout.Properties {
                 this["Startup"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("3000")]
+        public int Duration {
+            get {
+                return ((int)(this["Duration"]));
+            }
+            set {
+                this["Duration"] = value;
+            }
+        }
     }
 }

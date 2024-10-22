@@ -43,7 +43,7 @@ namespace FluentFlyoutWPF
             string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "FluentFlyout2.ico");
             notifyIcon.Icon = new Icon(path);
             notifyIcon.Text = "FluentFlyout";
-            notifyIcon.Click += openSettings;
+            notifyIcon.DoubleClick += openSettings;
             notifyIcon.ContextMenuStrip = new ContextMenuStrip();
             notifyIcon.ContextMenuStrip.Items.Add("Settings", null, openSettings);
             notifyIcon.ContextMenuStrip.Items.Add("Repository", null, openRepository);
@@ -73,10 +73,10 @@ namespace FluentFlyoutWPF
 
         private void openSettings(object? sender, EventArgs e)
         {
-            var settingsWindow = new SettingsWindow(_position);
+            var settingsWindow = new SettingsWindow();
             if (settingsWindow.ShowDialog() == true)
             {
-                _position = settingsWindow.Position;
+                //_position = settingsWindow.Position;
             }
         }
 
@@ -88,6 +88,7 @@ namespace FluentFlyoutWPF
             var storyboard = beginStoryboard.Storyboard;
 
             DoubleAnimation moveAnimation = (DoubleAnimation)storyboard.Children[0];
+            _position = Settings.Default.Position;
             if (_position == 0)
             {
                 Left = 16;
@@ -100,11 +101,29 @@ namespace FluentFlyoutWPF
                 moveAnimation.From = SystemParameters.WorkArea.Height - Height - 60;
                 moveAnimation.To = SystemParameters.WorkArea.Height - Height - 80;
             }
-            else
+            else if (_position == 2)
             {
                 Left = SystemParameters.WorkArea.Width - Width - 16;
                 moveAnimation.From = SystemParameters.WorkArea.Height - Height - 0;
                 moveAnimation.To = SystemParameters.WorkArea.Height - Height - 16;
+            }
+            else if (_position == 3)
+            {
+                Left = 16;
+                moveAnimation.From = 0;
+                moveAnimation.To = 16;
+            }
+            else if (_position == 4)
+            {
+                Left = SystemParameters.WorkArea.Width / 2 - Width / 2;
+                moveAnimation.From = 0;
+                moveAnimation.To = 16;
+            }
+            else if (_position == 5)
+            {
+                Left = SystemParameters.WorkArea.Width - Width - 16;
+                moveAnimation.From = 0;
+                moveAnimation.To = 16;
             }
 
             DoubleAnimation opacityAnimation = (DoubleAnimation)storyboard.Children[1];
@@ -124,7 +143,8 @@ namespace FluentFlyoutWPF
             var storyboard = beginStoryboard.Storyboard;
 
             DoubleAnimation moveAnimation = (DoubleAnimation)storyboard.Children[0];
-            if (_position == 0)
+            _position = Settings.Default.Position;
+            if (_position == 0 || _position == 2)
             {
                 moveAnimation.From = SystemParameters.WorkArea.Height - Height - 16;
                 moveAnimation.To = SystemParameters.WorkArea.Height - Height - 0;
@@ -134,10 +154,10 @@ namespace FluentFlyoutWPF
                 moveAnimation.From = SystemParameters.WorkArea.Height - Height - 80;
                 moveAnimation.To = SystemParameters.WorkArea.Height - Height - 60;
             }
-            else
+            else if (_position == 3 || _position == 4 || _position == 5)
             {
-                moveAnimation.From = SystemParameters.WorkArea.Height - Height - 16;
-                moveAnimation.To = SystemParameters.WorkArea.Height - Height - 0;
+                moveAnimation.From = 16;
+                moveAnimation.To = 0;
             }
 
             DoubleAnimation opacityAnimation = (DoubleAnimation)storyboard.Children[1];
@@ -218,7 +238,7 @@ namespace FluentFlyoutWPF
 
             try
             {
-                await Task.Delay(3000, token);
+                await Task.Delay(Settings.Default.Duration, token);
                 CloseAnimation();
                 await Task.Delay(300);
                 Hide();
@@ -239,7 +259,10 @@ namespace FluentFlyoutWPF
                     SongArtist.Text = "";
                     SongImage.Source = null;
                     SymbolPlayPause.Symbol = Wpf.Ui.Controls.SymbolRegular.Stop16;
-                    ControlBack.IsEnabled = ControlForward.IsEnabled = false;      
+                    ControlPlayPause.IsEnabled = false;
+                    ControlPlayPause.Opacity = 0.35;
+                    ControlBack.IsEnabled = ControlForward.IsEnabled = false;     
+                    ControlBack.Opacity = ControlForward.Opacity = 0.35;
                     return;
                 }
 
@@ -251,6 +274,7 @@ namespace FluentFlyoutWPF
                     else
                         SymbolPlayPause.Symbol = Wpf.Ui.Controls.SymbolRegular.Play16;
                     ControlBack.IsEnabled = ControlForward.IsEnabled = mediaProperties.Controls.IsNextEnabled;
+                    ControlBack.Opacity = ControlForward.Opacity = mediaProperties.Controls.IsNextEnabled ? 1 : 0.35;
                     MediaId.Text = mediaSession.Id;
                 }
 
