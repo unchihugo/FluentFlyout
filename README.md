@@ -43,7 +43,8 @@ FluentFlyout features smooth animations, supports both light and dark modes, ble
 - [x] Settings
 - [x] Editable flyout timeout
 - [ ] Implement compact layout
-- [x] Remove Windows Forms dependency (NotifyIcon)
+- [x] Remove Windows Forms dependency
+- [ ] Add more media controls (repeat, shuffle, seek slider)
 
 ## Contributing 💖
 Please feel free to contribute in any way you can!
