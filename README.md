@@ -110,6 +110,7 @@
 </defs>
 </svg>
 
+![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/unchihugo/FluentFlyout/total) ![GitHub Release](https://img.shields.io/github/v/release/unchihugo/FluentFlyout) ![Static Badge](https://img.shields.io/badge/Download%20on-GitHub%20or%20Microsoft%20Store-8A2BE2?logo=Github)  
 FluentFlyout is a simple and modern audio flyout for Windows, built with Fluent 2 Design principles.  
 The UI seemingly blends in with Windows 10/11, providing you an uninterrupted, clean, and native-like experience when controlling your media.  
 
@@ -140,9 +141,10 @@ FluentFlyout features smooth animations, supports both light and dark modes, ble
 > 3. On the Certificate Import Wizard, select **"Local Machine"**, press **"Next"** and grant Admin Access
 > 4. Select **"Place all certificates in the following store"**, then **"Browse..."**, choose **"Trusted Root Certification Authorities"** and **"OK"**
 > 5. Finally, press **"Next"** and then **"Finish"**. It might ask you to confirm, press **Yes**
-1. Download **"FluentFlyout_X.X.X_x64.msixbundle"**
-2. The App Installer will pop up, press **"Install"**, or **"Update"** if you've installed FluentFlyout before
-3. done! try playing music and use your media or volume keys
+1. Go to the [latest release](https://github.com/unchihugo/FluentFlyout/releases/latest) page
+2. Download **"FluentFlyout_*.msixbundle"**
+3. The App Installer will pop up, press **"Install"**, or **"Update"** if you've installed FluentFlyout before
+4. done! try playing music and use your media or volume keys
 > Looking for Settings? You can access it by clicking the system tray icon
 
 ## Upcoming features 📝
