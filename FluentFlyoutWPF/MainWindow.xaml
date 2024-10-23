@@ -5,12 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FluentFlyoutWPF"
         xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+        xmlns:tray="http://schemas.lepo.co/wpfui/2022/xaml/tray"
         xmlns:controls="clr-namespace:MicaWPF.Controls;assembly=MicaWPF"
         Title="MainWindow" Height="116" Width="310"
         WindowStyle="None" mc:Ignorable="d" ShowInTaskbar="False"
         Topmost="True" ResizeMode="NoResize" Background="#000000" MouseEnter="MicaWindow_MouseEnter"
-        SystemBackdropType="Mica" ChangeTitleColorWhenInactive="False" 
-        TextOptions.TextRenderingMode="ClearType" TextOptions.TextFormattingMode="Ideal"
+        SystemBackdropType="Mica" ChangeTitleColorWhenInactive="False" Icon="/Resources/FluentFlyout2.ico"
+        TextOptions.TextRenderingMode="ClearType" TextOptions.TextFormattingMode="Ideal" Loaded="MicaWindow_Loaded"
         >
     <Window.Triggers>
         <EventTrigger RoutedEvent="Window.Loaded">
@@ -32,6 +33,7 @@
             </EventTrigger.Actions>
         </EventTrigger>
     </Window.Triggers>
+    
     <Grid>
         <StackPanel Margin="12" Orientation="Horizontal">
             <Border CornerRadius="6" BorderThickness="1" BorderBrush="#26FFFFFF" Margin="6" ClipToBounds="False">
@@ -70,7 +72,8 @@
                     </controls:Button>
                     <!--<ui:Button Name="ControlForward" Icon="{ui:SymbolIcon Next20, Filled=True}" Width="28" Height="28" CornerRadius="999" Margin="0,0,8,0" Padding="0" Click="Forward_Click" Focusable="False"/>-->
                     <!--<ui:Button Name="ControlShuffle" Icon="{ui:SymbolIcon Next20, Filled=True}" Width="28" Height="28" CornerRadius="999" Padding="0" Click="Shuffle_Click"/>-->
-                    <TextBlock Name="MediaId" VerticalAlignment="Center" FontSize="10" FontFamily="Segoe UI Variable" FontWeight="Medium" Opacity="0.25"/>
+                    <ui:SymbolIcon Symbol="MusicNote120" Width="12" Height="12" FontSize="12" Filled="True" Opacity="0.25"/>
+                    <TextBlock Name="MediaId" VerticalAlignment="Center" FontSize="10" Margin="2,0,0,0" FontFamily="Segoe UI Variable" FontWeight="Medium" Opacity="0.25"/>
 
                     <!--<StackPanel Margin="8,0,0,0" Orientation="Vertical" VerticalAlignment="Center">
                     <TextBlock Text="0:00" Foreground="Gray" FontSize="12" />
@@ -82,5 +85,40 @@
                 </StackPanel>
             </StackPanel>
         </StackPanel>
+
+        <tray:NotifyIcon
+            LeftClick="openSettings" FocusOnLeftClick="False"
+        Name="nIcon"
+MenuOnRightClick="True"
+TooltipText="FluentFlyout"
+Icon="/Resources/FluentFlyout2.ico"
+Margin="0,127,0,114">
+            <tray:NotifyIcon.Menu>
+                <ContextMenu>
+                    <ui:MenuItem x:Name="NotifyIconSettings" Header="Settings" Click="openSettings">
+                        <ui:MenuItem.Icon>
+                            <ui:SymbolIcon Symbol="Settings20"/>
+                        </ui:MenuItem.Icon>
+                    </ui:MenuItem>
+                    <Separator></Separator>
+                    <ui:MenuItem x:Name="NotifyIconRepository" Header="Repository" Click="openRepository">
+                        <ui:MenuItem.Icon>
+                            <ui:SymbolIcon Symbol="DocumentChevronDouble20"/>
+                        </ui:MenuItem.Icon>
+                    </ui:MenuItem>
+                    <ui:MenuItem x:Name="NotifyIconReportBug" Header="Report bug" Click="reportBug">
+                        <ui:MenuItem.Icon>
+                            <ui:SymbolIcon Symbol="Bug20"/>
+                        </ui:MenuItem.Icon>
+                    </ui:MenuItem>
+                    <Separator></Separator>
+                    <ui:MenuItem x:Name="NotifyIconQuit" Header="Quit FluentFlyout" Click="NotifyIconQuit_Click">
+                        <ui:MenuItem.Icon>
+                            <ui:SymbolIcon Symbol="ArrowExit20"/>
+                        </ui:MenuItem.Icon>
+                    </ui:MenuItem>
+                </ContextMenu>
+            </tray:NotifyIcon.Menu>
+        </tray:NotifyIcon>
     </Grid>
 </controls:MicaWindow>

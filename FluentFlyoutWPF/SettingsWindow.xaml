@@ -30,10 +30,12 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
-                <TextBlock Grid.Column="0" Text="Compact Layout" FontSize="14" FontWeight="Regular" Margin="10"/>
+                <ui:SymbolIcon Symbol="ArrowAutofitWidth20"/>
+                <TextBlock Grid.Column="0" Text="Compact Layout" FontSize="14" FontWeight="Regular" Margin="10">
+                </TextBlock>
                 <controls:ToggleSwitch Grid.Column="1" Name="ThemeSwitch" HorizontalAlignment="Right" Margin="10"/>
                 <TextBlock Grid.Row="1" Text="Launch on Startup" FontSize="14" FontWeight="Regular" Margin="10"/>
-                <controls:ToggleSwitch Grid.Column="1" Grid.Row="1" Name="StartupSwitch" IsEnabledChanged="StartupSwitch_IsEnabledChanged" HorizontalAlignment="Right" Margin="10"/>
+                <controls:ToggleSwitch Grid.Column="1" Grid.Row="1" Name="StartupSwitch" HorizontalAlignment="Right" Click="StartupSwitch_Click" Margin="10" IsChecked="False"/>
                 <TextBlock Grid.Row="2" Text="Flyout Position" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" Margin="10"/>
                 <ComboBox Grid.Row="2" Grid.Column="1" Name="PositionComboBox" HorizontalAlignment="Right" Margin="10" SelectionChanged="PositionComboBox_SelectionChanged">
                     <ComboBoxItem Content="Bottom Left"/>

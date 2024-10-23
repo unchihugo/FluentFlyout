@@ -1,5 +1,7 @@
 ﻿using FluentFlyout.Properties;
 using MicaWPF.Controls;
+using Microsoft.Win32;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Documents;
 
@@ -22,22 +24,24 @@ namespace FluentFlyout
         }
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-            Settings.Default.Startup = StartupSwitch.IsChecked ?? true;
+            Settings.Default.Startup = StartupSwitch.IsChecked ?? false;
             Settings.Default.Save();
             DialogResult = true;
         }
 
-        private void StartupSwitch_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
+        private void StartupSwitch_Click(object sender, RoutedEventArgs e)
         {
-            if (StartupSwitch.IsEnabled)
+            if (StartupSwitch.IsChecked == true)
             {
-                Microsoft.Win32.RegistryKey key = Microsoft.Win32.Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
-                key.SetValue("FluentFlyout", System.Windows.Forms.Application.ExecutablePath);
+                RegistryKey key = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+                string executablePath = Assembly.GetExecutingAssembly().Location;
+                key.SetValue("FluentFlyout", executablePath);
             }
             else
             {
-                Microsoft.Win32.RegistryKey key = Microsoft.Win32.Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
-                key.DeleteValue("FluentFlyout", false);
+                RegistryKey key = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+                string executablePath = Assembly.GetExecutingAssembly().Location;
+                key.DeleteValue("FluentFlyout");
             }
         }
 

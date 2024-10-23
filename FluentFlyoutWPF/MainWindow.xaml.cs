@@ -7,11 +7,13 @@ using Windows.Media.Control;
 using System.Windows.Media.Imaging;
 using Windows.Storage.Streams;
 using MicaWPF.Controls;
-using Forms = System.Windows.Forms;
 using System.IO;
 using System.Windows.Media.Animation;
 using FluentFlyout;
 using FluentFlyout.Properties;
+using Microsoft.Win32;
+using System.Reflection;
+using System.Drawing;
 
 
 namespace FluentFlyoutWPF
@@ -33,29 +35,29 @@ namespace FluentFlyoutWPF
         private static readonly MediaManager mediaManager = new MediaManager();
         private static MediaSession? currentSession = null;
 
-        Forms.NotifyIcon notifyIcon = new NotifyIcon();
         private int _position = Settings.Default.Position;
 
         public MainWindow()
         {
             InitializeComponent();
-            Visibility = Visibility.Hidden;
+          
             string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "FluentFlyout2.ico");
-            notifyIcon.Icon = new Icon(path);
-            notifyIcon.Text = "FluentFlyout";
-            notifyIcon.DoubleClick += openSettings;
-            notifyIcon.ContextMenuStrip = new ContextMenuStrip();
-            notifyIcon.ContextMenuStrip.Items.Add("Settings", null, openSettings);
-            notifyIcon.ContextMenuStrip.Items.Add("Repository", null, openRepository);
-            notifyIcon.ContextMenuStrip.Items.Add("Report bug", null, reportBug);
-            notifyIcon.ContextMenuStrip.Items.Add("Quit FluentFlyout", null, (s, e) => System.Windows.Application.Current.Shutdown());
-            notifyIcon.Visible = true;
+            //notifyIcon.Icon = new Icon(path);
+            //notifyIcon.Text = "FluentFlyout";
+            //notifyIcon.DoubleClick += openSettings;
+            //notifyIcon.ContextMenuStrip = new ContextMenuStrip();
+            //notifyIcon.ContextMenuStrip.Items.Add("Settings", null, openSettings);
+            //notifyIcon.ContextMenuStrip.Items.Add("Repository", null, openRepository);
+            //notifyIcon.ContextMenuStrip.Items.Add("Report bug", null, reportBug);
+            //notifyIcon.ContextMenuStrip.Items.Add("Quit FluentFlyout", null, (s, e) => System.Windows.Application.Current.Shutdown());
+            //notifyIcon.Visible = true;
             //notifyIcon.ShowBalloonTip(5000, "Moved to tray", "The media flyout is running in the background", ToolTipIcon.Info);
-
+            
             if (Settings.Default.Startup)
             {
-                Microsoft.Win32.RegistryKey key = Microsoft.Win32.Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
-                key.SetValue("FluentFlyout", Forms.Application.ExecutablePath);
+                RegistryKey key = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+                string executablePath = Assembly.GetExecutingAssembly().Location;
+                key.SetValue("FluentFlyout", executablePath);
             }
 
             cts = new CancellationTokenSource();
@@ -66,6 +68,7 @@ namespace FluentFlyoutWPF
             _hookId = SetHook(_hookProc);
 
             WindowStartupLocation = WindowStartupLocation.Manual;
+            Left = -Width - 20;
 
             mediaManager.OnAnyMediaPropertyChanged += MediaManager_OnAnyMediaPropertyChanged;
             mediaManager.OnAnyPlaybackStateChanged += CurrentSession_OnPlaybackStateChanged;
@@ -331,7 +334,6 @@ namespace FluentFlyoutWPF
         {
             UnhookWindowsHookEx(_hookId);
             base.OnClosed(e);
-            notifyIcon.Dispose();
         }
 
         internal static class Helper
@@ -395,6 +397,21 @@ namespace FluentFlyoutWPF
         private void MicaWindow_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
         {
             ShowMediaFlyout();
+        }
+
+        private void NotifyIcon_RightClick(Wpf.Ui.Tray.Controls.NotifyIcon sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void NotifyIconQuit_Click(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Application.Current.Shutdown();
+        }
+
+        private void MicaWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            Hide();
         }
     }
 }
