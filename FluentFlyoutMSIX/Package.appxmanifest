@@ -8,9 +8,9 @@
   IgnorableNamespaces="uap rescap">
 
   <Identity
-    Name="71446fc7-b655-4a97-be68-029cdb44169e"
-    Publisher="CN=unchihugo"
-    Version="1.0.3.0" />
+    Name="unchihugo.FluentFlyout"
+    Publisher="CN=49793F74-1457-4B66-A672-4ED3A640FC76"
+    Version="1.0.5.0" />
 
   <Properties>
     <DisplayName>FluentFlyout</DisplayName>

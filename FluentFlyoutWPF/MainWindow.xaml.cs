@@ -37,21 +37,18 @@ namespace FluentFlyoutWPF
 
         private int _position = Settings.Default.Position;
 
+        static Mutex singleton = new Mutex(true, "FluentFlyout");
+
         public MainWindow()
         {
             InitializeComponent();
-          
+
+            if (!singleton.WaitOne(TimeSpan.Zero, true))
+            {
+                Application.Current.Shutdown();
+            }
+
             string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "FluentFlyout2.ico");
-            //notifyIcon.Icon = new Icon(path);
-            //notifyIcon.Text = "FluentFlyout";
-            //notifyIcon.DoubleClick += openSettings;
-            //notifyIcon.ContextMenuStrip = new ContextMenuStrip();
-            //notifyIcon.ContextMenuStrip.Items.Add("Settings", null, openSettings);
-            //notifyIcon.ContextMenuStrip.Items.Add("Repository", null, openRepository);
-            //notifyIcon.ContextMenuStrip.Items.Add("Report bug", null, reportBug);
-            //notifyIcon.ContextMenuStrip.Items.Add("Quit FluentFlyout", null, (s, e) => System.Windows.Application.Current.Shutdown());
-            //notifyIcon.Visible = true;
-            //notifyIcon.ShowBalloonTip(5000, "Moved to tray", "The media flyout is running in the background", ToolTipIcon.Info);
             
             if (Settings.Default.Startup)
             {

@@ -7,18 +7,19 @@
       xmlns:controls="clr-namespace:MicaWPF.Controls;assembly=MicaWPF"
       xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
       mc:Ignorable="d" 
-      Height="350" Width="400" Background="Black" MinHeight="350" MinWidth="400"
+      Height="380" Width="500" Background="Black" MinHeight="380" MinWidth="500"
       Title="Settings" Icon="/Resources/FluentFlyout2.ico"
       TextOptions.TextRenderingMode="ClearType" TextOptions.TextFormattingMode="Ideal"
       >
 
     <Grid>
         <StackPanel Orientation="Vertical" Margin="12,12,12,12" Grid.ColumnSpan="2">
-            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                <Image Source="/Resources/FluentFlyout2.ico" Width="48" Height="48"/>
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,0,12">
+                <Image Source="/Resources/FluentFlyout2.ico" Width="44" Height="44"/>
                 <TextBlock Text="FluentFlyout Settings" FontSize="24" FontWeight="Medium" Margin="12,0,0,0" VerticalAlignment="Center"/>
+                <TextBlock Text="v1.0.5-alpha" FontSize="14" FontWeight="Regular" VerticalAlignment="Bottom" Margin="10" Opacity="0.5"/>
             </StackPanel>
-            <Grid VerticalAlignment="Center" Margin="0,12,0,0">
+            <Grid Margin="0,12,0,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
@@ -28,15 +29,22 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <ui:SymbolIcon Symbol="ArrowAutofitWidth20"/>
-                <TextBlock Grid.Column="0" Text="Compact Layout" FontSize="14" FontWeight="Regular" Margin="10">
-                </TextBlock>
-                <controls:ToggleSwitch Grid.Column="1" Name="ThemeSwitch" HorizontalAlignment="Right" Margin="10"/>
-                <TextBlock Grid.Row="1" Text="Launch on Startup" FontSize="14" FontWeight="Regular" Margin="10"/>
+                <StackPanel Orientation="Horizontal" Margin="10">
+                    <ui:SymbolIcon Symbol="ArrowAutofitWidth24" Margin="0,0,12,0" FontSize="24"/>
+                    <TextBlock Text="Compact Layout (not implemented)" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
+                </StackPanel>
+                <controls:ToggleSwitch Grid.Column="1" Name="ThemeSwitch" HorizontalAlignment="Right" Margin="10" IsEnabled="False"/>
+                <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="10">
+                    <ui:SymbolIcon Symbol="ShareScreenStart24" Margin="0,0,12,0" FontSize="24"/>
+                    <TextBlock Text="Launch on Startup" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
+                </StackPanel>
                 <controls:ToggleSwitch Grid.Column="1" Grid.Row="1" Name="StartupSwitch" HorizontalAlignment="Right" Click="StartupSwitch_Click" Margin="10" IsChecked="False"/>
-                <TextBlock Grid.Row="2" Text="Flyout Position" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" Margin="10"/>
+                <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="10">
+                    <ui:SymbolIcon Symbol="PositionForward24" Margin="0,0,12,0" FontSize="24"/>
+                    <TextBlock Text="Flyout Position" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
+                </StackPanel>
                 <ComboBox Grid.Row="2" Grid.Column="1" Name="PositionComboBox" HorizontalAlignment="Right" Margin="10" SelectionChanged="PositionComboBox_SelectionChanged">
                     <ComboBoxItem Content="Bottom Left"/>
                     <ComboBoxItem Content="Bottom Center"/>
@@ -45,16 +53,18 @@
                     <ComboBoxItem Content="Top Center"/>
                     <ComboBoxItem Content="Top Right"/>
                 </ComboBox>
-                <TextBlock Grid.Row="3" Text="Flyout Duration" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" Margin="10"/>
+                <StackPanel Grid.Row="3" Orientation="Horizontal" Margin="10">
+                    <ui:SymbolIcon Symbol="Timer24" Margin="0,0,12,0" FontSize="24"/>
+                    <TextBlock Text="Flyout Duration" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
+                </StackPanel>
                 <StackPanel Grid.Row="3" Grid.Column="1"  Margin="10" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right">
                     <RichTextBox Name="DurationTextBox" Width="60" UndoLimit="0" TextChanged="RichTextBox_TextChanged"/>
                     <TextBlock Text="ms" FontSize="14" FontWeight="Regular" Margin="10,0,0,0" VerticalAlignment="Center"/>
                 </StackPanel>
             </Grid>
-            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,12,0,0">
-                <controls:Button Name="SaveButton" Style="{StaticResource MicaWPF.Styles.AccentedButton}" Content="Save &#38; Close" Width="100" Height="32" Click="SaveButton_Click"/>
-            </StackPanel>
-            
         </StackPanel>
+        <DockPanel LastChildFill="False">
+            <controls:Button Name="SaveButton" Style="{StaticResource MicaWPF.Styles.AccentedButton}" Content="Save &#38; Close" Width="114" Height="32" Click="SaveButton_Click" Margin="24" HorizontalAlignment="Left" FontWeight="SemiBold" DockPanel.Dock="Bottom"/>
+        </DockPanel>
     </Grid>
 </controls:MicaWindow>
