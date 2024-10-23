@@ -49,6 +49,8 @@ FluentFlyout features smooth animations, supports both light and dark modes, ble
 Please feel free to contribute in any way you can!
 
 ## Credits 🙌
+[Hugo Li](https://unchihugo.github.io) - Original Developer and Microsoft Store Publisher
+### Dependencies
 - [Dubya.WindowsMediaController](https://github.com/DubyaDude/WindowsMediaController)
 - [H.NotifyIcon.Wpf](https://github.com/HavenDV/H.NotifyIcon)
 - [MicaWPF](https://github.com/Simnico99/MicaWPF)
