@@ -228,11 +228,12 @@ namespace FluentFlyoutWPF
         private async void ShowMediaFlyout()
         {
             UpdateUI(mediaManager.GetFocusedSession());
+
+            if (Visibility == Visibility.Hidden && mediaManager.GetFocusedSession() != null) OpenAnimation();
+            else return;
             cts.Cancel();
             cts = new CancellationTokenSource();
             var token = cts.Token;
-
-            if (Visibility == Visibility.Hidden) OpenAnimation();
             Visibility = Visibility.Visible;
             Topmost = true;
 
@@ -270,14 +271,21 @@ namespace FluentFlyoutWPF
                 if (mediaProperties != null)
                 {
                     if (mediaSession.ControlSession.GetPlaybackInfo().Controls.IsPauseEnabled)
+                    {
+                        ControlPlayPause.IsEnabled = true;
+                        ControlPlayPause.Opacity = 1;
                         SymbolPlayPause.Symbol = Wpf.Ui.Controls.SymbolRegular.Pause16;
+                    }
                     else
+                    {
+                        ControlPlayPause.IsEnabled = true;
+                        ControlPlayPause.Opacity = 1;
                         SymbolPlayPause.Symbol = Wpf.Ui.Controls.SymbolRegular.Play16;
+                    }
                     ControlBack.IsEnabled = ControlForward.IsEnabled = mediaProperties.Controls.IsNextEnabled;
                     ControlBack.Opacity = ControlForward.Opacity = mediaProperties.Controls.IsNextEnabled ? 1 : 0.35;
                     MediaId.Text = mediaSession.Id;
                 }
-
 
                 var songInfo = mediaSession.ControlSession.TryGetMediaPropertiesAsync().GetAwaiter().GetResult();
                 if (songInfo != null)
