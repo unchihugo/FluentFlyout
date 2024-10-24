@@ -25,8 +25,9 @@ FluentFlyout features smooth animations, supports both light and dark modes, ble
 - **Audio flyout: Displays Cover, Title, Artist and media controls**  
 
 ## Audio flyout 🎵
-> ☀️ Light Mode & Dark Mode 🌘
-![FluentFlyoutDemo1](https://github.com/user-attachments/assets/aeeb7b9c-0a90-41d7-aa99-5796796ad29e)
+|System theming|Compact layout mode|
+|-|-|
+|![FluentFlyoutDemo1](https://github.com/user-attachments/assets/df7f45b7-ddea-42be-82df-d91b2b6e1f15)|![FluentFlyoutDemo2](https://github.com/user-attachments/assets/a56bd44e-5d10-4873-a795-847b812f537c)|
 
 ## How to install
 ### Using Microsoft Store (Recommended)
