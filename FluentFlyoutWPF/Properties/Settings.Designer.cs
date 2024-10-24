@@ -58,5 +58,17 @@ namespace FluentFlyout.Properties {
                 this["Duration"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool CompactLayout {
+            get {
+                return ((bool)(this["CompactLayout"]));
+            }
+            set {
+                this["CompactLayout"] = value;
+            }
+        }
     }
 }

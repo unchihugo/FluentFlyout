@@ -14,6 +14,7 @@ using FluentFlyout.Properties;
 using Microsoft.Win32;
 using System.Reflection;
 using System.Drawing;
+using System.Windows.Controls;
 
 
 namespace FluentFlyoutWPF
@@ -36,6 +37,7 @@ namespace FluentFlyoutWPF
         private static MediaSession? currentSession = null;
 
         private int _position = Settings.Default.Position;
+        private bool _layout = Settings.Default.CompactLayout;
 
         static Mutex singleton = new Mutex(true, "FluentFlyout");
 
@@ -227,10 +229,10 @@ namespace FluentFlyoutWPF
 
         private async void ShowMediaFlyout()
         {
+            if (mediaManager.GetFocusedSession() == null) return;
             UpdateUI(mediaManager.GetFocusedSession());
 
-            if (Visibility == Visibility.Hidden && mediaManager.GetFocusedSession() != null) OpenAnimation();
-            else return;
+            if (Visibility == Visibility.Hidden) OpenAnimation();
             cts.Cancel();
             cts = new CancellationTokenSource();
             var token = cts.Token;
@@ -252,6 +254,8 @@ namespace FluentFlyoutWPF
 
         private void UpdateUI(MediaSession mediaSession)
         {
+            if (_layout != Settings.Default.CompactLayout) UpdateUILayout();
+
             Dispatcher.Invoke(() =>
             {
                 if (mediaSession == null)
@@ -295,6 +299,38 @@ namespace FluentFlyoutWPF
                     SongImage.Source = Helper.GetThumbnail(songInfo.Thumbnail);
                 }
             });
+        }
+
+        private void UpdateUILayout() {
+            if (Settings.Default.CompactLayout)
+            {
+                Height = 60;
+                Width = 400;
+                BodyStackPanel.Orientation = Orientation.Horizontal;
+                BodyStackPanel.Width = 300;
+                ControlsStackPanel.Margin = new Thickness(0);
+                ControlsStackPanel.Width = 104;
+                MediaIdStackPanel.Visibility = Visibility.Hidden;
+                SongImageBorder.Margin = new Thickness(0);
+                SongImage.Height = 36;
+                SongImageRect.Rect = new Rect(0, 0, 78, 36);
+                SongInfoStackPanel.Margin = new Thickness(8, 0, 0, 0);
+            }
+            else
+            {
+                Height = 116;
+                Width = 310;
+                BodyStackPanel.Orientation = Orientation.Vertical;
+                BodyStackPanel.Width = 196;
+                ControlsStackPanel.Margin = Margin = new Thickness(12, 8, 0, 0);
+                ControlsStackPanel.Width = 184;
+                MediaIdStackPanel.Visibility = Visibility.Visible;
+                SongImageBorder.Margin = new Thickness(6);
+                SongImage.Height = 78;
+                SongImageRect.Rect = new Rect(0, 0, 78, 78);
+                SongInfoStackPanel.Margin = new Thickness(12, 0, 0, 0);
+            }
+            _layout = Settings.Default.CompactLayout;
         }
 
         private async void Back_Click(object sender, RoutedEventArgs e)
@@ -404,11 +440,6 @@ namespace FluentFlyoutWPF
             ShowMediaFlyout();
         }
 
-        private void NotifyIcon_RightClick(Wpf.Ui.Tray.Controls.NotifyIcon sender, RoutedEventArgs e)
-        {
-
-        }
-
         private void NotifyIconQuit_Click(object sender, RoutedEventArgs e)
         {
             System.Windows.Application.Current.Shutdown();
@@ -417,6 +448,14 @@ namespace FluentFlyoutWPF
         private void MicaWindow_Loaded(object sender, RoutedEventArgs e)
         {
             Hide();
+            Wpf.Ui.Appearance.ApplicationThemeManager.ApplySystemTheme();
+            UpdateUILayout();
+
+            Wpf.Ui.Appearance.SystemThemeWatcher.Watch(
+                this,
+                Wpf.Ui.Controls.WindowBackdropType.Mica,
+                true
+            );
         }
     }
 }

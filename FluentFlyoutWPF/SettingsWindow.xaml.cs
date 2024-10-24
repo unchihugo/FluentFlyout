@@ -17,16 +17,22 @@ namespace FluentFlyout
         {
             InitializeComponent();
 
+            LayoutSwitch.IsChecked = Settings.Default.CompactLayout;
             PositionComboBox.SelectedIndex = Settings.Default.Position;
             StartupSwitch.IsChecked = Settings.Default.Startup;
             DurationTextBox.Document.Blocks.Clear();
             DurationTextBox.Document.Blocks.Add(new Paragraph(new Run(Settings.Default.Duration.ToString()))); // using rich text box because it looks nicer with MicaWPF
         }
+
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-            Settings.Default.Startup = StartupSwitch.IsChecked ?? false;
-            Settings.Default.Save();
             DialogResult = true;
+        }
+
+        private void LayoutSwitch_Click(object sender, RoutedEventArgs e)
+        {
+            Settings.Default.CompactLayout = LayoutSwitch.IsChecked ?? false;
+            Settings.Default.Save();
         }
 
         private void StartupSwitch_Click(object sender, RoutedEventArgs e)
@@ -43,6 +49,8 @@ namespace FluentFlyout
                 string executablePath = Assembly.GetExecutingAssembly().Location;
                 key.DeleteValue("FluentFlyout");
             }
+            Settings.Default.Startup = StartupSwitch.IsChecked ?? false;
+            Settings.Default.Save();
         }
 
         private void PositionComboBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)

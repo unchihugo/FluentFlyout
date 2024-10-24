@@ -4,67 +4,87 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:FluentFlyout"
-      xmlns:controls="clr-namespace:MicaWPF.Controls;assembly=MicaWPF"
       xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+      xmlns:controls="clr-namespace:MicaWPF.Controls;assembly=MicaWPF"
       mc:Ignorable="d" 
-      Height="380" Width="500" Background="Black" MinHeight="380" MinWidth="500"
+      Height="600" Width="700" MinHeight="600" MinWidth="550"
       Title="Settings" Icon="/Resources/FluentFlyout2.ico"
       TextOptions.TextRenderingMode="ClearType" TextOptions.TextFormattingMode="Ideal"
       >
 
     <Grid>
-        <StackPanel Orientation="Vertical" Margin="12,12,12,12" Grid.ColumnSpan="2">
-            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,0,12">
+        <StackPanel Orientation="Vertical" Margin="16,12,16,12">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="12,0,0,12">
                 <Image Source="/Resources/FluentFlyout2.ico" Width="44" Height="44"/>
                 <TextBlock Text="FluentFlyout Settings" FontSize="24" FontWeight="Medium" Margin="12,0,0,0" VerticalAlignment="Center"/>
-                <TextBlock Text="v1.0.5-alpha" FontSize="14" FontWeight="Regular" VerticalAlignment="Bottom" Margin="10" Opacity="0.5"/>
+                <TextBlock Text="v1.0.6-alpha" FontSize="14" FontWeight="Regular" VerticalAlignment="Bottom" Margin="10" Opacity="0.5"/>
             </StackPanel>
+            <TextBlock Text="Customization" FontSize="18" FontWeight="SemiBold" FontFamily="Segoe UI Variable" Margin="0,24,0,0"/>
             <Grid Margin="0,12,0,0">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <StackPanel Orientation="Horizontal" Margin="10">
-                    <ui:SymbolIcon Symbol="ArrowAutofitWidth24" Margin="0,0,12,0" FontSize="24"/>
-                    <TextBlock Text="Compact Layout (not implemented)" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
-                </StackPanel>
-                <controls:ToggleSwitch Grid.Column="1" Name="ThemeSwitch" HorizontalAlignment="Right" Margin="10" IsEnabled="False"/>
-                <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="10">
-                    <ui:SymbolIcon Symbol="ShareScreenStart24" Margin="0,0,12,0" FontSize="24"/>
-                    <TextBlock Text="Launch on Startup" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
-                </StackPanel>
-                <controls:ToggleSwitch Grid.Column="1" Grid.Row="1" Name="StartupSwitch" HorizontalAlignment="Right" Click="StartupSwitch_Click" Margin="10" IsChecked="False"/>
-                <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="10">
-                    <ui:SymbolIcon Symbol="PositionForward24" Margin="0,0,12,0" FontSize="24"/>
-                    <TextBlock Text="Flyout Position" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
-                </StackPanel>
-                <ComboBox Grid.Row="2" Grid.Column="1" Name="PositionComboBox" HorizontalAlignment="Right" Margin="10" SelectionChanged="PositionComboBox_SelectionChanged">
-                    <ComboBoxItem Content="Bottom Left"/>
-                    <ComboBoxItem Content="Bottom Center"/>
-                    <ComboBoxItem Content="Bottom Right"/>
-                    <ComboBoxItem Content="Top Left"/>
-                    <ComboBoxItem Content="Top Center"/>
-                    <ComboBoxItem Content="Top Right"/>
-                </ComboBox>
-                <StackPanel Grid.Row="3" Orientation="Horizontal" Margin="10">
-                    <ui:SymbolIcon Symbol="Timer24" Margin="0,0,12,0" FontSize="24"/>
-                    <TextBlock Text="Flyout Duration" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
-                </StackPanel>
-                <StackPanel Grid.Row="3" Grid.Column="1"  Margin="10" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right">
-                    <RichTextBox Name="DurationTextBox" Width="60" UndoLimit="0" TextChanged="RichTextBox_TextChanged"/>
-                    <TextBlock Text="ms" FontSize="14" FontWeight="Regular" Margin="10,0,0,0" VerticalAlignment="Center"/>
-                </StackPanel>
+                <ui:CardControl Icon="{ui:SymbolIcon ArrowAutofitWidth24}" Margin="0,0,0,4">
+                    <ui:CardControl.Header>
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock Text="Compact Layout" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
+                            <TextBlock Text="Slimmer and less intrusive layout" FontSize="12" Opacity="0.5"/>
+                        </StackPanel>
+                    </ui:CardControl.Header>
+                    <controls:ToggleSwitch Name="LayoutSwitch" Click="LayoutSwitch_Click" IsChecked="False"/>
+                </ui:CardControl>
+                <ui:CardControl Grid.Row="1" Icon="{ui:SymbolIcon PositionForward24}" Margin="0,0,0,4">
+                    <ui:CardControl.Header>
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock Text="Flyout Position" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </ui:CardControl.Header>
+                    <ComboBox Name="PositionComboBox" SelectionChanged="PositionComboBox_SelectionChanged">
+                        <ComboBoxItem Content="Bottom Left"/>
+                        <ComboBoxItem Content="Bottom Center"/>
+                        <ComboBoxItem Content="Bottom Right"/>
+                        <ComboBoxItem Content="Top Left"/>
+                        <ComboBoxItem Content="Top Center"/>
+                        <ComboBoxItem Content="Top Right"/>
+                    </ComboBox>
+                </ui:CardControl>
+                <ui:CardControl Grid.Row="2" Icon="{ui:SymbolIcon Timer24}">
+                    <ui:CardControl.Header>
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock Text="Flyout Duration" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </ui:CardControl.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <RichTextBox Name="DurationTextBox" Width="65" UndoLimit="0" TextChanged="RichTextBox_TextChanged"/>
+                        <TextBlock Text="ms" FontSize="14" FontWeight="Regular" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </ui:CardControl>
+            </Grid>
+            
+            <TextBlock Text="System" FontSize="18" FontWeight="SemiBold" Margin="0,24,0,0"/>
+            <Grid Margin="0,12,0,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <ui:CardControl Grid.Row="3" Icon="{ui:SymbolIcon ShareScreenStart24}">
+                    <ui:CardControl.Header>
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock Text="Launch on Startup" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
+                            <TextBlock Text="Start minimized to tray when you log in to Windows" FontSize="12" Opacity="0.5"/>
+                        </StackPanel>
+                    </ui:CardControl.Header>
+                    <controls:ToggleSwitch Name="StartupSwitch" Click="StartupSwitch_Click" IsChecked="False"/>
+                </ui:CardControl>
             </Grid>
         </StackPanel>
         <DockPanel LastChildFill="False">
-            <controls:Button Name="SaveButton" Style="{StaticResource MicaWPF.Styles.AccentedButton}" Content="Save &#38; Close" Width="114" Height="32" Click="SaveButton_Click" Margin="24" HorizontalAlignment="Left" FontWeight="SemiBold" DockPanel.Dock="Bottom"/>
+            <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" HorizontalAlignment="Right">
+                <ui:Anchor Content="GitHub Repository" Icon="{ui:SymbolIcon Link24}" NavigateUri="https://github.com/unchihugo/FluentFlyout"/>
+                <ui:Anchor Content="Report Issue" Icon="{ui:SymbolIcon Link24}" NavigateUri="https://github.com/unchihugo/FluentFlyout/issues/new" Margin="8,0,0,0"/>
+                <controls:Button Name="SaveButton" Style="{StaticResource MicaWPF.Styles.AccentedButton}" Content="Save &#38; Close" Padding="12,0,12,0" Height="32" Click="SaveButton_Click" Margin="18,24,24,24" HorizontalAlignment="Left" FontWeight="SemiBold"/>
+            </StackPanel>
         </DockPanel>
     </Grid>
 </controls:MicaWindow>
