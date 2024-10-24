@@ -71,5 +71,15 @@ namespace FluentFlyout
                 Settings.Default.Save();
             }
         }
+
+        private void RepeatSwitch_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ShuffleSwitch_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

@@ -15,6 +15,7 @@ using Microsoft.Win32;
 using System.Reflection;
 using System.Drawing;
 using System.Windows.Controls;
+using MicaWPF.Core.Models;
 
 
 namespace FluentFlyoutWPF
@@ -288,6 +289,23 @@ namespace FluentFlyoutWPF
                     }
                     ControlBack.IsEnabled = ControlForward.IsEnabled = mediaProperties.Controls.IsNextEnabled;
                     ControlBack.Opacity = ControlForward.Opacity = mediaProperties.Controls.IsNextEnabled ? 1 : 0.35;
+
+                    //ControlRepeat.IsEnabled = mediaProperties.Controls.IsRepeatEnabled;
+                    //ControlRepeat.Opacity = mediaProperties.Controls.IsRepeatEnabled ? 1 : 0.35;
+                    //if (mediaProperties.AutoRepeatMode == Windows.Media.MediaPlaybackAutoRepeatMode.List)
+                    //    SymbolRepeat.Symbol = Wpf.Ui.Controls.SymbolRegular.ArrowRepeatAll24;
+                    //else if (mediaProperties.AutoRepeatMode == Windows.Media.MediaPlaybackAutoRepeatMode.Track)
+                    //    SymbolRepeat.Symbol = Wpf.Ui.Controls.SymbolRegular.ArrowRepeat124;
+                    //else if (mediaProperties.AutoRepeatMode == Windows.Media.MediaPlaybackAutoRepeatMode.None)
+                    //    SymbolRepeat.Symbol = Wpf.Ui.Controls.SymbolRegular.ArrowRepeatAllOff24;
+
+                    //ControlShuffle.IsEnabled = mediaProperties.Controls.IsShuffleEnabled;
+                    //ControlShuffle.Opacity = mediaProperties.Controls.IsShuffleEnabled ? 1 : 0.35;
+                    //if (mediaProperties.Controls.IsShuffleEnabled)
+                    //    SymbolShuffle.Symbol = Wpf.Ui.Controls.SymbolRegular.ArrowShuffle24;
+                    //else
+                    //    SymbolShuffle.Symbol = Wpf.Ui.Controls.SymbolRegular.ArrowShuffleOff24;
+
                     MediaId.Text = mediaSession.Id;
                 }
 
@@ -341,7 +359,7 @@ namespace FluentFlyoutWPF
             await mediaManager.GetFocusedSession().ControlSession.TrySkipPreviousAsync();
         }
 
-        private async void PlayPause_Click(object sender, RoutedEventArgs e)
+        private void PlayPause_Click(object sender, RoutedEventArgs e)
         {
             keybd_event(0xB3, 0, 0, IntPtr.Zero);
 
@@ -370,6 +388,49 @@ namespace FluentFlyoutWPF
             await mediaManager.GetFocusedSession().ControlSession.TrySkipNextAsync();
         }
 
+        //private async void Repeat_Click(object sender, RoutedEventArgs e)
+        //{
+        //    if (mediaManager.GetFocusedSession() == null)
+        //        return;
+
+        //    if (mediaManager.GetFocusedSession().ControlSession.GetPlaybackInfo().AutoRepeatMode == Windows.Media.MediaPlaybackAutoRepeatMode.None)
+        //    {
+        //        SymbolRepeat.Dispatcher.Invoke(() => SymbolRepeat.Symbol = Wpf.Ui.Controls.SymbolRegular.ArrowRepeatAll24);
+        //        ControlRepeat.Opacity = 1;
+        //        await mediaManager.GetFocusedSession().ControlSession.TryChangeAutoRepeatModeAsync(Windows.Media.MediaPlaybackAutoRepeatMode.List);
+        //    }
+        //    else if (mediaManager.GetFocusedSession().ControlSession.GetPlaybackInfo().AutoRepeatMode == Windows.Media.MediaPlaybackAutoRepeatMode.List)
+        //    {
+        //        SymbolRepeat.Dispatcher.Invoke(() => SymbolRepeat.Symbol = Wpf.Ui.Controls.SymbolRegular.ArrowRepeat124);
+        //        ControlRepeat.Opacity = 1;
+        //        await mediaManager.GetFocusedSession().ControlSession.TryChangeAutoRepeatModeAsync(Windows.Media.MediaPlaybackAutoRepeatMode.Track);
+        //    }
+        //    else if (mediaManager.GetFocusedSession().ControlSession.GetPlaybackInfo().AutoRepeatMode == Windows.Media.MediaPlaybackAutoRepeatMode.Track)
+        //    {
+        //        SymbolRepeat.Dispatcher.Invoke(() => SymbolRepeat.Symbol = Wpf.Ui.Controls.SymbolRegular.ArrowRepeatAllOff24);
+        //        ControlRepeat.Opacity = 0.5;
+        //        await mediaManager.GetFocusedSession().ControlSession.TryChangeAutoRepeatModeAsync(Windows.Media.MediaPlaybackAutoRepeatMode.None);
+        //    }
+        //}
+
+        //private async void Shuffle_Click(object sender, RoutedEventArgs e)
+        //{
+        //    if (mediaManager.GetFocusedSession() == null)
+        //        return;
+
+        //    if(mediaManager.GetFocusedSession().ControlSession.GetPlaybackInfo().Controls.IsShuffleEnabled)
+        //    {
+        //        SymbolShuffle.Dispatcher.Invoke(() => SymbolShuffle.Symbol = Wpf.Ui.Controls.SymbolRegular.ArrowShuffleOff24);
+        //        ControlShuffle.Opacity = 0.5;
+        //        await mediaManager.GetFocusedSession().ControlSession.TryChangeShuffleActiveAsync(false);
+        //    }
+        //    else
+        //    {
+        //        SymbolShuffle.Dispatcher.Invoke(() => SymbolShuffle.Symbol = Wpf.Ui.Controls.SymbolRegular.ArrowShuffle24);
+        //        ControlShuffle.Opacity = 1;
+        //        await mediaManager.GetFocusedSession().ControlSession.TryChangeShuffleActiveAsync(true);
+        //    }
+        //}
 
         protected override void OnClosed(EventArgs e)
         {
@@ -450,7 +511,7 @@ namespace FluentFlyoutWPF
             Hide();
             Wpf.Ui.Appearance.ApplicationThemeManager.ApplySystemTheme();
             UpdateUILayout();
-
+            
             Wpf.Ui.Appearance.SystemThemeWatcher.Watch(
                 this,
                 Wpf.Ui.Controls.WindowBackdropType.Mica,
