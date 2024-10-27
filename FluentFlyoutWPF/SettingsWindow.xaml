@@ -19,7 +19,7 @@
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="12,0,0,12">
                     <Image Source="/Resources/FluentFlyout2.ico" Width="44" Height="44"/>
                     <TextBlock Text="FluentFlyout Settings" FontSize="24" FontWeight="Medium" Margin="12,0,0,0" VerticalAlignment="Center"/>
-                    <TextBlock Text="v1.0.6-alpha" FontSize="14" FontWeight="Regular" VerticalAlignment="Bottom" Margin="10" Opacity="0.5"/>
+                    <TextBlock Text="v1.1.0" FontSize="14" FontWeight="Regular" VerticalAlignment="Bottom" Margin="10" Opacity="0.5"/>
                 </StackPanel>
                 <TextBlock Text="Customization" FontSize="18" FontWeight="SemiBold" FontFamily="Segoe UI Variable" Margin="0,24,0,0"/>
                 <Grid Margin="0,12,0,0">
