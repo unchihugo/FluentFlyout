@@ -19,15 +19,16 @@ FluentFlyout features smooth animations, supports both light and dark modes, ble
 - Matches your device color theme
 - Smooth animations
 - Customizable flyout positions
+- Includes Repeat All, Repeat One and Shuffle
 - Listens to both volume and media inputs
 - Sits unobtrusively in system tray
 - _Kinda_ lightweight and open-source
 - **Audio flyout: Displays Cover, Title, Artist and media controls**  
 
 ## Audio flyout 🎵
-|System theming|Compact layout mode|
+|Repeat and Shuffle options|Compact layout mode|
 |-|-|
-|![FluentFlyoutDemo1](https://github.com/user-attachments/assets/df7f45b7-ddea-42be-82df-d91b2b6e1f15)|![FluentFlyoutDemo2](https://github.com/user-attachments/assets/a56bd44e-5d10-4873-a795-847b812f537c)|
+|![FluentFlyoutDemo3](https://github.com/user-attachments/assets/4dab1c12-594a-4785-bddc-0da1783bf1c8)|![FluentFlyoutDemo2](https://github.com/user-attachments/assets/39de69fe-54c8-4b22-880c-7f0370b8dd9c)|
 
 ## How to install
 ### Using Microsoft Store (Recommended)
