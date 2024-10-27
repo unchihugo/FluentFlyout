@@ -51,12 +51,12 @@ FluentFlyout features smooth animations, supports both light and dark modes, ble
 9. done! try playing music and use your media or volume keys
 
 ## Upcoming features 📝
-- [ ] More animations
 - [x] Settings
 - [x] Editable flyout timeout
-- [ ] Implement compact layout
+- [x] Implement compact layout
 - [x] Remove Windows Forms dependency
 - [ ] Add more media controls (repeat, shuffle, seek slider)
+- [ ] More animations
 ### Issues
 - FluentFlyout might interfere with certain apps/games in **Fullscreen**, try setting the program's window mode to **Borderless Fullscreen** for now
 - Windows 10 UI might not look as expected
