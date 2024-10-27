@@ -39,6 +39,8 @@ namespace FluentFlyoutWPF
 
         private int _position = Settings.Default.Position;
         private bool _layout = Settings.Default.CompactLayout;
+        private bool _repeatEnabled = Settings.Default.RepeatEnabled;
+        private bool _shuffleEnabled = Settings.Default.ShuffleEnabled;
 
         static Mutex singleton = new Mutex(true, "FluentFlyout");
 
@@ -52,7 +54,7 @@ namespace FluentFlyoutWPF
             }
 
             string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "FluentFlyout2.ico");
-            
+
             if (Settings.Default.Startup)
             {
                 RegistryKey key = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
@@ -76,11 +78,21 @@ namespace FluentFlyoutWPF
 
         private void openSettings(object? sender, EventArgs e)
         {
-            var settingsWindow = new SettingsWindow();
-            if (settingsWindow.ShowDialog() == true)
+            SettingsWindow.ShowInstance();
+        }
+
+        private int getDuration()
+        {
+            int msDuration = Settings.Default.FlyoutAnimationSpeed switch
             {
-                //_position = settingsWindow.Position;
-            }
+                0 => 0, // off
+                1 => 150, // 0.5x
+                2 => 300, // 1x
+                3 => 450, // 1.5x
+                4 => 600, // 2x
+                _ => 900 // 3x
+            };
+            return msDuration;
         }
 
         private void OpenAnimation()
@@ -128,13 +140,16 @@ namespace FluentFlyoutWPF
                 moveAnimation.From = 0;
                 moveAnimation.To = 16;
             }
+            int msDuration = getDuration();
 
             DoubleAnimation opacityAnimation = (DoubleAnimation)storyboard.Children[1];
             opacityAnimation.From = 0;
             opacityAnimation.To = 1;
+            opacityAnimation.Duration = new Duration(TimeSpan.FromMilliseconds(msDuration));
 
             EasingFunctionBase easing = new CubicEase { EasingMode = EasingMode.EaseOut };
             moveAnimation.EasingFunction = opacityAnimation.EasingFunction = easing;
+            moveAnimation.Duration = new Duration(TimeSpan.FromMilliseconds(msDuration));
 
             storyboard.Begin(this);
         }
@@ -162,13 +177,16 @@ namespace FluentFlyoutWPF
                 moveAnimation.From = 16;
                 moveAnimation.To = 0;
             }
+            int msDuration = getDuration();
 
             DoubleAnimation opacityAnimation = (DoubleAnimation)storyboard.Children[1];
             opacityAnimation.From = 1;
             opacityAnimation.To = 0;
+            opacityAnimation.Duration = new Duration(TimeSpan.FromMilliseconds(msDuration));
 
             EasingFunctionBase easing = new CubicEase { EasingMode = EasingMode.EaseIn };
             moveAnimation.EasingFunction = opacityAnimation.EasingFunction = easing;
+            moveAnimation.Duration = new Duration(TimeSpan.FromMilliseconds(msDuration));
 
             storyboard.Begin(this);
         }
@@ -242,10 +260,21 @@ namespace FluentFlyoutWPF
 
             try
             {
-                await Task.Delay(Settings.Default.Duration, token);
-                CloseAnimation();
-                await Task.Delay(300);
-                Hide();
+                while (!token.IsCancellationRequested)
+                {
+                    await Task.Delay(100, token); // check if mouse is over every 100ms
+                    if (!IsMouseOver)
+                    {
+                        await Task.Delay(Settings.Default.Duration, token);
+                        if (!IsMouseOver)
+                        {
+                            CloseAnimation();
+                            await Task.Delay(getDuration());
+                            Hide();
+                            break;
+                        }
+                    }
+                }
             }
             catch (TaskCanceledException)
             {
@@ -255,7 +284,7 @@ namespace FluentFlyoutWPF
 
         private void UpdateUI(MediaSession mediaSession)
         {
-            if (_layout != Settings.Default.CompactLayout) UpdateUILayout();
+            if (_layout != Settings.Default.CompactLayout || _shuffleEnabled != Settings.Default.ShuffleEnabled || _repeatEnabled != Settings.Default.ShuffleEnabled) UpdateUILayout();
 
             Dispatcher.Invoke(() =>
             {
@@ -290,21 +319,46 @@ namespace FluentFlyoutWPF
                     ControlBack.IsEnabled = ControlForward.IsEnabled = mediaProperties.Controls.IsNextEnabled;
                     ControlBack.Opacity = ControlForward.Opacity = mediaProperties.Controls.IsNextEnabled ? 1 : 0.35;
 
-                    //ControlRepeat.IsEnabled = mediaProperties.Controls.IsRepeatEnabled;
-                    //ControlRepeat.Opacity = mediaProperties.Controls.IsRepeatEnabled ? 1 : 0.35;
-                    //if (mediaProperties.AutoRepeatMode == Windows.Media.MediaPlaybackAutoRepeatMode.List)
-                    //    SymbolRepeat.Symbol = Wpf.Ui.Controls.SymbolRegular.ArrowRepeatAll24;
-                    //else if (mediaProperties.AutoRepeatMode == Windows.Media.MediaPlaybackAutoRepeatMode.Track)
-                    //    SymbolRepeat.Symbol = Wpf.Ui.Controls.SymbolRegular.ArrowRepeat124;
-                    //else if (mediaProperties.AutoRepeatMode == Windows.Media.MediaPlaybackAutoRepeatMode.None)
-                    //    SymbolRepeat.Symbol = Wpf.Ui.Controls.SymbolRegular.ArrowRepeatAllOff24;
+                    if (Settings.Default.RepeatEnabled && !Settings.Default.CompactLayout)
+                    {
+                        ControlRepeat.Visibility = Visibility.Visible;
+                        ControlRepeat.IsEnabled = mediaProperties.Controls.IsRepeatEnabled;
+                        ControlRepeat.Opacity = mediaProperties.Controls.IsRepeatEnabled ? 1 : 0.35;
+                        if (mediaProperties.AutoRepeatMode == Windows.Media.MediaPlaybackAutoRepeatMode.List)
+                        {
+                            SymbolRepeat.Symbol = Wpf.Ui.Controls.SymbolRegular.ArrowRepeatAll24;
+                            SymbolRepeat.Opacity = 1;
+                        }
+                        else if (mediaProperties.AutoRepeatMode == Windows.Media.MediaPlaybackAutoRepeatMode.Track)
+                        {
+                            SymbolRepeat.Symbol = Wpf.Ui.Controls.SymbolRegular.ArrowRepeat124;
+                            SymbolRepeat.Opacity = 1;
+                        }
+                        else if (mediaProperties.AutoRepeatMode == Windows.Media.MediaPlaybackAutoRepeatMode.None)
+                        {
+                            SymbolRepeat.Symbol = Wpf.Ui.Controls.SymbolRegular.ArrowRepeatAllOff24;
+                            SymbolRepeat.Opacity = 0.5;
+                        }
+                    }
+                    else ControlRepeat.Visibility = Visibility.Collapsed;
 
-                    //ControlShuffle.IsEnabled = mediaProperties.Controls.IsShuffleEnabled;
-                    //ControlShuffle.Opacity = mediaProperties.Controls.IsShuffleEnabled ? 1 : 0.35;
-                    //if (mediaProperties.Controls.IsShuffleEnabled)
-                    //    SymbolShuffle.Symbol = Wpf.Ui.Controls.SymbolRegular.ArrowShuffle24;
-                    //else
-                    //    SymbolShuffle.Symbol = Wpf.Ui.Controls.SymbolRegular.ArrowShuffleOff24;
+                    if (Settings.Default.ShuffleEnabled && !Settings.Default.CompactLayout)
+                    {
+                        ControlShuffle.Visibility = Visibility.Visible;
+                        ControlShuffle.IsEnabled = mediaProperties.Controls.IsShuffleEnabled;
+                        ControlShuffle.Opacity = mediaProperties.Controls.IsShuffleEnabled ? 1 : 0.35;
+                        if (mediaProperties.IsShuffleActive == true)
+                        {
+                            SymbolShuffle.Symbol = Wpf.Ui.Controls.SymbolRegular.ArrowShuffle24;
+                            SymbolShuffle.Opacity = 1;
+                        }
+                        else
+                        {
+                            SymbolShuffle.Symbol = Wpf.Ui.Controls.SymbolRegular.ArrowShuffleOff24;
+                            SymbolShuffle.Opacity = 0.5;
+                        }
+                    }
+                    else ControlShuffle.Visibility = Visibility.Collapsed;
 
                     MediaId.Text = mediaSession.Id;
                 }
@@ -320,35 +374,44 @@ namespace FluentFlyoutWPF
         }
 
         private void UpdateUILayout() {
-            if (Settings.Default.CompactLayout)
+            Dispatcher.Invoke(() =>
             {
-                Height = 60;
-                Width = 400;
-                BodyStackPanel.Orientation = Orientation.Horizontal;
-                BodyStackPanel.Width = 300;
-                ControlsStackPanel.Margin = new Thickness(0);
-                ControlsStackPanel.Width = 104;
-                MediaIdStackPanel.Visibility = Visibility.Hidden;
-                SongImageBorder.Margin = new Thickness(0);
-                SongImage.Height = 36;
-                SongImageRect.Rect = new Rect(0, 0, 78, 36);
-                SongInfoStackPanel.Margin = new Thickness(8, 0, 0, 0);
-            }
-            else
-            {
-                Height = 116;
-                Width = 310;
-                BodyStackPanel.Orientation = Orientation.Vertical;
-                BodyStackPanel.Width = 196;
-                ControlsStackPanel.Margin = Margin = new Thickness(12, 8, 0, 0);
-                ControlsStackPanel.Width = 184;
-                MediaIdStackPanel.Visibility = Visibility.Visible;
-                SongImageBorder.Margin = new Thickness(6);
-                SongImage.Height = 78;
-                SongImageRect.Rect = new Rect(0, 0, 78, 78);
-                SongInfoStackPanel.Margin = new Thickness(12, 0, 0, 0);
-            }
+                int extraWidth = Settings.Default.RepeatEnabled ? 36 : 0;
+                extraWidth += Settings.Default.ShuffleEnabled ? 36 : 0;
+                if (Settings.Default.CompactLayout)
+                {
+                    Height = 60;
+                    Width = 400;
+                    BodyStackPanel.Orientation = Orientation.Horizontal;
+                    BodyStackPanel.Width = 300;
+                    ControlsStackPanel.Margin = new Thickness(0);
+                    ControlsStackPanel.Width = 104;
+                    MediaIdStackPanel.Visibility = Visibility.Hidden;
+                    SongImageBorder.Margin = new Thickness(0);
+                    SongImage.Height = 36;
+                    SongImageRect.Rect = new Rect(0, 0, 78, 36);
+                    SongInfoStackPanel.Margin = new Thickness(8, 0, 0, 0);
+                    SongInfoStackPanel.Width = 182;
+                }
+                else
+                {
+                    Height = 116;
+                    Width = 310 + extraWidth;
+                    BodyStackPanel.Orientation = Orientation.Vertical;
+                    BodyStackPanel.Width = 194 + extraWidth;
+                    ControlsStackPanel.Margin = Margin = new Thickness(12, 8, 0, 0);
+                    ControlsStackPanel.Width = 184 + extraWidth;
+                    MediaIdStackPanel.Visibility = Visibility.Visible;
+                    SongImageBorder.Margin = new Thickness(6);
+                    SongImage.Height = 78;
+                    SongImageRect.Rect = new Rect(0, 0, 78, 78);
+                    SongInfoStackPanel.Margin = new Thickness(12, 0, 0, 0);
+                    SongInfoStackPanel.Width = 182 + extraWidth;
+                }
+            });
             _layout = Settings.Default.CompactLayout;
+            _repeatEnabled = Settings.Default.RepeatEnabled;
+            _shuffleEnabled = Settings.Default.ShuffleEnabled;
         }
 
         private async void Back_Click(object sender, RoutedEventArgs e)
@@ -388,49 +451,44 @@ namespace FluentFlyoutWPF
             await mediaManager.GetFocusedSession().ControlSession.TrySkipNextAsync();
         }
 
-        //private async void Repeat_Click(object sender, RoutedEventArgs e)
-        //{
-        //    if (mediaManager.GetFocusedSession() == null)
-        //        return;
+        private async void Repeat_Click(object sender, RoutedEventArgs e)
+        {
+            if (mediaManager.GetFocusedSession() == null)
+                return;
 
-        //    if (mediaManager.GetFocusedSession().ControlSession.GetPlaybackInfo().AutoRepeatMode == Windows.Media.MediaPlaybackAutoRepeatMode.None)
-        //    {
-        //        SymbolRepeat.Dispatcher.Invoke(() => SymbolRepeat.Symbol = Wpf.Ui.Controls.SymbolRegular.ArrowRepeatAll24);
-        //        ControlRepeat.Opacity = 1;
-        //        await mediaManager.GetFocusedSession().ControlSession.TryChangeAutoRepeatModeAsync(Windows.Media.MediaPlaybackAutoRepeatMode.List);
-        //    }
-        //    else if (mediaManager.GetFocusedSession().ControlSession.GetPlaybackInfo().AutoRepeatMode == Windows.Media.MediaPlaybackAutoRepeatMode.List)
-        //    {
-        //        SymbolRepeat.Dispatcher.Invoke(() => SymbolRepeat.Symbol = Wpf.Ui.Controls.SymbolRegular.ArrowRepeat124);
-        //        ControlRepeat.Opacity = 1;
-        //        await mediaManager.GetFocusedSession().ControlSession.TryChangeAutoRepeatModeAsync(Windows.Media.MediaPlaybackAutoRepeatMode.Track);
-        //    }
-        //    else if (mediaManager.GetFocusedSession().ControlSession.GetPlaybackInfo().AutoRepeatMode == Windows.Media.MediaPlaybackAutoRepeatMode.Track)
-        //    {
-        //        SymbolRepeat.Dispatcher.Invoke(() => SymbolRepeat.Symbol = Wpf.Ui.Controls.SymbolRegular.ArrowRepeatAllOff24);
-        //        ControlRepeat.Opacity = 0.5;
-        //        await mediaManager.GetFocusedSession().ControlSession.TryChangeAutoRepeatModeAsync(Windows.Media.MediaPlaybackAutoRepeatMode.None);
-        //    }
-        //}
+            if (mediaManager.GetFocusedSession().ControlSession.GetPlaybackInfo().AutoRepeatMode == Windows.Media.MediaPlaybackAutoRepeatMode.None)
+            {
+                SymbolRepeat.Dispatcher.Invoke(() => SymbolRepeat.Symbol = Wpf.Ui.Controls.SymbolRegular.ArrowRepeatAll24);
+                await mediaManager.GetFocusedSession().ControlSession.TryChangeAutoRepeatModeAsync(Windows.Media.MediaPlaybackAutoRepeatMode.List);
+            }
+            else if (mediaManager.GetFocusedSession().ControlSession.GetPlaybackInfo().AutoRepeatMode == Windows.Media.MediaPlaybackAutoRepeatMode.List)
+            {
+                SymbolRepeat.Dispatcher.Invoke(() => SymbolRepeat.Symbol = Wpf.Ui.Controls.SymbolRegular.ArrowRepeat124);
+                await mediaManager.GetFocusedSession().ControlSession.TryChangeAutoRepeatModeAsync(Windows.Media.MediaPlaybackAutoRepeatMode.Track);
+            }
+            else if (mediaManager.GetFocusedSession().ControlSession.GetPlaybackInfo().AutoRepeatMode == Windows.Media.MediaPlaybackAutoRepeatMode.Track)
+            {
+                SymbolRepeat.Dispatcher.Invoke(() => SymbolRepeat.Symbol = Wpf.Ui.Controls.SymbolRegular.ArrowRepeatAllOff24);
+                await mediaManager.GetFocusedSession().ControlSession.TryChangeAutoRepeatModeAsync(Windows.Media.MediaPlaybackAutoRepeatMode.None);
+            }
+        }
 
-        //private async void Shuffle_Click(object sender, RoutedEventArgs e)
-        //{
-        //    if (mediaManager.GetFocusedSession() == null)
-        //        return;
+        private async void Shuffle_Click(object sender, RoutedEventArgs e)
+        {
+            if (mediaManager.GetFocusedSession() == null)
+                return;
 
-        //    if(mediaManager.GetFocusedSession().ControlSession.GetPlaybackInfo().Controls.IsShuffleEnabled)
-        //    {
-        //        SymbolShuffle.Dispatcher.Invoke(() => SymbolShuffle.Symbol = Wpf.Ui.Controls.SymbolRegular.ArrowShuffleOff24);
-        //        ControlShuffle.Opacity = 0.5;
-        //        await mediaManager.GetFocusedSession().ControlSession.TryChangeShuffleActiveAsync(false);
-        //    }
-        //    else
-        //    {
-        //        SymbolShuffle.Dispatcher.Invoke(() => SymbolShuffle.Symbol = Wpf.Ui.Controls.SymbolRegular.ArrowShuffle24);
-        //        ControlShuffle.Opacity = 1;
-        //        await mediaManager.GetFocusedSession().ControlSession.TryChangeShuffleActiveAsync(true);
-        //    }
-        //}
+            if (mediaManager.GetFocusedSession().ControlSession.GetPlaybackInfo().IsShuffleActive == true)
+            {
+                SymbolShuffle.Dispatcher.Invoke(() => SymbolShuffle.Symbol = Wpf.Ui.Controls.SymbolRegular.ArrowShuffleOff24);
+                await mediaManager.GetFocusedSession().ControlSession.TryChangeShuffleActiveAsync(false);
+            }
+            else
+            {
+                SymbolShuffle.Dispatcher.Invoke(() => SymbolShuffle.Symbol = Wpf.Ui.Controls.SymbolRegular.ArrowShuffle24);
+                await mediaManager.GetFocusedSession().ControlSession.TryChangeShuffleActiveAsync(true);
+            }
+        }
 
         protected override void OnClosed(EventArgs e)
         {

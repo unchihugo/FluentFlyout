@@ -18,12 +18,12 @@
             <EventTrigger.Actions>
                 <BeginStoryboard>
                     <Storyboard>
-                        <DoubleAnimation Storyboard.TargetProperty="(Window.Top)" Duration="0:0:0.3">
+                        <DoubleAnimation Storyboard.TargetProperty="(Window.Top)">
                             <DoubleAnimation.EasingFunction>
                                 <CubicEase EasingMode="EaseOut"/>
                             </DoubleAnimation.EasingFunction>
                         </DoubleAnimation>
-                        <DoubleAnimation Storyboard.TargetProperty="(Window.Opacity)" Duration="0:0:0.3">
+                        <DoubleAnimation Storyboard.TargetProperty="(Window.Opacity)">
                             <DoubleAnimation.EasingFunction>
                                 <CubicEase EasingMode="EaseOut"/>
                             </DoubleAnimation.EasingFunction>
@@ -43,11 +43,11 @@
                     </Image.Clip>
                 </Image>
             </Border>
-            <StackPanel Name="BodyStackPanel" Orientation="Vertical" VerticalAlignment="Center" Width="196">
+            <StackPanel Name="BodyStackPanel" Orientation="Vertical" VerticalAlignment="Center" Width="194">
                 <StackPanel Orientation="Horizontal">
-                    <StackPanel Name="SongInfoStackPanel" Margin="12,0,0,0" Orientation="Vertical" VerticalAlignment="Center" Width="184">
-                        <TextBlock Name="SongTitle" Text="Song Title" FontSize="14" FontFamily="Segoe UI Variable" FontWeight="Medium"/>
-                        <TextBlock Name="SongArtist" Text="Artist Name" FontSize="14" FontFamily="Segoe UI Variable" FontWeight="Medium" Opacity="0.5"/>
+                    <StackPanel Name="SongInfoStackPanel" Margin="12,0,0,0" Orientation="Vertical" VerticalAlignment="Center" Width="182">
+                        <TextBlock Name="SongTitle" Text="Song Title" FontSize="14" FontFamily="Segoe UI Variable" FontWeight="Medium" TextTrimming="CharacterEllipsis"/>
+                        <TextBlock Name="SongArtist" Text="Artist Name" FontSize="14" FontFamily="Segoe UI Variable" FontWeight="Medium" Opacity="0.5" TextTrimming="CharacterEllipsis"/>
                     </StackPanel>
                 </StackPanel>
                 <StackPanel Name="ControlsStackPanel" Orientation="Horizontal" HorizontalAlignment="Right" Height="35" Width="184" Margin="12,8,0,0">
@@ -70,18 +70,18 @@
                     Style="{StaticResource MicaWPF.Styles.TransparentButton}" VerticalAlignment="Center">
                         <ui:SymbolIcon Name="SymbolForward" Symbol="Next20" Filled="True"/>
                     </controls:Button>
-                    <!--<controls:Button
+                    <controls:Button
                         Height="28" Width="28" Name="ControlRepeat"
                         Margin="0,0,8,0" Click="Repeat_Click" Focusable="False"
                         Style="{StaticResource MicaWPF.Styles.TransparentButton}" VerticalAlignment="Center">
-                        <ui:SymbolIcon Name="SymbolRepeat" Symbol="ArrowRepeatAllOff24" Filled="false" Opacity="0.5"/>
+                        <ui:SymbolIcon Name="SymbolRepeat" Symbol="ArrowRepeatAllOff24" Filled="false" Opacity="0.5" FontSize="18"/>
                     </controls:Button>
                     <controls:Button
                         Height="28" Width="28" Name="ControlShuffle"
                         Margin="0,0,8,0" Click="Shuffle_Click" Focusable="False"
                         Style="{StaticResource MicaWPF.Styles.TransparentButton}" VerticalAlignment="Center">
-                        <ui:SymbolIcon Name="SymbolShuffle" Symbol="ArrowShuffleOff24" Filled="false" Opacity="0.5"/>
-                    </controls:Button>-->
+                        <ui:SymbolIcon Name="SymbolShuffle" Symbol="ArrowShuffleOff24" Filled="false" Opacity="0.5" FontSize="18"/>
+                    </controls:Button>
                     <StackPanel Name="MediaIdStackPanel" Orientation="Horizontal">
                         <ui:SymbolIcon Symbol="MusicNote120" Width="12" Height="12" FontSize="12" Filled="True" Opacity="0.25"/>
                         <TextBlock Name="MediaId" VerticalAlignment="Center" FontSize="10" Margin="2,0,0,0" FontFamily="Segoe UI Variable" FontWeight="Medium" Opacity="0.35"/>

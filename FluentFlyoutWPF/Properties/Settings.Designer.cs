@@ -70,5 +70,53 @@ namespace FluentFlyout.Properties {
                 this["CompactLayout"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("2")]
+        public int FlyoutAnimationSpeed {
+            get {
+                return ((int)(this["FlyoutAnimationSpeed"]));
+            }
+            set {
+                this["FlyoutAnimationSpeed"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool RepeatEnabled {
+            get {
+                return ((bool)(this["RepeatEnabled"]));
+            }
+            set {
+                this["RepeatEnabled"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool ShuffleEnabled {
+            get {
+                return ((bool)(this["ShuffleEnabled"]));
+            }
+            set {
+                this["ShuffleEnabled"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool PlayerInfoEnabled {
+            get {
+                return ((bool)(this["PlayerInfoEnabled"]));
+            }
+            set {
+                this["PlayerInfoEnabled"] = value;
+            }
+        }
     }
 }

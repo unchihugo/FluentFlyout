@@ -29,17 +29,20 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-                    <ui:CardControl Icon="{ui:SymbolIcon ArrowAutofitWidth24}" Margin="0,0,0,4">
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                    <ui:CardControl Icon="{ui:SymbolIcon ArrowAutofitWidth24}" Margin="0,0,0,3">
                         <ui:CardControl.Header>
                             <StackPanel Orientation="Vertical">
                                 <TextBlock Text="Compact Layout" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
                                 <TextBlock Text="Slimmer and less intrusive layout" FontSize="12" Opacity="0.5"/>
+                                <TextBlock Text="Hides repeat, shuffle and player info" FontSize="12" Opacity="0.5"/>
                             </StackPanel>
                         </ui:CardControl.Header>
                         <controls:ToggleSwitch Name="LayoutSwitch" Click="LayoutSwitch_Click" IsChecked="False"/>
                     </ui:CardControl>
-                    <ui:CardControl Grid.Row="1" Icon="{ui:SymbolIcon PositionForward24}" Margin="0,0,0,4">
+                    <ui:CardControl Grid.Row="1" Icon="{ui:SymbolIcon PositionForward24}" Margin="0,0,0,3">
                         <ui:CardControl.Header>
                             <StackPanel Orientation="Vertical">
                                 <TextBlock Text="Flyout Position" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
@@ -54,27 +57,46 @@
                             <ComboBoxItem Content="Top Right"/>
                         </ComboBox>
                     </ui:CardControl>
-                        <ui:CardControl Grid.Row="2" Icon="{ui:SymbolIcon Timer24}" Margin="0,0,0,0">
+                        <ui:CardControl Grid.Row="2" Icon="{ui:SymbolIcon Timer24}" Margin="0,0,0,3">
                         <ui:CardControl.Header>
                             <StackPanel Orientation="Vertical">
-                                <TextBlock Text="Flyout Duration" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
-                            </StackPanel>
+                                <TextBlock Text="Flyout Stay Duration" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
+                                <TextBlock Text="(default: 3000 ms)" FontSize="12" Opacity="0.5"/>
+                                </StackPanel>
                         </ui:CardControl.Header>
                         <StackPanel Orientation="Horizontal">
                             <RichTextBox Name="DurationTextBox" Width="65" UndoLimit="0" TextChanged="RichTextBox_TextChanged"/>
                             <TextBlock Text="ms" FontSize="14" FontWeight="Regular" Margin="10,0,0,0" VerticalAlignment="Center"/>
                         </StackPanel>
                     </ui:CardControl>
-                        <!--<ui:CardControl Grid.Row="3" Icon="{ui:SymbolIcon ArrowRepeatAll24}" Margin="0,0,0,4">
+                        <ui:CardControl Grid.Row="3" Icon="{ui:SymbolIcon TopSpeed24}" Margin="0,0,0,12">
+                            <ui:CardControl.Header>
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock Text="Flyout Animation Duration Scale" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
+                                    <TextBlock Text="Faster or slower flyout animation speed (default: 1x)" FontSize="12" Opacity="0.5"/>
+                                </StackPanel>
+                            </ui:CardControl.Header>
+                            <StackPanel Orientation="Horizontal">
+                                <ComboBox Name="FlyoutAnimationSpeedComboBox" SelectionChanged="FlyoutAnimationSpeedComboBox_SelectionChanged">
+                                    <ComboBoxItem Content="Off"/>
+                                    <ComboBoxItem Content="0.5x"/>
+                                    <ComboBoxItem Content="1x"/>
+                                    <ComboBoxItem Content="1.5x"/>
+                                    <ComboBoxItem Content="2x"/>
+                                    <ComboBoxItem Content="3x"/>
+                                </ComboBox>
+                            </StackPanel>
+                        </ui:CardControl>
+                        <ui:CardControl Grid.Row="4" Icon="{ui:SymbolIcon ArrowRepeatAll24}" Margin="0,0,0,3">
                             <ui:CardControl.Header>
                                 <StackPanel Orientation="Vertical">
                                     <TextBlock Text="Repeat button" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
-                                    <TextBlock Text="Choose between repeat all or repeat one, Increases flyout width" FontSize="12" Opacity="0.5"/>
+                                    <TextBlock Text="Choose between repeat all or repeat one, increases flyout width" FontSize="12" Opacity="0.5"/>
                                 </StackPanel>
                             </ui:CardControl.Header>
                             <controls:ToggleSwitch Name="RepeatSwitch" Click="RepeatSwitch_Click" IsChecked="False"/>
                         </ui:CardControl>
-                        <ui:CardControl Grid.Row="4" Icon="{ui:SymbolIcon ArrowShuffle24}">
+                        <ui:CardControl Grid.Row="5" Icon="{ui:SymbolIcon ArrowShuffle24}" Margin="0,0,0,6">
                             <ui:CardControl.Header>
                                 <StackPanel Orientation="Vertical">
                                     <TextBlock Text="Shuffle button" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
@@ -82,7 +104,11 @@
                                 </StackPanel>
                             </ui:CardControl.Header>
                             <controls:ToggleSwitch Name="ShuffleSwitch" Click="ShuffleSwitch_Click" IsChecked="False"/>
-                        </ui:CardControl>-->
+                        </ui:CardControl>
+                        <StackPanel Grid.Row="6" Orientation="Horizontal">
+                            <ui:SymbolIcon Symbol="info24" Margin="3,0,3,0" Foreground="Gold" Opacity="0.75" VerticalAlignment="Center"/>
+                            <TextBlock Text="Some browsers/players do not support repeat and shuffle control" FontSize="12" Opacity="0.75" Foreground="Gold" VerticalAlignment="Center" Margin="0,0,0,0"/>
+                        </StackPanel>
                     </Grid>
 
                 <TextBlock Text="System" FontSize="18" FontWeight="SemiBold" Margin="0,24,0,0"/>
