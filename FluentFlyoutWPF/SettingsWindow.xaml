@@ -16,12 +16,13 @@
         <ScrollViewer HorizontalScrollBarVisibility="Auto">
             <StackPanel>
             <StackPanel Orientation="Vertical" Margin="16,12,16,12">
-                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="12,0,0,12">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="12,0,0,36">
                     <Image Source="/Resources/FluentFlyout2.ico" Width="44" Height="44"/>
                     <TextBlock Text="FluentFlyout Settings" FontSize="24" FontWeight="Medium" Margin="12,0,0,0" VerticalAlignment="Center"/>
-                    <TextBlock Text="v1.1.0" FontSize="14" FontWeight="Regular" VerticalAlignment="Bottom" Margin="10" Opacity="0.5"/>
+                    <TextBlock Text="v1.1.2" FontSize="14" FontWeight="Regular" VerticalAlignment="Bottom" Margin="10" Opacity="0.5"/>
                 </StackPanel>
-                <TextBlock Text="Customization" FontSize="18" FontWeight="SemiBold" FontFamily="Segoe UI Variable" Margin="0,24,0,0"/>
+                    <TextBlock Text="When listening to media, press any media or volume control key to display the flyout." FontSize="14" FontWeight="Regular" VerticalAlignment="Center" TextWrapping="Wrap"/>
+                    <TextBlock Text="Customization" FontSize="18" FontWeight="SemiBold" FontFamily="Segoe UI Variable" Margin="0,12,0,0"/>
                 <Grid Margin="0,12,0,0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -96,7 +97,7 @@
                             </ui:CardControl.Header>
                             <controls:ToggleSwitch Name="RepeatSwitch" Click="RepeatSwitch_Click" IsChecked="False"/>
                         </ui:CardControl>
-                        <ui:CardControl Grid.Row="5" Icon="{ui:SymbolIcon ArrowShuffle24}" Margin="0,0,0,6">
+                        <ui:CardControl Grid.Row="5" Icon="{ui:SymbolIcon ArrowShuffle24}" Margin="0,0,0,3">
                             <ui:CardControl.Header>
                                 <StackPanel Orientation="Vertical">
                                     <TextBlock Text="Shuffle button" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
@@ -105,10 +106,7 @@
                             </ui:CardControl.Header>
                             <controls:ToggleSwitch Name="ShuffleSwitch" Click="ShuffleSwitch_Click" IsChecked="False"/>
                         </ui:CardControl>
-                        <StackPanel Grid.Row="6" Orientation="Horizontal">
-                            <ui:SymbolIcon Symbol="info24" Margin="3,0,3,0" Foreground="Gold" Opacity="0.75" VerticalAlignment="Center"/>
-                            <TextBlock Text="Some browsers/players do not support repeat and shuffle control" FontSize="12" Opacity="0.75" Foreground="Gold" VerticalAlignment="Center" Margin="0,0,0,0"/>
-                        </StackPanel>
+                        <ui:InfoBar Grid.Row="6" Title="Compatibility" Message="Some browsers/players do not support repeat and shuffle control" IsOpen="True" Severity="Warning" IsClosable="False"/>
                     </Grid>
 
                 <TextBlock Text="System" FontSize="18" FontWeight="SemiBold" Margin="0,24,0,0"/>
