@@ -44,7 +44,9 @@ namespace FluentFlyout
             DurationTextBox.Document.Blocks.Add(new Paragraph(new Run(Settings.Default.Duration.ToString()))); // using rich text box because it looks nicer with MicaWPF
             NextUpSwitch.IsChecked = Settings.Default.NextUpEnabled;
             NextUpDurationTextBox.Document.Blocks.Clear();
-            NextUpDurationTextBox.Document.Blocks.Add(new Paragraph(new Run(Settings.Default.NextUpDuration.ToString()))); // using rich text box because it looks nicer with MicaWPF
+            NextUpDurationTextBox.Document.Blocks.Add(new Paragraph(new Run(Settings.Default.NextUpDuration.ToString())));
+
+            VersionTextBlock.Text = $"v{Assembly.GetExecutingAssembly().GetName().Version.ToString()[..^2]}"; // will read 1.0.0 when debugging
         }
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
