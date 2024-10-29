@@ -1,15 +1,15 @@
-# FluentFlyout  
-<img src="https://github.com/user-attachments/assets/13615f64-c374-4ca3-a274-8842bedf183e" width="58">
+![FluentFlyoutTitle](https://github.com/user-attachments/assets/56e921ff-e463-4ab3-b687-92f248dc727e)
+---
+FluentFlyout is a simple and modern audio flyout for Windows, built with Fluent 2 Design principles.  
+The UI seemingly blends in with Windows 10/11, providing you an uninterrupted, clean, and native-like experience when controlling your media.  
+
+FluentFlyout features smooth animations, supports both light and dark modes, blends with your system's color theme, and includes multiple layout positions while providing media controls and information in a nice and modern looking popup flyout, just above the native volume flyout.  
 
 <a href="https://apps.microsoft.com/detail/9N45NSM4TNBP?mode=direct">
 	<img src="https://get.microsoft.com/images/en-us%20dark.svg" width="200"/>
 </a>
 
-
-FluentFlyout is a simple and modern audio flyout for Windows, built with Fluent 2 Design principles.  
-The UI seemingly blends in with Windows 10/11, providing you an uninterrupted, clean, and native-like experience when controlling your media.  
-
-FluentFlyout features smooth animations, supports both light and dark modes, blends with your system's color theme, and includes multiple layout positions while providing media controls and information in a nice and modern looking popup flyout, just above the native volume flyout.
+> Microsoft Store listing is still private, will get online asap!
 
 ## Features ✨
 - Native Windows-like design
@@ -19,15 +19,16 @@ FluentFlyout features smooth animations, supports both light and dark modes, ble
 - Matches your device color theme
 - Smooth animations
 - Customizable flyout positions
+- Includes Repeat All, Repeat One and Shuffle
 - Listens to both volume and media inputs
 - Sits unobtrusively in system tray
 - _Kinda_ lightweight and open-source
 - **Audio flyout: Displays Cover, Title, Artist and media controls**  
 
 ## Audio flyout 🎵
-|System theming|Compact layout mode|
+|Repeat and Shuffle options|Compact layout mode|
 |-|-|
-|![FluentFlyoutDemo1](https://github.com/user-attachments/assets/df7f45b7-ddea-42be-82df-d91b2b6e1f15)|![FluentFlyoutDemo2](https://github.com/user-attachments/assets/a56bd44e-5d10-4873-a795-847b812f537c)|
+|![FluentFlyoutDemo3](https://github.com/user-attachments/assets/4dab1c12-594a-4785-bddc-0da1783bf1c8)|![FluentFlyoutDemo2](https://github.com/user-attachments/assets/39de69fe-54c8-4b22-880c-7f0370b8dd9c)|
 
 ## How to install
 ### Using Microsoft Store (Recommended)
@@ -50,21 +51,22 @@ FluentFlyout features smooth animations, supports both light and dark modes, ble
 9. done! try playing music and use your media or volume keys
 
 ## Upcoming features 📝
-- [ ] More animations
 - [x] Settings
 - [x] Editable flyout timeout
-- [ ] Implement compact layout
+- [x] Implement compact layout
 - [x] Remove Windows Forms dependency
 - [ ] Add more media controls (repeat, shuffle, seek slider)
+- [ ] More animations
 ### Issues
 - FluentFlyout might interfere with certain apps/games in **Fullscreen**, try setting the program's window mode to **Borderless Fullscreen** for now
 - Windows 10 UI might not look as expected
+- Still trying to cut down in size and remove the included WinForms .dlls
 
 ## Contributing 💖
 Please feel free to contribute in any way you can!
 
 ## Credits 🙌
-[Hugo Li](https://unchihugo.github.io) - Original Developer and Microsoft Store Publisher
+[Hugo Li](https://unchihugo.github.io) - Original Developer and Microsoft Store Publisher ([Reddit](https://www.reddit.com/user/KingHugoLi/))
 ### Dependencies
 - [Dubya.WindowsMediaController](https://github.com/DubyaDude/WindowsMediaController)
 - [H.NotifyIcon.Wpf](https://github.com/HavenDV/H.NotifyIcon)
