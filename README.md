@@ -1,4 +1,7 @@
-![FluentFlyoutTitle](https://github.com/user-attachments/assets/56e921ff-e463-4ab3-b687-92f248dc727e)
+<p align="center">
+  <img width="65%" src="https://github.com/user-attachments/assets/56e921ff-e463-4ab3-b687-92f248dc727e">
+</p>  
+
 ---
 FluentFlyout is a simple and modern audio flyout for Windows, built with Fluent 2 Design principles.  
 The UI seemingly blends in with Windows 10/11, providing you an uninterrupted, clean, and native-like experience when controlling your media.  
@@ -66,7 +69,7 @@ FluentFlyout features smooth animations, supports both light and dark modes, ble
 Please feel free to contribute in any way you can!
 
 ## Credits 🙌
-[Hugo Li](https://unchihugo.github.io) - Original Developer and Microsoft Store Publisher ([Reddit](https://www.reddit.com/user/KingHugoLi/))
+[Hugo Li](https://unchihugo.github.io) - Original Developer and Microsoft Store Publisher
 ### Dependencies
 - [Dubya.WindowsMediaController](https://github.com/DubyaDude/WindowsMediaController)
 - [H.NotifyIcon.Wpf](https://github.com/HavenDV/H.NotifyIcon)
