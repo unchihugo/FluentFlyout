@@ -118,5 +118,29 @@ namespace FluentFlyout.Properties {
                 this["PlayerInfoEnabled"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool NextUpEnabled {
+            get {
+                return ((bool)(this["NextUpEnabled"]));
+            }
+            set {
+                this["NextUpEnabled"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("2000")]
+        public int NextUpDuration {
+            get {
+                return ((int)(this["NextUpDuration"]));
+            }
+            set {
+                this["NextUpDuration"] = value;
+            }
+        }
     }
 }

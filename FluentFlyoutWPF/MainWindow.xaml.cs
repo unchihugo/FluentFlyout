@@ -15,7 +15,7 @@ using Microsoft.Win32;
 using System.Reflection;
 using System.Drawing;
 using System.Windows.Controls;
-using MicaWPF.Core.Models;
+using Wpf.Ui.Controls;
 
 
 namespace FluentFlyoutWPF
@@ -43,6 +43,7 @@ namespace FluentFlyoutWPF
         private bool _shuffleEnabled = Settings.Default.ShuffleEnabled;
 
         static Mutex singleton = new Mutex(true, "FluentFlyout");
+        private NextUpWindow? nextUpWindow = null;
 
         public MainWindow()
         {
@@ -81,7 +82,7 @@ namespace FluentFlyoutWPF
             SettingsWindow.ShowInstance();
         }
 
-        private int getDuration()
+        public int getDuration()
         {
             int msDuration = Settings.Default.FlyoutAnimationSpeed switch
             {
@@ -95,10 +96,10 @@ namespace FluentFlyoutWPF
             return msDuration;
         }
 
-        private void OpenAnimation()
+        public void OpenAnimation(MicaWindow window)
         {
 
-            var eventTriggers = Triggers[0] as EventTrigger;
+            var eventTriggers = window.Triggers[0] as EventTrigger;
             var beginStoryboard = eventTriggers.Actions[0] as BeginStoryboard;
             var storyboard = beginStoryboard.Storyboard;
 
@@ -106,37 +107,37 @@ namespace FluentFlyoutWPF
             _position = Settings.Default.Position;
             if (_position == 0)
             {
-                Left = 16;
-                moveAnimation.From = SystemParameters.WorkArea.Height - Height - 0;
-                moveAnimation.To = SystemParameters.WorkArea.Height - Height - 16;
+                window.Left = 16;
+                moveAnimation.From = SystemParameters.WorkArea.Height - window.Height - 0;
+                moveAnimation.To = SystemParameters.WorkArea.Height - window.Height - 16;
             }
             else if (_position == 1)
             {
-                Left = SystemParameters.WorkArea.Width / 2 - Width / 2;
-                moveAnimation.From = SystemParameters.WorkArea.Height - Height - 60;
-                moveAnimation.To = SystemParameters.WorkArea.Height - Height - 80;
+                window.Left = SystemParameters.WorkArea.Width / 2 - window.Width / 2;
+                moveAnimation.From = SystemParameters.WorkArea.Height - window.Height - 60;
+                moveAnimation.To = SystemParameters.WorkArea.Height - window.Height - 80;
             }
             else if (_position == 2)
             {
-                Left = SystemParameters.WorkArea.Width - Width - 16;
-                moveAnimation.From = SystemParameters.WorkArea.Height - Height - 0;
-                moveAnimation.To = SystemParameters.WorkArea.Height - Height - 16;
+                window.Left = SystemParameters.WorkArea.Width - window.Width - 16;
+                moveAnimation.From = SystemParameters.WorkArea.Height - window.Height - 0;
+                moveAnimation.To = SystemParameters.WorkArea.Height - window.Height - 16;
             }
             else if (_position == 3)
             {
-                Left = 16;
+                window.Left = 16;
                 moveAnimation.From = 0;
                 moveAnimation.To = 16;
             }
             else if (_position == 4)
             {
-                Left = SystemParameters.WorkArea.Width / 2 - Width / 2;
+                window.Left = SystemParameters.WorkArea.Width / 2 - window.Width / 2;
                 moveAnimation.From = 0;
                 moveAnimation.To = 16;
             }
             else if (_position == 5)
             {
-                Left = SystemParameters.WorkArea.Width - Width - 16;
+                window.Left = SystemParameters.WorkArea.Width - window.Width - 16;
                 moveAnimation.From = 0;
                 moveAnimation.To = 16;
             }
@@ -151,12 +152,12 @@ namespace FluentFlyoutWPF
             moveAnimation.EasingFunction = opacityAnimation.EasingFunction = easing;
             moveAnimation.Duration = new Duration(TimeSpan.FromMilliseconds(msDuration));
 
-            storyboard.Begin(this);
+            storyboard.Begin(window);
         }
 
-        private void CloseAnimation()
+        public void CloseAnimation(MicaWindow window)
         {
-            var eventTriggers = Triggers[0] as EventTrigger;
+            var eventTriggers = window.Triggers[0] as EventTrigger;
             var beginStoryboard = eventTriggers.Actions[0] as BeginStoryboard;
             var storyboard = beginStoryboard.Storyboard;
 
@@ -164,13 +165,13 @@ namespace FluentFlyoutWPF
             _position = Settings.Default.Position;
             if (_position == 0 || _position == 2)
             {
-                moveAnimation.From = SystemParameters.WorkArea.Height - Height - 16;
-                moveAnimation.To = SystemParameters.WorkArea.Height - Height - 0;
+                moveAnimation.From = SystemParameters.WorkArea.Height - window.Height - 16;
+                moveAnimation.To = SystemParameters.WorkArea.Height - window.Height - 0;
             }
             else if (_position == 1)
             {
-                moveAnimation.From = SystemParameters.WorkArea.Height - Height - 80;
-                moveAnimation.To = SystemParameters.WorkArea.Height - Height - 60;
+                moveAnimation.From = SystemParameters.WorkArea.Height - window.Height - 80;
+                moveAnimation.To = SystemParameters.WorkArea.Height - window.Height - 60;
             }
             else if (_position == 3 || _position == 4 || _position == 5)
             {
@@ -188,7 +189,7 @@ namespace FluentFlyoutWPF
             moveAnimation.EasingFunction = opacityAnimation.EasingFunction = easing;
             moveAnimation.Duration = new Duration(TimeSpan.FromMilliseconds(msDuration));
 
-            storyboard.Begin(this);
+            storyboard.Begin(window);
         }
 
         private void reportBug(object? sender, EventArgs e)
@@ -216,6 +217,21 @@ namespace FluentFlyoutWPF
 
         private void MediaManager_OnAnyMediaPropertyChanged(MediaSession mediaSession, GlobalSystemMediaTransportControlsSessionMediaProperties mediaProperties)
         {
+            if (mediaManager.GetFocusedSession() == null) return;
+            if (Settings.Default.NextUpEnabled == true)
+            {
+                var songInfo = mediaManager.GetFocusedSession().ControlSession.TryGetMediaPropertiesAsync().GetAwaiter().GetResult();
+                if (nextUpWindow == null && IsVisible == false && songInfo.Thumbnail != null)
+                {
+
+                    Dispatcher.Invoke(() =>
+                    {
+                        nextUpWindow = new NextUpWindow(mediaProperties.Title, mediaProperties.Artist, Helper.GetThumbnail(songInfo.Thumbnail));
+                        nextUpWindow.Closed += (s, e) => nextUpWindow = null;
+                    });
+                }
+            }
+
             UpdateUI(mediaManager.GetFocusedSession());
         }
 
@@ -251,7 +267,13 @@ namespace FluentFlyoutWPF
             if (mediaManager.GetFocusedSession() == null) return;
             UpdateUI(mediaManager.GetFocusedSession());
 
-            if (Visibility == Visibility.Hidden) OpenAnimation();
+            if (nextUpWindow != null)
+            {
+                nextUpWindow.Close();
+                nextUpWindow = null;
+            }
+
+            if (Visibility == Visibility.Hidden) OpenAnimation(this);
             cts.Cancel();
             cts = new CancellationTokenSource();
             var token = cts.Token;
@@ -268,7 +290,7 @@ namespace FluentFlyoutWPF
                         await Task.Delay(Settings.Default.Duration, token);
                         if (!IsMouseOver)
                         {
-                            CloseAnimation();
+                            CloseAnimation(this);
                             await Task.Delay(getDuration());
                             Hide();
                             break;

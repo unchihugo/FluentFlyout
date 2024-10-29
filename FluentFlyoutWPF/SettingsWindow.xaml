@@ -7,7 +7,7 @@
       xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
       xmlns:controls="clr-namespace:MicaWPF.Controls;assembly=MicaWPF"
       mc:Ignorable="d" 
-      Height="550" Width="700" MinHeight="400" MinWidth="550"
+      Height="550" Width="700" MinHeight="400" MinWidth="650"
       Title="Settings" Icon="/Resources/FluentFlyout2.ico"
       TextOptions.TextRenderingMode="ClearType" TextOptions.TextFormattingMode="Ideal"
       >
@@ -19,10 +19,10 @@
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="12,0,0,36">
                     <Image Source="/Resources/FluentFlyout2.ico" Width="44" Height="44"/>
                     <TextBlock Text="FluentFlyout Settings" FontSize="24" FontWeight="Medium" Margin="12,0,0,0" VerticalAlignment="Center"/>
-                    <TextBlock Text="v1.1.2" FontSize="14" FontWeight="Regular" VerticalAlignment="Bottom" Margin="10" Opacity="0.5"/>
+                    <TextBlock Text="v1.2.0" FontSize="14" FontWeight="Regular" VerticalAlignment="Bottom" Margin="10" Opacity="0.5"/>
                 </StackPanel>
                     <TextBlock Text="When listening to media, press any media or volume control key to display the flyout." FontSize="14" FontWeight="Regular" VerticalAlignment="Center" TextWrapping="Wrap"/>
-                    <TextBlock Text="Customization" FontSize="18" FontWeight="SemiBold" FontFamily="Segoe UI Variable" Margin="0,12,0,0"/>
+                    <TextBlock Text="Flyout Customization" FontSize="18" FontWeight="SemiBold" FontFamily="Segoe UI Variable" Margin="0,12,0,0"/>
                 <Grid Margin="0,12,0,0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -109,7 +109,36 @@
                         <ui:InfoBar Grid.Row="6" Title="Compatibility" Message="Some browsers/players do not support repeat and shuffle control" IsOpen="True" Severity="Warning" IsClosable="False"/>
                     </Grid>
 
-                <TextBlock Text="System" FontSize="18" FontWeight="SemiBold" Margin="0,24,0,0"/>
+                    <TextBlock Text="Next Up Customization" FontSize="18" FontWeight="SemiBold" FontFamily="Segoe UI Variable" Margin="0,24,0,0"/>
+                    <Grid Margin="0,12,0,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <ui:CardControl Icon="{ui:SymbolIcon MusicNote2Play20}" Margin="0,0,0,3">
+                            <ui:CardControl.Header>
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock Text="Enable Next Up Flyout" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
+                                    <TextBlock Text="A flyout that shows what's next at the end of each song/video" FontSize="12" Opacity="0.5"/>
+                                </StackPanel>
+                            </ui:CardControl.Header>
+                            <controls:ToggleSwitch Name="NextUpSwitch" Click="NextUpSwitch_Click" IsChecked="False"/>
+                        </ui:CardControl>
+                        <ui:CardControl Grid.Row="1" Icon="{ui:SymbolIcon Timer24}" Margin="0,0,0,3">
+                            <ui:CardControl.Header>
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock Text="Next Up Stay Duration" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
+                                    <TextBlock Text="(default: 2000 ms)" FontSize="12" Opacity="0.5"/>
+                                </StackPanel>
+                            </ui:CardControl.Header>
+                            <StackPanel Orientation="Horizontal">
+                                <RichTextBox Name="NextUpDurationTextBox" Width="65" UndoLimit="0" TextChanged="NextUpDurationTextBox_TextChanged"/>
+                                <TextBlock Text="ms" FontSize="14" FontWeight="Regular" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </ui:CardControl>
+                    </Grid>
+
+                    <TextBlock Text="System" FontSize="18" FontWeight="SemiBold" Margin="0,24,0,0"/>
                 <Grid Margin="0,12,0,0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>

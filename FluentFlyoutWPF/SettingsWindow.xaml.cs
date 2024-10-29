@@ -42,6 +42,9 @@ namespace FluentFlyout
             StartupSwitch.IsChecked = Settings.Default.Startup;
             DurationTextBox.Document.Blocks.Clear();
             DurationTextBox.Document.Blocks.Add(new Paragraph(new Run(Settings.Default.Duration.ToString()))); // using rich text box because it looks nicer with MicaWPF
+            NextUpSwitch.IsChecked = Settings.Default.NextUpEnabled;
+            NextUpDurationTextBox.Document.Blocks.Clear();
+            NextUpDurationTextBox.Document.Blocks.Add(new Paragraph(new Run(Settings.Default.NextUpDuration.ToString()))); // using rich text box because it looks nicer with MicaWPF
         }
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
@@ -124,6 +127,25 @@ namespace FluentFlyout
                 }
                 instance.Activate();
                 instance.Focus();
+            }
+        }
+
+        private void NextUpSwitch_Click(object sender, RoutedEventArgs e)
+        {
+            Settings.Default.NextUpEnabled = NextUpSwitch.IsChecked ?? false;
+            Settings.Default.Save();
+        }
+
+        private void NextUpDurationTextBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        {
+            var richTextBox = sender as System.Windows.Controls.RichTextBox;
+            var textRange = new TextRange(NextUpDurationTextBox.Document.ContentStart, NextUpDurationTextBox.Document.ContentEnd);
+            string text = textRange.Text.Trim();
+
+            if (int.TryParse(text, out int nextUpDuration))
+            {
+                Settings.Default.NextUpDuration = nextUpDuration;
+                Settings.Default.Save();
             }
         }
     }
