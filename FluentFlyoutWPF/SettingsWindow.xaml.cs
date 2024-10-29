@@ -4,6 +4,7 @@ using Microsoft.Win32;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Documents;
+using Windows.ApplicationModel;
 
 
 namespace FluentFlyout
@@ -46,7 +47,15 @@ namespace FluentFlyout
             NextUpDurationTextBox.Document.Blocks.Clear();
             NextUpDurationTextBox.Document.Blocks.Add(new Paragraph(new Run(Settings.Default.NextUpDuration.ToString())));
 
-            VersionTextBlock.Text = $"v{Assembly.GetExecutingAssembly().GetName().Version.ToString()[..^2]}"; // will read 1.0.0 when debugging
+            try
+            {
+                var version = Package.Current.Id.Version;
+                VersionTextBlock.Text = $"v{version.Major}.{version.Minor}.{version.Build}";
+            }
+            catch
+            {
+                VersionTextBlock.Text = "debug version";
+            }
         }
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)

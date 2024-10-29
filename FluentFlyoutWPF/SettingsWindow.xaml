@@ -37,8 +37,8 @@
                         <ui:CardControl.Header>
                             <StackPanel Orientation="Vertical">
                                 <TextBlock Text="Compact Layout" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
-                                <TextBlock Text="Slimmer and less intrusive layout" FontSize="12" Opacity="0.5"/>
-                                <TextBlock Text="Hides repeat, shuffle and player info" FontSize="12" Opacity="0.5"/>
+                                <TextBlock Text="Slimmer and less intrusive layout;" FontSize="12" Opacity="0.5"/>
+                                <TextBlock Text="hides repeat, shuffle and player info." FontSize="12" Opacity="0.5"/>
                             </StackPanel>
                         </ui:CardControl.Header>
                         <controls:ToggleSwitch Name="LayoutSwitch" Click="LayoutSwitch_Click" IsChecked="False"/>
@@ -119,7 +119,9 @@
                             <ui:CardControl.Header>
                                 <StackPanel Orientation="Vertical">
                                     <TextBlock Text="Enable Next Up Flyout" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
-                                    <TextBlock Text="A flyout that shows what's next at the end of each song/video" FontSize="12" Opacity="0.5"/>
+                                    <TextBlock Text="A flyout shows what's next when a song/video ends;" FontSize="12" Opacity="0.5"/>
+                                    <TextBlock Text="only appears if the next item plays automatically;" FontSize="12" Opacity="0.5"/>
+                                    <TextBlock Text="if next/previous is pressed manually, the main flyout appears instead." FontSize="12" Opacity="0.5"/>
                                 </StackPanel>
                             </ui:CardControl.Header>
                             <controls:ToggleSwitch Name="NextUpSwitch" Click="NextUpSwitch_Click" IsChecked="False"/>
