@@ -32,7 +32,7 @@ FluentFlyout features smooth animations, supports both light and dark modes, ble
 |Customization Options|Additional Features|
 |-|-|
 |![FluentFlyoutDemo3](https://github.com/user-attachments/assets/4dab1c12-594a-4785-bddc-0da1783bf1c8)|<img width="775" alt="FluentFlyoutDemo4" src="https://github.com/user-attachments/assets/b4306026-b274-418b-a39e-78877e7610a7">|
-|![FluentFlyoutDemo2](https://github.com/user-attachments/assets/39de69fe-54c8-4b22-880c-7f0370b8dd9c)|![FluentFlyoutDemo1](https://github.com/user-attachments/assets/7b57f08d-cc08-4c78-818e-337d84b26def)|
+|![FluentFlyoutDemo2](https://github.com/user-attachments/assets/39de69fe-54c8-4b22-880c-7f0370b8dd9c)|![FluentFlyoutDemo1](https://github.com/user-attachments/assets/a25adb0e-963a-49a5-8abb-d9a288c2ad9a)|
 
 ## How to install
 ### Using Microsoft Store (Recommended)
