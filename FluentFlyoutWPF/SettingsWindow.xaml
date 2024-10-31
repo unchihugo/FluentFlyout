@@ -66,7 +66,7 @@
                                 </StackPanel>
                         </ui:CardControl.Header>
                         <StackPanel Orientation="Horizontal">
-                            <RichTextBox Name="DurationTextBox" Width="65" UndoLimit="0" TextChanged="RichTextBox_TextChanged"/>
+                                <ui:TextBox Name="DurationTextBox" Width="60" ClearButtonEnabled="False" TextChanged="DurationTextBox_TextChanged"/>
                             <TextBlock Text="ms" FontSize="14" FontWeight="Regular" Margin="10,0,0,0" VerticalAlignment="Center"/>
                         </StackPanel>
                     </ui:CardControl>
@@ -118,7 +118,7 @@
                         <ui:CardControl Icon="{ui:SymbolIcon MusicNote2Play20}" Margin="0,0,0,3">
                             <ui:CardControl.Header>
                                 <StackPanel Orientation="Vertical">
-                                    <TextBlock Text="Enable Next Up Flyout" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
+                                    <TextBlock Text="Enable Next Up Flyout (Experimental)" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
                                     <TextBlock Text="A flyout shows what's next when a song/video ends;" FontSize="12" Opacity="0.5"/>
                                     <TextBlock Text="only appears if the next item plays automatically;" FontSize="12" Opacity="0.5"/>
                                     <TextBlock Text="if next/previous is pressed manually, the main flyout appears instead." FontSize="12" Opacity="0.5"/>
@@ -134,7 +134,7 @@
                                 </StackPanel>
                             </ui:CardControl.Header>
                             <StackPanel Orientation="Horizontal">
-                                <RichTextBox Name="NextUpDurationTextBox" Width="65" UndoLimit="0" TextChanged="NextUpDurationTextBox_TextChanged"/>
+                                <ui:TextBox Name="NextUpDurationTextBox" Width="60" ClearButtonEnabled="False" TextChanged="NextUpDurationTextBox_TextChanged"/>
                                 <TextBlock Text="ms" FontSize="14" FontWeight="Regular" Margin="10,0,0,0" VerticalAlignment="Center"/>
                             </StackPanel>
                         </ui:CardControl>

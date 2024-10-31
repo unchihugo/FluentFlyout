@@ -41,11 +41,9 @@ namespace FluentFlyout
             RepeatSwitch.IsChecked = Settings.Default.RepeatEnabled;
             ShuffleSwitch.IsChecked = Settings.Default.ShuffleEnabled;
             StartupSwitch.IsChecked = Settings.Default.Startup;
-            DurationTextBox.Document.Blocks.Clear();
-            DurationTextBox.Document.Blocks.Add(new Paragraph(new Run(Settings.Default.Duration.ToString()))); // using rich text box because it looks nicer with MicaWPF
+            DurationTextBox.Text = Settings.Default.Duration.ToString();
             NextUpSwitch.IsChecked = Settings.Default.NextUpEnabled;
-            NextUpDurationTextBox.Document.Blocks.Clear();
-            NextUpDurationTextBox.Document.Blocks.Add(new Paragraph(new Run(Settings.Default.NextUpDuration.ToString())));
+            NextUpDurationTextBox.Text = Settings.Default.NextUpDuration.ToString();
 
             try
             {
@@ -93,19 +91,6 @@ namespace FluentFlyout
             Settings.Default.Save();
         }
 
-        private void RichTextBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
-        {
-            var richTextBox = sender as System.Windows.Controls.RichTextBox;
-            var textRange = new TextRange(richTextBox.Document.ContentStart, richTextBox.Document.ContentEnd);
-            string text = textRange.Text.Trim();
-
-            if (int.TryParse(text, out int duration))
-            {
-                Settings.Default.Duration = duration;
-                Settings.Default.Save();
-            }
-        }
-
         private void RepeatSwitch_Click(object sender, RoutedEventArgs e)
         {
             Settings.Default.RepeatEnabled = RepeatSwitch.IsChecked ?? false;
@@ -147,17 +132,70 @@ namespace FluentFlyout
             Settings.Default.Save();
         }
 
+        private void DurationTextBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        {
+            string text = DurationTextBox.Text.Trim();
+            string numericText = new string(text.Where(char.IsDigit).ToArray());
+
+            if (string.IsNullOrEmpty(numericText))
+            {
+                DurationTextBox.Text = "0";
+                Settings.Default.Duration = 0;
+            }
+            else
+            {
+                DurationTextBox.Text = numericText;
+                if (int.TryParse(numericText, out int duration))
+                {
+                    if (duration > 10000)
+                    {
+                        duration = 10000;
+                    }
+                    DurationTextBox.Text = duration.ToString();
+                    Settings.Default.Duration = duration;
+                }
+                else
+                {
+                    DurationTextBox.Text = "3000";
+                    Settings.Default.Duration = 3000;
+                }
+            }
+
+            DurationTextBox.CaretIndex = DurationTextBox.Text.Length;
+            Settings.Default.Save();
+        }
+
         private void NextUpDurationTextBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
         {
-            var richTextBox = sender as System.Windows.Controls.RichTextBox;
-            var textRange = new TextRange(NextUpDurationTextBox.Document.ContentStart, NextUpDurationTextBox.Document.ContentEnd);
-            string text = textRange.Text.Trim();
+            string text = NextUpDurationTextBox.Text.Trim();
+            string numericText = new string(text.Where(char.IsDigit).ToArray());
 
-            if (int.TryParse(text, out int nextUpDuration))
+            if (string.IsNullOrEmpty(numericText))
             {
-                Settings.Default.NextUpDuration = nextUpDuration;
-                Settings.Default.Save();
+                NextUpDurationTextBox.Text = "0";
+                Settings.Default.NextUpDuration = 0;
             }
+            else
+            {
+                NextUpDurationTextBox.Text = numericText;
+                if (int.TryParse(numericText, out int duration))
+                {
+                    if (duration > 10000)
+                    {
+                        duration = 10000;
+                    }
+                    NextUpDurationTextBox.Text = duration.ToString();
+                    Settings.Default.NextUpDuration = duration;
+                }
+                else
+                {
+                    NextUpDurationTextBox.Text = "2000";
+                    Settings.Default.NextUpDuration = 2000;
+                }
+            }
+
+            NextUpDurationTextBox.CaretIndex = NextUpDurationTextBox.Text.Length;
+            Settings.Default.Save();
         }
     }
 }

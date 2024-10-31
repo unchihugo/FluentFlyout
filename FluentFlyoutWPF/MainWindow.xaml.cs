@@ -44,6 +44,7 @@ namespace FluentFlyoutWPF
 
         static Mutex singleton = new Mutex(true, "FluentFlyout");
         private NextUpWindow? nextUpWindow = null;
+        private string currentTitle = "";
 
         public MainWindow()
         {
@@ -221,12 +222,13 @@ namespace FluentFlyoutWPF
             if (Settings.Default.NextUpEnabled == true)
             {
                 var songInfo = mediaManager.GetFocusedSession().ControlSession.TryGetMediaPropertiesAsync().GetAwaiter().GetResult();
-                if (nextUpWindow == null && IsVisible == false && songInfo.Thumbnail != null)
+                if (nextUpWindow == null && IsVisible == false && songInfo.Thumbnail != null && currentTitle != songInfo.Title)
                 {
 
                     Dispatcher.Invoke(() =>
                     {
-                        nextUpWindow = new NextUpWindow(mediaProperties.Title, mediaProperties.Artist, Helper.GetThumbnail(songInfo.Thumbnail));
+                        nextUpWindow = new NextUpWindow(songInfo.Title, songInfo.Artist, Helper.GetThumbnail(songInfo.Thumbnail));
+                        currentTitle = songInfo.Title;
                         nextUpWindow.Closed += (s, e) => nextUpWindow = null;
                     });
                 }
