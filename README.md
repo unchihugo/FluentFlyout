@@ -1,4 +1,7 @@
-![FluentFlyoutTitle](https://github.com/user-attachments/assets/56e921ff-e463-4ab3-b687-92f248dc727e)
+<p align="center">
+  <img width="65%" src="https://github.com/user-attachments/assets/56e921ff-e463-4ab3-b687-92f248dc727e">
+</p>  
+
 ---
 FluentFlyout is a simple and modern audio flyout for Windows, built with Fluent 2 Design principles.  
 The UI seemingly blends in with Windows 10/11, providing you an uninterrupted, clean, and native-like experience when controlling your media.  
@@ -26,9 +29,10 @@ FluentFlyout features smooth animations, supports both light and dark modes, ble
 - **Audio flyout: Displays Cover, Title, Artist and media controls**  
 
 ## Audio flyout 🎵
-|Repeat and Shuffle options|Compact layout mode|
+|Customization Options|Additional Features|
 |-|-|
-|![FluentFlyoutDemo3](https://github.com/user-attachments/assets/4dab1c12-594a-4785-bddc-0da1783bf1c8)|![FluentFlyoutDemo2](https://github.com/user-attachments/assets/39de69fe-54c8-4b22-880c-7f0370b8dd9c)|
+|![FluentFlyoutDemo3](https://github.com/user-attachments/assets/4dab1c12-594a-4785-bddc-0da1783bf1c8)|<img width="775" alt="FluentFlyoutDemo4" src="https://github.com/user-attachments/assets/b4306026-b274-418b-a39e-78877e7610a7">|
+|![FluentFlyoutDemo2](https://github.com/user-attachments/assets/39de69fe-54c8-4b22-880c-7f0370b8dd9c)|![FluentFlyoutDemo1](https://github.com/user-attachments/assets/a25adb0e-963a-49a5-8abb-d9a288c2ad9a)|
 
 ## How to install
 ### Using Microsoft Store (Recommended)
@@ -66,7 +70,7 @@ FluentFlyout features smooth animations, supports both light and dark modes, ble
 Please feel free to contribute in any way you can!
 
 ## Credits 🙌
-[Hugo Li](https://unchihugo.github.io) - Original Developer and Microsoft Store Publisher ([Reddit](https://www.reddit.com/user/KingHugoLi/))
+[Hugo Li](https://unchihugo.github.io) - Original Developer and Microsoft Store Publisher
 ### Dependencies
 - [Dubya.WindowsMediaController](https://github.com/DubyaDude/WindowsMediaController)
 - [H.NotifyIcon.Wpf](https://github.com/HavenDV/H.NotifyIcon)
