@@ -34,8 +34,8 @@ namespace FluentFlyout
             var titleWidth = GetStringWidth(title);
             var artistWidth = GetStringWidth(artist);
 
-            if (titleWidth > artistWidth) Width = titleWidth + 164;
-            else Width = artistWidth + 164;
+            if (titleWidth > artistWidth) Width = titleWidth + 142;
+            else Width = artistWidth + 142;
             SongTitle.Text = title;
             SongArtist.Text = artist;
             SongImage.Source = thumbnail;

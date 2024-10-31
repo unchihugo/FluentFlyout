@@ -41,6 +41,7 @@ namespace FluentFlyoutWPF
         private bool _layout = Settings.Default.CompactLayout;
         private bool _repeatEnabled = Settings.Default.RepeatEnabled;
         private bool _shuffleEnabled = Settings.Default.ShuffleEnabled;
+        private bool _playerInfoEnabled = Settings.Default.PlayerInfoEnabled;
 
         static Mutex singleton = new Mutex(true, "FluentFlyout");
         private NextUpWindow? nextUpWindow = null;
@@ -221,7 +222,7 @@ namespace FluentFlyoutWPF
             if (mediaManager.GetFocusedSession() == null) return;
             if (Settings.Default.NextUpEnabled == true)
             {
-                var songInfo = mediaManager.GetFocusedSession().ControlSession.TryGetMediaPropertiesAsync().GetAwaiter().GetResult();
+                var songInfo = mediaSession.ControlSession.TryGetMediaPropertiesAsync().GetAwaiter().GetResult();
                 if (nextUpWindow == null && IsVisible == false && songInfo.Thumbnail != null && currentTitle != songInfo.Title)
                 {
 
@@ -308,7 +309,11 @@ namespace FluentFlyoutWPF
 
         private void UpdateUI(MediaSession mediaSession)
         {
-            if (_layout != Settings.Default.CompactLayout || _shuffleEnabled != Settings.Default.ShuffleEnabled || _repeatEnabled != Settings.Default.ShuffleEnabled) UpdateUILayout();
+            if (_layout != Settings.Default.CompactLayout || 
+                _shuffleEnabled != Settings.Default.ShuffleEnabled || 
+                _repeatEnabled != Settings.Default.ShuffleEnabled ||
+                _playerInfoEnabled != Settings.Default.PlayerInfoEnabled)
+                UpdateUILayout();
 
             Dispatcher.Invoke(() =>
             {
@@ -366,6 +371,7 @@ namespace FluentFlyoutWPF
                     }
                     else ControlRepeat.Visibility = Visibility.Collapsed;
 
+
                     if (Settings.Default.ShuffleEnabled && !Settings.Default.CompactLayout)
                     {
                         ControlShuffle.Visibility = Visibility.Visible;
@@ -384,7 +390,13 @@ namespace FluentFlyoutWPF
                     }
                     else ControlShuffle.Visibility = Visibility.Collapsed;
 
-                    MediaId.Text = mediaSession.Id;
+
+                    if (Settings.Default.PlayerInfoEnabled && !Settings.Default.CompactLayout)
+                    {
+                        MediaIdStackPanel.Visibility = Visibility.Visible;
+                        MediaId.Text = mediaSession.Id;
+                    } 
+                    else MediaIdStackPanel.Visibility = Visibility.Collapsed;
                 }
 
                 var songInfo = mediaSession.ControlSession.TryGetMediaPropertiesAsync().GetAwaiter().GetResult();
@@ -402,6 +414,7 @@ namespace FluentFlyoutWPF
             {
                 int extraWidth = Settings.Default.RepeatEnabled ? 36 : 0;
                 extraWidth += Settings.Default.ShuffleEnabled ? 36 : 0;
+                extraWidth += Settings.Default.PlayerInfoEnabled ? 72 : 0;
                 if (Settings.Default.CompactLayout)
                 {
                     Height = 60;
@@ -410,7 +423,7 @@ namespace FluentFlyoutWPF
                     BodyStackPanel.Width = 300;
                     ControlsStackPanel.Margin = new Thickness(0);
                     ControlsStackPanel.Width = 104;
-                    MediaIdStackPanel.Visibility = Visibility.Hidden;
+                    MediaIdStackPanel.Visibility = Visibility.Collapsed;
                     SongImageBorder.Margin = new Thickness(0);
                     SongImage.Height = 36;
                     SongImageRect.Rect = new Rect(0, 0, 78, 36);
@@ -420,22 +433,23 @@ namespace FluentFlyoutWPF
                 else
                 {
                     Height = 116;
-                    Width = 310 + extraWidth;
+                    Width = 310 - 72 + extraWidth;
                     BodyStackPanel.Orientation = Orientation.Vertical;
-                    BodyStackPanel.Width = 194 + extraWidth;
+                    BodyStackPanel.Width = 194 - 72 + extraWidth;
                     ControlsStackPanel.Margin = Margin = new Thickness(12, 8, 0, 0);
-                    ControlsStackPanel.Width = 184 + extraWidth;
+                    ControlsStackPanel.Width = 184 - 72 + extraWidth;
                     MediaIdStackPanel.Visibility = Visibility.Visible;
                     SongImageBorder.Margin = new Thickness(6);
                     SongImage.Height = 78;
                     SongImageRect.Rect = new Rect(0, 0, 78, 78);
                     SongInfoStackPanel.Margin = new Thickness(12, 0, 0, 0);
-                    SongInfoStackPanel.Width = 182 + extraWidth;
+                    SongInfoStackPanel.Width = 182 - 72 + extraWidth;
                 }
             });
             _layout = Settings.Default.CompactLayout;
             _repeatEnabled = Settings.Default.RepeatEnabled;
             _shuffleEnabled = Settings.Default.ShuffleEnabled;
+            _playerInfoEnabled = Settings.Default.PlayerInfoEnabled;
         }
 
         private async void Back_Click(object sender, RoutedEventArgs e)

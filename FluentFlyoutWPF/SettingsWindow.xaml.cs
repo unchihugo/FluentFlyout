@@ -38,6 +38,7 @@ namespace FluentFlyout
             LayoutSwitch.IsChecked = Settings.Default.CompactLayout;
             PositionComboBox.SelectedIndex = Settings.Default.Position;
             FlyoutAnimationSpeedComboBox.SelectedIndex = Settings.Default.FlyoutAnimationSpeed;
+            PlayerInfoSwitch.IsChecked = Settings.Default.PlayerInfoEnabled;
             RepeatSwitch.IsChecked = Settings.Default.RepeatEnabled;
             ShuffleSwitch.IsChecked = Settings.Default.ShuffleEnabled;
             StartupSwitch.IsChecked = Settings.Default.Startup;
@@ -195,6 +196,12 @@ namespace FluentFlyout
             }
 
             NextUpDurationTextBox.CaretIndex = NextUpDurationTextBox.Text.Length;
+            Settings.Default.Save();
+        }
+
+        private void PlayerInfoSwitch_Click(object sender, RoutedEventArgs e)
+        {
+            Settings.Default.PlayerInfoEnabled = PlayerInfoSwitch.IsChecked ?? false;
             Settings.Default.Save();
         }
     }
