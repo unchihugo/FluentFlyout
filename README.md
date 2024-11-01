@@ -66,7 +66,7 @@ FluentFlyout features smooth animations, supports both light and dark modes, ble
 - Still trying to cut down in size and remove the included WinForms .dlls
 
 ## Contributing 💖
-Please feel free to contribute in any way you can!
+Please feel free to contribute in any way you can! Check out [CONTRIBUTING.md](https://github.com/unchihugo/FluentFlyout/blob/master/.github/CONTRIBUTING.md) to get started.
 
 ## Credits 🙌
 [Hugo Li](https://unchihugo.github.io) - Original Developer and Microsoft Store Publisher
