@@ -7,7 +7,7 @@
       xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
       xmlns:controls="clr-namespace:MicaWPF.Controls;assembly=MicaWPF"
       mc:Ignorable="d" 
-      Height="600" Width="660" MinHeight="300" MinWidth="660"
+      Height="6000" Width="660" MinHeight="300" MinWidth="660"
       Title="Settings" Icon="/Resources/FluentFlyout2.ico"
       TextOptions.TextRenderingMode="ClearType" TextOptions.TextFormattingMode="Ideal"
       >
@@ -81,25 +81,15 @@
                                 <TextBlock Text="ms" FontSize="14" FontWeight="Regular" Margin="10,0,0,0" VerticalAlignment="Center"/>
                             </StackPanel>
                         </ui:CardControl>
-                        <ui:CardControl Grid.Row="4" Icon="{ui:SymbolIcon TopSpeed24}" Margin="0,0,0,12">
+                        <ui:CardControl Grid.Row="4" Icon="{ui:SymbolIcon AlignLeft24}" Margin="0,0,0,3">
                             <ui:CardControl.Header>
                                 <StackPanel Orientation="Vertical">
-                                    <TextBlock Text="Flyout Animation Duration Scale" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
-                                    <TextBlock Text="Faster or slower flyout animation speed (default: 1x)" FontSize="12" Opacity="0.5"/>
+                                    <TextBlock Text="Center Title and Artist" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
                                 </StackPanel>
                             </ui:CardControl.Header>
-                            <StackPanel Orientation="Horizontal">
-                                <ComboBox Name="FlyoutAnimationSpeedComboBox" SelectionChanged="FlyoutAnimationSpeedComboBox_SelectionChanged">
-                                    <ComboBoxItem Content="Off"/>
-                                    <ComboBoxItem Content="0.5x"/>
-                                    <ComboBoxItem Content="1x"/>
-                                    <ComboBoxItem Content="1.5x"/>
-                                    <ComboBoxItem Content="2x"/>
-                                    <ComboBoxItem Content="3x"/>
-                                </ComboBox>
-                            </StackPanel>
+                            <controls:ToggleSwitch Name="CenterTitleArtistSwitch" Click="CenterTitleArtistSwitch_Click"/>
                         </ui:CardControl>
-                        <ui:CardControl Grid.Row="5" Icon="{ui:SymbolIcon Subtitles24}" Margin="0,0,0,3">
+                        <ui:CardControl Grid.Row="5" Icon="{ui:SymbolIcon Subtitles24}" Margin="0,0,0,12">
                             <ui:CardControl.Header>
                                 <StackPanel Orientation="Vertical">
                                     <TextBlock Text="Show Media Player name" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
@@ -170,8 +160,10 @@
                     <Grid Margin="0,12,0,0">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
-                        <ui:CardControl Grid.Row="3" Icon="{ui:SymbolIcon ShareScreenStart24}">
+                        <ui:CardControl Grid.Row="0" Icon="{ui:SymbolIcon ShareScreenStart24}" Margin="0,0,0,3">
                             <ui:CardControl.Header>
                                 <StackPanel Orientation="Vertical">
                                     <TextBlock Text="Launch on Startup" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
@@ -180,14 +172,46 @@
                             </ui:CardControl.Header>
                             <controls:ToggleSwitch Name="StartupSwitch" Click="StartupSwitch_Click" IsChecked="False"/>
                         </ui:CardControl>
+                        <ui:CardControl Grid.Row="1" Icon="{ui:SymbolIcon CursorHover24}" Margin="0,0,0,3">
+                            <ui:CardControl.Header>
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock Text="Tray Icon Left Click Behavior" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </ui:CardControl.Header>
+                            <StackPanel Orientation="Horizontal">
+                                <ComboBox Name="nIconLeftClickComboBox" SelectionChanged="nIconLeftClickComboBox_SelectionChanged">
+                                    <ComboBoxItem Content="Open Settings"/>
+                                    <ComboBoxItem Content="Show Media Flyout"/>
+                                </ComboBox>
+                            </StackPanel>
+                        </ui:CardControl>
+                        <ui:CardControl Grid.Row="2" Icon="{ui:SymbolIcon TopSpeed24}" Margin="0,0,0,0">
+                            <ui:CardControl.Header>
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock Text="Flyout Animation Duration Scale" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
+                                    <TextBlock Text="Faster or slower flyout animation speed (default: 1x)" FontSize="12" Opacity="0.5"/>
+                                </StackPanel>
+                            </ui:CardControl.Header>
+                            <StackPanel Orientation="Horizontal">
+                                <ComboBox Name="FlyoutAnimationSpeedComboBox" SelectionChanged="FlyoutAnimationSpeedComboBox_SelectionChanged">
+                                    <ComboBoxItem Content="Off"/>
+                                    <ComboBoxItem Content="0.5x"/>
+                                    <ComboBoxItem Content="1x"/>
+                                    <ComboBoxItem Content="1.5x"/>
+                                    <ComboBoxItem Content="2x"/>
+                                    <ComboBoxItem Content="3x"/>
+                                </ComboBox>
+                            </StackPanel>
+                        </ui:CardControl>
                     </Grid>
                 </StackPanel>
 
                 <DockPanel LastChildFill="False">
                     <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" HorizontalAlignment="Right">
-                        <ui:Anchor Content="GitHub Repository" Icon="{ui:SymbolIcon Link24}" NavigateUri="https://github.com/unchihugo/FluentFlyout"/>
-                        <ui:Anchor Content="Report Issue" Icon="{ui:SymbolIcon Link24}" NavigateUri="https://github.com/unchihugo/FluentFlyout/issues/new" Margin="8,0,0,0"/>
-                        <controls:Button Name="SaveButton" Style="{StaticResource MicaWPF.Styles.AccentedButton}" Content="Save &#38; Close" Padding="12,0,12,0" Height="32" Click="SaveButton_Click" Margin="18,24,24,24" HorizontalAlignment="Left" FontWeight="SemiBold"/>
+                        <ui:SymbolIcon Symbol="Star24" Filled="True" Width="14" Height="14" FontSize="14" VerticalAlignment="Center" Foreground="Gold"/>
+                        <TextBlock Text="Enjoying the app? Star it on GitHub!" FontSize="12" Opacity="0.5" VerticalAlignment="Center" Margin="4,0,0,0"/>
+                        <ui:Anchor Content="GitHub Repository" Icon="{ui:SymbolIcon Link24}" NavigateUri="https://github.com/unchihugo/FluentFlyout" Margin="8,0,0,0"/>
+                        <controls:Button Name="SaveButton" Style="{StaticResource MicaWPF.Styles.AccentedButton}" Content="Save &#38; Close" Padding="12,0,12,0" Height="32" Click="SaveButton_Click" Margin="8,24,24,24" HorizontalAlignment="Left" FontWeight="SemiBold"/>
                     </StackPanel>
                 </DockPanel>
             </StackPanel>

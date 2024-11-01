@@ -142,5 +142,29 @@ namespace FluentFlyout.Properties {
                 this["NextUpDuration"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int nIconLeftClick {
+            get {
+                return ((int)(this["nIconLeftClick"]));
+            }
+            set {
+                this["nIconLeftClick"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool CenterTitleArtist {
+            get {
+                return ((bool)(this["CenterTitleArtist"]));
+            }
+            set {
+                this["CenterTitleArtist"] = value;
+            }
+        }
     }
 }

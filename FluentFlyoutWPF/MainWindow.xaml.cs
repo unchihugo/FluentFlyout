@@ -16,6 +16,10 @@ using System.Reflection;
 using System.Drawing;
 using System.Windows.Controls;
 using Wpf.Ui.Controls;
+using Wpf.Ui.Appearance;
+using MicaWPF.Styles;
+using MicaWPF.Core.Styles;
+using MicaWPF.Core.Services;
 
 
 namespace FluentFlyoutWPF
@@ -32,33 +36,36 @@ namespace FluentFlyoutWPF
         private IntPtr _hookId = IntPtr.Zero;
         private LowLevelKeyboardProc _hookProc;
 
-        private CancellationTokenSource cts;
+        private CancellationTokenSource cts; // to close the flyout after a certain time
 
         private static readonly MediaManager mediaManager = new MediaManager();
         private static MediaSession? currentSession = null;
 
+        // for detecting changes in settings (lazy way)
         private int _position = Settings.Default.Position;
         private bool _layout = Settings.Default.CompactLayout;
         private bool _repeatEnabled = Settings.Default.RepeatEnabled;
         private bool _shuffleEnabled = Settings.Default.ShuffleEnabled;
         private bool _playerInfoEnabled = Settings.Default.PlayerInfoEnabled;
+        private bool _centerTitleArtist = Settings.Default.CenterTitleArtist;
 
-        static Mutex singleton = new Mutex(true, "FluentFlyout");
-        private NextUpWindow? nextUpWindow = null;
-        private string currentTitle = "";
+        static Mutex singleton = new Mutex(true, "FluentFlyout"); // to prevent multiple instances of the app
+        private NextUpWindow? nextUpWindow = null; // to prevent multiple instances of NextUpWindow
+        private string currentTitle = ""; // to prevent NextUpWindow from showing the same song
+
 
         public MainWindow()
         {
             InitializeComponent();
 
-            if (!singleton.WaitOne(TimeSpan.Zero, true))
+            if (!singleton.WaitOne(TimeSpan.Zero, true)) // if another instance is already running, close this one
             {
                 Application.Current.Shutdown();
             }
 
             string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "FluentFlyout2.ico");
 
-            if (Settings.Default.Startup)
+            if (Settings.Default.Startup) // add to startup programs if enabled
             {
                 RegistryKey key = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
                 string executablePath = Assembly.GetExecutingAssembly().Location;
@@ -73,10 +80,13 @@ namespace FluentFlyoutWPF
             _hookId = SetHook(_hookProc);
 
             WindowStartupLocation = WindowStartupLocation.Manual;
-            Left = -Width - 20;
+            Left = -Width - 20; // workaround for window appearing on the screen before the animation starts
 
             mediaManager.OnAnyMediaPropertyChanged += MediaManager_OnAnyMediaPropertyChanged;
             mediaManager.OnAnyPlaybackStateChanged += CurrentSession_OnPlaybackStateChanged;
+            
+            ApplicationThemeManager.ApplySystemTheme();
+            WindowBackgroundManager.UpdateBackground(this, ApplicationThemeManager.GetAppTheme(), WindowBackdropType.Mica);
         }
 
         private void openSettings(object? sender, EventArgs e)
@@ -84,7 +94,7 @@ namespace FluentFlyoutWPF
             SettingsWindow.ShowInstance();
         }
 
-        public int getDuration()
+        public int getDuration() // get the duration of the animation based on the speed setting
         {
             int msDuration = Settings.Default.FlyoutAnimationSpeed switch
             {
@@ -220,7 +230,7 @@ namespace FluentFlyoutWPF
         private void MediaManager_OnAnyMediaPropertyChanged(MediaSession mediaSession, GlobalSystemMediaTransportControlsSessionMediaProperties mediaProperties)
         {
             if (mediaManager.GetFocusedSession() == null) return;
-            if (Settings.Default.NextUpEnabled == true)
+            if (Settings.Default.NextUpEnabled == true) // show NextUpWindow if enabled in settings
             {
                 var songInfo = mediaSession.ControlSession.TryGetMediaPropertiesAsync().GetAwaiter().GetResult();
                 if (nextUpWindow == null && IsVisible == false && songInfo.Thumbnail != null && currentTitle != songInfo.Title)
@@ -230,7 +240,7 @@ namespace FluentFlyoutWPF
                     {
                         nextUpWindow = new NextUpWindow(songInfo.Title, songInfo.Artist, Helper.GetThumbnail(songInfo.Thumbnail));
                         currentTitle = songInfo.Title;
-                        nextUpWindow.Closed += (s, e) => nextUpWindow = null;
+                        nextUpWindow.Closed += (s, e) => nextUpWindow = null; // set nextUpWindow to null when closed
                     });
                 }
             }
@@ -238,7 +248,7 @@ namespace FluentFlyoutWPF
             UpdateUI(mediaManager.GetFocusedSession());
         }
 
-        private static IntPtr SetHook(LowLevelKeyboardProc proc)
+        private static IntPtr SetHook(LowLevelKeyboardProc proc) // set the keyboard hook
         {
             using (Process curProcess = Process.GetCurrentProcess())
             using (ProcessModule curModule = curProcess.MainModule)
@@ -261,6 +271,15 @@ namespace FluentFlyoutWPF
                     ShowMediaFlyout();
                 }
 
+                if (vkCode == 0x14) // Caps Lock
+                {
+
+                }
+
+                if (vkCode == 0x90) // Num Lock
+                {
+
+                }
             }
             return CallNextHookEx(_hookId, nCode, wParam, lParam);
         }
@@ -270,13 +289,16 @@ namespace FluentFlyoutWPF
             if (mediaManager.GetFocusedSession() == null) return;
             UpdateUI(mediaManager.GetFocusedSession());
 
-            if (nextUpWindow != null)
+            if (nextUpWindow != null) // close NextUpWindow if it's open
             {
                 nextUpWindow.Close();
                 nextUpWindow = null;
             }
 
-            if (Visibility == Visibility.Hidden) OpenAnimation(this);
+            if (Visibility == Visibility.Hidden)
+            {
+                OpenAnimation(this);
+            }
             cts.Cancel();
             cts = new CancellationTokenSource();
             var token = cts.Token;
@@ -312,7 +334,8 @@ namespace FluentFlyoutWPF
             if (_layout != Settings.Default.CompactLayout || 
                 _shuffleEnabled != Settings.Default.ShuffleEnabled || 
                 _repeatEnabled != Settings.Default.ShuffleEnabled ||
-                _playerInfoEnabled != Settings.Default.PlayerInfoEnabled)
+                _playerInfoEnabled != Settings.Default.PlayerInfoEnabled ||
+                _centerTitleArtist != Settings.Default.CenterTitleArtist)
                 UpdateUILayout();
 
             Dispatcher.Invoke(() =>
@@ -409,13 +432,14 @@ namespace FluentFlyoutWPF
             });
         }
 
-        private void UpdateUILayout() {
+        private void UpdateUILayout() // update the layout based on the settings
+        {
             Dispatcher.Invoke(() =>
             {
                 int extraWidth = Settings.Default.RepeatEnabled ? 36 : 0;
                 extraWidth += Settings.Default.ShuffleEnabled ? 36 : 0;
                 extraWidth += Settings.Default.PlayerInfoEnabled ? 72 : 0;
-                if (Settings.Default.CompactLayout)
+                if (Settings.Default.CompactLayout) // compact layout
                 {
                     Height = 60;
                     Width = 400;
@@ -430,7 +454,7 @@ namespace FluentFlyoutWPF
                     SongInfoStackPanel.Margin = new Thickness(8, 0, 0, 0);
                     SongInfoStackPanel.Width = 182;
                 }
-                else
+                else // normal layout
                 {
                     Height = 116;
                     Width = 310 - 72 + extraWidth;
@@ -446,10 +470,23 @@ namespace FluentFlyoutWPF
                     SongInfoStackPanel.Width = 182 - 72 + extraWidth;
                 }
             });
+
+            if (Settings.Default.CenterTitleArtist)
+            {
+                SongTitle.HorizontalAlignment = HorizontalAlignment.Center;
+                SongArtist.HorizontalAlignment = HorizontalAlignment.Center;
+            }
+            else
+            {
+                SongTitle.HorizontalAlignment = HorizontalAlignment.Left;
+                SongArtist.HorizontalAlignment = HorizontalAlignment.Left;
+            }
+
             _layout = Settings.Default.CompactLayout;
             _repeatEnabled = Settings.Default.RepeatEnabled;
             _shuffleEnabled = Settings.Default.ShuffleEnabled;
             _playerInfoEnabled = Settings.Default.PlayerInfoEnabled;
+            _centerTitleArtist = Settings.Default.CenterTitleArtist;
         }
 
         private async void Back_Click(object sender, RoutedEventArgs e)
@@ -592,7 +629,7 @@ namespace FluentFlyoutWPF
         private static extern IntPtr GetModuleHandle(string lpModuleName);
 
 
-        private void MicaWindow_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
+        private void MicaWindow_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e) // keep the flyout open when mouse is over
         {
             ShowMediaFlyout();
         }
@@ -605,14 +642,27 @@ namespace FluentFlyoutWPF
         private void MicaWindow_Loaded(object sender, RoutedEventArgs e)
         {
             Hide();
+            WindowBackgroundManager.UpdateBackground(this, ApplicationThemeManager.GetAppTheme(), WindowBackdropType.Mica);
             Wpf.Ui.Appearance.ApplicationThemeManager.ApplySystemTheme();
+
             UpdateUILayout();
-            
+
             Wpf.Ui.Appearance.SystemThemeWatcher.Watch(
                 this,
-                Wpf.Ui.Controls.WindowBackdropType.Mica,
+                WindowBackdropType.Mica,
                 true
             );
+        }
+
+        private void nIcon_LeftClick(Wpf.Ui.Tray.Controls.NotifyIcon sender, RoutedEventArgs e) // change the behavior of the tray icon
+        {
+            if (Settings.Default.nIconLeftClick == 0) {
+                openSettings(sender, e);
+                //Wpf.Ui.Appearance.ApplicationThemeManager.Apply(ApplicationTheme.Light, WindowBackdropType.Mica); // to change the theme
+                //ThemeService themeService = new ThemeService();
+                //themeService.ChangeTheme(MicaWPF.Core.Enums.WindowsTheme.Light);
+            }
+            else if (Settings.Default.nIconLeftClick == 1) ShowMediaFlyout();
         }
     }
 }

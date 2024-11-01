@@ -9,12 +9,9 @@ using Windows.ApplicationModel;
 
 namespace FluentFlyout
 {
-    /// <summary>
-    /// Interaction logic for SettingsWindow.xaml
-    /// </summary>
     public partial class SettingsWindow : MicaWindow
     {
-        private static SettingsWindow? instance;
+        private static SettingsWindow? instance; // for singleton
 
         public SettingsWindow()
         {
@@ -35,6 +32,7 @@ namespace FluentFlyout
 
             Closed += (s, e) => instance = null;
 
+            // is there a better way to do this?
             LayoutSwitch.IsChecked = Settings.Default.CompactLayout;
             PositionComboBox.SelectedIndex = Settings.Default.Position;
             FlyoutAnimationSpeedComboBox.SelectedIndex = Settings.Default.FlyoutAnimationSpeed;
@@ -45,8 +43,10 @@ namespace FluentFlyout
             DurationTextBox.Text = Settings.Default.Duration.ToString();
             NextUpSwitch.IsChecked = Settings.Default.NextUpEnabled;
             NextUpDurationTextBox.Text = Settings.Default.NextUpDuration.ToString();
+            nIconLeftClickComboBox.SelectedIndex = Settings.Default.nIconLeftClick;
+            CenterTitleArtistSwitch.IsChecked = Settings.Default.CenterTitleArtist;
 
-            try
+            try // gets the version of the app, works only in release mode
             {
                 var version = Package.Current.Id.Version;
                 VersionTextBlock.Text = $"v{version.Major}.{version.Minor}.{version.Build}";
@@ -202,6 +202,18 @@ namespace FluentFlyout
         private void PlayerInfoSwitch_Click(object sender, RoutedEventArgs e)
         {
             Settings.Default.PlayerInfoEnabled = PlayerInfoSwitch.IsChecked ?? false;
+            Settings.Default.Save();
+        }
+
+        private void nIconLeftClickComboBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            Settings.Default.nIconLeftClick = nIconLeftClickComboBox.SelectedIndex;
+            Settings.Default.Save();
+        }
+
+        private void CenterTitleArtistSwitch_Click(object sender, RoutedEventArgs e)
+        {
+            Settings.Default.CenterTitleArtist = CenterTitleArtistSwitch.IsChecked ?? false;
             Settings.Default.Save();
         }
     }

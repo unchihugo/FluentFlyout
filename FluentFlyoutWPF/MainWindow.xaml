@@ -33,7 +33,7 @@
             </EventTrigger.Actions>
         </EventTrigger>
     </Window.Triggers>
-    
+
     <Grid>
         <StackPanel Margin="12" Orientation="Horizontal">
             <Border Name="SongImageBorder" CornerRadius="6" BorderThickness="1" BorderBrush="#26FFFFFF" Margin="0" ClipToBounds="False">
@@ -99,12 +99,12 @@
         </StackPanel>
 
         <tray:NotifyIcon
-            LeftClick="openSettings" FocusOnLeftClick="False"
-        Name="nIcon"
-MenuOnRightClick="True"
-TooltipText="FluentFlyout"
-Icon="/Resources/FluentFlyout2.ico"
-Margin="0,127,0,114">
+            LeftClick="nIcon_LeftClick" FocusOnLeftClick="False"
+            Name="nIcon"
+            MenuOnRightClick="True"
+            TooltipText="FluentFlyout"
+            Icon="/Resources/FluentFlyout2.ico"
+            Margin="0,127,0,114">
             <tray:NotifyIcon.Menu>
                 <ContextMenu>
                     <ui:MenuItem x:Name="NotifyIconSettings" Header="Settings" Click="openSettings">

@@ -18,7 +18,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="FluentFlyout.ico" />
     <None Remove="icon.ico" />
     <None Remove="Resources\FluentFlyout2.ico" />
     <None Remove="Resources\FluentFlyoutDemo3.1.png" />
@@ -45,7 +44,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="FluentFlyout.ico" />
     <Content Include="Resources\FluentFlyout2.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
