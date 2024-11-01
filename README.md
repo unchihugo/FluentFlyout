@@ -12,8 +12,6 @@ FluentFlyout features smooth animations, supports both light and dark modes, ble
 	<img src="https://get.microsoft.com/images/en-us%20dark.svg" width="200"/>
 </a>
 
-> Microsoft Store listing is still private, will get online asap!
-
 ## Features ✨
 - Native Windows-like design
 - Uses Fluent 2 components
@@ -25,8 +23,8 @@ FluentFlyout features smooth animations, supports both light and dark modes, ble
 - Includes Repeat All, Repeat One and Shuffle
 - Listens to both volume and media inputs
 - Sits unobtrusively in system tray
-- _Kinda_ lightweight and open-source
-- **Audio flyout: Displays Cover, Title, Artist and media controls**  
+- **Audio flyout: Displays Cover, Title, Artist and media controls**
+- **"Up Next" flyout: shows what's next when a song ends**
 
 ## Audio flyout 🎵
 |Customization Options|Additional Features|
@@ -59,20 +57,20 @@ FluentFlyout features smooth animations, supports both light and dark modes, ble
 - [x] Editable flyout timeout
 - [x] Implement compact layout
 - [x] Remove Windows Forms dependency
-- [ ] Add more media controls (repeat, shuffle, seek slider)
+- [ ] Add more media controls (repeat✅, shuffle✅, seek slider)
 - [ ] More animations
+- [ ] Remove windows from `alt+tab`
 ### Issues
 - FluentFlyout might interfere with certain apps/games in **Fullscreen**, try setting the program's window mode to **Borderless Fullscreen** for now
 - Windows 10 UI might not look as expected
 - Still trying to cut down in size and remove the included WinForms .dlls
 
 ## Contributing 💖
-Please feel free to contribute in any way you can!
+Please feel free to contribute in any way you can! Check out [CONTRIBUTING.md](https://github.com/unchihugo/FluentFlyout/blob/master/.github/CONTRIBUTING.md) to get started.
 
 ## Credits 🙌
 [Hugo Li](https://unchihugo.github.io) - Original Developer and Microsoft Store Publisher
 ### Dependencies
 - [Dubya.WindowsMediaController](https://github.com/DubyaDude/WindowsMediaController)
-- [H.NotifyIcon.Wpf](https://github.com/HavenDV/H.NotifyIcon)
 - [MicaWPF](https://github.com/Simnico99/MicaWPF)
 - [WPF-UI](https://github.com/lepoco/wpfui)
