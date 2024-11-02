@@ -18,6 +18,8 @@ using System.Windows.Controls;
 using Wpf.Ui.Controls;
 using Wpf.Ui.Appearance;
 using FluentFlyout.Classes;
+using MicaWPF.Core.Extensions;
+using MicaWPF.Core.Services;
 
 
 namespace FluentFlyoutWPF
@@ -80,12 +82,10 @@ namespace FluentFlyoutWPF
 
             WindowStartupLocation = WindowStartupLocation.Manual;
             Left = -Width - 20; // workaround for window appearing on the screen before the animation starts
+            CustomWindowChrome.CaptionHeight = 0; // hide the title bar
 
             mediaManager.OnAnyMediaPropertyChanged += MediaManager_OnAnyMediaPropertyChanged;
             mediaManager.OnAnyPlaybackStateChanged += CurrentSession_OnPlaybackStateChanged;
-            
-            ApplicationThemeManager.ApplySystemTheme();
-            WindowBackgroundManager.UpdateBackground(this, ApplicationThemeManager.GetAppTheme(), WindowBackdropType.Mica);
         }
 
         private void openSettings(object? sender, EventArgs e)
@@ -207,7 +207,7 @@ namespace FluentFlyoutWPF
         {
             Process.Start(new ProcessStartInfo
             {
-                FileName = "https://github.com/unchihugo/FluentFlyout/issues/new",
+                FileName = "https://github.com/unchihugo/FluentFlyout/issues/new/choose",
                 UseShellExecute = true
             });
         }
@@ -336,6 +336,8 @@ namespace FluentFlyoutWPF
                 _playerInfoEnabled != Settings.Default.PlayerInfoEnabled ||
                 _centerTitleArtist != Settings.Default.CenterTitleArtist)
                 UpdateUILayout();
+
+            this.EnableBackdrop(); // ensures the backdrop is enabled as sometimes it gets disabled
 
             Dispatcher.Invoke(() =>
             {
@@ -641,10 +643,8 @@ namespace FluentFlyoutWPF
         private void MicaWindow_Loaded(object sender, RoutedEventArgs e)
         {
             Hide();
-            WindowBackgroundManager.UpdateBackground(this, ApplicationThemeManager.GetAppTheme(), WindowBackdropType.Mica);
-            Wpf.Ui.Appearance.ApplicationThemeManager.ApplySystemTheme();
-
             UpdateUILayout();
+            Wpf.Ui.Appearance.ApplicationThemeManager.ApplySystemTheme();
 
             Wpf.Ui.Appearance.SystemThemeWatcher.Watch(
                 this,

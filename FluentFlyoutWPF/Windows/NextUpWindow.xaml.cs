@@ -22,6 +22,7 @@ namespace FluentFlyout
             WindowHelper.SetNoActivate(this);
             InitializeComponent();
             WindowHelper.SetTopmost(this);
+            CustomWindowChrome.CaptionHeight = 0;
 
             var titleWidth = GetStringWidth(title);
             var artistWidth = GetStringWidth(artist);
