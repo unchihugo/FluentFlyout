@@ -27,10 +27,9 @@ FluentFlyout features smooth animations, supports both light and dark modes, ble
 - **"Up Next" flyout: shows what's next when a song ends**
 
 ## Audio flyout 🎵
-|Customization Options|Additional Features|
-|-|-|
-|![FluentFlyoutDemo3](https://github.com/user-attachments/assets/4dab1c12-594a-4785-bddc-0da1783bf1c8)|<img width="775" alt="FluentFlyoutDemo4" src="https://github.com/user-attachments/assets/b4306026-b274-418b-a39e-78877e7610a7">|
-|![FluentFlyoutDemo2](https://github.com/user-attachments/assets/39de69fe-54c8-4b22-880c-7f0370b8dd9c)|![FluentFlyoutDemo1](https://github.com/user-attachments/assets/a25adb0e-963a-49a5-8abb-d9a288c2ad9a)|
+<div align="center">
+	<img height="205px" width="auto" src="https://github.com/user-attachments/assets/4dab1c12-594a-4785-bddc-0da1783bf1c8"> <img height="205px" src="https://github.com/user-attachments/assets/b4306026-b274-418b-a39e-78877e7610a7"> 	<img height="205px" src="https://github.com/user-attachments/assets/39de69fe-54c8-4b22-880c-7f0370b8dd9c"> <img height="205px" src="https://github.com/user-attachments/assets/a25adb0e-963a-49a5-8abb-d9a288c2ad9a">
+</div>
 
 ## How to install
 ### Using Microsoft Store (Recommended)
@@ -63,7 +62,6 @@ FluentFlyout features smooth animations, supports both light and dark modes, ble
 ### Issues
 - FluentFlyout might interfere with certain apps/games in **Fullscreen**, try setting the program's window mode to **Borderless Fullscreen** for now
 - Windows 10 UI might not look as expected
-- Still trying to cut down in size and remove the included WinForms .dlls
 
 ## Contributing 💖
 Please feel free to contribute in any way you can! Check out [CONTRIBUTING.md](https://github.com/unchihugo/FluentFlyout/blob/master/.github/CONTRIBUTING.md) to get started.
