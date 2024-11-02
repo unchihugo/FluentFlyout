@@ -17,9 +17,7 @@ using System.Drawing;
 using System.Windows.Controls;
 using Wpf.Ui.Controls;
 using Wpf.Ui.Appearance;
-using MicaWPF.Styles;
-using MicaWPF.Core.Styles;
-using MicaWPF.Core.Services;
+using FluentFlyout.Classes;
 
 
 namespace FluentFlyoutWPF
@@ -53,10 +51,11 @@ namespace FluentFlyoutWPF
         private NextUpWindow? nextUpWindow = null; // to prevent multiple instances of NextUpWindow
         private string currentTitle = ""; // to prevent NextUpWindow from showing the same song
 
-
         public MainWindow()
         {
+            WindowHelper.SetNoActivate(this); // prevents some fullscreen apps from minimizing
             InitializeComponent();
+            WindowHelper.SetTopmost(this); // more prevention of fullscreen apps minimizing
 
             if (!singleton.WaitOne(TimeSpan.Zero, true)) // if another instance is already running, close this one
             {
