@@ -3,7 +3,6 @@ using MicaWPF.Controls;
 using Microsoft.Win32;
 using System.Reflection;
 using System.Windows;
-using System.Windows.Documents;
 using Windows.ApplicationModel;
 
 

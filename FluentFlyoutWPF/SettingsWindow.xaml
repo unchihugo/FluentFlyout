@@ -7,13 +7,13 @@
       xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
       xmlns:controls="clr-namespace:MicaWPF.Controls;assembly=MicaWPF"
       mc:Ignorable="d" 
-      Height="6000" Width="660" MinHeight="300" MinWidth="660"
+      Height="600" Width="660" MinHeight="300" MinWidth="660"
       Title="Settings" Icon="/Resources/FluentFlyout2.ico"
       TextOptions.TextRenderingMode="ClearType" TextOptions.TextFormattingMode="Ideal"
       >
 
     <Grid>
-        <ScrollViewer HorizontalScrollBarVisibility="Auto">
+        <ui:PassiveScrollViewer HorizontalScrollBarVisibility="Auto">
             <StackPanel>
                 <StackPanel Orientation="Vertical" Margin="16,12,16,24">
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="12,0,0,0">
@@ -40,8 +40,9 @@
                         <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
                             <ui:Image Source="/Resources/FluentFlyoutDemo3.1.png" Width="128"/>
                             <TextBlock FontSize="14" FontWeight="Regular" HorizontalAlignment="Stretch" Opacity="0.75" Margin="12,0,0,0">
-                                When listening to media, press any media or volume control key<LineBreak />
-                                (play/pause, volume up/down, etc.) on your keyboard to display the flyout.
+                                Main flyout. When listening to media, press any media or volume key<LineBreak />
+                                (play/pause, volume up/down, etc.) on your keyboard to display the flyout.<LineBreak />
+                                Displays media info, along with playback controls and more.
                             </TextBlock>
                         </StackPanel>
                         <ui:CardControl Grid.Row="1" Icon="{ui:SymbolIcon ArrowAutofitWidth24}" Margin="0,0,0,3">
@@ -137,7 +138,7 @@
                             <ui:CardControl.Header>
                                 <StackPanel Orientation="Vertical">
                                     <TextBlock Text="Enable Next Up Flyout (Experimental)" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
-                                    <TextBlock Text="Shows what's next when a song/video ends" FontSize="12" Opacity="0.5"/>
+                                    <TextBlock Text="Shows what's next when a song/video ends, very compact" FontSize="12" Opacity="0.5"/>
                                 </StackPanel>
                             </ui:CardControl.Header>
                             <controls:ToggleSwitch Name="NextUpSwitch" Click="NextUpSwitch_Click" IsChecked="False"/>
@@ -215,6 +216,6 @@
                     </StackPanel>
                 </DockPanel>
             </StackPanel>
-        </ScrollViewer>
+        </ui:PassiveScrollViewer>
     </Grid>
 </controls:MicaWindow>

@@ -1,21 +1,11 @@
-﻿using FluentFlyout.Properties;
+﻿using FluentFlyout.Classes;
+using FluentFlyout.Properties;
 using FluentFlyoutWPF;
 using MicaWPF.Controls;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using Wpf.Ui.Controls;
+
 
 namespace FluentFlyout
 {
@@ -29,7 +19,9 @@ namespace FluentFlyout
         {
             WindowStartupLocation = WindowStartupLocation.Manual;
             Left = -Width - 20;
+            WindowHelper.SetNoActivate(this);
             InitializeComponent();
+            WindowHelper.SetTopmost(this);
 
             var titleWidth = GetStringWidth(title);
             var artistWidth = GetStringWidth(artist);
