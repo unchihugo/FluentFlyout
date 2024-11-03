@@ -44,11 +44,11 @@
             <ui:SymbolIcon Symbol="MusicNote120" Filled="True" Width="14" Height="14" FontSize="14" VerticalAlignment="Center" Margin="0,0,2,0"/>
             <TextBlock Text="Up next:" FontSize="12" VerticalAlignment="Center" FontFamily="Segoe UI Variable" FontWeight="Medium"/>
         </StackPanel>
-            <Image Grid.Column="1" Name="SongImage" Stretch="UniformToFill" Width="38" Height="38" Margin="12,1,0,0">
-                <Image.Clip>
-                    <RectangleGeometry x:Name="SongImageRect" Rect="0,0,38,38" RadiusX="6" RadiusY="6" />
-                </Image.Clip>
-            </Image>
+        <Border Grid.Column="1" Name="SongImageBorder" CornerRadius="6" Margin="12,1,0,0" ClipToBounds="True" Width="38" Height="38">
+            <Border.Background>
+                <ImageBrush x:Name="SongImage" Stretch="UniformToFill"/>
+            </Border.Background>
+        </Border>
         <StackPanel Grid.Column="2" Name="SongInfoStackPanel" Margin="6,0,0,0" Orientation="Vertical" VerticalAlignment="Center">
             <TextBlock Name="SongTitle" Text="Song Title" FontSize="14" FontFamily="Segoe UI Variable" FontWeight="Medium" TextTrimming="CharacterEllipsis"/>
             <TextBlock Name="SongArtist" Text="Artist Name" FontSize="14" FontFamily="Segoe UI Variable" FontWeight="Medium" Opacity="0.5" TextTrimming="CharacterEllipsis"/>
