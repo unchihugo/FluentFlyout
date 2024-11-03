@@ -169,9 +169,16 @@
                                 <StackPanel Orientation="Vertical">
                                     <TextBlock Text="Launch on Startup" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
                                     <TextBlock Text="Start minimized to tray when you log in to Windows" FontSize="12" Opacity="0.5"/>
+                                    <TextBlock VerticalAlignment="Center" FontSize="12" Opacity="0.5">
+                                        If this setting does not work as expected, check
+                                        <Hyperlink Name="StartupHyperlink" NavigateUri="ms-settings:startupapps" BaselineAlignment="Center"
+                                                   RequestNavigate="StartupHyperlink_RequestNavigate" TextDecorations="None" Foreground="{DynamicResource MicaWPF.Brushes.SystemAccentColorLight3}">
+                                            Startup Apps <ui:SymbolIcon VerticalAlignment="Center" FontSize="14" Symbol="Apps16"/>
+                                        </Hyperlink>
+                                    </TextBlock>
                                 </StackPanel>
                             </ui:CardControl.Header>
-                            <controls:ToggleSwitch Name="StartupSwitch" Click="StartupSwitch_Click" IsChecked="False"/>
+                            <controls:ToggleSwitch Name="StartupSwitch" Click="StartupSwitch_Click"/>
                         </ui:CardControl>
                         <ui:CardControl Grid.Row="1" Icon="{ui:SymbolIcon CursorHover24}" Margin="0,0,0,3">
                             <ui:CardControl.Header>
@@ -231,7 +238,7 @@
                                 <ui:InfoBar Grid.Row="8" Title="For the native Windows 11 experience, the settings should be kept at default." IsOpen="True" Severity="Informational" IsClosable="False"/>
                             </StackPanel>
                         </ui:CardExpander>
-                        
+
                     </Grid>
                 </StackPanel>
 
