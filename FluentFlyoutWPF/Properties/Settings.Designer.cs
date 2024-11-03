@@ -166,5 +166,17 @@ namespace FluentFlyout.Properties {
                 this["CenterTitleArtist"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("2")]
+        public int FlyoutAnimationEasingStyle {
+            get {
+                return ((int)(this["FlyoutAnimationEasingStyle"]));
+            }
+            set {
+                this["FlyoutAnimationEasingStyle"] = value;
+            }
+        }
     }
 }

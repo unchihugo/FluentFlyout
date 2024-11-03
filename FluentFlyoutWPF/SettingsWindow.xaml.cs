@@ -47,6 +47,7 @@ namespace FluentFlyout
             NextUpDurationTextBox.Text = Settings.Default.NextUpDuration.ToString();
             nIconLeftClickComboBox.SelectedIndex = Settings.Default.nIconLeftClick;
             CenterTitleArtistSwitch.IsChecked = Settings.Default.CenterTitleArtist;
+            AnimationEasingStylesComboBox.SelectedIndex = Settings.Default.FlyoutAnimationEasingStyle;
 
             try // gets the version of the app, works only in release mode
             {
@@ -206,6 +207,12 @@ namespace FluentFlyout
         private void CenterTitleArtistSwitch_Click(object sender, RoutedEventArgs e)
         {
             Settings.Default.CenterTitleArtist = CenterTitleArtistSwitch.IsChecked ?? false;
+            Settings.Default.Save();
+        }
+
+        private void AnimationEasingStylesComboBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            Settings.Default.FlyoutAnimationEasingStyle = AnimationEasingStylesComboBox.SelectedIndex;
             Settings.Default.Save();
         }
 
