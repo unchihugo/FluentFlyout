@@ -1,0 +1,77 @@
+<p align="center">
+  <img width="65%" src="https://github.com/user-attachments/assets/56e921ff-e463-4ab3-b687-92f248dc727e">
+</p>
+<p align="center">
+  <a href="https://github.com/unchihugo/FluentFlyout/blob/master/README.md">English</a> | <a href="https://github.com/unchihugo/FluentFlyout/blob/master/README.zh.md">简体中文</a> | <strong>Nederlands</strong>
+</p>
+
+---
+FluentFlyout is een moderne audio flyout voor Windows, gebouwd met Fluent 2 Design-principes.
+De app mengt zich in bij Windows 10/11, waardoor u een ononderbroken en "native" ervaring krijgt bij het bedienen van uw media.
+
+FluentFlyout biedt het mediabediening en informatie in een mooie en moderne pop-upflyout. Daarnaast heeft het vloeiende animaties, past zich aan de kleurenthema's van uw systeem aan, bevat meerdere lay-outposities en een reeks personalisatie-instellingen.
+
+<a href="https://apps.microsoft.com/detail/9N45NSM4TNBP?mode=direct">
+	<img src="https://get.microsoft.com/images/en-us%20dark.svg" width="200"/>
+</a>
+
+## Functies ✨
+- Windows-achtig ontwerp
+- Gebruikt Fluent 2-componenten
+- Maakt gebruik van Windows Mica-blur
+- Ondersteunt lichte en donkere modus
+- Past zich aan uw kleurthema aan
+- Vloeiende animaties
+- Aanpasbare flyout-posities
+- Bevat Herhaal alles, Herhaal één en Willekeurig spelen
+- Luistert naar zowel volume- als mediatoetsen
+- Zit onopvallend in het systeemvak
+- **Audio flyout: Toont thumbnail/hoes, titel, artiest en mediabediening**
+- **"Up Next" flyout: toont wat er na het huidige nummer wordt afgespeeld**
+
+## Audio flyout 🎵
+<div align="center">
+	<img height="205px" width="auto" src="https://github.com/user-attachments/assets/4dab1c12-594a-4785-bddc-0da1783bf1c8"> <img height="205px" src="https://github.com/user-attachments/assets/b4306026-b274-418b-a39e-78877e7610a7"> 	<img height="190px" src="https://github.com/user-attachments/assets/39de69fe-54c8-4b22-880c-7f0370b8dd9c"> <img height="190px" src="https://github.com/user-attachments/assets/a25adb0e-963a-49a5-8abb-d9a288c2ad9a">
+</div>
+
+## Hoe te installeren
+### Via Microsoft Store (Aanbevolen)
+<a href="https://apps.microsoft.com/detail/9N45NSM4TNBP?mode=direct">
+	<img src="https://get.microsoft.com/images/en-us%20dark.svg" width="300"/>
+</a>
+
+> Op zoek naar FluentFlyout-instellingen? U kunt het vinden door op het systeemvakpictogram te klikken
+### Via .msixbundle-installatie
+> [!Important]
+> Het wordt sterk aanbevolen om FluentFlyout vanuit de Microsoft Store te downloaden, omdat dit handiger is en automatische updates biedt
+1. Ga naar de [latest release](https://github.com/unchihugo/FluentFlyout/releases/latest) pagina
+2. Download het **"*.cer"** bestand
+3. Open het certificaat en druk op **"Certificaat installeren..."**
+4. Selecteer op de Wizard Certificaat **"Lokaal computer"**, druk op **"Volgende"** en verleen beheerdersrechten
+5. Plaats het certificaat in **"Vertrouwde basiscertificeringsinstanties"**
+6. Voltooi de installatie van het certificaat
+7. Download de **"*.msixbundle"**
+8. De Installer zal verschijnen, **Installeer** of **Update** als u FluentFlyout al eerder heeft geïnstalleerd
+9. Klaar! Probeer muziek af te spelen en gebruik uw mediatoetsen of volumeknoppen
+
+## Aankomende functies 📝
+- [x] Instellingen
+- [x] Bewerkbare flyout-timeout
+- [x] Implementeer compacte lay-out
+- [x] Verwijder Windows Forms-afhankelijkheid
+- [ ] Voeg meer mediabedieningselementen toe (herhalen✅, willekeurig✅, schuifregelaar)
+- [ ] Meer animaties
+- [ ] Zorg dat het niet verschijnt in `alt+tab`
+### Problemen
+- Probleem #5, opgelost (~~FluentFlyout werkt soms tegen programma's in **Fullscreen**, zet het programma naar **Borderless Fullscreen** om dit op te lossen~~)
+- Windows 10 gebruikersinterface lijkt mogelijk niet zoals verwacht
+
+## Bijdragen 💖
+Voel u vrij om op welke manier dan ook bij te dragen! Bekijk [CONTRIBUTING.md](https://github.com/unchihugo/FluentFlyout/blob/master/.github/CONTRIBUTING.md) om aan de slag te gaan.
+
+## Credits 🙌
+[Hugo Li](https://unchihugo.github.io) - Oorspronkelijke ontwikkelaar, Microsoft Store-uitgever, CN & NL vertalingen
+### Dank aan
+- [Dubya.WindowsMediaController](https://github.com/DubyaDude/WindowsMediaController)
+- [MicaWPF](https://github.com/Simnico99/MicaWPF)
+- [WPF-UI](https://github.com/lepoco/wpfui)
