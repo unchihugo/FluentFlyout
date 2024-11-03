@@ -1,12 +1,15 @@
 <p align="center">
   <img width="65%" src="https://github.com/user-attachments/assets/56e921ff-e463-4ab3-b687-92f248dc727e">
-</p>  
+</p>
+<p align="center">
+  <strong>English</strong> | <a href="https://github.com/unchihugo/FluentFlyout/blob/master/README.zh.md">简体中文</a> | <a href="https://github.com/unchihugo/FluentFlyout/blob/master/README.nl.md">Nederlands</a>
+</p>
 
 ---
 FluentFlyout is a simple and modern audio flyout for Windows, built with Fluent 2 Design principles.  
 The UI seemingly blends in with Windows 10/11, providing you an uninterrupted, clean, and native-like experience when controlling your media.  
 
-FluentFlyout features smooth animations, supports both light and dark modes, blends with your system's color theme, and includes multiple layout positions while providing media controls and information in a nice and modern looking popup flyout, just above the native volume flyout.  
+FluentFlyout features smooth animations, blends with your system's color themes, includes multiple layout positions and a suite of personalization settings while providing media controls and information in a nice and modern looking popup flyout. 
 
 <a href="https://apps.microsoft.com/detail/9N45NSM4TNBP?mode=direct">
 	<img src="https://get.microsoft.com/images/en-us%20dark.svg" width="200"/>
@@ -60,14 +63,14 @@ FluentFlyout features smooth animations, supports both light and dark modes, ble
 - [ ] More animations
 - [ ] Remove windows from `alt+tab`
 ### Issues
-- FluentFlyout might interfere with certain apps/games in **Fullscreen**, try setting the program's window mode to **Borderless Fullscreen** for now
+- Issue #5, fixed (~~FluentFlyout might interfere with certain apps/games in **Fullscreen**, try setting the program's window mode to **Borderless Fullscreen** for now~~)
 - Windows 10 UI might not look as expected
 
 ## Contributing 💖
 Please feel free to contribute in any way you can! Check out [CONTRIBUTING.md](https://github.com/unchihugo/FluentFlyout/blob/master/.github/CONTRIBUTING.md) to get started.
 
 ## Credits 🙌
-[Hugo Li](https://unchihugo.github.io) - Original Developer and Microsoft Store Publisher
+[Hugo Li](https://unchihugo.github.io) - Original Developer, Microsoft Store Publisher, CN & NL Translations
 ### Dependencies
 - [Dubya.WindowsMediaController](https://github.com/DubyaDude/WindowsMediaController)
 - [MicaWPF](https://github.com/Simnico99/MicaWPF)
