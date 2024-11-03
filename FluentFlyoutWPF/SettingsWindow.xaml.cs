@@ -1,6 +1,9 @@
 ﻿using FluentFlyout.Properties;
 using MicaWPF.Controls;
+using MicaWPF.Core.Extensions;
 using Microsoft.Win32;
+using System.Diagnostics;
+using System.IO;
 using System.Reflection;
 using System.Windows;
 using Windows.ApplicationModel;
@@ -69,18 +72,8 @@ namespace FluentFlyout
 
         private void StartupSwitch_Click(object sender, RoutedEventArgs e)
         {
-            if (StartupSwitch.IsChecked == true)
-            {
-                RegistryKey key = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
-                string executablePath = Assembly.GetExecutingAssembly().Location;
-                key.SetValue("FluentFlyout", executablePath);
-            }
-            else
-            {
-                RegistryKey key = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
-                string executablePath = Assembly.GetExecutingAssembly().Location;
-                key.DeleteValue("FluentFlyout");
-            }
+            // might not work if installed using MSIX, needs investigation
+            SetStartup(StartupSwitch.IsChecked ?? false);
             Settings.Default.Startup = StartupSwitch.IsChecked ?? false;
             Settings.Default.Save();
         }
@@ -214,6 +207,51 @@ namespace FluentFlyout
         {
             Settings.Default.CenterTitleArtist = CenterTitleArtistSwitch.IsChecked ?? false;
             Settings.Default.Save();
+        }
+
+        private void SetStartup(bool enable)
+        {
+            try
+            {
+                using (RegistryKey key = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true))
+                {
+                    if (key != null)
+                    {
+                        string appName = "FluentFlyout";
+                        string executablePath = Environment.ProcessPath;
+
+                        if (enable)
+                        {
+                            // Check if the path is valid before setting
+                            if (File.Exists(executablePath))
+                            {
+                                key.SetValue(appName, executablePath);
+                            }
+                            else
+                            {
+                                throw new FileNotFoundException("Application executable not found");
+                            }
+                        }
+                        else
+                        {
+                            if (key.GetValue(appName) != null)
+                            {
+                                key.DeleteValue(appName, false);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Failed to set startup: {ex.Message}");
+            }
+        }
+
+        private void StartupHyperlink_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
+        {
+            Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri) { UseShellExecute = true });
+            e.Handled = true;
         }
     }
 }

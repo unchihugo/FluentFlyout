@@ -64,13 +64,12 @@ namespace FluentFlyoutWPF
                 Application.Current.Shutdown();
             }
 
-            string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "FluentFlyout2.ico");
 
-            if (Settings.Default.Startup) // add to startup programs if enabled
+            if (Settings.Default.Startup == true) // add to startup programs if enabled, needs improvement
             {
                 RegistryKey key = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
-                string executablePath = Assembly.GetExecutingAssembly().Location;
-                key.SetValue("FluentFlyout", executablePath);
+                string executablePath = Environment.ProcessPath;
+                key?.SetValue("FluentFlyout", executablePath);
             }
 
             cts = new CancellationTokenSource();
