@@ -244,9 +244,12 @@
 
                 <DockPanel LastChildFill="False">
                     <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" HorizontalAlignment="Right">
-                        <ui:SymbolIcon Symbol="Star24" Filled="True" Width="14" Height="14" FontSize="14" VerticalAlignment="Center" Foreground="Gold"/>
-                        <TextBlock Text="Enjoying the app? Star it on GitHub!" FontSize="12" Opacity="0.5" VerticalAlignment="Center" Margin="4,0,0,0"/>
-                        <ui:Anchor Content="GitHub Repository" Icon="{ui:SymbolIcon Link24}" NavigateUri="https://github.com/unchihugo/FluentFlyout" Margin="8,0,0,0"/>
+                        <ui:SymbolIcon Symbol="Star24" Filled="True" Width="24" Height="24" FontSize="16" VerticalAlignment="Center" Foreground="Gold"/>
+                        <StackPanel Orientation="Vertical" VerticalAlignment="Center">
+                            <TextBlock Text="Enjoying the app? Star it on GitHub," HorizontalAlignment="Center" FontSize="12" Opacity="0.5" VerticalAlignment="Center" Margin="4,0,0,0"/>
+                            <TextBlock Text="or leave a review on Microsoft Store!" HorizontalAlignment="Center" FontSize="12" Opacity="0.5" VerticalAlignment="Center" Margin="4,0,0,0"/>
+                        </StackPanel>
+                        <ui:Anchor Content="GitHub Repository" Icon="{ui:SymbolIcon Link24}" NavigateUri="https://github.com/unchihugo/FluentFlyout" Margin="12,0,0,0"/>
                         <controls:Button Name="SaveButton" Style="{StaticResource MicaWPF.Styles.AccentedButton}" Content="Save &#38; Close" Padding="12,0,12,0" Height="32" Click="SaveButton_Click" Margin="8,24,24,24" HorizontalAlignment="Left" FontWeight="SemiBold"/>
                     </StackPanel>
                 </DockPanel>

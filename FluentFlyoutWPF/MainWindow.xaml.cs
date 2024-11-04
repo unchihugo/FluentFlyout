@@ -233,12 +233,14 @@ namespace FluentFlyoutWPF
                 var songInfo = mediaSession.ControlSession.TryGetMediaPropertiesAsync().GetAwaiter().GetResult();
                 if (nextUpWindow == null && IsVisible == false && songInfo.Thumbnail != null && currentTitle != songInfo.Title)
                 {
-
                     Dispatcher.Invoke(() =>
                     {
-                        nextUpWindow = new NextUpWindow(songInfo.Title, songInfo.Artist, Helper.GetThumbnail(songInfo.Thumbnail));
-                        currentTitle = songInfo.Title;
-                        nextUpWindow.Closed += (s, e) => nextUpWindow = null; // set nextUpWindow to null when closed
+                        if (nextUpWindow == null && mediaSession.ControlSession.GetPlaybackInfo().Controls.IsPauseEnabled) // double-check within the Dispatcher to prevent race conditions
+                        {
+                            nextUpWindow = new NextUpWindow(songInfo.Title, songInfo.Artist, Helper.GetThumbnail(songInfo.Thumbnail));
+                            currentTitle = songInfo.Title;
+                            nextUpWindow.Closed += (s, e) => nextUpWindow = null; // set nextUpWindow to null when closed
+                        }
                     });
                 }
             }
@@ -336,10 +338,11 @@ namespace FluentFlyoutWPF
                 _centerTitleArtist != Settings.Default.CenterTitleArtist)
                 UpdateUILayout();
 
-            this.EnableBackdrop(); // ensures the backdrop is enabled as sometimes it gets disabled
 
             Dispatcher.Invoke(() =>
             {
+                this.EnableBackdrop(); // ensures the backdrop is enabled as sometimes it gets disabled
+
                 if (mediaSession == null)
                 {
                     SongTitle.Text = "No media playing";
