@@ -178,5 +178,29 @@ namespace FluentFlyout.Properties {
                 this["FlyoutAnimationEasingStyle"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool LockKeysEnabled {
+            get {
+                return ((bool)(this["LockKeysEnabled"]));
+            }
+            set {
+                this["LockKeysEnabled"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("2000")]
+        public int LockKeysDuration {
+            get {
+                return ((int)(this["LockKeysDuration"]));
+            }
+            set {
+                this["LockKeysDuration"] = value;
+            }
+        }
     }
 }

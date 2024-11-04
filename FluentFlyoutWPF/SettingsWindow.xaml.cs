@@ -48,6 +48,8 @@ namespace FluentFlyout
             nIconLeftClickComboBox.SelectedIndex = Settings.Default.nIconLeftClick;
             CenterTitleArtistSwitch.IsChecked = Settings.Default.CenterTitleArtist;
             AnimationEasingStylesComboBox.SelectedIndex = Settings.Default.FlyoutAnimationEasingStyle;
+            LockKeysSwitch.IsChecked = Settings.Default.LockKeysEnabled;
+            LockKeysDurationTextBox.Text = Settings.Default.LockKeysDuration.ToString();
 
             try // gets the version of the app, works only in release mode
             {
@@ -57,6 +59,23 @@ namespace FluentFlyout
             catch
             {
                 VersionTextBlock.Text = "debug version";
+            }
+        }
+
+        public static void ShowInstance()
+        {
+            if (instance == null)
+            {
+                new SettingsWindow().Show();
+            }
+            else
+            {
+                if (instance.WindowState == WindowState.Minimized)
+                {
+                    instance.WindowState = WindowState.Normal;
+                }
+                instance.Activate();
+                instance.Focus();
             }
         }
 
@@ -101,23 +120,6 @@ namespace FluentFlyout
         {
             Settings.Default.FlyoutAnimationSpeed = FlyoutAnimationSpeedComboBox.SelectedIndex;
             Settings.Default.Save();
-        }
-
-        public static void ShowInstance()
-        {
-            if (instance == null)
-            {
-                new SettingsWindow().Show();
-            }
-            else
-            {
-                if (instance.WindowState == WindowState.Minimized)
-                {
-                    instance.WindowState = WindowState.Normal;
-                }
-                instance.Activate();
-                instance.Focus();
-            }
         }
 
         private void NextUpSwitch_Click(object sender, RoutedEventArgs e)
@@ -259,6 +261,45 @@ namespace FluentFlyout
         {
             Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri) { UseShellExecute = true });
             e.Handled = true;
+        }
+
+        private void LockKeysSwitch_Click(object sender, RoutedEventArgs e)
+        {
+            Settings.Default.LockKeysEnabled = LockKeysSwitch.IsChecked ?? false;
+            Settings.Default.Save();
+        }
+
+        private void LockKeysDurationTextBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        {
+            string text = LockKeysDurationTextBox.Text.Trim();
+            string numericText = new string(text.Where(char.IsDigit).ToArray());
+
+            if (string.IsNullOrEmpty(numericText))
+            {
+                LockKeysDurationTextBox.Text = "0";
+                Settings.Default.LockKeysDuration = 0;
+            }
+            else
+            {
+                LockKeysDurationTextBox.Text = numericText;
+                if (int.TryParse(numericText, out int duration))
+                {
+                    if (duration > 10000)
+                    {
+                        duration = 10000;
+                    }
+                    LockKeysDurationTextBox.Text = duration.ToString();
+                    Settings.Default.LockKeysDuration = duration;
+                }
+                else
+                {
+                    LockKeysDurationTextBox.Text = "2000";
+                    Settings.Default.LockKeysDuration = 2000;
+                }
+            }
+
+            LockKeysDurationTextBox.CaretIndex = LockKeysDurationTextBox.Text.Length;
+            Settings.Default.Save();
         }
     }
 }

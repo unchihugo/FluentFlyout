@@ -157,6 +157,44 @@
                         </ui:CardControl>
                     </Grid>
 
+                    <TextBlock Text="Lock Keys Customization" FontSize="20" FontWeight="SemiBold" FontFamily="Segoe UI Variable" Margin="0,36,0,0"/>
+                    <Grid Margin="0,12,0,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
+                            <ui:Image Source="/Resources/FluentFlyoutDemo5.1.png" Width="128"/>
+                            <TextBlock FontSize="14" FontWeight="Regular" HorizontalAlignment="Stretch" Opacity="0.75" Margin="12,0,0,0">
+                                Check your lock key status at a glance.<LineBreak />
+                                Appears after pressing Caps Lock, Num Lock or Scroll Lock.<LineBreak />
+                                Convenient for laptops/keyboards without lock key indicators.
+                            </TextBlock>
+                        </StackPanel>
+                        <ui:CardControl Grid.Row="1" Icon="{ui:SymbolIcon LockMultiple24}" Margin="0,0,0,3">
+                            <ui:CardControl.Header>
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock Text="Enable Lock Keys Flyout" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
+                                    <TextBlock Text="Displays whether the specified lock key is on or off" FontSize="12" Opacity="0.5"/>
+                                </StackPanel>
+                            </ui:CardControl.Header>
+                            <controls:ToggleSwitch Name="LockKeysSwitch" Click="LockKeysSwitch_Click"/>
+                        </ui:CardControl>
+                        <ui:CardControl Grid.Row="2" Icon="{ui:SymbolIcon Timer24}" Margin="0,0,0,3">
+                            <ui:CardControl.Header>
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock Text="Lock Keys Stay Duration" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
+                                    <TextBlock Text="(default: 2000 ms)" FontSize="12" Opacity="0.5"/>
+                                </StackPanel>
+                            </ui:CardControl.Header>
+                            <StackPanel Orientation="Horizontal">
+                                <ui:TextBox Name="LockKeysDurationTextBox" Width="60" ClearButtonEnabled="False" TextChanged="LockKeysDurationTextBox_TextChanged"/>
+                                <TextBlock Text="ms" FontSize="14" FontWeight="Regular" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </ui:CardControl>
+                    </Grid>
+                    
                     <TextBlock Text="System" FontSize="18" FontWeight="SemiBold" Margin="0,36,0,0"/>
                     <Grid Margin="0,12,0,0">
                         <Grid.RowDefinitions>
