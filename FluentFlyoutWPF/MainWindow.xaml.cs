@@ -7,20 +7,17 @@ using Windows.Media.Control;
 using System.Windows.Media.Imaging;
 using Windows.Storage.Streams;
 using MicaWPF.Controls;
-using System.IO;
 using System.Windows.Media.Animation;
 using FluentFlyout;
 using FluentFlyout.Properties;
 using Microsoft.Win32;
-using System.Reflection;
 using System.Drawing;
 using System.Windows.Controls;
 using Wpf.Ui.Controls;
-using Wpf.Ui.Appearance;
 using FluentFlyout.Classes;
 using MicaWPF.Core.Extensions;
-using MicaWPF.Core.Services;
-using Windows.UI.Composition;
+using FluentFlyout.Windows;
+using System.Windows.Input;
 
 
 namespace FluentFlyoutWPF
@@ -53,6 +50,8 @@ namespace FluentFlyoutWPF
         static Mutex singleton = new Mutex(true, "FluentFlyout"); // to prevent multiple instances of the app
         private NextUpWindow? nextUpWindow = null; // to prevent multiple instances of NextUpWindow
         private string currentTitle = ""; // to prevent NextUpWindow from showing the same song
+
+        private LockWindow lockWindow;
 
         public MainWindow()
         {
@@ -120,51 +119,61 @@ namespace FluentFlyoutWPF
             return easingStyle;
         }
 
-        public void OpenAnimation(MicaWindow window)
+        public void OpenAnimation(MicaWindow window, bool alwaysBottom = false)
         {
-
             var eventTriggers = window.Triggers[0] as EventTrigger;
             var beginStoryboard = eventTriggers.Actions[0] as BeginStoryboard;
             var storyboard = beginStoryboard.Storyboard;
 
             DoubleAnimation moveAnimation = (DoubleAnimation)storyboard.Children[0];
-            _position = Settings.Default.Position;
-            if (_position == 0)
+
+            if (alwaysBottom == false)
             {
-                window.Left = 16;
+                _position = Settings.Default.Position;
+                if (_position == 0)
+                {
+                    window.Left = 16;
+                    moveAnimation.From = SystemParameters.WorkArea.Height - window.Height + 4;
+                    moveAnimation.To = SystemParameters.WorkArea.Height - window.Height - 16;
+                }
+                else if (_position == 1)
+                {
+                    window.Left = SystemParameters.WorkArea.Width / 2 - window.Width / 2;
+                    moveAnimation.From = SystemParameters.WorkArea.Height - window.Height - 60;
+                    moveAnimation.To = SystemParameters.WorkArea.Height - window.Height - 80;
+                }
+                else if (_position == 2)
+                {
+                    window.Left = SystemParameters.WorkArea.Width - window.Width - 16;
+                    moveAnimation.From = SystemParameters.WorkArea.Height - window.Height + 4;
+                    moveAnimation.To = SystemParameters.WorkArea.Height - window.Height - 16;
+                }
+                else if (_position == 3)
+                {
+                    window.Left = 16;
+                    moveAnimation.From = -4;
+                    moveAnimation.To = 16;
+                }
+                else if (_position == 4)
+                {
+                    window.Left = SystemParameters.WorkArea.Width / 2 - window.Width / 2;
+                    moveAnimation.From = -4;
+                    moveAnimation.To = 16;
+                }
+                else if (_position == 5)
+                {
+                    window.Left = SystemParameters.WorkArea.Width - window.Width - 16;
+                    moveAnimation.From = -4;
+                    moveAnimation.To = 16;
+                }
+            }
+            else
+            {
+                window.Left = SystemParameters.WorkArea.Width / 2 - window.Width / 2;
                 moveAnimation.From = SystemParameters.WorkArea.Height - window.Height + 4;
                 moveAnimation.To = SystemParameters.WorkArea.Height - window.Height - 16;
             }
-            else if (_position == 1)
-            {
-                window.Left = SystemParameters.WorkArea.Width / 2 - window.Width / 2;
-                moveAnimation.From = SystemParameters.WorkArea.Height - window.Height - 60;
-                moveAnimation.To = SystemParameters.WorkArea.Height - window.Height - 80;
-            }
-            else if (_position == 2)
-            {
-                window.Left = SystemParameters.WorkArea.Width - window.Width - 16;
-                moveAnimation.From = SystemParameters.WorkArea.Height - window.Height + 4;
-                moveAnimation.To = SystemParameters.WorkArea.Height - window.Height - 16;
-            }
-            else if (_position == 3)
-            {
-                window.Left = 16;
-                moveAnimation.From = -4;
-                moveAnimation.To = 16;
-            }
-            else if (_position == 4)
-            {
-                window.Left = SystemParameters.WorkArea.Width / 2 - window.Width / 2;
-                moveAnimation.From = -4;
-                moveAnimation.To = 16;
-            }
-            else if (_position == 5)
-            {
-                window.Left = SystemParameters.WorkArea.Width - window.Width - 16;
-                moveAnimation.From = -4;
-                moveAnimation.To = 16;
-            }
+
             int msDuration = getDuration();
 
             DoubleAnimation opacityAnimation = (DoubleAnimation)storyboard.Children[1];
@@ -179,29 +188,39 @@ namespace FluentFlyoutWPF
             storyboard.Begin(window);
         }
 
-        public void CloseAnimation(MicaWindow window)
+        public void CloseAnimation(MicaWindow window, bool alwaysBottom = false)
         {
             var eventTriggers = window.Triggers[0] as EventTrigger;
             var beginStoryboard = eventTriggers.Actions[0] as BeginStoryboard;
             var storyboard = beginStoryboard.Storyboard;
 
             DoubleAnimation moveAnimation = (DoubleAnimation)storyboard.Children[0];
-            _position = Settings.Default.Position;
-            if (_position == 0 || _position == 2)
+
+            if (alwaysBottom == false)
+            {
+                _position = Settings.Default.Position;
+                if (_position == 0 || _position == 2)
+                {
+                    moveAnimation.From = SystemParameters.WorkArea.Height - window.Height - 16;
+                    moveAnimation.To = SystemParameters.WorkArea.Height - window.Height + 4;
+                }
+                else if (_position == 1)
+                {
+                    moveAnimation.From = SystemParameters.WorkArea.Height - window.Height - 80;
+                    moveAnimation.To = SystemParameters.WorkArea.Height - window.Height - 60;
+                }
+                else if (_position == 3 || _position == 4 || _position == 5)
+                {
+                    moveAnimation.From = 16;
+                    moveAnimation.To = -4;
+                }
+            }
+            else
             {
                 moveAnimation.From = SystemParameters.WorkArea.Height - window.Height - 16;
                 moveAnimation.To = SystemParameters.WorkArea.Height - window.Height + 4;
             }
-            else if (_position == 1)
-            {
-                moveAnimation.From = SystemParameters.WorkArea.Height - window.Height - 80;
-                moveAnimation.To = SystemParameters.WorkArea.Height - window.Height - 60;
-            }
-            else if (_position == 3 || _position == 4 || _position == 5)
-            {
-                moveAnimation.From = 16;
-                moveAnimation.To = -4;
-            }
+
             int msDuration = getDuration();
 
             DoubleAnimation opacityAnimation = (DoubleAnimation)storyboard.Children[1];
@@ -285,15 +304,25 @@ namespace FluentFlyoutWPF
                     ShowMediaFlyout();
                 }
 
-                if (vkCode == 0x14) // Caps Lock
+                if (Settings.Default.LockKeysEnabled == true)
                 {
+                    if (vkCode == 0x14) // Caps Lock
+                    {
+                        lockWindow ??= new LockWindow();
+                        lockWindow.ShowLockFlyout("Caps Lock", Keyboard.IsKeyToggled(Key.CapsLock));
+                    }
 
-                }
-
-                if (vkCode == 0x90) // Num Lock
-                {
-
-                }
+                    if (vkCode == 0x90) // Num Lock
+                    {
+                        lockWindow ??= new LockWindow();
+                        lockWindow.ShowLockFlyout("Num Lock", Keyboard.IsKeyToggled(Key.NumLock));
+                    }
+                    if (vkCode == 0x91) // Scroll Lock
+                    {
+                        lockWindow ??= new LockWindow();
+                        lockWindow.ShowLockFlyout("Scroll Lock", Keyboard.IsKeyToggled(Key.Scroll));
+                    }
+                }          
             }
             return CallNextHookEx(_hookId, nCode, wParam, lParam);
         }
