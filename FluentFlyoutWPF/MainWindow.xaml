@@ -36,12 +36,10 @@
 
     <Grid>
         <StackPanel Margin="12" Orientation="Horizontal">
-            <Border Name="SongImageBorder" CornerRadius="6" BorderThickness="1" BorderBrush="#26FFFFFF" Margin="0" ClipToBounds="False">
-                <Image Name="SongImage" Stretch="UniformToFill" Width="78" Height="78">
-                    <Image.Clip>
-                        <RectangleGeometry x:Name="SongImageRect" Rect="0,0,78,78" RadiusX="6" RadiusY="6" />
-                    </Image.Clip>
-                </Image>
+            <Border Name="SongImageBorder" CornerRadius="6" BorderThickness="1" BorderBrush="#26FFFFFF" Margin="0" ClipToBounds="True" Width="78" Height="78">
+                <Border.Background>
+                    <ImageBrush x:Name="SongImage" Stretch="UniformToFill"/>
+                </Border.Background>
             </Border>
             <StackPanel Name="BodyStackPanel" Orientation="Vertical" VerticalAlignment="Center" Width="194">
                 <StackPanel Orientation="Horizontal">

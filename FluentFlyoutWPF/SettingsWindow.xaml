@@ -223,13 +223,13 @@
                                     <ui:CardControl.Header>
                                         <StackPanel Orientation="Vertical">
                                             <TextBlock Text="Animation Easing Style" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
-                                            <TextBlock Text="(default: Cubic)" FontSize="12" Opacity="0.5"/>
+                                            <TextBlock Text="(default: Quadratic)" FontSize="12" Opacity="0.5"/>
                                         </StackPanel>
                                     </ui:CardControl.Header>
                                     <StackPanel Orientation="Horizontal">
-                                        <ComboBox Name="AnimationEasingStylesComboBox">
+                                        <ComboBox Name="AnimationEasingStylesComboBox" SelectionChanged="AnimationEasingStylesComboBox_SelectionChanged">
                                             <ComboBoxItem Content="Linear"/>
-                                            <ComboBoxItem Content="EaseIn"/>
+                                            <ComboBoxItem Content="Sine"/>
                                             <ComboBoxItem Content="Quadratic"/>
                                             <ComboBoxItem Content="Cubic"/>
                                         </ComboBox>

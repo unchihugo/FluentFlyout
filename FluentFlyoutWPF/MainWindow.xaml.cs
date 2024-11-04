@@ -20,6 +20,7 @@ using Wpf.Ui.Appearance;
 using FluentFlyout.Classes;
 using MicaWPF.Core.Extensions;
 using MicaWPF.Core.Services;
+using Windows.UI.Composition;
 
 
 namespace FluentFlyoutWPF
@@ -106,6 +107,19 @@ namespace FluentFlyoutWPF
             return msDuration;
         }
 
+        public EasingFunctionBase getEasingStyle(bool easeOut)
+        {
+            EasingMode easingMode = easeOut ? EasingMode.EaseOut : EasingMode.EaseIn;
+            EasingFunctionBase easingStyle = Settings.Default.FlyoutAnimationEasingStyle switch
+            {
+                // 0 is linear, null
+                1 => new SineEase { EasingMode = easingMode }, // sine
+                2 => new QuadraticEase { EasingMode = easingMode }, // quadratic
+                _ => new CubicEase { EasingMode = easingMode }, // cubic
+            };
+            return easingStyle;
+        }
+
         public void OpenAnimation(MicaWindow window)
         {
 
@@ -118,7 +132,7 @@ namespace FluentFlyoutWPF
             if (_position == 0)
             {
                 window.Left = 16;
-                moveAnimation.From = SystemParameters.WorkArea.Height - window.Height - 0;
+                moveAnimation.From = SystemParameters.WorkArea.Height - window.Height + 4;
                 moveAnimation.To = SystemParameters.WorkArea.Height - window.Height - 16;
             }
             else if (_position == 1)
@@ -130,25 +144,25 @@ namespace FluentFlyoutWPF
             else if (_position == 2)
             {
                 window.Left = SystemParameters.WorkArea.Width - window.Width - 16;
-                moveAnimation.From = SystemParameters.WorkArea.Height - window.Height - 0;
+                moveAnimation.From = SystemParameters.WorkArea.Height - window.Height + 4;
                 moveAnimation.To = SystemParameters.WorkArea.Height - window.Height - 16;
             }
             else if (_position == 3)
             {
                 window.Left = 16;
-                moveAnimation.From = 0;
+                moveAnimation.From = -4;
                 moveAnimation.To = 16;
             }
             else if (_position == 4)
             {
                 window.Left = SystemParameters.WorkArea.Width / 2 - window.Width / 2;
-                moveAnimation.From = 0;
+                moveAnimation.From = -4;
                 moveAnimation.To = 16;
             }
             else if (_position == 5)
             {
                 window.Left = SystemParameters.WorkArea.Width - window.Width - 16;
-                moveAnimation.From = 0;
+                moveAnimation.From = -4;
                 moveAnimation.To = 16;
             }
             int msDuration = getDuration();
@@ -158,8 +172,8 @@ namespace FluentFlyoutWPF
             opacityAnimation.To = 1;
             opacityAnimation.Duration = new Duration(TimeSpan.FromMilliseconds(msDuration));
 
-            EasingFunctionBase easing = new CubicEase { EasingMode = EasingMode.EaseOut };
-            moveAnimation.EasingFunction = opacityAnimation.EasingFunction = easing;
+            if (Settings.Default.FlyoutAnimationEasingStyle == 0) moveAnimation.EasingFunction = opacityAnimation.EasingFunction = null;
+            else moveAnimation.EasingFunction = opacityAnimation.EasingFunction = getEasingStyle(true);
             moveAnimation.Duration = new Duration(TimeSpan.FromMilliseconds(msDuration));
 
             storyboard.Begin(window);
@@ -176,7 +190,7 @@ namespace FluentFlyoutWPF
             if (_position == 0 || _position == 2)
             {
                 moveAnimation.From = SystemParameters.WorkArea.Height - window.Height - 16;
-                moveAnimation.To = SystemParameters.WorkArea.Height - window.Height - 0;
+                moveAnimation.To = SystemParameters.WorkArea.Height - window.Height + 4;
             }
             else if (_position == 1)
             {
@@ -186,7 +200,7 @@ namespace FluentFlyoutWPF
             else if (_position == 3 || _position == 4 || _position == 5)
             {
                 moveAnimation.From = 16;
-                moveAnimation.To = 0;
+                moveAnimation.To = -4;
             }
             int msDuration = getDuration();
 
@@ -195,8 +209,8 @@ namespace FluentFlyoutWPF
             opacityAnimation.To = 0;
             opacityAnimation.Duration = new Duration(TimeSpan.FromMilliseconds(msDuration));
 
-            EasingFunctionBase easing = new CubicEase { EasingMode = EasingMode.EaseIn };
-            moveAnimation.EasingFunction = opacityAnimation.EasingFunction = easing;
+            if (Settings.Default.FlyoutAnimationEasingStyle == 0) moveAnimation.EasingFunction = opacityAnimation.EasingFunction = null;
+            else moveAnimation.EasingFunction = opacityAnimation.EasingFunction = getEasingStyle(false);
             moveAnimation.Duration = new Duration(TimeSpan.FromMilliseconds(msDuration));
 
             storyboard.Begin(window);
@@ -347,7 +361,7 @@ namespace FluentFlyoutWPF
                 {
                     SongTitle.Text = "No media playing";
                     SongArtist.Text = "";
-                    SongImage.Source = null;
+                    SongImage.ImageSource = null;
                     SymbolPlayPause.Symbol = Wpf.Ui.Controls.SymbolRegular.Stop16;
                     ControlPlayPause.IsEnabled = false;
                     ControlPlayPause.Opacity = 0.35;
@@ -430,7 +444,7 @@ namespace FluentFlyoutWPF
                 {
                     SongTitle.Text = songInfo.Title;
                     SongArtist.Text = songInfo.Artist;
-                    SongImage.Source = Helper.GetThumbnail(songInfo.Thumbnail);
+                    SongImage.ImageSource = Helper.GetThumbnail(songInfo.Thumbnail);
                 }
             });
         }
@@ -452,8 +466,7 @@ namespace FluentFlyoutWPF
                     ControlsStackPanel.Width = 104;
                     MediaIdStackPanel.Visibility = Visibility.Collapsed;
                     SongImageBorder.Margin = new Thickness(0);
-                    SongImage.Height = 36;
-                    SongImageRect.Rect = new Rect(0, 0, 78, 36);
+                    SongImageBorder.Height = 36;
                     SongInfoStackPanel.Margin = new Thickness(8, 0, 0, 0);
                     SongInfoStackPanel.Width = 182;
                 }
@@ -467,8 +480,7 @@ namespace FluentFlyoutWPF
                     ControlsStackPanel.Width = 184 - 72 + extraWidth;
                     MediaIdStackPanel.Visibility = Visibility.Visible;
                     SongImageBorder.Margin = new Thickness(6);
-                    SongImage.Height = 78;
-                    SongImageRect.Rect = new Rect(0, 0, 78, 78);
+                    SongImageBorder.Height = 78;
                     SongInfoStackPanel.Margin = new Thickness(12, 0, 0, 0);
                     SongInfoStackPanel.Width = 182 - 72 + extraWidth;
                 }

@@ -31,7 +31,7 @@ namespace FluentFlyout
             else Width = artistWidth + 142;
             SongTitle.Text = title;
             SongArtist.Text = artist;
-            SongImage.Source = thumbnail;
+            SongImage.ImageSource = thumbnail;
             Show();
             mainWindow.OpenAnimation(this);
 
