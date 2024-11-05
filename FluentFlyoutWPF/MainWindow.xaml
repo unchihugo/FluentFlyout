@@ -9,7 +9,7 @@
         xmlns:controls="clr-namespace:MicaWPF.Controls;assembly=MicaWPF"
         Height="116" Width="310"
         WindowStyle="None" mc:Ignorable="d" ShowInTaskbar="False"
-        Topmost="True" ResizeMode="NoResize" MouseEnter="MicaWindow_MouseEnter"
+        ResizeMode="NoResize" MouseEnter="MicaWindow_MouseEnter"
         ChangeTitleColorWhenInactive="False"
         TextOptions.TextRenderingMode="ClearType" TextOptions.TextFormattingMode="Ideal" Loaded="MicaWindow_Loaded"
         >
@@ -37,6 +37,7 @@
     <Grid>
         <StackPanel Margin="12" Orientation="Horizontal">
             <Border Name="SongImageBorder" CornerRadius="6" BorderThickness="1" BorderBrush="#26FFFFFF" Margin="0" ClipToBounds="True" Width="78" Height="78">
+                <ui:SymbolIcon Name="SongImagePlaceholder" Symbol="MusicNote220" FontSize="40" Filled="True" Foreground="{DynamicResource MicaWPF.Brushes.SystemAccentColorLight2}" Visibility="Collapsed" />
                 <Border.Background>
                     <ImageBrush x:Name="SongImage" Stretch="UniformToFill"/>
                 </Border.Background>
@@ -52,7 +53,7 @@
                     <!--<ui:Button Name="ControlBack" Icon="{ui:SymbolIcon Previous20, Filled=True}" Width="28" Height="28" Padding="0" CornerRadius="999" Margin="0,0,8,0" Click="Back_Click" Focusable="False"/>-->
                     <controls:Button
                     Height="28" Width="28" Name="ControlBack"
-                    Margin="0,0,8,0" Click="Back_Click" Focusable="False"
+                    Margin="2,0,8,0" Click="Back_Click" Focusable="False"
                     Style="{StaticResource MicaWPF.Styles.TransparentButton}" VerticalAlignment="Center">
                         <ui:SymbolIcon Name="SymbolBack" Symbol="Previous20" Filled="True"/>
                     </controls:Button>
