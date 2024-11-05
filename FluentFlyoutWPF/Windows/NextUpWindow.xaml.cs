@@ -18,7 +18,8 @@ namespace FluentFlyout
         public NextUpWindow(string title, string artist, BitmapImage thumbnail)
         {
             WindowStartupLocation = WindowStartupLocation.Manual;
-            Left = -Width - 20;
+            Left = -Width - 9999; // move window out of bounds to prevent flickering, maybe needs better solution
+            Top = 9999;
             WindowHelper.SetNoActivate(this);
             InitializeComponent();
             WindowHelper.SetTopmost(this);
@@ -32,6 +33,8 @@ namespace FluentFlyout
             SongTitle.Text = title;
             SongArtist.Text = artist;
             SongImage.ImageSource = thumbnail;
+            if (SongImage.ImageSource == null) SongImagePlaceholder.Visibility = Visibility.Visible;
+            else SongImagePlaceholder.Visibility = Visibility.Collapsed;
             Show();
             mainWindow.OpenAnimation(this);
 

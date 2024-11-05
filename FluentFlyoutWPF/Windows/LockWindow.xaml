@@ -8,7 +8,7 @@
     xmlns:controls="clr-namespace:MicaWPF.Controls;assembly=MicaWPF"
     mc:Ignorable="d" 
     Height="50" Width="160" 
-    Topmost="True" ResizeMode="NoResize"
+    ResizeMode="NoResize"
     WindowStyle="None" ShowInTaskbar="False"
     SystemBackdropType="Mica" ChangeTitleColorWhenInactive="False"
     TextOptions.TextRenderingMode="ClearType" TextOptions.TextFormattingMode="Ideal">

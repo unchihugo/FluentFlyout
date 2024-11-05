@@ -62,7 +62,7 @@ namespace FluentFlyout.Windows
             cts = new CancellationTokenSource();
             var token = cts.Token;
             Visibility = Visibility.Visible;
-            Topmost = true;
+
             try
             {
                 while (!token.IsCancellationRequested)

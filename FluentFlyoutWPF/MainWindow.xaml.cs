@@ -51,7 +51,7 @@ namespace FluentFlyoutWPF
         private NextUpWindow? nextUpWindow = null; // to prevent multiple instances of NextUpWindow
         private string currentTitle = ""; // to prevent NextUpWindow from showing the same song
 
-        private LockWindow lockWindow;
+        private LockWindow? lockWindow;
 
         public MainWindow()
         {
@@ -346,7 +346,6 @@ namespace FluentFlyoutWPF
             cts = new CancellationTokenSource();
             var token = cts.Token;
             Visibility = Visibility.Visible;
-            Topmost = true;
 
             try
             {
@@ -380,7 +379,6 @@ namespace FluentFlyoutWPF
                 _playerInfoEnabled != Settings.Default.PlayerInfoEnabled ||
                 _centerTitleArtist != Settings.Default.CenterTitleArtist)
                 UpdateUILayout();
-
 
             Dispatcher.Invoke(() =>
             {
@@ -474,6 +472,8 @@ namespace FluentFlyoutWPF
                     SongTitle.Text = songInfo.Title;
                     SongArtist.Text = songInfo.Artist;
                     SongImage.ImageSource = Helper.GetThumbnail(songInfo.Thumbnail);
+                    if (SongImage.ImageSource == null) SongImagePlaceholder.Visibility = Visibility.Visible;
+                    else SongImagePlaceholder.Visibility = Visibility.Collapsed;
                 }
             });
         }
