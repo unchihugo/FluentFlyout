@@ -28,10 +28,11 @@ FluentFlyout features smooth animations, blends with your system's color themes,
 - Sits unobtrusively in system tray
 - **Audio flyout: Displays Cover, Title, Artist and media controls**
 - **"Up Next" flyout: shows what's next when a song ends**
+- **Lock Keys flyout: displays the status of lock keys at a glance**
 
 ## Audio flyout 🎵
 <div align="center">
-	<img height="205px" width="auto" src="https://github.com/user-attachments/assets/4dab1c12-594a-4785-bddc-0da1783bf1c8"> <img height="205px" src="https://github.com/user-attachments/assets/b4306026-b274-418b-a39e-78877e7610a7"> 	<img height="190px" src="https://github.com/user-attachments/assets/39de69fe-54c8-4b22-880c-7f0370b8dd9c"> <img height="190px" src="https://github.com/user-attachments/assets/a25adb0e-963a-49a5-8abb-d9a288c2ad9a">
+	<img height="205px" width="auto" src="https://github.com/user-attachments/assets/4dab1c12-594a-4785-bddc-0da1783bf1c8"> <img height="205px" src="https://github.com/user-attachments/assets/b4306026-b274-418b-a39e-78877e7610a7"> 	<img height="190px" src="https://github.com/user-attachments/assets/39de69fe-54c8-4b22-880c-7f0370b8dd9c"> <img height="190px" src="https://github.com/user-attachments/assets/a25adb0e-963a-49a5-8abb-d9a288c2ad9a"> <img height="190px" src="https://github.com/user-attachments/assets/2de44e7b-7e6c-4575-bf3b-0be2f741c994">
 </div>
 
 ## How to install

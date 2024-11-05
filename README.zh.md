@@ -30,10 +30,11 @@ FluentFlyout 具有流畅的动画效果，能够与系统的颜色主题相融�
 - 无干扰地驻留在系统托盘
 - **音乐弹窗：显示封面、标题、艺术家和媒体控制**
 - **“即将播放”弹窗：在歌曲结束时显示下一首曲目**
+- **锁定键弹窗：一目了然地显示锁定键的状态**
 
 ## 音乐弹窗 🎵
 <div align="center">
-	<img height="205px" width="auto" src="https://github.com/user-attachments/assets/4dab1c12-594a-4785-bddc-0da1783bf1c8"> <img height="205px" src="https://github.com/user-attachments/assets/b4306026-b274-418b-a39e-78877e7610a7"> 	<img height="190px" src="https://github.com/user-attachments/assets/39de69fe-54c8-4b22-880c-7f0370b8dd9c"> <img height="190px" src="https://github.com/user-attachments/assets/a25adb0e-963a-49a5-8abb-d9a288c2ad9a">
+	<img height="205px" width="auto" src="https://github.com/user-attachments/assets/4dab1c12-594a-4785-bddc-0da1783bf1c8"> <img height="205px" src="https://github.com/user-attachments/assets/b4306026-b274-418b-a39e-78877e7610a7"> 	<img height="190px" src="https://github.com/user-attachments/assets/39de69fe-54c8-4b22-880c-7f0370b8dd9c"> <img height="190px" src="https://github.com/user-attachments/assets/a25adb0e-963a-49a5-8abb-d9a288c2ad9a"> <img height="190px" src="https://github.com/user-attachments/assets/2de44e7b-7e6c-4575-bf3b-0be2f741c994">
 </div>
 
 ## 怎么下载？
