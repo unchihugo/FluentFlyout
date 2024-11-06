@@ -203,10 +203,11 @@
                             </StackPanel>
                         </ui:CardControl>
                     </Grid>
-                    
+
                     <TextBlock Text="System" FontSize="18" FontWeight="SemiBold" Margin="0,36,0,0"/>
                     <Grid Margin="0,12,0,0">
                         <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
@@ -275,16 +276,28 @@
                                     </ui:CardControl.Header>
                                     <StackPanel Orientation="Horizontal">
                                         <ComboBox Name="AnimationEasingStylesComboBox" SelectionChanged="AnimationEasingStylesComboBox_SelectionChanged">
-                                            <ComboBoxItem Content="Linear"/>
-                                            <ComboBoxItem Content="Sine"/>
-                                            <ComboBoxItem Content="Quadratic"/>
-                                            <ComboBoxItem Content="Cubic"/>
+                                            <ComboBoxItem Content=" Linear"/>
+                                            <ComboBoxItem Content=" Sine"/>
+                                            <ComboBoxItem Content=" Quadratic"/>
+                                            <ComboBoxItem Content=" Cubic"/>
                                         </ComboBox>
                                     </StackPanel>
                                 </ui:CardControl>
-                                <ui:InfoBar Grid.Row="8" Title="For the native Windows 11 experience, the settings should be kept at default." IsOpen="True" Severity="Informational" IsClosable="False"/>
+                                <ui:InfoBar Title="For the native Windows 11 experience, the settings should be kept at default." IsOpen="True" Severity="Informational" IsClosable="False"/>
                             </StackPanel>
                         </ui:CardExpander>
+                        <ui:CardControl Grid.Row="3" Icon="{ui:SymbolIcon Color24}" Margin="0,3,0,3">
+                            <ui:CardControl.Header>
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock Text="App Theme" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </ui:CardControl.Header>
+                            <ComboBox Name="AppThemeComboBox" SelectionChanged="AppThemeComboBox_SelectionChanged" IsReadOnly="False">
+                                <ComboBoxItem Content=" Windows Default"/>
+                                <ComboBoxItem Content=" Light"/>
+                                <ComboBoxItem Content=" Dark"/>
+                            </ComboBox>
+                        </ui:CardControl>
                     </Grid>
                 </StackPanel>
 

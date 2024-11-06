@@ -313,18 +313,17 @@ public partial class SettingsWindow : MicaWindow
         Settings.Default.Save();
     }
 
-        /// <summary>
-        /// Changes the application theme when the selection is changed. 0 for default, 1 for light, 2 for dark.
-        /// </summary>
-        private void AppThemeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            ThemeManager.ApplyAndSaveTheme(AppThemeComboBox.SelectedIndex);
-        }
-        
-        private void MediaFlyoutEnabledSwitch_Click(object sender, RoutedEventArgs e)
-        {
-            Settings.Default.MediaFlyoutEnabled = MediaFlyoutEnabledSwitch.IsChecked ?? false;
-            Settings.Default.Save();
-        }
+    /// <summary>
+    /// Changes the application theme when the selection is changed. 0 for default, 1 for light, 2 for dark.
+    /// </summary>
+    private void AppThemeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        ThemeManager.ApplyAndSaveTheme(AppThemeComboBox.SelectedIndex);
+    }
+    
+    private void MediaFlyoutEnabledSwitch_Click(object sender, RoutedEventArgs e)
+    {
+        Settings.Default.MediaFlyoutEnabled = MediaFlyoutEnabledSwitch.IsChecked ?? false;
+        Settings.Default.Save();
     }
 }
