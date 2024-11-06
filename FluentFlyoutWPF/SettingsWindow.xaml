@@ -63,9 +63,9 @@
                                 </StackPanel>
                             </ui:CardControl.Header>
                             <ComboBox Name="AppThemeComboBox" SelectionChanged="AppThemeComboBox_SelectionChanged" IsReadOnly="False">
-                                <ComboBoxItem Content="Windows Default"/>
-                                <ComboBoxItem Content="Light"/>
-                                <ComboBoxItem Content="Dark"/>
+                                <ComboBoxItem Content=" Windows Default"/>
+                                <ComboBoxItem Content=" Light"/>
+                                <ComboBoxItem Content=" Dark"/>
                             </ComboBox>
                         </ui:CardControl>
                         <ui:CardControl Grid.Row="3" Icon="{ui:SymbolIcon PositionForward24}" Margin="0,0,0,3">
@@ -75,12 +75,12 @@
                                 </StackPanel>
                             </ui:CardControl.Header>
                             <ComboBox Name="PositionComboBox" SelectionChanged="PositionComboBox_SelectionChanged">
-                                <ComboBoxItem Content="Bottom Left"/>
-                                <ComboBoxItem Content="Bottom Center"/>
-                                <ComboBoxItem Content="Bottom Right"/>
-                                <ComboBoxItem Content="Top Left"/>
-                                <ComboBoxItem Content="Top Center"/>
-                                <ComboBoxItem Content="Top Right"/>
+                                <ComboBoxItem Content=" Bottom Left"/>
+                                <ComboBoxItem Content=" Bottom Center"/>
+                                <ComboBoxItem Content=" Bottom Right"/>
+                                <ComboBoxItem Content=" Top Left"/>
+                                <ComboBoxItem Content=" Top Center"/>
+                                <ComboBoxItem Content=" Top Right"/>
                             </ComboBox>
                         </ui:CardControl>
                         <ui:CardControl Grid.Row="4" Icon="{ui:SymbolIcon Timer24}" Margin="0,0,0,3">
@@ -239,8 +239,8 @@
                             </ui:CardControl.Header>
                             <StackPanel Orientation="Horizontal">
                                 <ComboBox Name="nIconLeftClickComboBox" SelectionChanged="nIconLeftClickComboBox_SelectionChanged">
-                                    <ComboBoxItem Content="Open Settings"/>
-                                    <ComboBoxItem Content="Show Media Flyout"/>
+                                    <ComboBoxItem Content=" Open Settings"/>
+                                    <ComboBoxItem Content=" Show Media Flyout"/>
                                 </ComboBox>
                             </StackPanel>
                         </ui:CardControl>
