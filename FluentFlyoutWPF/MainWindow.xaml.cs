@@ -324,10 +324,10 @@ public partial class MainWindow : MicaWindow
         return CallNextHookEx(_hookId, nCode, wParam, lParam);
     }
 
-    private async void ShowMediaFlyout()
-    {
-        if (mediaManager.GetFocusedSession() == null) return;
-        UpdateUI(mediaManager.GetFocusedSession());
+        private async void ShowMediaFlyout()
+        {
+            if (mediaManager.GetFocusedSession() == null || !Settings.Default.MediaFlyoutEnabled) return;
+            UpdateUI(mediaManager.GetFocusedSession());
 
         if (nextUpWindow != null) // close NextUpWindow if it's open
         {
