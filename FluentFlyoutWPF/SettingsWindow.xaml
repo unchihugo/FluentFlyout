@@ -201,6 +201,7 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
                         <ui:CardControl Grid.Row="0" Icon="{ui:SymbolIcon ShareScreenStart24}" Margin="0,0,0,3">
                             <ui:CardControl.Header>
@@ -276,6 +277,18 @@
                                 <ui:InfoBar Grid.Row="8" Title="For the native Windows 11 experience, the settings should be kept at default." IsOpen="True" Severity="Informational" IsClosable="False"/>
                             </StackPanel>
                         </ui:CardExpander>
+                        <ui:CardControl Grid.Row="3" Icon="{ui:SymbolIcon Color24}" Margin="0,0,0,3">
+                            <ui:CardControl.Header>
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock Text="App Theme" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </ui:CardControl.Header>
+                            <ComboBox Name="AppThemeComboBox" SelectionChanged="AppThemeComboBox_SelectionChanged" IsReadOnly="False">
+                                <ComboBoxItem Content="Windows Default"/>
+                                <ComboBoxItem Content="Light"/>
+                                <ComboBoxItem Content="Dark"/>
+                            </ComboBox>
+                        </ui:CardControl>
 
                     </Grid>
                 </StackPanel>

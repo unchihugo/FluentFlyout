@@ -1,12 +1,13 @@
 ﻿using FluentFlyout.Properties;
 using MicaWPF.Controls;
-using MicaWPF.Core.Extensions;
 using Microsoft.Win32;
 using System.Diagnostics;
 using System.IO;
-using System.Reflection;
 using System.Windows;
+using System.Windows.Controls;
 using Windows.ApplicationModel;
+using FluentFlyout.Classes;
+using MessageBox = System.Windows.MessageBox;
 
 
 namespace FluentFlyout
@@ -23,6 +24,7 @@ namespace FluentFlyout
                 {
                     instance.WindowState = WindowState.Normal;
                 }
+
                 instance.Activate();
                 instance.Focus();
                 Close();
@@ -50,6 +52,7 @@ namespace FluentFlyout
             AnimationEasingStylesComboBox.SelectedIndex = Settings.Default.FlyoutAnimationEasingStyle;
             LockKeysSwitch.IsChecked = Settings.Default.LockKeysEnabled;
             LockKeysDurationTextBox.Text = Settings.Default.LockKeysDuration.ToString();
+            AppThemeComboBox.SelectedIndex = Settings.Default.AppTheme;
 
             try // gets the version of the app, works only in release mode
             {
@@ -60,6 +63,8 @@ namespace FluentFlyout
             {
                 VersionTextBlock.Text = "debug version";
             }
+
+            ThemeManager.ApplySavedTheme();
         }
 
         public static void ShowInstance()
@@ -74,6 +79,7 @@ namespace FluentFlyout
                 {
                     instance.WindowState = WindowState.Normal;
                 }
+
                 instance.Activate();
                 instance.Focus();
             }
@@ -98,7 +104,8 @@ namespace FluentFlyout
             Settings.Default.Save();
         }
 
-        private void PositionComboBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        private void PositionComboBox_SelectionChanged(object sender,
+            System.Windows.Controls.SelectionChangedEventArgs e)
         {
             Settings.Default.Position = PositionComboBox.SelectedIndex;
             Settings.Default.Save();
@@ -116,7 +123,8 @@ namespace FluentFlyout
             Settings.Default.Save();
         }
 
-        private void FlyoutAnimationSpeedComboBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        private void FlyoutAnimationSpeedComboBox_SelectionChanged(object sender,
+            System.Windows.Controls.SelectionChangedEventArgs e)
         {
             Settings.Default.FlyoutAnimationSpeed = FlyoutAnimationSpeedComboBox.SelectedIndex;
             Settings.Default.Save();
@@ -147,6 +155,7 @@ namespace FluentFlyout
                     {
                         duration = 10000;
                     }
+
                     DurationTextBox.Text = duration.ToString();
                     Settings.Default.Duration = duration;
                 }
@@ -180,6 +189,7 @@ namespace FluentFlyout
                     {
                         duration = 10000;
                     }
+
                     NextUpDurationTextBox.Text = duration.ToString();
                     Settings.Default.NextUpDuration = duration;
                 }
@@ -200,7 +210,8 @@ namespace FluentFlyout
             Settings.Default.Save();
         }
 
-        private void nIconLeftClickComboBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        private void nIconLeftClickComboBox_SelectionChanged(object sender,
+            System.Windows.Controls.SelectionChangedEventArgs e)
         {
             Settings.Default.nIconLeftClick = nIconLeftClickComboBox.SelectedIndex;
             Settings.Default.Save();
@@ -212,7 +223,8 @@ namespace FluentFlyout
             Settings.Default.Save();
         }
 
-        private void AnimationEasingStylesComboBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        private void AnimationEasingStylesComboBox_SelectionChanged(object sender,
+            System.Windows.Controls.SelectionChangedEventArgs e)
         {
             Settings.Default.FlyoutAnimationEasingStyle = AnimationEasingStylesComboBox.SelectedIndex;
             Settings.Default.Save();
@@ -222,32 +234,28 @@ namespace FluentFlyout
         {
             try
             {
-                using (RegistryKey key = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true))
-                {
-                    if (key != null)
-                    {
-                        string appName = "FluentFlyout";
-                        string executablePath = Environment.ProcessPath;
+                using var key = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true);
+                if (key == null) return;
+                const string appName = "FluentFlyout";
+                var executablePath = Environment.ProcessPath;
 
-                        if (enable)
-                        {
-                            // Check if the path is valid before setting
-                            if (File.Exists(executablePath))
-                            {
-                                key.SetValue(appName, executablePath);
-                            }
-                            else
-                            {
-                                throw new FileNotFoundException("Application executable not found");
-                            }
-                        }
-                        else
-                        {
-                            if (key.GetValue(appName) != null)
-                            {
-                                key.DeleteValue(appName, false);
-                            }
-                        }
+                if (enable)
+                {
+                    // Check if the path is valid before setting
+                    if (File.Exists(executablePath))
+                    {
+                        key.SetValue(appName, executablePath);
+                    }
+                    else
+                    {
+                        throw new FileNotFoundException("Application executable not found");
+                    }
+                }
+                else
+                {
+                    if (key.GetValue(appName) != null)
+                    {
+                        key.DeleteValue(appName, false);
                     }
                 }
             }
@@ -257,7 +265,8 @@ namespace FluentFlyout
             }
         }
 
-        private void StartupHyperlink_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
+        private void StartupHyperlink_RequestNavigate(object sender,
+            System.Windows.Navigation.RequestNavigateEventArgs e)
         {
             Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri) { UseShellExecute = true });
             e.Handled = true;
@@ -288,6 +297,7 @@ namespace FluentFlyout
                     {
                         duration = 10000;
                     }
+
                     LockKeysDurationTextBox.Text = duration.ToString();
                     Settings.Default.LockKeysDuration = duration;
                 }
@@ -300,6 +310,14 @@ namespace FluentFlyout
 
             LockKeysDurationTextBox.CaretIndex = LockKeysDurationTextBox.Text.Length;
             Settings.Default.Save();
+        }
+
+        /// <summary>
+        /// Changes the application theme when the selection is changed. 0 for default, 1 for light, 2 for dark.
+        /// </summary>
+        private void AppThemeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ThemeManager.ApplyAndSaveTheme(AppThemeComboBox.SelectedIndex);
         }
     }
 }

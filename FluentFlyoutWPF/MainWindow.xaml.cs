@@ -322,7 +322,7 @@ namespace FluentFlyoutWPF
                         lockWindow ??= new LockWindow();
                         lockWindow.ShowLockFlyout("Scroll Lock", Keyboard.IsKeyToggled(Key.Scroll));
                     }
-                }          
+                }
             }
             return CallNextHookEx(_hookId, nCode, wParam, lParam);
         }
@@ -373,8 +373,8 @@ namespace FluentFlyoutWPF
 
         private void UpdateUI(MediaSession mediaSession)
         {
-            if (_layout != Settings.Default.CompactLayout || 
-                _shuffleEnabled != Settings.Default.ShuffleEnabled || 
+            if (_layout != Settings.Default.CompactLayout ||
+                _shuffleEnabled != Settings.Default.ShuffleEnabled ||
                 _repeatEnabled != Settings.Default.ShuffleEnabled ||
                 _playerInfoEnabled != Settings.Default.PlayerInfoEnabled ||
                 _centerTitleArtist != Settings.Default.CenterTitleArtist)
@@ -392,7 +392,7 @@ namespace FluentFlyoutWPF
                     SymbolPlayPause.Symbol = Wpf.Ui.Controls.SymbolRegular.Stop16;
                     ControlPlayPause.IsEnabled = false;
                     ControlPlayPause.Opacity = 0.35;
-                    ControlBack.IsEnabled = ControlForward.IsEnabled = false;     
+                    ControlBack.IsEnabled = ControlForward.IsEnabled = false;
                     ControlBack.Opacity = ControlForward.Opacity = 0.35;
                     return;
                 }
@@ -462,7 +462,7 @@ namespace FluentFlyoutWPF
                     {
                         MediaIdStackPanel.Visibility = Visibility.Visible;
                         MediaId.Text = mediaSession.Id;
-                    } 
+                    }
                     else MediaIdStackPanel.Visibility = Visibility.Collapsed;
                 }
 
@@ -687,13 +687,7 @@ namespace FluentFlyoutWPF
         {
             Hide();
             UpdateUILayout();
-            Wpf.Ui.Appearance.ApplicationThemeManager.ApplySystemTheme();
-
-            Wpf.Ui.Appearance.SystemThemeWatcher.Watch(
-                this,
-                WindowBackdropType.Mica,
-                true
-            );
+            ThemeManager.ApplySavedTheme();
         }
 
         private void nIcon_LeftClick(Wpf.Ui.Tray.Controls.NotifyIcon sender, RoutedEventArgs e) // change the behavior of the tray icon

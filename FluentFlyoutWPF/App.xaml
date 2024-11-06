@@ -9,9 +9,8 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ui:ThemesDictionary Theme="Light" />
                 <ui:ControlsDictionary />
-                <mica:ThemeDictionary DesignModeTheme="Light" Theme="Auto" />
+                <mica:ThemeDictionary Theme="Auto" DesignModeTheme="Auto"/>
                 <mica:ControlsDictionary />
             </ResourceDictionary.MergedDictionaries>
             <FontFamily x:Key="SegoeFluentIcons">pack://application:,,,/;component/Fonts/#Segoe Fluent Icons</FontFamily>
