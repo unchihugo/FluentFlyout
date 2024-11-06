@@ -53,6 +53,7 @@ namespace FluentFlyout
             LockKeysSwitch.IsChecked = Settings.Default.LockKeysEnabled;
             LockKeysDurationTextBox.Text = Settings.Default.LockKeysDuration.ToString();
             AppThemeComboBox.SelectedIndex = Settings.Default.AppTheme;
+            MediaFlyoutEnabledSwitch.IsChecked = Settings.Default.MediaFlyoutEnabled;
 
             try // gets the version of the app, works only in release mode
             {
@@ -318,6 +319,12 @@ namespace FluentFlyout
         private void AppThemeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ThemeManager.ApplyAndSaveTheme(AppThemeComboBox.SelectedIndex);
+        }
+        
+        private void MediaFlyoutEnabledSwitch_Click(object sender, RoutedEventArgs e)
+        {
+            Settings.Default.MediaFlyoutEnabled = MediaFlyoutEnabledSwitch.IsChecked ?? false;
+            Settings.Default.Save();
         }
     }
 }

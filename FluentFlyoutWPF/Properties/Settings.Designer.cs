@@ -214,5 +214,16 @@ namespace FluentFlyout.Properties {
                 this["AppTheme"] = value;
             }
         }
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool MediaFlyoutEnabled {
+            get {
+                return ((bool)(this["MediaFlyoutEnabled"]));
+            }
+            set {
+                this["MediaFlyoutEnabled"] = value;
+            }
+        }
     }
 }
