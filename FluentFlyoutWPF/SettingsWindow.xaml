@@ -21,9 +21,10 @@
                         <TextBlock Text="FluentFlyout Settings" FontSize="24" FontWeight="Medium" Margin="12,0,0,0" VerticalAlignment="Center"/>
                         <TextBlock x:Name="VersionTextBlock" FontSize="14" FontWeight="Regular" VerticalAlignment="Bottom" Margin="10" Opacity="0.5"/>
                     </StackPanel>
-                    <TextBlock Text="Flyout Customization" FontSize="20" FontWeight="SemiBold" FontFamily="Segoe UI Variable" Margin="0,36,0,0"/>
+                    <TextBlock Text="Media Flyout Customization" FontSize="20" FontWeight="SemiBold" FontFamily="Segoe UI Variable" Margin="0,36,0,0"/>
                     <Grid Margin="0,12,0,0">
                         <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
@@ -37,7 +38,7 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
+                        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,12">
                             <ui:Image Source="/Resources/FluentFlyoutDemo3.1.png" Width="128"/>
                             <TextBlock FontSize="14" FontWeight="Regular" HorizontalAlignment="Stretch" Opacity="0.75" Margin="12,0,0,0">
                                 Main flyout. When listening to media, press any media or volume key<LineBreak />
@@ -45,7 +46,15 @@
                                 Displays media info, along with playback controls and more.
                             </TextBlock>
                         </StackPanel>
-                        <ui:CardControl Grid.Row="1" Icon="{ui:SymbolIcon ArrowAutofitWidth24}" Margin="0,0,0,3">
+                        <ui:CardControl Grid.Row="1" Icon="{ui:SymbolIcon VideoPlayPause24}" Margin="0,0,0,3">
+                            <ui:CardControl.Header>
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock Text="Enable Media Flyout" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </ui:CardControl.Header>
+                            <controls:ToggleSwitch Name="MediaFlyoutEnabledSwitch" Click="MediaFlyoutEnabledSwitch_Click"/>
+                        </ui:CardControl>
+                        <ui:CardControl Grid.Row="2" Icon="{ui:SymbolIcon ArrowAutofitWidth24}" Margin="0,0,0,3">
                             <ui:CardControl.Header>
                                 <StackPanel Orientation="Vertical">
                                     <TextBlock Text="Compact Layout" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
@@ -53,9 +62,9 @@
                                     <TextBlock Text="hides repeat, shuffle and player info." FontSize="12" Opacity="0.5"/>
                                 </StackPanel>
                             </ui:CardControl.Header>
-                            <controls:ToggleSwitch Name="LayoutSwitch" Click="LayoutSwitch_Click" IsChecked="False"/>
+                            <controls:ToggleSwitch Name="LayoutSwitch" Click="LayoutSwitch_Click"/>
                         </ui:CardControl>
-                        <ui:CardControl Grid.Row="2" Icon="{ui:SymbolIcon PositionForward24}" Margin="0,0,0,3">
+                        <ui:CardControl Grid.Row="3" Icon="{ui:SymbolIcon PositionForward24}" Margin="0,0,0,3">
                             <ui:CardControl.Header>
                                 <StackPanel Orientation="Vertical">
                                     <TextBlock Text="Flyout Position" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
@@ -70,7 +79,7 @@
                                 <ComboBoxItem Content="Top Right"/>
                             </ComboBox>
                         </ui:CardControl>
-                        <ui:CardControl Grid.Row="3" Icon="{ui:SymbolIcon Timer24}" Margin="0,0,0,3">
+                        <ui:CardControl Grid.Row="4" Icon="{ui:SymbolIcon Timer24}" Margin="0,0,0,3">
                             <ui:CardControl.Header>
                                 <StackPanel Orientation="Vertical">
                                     <TextBlock Text="Flyout Stay Duration" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
@@ -82,7 +91,7 @@
                                 <TextBlock Text="ms" FontSize="14" FontWeight="Regular" Margin="10,0,0,0" VerticalAlignment="Center"/>
                             </StackPanel>
                         </ui:CardControl>
-                        <ui:CardControl Grid.Row="4" Icon="{ui:SymbolIcon AlignLeft24}" Margin="0,0,0,3">
+                        <ui:CardControl Grid.Row="5" Icon="{ui:SymbolIcon AlignLeft24}" Margin="0,0,0,3">
                             <ui:CardControl.Header>
                                 <StackPanel Orientation="Vertical">
                                     <TextBlock Text="Center Title and Artist" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
@@ -90,7 +99,7 @@
                             </ui:CardControl.Header>
                             <controls:ToggleSwitch Name="CenterTitleArtistSwitch" Click="CenterTitleArtistSwitch_Click"/>
                         </ui:CardControl>
-                        <ui:CardControl Grid.Row="5" Icon="{ui:SymbolIcon Subtitles24}" Margin="0,0,0,12">
+                        <ui:CardControl Grid.Row="6" Icon="{ui:SymbolIcon Subtitles24}" Margin="0,0,0,12">
                             <ui:CardControl.Header>
                                 <StackPanel Orientation="Vertical">
                                     <TextBlock Text="Show Media Player name" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
@@ -98,25 +107,25 @@
                             </ui:CardControl.Header>
                             <controls:ToggleSwitch Name="PlayerInfoSwitch" Click="PlayerInfoSwitch_Click"/>
                         </ui:CardControl>
-                        <ui:CardControl Grid.Row="6" Icon="{ui:SymbolIcon ArrowRepeatAll24}" Margin="0,0,0,3">
+                        <ui:CardControl Grid.Row="7" Icon="{ui:SymbolIcon ArrowRepeatAll24}" Margin="0,0,0,3">
                             <ui:CardControl.Header>
                                 <StackPanel Orientation="Vertical">
                                     <TextBlock Text="Repeat Button" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
                                     <TextBlock Text="Choose between repeat all or repeat one, increases flyout width" FontSize="12" Opacity="0.5"/>
                                 </StackPanel>
                             </ui:CardControl.Header>
-                            <controls:ToggleSwitch Name="RepeatSwitch" Click="RepeatSwitch_Click" IsChecked="False"/>
+                            <controls:ToggleSwitch Name="RepeatSwitch" Click="RepeatSwitch_Click"/>
                         </ui:CardControl>
-                        <ui:CardControl Grid.Row="7" Icon="{ui:SymbolIcon ArrowShuffle24}" Margin="0,0,0,3">
+                        <ui:CardControl Grid.Row="8" Icon="{ui:SymbolIcon ArrowShuffle24}" Margin="0,0,0,3">
                             <ui:CardControl.Header>
                                 <StackPanel Orientation="Vertical">
                                     <TextBlock Text="Shuffle Button" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
                                     <TextBlock Text="Increases flyout width" FontSize="12" Opacity="0.5"/>
                                 </StackPanel>
                             </ui:CardControl.Header>
-                            <controls:ToggleSwitch Name="ShuffleSwitch" Click="ShuffleSwitch_Click" IsChecked="False"/>
+                            <controls:ToggleSwitch Name="ShuffleSwitch" Click="ShuffleSwitch_Click"/>
                         </ui:CardControl>
-                        <ui:InfoBar Grid.Row="8" Title="Some browsers/players do not support repeat and shuffle control." IsOpen="True" Severity="Warning" IsClosable="False"/>
+                        <ui:InfoBar Grid.Row="9" Title="Some browsers/players do not support repeat and shuffle control." IsOpen="True" Severity="Warning" IsClosable="False"/>
                     </Grid>
 
                     <TextBlock Text="Next Up Customization" FontSize="20" FontWeight="SemiBold" FontFamily="Segoe UI Variable" Margin="0,36,0,0"/>
@@ -141,7 +150,7 @@
                                     <TextBlock Text="Shows what's next when a song/video ends, very compact" FontSize="12" Opacity="0.5"/>
                                 </StackPanel>
                             </ui:CardControl.Header>
-                            <controls:ToggleSwitch Name="NextUpSwitch" Click="NextUpSwitch_Click" IsChecked="False"/>
+                            <controls:ToggleSwitch Name="NextUpSwitch" Click="NextUpSwitch_Click"/>
                         </ui:CardControl>
                         <ui:CardControl Grid.Row="2" Icon="{ui:SymbolIcon Timer24}" Margin="0,0,0,3">
                             <ui:CardControl.Header>

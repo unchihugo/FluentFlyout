@@ -329,7 +329,7 @@ namespace FluentFlyoutWPF
 
         private async void ShowMediaFlyout()
         {
-            if (mediaManager.GetFocusedSession() == null) return;
+            if (mediaManager.GetFocusedSession() == null || !Settings.Default.MediaFlyoutEnabled) return;
             UpdateUI(mediaManager.GetFocusedSession());
 
             if (nextUpWindow != null) // close NextUpWindow if it's open

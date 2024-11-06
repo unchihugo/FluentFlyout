@@ -50,6 +50,7 @@ namespace FluentFlyout
             AnimationEasingStylesComboBox.SelectedIndex = Settings.Default.FlyoutAnimationEasingStyle;
             LockKeysSwitch.IsChecked = Settings.Default.LockKeysEnabled;
             LockKeysDurationTextBox.Text = Settings.Default.LockKeysDuration.ToString();
+            MediaFlyoutEnabledSwitch.IsChecked = Settings.Default.MediaFlyoutEnabled;
 
             try // gets the version of the app, works only in release mode
             {
@@ -299,6 +300,12 @@ namespace FluentFlyout
             }
 
             LockKeysDurationTextBox.CaretIndex = LockKeysDurationTextBox.Text.Length;
+            Settings.Default.Save();
+        }
+
+        private void MediaFlyoutEnabledSwitch_Click(object sender, RoutedEventArgs e)
+        {
+            Settings.Default.MediaFlyoutEnabled = MediaFlyoutEnabledSwitch.IsChecked ?? false;
             Settings.Default.Save();
         }
     }
