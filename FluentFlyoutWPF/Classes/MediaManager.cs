@@ -4,9 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FluentFlyoutWPF.Classes
-{
-    internal class MediaManager
-    {
-    }
+namespace FluentFlyout.Classes;
+
+internal class MediaManager {
 }
+

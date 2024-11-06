@@ -1,7 +1,6 @@
-﻿<Application x:Class="FluentFlyoutWPF.App"
+﻿<Application x:Class="FluentFlyout.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:FluentFlyoutWPF"
              StartupUri="MainWindow.xaml"
              xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
              xmlns:mica="clr-namespace:MicaWPF.Styles;assembly=MicaWPF"
@@ -11,6 +10,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ui:ControlsDictionary />
                 <mica:ThemeDictionary Theme="Auto" DesignModeTheme="Auto"/>
+                <ui:ThemesDictionary Theme="Unknown"/>
                 <mica:ControlsDictionary />
             </ResourceDictionary.MergedDictionaries>
             <FontFamily x:Key="SegoeFluentIcons">pack://application:,,,/;component/Fonts/#Segoe Fluent Icons</FontFamily>
