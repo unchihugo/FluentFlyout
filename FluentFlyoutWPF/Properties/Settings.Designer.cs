@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace FluentFlyoutWPF.Properties {
+namespace FluentFlyout.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
@@ -214,6 +214,7 @@ namespace FluentFlyoutWPF.Properties {
                 this["AppTheme"] = value;
             }
         }
+        
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
@@ -223,6 +224,18 @@ namespace FluentFlyoutWPF.Properties {
             }
             set {
                 this["MediaFlyoutEnabled"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool nIconSymbol {
+            get {
+                return ((bool)(this["nIconSymbol"]));
+            }
+            set {
+                this["nIconSymbol"] = value;
             }
         }
     }

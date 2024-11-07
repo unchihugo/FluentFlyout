@@ -2,7 +2,7 @@
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using FluentFlyoutWPF.Classes;
-using FluentFlyoutWPF.Properties;
+using FluentFlyout.Properties;
 using MicaWPF.Controls;
 
 namespace FluentFlyoutWPF.Windows;
@@ -22,6 +22,8 @@ public partial class NextUpWindow : MicaWindow
         InitializeComponent();
         WindowHelper.SetTopmost(this);
         CustomWindowChrome.CaptionHeight = 0;
+        CustomWindowChrome.UseAeroCaptionButtons = false;
+        CustomWindowChrome.GlassFrameThickness = new Thickness(0);
 
         var titleWidth = GetStringWidth(title);
         var artistWidth = GetStringWidth(artist);

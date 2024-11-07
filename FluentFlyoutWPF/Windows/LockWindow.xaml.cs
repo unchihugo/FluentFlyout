@@ -3,7 +3,7 @@ using MicaWPF.Core.Extensions;
 using System.Windows;
 using Windows.UI;
 using FluentFlyoutWPF.Classes;
-using FluentFlyoutWPF.Properties;
+using FluentFlyout.Properties;
 
 
 namespace FluentFlyoutWPF.Windows;
@@ -22,6 +22,8 @@ public partial class LockWindow : MicaWindow
         InitializeComponent();
         WindowHelper.SetTopmost(this);
         CustomWindowChrome.CaptionHeight = 0;
+        CustomWindowChrome.UseAeroCaptionButtons = false;
+        CustomWindowChrome.GlassFrameThickness = new Thickness(0);
 
         WindowStartupLocation = WindowStartupLocation.Manual;
         Left = SystemParameters.WorkArea.Width / 2 - Width / 2;

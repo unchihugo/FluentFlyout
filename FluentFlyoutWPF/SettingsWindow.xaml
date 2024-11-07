@@ -211,6 +211,7 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
                         <ui:CardControl Grid.Row="0" Icon="{ui:SymbolIcon ShareScreenStart24}" Margin="0,0,0,3">
                             <ui:CardControl.Header>
@@ -220,7 +221,7 @@
                                     <TextBlock VerticalAlignment="Center" FontSize="12" Opacity="0.5">
                                         If this setting does not work as expected, check
                                         <Hyperlink Name="StartupHyperlink" NavigateUri="ms-settings:startupapps" BaselineAlignment="Center"
-                                                   RequestNavigate="StartupHyperlink_RequestNavigate" TextDecorations="None" Foreground="{DynamicResource MicaWPF.Brushes.SystemAccentColorLight3}">
+                                                   RequestNavigate="StartupHyperlink_RequestNavigate" TextDecorations="None" Foreground="{DynamicResource MicaWPF.Brushes.AccentFillColorDefault}">
                                             Startup Apps <ui:SymbolIcon VerticalAlignment="Center" FontSize="14" Symbol="Apps16"/>
                                         </Hyperlink>
                                     </TextBlock>
@@ -241,7 +242,16 @@
                                 </ComboBox>
                             </StackPanel>
                         </ui:CardControl>
-                        <ui:CardExpander Grid.Row="2" Icon="{ui:SymbolIcon Wrench24}" ContentPadding="6">
+                        <ui:CardControl Grid.Row="2" Icon="{ui:SymbolIcon PaintBrush24}" Margin="0,0,0,3">
+                            <ui:CardControl.Header>
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock Text="Windows 11-like Tray Icon" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
+                                    <TextBlock Text="Use a tray icon that matches Windows 11 (toggle to refresh theme)" FontSize="12" Opacity="0.5"/>
+                                </StackPanel>
+                            </ui:CardControl.Header>
+                            <controls:ToggleSwitch Name="nIconSymbolSwitch" Click="nIconSymbolSwitch_Click"/>
+                        </ui:CardControl>
+                        <ui:CardExpander Grid.Row="3" Icon="{ui:SymbolIcon Wrench24}" ContentPadding="6" Margin="0,0,0,3">
                             <ui:CardExpander.Header>
                                 <StackPanel Orientation="Vertical">
                                     <TextBlock Text="Animation Settings" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
@@ -286,7 +296,7 @@
                                 <ui:InfoBar Title="For the native Windows 11 experience, the settings should be kept at default." IsOpen="True" Severity="Informational" IsClosable="False"/>
                             </StackPanel>
                         </ui:CardExpander>
-                        <ui:CardControl Grid.Row="3" Icon="{ui:SymbolIcon Color24}" Margin="0,3,0,3">
+                        <ui:CardControl Grid.Row="4" Icon="{ui:SymbolIcon Color24}" Margin="0,0,0,3">
                             <ui:CardControl.Header>
                                 <StackPanel Orientation="Vertical">
                                     <TextBlock Text="App Theme" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
