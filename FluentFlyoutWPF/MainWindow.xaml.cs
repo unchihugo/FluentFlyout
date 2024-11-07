@@ -9,7 +9,7 @@ using System.Windows.Media.Imaging;
 using Windows.Media.Control;
 using Windows.Storage.Streams;
 using FluentFlyoutWPF.Classes;
-using FluentFlyoutWPF.Properties;
+using FluentFlyout.Properties;
 using FluentFlyoutWPF.Windows;
 using MicaWPF.Controls;
 using MicaWPF.Core.Extensions;
@@ -79,6 +79,8 @@ public partial class MainWindow : MicaWindow
         WindowStartupLocation = WindowStartupLocation.Manual;
         Left = -Width - 20; // workaround for window appearing on the screen before the animation starts
         CustomWindowChrome.CaptionHeight = 0; // hide the title bar
+        CustomWindowChrome.UseAeroCaptionButtons = false;
+        CustomWindowChrome.GlassFrameThickness = new Thickness(0);
 
         mediaManager.OnAnyMediaPropertyChanged += MediaManager_OnAnyMediaPropertyChanged;
         mediaManager.OnAnyPlaybackStateChanged += CurrentSession_OnPlaybackStateChanged;

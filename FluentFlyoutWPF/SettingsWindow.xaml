@@ -7,7 +7,7 @@
       xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
       xmlns:controls="clr-namespace:MicaWPF.Controls;assembly=MicaWPF"
       mc:Ignorable="d" 
-      Height="6000" Width="660" MinHeight="300" MinWidth="660"
+      Height="600" Width="660" MinHeight="300" MinWidth="660"
       Title="Settings" Icon="/Resources/FluentFlyout2.ico"
       TextOptions.TextRenderingMode="ClearType" TextOptions.TextFormattingMode="Ideal"
       >
@@ -242,17 +242,14 @@
                                 </ComboBox>
                             </StackPanel>
                         </ui:CardControl>
-                        <ui:CardControl Grid.Row="2" Icon="{ui:SymbolIcon ShareScreenStart24}" Margin="0,0,0,3">
+                        <ui:CardControl Grid.Row="2" Icon="{ui:SymbolIcon PaintBrush24}" Margin="0,0,0,3">
                             <ui:CardControl.Header>
                                 <StackPanel Orientation="Vertical">
-                                    <TextBlock Text="Tray Icon Symbol" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
+                                    <TextBlock Text="Windows 11-like Tray Icon" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
+                                    <TextBlock Text="Use a tray icon that matches Windows 11 (toggle to refresh theme)" FontSize="12" Opacity="0.5"/>
                                 </StackPanel>
                             </ui:CardControl.Header>
-                            <StackPanel Orientation="Horizontal">
-                                <Image Source="/Resources/FluentFlyout2.ico" Width="16" Height="16"/>
-                                <controls:ToggleSwitch Name="nIconSymbolSwitch" Click="nIconSymbolSwitch_Click" Margin="8,0,8,0"/>
-                                <Image Source="/Resources/FluentFlyoutMono.png" Width="16" Height="16"/>
-                            </StackPanel>
+                            <controls:ToggleSwitch Name="nIconSymbolSwitch" Click="nIconSymbolSwitch_Click"/>
                         </ui:CardControl>
                         <ui:CardExpander Grid.Row="3" Icon="{ui:SymbolIcon Wrench24}" ContentPadding="6" Margin="0,0,0,3">
                             <ui:CardExpander.Header>

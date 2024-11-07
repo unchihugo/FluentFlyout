@@ -1,8 +1,12 @@
 ﻿using System.Windows;
-using FluentFlyoutWPF.Properties;
+using System.Windows.Media.Imaging;
+using System.Windows.Threading;
+using FluentFlyout.Properties;
 using MicaWPF.Core.Enums;
+using MicaWPF.Core.Helpers;
 using MicaWPF.Core.Services;
 using Wpf.Ui.Appearance;
+using Wpf.Ui.Tray.Controls;
 
 namespace FluentFlyoutWPF.Classes;
 
@@ -76,5 +80,30 @@ internal static class ThemeManager
     private static void UnWatchThemeChanges()
     {
         SystemThemeWatcher.UnWatch(Application.Current.MainWindow);
+    }
+
+    /// <summary>
+    /// Changes the tray icon according to the specified app theme and setting.
+    /// </summary>
+    public static void UpdateTrayIcon()
+    {
+        Application.Current.Dispatcher.Invoke(() =>
+        {
+            if (Application.Current.MainWindow.FindName("nIcon") is NotifyIcon nIcon)
+            {
+                if (Settings.Default.nIconSymbol == true)
+                {
+                    var iconUri = new Uri(WindowsThemeHelper.GetCurrentWindowsTheme() == WindowsTheme.Dark
+                        ? "pack://application:,,,/Resources/TrayIcons/FluentFlyoutWhite.png"
+                        : "pack://application:,,,/Resources/TrayIcons/FluentFlyoutBlack.png");
+                    nIcon.Icon = new BitmapImage(iconUri);
+                }
+                else
+                {
+                    var iconUi = new Uri("pack://application:,,,/Resources/FluentFlyout2.ico");
+                    nIcon.Icon = new BitmapImage(iconUi);
+                }
+            }
+        });
     }
 }

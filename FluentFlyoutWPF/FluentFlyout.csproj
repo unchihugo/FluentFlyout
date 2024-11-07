@@ -10,7 +10,8 @@
     <StartupObject>FluentFlyoutWPF.App</StartupObject>
     <AssemblyName>$(MSBuildProjectName)</AssemblyName>
     <PlatformTarget>x64</PlatformTarget>
-    <Platforms>AnyCPU;x64</Platforms>
+    <Platforms>x64</Platforms>
+	<RuntimeIdentifier>win-x64</RuntimeIdentifier>
   </PropertyGroup>
 
   <ItemGroup>
@@ -20,10 +21,11 @@
   <ItemGroup>
     <None Remove="icon.ico" />
     <None Remove="Resources\FluentFlyout2.ico" />
+    <None Remove="Resources\FluentFlyoutBlack.png" />
     <None Remove="Resources\FluentFlyoutDemo3.1.png" />
     <None Remove="Resources\FluentFlyoutDemo4.1.png" />
     <None Remove="Resources\FluentFlyoutDemo5.1.png" />
-    <None Remove="Resources\FluentFlyoutMono.png" />
+    <None Remove="Resources\FluentFlyoutWhite.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -34,6 +36,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="Resources\TrayIcons\FluentFlyoutBlack.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\FluentFlyoutDemo3.1.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -49,7 +54,7 @@
     <Content Include="Resources\FluentFlyout2.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\FluentFlyoutMono.png">
+    <Content Include="Resources\TrayIcons\FluentFlyoutWhite.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
