@@ -1,4 +1,4 @@
-﻿namespace FluentFlyout;
+﻿namespace FluentFlyoutWPF;
 
 /// <summary>
 /// Interaction logic for App.xaml

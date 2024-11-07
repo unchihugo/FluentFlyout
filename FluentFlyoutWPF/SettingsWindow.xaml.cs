@@ -1,16 +1,16 @@
-﻿using FluentFlyout.Properties;
-using MicaWPF.Controls;
+﻿using MicaWPF.Controls;
 using Microsoft.Win32;
 using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using Windows.ApplicationModel;
-using FluentFlyout.Classes;
+using FluentFlyoutWPF.Classes;
+using FluentFlyoutWPF.Properties;
 using MessageBox = System.Windows.MessageBox;
 
 
-namespace FluentFlyout;
+namespace FluentFlyoutWPF;
 
 public partial class SettingsWindow : MicaWindow
 {

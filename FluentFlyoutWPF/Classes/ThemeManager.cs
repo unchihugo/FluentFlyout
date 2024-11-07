@@ -1,10 +1,10 @@
 ﻿using System.Windows;
-using FluentFlyout.Properties;
+using FluentFlyoutWPF.Properties;
 using MicaWPF.Core.Enums;
 using MicaWPF.Core.Services;
 using Wpf.Ui.Appearance;
 
-namespace FluentFlyout.Classes;
+namespace FluentFlyoutWPF.Classes;
 
 /// <summary>
 /// Manages the application theme settings and applies the selected theme.

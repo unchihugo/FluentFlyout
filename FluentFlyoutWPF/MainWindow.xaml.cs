@@ -8,16 +8,16 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using Windows.Media.Control;
 using Windows.Storage.Streams;
-using FluentFlyout.Classes;
-using FluentFlyout.Properties;
-using FluentFlyout.Windows;
+using FluentFlyoutWPF.Classes;
+using FluentFlyoutWPF.Properties;
+using FluentFlyoutWPF.Windows;
 using MicaWPF.Controls;
 using MicaWPF.Core.Extensions;
 using Microsoft.Win32;
 using static WindowsMediaController.MediaManager;
 
 
-namespace FluentFlyout;
+namespace FluentFlyoutWPF;
 
 public partial class MainWindow : MicaWindow
 {
