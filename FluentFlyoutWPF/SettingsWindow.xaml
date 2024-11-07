@@ -1,9 +1,9 @@
-﻿<controls:MicaWindow x:Class="FluentFlyout.SettingsWindow"
+﻿<controls:MicaWindow x:Class="FluentFlyoutWPF.SettingsWindow"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:FluentFlyout"
+      xmlns:local="clr-namespace:FluentFlyoutWPF"
       xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
       xmlns:controls="clr-namespace:MicaWPF.Controls;assembly=MicaWPF"
       mc:Ignorable="d" 
@@ -71,12 +71,12 @@
                                 </StackPanel>
                             </ui:CardControl.Header>
                             <ComboBox Name="PositionComboBox" SelectionChanged="PositionComboBox_SelectionChanged">
-                                <ComboBoxItem Content="Bottom Left"/>
-                                <ComboBoxItem Content="Bottom Center"/>
-                                <ComboBoxItem Content="Bottom Right"/>
-                                <ComboBoxItem Content="Top Left"/>
-                                <ComboBoxItem Content="Top Center"/>
-                                <ComboBoxItem Content="Top Right"/>
+                                <ComboBoxItem Content=" Bottom Left"/>
+                                <ComboBoxItem Content=" Bottom Center"/>
+                                <ComboBoxItem Content=" Bottom Right"/>
+                                <ComboBoxItem Content=" Top Left"/>
+                                <ComboBoxItem Content=" Top Center"/>
+                                <ComboBoxItem Content=" Top Right"/>
                             </ComboBox>
                         </ui:CardControl>
                         <ui:CardControl Grid.Row="4" Icon="{ui:SymbolIcon Timer24}" Margin="0,0,0,3">
@@ -203,10 +203,11 @@
                             </StackPanel>
                         </ui:CardControl>
                     </Grid>
-                    
+
                     <TextBlock Text="System" FontSize="18" FontWeight="SemiBold" Margin="0,36,0,0"/>
                     <Grid Margin="0,12,0,0">
                         <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
@@ -235,8 +236,8 @@
                             </ui:CardControl.Header>
                             <StackPanel Orientation="Horizontal">
                                 <ComboBox Name="nIconLeftClickComboBox" SelectionChanged="nIconLeftClickComboBox_SelectionChanged">
-                                    <ComboBoxItem Content="Open Settings"/>
-                                    <ComboBoxItem Content="Show Media Flyout"/>
+                                    <ComboBoxItem Content=" Open Settings"/>
+                                    <ComboBoxItem Content=" Show Media Flyout"/>
                                 </ComboBox>
                             </StackPanel>
                         </ui:CardControl>
@@ -275,17 +276,28 @@
                                     </ui:CardControl.Header>
                                     <StackPanel Orientation="Horizontal">
                                         <ComboBox Name="AnimationEasingStylesComboBox" SelectionChanged="AnimationEasingStylesComboBox_SelectionChanged">
-                                            <ComboBoxItem Content="Linear"/>
-                                            <ComboBoxItem Content="Sine"/>
-                                            <ComboBoxItem Content="Quadratic"/>
-                                            <ComboBoxItem Content="Cubic"/>
+                                            <ComboBoxItem Content=" Linear"/>
+                                            <ComboBoxItem Content=" Sine"/>
+                                            <ComboBoxItem Content=" Quadratic"/>
+                                            <ComboBoxItem Content=" Cubic"/>
                                         </ComboBox>
                                     </StackPanel>
                                 </ui:CardControl>
-                                <ui:InfoBar Grid.Row="8" Title="For the native Windows 11 experience, the settings should be kept at default." IsOpen="True" Severity="Informational" IsClosable="False"/>
+                                <ui:InfoBar Title="For the native Windows 11 experience, the settings should be kept at default." IsOpen="True" Severity="Informational" IsClosable="False"/>
                             </StackPanel>
                         </ui:CardExpander>
-
+                        <ui:CardControl Grid.Row="3" Icon="{ui:SymbolIcon Color24}" Margin="0,3,0,3">
+                            <ui:CardControl.Header>
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock Text="App Theme" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </ui:CardControl.Header>
+                            <ComboBox Name="AppThemeComboBox" SelectionChanged="AppThemeComboBox_SelectionChanged" IsReadOnly="False">
+                                <ComboBoxItem Content=" Windows Default"/>
+                                <ComboBoxItem Content=" Light"/>
+                                <ComboBoxItem Content=" Dark"/>
+                            </ComboBox>
+                        </ui:CardControl>
                     </Grid>
                 </StackPanel>
 
