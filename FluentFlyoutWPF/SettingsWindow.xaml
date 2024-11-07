@@ -7,7 +7,7 @@
       xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
       xmlns:controls="clr-namespace:MicaWPF.Controls;assembly=MicaWPF"
       mc:Ignorable="d" 
-      Height="600" Width="660" MinHeight="300" MinWidth="660"
+      Height="6000" Width="660" MinHeight="300" MinWidth="660"
       Title="Settings" Icon="/Resources/FluentFlyout2.ico"
       TextOptions.TextRenderingMode="ClearType" TextOptions.TextFormattingMode="Ideal"
       >
@@ -211,6 +211,7 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
                         <ui:CardControl Grid.Row="0" Icon="{ui:SymbolIcon ShareScreenStart24}" Margin="0,0,0,3">
                             <ui:CardControl.Header>
@@ -220,7 +221,7 @@
                                     <TextBlock VerticalAlignment="Center" FontSize="12" Opacity="0.5">
                                         If this setting does not work as expected, check
                                         <Hyperlink Name="StartupHyperlink" NavigateUri="ms-settings:startupapps" BaselineAlignment="Center"
-                                                   RequestNavigate="StartupHyperlink_RequestNavigate" TextDecorations="None" Foreground="{DynamicResource MicaWPF.Brushes.SystemAccentColorLight3}">
+                                                   RequestNavigate="StartupHyperlink_RequestNavigate" TextDecorations="None" Foreground="{DynamicResource MicaWPF.Brushes.AccentFillColorDefault}">
                                             Startup Apps <ui:SymbolIcon VerticalAlignment="Center" FontSize="14" Symbol="Apps16"/>
                                         </Hyperlink>
                                     </TextBlock>
@@ -241,7 +242,19 @@
                                 </ComboBox>
                             </StackPanel>
                         </ui:CardControl>
-                        <ui:CardExpander Grid.Row="2" Icon="{ui:SymbolIcon Wrench24}" ContentPadding="6">
+                        <ui:CardControl Grid.Row="2" Icon="{ui:SymbolIcon ShareScreenStart24}" Margin="0,0,0,3">
+                            <ui:CardControl.Header>
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock Text="Tray Icon Symbol" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </ui:CardControl.Header>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="/Resources/FluentFlyout2.ico" Width="16" Height="16"/>
+                                <controls:ToggleSwitch Name="nIconSymbolSwitch" Click="nIconSymbolSwitch_Click" Margin="8,0,8,0"/>
+                                <Image Source="/Resources/FluentFlyoutMono.png" Width="16" Height="16"/>
+                            </StackPanel>
+                        </ui:CardControl>
+                        <ui:CardExpander Grid.Row="3" Icon="{ui:SymbolIcon Wrench24}" ContentPadding="6" Margin="0,0,0,3">
                             <ui:CardExpander.Header>
                                 <StackPanel Orientation="Vertical">
                                     <TextBlock Text="Animation Settings" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
@@ -286,7 +299,7 @@
                                 <ui:InfoBar Title="For the native Windows 11 experience, the settings should be kept at default." IsOpen="True" Severity="Informational" IsClosable="False"/>
                             </StackPanel>
                         </ui:CardExpander>
-                        <ui:CardControl Grid.Row="3" Icon="{ui:SymbolIcon Color24}" Margin="0,3,0,3">
+                        <ui:CardControl Grid.Row="4" Icon="{ui:SymbolIcon Color24}" Margin="0,0,0,3">
                             <ui:CardControl.Header>
                                 <StackPanel Orientation="Vertical">
                                     <TextBlock Text="App Theme" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>

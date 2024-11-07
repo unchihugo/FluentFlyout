@@ -23,6 +23,7 @@
     <None Remove="Resources\FluentFlyoutDemo3.1.png" />
     <None Remove="Resources\FluentFlyoutDemo4.1.png" />
     <None Remove="Resources\FluentFlyoutDemo5.1.png" />
+    <None Remove="Resources\FluentFlyoutMono.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -42,13 +43,13 @@
     <Content Include="Resources\FluentFlyoutDemo5.1.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\icon.ico">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
 
   <ItemGroup>
     <Content Include="Resources\FluentFlyout2.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\FluentFlyoutMono.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

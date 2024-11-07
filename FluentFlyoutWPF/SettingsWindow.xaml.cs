@@ -326,4 +326,14 @@ public partial class SettingsWindow : MicaWindow
         Settings.Default.MediaFlyoutEnabled = MediaFlyoutEnabledSwitch.IsChecked ?? false;
         Settings.Default.Save();
     }
+
+    private void nIconSymbolSwitch_Click(object sender, RoutedEventArgs e)
+    {
+
+    }
+
+    private void nIconSymbolSwitch_Click_1(object sender, RoutedEventArgs e)
+    {
+
+    }
 }
