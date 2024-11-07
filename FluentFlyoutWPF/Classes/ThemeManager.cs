@@ -22,6 +22,7 @@ internal static class ThemeManager
     public static void ApplySavedTheme()
     {
         ApplyTheme(Settings.Default.AppTheme);
+        UpdateTrayIcon();
     }
 
     /// <summary>
