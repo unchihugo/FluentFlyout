@@ -6,7 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using Windows.ApplicationModel;
 using FluentFlyoutWPF.Classes;
-using FluentFlyoutWPF.Properties;
+using FluentFlyout.Properties;
 using MessageBox = System.Windows.MessageBox;
 
 
@@ -36,24 +36,25 @@ public partial class SettingsWindow : MicaWindow
 
         Closed += (s, e) => instance = null;
 
-            // is there a better way to do this?
-            LayoutSwitch.IsChecked = Settings.Default.CompactLayout;
-            PositionComboBox.SelectedIndex = Settings.Default.Position;
-            FlyoutAnimationSpeedComboBox.SelectedIndex = Settings.Default.FlyoutAnimationSpeed;
-            PlayerInfoSwitch.IsChecked = Settings.Default.PlayerInfoEnabled;
-            RepeatSwitch.IsChecked = Settings.Default.RepeatEnabled;
-            ShuffleSwitch.IsChecked = Settings.Default.ShuffleEnabled;
-            StartupSwitch.IsChecked = Settings.Default.Startup;
-            DurationTextBox.Text = Settings.Default.Duration.ToString();
-            NextUpSwitch.IsChecked = Settings.Default.NextUpEnabled;
-            NextUpDurationTextBox.Text = Settings.Default.NextUpDuration.ToString();
-            nIconLeftClickComboBox.SelectedIndex = Settings.Default.nIconLeftClick;
-            CenterTitleArtistSwitch.IsChecked = Settings.Default.CenterTitleArtist;
-            AnimationEasingStylesComboBox.SelectedIndex = Settings.Default.FlyoutAnimationEasingStyle;
-            LockKeysSwitch.IsChecked = Settings.Default.LockKeysEnabled;
-            LockKeysDurationTextBox.Text = Settings.Default.LockKeysDuration.ToString();
-            AppThemeComboBox.SelectedIndex = Settings.Default.AppTheme;
-            MediaFlyoutEnabledSwitch.IsChecked = Settings.Default.MediaFlyoutEnabled;
+        // is there a better way to do this?
+        LayoutSwitch.IsChecked = Settings.Default.CompactLayout;
+        PositionComboBox.SelectedIndex = Settings.Default.Position;
+        FlyoutAnimationSpeedComboBox.SelectedIndex = Settings.Default.FlyoutAnimationSpeed;
+        PlayerInfoSwitch.IsChecked = Settings.Default.PlayerInfoEnabled;
+        RepeatSwitch.IsChecked = Settings.Default.RepeatEnabled;
+        ShuffleSwitch.IsChecked = Settings.Default.ShuffleEnabled;
+        StartupSwitch.IsChecked = Settings.Default.Startup;
+        DurationTextBox.Text = Settings.Default.Duration.ToString();
+        NextUpSwitch.IsChecked = Settings.Default.NextUpEnabled;
+        NextUpDurationTextBox.Text = Settings.Default.NextUpDuration.ToString();
+        nIconLeftClickComboBox.SelectedIndex = Settings.Default.nIconLeftClick;
+        CenterTitleArtistSwitch.IsChecked = Settings.Default.CenterTitleArtist;
+        AnimationEasingStylesComboBox.SelectedIndex = Settings.Default.FlyoutAnimationEasingStyle;
+        LockKeysSwitch.IsChecked = Settings.Default.LockKeysEnabled;
+        LockKeysDurationTextBox.Text = Settings.Default.LockKeysDuration.ToString();
+        AppThemeComboBox.SelectedIndex = Settings.Default.AppTheme;
+        MediaFlyoutEnabledSwitch.IsChecked = Settings.Default.MediaFlyoutEnabled;
+        nIconSymbolSwitch.IsChecked = Settings.Default.nIconSymbol;
 
         try // gets the version of the app, works only in release mode
         {
@@ -320,10 +321,17 @@ public partial class SettingsWindow : MicaWindow
     {
         ThemeManager.ApplyAndSaveTheme(AppThemeComboBox.SelectedIndex);
     }
-    
+
     private void MediaFlyoutEnabledSwitch_Click(object sender, RoutedEventArgs e)
     {
         Settings.Default.MediaFlyoutEnabled = MediaFlyoutEnabledSwitch.IsChecked ?? false;
         Settings.Default.Save();
+    }
+
+    private void nIconSymbolSwitch_Click(object sender, RoutedEventArgs e)
+    {
+        Settings.Default.nIconSymbol = nIconSymbolSwitch.IsChecked ?? false;
+        Settings.Default.Save();
+        ThemeManager.UpdateTrayIcon();
     }
 }

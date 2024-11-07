@@ -98,7 +98,7 @@
 
         <tray:NotifyIcon
             LeftClick="nIcon_LeftClick" FocusOnLeftClick="False"
-            Name="nIcon"
+            x:Name="nIcon"
             MenuOnRightClick="True"
             TooltipText="FluentFlyout"
             Icon="/Resources/FluentFlyout2.ico"
