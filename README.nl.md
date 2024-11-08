@@ -71,8 +71,8 @@ FluentFlyout biedt het mediabediening en informatie in een mooie en moderne pop-
 Voel u vrij om op welke manier dan ook bij te dragen! Bekijk [CONTRIBUTING.md](https://github.com/unchihugo/FluentFlyout/blob/master/.github/CONTRIBUTING.md) om aan de slag te gaan.
 
 ## Credits 🙌
-[Hugo Li](https://unchihugo.github.io) - Oorspronkelijke ontwikkelaar, Microsoft Store-uitgever, CN & NL vertalingen
-[LiAuTraver](https://github.com/LiAuTraver) - Bijdrager
+- [Hugo Li](https://unchihugo.github.io) - Oorspronkelijke ontwikkelaar, Microsoft Store-uitgever, CN & NL vertalingen
+- [LiAuTraver](https://github.com/LiAuTraver) - Bijdrager
 
 ### Dank aan
 - [Dubya.WindowsMediaController](https://github.com/DubyaDude/WindowsMediaController)
