@@ -132,51 +132,72 @@ public partial class MainWindow : MicaWindow
             if (_position == 0)
             {
                 window.Left = 16;
-                moveAnimation.From = SystemParameters.WorkArea.Height - window.Height + 4;
+                if (Settings.Default.FlyoutAnimationSpeed == 0) // if off, don't animate (just appear at the bottom)
+                    moveAnimation.From = SystemParameters.WorkArea.Height - window.Height - 16;
+                else
+                    moveAnimation.From = SystemParameters.WorkArea.Height - window.Height + 4; // appear from the bottom of the screen
                 moveAnimation.To = SystemParameters.WorkArea.Height - window.Height - 16;
             }
             else if (_position == 1)
             {
                 window.Left = SystemParameters.WorkArea.Width / 2 - window.Width / 2;
-                moveAnimation.From = SystemParameters.WorkArea.Height - window.Height - 60;
+                if (Settings.Default.FlyoutAnimationSpeed == 0)
+                    moveAnimation.To = SystemParameters.WorkArea.Height - window.Height - 80;
+                else
+                    moveAnimation.To = SystemParameters.WorkArea.Height - window.Height - 60;
                 moveAnimation.To = SystemParameters.WorkArea.Height - window.Height - 80;
             }
             else if (_position == 2)
             {
                 window.Left = SystemParameters.WorkArea.Width - window.Width - 16;
-                moveAnimation.From = SystemParameters.WorkArea.Height - window.Height + 4;
+                if (Settings.Default.FlyoutAnimationSpeed == 0)
+                    moveAnimation.To = SystemParameters.WorkArea.Height - window.Height - 16;
+                else
+                    moveAnimation.To = SystemParameters.WorkArea.Height - window.Height + 4;
                 moveAnimation.To = SystemParameters.WorkArea.Height - window.Height - 16;
             }
             else if (_position == 3)
             {
                 window.Left = 16;
-                moveAnimation.From = -4;
+                if (Settings.Default.FlyoutAnimationSpeed == 0)
+                    moveAnimation.From = 16;
+                else
+                    moveAnimation.From = -4;
                 moveAnimation.To = 16;
             }
             else if (_position == 4)
             {
                 window.Left = SystemParameters.WorkArea.Width / 2 - window.Width / 2;
-                moveAnimation.From = -4;
+                if (Settings.Default.FlyoutAnimationSpeed == 0)
+                    moveAnimation.From = 16;
+                else
+                    moveAnimation.From = -4;
                 moveAnimation.To = 16;
             }
             else if (_position == 5)
             {
                 window.Left = SystemParameters.WorkArea.Width - window.Width - 16;
-                moveAnimation.From = -4;
+                if (Settings.Default.FlyoutAnimationSpeed == 0)
+                    moveAnimation.From = 16;
+                else
+                    moveAnimation.From = -4;
                 moveAnimation.To = 16;
             }
         }
         else
         {
             window.Left = SystemParameters.WorkArea.Width / 2 - window.Width / 2;
-            moveAnimation.From = SystemParameters.WorkArea.Height - window.Height + 4;
+            if (Settings.Default.FlyoutAnimationSpeed == 0)
+                moveAnimation.To = SystemParameters.WorkArea.Height - window.Height - 16;
+            else
+                moveAnimation.To = SystemParameters.WorkArea.Height - window.Height + 4;
             moveAnimation.To = SystemParameters.WorkArea.Height - window.Height - 16;
         }
 
         int msDuration = getDuration();
 
         DoubleAnimation opacityAnimation = (DoubleAnimation)storyboard.Children[1];
-        opacityAnimation.From = 0;
+        if (Settings.Default.FlyoutAnimationSpeed != 0) opacityAnimation.From = 0;
         opacityAnimation.To = 1;
         opacityAnimation.Duration = new Duration(TimeSpan.FromMilliseconds(msDuration));
 
@@ -201,30 +222,30 @@ public partial class MainWindow : MicaWindow
             if (_position == 0 || _position == 2)
             {
                 moveAnimation.From = SystemParameters.WorkArea.Height - window.Height - 16;
-                moveAnimation.To = SystemParameters.WorkArea.Height - window.Height + 4;
+                if (Settings.Default.FlyoutAnimationSpeed != 0) moveAnimation.To = SystemParameters.WorkArea.Height - window.Height + 4;
             }
             else if (_position == 1)
             {
                 moveAnimation.From = SystemParameters.WorkArea.Height - window.Height - 80;
-                moveAnimation.To = SystemParameters.WorkArea.Height - window.Height - 60;
+                if (Settings.Default.FlyoutAnimationSpeed != 0) moveAnimation.To = SystemParameters.WorkArea.Height - window.Height - 60;
             }
             else if (_position == 3 || _position == 4 || _position == 5)
             {
                 moveAnimation.From = 16;
-                moveAnimation.To = -4;
+                if (Settings.Default.FlyoutAnimationSpeed != 0) moveAnimation.To = -4;
             }
         }
         else
         {
             moveAnimation.From = SystemParameters.WorkArea.Height - window.Height - 16;
-            moveAnimation.To = SystemParameters.WorkArea.Height - window.Height + 4;
+            if (Settings.Default.FlyoutAnimationSpeed != 0) moveAnimation.To = SystemParameters.WorkArea.Height - window.Height + 4;
         }
 
         int msDuration = getDuration();
 
         DoubleAnimation opacityAnimation = (DoubleAnimation)storyboard.Children[1];
         opacityAnimation.From = 1;
-        opacityAnimation.To = 0;
+        if (Settings.Default.FlyoutAnimationSpeed != 0) opacityAnimation.To = 0;
         opacityAnimation.Duration = new Duration(TimeSpan.FromMilliseconds(msDuration));
 
         if (Settings.Default.FlyoutAnimationEasingStyle == 0) moveAnimation.EasingFunction = opacityAnimation.EasingFunction = null;
