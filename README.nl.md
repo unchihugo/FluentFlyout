@@ -72,6 +72,8 @@ Voel u vrij om op welke manier dan ook bij te dragen! Bekijk [CONTRIBUTING.md](h
 
 ## Credits 🙌
 [Hugo Li](https://unchihugo.github.io) - Oorspronkelijke ontwikkelaar, Microsoft Store-uitgever, CN & NL vertalingen
+[LiAuTraver](https://github.com/LiAuTraver) - Bijdrager
+
 ### Dank aan
 - [Dubya.WindowsMediaController](https://github.com/DubyaDude/WindowsMediaController)
 - [MicaWPF](https://github.com/Simnico99/MicaWPF)

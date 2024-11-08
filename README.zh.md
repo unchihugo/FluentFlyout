@@ -71,6 +71,7 @@ FluentFlyout 具有流畅的动画效果，能够与系统的颜色主题相融�
 
 ## 致谢 🙌
 [Hugo Li](https://unchihugo.github.io) - 原始开发者、Microsoft Store 发布者、中文和荷兰翻译
+[LiAuTraver](https://github.com/LiAuTraver) - 贡献者
 ### 依赖
 - [Dubya.WindowsMediaController](https://github.com/DubyaDude/WindowsMediaController)
 - [MicaWPF](https://github.com/Simnico99/MicaWPF)
