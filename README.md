@@ -71,7 +71,9 @@ FluentFlyout features smooth animations, blends with your system's color themes,
 Please feel free to contribute in any way you can! Check out [CONTRIBUTING.md](https://github.com/unchihugo/FluentFlyout/blob/master/.github/CONTRIBUTING.md) to get started.
 
 ## Credits 🙌
-[Hugo Li](https://unchihugo.github.io) - Original Developer, Microsoft Store Publisher, CN & NL Translations
+- [Hugo Li](https://unchihugo.github.io) - Original Developer, Microsoft Store Publisher, CN & NL Translations
+- [LiAuTraver](https://github.com/LiAuTraver) - Contributor
+
 ### Dependencies
 - [Dubya.WindowsMediaController](https://github.com/DubyaDude/WindowsMediaController)
 - [MicaWPF](https://github.com/Simnico99/MicaWPF)
