@@ -147,7 +147,7 @@
                             <ui:CardControl.Header>
                                 <StackPanel Orientation="Vertical">
                                     <TextBlock Text="Enable Next Up Flyout (Experimental)" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
-                                    <TextBlock Text="Shows what's next when a song/video ends, very compact" FontSize="12" Opacity="0.5"/>
+                                    <TextBlock Text="Shows what's next when a song/video ends" FontSize="12" Opacity="0.5"/>
                                 </StackPanel>
                             </ui:CardControl.Header>
                             <controls:ToggleSwitch Name="NextUpSwitch" Click="NextUpSwitch_Click"/>
@@ -169,6 +169,7 @@
                     <TextBlock Text="Lock Keys Customization" FontSize="20" FontWeight="SemiBold" FontFamily="Segoe UI Variable" Margin="0,36,0,0"/>
                     <Grid Margin="0,12,0,0">
                         <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
@@ -202,11 +203,21 @@
                                 <TextBlock Text="ms" FontSize="14" FontWeight="Regular" Margin="10,0,0,0" VerticalAlignment="Center"/>
                             </StackPanel>
                         </ui:CardControl>
+                        <ui:CardControl Grid.Row="3" Icon="{ui:SymbolIcon TextBold24}" Margin="0,0,0,3">
+                            <ui:CardControl.Header>
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock Text="Bold Symbol and Font" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
+                                    <TextBlock Text="Emphasizes the flyout symbol and font" FontSize="12" Opacity="0.5"/>
+                                </StackPanel>
+                            </ui:CardControl.Header>
+                            <controls:ToggleSwitch Name="LockKeysBoldUISwitch" Click="LockKeysBoldUISwitch_Click"/>
+                        </ui:CardControl>
                     </Grid>
 
                     <TextBlock Text="System" FontSize="18" FontWeight="SemiBold" Margin="0,36,0,0"/>
                     <Grid Margin="0,12,0,0">
                         <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
@@ -229,7 +240,19 @@
                             </ui:CardControl.Header>
                             <controls:ToggleSwitch Name="StartupSwitch" Click="StartupSwitch_Click"/>
                         </ui:CardControl>
-                        <ui:CardControl Grid.Row="1" Icon="{ui:SymbolIcon CursorHover24}" Margin="0,0,0,3">
+                        <ui:CardControl Grid.Row="1" Icon="{ui:SymbolIcon Color24}" Margin="0,0,0,3">
+                            <ui:CardControl.Header>
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock Text="App Theme" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </ui:CardControl.Header>
+                            <ComboBox Name="AppThemeComboBox" SelectionChanged="AppThemeComboBox_SelectionChanged" IsReadOnly="False">
+                                <ComboBoxItem Content=" Windows Default"/>
+                                <ComboBoxItem Content=" Light"/>
+                                <ComboBoxItem Content=" Dark"/>
+                            </ComboBox>
+                        </ui:CardControl>
+                        <ui:CardControl Grid.Row="2" Icon="{ui:SymbolIcon CursorHover24}" Margin="0,0,0,3">
                             <ui:CardControl.Header>
                                 <StackPanel Orientation="Vertical">
                                     <TextBlock Text="Tray Icon Left Click Behavior" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
@@ -242,7 +265,7 @@
                                 </ComboBox>
                             </StackPanel>
                         </ui:CardControl>
-                        <ui:CardControl Grid.Row="2" Icon="{ui:SymbolIcon PaintBrush24}" Margin="0,0,0,3">
+                        <ui:CardControl Grid.Row="3" Icon="{ui:SymbolIcon PaintBrush24}" Margin="0,0,0,3">
                             <ui:CardControl.Header>
                                 <StackPanel Orientation="Vertical">
                                     <TextBlock Text="Windows 11-like Tray Icon" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
@@ -251,7 +274,7 @@
                             </ui:CardControl.Header>
                             <controls:ToggleSwitch Name="nIconSymbolSwitch" Click="nIconSymbolSwitch_Click"/>
                         </ui:CardControl>
-                        <ui:CardExpander Grid.Row="3" Icon="{ui:SymbolIcon Wrench24}" ContentPadding="6" Margin="0,0,0,3">
+                        <ui:CardExpander Grid.Row="4" Icon="{ui:SymbolIcon Wrench24}" ContentPadding="6" Margin="0,0,0,3">
                             <ui:CardExpander.Header>
                                 <StackPanel Orientation="Vertical">
                                     <TextBlock Text="Animation Settings" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
@@ -296,17 +319,14 @@
                                 <ui:InfoBar Title="For the native Windows 11 experience, the settings should be kept at default." IsOpen="True" Severity="Informational" IsClosable="False"/>
                             </StackPanel>
                         </ui:CardExpander>
-                        <ui:CardControl Grid.Row="4" Icon="{ui:SymbolIcon Color24}" Margin="0,0,0,3">
+                        <ui:CardControl Grid.Row="5" Icon="{ui:SymbolIcon ArrowMinimize24}" Margin="0,0,0,3">
                             <ui:CardControl.Header>
                                 <StackPanel Orientation="Vertical">
-                                    <TextBlock Text="App Theme" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
+                                    <TextBlock Text="Disable Flyouts if DirectX fullscreen program is detected" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
+                                    <TextBlock Text="Prevents DirectX games in exclusive fullscreen from minimizing if a flyout pops up" FontSize="12" Opacity="0.5"/>
                                 </StackPanel>
                             </ui:CardControl.Header>
-                            <ComboBox Name="AppThemeComboBox" SelectionChanged="AppThemeComboBox_SelectionChanged" IsReadOnly="False">
-                                <ComboBoxItem Content=" Windows Default"/>
-                                <ComboBoxItem Content=" Light"/>
-                                <ComboBoxItem Content=" Dark"/>
-                            </ComboBox>
+                            <controls:ToggleSwitch Name="DisableIfFullscreenSwitch" Click="DisableIfFullscreenSwitch_Click"/>
                         </ui:CardControl>
                     </Grid>
                 </StackPanel>

@@ -55,6 +55,8 @@ public partial class SettingsWindow : MicaWindow
         AppThemeComboBox.SelectedIndex = Settings.Default.AppTheme;
         MediaFlyoutEnabledSwitch.IsChecked = Settings.Default.MediaFlyoutEnabled;
         nIconSymbolSwitch.IsChecked = Settings.Default.nIconSymbol;
+        DisableIfFullscreenSwitch.IsChecked = Settings.Default.DisableIfFullscreen;
+        LockKeysBoldUISwitch.IsChecked = Settings.Default.LockKeysBoldUI;
 
         try // gets the version of the app, works only in release mode
         {
@@ -333,5 +335,17 @@ public partial class SettingsWindow : MicaWindow
         Settings.Default.nIconSymbol = nIconSymbolSwitch.IsChecked ?? false;
         Settings.Default.Save();
         ThemeManager.UpdateTrayIcon();
+    }
+
+    private void DisableIfFullscreenSwitch_Click(object sender, RoutedEventArgs e)
+    {
+        Settings.Default.DisableIfFullscreen = DisableIfFullscreenSwitch.IsChecked ?? false;
+        Settings.Default.Save();
+    }
+
+    private void LockKeysBoldUISwitch_Click(object sender, RoutedEventArgs e)
+    {
+        Settings.Default.LockKeysBoldUI = LockKeysBoldUISwitch.IsChecked ?? false;
+        Settings.Default.Save();
     }
 }

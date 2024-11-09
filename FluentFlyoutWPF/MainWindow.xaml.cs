@@ -260,7 +260,7 @@ public partial class MainWindow : MicaWindow
     private void MediaManager_OnAnyMediaPropertyChanged(MediaSession mediaSession, GlobalSystemMediaTransportControlsSessionMediaProperties mediaProperties)
     {
         if (mediaManager.GetFocusedSession() == null) return;
-        if (Settings.Default.NextUpEnabled == true) // show NextUpWindow if enabled in settings
+        if (Settings.Default.NextUpEnabled || !FullscreenDetector.IsFullscreenApplicationRunning()) // show NextUpWindow if enabled in settings
         {
             var songInfo = mediaSession.ControlSession.TryGetMediaPropertiesAsync().GetAwaiter().GetResult();
             if (nextUpWindow == null && IsVisible == false && songInfo.Thumbnail != null && currentTitle != songInfo.Title)
@@ -303,7 +303,7 @@ public partial class MainWindow : MicaWindow
                 ShowMediaFlyout();
             }
 
-            if (Settings.Default.LockKeysEnabled == true)
+            if (Settings.Default.LockKeysEnabled || !FullscreenDetector.IsFullscreenApplicationRunning())
             {
                 if (vkCode == 0x14) // Caps Lock
                 {
@@ -326,10 +326,13 @@ public partial class MainWindow : MicaWindow
         return CallNextHookEx(_hookId, nCode, wParam, lParam);
     }
 
-        private async void ShowMediaFlyout()
-        {
-            if (mediaManager.GetFocusedSession() == null || !Settings.Default.MediaFlyoutEnabled) return;
-            UpdateUI(mediaManager.GetFocusedSession());
+    private async void ShowMediaFlyout()
+    {
+        if (mediaManager.GetFocusedSession() == null ||
+            !Settings.Default.MediaFlyoutEnabled ||
+            FullscreenDetector.IsFullscreenApplicationRunning())
+            return;
+        UpdateUI(mediaManager.GetFocusedSession());
 
         if (nextUpWindow != null) // close NextUpWindow if it's open
         {
@@ -691,7 +694,8 @@ public partial class MainWindow : MicaWindow
 
     private void nIcon_LeftClick(Wpf.Ui.Tray.Controls.NotifyIcon sender, RoutedEventArgs e) // change the behavior of the tray icon
     {
-        if (Settings.Default.nIconLeftClick == 0) {
+        if (Settings.Default.nIconLeftClick == 0)
+        {
             openSettings(sender, e);
             //Wpf.Ui.Appearance.ApplicationThemeManager.Apply(ApplicationTheme.Light, WindowBackdropType.Mica); // to change the theme
             //ThemeService themeService = new ThemeService();
