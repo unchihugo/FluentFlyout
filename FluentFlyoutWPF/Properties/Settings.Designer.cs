@@ -238,5 +238,29 @@ namespace FluentFlyout.Properties {
                 this["nIconSymbol"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool DisableIfFullscreen {
+            get {
+                return ((bool)(this["DisableIfFullscreen"]));
+            }
+            set {
+                this["DisableIfFullscreen"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool LockKeysBoldUI {
+            get {
+                return ((bool)(this["LockKeysBoldUI"]));
+            }
+            set {
+                this["LockKeysBoldUI"] = value;
+            }
+        }
     }
 }

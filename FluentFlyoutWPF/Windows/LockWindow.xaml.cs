@@ -38,15 +38,20 @@ public partial class LockWindow : MicaWindow
             this.EnableBackdrop();
 
             LockTextBlock.Text = key + " is " + (isOn ? "on" : "off");
+            if (Settings.Default.LockKeysBoldUI) LockTextBlock.FontWeight = FontWeights.Medium;
+            else LockTextBlock.FontWeight = FontWeights.Normal;
+
             if (isOn)
             {
                 LockIndicatorRectangle.Opacity = 1;
-                LockSymbol.Symbol = Wpf.Ui.Controls.SymbolRegular.LockClosed24;
+                if (Settings.Default.LockKeysBoldUI) LockSymbol.Symbol = Wpf.Ui.Controls.SymbolRegular.LockClosed24;
+                else LockSymbol.Symbol = Wpf.Ui.Controls.SymbolRegular.LockClosed20;
             }
             else
             {
                 LockIndicatorRectangle.Opacity = 0.2;
-                LockSymbol.Symbol = Wpf.Ui.Controls.SymbolRegular.LockOpen24;
+                if (Settings.Default.LockKeysBoldUI) LockSymbol.Symbol = Wpf.Ui.Controls.SymbolRegular.LockOpen24;
+                else LockSymbol.Symbol = Wpf.Ui.Controls.SymbolRegular.LockOpen20;
             }
         });
     }
