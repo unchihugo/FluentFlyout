@@ -142,18 +142,18 @@ public partial class MainWindow : MicaWindow
             {
                 window.Left = SystemParameters.WorkArea.Width / 2 - window.Width / 2;
                 if (Settings.Default.FlyoutAnimationSpeed == 0)
-                    moveAnimation.To = SystemParameters.WorkArea.Height - window.Height - 80;
+                    moveAnimation.From = SystemParameters.WorkArea.Height - window.Height - 80;
                 else
-                    moveAnimation.To = SystemParameters.WorkArea.Height - window.Height - 60;
+                    moveAnimation.From = SystemParameters.WorkArea.Height - window.Height - 60;
                 moveAnimation.To = SystemParameters.WorkArea.Height - window.Height - 80;
             }
             else if (_position == 2)
             {
                 window.Left = SystemParameters.WorkArea.Width - window.Width - 16;
                 if (Settings.Default.FlyoutAnimationSpeed == 0)
-                    moveAnimation.To = SystemParameters.WorkArea.Height - window.Height - 16;
+                    moveAnimation.From = SystemParameters.WorkArea.Height - window.Height - 16;
                 else
-                    moveAnimation.To = SystemParameters.WorkArea.Height - window.Height + 4;
+                    moveAnimation.From = SystemParameters.WorkArea.Height - window.Height + 4;
                 moveAnimation.To = SystemParameters.WorkArea.Height - window.Height - 16;
             }
             else if (_position == 3)
@@ -188,9 +188,9 @@ public partial class MainWindow : MicaWindow
         {
             window.Left = SystemParameters.WorkArea.Width / 2 - window.Width / 2;
             if (Settings.Default.FlyoutAnimationSpeed == 0)
-                moveAnimation.To = SystemParameters.WorkArea.Height - window.Height - 16;
+                moveAnimation.From = SystemParameters.WorkArea.Height - window.Height - 16;
             else
-                moveAnimation.To = SystemParameters.WorkArea.Height - window.Height + 4;
+                moveAnimation.From = SystemParameters.WorkArea.Height - window.Height + 4;
             moveAnimation.To = SystemParameters.WorkArea.Height - window.Height - 16;
         }
 
