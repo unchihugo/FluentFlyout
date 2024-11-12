@@ -32,7 +32,7 @@ internal class FullscreenDetector
     /// </returns>
     public static bool IsFullscreenApplicationRunning()
     {
-        if (Settings.Default.DisableIfFullscreen) return false;
+        if (!Settings.Default.DisableIfFullscreen) return false;
         try
         {
             QUERY_USER_NOTIFICATION_STATE state;
