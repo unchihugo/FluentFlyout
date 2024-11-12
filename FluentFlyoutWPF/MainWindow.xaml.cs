@@ -281,7 +281,7 @@ public partial class MainWindow : MicaWindow
     private void MediaManager_OnAnyMediaPropertyChanged(MediaSession mediaSession, GlobalSystemMediaTransportControlsSessionMediaProperties mediaProperties)
     {
         if (mediaManager.GetFocusedSession() == null) return;
-        if (Settings.Default.NextUpEnabled || !FullscreenDetector.IsFullscreenApplicationRunning()) // show NextUpWindow if enabled in settings
+        if (Settings.Default.NextUpEnabled && !FullscreenDetector.IsFullscreenApplicationRunning()) // show NextUpWindow if enabled in settings
         {
             var songInfo = mediaSession.ControlSession.TryGetMediaPropertiesAsync().GetAwaiter().GetResult();
             if (nextUpWindow == null && IsVisible == false && songInfo.Thumbnail != null && currentTitle != songInfo.Title)
@@ -324,7 +324,7 @@ public partial class MainWindow : MicaWindow
                 ShowMediaFlyout();
             }
 
-            if (Settings.Default.LockKeysEnabled || !FullscreenDetector.IsFullscreenApplicationRunning())
+            if (Settings.Default.LockKeysEnabled && !FullscreenDetector.IsFullscreenApplicationRunning())
             {
                 if (vkCode == 0x14) // Caps Lock
                 {

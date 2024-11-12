@@ -6,7 +6,7 @@
         xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
         xmlns:tray="http://schemas.lepo.co/wpfui/2022/xaml/tray"
         xmlns:controls="clr-namespace:MicaWPF.Controls;assembly=MicaWPF"
-        Height="116" Width="310"
+        Height="116" Width="310" Top="-9999"
         WindowStyle="None" mc:Ignorable="d" ShowInTaskbar="False"
         ResizeMode="NoResize" MouseEnter="MicaWindow_MouseEnter"
         ChangeTitleColorWhenInactive="False"
@@ -34,6 +34,9 @@
     </Window.Triggers>
 
     <Grid>
+        <Grid.RenderTransform>
+            <ScaleTransform x:Name="ScaleTransform"/>
+        </Grid.RenderTransform>
         <StackPanel Margin="12" Orientation="Horizontal">
             <Border Name="SongImageBorder" CornerRadius="6" BorderThickness="1" BorderBrush="#26FFFFFF" Margin="0" ClipToBounds="True" Width="78" Height="78">
                 <ui:SymbolIcon Name="SongImagePlaceholder" Symbol="MusicNote220" FontSize="40" Filled="True" Foreground="{DynamicResource MicaWPF.Brushes.SystemAccentColorLight2}" Visibility="Collapsed" />
