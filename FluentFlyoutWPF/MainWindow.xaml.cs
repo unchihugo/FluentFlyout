@@ -724,4 +724,9 @@ public partial class MainWindow : MicaWindow
         }
         else if (Settings.Default.nIconLeftClick == 1) ShowMediaFlyout();
     }
+
+    private void FlyoutCloseButton_Click(object sender, RoutedEventArgs e)
+    {
+
+    }
 }

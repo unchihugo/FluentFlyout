@@ -46,7 +46,7 @@
             </Border>
             <StackPanel Name="BodyStackPanel" Orientation="Vertical" VerticalAlignment="Center" Width="194">
                 <StackPanel Orientation="Horizontal">
-                    <StackPanel Name="SongInfoStackPanel" Margin="12,0,0,0" Orientation="Vertical" VerticalAlignment="Center" Width="182">
+                    <StackPanel Name="SongInfoStackPanel" Margin="12,0,0,0" Orientation="Vertical" VerticalAlignment="Center" Width="184"> <!-- -30 width to accompany close button -->
                         <TextBlock Name="SongTitle" Text="Song Title" FontSize="14" FontFamily="Segoe UI Variable" FontWeight="Medium" TextTrimming="CharacterEllipsis"/>
                         <TextBlock Name="SongArtist" Text="Artist Name" FontSize="14" FontFamily="Segoe UI Variable" FontWeight="Medium" Opacity="0.5" TextTrimming="CharacterEllipsis"/>
                     </StackPanel>
@@ -98,6 +98,16 @@
                 </StackPanel>
             </StackPanel>
         </StackPanel>
+        <DockPanel LastChildFill="False">
+            <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" HorizontalAlignment="Right">
+                <controls:Button
+    Height="20" Width="20" Name="FlyoutCloseButton"
+    Margin="0,20,20,0" Click="FlyoutCloseButton_Click" Focusable="False"
+    Style="{StaticResource MicaWPF.Styles.Default.Button}" VerticalAlignment="Center">
+                    <ui:SymbolIcon Name="SymbolFlyoutCloseButton" Symbol="ChevronDown20" Filled="false" FontSize="12"/>
+                </controls:Button>
+            </StackPanel>
+        </DockPanel>
 
         <tray:NotifyIcon
             LeftClick="nIcon_LeftClick" FocusOnLeftClick="False"
