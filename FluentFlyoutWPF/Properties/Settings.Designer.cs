@@ -262,5 +262,17 @@ namespace FluentFlyout.Properties {
                 this["LockKeysBoldUI"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string LastKnownVersion {
+            get {
+                return ((string)(this["LastKnownVersion"]));
+            }
+            set {
+                this["LastKnownVersion"] = value;
+            }
+        }
     }
 }
