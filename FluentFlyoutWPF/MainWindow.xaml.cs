@@ -15,6 +15,7 @@ using MicaWPF.Controls;
 using MicaWPF.Core.Extensions;
 using Microsoft.Win32;
 using static WindowsMediaController.MediaManager;
+using FluentFlyout.Classes;
 
 
 namespace FluentFlyoutWPF;
@@ -710,6 +711,7 @@ public partial class MainWindow : MicaWindow
     {
         Hide();
         UpdateUILayout();
+        SettingsManager.CheckAndUpdateSettings();
         ThemeManager.ApplySavedTheme();
     }
 

@@ -8,6 +8,7 @@ using Windows.ApplicationModel;
 using FluentFlyoutWPF.Classes;
 using FluentFlyout.Properties;
 using MessageBox = System.Windows.MessageBox;
+using FluentFlyout.Classes;
 
 
 namespace FluentFlyoutWPF;
@@ -91,6 +92,7 @@ public partial class SettingsWindow : MicaWindow
 
     private void SaveButton_Click(object sender, RoutedEventArgs e)
     {
+        SettingsManager.SaveToSettingsFile();
         Close();
     }
 
