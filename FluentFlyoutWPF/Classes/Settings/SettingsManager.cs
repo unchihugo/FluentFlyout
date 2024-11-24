@@ -14,6 +14,7 @@ public class SettingsManager
         "FluentFlyout",
         "settings.xml"
     );
+    string logFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "FluentFlyout", "log.txt");
     private static UserSettings _current;
 
     /// <summary>
@@ -62,6 +63,7 @@ public class SettingsManager
     /// <returns>The restored settings.</returns>
     public UserSettings RestoreSettings()
     {
+        //File.AppendAllText(logFilePath, $"[{DateTime.Now}] {SettingsFilePath}\n");
         try
         {
             if (File.Exists(SettingsFilePath))
@@ -70,18 +72,23 @@ public class SettingsManager
                 {
                     XmlSerializer xmlSerializer = new XmlSerializer(typeof(UserSettings));
                     _current = (UserSettings)xmlSerializer.Deserialize(reader);
+                    //File.AppendAllText(logFilePath, $"[{DateTime.Now}] Settings restored\n");
                     //EventLog.WriteEntry("FluentFlyout", "Settings restored", EventLogEntryType.Information);
                     return _current;
                 }
             }
         }
+        catch (UnauthorizedAccessException ex)
+        {
+            //File.AppendAllText(logFilePath, $"[{DateTime.Now}] No permission to write in {SettingsFilePath}: {ex.Message}\n");
+        }
         catch (Exception ex)
         {
-            //string errorLog = "Settings file not found or cannot be read";
-            //EventLog.WriteEntry("FluentFlyout", errorLog, EventLogEntryType.Error);
+            //File.AppendAllText(logFilePath, $"[{DateTime.Now}] Error saving settings: {ex.Message}\n");
         }
 
-        // if the settings file is not found or cannot be read
+        // if the settings file not found or cannot be read
+        //File.AppendAllText(logFilePath, $"[{DateTime.Now}] Settings file not found or cannot be read\n");
         _current = new UserSettings();
         return _current;
     }
