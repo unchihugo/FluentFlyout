@@ -10,6 +10,7 @@
       Height="600" Width="660" MinHeight="300" MinWidth="660"
       Title="Settings" Icon="/Resources/FluentFlyout2.ico"
       TextOptions.TextRenderingMode="ClearType" TextOptions.TextFormattingMode="Ideal"
+      Closing="SettingsWindow_Closing"
       >
 
     <Grid>

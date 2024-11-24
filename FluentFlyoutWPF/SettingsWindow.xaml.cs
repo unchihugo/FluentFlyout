@@ -90,7 +90,7 @@ public partial class SettingsWindow : MicaWindow
         }
     }
 
-    private void SettingsWindow_Closing(object sender, EventArgs e)
+    private void SettingsWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
     {
         SettingsManager.SaveSettings();
     }
