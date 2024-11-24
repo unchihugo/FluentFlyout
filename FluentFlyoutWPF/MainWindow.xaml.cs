@@ -9,12 +9,13 @@ using System.Windows.Media.Imaging;
 using Windows.Media.Control;
 using Windows.Storage.Streams;
 using FluentFlyoutWPF.Classes;
-using FluentFlyout.Properties;
 using FluentFlyoutWPF.Windows;
 using MicaWPF.Controls;
 using MicaWPF.Core.Extensions;
 using Microsoft.Win32;
 using static WindowsMediaController.MediaManager;
+using FluentFlyout.Classes.Settings;
+using FluentFlyout.Classes;
 
 
 namespace FluentFlyoutWPF;
@@ -37,12 +38,12 @@ public partial class MainWindow : MicaWindow
     private static MediaSession? currentSession = null;
 
     // for detecting changes in settings (lazy way)
-    private int _position = Settings.Default.Position;
-    private bool _layout = Settings.Default.CompactLayout;
-    private bool _repeatEnabled = Settings.Default.RepeatEnabled;
-    private bool _shuffleEnabled = Settings.Default.ShuffleEnabled;
-    private bool _playerInfoEnabled = Settings.Default.PlayerInfoEnabled;
-    private bool _centerTitleArtist = Settings.Default.CenterTitleArtist;
+    private int _position = SettingsManager.Current.Position;
+    private bool _layout = SettingsManager.Current.CompactLayout;
+    private bool _repeatEnabled = SettingsManager.Current.RepeatEnabled;
+    private bool _shuffleEnabled = SettingsManager.Current.ShuffleEnabled;
+    private bool _playerInfoEnabled = SettingsManager.Current.PlayerInfoEnabled;
+    private bool _centerTitleArtist = SettingsManager.Current.CenterTitleArtist;
 
     static Mutex singleton = new Mutex(true, "FluentFlyout"); // to prevent multiple instances of the app
     private NextUpWindow? nextUpWindow = null; // to prevent multiple instances of NextUpWindow
@@ -61,8 +62,17 @@ public partial class MainWindow : MicaWindow
             Application.Current.Shutdown();
         }
 
+        SettingsManager settingsManager = new();
+        try
+        {
+            settingsManager.RestoreSettings();
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"Failed to restore settings: {ex.Message}");
+        }
 
-        if (Settings.Default.Startup == true) // add to startup programs if enabled, needs improvement
+        if (SettingsManager.Current.Startup == true) // add to startup programs if enabled, needs improvement
         {
             RegistryKey key = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
             string executablePath = Environment.ProcessPath;
@@ -93,7 +103,7 @@ public partial class MainWindow : MicaWindow
 
     public int getDuration() // get the duration of the animation based on the speed setting
     {
-        int msDuration = Settings.Default.FlyoutAnimationSpeed switch
+        int msDuration = SettingsManager.Current.FlyoutAnimationSpeed switch
         {
             0 => 0, // off
             1 => 150, // 0.5x
@@ -108,7 +118,7 @@ public partial class MainWindow : MicaWindow
     public EasingFunctionBase getEasingStyle(bool easeOut)
     {
         EasingMode easingMode = easeOut ? EasingMode.EaseOut : EasingMode.EaseIn;
-        EasingFunctionBase easingStyle = Settings.Default.FlyoutAnimationEasingStyle switch
+        EasingFunctionBase easingStyle = SettingsManager.Current.FlyoutAnimationEasingStyle switch
         {
             // 0 is linear, null
             1 => new SineEase { EasingMode = easingMode }, // sine
@@ -128,11 +138,11 @@ public partial class MainWindow : MicaWindow
 
         if (alwaysBottom == false)
         {
-            _position = Settings.Default.Position;
+            _position = SettingsManager.Current.Position;
             if (_position == 0)
             {
                 window.Left = 16;
-                if (Settings.Default.FlyoutAnimationSpeed == 0) // if off, don't animate (just appear at the bottom)
+                if (SettingsManager.Current.FlyoutAnimationSpeed == 0) // if off, don't animate (just appear at the bottom)
                     moveAnimation.From = SystemParameters.WorkArea.Height - window.Height - 16;
                 else
                     moveAnimation.From = SystemParameters.WorkArea.Height - window.Height + 4; // appear from the bottom of the screen
@@ -141,7 +151,7 @@ public partial class MainWindow : MicaWindow
             else if (_position == 1)
             {
                 window.Left = SystemParameters.WorkArea.Width / 2 - window.Width / 2;
-                if (Settings.Default.FlyoutAnimationSpeed == 0)
+                if (SettingsManager.Current.FlyoutAnimationSpeed == 0)
                     moveAnimation.From = SystemParameters.WorkArea.Height - window.Height - 80;
                 else
                     moveAnimation.From = SystemParameters.WorkArea.Height - window.Height - 60;
@@ -150,7 +160,7 @@ public partial class MainWindow : MicaWindow
             else if (_position == 2)
             {
                 window.Left = SystemParameters.WorkArea.Width - window.Width - 16;
-                if (Settings.Default.FlyoutAnimationSpeed == 0)
+                if (SettingsManager.Current.FlyoutAnimationSpeed == 0)
                     moveAnimation.From = SystemParameters.WorkArea.Height - window.Height - 16;
                 else
                     moveAnimation.From = SystemParameters.WorkArea.Height - window.Height + 4;
@@ -159,7 +169,7 @@ public partial class MainWindow : MicaWindow
             else if (_position == 3)
             {
                 window.Left = 16;
-                if (Settings.Default.FlyoutAnimationSpeed == 0)
+                if (SettingsManager.Current.FlyoutAnimationSpeed == 0)
                     moveAnimation.From = 16;
                 else
                     moveAnimation.From = -4;
@@ -168,7 +178,7 @@ public partial class MainWindow : MicaWindow
             else if (_position == 4)
             {
                 window.Left = SystemParameters.WorkArea.Width / 2 - window.Width / 2;
-                if (Settings.Default.FlyoutAnimationSpeed == 0)
+                if (SettingsManager.Current.FlyoutAnimationSpeed == 0)
                     moveAnimation.From = 16;
                 else
                     moveAnimation.From = -4;
@@ -177,7 +187,7 @@ public partial class MainWindow : MicaWindow
             else if (_position == 5)
             {
                 window.Left = SystemParameters.WorkArea.Width - window.Width - 16;
-                if (Settings.Default.FlyoutAnimationSpeed == 0)
+                if (SettingsManager.Current.FlyoutAnimationSpeed == 0)
                     moveAnimation.From = 16;
                 else
                     moveAnimation.From = -4;
@@ -187,7 +197,7 @@ public partial class MainWindow : MicaWindow
         else
         {
             window.Left = SystemParameters.WorkArea.Width / 2 - window.Width / 2;
-            if (Settings.Default.FlyoutAnimationSpeed == 0)
+            if (SettingsManager.Current.FlyoutAnimationSpeed == 0)
                 moveAnimation.From = SystemParameters.WorkArea.Height - window.Height - 16;
             else
                 moveAnimation.From = SystemParameters.WorkArea.Height - window.Height + 4;
@@ -197,11 +207,11 @@ public partial class MainWindow : MicaWindow
         int msDuration = getDuration();
 
         DoubleAnimation opacityAnimation = (DoubleAnimation)storyboard.Children[1];
-        if (Settings.Default.FlyoutAnimationSpeed != 0) opacityAnimation.From = 0;
+        if (SettingsManager.Current.FlyoutAnimationSpeed != 0) opacityAnimation.From = 0;
         opacityAnimation.To = 1;
         opacityAnimation.Duration = new Duration(TimeSpan.FromMilliseconds(msDuration));
 
-        if (Settings.Default.FlyoutAnimationEasingStyle == 0) moveAnimation.EasingFunction = opacityAnimation.EasingFunction = null;
+        if (SettingsManager.Current.FlyoutAnimationEasingStyle == 0) moveAnimation.EasingFunction = opacityAnimation.EasingFunction = null;
         else moveAnimation.EasingFunction = opacityAnimation.EasingFunction = getEasingStyle(true);
         moveAnimation.Duration = new Duration(TimeSpan.FromMilliseconds(msDuration));
 
@@ -218,37 +228,37 @@ public partial class MainWindow : MicaWindow
 
         if (alwaysBottom == false)
         {
-            _position = Settings.Default.Position;
+            _position = SettingsManager.Current.Position;
             if (_position == 0 || _position == 2)
             {
                 moveAnimation.From = SystemParameters.WorkArea.Height - window.Height - 16;
-                if (Settings.Default.FlyoutAnimationSpeed != 0) moveAnimation.To = SystemParameters.WorkArea.Height - window.Height + 4;
+                if (SettingsManager.Current.FlyoutAnimationSpeed != 0) moveAnimation.To = SystemParameters.WorkArea.Height - window.Height + 4;
             }
             else if (_position == 1)
             {
                 moveAnimation.From = SystemParameters.WorkArea.Height - window.Height - 80;
-                if (Settings.Default.FlyoutAnimationSpeed != 0) moveAnimation.To = SystemParameters.WorkArea.Height - window.Height - 60;
+                if (SettingsManager.Current.FlyoutAnimationSpeed != 0) moveAnimation.To = SystemParameters.WorkArea.Height - window.Height - 60;
             }
             else if (_position == 3 || _position == 4 || _position == 5)
             {
                 moveAnimation.From = 16;
-                if (Settings.Default.FlyoutAnimationSpeed != 0) moveAnimation.To = -4;
+                if (SettingsManager.Current.FlyoutAnimationSpeed != 0) moveAnimation.To = -4;
             }
         }
         else
         {
             moveAnimation.From = SystemParameters.WorkArea.Height - window.Height - 16;
-            if (Settings.Default.FlyoutAnimationSpeed != 0) moveAnimation.To = SystemParameters.WorkArea.Height - window.Height + 4;
+            if (SettingsManager.Current.FlyoutAnimationSpeed != 0) moveAnimation.To = SystemParameters.WorkArea.Height - window.Height + 4;
         }
 
         int msDuration = getDuration();
 
         DoubleAnimation opacityAnimation = (DoubleAnimation)storyboard.Children[1];
         opacityAnimation.From = 1;
-        if (Settings.Default.FlyoutAnimationSpeed != 0) opacityAnimation.To = 0;
+        if (SettingsManager.Current.FlyoutAnimationSpeed != 0) opacityAnimation.To = 0;
         opacityAnimation.Duration = new Duration(TimeSpan.FromMilliseconds(msDuration));
 
-        if (Settings.Default.FlyoutAnimationEasingStyle == 0) moveAnimation.EasingFunction = opacityAnimation.EasingFunction = null;
+        if (SettingsManager.Current.FlyoutAnimationEasingStyle == 0) moveAnimation.EasingFunction = opacityAnimation.EasingFunction = null;
         else moveAnimation.EasingFunction = opacityAnimation.EasingFunction = getEasingStyle(false);
         moveAnimation.Duration = new Duration(TimeSpan.FromMilliseconds(msDuration));
 
@@ -281,7 +291,7 @@ public partial class MainWindow : MicaWindow
     private void MediaManager_OnAnyMediaPropertyChanged(MediaSession mediaSession, GlobalSystemMediaTransportControlsSessionMediaProperties mediaProperties)
     {
         if (mediaManager.GetFocusedSession() == null) return;
-        if (Settings.Default.NextUpEnabled && !FullscreenDetector.IsFullscreenApplicationRunning()) // show NextUpWindow if enabled in settings
+        if (SettingsManager.Current.NextUpEnabled && !FullscreenDetector.IsFullscreenApplicationRunning()) // show NextUpWindow if enabled in settings
         {
             var songInfo = mediaSession.ControlSession.TryGetMediaPropertiesAsync().GetAwaiter().GetResult();
             if (nextUpWindow == null && IsVisible == false && songInfo.Thumbnail != null && currentTitle != songInfo.Title)
@@ -324,7 +334,7 @@ public partial class MainWindow : MicaWindow
                 ShowMediaFlyout();
             }
 
-            if (Settings.Default.LockKeysEnabled && !FullscreenDetector.IsFullscreenApplicationRunning())
+            if (SettingsManager.Current.LockKeysEnabled && !FullscreenDetector.IsFullscreenApplicationRunning())
             {
                 if (vkCode == 0x14) // Caps Lock
                 {
@@ -350,7 +360,7 @@ public partial class MainWindow : MicaWindow
     private async void ShowMediaFlyout()
     {
         if (mediaManager.GetFocusedSession() == null ||
-            !Settings.Default.MediaFlyoutEnabled ||
+            !SettingsManager.Current.MediaFlyoutEnabled ||
             FullscreenDetector.IsFullscreenApplicationRunning())
             return;
         UpdateUI(mediaManager.GetFocusedSession());
@@ -377,7 +387,7 @@ public partial class MainWindow : MicaWindow
                 await Task.Delay(100, token); // check if mouse is over every 100ms
                 if (!IsMouseOver)
                 {
-                    await Task.Delay(Settings.Default.Duration, token);
+                    await Task.Delay(SettingsManager.Current.Duration, token);
                     if (!IsMouseOver)
                     {
                         CloseAnimation(this);
@@ -396,11 +406,11 @@ public partial class MainWindow : MicaWindow
 
     private void UpdateUI(MediaSession mediaSession)
     {
-        if (_layout != Settings.Default.CompactLayout ||
-            _shuffleEnabled != Settings.Default.ShuffleEnabled ||
-            _repeatEnabled != Settings.Default.ShuffleEnabled ||
-            _playerInfoEnabled != Settings.Default.PlayerInfoEnabled ||
-            _centerTitleArtist != Settings.Default.CenterTitleArtist)
+        if (_layout != SettingsManager.Current.CompactLayout ||
+            _shuffleEnabled != SettingsManager.Current.ShuffleEnabled ||
+            _repeatEnabled != SettingsManager.Current.ShuffleEnabled ||
+            _playerInfoEnabled != SettingsManager.Current.PlayerInfoEnabled ||
+            _centerTitleArtist != SettingsManager.Current.CenterTitleArtist)
             UpdateUILayout();
 
         Dispatcher.Invoke(() =>
@@ -438,7 +448,7 @@ public partial class MainWindow : MicaWindow
                 ControlBack.IsEnabled = ControlForward.IsEnabled = mediaProperties.Controls.IsNextEnabled;
                 ControlBack.Opacity = ControlForward.Opacity = mediaProperties.Controls.IsNextEnabled ? 1 : 0.35;
 
-                if (Settings.Default.RepeatEnabled && !Settings.Default.CompactLayout)
+                if (SettingsManager.Current.RepeatEnabled && !SettingsManager.Current.CompactLayout)
                 {
                     ControlRepeat.Visibility = Visibility.Visible;
                     ControlRepeat.IsEnabled = mediaProperties.Controls.IsRepeatEnabled;
@@ -462,7 +472,7 @@ public partial class MainWindow : MicaWindow
                 else ControlRepeat.Visibility = Visibility.Collapsed;
 
 
-                if (Settings.Default.ShuffleEnabled && !Settings.Default.CompactLayout)
+                if (SettingsManager.Current.ShuffleEnabled && !SettingsManager.Current.CompactLayout)
                 {
                     ControlShuffle.Visibility = Visibility.Visible;
                     ControlShuffle.IsEnabled = mediaProperties.Controls.IsShuffleEnabled;
@@ -481,7 +491,7 @@ public partial class MainWindow : MicaWindow
                 else ControlShuffle.Visibility = Visibility.Collapsed;
 
 
-                if (Settings.Default.PlayerInfoEnabled && !Settings.Default.CompactLayout)
+                if (SettingsManager.Current.PlayerInfoEnabled && !SettingsManager.Current.CompactLayout)
                 {
                     MediaIdStackPanel.Visibility = Visibility.Visible;
                     MediaId.Text = mediaSession.Id;
@@ -505,10 +515,10 @@ public partial class MainWindow : MicaWindow
     {
         Dispatcher.Invoke(() =>
         {
-            int extraWidth = Settings.Default.RepeatEnabled ? 36 : 0;
-            extraWidth += Settings.Default.ShuffleEnabled ? 36 : 0;
-            extraWidth += Settings.Default.PlayerInfoEnabled ? 72 : 0;
-            if (Settings.Default.CompactLayout) // compact layout
+            int extraWidth = SettingsManager.Current.RepeatEnabled ? 36 : 0;
+            extraWidth += SettingsManager.Current.ShuffleEnabled ? 36 : 0;
+            extraWidth += SettingsManager.Current.PlayerInfoEnabled ? 72 : 0;
+            if (SettingsManager.Current.CompactLayout) // compact layout
             {
                 Height = 60;
                 Width = 400;
@@ -538,7 +548,7 @@ public partial class MainWindow : MicaWindow
             }
         });
 
-        if (Settings.Default.CenterTitleArtist)
+        if (SettingsManager.Current.CenterTitleArtist)
         {
             SongTitle.HorizontalAlignment = HorizontalAlignment.Center;
             SongArtist.HorizontalAlignment = HorizontalAlignment.Center;
@@ -549,11 +559,11 @@ public partial class MainWindow : MicaWindow
             SongArtist.HorizontalAlignment = HorizontalAlignment.Left;
         }
 
-        _layout = Settings.Default.CompactLayout;
-        _repeatEnabled = Settings.Default.RepeatEnabled;
-        _shuffleEnabled = Settings.Default.ShuffleEnabled;
-        _playerInfoEnabled = Settings.Default.PlayerInfoEnabled;
-        _centerTitleArtist = Settings.Default.CenterTitleArtist;
+        _layout = SettingsManager.Current.CompactLayout;
+        _repeatEnabled = SettingsManager.Current.RepeatEnabled;
+        _shuffleEnabled = SettingsManager.Current.ShuffleEnabled;
+        _playerInfoEnabled = SettingsManager.Current.PlayerInfoEnabled;
+        _centerTitleArtist = SettingsManager.Current.CenterTitleArtist;
     }
 
     private async void Back_Click(object sender, RoutedEventArgs e)
@@ -715,13 +725,13 @@ public partial class MainWindow : MicaWindow
 
     private void nIcon_LeftClick(Wpf.Ui.Tray.Controls.NotifyIcon sender, RoutedEventArgs e) // change the behavior of the tray icon
     {
-        if (Settings.Default.nIconLeftClick == 0)
+        if (SettingsManager.Current.nIconLeftClick == 0)
         {
             openSettings(sender, e);
             //Wpf.Ui.Appearance.ApplicationThemeManager.Apply(ApplicationTheme.Light, WindowBackdropType.Mica); // to change the theme
             //ThemeService themeService = new ThemeService();
             //themeService.ChangeTheme(MicaWPF.Core.Enums.WindowsTheme.Light);
         }
-        else if (Settings.Default.nIconLeftClick == 1) ShowMediaFlyout();
+        else if (SettingsManager.Current.nIconLeftClick == 1) ShowMediaFlyout();
     }
 }

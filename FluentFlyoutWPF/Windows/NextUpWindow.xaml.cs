@@ -1,8 +1,8 @@
 ﻿using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using FluentFlyout.Classes.Settings;
 using FluentFlyoutWPF.Classes;
-using FluentFlyout.Properties;
 using MicaWPF.Controls;
 
 namespace FluentFlyoutWPF.Windows;
@@ -40,7 +40,7 @@ public partial class NextUpWindow : MicaWindow
 
         async void wait()
         {
-            await Task.Delay(Settings.Default.NextUpDuration);
+            await Task.Delay(SettingsManager.Current.NextUpDuration);
             mainWindow.CloseAnimation(this);
             await Task.Delay(mainWindow.getDuration());
             Close();

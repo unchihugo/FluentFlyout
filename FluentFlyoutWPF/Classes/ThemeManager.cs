@@ -1,14 +1,13 @@
 ﻿using System.Windows;
 using System.Windows.Media.Imaging;
-using System.Windows.Threading;
-using FluentFlyout.Properties;
+using FluentFlyout.Classes.Settings;
 using MicaWPF.Core.Enums;
 using MicaWPF.Core.Helpers;
 using MicaWPF.Core.Services;
 using Wpf.Ui.Appearance;
 using Wpf.Ui.Tray.Controls;
 
-namespace FluentFlyoutWPF.Classes;
+namespace FluentFlyout.Classes;
 
 /// <summary>
 /// Manages the application theme settings and applies the selected theme.
@@ -21,7 +20,7 @@ internal static class ThemeManager
     /// <inheritdoc cref="ApplyTheme"/>
     public static void ApplySavedTheme()
     {
-        ApplyTheme(Settings.Default.AppTheme);
+        ApplyTheme(SettingsManager.Current.AppTheme);
         UpdateTrayIcon();
     }
 
@@ -32,8 +31,8 @@ internal static class ThemeManager
     public static void ApplyAndSaveTheme(int theme)
     {
         ApplyTheme(theme);
-        Settings.Default.AppTheme = theme;
-        Settings.Default.Save();
+        SettingsManager.Current.AppTheme = theme;
+        SettingsManager.SaveSettings();
     }
 
     /// <summary>
@@ -92,7 +91,7 @@ internal static class ThemeManager
         {
             if (Application.Current.MainWindow.FindName("nIcon") is NotifyIcon nIcon)
             {
-                if (Settings.Default.nIconSymbol == true)
+                if (SettingsManager.Current.nIconSymbol == true)
                 {
                     var iconUri = new Uri(WindowsThemeHelper.GetCurrentWindowsTheme() == WindowsTheme.Dark
                         ? "pack://application:,,,/Resources/TrayIcons/FluentFlyoutWhite.png"

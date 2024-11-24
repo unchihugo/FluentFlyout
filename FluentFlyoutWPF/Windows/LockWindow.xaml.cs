@@ -1,9 +1,8 @@
 ﻿using MicaWPF.Controls;
 using MicaWPF.Core.Extensions;
 using System.Windows;
-using Windows.UI;
 using FluentFlyoutWPF.Classes;
-using FluentFlyout.Properties;
+using FluentFlyout.Classes.Settings;
 
 
 namespace FluentFlyoutWPF.Windows;
@@ -38,19 +37,19 @@ public partial class LockWindow : MicaWindow
             this.EnableBackdrop();
 
             LockTextBlock.Text = key + " is " + (isOn ? "on" : "off");
-            if (Settings.Default.LockKeysBoldUI) LockTextBlock.FontWeight = FontWeights.Medium;
+            if (SettingsManager.Current.LockKeysBoldUI) LockTextBlock.FontWeight = FontWeights.Medium;
             else LockTextBlock.FontWeight = FontWeights.Normal;
 
             if (isOn)
             {
                 LockIndicatorRectangle.Opacity = 1;
-                if (Settings.Default.LockKeysBoldUI) LockSymbol.Symbol = Wpf.Ui.Controls.SymbolRegular.LockClosed24;
+                if (SettingsManager.Current.LockKeysBoldUI) LockSymbol.Symbol = Wpf.Ui.Controls.SymbolRegular.LockClosed24;
                 else LockSymbol.Symbol = Wpf.Ui.Controls.SymbolRegular.LockClosed20;
             }
             else
             {
                 LockIndicatorRectangle.Opacity = 0.2;
-                if (Settings.Default.LockKeysBoldUI) LockSymbol.Symbol = Wpf.Ui.Controls.SymbolRegular.LockOpen24;
+                if (SettingsManager.Current.LockKeysBoldUI) LockSymbol.Symbol = Wpf.Ui.Controls.SymbolRegular.LockOpen24;
                 else LockSymbol.Symbol = Wpf.Ui.Controls.SymbolRegular.LockOpen20;
             }
         });
@@ -73,7 +72,7 @@ public partial class LockWindow : MicaWindow
         {
             while (!token.IsCancellationRequested)
             {
-                await Task.Delay(Settings.Default.LockKeysDuration, token);
+                await Task.Delay(SettingsManager.Current.LockKeysDuration, token);
                 mainWindow.CloseAnimation(this, true);
                 await Task.Delay(mainWindow.getDuration());
                 Hide();
