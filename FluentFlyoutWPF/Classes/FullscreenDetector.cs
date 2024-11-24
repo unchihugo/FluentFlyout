@@ -1,6 +1,5 @@
-﻿using FluentFlyout.Properties;
+﻿using FluentFlyout.Classes.Settings;
 using System.Runtime.InteropServices;
-
 
 namespace FluentFlyoutWPF.Classes;
 
@@ -32,7 +31,7 @@ internal class FullscreenDetector
     /// </returns>
     public static bool IsFullscreenApplicationRunning()
     {
-        if (!Settings.Default.DisableIfFullscreen) return false;
+        if (!SettingsManager.Current.DisableIfFullscreen) return false;
         try
         {
             QUERY_USER_NOTIFICATION_STATE state;

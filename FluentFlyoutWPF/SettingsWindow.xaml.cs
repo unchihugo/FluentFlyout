@@ -5,7 +5,6 @@ using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using Windows.ApplicationModel;
-using FluentFlyout.Properties;
 using MessageBox = System.Windows.MessageBox;
 using FluentFlyout.Classes.Settings;
 using FluentFlyout.Classes;
