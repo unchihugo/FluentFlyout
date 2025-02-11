@@ -23,6 +23,7 @@ public class UserSettings
     public bool DisableIfFullscreen { get; set; }
     public bool LockKeysBoldUI { get; set; }
     public string LastKnownVersion { get; set; }
+    public bool SeekbarEnabled { get; set; }
 
 
     public UserSettings()
@@ -48,5 +49,6 @@ public class UserSettings
         DisableIfFullscreen = true;
         LockKeysBoldUI = true;
         LastKnownVersion = "";
+        SeekbarEnabled = true;
     }
 }

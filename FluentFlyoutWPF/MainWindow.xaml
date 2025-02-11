@@ -37,67 +37,71 @@
         <Grid.RenderTransform>
             <ScaleTransform x:Name="ScaleTransform"/>
         </Grid.RenderTransform>
-        <StackPanel Margin="12" Orientation="Horizontal">
-            <Border Name="SongImageBorder" CornerRadius="6" BorderThickness="1" BorderBrush="#26FFFFFF" Margin="0" ClipToBounds="True" Width="78" Height="78">
-                <ui:SymbolIcon Name="SongImagePlaceholder" Symbol="MusicNote220" FontSize="40" Filled="True" Foreground="{DynamicResource MicaWPF.Brushes.SystemAccentColorLight2}" Visibility="Collapsed" />
-                <Border.Background>
-                    <ImageBrush x:Name="SongImage" Stretch="UniformToFill"/>
-                </Border.Background>
-            </Border>
-            <StackPanel Name="BodyStackPanel" Orientation="Vertical" VerticalAlignment="Center" Width="194">
-                <StackPanel Orientation="Horizontal">
-                    <StackPanel Name="SongInfoStackPanel" Margin="12,0,0,0" Orientation="Vertical" VerticalAlignment="Center" Width="182">
-                        <TextBlock Name="SongTitle" Text="Song Title" FontSize="14" FontFamily="Segoe UI Variable" FontWeight="Medium" TextTrimming="CharacterEllipsis"/>
-                        <TextBlock Name="SongArtist" Text="Artist Name" FontSize="14" FontFamily="Segoe UI Variable" FontWeight="Medium" Opacity="0.5" TextTrimming="CharacterEllipsis"/>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0" Margin="12" Orientation="Horizontal">
+                <Border Name="SongImageBorder" CornerRadius="6" BorderThickness="1" BorderBrush="#26FFFFFF" Margin="0" ClipToBounds="True" Width="78" Height="78">
+                    <ui:SymbolIcon Name="SongImagePlaceholder" Symbol="MusicNote220" FontSize="40" Filled="True" Foreground="{DynamicResource MicaWPF.Brushes.SystemAccentColorLight2}" Visibility="Collapsed" />
+                    <Border.Background>
+                        <ImageBrush x:Name="SongImage" Stretch="UniformToFill"/>
+                    </Border.Background>
+                </Border>
+                <StackPanel Name="BodyStackPanel" Orientation="Vertical" VerticalAlignment="Center" Width="194">
+                    <StackPanel Orientation="Horizontal">
+                        <StackPanel Name="SongInfoStackPanel" Margin="12,0,0,0" Orientation="Vertical" VerticalAlignment="Center" Width="182">
+                            <TextBlock Name="SongTitle" Text="Song Title" FontSize="14" FontFamily="Segoe UI Variable" FontWeight="Medium" TextTrimming="CharacterEllipsis"/>
+                            <TextBlock Name="SongArtist" Text="Artist Name" FontSize="14" FontFamily="Segoe UI Variable" FontWeight="Medium" Opacity="0.5" TextTrimming="CharacterEllipsis"/>
+                        </StackPanel>
                     </StackPanel>
-                </StackPanel>
-                <StackPanel Name="ControlsStackPanel" Orientation="Horizontal" HorizontalAlignment="Right" Height="35" Width="184" Margin="12,8,0,0">
-                    <!--<ui:Button Name="ControlBack" Icon="{ui:SymbolIcon Previous20, Filled=True}" Width="28" Height="28" Padding="0" CornerRadius="999" Margin="0,0,8,0" Click="Back_Click" Focusable="False"/>-->
-                    <controls:Button
-                    Height="28" Width="28" Name="ControlBack"
-                    Margin="2,0,8,0" Click="Back_Click" Focusable="False"
-                    Style="{StaticResource MicaWPF.Styles.TransparentButton}" VerticalAlignment="Center">
-                        <ui:SymbolIcon Name="SymbolBack" Symbol="Previous20" Filled="True"/>
-                    </controls:Button>
-                    <controls:Button
-                    Height="32" Width="32" Name="ControlPlayPause"
-                    Margin="0,0,8,0" Click="PlayPause_Click" Focusable="False"
-                    Style="{StaticResource MicaWPF.Styles.AccentedButton}" VerticalAlignment="Center">
-                        <ui:SymbolIcon Name="SymbolPlayPause" Symbol="Pause16" Filled="True"/>
-                    </controls:Button>
-                    <controls:Button
-                    Height="28" Width="28" Name="ControlForward"
-                    Margin="0,0,8,0" Click="Forward_Click" Focusable="False"
-                    Style="{StaticResource MicaWPF.Styles.TransparentButton}" VerticalAlignment="Center">
-                        <ui:SymbolIcon Name="SymbolForward" Symbol="Next20" Filled="True"/>
-                    </controls:Button>
-                    <controls:Button
-                        Height="28" Width="28" Name="ControlRepeat"
-                        Margin="0,0,8,0" Click="Repeat_Click" Focusable="False"
+                    <StackPanel Name="ControlsStackPanel" Orientation="Horizontal" HorizontalAlignment="Right" Height="35" Width="184" Margin="12,8,0,0">
+                        <!--<ui:Button Name="ControlBack" Icon="{ui:SymbolIcon Previous20, Filled=True}" Width="28" Height="28" Padding="0" CornerRadius="999" Margin="0,0,8,0" Click="Back_Click" Focusable="False"/>-->
+                        <controls:Button
+                        Height="28" Width="28" Name="ControlBack"
+                        Margin="2,0,8,0" Click="Back_Click" Focusable="False"
                         Style="{StaticResource MicaWPF.Styles.TransparentButton}" VerticalAlignment="Center">
-                        <ui:SymbolIcon Name="SymbolRepeat" Symbol="ArrowRepeatAllOff24" Filled="false" Opacity="0.5" FontSize="18"/>
-                    </controls:Button>
-                    <controls:Button
-                        Height="28" Width="28" Name="ControlShuffle"
-                        Margin="0,0,8,0" Click="Shuffle_Click" Focusable="False"
+                            <ui:SymbolIcon Name="SymbolBack" Symbol="Previous20" Filled="True"/>
+                        </controls:Button>
+                        <controls:Button
+                        Height="32" Width="32" Name="ControlPlayPause"
+                        Margin="0,0,8,0" Click="PlayPause_Click" Focusable="False"
+                        Style="{StaticResource MicaWPF.Styles.AccentedButton}" VerticalAlignment="Center">
+                            <ui:SymbolIcon Name="SymbolPlayPause" Symbol="Pause16" Filled="True"/>
+                        </controls:Button>
+                        <controls:Button
+                        Height="28" Width="28" Name="ControlForward"
+                        Margin="0,0,8,0" Click="Forward_Click" Focusable="False"
                         Style="{StaticResource MicaWPF.Styles.TransparentButton}" VerticalAlignment="Center">
-                        <ui:SymbolIcon Name="SymbolShuffle" Symbol="ArrowShuffleOff24" Filled="false" Opacity="0.5" FontSize="18"/>
-                    </controls:Button>
-                    <StackPanel Name="MediaIdStackPanel" Orientation="Horizontal" Width="72">
-                        <ui:SymbolIcon Symbol="MusicNote120" Width="12" Height="12" FontSize="12" Filled="True" Opacity="0.25"/>
-                        <TextBlock Name="MediaId" VerticalAlignment="Center" FontSize="10" Margin="2,0,0,0" FontFamily="Segoe UI Variable" FontWeight="Medium" Opacity="0.35" TextTrimming="CharacterEllipsis"/>
+                            <ui:SymbolIcon Name="SymbolForward" Symbol="Next20" Filled="True"/>
+                        </controls:Button>
+                        <controls:Button
+                            Height="28" Width="28" Name="ControlRepeat"
+                            Margin="0,0,8,0" Click="Repeat_Click" Focusable="False"
+                            Style="{StaticResource MicaWPF.Styles.TransparentButton}" VerticalAlignment="Center">
+                            <ui:SymbolIcon Name="SymbolRepeat" Symbol="ArrowRepeatAllOff24" Filled="false" Opacity="0.5" FontSize="18"/>
+                        </controls:Button>
+                        <controls:Button
+                            Height="28" Width="28" Name="ControlShuffle"
+                            Margin="0,0,8,0" Click="Shuffle_Click" Focusable="False"
+                            Style="{StaticResource MicaWPF.Styles.TransparentButton}" VerticalAlignment="Center">
+                            <ui:SymbolIcon Name="SymbolShuffle" Symbol="ArrowShuffleOff24" Filled="false" Opacity="0.5" FontSize="18"/>
+                        </controls:Button>
+                        <StackPanel Name="MediaIdStackPanel" Orientation="Horizontal" Width="72">
+                            <ui:SymbolIcon Symbol="MusicNote120" Width="12" Height="12" FontSize="12" Filled="True" Opacity="0.25"/>
+                            <TextBlock Name="MediaId" VerticalAlignment="Center" FontSize="10" Margin="2,0,0,0" FontFamily="Segoe UI Variable" FontWeight="Medium" Opacity="0.35" TextTrimming="CharacterEllipsis"/>
+                        </StackPanel>
+    
                     </StackPanel>
-
-                    <!--<StackPanel Margin="8,0,0,0" Orientation="Vertical" VerticalAlignment="Center">
-                    <TextBlock Text="0:00" Foreground="Gray" FontSize="12" />
-                </StackPanel>
-                <Slider Name="SongProgress" Value="0" Maximum="100" Minimum="0" Width="126" Height="4" Margin="2,0,0,0"/>
-                <StackPanel Margin="2,0,0,0" Orientation="Vertical" VerticalAlignment="Center">
-                    <TextBlock Text="9:99" Foreground="Gray" FontSize="12" />
-                </StackPanel>-->
                 </StackPanel>
             </StackPanel>
-        </StackPanel>
+            <DockPanel Grid.Row="1" x:Name="SeekbarWrapper" HorizontalAlignment="Stretch" Margin="16,0,16,12" LastChildFill="True" VerticalAlignment="Center">
+                <TextBlock Name="SeekbarCurrentDuration" Text="-:--" Foreground="Gray" FontSize="12" DockPanel.Dock="Left" Width="45" Margin="0,0,2,0" TextAlignment="Left" VerticalAlignment="Center" Height="18"/>
+                <TextBlock Name="SeekbarMaxDuration" Text="-:--" Foreground="Gray" FontSize="12" DockPanel.Dock="Right" Width="45" Margin="2,0,0,0" TextAlignment="Right" VerticalAlignment="Center" Height="18"/>
+                <Slider Name="Seekbar" Value="0" Maximum="100" Minimum="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" VerticalContentAlignment="Center" Height="18" PreviewMouseLeftButtonDown="Seekbar_OnPreviewMouseLeftButtonDown" PreviewMouseLeftButtonUp="Seekbar_OnPreviewMouseLeftButtonUp" ValueChanged="Seekbar_OnValueChanged"/>
+            </DockPanel>
+        </Grid>
 
         <tray:NotifyIcon
             LeftClick="nIcon_LeftClick" FocusOnLeftClick="False"
