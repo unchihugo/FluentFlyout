@@ -598,7 +598,7 @@ public partial class MainWindow : MicaWindow
         if (SettingsManager.Current.SeekbarEnabled)
             SeekbarWrapper.Visibility = Visibility.Visible;
         else
-            SeekbarWrapper.Visibility = Visibility.Visible;
+            SeekbarWrapper.Visibility = Visibility.Collapsed;
 
         _layout = SettingsManager.Current.CompactLayout;
         _repeatEnabled = SettingsManager.Current.RepeatEnabled;

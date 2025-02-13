@@ -34,9 +34,6 @@
     </Window.Triggers>
 
     <Grid>
-        <Grid.RenderTransform>
-            <ScaleTransform x:Name="ScaleTransform"/>
-        </Grid.RenderTransform>
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
