@@ -35,6 +35,7 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
@@ -100,7 +101,7 @@
                             </ui:CardControl.Header>
                             <controls:ToggleSwitch Name="CenterTitleArtistSwitch" Click="CenterTitleArtistSwitch_Click"/>
                         </ui:CardControl>
-                        <ui:CardControl Grid.Row="6" Icon="{ui:SymbolIcon Subtitles24}" Margin="0,0,0,12">
+                        <ui:CardControl Grid.Row="6" Icon="{ui:SymbolIcon Subtitles24}" Margin="0,0,0,3">
                             <ui:CardControl.Header>
                                 <StackPanel Orientation="Vertical">
                                     <TextBlock Text="Show Media Player name" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
@@ -108,7 +109,15 @@
                             </ui:CardControl.Header>
                             <controls:ToggleSwitch Name="PlayerInfoSwitch" Click="PlayerInfoSwitch_Click"/>
                         </ui:CardControl>
-                        <ui:CardControl Grid.Row="7" Icon="{ui:SymbolIcon ArrowRepeatAll24}" Margin="0,0,0,3">
+                        <ui:CardControl Grid.Row="7" Icon="{ui:SymbolIcon SlideArrowRight24}" Margin="0,0,0,12">
+                            <ui:CardControl.Header>
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock Text="Show Seekbar" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </ui:CardControl.Header>
+                            <controls:ToggleSwitch Name="SeekbarSwitch" Click="SeekbarSwitch_Click"/>
+                        </ui:CardControl>
+                        <ui:CardControl Grid.Row="8" Icon="{ui:SymbolIcon ArrowRepeatAll24}" Margin="0,0,0,3">
                             <ui:CardControl.Header>
                                 <StackPanel Orientation="Vertical">
                                     <TextBlock Text="Repeat Button" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
@@ -117,7 +126,7 @@
                             </ui:CardControl.Header>
                             <controls:ToggleSwitch Name="RepeatSwitch" Click="RepeatSwitch_Click"/>
                         </ui:CardControl>
-                        <ui:CardControl Grid.Row="8" Icon="{ui:SymbolIcon ArrowShuffle24}" Margin="0,0,0,3">
+                        <ui:CardControl Grid.Row="9" Icon="{ui:SymbolIcon ArrowShuffle24}" Margin="0,0,0,3">
                             <ui:CardControl.Header>
                                 <StackPanel Orientation="Vertical">
                                     <TextBlock Text="Shuffle Button" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
@@ -126,7 +135,7 @@
                             </ui:CardControl.Header>
                             <controls:ToggleSwitch Name="ShuffleSwitch" Click="ShuffleSwitch_Click"/>
                         </ui:CardControl>
-                        <ui:InfoBar Grid.Row="9" Title="Some browsers/players do not support repeat and shuffle control." IsOpen="True" Severity="Warning" IsClosable="False"/>
+                        <ui:InfoBar Grid.Row="10" Title="Some browsers/players do not support repeat and shuffle control." IsOpen="True" Severity="Warning" IsClosable="False"/>
                     </Grid>
 
                     <TextBlock Text="Next Up Customization" FontSize="20" FontWeight="SemiBold" FontFamily="Segoe UI Variable" Margin="0,36,0,0"/>

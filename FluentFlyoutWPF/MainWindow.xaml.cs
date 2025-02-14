@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
@@ -44,10 +45,16 @@ public partial class MainWindow : MicaWindow
     private bool _shuffleEnabled = SettingsManager.Current.ShuffleEnabled;
     private bool _playerInfoEnabled = SettingsManager.Current.PlayerInfoEnabled;
     private bool _centerTitleArtist = SettingsManager.Current.CenterTitleArtist;
-
+    private bool _seekBarEnabled = SettingsManager.Current.SeekbarEnabled;
+    
     static Mutex singleton = new Mutex(true, "FluentFlyout"); // to prevent multiple instances of the app
     private NextUpWindow? nextUpWindow = null; // to prevent multiple instances of NextUpWindow
     private string currentTitle = ""; // to prevent NextUpWindow from showing the same song
+    
+    private readonly int _seekbarUpdateInterval = 300;
+    private readonly Timer _positionTimer;
+    private bool _isActive;
+    private bool _isDragging;
 
     private LockWindow? lockWindow;
 
@@ -94,6 +101,13 @@ public partial class MainWindow : MicaWindow
 
         mediaManager.OnAnyMediaPropertyChanged += MediaManager_OnAnyMediaPropertyChanged;
         mediaManager.OnAnyPlaybackStateChanged += CurrentSession_OnPlaybackStateChanged;
+        mediaManager.OnAnyTimelinePropertyChanged += MediaManager_OnAnyTimelinePropertyChanged;
+        
+        _positionTimer = new Timer(SeekbarUpdateUi, null, Timeout.Infinite, Timeout.Infinite);
+        if (_seekBarEnabled && mediaManager.GetFocusedSession() is { } session)
+        {
+            UpdateSeekbarCurrentDuration(session.ControlSession.GetTimelineProperties().Position);
+        }
     }
 
     private void openSettings(object? sender, EventArgs e)
@@ -286,6 +300,7 @@ public partial class MainWindow : MicaWindow
     private void CurrentSession_OnPlaybackStateChanged(MediaSession mediaSession, GlobalSystemMediaTransportControlsSessionPlaybackInfo? playbackInfo = null)
     {
         UpdateUI(mediaManager.GetFocusedSession());
+        HandlePlayBackState(mediaManager.GetFocusedSession().ControlSession.GetPlaybackInfo().PlaybackStatus);
     }
 
     private void MediaManager_OnAnyMediaPropertyChanged(MediaSession mediaSession, GlobalSystemMediaTransportControlsSessionMediaProperties mediaProperties)
@@ -307,8 +322,24 @@ public partial class MainWindow : MicaWindow
                 });
             }
         }
-
         UpdateUI(mediaManager.GetFocusedSession());
+        HandlePlayBackState(mediaManager.GetFocusedSession().ControlSession.GetPlaybackInfo().PlaybackStatus);
+    }
+    
+    private void MediaManager_OnAnyTimelinePropertyChanged(MediaSession mediaSession, GlobalSystemMediaTransportControlsSessionTimelineProperties timelineProperties)
+    {
+        if (mediaManager.GetFocusedSession() is not { } session) return;
+
+        if (_seekBarEnabled)
+        {
+            Dispatcher.Invoke(() =>
+            {
+                if (!IsActive) return;
+
+                UpdateSeekbarCurrentDuration(session.ControlSession.GetTimelineProperties().Position);
+                HandlePlayBackState(session.ControlSession.GetPlaybackInfo().PlaybackStatus);
+            });
+        }
     }
 
     private static IntPtr SetHook(LowLevelKeyboardProc proc) // set the keyboard hook
@@ -364,6 +395,8 @@ public partial class MainWindow : MicaWindow
             FullscreenDetector.IsFullscreenApplicationRunning())
             return;
         UpdateUI(mediaManager.GetFocusedSession());
+        if (_seekBarEnabled)
+            HandlePlayBackState(mediaManager.GetFocusedSession().ControlSession.GetPlaybackInfo().PlaybackStatus);
 
         if (nextUpWindow != null) // close NextUpWindow if it's open
         {
@@ -379,7 +412,7 @@ public partial class MainWindow : MicaWindow
         cts = new CancellationTokenSource();
         var token = cts.Token;
         Visibility = Visibility.Visible;
-
+        
         try
         {
             while (!token.IsCancellationRequested)
@@ -393,6 +426,8 @@ public partial class MainWindow : MicaWindow
                         CloseAnimation(this);
                         await Task.Delay(getDuration());
                         Hide();
+                        if (_seekBarEnabled) 
+                            HandlePlayBackState(GlobalSystemMediaTransportControlsSessionPlaybackStatus.Paused);
                         break;
                     }
                 }
@@ -410,7 +445,8 @@ public partial class MainWindow : MicaWindow
             _shuffleEnabled != SettingsManager.Current.ShuffleEnabled ||
             _repeatEnabled != SettingsManager.Current.ShuffleEnabled ||
             _playerInfoEnabled != SettingsManager.Current.PlayerInfoEnabled ||
-            _centerTitleArtist != SettingsManager.Current.CenterTitleArtist)
+            _centerTitleArtist != SettingsManager.Current.CenterTitleArtist ||
+            _seekBarEnabled != SettingsManager.Current.SeekbarEnabled)
             UpdateUILayout();
 
         Dispatcher.Invoke(() =>
@@ -507,6 +543,12 @@ public partial class MainWindow : MicaWindow
                 SongImage.ImageSource = Helper.GetThumbnail(songInfo.Thumbnail);
                 if (SongImage.ImageSource == null) SongImagePlaceholder.Visibility = Visibility.Visible;
                 else SongImagePlaceholder.Visibility = Visibility.Collapsed;
+                if (_seekBarEnabled)
+                {
+                    var timeline = mediaSession.ControlSession.GetTimelineProperties();
+                    Seekbar.Maximum = timeline.MaxSeekTime.TotalSeconds;
+                    SeekbarMaxDuration.Text = timeline.MaxSeekTime.ToString(timeline.MaxSeekTime.Hours > 0 ? @"hh\:mm\:ss" : @"mm\:ss");
+                }
             }
         });
     }
@@ -518,9 +560,10 @@ public partial class MainWindow : MicaWindow
             int extraWidth = SettingsManager.Current.RepeatEnabled ? 36 : 0;
             extraWidth += SettingsManager.Current.ShuffleEnabled ? 36 : 0;
             extraWidth += SettingsManager.Current.PlayerInfoEnabled ? 72 : 0;
+            int extraHeight = SettingsManager.Current.SeekbarEnabled ? 36 : 0;
             if (SettingsManager.Current.CompactLayout) // compact layout
             {
-                Height = 60;
+                Height = 60 + extraHeight;
                 Width = 400;
                 BodyStackPanel.Orientation = Orientation.Horizontal;
                 BodyStackPanel.Width = 300;
@@ -534,7 +577,7 @@ public partial class MainWindow : MicaWindow
             }
             else // normal layout
             {
-                Height = 116;
+                Height = 116 + extraHeight;
                 Width = 310 - 72 + extraWidth;
                 BodyStackPanel.Orientation = Orientation.Vertical;
                 BodyStackPanel.Width = 194 - 72 + extraWidth;
@@ -558,12 +601,18 @@ public partial class MainWindow : MicaWindow
             SongTitle.HorizontalAlignment = HorizontalAlignment.Left;
             SongArtist.HorizontalAlignment = HorizontalAlignment.Left;
         }
+        
+        if (SettingsManager.Current.SeekbarEnabled)
+            SeekbarWrapper.Visibility = Visibility.Visible;
+        else
+            SeekbarWrapper.Visibility = Visibility.Collapsed;
 
         _layout = SettingsManager.Current.CompactLayout;
         _repeatEnabled = SettingsManager.Current.RepeatEnabled;
         _shuffleEnabled = SettingsManager.Current.ShuffleEnabled;
         _playerInfoEnabled = SettingsManager.Current.PlayerInfoEnabled;
         _centerTitleArtist = SettingsManager.Current.CenterTitleArtist;
+        _seekBarEnabled = SettingsManager.Current.SeekbarEnabled;
     }
 
     private async void Back_Click(object sender, RoutedEventArgs e)
@@ -639,6 +688,88 @@ public partial class MainWindow : MicaWindow
         {
             SymbolShuffle.Dispatcher.Invoke(() => SymbolShuffle.Symbol = Wpf.Ui.Controls.SymbolRegular.ArrowShuffle24);
             await mediaManager.GetFocusedSession().ControlSession.TryChangeShuffleActiveAsync(true);
+        }
+    }
+
+    private void Seekbar_OnPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+    {
+        if (_isDragging) return;
+        _isDragging = true;
+        
+        Slider slider = (Slider)sender;
+        System.Windows.Point clickPosition = e.GetPosition(slider);
+        double thumbWidth = slider.Template.FindName("Thumb", slider) is Thumb thumb ? thumb.ActualWidth : 0;
+        double ratio = (clickPosition.X - thumbWidth / 2) / (slider.ActualWidth - thumbWidth);
+        ratio = Math.Max(0, Math.Min(1, ratio));
+        double targetSeconds = ratio * slider.Maximum;
+        // Bug: if the position is 0, then it will cause the position to not change when changing playback position
+        if (targetSeconds == 0) targetSeconds = 1;
+        Dispatcher.Invoke(() =>
+        {
+            Seekbar.Value = TimeSpan.FromSeconds(targetSeconds).TotalSeconds;
+        });
+    }
+
+    private async void Seekbar_OnPreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+    {
+        if (mediaManager.GetFocusedSession() is { } session)
+        {
+            var seekPosition = TimeSpan.FromSeconds(Seekbar.Value);
+            if (seekPosition == TimeSpan.Zero) seekPosition = TimeSpan.FromSeconds(1);
+            await session.ControlSession.TryChangePlaybackPositionAsync(seekPosition.Ticks);
+        }
+        _isDragging = false;
+    }
+
+    private void Seekbar_OnValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+    {
+        if (!_isDragging) return;
+        var timespan = TimeSpan.FromSeconds(e.NewValue);
+        Dispatcher.Invoke(() =>
+        {
+            SeekbarCurrentDuration.Text = timespan.ToString(timespan.Hours > 0 ? @"hh\:mm\:ss" : @"mm\:ss");
+        });
+    }
+    
+    private void SeekbarUpdateUi(object? sender)
+    {
+        if (!_seekBarEnabled || Visibility != Visibility.Visible || _isDragging) return;
+        if (mediaManager.GetFocusedSession() is not { } session) return;
+        
+        var timeline = session.ControlSession.GetTimelineProperties();
+        var pos = timeline.Position + (DateTime.Now - timeline.LastUpdatedTime.DateTime);
+        if (pos > timeline.EndTime)
+        {
+            HandlePlayBackState(GlobalSystemMediaTransportControlsSessionPlaybackStatus.Closed);
+            return;
+        }
+
+        UpdateSeekbarCurrentDuration(pos);
+    }
+
+    private void UpdateSeekbarCurrentDuration(TimeSpan pos)
+    {
+        Dispatcher.Invoke(() =>
+        {
+            Seekbar.Value = pos.TotalSeconds;
+            SeekbarCurrentDuration.Text = pos.ToString(pos.Hours > 0 ? @"hh\:mm\:ss" : @"mm\:ss");
+        });
+    }
+
+    private void HandlePlayBackState(GlobalSystemMediaTransportControlsSessionPlaybackStatus? status)
+    {
+        if (status == null) return;
+        if (status == GlobalSystemMediaTransportControlsSessionPlaybackStatus.Playing)
+        {
+            if (_isActive) return;
+            _isActive = true;
+            _positionTimer.Change(0, _seekbarUpdateInterval);
+        }
+        else
+        {
+            if (!_isActive) return;
+            _isActive = false;
+            _positionTimer.Change(Timeout.Infinite, Timeout.Infinite);
         }
     }
 

@@ -57,6 +57,7 @@ public partial class SettingsWindow : MicaWindow
         nIconSymbolSwitch.IsChecked = SettingsManager.Current.nIconSymbol;
         DisableIfFullscreenSwitch.IsChecked = SettingsManager.Current.DisableIfFullscreen;
         LockKeysBoldUISwitch.IsChecked = SettingsManager.Current.LockKeysBoldUI;
+        SeekbarSwitch.IsChecked = SettingsManager.Current.SeekbarEnabled;
 
         try // gets the version of the app, works only in release mode
         {
@@ -208,6 +209,11 @@ public partial class SettingsWindow : MicaWindow
     private void PlayerInfoSwitch_Click(object sender, RoutedEventArgs e)
     {
         SettingsManager.Current.PlayerInfoEnabled = PlayerInfoSwitch.IsChecked ?? false;
+    }
+    
+    private void SeekbarSwitch_Click(object sender, RoutedEventArgs e)
+    {
+        SettingsManager.Current.SeekbarEnabled = SeekbarSwitch.IsChecked ?? false;
     }
 
     private void nIconLeftClickComboBox_SelectionChanged(object sender,
