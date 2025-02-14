@@ -329,10 +329,17 @@ public partial class MainWindow : MicaWindow
     private void MediaManager_OnAnyTimelinePropertyChanged(MediaSession mediaSession, GlobalSystemMediaTransportControlsSessionTimelineProperties timelineProperties)
     {
         if (mediaManager.GetFocusedSession() is not { } session) return;
-        
-        if (_seekBarEnabled && !IsActive)
-            UpdateSeekbarCurrentDuration(session.ControlSession.GetTimelineProperties().Position);
-        HandlePlayBackState(session.ControlSession.GetPlaybackInfo().PlaybackStatus);
+
+        if (_seekBarEnabled)
+        {
+            Dispatcher.Invoke(() =>
+            {
+                if (!IsActive) return;
+
+                UpdateSeekbarCurrentDuration(session.ControlSession.GetTimelineProperties().Position);
+                HandlePlayBackState(session.ControlSession.GetPlaybackInfo().PlaybackStatus);
+            });
+        }
     }
 
     private static IntPtr SetHook(LowLevelKeyboardProc proc) // set the keyboard hook

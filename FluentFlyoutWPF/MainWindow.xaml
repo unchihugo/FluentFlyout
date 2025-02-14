@@ -94,8 +94,8 @@
                 </StackPanel>
             </StackPanel>
             <DockPanel Grid.Row="1" x:Name="SeekbarWrapper" HorizontalAlignment="Stretch" Margin="16,0,16,12" LastChildFill="True" VerticalAlignment="Center">
-                <TextBlock Name="SeekbarCurrentDuration" Text="-:--" Foreground="Gray" FontSize="12" DockPanel.Dock="Left" Width="45" Margin="0,0,2,0" TextAlignment="Left" VerticalAlignment="Center" Height="18"/>
-                <TextBlock Name="SeekbarMaxDuration" Text="-:--" Foreground="Gray" FontSize="12" DockPanel.Dock="Right" Width="45" Margin="2,0,0,0" TextAlignment="Right" VerticalAlignment="Center" Height="18"/>
+                <TextBlock Name="SeekbarCurrentDuration" Text="-:--" Opacity="0.5" FontSize="12" DockPanel.Dock="Left" Width="45" Margin="0,0,2,0" TextAlignment="Left" VerticalAlignment="Center" Height="18"/>
+                <TextBlock Name="SeekbarMaxDuration" Text="-:--" Opacity="0.5" FontSize="12" DockPanel.Dock="Right" Width="45" Margin="2,0,0,0" TextAlignment="Right" VerticalAlignment="Center" Height="18"/>
                 <Slider Name="Seekbar" Value="0" Maximum="100" Minimum="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" VerticalContentAlignment="Center" Height="18" PreviewMouseLeftButtonDown="Seekbar_OnPreviewMouseLeftButtonDown" PreviewMouseLeftButtonUp="Seekbar_OnPreviewMouseLeftButtonUp" ValueChanged="Seekbar_OnValueChanged"/>
             </DockPanel>
         </Grid>
