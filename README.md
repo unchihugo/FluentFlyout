@@ -7,7 +7,7 @@
 
 ---
 FluentFlyout is a simple and modern audio flyout for Windows, built with Fluent 2 Design principles.  
-The UI seemingly blends in with Windows 10/11, providing you an uninterrupted, clean, and native-like experience when controlling your media.  
+The UI seemingly blends in with Windows 11, providing you an uninterrupted, clean, and native-like experience when controlling your media.  
 
 FluentFlyout features smooth animations, blends with your system's color themes, includes multiple layout positions and a suite of personalization settings while providing media controls and information in a nice and modern looking popup flyout. 
 
@@ -60,9 +60,9 @@ FluentFlyout features smooth animations, blends with your system's color themes,
 - [x] Editable flyout timeout
 - [x] Implement compact layout
 - [x] Remove Windows Forms dependency
-- [ ] Add more media controls (repeat✅, shuffle✅, seek slider)
+- [x] Add more media controls (repeat✅, shuffle✅, seek slider✅)
 - [ ] More animations
-- [ ] Remove windows from `alt+tab`
+- [x] Remove windows from `alt+tab`
 ### Issues
 - Issue #5, fixed (~~FluentFlyout might interfere with certain apps/games in **Fullscreen**, try setting the program's window mode to **Borderless Fullscreen** for now~~)
 - Windows 10 UI might not look as expected
@@ -72,7 +72,8 @@ Please feel free to contribute in any way you can! Check out [CONTRIBUTING.md](h
 
 ## Credits 🙌
 - [Hugo Li](https://unchihugo.github.io) - Original Developer, Microsoft Store Publisher, CN & NL Translations
-- [LiAuTraver](https://github.com/LiAuTraver) - Contributor
+- [LiAuTraver](https://github.com/LiAuTraver) - Contributor (app theme switcher)
+- [AksharDP](https://github.com/AksharDP) - Contributor (media seekbar & duration)
 
 ### Dependencies
 - [Dubya.WindowsMediaController](https://github.com/DubyaDude/WindowsMediaController)
