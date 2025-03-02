@@ -589,23 +589,23 @@ public partial class MainWindow : MicaWindow
                 SongInfoStackPanel.Margin = new Thickness(12, 0, 0, 0);
                 SongInfoStackPanel.Width = 182 - 72 + extraWidth;
             }
-        });
 
-        if (SettingsManager.Current.CenterTitleArtist)
-        {
-            SongTitle.HorizontalAlignment = HorizontalAlignment.Center;
-            SongArtist.HorizontalAlignment = HorizontalAlignment.Center;
-        }
-        else
-        {
-            SongTitle.HorizontalAlignment = HorizontalAlignment.Left;
-            SongArtist.HorizontalAlignment = HorizontalAlignment.Left;
-        }
-        
-        if (SettingsManager.Current.SeekbarEnabled)
-            SeekbarWrapper.Visibility = Visibility.Visible;
-        else
-            SeekbarWrapper.Visibility = Visibility.Collapsed;
+            if (SettingsManager.Current.CenterTitleArtist)
+            {
+                SongTitle.HorizontalAlignment = HorizontalAlignment.Center;
+                SongArtist.HorizontalAlignment = HorizontalAlignment.Center;
+            }
+            else
+            {
+                SongTitle.HorizontalAlignment = HorizontalAlignment.Left;
+                SongArtist.HorizontalAlignment = HorizontalAlignment.Left;
+            }
+
+            if (SettingsManager.Current.SeekbarEnabled)
+                SeekbarWrapper.Visibility = Visibility.Visible;
+            else
+                SeekbarWrapper.Visibility = Visibility.Collapsed;
+        });
 
         _layout = SettingsManager.Current.CompactLayout;
         _repeatEnabled = SettingsManager.Current.RepeatEnabled;
