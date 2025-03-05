@@ -63,6 +63,6 @@ public partial class NextUpWindow : MicaWindow
             null,
             1);
 
-        return formattedText.Width;
+        return formattedText.Width + 8;
     }
 }

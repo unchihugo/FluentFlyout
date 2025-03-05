@@ -55,6 +55,7 @@ public partial class MainWindow : MicaWindow
     private readonly Timer _positionTimer;
     private bool _isActive;
     private bool _isDragging;
+    private bool _isHiding = true;
 
     private LockWindow? lockWindow;
 
@@ -372,16 +373,20 @@ public partial class MainWindow : MicaWindow
                     lockWindow ??= new LockWindow();
                     lockWindow.ShowLockFlyout("Caps Lock", Keyboard.IsKeyToggled(Key.CapsLock));
                 }
-
-                if (vkCode == 0x90) // Num Lock
+                else if (vkCode == 0x90) // Num Lock
                 {
                     lockWindow ??= new LockWindow();
                     lockWindow.ShowLockFlyout("Num Lock", Keyboard.IsKeyToggled(Key.NumLock));
                 }
-                if (vkCode == 0x91) // Scroll Lock
+                else if (vkCode == 0x91) // Scroll Lock
                 {
                     lockWindow ??= new LockWindow();
                     lockWindow.ShowLockFlyout("Scroll Lock", Keyboard.IsKeyToggled(Key.Scroll));
+                }
+                else if (vkCode == 0x2D) // Insert
+                {
+                    lockWindow ??= new LockWindow();
+                    lockWindow.ShowLockFlyout("Insert", Keyboard.IsKeyToggled(Key.Insert));
                 }
             }
         }
@@ -404,8 +409,9 @@ public partial class MainWindow : MicaWindow
             nextUpWindow = null;
         }
 
-        if (Visibility == Visibility.Hidden)
+        if (_isHiding == true)
         {
+            _isHiding = false;
             OpenAnimation(this);
         }
         cts.Cancel();
@@ -424,7 +430,9 @@ public partial class MainWindow : MicaWindow
                     if (!IsMouseOver)
                     {
                         CloseAnimation(this);
+                        _isHiding = true;
                         await Task.Delay(getDuration());
+                        if (_isHiding == false) return;
                         Hide();
                         if (_seekBarEnabled) 
                             HandlePlayBackState(GlobalSystemMediaTransportControlsSessionPlaybackStatus.Paused);

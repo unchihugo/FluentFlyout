@@ -36,7 +36,14 @@ public partial class LockWindow : MicaWindow
         {
             this.EnableBackdrop();
 
-            LockTextBlock.Text = key + " is " + (isOn ? "on" : "off");
+            if (key == "Insert")
+            {
+                // not sure how to properly check if overwrite or insert as every program has different behavior
+                if (isOn) LockTextBlock.Text = "Insert mode";
+                else LockTextBlock.Text = "Overwrite mode";
+            }
+            else LockTextBlock.Text = key + " is " + (isOn ? "on" : "off");
+
             if (SettingsManager.Current.LockKeysBoldUI) LockTextBlock.FontWeight = FontWeights.Medium;
             else LockTextBlock.FontWeight = FontWeights.Normal;
 
