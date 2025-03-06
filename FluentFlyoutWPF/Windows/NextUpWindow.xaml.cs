@@ -30,6 +30,7 @@ public partial class NextUpWindow : MicaWindow
 
         if (titleWidth > artistWidth) Width = titleWidth + 142;
         else Width = artistWidth + 142;
+        if (Width > 400) Width = 400; // max width to prevent window from being too wide
         SongTitle.Text = title;
         SongArtist.Text = artist;
         SongImage.ImageSource = thumbnail;
