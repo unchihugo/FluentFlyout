@@ -14,6 +14,7 @@ public partial class LockWindow : MicaWindow
 {
     private CancellationTokenSource cts;
     MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+    private bool _isHiding = true;
 
     public LockWindow()
     {
@@ -27,6 +28,7 @@ public partial class LockWindow : MicaWindow
         WindowStartupLocation = WindowStartupLocation.Manual;
         Left = SystemParameters.WorkArea.Width / 2 - Width / 2;
         cts = new CancellationTokenSource();
+        _isHiding = false;
         mainWindow.OpenAnimation(this, true);
     }
 
@@ -36,7 +38,14 @@ public partial class LockWindow : MicaWindow
         {
             this.EnableBackdrop();
 
-            LockTextBlock.Text = key + " is " + (isOn ? "on" : "off");
+            if (key == "Insert")
+            {
+                // not sure how to properly check if overwrite or insert as every program has different behavior
+                if (isOn) LockTextBlock.Text = "Insert mode";
+                else LockTextBlock.Text = "Overwrite mode";
+            }
+            else LockTextBlock.Text = key + " is " + (isOn ? "on" : "off");
+
             if (SettingsManager.Current.LockKeysBoldUI) LockTextBlock.FontWeight = FontWeights.Medium;
             else LockTextBlock.FontWeight = FontWeights.Normal;
 
@@ -59,8 +68,9 @@ public partial class LockWindow : MicaWindow
     {
         setStatus(key, isOn);
 
-        if (Visibility == Visibility.Hidden)
+        if (_isHiding)
         {
+            _isHiding = false;
             mainWindow.OpenAnimation(this, true);
         }
         cts.Cancel();
@@ -74,7 +84,9 @@ public partial class LockWindow : MicaWindow
             {
                 await Task.Delay(SettingsManager.Current.LockKeysDuration, token);
                 mainWindow.CloseAnimation(this, true);
+                _isHiding = true;
                 await Task.Delay(mainWindow.getDuration());
+                if (_isHiding == false) return;
                 Hide();
                 break;
             }

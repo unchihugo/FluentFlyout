@@ -1,23 +1,20 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net6.0-windows10.0.22000.0</TargetFramework>
+    <TargetFramework>net9.0-windows10.0.22000.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
-	<UseWindowsForms>False</UseWindowsForms>
+    <UseWindowsForms>False</UseWindowsForms>
     <StartupObject>FluentFlyoutWPF.App</StartupObject>
     <AssemblyName>$(MSBuildProjectName)</AssemblyName>
     <PlatformTarget>x64</PlatformTarget>
     <Platforms>x64</Platforms>
-	<RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
   </PropertyGroup>
-
   <ItemGroup>
     <Content Remove="C:\Users\hu8go\.nuget\packages\dubya.windowsmediacontroller\2.5.5\contentFiles\any\net6.0-windows10.0.22000\Icon.ico" />
   </ItemGroup>
-
   <ItemGroup>
     <None Remove="icon.ico" />
     <None Remove="Resources\FluentFlyout2.ico" />
@@ -27,14 +24,13 @@
     <None Remove="Resources\FluentFlyoutDemo5.1.png" />
     <None Remove="Resources\FluentFlyoutWhite.png" />
   </ItemGroup>
-
   <ItemGroup>
     <PackageReference Include="Dubya.WindowsMediaController" Version="2.5.5" />
     <PackageReference Include="MicaWPF" Version="6.2.10" />
-    <PackageReference Include="System.Drawing.Common" Version="8.0.10" />
-    <PackageReference Include="WPF-UI" Version="3.0.5" />
+    <PackageReference Include="System.Drawing.Common" Version="9.0.2" />
+    <PackageReference Include="WPF-UI" Version="4.0.2" />
+    <PackageReference Include="WPF-UI.Tray" Version="4.0.2" />
   </ItemGroup>
-
   <ItemGroup>
     <Content Include="Resources\TrayIcons\FluentFlyoutBlack.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -49,7 +45,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
-
   <ItemGroup>
     <Content Include="Resources\FluentFlyout2.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -58,9 +53,4 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
-
-	<ItemGroup>
-		<PackageReference Include="WPF-UI.Tray" Version="3.0.5" />
-	</ItemGroup>
-
 </Project>
