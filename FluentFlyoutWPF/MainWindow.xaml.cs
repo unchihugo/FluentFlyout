@@ -574,7 +574,7 @@ public partial class MainWindow : MicaWindow
                     {
                         Seekbar.Maximum = timeline.MaxSeekTime.TotalSeconds;
                         SeekbarMaxDuration.Text = timeline.MaxSeekTime.ToString(timeline.MaxSeekTime.Hours > 0 ? @"hh\:mm\:ss" : @"mm\:ss");
-                        SeekbarUpdateUi(null);
+                        UpdateSeekbarCurrentDuration(timeline.Position);
                     }
                 }
             }
