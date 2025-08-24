@@ -336,7 +336,7 @@ public partial class MainWindow : MicaWindow
         {
             Dispatcher.Invoke(() =>
             {
-                if (!IsActive) return;
+                if (!IsActive || _isDragging) return;
 
                 UpdateSeekbarCurrentDuration(session.ControlSession.GetTimelineProperties().Position);
                 HandlePlayBackState(session.ControlSession.GetPlaybackInfo().PlaybackStatus);
@@ -574,7 +574,6 @@ public partial class MainWindow : MicaWindow
                     {
                         Seekbar.Maximum = timeline.MaxSeekTime.TotalSeconds;
                         SeekbarMaxDuration.Text = timeline.MaxSeekTime.ToString(timeline.MaxSeekTime.Hours > 0 ? @"hh\:mm\:ss" : @"mm\:ss");
-                        UpdateSeekbarCurrentDuration(timeline.Position);
                     }
                 }
             }
@@ -763,6 +762,7 @@ public partial class MainWindow : MicaWindow
 
     private void SeekbarUpdateUi(object? sender)
     {
+        return;
         if (!_seekBarEnabled || Visibility != Visibility.Visible || _isDragging) return;
         if (mediaManager.GetFocusedSession() is not { } session) return;
 
