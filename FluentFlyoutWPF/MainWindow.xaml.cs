@@ -562,7 +562,7 @@ public partial class MainWindow : MicaWindow
                     var timeline = mediaSession.ControlSession.GetTimelineProperties();
 
                     // State tracking
-                    bool mediaSessionSupportsSeekbar = !timeline.MaxSeekTime.Equals(TimeSpan.Zero);
+                    bool mediaSessionSupportsSeekbar = timeline.MaxSeekTime.TotalSeconds >= 1.0; // Heruistics
 
                     if (_mediaSessionSupportsSeekbar != mediaSessionSupportsSeekbar)
                     {
