@@ -302,6 +302,11 @@ public partial class MainWindow : MicaWindow
     {
         UpdateUI(mediaManager.GetFocusedSession());
         HandlePlayBackState(mediaManager.GetFocusedSession().ControlSession.GetPlaybackInfo().PlaybackStatus);
+
+        if (mediaSession.ControlSession.GetPlaybackInfo().PlaybackStatus == GlobalSystemMediaTransportControlsSessionPlaybackStatus.Playing)
+        {
+            PauseOtherSessions(mediaSession);
+        }
     }
 
     private void MediaManager_OnAnyMediaPropertyChanged(MediaSession mediaSession, GlobalSystemMediaTransportControlsSessionMediaProperties mediaProperties)
@@ -872,5 +877,22 @@ public partial class MainWindow : MicaWindow
             //themeService.ChangeTheme(MicaWPF.Core.Enums.WindowsTheme.Light);
         }
         else if (SettingsManager.Current.nIconLeftClick == 1) ShowMediaFlyout();
+    }
+
+    private Task PauseOtherSessions(MediaSession currentMediaSession)
+    {
+        return Task.WhenAll(
+            mediaManager.CurrentMediaSessions.Values.Select(session =>
+            {
+                if (
+                    session.Id != currentMediaSession.Id &&
+                    session.ControlSession.GetPlaybackInfo().PlaybackStatus == GlobalSystemMediaTransportControlsSessionPlaybackStatus.Playing
+                )
+                {
+                    return session.ControlSession.TryPauseAsync().AsTask();
+                }
+                return Task.CompletedTask;
+            })
+        );
     }
 }
