@@ -59,6 +59,7 @@ public partial class MainWindow : MicaWindow
     private bool _isHiding = true;
 
     private LockWindow? lockWindow;
+    private DateTime _lastSelfUpdateTimestamp = DateTime.MinValue;
 
     public MainWindow()
     {
@@ -330,6 +331,8 @@ public partial class MainWindow : MicaWindow
 
     private void MediaManager_OnAnyTimelinePropertyChanged(MediaSession mediaSession, GlobalSystemMediaTransportControlsSessionTimelineProperties timelineProperties)
     {
+        _lastSelfUpdateTimestamp = DateTime.Now;
+
         if (mediaManager.GetFocusedSession() is not { } session) return;
 
         if (_seekBarEnabled)
@@ -762,7 +765,8 @@ public partial class MainWindow : MicaWindow
 
     private void SeekbarUpdateUi(object? sender)
     {
-        return;
+        if (DateTime.Now.Subtract(_lastSelfUpdateTimestamp).TotalSeconds < 1) return;
+
         if (!_seekBarEnabled || Visibility != Visibility.Visible || _isDragging) return;
         if (mediaManager.GetFocusedSession() is not { } session) return;
 
