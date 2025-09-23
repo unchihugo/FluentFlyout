@@ -303,7 +303,10 @@ public partial class MainWindow : MicaWindow
         UpdateUI(mediaManager.GetFocusedSession());
         HandlePlayBackState(mediaManager.GetFocusedSession().ControlSession.GetPlaybackInfo().PlaybackStatus);
 
-        if (mediaSession.ControlSession.GetPlaybackInfo().PlaybackStatus == GlobalSystemMediaTransportControlsSessionPlaybackStatus.Playing)
+        if (
+            mediaSession.ControlSession.GetPlaybackInfo().PlaybackStatus == GlobalSystemMediaTransportControlsSessionPlaybackStatus.Playing
+            && SettingsManager.Current.PauseOtherSessionsEnabled
+            )
         {
             PauseOtherSessions(mediaSession);
         }
