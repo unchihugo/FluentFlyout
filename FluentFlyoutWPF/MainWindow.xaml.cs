@@ -298,23 +298,31 @@ public partial class MainWindow : MicaWindow
         });
     }
 
-    private void CurrentSession_OnPlaybackStateChanged(MediaSession mediaSession, GlobalSystemMediaTransportControlsSessionPlaybackInfo? playbackInfo = null)
+    private void pauseOtherMediaSessionsIfNeeded(MediaSession mediaSession)
     {
-        UpdateUI(mediaManager.GetFocusedSession());
-        HandlePlayBackState(mediaManager.GetFocusedSession().ControlSession.GetPlaybackInfo().PlaybackStatus);
-
         if (
-            mediaSession.ControlSession.GetPlaybackInfo().PlaybackStatus == GlobalSystemMediaTransportControlsSessionPlaybackStatus.Playing
-            && SettingsManager.Current.PauseOtherSessionsEnabled
+            SettingsManager.Current.PauseOtherSessionsEnabled
+            && mediaSession.ControlSession.GetPlaybackInfo().PlaybackStatus == GlobalSystemMediaTransportControlsSessionPlaybackStatus.Playing
             )
         {
             PauseOtherSessions(mediaSession);
         }
     }
 
+    private void CurrentSession_OnPlaybackStateChanged(MediaSession mediaSession, GlobalSystemMediaTransportControlsSessionPlaybackInfo? playbackInfo = null)
+    {
+        UpdateUI(mediaManager.GetFocusedSession());
+        HandlePlayBackState(mediaManager.GetFocusedSession().ControlSession.GetPlaybackInfo().PlaybackStatus);
+
+        pauseOtherMediaSessionsIfNeeded(mediaSession);
+    }
+
     private void MediaManager_OnAnyMediaPropertyChanged(MediaSession mediaSession, GlobalSystemMediaTransportControlsSessionMediaProperties mediaProperties)
     {
         if (mediaManager.GetFocusedSession() == null) return;
+
+        pauseOtherMediaSessionsIfNeeded(mediaSession);
+
         if (SettingsManager.Current.NextUpEnabled && !FullscreenDetector.IsFullscreenApplicationRunning()) // show NextUpWindow if enabled in settings
         {
             var songInfo = mediaSession.ControlSession.TryGetMediaPropertiesAsync().GetAwaiter().GetResult();
@@ -331,6 +339,7 @@ public partial class MainWindow : MicaWindow
                 });
             }
         }
+
         UpdateUI(mediaManager.GetFocusedSession());
         HandlePlayBackState(mediaManager.GetFocusedSession().ControlSession.GetPlaybackInfo().PlaybackStatus);
     }
