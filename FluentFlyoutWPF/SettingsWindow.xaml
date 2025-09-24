@@ -140,9 +140,8 @@
                         <ui:CardControl Grid.Row="11" Icon="{ui:SymbolIcon Pause24}" Margin="0,0,0,3">
                             <ui:CardControl.Header>
                                 <StackPanel Orientation="Vertical">
-                                    <TextBlock Text="Pause Other Media when focusing on a specific one" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
-                                    <TextBlock Text="Pauses all other media sessions when a new session has been focused on" FontSize="12" Opacity="0.5"/>
-                                    <TextBlock Text="For example: starting a new video will pause music players in the background" FontSize="12" Opacity="0.5"/>
+                                    <TextBlock Text="Pause Other Media Automatically" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
+                                    <TextBlock Text="When you play or focus on new media, other active sessions are automatically paused" FontSize="12" Opacity="0.5"/>
                                 </StackPanel>
                             </ui:CardControl.Header>
                             <controls:ToggleSwitch Name="PauseOtherSessionsEnabledSwitch" Click="PauseOtherSessionsEnabledSwitch_Click"/>
