@@ -131,6 +131,7 @@
                             <ui:CardControl.Header>
                                 <StackPanel Orientation="Vertical">
                                     <TextBlock Text="Show Seekbar" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
+                                    <TextBlock Text="An interactable seekbar will automatically display if the player supports it" FontSize="12" Opacity="0.5"/>
                                 </StackPanel>
                             </ui:CardControl.Header>
                             <controls:ToggleSwitch Name="SeekbarSwitch" Click="SeekbarSwitch_Click"/>
