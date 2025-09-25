@@ -41,8 +41,10 @@ public partial class LockWindow : MicaWindow
             if (key == "Insert")
             {
                 // not sure how to properly check if overwrite or insert as every program has different behavior
-                if (isOn) LockTextBlock.Text = "Insert mode";
-                else LockTextBlock.Text = "Overwrite mode";
+                //if (isOn) LockTextBlock.Text = "Insert mode";
+                //else LockTextBlock.Text = "Overwrite mode";
+                LockTextBlock.Text = "Insert pressed";
+                isOn = true;
             }
             else LockTextBlock.Text = key + " is " + (isOn ? "on" : "off");
 

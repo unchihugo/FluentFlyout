@@ -22,8 +22,9 @@ public class UserSettings
     public bool nIconSymbol { get; set; }
     public bool DisableIfFullscreen { get; set; }
     public bool LockKeysBoldUI { get; set; }
-    public string LastKnownVersion { get; set; }
+    public string LastKnownVersion { get; set; } // for determining if user had updated to a new version
     public bool SeekbarEnabled { get; set; }
+    public bool LockKeysInsertEnabled { get; set; } // whether pressing insert key should display the LockKeys flyout
 
 
     public UserSettings()
@@ -50,5 +51,6 @@ public class UserSettings
         LockKeysBoldUI = true;
         LastKnownVersion = "";
         SeekbarEnabled = false;
+        LockKeysInsertEnabled = true;
     }
 }

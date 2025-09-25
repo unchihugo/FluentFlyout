@@ -387,7 +387,7 @@ public partial class MainWindow : MicaWindow
                     lockWindow ??= new LockWindow();
                     lockWindow.ShowLockFlyout("Scroll Lock", Keyboard.IsKeyToggled(Key.Scroll));
                 }
-                else if (vkCode == 0x2D) // Insert
+                else if (vkCode == 0x2D && SettingsManager.Current.LockKeysInsertEnabled) // Insert
                 {
                     lockWindow ??= new LockWindow();
                     lockWindow.ShowLockFlyout("Insert", Keyboard.IsKeyToggled(Key.Insert));
