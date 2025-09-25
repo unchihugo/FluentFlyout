@@ -131,7 +131,8 @@
                         <ui:CardControl Grid.Row="9" Icon="{ui:SymbolIcon SlideArrowRight24}" Margin="0,0,0,3">
                             <ui:CardControl.Header>
                                 <StackPanel Orientation="Vertical">
-                                    <TextBlock Text="Show Seekbar*" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
+                                    <TextBlock Text="Show Seekbar" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
+                                    <TextBlock Text="An interactable seekbar will automatically display if the player supports it" FontSize="12" Opacity="0.5"/>
                                 </StackPanel>
                             </ui:CardControl.Header>
                             <controls:ToggleSwitch Name="SeekbarSwitch" Click="SeekbarSwitch_Click"/>
@@ -193,6 +194,7 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
                         <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
                             <ui:Image Source="/Resources/FluentFlyoutDemo5.1.png" Width="128"/>
@@ -231,6 +233,15 @@
                                 </StackPanel>
                             </ui:CardControl.Header>
                             <controls:ToggleSwitch Name="LockKeysBoldUISwitch" Click="LockKeysBoldUISwitch_Click"/>
+                        </ui:CardControl>
+                        <ui:CardControl Grid.Row="4" Icon="{ui:SymbolIcon Info24}" Margin="0,0,0,3">
+                            <ui:CardControl.Header>
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock Text="Enable Insert Key Popup" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
+                                    <TextBlock Text="Determines whether pressing insert/overwrite will show the flyout" FontSize="12" Opacity="0.5"/>
+                                </StackPanel>
+                            </ui:CardControl.Header>
+                            <controls:ToggleSwitch Name="LockKeysEnableInsertSwitch" Click="LockKeysEnableInsertSwitch_Click"/>
                         </ui:CardControl>
                     </Grid>
 
@@ -359,7 +370,7 @@
                             <TextBlock Text="or leave a review on Microsoft Store!" HorizontalAlignment="Center" FontSize="12" Opacity="0.5" VerticalAlignment="Center" Margin="4,0,0,0"/>
                         </StackPanel>
                         <ui:Anchor Content="GitHub Repository" Icon="{ui:SymbolIcon Link24}" NavigateUri="https://github.com/unchihugo/FluentFlyout" Margin="12,0,0,0"/>
-                        <controls:Button Name="SaveButton" Style="{StaticResource MicaWPF.Styles.AccentedButton}" Content="Save &#38; Close" Padding="12,0,12,0" Height="32" Click="SaveButton_Click" Margin="8,24,24,24" HorizontalAlignment="Left" FontWeight="SemiBold"/>
+                        <controls:Button Name="SaveButton" Style="{StaticResource MicaWPF.Styles.AccentedButton}" Content="Close" Padding="12,0,12,0" Height="32" Click="SaveButton_Click" Margin="8,24,24,24" HorizontalAlignment="Left" FontWeight="SemiBold"/>
                     </StackPanel>
                 </DockPanel>
             </StackPanel>
