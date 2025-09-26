@@ -342,6 +342,11 @@ public partial class SettingsWindow : MicaWindow
         SettingsManager.Current.LockKeysBoldUI = LockKeysBoldUISwitch.IsChecked ?? false;
     }
 
+    private void PauseOtherSessionsEnabledSwitch_Click(object sender, RoutedEventArgs e)
+    {
+        SettingsManager.Current.PauseOtherSessionsEnabled = PauseOtherSessionsEnabledSwitch.IsChecked ?? false;
+    }
+    
     private void LockKeysEnableInsertSwitch_Click(object sender, RoutedEventArgs e)
     {
         SettingsManager.Current.LockKeysInsertEnabled = LockKeysEnableInsertSwitch.IsChecked ?? false;

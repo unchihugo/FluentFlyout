@@ -24,6 +24,7 @@ public class UserSettings
     public bool LockKeysBoldUI { get; set; }
     public string LastKnownVersion { get; set; } // for determining if user had updated to a new version
     public bool SeekbarEnabled { get; set; }
+    public bool PauseOtherSessionsEnabled { get; set; } // pause other sessions when the user focuses on a new one
     public bool LockKeysInsertEnabled { get; set; } // whether pressing insert key should display the LockKeys flyout
 
 
@@ -51,6 +52,7 @@ public class UserSettings
         LockKeysBoldUI = true;
         LastKnownVersion = "";
         SeekbarEnabled = false;
+        PauseOtherSessionsEnabled = false;
         LockKeysInsertEnabled = true;
     }
 }
