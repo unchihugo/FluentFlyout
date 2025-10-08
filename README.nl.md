@@ -74,7 +74,7 @@ Voel u vrij om op welke manier dan ook bij te dragen! Bekijk [CONTRIBUTING.md](h
 - [Hugo Li](https://unchihugo.github.io) - Oorspronkelijke ontwikkelaar, Microsoft Store-uitgever, CN & NL vertalingen
 - [LiAuTraver](https://github.com/LiAuTraver) - Code Bijdrager
 - [AksharDP](https://github.com/AksharDP) - Code Bijdrager
-- [Hyperisme](https://github.com/Hykerisme) - CN vertaling
+- [Hykerisme](https://github.com/Hykerisme) - CN vertaling
 - [nopeless](https://github.com/nopeless) - Code Bijdrager
 
 ### Dank aan
