@@ -46,7 +46,7 @@ FluentFlyout features smooth animations, blends with your system's color themes,
 > [!Important]
 > It's highly recommended to download FluentFlyout from MS store, as it's more convenient and provides auto updates
 1. Go to the [latest release](https://github.com/unchihugo/FluentFlyout/releases/latest) page
-2. Download the **"*.cer"** file *(I'm too poor to afford a real certificate)*
+2. Download the **"*.cer"** file *(real certificates cost a lot of money)*
 3. Open the certificate and press **"Install Certificate..."**
 4. On the Certificate Import Wizard, select **"Local Machine"**, press **"Next"** and grant Admin Access
 5. Select **"Place all certificates in the following store"**, then **"Browse..."**, choose **"Trusted Root Certification Authorities"** and **"OK"**
@@ -72,8 +72,10 @@ Please feel free to contribute in any way you can! Check out [CONTRIBUTING.md](h
 
 ## Credits 🙌
 - [Hugo Li](https://unchihugo.github.io) - Original Developer, Microsoft Store Publisher, CN & NL Translations
-- [LiAuTraver](https://github.com/LiAuTraver) - Contributor (app theme switcher)
-- [AksharDP](https://github.com/AksharDP) - Contributor (media seekbar & duration)
+- [LiAuTraver](https://github.com/LiAuTraver) - Code Contributor (app theme switcher)
+- [AksharDP](https://github.com/AksharDP) - Code Contributor (media seekbar & duration)
+- [Hykerisme](https://github.com/Hykerisme) - CN Translation
+- [nopeless](https://github.com/nopeless) - Code Contributor (QoL features)
 
 ### Dependencies
 - [Dubya.WindowsMediaController](https://github.com/DubyaDude/WindowsMediaController)
