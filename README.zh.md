@@ -72,6 +72,9 @@ FluentFlyout 能够在一个雅观的现代化的弹窗中显示媒体控制和�
 ## 致谢 🙌
 - [Hugo Li](https://unchihugo.github.io) - 原始开发者、Microsoft Store 发布者、中文和荷兰翻译
 - [LiAuTraver](https://github.com/LiAuTraver) - 贡献者
+- [AksharDP](https://github.com/AksharDP) - 贡献者
+- [Hykerisme](https://github.com/Hykerisme) - 中文翻译
+- [nopeless](https://github.com/nopeless) - 贡献者
 ### 依赖
 - [Dubya.WindowsMediaController](https://github.com/DubyaDude/WindowsMediaController)
 - [MicaWPF](https://github.com/Simnico99/MicaWPF)
