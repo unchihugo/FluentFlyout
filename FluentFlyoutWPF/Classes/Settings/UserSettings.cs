@@ -26,6 +26,7 @@ public class UserSettings
     public bool SeekbarEnabled { get; set; }
     public bool PauseOtherSessionsEnabled { get; set; } // pause other sessions when the user focuses on a new one
     public bool LockKeysInsertEnabled { get; set; } // whether pressing insert key should display the LockKeys flyout
+    public int MediaFlyoutBackgroundBlur { get; set; } // media flyout presets for background blur styles
 
 
     public UserSettings()
@@ -54,5 +55,6 @@ public class UserSettings
         SeekbarEnabled = false;
         PauseOtherSessionsEnabled = false;
         LockKeysInsertEnabled = true;
+        MediaFlyoutBackgroundBlur = 0;
     }
 }

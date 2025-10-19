@@ -562,6 +562,10 @@ public partial class MainWindow : MicaWindow
                     MediaId.Text = mediaSession.Id;
                 }
                 else MediaIdStackPanel.Visibility = Visibility.Collapsed;
+
+                BackgroundImageStyle1.Visibility = SettingsManager.Current.MediaFlyoutBackgroundBlur == 1 ? Visibility.Visible : Visibility.Collapsed;
+                BackgroundImageStyle2.Visibility = SettingsManager.Current.MediaFlyoutBackgroundBlur == 2 ? Visibility.Visible : Visibility.Collapsed;
+                BackgroundImageStyle3.Visibility = SettingsManager.Current.MediaFlyoutBackgroundBlur == 3 ? Visibility.Visible : Visibility.Collapsed;
             }
 
             var songInfo = mediaSession.ControlSession.TryGetMediaPropertiesAsync().GetAwaiter().GetResult();
@@ -571,9 +575,22 @@ public partial class MainWindow : MicaWindow
                 SongArtist.Text = songInfo.Artist;
                 var image = Helper.GetThumbnail(songInfo.Thumbnail);
                 SongImage.ImageSource = image;
-                BackgroundImageStyle1.Source = image;
-                BackgroundImageStyle2.Source = image;
-                BackgroundImageStyle3.Source = image;
+                // background blurred image
+                if (SettingsManager.Current.MediaFlyoutBackgroundBlur != 0)
+                {
+                    switch (SettingsManager.Current.MediaFlyoutBackgroundBlur)
+                    {
+                        case 1:
+                            BackgroundImageStyle1.Source = image;
+                            break;
+                        case 2:
+                            BackgroundImageStyle2.Source = image;
+                            break;
+                        case 3:
+                            BackgroundImageStyle3.Source = image;
+                            break;
+                    }
+                }
 
                 if (SongImage.ImageSource == null) SongImagePlaceholder.Visibility = Visibility.Visible;
                 else SongImagePlaceholder.Visibility = Visibility.Collapsed;

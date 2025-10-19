@@ -58,6 +58,9 @@ public partial class SettingsWindow : MicaWindow
         DisableIfFullscreenSwitch.IsChecked = SettingsManager.Current.DisableIfFullscreen;
         LockKeysBoldUISwitch.IsChecked = SettingsManager.Current.LockKeysBoldUI;
         SeekbarSwitch.IsChecked = SettingsManager.Current.SeekbarEnabled;
+        PauseOtherSessionsEnabledSwitch.IsChecked = SettingsManager.Current.PauseOtherSessionsEnabled;
+        LockKeysEnableInsertSwitch.IsChecked = SettingsManager.Current.LockKeysInsertEnabled;
+        BackgroundComboBox.SelectedIndex = SettingsManager.Current.MediaFlyoutBackgroundBlur;
 
         try // gets the version of the app, works only in release mode
         {
@@ -350,5 +353,10 @@ public partial class SettingsWindow : MicaWindow
     private void LockKeysEnableInsertSwitch_Click(object sender, RoutedEventArgs e)
     {
         SettingsManager.Current.LockKeysInsertEnabled = LockKeysEnableInsertSwitch.IsChecked ?? false;
+    }
+
+    private void BackgroundComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        SettingsManager.Current.MediaFlyoutBackgroundBlur = BackgroundComboBox.SelectedIndex;
     }
 }
