@@ -569,7 +569,11 @@ public partial class MainWindow : MicaWindow
             {
                 SongTitle.Text = songInfo.Title;
                 SongArtist.Text = songInfo.Artist;
-                SongImage.ImageSource = Helper.GetThumbnail(songInfo.Thumbnail);
+                var image = Helper.GetThumbnail(songInfo.Thumbnail);
+                SongImage.ImageSource = image;
+                BackgroundImageStyle1.Source = image;
+                BackgroundImageStyle2.Source = image;
+                BackgroundImageStyle3.Source = image;
 
                 if (SongImage.ImageSource == null) SongImagePlaceholder.Visibility = Visibility.Visible;
                 else SongImagePlaceholder.Visibility = Visibility.Collapsed;
