@@ -1,34 +1,35 @@
-﻿using System.Diagnostics;
+﻿using FluentFlyout.Classes;
+using FluentFlyout.Classes.Settings;
+using FluentFlyoutWPF.Classes;
+using FluentFlyoutWPF.Windows;
+using MicaWPF.Controls;
+using MicaWPF.Core.Extensions;
+using Microsoft.Win32;
+using System.Diagnostics;
 using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
+using System.Windows.Interop;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using Windows.Media.Control;
 using Windows.Storage.Streams;
-using FluentFlyoutWPF.Classes;
-using FluentFlyoutWPF.Windows;
-using MicaWPF.Controls;
-using MicaWPF.Core.Extensions;
-using Microsoft.Win32;
 using static WindowsMediaController.MediaManager;
-using FluentFlyout.Classes.Settings;
-using FluentFlyout.Classes;
 
 
 namespace FluentFlyoutWPF;
 
 public partial class MainWindow : MicaWindow
 {
-    [DllImport("user32.dll", SetLastError = true)]
+    [DllImport("user32.dll")]
     public static extern void keybd_event(byte virtualKey, byte scanCode, uint flags, IntPtr extraInfo);
+
     private const int WH_KEYBOARD_LL = 13;
     private const int WM_KEYDOWN = 0x0100;
     private const int WM_KEYUP = 0x0101;
-    private const int WM_APPCOMMAND = 0x0319;
 
     private IntPtr _hookId = IntPtr.Zero;
     private LowLevelKeyboardProc _hookProc;
@@ -36,7 +37,6 @@ public partial class MainWindow : MicaWindow
     private CancellationTokenSource cts; // to close the flyout after a certain time
 
     private static readonly WindowsMediaController.MediaManager mediaManager = new();
-    private static MediaSession? currentSession = null;
 
     // for detecting changes in settings (lazy way)
     private int _position = SettingsManager.Current.Position;
@@ -47,6 +47,8 @@ public partial class MainWindow : MicaWindow
     private bool _centerTitleArtist = SettingsManager.Current.CenterTitleArtist;
     private bool _seekBarEnabled = SettingsManager.Current.SeekbarEnabled;
     private bool _mediaSessionSupportsSeekbar = false;
+    private bool _acrylicEnabled = SettingsManager.Current.MediaFlyoutAcrylicWindowEnabled;
+    private int _themeOption = SettingsManager.Current.AppTheme;
 
     static Mutex singleton = new Mutex(true, "FluentFlyout"); // to prevent multiple instances of the app
     private NextUpWindow? nextUpWindow = null; // to prevent multiple instances of NextUpWindow
@@ -63,6 +65,7 @@ public partial class MainWindow : MicaWindow
 
     public MainWindow()
     {
+        DataContext = this;
         WindowHelper.SetNoActivate(this); // prevents some fullscreen apps from minimizing
         InitializeComponent();
         WindowHelper.SetTopmost(this); // more prevention of fullscreen apps minimizing
@@ -571,6 +574,19 @@ public partial class MainWindow : MicaWindow
                     MediaId.Text = mediaSession.Id;
                 }
                 else MediaIdStackPanel.Visibility = Visibility.Collapsed;
+
+                // background blurred image visibility setting
+                BackgroundImageStyle1.Visibility = SettingsManager.Current.MediaFlyoutBackgroundBlur == 1 ? Visibility.Visible : Visibility.Collapsed;
+                BackgroundImageStyle2.Visibility = SettingsManager.Current.MediaFlyoutBackgroundBlur == 2 ? Visibility.Visible : Visibility.Collapsed;
+                BackgroundImageStyle3.Visibility = SettingsManager.Current.MediaFlyoutBackgroundBlur == 3 ? Visibility.Visible : Visibility.Collapsed;
+
+                // acrylic effect setting
+                if (SettingsManager.Current.MediaFlyoutAcrylicWindowEnabled != _acrylicEnabled 
+                || SettingsManager.Current.AppTheme != _themeOption) // if theme changes, reapply acrylic for updated background color
+                {
+                    _acrylicEnabled = SettingsManager.Current.MediaFlyoutAcrylicWindowEnabled;
+                    EnableBlur(); // called enabled but it actually toggles based on the setting
+                }
             }
 
             var songInfo = mediaSession.ControlSession.TryGetMediaPropertiesAsync().GetAwaiter().GetResult();
@@ -578,7 +594,24 @@ public partial class MainWindow : MicaWindow
             {
                 SongTitle.Text = songInfo.Title;
                 SongArtist.Text = songInfo.Artist;
-                SongImage.ImageSource = Helper.GetThumbnail(songInfo.Thumbnail);
+                var image = Helper.GetThumbnail(songInfo.Thumbnail);
+                SongImage.ImageSource = image;
+                // background blurred image
+                if (SettingsManager.Current.MediaFlyoutBackgroundBlur != 0)
+                {
+                    switch (SettingsManager.Current.MediaFlyoutBackgroundBlur)
+                    {
+                        case 1:
+                            BackgroundImageStyle1.Source = image;
+                            break;
+                        case 2:
+                            BackgroundImageStyle2.Source = image;
+                            break;
+                        case 3:
+                            BackgroundImageStyle3.Source = image;
+                            break;
+                    }
+                }
 
                 if (SongImage.ImageSource == null) SongImagePlaceholder.Visibility = Visibility.Visible;
                 else SongImagePlaceholder.Visibility = Visibility.Collapsed;
@@ -912,6 +945,7 @@ public partial class MainWindow : MicaWindow
         Hide();
         UpdateUILayout();
         ThemeManager.ApplySavedTheme();
+        EnableBlur();
     }
 
     private void nIcon_LeftClick(Wpf.Ui.Tray.Controls.NotifyIcon sender, RoutedEventArgs e) // change the behavior of the tray icon
@@ -941,5 +975,17 @@ public partial class MainWindow : MicaWindow
                 return Task.CompletedTask;
             })
         );
+    }
+    
+    internal void EnableBlur()
+    {
+        if (SettingsManager.Current.MediaFlyoutAcrylicWindowEnabled)
+        {
+            WindowBlurHelper.EnableBlur(this);
+        }
+        else
+        {
+            WindowBlurHelper.DisableBlur(this);
+        }
     }
 }
