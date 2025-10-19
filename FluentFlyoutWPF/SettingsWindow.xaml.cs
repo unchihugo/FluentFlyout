@@ -61,6 +61,7 @@ public partial class SettingsWindow : MicaWindow
         PauseOtherSessionsEnabledSwitch.IsChecked = SettingsManager.Current.PauseOtherSessionsEnabled;
         LockKeysEnableInsertSwitch.IsChecked = SettingsManager.Current.LockKeysInsertEnabled;
         BackgroundComboBox.SelectedIndex = SettingsManager.Current.MediaFlyoutBackgroundBlur;
+        AcrylicWindowSwitch.IsChecked = SettingsManager.Current.MediaFlyoutAcrylicWindowEnabled;
 
         try // gets the version of the app, works only in release mode
         {
@@ -358,5 +359,10 @@ public partial class SettingsWindow : MicaWindow
     private void BackgroundComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         SettingsManager.Current.MediaFlyoutBackgroundBlur = BackgroundComboBox.SelectedIndex;
+    }
+
+    private void AcrylicWindowSwitch_Click(object sender, RoutedEventArgs e)
+    {
+        SettingsManager.Current.MediaFlyoutAcrylicWindowEnabled = AcrylicWindowSwitch.IsChecked ?? false;
     }
 }

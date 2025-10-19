@@ -39,7 +39,6 @@ public partial class MainWindow : MicaWindow
     private const int WH_KEYBOARD_LL = 13;
     private const int WM_KEYDOWN = 0x0100;
     private const int WM_KEYUP = 0x0101;
-    private const int WM_APPCOMMAND = 0x0319;
 
     private IntPtr _hookId = IntPtr.Zero;
     private LowLevelKeyboardProc _hookProc;
@@ -47,7 +46,6 @@ public partial class MainWindow : MicaWindow
     private CancellationTokenSource cts; // to close the flyout after a certain time
 
     private static readonly WindowsMediaController.MediaManager mediaManager = new();
-    private static MediaSession? currentSession = null;
 
     // for detecting changes in settings (lazy way)
     private int _position = SettingsManager.Current.Position;
@@ -58,6 +56,7 @@ public partial class MainWindow : MicaWindow
     private bool _centerTitleArtist = SettingsManager.Current.CenterTitleArtist;
     private bool _seekBarEnabled = SettingsManager.Current.SeekbarEnabled;
     private bool _mediaSessionSupportsSeekbar = false;
+    private bool _acrylicEnabled = SettingsManager.Current.MediaFlyoutAcrylicWindowEnabled;
 
     static Mutex singleton = new Mutex(true, "FluentFlyout"); // to prevent multiple instances of the app
     private NextUpWindow? nextUpWindow = null; // to prevent multiple instances of NextUpWindow
@@ -575,9 +574,17 @@ public partial class MainWindow : MicaWindow
                 }
                 else MediaIdStackPanel.Visibility = Visibility.Collapsed;
 
+                // background blurred image visibility setting
                 BackgroundImageStyle1.Visibility = SettingsManager.Current.MediaFlyoutBackgroundBlur == 1 ? Visibility.Visible : Visibility.Collapsed;
                 BackgroundImageStyle2.Visibility = SettingsManager.Current.MediaFlyoutBackgroundBlur == 2 ? Visibility.Visible : Visibility.Collapsed;
                 BackgroundImageStyle3.Visibility = SettingsManager.Current.MediaFlyoutBackgroundBlur == 3 ? Visibility.Visible : Visibility.Collapsed;
+
+                // acrylic effect setting
+                if (SettingsManager.Current.MediaFlyoutAcrylicWindowEnabled != _acrylicEnabled)
+                {
+                    _acrylicEnabled = SettingsManager.Current.MediaFlyoutAcrylicWindowEnabled;
+                    EnableBlur(); // called enabled but it actually toggles based on the setting
+                }
             }
 
             var songInfo = mediaSession.ControlSession.TryGetMediaPropertiesAsync().GetAwaiter().GetResult();
@@ -969,6 +976,13 @@ public partial class MainWindow : MicaWindow
     }
     internal void EnableBlur()
     {
-        WindowBlurHelper.EnableBlur(this, _blurOpacity, _blurBackgroundColor);
+        if (SettingsManager.Current.MediaFlyoutAcrylicWindowEnabled)
+        {
+            WindowBlurHelper.EnableBlur(this, _blurOpacity, _blurBackgroundColor);
+        }
+        else
+        {
+            WindowBlurHelper.DisableBlur(this);
+        }
     }
 }
