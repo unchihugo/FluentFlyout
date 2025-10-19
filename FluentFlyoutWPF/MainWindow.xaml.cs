@@ -313,6 +313,7 @@ public partial class MainWindow : MicaWindow
 
     private void CurrentSession_OnPlaybackStateChanged(MediaSession mediaSession, GlobalSystemMediaTransportControlsSessionPlaybackInfo? playbackInfo = null)
     {
+        if (!IsVisible) return;
         UpdateUI(mediaManager.GetFocusedSession());
         HandlePlayBackState(mediaManager.GetFocusedSession().ControlSession.GetPlaybackInfo().PlaybackStatus);
 
@@ -342,8 +343,11 @@ public partial class MainWindow : MicaWindow
             }
         }
 
-        UpdateUI(mediaManager.GetFocusedSession());
-        HandlePlayBackState(mediaManager.GetFocusedSession().ControlSession.GetPlaybackInfo().PlaybackStatus);
+        if (IsVisible)
+        {
+            HandlePlayBackState(mediaManager.GetFocusedSession().ControlSession.GetPlaybackInfo().PlaybackStatus);
+            UpdateUI(mediaManager.GetFocusedSession());
+        }
     }
 
     private void MediaManager_OnAnyTimelinePropertyChanged(MediaSession mediaSession, GlobalSystemMediaTransportControlsSessionTimelineProperties timelineProperties)
