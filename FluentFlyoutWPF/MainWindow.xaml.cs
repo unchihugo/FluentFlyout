@@ -314,8 +314,11 @@ public partial class MainWindow : MicaWindow
     private void CurrentSession_OnPlaybackStateChanged(MediaSession mediaSession, GlobalSystemMediaTransportControlsSessionPlaybackInfo? playbackInfo = null)
     {
         if (!IsVisible) return;
-        UpdateUI(mediaManager.GetFocusedSession());
-        HandlePlayBackState(mediaManager.GetFocusedSession().ControlSession.GetPlaybackInfo().PlaybackStatus);
+
+        var focusedSession = mediaManager.GetFocusedSession();
+        
+        UpdateUI(focusedSession);
+        HandlePlayBackState(focusedSession.ControlSession.GetPlaybackInfo().PlaybackStatus);
 
         pauseOtherMediaSessionsIfNeeded(mediaSession);
     }
