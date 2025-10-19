@@ -1,30 +1,41 @@
-﻿using System.Diagnostics;
+﻿using FluentFlyout.Classes;
+using FluentFlyout.Classes.Settings;
+using FluentFlyoutWPF.Classes;
+using FluentFlyoutWPF.Windows;
+using MicaWPF.Controls;
+using MicaWPF.Core.Extensions;
+using Microsoft.Win32;
+using System.Diagnostics;
 using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
+using System.Windows.Interop;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using Windows.Media.Control;
 using Windows.Storage.Streams;
-using FluentFlyoutWPF.Classes;
-using FluentFlyoutWPF.Windows;
-using MicaWPF.Controls;
-using MicaWPF.Core.Extensions;
-using Microsoft.Win32;
 using static WindowsMediaController.MediaManager;
-using FluentFlyout.Classes.Settings;
-using FluentFlyout.Classes;
 
 
 namespace FluentFlyoutWPF;
 
 public partial class MainWindow : MicaWindow
 {
-    [DllImport("user32.dll", SetLastError = true)]
+    [DllImport("user32.dll")]
     public static extern void keybd_event(byte virtualKey, byte scanCode, uint flags, IntPtr extraInfo);
+    
+    private uint _blurOpacity;
+    public double BlurOpacity
+    {
+        get { return _blurOpacity; }
+        set { _blurOpacity = (uint)value; EnableBlur(); }
+    }
+
+    private uint _blurBackgroundColor = 0x990000; /* BGR color format */
+
     private const int WH_KEYBOARD_LL = 13;
     private const int WM_KEYDOWN = 0x0100;
     private const int WM_KEYUP = 0x0101;
@@ -63,6 +74,7 @@ public partial class MainWindow : MicaWindow
 
     public MainWindow()
     {
+        DataContext = this;
         WindowHelper.SetNoActivate(this); // prevents some fullscreen apps from minimizing
         InitializeComponent();
         WindowHelper.SetTopmost(this); // more prevention of fullscreen apps minimizing
@@ -924,6 +936,7 @@ public partial class MainWindow : MicaWindow
         Hide();
         UpdateUILayout();
         ThemeManager.ApplySavedTheme();
+        EnableBlur();
     }
 
     private void nIcon_LeftClick(Wpf.Ui.Tray.Controls.NotifyIcon sender, RoutedEventArgs e) // change the behavior of the tray icon
@@ -953,5 +966,9 @@ public partial class MainWindow : MicaWindow
                 return Task.CompletedTask;
             })
         );
+    }
+    internal void EnableBlur()
+    {
+        WindowBlurHelper.EnableBlur(this, _blurOpacity, _blurBackgroundColor);
     }
 }
