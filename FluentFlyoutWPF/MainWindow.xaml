@@ -35,7 +35,7 @@
 
     <Grid>
         <Grid>
-            <Image x:Name="BackgroundImageStyle1" Stretch="UniformToFill" Opacity="0.85" IsHitTestVisible="False" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" Visibility="Collapsed">
+            <Image x:Name="BackgroundImageStyle1" Stretch="UniformToFill" Opacity="1" IsHitTestVisible="False" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" Visibility="Collapsed" ClipToBounds="True">
                 <Image.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform ScaleX="1.2" ScaleY="1.2"/>
@@ -45,13 +45,14 @@
                     <BlurEffect Radius="50"/>
                 </Image.Effect>
                 <Image.OpacityMask>
-                    <RadialGradientBrush GradientOrigin="0.1,0.5" Center="0,0.5" RadiusX="0.9" RadiusY="0.3">
+                    <RadialGradientBrush GradientOrigin="0.2,0.5" Center="0.1,0.5" RadiusX="0.7" RadiusY="0.3">
                         <GradientStop Color="#FF000000" Offset="0.0"/>
+                        <GradientStop Color="#00000080" Offset="0.75"/>
                         <GradientStop Color="#00000000" Offset="1.0"/>
                     </RadialGradientBrush>
                 </Image.OpacityMask>
             </Image>
-            <Image x:Name="BackgroundImageStyle2" Stretch="Fill" Opacity="0.5" IsHitTestVisible="False" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" Visibility="Collapsed">
+            <Image x:Name="BackgroundImageStyle2" Stretch="Fill" Opacity="0.7" IsHitTestVisible="False" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" Visibility="Collapsed" ClipToBounds="True">
                 <Image.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform ScaleX="1.8" ScaleY="1.8"/>
@@ -61,7 +62,7 @@
                     <BlurEffect Radius="200"/>
                 </Image.Effect>
                 <Image.OpacityMask>
-                    <RadialGradientBrush GradientOrigin="0.5,0.5" Center="0.5,1" RadiusX="0.55" RadiusY="0.55">
+                    <RadialGradientBrush GradientOrigin="0.5,1" Center="0.5,1" RadiusX="0.4" RadiusY="0.7">
                         <GradientStop Color="#FF000000" Offset="0.0"/>
                         <GradientStop Color="#00000000" Offset="1.0"/>
                     </RadialGradientBrush>
