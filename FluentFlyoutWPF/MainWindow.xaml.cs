@@ -26,15 +26,6 @@ public partial class MainWindow : MicaWindow
 {
     [DllImport("user32.dll")]
     public static extern void keybd_event(byte virtualKey, byte scanCode, uint flags, IntPtr extraInfo);
-    
-    private uint _blurOpacity;
-    public double BlurOpacity
-    {
-        get { return _blurOpacity; }
-        set { _blurOpacity = (uint)value; EnableBlur(); }
-    }
-
-    private uint _blurBackgroundColor = 0x990000; /* BGR color format */
 
     private const int WH_KEYBOARD_LL = 13;
     private const int WM_KEYDOWN = 0x0100;
@@ -57,6 +48,7 @@ public partial class MainWindow : MicaWindow
     private bool _seekBarEnabled = SettingsManager.Current.SeekbarEnabled;
     private bool _mediaSessionSupportsSeekbar = false;
     private bool _acrylicEnabled = SettingsManager.Current.MediaFlyoutAcrylicWindowEnabled;
+    private int _themeOption = SettingsManager.Current.AppTheme;
 
     static Mutex singleton = new Mutex(true, "FluentFlyout"); // to prevent multiple instances of the app
     private NextUpWindow? nextUpWindow = null; // to prevent multiple instances of NextUpWindow
@@ -580,7 +572,8 @@ public partial class MainWindow : MicaWindow
                 BackgroundImageStyle3.Visibility = SettingsManager.Current.MediaFlyoutBackgroundBlur == 3 ? Visibility.Visible : Visibility.Collapsed;
 
                 // acrylic effect setting
-                if (SettingsManager.Current.MediaFlyoutAcrylicWindowEnabled != _acrylicEnabled)
+                if (SettingsManager.Current.MediaFlyoutAcrylicWindowEnabled != _acrylicEnabled 
+                || SettingsManager.Current.AppTheme != _themeOption) // if theme changes, reapply acrylic for updated background color
                 {
                     _acrylicEnabled = SettingsManager.Current.MediaFlyoutAcrylicWindowEnabled;
                     EnableBlur(); // called enabled but it actually toggles based on the setting
@@ -978,7 +971,7 @@ public partial class MainWindow : MicaWindow
     {
         if (SettingsManager.Current.MediaFlyoutAcrylicWindowEnabled)
         {
-            WindowBlurHelper.EnableBlur(this, _blurOpacity, _blurBackgroundColor);
+            WindowBlurHelper.EnableBlur(this);
         }
         else
         {
