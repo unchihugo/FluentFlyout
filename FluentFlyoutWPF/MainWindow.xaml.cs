@@ -349,8 +349,9 @@ public partial class MainWindow : MicaWindow
 
         if (IsVisible)
         {
-            HandlePlayBackState(mediaManager.GetFocusedSession().ControlSession.GetPlaybackInfo().PlaybackStatus);
-            UpdateUI(mediaManager.GetFocusedSession());
+            var focusedSession = mediaManager.GetFocusedSession();
+            HandlePlayBackState(focusedSession.ControlSession.GetPlaybackInfo().PlaybackStatus);
+            UpdateUI(focusedSession);
         }
     }
 
