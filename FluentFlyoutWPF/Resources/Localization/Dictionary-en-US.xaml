@@ -87,4 +87,5 @@
     <System:String x:Key="EnjoyingAppText" xml:space="preserve">Enjoying the app? Star it on GitHub,&#10;or leave a review on Microsoft Store!</System:String>
     <System:String x:Key="GitHubRepoLink">GitHub Repository</System:String>
     <System:String x:Key="CloseButton">Close</System:String>
+    <System:String x:Key="AppLanguageTitle">App Language</System:String>
 </ResourceDictionary>
