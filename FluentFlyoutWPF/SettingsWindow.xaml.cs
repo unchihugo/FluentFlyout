@@ -62,6 +62,9 @@ public partial class SettingsWindow : MicaWindow
         LockKeysEnableInsertSwitch.IsChecked = SettingsManager.Current.LockKeysInsertEnabled;
         BackgroundComboBox.SelectedIndex = SettingsManager.Current.MediaFlyoutBackgroundBlur;
         AcrylicWindowSwitch.IsChecked = SettingsManager.Current.MediaFlyoutAcrylicWindowEnabled;
+        AppLanguageComboBox.SelectedItem = AppLanguageComboBox.Items
+            .Cast<ComboBoxItem>()
+            .FirstOrDefault(item => ((string?)item.Tag ?? "system").Equals(SettingsManager.Current.AppLanguage));
 
         try // gets the version of the app, works only in release mode
         {
@@ -364,5 +367,11 @@ public partial class SettingsWindow : MicaWindow
     private void AcrylicWindowSwitch_Click(object sender, RoutedEventArgs e)
     {
         SettingsManager.Current.MediaFlyoutAcrylicWindowEnabled = AcrylicWindowSwitch.IsChecked ?? false;
+    }
+
+    private void AppLanguageComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        SettingsManager.Current.AppLanguage = ((ComboBoxItem)AppLanguageComboBox.SelectedItem).Tag.ToString() ?? "system";
+        LocalizationManager.ApplyLocalization();
     }
 }

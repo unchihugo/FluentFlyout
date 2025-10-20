@@ -13,6 +13,8 @@
                 <mica:ThemeDictionary Theme="Auto" DesignModeTheme="Auto"/>
                 <ui:ThemesDictionary Theme="Unknown"/>
                 <mica:ControlsDictionary />
+                <!-- default language en-US -->
+                <ResourceDictionary Source="Resources/Localization/Dictionary-en-US.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <FontFamily x:Key="SegoeFluentIcons">pack://application:,,,/;component/Fonts/#Segoe Fluent Icons</FontFamily>
         </ResourceDictionary>

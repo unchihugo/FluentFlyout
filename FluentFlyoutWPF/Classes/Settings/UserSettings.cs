@@ -28,6 +28,7 @@ public class UserSettings
     public bool LockKeysInsertEnabled { get; set; } // whether pressing insert key should display the LockKeys flyout
     public int MediaFlyoutBackgroundBlur { get; set; } // media flyout presets for background blur styles
     public bool MediaFlyoutAcrylicWindowEnabled { get; set; } // enable acrylic blur effect on the flyout window
+    public string AppLanguage { get; set; } // user's preferred app language
 
 
     public UserSettings()
@@ -58,5 +59,6 @@ public class UserSettings
         LockKeysInsertEnabled = true;
         MediaFlyoutBackgroundBlur = 0;
         MediaFlyoutAcrylicWindowEnabled = true;
+        AppLanguage = "system";
     }
 }

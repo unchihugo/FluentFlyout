@@ -11,18 +11,17 @@
       Title="Settings" Icon="/Resources/FluentFlyout2.ico"
       TextOptions.TextRenderingMode="ClearType" TextOptions.TextFormattingMode="Ideal"
       Closing="SettingsWindow_Closing"
-      >
-
+      xmlns:System="clr-namespace:System;assembly=System.Runtime">
     <Grid>
         <ui:PassiveScrollViewer HorizontalScrollBarVisibility="Auto">
             <StackPanel>
                 <StackPanel Orientation="Vertical" Margin="16,12,16,24">
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="12,0,0,0">
                         <Image Source="/Resources/FluentFlyout2.ico" Width="44" Height="44"/>
-                        <TextBlock Text="FluentFlyout Settings" FontSize="24" FontWeight="Medium" Margin="12,0,0,0" VerticalAlignment="Center"/>
+                        <TextBlock Text="{DynamicResource TitleText}" FontSize="24" FontWeight="Medium" Margin="12,0,0,0" VerticalAlignment="Center"/>
                         <TextBlock x:Name="VersionTextBlock" FontSize="14" FontWeight="Regular" VerticalAlignment="Bottom" Margin="10" Opacity="0.5"/>
                     </StackPanel>
-                    <TextBlock Text="Media Flyout Customization" FontSize="20" FontWeight="SemiBold" FontFamily="Segoe UI Variable" Margin="0,36,0,0"/>
+                    <TextBlock Text="{DynamicResource MediaFlyoutTitle}" FontSize="20" FontWeight="SemiBold" FontFamily="Segoe UI Variable" Margin="0,36,0,0"/>
                     <Grid Margin="0,12,0,0">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -45,16 +44,13 @@
                         </Grid.ColumnDefinitions>
                         <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,12">
                             <ui:Image Source="/Resources/FluentFlyoutDemo3.1.png" Width="128"/>
-                            <TextBlock FontSize="14" FontWeight="Regular" HorizontalAlignment="Stretch" Opacity="0.75" Margin="12,0,0,0">
-                                Main flyout. When listening to media, press any media or volume key<LineBreak />
-                                (play/pause, volume up/down, etc.) on your keyboard to display the flyout.<LineBreak />
-                                Displays media info, along with playback controls and more.
-                            </TextBlock>
+                            <TextBlock Text="{DynamicResource MediaFlyoutDescription}" FontSize="14" FontWeight="Regular" HorizontalAlignment="Stretch" Opacity="0.75" Margin="12,0,0,0" MaxWidth="450" TextWrapping="WrapWithOverflow" />
                         </StackPanel>
                         <ui:CardControl Grid.Row="1" Icon="{ui:SymbolIcon VideoPlayPause24}" Margin="0,0,0,3">
                             <ui:CardControl.Header>
                                 <StackPanel Orientation="Vertical">
-                                    <TextBlock Text="Enable Media Flyout" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
+                                    <TextBlock Text="{DynamicResource TextBlockText1}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
+                                    <TextBlock Text="{DynamicResource TextBlockText3}" FontSize="12" Opacity="0.5"/>
                                 </StackPanel>
                             </ui:CardControl.Header>
                             <controls:ToggleSwitch Name="MediaFlyoutEnabledSwitch" Click="MediaFlyoutEnabledSwitch_Click"/>
@@ -62,22 +58,22 @@
                         <ui:CardControl Grid.Row="2" Icon="{ui:SymbolIcon ColorBackground24}" Margin="0,0,0,3">
                             <ui:CardControl.Header>
                                 <StackPanel Orientation="Vertical">
-                                    <TextBlock Text="Background Blur" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
-                                    <TextBlock Text="Choose from a preset of modern background blur styles" FontSize="12" Opacity="0.5"/>
+                                    <TextBlock Text="{DynamicResource BackgroundBlurTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
+                                    <TextBlock Text="{DynamicResource TextBlockText2}" FontSize="12" Opacity="0.5"/>
                                 </StackPanel>
                             </ui:CardControl.Header>
                             <ComboBox Name="BackgroundComboBox" SelectionChanged="BackgroundComboBox_SelectionChanged">
-                                <ComboBoxItem Content=" None"/>
-                                <ComboBoxItem Content=" Style 1 (Cover Glow)"/>
-                                <ComboBoxItem Content=" Style 2 (Rising Glow)"/>
-                                <ComboBoxItem Content=" Style 3 (Blur)"/>
+                                <ComboBoxItem Content="{DynamicResource BackgroundBlurOption1}"/>
+                                <ComboBoxItem Content="{DynamicResource BackgroundBlurOption2}"/>
+                                <ComboBoxItem Content="{DynamicResource BackgroundBlurOption3}"/>
+                                <ComboBoxItem Content="{DynamicResource BackgroundBlurOption4}"/>
                             </ComboBox>
                         </ui:CardControl>
                         <ui:CardControl Grid.Row="3" Icon="{ui:SymbolIcon Blur24}" Margin="0,0,0,3">
                             <ui:CardControl.Header>
                                 <StackPanel Orientation="Vertical">
-                                    <TextBlock Text="Acrylic Window" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
-                                    <TextBlock Text="Apply transparent acrylic blur effect to the flyout (off reverts to Mica)" FontSize="12" Opacity="0.5"/>
+                                    <TextBlock Text="{DynamicResource AcrylicWindowTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
+                                    <TextBlock Text="{DynamicResource AcrylicWindowDescription}" FontSize="12" Opacity="0.5"/>
                                 </StackPanel>
                             </ui:CardControl.Header>
                             <controls:ToggleSwitch Name="AcrylicWindowSwitch" Click="AcrylicWindowSwitch_Click"/>
@@ -85,9 +81,8 @@
                         <ui:CardControl Grid.Row="4" Icon="{ui:SymbolIcon ArrowAutofitWidth24}" Margin="0,0,0,3">
                             <ui:CardControl.Header>
                                 <StackPanel Orientation="Vertical">
-                                    <TextBlock Text="Compact Layout" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
-                                    <TextBlock Text="Slimmer and less intrusive layout;" FontSize="12" Opacity="0.5"/>
-                                    <TextBlock Text="hides repeat, shuffle and player info." FontSize="12" Opacity="0.5"/>
+                                    <TextBlock Text="{DynamicResource CompactLayoutTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
+                                    <TextBlock Text="{DynamicResource CompactLayoutDescription}" FontSize="12" Opacity="0.5"/>
                                 </StackPanel>
                             </ui:CardControl.Header>
                             <controls:ToggleSwitch Name="LayoutSwitch" Click="LayoutSwitch_Click"/>
@@ -95,34 +90,35 @@
                         <ui:CardControl Grid.Row="5" Icon="{ui:SymbolIcon PositionForward24}" Margin="0,0,0,3">
                             <ui:CardControl.Header>
                                 <StackPanel Orientation="Vertical">
-                                    <TextBlock Text="Flyout Position" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
+                                    <TextBlock Text="{DynamicResource FlyoutPositionTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
                                 </StackPanel>
                             </ui:CardControl.Header>
                             <ComboBox Name="PositionComboBox" SelectionChanged="PositionComboBox_SelectionChanged">
-                                <ComboBoxItem Content=" Bottom Left"/>
-                                <ComboBoxItem Content=" Bottom Center"/>
-                                <ComboBoxItem Content=" Bottom Right"/>
-                                <ComboBoxItem Content=" Top Left"/>
-                                <ComboBoxItem Content=" Top Center"/>
-                                <ComboBoxItem Content=" Top Right"/>
+                                <ComboBoxItem Content="{DynamicResource PositionBottomLeft}"/>
+                                <ComboBoxItem Content="{DynamicResource PositionBottomCenter}"/>
+                                <ComboBoxItem Content="{DynamicResource PositionBottomRight}"/>
+                                <ComboBoxItem Content="{DynamicResource PositionTopLeft}"/>
+                                <ComboBoxItem Content="{DynamicResource PositionTopCenter}"/>
+                                <ComboBoxItem Content="{DynamicResource PositionTopRight}"/>
                             </ComboBox>
                         </ui:CardControl>
                         <ui:CardControl Grid.Row="6" Icon="{ui:SymbolIcon Timer24}" Margin="0,0,0,12">
                             <ui:CardControl.Header>
                                 <StackPanel Orientation="Vertical">
-                                    <TextBlock Text="Flyout Stay Duration" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
-                                    <TextBlock Text="(default: 3000 ms)" FontSize="12" Opacity="0.5"/>
+                                    <TextBlock Text="{DynamicResource FlyoutStayDurationTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
+                                    <TextBlock Text="{DynamicResource FlyoutStayDurationDescription}" FontSize="12" Opacity="0.5"/>
                                 </StackPanel>
                             </ui:CardControl.Header>
                             <StackPanel Orientation="Horizontal">
                                 <ui:TextBox Name="DurationTextBox" Width="60" ClearButtonEnabled="False" TextChanged="DurationTextBox_TextChanged"/>
-                                <TextBlock Text="ms" FontSize="14" FontWeight="Regular" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                                <TextBlock Text="{DynamicResource MillisecondsUnit}" FontSize="14" FontWeight="Regular" Margin="10,0,0,0" VerticalAlignment="Center"/>
                             </StackPanel>
                         </ui:CardControl>
                         <ui:CardControl Grid.Row="7" Icon="{ui:SymbolIcon AlignLeft24}" Margin="0,0,0,3">
                             <ui:CardControl.Header>
                                 <StackPanel Orientation="Vertical">
-                                    <TextBlock Text="Center Title and Artist" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
+                                    <TextBlock Text="{DynamicResource CenterTitleArtistTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
+                                    <TextBlock Text="{DynamicResource CenterTitleArtistDescription}" FontSize="12" Opacity="0.5"/>
                                 </StackPanel>
                             </ui:CardControl.Header>
                             <controls:ToggleSwitch Name="CenterTitleArtistSwitch" Click="CenterTitleArtistSwitch_Click"/>
@@ -130,7 +126,7 @@
                         <ui:CardControl Grid.Row="8" Icon="{ui:SymbolIcon Subtitles24}" Margin="0,0,0,12">
                             <ui:CardControl.Header>
                                 <StackPanel Orientation="Vertical">
-                                    <TextBlock Text="Show Media Player name" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
+                                    <TextBlock Text="{DynamicResource ShowMediaPlayerNameTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
                                 </StackPanel>
                             </ui:CardControl.Header>
                             <controls:ToggleSwitch Name="PlayerInfoSwitch" Click="PlayerInfoSwitch_Click"/>
@@ -138,8 +134,8 @@
                         <ui:CardControl Grid.Row="9" Icon="{ui:SymbolIcon ArrowRepeatAll24}" Margin="0,0,0,3">
                             <ui:CardControl.Header>
                                 <StackPanel Orientation="Vertical">
-                                    <TextBlock Text="Repeat Button*" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
-                                    <TextBlock Text="Choose between repeat all or repeat one, increases flyout width" FontSize="12" Opacity="0.5"/>
+                                    <TextBlock Text="{DynamicResource RepeatButtonTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
+                                    <TextBlock Text="{DynamicResource RepeatButtonDescription}" FontSize="12" Opacity="0.5"/>
                                 </StackPanel>
                             </ui:CardControl.Header>
                             <controls:ToggleSwitch Name="RepeatSwitch" Click="RepeatSwitch_Click"/>
@@ -147,8 +143,8 @@
                         <ui:CardControl Grid.Row="10" Icon="{ui:SymbolIcon ArrowShuffle24}" Margin="0,0,0,3">
                             <ui:CardControl.Header>
                                 <StackPanel Orientation="Vertical">
-                                    <TextBlock Text="Shuffle Button*" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
-                                    <TextBlock Text="Increases flyout width" FontSize="12" Opacity="0.5"/>
+                                    <TextBlock Text="{DynamicResource ShuffleButtonTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
+                                    <TextBlock Text="{DynamicResource ShuffleButtonDescription}" FontSize="12" Opacity="0.5"/>
                                 </StackPanel>
                             </ui:CardControl.Header>
                             <controls:ToggleSwitch Name="ShuffleSwitch" Click="ShuffleSwitch_Click"/>
@@ -156,25 +152,25 @@
                         <ui:CardControl Grid.Row="11" Icon="{ui:SymbolIcon SlideArrowRight24}" Margin="0,0,0,3">
                             <ui:CardControl.Header>
                                 <StackPanel Orientation="Vertical">
-                                    <TextBlock Text="Show Seekbar" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
-                                    <TextBlock Text="An interactable seekbar will automatically display if the player supports it" FontSize="12" Opacity="0.5"/>
+                                    <TextBlock Text="{DynamicResource ShowSeekbarTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
+                                    <TextBlock Text="{DynamicResource ShowSeekbarDescription}" FontSize="12" Opacity="0.5"/>
                                 </StackPanel>
                             </ui:CardControl.Header>
                             <controls:ToggleSwitch Name="SeekbarSwitch" Click="SeekbarSwitch_Click"/>
                         </ui:CardControl>
-                        <ui:InfoBar Grid.Row="12" Title="*Some browsers/players do not support repeat, shuffle and seekbar control." IsOpen="True" Severity="Warning" IsClosable="False" Margin="0,0,0,12"/>
+                        <ui:InfoBar Grid.Row="12" Title="{DynamicResource UnsupportedControlsWarning}" IsOpen="True" Severity="Warning" IsClosable="False" Margin="0,0,0,12"/>
                         <ui:CardControl Grid.Row="13" Icon="{ui:SymbolIcon Pause24}" Margin="0,0,0,3">
                             <ui:CardControl.Header>
                                 <StackPanel Orientation="Vertical">
-                                    <TextBlock Text="Pause Other Media Automatically" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
-                                    <TextBlock Text="When you play or focus on new media, other active sessions are automatically paused" FontSize="12" Opacity="0.5"/>
+                                    <TextBlock Text="{DynamicResource PauseOtherMediaTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
+                                    <TextBlock Text="{DynamicResource PauseOtherMediaDescription}" FontSize="12" Opacity="0.5"/>
                                 </StackPanel>
                             </ui:CardControl.Header>
                             <controls:ToggleSwitch Name="PauseOtherSessionsEnabledSwitch" Click="PauseOtherSessionsEnabledSwitch_Click"/>
                         </ui:CardControl>
                     </Grid>
 
-                    <TextBlock Text="Next Up Customization" FontSize="20" FontWeight="SemiBold" FontFamily="Segoe UI Variable" Margin="0,36,0,0"/>
+                    <TextBlock Text="{DynamicResource NextUpCustomizationTitle}" FontSize="20" FontWeight="SemiBold" FontFamily="Segoe UI Variable" Margin="0,36,0,0"/>
                     <Grid Margin="0,12,0,0">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -183,17 +179,13 @@
                         </Grid.RowDefinitions>
                         <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
                             <ui:Image Source="/Resources/FluentFlyoutDemo4.1.png" Width="128"/>
-                            <TextBlock FontSize="14" FontWeight="Regular" HorizontalAlignment="Stretch" Opacity="0.75" Margin="12,0,0,0">
-                                A flyout shows what's next when a song/video ends.<LineBreak />
-                                Only appears if the next item plays automatically, if next/previous is pressed<LineBreak />
-                                manually, the main flyout appears instead.
-                            </TextBlock>
+                            <TextBlock FontSize="14" FontWeight="Regular" HorizontalAlignment="Stretch" Opacity="0.75" Margin="12,0,0,0" MaxWidth="450" TextWrapping="WrapWithOverflow" Text="{DynamicResource NextUpDescription}"/>
                         </StackPanel>
                         <ui:CardControl Grid.Row="1" Icon="{ui:SymbolIcon MusicNote2Play20}" Margin="0,0,0,3">
                             <ui:CardControl.Header>
                                 <StackPanel Orientation="Vertical">
-                                    <TextBlock Text="Enable Next Up Flyout (Experimental)" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
-                                    <TextBlock Text="Shows what's next when a song/video ends" FontSize="12" Opacity="0.5"/>
+                                    <TextBlock Text="{DynamicResource EnableNextUpTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
+                                    <TextBlock Text="{DynamicResource EnableNextUpDescription}" FontSize="12" Opacity="0.5"/>
                                 </StackPanel>
                             </ui:CardControl.Header>
                             <controls:ToggleSwitch Name="NextUpSwitch" Click="NextUpSwitch_Click"/>
@@ -201,18 +193,18 @@
                         <ui:CardControl Grid.Row="2" Icon="{ui:SymbolIcon Timer24}" Margin="0,0,0,3">
                             <ui:CardControl.Header>
                                 <StackPanel Orientation="Vertical">
-                                    <TextBlock Text="Next Up Stay Duration" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
-                                    <TextBlock Text="(default: 2000 ms)" FontSize="12" Opacity="0.5"/>
+                                    <TextBlock Text="{DynamicResource NextUpStayDurationTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
+                                    <TextBlock Text="{DynamicResource NextUpStayDurationDescription}" FontSize="12" Opacity="0.5"/>
                                 </StackPanel>
                             </ui:CardControl.Header>
                             <StackPanel Orientation="Horizontal">
                                 <ui:TextBox Name="NextUpDurationTextBox" Width="60" ClearButtonEnabled="False" TextChanged="NextUpDurationTextBox_TextChanged"/>
-                                <TextBlock Text="ms" FontSize="14" FontWeight="Regular" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                                <TextBlock Text="{DynamicResource MillisecondsUnit}" FontSize="14" FontWeight="Regular" Margin="10,0,0,0" VerticalAlignment="Center"/>
                             </StackPanel>
                         </ui:CardControl>
                     </Grid>
 
-                    <TextBlock Text="Lock Keys Customization" FontSize="20" FontWeight="SemiBold" FontFamily="Segoe UI Variable" Margin="0,36,0,0"/>
+                    <TextBlock Text="{DynamicResource LockKeysCustomizationTitle}" FontSize="20" FontWeight="SemiBold" FontFamily="Segoe UI Variable" Margin="0,36,0,0"/>
                     <Grid Margin="0,12,0,0">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -223,17 +215,13 @@
                         </Grid.RowDefinitions>
                         <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
                             <ui:Image Source="/Resources/FluentFlyoutDemo5.1.png" Width="128"/>
-                            <TextBlock FontSize="14" FontWeight="Regular" HorizontalAlignment="Stretch" Opacity="0.75" Margin="12,0,0,0">
-                                Check your lock key status at a glance.<LineBreak />
-                                Appears after pressing Caps Lock, Num Lock or Scroll Lock.<LineBreak />
-                                Convenient for laptops/keyboards without lock key indicators.
-                            </TextBlock>
+                            <TextBlock FontSize="14" FontWeight="Regular" HorizontalAlignment="Stretch" Opacity="0.75" Margin="12,0,0,0" MaxWidth="450" TextWrapping="WrapWithOverflow" Text="{DynamicResource LockKeysDescription}"/>
                         </StackPanel>
                         <ui:CardControl Grid.Row="1" Icon="{ui:SymbolIcon LockMultiple24}" Margin="0,0,0,3">
                             <ui:CardControl.Header>
                                 <StackPanel Orientation="Vertical">
-                                    <TextBlock Text="Enable Lock Keys Flyout" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
-                                    <TextBlock Text="Displays whether the specified lock key is on or off" FontSize="12" Opacity="0.5"/>
+                                    <TextBlock Text="{DynamicResource EnableLockKeysTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
+                                    <TextBlock Text="{DynamicResource EnableLockKeysDescription}" FontSize="12" Opacity="0.5"/>
                                 </StackPanel>
                             </ui:CardControl.Header>
                             <controls:ToggleSwitch Name="LockKeysSwitch" Click="LockKeysSwitch_Click"/>
@@ -241,20 +229,20 @@
                         <ui:CardControl Grid.Row="2" Icon="{ui:SymbolIcon Timer24}" Margin="0,0,0,3">
                             <ui:CardControl.Header>
                                 <StackPanel Orientation="Vertical">
-                                    <TextBlock Text="Lock Keys Stay Duration" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
-                                    <TextBlock Text="(default: 2000 ms)" FontSize="12" Opacity="0.5"/>
+                                    <TextBlock Text="{DynamicResource LockKeysStayDurationTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
+                                    <TextBlock Text="{DynamicResource LockKeysStayDurationDescription}" FontSize="12" Opacity="0.5"/>
                                 </StackPanel>
                             </ui:CardControl.Header>
                             <StackPanel Orientation="Horizontal">
                                 <ui:TextBox Name="LockKeysDurationTextBox" Width="60" ClearButtonEnabled="False" TextChanged="LockKeysDurationTextBox_TextChanged"/>
-                                <TextBlock Text="ms" FontSize="14" FontWeight="Regular" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                                <TextBlock Text="{DynamicResource MillisecondsUnit}" FontSize="14" FontWeight="Regular" Margin="10,0,0,0" VerticalAlignment="Center"/>
                             </StackPanel>
                         </ui:CardControl>
                         <ui:CardControl Grid.Row="3" Icon="{ui:SymbolIcon TextBold24}" Margin="0,0,0,3">
                             <ui:CardControl.Header>
                                 <StackPanel Orientation="Vertical">
-                                    <TextBlock Text="Bold Symbol and Font" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
-                                    <TextBlock Text="Emphasizes the flyout symbol and font" FontSize="12" Opacity="0.5"/>
+                                    <TextBlock Text="{DynamicResource LockKeysBoldUITitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
+                                    <TextBlock Text="{DynamicResource LockKeysBoldUIDescription}" FontSize="12" Opacity="0.5"/>
                                 </StackPanel>
                             </ui:CardControl.Header>
                             <controls:ToggleSwitch Name="LockKeysBoldUISwitch" Click="LockKeysBoldUISwitch_Click"/>
@@ -262,17 +250,18 @@
                         <ui:CardControl Grid.Row="4" Icon="{ui:SymbolIcon Info24}" Margin="0,0,0,3">
                             <ui:CardControl.Header>
                                 <StackPanel Orientation="Vertical">
-                                    <TextBlock Text="Enable Insert Key Popup" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
-                                    <TextBlock Text="Determines whether pressing insert/overwrite will show the flyout" FontSize="12" Opacity="0.5"/>
+                                    <TextBlock Text="{DynamicResource EnableInsertKeyTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
+                                    <TextBlock Text="{DynamicResource EnableInsertKeyDescription}" FontSize="12" Opacity="0.5"/>
                                 </StackPanel>
                             </ui:CardControl.Header>
                             <controls:ToggleSwitch Name="LockKeysEnableInsertSwitch" Click="LockKeysEnableInsertSwitch_Click"/>
                         </ui:CardControl>
                     </Grid>
 
-                    <TextBlock Text="System" FontSize="18" FontWeight="SemiBold" Margin="0,36,0,0"/>
+                    <TextBlock Text="{DynamicResource SystemSettingsTitle}" FontSize="18" FontWeight="SemiBold" Margin="0,36,0,0"/>
                     <Grid Margin="0,12,0,0">
                         <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
@@ -283,13 +272,13 @@
                         <ui:CardControl Grid.Row="0" Icon="{ui:SymbolIcon ShareScreenStart24}" Margin="0,0,0,3">
                             <ui:CardControl.Header>
                                 <StackPanel Orientation="Vertical">
-                                    <TextBlock Text="Launch on Startup" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
-                                    <TextBlock Text="Start minimized to tray when you log in to Windows" FontSize="12" Opacity="0.5"/>
+                                    <TextBlock Text="{DynamicResource LaunchOnStartupTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
+                                    <TextBlock Text="{DynamicResource LaunchOnStartupDescription}" FontSize="12" Opacity="0.5"/>
                                     <TextBlock VerticalAlignment="Center" FontSize="12" Opacity="0.5">
-                                        If this setting does not work as expected, check
+                                        <Run Text="{DynamicResource StartupAppsSettingsInfo}"/>
                                         <Hyperlink Name="StartupHyperlink" NavigateUri="ms-settings:startupapps" BaselineAlignment="Center"
                                                    RequestNavigate="StartupHyperlink_RequestNavigate" TextDecorations="None" Foreground="{DynamicResource MicaWPF.Brushes.AccentFillColorDefault}">
-                                            Startup Apps <ui:SymbolIcon VerticalAlignment="Center" FontSize="14" Symbol="Apps16"/>
+                                            <Run Text="{DynamicResource StartupAppsHyperlinkText}"/> <ui:SymbolIcon VerticalAlignment="Center" FontSize="14" Symbol="Apps16"/>
                                         </Hyperlink>
                                     </TextBlock>
                                 </StackPanel>
@@ -299,55 +288,69 @@
                         <ui:CardControl Grid.Row="1" Icon="{ui:SymbolIcon Color24}" Margin="0,0,0,3">
                             <ui:CardControl.Header>
                                 <StackPanel Orientation="Vertical">
-                                    <TextBlock Text="App Theme" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
+                                    <TextBlock Text="{DynamicResource AppThemeTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
                                 </StackPanel>
                             </ui:CardControl.Header>
                             <ComboBox Name="AppThemeComboBox" SelectionChanged="AppThemeComboBox_SelectionChanged" IsReadOnly="False">
-                                <ComboBoxItem Content=" Windows Default"/>
-                                <ComboBoxItem Content=" Light"/>
-                                <ComboBoxItem Content=" Dark"/>
+                                <ComboBoxItem Content="{DynamicResource AppThemeDefault}"/>
+                                <ComboBoxItem Content="{DynamicResource AppThemeLight}"/>
+                                <ComboBoxItem Content="{DynamicResource AppThemeDark}"/>
                             </ComboBox>
                         </ui:CardControl>
                         <ui:CardControl Grid.Row="2" Icon="{ui:SymbolIcon CursorHover24}" Margin="0,0,0,3">
                             <ui:CardControl.Header>
                                 <StackPanel Orientation="Vertical">
-                                    <TextBlock Text="Tray Icon Left Click Behavior" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
+                                    <TextBlock Text="{DynamicResource AppLanguageTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </ui:CardControl.Header>
+                            <StackPanel Orientation="Horizontal">
+                                <ComboBox Name="AppLanguageComboBox" SelectionChanged="AppLanguageComboBox_SelectionChanged">
+                                    <ComboBoxItem Content="System" Tag="system"/>
+                                    <ComboBoxItem Content="English" Tag="en-US"/>
+                                </ComboBox>
+                            </StackPanel>
+                        </ui:CardControl>
+                        <ui:CardControl Grid.Row="3" Icon="{ui:SymbolIcon CursorHover24}" Margin="0,0,0,3">
+                            <ui:CardControl.Header>
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock Text="{DynamicResource TrayIconLeftClickBehaviorTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
+                                    <TextBlock Text="{DynamicResource TrayIconLeftClickBehaviorDescription}" FontSize="12" Opacity="0.5"/>
                                 </StackPanel>
                             </ui:CardControl.Header>
                             <StackPanel Orientation="Horizontal">
                                 <ComboBox Name="nIconLeftClickComboBox" SelectionChanged="nIconLeftClickComboBox_SelectionChanged">
-                                    <ComboBoxItem Content=" Open Settings"/>
-                                    <ComboBoxItem Content=" Show Media Flyout"/>
+                                    <ComboBoxItem Content="{DynamicResource TrayIconLeftClickOption1}"/>
+                                    <ComboBoxItem Content="{DynamicResource TrayIconLeftClickOption2}"/>
                                 </ComboBox>
                             </StackPanel>
                         </ui:CardControl>
-                        <ui:CardControl Grid.Row="3" Icon="{ui:SymbolIcon PaintBrush24}" Margin="0,0,0,3">
+                        <ui:CardControl Grid.Row="4" Icon="{ui:SymbolIcon PaintBrush24}" Margin="0,0,0,3">
                             <ui:CardControl.Header>
                                 <StackPanel Orientation="Vertical">
-                                    <TextBlock Text="Windows 11-like Tray Icon" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
-                                    <TextBlock Text="Use a tray icon that matches Windows 11 (toggle to refresh theme)" FontSize="12" Opacity="0.5"/>
+                                    <TextBlock Text="{DynamicResource Win11TrayIconTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
+                                    <TextBlock Text="{DynamicResource Win11TrayIconDescription}" FontSize="12" Opacity="0.5"/>
                                 </StackPanel>
                             </ui:CardControl.Header>
                             <controls:ToggleSwitch Name="nIconSymbolSwitch" Click="nIconSymbolSwitch_Click"/>
                         </ui:CardControl>
-                        <ui:CardExpander Grid.Row="4" Icon="{ui:SymbolIcon Wrench24}" ContentPadding="6" Margin="0,0,0,3">
+                        <ui:CardExpander Grid.Row="5" Icon="{ui:SymbolIcon Wrench24}" ContentPadding="6" Margin="0,0,0,3">
                             <ui:CardExpander.Header>
                                 <StackPanel Orientation="Vertical">
-                                    <TextBlock Text="Animation Settings" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
-                                    <TextBlock Text="Tweak the animations to your liking" FontSize="12" Opacity="0.5"/>
+                                    <TextBlock Text="{DynamicResource AnimationSettingsTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
+                                    <TextBlock Text="{DynamicResource AnimationSettingsDescription}" FontSize="12" Opacity="0.5"/>
                                 </StackPanel>
                             </ui:CardExpander.Header>
                             <StackPanel>
                                 <ui:CardControl Icon="{ui:SymbolIcon TopSpeed24}" Margin="0,0,0,3">
                                     <ui:CardControl.Header>
                                         <StackPanel Orientation="Vertical">
-                                            <TextBlock Text="Animation Duration Scale" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
-                                            <TextBlock Text="Faster or slower flyout animation speed (default: 1x)" FontSize="12" Opacity="0.5"/>
+                                            <TextBlock Text="{DynamicResource AnimationDurationScaleTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
+                                            <TextBlock Text="{DynamicResource AnimationDurationScaleDescription}" FontSize="12" Opacity="0.5"/>
                                         </StackPanel>
                                     </ui:CardControl.Header>
                                     <StackPanel Orientation="Horizontal">
                                         <ComboBox Name="FlyoutAnimationSpeedComboBox" SelectionChanged="FlyoutAnimationSpeedComboBox_SelectionChanged">
-                                            <ComboBoxItem Content="Off"/>
+                                            <ComboBoxItem Content="{DynamicResource AnimationSpeedOff}"/>
                                             <ComboBoxItem Content="0.5x"/>
                                             <ComboBoxItem Content="1x"/>
                                             <ComboBoxItem Content="1.5x"/>
@@ -359,27 +362,27 @@
                                 <ui:CardControl Icon="{ui:SymbolIcon BezierCurveSquare12}" Margin="0,0,0,3">
                                     <ui:CardControl.Header>
                                         <StackPanel Orientation="Vertical">
-                                            <TextBlock Text="Animation Easing Style" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
-                                            <TextBlock Text="(default: Quadratic)" FontSize="12" Opacity="0.5"/>
+                                            <TextBlock Text="{DynamicResource AnimationEasingStyleTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
+                                            <TextBlock Text="{DynamicResource AnimationEasingStyleDescription}" FontSize="12" Opacity="0.5"/>
                                         </StackPanel>
                                     </ui:CardControl.Header>
                                     <StackPanel Orientation="Horizontal">
                                         <ComboBox Name="AnimationEasingStylesComboBox" SelectionChanged="AnimationEasingStylesComboBox_SelectionChanged">
-                                            <ComboBoxItem Content=" Linear"/>
-                                            <ComboBoxItem Content=" Sine"/>
-                                            <ComboBoxItem Content=" Quadratic"/>
-                                            <ComboBoxItem Content=" Cubic"/>
+                                            <ComboBoxItem Content="{DynamicResource EasingLinear}"/>
+                                            <ComboBoxItem Content="{DynamicResource EasingSine}"/>
+                                            <ComboBoxItem Content="{DynamicResource EasingQuadratic}"/>
+                                            <ComboBoxItem Content="{DynamicResource EasingCubic}"/>
                                         </ComboBox>
                                     </StackPanel>
                                 </ui:CardControl>
-                                <ui:InfoBar Title="For the native Windows 11 experience, the settings should be kept at default." IsOpen="True" Severity="Informational" IsClosable="False"/>
+                                <ui:InfoBar Title="{DynamicResource NativeExperienceInfo}" IsOpen="True" Severity="Informational" IsClosable="False"/>
                             </StackPanel>
                         </ui:CardExpander>
-                        <ui:CardControl Grid.Row="5" Icon="{ui:SymbolIcon ArrowMinimize24}" Margin="0,0,0,3">
+                        <ui:CardControl Grid.Row="6" Icon="{ui:SymbolIcon ArrowMinimize24}" Margin="0,0,0,3">
                             <ui:CardControl.Header>
                                 <StackPanel Orientation="Vertical">
-                                    <TextBlock Text="Disable Flyouts if DirectX fullscreen program is detected" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
-                                    <TextBlock Text="Prevents DirectX games in exclusive fullscreen from minimizing if a flyout pops up" FontSize="12" Opacity="0.5"/>
+                                    <TextBlock Text="{DynamicResource DisableOnFullscreenTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
+                                    <TextBlock Text="{DynamicResource DisableOnFullscreenDescription}" FontSize="12" Opacity="0.5"/>
                                 </StackPanel>
                             </ui:CardControl.Header>
                             <controls:ToggleSwitch Name="DisableIfFullscreenSwitch" Click="DisableIfFullscreenSwitch_Click"/>
@@ -391,11 +394,10 @@
                     <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" HorizontalAlignment="Right">
                         <ui:SymbolIcon Symbol="Star24" Filled="True" Width="24" Height="24" FontSize="16" VerticalAlignment="Center" Foreground="Gold"/>
                         <StackPanel Orientation="Vertical" VerticalAlignment="Center">
-                            <TextBlock Text="Enjoying the app? Star it on GitHub," HorizontalAlignment="Center" FontSize="12" Opacity="0.5" VerticalAlignment="Center" Margin="4,0,0,0"/>
-                            <TextBlock Text="or leave a review on Microsoft Store!" HorizontalAlignment="Center" FontSize="12" Opacity="0.5" VerticalAlignment="Center" Margin="4,0,0,0"/>
+                            <TextBlock Text="{DynamicResource EnjoyingAppText}" HorizontalAlignment="Center" FontSize="12" Opacity="0.5" VerticalAlignment="Center" Margin="4,0,0,0"/>
                         </StackPanel>
-                        <ui:Anchor Content="GitHub Repository" Icon="{ui:SymbolIcon Link24}" NavigateUri="https://github.com/unchihugo/FluentFlyout" Margin="12,0,0,0"/>
-                        <controls:Button Name="SaveButton" Style="{StaticResource MicaWPF.Styles.AccentedButton}" Content="Close" Padding="12,0,12,0" Height="32" Click="SaveButton_Click" Margin="8,24,24,24" HorizontalAlignment="Left" FontWeight="SemiBold"/>
+                        <ui:Anchor Content="{DynamicResource GitHubRepoLink}" Icon="{ui:SymbolIcon Link24}" NavigateUri="https://github.com/unchihugo/FluentFlyout" Margin="12,0,0,0"/>
+                        <controls:Button Name="SaveButton" Style="{StaticResource MicaWPF.Styles.AccentedButton}" Content="{DynamicResource CloseButton}" Padding="12,0,12,0" Height="32" Click="SaveButton_Click" Margin="8,24,24,24" HorizontalAlignment="Left" FontWeight="SemiBold"/>
                     </StackPanel>
                 </DockPanel>
             </StackPanel>
