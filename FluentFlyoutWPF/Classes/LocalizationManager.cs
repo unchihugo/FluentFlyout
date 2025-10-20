@@ -21,15 +21,17 @@ public static class LocalizationManager
         }
 
         // extract only the language code (first two letters) from the culture
-        string languageCode = culture.Length >= 2 ? culture.Substring(0, 2) : culture;
+        string languageCode = culture[..2];
 
-        // get current localization dictionaries
+        // get current localization 
         var dictionaries = App.Current.Resources.MergedDictionaries;
 
         // remove all localization dictionaries except the default one (en-US)
         foreach (var dictionary in dictionaries.ToList())
         {
-            if (dictionary.Source != null && !dictionary.Source.OriginalString.EndsWith("Dictionary-en-US.xaml"))
+            if (dictionary.Source != null
+                && dictionary.Source.OriginalString.StartsWith("Resources/Localization/")
+                && !dictionary.Source.OriginalString.EndsWith("Dictionary-en-US.xaml"))
             {
                 dictionaries.Remove(dictionary);
             }
