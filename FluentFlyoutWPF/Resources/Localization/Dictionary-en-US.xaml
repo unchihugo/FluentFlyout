@@ -1,6 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:System="clr-namespace:System;assembly=System.Runtime">
+    xmlns:System="clr-namespace:System;assembly=mscorlib">
     
     <System:String x:Key="TitleText">FluentFlyout Settings</System:String>
     <System:String x:Key="MediaFlyoutTitle">Media Flyout Customization</System:String>
