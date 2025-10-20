@@ -316,10 +316,15 @@ public partial class MainWindow : MicaWindow
 
     private void CurrentSession_OnPlaybackStateChanged(MediaSession mediaSession, GlobalSystemMediaTransportControlsSessionPlaybackInfo? playbackInfo = null)
     {
-        UpdateUI(mediaManager.GetFocusedSession());
-        HandlePlayBackState(mediaManager.GetFocusedSession().ControlSession.GetPlaybackInfo().PlaybackStatus);
-
         pauseOtherMediaSessionsIfNeeded(mediaSession);
+
+        var focusedSession = mediaManager.GetFocusedSession();
+        
+        if (IsVisible)
+        {
+            UpdateUI(focusedSession);
+            HandlePlayBackState(focusedSession.ControlSession.GetPlaybackInfo().PlaybackStatus);
+        }
     }
 
     private void MediaManager_OnAnyMediaPropertyChanged(MediaSession mediaSession, GlobalSystemMediaTransportControlsSessionMediaProperties mediaProperties)
@@ -345,8 +350,12 @@ public partial class MainWindow : MicaWindow
             }
         }
 
-        UpdateUI(mediaManager.GetFocusedSession());
-        HandlePlayBackState(mediaManager.GetFocusedSession().ControlSession.GetPlaybackInfo().PlaybackStatus);
+        if (IsVisible)
+        {
+            var focusedSession = mediaManager.GetFocusedSession();
+            HandlePlayBackState(focusedSession.ControlSession.GetPlaybackInfo().PlaybackStatus);
+            UpdateUI(focusedSession);
+        }
     }
 
     private void MediaManager_OnAnyTimelinePropertyChanged(MediaSession mediaSession, GlobalSystemMediaTransportControlsSessionTimelineProperties timelineProperties)
@@ -967,6 +976,7 @@ public partial class MainWindow : MicaWindow
             })
         );
     }
+    
     internal void EnableBlur()
     {
         if (SettingsManager.Current.MediaFlyoutAcrylicWindowEnabled)
