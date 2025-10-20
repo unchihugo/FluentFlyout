@@ -371,6 +371,7 @@ public partial class SettingsWindow : MicaWindow
 
     private void AppLanguageComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        SettingsManager.Current.AppLanguage = ((ComboBoxItem)AppLanguageComboBox.SelectedItem).Tag.ToString() ?? "System";
+        SettingsManager.Current.AppLanguage = ((ComboBoxItem)AppLanguageComboBox.SelectedItem).Tag.ToString() ?? "system";
+        LocalizationManager.ApplyLocalization();
     }
 }

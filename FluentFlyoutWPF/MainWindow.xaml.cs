@@ -12,7 +12,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
-using System.Windows.Interop;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using Windows.Media.Control;
@@ -114,6 +113,9 @@ public partial class MainWindow : MicaWindow
         {
             UpdateSeekbarCurrentDuration(session.ControlSession.GetTimelineProperties().Position);
         }
+
+        // apply localization on new thread
+        Task.Run(() => LocalizationManager.ApplyLocalization());
     }
 
     private void openSettings(object? sender, EventArgs e)
