@@ -21,7 +21,7 @@ public static class LocalizationManager
         }
 
         // extract only the language code (first two letters) from the culture
-        string languageCode = culture[..2];
+        string languageCode = culture[..Math.Min(2, culture.Length)];
 
         // get current localization 
         var dictionaries = App.Current.Resources.MergedDictionaries;

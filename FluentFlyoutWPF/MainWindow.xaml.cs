@@ -115,7 +115,10 @@ public partial class MainWindow : MicaWindow
         }
 
         // apply localization on new thread
-        Task.Run(() => LocalizationManager.ApplyLocalization());
+        Dispatcher.Invoke(() =>
+        {
+            LocalizationManager.ApplyLocalization();
+        });
     }
 
     private void openSettings(object? sender, EventArgs e)
