@@ -55,9 +55,6 @@
                             </ui:CardControl.Header>
                             <controls:ToggleSwitch Name="MediaFlyoutEnabledSwitch" Click="MediaFlyoutEnabledSwitch_Click"/>
                         </ui:CardControl>
-<<<<<<< Updated upstream
-                        <ui:CardControl Grid.Row="2" Icon="{ui:SymbolIcon ArrowAutofitWidth24}" Margin="0,0,0,3">
-=======
                         <ui:CardControl Grid.Row="2" Icon="{ui:SymbolIcon ColorBackground24}" Margin="0,0,0,3">
                             <ui:CardControl.Header>
                                 <StackPanel Orientation="Vertical">
@@ -82,7 +79,6 @@
                             <controls:ToggleSwitch Name="AcrylicWindowSwitch" Click="AcrylicWindowSwitch_Click"/>
                         </ui:CardControl>
                         <ui:CardControl Grid.Row="4" Icon="{ui:SymbolIcon ArrowAutofitWidth24}" Margin="0,0,0,3">
->>>>>>> Stashed changes
                             <ui:CardControl.Header>
                                 <StackPanel Orientation="Vertical">
                                     <TextBlock Text="{DynamicResource CompactLayoutTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
@@ -162,13 +158,8 @@
                             </ui:CardControl.Header>
                             <controls:ToggleSwitch Name="SeekbarSwitch" Click="SeekbarSwitch_Click"/>
                         </ui:CardControl>
-<<<<<<< Updated upstream
-                        <ui:InfoBar Grid.Row="10" Title="*Some browsers/players do not support repeat, shuffle and seekbar control." IsOpen="True" Severity="Warning" IsClosable="False" Margin="0,0,0,12"/>
-                        <ui:CardControl Grid.Row="11" Icon="{ui:SymbolIcon Pause24}" Margin="0,0,0,3">
-=======
                         <ui:InfoBar Grid.Row="12" Title="{DynamicResource UnsupportedControlsWarning}" IsOpen="True" Severity="Warning" IsClosable="False" Margin="0,0,0,12"/>
                         <ui:CardControl Grid.Row="13" Icon="{ui:SymbolIcon Pause24}" Margin="0,0,0,3">
->>>>>>> Stashed changes
                             <ui:CardControl.Header>
                                 <StackPanel Orientation="Vertical">
                                     <TextBlock Text="{DynamicResource PauseOtherMediaTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
