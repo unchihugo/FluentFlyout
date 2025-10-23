@@ -70,7 +70,11 @@ FluentFlyout 能够在一个雅观的现代化的弹窗中显示媒体控制和�
 - Windows 10 界面可能无法如预期显示
 
 ## 贡献 💖
-欢迎以任何方式贡献！来看看 [CONTRIBUTING.md](https://github.com/unchihugo/FluentFlyout/blob/master/.github/CONTRIBUTING.md) 。
+欢迎以任何方式贡献！来看看 [CONTRIBUTING.md](https://github.com/unchihugo/FluentFlyout/blob/master/.github/CONTRIBUTING.md) 。如果您想帮助翻译，请访问我们的 [Weblate 页面](https://hosted.weblate.org/engage/fluentflyout/)。
+
+<a href="https://hosted.weblate.org/engage/fluentflyout/">
+<img src="https://hosted.weblate.org/widget/fluentflyout/multi-auto.svg" alt="Translation status" />
+</a>
 
 ## 致谢 🙌
 - [Hugo Li](https://unchihugo.github.io) - 原始开发者、Microsoft Store 发布者、中文和荷兰翻译

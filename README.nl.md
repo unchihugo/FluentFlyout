@@ -74,7 +74,11 @@ FluentFlyout biedt het mediabediening en informatie in een mooie en moderne pop-
 - Windows 10 gebruikersinterface lijkt mogelijk niet zoals verwacht
 
 ## Bijdragen 💖
-Voel u vrij om op welke manier dan ook bij te dragen! Bekijk [CONTRIBUTING.md](https://github.com/unchihugo/FluentFlyout/blob/master/.github/CONTRIBUTING.md) om aan de slag te gaan.
+Voel u vrij om op welke manier dan ook bij te dragen! Bekijk [CONTRIBUTING.md](https://github.com/unchihugo/FluentFlyout/blob/master/.github/CONTRIBUTING.md) om aan de slag te gaan. Als je wilt helpen met vertalingen, bezoek dan onze [Weblate-pagina](https://hosted.weblate.org/engage/fluentflyout/).
+
+<a href="https://hosted.weblate.org/engage/fluentflyout/">
+<img src="https://hosted.weblate.org/widget/fluentflyout/multi-auto.svg" alt="Translation status" />
+</a>
 
 ## Credits 🙌
 - [Hugo Li](https://unchihugo.github.io) - Oorspronkelijke ontwikkelaar, Microsoft Store-uitgever, CN & NL vertalingen
