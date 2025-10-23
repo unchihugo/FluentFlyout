@@ -7,7 +7,7 @@
       xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
       xmlns:controls="clr-namespace:MicaWPF.Controls;assembly=MicaWPF"
       mc:Ignorable="d" 
-      Height="6000" Width="660" MinHeight="300" MinWidth="660"
+      Height="600" Width="660" MinHeight="300" MinWidth="660"
       Title="Settings" Icon="/Resources/FluentFlyout2.ico"
       TextOptions.TextRenderingMode="ClearType" TextOptions.TextFormattingMode="Ideal"
       Closing="SettingsWindow_Closing"
@@ -298,7 +298,7 @@
                                 <ComboBoxItem Content="{DynamicResource AppThemeDark}"/>
                             </ComboBox>
                         </ui:CardControl>
-                        <ui:CardControl Grid.Row="2" Icon="{ui:SymbolIcon CursorHover24}" Margin="0,0,0,3">
+                        <ui:CardControl Grid.Row="2" Icon="{ui:SymbolIcon Globe24}" Margin="0,0,0,3">
                             <ui:CardControl.Header>
                                 <StackPanel Orientation="Vertical">
                                     <TextBlock Text="{DynamicResource AppLanguageTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
@@ -315,6 +315,8 @@
                                 <ComboBox Name="AppLanguageComboBox" SelectionChanged="AppLanguageComboBox_SelectionChanged">
                                     <ComboBoxItem Content="System" Tag="system"/>
                                     <ComboBoxItem Content="English" Tag="en-US"/>
+                                    <ComboBoxItem Content="Nederlands" Tag="nl-NL"/>
+                                    <ComboBoxItem Content="Tiếng Việt" Tag="vi-VN"/>
                                 </ComboBox>
                             </StackPanel>
                         </ui:CardControl>
