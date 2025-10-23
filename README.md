@@ -2,6 +2,12 @@
   <img width="65%" src="https://github.com/user-attachments/assets/56e921ff-e463-4ab3-b687-92f248dc727e">
 </p>
 <p align="center">
+	<img alt="GitHub Release" src="https://img.shields.io/github/v/release/unchihugo/FluentFlyout">
+	<img alt="Static Badge" src="https://img.shields.io/badge/downloads-50K%2B-blue?color=limegreen">
+	<a href="https://hosted.weblate.org/engage/fluentflyout/"><img src="https://hosted.weblate.org/widget/fluentflyout/svg-badge.svg" alt="Translation status"/></a>
+	<img alt="GitHub contributors" src="https://img.shields.io/github/contributors-anon/unchihugo/fluentflyout?labelColor=midnightblue&color=goldenrod">
+</p>
+<p align="center">
   <strong>English</strong> | <a href="https://github.com/unchihugo/FluentFlyout/blob/master/README.zh.md">简体中文</a> | <a href="https://github.com/unchihugo/FluentFlyout/blob/master/README.nl.md">Nederlands</a>
 </p>
 
@@ -69,6 +75,11 @@ FluentFlyout features smooth animations, blends with your system's color themes,
 
 ## Contributing 💖
 Please feel free to contribute in any way you can! Check out [CONTRIBUTING.md](https://github.com/unchihugo/FluentFlyout/blob/master/.github/CONTRIBUTING.md) to get started.
+If you want to help with translations, please visit our [Weblate page](https://hosted.weblate.org/engage/fluentflyout/).
+
+<a href="https://hosted.weblate.org/engage/fluentflyout/">
+<img src="https://hosted.weblate.org/widget/fluentflyout/multi-auto.svg" alt="Translation status" />
+</a>
 
 ## Credits 🙌
 - [Hugo Li](https://unchihugo.github.io) - Original Developer, Microsoft Store Publisher, CN & NL Translations

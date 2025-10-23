@@ -1,8 +1,11 @@
-## 贡献与改进
-我的中文不太好，使我很难检查这些问题。所以 **如果您能帮我改进翻译，我会非常感激！** 请随时 **提交 Pull Request** 或者 **向我提供反馈**，让这个项目更好地服务中文社区。**十分感谢您的帮助！**
-
 <p align="center">
   <img width="65%" src="https://github.com/user-attachments/assets/56e921ff-e463-4ab3-b687-92f248dc727e">
+</p>
+<p align="center">
+	<img alt="GitHub Release" src="https://img.shields.io/github/v/release/unchihugo/FluentFlyout">
+	<img alt="Static Badge" src="https://img.shields.io/badge/downloads-50K%2B-blue?color=limegreen">
+	<a href="https://hosted.weblate.org/engage/fluentflyout/"><img src="https://hosted.weblate.org/widget/fluentflyout/svg-badge.svg" alt="Translation status"/></a>
+	<img alt="GitHub contributors" src="https://img.shields.io/github/contributors-anon/unchihugo/fluentflyout?labelColor=midnightblue&color=goldenrod">
 </p>
 <p align="center">
   <a href="https://github.com/unchihugo/FluentFlyout/blob/master/README.md">English</a> | <strong>简体中文</strong> | <a href="https://github.com/unchihugo/FluentFlyout/blob/master/README.nl.md">Nederlands</a>
@@ -67,7 +70,11 @@ FluentFlyout 能够在一个雅观的现代化的弹窗中显示媒体控制和�
 - Windows 10 界面可能无法如预期显示
 
 ## 贡献 💖
-欢迎以任何方式贡献！来看看 [CONTRIBUTING.md](https://github.com/unchihugo/FluentFlyout/blob/master/.github/CONTRIBUTING.md) 。
+欢迎以任何方式贡献！来看看 [CONTRIBUTING.md](https://github.com/unchihugo/FluentFlyout/blob/master/.github/CONTRIBUTING.md) 。如果您想帮助翻译，请访问我们的 [Weblate 页面](https://hosted.weblate.org/engage/fluentflyout/)。
+
+<a href="https://hosted.weblate.org/engage/fluentflyout/">
+<img src="https://hosted.weblate.org/widget/fluentflyout/multi-auto.svg" alt="Translation status" />
+</a>
 
 ## 致谢 🙌
 - [Hugo Li](https://unchihugo.github.io) - 原始开发者、Microsoft Store 发布者、中文和荷兰翻译
