@@ -6,7 +6,7 @@
     <system:String x:Key="TextBlockText3">Tự động hiện lên flyout khi nhấn một phím thích hợp</system:String>
     <system:String x:Key="CompactLayoutTitle">Giao diện nhỏ gọn</system:String>
     <system:String x:Key="CompactLayoutDescription" xml:space="preserve">Giao diện nhỏ gọn hơn
-không hiển thị tên chương trình đang phát, các nút 'lặp lại' và 'trộn bài'</system:String>
+không hiển thị tên chương trình phát âm thanh, các nút 'lặp lại' và 'trộn bài'</system:String>
     <system:String x:Key="FlyoutPositionTitle">Vị trí flyout</system:String>
     <system:String x:Key="PositionBottomLeft" xml:space="preserve"> Dưới cùng bên trái</system:String>
     <system:String x:Key="PositionBottomCenter" xml:space="preserve"> Ở giữa dưới cùng</system:String>
@@ -19,7 +19,7 @@ không hiển thị tên chương trình đang phát, các nút 'lặp lại' v�
     <system:String x:Key="MillisecondsUnit">ms</system:String>
     <system:String x:Key="CenterTitleArtistTitle">Canh giữa tiêu đề và tên tác giả</system:String>
     <system:String x:Key="CenterTitleArtistDescription">Canh giữa văn bản thay vì canh lề trái</system:String>
-    <system:String x:Key="ShowMediaPlayerNameTitle">Hiển thị tên chương trình đang phát</system:String>
+    <system:String x:Key="ShowMediaPlayerNameTitle">Hiển thị tên chương trình phát âm thanh</system:String>
     <system:String x:Key="RepeatButtonTitle">Nút 'Lặp lại'*</system:String>
     <system:String x:Key="RepeatButtonDescription">Chuyển đổi giữa các chế độ không lặp lại, lặp lại một lần và lặp lại liên tục</system:String>
     <system:String x:Key="ShuffleButtonTitle">Nút 'Trộn bài'*</system:String>
@@ -62,4 +62,29 @@ không hiển thị tên chương trình đang phát, các nút 'lặp lại' v�
     <system:String x:Key="AnimationSettingsTitle">Chuyển động giao diện</system:String>
     <system:String x:Key="AnimationSettingsDescription">Tùy chỉnh tốc độ và kiểu làm mượt chuyển động flyout</system:String>
     <system:String x:Key="AnimationDurationScaleTitle">Tốc độ chuyển động</system:String>
+    <system:String x:Key="AnimationEasingStyleTitle">Làm mượt chuyển động</system:String>
+    <system:String x:Key="AnimationSpeedOff">Tắt chuyển động</system:String>
+    <system:String x:Key="AnimationDurationScaleDescription">Làm tốc độ chuyển động nhanh hơn hoặc chậm hơn (mặc định: 1x)</system:String>
+    <system:String x:Key="AnimationEasingStyleDescription">(mặc định: Hàm số bậc hai)</system:String>
+    <system:String x:Key="EasingLinear" xml:space="preserve"> Tuyến tính</system:String>
+    <system:String x:Key="EasingSine" xml:space="preserve"> Sin</system:String>
+    <system:String x:Key="EasingQuadratic" xml:space="preserve"> Hàm số bậc hai</system:String>
+    <system:String x:Key="EasingCubic" xml:space="preserve"> Hàm số bậc ba</system:String>
+    <system:String x:Key="NativeExperienceInfo">Để có trải nghiệm tự nhiên, hòa hợp với các flyout hệ thống nhất, bạn nên để tùy chọn là mặc định.</system:String>
+    <system:String x:Key="DisableOnFullscreenTitle">Không hiển thị flyout trong các cửa sổ DirectX toàn màn hình</system:String>
+    <system:String x:Key="DisableOnFullscreenDescription">Tránh các cửa sổ/game DirectX thu nhỏ khi trong chế độ toàn màn hình 'fullscreen exclusive'</system:String>
+    <system:String x:Key="AppLanguageTitle">Ngôn ngữ</system:String>
+    <system:String x:Key="EnjoyingAppText" xml:space="preserve">Nếu bạn cảm thấy chương trình này hữu ích, bạn có thể gắn sao repo GitHub
+hoặc viết một bài đánh giá trên Microsoft Store để ủng hộ tác giả.</system:String>
+    <system:String x:Key="GitHubRepoLink">Repo GitHub</system:String>
+    <system:String x:Key="CloseButton">Đóng</system:String>
+    <system:String x:Key="AcrylicWindowTitle">Acrylic</system:String>
+    <system:String x:Key="AcrylicWindowDescription">Áp dụng hiệu ứng acrylic cho flyout (khi tắt thì quay về sử dụng Mica)</system:String>
+    <system:String x:Key="BackgroundBlurTitle">Làm mờ nền</system:String>
+    <system:String x:Key="BackgroundBlurOption1" xml:space="preserve"> Không làm mờ</system:String>
+    <system:String x:Key="BackgroundBlurOption2" xml:space="preserve"> Kiểu 1 (Cover Glow)</system:String>
+    <system:String x:Key="BackgroundBlurOption3" xml:space="preserve"> Kiểu 2 (Rising Glow)</system:String>
+    <system:String x:Key="BackgroundBlurOption4" xml:space="preserve"> Kiểu 3 (Blur)</system:String>
+    <system:String x:Key="TextBlockText2">Lựa chọn hiệu ứng làm mờ nền flyout</system:String>
+    <system:String x:Key="StartupAppsHyperlinkText">Startup Apps</system:String>
 </ResourceDictionary>
