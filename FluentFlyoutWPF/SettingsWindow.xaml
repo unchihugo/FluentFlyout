@@ -268,6 +268,7 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
                         <ui:CardControl Grid.Row="0" Icon="{ui:SymbolIcon ShareScreenStart24}" Margin="0,0,0,3">
                             <ui:CardControl.Header>
@@ -297,20 +298,29 @@
                                 <ComboBoxItem Content="{DynamicResource AppThemeDark}"/>
                             </ComboBox>
                         </ui:CardControl>
-                        <ui:CardControl Grid.Row="2" Icon="{ui:SymbolIcon CursorHover24}" Margin="0,0,0,3">
+                        <ui:CardControl Grid.Row="2" Icon="{ui:SymbolIcon Globe24}" Margin="0,0,0,3">
                             <ui:CardControl.Header>
                                 <StackPanel Orientation="Vertical">
                                     <TextBlock Text="{DynamicResource AppLanguageTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
+                                    <TextBlock VerticalAlignment="Center" FontSize="12" Opacity="0.5">
+                                        <Run Text="{DynamicResource AppLanguageDescription}"/>
+                                        <Hyperlink NavigateUri="https://hosted.weblate.org/engage/fluentflyout/" RequestNavigate="StartupHyperlink_RequestNavigate" BaselineAlignment="Center"
+                                            TextDecorations="None" Foreground="{DynamicResource MicaWPF.Brushes.AccentFillColorDefault}">
+                                            <Run Text="{DynamicResource AppLanguageDescriptionLink}"/> <ui:SymbolIcon VerticalAlignment="Center" FontSize="14" Symbol="Open16"/>
+                                        </Hyperlink>
+                                    </TextBlock>
                                 </StackPanel>
                             </ui:CardControl.Header>
                             <StackPanel Orientation="Horizontal">
                                 <ComboBox Name="AppLanguageComboBox" SelectionChanged="AppLanguageComboBox_SelectionChanged">
                                     <ComboBoxItem Content="System" Tag="system"/>
                                     <ComboBoxItem Content="English" Tag="en-US"/>
+                                    <ComboBoxItem Content="Nederlands" Tag="nl-NL"/>
+                                    <ComboBoxItem Content="Tiếng Việt" Tag="vi-VN"/>
                                 </ComboBox>
                             </StackPanel>
                         </ui:CardControl>
-                        <ui:CardControl Grid.Row="3" Icon="{ui:SymbolIcon CursorHover24}" Margin="0,0,0,3">
+                        <ui:CardControl Grid.Row="4" Icon="{ui:SymbolIcon CursorHover24}" Margin="0,0,0,3">
                             <ui:CardControl.Header>
                                 <StackPanel Orientation="Vertical">
                                     <TextBlock Text="{DynamicResource TrayIconLeftClickBehaviorTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
@@ -324,7 +334,7 @@
                                 </ComboBox>
                             </StackPanel>
                         </ui:CardControl>
-                        <ui:CardControl Grid.Row="4" Icon="{ui:SymbolIcon PaintBrush24}" Margin="0,0,0,3">
+                        <ui:CardControl Grid.Row="5" Icon="{ui:SymbolIcon PaintBrush24}" Margin="0,0,0,3">
                             <ui:CardControl.Header>
                                 <StackPanel Orientation="Vertical">
                                     <TextBlock Text="{DynamicResource Win11TrayIconTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
@@ -333,7 +343,7 @@
                             </ui:CardControl.Header>
                             <controls:ToggleSwitch Name="nIconSymbolSwitch" Click="nIconSymbolSwitch_Click"/>
                         </ui:CardControl>
-                        <ui:CardExpander Grid.Row="5" Icon="{ui:SymbolIcon Wrench24}" ContentPadding="6" Margin="0,0,0,3">
+                        <ui:CardExpander Grid.Row="6" Icon="{ui:SymbolIcon Wrench24}" ContentPadding="6" Margin="0,0,0,3">
                             <ui:CardExpander.Header>
                                 <StackPanel Orientation="Vertical">
                                     <TextBlock Text="{DynamicResource AnimationSettingsTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
@@ -378,7 +388,7 @@
                                 <ui:InfoBar Title="{DynamicResource NativeExperienceInfo}" IsOpen="True" Severity="Informational" IsClosable="False"/>
                             </StackPanel>
                         </ui:CardExpander>
-                        <ui:CardControl Grid.Row="6" Icon="{ui:SymbolIcon ArrowMinimize24}" Margin="0,0,0,3">
+                        <ui:CardControl Grid.Row="7" Icon="{ui:SymbolIcon ArrowMinimize24}" Margin="0,0,0,3">
                             <ui:CardControl.Header>
                                 <StackPanel Orientation="Vertical">
                                     <TextBlock Text="{DynamicResource DisableOnFullscreenTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
@@ -396,7 +406,7 @@
                         <StackPanel Orientation="Vertical" VerticalAlignment="Center">
                             <TextBlock Text="{DynamicResource EnjoyingAppText}" HorizontalAlignment="Center" FontSize="12" Opacity="0.5" VerticalAlignment="Center" Margin="4,0,0,0"/>
                         </StackPanel>
-                        <ui:Anchor Content="{DynamicResource GitHubRepoLink}" Icon="{ui:SymbolIcon Link24}" NavigateUri="https://github.com/unchihugo/FluentFlyout" Margin="12,0,0,0"/>
+                        <ui:Anchor Content="{DynamicResource GitHubRepoLink}" Icon="{ui:SymbolIcon Open24}" NavigateUri="https://github.com/unchihugo/FluentFlyout" Margin="12,0,0,0"/>
                         <controls:Button Name="SaveButton" Style="{StaticResource MicaWPF.Styles.AccentedButton}" Content="{DynamicResource CloseButton}" Padding="12,0,12,0" Height="32" Click="SaveButton_Click" Margin="8,24,24,24" HorizontalAlignment="Left" FontWeight="SemiBold"/>
                     </StackPanel>
                 </DockPanel>

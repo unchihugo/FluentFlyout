@@ -601,6 +601,8 @@ public partial class MainWindow : MicaWindow
                 SongArtist.Text = songInfo.Artist;
                 var image = Helper.GetThumbnail(songInfo.Thumbnail);
                 SongImage.ImageSource = image;
+                // make image 1:1 aspect ratio so gradient masks work for non-square images
+                image = Helper.CropToSquare(image);
                 // background blurred image
                 if (SettingsManager.Current.MediaFlyoutBackgroundBlur != 0)
                 {
@@ -917,6 +919,30 @@ public partial class MainWindow : MicaWindow
             }
 
             return image;
+        }
+
+        internal static BitmapImage? CropToSquare(BitmapImage? sourceImage)
+        {
+            if (sourceImage == null)
+                return null;
+            int size = (int)Math.Min(sourceImage.PixelWidth, sourceImage.PixelHeight);
+            int x = (sourceImage.PixelWidth - size) / 2;
+            int y = (sourceImage.PixelHeight - size) / 2;
+            var rect = new Int32Rect(x, y, size, size);
+            var croppedBitmap = new CroppedBitmap(sourceImage, rect);
+            var bitmapImage = new BitmapImage();
+            using (var memoryStream = new System.IO.MemoryStream())
+            {
+                var encoder = new PngBitmapEncoder();
+                encoder.Frames.Add(BitmapFrame.Create(croppedBitmap));
+                encoder.Save(memoryStream);
+                memoryStream.Position = 0;
+                bitmapImage.BeginInit();
+                bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
+                bitmapImage.StreamSource = memoryStream;
+                bitmapImage.EndInit();
+            }
+            return bitmapImage;
         }
     }
 

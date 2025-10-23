@@ -88,4 +88,6 @@
     <System:String x:Key="GitHubRepoLink">GitHub Repository</System:String>
     <System:String x:Key="CloseButton">Close</System:String>
     <System:String x:Key="AppLanguageTitle">App Language</System:String>
+    <System:String x:Key="AppLanguageDescription" xml:space="preserve">If your language is not listed or incomplete, it will default to English.&#10;You can help contribute translations on</System:String>
+    <System:String x:Key="AppLanguageDescriptionLink">Weblate</System:String>
 </ResourceDictionary>
