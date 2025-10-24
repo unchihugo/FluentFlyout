@@ -611,13 +611,13 @@ public partial class MainWindow : MicaWindow
                     switch (SettingsManager.Current.MediaFlyoutBackgroundBlur)
                     {
                         case 1:
-                            BackgroundImageStyle1.Source = image;
+                            BackgroundImageStyle1.Source = croppedImage;
                             break;
                         case 2:
-                            BackgroundImageStyle2.Source = image;
+                            BackgroundImageStyle2.Source = croppedImage;
                             break;
                         case 3:
-                            BackgroundImageStyle3.Source = image;
+                            BackgroundImageStyle3.Source = croppedImage;
                             break;
                     }
                 }
