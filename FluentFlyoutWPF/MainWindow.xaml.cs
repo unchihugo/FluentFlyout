@@ -6,7 +6,7 @@ using MicaWPF.Controls;
 using MicaWPF.Core.Extensions;
 using Microsoft.Win32;
 using System.Diagnostics;
-using System.Drawing;
+using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
@@ -601,21 +601,23 @@ public partial class MainWindow : MicaWindow
                 SongArtist.Text = songInfo.Artist;
                 var image = Helper.GetThumbnail(songInfo.Thumbnail);
                 SongImage.ImageSource = image;
-                // make image 1:1 aspect ratio so gradient masks work for non-square images
-                image = Helper.CropToSquare(image);
+
                 // background blurred image
                 if (SettingsManager.Current.MediaFlyoutBackgroundBlur != 0)
                 {
+                    // make image 1:1 aspect ratio so gradient masks work for non-square images
+                    var croppedImage = Helper.CropToSquare(image);
+
                     switch (SettingsManager.Current.MediaFlyoutBackgroundBlur)
                     {
                         case 1:
-                            BackgroundImageStyle1.Source = image;
+                            BackgroundImageStyle1.Source = croppedImage;
                             break;
                         case 2:
-                            BackgroundImageStyle2.Source = image;
+                            BackgroundImageStyle2.Source = croppedImage;
                             break;
                         case 3:
-                            BackgroundImageStyle3.Source = image;
+                            BackgroundImageStyle3.Source = croppedImage;
                             break;
                     }
                 }
@@ -881,68 +883,43 @@ public partial class MainWindow : MicaWindow
 
     internal static class Helper
     {
+        private const int MaxThumbnailSize = 512;
+
         internal static BitmapImage? GetThumbnail(IRandomAccessStreamReference Thumbnail, bool convertToPng = true)
         {
             if (Thumbnail == null)
                 return null;
 
-            var thumbnailStream = Thumbnail.OpenReadAsync().GetAwaiter().GetResult();
-            byte[] thumbnailBytes = new byte[thumbnailStream.Size];
-            using (DataReader reader = new DataReader(thumbnailStream))
+            BitmapImage image = new();
+            using (var imageStream = Thumbnail.OpenReadAsync().GetAwaiter().GetResult().AsStreamForRead())
             {
-                reader.LoadAsync((uint)thumbnailStream.Size).GetAwaiter().GetResult();
-                reader.ReadBytes(thumbnailBytes);
-            }
-
-            byte[] imageBytes = thumbnailBytes;
-
-            if (convertToPng)
-            {
-                using var fileMemoryStream = new System.IO.MemoryStream(thumbnailBytes);
-                Bitmap thumbnailBitmap = (Bitmap)Bitmap.FromStream(fileMemoryStream);
-
-                if (!thumbnailBitmap.RawFormat.Equals(System.Drawing.Imaging.ImageFormat.Png))
-                {
-                    using var pngMemoryStream = new System.IO.MemoryStream();
-                    thumbnailBitmap.Save(pngMemoryStream, System.Drawing.Imaging.ImageFormat.Png);
-                    imageBytes = pngMemoryStream.ToArray();
-                }
-            }
-
-            var image = new BitmapImage();
-            using (var ms = new System.IO.MemoryStream(imageBytes))
-            {
+                // initialize the BitmapImage
                 image.BeginInit();
                 image.CacheOption = BitmapCacheOption.OnLoad;
-                image.StreamSource = ms;
+                image.DecodePixelWidth = MaxThumbnailSize;
+                image.StreamSource = imageStream;
                 image.EndInit();
             }
-
+            image.Freeze();
             return image;
         }
 
-        internal static BitmapImage? CropToSquare(BitmapImage? sourceImage)
+        internal static CroppedBitmap? CropToSquare(BitmapImage? sourceImage)
         {
             if (sourceImage == null)
                 return null;
+
             int size = (int)Math.Min(sourceImage.PixelWidth, sourceImage.PixelHeight);
             int x = (sourceImage.PixelWidth - size) / 2;
             int y = (sourceImage.PixelHeight - size) / 2;
+
             var rect = new Int32Rect(x, y, size, size);
+
+            // create a CroppedBitmap (this is a lightweight object)
             var croppedBitmap = new CroppedBitmap(sourceImage, rect);
-            var bitmapImage = new BitmapImage();
-            using (var memoryStream = new System.IO.MemoryStream())
-            {
-                var encoder = new PngBitmapEncoder();
-                encoder.Frames.Add(BitmapFrame.Create(croppedBitmap));
-                encoder.Save(memoryStream);
-                memoryStream.Position = 0;
-                bitmapImage.BeginInit();
-                bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
-                bitmapImage.StreamSource = memoryStream;
-                bitmapImage.EndInit();
-            }
-            return bitmapImage;
+
+            croppedBitmap.Freeze();
+            return croppedBitmap;
         }
     }
 
