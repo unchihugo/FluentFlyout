@@ -34,6 +34,15 @@
     </Window.Triggers>
 
     <Grid>
+        <controls:Button x:Name="MediaFlyoutCloseButton"
+                         Width="28" Height="28" 
+                         Style="{StaticResource MicaWPF.Styles.TransparentButton}"
+                         HorizontalAlignment="Right" VerticalAlignment="Top"
+                         Margin="0,8,8,0"
+                         Click="MediaFlyoutCloseButton_Click"
+                         Visibility="Collapsed"  >
+            <ui:SymbolIcon Symbol="Dismiss20" Filled="True"/>
+        </controls:Button>
         <Grid>
             <Image x:Name="BackgroundImageStyle1" Stretch="UniformToFill" Opacity="1" IsHitTestVisible="False" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" Visibility="Collapsed" ClipToBounds="True">
                 <Image.RenderTransform>
@@ -117,6 +126,14 @@
                         Margin="0,0,8,0" Click="Forward_Click" Focusable="False"
                         Style="{StaticResource MicaWPF.Styles.TransparentButton}" VerticalAlignment="Center">
                                 <ui:SymbolIcon Name="SymbolForward" Symbol="Next20" Filled="True"/>
+                            </controls:Button>
+                            <controls:Button Name="ControlClose"
+                                             Width="28" Height="28"  Margin="0,0,8,0"
+                                             Style="{StaticResource MicaWPF.Styles.TransparentButton}"
+                                               VerticalAlignment="Center" 
+                                             Click="MediaFlyoutCloseButton_Click"
+                                             Visibility="Collapsed"  >
+                                <ui:SymbolIcon Symbol="Dismiss20" Filled="True"/>
                             </controls:Button>
                             <controls:Button
                             Height="28" Width="28" Name="ControlRepeat"
