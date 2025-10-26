@@ -11,4 +11,8 @@
     <system:String x:Key="PositionBottomRight" xml:space="preserve"> Rechtsonder</system:String>
     <system:String x:Key="PositionTopLeft" xml:space="preserve"> Linksboven</system:String>
     <system:String x:Key="AppThemeTitle">Appthema</system:String>
+    <system:String x:Key="TrayIconLeftClickOption1"> Open instellingen</system:String>
+    <system:String x:Key="CloseButton">Sluiten</system:String>
+    <system:String x:Key="AppLanguageTitle">App-taal</system:String>
+    <system:String x:Key="AppLanguageDescriptionLink">Weblate</system:String>
 </ResourceDictionary>
