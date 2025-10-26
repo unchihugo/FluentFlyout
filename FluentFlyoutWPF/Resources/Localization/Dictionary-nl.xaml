@@ -10,4 +10,5 @@
     <system:String x:Key="PositionBottomCenter" xml:space="preserve"> Middenonder</system:String>
     <system:String x:Key="PositionBottomRight" xml:space="preserve"> Rechtsonder</system:String>
     <system:String x:Key="PositionTopLeft" xml:space="preserve"> Links­boven</system:String>
+    <system:String x:Key="AppThemeTitle">App uiterlijk</system:String>
 </ResourceDictionary>
