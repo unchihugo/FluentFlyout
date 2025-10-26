@@ -1036,7 +1036,6 @@ public partial class MainWindow : MicaWindow
 
     private void MediaFlyoutCloseButton_Click(object sender, RoutedEventArgs e)
     {
-        // 立即关闭 MediaFlyout
         CloseAnimation(this);
         _isHiding = true;
         Task.Run(async () =>
