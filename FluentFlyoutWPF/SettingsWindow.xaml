@@ -110,6 +110,8 @@
                                 </StackPanel>
                             </ui:CardControl.Header>
                             <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{DynamicResource MediaFlyoutAlwaysDisplay}" VerticalAlignment="Center"/>
+                                <controls:ToggleSwitch Margin="4,0,12,0" Name="MediaFlyoutAlwaysDisplaySwitch" Click="MediaFlyoutAlwaysDisplaySwitch_Click"  />
                                 <ui:TextBox Name="DurationTextBox" Width="60" ClearButtonEnabled="False" TextChanged="DurationTextBox_TextChanged"/>
                                 <TextBlock Text="{DynamicResource MillisecondsUnit}" FontSize="14" FontWeight="Regular" Margin="10,0,0,0" VerticalAlignment="Center"/>
                             </StackPanel>

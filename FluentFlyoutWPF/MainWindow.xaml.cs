@@ -462,7 +462,7 @@ public partial class MainWindow : MicaWindow
             while (!token.IsCancellationRequested)
             {
                 await Task.Delay(100, token); // check if mouse is over every 100ms
-                if (!IsMouseOver)
+                if (!IsMouseOver && !SettingsManager.Current.MediaFlyoutAlwaysDisplay)
                 {
                     await Task.Delay(SettingsManager.Current.Duration, token);
                     if (!IsMouseOver)

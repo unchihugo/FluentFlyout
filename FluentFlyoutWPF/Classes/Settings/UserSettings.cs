@@ -19,6 +19,7 @@ public class UserSettings
     public int LockKeysDuration { get; set; }
     public int AppTheme { get; set; }
     public bool MediaFlyoutEnabled { get; set; }
+    public bool MediaFlyoutAlwaysDisplay { get; set; }
     public bool nIconSymbol { get; set; }
     public bool DisableIfFullscreen { get; set; }
     public bool LockKeysBoldUI { get; set; }
