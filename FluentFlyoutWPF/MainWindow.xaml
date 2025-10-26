@@ -103,8 +103,8 @@
                     <StackPanel Name="BodyStackPanel" Orientation="Vertical" VerticalAlignment="Center" Width="194">
                         <StackPanel Orientation="Horizontal">
                             <StackPanel Name="SongInfoStackPanel" Margin="12,0,0,0" Orientation="Vertical" VerticalAlignment="Center" Width="182">
-                                <TextBlock Name="SongTitle" Text="Song Title" FontSize="14" FontFamily="Segoe UI Variable" FontWeight="Medium" TextTrimming="CharacterEllipsis"/>
-                                <TextBlock Name="SongArtist" Text="Artist Name" FontSize="14" FontFamily="Segoe UI Variable" FontWeight="Medium" Opacity="0.5" TextTrimming="CharacterEllipsis"/>
+                                <TextBlock Name="SongTitle" Text="Song Title" FontSize="14" FontFamily="Segoe UI Variable" FontWeight="Medium" TextTrimming="CharacterEllipsis" IsHitTestVisible="False"/>
+                                <TextBlock Name="SongArtist" Text="Artist Name" FontSize="14" FontFamily="Segoe UI Variable" FontWeight="Medium" Opacity="0.5" TextTrimming="CharacterEllipsis" IsHitTestVisible="False"/>
                             </StackPanel>
                         </StackPanel>
                         <StackPanel Name="ControlsStackPanel" Orientation="Horizontal" HorizontalAlignment="Right" Height="35" Width="184" Margin="12,8,0,0">

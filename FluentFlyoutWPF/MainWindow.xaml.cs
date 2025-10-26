@@ -488,7 +488,7 @@ public partial class MainWindow : MicaWindow
 
     private void UpdateMediaFlyoutCloseButtonVisibility()
     {
-        MediaFlyoutCloseButton.Visibility = SettingsManager.Current.MediaFlyoutAlwaysDisplay && !SettingsManager.Current.CompactLayout  ? Visibility.Visible : Visibility.Collapsed;
+        MediaFlyoutCloseButton.Visibility = SettingsManager.Current.MediaFlyoutAlwaysDisplay && !SettingsManager.Current.CompactLayout ? Visibility.Visible : Visibility.Collapsed;
         ControlClose.Visibility = SettingsManager.Current.MediaFlyoutAlwaysDisplay && SettingsManager.Current.CompactLayout ? Visibility.Visible : Visibility.Collapsed;
     }
 
@@ -496,7 +496,7 @@ public partial class MainWindow : MicaWindow
     {
         if (_layout != SettingsManager.Current.CompactLayout ||
             _shuffleEnabled != SettingsManager.Current.ShuffleEnabled ||
-            _repeatEnabled != SettingsManager.Current.ShuffleEnabled ||
+            _repeatEnabled != SettingsManager.Current.RepeatEnabled ||
             _playerInfoEnabled != SettingsManager.Current.PlayerInfoEnabled ||
             _centerTitleArtist != SettingsManager.Current.CenterTitleArtist ||
             _seekBarEnabled != SettingsManager.Current.SeekbarEnabled ||
