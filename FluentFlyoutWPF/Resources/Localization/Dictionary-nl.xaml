@@ -4,4 +4,15 @@
     <system:String x:Key="MediaFlyoutDescription">Hoofd-flyout. Wanneer je luistert naar media, druk op een willekeurige media- of volumeknop (start/pauze, volume omhoog/omlaag, enz.) op je toetsenbord om de flyout te openen. Geeft media-info weer, samen met afspeelbedieningen en meer.</system:String>
     <system:String x:Key="TextBlockText1">Media-flyout inschakelen</system:String>
     <system:String x:Key="TextBlockText3">Open een flyout wanneer je op een mediaknop drukt</system:String>
+    <system:String x:Key="BackgroundBlurTitle">Achtergrondvervaging</system:String>
+    <system:String x:Key="CompactLayoutTitle">Compacte indeling</system:String>
+    <system:String x:Key="PositionBottomLeft" xml:space="preserve"> Linksonder</system:String>
+    <system:String x:Key="PositionBottomCenter" xml:space="preserve"> Middenonder</system:String>
+    <system:String x:Key="PositionBottomRight" xml:space="preserve"> Rechtsonder</system:String>
+    <system:String x:Key="PositionTopLeft" xml:space="preserve"> Linksboven</system:String>
+    <system:String x:Key="AppThemeTitle">Appthema</system:String>
+    <system:String x:Key="TrayIconLeftClickOption1"> Open instellingen</system:String>
+    <system:String x:Key="CloseButton">Sluiten</system:String>
+    <system:String x:Key="AppLanguageTitle">App-taal</system:String>
+    <system:String x:Key="AppLanguageDescriptionLink">Weblate</system:String>
 </ResourceDictionary>
