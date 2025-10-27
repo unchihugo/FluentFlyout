@@ -45,6 +45,7 @@ public partial class MainWindow : MicaWindow
     private bool _playerInfoEnabled = SettingsManager.Current.PlayerInfoEnabled;
     private bool _centerTitleArtist = SettingsManager.Current.CenterTitleArtist;
     private bool _seekBarEnabled = SettingsManager.Current.SeekbarEnabled;
+    private bool _alwaysDisplay = SettingsManager.Current.MediaFlyoutAlwaysDisplay;
     private bool _mediaSessionSupportsSeekbar = false;
     private bool _acrylicEnabled = SettingsManager.Current.MediaFlyoutAcrylicWindowEnabled;
     private int _themeOption = SettingsManager.Current.AppTheme;
@@ -462,7 +463,7 @@ public partial class MainWindow : MicaWindow
             while (!token.IsCancellationRequested)
             {
                 await Task.Delay(100, token); // check if mouse is over every 100ms
-                if (!IsMouseOver)
+                if (!IsMouseOver && !SettingsManager.Current.MediaFlyoutAlwaysDisplay)
                 {
                     await Task.Delay(SettingsManager.Current.Duration, token);
                     if (!IsMouseOver)
@@ -485,18 +486,26 @@ public partial class MainWindow : MicaWindow
         }
     }
 
+    private void UpdateMediaFlyoutCloseButtonVisibility()
+    {
+        MediaFlyoutCloseButton.Visibility = SettingsManager.Current.MediaFlyoutAlwaysDisplay && !SettingsManager.Current.CompactLayout ? Visibility.Visible : Visibility.Collapsed;
+        ControlClose.Visibility = SettingsManager.Current.MediaFlyoutAlwaysDisplay && SettingsManager.Current.CompactLayout ? Visibility.Visible : Visibility.Collapsed;
+    }
+
     private void UpdateUI(MediaSession mediaSession)
     {
         if (_layout != SettingsManager.Current.CompactLayout ||
             _shuffleEnabled != SettingsManager.Current.ShuffleEnabled ||
-            _repeatEnabled != SettingsManager.Current.ShuffleEnabled ||
+            _repeatEnabled != SettingsManager.Current.RepeatEnabled ||
             _playerInfoEnabled != SettingsManager.Current.PlayerInfoEnabled ||
             _centerTitleArtist != SettingsManager.Current.CenterTitleArtist ||
-            _seekBarEnabled != SettingsManager.Current.SeekbarEnabled)
+            _seekBarEnabled != SettingsManager.Current.SeekbarEnabled ||
+            _alwaysDisplay != SettingsManager.Current.MediaFlyoutAlwaysDisplay)
             UpdateUILayout();
 
         Dispatcher.Invoke(() =>
         {
+            UpdateMediaFlyoutCloseButtonVisibility();
             this.EnableBackdrop(); // ensures the backdrop is enabled as sometimes it gets disabled
 
             if (mediaSession == null)
@@ -674,6 +683,11 @@ public partial class MainWindow : MicaWindow
                 SongImageBorder.Height = 36;
                 SongInfoStackPanel.Margin = new Thickness(8, 0, 0, 0);
                 SongInfoStackPanel.Width = 182;
+                if (SettingsManager.Current.MediaFlyoutAlwaysDisplay)
+                {
+                    SongInfoStackPanel.Width -= 36;
+                    ControlsStackPanel.Width += 44;
+                }
             }
             else // normal layout
             {
@@ -713,6 +727,7 @@ public partial class MainWindow : MicaWindow
         _playerInfoEnabled = SettingsManager.Current.PlayerInfoEnabled;
         _centerTitleArtist = SettingsManager.Current.CenterTitleArtist;
         _seekBarEnabled = SettingsManager.Current.SeekbarEnabled;
+        _alwaysDisplay = SettingsManager.Current.MediaFlyoutAlwaysDisplay;
     }
 
     private async void Back_Click(object sender, RoutedEventArgs e)
@@ -984,7 +999,6 @@ public partial class MainWindow : MicaWindow
             })
         );
     }
-    
     internal void EnableBlur()
     {
         if (SettingsManager.Current.MediaFlyoutAcrylicWindowEnabled)
@@ -995,5 +1009,24 @@ public partial class MainWindow : MicaWindow
         {
             WindowBlurHelper.DisableBlur(this);
         }
+    }
+
+    private void MediaFlyoutCloseButton_Click(object sender, RoutedEventArgs e)
+    {
+        CloseAnimation(this);
+        _isHiding = true;
+        Task.Run(async () =>
+        {
+            await Task.Delay(getDuration());
+            Dispatcher.Invoke(() =>
+            {
+                if (_isHiding)
+                {
+                    Hide();
+                    if (_seekBarEnabled)
+                        HandlePlayBackState(GlobalSystemMediaTransportControlsSessionPlaybackStatus.Paused);
+                }
+            });
+        });
     }
 }

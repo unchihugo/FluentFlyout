@@ -66,6 +66,9 @@ public partial class SettingsWindow : MicaWindow
             .Cast<ComboBoxItem>()
             .FirstOrDefault(item => ((string?)item.Tag ?? "system").Equals(SettingsManager.Current.AppLanguage));
 
+        MediaFlyoutAlwaysDisplaySwitch.IsChecked = SettingsManager.Current.MediaFlyoutAlwaysDisplay;
+        DurationTextBox.IsEnabled = !SettingsManager.Current.MediaFlyoutAlwaysDisplay;
+
         try // gets the version of the app, works only in release mode
         {
             var version = Package.Current.Id.Version;
@@ -373,5 +376,11 @@ public partial class SettingsWindow : MicaWindow
     {
         SettingsManager.Current.AppLanguage = ((ComboBoxItem)AppLanguageComboBox.SelectedItem).Tag.ToString() ?? "system";
         LocalizationManager.ApplyLocalization();
+    }
+
+    private void MediaFlyoutAlwaysDisplaySwitch_Click(object sender, RoutedEventArgs e)
+    {
+        SettingsManager.Current.MediaFlyoutAlwaysDisplay = MediaFlyoutAlwaysDisplaySwitch.IsChecked ?? false;
+        DurationTextBox.IsEnabled = !(MediaFlyoutAlwaysDisplaySwitch.IsChecked ?? false);
     }
 }
