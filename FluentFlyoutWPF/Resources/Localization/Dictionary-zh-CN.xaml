@@ -10,4 +10,22 @@
     <system:String x:Key="BackgroundBlurOption3" xml:space="preserve"> 样式2（旭日）</system:String>
     <system:String x:Key="BackgroundBlurOption4" xml:space="preserve"> 样式3（封面模糊）</system:String>
     <system:String x:Key="BackgroundBlurTitle">背景模糊</system:String>
+    <system:String x:Key="AcrylicWindowTitle">亚克力窗口</system:String>
+    <system:String x:Key="AcrylicWindowDescription">将透明的亚克力效果应用于浮窗（关闭后还原为云母效果）</system:String>
+    <system:String x:Key="CompactLayoutTitle">紧凑布局</system:String>
+    <system:String x:Key="CompactLayoutDescription" xml:space="preserve">布局更简洁、干扰更少
+隐藏了重复、随机播放按钮和播放器信息</system:String>
+    <system:String x:Key="FlyoutPositionTitle">浮窗位置</system:String>
+    <system:String x:Key="PositionBottomCenter" xml:space="preserve"> 底部居中</system:String>
+    <system:String x:Key="PositionBottomRight" xml:space="preserve"> 右下角</system:String>
+    <system:String x:Key="PositionTopLeft" xml:space="preserve"> 左上角</system:String>
+    <system:String x:Key="PositionTopCenter" xml:space="preserve"> 顶部居中</system:String>
+    <system:String x:Key="PositionTopRight" xml:space="preserve"> 右上角</system:String>
+    <system:String x:Key="FlyoutStayDurationTitle">浮窗停留时间</system:String>
+    <system:String x:Key="FlyoutStayDurationDescription">（默认：3000毫秒）</system:String>
+    <system:String x:Key="MillisecondsUnit">毫秒</system:String>
+    <system:String x:Key="MediaFlyoutAlwaysDisplay">始终显示</system:String>
+    <system:String x:Key="CenterTitleArtistTitle">居中显示标题和艺术家</system:String>
+    <system:String x:Key="CenterTitleArtistDescription">将文本居中对齐，而非左对齐</system:String>
+    <system:String x:Key="RepeatButtonTitle">重复按钮*</system:String>
 </ResourceDictionary>
