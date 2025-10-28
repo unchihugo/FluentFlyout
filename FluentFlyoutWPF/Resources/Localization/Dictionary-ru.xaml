@@ -87,4 +87,8 @@
 или оставьте отзыв в Microsoft Store!</system:String>
     <system:String x:Key="AppLanguageDescription" xml:space="preserve">Если ваш язык отсутствует в списке или переведён не полностью, по умолчанию будет использоваться английский.
 Вы можете помочь с переводом на</system:String>
+    <system:String x:Key="GitHubRepoLink">Репозиторий GitHub</system:String>
+    <system:String x:Key="CloseButton">Закрыть</system:String>
+    <system:String x:Key="AppLanguageTitle">Язык приложения</system:String>
+    <system:String x:Key="AppLanguageDescriptionLink">Weblate</system:String>
 </ResourceDictionary>
