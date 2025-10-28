@@ -90,4 +90,5 @@ hoặc viết một bài đánh giá trên Microsoft Store để ủng hộ tác
     <system:String x:Key="AppLanguageDescription" xml:space="preserve">Nếu ngôn ngữ của bạn không có trong danh sách hoặc chưa hoàn thiện, nó sẽ mặc định là tiếng Anh.
 Bạn có thể giúp chúng tôi bằng việc đóng góp các bản dịch trên</system:String>
     <system:String x:Key="AppLanguageDescriptionLink">Liên kết đóng góp bản dịch</system:String>
+    <system:String x:Key="MediaFlyoutAlwaysDisplay">Màn hình luôn bật</system:String>
 </ResourceDictionary>
