@@ -75,4 +75,20 @@ tekrar, karıştırma ve oynatıcı bilgilerini gizler</system:String>
 veya Microsoft Store'da yorum bırakın!</system:String>
     <system:String x:Key="AppLanguageDescription" xml:space="preserve">Diliniz listede yoksa veya eksikse, varsayılan olarak İngilizce kullanılır. 
 Çevirilere katkıda bulunabilirsiniz</system:String>
+    <system:String x:Key="LaunchOnStartupTitle">Başlangıçta çalıştır</system:String>
+    <system:String x:Key="AppThemeTitle">Uygulama Teması</system:String>
+    <system:String x:Key="AppThemeDefault"> Windows Varsayılanı</system:String>
+    <system:String x:Key="AppThemeLight"> Açık</system:String>
+    <system:String x:Key="AppThemeDark"> Koyu</system:String>
+    <system:String x:Key="TrayIconLeftClickOption1"> Ayarları Aç</system:String>
+    <system:String x:Key="AnimationSpeedOff">Kapalı</system:String>
+    <system:String x:Key="EasingLinear" xml:space="preserve"> Doğrusal</system:String>
+    <system:String x:Key="EasingSine" xml:space="preserve"> Sinüs</system:String>
+    <system:String x:Key="EasingQuadratic" xml:space="preserve"> Karesel</system:String>
+    <system:String x:Key="EasingCubic" xml:space="preserve"> Kübik</system:String>
+    <system:String x:Key="GitHubRepoLink">GitHub Deposu</system:String>
+    <system:String x:Key="CloseButton">Kapat</system:String>
+    <system:String x:Key="AppLanguageTitle">Uygulama dili</system:String>
+    <system:String x:Key="AppLanguageDescriptionLink">Weblate</system:String>
+    <system:String x:Key="BackgroundBlurOption1" xml:space="preserve"> Hiçbiri</system:String>
 </ResourceDictionary>
