@@ -19,20 +19,20 @@
     <system:String x:Key="MillisecondsUnit">mili giây</system:String>
     <system:String x:Key="CenterTitleArtistTitle">Căn giữa tiêu đề và tên nhạc sĩ</system:String>
     <system:String x:Key="CenterTitleArtistDescription">Căn giữa văn bản thay vì căn lề trái</system:String>
-    <system:String x:Key="ShowMediaPlayerNameTitle">Hiển thị tên chương trình phát âm thanh</system:String>
+    <system:String x:Key="ShowMediaPlayerNameTitle">Hiển thị tên phần mềm phát nhạc</system:String>
     <system:String x:Key="RepeatButtonTitle">Nút lặp lại*</system:String>
     <system:String x:Key="RepeatButtonDescription">Chọn chế độ lặp lại liên tục hay lặp lại một lần, tăng chiều rộng của flyout</system:String>
     <system:String x:Key="ShuffleButtonTitle">Nút trộn bài*</system:String>
-    <system:String x:Key="ShuffleButtonDescription">Cho phép phát ngẫu nhiên</system:String>
+    <system:String x:Key="ShuffleButtonDescription">Tăng chiều rộng của flyout</system:String>
     <system:String x:Key="ShowSeekbarTitle">Hiển thị thanh thời gian</system:String>
     <system:String x:Key="ShowSeekbarDescription">Cho phép tua đi tua lại media hiện tại</system:String>
-    <system:String x:Key="UnsupportedControlsWarning">*Một số phần mềm không hỗ trợ lặp lại, trộn bài hoặc thanh playback.</system:String>
+    <system:String x:Key="UnsupportedControlsWarning">*Một số trình duyệt/phần mềm phát nhạc không hỗ trợ lặp lại, trộn bài hoặc thanh thời gian.</system:String>
     <system:String x:Key="PauseOtherMediaTitle">Tự động tạm dừng media khác</system:String>
-    <system:String x:Key="PauseOtherMediaDescription">Khi bạn tập trung hoặc mở lên một media, các media khác sẽ tự động được tạm dừng</system:String>
-    <system:String x:Key="NextUpCustomizationTitle">Bài hát tiếp theo</system:String>
+    <system:String x:Key="PauseOtherMediaDescription">Khi bạn phát hoặc tập trung vào một bản nhạc, các media khác sẽ tự động tạm dừng</system:String>
+    <system:String x:Key="NextUpCustomizationTitle">Tinh chỉnh bài hát tiếp theo</system:String>
     <system:String x:Key="NextUpDescription" xml:space="preserve">Flyout hiển thị những gì tiếp theo khi một bài hát/video kết thúc. Chỉ hiển thị nếu thứ tiếp đến tự động phát, nếu phím đi tiếp/tua lại được nhấn thủ công, flyout chính sẽ hiện lên thay thế.</system:String>
-    <system:String x:Key="EnableNextUpTitle">Bật flyout media tiếp theo (beta)</system:String>
-    <system:String x:Key="EnableNextUpDescription">Hiện thị bài hát tiếp theo sẽ phát sau khi phát xong bài hát hiện tại</system:String>
+    <system:String x:Key="EnableNextUpTitle">Bật flyout dự báo bài hát tiếp theo (Thử nghiệm)</system:String>
+    <system:String x:Key="EnableNextUpDescription">Hiển thị những gì sẽ tới khi một bài hát/video kết thúc</system:String>
     <system:String x:Key="NextUpStayDurationTitle">Thời gian hiển thị bài hát tiếp theo</system:String>
     <system:String x:Key="NextUpStayDurationDescription">(mặc định: 2000 mili giây)</system:String>
     <system:String x:Key="LockKeysCustomizationTitle">Tinh chỉnh phím khóa</system:String>
@@ -40,23 +40,23 @@
     <system:String x:Key="EnableLockKeysTitle">Bật flyout phím khóa</system:String>
     <system:String x:Key="EnableLockKeysDescription">Cho biết phím chuyển đổi đang bật hoặc đang tắt</system:String>
     <system:String x:Key="LockKeysStayDurationTitle">Thời gian chờ hiển thị phím khóa</system:String>
-    <system:String x:Key="LockKeysStayDurationDescription">(mặc định: 2000 ms)</system:String>
+    <system:String x:Key="LockKeysStayDurationDescription">(mặc định: 2000 mili giây)</system:String>
     <system:String x:Key="LockKeysBoldUITitle">Phông chữ và biểu tượng đậm</system:String>
     <system:String x:Key="LockKeysBoldUIDescription">Tô đậm phông chữ và biểu tượng của flyout</system:String>
     <system:String x:Key="EnableInsertKeyTitle">Bật hiển thị khi nhấn phím Insert</system:String>
     <system:String x:Key="EnableInsertKeyDescription">Cho biết phím Insert đang bật hoặc đang tắt</system:String>
-    <system:String x:Key="SystemSettingsTitle">Tùy chọn khác</system:String>
+    <system:String x:Key="SystemSettingsTitle">Hệ thống</system:String>
     <system:String x:Key="LaunchOnStartupTitle">Khởi động trong khi bật máy</system:String>
     <system:String x:Key="LaunchOnStartupDescription">Khởi động ẩn trong thanh công cụ khi bạn đăng nhập vào Winddows</system:String>
-    <system:String x:Key="StartupAppsSettingsInfo">Nếu tùy chọn này không hoạt động, bạn có thể kiểm tra</system:String>
+    <system:String x:Key="StartupAppsSettingsInfo">Nếu cài đặt này không hoạt động như mong đợi, kiểm tra</system:String>
     <system:String x:Key="AppThemeTitle">Giao diện ứng dụng</system:String>
-    <system:String x:Key="AppThemeDefault"> Theo hệ thống</system:String>
+    <system:String x:Key="AppThemeDefault"> Mặc định khớp với Windows</system:String>
     <system:String x:Key="AppThemeLight"> Sáng</system:String>
     <system:String x:Key="AppThemeDark"> Tối</system:String>
-    <system:String x:Key="TrayIconLeftClickBehaviorTitle">Giao diện hiển thị khi nhấp vào biểu trưng trong khay hệ thống</system:String>
-    <system:String x:Key="TrayIconLeftClickBehaviorDescription">Hiển thị flyout media hoặc bảng điều khiển khi nhấp vào biểu trưng đó</system:String>
-    <system:String x:Key="TrayIconLeftClickOption1"> Bảng điều khiển</system:String>
-    <system:String x:Key="TrayIconLeftClickOption2"> Flyout media</system:String>
+    <system:String x:Key="TrayIconLeftClickBehaviorTitle">Cách hiển thị khi nhấn chuột trái vào biểu tượng ứng dụng trong khay hệ thống</system:String>
+    <system:String x:Key="TrayIconLeftClickBehaviorDescription">Chọn những gì sẽ hiện ra khi bạn nhấn chuột trái vào biểu tượng trong khay hệ thống</system:String>
+    <system:String x:Key="TrayIconLeftClickOption1"> Mở cài đặt</system:String>
+    <system:String x:Key="TrayIconLeftClickOption2"> Hiển thị flyout media</system:String>
     <system:String x:Key="Win11TrayIconTitle">Biểu tượng ứng dụng trong khay khớp với Windows 11</system:String>
     <system:String x:Key="Win11TrayIconDescription">Sử dụng biểu trưng đơn giản hơn trong system tray</system:String>
     <system:String x:Key="AnimationSettingsTitle">Cài đặt hiệu ứng chuyển động</system:String>
@@ -65,12 +65,12 @@
     <system:String x:Key="AnimationEasingStyleTitle">Hiệu ứng chuyển động mượt mà</system:String>
     <system:String x:Key="AnimationSpeedOff">Tắt chuyển động</system:String>
     <system:String x:Key="AnimationDurationScaleDescription">Tốc độ chuyển động nhanh hơn hoặc chậm hơn (mặc định: 1x)</system:String>
-    <system:String x:Key="AnimationEasingStyleDescription">(mặc định: Hàm số bậc hai)</system:String>
-    <system:String x:Key="EasingLinear" xml:space="preserve"> Tuyến tính</system:String>
-    <system:String x:Key="EasingSine" xml:space="preserve"> Sin</system:String>
-    <system:String x:Key="EasingQuadratic" xml:space="preserve"> Hàm số bậc hai</system:String>
-    <system:String x:Key="EasingCubic" xml:space="preserve"> Hàm số bậc ba</system:String>
-    <system:String x:Key="NativeExperienceInfo">Để có trải nghiệm thuần Windows 11, các cài đặt nên được giữ mặc định.</system:String>
+    <system:String x:Key="AnimationEasingStyleDescription">(mặc định: Nhanh)</system:String>
+    <system:String x:Key="EasingLinear" xml:space="preserve"> Bình thường</system:String>
+    <system:String x:Key="EasingSine" xml:space="preserve"> Mượt</system:String>
+    <system:String x:Key="EasingQuadratic" xml:space="preserve"> Nhanh</system:String>
+    <system:String x:Key="EasingCubic" xml:space="preserve"> Nhanh nhất</system:String>
+    <system:String x:Key="NativeExperienceInfo">Để có trải nghiệm thuần Windows 11, các cài đặt nên được giữ nguyên.</system:String>
     <system:String x:Key="DisableOnFullscreenTitle">Vô hiệu hóa flyout trong các cửa sổ DirectX toàn màn hình nếu phát hiện</system:String>
     <system:String x:Key="DisableOnFullscreenDescription">Tránh các trò chơi sử dụng DirectX trong chế độ toàn màn hình khi thu nhỏ cửa sổ nếu flyout hiện lên</system:String>
     <system:String x:Key="AppLanguageTitle">Ngôn ngữ ứng dụng</system:String>
@@ -86,7 +86,7 @@ hoặc viết một bài đánh giá trên Microsoft Store để ủng hộ tác
     <system:String x:Key="BackgroundBlurOption3" xml:space="preserve"> Kiểu 2 (Hào quang lan tỏa)</system:String>
     <system:String x:Key="BackgroundBlurOption4" xml:space="preserve"> Kiểu 3 (Mờ)</system:String>
     <system:String x:Key="TextBlockText2">Lựa chọn từ các bản mẫu hiệu ứng làm mờ nền hiện đại</system:String>
-    <system:String x:Key="StartupAppsHyperlinkText">Startup Apps</system:String>
+    <system:String x:Key="StartupAppsHyperlinkText">Các ứng dụng khởi động cùng hệ thống</system:String>
     <system:String x:Key="AppLanguageDescription" xml:space="preserve">Nếu ngôn ngữ của bạn không có trong danh sách hoặc chưa hoàn thiện, nó sẽ mặc định là tiếng Anh.
 Bạn có thể giúp chúng tôi bằng việc đóng góp các bản dịch trên</system:String>
     <system:String x:Key="AppLanguageDescriptionLink">Liên kết đóng góp bản dịch</system:String>
