@@ -72,8 +72,14 @@ FluentFlyout 能够在一个雅观的现代化的弹窗中显示媒体控制和�
 ## 贡献 💖
 欢迎以任何方式贡献！来看看 [CONTRIBUTING.md](https://github.com/unchihugo/FluentFlyout/blob/master/.github/CONTRIBUTING.md) 。如果您想帮助翻译，请访问我们的 [Weblate 页面](https://hosted.weblate.org/engage/fluentflyout/)。
 
+### 翻译状态
 <a href="https://hosted.weblate.org/engage/fluentflyout/">
 <img src="https://hosted.weblate.org/widget/fluentflyout/multi-auto.svg" alt="Translation status" />
+</a>
+
+### 感谢我们的贡献者团队！
+<a href="https://github.com/unchihugo/fluentflyout/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=unchihugo/fluentflyout&anon=1" />
 </a>
 
 ## 致谢 🙌

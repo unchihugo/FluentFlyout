@@ -76,8 +76,14 @@ FluentFlyout biedt het mediabediening en informatie in een mooie en moderne pop-
 ## Bijdragen 💖
 Voel u vrij om op welke manier dan ook bij te dragen! Bekijk [CONTRIBUTING.md](https://github.com/unchihugo/FluentFlyout/blob/master/.github/CONTRIBUTING.md) om aan de slag te gaan. Als je wilt helpen met vertalingen, bezoek dan onze [Weblate-pagina](https://hosted.weblate.org/engage/fluentflyout/).
 
+### Vertaalstatus
 <a href="https://hosted.weblate.org/engage/fluentflyout/">
 <img src="https://hosted.weblate.org/widget/fluentflyout/multi-auto.svg" alt="Translation status" />
+</a>
+
+### Bedankt aan ons geweldige team van bijdragers!
+<a href="https://github.com/unchihugo/fluentflyout/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=unchihugo/fluentflyout&anon=1" />
 </a>
 
 ## Credits 🙌

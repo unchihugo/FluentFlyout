@@ -77,8 +77,14 @@ FluentFlyout features smooth animations, blends with your system's color themes,
 Please feel free to contribute in any way you can! Check out [CONTRIBUTING.md](https://github.com/unchihugo/FluentFlyout/blob/master/.github/CONTRIBUTING.md) to get started.
 If you want to help with translations, please visit our [Weblate page](https://hosted.weblate.org/engage/fluentflyout/).
 
+### Translation Status
 <a href="https://hosted.weblate.org/engage/fluentflyout/">
 <img src="https://hosted.weblate.org/widget/fluentflyout/multi-auto.svg" alt="Translation status" />
+</a>
+
+### Thanks to our amazing team of contributors!
+<a href="https://github.com/unchihugo/fluentflyout/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=unchihugo/fluentflyout&anon=1" />
 </a>
 
 ## Credits 🙌
