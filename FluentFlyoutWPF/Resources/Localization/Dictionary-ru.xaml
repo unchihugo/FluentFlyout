@@ -1,13 +1,13 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib">
-    <system:String x:Key="BackgroundBlurOption1" xml:space="preserve"> 🟢 Нет</system:String>
+    <system:String x:Key="BackgroundBlurOption1" xml:space="preserve"> Отключено</system:String>
     <system:String x:Key="BackgroundBlurTitle">Размытие фона</system:String>
     <system:String x:Key="CompactLayoutTitle">Компактно</system:String>
     <system:String x:Key="PositionBottomLeft" xml:space="preserve"> Слева внизу</system:String>
     <system:String x:Key="PositionBottomCenter" xml:space="preserve"> Снизу-Посередине</system:String>
     <system:String x:Key="PositionBottomRight" xml:space="preserve"> Снизу-Справа</system:String>
     <system:String x:Key="PositionTopLeft" xml:space="preserve"> Слева вверху</system:String>
-    <system:String x:Key="PositionTopCenter" xml:space="preserve"> Верх по центру</system:String>
-    <system:String x:Key="PositionTopRight" xml:space="preserve"> Вверху справа</system:String>
+    <system:String x:Key="PositionTopCenter" xml:space="preserve"> Сверху по центру</system:String>
+    <system:String x:Key="PositionTopRight" xml:space="preserve"> Сверху справа</system:String>
     <system:String x:Key="MillisecondsUnit">мс</system:String>
     <system:String x:Key="SystemSettingsTitle">Системная</system:String>
     <system:String x:Key="LaunchOnStartupTitle">Запускать при запуске</system:String>
@@ -19,6 +19,72 @@
     <system:String x:Key="AnimationSettingsTitle">Настройки анимации</system:String>
     <system:String x:Key="AnimationDurationScaleTitle">Масштабирование продолжительности анимации</system:String>
     <system:String x:Key="AnimationSpeedOff">Откл.</system:String>
-    <system:String x:Key="EasingLinear" xml:space="preserve"> Линейная</system:String>
-    <system:String x:Key="EasingSine" xml:space="preserve"> Синусоидальная</system:String>
+    <system:String x:Key="EasingLinear" xml:space="preserve"> Линейное</system:String>
+    <system:String x:Key="EasingSine" xml:space="preserve"> Синусоидальное</system:String>
+    <system:String x:Key="TitleText">Настройки Fluent Flyout</system:String>
+    <system:String x:Key="MediaFlyoutTitle">Кастомизация Media Flyout</system:String>
+    <system:String x:Key="MediaFlyoutDescription">Основное всплывающее окно. При прослушивании медиа нажмите любую клавишу медиа или громкости (воспроизведение/пауза, увеличение/уменьшение громкости и т. д.) на вашей клавиатуре, чтобы отобразить всплывающее окно. Отображает информацию о медиа, а также элементы управления воспроизведением и многое другое.</system:String>
+    <system:String x:Key="TextBlockText1">Включить Media Flyout</system:String>
+    <system:String x:Key="TextBlockText3">Заменяет всплывающее окно, при нажатии на медиа кнопку</system:String>
+    <system:String x:Key="TextBlockText2">Выберите пресет стиля размытия фона</system:String>
+    <system:String x:Key="BackgroundBlurOption2" xml:space="preserve"> Стиль 1 (Свечение обложки)</system:String>
+    <system:String x:Key="BackgroundBlurOption3" xml:space="preserve"> Стиль 2 (Восходящее свечение)</system:String>
+    <system:String x:Key="BackgroundBlurOption4" xml:space="preserve"> Стиль 3 (Размытие)</system:String>
+    <system:String x:Key="AcrylicWindowTitle">Эффект акрилового окна</system:String>
+    <system:String x:Key="AcrylicWindowDescription">Применяет к всплывающему окну эффект прозрачного акрилового размытия (отключение вернёт эффект Міса)</system:String>
+    <system:String x:Key="CompactLayoutDescription" xml:space="preserve">Более тонкий и менее навязчивый макет
+скрывает повтор, случайный порядок и информацию о проигрывателе</system:String>
+    <system:String x:Key="FlyoutPositionTitle">Расположение всплывающего окна</system:String>
+    <system:String x:Key="FlyoutStayDurationTitle">Продолжительность показа всплывающего окна</system:String>
+    <system:String x:Key="FlyoutStayDurationDescription">(По умолчанию: 3000 мс)</system:String>
+    <system:String x:Key="MediaFlyoutAlwaysDisplay">Всегда отображать</system:String>
+    <system:String x:Key="CenterTitleArtistTitle">Центрировать название и автора</system:String>
+    <system:String x:Key="CenterTitleArtistDescription">Выравнивает текст по центру, вместо левой стороны</system:String>
+    <system:String x:Key="ShowMediaPlayerNameTitle">Показывать название медиа-плеера</system:String>
+    <system:String x:Key="RepeatButtonTitle">Кнопка повтора*</system:String>
+    <system:String x:Key="RepeatButtonDescription">Выбор режима повтора (увеличивает ширину окна)</system:String>
+    <system:String x:Key="ShuffleButtonTitle">Кнопка перемешивания*</system:String>
+    <system:String x:Key="ShuffleButtonDescription">(увеличивает ширину)</system:String>
+    <system:String x:Key="ShowSeekbarTitle">Показывать полосу таймлайна</system:String>
+    <system:String x:Key="ShowSeekbarDescription">Интерактивная полоса таймлайна будет отображаться автоматически, если плеер это поддерживает</system:String>
+    <system:String x:Key="UnsupportedControlsWarning">*Некоторые браузеры/плееры не поддерживают управление повтором, перемешиванием и перемоткой.</system:String>
+    <system:String x:Key="PauseOtherMediaTitle">Автоматически приостанавливать другие медиа</system:String>
+    <system:String x:Key="PauseOtherMediaDescription">При воспроизведении или переключении на новое медиа другие активные сеансы будут автоматически приостановлены</system:String>
+    <system:String x:Key="NextUpCustomizationTitle">Настройка списка "Далее"</system:String>
+    <system:String x:Key="NextUpDescription" xml:space="preserve">Всплывающий элемент показывает, что будет дальше после окончания песни/видео. Появляется, только если следующий трек воспроизводится автоматически. Если нажать «следующий»/«предыдущий» вручную, появится основной всплывающий элемент.</system:String>
+    <system:String x:Key="EnableNextUpTitle">Включить всплывающий элемент "Далее" (Экспериментально)</system:String>
+    <system:String x:Key="EnableNextUpDescription">Показывает, что будет дальше после окончания песни/видео</system:String>
+    <system:String x:Key="NextUpStayDurationTitle">Длительность отображения "Далее"</system:String>
+    <system:String x:Key="NextUpStayDurationDescription">(по умолчанию: 2000 мс)</system:String>
+    <system:String x:Key="LockKeysCustomizationTitle">Настройка клавиш блокировки</system:String>
+    <system:String x:Key="LockKeysDescription" xml:space="preserve">Быстрая проверка состояния клавиш блокировки. Появляется после нажатия Caps Lock, Num Lock или Scroll Lock. Удобно для ноутбуков/клавиатур без индикаторов клавиш блокировки.</system:String>
+    <system:String x:Key="EnableLockKeysTitle">Включить всплывающий элемент клавиш блокировки</system:String>
+    <system:String x:Key="EnableLockKeysDescription">Отображает, включена или выключена указанная клавиша блокировки</system:String>
+    <system:String x:Key="LockKeysStayDurationTitle">Длительность отображения состояния клавиш блокировки</system:String>
+    <system:String x:Key="LockKeysStayDurationDescription">(по умолчанию: 2000 мс)</system:String>
+    <system:String x:Key="LockKeysBoldUITitle">Полужирные символы и шрифт</system:String>
+    <system:String x:Key="LockKeysBoldUIDescription">Выделяет символ и шрифт во всплывающем элементе</system:String>
+    <system:String x:Key="EnableInsertKeyTitle">Включить всплывающее окно для клавиши Insert</system:String>
+    <system:String x:Key="EnableInsertKeyDescription">Определяет, будет ли нажатие клавиши Insert (вставка/замена) показывать всплывающий элемент</system:String>
+    <system:String x:Key="LaunchOnStartupDescription">Запускать свёрнутым в трей при входе в Windows</system:String>
+    <system:String x:Key="StartupAppsHyperlinkText">Автозапуск</system:String>
+    <system:String x:Key="StartupAppsSettingsInfo">Если эта настройка не работает как ожидалось, проверьте</system:String>
+    <system:String x:Key="TrayIconLeftClickBehaviorTitle">Действие по левому клику на иконку в трее</system:String>
+    <system:String x:Key="TrayIconLeftClickBehaviorDescription">Выберите, что будет происходить при нажатии левой кнопкой мыши на иконку в трее</system:String>
+    <system:String x:Key="TrayIconLeftClickOption2"> Отобразить всплывающее окно</system:String>
+    <system:String x:Key="Win11TrayIconTitle">Стиль иконки как в Windows 11</system:String>
+    <system:String x:Key="Win11TrayIconDescription">Использовать иконку в трее в стиле Windows 11 (переключите для обновления)</system:String>
+    <system:String x:Key="AnimationSettingsDescription">Настройте анимации по своему вкусу</system:String>
+    <system:String x:Key="AnimationDurationScaleDescription">Ускорение или замедление анимации всплывающего элемента (по умолчанию: 1x)</system:String>
+    <system:String x:Key="AnimationEasingStyleTitle">Стиль сглаживания анимации</system:String>
+    <system:String x:Key="AnimationEasingStyleDescription">(по умолчанию: Квадратичное)</system:String>
+    <system:String x:Key="EasingQuadratic" xml:space="preserve"> Квадратичное</system:String>
+    <system:String x:Key="EasingCubic" xml:space="preserve"> Кубическое</system:String>
+    <system:String x:Key="NativeExperienceInfo">Для полного соответствия интерфейсу Windows 11 рекомендуется оставить эти настройки по умолчанию.</system:String>
+    <system:String x:Key="DisableOnFullscreenTitle">Отключать всплывающие элементы в полноэкранном режиме DirectX</system:String>
+    <system:String x:Key="DisableOnFullscreenDescription">Предотвращает сворачивание игр (в эксклюзивном полноэкранном режиме DirectX) при появлении всплывающего элемента</system:String>
+    <system:String x:Key="EnjoyingAppText" xml:space="preserve">Нравится приложение? Поставьте ему звезду на GitHub 
+или оставьте отзыв в Microsoft Store!</system:String>
+    <system:String x:Key="AppLanguageDescription" xml:space="preserve">Если ваш язык отсутствует в списке или переведён не полностью, по умолчанию будет использоваться английский.
+Вы можете помочь с переводом на</system:String>
 </ResourceDictionary>
