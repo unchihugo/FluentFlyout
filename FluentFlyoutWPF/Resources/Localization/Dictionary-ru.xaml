@@ -8,4 +8,17 @@
     <system:String x:Key="PositionTopLeft" xml:space="preserve"> Слева вверху</system:String>
     <system:String x:Key="PositionTopCenter" xml:space="preserve"> Верх по центру</system:String>
     <system:String x:Key="PositionTopRight" xml:space="preserve"> Вверху справа</system:String>
+    <system:String x:Key="MillisecondsUnit">мс</system:String>
+    <system:String x:Key="SystemSettingsTitle">Системная</system:String>
+    <system:String x:Key="LaunchOnStartupTitle">Запускать при запуске</system:String>
+    <system:String x:Key="AppThemeTitle">Тема приложения</system:String>
+    <system:String x:Key="AppThemeDefault"> Как в Windows</system:String>
+    <system:String x:Key="AppThemeLight"> Светлая</system:String>
+    <system:String x:Key="AppThemeDark"> Тёмная</system:String>
+    <system:String x:Key="TrayIconLeftClickOption1"> Открыть Настройки</system:String>
+    <system:String x:Key="AnimationSettingsTitle">Настройки анимации</system:String>
+    <system:String x:Key="AnimationDurationScaleTitle">Масштабирование продолжительности анимации</system:String>
+    <system:String x:Key="AnimationSpeedOff">Откл.</system:String>
+    <system:String x:Key="EasingLinear" xml:space="preserve"> Линейная</system:String>
+    <system:String x:Key="EasingSine" xml:space="preserve"> Синусоидальная</system:String>
 </ResourceDictionary>
