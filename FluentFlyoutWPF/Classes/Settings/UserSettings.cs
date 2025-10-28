@@ -19,6 +19,7 @@ public class UserSettings
     public int LockKeysDuration { get; set; }
     public int AppTheme { get; set; }
     public bool MediaFlyoutEnabled { get; set; }
+    public bool MediaFlyoutAlwaysDisplay { get; set; }
     public bool nIconSymbol { get; set; }
     public bool DisableIfFullscreen { get; set; }
     public bool LockKeysBoldUI { get; set; }
@@ -30,7 +31,7 @@ public class UserSettings
     public bool MediaFlyoutAcrylicWindowEnabled { get; set; } // enable acrylic blur effect on the flyout window
     public string AppLanguage { get; set; } // user's preferred app language
 
-
+    // defeault user settings for new users, existing user settings take from here when new settings appear
     public UserSettings()
     {
         CompactLayout = false;
@@ -50,6 +51,7 @@ public class UserSettings
         LockKeysDuration = 2000;
         AppTheme = 0;
         MediaFlyoutEnabled = true;
+        MediaFlyoutAlwaysDisplay = false;
         nIconSymbol = false;
         DisableIfFullscreen = true;
         LockKeysBoldUI = true;

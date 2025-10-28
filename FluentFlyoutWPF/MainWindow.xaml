@@ -34,6 +34,15 @@
     </Window.Triggers>
 
     <Grid>
+        <controls:Button x:Name="MediaFlyoutCloseButton"
+                         Width="28" Height="28" 
+                         Style="{StaticResource MicaWPF.Styles.TransparentButton}"
+                         HorizontalAlignment="Right" VerticalAlignment="Top"
+                         Margin="0,8,8,0"
+                         Click="MediaFlyoutCloseButton_Click"
+                         Visibility="Collapsed"  >
+            <ui:SymbolIcon Symbol="Dismiss20" Filled="True"/>
+        </controls:Button>
         <Grid>
             <Image x:Name="BackgroundImageStyle1" Stretch="UniformToFill" Opacity="1" IsHitTestVisible="False" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" Visibility="Collapsed" ClipToBounds="True">
                 <Image.RenderTransform>
@@ -94,8 +103,8 @@
                     <StackPanel Name="BodyStackPanel" Orientation="Vertical" VerticalAlignment="Center" Width="194">
                         <StackPanel Orientation="Horizontal">
                             <StackPanel Name="SongInfoStackPanel" Margin="12,0,0,0" Orientation="Vertical" VerticalAlignment="Center" Width="182">
-                                <TextBlock Name="SongTitle" Text="Song Title" FontSize="14" FontFamily="Segoe UI Variable" FontWeight="Medium" TextTrimming="CharacterEllipsis"/>
-                                <TextBlock Name="SongArtist" Text="Artist Name" FontSize="14" FontFamily="Segoe UI Variable" FontWeight="Medium" Opacity="0.5" TextTrimming="CharacterEllipsis"/>
+                                <TextBlock Name="SongTitle" Text="Song Title" FontSize="14" FontFamily="Segoe UI Variable" FontWeight="Medium" TextTrimming="CharacterEllipsis" IsHitTestVisible="False"/>
+                                <TextBlock Name="SongArtist" Text="Artist Name" FontSize="14" FontFamily="Segoe UI Variable" FontWeight="Medium" Opacity="0.5" TextTrimming="CharacterEllipsis" IsHitTestVisible="False"/>
                             </StackPanel>
                         </StackPanel>
                         <StackPanel Name="ControlsStackPanel" Orientation="Horizontal" HorizontalAlignment="Right" Height="35" Width="184" Margin="12,8,0,0">
@@ -117,6 +126,14 @@
                         Margin="0,0,8,0" Click="Forward_Click" Focusable="False"
                         Style="{StaticResource MicaWPF.Styles.TransparentButton}" VerticalAlignment="Center">
                                 <ui:SymbolIcon Name="SymbolForward" Symbol="Next20" Filled="True"/>
+                            </controls:Button>
+                            <controls:Button Name="ControlClose"
+                                             Width="28" Height="28"  Margin="0,0,8,0"
+                                             Style="{StaticResource MicaWPF.Styles.TransparentButton}"
+                                               VerticalAlignment="Center" 
+                                             Click="MediaFlyoutCloseButton_Click"
+                                             Visibility="Collapsed"  >
+                                <ui:SymbolIcon Symbol="Dismiss20" Filled="True"/>
                             </controls:Button>
                             <controls:Button
                             Height="28" Width="28" Name="ControlRepeat"
