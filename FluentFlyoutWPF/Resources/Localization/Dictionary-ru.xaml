@@ -7,4 +7,5 @@
     <system:String x:Key="PositionBottomRight" xml:space="preserve"> Снизу-Справа</system:String>
     <system:String x:Key="PositionTopLeft" xml:space="preserve"> Слева вверху</system:String>
     <system:String x:Key="PositionTopCenter" xml:space="preserve"> Верх по центру</system:String>
+    <system:String x:Key="PositionTopRight" xml:space="preserve"> Вверху справа</system:String>
 </ResourceDictionary>
