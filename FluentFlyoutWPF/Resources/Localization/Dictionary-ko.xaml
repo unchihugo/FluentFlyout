@@ -9,10 +9,10 @@
     <system:String x:Key="BackgroundBlurOption2" xml:space="preserve"> 스타일 1 (엘범아트 광원)</system:String>
     <system:String x:Key="BackgroundBlurOption3" xml:space="preserve"> 스타일 2 (하단 광원)</system:String>
     <system:String x:Key="BackgroundBlurOption4" xml:space="preserve"> 스타일 3 (흐림 효과)</system:String>
-    <system:String x:Key="BackgroundBlurTitle">배경 흐림효과</system:String>
+    <system:String x:Key="BackgroundBlurTitle">배경 블러</system:String>
     <system:String x:Key="AcrylicWindowTitle">아크릴 창 효과</system:String>
     <system:String x:Key="AcrylicWindowDescription">플라이아웃에 투명한 아크릴 블러 효과를 적용합니다. (이 기능을 끄면 Mica 효과로 되돌아갑니다.)</system:String>
-    <system:String x:Key="CompactLayoutTitle">축소된 레이아웃</system:String>
+    <system:String x:Key="CompactLayoutTitle">컴팩트한 레이아웃</system:String>
     <system:String x:Key="CompactLayoutDescription" xml:space="preserve">더 슬림하고 덜 거슬리는 레이아웃
 반복, 셔플, 플레이어 정보를 숨김</system:String>
     <system:String x:Key="FlyoutPositionTitle">플라이아웃 위치</system:String>
@@ -88,4 +88,7 @@
     <system:String x:Key="AppLanguageDescription" xml:space="preserve">사용하시는 언어가 목록에 없거나 번역이 불완전한 경우, 기본적으로 영어로 표시됩니다.
 번역에 기여하고 싶으시면 다음 링크에서 참여하실 수 있습니다.</system:String>
     <system:String x:Key="AppLanguageDescriptionLink">Weblate</system:String>
+    <system:String x:Key="SystemSettingsTitle">시스템</system:String>
+    <system:String x:Key="LaunchOnStartupTitle">시작 시 실행</system:String>
+    <system:String x:Key="AppThemeLight"> 밝은 테마</system:String>
 </ResourceDictionary>
