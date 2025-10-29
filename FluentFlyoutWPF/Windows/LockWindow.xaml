@@ -36,7 +36,7 @@
     <Grid Margin="12,6,12,6">
         <ui:SymbolIcon Name="LockSymbol" HorizontalAlignment="Left" Symbol="LockClosed24" Filled="false" Width="22" Height="22" FontSize="22" VerticalAlignment="Center" Margin="0,0,2,1"/>
         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="20,0,0,4">
-            <TextBlock Name="LockTextBlock" Text="Num Lock on" FontSize="14" FontFamily="Segoe UI Variable" FontWeight="Medium" TextTrimming="CharacterEllipsis"/>
+            <TextBlock Name="LockTextBlock" Text="Loading..." FontSize="14" FontFamily="Segoe UI Variable" FontWeight="Medium" TextTrimming="CharacterEllipsis"/>
         </StackPanel>
         <Rectangle Name="LockIndicatorRectangle" Fill="{DynamicResource MicaWPF.Brushes.AccentFillColorDefault}" Height="4" RadiusX="2" RadiusY="2" Width="60" VerticalAlignment="Bottom"/>
     </Grid>

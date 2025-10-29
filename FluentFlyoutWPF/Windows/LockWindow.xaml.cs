@@ -43,13 +43,12 @@ public partial class LockWindow : MicaWindow
                 // not sure how to properly check if overwrite or insert as every program has different behavior
                 //if (isOn) LockTextBlock.Text = "Insert mode";
                 //else LockTextBlock.Text = "Overwrite mode";
-                LockTextBlock.Text = "Insert pressed";
+                LockTextBlock.Text = FindResource("LockWindow_InsertPressed").ToString();
                 isOn = true;
             }
-            else LockTextBlock.Text = key + " is " + (isOn ? "on" : "off");
+            else LockTextBlock.Text = key + " " + (isOn ? FindResource("LockWindow_LockOn").ToString() : FindResource("LockWindow_LockOff").ToString());
 
-            if (SettingsManager.Current.LockKeysBoldUI) LockTextBlock.FontWeight = FontWeights.Medium;
-            else LockTextBlock.FontWeight = FontWeights.Normal;
+            LockTextBlock.FontWeight = SettingsManager.Current.LockKeysBoldUI ? FontWeights.Medium : FontWeights.Normal;
 
             if (isOn)
             {
@@ -66,8 +65,10 @@ public partial class LockWindow : MicaWindow
         });
     }
 
-    public async void ShowLockFlyout(string key, bool isOn)
+    public async void ShowLockFlyout(string? key, bool isOn)
     {
+        if (string.IsNullOrEmpty(key)) return;
+
         setStatus(key, isOn);
 
         if (_isHiding)

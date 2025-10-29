@@ -91,4 +91,11 @@
     <System:String x:Key="AppLanguageTitle">App Language</System:String>
     <System:String x:Key="AppLanguageDescription" xml:space="preserve">If your language is not listed or incomplete, it will default to English.&#10;You can help contribute translations on</System:String>
     <System:String x:Key="AppLanguageDescriptionLink">Weblate</System:String>
+    <System:String x:Key="LockWindow_CapsLock">Caps Lock</System:String>
+    <System:String x:Key="LockWindow_NumLock">Num Lock</System:String>
+    <System:String x:Key="LockWindow_ScrollLock">Scroll Lock</System:String>
+    <System:String x:Key="LockWindow_InsertPressed">Insert Pressed</System:String>
+    <System:String x:Key="LockWindow_LockOn">on</System:String>
+    <System:String x:Key="LockWindow_LockOff">off</System:String>
+    <System:String x:Key="NextUpWindow_UpNextText">Up next:</System:String>
 </ResourceDictionary>
