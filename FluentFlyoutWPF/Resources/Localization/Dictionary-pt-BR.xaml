@@ -20,4 +20,13 @@
     <system:String x:Key="EnableNextUpTitle">Habilitar Submenu "Próximo" (Experimental)</system:String>
     <system:String x:Key="NextUpStayDurationTitle">Duração do "Próximo"</system:String>
     <system:String x:Key="NextUpStayDurationDescription">(padrão: 2000 ms)</system:String>
+    <system:String x:Key="BackgroundBlurOption1" xml:space="preserve"> Nenhum</system:String>
+    <system:String x:Key="BackgroundBlurTitle">Blur de fundo</system:String>
+    <system:String x:Key="CompactLayoutTitle">Layout compacto</system:String>
+    <system:String x:Key="PositionBottomLeft" xml:space="preserve"> Esquerda Inferior</system:String>
+    <system:String x:Key="PositionBottomCenter" xml:space="preserve"> Inferior Central</system:String>
+    <system:String x:Key="PositionBottomRight" xml:space="preserve"> Abaixo e à Direita</system:String>
+    <system:String x:Key="PositionTopLeft" xml:space="preserve"> Superior esquerdo</system:String>
+    <system:String x:Key="PositionTopCenter" xml:space="preserve"> Superior Central</system:String>
+    <system:String x:Key="PositionTopRight" xml:space="preserve"> Superior Direito</system:String>
 </ResourceDictionary>
