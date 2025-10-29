@@ -15,4 +15,9 @@
     <system:String x:Key="CloseButton">Sluiten</system:String>
     <system:String x:Key="AppLanguageTitle">App-taal</system:String>
     <system:String x:Key="AppLanguageDescriptionLink">Weblate</system:String>
+    <system:String x:Key="TextBlockText2">Kies uit een reeks moderne achtergrondvervagingsstijlen</system:String>
+    <system:String x:Key="BackgroundBlurOption1" xml:space="preserve"> Niks</system:String>
+    <system:String x:Key="BackgroundBlurOption2" xml:space="preserve"> Stijl 1 (Albumhoes schijn)</system:String>
+    <system:String x:Key="BackgroundBlurOption3" xml:space="preserve"> Stijl 2 (Stijgende schijn)</system:String>
+    <system:String x:Key="BackgroundBlurOption4" xml:space="preserve"> Stijl 3 (Vervaging)</system:String>
 </ResourceDictionary>
