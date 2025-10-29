@@ -40,6 +40,12 @@ FluentFlyout biedt het mediabediening en informatie in een mooie en moderne pop-
 <div align="center">
 	<img height="205px" width="auto" src="https://github.com/user-attachments/assets/4dab1c12-594a-4785-bddc-0da1783bf1c8"> <img height="205px" src="https://github.com/user-attachments/assets/b4306026-b274-418b-a39e-78877e7610a7"> 	<img height="190px" src="https://github.com/user-attachments/assets/39de69fe-54c8-4b22-880c-7f0370b8dd9c"> <img height="190px" src="https://github.com/user-attachments/assets/a25adb0e-963a-49a5-8abb-d9a288c2ad9a"> <img height="190px" src="https://github.com/user-attachments/assets/2de44e7b-7e6c-4575-bf3b-0be2f741c994">
 </div>
+<details open>
+<summary>v2.0 schermafbeeldingen</summary>
+<div align="center">
+	<img height="205px" width="auto" src="https://private-user-images.githubusercontent.com/43926158/505007210-8b29341a-d715-4d12-ad20-0ea18b861935.png?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NjE3NzIzMjksIm5iZiI6MTc2MTc3MjAyOSwicGF0aCI6Ii80MzkyNjE1OC81MDUwMDcyMTAtOGIyOTM0MWEtZDcxNS00ZDEyLWFkMjAtMGVhMThiODYxOTM1LnBuZz9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNTEwMjklMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjUxMDI5VDIxMDcwOVomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPWE3YzBkYmY4N2IzYWEyOWVkOTIxZDhmMjgwNTEzOWZlNzIwMDJlOTM4MWEzOTJmZjcxMTNkMzZhYzFhOGE0MTMmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0In0.16aB6YGa2EW-Q3rovWe_PKvmiZGFB13xQrVutdvQySY"> <img height="205px" width="auto" src="https://private-user-images.githubusercontent.com/43926158/505007261-abce876f-896a-42e8-97a7-e7e3ce4693fd.png?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NjE3NzIzMjksIm5iZiI6MTc2MTc3MjAyOSwicGF0aCI6Ii80MzkyNjE1OC81MDUwMDcyNjEtYWJjZTg3NmYtODk2YS00MmU4LTk3YTctZTdlM2NlNDY5M2ZkLnBuZz9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNTEwMjklMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjUxMDI5VDIxMDcwOVomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPWE2NjZhZjZhZjY0NjU2MDNlMDc1ZjFmY2Y3MzhjZTE5MmMyZGFlNGQwOGYxNGY1YTMyMDEwMDgyZjgxNDM2NmYmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0In0.QMiJPIhVizIBZHdZ0SdQxPwmwxH82JAqIbeGoGZLOJg">
+</div>
+</details>
 
 ## Hoe te installeren
 ### Via Microsoft Store (Aanbevolen)
