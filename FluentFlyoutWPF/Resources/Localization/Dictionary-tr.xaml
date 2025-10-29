@@ -46,7 +46,7 @@ tekrar, karıştırma ve oynatıcı bilgilerini gizler</system:String>
     <system:String x:Key="LockKeysCustomizationTitle">Kilitleme Tuşları Özelleştirme</system:String>
     <system:String x:Key="LockKeysDescription" xml:space="preserve">Caps Lock, Num Lock veya Scroll Lock tuşlarının durumunu hızlıca kontrol edin. Bu bildirim, kilitleme tuşu göstergesi olmayan dizüstü bilgisayarlarda/klavyelerde kullanışlıdır. Tuşlara basıldıktan sonra görünür.</system:String>
     <system:String x:Key="EnableLockKeysTitle">Kilitleme Tuşları Açılır Pencerelerini Etkinleştir</system:String>
-    <system:String x:Key="EnableLockKeysDescription">Belirtilen kilitleme tuşunun açık veya kapalı olduğunu gösterir</system:String>
+    <system:String x:Key="EnableLockKeysDescription">Belirtilen kilitleme anahtarının açık veya kapalı olduğunu gösterir</system:String>
     <system:String x:Key="LockKeysStayDurationTitle">Kilitleme Anahtarıları Kalma Süresi</system:String>
     <system:String x:Key="LockKeysStayDurationDescription">(varsayılan: 2000 ms)</system:String>
     <system:String x:Key="LockKeysBoldUITitle">Kalın Sembol ve Yazı Tipi</system:String>
@@ -73,7 +73,7 @@ tekrar, karıştırma ve oynatıcı bilgilerini gizler</system:String>
     <system:String x:Key="DisableOnFullscreenDescription">Açılır pencere açıldığında, özel tam ekran modundaki DirectX oyunlarının simge durumuna küçülmesini engeller</system:String>
     <system:String x:Key="EnjoyingAppText" xml:space="preserve">Uygulamayı beğendiniz mi? GitHub'da yıldızlayın
 veya Microsoft Store'da yorum bırakın!</system:String>
-    <system:String x:Key="AppLanguageDescription" xml:space="preserve">Diliniz listede yoksa veya eksikse, varsayılan olarak İngilizce kullanılır. 
+    <system:String x:Key="AppLanguageDescription" xml:space="preserve">Diliniz listede yoksa veya eksikse, varsayılan olarak İngilizce kullanılır.
 Çevirilere katkıda bulunabilirsiniz</system:String>
     <system:String x:Key="LaunchOnStartupTitle">Başlangıçta çalıştır</system:String>
     <system:String x:Key="AppThemeTitle">Uygulama Teması</system:String>
