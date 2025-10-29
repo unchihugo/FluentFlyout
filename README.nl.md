@@ -40,6 +40,12 @@ FluentFlyout biedt het mediabediening en informatie in een mooie en moderne pop-
 <div align="center">
 	<img height="205px" width="auto" src="https://github.com/user-attachments/assets/4dab1c12-594a-4785-bddc-0da1783bf1c8"> <img height="205px" src="https://github.com/user-attachments/assets/b4306026-b274-418b-a39e-78877e7610a7"> 	<img height="190px" src="https://github.com/user-attachments/assets/39de69fe-54c8-4b22-880c-7f0370b8dd9c"> <img height="190px" src="https://github.com/user-attachments/assets/a25adb0e-963a-49a5-8abb-d9a288c2ad9a"> <img height="190px" src="https://github.com/user-attachments/assets/2de44e7b-7e6c-4575-bf3b-0be2f741c994">
 </div>
+<details open>
+<summary>v2.0 schermafbeeldingen</summary>
+<div align="center">
+	<img height="220px" width="auto" src="https://github.com/user-attachments/assets/e45592d5-8576-4d6a-8679-56baacccd585"> <img height="220px" width="auto" src="https://github.com/user-attachments/assets/ff2fcfab-8e24-48cf-9bdf-d35252eb3e67">
+</div>
+</details>
 
 ## Hoe te installeren
 ### Via Microsoft Store (Aanbevolen)
@@ -76,8 +82,14 @@ FluentFlyout biedt het mediabediening en informatie in een mooie en moderne pop-
 ## Bijdragen 💖
 Voel u vrij om op welke manier dan ook bij te dragen! Bekijk [CONTRIBUTING.md](https://github.com/unchihugo/FluentFlyout/blob/master/.github/CONTRIBUTING.md) om aan de slag te gaan. Als je wilt helpen met vertalingen, bezoek dan onze [Weblate-pagina](https://hosted.weblate.org/engage/fluentflyout/).
 
+### Vertaalstatus
 <a href="https://hosted.weblate.org/engage/fluentflyout/">
 <img src="https://hosted.weblate.org/widget/fluentflyout/multi-auto.svg" alt="Translation status" />
+</a>
+
+### Bedankt aan ons geweldige team van bijdragers!
+<a href="https://github.com/unchihugo/fluentflyout/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=unchihugo/fluentflyout&anon=1" />
 </a>
 
 ## Credits 🙌
