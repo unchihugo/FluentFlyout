@@ -410,17 +410,17 @@ public partial class MainWindow : MicaWindow
                 if (vkCode == 0x14) // Caps Lock
                 {
                     lockWindow ??= new LockWindow();
-                    lockWindow.ShowLockFlyout("Caps Lock", Keyboard.IsKeyToggled(Key.CapsLock));
+                    lockWindow.ShowLockFlyout(FindResource("LockWindow_CapsLock").ToString(), Keyboard.IsKeyToggled(Key.CapsLock));
                 }
                 else if (vkCode == 0x90) // Num Lock
                 {
                     lockWindow ??= new LockWindow();
-                    lockWindow.ShowLockFlyout("Num Lock", Keyboard.IsKeyToggled(Key.NumLock));
+                    lockWindow.ShowLockFlyout(FindResource("LockWindow_NumLock").ToString(), Keyboard.IsKeyToggled(Key.NumLock));
                 }
                 else if (vkCode == 0x91) // Scroll Lock
                 {
                     lockWindow ??= new LockWindow();
-                    lockWindow.ShowLockFlyout("Scroll Lock", Keyboard.IsKeyToggled(Key.Scroll));
+                    lockWindow.ShowLockFlyout(FindResource("LockWindow_ScrollLock").ToString(), Keyboard.IsKeyToggled(Key.Scroll));
                 }
                 else if (vkCode == 0x2D && SettingsManager.Current.LockKeysInsertEnabled) // Insert
                 {
