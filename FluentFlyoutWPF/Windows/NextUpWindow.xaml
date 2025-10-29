@@ -42,7 +42,7 @@
         </Grid.ColumnDefinitions>
         <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
             <ui:SymbolIcon Symbol="MusicNote120" Filled="True" Width="14" Height="14" FontSize="14" VerticalAlignment="Center" Margin="0,0,2,0"/>
-            <TextBlock Text="Up next:" FontSize="12" VerticalAlignment="Center" FontFamily="Segoe UI Variable" FontWeight="Medium"/>
+            <TextBlock Text="{DynamicResource NextUpWindow_UpNextText}" FontSize="12" VerticalAlignment="Center" FontFamily="Segoe UI Variable" FontWeight="Medium"/>
         </StackPanel>
         <Border Grid.Column="1" Name="SongImageBorder" CornerRadius="6" Margin="12,1,0,0" ClipToBounds="True" Width="38" Height="38">
             <ui:SymbolIcon Name="SongImagePlaceholder" Symbol="MusicNote220" FontSize="40" Filled="True" Foreground="{DynamicResource MicaWPF.Brushes.SystemAccentColorLight2}" Visibility="Collapsed" />
