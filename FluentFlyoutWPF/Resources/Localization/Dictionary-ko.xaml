@@ -38,4 +38,5 @@
     <system:String x:Key="PauseOtherMediaTitle">다른 미디어 자동 일시 정지</system:String>
     <system:String x:Key="PauseOtherMediaDescription">새로운 미디어를 재생하거나 해당 미디어에 초점을 맞추면, 다른 활성 세션들은 자동으로 일시 정지됨</system:String>
     <system:String x:Key="NextUpCustomizationTitle">다음 곡(Next Up) 사용자 지정</system:String>
+    <system:String x:Key="MediaFlyoutAlwaysDisplay">항상 화면 켜짐</system:String>
 </ResourceDictionary>
