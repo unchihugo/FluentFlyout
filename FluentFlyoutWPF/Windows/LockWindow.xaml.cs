@@ -48,8 +48,7 @@ public partial class LockWindow : MicaWindow
             }
             else LockTextBlock.Text = key + " " + (isOn ? FindResource("LockWindow_LockOn").ToString() : FindResource("LockWindow_LockOff").ToString());
 
-        if (SettingsManager.Current.LockKeysBoldUI) LockTextBlock.FontWeight = FontWeights.Medium;
-            else LockTextBlock.FontWeight = FontWeights.Normal;
+            LockTextBlock.FontWeight = SettingsManager.Current.LockKeysBoldUI ? FontWeights.Medium : FontWeights.Normal;
 
             if (isOn)
             {
