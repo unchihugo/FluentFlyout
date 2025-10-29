@@ -1,0 +1,11 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib">
+    <system:String x:Key="TitleText">הגדרות FluentFlyout</system:String>
+    <system:String x:Key="BackgroundBlurOption1" xml:space="preserve"> ללא</system:String>
+    <system:String x:Key="CompactLayoutTitle">פריסה קומפקטית</system:String>
+    <system:String x:Key="NextUpDescription" xml:space="preserve">חלון נשלף מציג אתה הבא כאשר שיר או סרטון מסתיים. מופיע רק אם הפריט הבא מתנגן אוטומטית, אם ילחץ ידנית הבא או הקודם, יופיע במקום זאת התפריט הנשלף הראשי.</system:String>
+    <system:String x:Key="EnableNextUpTitle">הפעלת חלון נשלף של "הבא בתור" (ניסיוני)</system:String>
+    <system:String x:Key="EnableNextUpDescription">מציג את הבא כששיר או סרטון מסתיים</system:String>
+    <system:String x:Key="SystemSettingsTitle">מערכת</system:String>
+    <system:String x:Key="LaunchOnStartupTitle">הפעל אוטומטית בעת ההפעלה</system:String>
+    <system:String x:Key="LaunchOnStartupDescription">הפעל כממוזער למגש המערכת בעת הכניסה ל-Windows</system:String>
+</ResourceDictionary>

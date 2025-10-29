@@ -29,4 +29,5 @@
     <system:String x:Key="CenterTitleArtistDescription">将文本居中对齐，而非左对齐</system:String>
     <system:String x:Key="RepeatButtonTitle">重复按钮*</system:String>
     <system:String x:Key="PositionBottomLeft" xml:space="preserve"> 左下角</system:String>
+    <system:String x:Key="ShowMediaPlayerNameTitle">显示播放器名称</system:String>
 </ResourceDictionary>
