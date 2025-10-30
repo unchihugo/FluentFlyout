@@ -71,23 +71,18 @@
     <system:String x:Key="Win11TrayIconDescription">使用符合Windows11视觉样式的托盘图标（切换将刷新主题）</system:String>
     <system:String x:Key="AnimationSettingsTitle">过渡动画设置</system:String>
     <system:String x:Key="AnimationSettingsDescription">根据你的喜好调整过渡动画效果</system:String>
-    <system:String x:Key="GitHubRepoLink"/>
     <system:String x:Key="EnjoyingAppText" xml:space="preserve">喜欢这个应用吗？请在GitHub上点赞，
 或者在微软应用商店里留下评论!</system:String>
     <system:String x:Key="AnimationEasingStyleTitle">动画缓动曲线类别</system:String>
-    <system:String x:Key="AppLanguageTitle"/>
     <system:String x:Key="AnimationDurationScaleTitle">过渡动画时长缩放</system:String>
     <system:String x:Key="AnimationDurationScaleDescription">加快或减慢浮窗过渡动画的速度（默认：1x）</system:String>
     <system:String x:Key="EasingSine" xml:space="preserve"> 正弦</system:String>
-    <system:String x:Key="AppLanguageDescriptionLink"/>
     <system:String x:Key="EasingCubic" xml:space="preserve"> 三次方</system:String>
     <system:String x:Key="AnimationSpeedOff">关闭过渡动画</system:String>
     <system:String x:Key="DisableOnFullscreenTitle">检测到DirectX全屏程序时禁用浮窗</system:String>
     <system:String x:Key="NativeExperienceInfo">若需原生Windows11体验，请维持默认设置</system:String>
     <system:String x:Key="EasingLinear" xml:space="preserve"> 线性</system:String>
-    <system:String x:Key="CloseButton"/>
     <system:String x:Key="EasingQuadratic" xml:space="preserve"> 二次方</system:String>
     <system:String x:Key="AnimationEasingStyleDescription">（默认：二次方）</system:String>
     <system:String x:Key="DisableOnFullscreenDescription">防止浮窗弹出时将全屏的DirectX游戏最小化</system:String>
-    <system:String x:Key="AppLanguageDescription" xml:space="preserve"/>
 </ResourceDictionary>
