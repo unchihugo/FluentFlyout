@@ -96,4 +96,6 @@
     <system:String x:Key="LockWindow_LockOn">开启</system:String>
     <system:String x:Key="LockWindow_LockOff">关闭</system:String>
     <system:String x:Key="NextUpWindow_UpNextText">下一项：</system:String>
+    <system:String x:Key="LockWindow_CapsLock">大写锁定键</system:String>
+    <system:String x:Key="LockWindow_NumLock">数字锁定键</system:String>
 </ResourceDictionary>
