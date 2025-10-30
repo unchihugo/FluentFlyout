@@ -14,6 +14,7 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
+using Windows.ApplicationModel;
 using Windows.Media.Control;
 using Windows.Storage.Streams;
 using static WindowsMediaController.MediaManager;
@@ -115,10 +116,23 @@ public partial class MainWindow : MicaWindow
             UpdateSeekbarCurrentDuration(session.ControlSession.GetTimelineProperties().Position);
         }
 
-        // apply localization on new thread
+        // apply other things on new thread
         Dispatcher.Invoke(() =>
         {
             LocalizationManager.ApplyLocalization();
+            // show settings to new users
+            if (SettingsManager.Current.LastKnownVersion == "")
+                SettingsWindow.ShowInstance();
+
+            try // update last known version. gets the version of the app, works only in release mode
+            {
+                var version = Package.Current.Id.Version;
+                SettingsManager.Current.LastKnownVersion = $"v{version.Major}.{version.Minor}.{version.Build}";
+            }
+            catch
+            {
+                SettingsManager.Current.LastKnownVersion = "debug version";
+            }
         });
     }
 
