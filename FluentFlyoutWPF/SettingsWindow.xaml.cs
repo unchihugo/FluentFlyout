@@ -91,13 +91,13 @@ public partial class SettingsWindow : MicaWindow
             AppLanguageComboBox.SelectedItem = AppLanguageComboBox.Items
             .Cast<ComboBoxItem>()
             .FirstOrDefault(item => ((string?)item.Tag ?? "system").Equals(SettingsManager.Current.AppLanguage));
-
-            ThemeManager.ApplySavedTheme();
         } 
         catch (Exception ex)
         {
             Debug.WriteLine("Error setting app language: " + ex.Message);
         }
+
+        ThemeManager.ApplySavedTheme();
     }
 
     public static void ShowInstance()

@@ -7,7 +7,7 @@
       xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
       xmlns:controls="clr-namespace:MicaWPF.Controls;assembly=MicaWPF"
       mc:Ignorable="d" 
-      Height="600" Width="660" MinHeight="300" MinWidth="660" SizeToContent="Width"
+      Height="600" MinHeight="300" MinWidth="660" SizeToContent="Width"
       Title="Settings" Icon="/Resources/FluentFlyout2.ico"
       TextOptions.TextRenderingMode="ClearType" TextOptions.TextFormattingMode="Ideal"
       Closing="SettingsWindow_Closing"
