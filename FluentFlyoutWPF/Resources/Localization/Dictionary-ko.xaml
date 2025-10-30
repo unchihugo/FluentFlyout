@@ -9,12 +9,12 @@
     <system:String x:Key="BackgroundBlurOption2" xml:space="preserve"> 스타일 1 (엘범아트 광원)</system:String>
     <system:String x:Key="BackgroundBlurOption3" xml:space="preserve"> 스타일 2 (하단 광원)</system:String>
     <system:String x:Key="BackgroundBlurOption4" xml:space="preserve"> 스타일 3 (흐림 효과)</system:String>
-    <system:String x:Key="BackgroundBlurTitle">배경 흐림효과</system:String>
+    <system:String x:Key="BackgroundBlurTitle">배경 블러</system:String>
     <system:String x:Key="AcrylicWindowTitle">아크릴 창 효과</system:String>
     <system:String x:Key="AcrylicWindowDescription">플라이아웃에 투명한 아크릴 블러 효과를 적용합니다. (이 기능을 끄면 Mica 효과로 되돌아갑니다.)</system:String>
-    <system:String x:Key="CompactLayoutTitle">축소된 레이아웃</system:String>
+    <system:String x:Key="CompactLayoutTitle">컴팩트한 레이아웃</system:String>
     <system:String x:Key="CompactLayoutDescription" xml:space="preserve">더 슬림하고 덜 거슬리는 레이아웃
-반복, 셔플, 플레이어 정보를 숨깁니다</system:String>
+반복, 셔플, 플레이어 정보를 숨김</system:String>
     <system:String x:Key="FlyoutPositionTitle">플라이아웃 위치</system:String>
     <system:String x:Key="PositionBottomLeft" xml:space="preserve"> 하단 왼쪽</system:String>
     <system:String x:Key="PositionBottomCenter" xml:space="preserve"> 하단 가운데</system:String>
@@ -37,6 +37,58 @@
     <system:String x:Key="UnsupportedControlsWarning">*일부 브라우저/플레이어는 반복, 셔플 및 탐색 막대 제어를 지원하지 않습니다.</system:String>
     <system:String x:Key="PauseOtherMediaTitle">다른 미디어 자동 일시 정지</system:String>
     <system:String x:Key="PauseOtherMediaDescription">새로운 미디어를 재생하거나 해당 미디어에 초점을 맞추면, 다른 활성 세션들은 자동으로 일시 정지됨</system:String>
-    <system:String x:Key="NextUpCustomizationTitle">다음 곡(Next Up) 사용자 지정</system:String>
+    <system:String x:Key="NextUpCustomizationTitle">다음 곡 플라이아웃 사용자정의</system:String>
     <system:String x:Key="MediaFlyoutAlwaysDisplay">항상 화면 켜짐</system:String>
+    <system:String x:Key="NextUpDescription" xml:space="preserve">노래/영상이 끝날 때 플라이아웃에 다음 재생 목록이 표시됩니다. 이 플라이아웃은 다음 항목이 자동으로 재생될 경우에만 나타납니다. 만약 다음/이전 버튼을 수동으로 누르면 기본 플라이아웃이 대신 나타납니다.</system:String>
+    <system:String x:Key="EnableNextUpTitle">다음 곡 플라이아웃 활성화 (실험 기능)</system:String>
+    <system:String x:Key="EnableNextUpDescription">노래/영상이 끝날 때 다음에 재생될 항목을 표시</system:String>
+    <system:String x:Key="NextUpStayDurationTitle">다음 곡 표시 지속 시간</system:String>
+    <system:String x:Key="NextUpStayDurationDescription">(기본값: 2000 ms)</system:String>
+    <system:String x:Key="LockKeysCustomizationTitle">잠금 키 사용자정의</system:String>
+    <system:String x:Key="LockKeysDescription" xml:space="preserve">잠금 키 상태를 한눈에 확인하세요. Caps Lock, Num Lock 또는 Scroll Lock을 누르면 나타납니다. 잠금 키 표시등이 없는 노트북/키보드에 편리합니다.</system:String>
+    <system:String x:Key="EnableLockKeysTitle">잠금 키 플라이아웃 활성화</system:String>
+    <system:String x:Key="EnableLockKeysDescription">지정된 잠금 키가 켜져 있는지(On) 또는 꺼져 있는지(Off)를 표시</system:String>
+    <system:String x:Key="LockKeysStayDurationTitle">잠금 키 표시 지속 시간</system:String>
+    <system:String x:Key="LockKeysStayDurationDescription">(기본값: 2000 ms)</system:String>
+    <system:String x:Key="LockKeysBoldUITitle">기호 및 글꼴 굵게 표시</system:String>
+    <system:String x:Key="LockKeysBoldUIDescription">플라이아웃 기호 및 글꼴을 굵게 표시</system:String>
+    <system:String x:Key="EnableInsertKeyTitle">Insert 키 팝업 활성화</system:String>
+    <system:String x:Key="EnableInsertKeyDescription">Insert/Overwrite 키를 누를 때 플라이아웃을 표시 여부 설정</system:String>
+    <system:String x:Key="LaunchOnStartupDescription">Windows 로그인 시 트레이로 최소화하여 시작</system:String>
+    <system:String x:Key="StartupAppsHyperlinkText">시작 프로그램</system:String>
+    <system:String x:Key="StartupAppsSettingsInfo">설정이 작동하지 않을경우 설정을 확인하세요:</system:String>
+    <system:String x:Key="AppThemeTitle">앱 테마</system:String>
+    <system:String x:Key="AppThemeDefault"> Windows 기본 설정</system:String>
+    <system:String x:Key="AppThemeDark"> 어두운 테마</system:String>
+    <system:String x:Key="TrayIconLeftClickBehaviorTitle">트레이 아이콘 왼쪽 클릭 동작</system:String>
+    <system:String x:Key="TrayIconLeftClickBehaviorDescription">트레이 아이콘을 왼쪽 클릭했을 때 실행될 동작 선택</system:String>
+    <system:String x:Key="TrayIconLeftClickOption1"> 설정 열기</system:String>
+    <system:String x:Key="TrayIconLeftClickOption2"> 미디어 플라이아웃 표시</system:String>
+    <system:String x:Key="Win11TrayIconTitle">Windows 11 스타일 트레이 아이콘</system:String>
+    <system:String x:Key="Win11TrayIconDescription">Windows 11에 맞는 트레이 아이콘을 사용 (적용을 위해 테마 재설정 필요)</system:String>
+    <system:String x:Key="AnimationSettingsTitle">애니메이션 설정</system:String>
+    <system:String x:Key="AnimationSettingsDescription">애니메이션을 원하는 대로 조정</system:String>
+    <system:String x:Key="AnimationDurationScaleTitle">애니메이션 지속 시간 배율</system:String>
+    <system:String x:Key="AnimationDurationScaleDescription">플라이아웃 애니메이션 속도 조절 (기본값: 1x)</system:String>
+    <system:String x:Key="AnimationSpeedOff">끄기</system:String>
+    <system:String x:Key="AnimationEasingStyleTitle">애니메이션 움직임 스타일</system:String>
+    <system:String x:Key="AnimationEasingStyleDescription">(기본값: 이차식)</system:String>
+    <system:String x:Key="EasingLinear" xml:space="preserve"> 선형</system:String>
+    <system:String x:Key="EasingSine" xml:space="preserve"> 사인파</system:String>
+    <system:String x:Key="EasingQuadratic" xml:space="preserve"> 이차식</system:String>
+    <system:String x:Key="EasingCubic" xml:space="preserve"> 삼차식</system:String>
+    <system:String x:Key="NativeExperienceInfo">순정 Windows 11 경험을 위해서는, 설정을 기본값으로 유지해야 합니다.</system:String>
+    <system:String x:Key="DisableOnFullscreenTitle">DirectX 전체 화면 프로그램이 감지되면 플라이아웃 비활성화</system:String>
+    <system:String x:Key="DisableOnFullscreenDescription">플라이아웃이 나타날 때 DirectX 게임이 최소화되는 것을 방지</system:String>
+    <system:String x:Key="EnjoyingAppText" xml:space="preserve">앱이 마음에 드시나요? GitHub에서 '별'을 주시거나,
+ Microsoft Store에 리뷰를 남겨주세요!</system:String>
+    <system:String x:Key="GitHubRepoLink">GitHub 저장소</system:String>
+    <system:String x:Key="CloseButton">닫기</system:String>
+    <system:String x:Key="AppLanguageTitle">앱 언어</system:String>
+    <system:String x:Key="AppLanguageDescription" xml:space="preserve">사용하시는 언어가 목록에 없거나 번역이 불완전한 경우, 기본적으로 영어로 표시됩니다.
+번역에 기여하고 싶으시면 다음 링크에서 참여하실 수 있습니다.</system:String>
+    <system:String x:Key="AppLanguageDescriptionLink">Weblate</system:String>
+    <system:String x:Key="SystemSettingsTitle">시스템</system:String>
+    <system:String x:Key="LaunchOnStartupTitle">시작 시 실행</system:String>
+    <system:String x:Key="AppThemeLight"> 밝은 테마</system:String>
 </ResourceDictionary>
