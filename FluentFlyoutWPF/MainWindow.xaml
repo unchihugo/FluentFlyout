@@ -172,24 +172,24 @@
             Margin="0,127,0,114">
             <tray:NotifyIcon.Menu>
                 <ContextMenu>
-                    <ui:MenuItem x:Name="NotifyIconSettings" Header="Settings" Click="openSettings">
+                    <ui:MenuItem x:Name="NotifyIconSettings" Header="{DynamicResource TrayIcon_SettingsOption}" Click="openSettings">
                         <ui:MenuItem.Icon>
                             <ui:SymbolIcon Symbol="Settings20"/>
                         </ui:MenuItem.Icon>
                     </ui:MenuItem>
                     <Separator></Separator>
-                    <ui:MenuItem x:Name="NotifyIconRepository" Header="Repository" Click="openRepository">
+                    <ui:MenuItem x:Name="NotifyIconRepository" Header="{DynamicResource TrayIcon_GitHubRepositoryOption}" Click="openRepository">
                         <ui:MenuItem.Icon>
                             <ui:SymbolIcon Symbol="DocumentChevronDouble20"/>
                         </ui:MenuItem.Icon>
                     </ui:MenuItem>
-                    <ui:MenuItem x:Name="NotifyIconReportBug" Header="Report bug" Click="reportBug">
+                    <ui:MenuItem x:Name="NotifyIconReportBug" Header="{DynamicResource TrayIcon_ReportBugOption}" Click="reportBug">
                         <ui:MenuItem.Icon>
                             <ui:SymbolIcon Symbol="Bug20"/>
                         </ui:MenuItem.Icon>
                     </ui:MenuItem>
                     <Separator></Separator>
-                    <ui:MenuItem x:Name="NotifyIconQuit" Header="Quit FluentFlyout" Click="NotifyIconQuit_Click">
+                    <ui:MenuItem x:Name="NotifyIconQuit" Header="{DynamicResource TrayIcon_QuitOption}" Click="NotifyIconQuit_Click">
                         <ui:MenuItem.Icon>
                             <ui:SymbolIcon Symbol="ArrowExit20"/>
                         </ui:MenuItem.Icon>
