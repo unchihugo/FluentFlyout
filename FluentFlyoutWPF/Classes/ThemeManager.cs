@@ -33,6 +33,8 @@ internal static class ThemeManager
         ApplyTheme(theme);
         SettingsManager.Current.AppTheme = theme;
         SettingsManager.SaveSettings();
+
+        if (SettingsManager.Current.MediaFlyoutAcrylicWindowEnabled) { WindowBlurHelper.EnableBlur(Application.Current.MainWindow); }
     }
 
     /// <summary>

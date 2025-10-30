@@ -1,17 +1,19 @@
 ﻿<controls:MicaWindow x:Class="FluentFlyoutWPF.SettingsWindow"
-      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:FluentFlyoutWPF"
-      xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
-      xmlns:controls="clr-namespace:MicaWPF.Controls;assembly=MicaWPF"
-      mc:Ignorable="d" 
-      Height="600" MinHeight="300" MinWidth="660" SizeToContent="Width"
-      Title="Settings" Icon="/Resources/FluentFlyout2.ico"
-      TextOptions.TextRenderingMode="ClearType" TextOptions.TextFormattingMode="Ideal"
-      Closing="SettingsWindow_Closing"
-      xmlns:System="clr-namespace:System;assembly=System.Runtime">
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:local="clr-namespace:FluentFlyoutWPF"
+    xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+    xmlns:controls="clr-namespace:MicaWPF.Controls;assembly=MicaWPF"
+    mc:Ignorable="d" 
+    Height="600" MinHeight="300" MinWidth="660" SizeToContent="Width" 
+    Title="Settings" Icon="/Resources/FluentFlyout2.ico"
+    TextOptions.TextRenderingMode="ClearType" TextOptions.TextFormattingMode="Ideal"
+    FontFamily="Segoe UI Variable, Microsoft YaHei, Microsoft JhengHei"
+    Closing="SettingsWindow_Closing"
+    xmlns:System="clr-namespace:System;assembly=System.Runtime"
+    >
     <Grid>
         <ui:PassiveScrollViewer HorizontalScrollBarVisibility="Auto">
             <StackPanel>

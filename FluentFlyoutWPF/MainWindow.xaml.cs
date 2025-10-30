@@ -482,7 +482,7 @@ public partial class MainWindow : MicaWindow
         }
         catch (TaskCanceledException)
         {
-            // do nothing
+            Debug.WriteLine("Media flyout hide task canceled.");
         }
     }
 

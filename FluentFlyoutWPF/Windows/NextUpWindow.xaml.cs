@@ -52,7 +52,8 @@ public partial class NextUpWindow : MicaWindow
 
     private double GetStringWidth(string text)
     {
-        var typeface = new Typeface(new FontFamily("Segoe UI Variable"), new FontStyle(), FontWeights.Medium, FontStretches.Normal);
+        var fontFamily = new FontFamily("Segoe UI Variable, Microsoft YaHei, Microsoft JhengHei");
+        var typeface = new Typeface(fontFamily, new FontStyle(), FontWeights.Medium, FontStretches.Normal);
 
         var formattedText = new FormattedText(
             text,
