@@ -87,4 +87,8 @@ o deja una opinión en la Microsoft Store!</system:String>
     <system:String x:Key="AppLanguageDescription" xml:space="preserve">Si tu idioma no esta listado o está incompleto, por defecto usará inglés
 Puedes ayudar a contribuir con las traducciones en</system:String>
     <system:String x:Key="AppLanguageDescriptionLink">Weblate</system:String>
+    <system:String x:Key="AnimationEasingStyleTitle"></system:String>
+    <system:String x:Key="BackgroundBlurOption3" xml:space="preserve"></system:String>
+    <system:String x:Key="BackgroundBlurOption4" xml:space="preserve"></system:String>
+    <system:String x:Key="BackgroundBlurOption2" xml:space="preserve"></system:String>
 </ResourceDictionary>
