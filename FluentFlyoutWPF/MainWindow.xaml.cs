@@ -599,7 +599,7 @@ public partial class MainWindow : MicaWindow
                 || SettingsManager.Current.AppTheme != _themeOption) // if theme changes, reapply acrylic for updated background color
                 {
                     _acrylicEnabled = SettingsManager.Current.MediaFlyoutAcrylicWindowEnabled;
-                    EnableBlur(); // called enabled but it actually toggles based on the setting
+                    ToggleBlur(); // called enabled but it actually toggles based on the setting
                 }
             }
 
@@ -968,7 +968,6 @@ public partial class MainWindow : MicaWindow
         Hide();
         UpdateUILayout();
         ThemeManager.ApplySavedTheme();
-        EnableBlur();
     }
 
     private void nIcon_LeftClick(Wpf.Ui.Tray.Controls.NotifyIcon sender, RoutedEventArgs e) // change the behavior of the tray icon
@@ -999,7 +998,7 @@ public partial class MainWindow : MicaWindow
             })
         );
     }
-    internal void EnableBlur()
+    internal void ToggleBlur()
     {
         if (SettingsManager.Current.MediaFlyoutAcrylicWindowEnabled)
         {

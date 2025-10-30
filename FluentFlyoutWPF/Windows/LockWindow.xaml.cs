@@ -1,8 +1,8 @@
-﻿using MicaWPF.Controls;
-using MicaWPF.Core.Extensions;
-using System.Windows;
-using FluentFlyoutWPF.Classes;
+﻿using FluentFlyout.Classes;
 using FluentFlyout.Classes.Settings;
+using FluentFlyoutWPF.Classes;
+using MicaWPF.Controls;
+using System.Windows;
 
 
 namespace FluentFlyoutWPF.Windows;
@@ -36,8 +36,6 @@ public partial class LockWindow : MicaWindow
     {
         Dispatcher.Invoke(() =>
         {
-            this.EnableBackdrop();
-
             if (key == "Insert")
             {
                 // not sure how to properly check if overwrite or insert as every program has different behavior
@@ -68,6 +66,15 @@ public partial class LockWindow : MicaWindow
     public async void ShowLockFlyout(string? key, bool isOn)
     {
         if (string.IsNullOrEmpty(key)) return;
+
+        if (SettingsManager.Current.MediaFlyoutAcrylicWindowEnabled)
+        {
+            WindowBlurHelper.EnableBlur(this);
+        }
+        else
+        {
+            WindowBlurHelper.DisableBlur(this);
+        }
 
         setStatus(key, isOn);
 

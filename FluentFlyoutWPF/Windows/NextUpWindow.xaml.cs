@@ -1,9 +1,10 @@
-﻿using System.Windows;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
+﻿using FluentFlyout.Classes;
 using FluentFlyout.Classes.Settings;
 using FluentFlyoutWPF.Classes;
 using MicaWPF.Controls;
+using System.Windows;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace FluentFlyoutWPF.Windows;
 
@@ -36,7 +37,16 @@ public partial class NextUpWindow : MicaWindow
         SongImage.ImageSource = thumbnail;
         if (SongImage.ImageSource == null) SongImagePlaceholder.Visibility = Visibility.Visible;
         else SongImagePlaceholder.Visibility = Visibility.Collapsed;
-        Show();
+
+        if (SettingsManager.Current.MediaFlyoutAcrylicWindowEnabled)
+        {
+            WindowBlurHelper.EnableBlur(this);
+        }
+        else
+        {
+            WindowBlurHelper.DisableBlur(this);
+        }
+
         mainWindow.OpenAnimation(this);
 
         async void wait()

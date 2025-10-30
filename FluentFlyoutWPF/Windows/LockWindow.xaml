@@ -10,7 +10,7 @@
     Height="50" Width="160" 
     ResizeMode="NoResize"
     WindowStyle="None" ShowInTaskbar="False"
-    SystemBackdropType="Mica" ChangeTitleColorWhenInactive="False"
+    ChangeTitleColorWhenInactive="False"
     TextOptions.TextRenderingMode="ClearType" TextOptions.TextFormattingMode="Ideal"
     FontFamily="Segoe UI Variable, Microsoft YaHei, Microsoft JhengHei, MS Gothic"
     >
