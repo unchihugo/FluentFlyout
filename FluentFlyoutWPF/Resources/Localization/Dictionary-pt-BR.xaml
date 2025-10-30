@@ -29,4 +29,63 @@
     <system:String x:Key="PositionTopLeft" xml:space="preserve"> Superior esquerdo</system:String>
     <system:String x:Key="PositionTopCenter" xml:space="preserve"> Superior Central</system:String>
     <system:String x:Key="PositionTopRight" xml:space="preserve"> Superior Direito</system:String>
+    <system:String x:Key="TrayIconLeftClickBehaviorDescription"></system:String>
+    <system:String x:Key="GitHubRepoLink"></system:String>
+    <system:String x:Key="LockKeysDescription" xml:space="preserve"></system:String>
+    <system:String x:Key="LockKeysBoldUIDescription"></system:String>
+    <system:String x:Key="NextUpDescription" xml:space="preserve"></system:String>
+    <system:String x:Key="TextBlockText2"></system:String>
+    <system:String x:Key="EnjoyingAppText" xml:space="preserve"></system:String>
+    <system:String x:Key="EnableLockKeysDescription"></system:String>
+    <system:String x:Key="AppThemeLight"></system:String>
+    <system:String x:Key="AnimationEasingStyleTitle"></system:String>
+    <system:String x:Key="Win11TrayIconTitle"></system:String>
+    <system:String x:Key="AppLanguageTitle"></system:String>
+    <system:String x:Key="AnimationDurationScaleTitle"></system:String>
+    <system:String x:Key="ShowSeekbarDescription"></system:String>
+    <system:String x:Key="AnimationSettingsDescription"></system:String>
+    <system:String x:Key="LockKeysStayDurationTitle"></system:String>
+    <system:String x:Key="AppThemeTitle"></system:String>
+    <system:String x:Key="AnimationDurationScaleDescription"></system:String>
+    <system:String x:Key="EasingSine" xml:space="preserve"></system:String>
+    <system:String x:Key="EnableNextUpDescription"></system:String>
+    <system:String x:Key="Win11TrayIconDescription"></system:String>
+    <system:String x:Key="StartupAppsSettingsInfo"></system:String>
+    <system:String x:Key="EnableInsertKeyTitle"></system:String>
+    <system:String x:Key="AppLanguageDescriptionLink"></system:String>
+    <system:String x:Key="EnableInsertKeyDescription"></system:String>
+    <system:String x:Key="BackgroundBlurOption3" xml:space="preserve"></system:String>
+    <system:String x:Key="AcrylicWindowTitle"></system:String>
+    <system:String x:Key="TrayIconLeftClickOption1"></system:String>
+    <system:String x:Key="MediaFlyoutDescription"></system:String>
+    <system:String x:Key="LaunchOnStartupDescription"></system:String>
+    <system:String x:Key="SystemSettingsTitle"></system:String>
+    <system:String x:Key="PauseOtherMediaDescription"></system:String>
+    <system:String x:Key="LaunchOnStartupTitle"></system:String>
+    <system:String x:Key="EasingCubic" xml:space="preserve"></system:String>
+    <system:String x:Key="AnimationSpeedOff"></system:String>
+    <system:String x:Key="LockKeysBoldUITitle"></system:String>
+    <system:String x:Key="AppThemeDark"></system:String>
+    <system:String x:Key="DisableOnFullscreenTitle"></system:String>
+    <system:String x:Key="LockKeysCustomizationTitle"></system:String>
+    <system:String x:Key="TrayIconLeftClickOption2"></system:String>
+    <system:String x:Key="NativeExperienceInfo"></system:String>
+    <system:String x:Key="EasingLinear" xml:space="preserve"></system:String>
+    <system:String x:Key="CloseButton"></system:String>
+    <system:String x:Key="EasingQuadratic" xml:space="preserve"></system:String>
+    <system:String x:Key="AnimationEasingStyleDescription"></system:String>
+    <system:String x:Key="LockKeysStayDurationDescription"></system:String>
+    <system:String x:Key="AcrylicWindowDescription"></system:String>
+    <system:String x:Key="AppThemeDefault"></system:String>
+    <system:String x:Key="DisableOnFullscreenDescription"></system:String>
+    <system:String x:Key="EnableLockKeysTitle"></system:String>
+    <system:String x:Key="CompactLayoutDescription" xml:space="preserve"></system:String>
+    <system:String x:Key="BackgroundBlurOption4" xml:space="preserve"></system:String>
+    <system:String x:Key="BackgroundBlurOption2" xml:space="preserve"></system:String>
+    <system:String x:Key="StartupAppsHyperlinkText"></system:String>
+    <system:String x:Key="TrayIconLeftClickBehaviorTitle"></system:String>
+    <system:String x:Key="RepeatButtonDescription"></system:String>
+    <system:String x:Key="AppLanguageDescription" xml:space="preserve"></system:String>
+    <system:String x:Key="UnsupportedControlsWarning"></system:String>
+    <system:String x:Key="AnimationSettingsTitle"></system:String>
 </ResourceDictionary>
