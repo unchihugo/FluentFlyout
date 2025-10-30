@@ -1,7 +1,4 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:System="clr-namespace:System;assembly=mscorlib">
-    
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:System="clr-namespace:System;assembly=mscorlib">
     <System:String x:Key="TitleText">FluentFlyout Settings</System:String>
     <System:String x:Key="MediaFlyoutTitle">Media Flyout Customization</System:String>
     <System:String x:Key="MediaFlyoutDescription">Main flyout. When listening to media, press any media or volume key (play/pause, volume up/down, etc.) on your keyboard to display the flyout. Displays media info, along with playback controls and more.</System:String>
@@ -16,7 +13,8 @@
     <System:String x:Key="AcrylicWindowTitle">Acrylic Window</System:String>
     <System:String x:Key="AcrylicWindowDescription">Apply transparent acrylic blur effect to the flyout (off reverts to Mica)</System:String>
     <System:String x:Key="CompactLayoutTitle">Compact Layout</System:String>
-    <System:String x:Key="CompactLayoutDescription" xml:space="preserve">Slimmer and less intrusive layout&#10;hides repeat, shuffle and player info</System:String>
+    <System:String x:Key="CompactLayoutDescription" xml:space="preserve">Slimmer and less intrusive layout
+hides repeat, shuffle and player info</System:String>
     <System:String x:Key="FlyoutPositionTitle">Flyout Position</System:String>
     <System:String x:Key="PositionBottomLeft" xml:space="preserve"> Bottom Left</System:String>
     <System:String x:Key="PositionBottomCenter" xml:space="preserve"> Bottom Center</System:String>
@@ -85,11 +83,13 @@
     <System:String x:Key="NativeExperienceInfo">For the native Windows 11 experience, the settings should be kept at default.</System:String>
     <System:String x:Key="DisableOnFullscreenTitle">Disable Flyouts if DirectX fullscreen program is detected</System:String>
     <System:String x:Key="DisableOnFullscreenDescription">Prevents DirectX games in exclusive fullscreen from minimizing if a flyout pops up</System:String>
-    <System:String x:Key="EnjoyingAppText" xml:space="preserve">Enjoying the app? Star it on GitHub,&#10;or leave a review on Microsoft Store!</System:String>
+    <System:String x:Key="EnjoyingAppText" xml:space="preserve">Enjoying the app? Star it on GitHub,
+or leave a review on Microsoft Store!</System:String>
     <System:String x:Key="GitHubRepoLink">GitHub Repository</System:String>
     <System:String x:Key="CloseButton">Close</System:String>
     <System:String x:Key="AppLanguageTitle">App Language</System:String>
-    <System:String x:Key="AppLanguageDescription" xml:space="preserve">If your language is not listed or incomplete, it will default to English.&#10;You can help contribute translations on</System:String>
+    <System:String x:Key="AppLanguageDescription" xml:space="preserve">If your language is not listed or incomplete, it will default to English.
+You can help contribute translations on</System:String>
     <System:String x:Key="AppLanguageDescriptionLink">Weblate</System:String>
     <System:String x:Key="LockWindow_CapsLock">Caps Lock</System:String>
     <System:String x:Key="LockWindow_NumLock">Num Lock</System:String>

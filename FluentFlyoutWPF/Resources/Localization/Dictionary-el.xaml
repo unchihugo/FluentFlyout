@@ -1,2 +1,3 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib">
-    </ResourceDictionary>
+    <system:String x:Key="TitleText">Ρυθμίσεις FluentFlyout</system:String>
+</ResourceDictionary>
