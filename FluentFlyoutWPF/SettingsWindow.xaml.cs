@@ -62,10 +62,6 @@ public partial class SettingsWindow : MicaWindow
         LockKeysEnableInsertSwitch.IsChecked = SettingsManager.Current.LockKeysInsertEnabled;
         BackgroundComboBox.SelectedIndex = SettingsManager.Current.MediaFlyoutBackgroundBlur;
         AcrylicWindowSwitch.IsChecked = SettingsManager.Current.MediaFlyoutAcrylicWindowEnabled;
-        AppLanguageComboBox.SelectedItem = AppLanguageComboBox.Items
-            .Cast<ComboBoxItem>()
-            .FirstOrDefault(item => ((string?)item.Tag ?? "system").Equals(SettingsManager.Current.AppLanguage));
-
         MediaFlyoutAlwaysDisplaySwitch.IsChecked = SettingsManager.Current.MediaFlyoutAlwaysDisplay;
         DurationTextBox.IsEnabled = !SettingsManager.Current.MediaFlyoutAlwaysDisplay;
 
@@ -77,6 +73,28 @@ public partial class SettingsWindow : MicaWindow
         catch
         {
             VersionTextBlock.Text = "debug version";
+        }
+
+        // initialize language dropdown & selection
+        try
+        {
+            foreach (var lang in LocalizationManager.SupportedLanguages)
+            {
+                var comboBoxItem = new ComboBoxItem
+                {
+                    Content = lang.Key,
+                    Tag = lang.Value
+                };
+                AppLanguageComboBox.Items.Add(comboBoxItem);
+            }
+
+            AppLanguageComboBox.SelectedItem = AppLanguageComboBox.Items
+            .Cast<ComboBoxItem>()
+            .FirstOrDefault(item => ((string?)item.Tag ?? "system").Equals(SettingsManager.Current.AppLanguage));
+        } 
+        catch (Exception ex)
+        {
+            Debug.WriteLine("Error setting app language: " + ex.Message);
         }
 
         ThemeManager.ApplySavedTheme();

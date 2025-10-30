@@ -8,6 +8,25 @@ namespace FluentFlyout.Classes;
 
 public static class LocalizationManager
 {
+    // dictionary of supported languages where key is the local language name and value is the language/culture code
+    private static readonly Dictionary<string, string> _supportedLanguages = new()
+    {
+        { "System", "system" },
+        { "English", "en-US" },
+        { "简体中文", "zh-CN" },
+        { "Nederlands", "nl" },
+        { "עברית", "he" },
+        { "한국어", "ko" },
+        { "Português (Brasil)", "pt-BR" },
+        { "Русский", "ru" },
+        { "Español", "es" },
+        { "Türkçe", "tr" },
+        { "Tiếng Việt", "vi" },
+    };
+
+    // readonly property to access supported languages
+    public static Dictionary<string, string> SupportedLanguages => _supportedLanguages;
+
     public static void ApplyLocalization()
     {
         string culture;
@@ -37,12 +56,13 @@ public static class LocalizationManager
             }
         }
 
-        Debug.WriteLine("Applying localization for language: " + languageCode);
+        Debug.WriteLine("Applying localization for language: " + culture);
 
-        // if English and the localization file exists, add the selected localization dictionary
+        // if English, the default (en-US) is already loaded, so no need to add another dictionary
         if (languageCode == "en") return;
 
-        var localizationDictPath = $"Resources/Localization/Dictionary-{languageCode}.xaml";
+        // find the localization file path based on the first two letters of the language code
+        string? localizationDictPath = $"Resources/Localization/Dictionary-{culture}.xaml";
 
         var uri = new Uri(localizationDictPath, UriKind.Relative);
 
@@ -53,9 +73,21 @@ public static class LocalizationManager
         }
         catch (Exception)
         {
-            // localization file not found, do nothing and keep the default (en-US)
-            Debug.WriteLine("Localization file not found for language: " + languageCode);
-            return;
+            // localization file not found, try simplified language code instead
+
+            try {
+                localizationDictPath = $"Resources/Localization/Dictionary-{languageCode}.xaml";
+                uri = new Uri(localizationDictPath, UriKind.Relative);
+
+                var resourceDict = new ResourceDictionary() { Source = uri };
+                dictionaries.Add(resourceDict);
+            } 
+            catch 
+            {
+                // do nothing and keep the default (en-US)
+                Debug.WriteLine("Localization file not found for language: " + culture);
+                return;
+            }
         }
     }
 }
