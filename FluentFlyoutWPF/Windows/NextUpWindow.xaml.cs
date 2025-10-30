@@ -25,19 +25,6 @@ public partial class NextUpWindow : MicaWindow
         CustomWindowChrome.CaptionHeight = 0;
         CustomWindowChrome.UseAeroCaptionButtons = false;
         CustomWindowChrome.GlassFrameThickness = new Thickness(0);
-
-        var titleWidth = GetStringWidth(title);
-        var artistWidth = GetStringWidth(artist);
-
-        if (titleWidth > artistWidth) Width = titleWidth + 142;
-        else Width = artistWidth + 142;
-        if (Width > 400) Width = 400; // max width to prevent window from being too wide
-        SongTitle.Text = title;
-        SongArtist.Text = artist;
-        SongImage.ImageSource = thumbnail;
-        if (SongImage.ImageSource == null) SongImagePlaceholder.Visibility = Visibility.Visible;
-        else SongImagePlaceholder.Visibility = Visibility.Collapsed;
-
         if (SettingsManager.Current.MediaFlyoutAcrylicWindowEnabled)
         {
             WindowBlurHelper.EnableBlur(this);
@@ -46,6 +33,19 @@ public partial class NextUpWindow : MicaWindow
         {
             WindowBlurHelper.DisableBlur(this);
         }
+
+        var titleWidth = GetStringWidth(title);
+        var artistWidth = GetStringWidth(artist);
+        
+        if (titleWidth > artistWidth) Width = titleWidth + 142;
+        else Width = artistWidth + 142;
+        if (Width > 400) Width = 400; // max width to prevent window from being too wide
+        SongTitle.Text = title;
+        SongArtist.Text = artist;
+        SongImage.ImageSource = thumbnail;
+        if (SongImage.ImageSource == null) SongImagePlaceholder.Visibility = Visibility.Visible;
+        else SongImagePlaceholder.Visibility = Visibility.Collapsed;
+        Show();
 
         mainWindow.OpenAnimation(this);
 
