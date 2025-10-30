@@ -12,7 +12,7 @@
       WindowStyle="None" ShowInTaskbar="False"
       SystemBackdropType="Mica" ChangeTitleColorWhenInactive="False"
       TextOptions.TextRenderingMode="ClearType" TextOptions.TextFormattingMode="Ideal"
-      FontFamily="Segoe UI Variable, Microsoft YaHei, Microsoft JhengHei"
+      FontFamily="Segoe UI Variable, Microsoft YaHei, Microsoft JhengHei, MS Gothic"
       >
     <Window.Triggers>
         <EventTrigger RoutedEvent="Window.Loaded">

@@ -10,7 +10,7 @@
     Height="600" MinHeight="300" MinWidth="660" SizeToContent="Width" 
     Title="Settings" Icon="/Resources/FluentFlyout2.ico"
     TextOptions.TextRenderingMode="ClearType" TextOptions.TextFormattingMode="Ideal"
-    FontFamily="Segoe UI Variable, Microsoft YaHei, Microsoft JhengHei"
+    FontFamily="Segoe UI Variable, Microsoft YaHei, Microsoft JhengHei, MS Gothic"
     Closing="SettingsWindow_Closing"
     xmlns:System="clr-namespace:System;assembly=System.Runtime"
     >

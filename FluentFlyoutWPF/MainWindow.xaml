@@ -11,7 +11,7 @@
     ResizeMode="NoResize" MouseEnter="MicaWindow_MouseEnter"
     ChangeTitleColorWhenInactive="False"
     TextOptions.TextRenderingMode="ClearType" TextOptions.TextFormattingMode="Ideal" 
-    FontFamily="Segoe UI Variable, Microsoft YaHei, Microsoft JhengHei"
+    FontFamily="Segoe UI Variable, Microsoft YaHei, Microsoft JhengHei, MS Gothic"
     Loaded="MicaWindow_Loaded"
     >
     <Window.Triggers>
