@@ -314,12 +314,7 @@
                                 </StackPanel>
                             </ui:CardControl.Header>
                             <StackPanel Orientation="Horizontal">
-                                <ComboBox Name="AppLanguageComboBox" SelectionChanged="AppLanguageComboBox_SelectionChanged">
-                                    <ComboBoxItem Content="System" Tag="system"/>
-                                    <ComboBoxItem Content="English" Tag="en-US"/>
-                                    <ComboBoxItem Content="Nederlands" Tag="nl-NL"/>
-                                    <ComboBoxItem Content="Tiếng Việt" Tag="vi-VN"/>
-                                </ComboBox>
+                                <ComboBox Name="AppLanguageComboBox" SelectionChanged="AppLanguageComboBox_SelectionChanged" />
                             </StackPanel>
                         </ui:CardControl>
                         <ui:CardControl Grid.Row="4" Icon="{ui:SymbolIcon CursorHover24}" Margin="0,0,0,3">
