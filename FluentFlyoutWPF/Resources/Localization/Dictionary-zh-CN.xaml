@@ -71,4 +71,22 @@
     <system:String x:Key="Win11TrayIconDescription">使用符合Windows11视觉样式的托盘图标（切换将刷新主题）</system:String>
     <system:String x:Key="AnimationSettingsTitle">过渡动画设置</system:String>
     <system:String x:Key="AnimationSettingsDescription">根据你的喜好调整过渡动画效果</system:String>
+    <system:String x:Key="GitHubRepoLink"></system:String>
+    <system:String x:Key="EnjoyingAppText" xml:space="preserve"></system:String>
+    <system:String x:Key="AnimationEasingStyleTitle"></system:String>
+    <system:String x:Key="AppLanguageTitle"></system:String>
+    <system:String x:Key="AnimationDurationScaleTitle"></system:String>
+    <system:String x:Key="AnimationDurationScaleDescription"></system:String>
+    <system:String x:Key="EasingSine" xml:space="preserve"></system:String>
+    <system:String x:Key="AppLanguageDescriptionLink"></system:String>
+    <system:String x:Key="EasingCubic" xml:space="preserve"></system:String>
+    <system:String x:Key="AnimationSpeedOff"></system:String>
+    <system:String x:Key="DisableOnFullscreenTitle"></system:String>
+    <system:String x:Key="NativeExperienceInfo"></system:String>
+    <system:String x:Key="EasingLinear" xml:space="preserve"></system:String>
+    <system:String x:Key="CloseButton"></system:String>
+    <system:String x:Key="EasingQuadratic" xml:space="preserve"></system:String>
+    <system:String x:Key="AnimationEasingStyleDescription"></system:String>
+    <system:String x:Key="DisableOnFullscreenDescription"></system:String>
+    <system:String x:Key="AppLanguageDescription" xml:space="preserve"></system:String>
 </ResourceDictionary>
