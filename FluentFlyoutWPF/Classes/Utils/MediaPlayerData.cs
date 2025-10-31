@@ -7,6 +7,10 @@ namespace FluentFlyout.Classes.Utils;
 
 public static class MediaPlayerData
 {
+    private static Process[] cachedProcesses = null;
+    private static DateTime lastCacheTime = DateTime.MinValue;
+    private const int CACHE_DURATION_SECONDS = 5;
+
     public static (string, ImageSource) getMediaPlayerData(string mediaPlayerId)
     {
         string mediaTitle = mediaPlayerId;
@@ -25,40 +29,50 @@ public static class MediaPlayerData
         // add original id to the end of the array to ensure at least one variant
         variants.Add(mediaPlayerId);
 
-        var processData = Process.GetProcesses()
-        .Select(p =>
+        Process[] processes;
+
+        // use cache to avoid frequent process enumeration
+        if (cachedProcesses == null || (DateTime.Now - lastCacheTime).TotalSeconds > CACHE_DURATION_SECONDS)
         {
-            try
+            cachedProcesses = Process.GetProcesses();
+            lastCacheTime = DateTime.Now;
+        }
+
+        processes = cachedProcesses;
+
+        var processData = processes.Select(p =>
             {
-                // pre-filter processes without a main window handle
-                if (p.MainWindowHandle == IntPtr.Zero)
+                try
                 {
-                    return null;
+                    // pre-filter processes without a main window handle
+                    if (p.MainWindowHandle == IntPtr.Zero)
+                    {
+                        return null;
+                    }
+
+                    var mainModule = p.MainModule;
+                    if (mainModule == null) return null;
+
+                    string path = mainModule.FileName;
+
+                    if (variants.Any(v => path.Contains(v, StringComparison.OrdinalIgnoreCase)))
+                    {
+                        // prioritize the FileDescription for a user-friendly name
+                        // fall back to MainWindowTitle if the description is empty
+                        string title = !string.IsNullOrWhiteSpace(mainModule.FileVersionInfo.FileDescription)
+                                        ? mainModule.FileVersionInfo.FileDescription
+                                        : p.MainWindowTitle;
+
+                        return new { Title = title, Path = path };
+                    }
                 }
-
-                var mainModule = p.MainModule;
-                if (mainModule == null) return null;
-
-                string path = mainModule.FileName;
-
-                if (variants.Any(v => path.Contains(v, StringComparison.OrdinalIgnoreCase)))
+                catch (System.ComponentModel.Win32Exception)
                 {
-                    // prioritize the FileDescription for a user-friendly name
-                    // fall back to MainWindowTitle if the description is empty
-                    string title = !string.IsNullOrWhiteSpace(mainModule.FileVersionInfo.FileDescription)
-                                    ? mainModule.FileVersionInfo.FileDescription
-                                    : p.MainWindowTitle;
-
-                    return new { Title = title, Path = path };
+                    // silently ignore the exception for inaccessible processes
                 }
-            }
-            catch (System.ComponentModel.Win32Exception)
-            {
-                // silently ignore the exception for inaccessible processes
-            }
-            return null;
-        })
-        .FirstOrDefault(data => data != null); // use first result
+                return null;
+            })
+            .FirstOrDefault(data => data != null); // use first result
 
         if (processData != null)
         {
