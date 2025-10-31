@@ -33,16 +33,12 @@
     <system:String x:Key="NextUpDescription" xml:space="preserve">Flyout hiển thị những gì tiếp theo khi một bài hát/video kết thúc. Chỉ hiển thị nếu thứ tiếp đến tự động phát, nếu phím đi tiếp/tua lại được nhấn thủ công, flyout chính sẽ hiện lên thay thế.</system:String>
     <system:String x:Key="EnableNextUpTitle">Bật flyout dự báo bài hát tiếp theo (Thử nghiệm)</system:String>
     <system:String x:Key="EnableNextUpDescription">Hiển thị những gì sẽ tới khi một bài hát/video kết thúc</system:String>
-    <system:String x:Key="NextUpAcrylicWindowTitle">Cửa sổ Acrylic bài hát tiếp theo</system:String>
-    <system:String x:Key="NextUpAcrylicWindowDescription">Áp dụng hiệu ứng acrylic mờ trong suốt cho flyout bài hát tiếp theo (khi tắt thì quay về sử dụng Mica)</system:String>
     <system:String x:Key="NextUpStayDurationTitle">Thời gian hiển thị bài hát tiếp theo</system:String>
     <system:String x:Key="NextUpStayDurationDescription">(mặc định: 2000 mili giây)</system:String>
     <system:String x:Key="LockKeysCustomizationTitle">Tinh chỉnh phím khóa</system:String>
     <system:String x:Key="LockKeysDescription" xml:space="preserve">Kiểm tra phím khóa của bạn tức thì. Hiển thị sau khi nhấn phím Caps Lock, Num Lock hay Scroll Lock. Tiện lợi cho các laptop/các bàn phím không có đèn báo hiệu khóa phím.</system:String>
     <system:String x:Key="EnableLockKeysTitle">Bật flyout phím khóa</system:String>
     <system:String x:Key="EnableLockKeysDescription">Cho biết phím chuyển đổi đang bật hoặc đang tắt</system:String>
-    <system:String x:Key="LockKeysAcrylicWindowTitle">Cửa sổ Acrylic phím khóa</system:String>
-    <system:String x:Key="LockKeysAcrylicWindowDescription">Áp dụng hiệu ứng acrylic mờ trong suốt cho flyout phím khóa (khi tắt thì quay về sử dụng Mica)</system:String>
     <system:String x:Key="LockKeysStayDurationTitle">Thời gian chờ hiển thị phím khóa</system:String>
     <system:String x:Key="LockKeysStayDurationDescription">(mặc định: 2000 mili giây)</system:String>
     <system:String x:Key="LockKeysBoldUITitle">Phông chữ và biểu tượng đậm</system:String>
@@ -82,8 +78,8 @@
 hoặc viết một bài đánh giá trên Microsoft Store để ủng hộ tác giả!</system:String>
     <system:String x:Key="GitHubRepoLink">Repo GitHub</system:String>
     <system:String x:Key="CloseButton">Nút đóng</system:String>
-    <system:String x:Key="MediaAcrylicWindowTitle">Cửa sổ Acrylic Media Flyout</system:String>
-    <system:String x:Key="MediaAcrylicWindowDescription">Áp dụng hiệu ứng acrylic mờ trong suốt cho media flyout (khi tắt thì quay về sử dụng Mica)</system:String>
+    <system:String x:Key="AcrylicWindowTitle">Cửa sổ Acrylic</system:String>
+    <system:String x:Key="AcrylicWindowDescription">Áp dụng hiệu ứng acrylic mờ trong suốt cho flyout (khi tắt thì quay về sử dụng Mica)</system:String>
     <system:String x:Key="BackgroundBlurTitle">Mờ nền</system:String>
     <system:String x:Key="BackgroundBlurOption1" xml:space="preserve"> Không làm mờ</system:String>
     <system:String x:Key="BackgroundBlurOption2" xml:space="preserve"> Kiểu 1 (Ảnh bìa phát sáng)</system:String>

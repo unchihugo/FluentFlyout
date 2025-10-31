@@ -10,8 +10,8 @@
     <system:String x:Key="BackgroundBlurOption3" xml:space="preserve"> 样式2（旭日）</system:String>
     <system:String x:Key="BackgroundBlurOption4" xml:space="preserve"> 样式3（封面模糊）</system:String>
     <system:String x:Key="BackgroundBlurTitle">背景模糊</system:String>
-    <system:String x:Key="MediaAcrylicWindowTitle">媒体浮窗亚克力窗口</system:String>
-    <system:String x:Key="MediaAcrylicWindowDescription">将透明的亚克力效果应用于媒体浮窗（关闭后还原为云母效果）</system:String>
+    <system:String x:Key="AcrylicWindowTitle">亚克力窗口</system:String>
+    <system:String x:Key="AcrylicWindowDescription">将透明的亚克力效果应用于浮窗（关闭后还原为云母效果）</system:String>
     <system:String x:Key="CompactLayoutTitle">紧凑布局</system:String>
     <system:String x:Key="CompactLayoutDescription" xml:space="preserve">布局更简洁、干扰更少
 隐藏了重复、随机播放按钮和播放器信息</system:String>
@@ -48,8 +48,6 @@
     <system:String x:Key="LockKeysDescription" xml:space="preserve">快速查看键盘锁定键状态，按下大写锁定键、数字锁定键或滚动锁定键后显示。便于没有锁定键指示灯的笔记本电脑/键盘使用。</system:String>
     <system:String x:Key="EnableLockKeysTitle">启用键盘锁定键浮窗</system:String>
     <system:String x:Key="EnableLockKeysDescription">显示特定的锁定键是否被启用</system:String>
-    <system:String x:Key="LockKeysAcrylicWindowTitle">键盘锁定键亚克力窗口</system:String>
-    <system:String x:Key="LockKeysAcrylicWindowDescription">将透明的亚克力效果应用于键盘锁定键浮窗（关闭后还原为云母效果）</system:String>
     <system:String x:Key="LockKeysStayDurationTitle">键盘锁定键浮窗停留时间</system:String>
     <system:String x:Key="LockKeysStayDurationDescription">（默认：2000毫秒）</system:String>
     <system:String x:Key="LockKeysBoldUITitle">粗体符号和字体</system:String>

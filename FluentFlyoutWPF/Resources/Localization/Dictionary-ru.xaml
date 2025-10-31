@@ -30,8 +30,8 @@
     <system:String x:Key="BackgroundBlurOption2" xml:space="preserve"> Стиль 1 (Свечение обложки)</system:String>
     <system:String x:Key="BackgroundBlurOption3" xml:space="preserve"> Стиль 2 (Восходящее свечение)</system:String>
     <system:String x:Key="BackgroundBlurOption4" xml:space="preserve"> Стиль 3 (Размытие)</system:String>
-    <system:String x:Key="MediaAcrylicWindowTitle">Эффект акрилового окна для медиа-всплывающего окна</system:String>
-    <system:String x:Key="MediaAcrylicWindowDescription">Применяет к медиа-всплывающему окну эффект прозрачного акрилового размытия (отключение вернёт эффект Міса)</system:String>
+    <system:String x:Key="AcrylicWindowTitle">Эффект акрилового окна</system:String>
+    <system:String x:Key="AcrylicWindowDescription">Применяет к всплывающему окну эффект прозрачного акрилового размытия (отключение вернёт эффект Міса)</system:String>
     <system:String x:Key="CompactLayoutDescription" xml:space="preserve">Более тонкий и менее навязчивый макет
 скрывает повтор, случайный порядок и информацию о проигрывателе</system:String>
     <system:String x:Key="FlyoutPositionTitle">Расположение всплывающего окна</system:String>
@@ -54,16 +54,12 @@
     <system:String x:Key="NextUpDescription" xml:space="preserve">Всплывающий элемент показывает, что будет дальше после окончания песни/видео. Появляется, только если следующий трек воспроизводится автоматически. Если нажать «следующий»/«предыдущий» вручную, появится основной всплывающий элемент.</system:String>
     <system:String x:Key="EnableNextUpTitle">Включить всплывающий элемент "Далее" (Экспериментально)</system:String>
     <system:String x:Key="EnableNextUpDescription">Показывает, что будет дальше после окончания песни/видео</system:String>
-    <system:String x:Key="NextUpAcrylicWindowTitle">Эффект акрилового окна "Далее"</system:String>
-    <system:String x:Key="NextUpAcrylicWindowDescription">Применяет к всплывающему окну "Далее" эффект прозрачного акрилового размытия (отключение вернёт эффект Міса)</system:String>
     <system:String x:Key="NextUpStayDurationTitle">Длительность отображения "Далее"</system:String>
     <system:String x:Key="NextUpStayDurationDescription">(по умолчанию: 2000 мс)</system:String>
     <system:String x:Key="LockKeysCustomizationTitle">Настройка клавиш блокировки</system:String>
     <system:String x:Key="LockKeysDescription" xml:space="preserve">Быстрая проверка состояния клавиш блокировки. Появляется после нажатия Caps Lock, Num Lock или Scroll Lock. Удобно для ноутбуков/клавиатур без индикаторов клавиш блокировки.</system:String>
     <system:String x:Key="EnableLockKeysTitle">Включить всплывающий элемент клавиш блокировки</system:String>
     <system:String x:Key="EnableLockKeysDescription">Отображает, включена или выключена указанная клавиша блокировки</system:String>
-    <system:String x:Key="LockKeysAcrylicWindowTitle">Эффект акрилового окна клавиш блокировки</system:String>
-    <system:String x:Key="LockKeysAcrylicWindowDescription">Применяет к всплывающему окну клавиш блокировки эффект прозрачного акрилового размытия (отключение вернёт эффект Міса)</system:String>
     <system:String x:Key="LockKeysStayDurationTitle">Длительность отображения состояния клавиш блокировки</system:String>
     <system:String x:Key="LockKeysStayDurationDescription">(по умолчанию: 2000 мс)</system:String>
     <system:String x:Key="LockKeysBoldUITitle">Полужирные символы и шрифт</system:String>
