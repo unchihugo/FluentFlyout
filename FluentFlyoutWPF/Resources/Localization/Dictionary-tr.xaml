@@ -91,4 +91,7 @@ veya Microsoft Store'da yorum bırakın!</system:String>
     <system:String x:Key="AppLanguageTitle">Uygulama dili</system:String>
     <system:String x:Key="AppLanguageDescriptionLink">Weblate</system:String>
     <system:String x:Key="BackgroundBlurOption1" xml:space="preserve"> Hiçbiri</system:String>
+    <system:String x:Key="LockWindow_LockOn">açık</system:String>
+    <system:String x:Key="LockWindow_LockOff">kapalı</system:String>
+    <system:String x:Key="NextUpWindow_UpNextText">Sonraki:</system:String>
 </ResourceDictionary>
