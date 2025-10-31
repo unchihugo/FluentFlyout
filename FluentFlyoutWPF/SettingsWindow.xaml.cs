@@ -105,6 +105,7 @@ public partial class SettingsWindow : MicaWindow
         if (instance == null)
         {
             new SettingsWindow().Show();
+            instance?.Activate();
         }
         else
         {

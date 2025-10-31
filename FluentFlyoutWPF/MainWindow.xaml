@@ -1,17 +1,19 @@
 ﻿<controls:MicaWindow x:Class="FluentFlyoutWPF.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
-        xmlns:tray="http://schemas.lepo.co/wpfui/2022/xaml/tray"
-        xmlns:controls="clr-namespace:MicaWPF.Controls;assembly=MicaWPF"
-        Height="116" Width="310" Top="-9999"
-        WindowStyle="None" mc:Ignorable="d" ShowInTaskbar="False"
-        ResizeMode="NoResize" MouseEnter="MicaWindow_MouseEnter"
-        ChangeTitleColorWhenInactive="False"
-        TextOptions.TextRenderingMode="ClearType" TextOptions.TextFormattingMode="Ideal" Loaded="MicaWindow_Loaded"
-        >
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+    xmlns:tray="http://schemas.lepo.co/wpfui/2022/xaml/tray"
+    xmlns:controls="clr-namespace:MicaWPF.Controls;assembly=MicaWPF"
+    Height="116" Width="310" Top="-9999"
+    WindowStyle="None" mc:Ignorable="d" ShowInTaskbar="False"
+    ResizeMode="NoResize" MouseEnter="MicaWindow_MouseEnter"
+    ChangeTitleColorWhenInactive="False"
+    TextOptions.TextRenderingMode="ClearType" TextOptions.TextFormattingMode="Ideal" 
+    FontFamily="Segoe UI Variable, Microsoft YaHei, Microsoft JhengHei, MS Gothic"
+    Loaded="MicaWindow_Loaded"
+    >
     <Window.Triggers>
         <EventTrigger RoutedEvent="Window.Loaded">
             <EventTrigger.Actions>
@@ -61,7 +63,7 @@
                     </RadialGradientBrush>
                 </Image.OpacityMask>
             </Image>
-            <Image x:Name="BackgroundImageStyle2" Stretch="Fill" Opacity="0.7" IsHitTestVisible="False" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" Visibility="Collapsed" ClipToBounds="True">
+            <Image x:Name="BackgroundImageStyle2" Stretch="Fill" Opacity="0.8" IsHitTestVisible="False" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" Visibility="Collapsed" ClipToBounds="True">
                 <Image.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform ScaleX="1.8" ScaleY="1.8"/>
@@ -77,7 +79,7 @@
                     </RadialGradientBrush>
                 </Image.OpacityMask>
             </Image>
-            <Image x:Name="BackgroundImageStyle3" Stretch="UniformToFill" Opacity="0.2" IsHitTestVisible="False" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" Visibility="Collapsed">
+            <Image x:Name="BackgroundImageStyle3" Stretch="UniformToFill" Opacity="0.3" IsHitTestVisible="False" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" Visibility="Collapsed">
                 <Image.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform ScaleX="1.2" ScaleY="1.2"/>
@@ -103,8 +105,8 @@
                     <StackPanel Name="BodyStackPanel" Orientation="Vertical" VerticalAlignment="Center" Width="194">
                         <StackPanel Orientation="Horizontal">
                             <StackPanel Name="SongInfoStackPanel" Margin="12,0,0,0" Orientation="Vertical" VerticalAlignment="Center" Width="182">
-                                <TextBlock Name="SongTitle" Text="Song Title" FontSize="14" FontFamily="Segoe UI Variable" FontWeight="Medium" TextTrimming="CharacterEllipsis" IsHitTestVisible="False"/>
-                                <TextBlock Name="SongArtist" Text="Artist Name" FontSize="14" FontFamily="Segoe UI Variable" FontWeight="Medium" Opacity="0.5" TextTrimming="CharacterEllipsis" IsHitTestVisible="False"/>
+                                <TextBlock Name="SongTitle" Text="Song Title" FontSize="14" FontWeight="Medium" TextTrimming="CharacterEllipsis" />
+                                <TextBlock Name="SongArtist" Text="Artist Name" FontSize="14" FontWeight="Medium" Opacity="0.5" TextTrimming="CharacterEllipsis" />
                             </StackPanel>
                         </StackPanel>
                         <StackPanel Name="ControlsStackPanel" Orientation="Horizontal" HorizontalAlignment="Right" Height="35" Width="184" Margin="12,8,0,0">
@@ -133,7 +135,7 @@
                                                VerticalAlignment="Center" 
                                              Click="MediaFlyoutCloseButton_Click"
                                              Visibility="Collapsed"  >
-                                <ui:SymbolIcon Symbol="Dismiss20" Filled="True"/>
+                                <ui:SymbolIcon Symbol="Dismiss20" Filled="True" />
                             </controls:Button>
                             <controls:Button
                             Height="28" Width="28" Name="ControlRepeat"
@@ -148,8 +150,8 @@
                                 <ui:SymbolIcon Name="SymbolShuffle" Symbol="ArrowShuffleOff24" Filled="false" Opacity="0.5" FontSize="18"/>
                             </controls:Button>
                             <StackPanel Name="MediaIdStackPanel" Orientation="Horizontal" Width="72">
-                                <ui:SymbolIcon Symbol="MusicNote120" Width="12" Height="12" FontSize="12" Filled="True" Opacity="0.25"/>
-                                <TextBlock Name="MediaId" VerticalAlignment="Center" FontSize="10" Margin="2,0,0,0" FontFamily="Segoe UI Variable" FontWeight="Medium" Opacity="0.35" TextTrimming="CharacterEllipsis"/>
+                                <Image x:Name="MediaIdIcon" Width="14" Height="14"/>
+                                <TextBlock Name="MediaId" VerticalAlignment="Center" FontSize="10" Width="50" Margin="6,0,0,0" FontWeight="Regular" Opacity="0.25" TextWrapping="Wrap" TextTrimming="CharacterEllipsis"/>
                             </StackPanel>
 
                         </StackPanel>
