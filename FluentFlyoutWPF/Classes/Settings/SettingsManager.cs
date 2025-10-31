@@ -72,6 +72,18 @@ public class SettingsManager
                 {
                     XmlSerializer xmlSerializer = new XmlSerializer(typeof(UserSettings));
                     _current = (UserSettings)xmlSerializer.Deserialize(reader);
+                    
+                    // Migration: If old setting exists and new settings haven't been set, migrate
+                    if (_current.MediaFlyoutAcrylicWindowEnabled && 
+                        !_current.MediaAcrylicWindowEnabled && 
+                        !_current.NextUpAcrylicWindowEnabled && 
+                        !_current.LockKeysAcrylicWindowEnabled)
+                    {
+                        _current.MediaAcrylicWindowEnabled = _current.MediaFlyoutAcrylicWindowEnabled;
+                        _current.NextUpAcrylicWindowEnabled = _current.MediaFlyoutAcrylicWindowEnabled;
+                        _current.LockKeysAcrylicWindowEnabled = _current.MediaFlyoutAcrylicWindowEnabled;
+                    }
+                    
                     //File.AppendAllText(logFilePath, $"[{DateTime.Now}] Settings restored\n");
                     //EventLog.WriteEntry("FluentFlyout", "Settings restored", EventLogEntryType.Information);
                     return _current;

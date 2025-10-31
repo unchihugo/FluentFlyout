@@ -7,8 +7,8 @@
     <system:String x:Key="TextBlockText2">Elige entre varios ajustes de difuminado del fondo</system:String>
     <system:String x:Key="BackgroundBlurOption1" xml:space="preserve"> Ninguno</system:String>
     <system:String x:Key="BackgroundBlurTitle">Difuminado del fondo</system:String>
-    <system:String x:Key="AcrylicWindowTitle">Ventana Acrylic</system:String>
-    <system:String x:Key="AcrylicWindowDescription">Aplica el effecto de tranparencia acrylic al flyout (Si se desactiva usa Mica)</system:String>
+    <system:String x:Key="MediaAcrylicWindowTitle">Ventana Acrylic del Flyout de Multimedia</system:String>
+    <system:String x:Key="MediaAcrylicWindowDescription">Aplica el effecto de tranparencia acrylic al flyout de multimedia (Si se desactiva usa Mica)</system:String>
     <system:String x:Key="CompactLayoutTitle">Diseño Compacto</system:String>
     <system:String x:Key="CompactLayoutDescription" xml:space="preserve">Un diseño más fino y menos intrusivo
 oculta repetir, aleatorio y la información del reproductor</system:String>
@@ -39,12 +39,16 @@ oculta repetir, aleatorio y la información del reproductor</system:String>
     <system:String x:Key="NextUpDescription" xml:space="preserve">Un flyout que muestra la siguiente canción/video cuando acaba el actual. Solo aparece si el siguiente se reproduce automáticamente, si se presiona siguiente/anterior manualmente, aparecerá el flyout principal.</system:String>
     <system:String x:Key="EnableNextUpTitle">Activar Flyout de Siguiente (Experimental)</system:String>
     <system:String x:Key="EnableNextUpDescription">Muestra que viene cuando acaba una canción/video</system:String>
+    <system:String x:Key="NextUpAcrylicWindowTitle">Ventana Acrylic de Siguiente</system:String>
+    <system:String x:Key="NextUpAcrylicWindowDescription">Aplica el effecto de tranparencia acrylic al flyout de siguiente (Si se desactiva usa Mica)</system:String>
     <system:String x:Key="NextUpStayDurationTitle">Duración de Siguiente</system:String>
     <system:String x:Key="NextUpStayDurationDescription">(por defecto: 2000 ms)</system:String>
     <system:String x:Key="LockKeysCustomizationTitle">Personalización de Teclas de Bloqueo</system:String>
     <system:String x:Key="LockKeysDescription" xml:space="preserve">Revisa el estado de las teclas de bloqueo de un vistazo. Aparece al pulsar Bloq Mayus, Bloq Num o Bloq Despl. Útil para portátiles/teclados sin indicadores de teclas de bloqueo.</system:String>
     <system:String x:Key="EnableLockKeysTitle">Activar Flyout de Teclas de Bloqueo</system:String>
     <system:String x:Key="EnableLockKeysDescription">Muestra si la tecla de bloqueo especificada esta activa o no</system:String>
+    <system:String x:Key="LockKeysAcrylicWindowTitle">Ventana Acrylic de Teclas de Bloqueo</system:String>
+    <system:String x:Key="LockKeysAcrylicWindowDescription">Aplica el effecto de tranparencia acrylic al flyout de teclas de bloqueo (Si se desactiva usa Mica)</system:String>
     <system:String x:Key="LockKeysStayDurationTitle">Duración de Teclas de Bloqueo</system:String>
     <system:String x:Key="LockKeysStayDurationDescription">(por defecto: 2000 ms)</system:String>
     <system:String x:Key="LockKeysBoldUITitle">Símbolo y Fuente en Negrita</system:String>

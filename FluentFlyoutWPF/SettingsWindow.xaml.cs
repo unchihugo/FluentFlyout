@@ -61,7 +61,9 @@ public partial class SettingsWindow : MicaWindow
         PauseOtherSessionsEnabledSwitch.IsChecked = SettingsManager.Current.PauseOtherSessionsEnabled;
         LockKeysEnableInsertSwitch.IsChecked = SettingsManager.Current.LockKeysInsertEnabled;
         BackgroundComboBox.SelectedIndex = SettingsManager.Current.MediaFlyoutBackgroundBlur;
-        AcrylicWindowSwitch.IsChecked = SettingsManager.Current.MediaFlyoutAcrylicWindowEnabled;
+        MediaAcrylicWindowSwitch.IsChecked = SettingsManager.Current.MediaAcrylicWindowEnabled;
+        NextUpAcrylicWindowSwitch.IsChecked = SettingsManager.Current.NextUpAcrylicWindowEnabled;
+        LockKeysAcrylicWindowSwitch.IsChecked = SettingsManager.Current.LockKeysAcrylicWindowEnabled;
         MediaFlyoutAlwaysDisplaySwitch.IsChecked = SettingsManager.Current.MediaFlyoutAlwaysDisplay;
         DurationTextBox.IsEnabled = !SettingsManager.Current.MediaFlyoutAlwaysDisplay;
 
@@ -386,9 +388,19 @@ public partial class SettingsWindow : MicaWindow
         SettingsManager.Current.MediaFlyoutBackgroundBlur = BackgroundComboBox.SelectedIndex;
     }
 
-    private void AcrylicWindowSwitch_Click(object sender, RoutedEventArgs e)
+    private void MediaAcrylicWindowSwitch_Click(object sender, RoutedEventArgs e)
     {
-        SettingsManager.Current.MediaFlyoutAcrylicWindowEnabled = AcrylicWindowSwitch.IsChecked ?? false;
+        SettingsManager.Current.MediaAcrylicWindowEnabled = MediaAcrylicWindowSwitch.IsChecked ?? false;
+    }
+
+    private void NextUpAcrylicWindowSwitch_Click(object sender, RoutedEventArgs e)
+    {
+        SettingsManager.Current.NextUpAcrylicWindowEnabled = NextUpAcrylicWindowSwitch.IsChecked ?? false;
+    }
+
+    private void LockKeysAcrylicWindowSwitch_Click(object sender, RoutedEventArgs e)
+    {
+        SettingsManager.Current.LockKeysAcrylicWindowEnabled = LockKeysAcrylicWindowSwitch.IsChecked ?? false;
     }
 
     private void AppLanguageComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)

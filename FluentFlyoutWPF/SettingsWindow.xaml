@@ -74,11 +74,11 @@
                         <ui:CardControl Grid.Row="3" Icon="{ui:SymbolIcon Blur24}" Margin="0,0,0,3">
                             <ui:CardControl.Header>
                                 <StackPanel Orientation="Vertical">
-                                    <TextBlock Text="{DynamicResource AcrylicWindowTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
-                                    <TextBlock Text="{DynamicResource AcrylicWindowDescription}" FontSize="12" Opacity="0.5"/>
+                                    <TextBlock Text="{DynamicResource MediaAcrylicWindowTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
+                                    <TextBlock Text="{DynamicResource MediaAcrylicWindowDescription}" FontSize="12" Opacity="0.5"/>
                                 </StackPanel>
                             </ui:CardControl.Header>
-                            <controls:ToggleSwitch Name="AcrylicWindowSwitch" Click="AcrylicWindowSwitch_Click"/>
+                            <controls:ToggleSwitch Name="MediaAcrylicWindowSwitch" Click="MediaAcrylicWindowSwitch_Click"/>
                         </ui:CardControl>
                         <ui:CardControl Grid.Row="4" Icon="{ui:SymbolIcon ArrowAutofitWidth24}" Margin="0,0,0,3">
                             <ui:CardControl.Header>
@@ -180,6 +180,7 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
                         <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
                             <ui:Image Source="/Resources/FluentFlyoutDemo4.1.png" Width="128"/>
@@ -194,7 +195,16 @@
                             </ui:CardControl.Header>
                             <controls:ToggleSwitch Name="NextUpSwitch" Click="NextUpSwitch_Click"/>
                         </ui:CardControl>
-                        <ui:CardControl Grid.Row="2" Icon="{ui:SymbolIcon Timer24}" Margin="0,0,0,3">
+                        <ui:CardControl Grid.Row="2" Icon="{ui:SymbolIcon Blur24}" Margin="0,0,0,3">
+                            <ui:CardControl.Header>
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock Text="{DynamicResource NextUpAcrylicWindowTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
+                                    <TextBlock Text="{DynamicResource NextUpAcrylicWindowDescription}" FontSize="12" Opacity="0.5"/>
+                                </StackPanel>
+                            </ui:CardControl.Header>
+                            <controls:ToggleSwitch Name="NextUpAcrylicWindowSwitch" Click="NextUpAcrylicWindowSwitch_Click"/>
+                        </ui:CardControl>
+                        <ui:CardControl Grid.Row="3" Icon="{ui:SymbolIcon Timer24}" Margin="0,0,0,3">
                             <ui:CardControl.Header>
                                 <StackPanel Orientation="Vertical">
                                     <TextBlock Text="{DynamicResource NextUpStayDurationTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
@@ -216,6 +226,7 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
                         <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
                             <ui:Image Source="/Resources/FluentFlyoutDemo5.1.png" Width="128"/>
@@ -230,7 +241,16 @@
                             </ui:CardControl.Header>
                             <controls:ToggleSwitch Name="LockKeysSwitch" Click="LockKeysSwitch_Click"/>
                         </ui:CardControl>
-                        <ui:CardControl Grid.Row="2" Icon="{ui:SymbolIcon Timer24}" Margin="0,0,0,3">
+                        <ui:CardControl Grid.Row="2" Icon="{ui:SymbolIcon Blur24}" Margin="0,0,0,3">
+                            <ui:CardControl.Header>
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock Text="{DynamicResource LockKeysAcrylicWindowTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
+                                    <TextBlock Text="{DynamicResource LockKeysAcrylicWindowDescription}" FontSize="12" Opacity="0.5"/>
+                                </StackPanel>
+                            </ui:CardControl.Header>
+                            <controls:ToggleSwitch Name="LockKeysAcrylicWindowSwitch" Click="LockKeysAcrylicWindowSwitch_Click"/>
+                        </ui:CardControl>
+                        <ui:CardControl Grid.Row="3" Icon="{ui:SymbolIcon Timer24}" Margin="0,0,0,3">
                             <ui:CardControl.Header>
                                 <StackPanel Orientation="Vertical">
                                     <TextBlock Text="{DynamicResource LockKeysStayDurationTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
@@ -242,7 +262,7 @@
                                 <TextBlock Text="{DynamicResource MillisecondsUnit}" FontSize="14" FontWeight="Regular" Margin="10,0,0,0" VerticalAlignment="Center"/>
                             </StackPanel>
                         </ui:CardControl>
-                        <ui:CardControl Grid.Row="3" Icon="{ui:SymbolIcon TextBold24}" Margin="0,0,0,3">
+                        <ui:CardControl Grid.Row="4" Icon="{ui:SymbolIcon TextBold24}" Margin="0,0,0,3">
                             <ui:CardControl.Header>
                                 <StackPanel Orientation="Vertical">
                                     <TextBlock Text="{DynamicResource LockKeysBoldUITitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
@@ -251,7 +271,7 @@
                             </ui:CardControl.Header>
                             <controls:ToggleSwitch Name="LockKeysBoldUISwitch" Click="LockKeysBoldUISwitch_Click"/>
                         </ui:CardControl>
-                        <ui:CardControl Grid.Row="4" Icon="{ui:SymbolIcon Info24}" Margin="0,0,0,3">
+                        <ui:CardControl Grid.Row="5" Icon="{ui:SymbolIcon Info24}" Margin="0,0,0,3">
                             <ui:CardControl.Header>
                                 <StackPanel Orientation="Vertical">
                                     <TextBlock Text="{DynamicResource EnableInsertKeyTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>

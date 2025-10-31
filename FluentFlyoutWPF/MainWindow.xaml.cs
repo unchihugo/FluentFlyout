@@ -50,7 +50,7 @@ public partial class MainWindow : MicaWindow
     private bool _seekBarEnabled = SettingsManager.Current.SeekbarEnabled;
     private bool _alwaysDisplay = SettingsManager.Current.MediaFlyoutAlwaysDisplay;
     private bool _mediaSessionSupportsSeekbar = false;
-    private bool _acrylicEnabled = SettingsManager.Current.MediaFlyoutAcrylicWindowEnabled;
+    private bool _acrylicEnabled = SettingsManager.Current.MediaAcrylicWindowEnabled;
     private int _themeOption = SettingsManager.Current.AppTheme;
 
     static Mutex singleton = new Mutex(true, "FluentFlyout"); // to prevent multiple instances of the app
@@ -621,10 +621,10 @@ public partial class MainWindow : MicaWindow
                 BackgroundImageStyle3.Visibility = SettingsManager.Current.MediaFlyoutBackgroundBlur == 3 ? Visibility.Visible : Visibility.Collapsed;
 
                 // acrylic effect setting
-                if (SettingsManager.Current.MediaFlyoutAcrylicWindowEnabled != _acrylicEnabled 
+                if (SettingsManager.Current.MediaAcrylicWindowEnabled != _acrylicEnabled 
                 || SettingsManager.Current.AppTheme != _themeOption) // if theme changes, reapply acrylic for updated background color
                 {
-                    _acrylicEnabled = SettingsManager.Current.MediaFlyoutAcrylicWindowEnabled;
+                    _acrylicEnabled = SettingsManager.Current.MediaAcrylicWindowEnabled;
                     ToggleBlur(); // called enabled but it actually toggles based on the setting
                 }
             }
@@ -1026,7 +1026,7 @@ public partial class MainWindow : MicaWindow
     }
     internal void ToggleBlur()
     {
-        if (SettingsManager.Current.MediaFlyoutAcrylicWindowEnabled)
+        if (SettingsManager.Current.MediaAcrylicWindowEnabled)
         {
             WindowBlurHelper.EnableBlur(this);
         }
