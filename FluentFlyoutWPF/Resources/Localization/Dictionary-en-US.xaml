@@ -10,8 +10,8 @@
     <System:String x:Key="BackgroundBlurOption3" xml:space="preserve"> Style 2 (Rising Glow)</System:String>
     <System:String x:Key="BackgroundBlurOption4" xml:space="preserve"> Style 3 (Blur)</System:String>
     <System:String x:Key="BackgroundBlurTitle">Background Blur</System:String>
-    <System:String x:Key="MediaAcrylicWindowTitle">Media Flyout Acrylic Window</System:String>
-    <System:String x:Key="MediaAcrylicWindowDescription">Apply transparent acrylic blur effect to the media flyout (off reverts to Mica)</System:String>
+    <System:String x:Key="AcrylicWindowTitle">Acrylic Window</System:String>
+    <System:String x:Key="AcrylicWindowDescription">Apply transparent acrylic blur effect to the flyout (off reverts to Mica)</System:String>
     <System:String x:Key="CompactLayoutTitle">Compact Layout</System:String>
     <System:String x:Key="CompactLayoutDescription" xml:space="preserve">Slimmer and less intrusive layout
 hides repeat, shuffle and player info</System:String>
@@ -42,16 +42,12 @@ hides repeat, shuffle and player info</System:String>
     <System:String x:Key="NextUpDescription" xml:space="preserve">A flyout shows what's next when a song/video ends. Only appears if the next item plays automatically, if next/previous is pressed manually, the main flyout appears instead.</System:String>
     <System:String x:Key="EnableNextUpTitle">Enable Next Up Flyout (Experimental)</System:String>
     <System:String x:Key="EnableNextUpDescription">Shows what's next when a song/video ends</System:String>
-    <System:String x:Key="NextUpAcrylicWindowTitle">Next Up Acrylic Window</System:String>
-    <System:String x:Key="NextUpAcrylicWindowDescription">Apply transparent acrylic blur effect to the Next Up flyout (off reverts to Mica)</System:String>
     <System:String x:Key="NextUpStayDurationTitle">Next Up Stay Duration</System:String>
     <System:String x:Key="NextUpStayDurationDescription">(default: 2000 ms)</System:String>
     <System:String x:Key="LockKeysCustomizationTitle">Lock Keys Customization</System:String>
     <System:String x:Key="LockKeysDescription" xml:space="preserve">Check your lock key status at a glance. Appears after pressing Caps Lock, Num Lock or Scroll Lock. Convenient for laptops/keyboards without lock key indicators.</System:String>
     <System:String x:Key="EnableLockKeysTitle">Enable Lock Keys Flyout</System:String>
     <System:String x:Key="EnableLockKeysDescription">Displays whether the specified lock key is on or off</System:String>
-    <System:String x:Key="LockKeysAcrylicWindowTitle">Lock Keys Acrylic Window</System:String>
-    <System:String x:Key="LockKeysAcrylicWindowDescription">Apply transparent acrylic blur effect to the Lock Keys flyout (off reverts to Mica)</System:String>
     <System:String x:Key="LockKeysStayDurationTitle">Lock Keys Stay Duration</System:String>
     <System:String x:Key="LockKeysStayDurationDescription">(default: 2000 ms)</System:String>
     <System:String x:Key="LockKeysBoldUITitle">Bold Symbol and Font</System:String>

@@ -34,7 +34,7 @@ public class UserSettings
     public bool LockKeysAcrylicWindowEnabled { get; set; } // enable acrylic blur effect on the Lock Keys window
     public string AppLanguage { get; set; } // user's preferred app language
 
-    // defeault user settings for new users, existing user settings take from here when new settings appear
+    // default user settings for new users, existing user settings take from here when new settings appear
     public UserSettings()
     {
         CompactLayout = false;

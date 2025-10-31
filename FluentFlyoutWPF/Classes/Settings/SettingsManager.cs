@@ -73,12 +73,13 @@ public class SettingsManager
                     XmlSerializer xmlSerializer = new XmlSerializer(typeof(UserSettings));
                     _current = (UserSettings)xmlSerializer.Deserialize(reader);
                     
-                    // Migration: If old setting exists and new settings haven't been set, migrate
-                    if (_current.MediaFlyoutAcrylicWindowEnabled && 
-                        !_current.MediaAcrylicWindowEnabled && 
-                        !_current.NextUpAcrylicWindowEnabled && 
-                        !_current.LockKeysAcrylicWindowEnabled)
+                    // Migration: If new settings haven't been explicitly set (all at default true), migrate from old setting
+                    // Check if all three new settings are still at their default value (true)
+                    if (_current.MediaAcrylicWindowEnabled && 
+                        _current.NextUpAcrylicWindowEnabled && 
+                        _current.LockKeysAcrylicWindowEnabled)
                     {
+                        // Copy the old setting value to all three new settings
                         _current.MediaAcrylicWindowEnabled = _current.MediaFlyoutAcrylicWindowEnabled;
                         _current.NextUpAcrylicWindowEnabled = _current.MediaFlyoutAcrylicWindowEnabled;
                         _current.LockKeysAcrylicWindowEnabled = _current.MediaFlyoutAcrylicWindowEnabled;

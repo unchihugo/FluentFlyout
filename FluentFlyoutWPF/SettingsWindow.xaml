@@ -74,8 +74,8 @@
                         <ui:CardControl Grid.Row="3" Icon="{ui:SymbolIcon Blur24}" Margin="0,0,0,3">
                             <ui:CardControl.Header>
                                 <StackPanel Orientation="Vertical">
-                                    <TextBlock Text="{DynamicResource MediaAcrylicWindowTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
-                                    <TextBlock Text="{DynamicResource MediaAcrylicWindowDescription}" FontSize="12" Opacity="0.5"/>
+                                    <TextBlock Text="{DynamicResource AcrylicWindowTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
+                                    <TextBlock Text="{DynamicResource AcrylicWindowDescription}" FontSize="12" Opacity="0.5"/>
                                 </StackPanel>
                             </ui:CardControl.Header>
                             <controls:ToggleSwitch Name="MediaAcrylicWindowSwitch" Click="MediaAcrylicWindowSwitch_Click"/>
@@ -198,8 +198,8 @@
                         <ui:CardControl Grid.Row="2" Icon="{ui:SymbolIcon Blur24}" Margin="0,0,0,3">
                             <ui:CardControl.Header>
                                 <StackPanel Orientation="Vertical">
-                                    <TextBlock Text="{DynamicResource NextUpAcrylicWindowTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
-                                    <TextBlock Text="{DynamicResource NextUpAcrylicWindowDescription}" FontSize="12" Opacity="0.5"/>
+                                    <TextBlock Text="{DynamicResource AcrylicWindowTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
+                                    <TextBlock Text="{DynamicResource AcrylicWindowDescription}" FontSize="12" Opacity="0.5"/>
                                 </StackPanel>
                             </ui:CardControl.Header>
                             <controls:ToggleSwitch Name="NextUpAcrylicWindowSwitch" Click="NextUpAcrylicWindowSwitch_Click"/>
@@ -244,8 +244,8 @@
                         <ui:CardControl Grid.Row="2" Icon="{ui:SymbolIcon Blur24}" Margin="0,0,0,3">
                             <ui:CardControl.Header>
                                 <StackPanel Orientation="Vertical">
-                                    <TextBlock Text="{DynamicResource LockKeysAcrylicWindowTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
-                                    <TextBlock Text="{DynamicResource LockKeysAcrylicWindowDescription}" FontSize="12" Opacity="0.5"/>
+                                    <TextBlock Text="{DynamicResource AcrylicWindowTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
+                                    <TextBlock Text="{DynamicResource AcrylicWindowDescription}" FontSize="12" Opacity="0.5"/>
                                 </StackPanel>
                             </ui:CardControl.Header>
                             <controls:ToggleSwitch Name="LockKeysAcrylicWindowSwitch" Click="LockKeysAcrylicWindowSwitch_Click"/>
