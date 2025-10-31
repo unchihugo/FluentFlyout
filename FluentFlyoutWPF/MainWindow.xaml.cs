@@ -1,5 +1,6 @@
 ﻿using FluentFlyout.Classes;
 using FluentFlyout.Classes.Settings;
+using FluentFlyout.Classes.Utils;
 using FluentFlyoutWPF.Classes;
 using FluentFlyoutWPF.Windows;
 using MicaWPF.Controls;
@@ -12,6 +13,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using Windows.ApplicationModel;
@@ -599,7 +601,17 @@ public partial class MainWindow : MicaWindow
                 if (SettingsManager.Current.PlayerInfoEnabled && !SettingsManager.Current.CompactLayout)
                 {
                     MediaIdStackPanel.Visibility = Visibility.Visible;
-                    MediaId.Text = mediaSession.Id;
+                    (string title, ImageSource? Icon) = MediaPlayerData.getMediaPlayerData(mediaSession.Id);
+                    MediaId.Text = title;
+                    if (Icon != null)
+                    {
+                        MediaIdIcon.Source = Icon;
+                        MediaIdIcon.Visibility = Visibility.Visible;
+                    }
+                    else
+                    {
+                        MediaIdIcon.Visibility = Visibility.Collapsed;
+                    }
                 }
                 else MediaIdStackPanel.Visibility = Visibility.Collapsed;
 
