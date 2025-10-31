@@ -100,4 +100,6 @@ veya Microsoft Store'da yorum bırakın!</system:String>
     <system:String x:Key="TrayIcon_SettingsOption">Ayarlar</system:String>
     <system:String x:Key="LockWindow_InsertPressed">Insert'e Basıldı</system:String>
     <system:String x:Key="TrayIcon_QuitOption">FluentFlyout'tan çık</system:String>
+    <system:String x:Key="TrayIcon_GitHubRepositoryOption">Depo</system:String>
+    <system:String x:Key="TrayIcon_ReportBugOption">Hata bildir</system:String>
 </ResourceDictionary>
