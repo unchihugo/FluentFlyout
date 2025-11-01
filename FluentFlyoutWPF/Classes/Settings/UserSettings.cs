@@ -28,7 +28,6 @@ public class UserSettings
     public bool PauseOtherSessionsEnabled { get; set; } // pause other sessions when the user focuses on a new one
     public bool LockKeysInsertEnabled { get; set; } // whether pressing insert key should display the LockKeys flyout
     public int MediaFlyoutBackgroundBlur { get; set; } // media flyout presets for background blur styles
-    public bool MediaFlyoutAcrylicWindowEnabled { get; set; } // enable acrylic blur effect on the flyout window (deprecated - kept for backward compatibility)
     public bool MediaAcrylicWindowEnabled { get; set; } // enable acrylic blur effect on the media flyout window
     public bool NextUpAcrylicWindowEnabled { get; set; } // enable acrylic blur effect on the Next Up window
     public bool LockKeysAcrylicWindowEnabled { get; set; } // enable acrylic blur effect on the Lock Keys window
@@ -63,7 +62,6 @@ public class UserSettings
         PauseOtherSessionsEnabled = false;
         LockKeysInsertEnabled = true;
         MediaFlyoutBackgroundBlur = 0;
-        MediaFlyoutAcrylicWindowEnabled = true;
         MediaAcrylicWindowEnabled = true;
         NextUpAcrylicWindowEnabled = true;
         LockKeysAcrylicWindowEnabled = true;
