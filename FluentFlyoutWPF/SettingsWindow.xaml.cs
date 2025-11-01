@@ -61,7 +61,7 @@ public partial class SettingsWindow : MicaWindow
         PauseOtherSessionsEnabledSwitch.IsChecked = SettingsManager.Current.PauseOtherSessionsEnabled;
         LockKeysEnableInsertSwitch.IsChecked = SettingsManager.Current.LockKeysInsertEnabled;
         BackgroundComboBox.SelectedIndex = SettingsManager.Current.MediaFlyoutBackgroundBlur;
-        MediaAcrylicWindowSwitch.IsChecked = SettingsManager.Current.MediaAcrylicWindowEnabled;
+        MediaAcrylicWindowSwitch.IsChecked = SettingsManager.Current.MediaFlyoutAcrylicWindowEnabled;
         NextUpAcrylicWindowSwitch.IsChecked = SettingsManager.Current.NextUpAcrylicWindowEnabled;
         LockKeysAcrylicWindowSwitch.IsChecked = SettingsManager.Current.LockKeysAcrylicWindowEnabled;
         MediaFlyoutAlwaysDisplaySwitch.IsChecked = SettingsManager.Current.MediaFlyoutAlwaysDisplay;
@@ -390,7 +390,7 @@ public partial class SettingsWindow : MicaWindow
 
     private void MediaAcrylicWindowSwitch_Click(object sender, RoutedEventArgs e)
     {
-        SettingsManager.Current.MediaAcrylicWindowEnabled = MediaAcrylicWindowSwitch.IsChecked ?? false;
+        SettingsManager.Current.MediaFlyoutAcrylicWindowEnabled = MediaAcrylicWindowSwitch.IsChecked ?? false;
     }
 
     private void NextUpAcrylicWindowSwitch_Click(object sender, RoutedEventArgs e)
