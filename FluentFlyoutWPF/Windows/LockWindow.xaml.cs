@@ -67,7 +67,7 @@ public partial class LockWindow : MicaWindow
     {
         if (string.IsNullOrEmpty(key)) return;
 
-        if (SettingsManager.Current.MediaFlyoutAcrylicWindowEnabled)
+        if (SettingsManager.Current.LockKeysAcrylicWindowEnabled)
         {
             WindowBlurHelper.EnableBlur(this);
         }
