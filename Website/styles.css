@@ -1,0 +1,31 @@
+/** @format */
+
+body {
+	font-family: "Segoe UI", sans-serif;
+	overflow-x: hidden;
+}
+
+/* Animations for scroll */
+.reveal-on-scroll {
+	opacity: 0;
+	transform: translateY(30px);
+	transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.reveal-on-scroll.is-visible {
+	opacity: 1;
+	transform: translateY(0);
+}
+
+.button-hover-effect:hover {
+	/* transform: translateY(-2px); */
+	transform: scaleX(1.03);
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+	transition: transform 0.2s, box-shadow 0.2s;
+	background-color: #4c5563;
+}
+
+/* Ensure no horizontal overflow */
+* {
+	box-sizing: border-box;
+}
