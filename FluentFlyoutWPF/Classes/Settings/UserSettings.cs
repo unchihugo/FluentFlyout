@@ -29,9 +29,11 @@ public class UserSettings
     public bool LockKeysInsertEnabled { get; set; } // whether pressing insert key should display the LockKeys flyout
     public int MediaFlyoutBackgroundBlur { get; set; } // media flyout presets for background blur styles
     public bool MediaFlyoutAcrylicWindowEnabled { get; set; } // enable acrylic blur effect on the flyout window
+    public bool NextUpAcrylicWindowEnabled { get; set; } // enable acrylic blur effect on the Next Up window
+    public bool LockKeysAcrylicWindowEnabled { get; set; } // enable acrylic blur effect on the Lock Keys window
     public string AppLanguage { get; set; } // user's preferred app language
 
-    // defeault user settings for new users, existing user settings take from here when new settings appear
+    // default user settings for new users, existing user settings take from here when new settings appear
     public UserSettings()
     {
         CompactLayout = false;
@@ -61,6 +63,8 @@ public class UserSettings
         LockKeysInsertEnabled = true;
         MediaFlyoutBackgroundBlur = 0;
         MediaFlyoutAcrylicWindowEnabled = true;
+        NextUpAcrylicWindowEnabled = true;
+        LockKeysAcrylicWindowEnabled = true;
         AppLanguage = "system";
     }
 }
