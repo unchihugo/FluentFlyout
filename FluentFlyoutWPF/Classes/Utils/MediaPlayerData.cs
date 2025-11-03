@@ -2,17 +2,32 @@
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using Windows.Media.Playback;
 
 namespace FluentFlyout.Classes.Utils;
 
 public static class MediaPlayerData
 {
+    private class CachedMediaPlayerInfo
+    {
+        public string Title { get; set; }
+        public ImageSource? Icon { get; set; }
+    }
+    // cache for media player info to avoid redundant process lookups
+    private static Dictionary<string, CachedMediaPlayerInfo> mediaPlayerCache = new();
+
     private static Process[] cachedProcesses = null;
     private static DateTime lastCacheTime = DateTime.MinValue;
     private const int CACHE_DURATION_SECONDS = 5;
 
     public static (string, ImageSource) getMediaPlayerData(string mediaPlayerId)
     {
+        if (mediaPlayerCache.ContainsKey(mediaPlayerId))
+        {
+            var cachedInfo = mediaPlayerCache[mediaPlayerId];
+            return (cachedInfo.Title, cachedInfo.Icon);
+        }
+
         string mediaTitle = mediaPlayerId;
         ImageSource? mediaIcon = null;
 
@@ -90,6 +105,12 @@ public static class MediaPlayerData
                 mediaIcon = null;
             }
         }
+
+        mediaPlayerCache.Add(mediaPlayerId, new CachedMediaPlayerInfo
+        {
+            Title = mediaTitle,
+            Icon = mediaIcon
+        });
 
         return (mediaTitle, mediaIcon);
     }
