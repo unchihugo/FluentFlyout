@@ -925,7 +925,7 @@ public partial class MainWindow : MicaWindow
             mediaManager.OnAnyPlaybackStateChanged -= CurrentSession_OnPlaybackStateChanged;
             mediaManager.OnAnyTimelinePropertyChanged -= MediaManager_OnAnyTimelinePropertyChanged;
 
-            // displose managed resources
+            // dispose managed resources
             _positionTimer?.Change(Timeout.Infinite, Timeout.Infinite);
             _positionTimer?.Dispose();
             cts?.Cancel();
