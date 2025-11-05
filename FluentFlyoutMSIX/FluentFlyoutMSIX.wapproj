@@ -54,6 +54,8 @@
     <TargetPlatformVersion>10.0.26100.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.19041.0</TargetPlatformMinVersion>
     <DefaultLanguage>en-US</DefaultLanguage>
+	<AppxBundleAutoResourcePackageQualifiers>DXFeatureLevel</AppxBundleAutoResourcePackageQualifiers>
+	<AppxDefaultResourceQualifiers>Language=EN-US;EL;ES;HE;KO;NL;PT-BR;RU;TR;VI;ZH-CN</AppxDefaultResourceQualifiers>
     <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
     <NoWarn>$(NoWarn);NU1702</NoWarn>
     <EntryPointProjectUniqueName>..\FluentFlyoutWPF\FluentFlyout.csproj</EntryPointProjectUniqueName>
