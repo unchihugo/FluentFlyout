@@ -13,6 +13,7 @@
                 <mica:ThemeDictionary Theme="Auto" DesignModeTheme="Auto"/>
                 <ui:ThemesDictionary Theme="Unknown"/>
                 <mica:ControlsDictionary />
+                <ResourceDictionary Source="Resources/Styles/CustomSlider.xaml"/>
                 <!-- default language en-US -->
                 <ResourceDictionary Source="Resources/Localization/Dictionary-en-US.xaml"/>
             </ResourceDictionary.MergedDictionaries>
