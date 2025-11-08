@@ -98,4 +98,8 @@
     <system:String x:Key="TrayIcon_SettingsOption">Настройки</system:String>
     <system:String x:Key="TrayIcon_GitHubRepositoryOption">Репозиторий</system:String>
     <system:String x:Key="TrayIcon_ReportBugOption">Сообщить об ошибке</system:String>
+    <system:String x:Key="LockWindow_InsertPressed">Insert нажата</system:String>
+    <system:String x:Key="LockWindow_LockOn">вкл.</system:String>
+    <system:String x:Key="LockWindow_LockOff">выкл.</system:String>
+    <system:String x:Key="TrayIcon_QuitOption">Закрыть FluentFlyout</system:String>
 </ResourceDictionary>
