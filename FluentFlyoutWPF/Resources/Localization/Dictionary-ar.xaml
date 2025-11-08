@@ -17,4 +17,13 @@
     <system:String x:Key="FlyoutPositionTitle">وضع نافذة منبثقة</system:String>
     <system:String x:Key="FlyoutStayDurationTitle">مدة الإقامة النافذة منبثقة</system:String>
     <system:String x:Key="FlyoutStayDurationDescription">(الافتراضي: 3000 مللي ثانية)</system:String>
+    <system:String x:Key="BackgroundBlurTitle">تضبيب الخلفية</system:String>
+    <system:String x:Key="PositionBottomLeft" xml:space="preserve"> في الأسفل يساراً</system:String>
+    <system:String x:Key="PositionBottomCenter" xml:space="preserve"> ‫أسفل وسط</system:String>
+    <system:String x:Key="PositionBottomRight" xml:space="preserve"> أسفل اليمين</system:String>
+    <system:String x:Key="PositionTopLeft" xml:space="preserve"> في الأعلى يساراً</system:String>
+    <system:String x:Key="PositionTopCenter" xml:space="preserve"> أعلى وسط</system:String>
+    <system:String x:Key="PositionTopRight" xml:space="preserve"> أعلى اليمين</system:String>
+    <system:String x:Key="MillisecondsUnit">مللي ثانية</system:String>
+    <system:String x:Key="MediaFlyoutAlwaysDisplay">دائما على الشاشة</system:String>
 </ResourceDictionary>
