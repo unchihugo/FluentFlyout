@@ -82,4 +82,22 @@
     <system:String x:Key="AppLanguageDescription" xml:space="preserve">إذا لم تكن لغتك مُدرجة أو غير مُكتملة، فسيتم اختيار الإنجليزية افتراضيًا.يمكنك المساهمة في الترجمات على</system:String>
     <system:String x:Key="LockWindow_InsertPressed">إدراج مضغوط</system:String>
     <system:String x:Key="TrayIcon_QuitOption">خروج من FluentFlyout</system:String>
+    <system:String x:Key="AnimationDurationScaleTitle">مدة الرسوم المتحركة</system:String>
+    <system:String x:Key="AnimationSpeedOff">إيقاف</system:String>
+    <system:String x:Key="EasingSine" xml:space="preserve"> جيبية</system:String>
+    <system:String x:Key="EasingQuadratic" xml:space="preserve"> تربيعي</system:String>
+    <system:String x:Key="EasingCubic" xml:space="preserve"> المكعبي</system:String>
+    <system:String x:Key="GitHubRepoLink">GitHub صفحة</system:String>
+    <system:String x:Key="CloseButton">أغلِق</system:String>
+    <system:String x:Key="AppLanguageTitle">لغة التطبيق</system:String>
+    <system:String x:Key="AppLanguageDescriptionLink">Weblate</system:String>
+    <system:String x:Key="LockWindow_CapsLock">Caps Lock</system:String>
+    <system:String x:Key="LockWindow_NumLock">Num Lock</system:String>
+    <system:String x:Key="LockWindow_ScrollLock">Scroll Lock</system:String>
+    <system:String x:Key="LockWindow_LockOn">تشغيل</system:String>
+    <system:String x:Key="LockWindow_LockOff">واقف</system:String>
+    <system:String x:Key="NextUpWindow_UpNextText">التالي:</system:String>
+    <system:String x:Key="TrayIcon_SettingsOption">الإعدادات</system:String>
+    <system:String x:Key="TrayIcon_GitHubRepositoryOption">المستودع</system:String>
+    <system:String x:Key="TrayIcon_ReportBugOption">بلغ عن خطأ بالتطبيق</system:String>
 </ResourceDictionary>
