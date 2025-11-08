@@ -91,7 +91,7 @@ internal static class ThemeManager
         {
             if (Application.Current.MainWindow.FindName("nIcon") is NotifyIcon nIcon)
             {
-                if (SettingsManager.Current.nIconSymbol == true)
+                if (SettingsManager.Current.NIconSymbol == true)
                 {
                     var iconUri = new Uri(WindowsThemeHelper.GetCurrentWindowsTheme() == WindowsTheme.Dark
                         ? "pack://application:,,,/Resources/TrayIcons/FluentFlyoutWhite.png"

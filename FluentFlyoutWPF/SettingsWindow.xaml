@@ -247,7 +247,7 @@
                                     <TextBlock Text="{DynamicResource LockKeysBoldUIDescription}" FontSize="12" Opacity="0.5"/>
                                 </StackPanel>
                             </ui:CardControl.Header>
-                            <controls:ToggleSwitch Name="LockKeysBoldUISwitch" Click="LockKeysBoldUISwitch_Click"/>
+                            <controls:ToggleSwitch Name="LockKeysBoldUiSwitch" Click="LockKeysBoldUiSwitch_Click"/>
                         </ui:CardControl>
                         <ui:CardControl Grid.Row="4" Icon="{ui:SymbolIcon Info24}" Margin="0,0,0,3">
                             <ui:CardControl.Header>
@@ -330,7 +330,7 @@
                                 </StackPanel>
                             </ui:CardControl.Header>
                             <StackPanel Orientation="Horizontal">
-                                <ComboBox Name="nIconLeftClickComboBox" SelectionChanged="nIconLeftClickComboBox_SelectionChanged">
+                                <ComboBox Name="NIconLeftClickComboBox" SelectionChanged="NIconLeftClickComboBox_SelectionChanged">
                                     <ComboBoxItem Content="{DynamicResource TrayIconLeftClickOption1}"/>
                                     <ComboBoxItem Content="{DynamicResource TrayIconLeftClickOption2}"/>
                                 </ComboBox>
@@ -343,7 +343,7 @@
                                     <TextBlock Text="{DynamicResource Win11TrayIconDescription}" FontSize="12" Opacity="0.5"/>
                                 </StackPanel>
                             </ui:CardControl.Header>
-                            <controls:ToggleSwitch Name="nIconSymbolSwitch" Click="nIconSymbolSwitch_Click"/>
+                            <controls:ToggleSwitch Name="NIconSymbolSwitch" Click="NIconSymbolSwitch_Click"/>
                         </ui:CardControl>
                         <ui:CardExpander Grid.Row="6" Icon="{ui:SymbolIcon Wrench24}" ContentPadding="6" Margin="0,0,0,3">
                             <ui:CardExpander.Header>

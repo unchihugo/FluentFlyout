@@ -48,18 +48,18 @@ public partial class LockWindow : MicaWindow
             }
             else LockTextBlock.Text = key + " " + (isOn ? FindResource("LockWindow_LockOn").ToString() : FindResource("LockWindow_LockOff").ToString());
 
-            LockTextBlock.FontWeight = SettingsManager.Current.LockKeysBoldUI ? FontWeights.Medium : FontWeights.Normal;
+            LockTextBlock.FontWeight = SettingsManager.Current.LockKeysBoldUi ? FontWeights.Medium : FontWeights.Normal;
 
             if (isOn)
             {
                 LockIndicatorRectangle.Opacity = 1;
-                if (SettingsManager.Current.LockKeysBoldUI) LockSymbol.Symbol = Wpf.Ui.Controls.SymbolRegular.LockClosed24;
+                if (SettingsManager.Current.LockKeysBoldUi) LockSymbol.Symbol = Wpf.Ui.Controls.SymbolRegular.LockClosed24;
                 else LockSymbol.Symbol = Wpf.Ui.Controls.SymbolRegular.LockClosed20;
             }
             else
             {
                 LockIndicatorRectangle.Opacity = 0.2;
-                if (SettingsManager.Current.LockKeysBoldUI) LockSymbol.Symbol = Wpf.Ui.Controls.SymbolRegular.LockOpen24;
+                if (SettingsManager.Current.LockKeysBoldUi) LockSymbol.Symbol = Wpf.Ui.Controls.SymbolRegular.LockOpen24;
                 else LockSymbol.Symbol = Wpf.Ui.Controls.SymbolRegular.LockOpen20;
             }
         });

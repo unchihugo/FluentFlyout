@@ -1,37 +1,247 @@
-﻿namespace FluentFlyout.Classes.Settings;
+﻿using System.Collections.ObjectModel;
+using System.Xml.Serialization;
+using CommunityToolkit.Mvvm.ComponentModel;
+using FluentFlyoutWPF.Models;
 
-public class UserSettings
+namespace FluentFlyout.Classes.Settings;
+
+/**
+ * User Settings data model.
+ */
+public partial class UserSettings : ObservableObject
 {
-    public bool CompactLayout { get; set; }
-    public int Position { get; set; }
-    public int FlyoutAnimationSpeed { get; set; }
-    public bool PlayerInfoEnabled { get; set; }
-    public bool RepeatEnabled { get; set; }
-    public bool ShuffleEnabled { get; set; }
-    public bool Startup { get; set; }
-    public int Duration { get; set; }
-    public bool NextUpEnabled { get; set; }
-    public int NextUpDuration { get; set; }
-    public int nIconLeftClick { get; set; }
-    public bool CenterTitleArtist { get; set; }
-    public int FlyoutAnimationEasingStyle { get; set; }
-    public bool LockKeysEnabled { get; set; }
-    public int LockKeysDuration { get; set; }
-    public int AppTheme { get; set; }
-    public bool MediaFlyoutEnabled { get; set; }
-    public bool MediaFlyoutAlwaysDisplay { get; set; }
-    public bool nIconSymbol { get; set; }
-    public bool DisableIfFullscreen { get; set; }
-    public bool LockKeysBoldUI { get; set; }
-    public string LastKnownVersion { get; set; } // for determining if user had updated to a new version
-    public bool SeekbarEnabled { get; set; }
-    public bool PauseOtherSessionsEnabled { get; set; } // pause other sessions when the user focuses on a new one
-    public bool LockKeysInsertEnabled { get; set; } // whether pressing insert key should display the LockKeys flyout
-    public int MediaFlyoutBackgroundBlur { get; set; } // media flyout presets for background blur styles
-    public bool MediaFlyoutAcrylicWindowEnabled { get; set; } // enable acrylic blur effect on the flyout window
-    public string AppLanguage { get; set; } // user's preferred app language
+    /// <summary>
+    /// Use a compact layout
+    /// </summary>
+    [ObservableProperty] public partial bool CompactLayout { get; set; }
 
-    // defeault user settings for new users, existing user settings take from here when new settings appear
+    /// <summary>
+    /// Flyout position on screen
+    /// </summary>
+    [ObservableProperty] public partial int Position { get; set; }
+
+    /// <summary>
+    /// Scale for flyout animation speed
+    /// </summary>
+    [ObservableProperty] public partial int FlyoutAnimationSpeed { get; set; }
+
+    /// <summary>
+    /// Show player information in the flyout
+    /// </summary>
+    [ObservableProperty] public partial bool PlayerInfoEnabled { get; set; }
+
+    /// <summary>
+    /// Enable repeat button
+    /// </summary>
+    [ObservableProperty] public partial bool RepeatEnabled { get; set; }
+
+    /// <summary>
+    /// Enable shuffle button
+    /// </summary>
+    [ObservableProperty] public partial bool ShuffleEnabled { get; set; }
+
+    /// <summary>
+    /// Start minimized to tray when Windows starts
+    /// </summary>
+    [ObservableProperty] public partial bool Startup { get; set; }
+
+    /// <summary>
+    /// MediaFlyout Always Display
+    /// </summary>
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(IsDurationEditable))] 
+    public partial bool MediaFlyoutAlwaysDisplay { get; set; }
+    
+    [XmlIgnore]
+    public bool IsDurationEditable => !MediaFlyoutAlwaysDisplay;
+    
+    /// <summary>
+    /// Flyout display duration (milliseconds)
+    /// </summary>
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(DurationText))]
+    public partial int Duration { get; set; }
+
+    [XmlIgnore]
+    public string DurationText
+    {
+        get => Duration.ToString();
+        set
+        {
+            if (int.TryParse(value, out var result))
+            {
+                Duration = result switch
+                {
+                    > 10000 => 10000,
+                    < 0 => 0,
+                    _ => result
+                };
+            }
+            OnPropertyChanged();
+        }
+    }
+    
+    /// <summary>
+    /// Enable the 'Next Up' flyout (experimental)
+    /// </summary>
+    [ObservableProperty] public partial bool NextUpEnabled { get; set; }
+
+    /// <summary>
+    /// 'Next Up' flyout display duration (milliseconds)
+    /// </summary>
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(NextUpDurationText))]
+    public partial int NextUpDuration { get; set; }
+
+    [XmlIgnore]
+    public string NextUpDurationText
+    {
+        get => NextUpDuration.ToString();
+        set
+        {
+            if (int.TryParse(value, out var result))
+            {
+                NextUpDuration = result switch
+                {
+                    > 10000 => 10000,
+                    < 0 => 0,
+                    _ => result
+                };
+            }
+
+            OnPropertyChanged();
+        }
+    }
+    /// <summary>
+    /// Tray icon left-click behavior
+    /// </summary>
+    [ObservableProperty] public partial int NIconLeftClick { get; set; }
+
+    /// <summary>
+    /// Center the title and artist text
+    /// </summary>
+    [ObservableProperty] public partial bool CenterTitleArtist { get; set; }
+
+    /// <summary>
+    /// Animation easing style index
+    /// </summary>
+    [ObservableProperty] public partial int FlyoutAnimationEasingStyle { get; set; }
+
+    /// <summary>
+    /// Enable lock keys flyout (shows Caps/Num/Scroll status)
+    /// </summary>
+    [ObservableProperty] public partial bool LockKeysEnabled { get; set; }
+
+    /// <summary>
+    /// Lock keys flyout display duration (milliseconds)
+    /// </summary>
+    
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(LockKeysDurationText))]
+    public partial int LockKeysDuration { get; set; }
+
+    [XmlIgnore]
+    public string LockKeysDurationText
+    {
+        get => LockKeysDuration.ToString();
+        set
+        {
+            if (int.TryParse(value, out var result))
+            {
+                LockKeysDuration = result switch
+                {
+                    > 10000 => 10000,
+                    < 0 => 0,
+                    _ => result
+                };
+            }
+
+            OnPropertyChanged();
+        }
+    }
+    /// <summary>
+    /// App theme. 0 for default, 1 for light, 2 for dark.
+    /// </summary>
+    [ObservableProperty] public partial int AppTheme { get; set; }
+
+    /// <summary>
+    /// Enable media flyout
+    /// </summary>
+    [ObservableProperty] public partial bool MediaFlyoutEnabled { get; set; }
+
+    /// <summary>
+    /// Use symbol-style tray icon
+    /// </summary>
+    [ObservableProperty] public partial bool NIconSymbol { get; set; }
+
+    /// <summary>
+    /// Disable flyout when a DirectX exclusive fullscreen app is detected
+    /// </summary>
+    [ObservableProperty] public partial bool DisableIfFullscreen { get; set; }
+
+    /// <summary>
+    /// Use bold symbol and font in the lock keys flyout
+    /// </summary>
+    [ObservableProperty] public partial bool LockKeysBoldUi { get; set; }
+
+    /// <summary>
+    /// Determines if the user has updated to a new version
+    /// </summary>
+    [ObservableProperty]
+    public partial string LastKnownVersion { get; set; }
+
+    /// <summary>
+    /// Show seekbar if the player supports it
+    /// </summary>
+    [ObservableProperty] public partial bool SeekbarEnabled { get; set; }
+
+    /// <summary>
+    /// Pause other media sessions when focusing a new one
+    /// </summary>
+    [ObservableProperty]
+    public partial bool PauseOtherSessionsEnabled { get; set; }
+
+    /// <summary>
+    /// Show LockKeys flyout when the Insert key is pressed
+    /// </summary>
+    [ObservableProperty]
+    public partial bool LockKeysInsertEnabled { get; set; }
+
+    /// <summary>
+    /// Preset for media flyout background blur styles
+    /// </summary>
+    [ObservableProperty]
+    public partial int MediaFlyoutBackgroundBlur { get; set; }
+
+    /// <summary>
+    /// Enable acrylic blur effect on the flyout window
+    /// </summary>
+    [ObservableProperty]
+    public partial bool MediaFlyoutAcrylicWindowEnabled { get; set; }
+
+    /// <summary>
+    /// User's preferred app language (e.g., "system" for system default)
+    /// </summary>
+    [ObservableProperty]
+    public partial string AppLanguage { get; set; }
+    
+    /// <summary>
+    /// Language Options
+    /// </summary>
+    [XmlIgnore]
+    public ObservableCollection<LanguageOption> LanguageOptions { get; } =
+    [
+        new("System", "system"),
+        new("English", "en-US"),
+        new("Nederlands", "nl-NL"),
+        new("Tiếng Việt", "vi-VN")
+    ];
+
+    
+    [XmlIgnore]
+    [ObservableProperty]
+    public partial LanguageOption SelectedLanguage { get; set; }
+
     public UserSettings()
     {
         CompactLayout = false;
@@ -44,7 +254,7 @@ public class UserSettings
         Duration = 3000;
         NextUpEnabled = false;
         NextUpDuration = 2000;
-        nIconLeftClick = 0;
+        NIconLeftClick = 0;
         CenterTitleArtist = false;
         FlyoutAnimationEasingStyle = 2;
         LockKeysEnabled = true;
@@ -52,9 +262,9 @@ public class UserSettings
         AppTheme = 0;
         MediaFlyoutEnabled = true;
         MediaFlyoutAlwaysDisplay = false;
-        nIconSymbol = false;
+        NIconSymbol = false;
         DisableIfFullscreen = true;
-        LockKeysBoldUI = true;
+        LockKeysBoldUi = true;
         LastKnownVersion = "";
         SeekbarEnabled = false;
         PauseOtherSessionsEnabled = false;
@@ -62,5 +272,37 @@ public class UserSettings
         MediaFlyoutBackgroundBlur = 0;
         MediaFlyoutAcrylicWindowEnabled = true;
         AppLanguage = "system";
+        _initializing = false;
+    }
+    
+    
+    private static bool _initializing = true;
+    
+    partial void OnAppLanguageChanged(string oldValue, string newValue)
+    {
+        if (oldValue == newValue) return;
+        SelectedLanguage = LanguageOptions.First(l => l.Tag == newValue);
+    }
+    
+    partial void OnSelectedLanguageChanged(LanguageOption oldValue, LanguageOption newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+        AppLanguage = newValue.Tag;
+        LocalizationManager.ApplyLocalization();
+    } 
+    
+    /// <summary>
+    /// Changes the application theme when the selection is changed. 0 for default, 1 for light, 2 for dark.
+    /// </summary>
+    partial void OnAppThemeChanged(int oldValue, int newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+        ThemeManager.ApplyAndSaveTheme(newValue);
+    }
+
+    partial void OnNIconSymbolChanged(bool oldValue, bool newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+        ThemeManager.UpdateTrayIcon();
     }
 }
