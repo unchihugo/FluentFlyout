@@ -6,6 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
     <UseWindowsForms>False</UseWindowsForms>
+    <RootNamespace>FluentFlyoutWPF</RootNamespace>
     <StartupObject>FluentFlyoutWPF.App</StartupObject>
     <AssemblyName>$(MSBuildProjectName)</AssemblyName>
     <PlatformTarget>x64</PlatformTarget>
@@ -54,8 +55,5 @@
     <Content Include="Resources\TrayIcons\FluentFlyoutWhite.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ViewModels\" />
   </ItemGroup>
 </Project>

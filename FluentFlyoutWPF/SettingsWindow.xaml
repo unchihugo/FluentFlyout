@@ -6,12 +6,13 @@
       xmlns:local="clr-namespace:FluentFlyoutWPF"
       xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
       xmlns:controls="clr-namespace:MicaWPF.Controls;assembly=MicaWPF"
+      xmlns:viewModels="clr-namespace:FluentFlyoutWPF.ViewModels"
       mc:Ignorable="d" 
       Height="600" Width="660" MinHeight="300" MinWidth="660"
       Title="Settings" Icon="/Resources/FluentFlyout2.ico"
       TextOptions.TextRenderingMode="ClearType" TextOptions.TextFormattingMode="Ideal"
       Closing="SettingsWindow_Closing"
-      xmlns:System="clr-namespace:System;assembly=System.Runtime">
+      d:DataContext="{d:DesignInstance viewModels:UserSettings}">
     <Grid>
         <ui:PassiveScrollViewer HorizontalScrollBarVisibility="Auto">
             <StackPanel>
@@ -53,7 +54,7 @@
                                     <TextBlock Text="{DynamicResource TextBlockText3}" FontSize="12" Opacity="0.5"/>
                                 </StackPanel>
                             </ui:CardControl.Header>
-                            <controls:ToggleSwitch Name="MediaFlyoutEnabledSwitch" Click="MediaFlyoutEnabledSwitch_Click"/>
+                            <controls:ToggleSwitch Name="MediaFlyoutEnabledSwitch" IsChecked="{Binding MediaFlyoutEnabled, Mode=TwoWay}"/>
                         </ui:CardControl>
                         <ui:CardControl Grid.Row="2" Icon="{ui:SymbolIcon ColorBackground24}" Margin="0,0,0,3">
                             <ui:CardControl.Header>
@@ -62,7 +63,7 @@
                                     <TextBlock Text="{DynamicResource TextBlockText2}" FontSize="12" Opacity="0.5"/>
                                 </StackPanel>
                             </ui:CardControl.Header>
-                            <ComboBox Name="BackgroundComboBox" SelectionChanged="BackgroundComboBox_SelectionChanged">
+                            <ComboBox Name="BackgroundComboBox" SelectedIndex="{Binding MediaFlyoutBackgroundBlur}">
                                 <ComboBoxItem Content="{DynamicResource BackgroundBlurOption1}"/>
                                 <ComboBoxItem Content="{DynamicResource BackgroundBlurOption2}"/>
                                 <ComboBoxItem Content="{DynamicResource BackgroundBlurOption3}"/>
@@ -76,7 +77,7 @@
                                     <TextBlock Text="{DynamicResource AcrylicWindowDescription}" FontSize="12" Opacity="0.5"/>
                                 </StackPanel>
                             </ui:CardControl.Header>
-                            <controls:ToggleSwitch Name="AcrylicWindowSwitch" Click="AcrylicWindowSwitch_Click"/>
+                            <controls:ToggleSwitch Name="AcrylicWindowSwitch" IsChecked="{Binding MediaFlyoutAcrylicWindowEnabled, Mode=TwoWay}"/>
                         </ui:CardControl>
                         <ui:CardControl Grid.Row="4" Icon="{ui:SymbolIcon ArrowAutofitWidth24}" Margin="0,0,0,3">
                             <ui:CardControl.Header>
@@ -85,7 +86,7 @@
                                     <TextBlock Text="{DynamicResource CompactLayoutDescription}" FontSize="12" Opacity="0.5"/>
                                 </StackPanel>
                             </ui:CardControl.Header>
-                            <controls:ToggleSwitch Name="LayoutSwitch" Click="LayoutSwitch_Click"/>
+                            <controls:ToggleSwitch Name="LayoutSwitch" IsChecked="{Binding CompactLayout, Mode=TwoWay}"/>
                         </ui:CardControl>
                         <ui:CardControl Grid.Row="5" Icon="{ui:SymbolIcon PositionForward24}" Margin="0,0,0,3">
                             <ui:CardControl.Header>
@@ -93,7 +94,7 @@
                                     <TextBlock Text="{DynamicResource FlyoutPositionTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
                                 </StackPanel>
                             </ui:CardControl.Header>
-                            <ComboBox Name="PositionComboBox" SelectionChanged="PositionComboBox_SelectionChanged">
+                            <ComboBox Name="PositionComboBox" SelectedIndex="{Binding Position, Mode=TwoWay}" >
                                 <ComboBoxItem Content="{DynamicResource PositionBottomLeft}"/>
                                 <ComboBoxItem Content="{DynamicResource PositionBottomCenter}"/>
                                 <ComboBoxItem Content="{DynamicResource PositionBottomRight}"/>
@@ -111,8 +112,8 @@
                             </ui:CardControl.Header>
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="{DynamicResource MediaFlyoutAlwaysDisplay}" VerticalAlignment="Center"/>
-                                <controls:ToggleSwitch Margin="4,0,12,0" Name="MediaFlyoutAlwaysDisplaySwitch" Click="MediaFlyoutAlwaysDisplaySwitch_Click"  />
-                                <ui:TextBox Name="DurationTextBox" Width="60" ClearButtonEnabled="False" TextChanged="DurationTextBox_TextChanged"/>
+                                <controls:ToggleSwitch Margin="4,0,12,0" IsChecked="{Binding MediaFlyoutAlwaysDisplay, Mode=TwoWay}"/>
+                                <ui:TextBox Name="DurationTextBox" Width="60" ClearButtonEnabled="False" Text="{Binding DurationText, Mode=TwoWay}" IsEnabled="{Binding IsDurationEditable, Mode=OneWay}"/>
                                 <TextBlock Text="{DynamicResource MillisecondsUnit}" FontSize="14" FontWeight="Regular" Margin="10,0,0,0" VerticalAlignment="Center"/>
                             </StackPanel>
                         </ui:CardControl>
@@ -123,7 +124,7 @@
                                     <TextBlock Text="{DynamicResource CenterTitleArtistDescription}" FontSize="12" Opacity="0.5"/>
                                 </StackPanel>
                             </ui:CardControl.Header>
-                            <controls:ToggleSwitch Name="CenterTitleArtistSwitch" Click="CenterTitleArtistSwitch_Click"/>
+                            <controls:ToggleSwitch Name="CenterTitleArtistSwitch" IsChecked="{Binding CenterTitleArtist, Mode=TwoWay}"/>
                         </ui:CardControl>
                         <ui:CardControl Grid.Row="8" Icon="{ui:SymbolIcon Subtitles24}" Margin="0,0,0,12">
                             <ui:CardControl.Header>
@@ -131,7 +132,7 @@
                                     <TextBlock Text="{DynamicResource ShowMediaPlayerNameTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
                                 </StackPanel>
                             </ui:CardControl.Header>
-                            <controls:ToggleSwitch Name="PlayerInfoSwitch" Click="PlayerInfoSwitch_Click"/>
+                            <controls:ToggleSwitch Name="PlayerInfoSwitch" IsChecked="{Binding PlayerInfoEnabled, Mode=TwoWay}"/>
                         </ui:CardControl>
                         <ui:CardControl Grid.Row="9" Icon="{ui:SymbolIcon ArrowRepeatAll24}" Margin="0,0,0,3">
                             <ui:CardControl.Header>
@@ -140,7 +141,7 @@
                                     <TextBlock Text="{DynamicResource RepeatButtonDescription}" FontSize="12" Opacity="0.5"/>
                                 </StackPanel>
                             </ui:CardControl.Header>
-                            <controls:ToggleSwitch Name="RepeatSwitch" Click="RepeatSwitch_Click"/>
+                            <controls:ToggleSwitch Name="RepeatSwitch" IsChecked="{Binding RepeatEnabled, Mode=TwoWay}"/>
                         </ui:CardControl>
                         <ui:CardControl Grid.Row="10" Icon="{ui:SymbolIcon ArrowShuffle24}" Margin="0,0,0,3">
                             <ui:CardControl.Header>
@@ -149,7 +150,7 @@
                                     <TextBlock Text="{DynamicResource ShuffleButtonDescription}" FontSize="12" Opacity="0.5"/>
                                 </StackPanel>
                             </ui:CardControl.Header>
-                            <controls:ToggleSwitch Name="ShuffleSwitch" Click="ShuffleSwitch_Click"/>
+                            <controls:ToggleSwitch Name="ShuffleSwitch" IsChecked="{Binding ShuffleEnabled, Mode=TwoWay}"/>
                         </ui:CardControl>
                         <ui:CardControl Grid.Row="11" Icon="{ui:SymbolIcon SlideArrowRight24}" Margin="0,0,0,3">
                             <ui:CardControl.Header>
@@ -158,7 +159,7 @@
                                     <TextBlock Text="{DynamicResource ShowSeekbarDescription}" FontSize="12" Opacity="0.5"/>
                                 </StackPanel>
                             </ui:CardControl.Header>
-                            <controls:ToggleSwitch Name="SeekbarSwitch" Click="SeekbarSwitch_Click"/>
+                            <controls:ToggleSwitch Name="SeekbarSwitch" IsChecked="{Binding SeekbarEnabled, Mode=TwoWay}"/>
                         </ui:CardControl>
                         <ui:InfoBar Grid.Row="12" Title="{DynamicResource UnsupportedControlsWarning}" IsOpen="True" Severity="Warning" IsClosable="False" Margin="0,0,0,12"/>
                         <ui:CardControl Grid.Row="13" Icon="{ui:SymbolIcon Pause24}" Margin="0,0,0,3">
@@ -168,7 +169,7 @@
                                     <TextBlock Text="{DynamicResource PauseOtherMediaDescription}" FontSize="12" Opacity="0.5"/>
                                 </StackPanel>
                             </ui:CardControl.Header>
-                            <controls:ToggleSwitch Name="PauseOtherSessionsEnabledSwitch" Click="PauseOtherSessionsEnabledSwitch_Click"/>
+                            <controls:ToggleSwitch Name="PauseOtherSessionsEnabledSwitch" IsChecked="{Binding PauseOtherSessionsEnabled, Mode=TwoWay}"/>
                         </ui:CardControl>
                     </Grid>
 
@@ -190,7 +191,7 @@
                                     <TextBlock Text="{DynamicResource EnableNextUpDescription}" FontSize="12" Opacity="0.5"/>
                                 </StackPanel>
                             </ui:CardControl.Header>
-                            <controls:ToggleSwitch Name="NextUpSwitch" Click="NextUpSwitch_Click"/>
+                            <controls:ToggleSwitch Name="NextUpSwitch" IsChecked="{Binding NextUpEnabled, Mode=TwoWay}"/>
                         </ui:CardControl>
                         <ui:CardControl Grid.Row="2" Icon="{ui:SymbolIcon Timer24}" Margin="0,0,0,3">
                             <ui:CardControl.Header>
@@ -200,7 +201,7 @@
                                 </StackPanel>
                             </ui:CardControl.Header>
                             <StackPanel Orientation="Horizontal">
-                                <ui:TextBox Name="NextUpDurationTextBox" Width="60" ClearButtonEnabled="False" TextChanged="NextUpDurationTextBox_TextChanged"/>
+                                <ui:TextBox Name="NextUpDurationTextBox" Width="60" ClearButtonEnabled="False" Text="{Binding NextUpDurationText, Mode=TwoWay}"/>
                                 <TextBlock Text="{DynamicResource MillisecondsUnit}" FontSize="14" FontWeight="Regular" Margin="10,0,0,0" VerticalAlignment="Center"/>
                             </StackPanel>
                         </ui:CardControl>
@@ -226,7 +227,7 @@
                                     <TextBlock Text="{DynamicResource EnableLockKeysDescription}" FontSize="12" Opacity="0.5"/>
                                 </StackPanel>
                             </ui:CardControl.Header>
-                            <controls:ToggleSwitch Name="LockKeysSwitch" Click="LockKeysSwitch_Click"/>
+                            <controls:ToggleSwitch Name="LockKeysSwitch" IsChecked="{Binding LockKeysEnabled, Mode=TwoWay}"/>
                         </ui:CardControl>
                         <ui:CardControl Grid.Row="2" Icon="{ui:SymbolIcon Timer24}" Margin="0,0,0,3">
                             <ui:CardControl.Header>
@@ -236,7 +237,7 @@
                                 </StackPanel>
                             </ui:CardControl.Header>
                             <StackPanel Orientation="Horizontal">
-                                <ui:TextBox Name="LockKeysDurationTextBox" Width="60" ClearButtonEnabled="False" TextChanged="LockKeysDurationTextBox_TextChanged"/>
+                                <ui:TextBox Name="LockKeysDurationTextBox" Width="60" ClearButtonEnabled="False" Text="{Binding LockKeysDurationText, Mode=TwoWay}"/>
                                 <TextBlock Text="{DynamicResource MillisecondsUnit}" FontSize="14" FontWeight="Regular" Margin="10,0,0,0" VerticalAlignment="Center"/>
                             </StackPanel>
                         </ui:CardControl>
@@ -247,7 +248,7 @@
                                     <TextBlock Text="{DynamicResource LockKeysBoldUIDescription}" FontSize="12" Opacity="0.5"/>
                                 </StackPanel>
                             </ui:CardControl.Header>
-                            <controls:ToggleSwitch Name="LockKeysBoldUiSwitch" Click="LockKeysBoldUiSwitch_Click"/>
+                            <controls:ToggleSwitch Name="LockKeysBoldUISwitch" IsChecked="{Binding LockKeysBoldUi, Mode=TwoWay}"/>
                         </ui:CardControl>
                         <ui:CardControl Grid.Row="4" Icon="{ui:SymbolIcon Info24}" Margin="0,0,0,3">
                             <ui:CardControl.Header>
@@ -256,7 +257,7 @@
                                     <TextBlock Text="{DynamicResource EnableInsertKeyDescription}" FontSize="12" Opacity="0.5"/>
                                 </StackPanel>
                             </ui:CardControl.Header>
-                            <controls:ToggleSwitch Name="LockKeysEnableInsertSwitch" Click="LockKeysEnableInsertSwitch_Click"/>
+                            <controls:ToggleSwitch Name="LockKeysEnableInsertSwitch" IsChecked="{Binding LockKeysInsertEnabled, Mode=TwoWay}"/>
                         </ui:CardControl>
                     </Grid>
 
@@ -294,7 +295,7 @@
                                     <TextBlock Text="{DynamicResource AppThemeTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
                                 </StackPanel>
                             </ui:CardControl.Header>
-                            <ComboBox Name="AppThemeComboBox" SelectionChanged="AppThemeComboBox_SelectionChanged" IsReadOnly="False">
+                            <ComboBox Name="AppThemeComboBox" SelectedIndex="{Binding AppTheme, Mode=TwoWay}" IsReadOnly="False">
                                 <ComboBoxItem Content="{DynamicResource AppThemeDefault}"/>
                                 <ComboBoxItem Content="{DynamicResource AppThemeLight}"/>
                                 <ComboBoxItem Content="{DynamicResource AppThemeDark}"/>
@@ -314,12 +315,10 @@
                                 </StackPanel>
                             </ui:CardControl.Header>
                             <StackPanel Orientation="Horizontal">
-                                <ComboBox Name="AppLanguageComboBox" SelectionChanged="AppLanguageComboBox_SelectionChanged">
-                                    <ComboBoxItem Content="System" Tag="system"/>
-                                    <ComboBoxItem Content="English" Tag="en-US"/>
-                                    <ComboBoxItem Content="Nederlands" Tag="nl-NL"/>
-                                    <ComboBoxItem Content="Tiếng Việt" Tag="vi-VN"/>
-                                </ComboBox>
+                                <ComboBox Name="AppLanguageComboBox" 
+                                          ItemsSource="{Binding LanguageOptions}"
+                                          SelectedItem="{Binding SelectedLanguage, Mode=TwoWay}"
+                                          DisplayMemberPath="DisplayName" />
                             </StackPanel>
                         </ui:CardControl>
                         <ui:CardControl Grid.Row="4" Icon="{ui:SymbolIcon CursorHover24}" Margin="0,0,0,3">
@@ -330,7 +329,7 @@
                                 </StackPanel>
                             </ui:CardControl.Header>
                             <StackPanel Orientation="Horizontal">
-                                <ComboBox Name="NIconLeftClickComboBox" SelectionChanged="NIconLeftClickComboBox_SelectionChanged">
+                                <ComboBox SelectedIndex="{Binding NIconLeftClick, Mode=TwoWay}">
                                     <ComboBoxItem Content="{DynamicResource TrayIconLeftClickOption1}"/>
                                     <ComboBoxItem Content="{DynamicResource TrayIconLeftClickOption2}"/>
                                 </ComboBox>
@@ -343,7 +342,7 @@
                                     <TextBlock Text="{DynamicResource Win11TrayIconDescription}" FontSize="12" Opacity="0.5"/>
                                 </StackPanel>
                             </ui:CardControl.Header>
-                            <controls:ToggleSwitch Name="NIconSymbolSwitch" Click="NIconSymbolSwitch_Click"/>
+                            <controls:ToggleSwitch IsChecked="{Binding NIconSymbol, Mode=TwoWay}"/>
                         </ui:CardControl>
                         <ui:CardExpander Grid.Row="6" Icon="{ui:SymbolIcon Wrench24}" ContentPadding="6" Margin="0,0,0,3">
                             <ui:CardExpander.Header>
@@ -361,7 +360,7 @@
                                         </StackPanel>
                                     </ui:CardControl.Header>
                                     <StackPanel Orientation="Horizontal">
-                                        <ComboBox Name="FlyoutAnimationSpeedComboBox" SelectionChanged="FlyoutAnimationSpeedComboBox_SelectionChanged">
+                                        <ComboBox Name="FlyoutAnimationSpeedComboBox" SelectedIndex="{Binding FlyoutAnimationSpeed, Mode=TwoWay}">
                                             <ComboBoxItem Content="{DynamicResource AnimationSpeedOff}"/>
                                             <ComboBoxItem Content="0.5x"/>
                                             <ComboBoxItem Content="1x"/>
@@ -379,7 +378,7 @@
                                         </StackPanel>
                                     </ui:CardControl.Header>
                                     <StackPanel Orientation="Horizontal">
-                                        <ComboBox Name="AnimationEasingStylesComboBox" SelectionChanged="AnimationEasingStylesComboBox_SelectionChanged">
+                                        <ComboBox Name="AnimationEasingStylesComboBox" SelectedIndex="{Binding FlyoutAnimationEasingStyle, Mode=TwoWay}">
                                             <ComboBoxItem Content="{DynamicResource EasingLinear}"/>
                                             <ComboBoxItem Content="{DynamicResource EasingSine}"/>
                                             <ComboBoxItem Content="{DynamicResource EasingQuadratic}"/>
@@ -397,7 +396,7 @@
                                     <TextBlock Text="{DynamicResource DisableOnFullscreenDescription}" FontSize="12" Opacity="0.5"/>
                                 </StackPanel>
                             </ui:CardControl.Header>
-                            <controls:ToggleSwitch Name="DisableIfFullscreenSwitch" Click="DisableIfFullscreenSwitch_Click"/>
+                            <controls:ToggleSwitch Name="DisableIfFullscreenSwitch" IsChecked="{Binding DisableIfFullscreen, Mode=TwoWay}"/>
                         </ui:CardControl>
                     </Grid>
                 </StackPanel>
