@@ -91,4 +91,11 @@
     <system:String x:Key="CloseButton">Закрыть</system:String>
     <system:String x:Key="AppLanguageTitle">Язык приложения</system:String>
     <system:String x:Key="AppLanguageDescriptionLink">Weblate</system:String>
+    <system:String x:Key="LockWindow_CapsLock">Caps Lock</system:String>
+    <system:String x:Key="LockWindow_NumLock">Num Lock</system:String>
+    <system:String x:Key="LockWindow_ScrollLock">Scroll Lock</system:String>
+    <system:String x:Key="NextUpWindow_UpNextText">Следующий:</system:String>
+    <system:String x:Key="TrayIcon_SettingsOption">Настройки</system:String>
+    <system:String x:Key="TrayIcon_GitHubRepositoryOption">Репозиторий</system:String>
+    <system:String x:Key="TrayIcon_ReportBugOption">Сообщить об ошибке</system:String>
 </ResourceDictionary>
