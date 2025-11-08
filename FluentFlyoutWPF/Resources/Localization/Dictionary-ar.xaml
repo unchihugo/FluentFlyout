@@ -1,2 +1,20 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib">
-    </ResourceDictionary>
+    <system:String x:Key="TitleText">FluentFlyout اعدادات</system:String>
+    <system:String x:Key="MediaFlyoutTitle">تخصيص قائمة الوسائط المنبثقة</system:String>
+    <system:String x:Key="MediaFlyoutDescription">النافذة الرئيسية. عند الاستماع إلى الوسائط، اضغط على أي مفتاح وسائط أو مفتاح مستوى الصوت (تشغيل/إيقاف مؤقت، رفع/خفض الصوت، إلخ) على لوحة المفاتيح لعرض النافذة. تعرض معلومات الوسائط، بالإضافة إلى عناصر تحكم التشغيل، والمزيد.</system:String>
+    <system:String x:Key="TextBlockText1">تفعيل الوسائط المنبثقة</system:String>
+    <system:String x:Key="TextBlockText3">عرض نافذة منبثقة عند الضغط على مفتاح الوسائط</system:String>
+    <system:String x:Key="TextBlockText2">اختر من بين مجموعة مسبقة من أشكال الخلفية الحديثة</system:String>
+    <system:String x:Key="BackgroundBlurOption1" xml:space="preserve"> .لاشئ</system:String>
+    <system:String x:Key="BackgroundBlurOption2" xml:space="preserve"> .النمط 1 (شكل متوهج)</system:String>
+    <system:String x:Key="BackgroundBlurOption3" xml:space="preserve"> .النمط 2 (التوهج الصاعد)</system:String>
+    <system:String x:Key="BackgroundBlurOption4" xml:space="preserve"> . النمط 3 (شفاف)</system:String>
+    <system:String x:Key="AcrylicWindowTitle">نافذة أكريليك</system:String>
+    <system:String x:Key="AcrylicWindowDescription">قم بتطبيق تأثير طمس الأكريليك الشفاف على القائمة المنبثقة (إيقاف التشغيل يؤدي إلى العودة إلى الميكا)</system:String>
+    <system:String x:Key="CompactLayoutTitle">تخطيط مضغوط</system:String>
+    <system:String x:Key="CompactLayoutDescription" xml:space="preserve">تصميم أنحف وأقل إزعاجًا
+يخفي التكرار والخلط ومعلومات اللاعب</system:String>
+    <system:String x:Key="FlyoutPositionTitle">وضع نافذة منبثقة</system:String>
+    <system:String x:Key="FlyoutStayDurationTitle">مدة الإقامة النافذة منبثقة</system:String>
+    <system:String x:Key="FlyoutStayDurationDescription">(الافتراضي: 3000 مللي ثانية)</system:String>
+</ResourceDictionary>
