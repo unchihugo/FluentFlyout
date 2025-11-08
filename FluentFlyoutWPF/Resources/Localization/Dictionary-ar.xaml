@@ -26,4 +26,60 @@
     <system:String x:Key="PositionTopRight" xml:space="preserve"> أعلى اليمين</system:String>
     <system:String x:Key="MillisecondsUnit">مللي ثانية</system:String>
     <system:String x:Key="MediaFlyoutAlwaysDisplay">دائما على الشاشة</system:String>
+    <system:String x:Key="CenterTitleArtistTitle">مركز العنوان والفنان</system:String>
+    <system:String x:Key="CenterTitleArtistDescription">محاذاة النص إلى المنتصف بدلاً من اليسار</system:String>
+    <system:String x:Key="ShowMediaPlayerNameTitle">إظهار اسم مشغل الوسائط</system:String>
+    <system:String x:Key="RepeatButtonTitle">زر التكرار*</system:String>
+    <system:String x:Key="RepeatButtonDescription">اختر بين تكرار الكل أو تكرار واحد، مما يزيد من عرض القائمة المنبثقة</system:String>
+    <system:String x:Key="ShuffleButtonTitle">زر الخلط*</system:String>
+    <system:String x:Key="ShuffleButtonDescription">يزيد عرض القائمة المنبثقة</system:String>
+    <system:String x:Key="ShowSeekbarTitle">إظهار شريط البحث</system:String>
+    <system:String x:Key="ShowSeekbarDescription">سيتم عرض شريط البحث التفاعلي تلقائيًا إذا كان المشغل يدعمه</system:String>
+    <system:String x:Key="UnsupportedControlsWarning">*بعض المتصفحات/المشغلات لا تدعم التكرار والخلط والتحكم في شريط البحث.</system:String>
+    <system:String x:Key="PauseOtherMediaTitle">إيقاف الوسائط الأخرى تلقائيًا</system:String>
+    <system:String x:Key="PauseOtherMediaDescription">عند تشغيل الوسائط الجديدة أو التركيز عليها، يتم إيقاف الجلسات النشطة الأخرى تلقائيًا</system:String>
+    <system:String x:Key="NextUpCustomizationTitle">التالي التخصيص</system:String>
+    <system:String x:Key="NextUpDescription" xml:space="preserve">تُظهر نافذة منبثقة ما يلي عند انتهاء أغنية/فيديو. تظهر فقط عند تشغيل العنصر التالي تلقائيًا، أما عند الضغط على التالي/السابق يدويًا، فتظهر النافذة الرئيسية.</system:String>
+    <system:String x:Key="EnableNextUpTitle">تمكين القائمة المنبثقة التالية (تجريبي)</system:String>
+    <system:String x:Key="EnableNextUpDescription">يُظهر ما التالي بعد انتهاء الأغنية/الفيديو</system:String>
+    <system:String x:Key="NextUpStayDurationTitle">التالي مده الاقامه</system:String>
+    <system:String x:Key="NextUpStayDurationDescription">(الافتراضي: 2000 مللي ثانية)</system:String>
+    <system:String x:Key="LockKeysCustomizationTitle">تخصيص مفاتيح القفل</system:String>
+    <system:String x:Key="LockKeysDescription" xml:space="preserve">تحقق من حالة مفتاح القفل بنظرة واحدة. يظهر بعد الضغط على Caps Lock أو Num Lock أو Scroll Lock. مناسب لأجهزة الكمبيوتر المحمولة/لوحات المفاتيح التي لا تحتوي على مؤشرات مفاتيح القفل.</system:String>
+    <system:String x:Key="EnableLockKeysTitle">تفعيل مفاتيح القفل المنبثقة</system:String>
+    <system:String x:Key="EnableLockKeysDescription">يعرض ما إذا كان مفتاح القفل المحدد قيد التشغيل أم متوقفًا</system:String>
+    <system:String x:Key="LockKeysStayDurationTitle">مدة بقاء مفاتيح القفل</system:String>
+    <system:String x:Key="LockKeysStayDurationDescription">(الافتراضي: 2000 مللي ثانية)</system:String>
+    <system:String x:Key="LockKeysBoldUITitle">الرمز والخط العريض</system:String>
+    <system:String x:Key="LockKeysBoldUIDescription">يؤكد على رمز القائمة المنبثقة والخط</system:String>
+    <system:String x:Key="EnableInsertKeyTitle">تفعيل نافذة إدراج المفتاح المنبثقة</system:String>
+    <system:String x:Key="EnableInsertKeyDescription">يحدد ما إذا كان الضغط على الإدراج/الكتابة فوق سيؤدي إلى عرض القائمة المنبثقة</system:String>
+    <system:String x:Key="SystemSettingsTitle">اعدادات</system:String>
+    <system:String x:Key="LaunchOnStartupTitle">الإطلاق عند بدء التشغيل</system:String>
+    <system:String x:Key="LaunchOnStartupDescription">ابدأ في التصغير إلى علبة النظام عند تسجيل الدخول إلى Windows</system:String>
+    <system:String x:Key="StartupAppsHyperlinkText">تطبيقات بدء التشغيل</system:String>
+    <system:String x:Key="StartupAppsSettingsInfo">إذا لم يعمل هذا الإعداد كما يجب، فتحقق منه</system:String>
+    <system:String x:Key="AppThemeTitle">شكل التطبيق</system:String>
+    <system:String x:Key="AppThemeDefault"> Windows الافتراضي</system:String>
+    <system:String x:Key="AppThemeLight"> مضيء</system:String>
+    <system:String x:Key="AppThemeDark"> مظلم</system:String>
+    <system:String x:Key="TrayIconLeftClickBehaviorTitle">سلوك النقر بزر الماوس الأيسر على أيقونة العلبة</system:String>
+    <system:String x:Key="TrayIconLeftClickBehaviorDescription">اختر ما يحدث عند النقر بزر الماوس الأيسر على أيقونة التطبيق</system:String>
+    <system:String x:Key="TrayIconLeftClickOption1"> افتح الإعدادات</system:String>
+    <system:String x:Key="TrayIconLeftClickOption2"> عرض الوسائط النافذه المنبثقة</system:String>
+    <system:String x:Key="Win11TrayIconTitle">أيقونة مشابهة لنظام التشغيل Windows 11</system:String>
+    <system:String x:Key="Win11TrayIconDescription">استخدم أيقونة علبة تتوافق مع نظام التشغيل Windows 11 (قم بالتبديل لتحديث السمة)</system:String>
+    <system:String x:Key="AnimationSettingsTitle">إعدادات الرسوم المتحركة</system:String>
+    <system:String x:Key="AnimationSettingsDescription">قم بتعديل الرسوم المتحركة حسب رغبتك</system:String>
+    <system:String x:Key="AnimationDurationScaleDescription">سرعة الرسوم المتحركة المنبثقة أسرع أو أبطأ (الافتراضي: 1x)</system:String>
+    <system:String x:Key="AnimationEasingStyleTitle">أسلوب اظهار الرسوم المتحركة</system:String>
+    <system:String x:Key="AnimationEasingStyleDescription">(افتراضي: تربيعي)</system:String>
+    <system:String x:Key="EasingLinear" xml:space="preserve"> خطي</system:String>
+    <system:String x:Key="NativeExperienceInfo">للحصول على تجربة Windows 11 الأصلية، يجب إبقاء الإعدادات افتراضية.</system:String>
+    <system:String x:Key="DisableOnFullscreenTitle">تعطيل النوافذ المنبثقة إذا تم اكتشاف برنامج DirectX في وضع ملء الشاشة</system:String>
+    <system:String x:Key="DisableOnFullscreenDescription">يمنع ألعاب DirectX في وضع ملء الشاشة الحصري من التصغير إذا ظهرت نافذة منبثقة</system:String>
+    <system:String x:Key="EnjoyingAppText" xml:space="preserve">هل تستمتع بالتطبيق؟ قيّمه على GitHub، أو اترك تقييمًا على متجر Microsoft!</system:String>
+    <system:String x:Key="AppLanguageDescription" xml:space="preserve">إذا لم تكن لغتك مُدرجة أو غير مُكتملة، فسيتم اختيار الإنجليزية افتراضيًا.يمكنك المساهمة في الترجمات على</system:String>
+    <system:String x:Key="LockWindow_InsertPressed">إدراج مضغوط</system:String>
+    <system:String x:Key="TrayIcon_QuitOption">خروج من FluentFlyout</system:String>
 </ResourceDictionary>
