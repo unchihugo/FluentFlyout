@@ -242,13 +242,13 @@ public partial class UserSettings : ObservableObject
     /// </summary>
     [ObservableProperty]
     public partial bool MediaFlyoutAcrylicWindowEnabled { get; set; }
-    
+
     /// <summary>
     /// Enable acrylic blur effect on the Next Up window
     /// </summary>
     [ObservableProperty]
     public partial bool NextUpAcrylicWindowEnabled { get; set; }
-    
+
     /// <summary>
     /// Enable acrylic blur effect on the Lock Keys window
     /// </summary>
@@ -265,19 +265,18 @@ public partial class UserSettings : ObservableObject
     /// Language Options
     /// </summary>
     [XmlIgnore]
-    public ObservableCollection<LanguageOption> LanguageOptions { get; } =
-    [
-        new("System", "system"),
-        new("English", "en-US"),
-        new("Nederlands", "nl-NL"),
-        new("Tiếng Việt", "vi-VN")
-    ];
+    public ObservableCollection<LanguageOption> LanguageOptions { get; } = [];
 
 
     [XmlIgnore] [ObservableProperty] public partial LanguageOption SelectedLanguage { get; set; }
 
     public UserSettings()
     {
+        foreach (var supportedLanguage in LocalizationManager.SupportedLanguages)
+        {
+            LanguageOptions.Add(new LanguageOption(supportedLanguage.Key, supportedLanguage.Value));
+        }
+        
         CompactLayout = false;
         Position = 0;
         FlyoutAnimationSpeed = 2;
