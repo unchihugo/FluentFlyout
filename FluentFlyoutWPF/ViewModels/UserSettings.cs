@@ -14,48 +14,54 @@ public partial class UserSettings : ObservableObject
     /// <summary>
     /// Use a compact layout
     /// </summary>
-    [ObservableProperty] public partial bool CompactLayout { get; set; }
+    [ObservableProperty]
+    public partial bool CompactLayout { get; set; }
 
     /// <summary>
     /// Flyout position on screen
     /// </summary>
-    [ObservableProperty] public partial int Position { get; set; }
+    [ObservableProperty]
+    public partial int Position { get; set; }
 
     /// <summary>
     /// Scale for flyout animation speed
     /// </summary>
-    [ObservableProperty] public partial int FlyoutAnimationSpeed { get; set; }
+    [ObservableProperty]
+    public partial int FlyoutAnimationSpeed { get; set; }
 
     /// <summary>
     /// Show player information in the flyout
     /// </summary>
-    [ObservableProperty] public partial bool PlayerInfoEnabled { get; set; }
+    [ObservableProperty]
+    public partial bool PlayerInfoEnabled { get; set; }
 
     /// <summary>
     /// Enable repeat button
     /// </summary>
-    [ObservableProperty] public partial bool RepeatEnabled { get; set; }
+    [ObservableProperty]
+    public partial bool RepeatEnabled { get; set; }
 
     /// <summary>
     /// Enable shuffle button
     /// </summary>
-    [ObservableProperty] public partial bool ShuffleEnabled { get; set; }
+    [ObservableProperty]
+    public partial bool ShuffleEnabled { get; set; }
 
     /// <summary>
     /// Start minimized to tray when Windows starts
     /// </summary>
-    [ObservableProperty] public partial bool Startup { get; set; }
+    [ObservableProperty]
+    public partial bool Startup { get; set; }
 
     /// <summary>
     /// MediaFlyout Always Display
     /// </summary>
     [ObservableProperty]
-    [NotifyPropertyChangedFor(nameof(IsDurationEditable))] 
+    [NotifyPropertyChangedFor(nameof(IsDurationEditable))]
     public partial bool MediaFlyoutAlwaysDisplay { get; set; }
-    
-    [XmlIgnore]
-    public bool IsDurationEditable => !MediaFlyoutAlwaysDisplay;
-    
+
+    [XmlIgnore] public bool IsDurationEditable => !MediaFlyoutAlwaysDisplay;
+
     /// <summary>
     /// Flyout display duration (milliseconds)
     /// </summary>
@@ -78,14 +84,16 @@ public partial class UserSettings : ObservableObject
                     _ => result
                 };
             }
+
             OnPropertyChanged();
         }
     }
-    
+
     /// <summary>
     /// Enable the 'Next Up' flyout (experimental)
     /// </summary>
-    [ObservableProperty] public partial bool NextUpEnabled { get; set; }
+    [ObservableProperty]
+    public partial bool NextUpEnabled { get; set; }
 
     /// <summary>
     /// 'Next Up' flyout display duration (milliseconds)
@@ -113,30 +121,36 @@ public partial class UserSettings : ObservableObject
             OnPropertyChanged();
         }
     }
+
     /// <summary>
     /// Tray icon left-click behavior
     /// </summary>
-    [ObservableProperty] public partial int NIconLeftClick { get; set; }
+    [ObservableProperty]
+    [XmlElement(ElementName = "nIconLeftClick")]
+    public partial int NIconLeftClick { get; set; }
 
     /// <summary>
     /// Center the title and artist text
     /// </summary>
-    [ObservableProperty] public partial bool CenterTitleArtist { get; set; }
+    [ObservableProperty]
+    public partial bool CenterTitleArtist { get; set; }
 
     /// <summary>
     /// Animation easing style index
     /// </summary>
-    [ObservableProperty] public partial int FlyoutAnimationEasingStyle { get; set; }
+    [ObservableProperty]
+    public partial int FlyoutAnimationEasingStyle { get; set; }
 
     /// <summary>
     /// Enable lock keys flyout (shows Caps/Num/Scroll status)
     /// </summary>
-    [ObservableProperty] public partial bool LockKeysEnabled { get; set; }
+    [ObservableProperty]
+    public partial bool LockKeysEnabled { get; set; }
 
     /// <summary>
     /// Lock keys flyout display duration (milliseconds)
     /// </summary>
-    
+
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(LockKeysDurationText))]
     public partial int LockKeysDuration { get; set; }
@@ -160,30 +174,38 @@ public partial class UserSettings : ObservableObject
             OnPropertyChanged();
         }
     }
+
     /// <summary>
     /// App theme. 0 for default, 1 for light, 2 for dark.
     /// </summary>
-    [ObservableProperty] public partial int AppTheme { get; set; }
+    [ObservableProperty]
+    public partial int AppTheme { get; set; }
 
     /// <summary>
     /// Enable media flyout
     /// </summary>
-    [ObservableProperty] public partial bool MediaFlyoutEnabled { get; set; }
+    [ObservableProperty]
+    public partial bool MediaFlyoutEnabled { get; set; }
 
     /// <summary>
     /// Use symbol-style tray icon
     /// </summary>
-    [ObservableProperty] public partial bool NIconSymbol { get; set; }
+    [ObservableProperty]
+    [XmlElement(ElementName = "nIconSymbol")]
+    public partial bool NIconSymbol { get; set; }
 
     /// <summary>
     /// Disable flyout when a DirectX exclusive fullscreen app is detected
     /// </summary>
-    [ObservableProperty] public partial bool DisableIfFullscreen { get; set; }
+    [ObservableProperty]
+    public partial bool DisableIfFullscreen { get; set; }
 
     /// <summary>
     /// Use bold symbol and font in the lock keys flyout
     /// </summary>
-    [ObservableProperty] public partial bool LockKeysBoldUi { get; set; }
+    [ObservableProperty]
+    [XmlElement(ElementName = "LockKeysBoldUI")]
+    public partial bool LockKeysBoldUi { get; set; }
 
     /// <summary>
     /// Determines if the user has updated to a new version
@@ -194,7 +216,8 @@ public partial class UserSettings : ObservableObject
     /// <summary>
     /// Show seekbar if the player supports it
     /// </summary>
-    [ObservableProperty] public partial bool SeekbarEnabled { get; set; }
+    [ObservableProperty]
+    public partial bool SeekbarEnabled { get; set; }
 
     /// <summary>
     /// Pause other media sessions when focusing a new one
@@ -225,7 +248,7 @@ public partial class UserSettings : ObservableObject
     /// </summary>
     [ObservableProperty]
     public partial string AppLanguage { get; set; }
-    
+
     /// <summary>
     /// Language Options
     /// </summary>
@@ -238,10 +261,8 @@ public partial class UserSettings : ObservableObject
         new("Tiếng Việt", "vi-VN")
     ];
 
-    
-    [XmlIgnore]
-    [ObservableProperty]
-    public partial LanguageOption SelectedLanguage { get; set; }
+
+    [XmlIgnore] [ObservableProperty] public partial LanguageOption SelectedLanguage { get; set; }
 
     public UserSettings()
     {
@@ -275,23 +296,23 @@ public partial class UserSettings : ObservableObject
         AppLanguage = "system";
         _initializing = false;
     }
-    
-    
+
+
     private static bool _initializing = true;
-    
+
     partial void OnAppLanguageChanged(string oldValue, string newValue)
     {
         if (oldValue == newValue) return;
         SelectedLanguage = LanguageOptions.First(l => l.Tag == newValue);
     }
-    
+
     partial void OnSelectedLanguageChanged(LanguageOption oldValue, LanguageOption newValue)
     {
         if (oldValue == newValue || _initializing) return;
         AppLanguage = newValue.Tag;
         LocalizationManager.ApplyLocalization();
-    } 
-    
+    }
+
     /// <summary>
     /// Changes the application theme when the selection is changed. 0 for default, 1 for light, 2 for dark.
     /// </summary>
