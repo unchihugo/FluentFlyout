@@ -1,9 +1,10 @@
-﻿using System.Windows;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
+﻿using FluentFlyout.Classes;
 using FluentFlyout.Classes.Settings;
 using FluentFlyoutWPF.Classes;
 using MicaWPF.Controls;
+using System.Windows;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace FluentFlyoutWPF.Windows;
 
@@ -24,10 +25,18 @@ public partial class NextUpWindow : MicaWindow
         CustomWindowChrome.CaptionHeight = 0;
         CustomWindowChrome.UseAeroCaptionButtons = false;
         CustomWindowChrome.GlassFrameThickness = new Thickness(0);
+        if (SettingsManager.Current.NextUpAcrylicWindowEnabled)
+        {
+            WindowBlurHelper.EnableBlur(this);
+        }
+        else
+        {
+            WindowBlurHelper.DisableBlur(this);
+        }
 
         var titleWidth = GetStringWidth(title);
         var artistWidth = GetStringWidth(artist);
-
+        
         if (titleWidth > artistWidth) Width = titleWidth + 142;
         else Width = artistWidth + 142;
         if (Width > 400) Width = 400; // max width to prevent window from being too wide
@@ -37,6 +46,7 @@ public partial class NextUpWindow : MicaWindow
         if (SongImage.ImageSource == null) SongImagePlaceholder.Visibility = Visibility.Visible;
         else SongImagePlaceholder.Visibility = Visibility.Collapsed;
         Show();
+
         mainWindow.OpenAnimation(this);
 
         async void wait()
@@ -52,7 +62,8 @@ public partial class NextUpWindow : MicaWindow
 
     private double GetStringWidth(string text)
     {
-        var typeface = new Typeface(new FontFamily("Segoe UI Variable"), new FontStyle(), FontWeights.Medium, FontStretches.Normal);
+        var fontFamily = new FontFamily("Segoe UI Variable, Microsoft YaHei, Microsoft JhengHei, MS Gothic");
+        var typeface = new Typeface(fontFamily, new FontStyle(), FontWeights.Medium, FontStretches.Normal);
 
         var formattedText = new FormattedText(
             text,

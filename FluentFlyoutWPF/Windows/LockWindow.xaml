@@ -10,8 +10,10 @@
     Height="50" Width="160" 
     ResizeMode="NoResize"
     WindowStyle="None" ShowInTaskbar="False"
-    SystemBackdropType="Mica" ChangeTitleColorWhenInactive="False"
-    TextOptions.TextRenderingMode="ClearType" TextOptions.TextFormattingMode="Ideal">
+    ChangeTitleColorWhenInactive="False"
+    TextOptions.TextRenderingMode="ClearType" TextOptions.TextFormattingMode="Ideal"
+    FontFamily="Segoe UI Variable, Microsoft YaHei, Microsoft JhengHei, MS Gothic"
+    >
     <Window.Triggers>
         <EventTrigger RoutedEvent="Window.Loaded">
             <EventTrigger.Actions>

@@ -33,8 +33,7 @@ public partial class SettingsWindow : MicaWindow
 
         InitializeComponent();
         instance = this;
-        DataContext = SettingsManager.Current;
-        
+
         Closed += (s, e) => instance = null;
 
         try // gets the version of the app, works only in release mode
@@ -55,6 +54,7 @@ public partial class SettingsWindow : MicaWindow
         if (instance == null)
         {
             new SettingsWindow().Show();
+            instance?.Activate();
         }
         else
         {

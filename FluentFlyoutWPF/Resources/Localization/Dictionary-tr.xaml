@@ -91,4 +91,15 @@ veya Microsoft Store'da yorum bırakın!</system:String>
     <system:String x:Key="AppLanguageTitle">Uygulama dili</system:String>
     <system:String x:Key="AppLanguageDescriptionLink">Weblate</system:String>
     <system:String x:Key="BackgroundBlurOption1" xml:space="preserve"> Hiçbiri</system:String>
+    <system:String x:Key="LockWindow_LockOn">açık</system:String>
+    <system:String x:Key="LockWindow_LockOff">kapalı</system:String>
+    <system:String x:Key="NextUpWindow_UpNextText">Sıradaki:</system:String>
+    <system:String x:Key="LockWindow_CapsLock">Caps Lock</system:String>
+    <system:String x:Key="LockWindow_NumLock">Num Lock</system:String>
+    <system:String x:Key="LockWindow_ScrollLock">Scroll Lock</system:String>
+    <system:String x:Key="TrayIcon_SettingsOption">Ayarlar</system:String>
+    <system:String x:Key="LockWindow_InsertPressed">Insert'e Basıldı</system:String>
+    <system:String x:Key="TrayIcon_QuitOption">FluentFlyout'tan çık</system:String>
+    <system:String x:Key="TrayIcon_GitHubRepositoryOption">Depo</system:String>
+    <system:String x:Key="TrayIcon_ReportBugOption">Hata bildir</system:String>
 </ResourceDictionary>

@@ -91,4 +91,15 @@
     <system:String x:Key="SystemSettingsTitle">시스템</system:String>
     <system:String x:Key="LaunchOnStartupTitle">시작 시 실행</system:String>
     <system:String x:Key="AppThemeLight"> 밝은 테마</system:String>
+    <system:String x:Key="LockWindow_LockOn">켜짐</system:String>
+    <system:String x:Key="LockWindow_LockOff">꺼짐</system:String>
+    <system:String x:Key="LockWindow_CapsLock">Caps Lock</system:String>
+    <system:String x:Key="LockWindow_NumLock">Num Lock</system:String>
+    <system:String x:Key="LockWindow_ScrollLock">Scroll Lock</system:String>
+    <system:String x:Key="LockWindow_InsertPressed">Insert 키 누름</system:String>
+    <system:String x:Key="NextUpWindow_UpNextText">다음 곡:</system:String>
+    <system:String x:Key="TrayIcon_SettingsOption">설정</system:String>
+    <system:String x:Key="TrayIcon_GitHubRepositoryOption">저장소</system:String>
+    <system:String x:Key="TrayIcon_ReportBugOption">오류 보고</system:String>
+    <system:String x:Key="TrayIcon_QuitOption">FluentFlyout 종료</system:String>
 </ResourceDictionary>

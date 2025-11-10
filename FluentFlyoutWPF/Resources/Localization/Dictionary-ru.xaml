@@ -21,7 +21,7 @@
     <system:String x:Key="AnimationSpeedOff">Откл.</system:String>
     <system:String x:Key="EasingLinear" xml:space="preserve"> Линейное</system:String>
     <system:String x:Key="EasingSine" xml:space="preserve"> Синусоидальное</system:String>
-    <system:String x:Key="TitleText">Настройки Fluent Flyout</system:String>
+    <system:String x:Key="TitleText">Настройки FluentFlyout</system:String>
     <system:String x:Key="MediaFlyoutTitle">Кастомизация Media Flyout</system:String>
     <system:String x:Key="MediaFlyoutDescription">Основное всплывающее окно. При прослушивании медиа нажмите любую клавишу медиа или громкости (воспроизведение/пауза, увеличение/уменьшение громкости и т. д.) на вашей клавиатуре, чтобы отобразить всплывающее окно. Отображает информацию о медиа, а также элементы управления воспроизведением и многое другое.</system:String>
     <system:String x:Key="TextBlockText1">Включить Media Flyout</system:String>

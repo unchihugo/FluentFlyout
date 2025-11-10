@@ -33,6 +33,8 @@ internal static class ThemeManager
         ApplyTheme(theme);
         SettingsManager.Current.AppTheme = theme;
         SettingsManager.SaveSettings();
+
+        if (SettingsManager.Current.MediaFlyoutAcrylicWindowEnabled) { WindowBlurHelper.EnableBlur(Application.Current.MainWindow); }
     }
 
     /// <summary>
@@ -79,6 +81,9 @@ internal static class ThemeManager
     /// <remarks>This function was not necessary because the theme was managed by MicaWPF.</remarks>
     private static void UnWatchThemeChanges()
     {
+        // check if window is loaded
+        if (Application.Current.MainWindow.IsLoaded == false) return;
+
         SystemThemeWatcher.UnWatch(Application.Current.MainWindow);
     }
 

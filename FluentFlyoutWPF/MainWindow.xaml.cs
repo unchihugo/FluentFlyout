@@ -1,5 +1,6 @@
 ﻿using FluentFlyout.Classes;
 using FluentFlyout.Classes.Settings;
+using FluentFlyout.Classes.Utils;
 using FluentFlyoutWPF.Classes;
 using FluentFlyoutWPF.Windows;
 using MicaWPF.Controls;
@@ -12,8 +13,10 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
+using Windows.ApplicationModel;
 using Windows.Media.Control;
 using Windows.Storage.Streams;
 using static WindowsMediaController.MediaManager;
@@ -115,10 +118,23 @@ public partial class MainWindow : MicaWindow
             UpdateSeekbarCurrentDuration(session.ControlSession.GetTimelineProperties().Position);
         }
 
-        // apply localization on new thread
+        // apply other things on new thread
         Dispatcher.Invoke(() =>
         {
             LocalizationManager.ApplyLocalization();
+            // show settings to new users
+            if (SettingsManager.Current.LastKnownVersion == "")
+                SettingsWindow.ShowInstance();
+
+            try // update last known version. gets the version of the app, works only in release mode
+            {
+                var version = Package.Current.Id.Version;
+                SettingsManager.Current.LastKnownVersion = $"v{version.Major}.{version.Minor}.{version.Build}";
+            }
+            catch
+            {
+                SettingsManager.Current.LastKnownVersion = "debug version";
+            }
         });
     }
 
@@ -482,7 +498,7 @@ public partial class MainWindow : MicaWindow
         }
         catch (TaskCanceledException)
         {
-            // do nothing
+            Debug.WriteLine("Media flyout hide task canceled.");
         }
     }
 
@@ -585,7 +601,17 @@ public partial class MainWindow : MicaWindow
                 if (SettingsManager.Current.PlayerInfoEnabled && !SettingsManager.Current.CompactLayout)
                 {
                     MediaIdStackPanel.Visibility = Visibility.Visible;
-                    MediaId.Text = mediaSession.Id;
+                    (string title, ImageSource? Icon) = MediaPlayerData.getMediaPlayerData(mediaSession.Id);
+                    MediaId.Text = title;
+                    if (Icon != null)
+                    {
+                        MediaIdIcon.Source = Icon;
+                        MediaIdIcon.Visibility = Visibility.Visible;
+                    }
+                    else
+                    {
+                        MediaIdIcon.Visibility = Visibility.Collapsed;
+                    }
                 }
                 else MediaIdStackPanel.Visibility = Visibility.Collapsed;
 
@@ -599,7 +625,7 @@ public partial class MainWindow : MicaWindow
                 || SettingsManager.Current.AppTheme != _themeOption) // if theme changes, reapply acrylic for updated background color
                 {
                     _acrylicEnabled = SettingsManager.Current.MediaFlyoutAcrylicWindowEnabled;
-                    EnableBlur(); // called enabled but it actually toggles based on the setting
+                    ToggleBlur(); // called enabled but it actually toggles based on the setting
                 }
             }
 
@@ -968,7 +994,6 @@ public partial class MainWindow : MicaWindow
         Hide();
         UpdateUILayout();
         ThemeManager.ApplySavedTheme();
-        EnableBlur();
     }
 
     private void nIcon_LeftClick(Wpf.Ui.Tray.Controls.NotifyIcon sender, RoutedEventArgs e) // change the behavior of the tray icon
@@ -999,7 +1024,7 @@ public partial class MainWindow : MicaWindow
             })
         );
     }
-    internal void EnableBlur()
+    internal void ToggleBlur()
     {
         if (SettingsManager.Current.MediaFlyoutAcrylicWindowEnabled)
         {
