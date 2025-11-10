@@ -242,6 +242,18 @@ public partial class UserSettings : ObservableObject
     /// </summary>
     [ObservableProperty]
     public partial bool MediaFlyoutAcrylicWindowEnabled { get; set; }
+    
+    /// <summary>
+    /// Enable acrylic blur effect on the Next Up window
+    /// </summary>
+    [ObservableProperty]
+    public partial bool NextUpAcrylicWindowEnabled { get; set; }
+    
+    /// <summary>
+    /// Enable acrylic blur effect on the Lock Keys window
+    /// </summary>
+    [ObservableProperty]
+    public partial bool LockKeysAcrylicWindowEnabled { get; set; }
 
     /// <summary>
     /// User's preferred app language (e.g., "system" for system default)
@@ -294,6 +306,8 @@ public partial class UserSettings : ObservableObject
         MediaFlyoutBackgroundBlur = 0;
         MediaFlyoutAcrylicWindowEnabled = true;
         AppLanguage = "system";
+        NextUpAcrylicWindowEnabled = true;
+        LockKeysAcrylicWindowEnabled = true;
         _initializing = false;
     }
 

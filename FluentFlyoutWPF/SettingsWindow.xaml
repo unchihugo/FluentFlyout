@@ -204,7 +204,7 @@
                                     <TextBlock Text="{DynamicResource AcrylicWindowDescription}" FontSize="12" Opacity="0.5"/>
                                 </StackPanel>
                             </ui:CardControl.Header>
-                            <controls:ToggleSwitch Name="NextUpAcrylicWindowSwitch" Click="NextUpAcrylicWindowSwitch_Click"/>
+                            <controls:ToggleSwitch Name="NextUpAcrylicWindowSwitch"  IsChecked="{Binding NextUpAcrylicWindowEnabled, Mode=TwoWay}"/>
                         </ui:CardControl>
                         <ui:CardControl Grid.Row="3" Icon="{ui:SymbolIcon Timer24}" Margin="0,0,0,3">
                             <ui:CardControl.Header>
@@ -250,7 +250,7 @@
                                     <TextBlock Text="{DynamicResource AcrylicWindowDescription}" FontSize="12" Opacity="0.5"/>
                                 </StackPanel>
                             </ui:CardControl.Header>
-                            <controls:ToggleSwitch Name="LockKeysAcrylicWindowSwitch" Click="LockKeysAcrylicWindowSwitch_Click"/>
+                            <controls:ToggleSwitch Name="LockKeysAcrylicWindowSwitch" IsChecked="{Binding LockKeysAcrylicWindowEnabled, Mode=TwoWay}"/>
                         </ui:CardControl>
                         <ui:CardControl Grid.Row="3" Icon="{ui:SymbolIcon Timer24}" Margin="0,0,0,3">
                             <ui:CardControl.Header>
