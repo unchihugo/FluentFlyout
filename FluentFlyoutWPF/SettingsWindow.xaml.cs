@@ -35,7 +35,7 @@ public partial class SettingsWindow : MicaWindow
         instance = this;
 
         Closed += (s, e) => instance = null;
-
+        DataContext = SettingsManager.Current;
         try // gets the version of the app, works only in release mode
         {
             var version = Package.Current.Id.Version;
