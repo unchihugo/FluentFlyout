@@ -84,6 +84,10 @@ public partial class UserSettings : ObservableObject
                     _ => result
                 };
             }
+            else
+            {
+                Duration = 3000;
+            }
 
             OnPropertyChanged();
         }
@@ -116,6 +120,10 @@ public partial class UserSettings : ObservableObject
                     < 0 => 0,
                     _ => result
                 };
+            }
+            else
+            {
+                NextUpDuration = 2000;
             }
 
             OnPropertyChanged();
@@ -169,6 +177,10 @@ public partial class UserSettings : ObservableObject
                     < 0 => 0,
                     _ => result
                 };
+            }
+            else
+            {
+                LockKeysDuration = 2000;
             }
 
             OnPropertyChanged();
