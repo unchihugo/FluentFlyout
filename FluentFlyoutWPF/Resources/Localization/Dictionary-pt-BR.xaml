@@ -29,4 +29,17 @@
     <system:String x:Key="PositionTopLeft" xml:space="preserve"> Superior esquerdo</system:String>
     <system:String x:Key="PositionTopCenter" xml:space="preserve"> Superior Central</system:String>
     <system:String x:Key="PositionTopRight" xml:space="preserve"> Superior Direito</system:String>
+    <system:String x:Key="MediaFlyoutDescription">Quando estiver a reproduzir mídia, pressione qualquer tecla de controle de mídia ou volume (como reproduzir/pausar, aumentar ou diminuir o volume) no teclado para exibir o flyout. O flyout mostra informações sobre a mídia em reprodução, além de oferecer controles de playback e outras opções.</system:String>
+    <system:String x:Key="TextBlockText2">Escolha entre um conjunto pré-definido de estilos modernos de desfoque de fundo</system:String>
+    <system:String x:Key="BackgroundBlurOption2" xml:space="preserve"> Estilo 1 (Brilho de Capa)</system:String>
+    <system:String x:Key="BackgroundBlurOption3" xml:space="preserve"> Estilo 2 (Brilho Ascendente)</system:String>
+    <system:String x:Key="BackgroundBlurOption4" xml:space="preserve"> Estilo 3 (Desfoque)</system:String>
+    <system:String x:Key="AcrylicWindowTitle">Janela Acrílica</system:String>
+    <system:String x:Key="AcrylicWindowDescription">Aplicar efeito acrílico transparente de desfoque no flyout (desativado reverte para Mica)</system:String>
+    <system:String x:Key="CompactLayoutDescription" xml:space="preserve">Layout mais fino e menos intrusivo
+esconde os botões de repetir, aleatório e as informações do player</system:String>
+    <system:String x:Key="RepeatButtonDescription">Escolha entre repetir todos ou repetir um, aumenta a largura do flyout</system:String>
+    <system:String x:Key="ShowSeekbarDescription">Uma barra de progresso interativa será exibida automaticamente se o player tiver suporte.</system:String>
+    <system:String x:Key="UnsupportedControlsWarning">Alguns navegadores/reprodutores não oferecem suporte aos controles de repetir, aleatório e barra de progresso.</system:String>
+    <system:String x:Key="PauseOtherMediaDescription">Quando você reproduzir ou alternar o foco para uma nova mídia, outras sessões ativas serão pausadas automaticamente</system:String>
 </ResourceDictionary>
