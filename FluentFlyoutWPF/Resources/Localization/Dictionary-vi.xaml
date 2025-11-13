@@ -5,8 +5,8 @@
     <system:String x:Key="TextBlockText1">Bật flyout media</system:String>
     <system:String x:Key="TextBlockText3">Hiện flyout khi bạn nhấn phím media</system:String>
     <system:String x:Key="CompactLayoutTitle">Giao diện nhỏ gọn</system:String>
-    <system:String x:Key="CompactLayoutDescription" xml:space="preserve">Giao diện nhỏ gọn hơn,
-không hiển thị tên chương trình đang phát, các nút 'lặp lại' và 'trộn bài'</system:String>
+    <system:String x:Key="CompactLayoutDescription" xml:space="preserve">Giao diện nhỏ gọn  và giảm bố cục phức tạp,
+ẩn tên chương trình đang phát, các nút 'lặp lại' và 'trộn bài'</system:String>
     <system:String x:Key="FlyoutPositionTitle">Vị trí flyout</system:String>
     <system:String x:Key="PositionBottomLeft" xml:space="preserve"> Góc trái phía dưới</system:String>
     <system:String x:Key="PositionBottomCenter" xml:space="preserve"> Căn giữa phía dưới</system:String>
