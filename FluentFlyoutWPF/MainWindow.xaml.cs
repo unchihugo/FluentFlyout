@@ -123,7 +123,8 @@ public partial class MainWindow : MicaWindow
         {
             LocalizationManager.ApplyLocalization();
             // show settings to new users
-            if (SettingsManager.Current.LastKnownVersion == "")
+            string previousVersion = SettingsManager.Current.LastKnownVersion;
+            if (previousVersion == "")
                 SettingsWindow.ShowInstance();
 
             try // update last known version. gets the version of the app, works only in release mode
@@ -133,8 +134,10 @@ public partial class MainWindow : MicaWindow
             }
             catch
             {
-                SettingsManager.Current.LastKnownVersion = "debug version";
+                SettingsManager.Current.LastKnownVersion = "debug";
             }
+
+            Notifications.ShowFirstOrUpdateNotification(previousVersion, SettingsManager.Current.LastKnownVersion);
         });
     }
 
