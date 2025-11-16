@@ -87,4 +87,16 @@ o deja una opinión en la Microsoft Store!</system:String>
     <system:String x:Key="AppLanguageDescription" xml:space="preserve">Si tu idioma no esta listado o está incompleto, por defecto usará inglés
 Puedes ayudar a contribuir con las traducciones en</system:String>
     <system:String x:Key="AppLanguageDescriptionLink">Weblate</system:String>
+    <system:String x:Key="LockWindow_CapsLock">Bloq Mayús</system:String>
+    <system:String x:Key="LockWindow_NumLock">Bloq Num</system:String>
+    <system:String x:Key="LockWindow_ScrollLock">Bloq Despl</system:String>
+    <system:String x:Key="LockWindow_InsertPressed">Pulsado Insert</system:String>
+    <system:String x:Key="LockWindow_LockOn">encendido</system:String>
+    <system:String x:Key="LockWindow_LockOff">apagado</system:String>
+    <system:String x:Key="NextUpWindow_UpNextText">Siguiente:</system:String>
+    <system:String x:Key="TrayIcon_SettingsOption">Ajustes</system:String>
+    <system:String x:Key="TrayIcon_GitHubRepositoryOption">Repositorio</system:String>
+    <system:String x:Key="TrayIcon_ReportBugOption">Reportar bug</system:String>
+    <system:String x:Key="TrayIcon_QuitOption">Salir de FluentFlyout</system:String>
+    <system:String x:Key="AnimationEasingStyleTitle">Estilo de Suavizado de Animaciones</system:String>
 </ResourceDictionary>

@@ -31,7 +31,7 @@
     <system:String x:Key="PositionBottomLeft" xml:space="preserve"> 左下角</system:String>
     <system:String x:Key="ShowMediaPlayerNameTitle">显示播放器名称</system:String>
     <system:String x:Key="RepeatButtonDescription">可以切换单曲循环和列表循环的按钮，会增加浮窗宽度</system:String>
-    <system:String x:Key="ShuffleButtonTitle">随机播放按钮</system:String>
+    <system:String x:Key="ShuffleButtonTitle">随机播放按钮*</system:String>
     <system:String x:Key="ShuffleButtonDescription">会增加浮窗的宽度</system:String>
     <system:String x:Key="ShowSeekbarTitle">显示进度条</system:String>
     <system:String x:Key="ShowSeekbarDescription">如果播放器支持，将会自动显示可交互的进度条</system:String>
