@@ -10,7 +10,7 @@
   <Identity
     Name="unchihugo.FluentFlyout"
     Publisher="CN=49793F74-1457-4B66-A672-4ED3A640FC76"
-    Version="2.0.0.0" />
+    Version="2.1.0.0" />
 
   <Properties>
     <DisplayName>FluentFlyout</DisplayName>
@@ -24,7 +24,17 @@
   </Dependencies>
 
   <Resources>
-    <Resource Language="x-generate"/>
+      <Resource Language="en-US"/>
+	  <Resource Language="el"/>
+	  <Resource Language="es"/>
+	  <Resource Language="he"/>
+	  <Resource Language="ko"/>
+	  <Resource Language="nl"/>
+	  <Resource Language="pt-BR"/>
+	  <Resource Language="ru"/>
+	  <Resource Language="tr"/>
+	  <Resource Language="vi"/>
+	  <Resource Language="zh-CN"/>
   </Resources>
 
   <Applications>
