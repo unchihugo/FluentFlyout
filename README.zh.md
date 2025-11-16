@@ -20,6 +20,8 @@ FluentFlyout 能够在一个雅观的现代化的弹窗中显示媒体控制和�
 	<img src="https://get.microsoft.com/images/en-us%20dark.svg" width="200"/>
 </a>
 
+<img alt="FluentFlyoutHero-Cinemascope" src="https://github.com/user-attachments/assets/a7c7e2db-e21b-4435-9acc-0b2c5f38eb7d" />
+
 ## 功能 ✨
 - 原生 Windows 风格设计
 - 使用 Fluent 2 组件

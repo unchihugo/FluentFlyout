@@ -21,6 +21,8 @@ FluentFlyout biedt het mediabediening en informatie in een mooie en moderne pop-
 	<img src="https://get.microsoft.com/images/en-us%20dark.svg" width="200"/>
 </a>
 
+<img alt="FluentFlyoutHero-Cinemascope" src="https://github.com/user-attachments/assets/a7c7e2db-e21b-4435-9acc-0b2c5f38eb7d" />
+
 ## Functies ✨
 - Windows-achtig ontwerp
 - Gebruikt Fluent 2-componenten
