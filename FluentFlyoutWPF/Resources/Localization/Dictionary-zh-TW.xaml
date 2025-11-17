@@ -10,7 +10,7 @@
     <system:String x:Key="BackgroundBlurOption3" xml:space="preserve"> 風格 2 (Rising Glow)</system:String>
     <system:String x:Key="BackgroundBlurOption4" xml:space="preserve"> 風格 3 (Blur)</system:String>
     <system:String x:Key="BackgroundBlurTitle">背景模糊</system:String>
-    <system:String x:Key="AcrylicWindowTitle">亞克力視窗</system:String>
+    <system:String x:Key="AcrylicWindowTitle">壓克力視窗</system:String>
     <system:String x:Key="AcrylicWindowDescription">對彈出視窗套用透明壓克力模糊效果（關閉則恢復為雲母效果)</system:String>
     <system:String x:Key="CompactLayoutTitle">緊湊佈局</system:String>
     <system:String x:Key="CompactLayoutDescription" xml:space="preserve">更簡潔、更不顯眼的佈局
