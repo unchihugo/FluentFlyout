@@ -21,6 +21,8 @@ FluentFlyout features smooth animations, blends with your system's color themes,
 	<img src="https://get.microsoft.com/images/en-us%20dark.svg" width="200"/>
 </a>
 
+<img alt="FluentFlyoutHero-Cinemascope" src="https://github.com/user-attachments/assets/a7c7e2db-e21b-4435-9acc-0b2c5f38eb7d" />
+
 ## Features ✨
 - Native Windows-like design
 - Uses Fluent 2 components
