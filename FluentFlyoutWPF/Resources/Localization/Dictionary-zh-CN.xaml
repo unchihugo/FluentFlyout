@@ -1,20 +1,20 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib">
     <system:String x:Key="TitleText">FluentFlyout 设置</system:String>
     <system:String x:Key="MediaFlyoutTitle">媒体浮窗自定义设置</system:String>
-    <system:String x:Key="MediaFlyoutDescription">主要浮窗。在播放媒体、使用任意的键盘媒体控制按键或音量按键（播放/暂停、音量增大/减小等）时会出现。显示媒体信息、播放控制按钮和其他更多内容。</system:String>
+    <system:String x:Key="MediaFlyoutDescription">主要浮窗。在播放媒体、按下键盘上的任意媒体控制按键或音量按键（播放 / 暂停、音量增大 / 减小等）时会出现。会显示媒体信息、播放控制按钮和其它内容。</system:String>
     <system:String x:Key="TextBlockText1">开启媒体浮窗</system:String>
     <system:String x:Key="TextBlockText3">当按下媒体控制按键时显示浮窗</system:String>
     <system:String x:Key="TextBlockText2">选择一个预设的现代背景模糊样式</system:String>
     <system:String x:Key="BackgroundBlurOption1" xml:space="preserve"> 无</system:String>
-    <system:String x:Key="BackgroundBlurOption2" xml:space="preserve"> 样式1（发光的封面）</system:String>
-    <system:String x:Key="BackgroundBlurOption3" xml:space="preserve"> 样式2（旭日）</system:String>
-    <system:String x:Key="BackgroundBlurOption4" xml:space="preserve"> 样式3（封面模糊）</system:String>
+    <system:String x:Key="BackgroundBlurOption2" xml:space="preserve"> 样式 1（封面发光）</system:String>
+    <system:String x:Key="BackgroundBlurOption3" xml:space="preserve"> 样式 2（旭日）</system:String>
+    <system:String x:Key="BackgroundBlurOption4" xml:space="preserve"> 样式 3（封面模糊）</system:String>
     <system:String x:Key="BackgroundBlurTitle">背景模糊</system:String>
     <system:String x:Key="AcrylicWindowTitle">亚克力窗口</system:String>
-    <system:String x:Key="AcrylicWindowDescription">将透明的亚克力效果应用于浮窗（关闭后还原为云母效果）</system:String>
+    <system:String x:Key="AcrylicWindowDescription">在浮窗上使用透明的亚克力效果（关闭后还原为云母效果）</system:String>
     <system:String x:Key="CompactLayoutTitle">紧凑布局</system:String>
     <system:String x:Key="CompactLayoutDescription" xml:space="preserve">布局更简洁、干扰更少
-隐藏了重复、随机播放按钮和播放器信息</system:String>
+将会隐藏重复与随机播放按钮，以及播放器信息</system:String>
     <system:String x:Key="FlyoutPositionTitle">浮窗位置</system:String>
     <system:String x:Key="PositionBottomCenter" xml:space="preserve"> 底部居中</system:String>
     <system:String x:Key="PositionBottomRight" xml:space="preserve"> 右下角</system:String>
@@ -22,82 +22,82 @@
     <system:String x:Key="PositionTopCenter" xml:space="preserve"> 顶部居中</system:String>
     <system:String x:Key="PositionTopRight" xml:space="preserve"> 右上角</system:String>
     <system:String x:Key="FlyoutStayDurationTitle">浮窗停留时间</system:String>
-    <system:String x:Key="FlyoutStayDurationDescription">（默认：3000毫秒）</system:String>
+    <system:String x:Key="FlyoutStayDurationDescription">（默认：3000 毫秒）</system:String>
     <system:String x:Key="MillisecondsUnit">毫秒</system:String>
     <system:String x:Key="MediaFlyoutAlwaysDisplay">始终显示</system:String>
     <system:String x:Key="CenterTitleArtistTitle">居中显示标题和艺术家</system:String>
-    <system:String x:Key="CenterTitleArtistDescription">将文本居中对齐，而非左对齐</system:String>
-    <system:String x:Key="RepeatButtonTitle">重复按钮*</system:String>
+    <system:String x:Key="CenterTitleArtistDescription">居中对齐文本，而非靠左对齐</system:String>
+    <system:String x:Key="RepeatButtonTitle">循环按钮*</system:String>
     <system:String x:Key="PositionBottomLeft" xml:space="preserve"> 左下角</system:String>
     <system:String x:Key="ShowMediaPlayerNameTitle">显示播放器名称</system:String>
     <system:String x:Key="RepeatButtonDescription">可以切换单曲循环和列表循环的按钮，会增加浮窗宽度</system:String>
     <system:String x:Key="ShuffleButtonTitle">随机播放按钮*</system:String>
-    <system:String x:Key="ShuffleButtonDescription">会增加浮窗的宽度</system:String>
+    <system:String x:Key="ShuffleButtonDescription">会增加浮窗宽度</system:String>
     <system:String x:Key="ShowSeekbarTitle">显示进度条</system:String>
     <system:String x:Key="ShowSeekbarDescription">如果播放器支持，将会自动显示可交互的进度条</system:String>
-    <system:String x:Key="UnsupportedControlsWarning">*一些浏览器/播放器不支持重复、随机播放按钮和进度条控制。</system:String>
-    <system:String x:Key="PauseOtherMediaTitle">自动暂停其他媒体内容</system:String>
-    <system:String x:Key="PauseOtherMediaDescription">当你播放或者聚焦于新的媒体时，其他正在播放的内容会自动暂停</system:String>
-    <system:String x:Key="NextUpCustomizationTitle">“下一项”浮窗自定义设置</system:String>
-    <system:String x:Key="NextUpDescription" xml:space="preserve">一个会显示当前播放的歌曲/视频结束后下一个项目的浮窗。只有在下一个项目自动播放时才会出现，如果手动按下 “下一个”/“上一个”按钮，则主要浮窗会显示变更后的内容。</system:String>
-    <system:String x:Key="EnableNextUpTitle">启用“下一项”浮窗（实验性）</system:String>
-    <system:String x:Key="EnableNextUpDescription">显示当前歌曲/视频结束后的下一项内容</system:String>
-    <system:String x:Key="NextUpStayDurationTitle">“下一项”浮窗停留时间</system:String>
-    <system:String x:Key="NextUpStayDurationDescription">（默认：2000毫秒）</system:String>
+    <system:String x:Key="UnsupportedControlsWarning">* 一些浏览器 / 播放器不支持重复、随机播放按钮和进度条控制。</system:String>
+    <system:String x:Key="PauseOtherMediaTitle">自动暂停其它媒体内容</system:String>
+    <system:String x:Key="PauseOtherMediaDescription">当你播放或者聚焦于新的媒体时，其他正在播放的内容会被自动暂停</system:String>
+    <system:String x:Key="NextUpCustomizationTitle">“接下来” 浮窗自定义设置</system:String>
+    <system:String x:Key="NextUpDescription" xml:space="preserve">一个会显示当前播放的歌曲 / 视频结束后下一个项目的浮窗。只有在下一个项目自动播放时才会出现，如果手动按下 “下一个” / “上一个” 按钮，则会显示主要浮窗。</system:String>
+    <system:String x:Key="EnableNextUpTitle">启用 “接下来” 浮窗（实验性）</system:String>
+    <system:String x:Key="EnableNextUpDescription">显示当前歌曲 / 视频结束后的下一项内容</system:String>
+    <system:String x:Key="NextUpStayDurationTitle">“接下来” 浮窗停留时间</system:String>
+    <system:String x:Key="NextUpStayDurationDescription">（默认：2000 毫秒）</system:String>
     <system:String x:Key="LockKeysCustomizationTitle">键盘锁定键浮窗自定义设置</system:String>
-    <system:String x:Key="LockKeysDescription" xml:space="preserve">快速查看键盘锁定键状态，按下大写锁定键、数字锁定键或滚动锁定键后显示。便于没有锁定键指示灯的笔记本电脑/键盘使用。</system:String>
+    <system:String x:Key="LockKeysDescription" xml:space="preserve">快速查看键盘锁定键状态。按下大写锁定键、数字锁定键或滚动锁定键后显示。对于没有锁定键指示灯的笔记本电脑 / 键盘来说很实用。</system:String>
     <system:String x:Key="EnableLockKeysTitle">启用键盘锁定键浮窗</system:String>
     <system:String x:Key="EnableLockKeysDescription">显示特定的锁定键是否被启用</system:String>
     <system:String x:Key="LockKeysStayDurationTitle">键盘锁定键浮窗停留时间</system:String>
-    <system:String x:Key="LockKeysStayDurationDescription">（默认：2000毫秒）</system:String>
-    <system:String x:Key="LockKeysBoldUITitle">粗体符号和字体</system:String>
+    <system:String x:Key="LockKeysStayDurationDescription">（默认：2000 毫秒）</system:String>
+    <system:String x:Key="LockKeysBoldUITitle">使用粗体符号和字体</system:String>
     <system:String x:Key="LockKeysBoldUIDescription">加粗显示浮窗内的符号和文字</system:String>
-    <system:String x:Key="EnableInsertKeyTitle">启用Insert键提示</system:String>
-    <system:String x:Key="EnableInsertKeyDescription">决定按下Insert/Overwrite按键时是否会显示浮窗</system:String>
+    <system:String x:Key="EnableInsertKeyTitle">启用 Insert 键提示</system:String>
+    <system:String x:Key="EnableInsertKeyDescription">决定按下 Insert / Overwrite 按键时是否会显示浮窗</system:String>
     <system:String x:Key="SystemSettingsTitle">系统设置</system:String>
-    <system:String x:Key="LaunchOnStartupTitle">开机自启动</system:String>
-    <system:String x:Key="LaunchOnStartupDescription">当你登录到Windows时启动本应用并最小化到托盘</system:String>
+    <system:String x:Key="LaunchOnStartupTitle">开机自动启动</system:String>
+    <system:String x:Key="LaunchOnStartupDescription">当你登录到 Windows 时启动本应用并最小化到托盘</system:String>
     <system:String x:Key="StartupAppsHyperlinkText">自启动应用</system:String>
-    <system:String x:Key="StartupAppsSettingsInfo">如果此项设置未按预期生效，请检查</system:String>
+    <system:String x:Key="StartupAppsSettingsInfo">如果此设置未按预期生效，请检查</system:String>
     <system:String x:Key="AppThemeTitle">应用主题</system:String>
-    <system:String x:Key="AppThemeDefault"> 跟随Windows设置</system:String>
+    <system:String x:Key="AppThemeDefault"> 跟随 Windows 设置</system:String>
     <system:String x:Key="AppThemeLight"> 浅色</system:String>
     <system:String x:Key="AppThemeDark"> 深色</system:String>
     <system:String x:Key="TrayIconLeftClickBehaviorTitle">左键单击托盘图标时的行为</system:String>
     <system:String x:Key="TrayIconLeftClickBehaviorDescription">选择左键单击本应用托盘图标时的行为</system:String>
     <system:String x:Key="TrayIconLeftClickOption1"> 打开设置</system:String>
     <system:String x:Key="TrayIconLeftClickOption2"> 显示媒体浮窗</system:String>
-    <system:String x:Key="Win11TrayIconTitle">Windows11样式的托盘图标</system:String>
-    <system:String x:Key="Win11TrayIconDescription">使用符合Windows11视觉样式的托盘图标（切换将刷新主题）</system:String>
+    <system:String x:Key="Win11TrayIconTitle">使用 Windows 11 样式的托盘图标</system:String>
+    <system:String x:Key="Win11TrayIconDescription">使用符合 Windows 11 视觉样式的托盘图标（切换来刷新主题）</system:String>
     <system:String x:Key="AnimationSettingsTitle">过渡动画设置</system:String>
     <system:String x:Key="AnimationSettingsDescription">根据你的喜好调整过渡动画效果</system:String>
-    <system:String x:Key="EnjoyingAppText" xml:space="preserve">喜欢这个应用吗？请在GitHub上点赞，
-或者在微软应用商店里留下评论!</system:String>
+    <system:String x:Key="EnjoyingAppText" xml:space="preserve">喜欢这个应用吗？请在 GitHub 上点个 Star，
+或者在 Microsoft Store 里留下评价！</system:String>
     <system:String x:Key="AnimationEasingStyleTitle">动画缓动曲线类别</system:String>
-    <system:String x:Key="AnimationDurationScaleTitle">过渡动画时长缩放</system:String>
+    <system:String x:Key="AnimationDurationScaleTitle">动画速度</system:String>
     <system:String x:Key="AnimationDurationScaleDescription">加快或减慢浮窗过渡动画的速度（默认：1x）</system:String>
     <system:String x:Key="EasingSine" xml:space="preserve"> 正弦</system:String>
-    <system:String x:Key="EasingCubic" xml:space="preserve"> 三次方</system:String>
-    <system:String x:Key="AnimationSpeedOff">关闭过渡动画</system:String>
-    <system:String x:Key="DisableOnFullscreenTitle">检测到DirectX全屏程序时禁用浮窗</system:String>
-    <system:String x:Key="NativeExperienceInfo">若需原生Windows11体验，请维持默认设置。</system:String>
+    <system:String x:Key="EasingCubic" xml:space="preserve"> 三次曲线</system:String>
+    <system:String x:Key="AnimationSpeedOff">关闭动画</system:String>
+    <system:String x:Key="DisableOnFullscreenTitle">检测到 DirectX 全屏程序时禁用浮窗</system:String>
+    <system:String x:Key="NativeExperienceInfo">要体验原生 Windows 11 效果，请维持默认设置。</system:String>
     <system:String x:Key="EasingLinear" xml:space="preserve"> 线性</system:String>
-    <system:String x:Key="EasingQuadratic" xml:space="preserve"> 二次方</system:String>
-    <system:String x:Key="AnimationEasingStyleDescription">（默认：二次方）</system:String>
-    <system:String x:Key="DisableOnFullscreenDescription">防止浮窗弹出时将全屏的DirectX游戏最小化</system:String>
+    <system:String x:Key="EasingQuadratic" xml:space="preserve"> 二次曲线</system:String>
+    <system:String x:Key="AnimationEasingStyleDescription">（默认：二次曲线）</system:String>
+    <system:String x:Key="DisableOnFullscreenDescription">防止浮窗弹出导致全屏的 DirectX 游戏最小化</system:String>
     <system:String x:Key="GitHubRepoLink">GitHub 仓库</system:String>
     <system:String x:Key="CloseButton">关闭此窗口</system:String>
     <system:String x:Key="AppLanguageTitle">应用语言</system:String>
-    <system:String x:Key="AppLanguageDescription" xml:space="preserve">如果您的语言未列出或不完整，则默认显示为英语。
-您可以在此帮助提供翻译</system:String>
+    <system:String x:Key="AppLanguageDescription" xml:space="preserve">如果你使用的语言未在此处列出或翻译不完整，则默认显示为英语。
+你可以在此处帮助翻译：</system:String>
     <system:String x:Key="AppLanguageDescriptionLink">Weblate</system:String>
-    <system:String x:Key="LockWindow_ScrollLock">滚动锁定键</system:String>
+    <system:String x:Key="LockWindow_ScrollLock">滚动锁定</system:String>
     <system:String x:Key="LockWindow_InsertPressed">Insert 键已按下</system:String>
     <system:String x:Key="LockWindow_LockOn">开启</system:String>
     <system:String x:Key="LockWindow_LockOff">关闭</system:String>
-    <system:String x:Key="NextUpWindow_UpNextText">下一项：</system:String>
-    <system:String x:Key="LockWindow_CapsLock">大写锁定键</system:String>
-    <system:String x:Key="LockWindow_NumLock">数字锁定键</system:String>
+    <system:String x:Key="NextUpWindow_UpNextText">接下来：</system:String>
+    <system:String x:Key="LockWindow_CapsLock">大写锁定</system:String>
+    <system:String x:Key="LockWindow_NumLock">数字锁定</system:String>
     <system:String x:Key="TrayIcon_SettingsOption">设置</system:String>
     <system:String x:Key="TrayIcon_GitHubRepositoryOption">存储库</system:String>
     <system:String x:Key="TrayIcon_ReportBugOption">报告错误</system:String>

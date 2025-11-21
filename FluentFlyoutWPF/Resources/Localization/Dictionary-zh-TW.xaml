@@ -10,7 +10,7 @@
     <system:String x:Key="BackgroundBlurOption3" xml:space="preserve"> 風格 2 (Rising Glow)</system:String>
     <system:String x:Key="BackgroundBlurOption4" xml:space="preserve"> 風格 3 (Blur)</system:String>
     <system:String x:Key="BackgroundBlurTitle">背景模糊</system:String>
-    <system:String x:Key="AcrylicWindowTitle">亞克力視窗</system:String>
+    <system:String x:Key="AcrylicWindowTitle">壓克力視窗</system:String>
     <system:String x:Key="AcrylicWindowDescription">對彈出視窗套用透明壓克力模糊效果（關閉則恢復為雲母效果)</system:String>
     <system:String x:Key="CompactLayoutTitle">緊湊佈局</system:String>
     <system:String x:Key="CompactLayoutDescription" xml:space="preserve">更簡潔、更不顯眼的佈局
@@ -29,12 +29,12 @@
     <system:String x:Key="CenterTitleArtistTitle">置中顯示標題及作者</system:String>
     <system:String x:Key="CenterTitleArtistDescription">將文字置中對齊，而不是左對齊</system:String>
     <system:String x:Key="ShowMediaPlayerNameTitle">顯示媒體播放器名稱</system:String>
-    <system:String x:Key="RepeatButtonTitle">重複播放按鈕</system:String>
+    <system:String x:Key="RepeatButtonTitle">重複播放按鈕*</system:String>
     <system:String x:Key="RepeatButtonDescription">選擇全部重複或單一重複，增加彈出視窗寬度</system:String>
-    <system:String x:Key="ShuffleButtonTitle">隨機播放按鈕</system:String>
+    <system:String x:Key="ShuffleButtonTitle">隨機播放按鈕*</system:String>
     <system:String x:Key="ShuffleButtonDescription">增加彈出視窗寬度</system:String>
     <system:String x:Key="ShowSeekbarTitle">顯示進度條</system:String>
-    <system:String x:Key="ShowSeekbarDescription">如果播放器支持，則會自動顯示可互動的進度條</system:String>
+    <system:String x:Key="ShowSeekbarDescription">如果播放器支持則會自動顯示可互動的進度條</system:String>
     <system:String x:Key="UnsupportedControlsWarning">*某些瀏覽器/播放器不支援重複、隨機播放和進度條控制。</system:String>
     <system:String x:Key="PauseOtherMediaTitle">自動暫停其他媒體</system:String>
     <system:String x:Key="PauseOtherMediaDescription">當你播放或專注於新的媒體時，其他作效的媒體會自動暫停</system:String>
@@ -43,13 +43,13 @@
     <system:String x:Key="EnableNextUpTitle">啟用下一首彈出視窗（實驗性功能）</system:String>
     <system:String x:Key="EnableNextUpDescription">當歌曲/影片結束時顯示下一首</system:String>
     <system:String x:Key="NextUpStayDurationTitle">下一首停留時間</system:String>
-    <system:String x:Key="NextUpStayDurationDescription">（預設值: 2000 ms）</system:String>
+    <system:String x:Key="NextUpStayDurationDescription">(預設 : 2000 毫秒）</system:String>
     <system:String x:Key="LockKeysCustomizationTitle">鎖定鍵自訂</system:String>
     <system:String x:Key="LockKeysDescription" xml:space="preserve">立即查看鎖定鍵狀態。按下 Caps Lock、Num Lock 或 Scroll Lock 後出現。適合沒有鎖定鍵指示燈的筆電/鍵盤。</system:String>
     <system:String x:Key="EnableLockKeysTitle">啟用鎖定鍵彈出視窗</system:String>
     <system:String x:Key="EnableLockKeysDescription">顯示指定的鎖定鍵是開啟還是關閉</system:String>
     <system:String x:Key="LockKeysStayDurationTitle">鎖定鍵停留時間</system:String>
-    <system:String x:Key="LockKeysStayDurationDescription">（預設值: 2000 ms）</system:String>
+    <system:String x:Key="LockKeysStayDurationDescription">(預設 : 2000 毫秒）</system:String>
     <system:String x:Key="LockKeysBoldUITitle">粗體符號和字型</system:String>
     <system:String x:Key="LockKeysBoldUIDescription">強調彈出視窗的符號和字型</system:String>
     <system:String x:Key="EnableInsertKeyDescription">決定按下插入/改寫鍵時是否顯示彈出視窗</system:String>
@@ -58,25 +58,26 @@
     <system:String x:Key="LaunchOnStartupDescription">登入 Windows 時最小化到系統匣</system:String>
     <system:String x:Key="StartupAppsSettingsInfo">如果此設定無法正常運作，請檢查</system:String>
     <system:String x:Key="AppThemeTitle">應用程式佈景主題</system:String>
-    <system:String x:Key="AppThemeDefault"> · Windows 預設</system:String>
-    <system:String x:Key="AppThemeLight"> · 淺色</system:String>
-    <system:String x:Key="AppThemeDark"> · 深色</system:String>
+    <system:String x:Key="AppThemeDefault"> Windows 預設</system:String>
+    <system:String x:Key="AppThemeLight"> 淺色</system:String>
+    <system:String x:Key="AppThemeDark"> 深色</system:String>
     <system:String x:Key="TrayIconLeftClickOption2"> 顯示媒體彈出視窗</system:String>
     <system:String x:Key="Win11TrayIconTitle">Windows 11 風格系統匣圖示</system:String>
     <system:String x:Key="Win11TrayIconDescription">使用與 Windows 11 相符的系統匣圖示（切換以重新整理佈景主題）</system:String>
     <system:String x:Key="AnimationSettingsTitle">動畫設定</system:String>
     <system:String x:Key="AnimationSettingsDescription">根據你的偏好調整動畫</system:String>
     <system:String x:Key="AnimationDurationScaleTitle">動畫速度調整</system:String>
-    <system:String x:Key="AnimationDurationScaleDescription">彈出視窗動畫速度更快或更慢（預設值：1 倍）</system:String>
-    <system:String x:Key="AnimationSpeedOff">· 關閉</system:String>
-    <system:String x:Key="AnimationEasingStyleDescription">（預設值：二次曲線）</system:String>
+    <system:String x:Key="AnimationDurationScaleDescription">彈出視窗動畫速度更快或更慢 (預設：1 倍）</system:String>
+    <system:String x:Key="AnimationSpeedOff">關閉</system:String>
+    <system:String x:Key="AnimationEasingStyleDescription">(預設：二次曲線）</system:String>
     <system:String x:Key="EasingLinear" xml:space="preserve"> 線性</system:String>
     <system:String x:Key="EasingSine" xml:space="preserve"> 正弦曲線</system:String>
     <system:String x:Key="EasingQuadratic" xml:space="preserve"> 二次曲線</system:String>
     <system:String x:Key="NativeExperienceInfo">為了享受原生 Windows 11 體驗，設定應保持預設值。</system:String>
     <system:String x:Key="DisableOnFullscreenTitle">若偵測到 DirectX 全螢幕程式，停用彈出視窗</system:String>
     <system:String x:Key="DisableOnFullscreenDescription">防止彈出視窗顯示時，DirectX 獨佔全螢幕遊戲被最小化</system:String>
-    <system:String x:Key="EnjoyingAppText" xml:space="preserve">喜歡這款應用程式嗎？在 GitHub 上加星，或在 Microsoft Store 留下評論！</system:String>
+    <system:String x:Key="EnjoyingAppText" xml:space="preserve">喜歡這款應用程式嗎？在 GitHub 上加星，
+或在 Microsoft Store 留下評論！</system:String>
     <system:String x:Key="GitHubRepoLink">GitHub 儲存庫</system:String>
     <system:String x:Key="CloseButton">關閉</system:String>
     <system:String x:Key="AppLanguageTitle">應用程式語言</system:String>
@@ -97,4 +98,8 @@
     <system:String x:Key="EasingCubic" xml:space="preserve"> 立方體</system:String>
     <system:String x:Key="EnableInsertKeyTitle">啟用插入鍵彈出視窗</system:String>
     <system:String x:Key="StartupAppsHyperlinkText">啟動應用程式</system:String>
+    <system:String x:Key="TrayIconLeftClickBehaviorTitle">托盤圖示左鍵單擊行為</system:String>
+    <system:String x:Key="TrayIconLeftClickBehaviorDescription">選擇單擊托盤圖示時發生的情況</system:String>
+    <system:String x:Key="TrayIconLeftClickOption1"> 開啟設定</system:String>
+    <system:String x:Key="AnimationEasingStyleTitle">動畫緩動風格</system:String>
 </ResourceDictionary>
