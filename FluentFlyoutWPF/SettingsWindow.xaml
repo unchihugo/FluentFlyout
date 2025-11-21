@@ -12,7 +12,7 @@
     TextOptions.TextRenderingMode="ClearType" TextOptions.TextFormattingMode="Ideal"
     FontFamily="Segoe UI Variable, Microsoft YaHei, Microsoft JhengHei, MS Gothic"
     Closing="SettingsWindow_Closing"
-    xmlns:System="clr-namespace:System;assembly=System.Runtime" FlowDirection="LeftToRight"
+    xmlns:System="clr-namespace:System;assembly=System.Runtime"
     >
     <Grid>
         <ui:PassiveScrollViewer HorizontalScrollBarVisibility="Auto">

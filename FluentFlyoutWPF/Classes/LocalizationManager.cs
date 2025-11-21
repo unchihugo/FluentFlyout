@@ -29,6 +29,7 @@ public static class LocalizationManager
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;
+
         protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
@@ -141,13 +142,16 @@ public static class LocalizationManager
 
         Debug.WriteLine("Applied flow direction: " + Instance.FlowDirection);
 
+        // return if there are no windows
+        if (!(Application.Current != null && Application.Current.Windows != null && Application.Current.Windows.Count > 0)) return;
+
         // Update all existing windows
-        System.Windows.Application.Current.Dispatcher.Invoke(() =>
+        Application.Current.Dispatcher.Invoke(() =>
+    {
+        foreach (Window window in Application.Current.Windows)
         {
-            foreach (Window window in System.Windows.Application.Current.Windows)
-            {
-                window.FlowDirection = Instance.FlowDirection;
-            }
-        });
+            window.FlowDirection = Instance.FlowDirection;
+        }
+    });
     }
 }
