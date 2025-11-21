@@ -1,20 +1,55 @@
 ﻿using FluentFlyout.Classes.Settings;
 using FluentFlyoutWPF;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
+using System.Runtime.CompilerServices;
 using System.Windows;
 
 namespace FluentFlyout.Classes;
 
 public static class LocalizationManager
 {
+    // class to hold flow direction state
+    public class LocalizationState : INotifyPropertyChanged
+    {
+        private FlowDirection _flowDirection = FlowDirection.LeftToRight;
+
+        public FlowDirection FlowDirection
+        {
+            get => _flowDirection;
+            set
+            {
+                if (_flowDirection != value)
+                {
+                    _flowDirection = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+        protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+    }
+
+    public static LocalizationState Instance { get; } = new();
+
     // dictionary of supported languages where key is the local language name and value is the language/culture code
+    // check https://simplelocalize.io/data/locales/ for additional language info
     private static readonly Dictionary<string, string> _supportedLanguages = new()
     {
         { "System", "system" },
         { "English", "en-US" },
-        { "简体中文", "zh-CN" },
+        { "العربية", "ar" },
+        { "中文（简体）", "zh-CN" },
+        { "中文（繁體）", "zh-TW" },
+        { "čeština", "cs" },
         { "Nederlands", "nl" },
+        { "français", "fr" },
+        { "Deutsch", "de" },
         { "עברית", "he" },
         { "한국어", "ko" },
         { "Português (Brasil)", "pt-BR" },
@@ -23,6 +58,9 @@ public static class LocalizationManager
         { "Türkçe", "tr" },
         { "Tiếng Việt", "vi" },
     };
+
+    // right-to-left languages
+    private static readonly HashSet<string> _rtlLanguages = ["ar", "he"];
 
     // readonly property to access supported languages
     public static Dictionary<string, string> SupportedLanguages => _supportedLanguages;
@@ -42,7 +80,7 @@ public static class LocalizationManager
         // extract only the language code (first two letters) from the culture
         string languageCode = culture[..Math.Min(2, culture.Length)];
 
-        // get current localization 
+        // get current localization
         var dictionaries = App.Current.Resources.MergedDictionaries;
 
         // remove all localization dictionaries except the default one (en-US)
@@ -57,6 +95,9 @@ public static class LocalizationManager
         }
 
         Debug.WriteLine("Applying localization for language: " + culture);
+
+        // change flow direction of all windows
+        ApplyFlowDirection(languageCode);
 
         // if English, the default (en-US) is already loaded, so no need to add another dictionary
         if (languageCode == "en") return;
@@ -75,19 +116,38 @@ public static class LocalizationManager
         {
             // localization file not found, try simplified language code instead
 
-            try {
+            try
+            {
                 localizationDictPath = $"Resources/Localization/Dictionary-{languageCode}.xaml";
                 uri = new Uri(localizationDictPath, UriKind.Relative);
 
                 var resourceDict = new ResourceDictionary() { Source = uri };
                 dictionaries.Add(resourceDict);
-            } 
-            catch 
+            }
+            catch
             {
                 // do nothing and keep the default (en-US)
                 Debug.WriteLine("Localization file not found for language: " + culture);
                 return;
             }
         }
+    }
+
+    private static void ApplyFlowDirection(string languageCode)
+    {
+        Instance.FlowDirection = _rtlLanguages.Contains(languageCode)
+            ? FlowDirection.RightToLeft
+            : FlowDirection.LeftToRight;
+
+        Debug.WriteLine("Applied flow direction: " + Instance.FlowDirection);
+
+        // Update all existing windows
+        System.Windows.Application.Current.Dispatcher.Invoke(() =>
+        {
+            foreach (Window window in System.Windows.Application.Current.Windows)
+            {
+                window.FlowDirection = Instance.FlowDirection;
+            }
+        });
     }
 }
