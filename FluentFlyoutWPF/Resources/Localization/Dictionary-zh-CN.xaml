@@ -82,7 +82,7 @@
     <system:String x:Key="DisableOnFullscreenTitle">检测到 DirectX 全屏程序时禁用浮窗</system:String>
     <system:String x:Key="NativeExperienceInfo">要体验原生 Windows 11 效果，请维持默认设置。</system:String>
     <system:String x:Key="EasingLinear" xml:space="preserve"> 线性</system:String>
-    <system:String x:Key="EasingQuadratic" xml:space="preserve"> 二次方</system:String>
+    <system:String x:Key="EasingQuadratic" xml:space="preserve"> 二次曲线</system:String>
     <system:String x:Key="AnimationEasingStyleDescription">（默认：二次曲线）</system:String>
     <system:String x:Key="DisableOnFullscreenDescription">防止浮窗弹出导致全屏的 DirectX 游戏最小化</system:String>
     <system:String x:Key="GitHubRepoLink">GitHub 仓库</system:String>
