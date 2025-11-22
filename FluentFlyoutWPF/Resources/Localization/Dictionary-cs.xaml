@@ -99,4 +99,7 @@ Můžete pomoct s překlady na</system:String>
     <system:String x:Key="TrayIcon_GitHubRepositoryOption">Repositář</system:String>
     <system:String x:Key="TrayIcon_ReportBugOption">Nahlásit chybu</system:String>
     <system:String x:Key="TrayIcon_QuitOption">Zavřít FluentFlyout</system:String>
+    <system:String x:Key="AppLanguageDescriptionLink">Weblate</system:String>
+    <system:String x:Key="LockWindow_NumLock">Num Lock</system:String>
+    <system:String x:Key="LockWindow_ScrollLock">Scroll Lock</system:String>
 </ResourceDictionary>
