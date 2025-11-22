@@ -29,4 +29,6 @@ skryje opakování,náhodné přehrávání a informace přehrávače</system:St
     <system:String x:Key="CenterTitleArtistTitle">Vycentrovat název písničky a autora</system:String>
     <system:String x:Key="CenterTitleArtistDescription">Vycentruje text doprostřed místo doleva</system:String>
     <system:String x:Key="ShowMediaPlayerNameTitle">Ukazovat název přehrávače</system:String>
+    <system:String x:Key="EasingLinear" xml:space="preserve"> Lineární</system:String>
+    <system:String x:Key="EasingSine" xml:space="preserve"> Sinus</system:String>
 </ResourceDictionary>
