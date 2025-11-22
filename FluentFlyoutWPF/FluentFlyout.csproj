@@ -28,11 +28,11 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Dubya.WindowsMediaController" Version="2.5.5" />
-    <PackageReference Include="MicaWPF" Version="6.2.10" />
+    <PackageReference Include="MicaWPF" Version="6.3.0" />
     <PackageReference Include="System.Drawing.Common" Version="9.0.2" />
+    <PackageReference Include="WPF-UI" Version="4.0.3" />
+    <PackageReference Include="WPF-UI.Tray" Version="4.0.3" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0-preview3" />
-    <PackageReference Include="WPF-UI" Version="4.0.2" />
-    <PackageReference Include="WPF-UI.Tray" Version="4.0.2" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\TrayIcons\FluentFlyoutBlack.png">

@@ -916,10 +916,54 @@ public partial class MainWindow : MicaWindow
         }
     }
 
+    private void CleanupResources()
+    {
+        try
+        {
+            // unsubscribe from events
+            mediaManager.OnAnyMediaPropertyChanged -= MediaManager_OnAnyMediaPropertyChanged;
+            mediaManager.OnAnyPlaybackStateChanged -= CurrentSession_OnPlaybackStateChanged;
+            mediaManager.OnAnyTimelinePropertyChanged -= MediaManager_OnAnyTimelinePropertyChanged;
+
+            // dispose managed resources
+            _positionTimer?.Change(Timeout.Infinite, Timeout.Infinite);
+            _positionTimer?.Dispose();
+            cts?.Cancel();
+            cts?.Dispose();
+
+            // unhook keyboard hook
+            if (_hookId != IntPtr.Zero)
+            {
+                UnhookWindowsHookEx(_hookId);
+                _hookId = IntPtr.Zero;
+            }
+
+            // clean up other resources
+            if (lockWindow?.IsLoaded == true)
+                lockWindow.Close();
+
+            if (nextUpWindow?.IsLoaded == true)
+                nextUpWindow.Close();
+
+            // dispose mutex
+            singleton?.Dispose();
+        }
+        catch (ObjectDisposedException)
+        {
+            // harmless shutdown exceptions
+        }
+    }
+
     protected override void OnClosed(EventArgs e)
     {
-        UnhookWindowsHookEx(_hookId);
-        base.OnClosed(e);
+        try
+        {
+            CleanupResources();
+        }
+        finally
+        {
+            base.OnClosed(e);
+        }
     }
 
     internal static class Helper
@@ -979,14 +1023,21 @@ public partial class MainWindow : MicaWindow
     private static extern IntPtr GetModuleHandle(string lpModuleName);
 
 
-    private void MicaWindow_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e) // keep the flyout open when mouse is over
+    private void MicaWindow_MouseEnter(object sender, MouseEventArgs e) // keep the flyout open when mouse is over
     {
         ShowMediaFlyout();
     }
 
     private void NotifyIconQuit_Click(object sender, RoutedEventArgs e)
     {
-        System.Windows.Application.Current.Shutdown();
+        try
+        {
+            CleanupResources();
+        }
+        finally
+        {
+            Application.Current.Shutdown();
+        }
     }
 
     private void MicaWindow_Loaded(object sender, RoutedEventArgs e)
