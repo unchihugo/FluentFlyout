@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.IO;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -28,6 +29,10 @@ public static class MediaPlayerData
         string mediaTitle = mediaPlayerId;
         ImageSource? mediaIcon = null;
 
+        if (mediaPlayerId.EndsWith(".exe", StringComparison.OrdinalIgnoreCase))
+        {
+            mediaPlayerId = Path.GetFileNameWithoutExtension(mediaPlayerId);
+        }
         // get sanitized media title name
         string[] mediaSessionIdVariants = mediaPlayerId.Split('.');
 
