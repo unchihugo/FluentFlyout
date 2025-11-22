@@ -15,20 +15,88 @@
     <system:String x:Key="CompactLayoutTitle">Kompaktní rozvržení</system:String>
     <system:String x:Key="CompactLayoutDescription" xml:space="preserve">Užší a méně rušivé rozvržení
 skryje opakování,náhodné přehrávání a informace přehrávače</system:String>
-    <system:String x:Key="FlyoutPositionTitle">Pozice plovoucího okna</system:String>
+    <system:String x:Key="FlyoutPositionTitle">Pozice plovoucího přehrávače</system:String>
     <system:String x:Key="PositionBottomLeft" xml:space="preserve"> Dole vlevo</system:String>
     <system:String x:Key="PositionBottomCenter" xml:space="preserve"> Dole uprostřed</system:String>
     <system:String x:Key="PositionBottomRight" xml:space="preserve"> Dole vpravo</system:String>
     <system:String x:Key="PositionTopLeft" xml:space="preserve"> Nahoře vlevo</system:String>
     <system:String x:Key="PositionTopCenter" xml:space="preserve"> Nahoře uprostřed</system:String>
     <system:String x:Key="PositionTopRight" xml:space="preserve"> Nahoře vpravo</system:String>
-    <system:String x:Key="FlyoutStayDurationTitle">Zmizení plovoucího okna</system:String>
+    <system:String x:Key="FlyoutStayDurationTitle">Zmizení plovoucího přehrávače</system:String>
     <system:String x:Key="FlyoutStayDurationDescription">(výchozí: 3000ms)</system:String>
     <system:String x:Key="MillisecondsUnit">ms</system:String>
     <system:String x:Key="MediaFlyoutAlwaysDisplay">Vždy zobrazovat</system:String>
     <system:String x:Key="CenterTitleArtistTitle">Vycentrovat název písničky a autora</system:String>
     <system:String x:Key="CenterTitleArtistDescription">Vycentruje text doprostřed místo doleva</system:String>
     <system:String x:Key="ShowMediaPlayerNameTitle">Ukazovat název přehrávače</system:String>
-    <system:String x:Key="EasingLinear" xml:space="preserve"> Lineární</system:String>
+    <system:String x:Key="EasingLinear" xml:space="preserve"> Lineárně</system:String>
     <system:String x:Key="EasingSine" xml:space="preserve"> Sinus</system:String>
+    <system:String x:Key="RepeatButtonTitle">Tlačítko opakování*</system:String>
+    <system:String x:Key="RepeatButtonDescription">Vyberte si mezi opakování všech nebo jedné písničky, rozšíří plovoucí přehrávač</system:String>
+    <system:String x:Key="ShuffleButtonTitle">Tlačítko náhodného přehrávání*</system:String>
+    <system:String x:Key="ShuffleButtonDescription">Rozšíří plovoucí okno</system:String>
+    <system:String x:Key="ShowSeekbarTitle">Ukáže časovou osu</system:String>
+    <system:String x:Key="ShowSeekbarDescription">Automaticky zobrazí interaktivní časovou osu, pokud ji přehrávač podporuje</system:String>
+    <system:String x:Key="UnsupportedControlsWarning">*Některé prohlížeče/přehrávače nepodporují opakování, náhodné přehrávání a ovládání časové osy.</system:String>
+    <system:String x:Key="PauseOtherMediaTitle">Automaticky zastaví ostatní média</system:String>
+    <system:String x:Key="PauseOtherMediaDescription">Když přehráváte nebo se soustředíte na nová média, ostatní aktivní relace se automaticky pozastaví</system:String>
+    <system:String x:Key="NextUpCustomizationTitle">Přizpůsobení Další skladby</system:String>
+    <system:String x:Key="NextUpDescription" xml:space="preserve">Zobrazí se plovoucí okno s následující písničkou poté, co skončí písnička/video. Zobrazí se pouze, pokud se další v pořadí spouští automaticky, pokud zmáčknete tlačítko další nebo předešlé skladby, ukáže se místo toho hlavní plovoucí přehrávač.</system:String>
+    <system:String x:Key="EnableNextUpTitle">Povolit plovoucí okno Další skladby (Experimentální)</system:String>
+    <system:String x:Key="EnableNextUpDescription">Ukáže, jaká skladba následuje po konci písničky/videa</system:String>
+    <system:String x:Key="NextUpStayDurationTitle">Zmizení Další skladby</system:String>
+    <system:String x:Key="NextUpStayDurationDescription">(výchozí: 2000 ms)</system:String>
+    <system:String x:Key="LockKeysCustomizationTitle">Přizpůsobení Lock Keys</system:String>
+    <system:String x:Key="LockKeysDescription" xml:space="preserve">Zkontrolujte stav Lock key na první pohled. Zobrazí se po stisknutí klávesy Caps Lock, Num Lock nebo Scroll Lock. Praktické pro notebooky/klávesnice bez indikátorů klávesy Lock.</system:String>
+    <system:String x:Key="EnableLockKeysTitle">Povolit plovoucí okno Lock Keys</system:String>
+    <system:String x:Key="EnableLockKeysDescription">Zobrazí, jestli daná lock key je zapnutá nebo vypnutá</system:String>
+    <system:String x:Key="LockKeysStayDurationTitle">Zmizení Lock Keys</system:String>
+    <system:String x:Key="LockKeysStayDurationDescription">(výchozí: 2000 ms)</system:String>
+    <system:String x:Key="LockKeysBoldUITitle">Tučný symbol a písmo</system:String>
+    <system:String x:Key="LockKeysBoldUIDescription">Zvýrazní symbol a písmo v plovoucím okně</system:String>
+    <system:String x:Key="EnableInsertKeyTitle">Povolit vyskakovací okno klávesy Insert</system:String>
+    <system:String x:Key="EnableInsertKeyDescription">Určuje, zda se po stisknutí tlačítka insert/overwrite zobrazí plovoucí okno</system:String>
+    <system:String x:Key="SystemSettingsTitle">Systém</system:String>
+    <system:String x:Key="LaunchOnStartupTitle">Spustit při startu počítače</system:String>
+    <system:String x:Key="LaunchOnStartupDescription">Po přihlášení do systému Windows se spustí minimalizované do systémové lišty</system:String>
+    <system:String x:Key="StartupAppsHyperlinkText">Aplikace při spuštení</system:String>
+    <system:String x:Key="StartupAppsSettingsInfo">Pokud toto nastavení nefunguje podle očekávání, zkontrolujte</system:String>
+    <system:String x:Key="AppThemeTitle">Vzhled aplikace</system:String>
+    <system:String x:Key="AppThemeDefault"> Systém</system:String>
+    <system:String x:Key="AppThemeLight"> Světlý</system:String>
+    <system:String x:Key="AppThemeDark"> Tmavý</system:String>
+    <system:String x:Key="TrayIconLeftClickBehaviorTitle">Chování ikony v systémové liště při levém kliknutí</system:String>
+    <system:String x:Key="TrayIconLeftClickBehaviorDescription">Vyberte, co se stane, když kliknete levím tlačítkem na ikony v systémové liště</system:String>
+    <system:String x:Key="TrayIconLeftClickOption1"> Otevřít nastavení</system:String>
+    <system:String x:Key="TrayIconLeftClickOption2"> Ukázat ploovucí přehrávač</system:String>
+    <system:String x:Key="Win11TrayIconTitle">Ikona v systémové liště ve stylu Windows 11</system:String>
+    <system:String x:Key="Win11TrayIconDescription">Použije ikonu v systémové liště, která zapadá do Windows 11 (přepnutím změníš vzhled)</system:String>
+    <system:String x:Key="AnimationSettingsTitle">Nastavení animací</system:String>
+    <system:String x:Key="AnimationSettingsDescription">Upravte animace podle svých představ</system:String>
+    <system:String x:Key="AnimationDurationScaleTitle">Délka animace</system:String>
+    <system:String x:Key="AnimationDurationScaleDescription">Rychlejší nebo pomalejší rychlost animace plovoucího okna (výchozí: 1x)</system:String>
+    <system:String x:Key="AnimationSpeedOff">Vypnuto</system:String>
+    <system:String x:Key="AnimationEasingStyleTitle">Styl animace objevení/zmizení</system:String>
+    <system:String x:Key="AnimationEasingStyleDescription">(výchozí: Kvadratická)</system:String>
+    <system:String x:Key="EasingQuadratic" xml:space="preserve"> Kvadraticky</system:String>
+    <system:String x:Key="EasingCubic" xml:space="preserve"> Čtvereční</system:String>
+    <system:String x:Key="NativeExperienceInfo">Pro nativní prostředí Windows 11 by měla být nastavení ponechána ve výchozím stavu.</system:String>
+    <system:String x:Key="DisableOnFullscreenTitle">Zakázat plovoucí okna, pokud je detekován program DirectX na celou obrazovku</system:String>
+    <system:String x:Key="DisableOnFullscreenDescription">Zabraňuje minimalizaci her DirectX v exkluzivním režimu celé obrazovky, pokud se objeví plovoucí okno</system:String>
+    <system:String x:Key="EnjoyingAppText" xml:space="preserve">Líbí se vám aplikace? Označte ji hvězdičkou na GitHubu
+nebo napište recenzi v Microsoft Store!</system:String>
+    <system:String x:Key="GitHubRepoLink">GitHub Repozitář</system:String>
+    <system:String x:Key="CloseButton">Zavřít</system:String>
+    <system:String x:Key="AppLanguageTitle">Jazyk aplikace</system:String>
+    <system:String x:Key="AppLanguageDescription" xml:space="preserve">Pokud váš jazyk není uveden nebo je neúplný, bude použita angličtina.
+Můžete pomoct s překlady na</system:String>
+    <system:String x:Key="LockWindow_CapsLock">Caps Lock</system:String>
+    <system:String x:Key="LockWindow_InsertPressed">Zmáčknut Insert</system:String>
+    <system:String x:Key="LockWindow_LockOn">zapnut</system:String>
+    <system:String x:Key="LockWindow_LockOff">vypnut</system:String>
+    <system:String x:Key="NextUpWindow_UpNextText">Další:</system:String>
+    <system:String x:Key="TrayIcon_SettingsOption">Nastavení</system:String>
+    <system:String x:Key="TrayIcon_GitHubRepositoryOption">Repositář</system:String>
+    <system:String x:Key="TrayIcon_ReportBugOption">Nahlásit chybu</system:String>
+    <system:String x:Key="TrayIcon_QuitOption">Zavřít FluentFlyout</system:String>
 </ResourceDictionary>
