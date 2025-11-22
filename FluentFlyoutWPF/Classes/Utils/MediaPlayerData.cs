@@ -28,11 +28,7 @@ public static class MediaPlayerData
 
         string mediaTitle = mediaPlayerId;
         ImageSource? mediaIcon = null;
-
-        if (mediaPlayerId.EndsWith(".exe", StringComparison.OrdinalIgnoreCase))
-        {
-            mediaPlayerId = Path.GetFileNameWithoutExtension(mediaPlayerId);
-        }
+        
         // get sanitized media title name
         string[] mediaSessionIdVariants = mediaPlayerId.Split('.');
 
@@ -40,6 +36,7 @@ public static class MediaPlayerData
         var variants = mediaSessionIdVariants.Select(variant =>
             variant.Replace("com", "", StringComparison.OrdinalIgnoreCase)
                    .Replace("github", "", StringComparison.OrdinalIgnoreCase)
+                   .Replace("exe", "", StringComparison.OrdinalIgnoreCase)
                    .Trim()
         ).Where(variant => !string.IsNullOrWhiteSpace(variant)).ToList();
 
