@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.IO;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -27,7 +28,7 @@ public static class MediaPlayerData
 
         string mediaTitle = mediaPlayerId;
         ImageSource? mediaIcon = null;
-
+        
         // get sanitized media title name
         string[] mediaSessionIdVariants = mediaPlayerId.Split('.');
 
@@ -35,6 +36,7 @@ public static class MediaPlayerData
         var variants = mediaSessionIdVariants.Select(variant =>
             variant.Replace("com", "", StringComparison.OrdinalIgnoreCase)
                    .Replace("github", "", StringComparison.OrdinalIgnoreCase)
+                   .Replace("exe", "", StringComparison.OrdinalIgnoreCase)
                    .Trim()
         ).Where(variant => !string.IsNullOrWhiteSpace(variant)).ToList();
 
