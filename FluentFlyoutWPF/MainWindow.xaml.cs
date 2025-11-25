@@ -347,7 +347,7 @@ public partial class MainWindow : MicaWindow
 
         var focusedSession = mediaManager.GetFocusedSession();
         var songInfo = focusedSession.ControlSession.TryGetMediaPropertiesAsync().GetAwaiter().GetResult();
-        taskbarWindow?.UpdateUi(songInfo.Title, songInfo.Artist, Helper.GetThumbnail(songInfo.Thumbnail));
+        taskbarWindow?.UpdateUi(songInfo.Title, songInfo.Artist, Helper.GetThumbnail(songInfo.Thumbnail), focusedSession.ControlSession.GetPlaybackInfo().PlaybackStatus);
 
         if (IsVisible)
         {
@@ -361,7 +361,7 @@ public partial class MainWindow : MicaWindow
         if (mediaManager.GetFocusedSession() == null) return;
 
         var songInfo = mediaSession.ControlSession.TryGetMediaPropertiesAsync().GetAwaiter().GetResult();
-        taskbarWindow?.UpdateUi(songInfo.Title, songInfo.Artist, Helper.GetThumbnail(songInfo.Thumbnail));
+        taskbarWindow?.UpdateUi(songInfo.Title, songInfo.Artist, Helper.GetThumbnail(songInfo.Thumbnail), mediaSession.ControlSession.GetPlaybackInfo().PlaybackStatus);
 
         pauseOtherMediaSessionsIfNeeded(mediaSession);
 

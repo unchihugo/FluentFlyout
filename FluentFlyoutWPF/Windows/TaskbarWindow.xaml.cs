@@ -9,6 +9,7 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
+using Windows.Media.Control;
 using Wpf.Ui.Markup;
 
 namespace FluentFlyout.Windows;
@@ -20,34 +21,36 @@ public partial class TaskbarWindow : Window
 {
     // --- Win32 APIs ---
     [DllImport("user32.dll", SetLastError = true)]
-    static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
+    private static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
 
     [DllImport("user32.dll", SetLastError = true)]
-    static extern IntPtr FindWindowEx(IntPtr parentHandle, IntPtr childAfter, string className, string windowTitle);
+    private static extern IntPtr FindWindowEx(IntPtr parentHandle, IntPtr childAfter, string className, string windowTitle);
 
     [DllImport("user32.dll", SetLastError = true)]
-    static extern IntPtr SetParent(IntPtr hWndChild, IntPtr hWndNewParent);
+    private static extern IntPtr SetParent(IntPtr hWndChild, IntPtr hWndNewParent);
 
     [DllImport("user32.dll", SetLastError = true)]
-    static extern bool GetWindowRect(IntPtr hWnd, out RECT lpRect);
+    private static extern bool GetWindowRect(IntPtr hWnd, out RECT lpRect);
 
     [DllImport("dwmapi.dll")]
-    static extern int DwmExtendFrameIntoClientArea(IntPtr hwnd, ref MARGINS margins);
+    private static extern int DwmExtendFrameIntoClientArea(IntPtr hwnd, ref MARGINS margins);
 
     [StructLayout(LayoutKind.Sequential)]
-    public struct RECT { public int Left, Top, Right, Bottom; }
+    public struct RECT
+    { public int Left, Top, Right, Bottom; }
 
     [StructLayout(LayoutKind.Sequential)]
-    public struct MARGINS { public int cxLeftWidth, cxRightWidth, cyTopHeight, cyBottomHeight; }
+    public struct MARGINS
+    { public int cxLeftWidth, cxRightWidth, cyTopHeight, cyBottomHeight; }
 
     [DllImport("user32.dll")]
-    static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
+    private static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
 
     [DllImport("user32.dll", SetLastError = true)]
-    static extern int GetWindowLong(IntPtr hWnd, int nIndex);
+    private static extern int GetWindowLong(IntPtr hWnd, int nIndex);
 
     [DllImport("user32.dll", SetLastError = true)]
-    static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, uint uFlags);
+    private static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, uint uFlags);
 
     private const int GWL_STYLE = -16;
     private const int WS_CHILD = 0x40000000;
@@ -55,6 +58,7 @@ public partial class TaskbarWindow : Window
 
     // SetWindowPos Flags
     private const uint SWP_NOZORDER = 0x0004;
+
     private const uint SWP_NOACTIVATE = 0x0010;
     private const uint SWP_SHOWWINDOW = 0x0040;
     private const uint SWP_ASYNCWINDOWPOS = 0x4000;
@@ -63,8 +67,7 @@ public partial class TaskbarWindow : Window
     private DispatcherTimer _timer;
     private double _left, _top;
 
-    SolidColorBrush _hitTestTransparent;
-
+    private SolidColorBrush _hitTestTransparent;
 
     public TaskbarWindow()
     {
@@ -136,7 +139,7 @@ public partial class TaskbarWindow : Window
         }
     }
 
-        private void UpdatePosition()
+    private void UpdatePosition()
     {
         var interop = new WindowInteropHelper(this);
         IntPtr taskbarHandle = FindWindow("Shell_TrayWnd", null);
@@ -170,7 +173,7 @@ public partial class TaskbarWindow : Window
 
         // Centered vertically
         int physicalTop = (taskbarHeight - physicalHeight) / 2;
-        int physicalLeft = 10; // maybe add automatic widget padding?
+        int physicalLeft = 20; // maybe add automatic widget padding?
 
         // Apply using SetWindowPos (Bypassing WPF layout engine)
         SetWindowPos(myHandle, IntPtr.Zero,
@@ -179,9 +182,14 @@ public partial class TaskbarWindow : Window
                      SWP_NOZORDER | SWP_NOACTIVATE | SWP_ASYNCWINDOWPOS | SWP_SHOWWINDOW);
     }
 
-
-    public void UpdateUi(string title, string artist, BitmapImage? icon)
+    public void UpdateUi(string title, string artist, BitmapImage? icon, GlobalSystemMediaTransportControlsSessionPlaybackStatus playbackStatus)
     {
+        bool isPaused = false;
+        if (playbackStatus != GlobalSystemMediaTransportControlsSessionPlaybackStatus.Playing)
+        {
+            isPaused = true;
+        }
+
         Dispatcher.Invoke(() =>
         {
             if (!String.IsNullOrEmpty(title))
@@ -204,11 +212,22 @@ public partial class TaskbarWindow : Window
 
             if (icon != null)
             {
-                SongImagePlaceholder.Visibility = Visibility.Collapsed;
+                if (isPaused)
+                { // show pause icon overlay
+                    SongImagePlaceholder.Symbol = Wpf.Ui.Controls.SymbolRegular.Pause24;
+                    SongImagePlaceholder.Visibility = Visibility.Visible;
+                    SongImage.Opacity = 0.5;
+                }
+                else
+                {
+                    SongImagePlaceholder.Visibility = Visibility.Collapsed;
+                    SongImage.Opacity = 1;
+                }
                 SongImage.ImageSource = icon;
             }
             else
             {
+                SongImagePlaceholder.Symbol = Wpf.Ui.Controls.SymbolRegular.MusicNote220;
                 SongImagePlaceholder.Visibility = Visibility.Visible;
                 SongImage.ImageSource = null;
             }
