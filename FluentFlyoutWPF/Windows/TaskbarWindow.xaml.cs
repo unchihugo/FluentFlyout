@@ -149,33 +149,30 @@ public partial class TaskbarWindow : Window
 
     private void CalculateAndSetPosition(IntPtr taskbarHandle, IntPtr myHandle)
     {
-        // 1. Get scaling factor (DPI)
+        // get DPI scaling
         PresentationSource source = PresentationSource.FromVisual(this);
         double dpiScaleX = source.CompositionTarget.TransformToDevice.M11;
         double dpiScaleY = source.CompositionTarget.TransformToDevice.M22;
 
+        // calculate widget width
         var scale = 0.9;
-        // 2. Calculate desired width based on text
-        // Note: Assuming GetStringWidth returns logical pixels. 
         var titleWidth = StringWidth.GetStringWidth(SongTitle.Text);
         var artistWidth = StringWidth.GetStringWidth(SongArtist.Text);
         double logicalWidth = Math.Max(titleWidth, artistWidth) + 40 * scale; // add margin for cover image
 
-        // Convert logical width to physical pixels for SetWindowPos
         int physicalWidth = (int)(logicalWidth * dpiScaleX);
         int physicalHeight = (int)(this.Height * dpiScaleY);
 
-        // 3. Get Taskbar dimensions
+        // Get Taskbar dimensions
         RECT taskbarRect;
         GetWindowRect(taskbarHandle, out taskbarRect);
         int taskbarHeight = taskbarRect.Bottom - taskbarRect.Top;
 
-        // 4. Calculate Top/Left in PHYSICAL PIXELS relative to Taskbar
         // Centered vertically
         int physicalTop = (taskbarHeight - physicalHeight) / 2;
-        int physicalLeft = 10; // Or your custom logic
+        int physicalLeft = 10; // maybe add automatic widget padding?
 
-        // 5. Apply using SetWindowPos (Bypassing WPF layout engine)
+        // Apply using SetWindowPos (Bypassing WPF layout engine)
         SetWindowPos(myHandle, IntPtr.Zero,
                      physicalLeft, physicalTop,
                      physicalWidth, physicalHeight,
