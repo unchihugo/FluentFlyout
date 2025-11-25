@@ -1,5 +1,6 @@
 ﻿using FluentFlyout.Classes;
 using FluentFlyout.Classes.Settings;
+using FluentFlyout.Classes.Utils;
 using FluentFlyoutWPF.Classes;
 using MicaWPF.Controls;
 using System.Windows;
@@ -34,8 +35,8 @@ public partial class NextUpWindow : MicaWindow
             WindowBlurHelper.DisableBlur(this);
         }
 
-        var titleWidth = GetStringWidth(title);
-        var artistWidth = GetStringWidth(artist);
+        var titleWidth = StringWidth.GetStringWidth(title);
+        var artistWidth = StringWidth.GetStringWidth(artist);
         
         if (titleWidth > artistWidth) Width = titleWidth + 142;
         else Width = artistWidth + 142;
@@ -58,23 +59,5 @@ public partial class NextUpWindow : MicaWindow
         }
 
         wait();
-    }
-
-    private double GetStringWidth(string text)
-    {
-        var fontFamily = new FontFamily("Segoe UI Variable, Microsoft YaHei, Microsoft JhengHei, MS Gothic");
-        var typeface = new Typeface(fontFamily, new FontStyle(), FontWeights.Medium, FontStretches.Normal);
-
-        var formattedText = new FormattedText(
-            text,
-            System.Globalization.CultureInfo.CurrentCulture,
-            FlowDirection.LeftToRight,
-            typeface,
-            14,
-            Brushes.Black,
-            null,
-            1);
-
-        return formattedText.Width + 8;
     }
 }

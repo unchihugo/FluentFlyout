@@ -1,6 +1,7 @@
 ﻿using FluentFlyout.Classes;
 using FluentFlyout.Classes.Settings;
 using FluentFlyout.Classes.Utils;
+using FluentFlyout.Windows;
 using FluentFlyoutWPF.Classes;
 using FluentFlyoutWPF.Windows;
 using MicaWPF.Controls;
@@ -65,6 +66,8 @@ public partial class MainWindow : MicaWindow
 
     private LockWindow? lockWindow;
     private DateTime _lastSelfUpdateTimestamp = DateTime.MinValue;
+
+    private TaskbarWindow? taskbarWindow;
 
     public MainWindow()
     {
@@ -136,6 +139,8 @@ public partial class MainWindow : MicaWindow
                 SettingsManager.Current.LastKnownVersion = "debug version";
             }
         });
+
+        taskbarWindow = new TaskbarWindow();
     }
 
     private void openSettings(object? sender, EventArgs e)
@@ -353,11 +358,13 @@ public partial class MainWindow : MicaWindow
     {
         if (mediaManager.GetFocusedSession() == null) return;
 
+        var songInfo = mediaSession.ControlSession.TryGetMediaPropertiesAsync().GetAwaiter().GetResult();
+        taskbarWindow?.UpdateUi(songInfo.Title, songInfo.Artist);
+
         pauseOtherMediaSessionsIfNeeded(mediaSession);
 
         if (SettingsManager.Current.NextUpEnabled && !FullscreenDetector.IsFullscreenApplicationRunning()) // show NextUpWindow if enabled in settings
         {
-            var songInfo = mediaSession.ControlSession.TryGetMediaPropertiesAsync().GetAwaiter().GetResult();
             if (nextUpWindow == null && IsVisible == false && songInfo.Thumbnail != null && currentTitle != songInfo.Title)
             {
                 Dispatcher.Invoke(() =>

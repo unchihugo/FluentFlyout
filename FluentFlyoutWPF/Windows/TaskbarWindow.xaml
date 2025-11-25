@@ -1,0 +1,40 @@
+﻿<Window x:Class="FluentFlyout.Windows.TaskbarWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FluentFlyout.Windows"
+        xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+        mc:Ignorable="d"
+        Title="TaskbarWindow" Height="40" Width="300"
+        WindowStyle="None" 
+        ResizeMode="NoResize"
+        ShowInTaskbar="False" 
+        AllowsTransparency="True"
+        Background="Transparent"
+        TextOptions.TextRenderingMode="ClearType" TextOptions.TextFormattingMode="Ideal"
+        FontFamily="Segoe UI Variable, Microsoft YaHei, Microsoft JhengHei, MS Gothic"
+        Loaded="Window_Loaded" MouseEnter="Grid_MouseEnter" MouseLeave="Grid_MouseLeave" MouseLeftButtonUp="Grid_MouseLeftButtonUp"
+        >
+    <Border Name="MainBorder" CornerRadius="6" MouseEnter="Grid_MouseEnter" MouseLeave="Grid_MouseLeave" MouseLeftButtonUp="Grid_MouseLeftButtonUp">
+        <Border Name="TopBorder" BorderThickness="0,1,0,0" BorderBrush="{ui:ThemeResource TextFillColorDisabledBrush}" CornerRadius="4" Margin="0,0,0,1">
+            <Grid Name="MainGrid" HorizontalAlignment="Left" VerticalAlignment="Center" RenderTransformOrigin="0,0.5">
+        <Grid.RenderTransform>
+            <ScaleTransform ScaleX="0.9" ScaleY="0.9"/>
+        </Grid.RenderTransform>
+        <StackPanel Name="MainStackPanel" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Width="Auto" Margin="4,0,4,0" >
+            <Border Name="SongImageBorder" CornerRadius="6" Margin="0,0,6,0" ClipToBounds="True" Width="30" Height="30">
+                    <ui:SymbolIcon Name="SongImagePlaceholder" Symbol="MusicNote220" FontSize="24" Filled="False" Foreground="{ui:ThemeResource AccentTextFillColorTertiaryBrush}" />
+                    <Border.Background>
+                        <ImageBrush x:Name="SongImage" Stretch="UniformToFill"/>
+                    </Border.Background>
+                </Border>
+                    <StackPanel Name="SongInfoStackPanel" Orientation="Vertical" VerticalAlignment="Center" Width="Auto">
+                        <TextBlock Name="SongTitle" Text="Song Title" FontWeight="Normal" TextTrimming="CharacterEllipsis" Foreground="{ui:ThemeResource TextFillColorPrimaryBrush}"/>
+                    <TextBlock Name="SongArtist" Text="Artist Name" FontWeight="Normal" Opacity="0.5" TextTrimming="CharacterEllipsis" Foreground="{ui:ThemeResource TextFillColorPrimaryBrush}"/>
+                </StackPanel>
+            </StackPanel>
+    </Grid>
+        </Border>
+    </Border>
+</Window>
