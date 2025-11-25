@@ -359,7 +359,7 @@ public partial class MainWindow : MicaWindow
         if (mediaManager.GetFocusedSession() == null) return;
 
         var songInfo = mediaSession.ControlSession.TryGetMediaPropertiesAsync().GetAwaiter().GetResult();
-        taskbarWindow?.UpdateUi(songInfo.Title, songInfo.Artist);
+        taskbarWindow?.UpdateUi(songInfo.Title, songInfo.Artist, Helper.GetThumbnail(songInfo.Thumbnail));
 
         pauseOtherMediaSessionsIfNeeded(mediaSession);
 
@@ -455,7 +455,7 @@ public partial class MainWindow : MicaWindow
         return CallNextHookEx(_hookId, nCode, wParam, lParam);
     }
 
-    private async void ShowMediaFlyout()
+    public async void ShowMediaFlyout()
     {
         if (mediaManager.GetFocusedSession() == null ||
             !SettingsManager.Current.MediaFlyoutEnabled ||

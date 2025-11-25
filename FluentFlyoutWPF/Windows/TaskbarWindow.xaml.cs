@@ -1,10 +1,13 @@
 ﻿using FluentFlyout.Classes.Utils;
+using FluentFlyoutWPF;
 using FluentFlyoutWPF.Classes;
+using System.Diagnostics.Eventing.Reader;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using Wpf.Ui.Markup;
 
@@ -86,8 +89,8 @@ public partial class TaskbarWindow : Window
 
     private void Grid_MouseEnter(object sender, MouseEventArgs e)
     {
+        // hover effects
         var brush = (SolidColorBrush)Application.Current.Resources["TextFillColorSecondaryBrush"];
-        //Background = new SolidColorBrush(brush.Color) { Opacity = 0.1 };
         MainBorder.Background = new SolidColorBrush(brush.Color) { Opacity = 0.075 };
         var secondBrush = (SolidColorBrush)Application.Current.Resources["TextFillColorDisabledBrush"];
         TopBorder.BorderBrush = new SolidColorBrush(secondBrush.Color) { Opacity = 0.2 };
@@ -101,7 +104,9 @@ public partial class TaskbarWindow : Window
 
     private void Grid_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
     {
-        // TODO: Open main window
+        // flyout main flyout when clicked
+        var mainWindow = (MainWindow)Application.Current.MainWindow;
+        mainWindow.ShowMediaFlyout();
     }
 
     private void SetupWindow()
@@ -158,7 +163,7 @@ public partial class TaskbarWindow : Window
         // Note: Assuming GetStringWidth returns logical pixels. 
         var titleWidth = StringWidth.GetStringWidth(SongTitle.Text);
         var artistWidth = StringWidth.GetStringWidth(SongArtist.Text);
-        double logicalWidth = Math.Max(titleWidth, artistWidth) + 40 * scale;
+        double logicalWidth = Math.Max(titleWidth, artistWidth) + 46 * scale; // add margin for cover image
 
         // Convert logical width to physical pixels for SetWindowPos
         int physicalWidth = (int)(logicalWidth * dpiScaleX);
@@ -182,12 +187,38 @@ public partial class TaskbarWindow : Window
     }
 
 
-    public void UpdateUi(string title, string artist)
+    public void UpdateUi(string title, string artist, BitmapImage? icon)
     {
         Dispatcher.Invoke(() =>
         {
-            SongTitle.Text = title;
-            SongArtist.Text = artist;
+            if (!String.IsNullOrEmpty(title))
+            {
+                SongTitle.Text = title;
+            }
+            else
+            {
+                SongTitle.Text = "-";
+            }
+
+            if (!String.IsNullOrEmpty(artist))
+            {
+                SongArtist.Text = artist;
+            }
+            else
+            {
+                SongArtist.Text = "-";
+            }
+
+            if (icon != null)
+            {
+                SongImagePlaceholder.Visibility = Visibility.Collapsed;
+                SongImage.ImageSource = icon;
+            }
+            else
+            {
+                SongImagePlaceholder.Visibility = Visibility.Visible;
+                SongImage.ImageSource = null;
+            }
         });
     }
 }

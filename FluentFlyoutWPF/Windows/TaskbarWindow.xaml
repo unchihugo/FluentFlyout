@@ -17,14 +17,14 @@
         Loaded="Window_Loaded" MouseEnter="Grid_MouseEnter" MouseLeave="Grid_MouseLeave" MouseLeftButtonUp="Grid_MouseLeftButtonUp"
         >
     <Border Name="MainBorder" CornerRadius="6" MouseEnter="Grid_MouseEnter" MouseLeave="Grid_MouseLeave" MouseLeftButtonUp="Grid_MouseLeftButtonUp">
-        <Border Name="TopBorder" BorderThickness="0,1,0,0" BorderBrush="{ui:ThemeResource TextFillColorDisabledBrush}" CornerRadius="4" Margin="0,0,0,1">
+        <Border Name="TopBorder" BorderThickness="0,1,0,0" CornerRadius="4" Margin="0,0,0,1">
             <Grid Name="MainGrid" HorizontalAlignment="Left" VerticalAlignment="Center" RenderTransformOrigin="0,0.5">
         <Grid.RenderTransform>
             <ScaleTransform ScaleX="0.9" ScaleY="0.9"/>
         </Grid.RenderTransform>
         <StackPanel Name="MainStackPanel" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Width="Auto" Margin="4,0,4,0" >
-            <Border Name="SongImageBorder" CornerRadius="6" Margin="0,0,6,0" ClipToBounds="True" Width="30" Height="30">
-                    <ui:SymbolIcon Name="SongImagePlaceholder" Symbol="MusicNote220" FontSize="24" Filled="False" Foreground="{ui:ThemeResource AccentTextFillColorTertiaryBrush}" />
+            <Border Name="SongImageBorder" CornerRadius="6" Margin="0,0,6,0" ClipToBounds="True" Width="36" Height="36">
+                    <ui:SymbolIcon Name="SongImagePlaceholder" Symbol="MusicNote220" FontSize="24" Filled="True" Foreground="{ui:ThemeResource AccentTextFillColorTertiaryBrush}" />
                     <Border.Background>
                         <ImageBrush x:Name="SongImage" Stretch="UniformToFill"/>
                     </Border.Background>
