@@ -37,6 +37,11 @@ FluentFlyout 能够在一个雅观的现代化的弹窗中显示媒体控制和�
 - **“即将播放”弹窗：在歌曲结束时显示下一首曲目**
 - **锁定键弹窗：一目了然地显示锁定键的状态**
 
+## 任务栏小组件 ⏯️
+<div align="center">
+	<img height="440px" width="auto" src="https://github.com/user-attachments/assets/43963c54-e2d8-4b93-9842-482e12b2c592" />
+</div>
+
 ## 音乐弹窗 🎵
 <div align="center">
 	<img height="205px" width="auto" src="https://github.com/user-attachments/assets/4dab1c12-594a-4785-bddc-0da1783bf1c8"> <img height="205px" src="https://github.com/user-attachments/assets/b4306026-b274-418b-a39e-78877e7610a7"> 	<img height="190px" src="https://github.com/user-attachments/assets/39de69fe-54c8-4b22-880c-7f0370b8dd9c"> <img height="190px" src="https://github.com/user-attachments/assets/a25adb0e-963a-49a5-8abb-d9a288c2ad9a"> <img height="190px" src="https://github.com/user-attachments/assets/2de44e7b-7e6c-4575-bf3b-0be2f741c994">
