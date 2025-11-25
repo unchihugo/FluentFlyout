@@ -114,10 +114,6 @@ public partial class TaskbarWindow : Window
         var interop = new WindowInteropHelper(this);
         IntPtr myHandle = interop.Handle;
 
-        // 2. Enable DWM Transparency (The "Glass" Trick)
-        // This removes the black background and makes it transparent 
-        //MARGINS margins = new MARGINS { cxLeftWidth = -1 }; // -1 extends glass to full window
-        //DwmExtendFrameIntoClientArea(myHandle, ref margins);
         Background = _hitTestTransparent; // ensures that non-content areas also trigger MouseEnter event
 
         // 3. Find the Taskbar and ReBar
@@ -163,7 +159,7 @@ public partial class TaskbarWindow : Window
         // Note: Assuming GetStringWidth returns logical pixels. 
         var titleWidth = StringWidth.GetStringWidth(SongTitle.Text);
         var artistWidth = StringWidth.GetStringWidth(SongArtist.Text);
-        double logicalWidth = Math.Max(titleWidth, artistWidth) + 46 * scale; // add margin for cover image
+        double logicalWidth = Math.Max(titleWidth, artistWidth) + 40 * scale; // add margin for cover image
 
         // Convert logical width to physical pixels for SetWindowPos
         int physicalWidth = (int)(logicalWidth * dpiScaleX);

@@ -346,7 +346,9 @@ public partial class MainWindow : MicaWindow
         pauseOtherMediaSessionsIfNeeded(mediaSession);
 
         var focusedSession = mediaManager.GetFocusedSession();
-        
+        var songInfo = focusedSession.ControlSession.TryGetMediaPropertiesAsync().GetAwaiter().GetResult();
+        taskbarWindow?.UpdateUi(songInfo.Title, songInfo.Artist, Helper.GetThumbnail(songInfo.Thumbnail));
+
         if (IsVisible)
         {
             UpdateUI(focusedSession);
