@@ -3,7 +3,6 @@ using Microsoft.Win32;
 using System.Diagnostics;
 using System.IO;
 using System.Windows;
-using System.Windows.Controls;
 using Windows.ApplicationModel;
 using MessageBox = System.Windows.MessageBox;
 using FluentFlyout.Classes.Settings;

@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Windows;
 using System.Xml.Serialization;
 using CommunityToolkit.Mvvm.ComponentModel;
 using FluentFlyout.Classes;
@@ -279,8 +280,20 @@ public partial class UserSettings : ObservableObject
     [XmlIgnore]
     public ObservableCollection<LanguageOption> LanguageOptions { get; } = [];
 
+    [XmlIgnore] [ObservableProperty] 
+    public partial LanguageOption SelectedLanguage { get; set; }
 
-    [XmlIgnore] [ObservableProperty] public partial LanguageOption SelectedLanguage { get; set; }
+    /// <summary>
+    /// Gets or sets a value indicating whether the taskbar widget is enabled
+    /// </summary>
+    [ObservableProperty]
+    public partial bool TaskbarWidgetEnabled { get; set; }
+
+    /// <summary>
+    /// Determines whether padding should be applied to the taskbar widget for the native Windows Widgets button
+    /// </summary>
+    [ObservableProperty]
+    public partial bool TaskbarWidgetPadding { get; set; }
 
     public UserSettings()
     {
@@ -309,7 +322,7 @@ public partial class UserSettings : ObservableObject
         MediaFlyoutAlwaysDisplay = false;
         NIconSymbol = false;
         DisableIfFullscreen = true;
-        LockKeysBoldUi = true;
+        LockKeysBoldUi = false;
         LastKnownVersion = "";
         SeekbarEnabled = false;
         PauseOtherSessionsEnabled = false;
@@ -319,6 +332,8 @@ public partial class UserSettings : ObservableObject
         AppLanguage = "system";
         NextUpAcrylicWindowEnabled = true;
         LockKeysAcrylicWindowEnabled = true;
+        TaskbarWidgetEnabled = false;
+        TaskbarWidgetPadding = true;
         _initializing = false;
     }
 
@@ -351,5 +366,12 @@ public partial class UserSettings : ObservableObject
     {
         if (oldValue == newValue || _initializing) return;
         ThemeManager.UpdateTrayIcon();
+    }
+
+    partial void OnTaskbarWidgetEnabledChanged(bool oldValue, bool newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+        MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+        mainWindow.UpdateTaskbar();
     }
 }

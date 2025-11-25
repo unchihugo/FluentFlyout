@@ -1,9 +1,11 @@
-﻿using FluentFlyout.Classes.Utils;
+﻿using FluentFlyout.Classes.Settings;
+using FluentFlyout.Classes.Utils;
 using FluentFlyoutWPF;
 using FluentFlyoutWPF.Classes;
 using System.Diagnostics.Eventing.Reader;
 using System.Runtime.InteropServices;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
@@ -111,7 +113,7 @@ public partial class TaskbarWindow : Window
         var targetBackgroundBrush = new SolidColorBrush(brush.Color) { Opacity = 0.075 };
 
         var secondBrush = (SolidColorBrush)Application.Current.Resources["TextFillColorDisabledBrush"];
-        var targetBorderBrush = new SolidColorBrush(secondBrush.Color) { Opacity = 0.2 };
+        TopBorder.BorderBrush = new SolidColorBrush(secondBrush.Color) { Opacity = 0.25 };
 
         // Animate background
         var backgroundAnimation = new ColorAnimation
@@ -151,6 +153,8 @@ public partial class TaskbarWindow : Window
 
         MainBorder.Background?.BeginAnimation(SolidColorBrush.ColorProperty, backgroundAnimation);
         MainBorder.Background?.BeginAnimation(SolidColorBrush.OpacityProperty, backgroundOpacityAnimation);
+
+        TopBorder.BorderBrush = Brushes.Transparent;
     }
 
     private void Grid_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -196,6 +200,8 @@ public partial class TaskbarWindow : Window
 
     private void UpdatePosition()
     {
+        if (!SettingsManager.Current.TaskbarWidgetEnabled) return;
+
         var interop = new WindowInteropHelper(this);
         IntPtr taskbarHandle = FindWindow("Shell_TrayWnd", null);
 
@@ -219,10 +225,11 @@ public partial class TaskbarWindow : Window
         double logicalWidth = Math.Max(titleWidth, artistWidth) + 40 * scale; // add margin for cover image
         // maximum width limit, matches default media flyout width
         logicalWidth = Math.Min(logicalWidth, 310);
-        SongTitle.Width = logicalWidth - 40 * scale;
-        SongArtist.Width = logicalWidth - 40 * scale;
 
-        int physicalWidth = (int)(logicalWidth * dpiScaleX);
+            SongTitle.Width = logicalWidth - 40 * scale;
+            SongArtist.Width = logicalWidth - 40 * scale;
+
+            int physicalWidth = (int)(logicalWidth * dpiScaleX);
         int physicalHeight = (int)(this.Height * dpiScaleY);
 
         // Get Taskbar dimensions
@@ -232,10 +239,16 @@ public partial class TaskbarWindow : Window
 
         // Centered vertically
         int physicalTop = (taskbarHeight - physicalHeight) / 2;
-        int physicalLeft = 20; // maybe add automatic widget padding?
+        int nativeWidgetsPadding = 216;
 
-        // Apply using SetWindowPos (Bypassing WPF layout engine)
-        SetWindowPos(myHandle, IntPtr.Zero,
+        int physicalLeft = 20; // maybe add automatic widget padding?
+        if (SettingsManager.Current.TaskbarWidgetPadding)
+        {
+            physicalLeft += nativeWidgetsPadding;
+        }
+
+            // Apply using SetWindowPos (Bypassing WPF layout engine)
+            SetWindowPos(myHandle, IntPtr.Zero,
                      physicalLeft, physicalTop,
                      physicalWidth, physicalHeight,
                      SWP_NOZORDER | SWP_NOACTIVATE | SWP_ASYNCWINDOWPOS | SWP_SHOWWINDOW);
@@ -243,12 +256,25 @@ public partial class TaskbarWindow : Window
 
     public void UpdateUi(string title, string artist, BitmapImage? icon, GlobalSystemMediaTransportControlsSessionPlaybackStatus? playbackStatus)
     {
+        if (!SettingsManager.Current.TaskbarWidgetEnabled)
+        {
+            Visibility = Visibility.Collapsed;
+            return; 
+        }
+
         if (title == "-" && artist == "-")
         {
             // no media playing, hide UI
             Dispatcher.Invoke(() =>
             {
-                MainBorder.Visibility = Visibility.Collapsed;
+                SongTitle.Text = "";
+                SongArtist.Text = "";
+                SongInfoStackPanel.Visibility = Visibility.Collapsed;
+                SongImagePlaceholder.Symbol = Wpf.Ui.Controls.SymbolRegular.MusicNote220;
+                SongImagePlaceholder.Visibility = Visibility.Visible;
+                SongImage.ImageSource = null;
+                UpdatePosition();
+                Visibility = Visibility.Visible;
             });
             return;
         }
@@ -285,7 +311,7 @@ public partial class TaskbarWindow : Window
                 { // show pause icon overlay
                     SongImagePlaceholder.Symbol = Wpf.Ui.Controls.SymbolRegular.Pause24;
                     SongImagePlaceholder.Visibility = Visibility.Visible;
-                    SongImage.Opacity = 0.5;
+                    SongImage.Opacity = 0.4;
                 }
                 else
                 {
@@ -301,7 +327,10 @@ public partial class TaskbarWindow : Window
                 SongImage.ImageSource = null;
             }
 
-            MainBorder.Visibility = Visibility.Visible;
+            SongTitle.Visibility = Visibility.Visible;
+            SongArtist.Visibility = Visibility.Visible;
+            SongInfoStackPanel.Visibility = Visibility.Visible;
+            Visibility = Visibility.Visible;
         });
     }
 }

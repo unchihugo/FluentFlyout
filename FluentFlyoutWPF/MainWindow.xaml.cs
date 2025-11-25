@@ -51,7 +51,7 @@ public partial class MainWindow : MicaWindow
     private bool _seekBarEnabled = SettingsManager.Current.SeekbarEnabled;
     private bool _alwaysDisplay = SettingsManager.Current.MediaFlyoutAlwaysDisplay;
     private bool _mediaSessionSupportsSeekbar = false;
-    private bool _acrylicEnabled = SettingsManager.Current.MediaFlyoutAcrylicWindowEnabled;
+    private bool _acrylicEnabled = false;
     private int _themeOption = SettingsManager.Current.AppTheme;
 
     static Mutex singleton = new Mutex(true, "FluentFlyout"); // to prevent multiple instances of the app
@@ -142,6 +142,7 @@ public partial class MainWindow : MicaWindow
         });
 
         taskbarWindow = new TaskbarWindow();
+        UpdateTaskbar();
     }
 
     private void openSettings(object? sender, EventArgs e)
@@ -311,6 +312,18 @@ public partial class MainWindow : MicaWindow
         moveAnimation.Duration = new Duration(TimeSpan.FromMilliseconds(msDuration));
 
         storyboard.Begin(window);
+    }
+
+    public void UpdateTaskbar()
+    {
+        if (!mediaManager.IsStarted || mediaManager.GetFocusedSession() == null)
+        {
+            taskbarWindow?.UpdateUi("-", "-", null, GlobalSystemMediaTransportControlsSessionPlaybackStatus.Closed);
+            return;
+        }
+        var focusedSession = mediaManager.GetFocusedSession();
+        var songInfo = focusedSession.ControlSession.TryGetMediaPropertiesAsync().GetAwaiter().GetResult();
+        taskbarWindow?.UpdateUi(songInfo.Title, songInfo.Artist, Helper.GetThumbnail(songInfo.Thumbnail), focusedSession.ControlSession.GetPlaybackInfo().PlaybackStatus);
     }
 
     private void reportBug(object? sender, EventArgs e)
