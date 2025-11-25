@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using Windows.Media.Control;
@@ -58,14 +59,12 @@ public partial class TaskbarWindow : Window
 
     // SetWindowPos Flags
     private const uint SWP_NOZORDER = 0x0004;
-
     private const uint SWP_NOACTIVATE = 0x0010;
     private const uint SWP_SHOWWINDOW = 0x0040;
     private const uint SWP_ASYNCWINDOWPOS = 0x4000;
     // ------------------
 
     private DispatcherTimer _timer;
-    private double _left, _top;
 
     private SolidColorBrush _hitTestTransparent;
 
@@ -90,19 +89,68 @@ public partial class TaskbarWindow : Window
         SetupWindow();
     }
 
+    //private void Grid_MouseEnter(object sender, MouseEventArgs e)
+    //{
+    //    // hover effects
+    //    var brush = (SolidColorBrush)Application.Current.Resources["TextFillColorSecondaryBrush"];
+    //    MainBorder.Background = new SolidColorBrush(brush.Color) { Opacity = 0.075 };
+    //    var secondBrush = (SolidColorBrush)Application.Current.Resources["TextFillColorDisabledBrush"];
+    //    TopBorder.BorderBrush = new SolidColorBrush(secondBrush.Color) { Opacity = 0.2 };
+    //}
+
+    //private void Grid_MouseLeave(object sender, MouseEventArgs e)
+    //{
+    //    MainBorder.Background = Brushes.Transparent;
+    //    TopBorder.BorderBrush = Brushes.Transparent;
+    //}
+
     private void Grid_MouseEnter(object sender, MouseEventArgs e)
     {
-        // hover effects
+        // hover effects with animations
         var brush = (SolidColorBrush)Application.Current.Resources["TextFillColorSecondaryBrush"];
-        MainBorder.Background = new SolidColorBrush(brush.Color) { Opacity = 0.075 };
+        var targetBackgroundBrush = new SolidColorBrush(brush.Color) { Opacity = 0.075 };
+
         var secondBrush = (SolidColorBrush)Application.Current.Resources["TextFillColorDisabledBrush"];
-        TopBorder.BorderBrush = new SolidColorBrush(secondBrush.Color) { Opacity = 0.2 };
+        var targetBorderBrush = new SolidColorBrush(secondBrush.Color) { Opacity = 0.2 };
+
+        // Animate background
+        var backgroundAnimation = new ColorAnimation
+        {
+            To = targetBackgroundBrush.Color,
+            Duration = TimeSpan.FromMilliseconds(200),
+            EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut }
+        };
+
+        var backgroundOpacityAnimation = new DoubleAnimation
+        {
+            To = 0.075,
+            Duration = TimeSpan.FromMilliseconds(200),
+            EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut }
+        };
+
+        MainBorder.Background.BeginAnimation(SolidColorBrush.ColorProperty, backgroundAnimation);
+        MainBorder.Background.BeginAnimation(SolidColorBrush.OpacityProperty, backgroundOpacityAnimation);
     }
 
     private void Grid_MouseLeave(object sender, MouseEventArgs e)
     {
-        MainBorder.Background = Brushes.Transparent;
-        TopBorder.BorderBrush = Brushes.Transparent;
+        // Animate back to transparent
+        var backgroundAnimation = new ColorAnimation
+        {
+            To = Colors.Transparent,
+            Duration = TimeSpan.FromMilliseconds(200),
+            EasingFunction = new CubicEase { EasingMode = EasingMode.EaseInOut }
+        };
+
+        var backgroundOpacityAnimation = new DoubleAnimation
+        {
+            To = 0,
+            Duration = TimeSpan.FromMilliseconds(200),
+            EasingFunction = new CubicEase { EasingMode = EasingMode.EaseInOut }
+        };
+
+        MainBorder.Background?.BeginAnimation(SolidColorBrush.ColorProperty, backgroundAnimation);
+        MainBorder.Background?.BeginAnimation(SolidColorBrush.OpacityProperty, backgroundOpacityAnimation);
     }
 
     private void Grid_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -137,6 +185,13 @@ public partial class TaskbarWindow : Window
             // 3. Initial Calculation
             CalculateAndSetPosition(taskbarHandle, myHandle);
         }
+
+        // for hover animation
+        if (MainBorder.Background is not SolidColorBrush)
+        {
+            MainBorder.Background = new SolidColorBrush(Colors.Transparent);
+            MainBorder.Background.Opacity = 0;
+        }
     }
 
     private void UpdatePosition()
@@ -162,6 +217,10 @@ public partial class TaskbarWindow : Window
         var titleWidth = StringWidth.GetStringWidth(SongTitle.Text);
         var artistWidth = StringWidth.GetStringWidth(SongArtist.Text);
         double logicalWidth = Math.Max(titleWidth, artistWidth) + 40 * scale; // add margin for cover image
+        // maximum width limit, matches default media flyout width
+        logicalWidth = Math.Min(logicalWidth, 310);
+        SongTitle.Width = logicalWidth - 40 * scale;
+        SongArtist.Width = logicalWidth - 40 * scale;
 
         int physicalWidth = (int)(logicalWidth * dpiScaleX);
         int physicalHeight = (int)(this.Height * dpiScaleY);
@@ -182,8 +241,18 @@ public partial class TaskbarWindow : Window
                      SWP_NOZORDER | SWP_NOACTIVATE | SWP_ASYNCWINDOWPOS | SWP_SHOWWINDOW);
     }
 
-    public void UpdateUi(string title, string artist, BitmapImage? icon, GlobalSystemMediaTransportControlsSessionPlaybackStatus playbackStatus)
+    public void UpdateUi(string title, string artist, BitmapImage? icon, GlobalSystemMediaTransportControlsSessionPlaybackStatus? playbackStatus)
     {
+        if (title == "-" && artist == "-")
+        {
+            // no media playing, hide UI
+            Dispatcher.Invoke(() =>
+            {
+                MainBorder.Visibility = Visibility.Collapsed;
+            });
+            return;
+        }
+
         bool isPaused = false;
         if (playbackStatus != GlobalSystemMediaTransportControlsSessionPlaybackStatus.Playing)
         {
@@ -231,6 +300,8 @@ public partial class TaskbarWindow : Window
                 SongImagePlaceholder.Visibility = Visibility.Visible;
                 SongImage.ImageSource = null;
             }
+
+            MainBorder.Visibility = Visibility.Visible;
         });
     }
 }
