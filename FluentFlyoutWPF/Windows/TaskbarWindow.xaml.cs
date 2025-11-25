@@ -70,6 +70,12 @@ public partial class TaskbarWindow : Window
 
     private SolidColorBrush _hitTestTransparent;
 
+    // Cached width calculations
+    private string _cachedTitleText = "";
+    private string _cachedArtistText = "";
+    private double _cachedTitleWidth = 0;
+    private double _cachedArtistWidth = 0;
+
     public TaskbarWindow()
     {
         WindowHelper.SetNoActivate(this);
@@ -218,11 +224,23 @@ public partial class TaskbarWindow : Window
         double dpiScaleX = source.CompositionTarget.TransformToDevice.M11;
         double dpiScaleY = source.CompositionTarget.TransformToDevice.M22;
 
-        // calculate widget width
+        // calculate widget width - use cached values if text hasn't changed
         var scale = 0.9;
-        var titleWidth = StringWidth.GetStringWidth(SongTitle.Text);
-        var artistWidth = StringWidth.GetStringWidth(SongArtist.Text);
-        double logicalWidth = Math.Max(titleWidth, artistWidth) + 40 * scale; // add margin for cover image
+        string currentTitle = SongTitle.Text;
+        string currentArtist = SongArtist.Text;
+        
+        if (currentTitle != _cachedTitleText)
+        {
+            _cachedTitleWidth = StringWidth.GetStringWidth(currentTitle);
+            _cachedTitleText = currentTitle;
+        }
+        if (currentArtist != _cachedArtistText)
+        {
+            _cachedArtistWidth = StringWidth.GetStringWidth(currentArtist);
+            _cachedArtistText = currentArtist;
+        }
+        
+        double logicalWidth = Math.Max(_cachedTitleWidth, _cachedArtistWidth) + 40 * scale; // add margin for cover image
         // maximum width limit, matches default media flyout width
         logicalWidth = Math.Min(logicalWidth, 310);
 
