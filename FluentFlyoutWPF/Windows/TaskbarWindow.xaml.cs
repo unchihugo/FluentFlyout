@@ -79,7 +79,7 @@ public partial class TaskbarWindow : Window
         _hitTestTransparent = new SolidColorBrush(Color.FromArgb(1, 0, 0, 0));
 
         _timer = new DispatcherTimer();
-        _timer.Interval = TimeSpan.FromMilliseconds(50);
+        _timer.Interval = TimeSpan.FromMilliseconds(150);
         _timer.Tick += (s, e) => UpdatePosition();
         _timer.Start();
 
@@ -200,7 +200,9 @@ public partial class TaskbarWindow : Window
 
     private void UpdatePosition()
     {
-        if (!SettingsManager.Current.TaskbarWidgetEnabled) return;
+        // Check premium status before allowing widget to be displayed
+        if (!SettingsManager.Current.TaskbarWidgetEnabled || !SettingsManager.Current.IsPremiumUnlocked) 
+            return;
 
         var interop = new WindowInteropHelper(this);
         IntPtr taskbarHandle = FindWindow("Shell_TrayWnd", null);
@@ -256,7 +258,8 @@ public partial class TaskbarWindow : Window
 
     public void UpdateUi(string title, string artist, BitmapImage? icon, GlobalSystemMediaTransportControlsSessionPlaybackStatus? playbackStatus)
     {
-        if (!SettingsManager.Current.TaskbarWidgetEnabled)
+        // Check premium status - hide widget if not unlocked
+        if (!SettingsManager.Current.TaskbarWidgetEnabled || !SettingsManager.Current.IsPremiumUnlocked)
         {
             Visibility = Visibility.Collapsed;
             return; 

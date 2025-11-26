@@ -3,6 +3,7 @@ using System.Windows;
 using System.Xml.Serialization;
 using CommunityToolkit.Mvvm.ComponentModel;
 using FluentFlyout.Classes;
+using FluentFlyout.Classes.Settings;
 using FluentFlyoutWPF.Models;
 
 namespace FluentFlyoutWPF.ViewModels;
@@ -295,6 +296,19 @@ public partial class UserSettings : ObservableObject
     [ObservableProperty]
     public partial bool TaskbarWidgetPadding { get; set; }
 
+    /// <summary>
+    /// Gets whether premium features are unlocked (runtime only, not persisted)
+    /// </summary>
+    [XmlIgnore]
+    [ObservableProperty]
+    public partial bool IsPremiumUnlocked { get; set; }
+
+    /// <summary>
+    /// Gets whether this is a Store version. Once false, always false (only if last known version was not null).
+    /// </summary>
+    [ObservableProperty]
+    public partial bool IsStoreVersion { get; set; }
+
     public UserSettings()
     {
         foreach (var supportedLanguage in LocalizationManager.SupportedLanguages)
@@ -334,6 +348,8 @@ public partial class UserSettings : ObservableObject
         LockKeysAcrylicWindowEnabled = true;
         TaskbarWidgetEnabled = false;
         TaskbarWidgetPadding = true;
+        IsPremiumUnlocked = false;
+        IsStoreVersion = false;
         _initializing = false;
     }
 
@@ -371,6 +387,15 @@ public partial class UserSettings : ObservableObject
     partial void OnTaskbarWidgetEnabledChanged(bool oldValue, bool newValue)
     {
         if (oldValue == newValue || _initializing) return;
+        
+        // Check premium status before allowing widget to be enabled
+        if (newValue && !SettingsManager.Current.IsPremiumUnlocked)
+        {
+            // Revert the change if premium is not unlocked
+            TaskbarWidgetEnabled = false;
+            return;
+        }
+        
         MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
         mainWindow.UpdateTaskbar();
     }

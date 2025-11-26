@@ -91,6 +91,9 @@ public partial class MainWindow : MicaWindow
             MessageBox.Show($"Failed to restore settings: {ex.Message}");
         }
 
+        // Initialize license manager and check premium status
+        InitializeLicenseAsync();
+
         if (SettingsManager.Current.Startup == true) // add to startup programs if enabled, needs improvement
         {
             RegistryKey key = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
@@ -143,6 +146,27 @@ public partial class MainWindow : MicaWindow
 
         taskbarWindow = new TaskbarWindow();
         UpdateTaskbar();
+    }
+
+    private async void InitializeLicenseAsync()
+    {
+        try
+        {
+            await LicenseManager.Instance.InitializeAsync();
+            
+            // Update settings with license status
+            SettingsManager.Current.IsPremiumUnlocked = LicenseManager.Instance.IsPremiumUnlocked;
+            SettingsManager.Current.IsStoreVersion = LicenseManager.Instance.IsStoreVersion;
+            
+            Debug.WriteLine($"License initialized - Store: {SettingsManager.Current.IsStoreVersion}, Premium: {SettingsManager.Current.IsPremiumUnlocked}");
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"Error initializing license: {ex.Message}");
+            // On error, default to unlocked (benefit of the doubt)
+            SettingsManager.Current.IsPremiumUnlocked = true;
+            SettingsManager.Current.IsStoreVersion = false;
+        }
     }
 
     private void openSettings(object? sender, EventArgs e)
@@ -357,7 +381,9 @@ public partial class MainWindow : MicaWindow
 
     private void CurrentSession_OnPlaybackStateChanged(MediaSession mediaSession, GlobalSystemMediaTransportControlsSessionPlaybackInfo? playbackInfo = null)
     {
+#if DEBUG
         Debug.WriteLine("Playback state changed: " + mediaSession.Id + " " + mediaSession.ControlSession.GetPlaybackInfo().PlaybackStatus);
+#endif     
         pauseOtherMediaSessionsIfNeeded(mediaSession);
 
         var focusedSession = mediaManager.GetFocusedSession();
@@ -373,8 +399,9 @@ public partial class MainWindow : MicaWindow
 
     private void MediaManager_OnAnyMediaPropertyChanged(MediaSession mediaSession, GlobalSystemMediaTransportControlsSessionMediaProperties mediaProperties)
     {
+#if DEBUG
         Debug.WriteLine("Media property changed: " + mediaProperties.Title + " " + mediaSession.ControlSession.GetPlaybackInfo().PlaybackStatus);
-
+#endif
         if (mediaManager.GetFocusedSession() == null)
         {
             taskbarWindow?.UpdateUi("-", "-", null, GlobalSystemMediaTransportControlsSessionPlaybackStatus.Closed);
@@ -430,8 +457,9 @@ public partial class MainWindow : MicaWindow
 
     private void MediaManager_OnAnySessionClosed(MediaSession mediaSession)
     {
+#if DEBUG
         Debug.WriteLine("Session closed: " + (mediaSession.Id).ToString());
-
+#endif
         var focusedSession = mediaManager.GetFocusedSession();
 
         if (focusedSession == null)
