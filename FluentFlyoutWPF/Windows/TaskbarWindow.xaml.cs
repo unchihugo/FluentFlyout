@@ -71,8 +71,8 @@ public partial class TaskbarWindow : Window
     private SolidColorBrush _hitTestTransparent;
 
     // Cached width calculations
-    private string _cachedTitleText = "";
-    private string _cachedArtistText = "";
+    private string _cachedTitleText = string.Empty;
+    private string _cachedArtistText = string.Empty;
     private double _cachedTitleWidth = 0;
     private double _cachedArtistWidth = 0;
 
@@ -229,12 +229,12 @@ public partial class TaskbarWindow : Window
         string currentTitle = SongTitle.Text;
         string currentArtist = SongArtist.Text;
         
-        if (currentTitle != _cachedTitleText)
+        if (!string.Equals(currentTitle, _cachedTitleText, StringComparison.Ordinal))
         {
             _cachedTitleWidth = StringWidth.GetStringWidth(currentTitle);
             _cachedTitleText = currentTitle;
         }
-        if (currentArtist != _cachedArtistText)
+        if (!string.Equals(currentArtist, _cachedArtistText, StringComparison.Ordinal))
         {
             _cachedArtistWidth = StringWidth.GetStringWidth(currentArtist);
             _cachedArtistText = currentArtist;
