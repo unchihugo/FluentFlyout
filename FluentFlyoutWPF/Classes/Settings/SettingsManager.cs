@@ -73,6 +73,7 @@ public class SettingsManager
                 {
                     XmlSerializer xmlSerializer = new XmlSerializer(typeof(UserSettings));
                     _current = (UserSettings)xmlSerializer.Deserialize(reader);
+                    _current.CompleteInitialization();
                     //File.AppendAllText(logFilePath, $"[{DateTime.Now}] Settings restored\n");
                     //EventLog.WriteEntry("FluentFlyout", "Settings restored", EventLogEntryType.Information);
                     return _current;
@@ -91,6 +92,7 @@ public class SettingsManager
         // if the settings file not found or cannot be read
         //File.AppendAllText(logFilePath, $"[{DateTime.Now}] Settings file not found or cannot be read\n");
         _current = new UserSettings();
+        _current.CompleteInitialization();
         return _current;
     }
 

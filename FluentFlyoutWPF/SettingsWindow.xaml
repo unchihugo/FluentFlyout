@@ -7,7 +7,7 @@
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
     xmlns:controls="clr-namespace:MicaWPF.Controls;assembly=MicaWPF"
     mc:Ignorable="d" 
-    Height="7000" MinHeight="300" MinWidth="660" SizeToContent="Width" 
+    Height="700" MinHeight="300" MinWidth="660" SizeToContent="Width" 
     Title="Settings" Icon="/Resources/FluentFlyout2.ico"
     TextOptions.TextRenderingMode="ClearType" TextOptions.TextFormattingMode="Ideal"
     FontFamily="Segoe UI Variable, Microsoft YaHei, Microsoft JhengHei, MS Gothic"
@@ -47,7 +47,11 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,12">
-                            <ui:Image Source="/Resources/FluentFlyoutDemo3.1.png" Width="164"/>
+                            <Border CornerRadius="10" ClipToBounds="True" Width="164" Height="98">
+                                <Border.Background>
+                                    <ImageBrush ImageSource="/Resources/FluentFlyoutDemo3.1.png" Stretch="UniformToFill"/>
+                                </Border.Background>
+                            </Border>
                             <TextBlock Text="{DynamicResource MediaFlyoutDescription}" FontSize="14" FontWeight="Regular" HorizontalAlignment="Stretch" Opacity="0.75" Margin="12,0,0,0" MaxWidth="450" TextWrapping="WrapWithOverflow" />
                         </StackPanel>
                         <ui:CardControl Grid.Row="1" Icon="{ui:SymbolIcon VideoPlayPause24}" Margin="0,0,0,3">
@@ -184,9 +188,18 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
                         <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
-                            <ui:Image Source="/Resources/FluentFlyoutDemo9.1.png" Width="164"/>
+                            <Border CornerRadius="10" ClipToBounds="True" Width="164" Height="98">
+                                <Border.Background>
+                                    <ImageBrush ImageSource="/Resources/FluentFlyoutDemo9.1.png" Stretch="UniformToFill"/>
+                                </Border.Background>
+                            </Border>
                             <TextBlock FontSize="14" FontWeight="Regular" HorizontalAlignment="Stretch" Opacity="0.75" Margin="12,0,0,0" MaxWidth="450" TextWrapping="WrapWithOverflow" Text="{DynamicResource TaskbarWidgetDescription}"/>
                         </StackPanel>
 
@@ -280,6 +293,33 @@
                             </ui:CardControl.Header>
                             <controls:ToggleSwitch IsChecked="{Binding TaskbarWidgetPadding, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}"/>
                         </ui:CardControl>
+                        <ui:CardControl Grid.Row="5" Icon="{ui:SymbolIcon VideoPlayPause24}" Margin="0,0,0,12">
+                            <ui:CardControl.Header>
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock Text="Click to open Media Flyout" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
+                                    <TextBlock Text="If media flyout is enabled, it will open when you click the taskbar widget" FontSize="12" Opacity="0.5"/>
+                                </StackPanel>
+                            </ui:CardControl.Header>
+                            <controls:ToggleSwitch IsChecked="{Binding TaskbarWidgetClickable, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}"/>
+                        </ui:CardControl>
+                        <ui:CardControl Grid.Row="6" Icon="{ui:SymbolIcon ColorBackground24}" Margin="0,0,0,3">
+                            <ui:CardControl.Header>
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock Text="Background Blur" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
+                                    <TextBlock Text="Add background blur effect to the taskbar widget" FontSize="12" Opacity="0.5"/>
+                                </StackPanel>
+                            </ui:CardControl.Header>
+                            <controls:ToggleSwitch IsChecked="{Binding TaskbarWidgetBackgroundBlur, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}"/>
+                        </ui:CardControl>
+                        <ui:CardControl Grid.Row="7" Icon="{ui:SymbolIcon EyeOff24}" Margin="0,0,0,3">
+                            <ui:CardControl.Header>
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock Text="Hide Completely When No Media Is Present" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
+                                    <TextBlock Text="Hides the entire widget when no media is available, instead of displaying a media icon" FontSize="12" Opacity="0.5"/>
+                                </StackPanel>
+                            </ui:CardControl.Header>
+                            <controls:ToggleSwitch IsChecked="{Binding TaskbarWidgetHideCompletely, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}"/>
+                        </ui:CardControl>
                     </Grid>
 
                     <TextBlock Text="{DynamicResource NextUpCustomizationTitle}" FontSize="20" FontWeight="SemiBold" FontFamily="Segoe UI Variable" Margin="0,36,0,0"/>
@@ -291,7 +331,11 @@
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
                         <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
-                            <ui:Image Source="/Resources/FluentFlyoutDemo4.1.png" Width="164"/>
+                            <Border CornerRadius="10" ClipToBounds="True" Width="164" Height="98">
+                                <Border.Background>
+                                    <ImageBrush ImageSource="/Resources/FluentFlyoutDemo4.1.png" Stretch="UniformToFill"/>
+                                </Border.Background>
+                            </Border>
                             <TextBlock FontSize="14" FontWeight="Regular" HorizontalAlignment="Stretch" Opacity="0.75" Margin="12,0,0,0" MaxWidth="450" TextWrapping="WrapWithOverflow" Text="{DynamicResource NextUpDescription}"/>
                         </StackPanel>
                         <ui:CardControl Grid.Row="1" Icon="{ui:SymbolIcon MusicNote2Play20}" Margin="0,0,0,3">
@@ -337,7 +381,11 @@
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
                         <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
-                            <ui:Image Source="/Resources/FluentFlyoutDemo5.1.png" Width="164"/>
+                            <Border CornerRadius="10" ClipToBounds="True" Width="164" Height="98">
+                                <Border.Background>
+                                    <ImageBrush ImageSource="/Resources/FluentFlyoutDemo5.1.png" Stretch="UniformToFill"/>
+                                </Border.Background>
+                            </Border>
                             <TextBlock FontSize="14" FontWeight="Regular" HorizontalAlignment="Stretch" Opacity="0.75" Margin="12,0,0,0" MaxWidth="450" TextWrapping="WrapWithOverflow" Text="{DynamicResource LockKeysDescription}"/>
                         </StackPanel>
                         <ui:CardControl Grid.Row="1" Icon="{ui:SymbolIcon LockMultiple24}" Margin="0,0,0,3">

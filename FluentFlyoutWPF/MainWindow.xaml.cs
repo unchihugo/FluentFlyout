@@ -85,14 +85,18 @@ public partial class MainWindow : MicaWindow
         try
         {
             settingsManager.RestoreSettings();
+            LicenseManager.Instance.InitializeAsync();
+
+            // Sync license status from LicenseManager to SettingsManager
+            SettingsManager.Current.IsPremiumUnlocked = LicenseManager.Instance.IsPremiumUnlocked;
+            SettingsManager.Current.IsStoreVersion = LicenseManager.Instance.IsStoreVersion;
+            
+            Debug.WriteLine($"License synced on startup - Store: {SettingsManager.Current.IsStoreVersion}, Premium: {SettingsManager.Current.IsPremiumUnlocked}");
         }
         catch (Exception ex)
         {
             MessageBox.Show($"Failed to restore settings: {ex.Message}");
         }
-
-        // Initialize license manager and check premium status
-        InitializeLicenseAsync();
 
         if (SettingsManager.Current.Startup == true) // add to startup programs if enabled, needs improvement
         {

@@ -2,6 +2,8 @@
 using FluentFlyout.Classes.Utils;
 using FluentFlyoutWPF;
 using FluentFlyoutWPF.Classes;
+using System.Diagnostics;
+using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Input;
@@ -65,12 +67,29 @@ public partial class TaskbarWindow : Window
 
     private readonly DispatcherTimer _timer;
     private readonly SolidColorBrush _hitTestTransparent;
+    private readonly int _nativeWidgetsPadding = 216;
+    private readonly double _scale = 0.9;
+    private readonly DoubleAnimation fadeIn = new()
+    {
+        From = 0.0,
+        To = 0.5,
+        Duration = new(TimeSpan.FromSeconds(2)),
+        FillBehavior = FillBehavior.Stop
+    };
+    private readonly DoubleAnimation fadeOut = new()
+    {
+        From = 0.5,
+        To = 0.0,
+        Duration = new(TimeSpan.FromSeconds(2)),
+        FillBehavior = FillBehavior.Stop
+    };
 
     // Cached width calculations
     private string _cachedTitleText = string.Empty;
     private string _cachedArtistText = string.Empty;
     private double _cachedTitleWidth = 0;
     private double _cachedArtistWidth = 0;
+    private Task _crossFadeTask = Task.CompletedTask;
 
     public TaskbarWindow()
     {
@@ -78,10 +97,10 @@ public partial class TaskbarWindow : Window
         InitializeComponent();
         WindowHelper.SetTopmost(this);
 
-        _hitTestTransparent = new SolidColorBrush(Color.FromArgb(1, 0, 0, 0));
+        _hitTestTransparent = new SolidColorBrush(System.Windows.Media.Color.FromArgb(1, 0, 0, 0));
 
         _timer = new DispatcherTimer();
-        _timer.Interval = TimeSpan.FromMilliseconds(150);
+        _timer.Interval = TimeSpan.FromMilliseconds(1000);
         _timer.Tick += (s, e) => UpdatePosition();
         _timer.Start();
 
@@ -110,6 +129,8 @@ public partial class TaskbarWindow : Window
 
     private void Grid_MouseEnter(object sender, MouseEventArgs e)
     {
+        if (!SettingsManager.Current.TaskbarWidgetClickable) return;
+
         // hover effects with animations
         var brush = (SolidColorBrush)Application.Current.Resources["TextFillColorSecondaryBrush"];
         var targetBackgroundBrush = new SolidColorBrush(brush.Color) { Opacity = 0.075 };
@@ -138,6 +159,8 @@ public partial class TaskbarWindow : Window
 
     private void Grid_MouseLeave(object sender, MouseEventArgs e)
     {
+        if (!SettingsManager.Current.TaskbarWidgetClickable) return;
+
         // Animate back to transparent
         var backgroundAnimation = new ColorAnimation
         {
@@ -156,11 +179,13 @@ public partial class TaskbarWindow : Window
         MainBorder.Background?.BeginAnimation(SolidColorBrush.ColorProperty, backgroundAnimation);
         MainBorder.Background?.BeginAnimation(SolidColorBrush.OpacityProperty, backgroundOpacityAnimation);
 
-        TopBorder.BorderBrush = Brushes.Transparent;
+        TopBorder.BorderBrush = System.Windows.Media.Brushes.Transparent;
     }
 
     private void Grid_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
     {
+        if (!SettingsManager.Current.TaskbarWidgetClickable) return;
+
         // flyout main flyout when clicked
         var mainWindow = (MainWindow)Application.Current.MainWindow;
         mainWindow.ShowMediaFlyout();
@@ -203,15 +228,22 @@ public partial class TaskbarWindow : Window
     private void UpdatePosition()
     {
         // Check premium status before allowing widget to be displayed
-        if (!SettingsManager.Current.TaskbarWidgetEnabled || !SettingsManager.Current.IsPremiumUnlocked) 
+        if (!SettingsManager.Current.TaskbarWidgetEnabled || !SettingsManager.Current.IsPremiumUnlocked)
             return;
 
-        var interop = new WindowInteropHelper(this);
-        IntPtr taskbarHandle = FindWindow("Shell_TrayWnd", null);
-
-        if (taskbarHandle != IntPtr.Zero && interop.Handle != IntPtr.Zero)
+        try
         {
-            CalculateAndSetPosition(taskbarHandle, interop.Handle);
+            var interop = new WindowInteropHelper(this);
+            IntPtr taskbarHandle = FindWindow("Shell_TrayWnd", null);
+
+            if (taskbarHandle != IntPtr.Zero && interop.Handle != IntPtr.Zero)
+            {
+                CalculateAndSetPosition(taskbarHandle, interop.Handle);
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine("Taskbar Widget error: " + ex.Message);
         }
     }
 
@@ -228,10 +260,9 @@ public partial class TaskbarWindow : Window
         double dpiScaleY = source.CompositionTarget.TransformToDevice.M22;
 
         // calculate widget width - use cached values if text hasn't changed
-        var scale = 0.9;
         string currentTitle = SongTitle.Text;
         string currentArtist = SongArtist.Text;
-        
+
         if (!string.Equals(currentTitle, _cachedTitleText, StringComparison.Ordinal))
         {
             _cachedTitleWidth = StringWidth.GetStringWidth(currentTitle);
@@ -242,13 +273,13 @@ public partial class TaskbarWindow : Window
             _cachedArtistWidth = StringWidth.GetStringWidth(currentArtist);
             _cachedArtistText = currentArtist;
         }
-        
-        double logicalWidth = Math.Max(_cachedTitleWidth, _cachedArtistWidth) + 40 * scale; // add margin for cover image
-        // maximum width limit, matches default media flyout width
-        logicalWidth = Math.Min(logicalWidth, 310);
 
-        SongTitle.Width = logicalWidth - 40 * scale;
-        SongArtist.Width = logicalWidth - 40 * scale;
+        double logicalWidth = Math.Max(_cachedTitleWidth, _cachedArtistWidth) + 40 * _scale; // add margin for cover image
+        // maximum width limit, same as Windows native widget
+        logicalWidth = Math.Min(logicalWidth, _nativeWidgetsPadding);
+
+        SongTitle.Width = logicalWidth - 40 * _scale;
+        SongArtist.Width = logicalWidth - 40 * _scale;
 
         int physicalWidth = (int)(logicalWidth * dpiScaleX);
         int physicalHeight = (int)(this.Height * dpiScaleY);
@@ -260,31 +291,30 @@ public partial class TaskbarWindow : Window
 
         // Centered vertically
         int physicalTop = (taskbarHeight - physicalHeight) / 2;
-        int nativeWidgetsPadding = 216;
 
         int physicalLeft = 20; // maybe add automatic widget padding?
         if (SettingsManager.Current.TaskbarWidgetPadding)
         {
-            physicalLeft += nativeWidgetsPadding;
+            physicalLeft += _nativeWidgetsPadding;
         }
 
-            // Apply using SetWindowPos (Bypassing WPF layout engine)
-            SetWindowPos(myHandle, IntPtr.Zero,
-                     physicalLeft, physicalTop,
-                     physicalWidth, physicalHeight,
-                     SWP_NOZORDER | SWP_NOACTIVATE | SWP_ASYNCWINDOWPOS | SWP_SHOWWINDOW);
+        // Apply using SetWindowPos (Bypassing WPF layout engine)
+        SetWindowPos(myHandle, IntPtr.Zero,
+                 physicalLeft, physicalTop,
+                 physicalWidth, physicalHeight,
+                 SWP_NOZORDER | SWP_NOACTIVATE | SWP_ASYNCWINDOWPOS | SWP_SHOWWINDOW);
     }
 
     public void UpdateUi(string title, string artist, BitmapImage? icon, GlobalSystemMediaTransportControlsSessionPlaybackStatus? playbackStatus)
     {
         // Check premium status - hide widget if not unlocked
-        if (Visibility == Visibility.Visible && (!SettingsManager.Current.TaskbarWidgetEnabled || !SettingsManager.Current.IsPremiumUnlocked))
+        if ((!SettingsManager.Current.TaskbarWidgetEnabled || !SettingsManager.Current.IsPremiumUnlocked))
         {
             Dispatcher.Invoke(() =>
             {
                 Visibility = Visibility.Collapsed;
             });
-            return; 
+            return;
         }
 
         if (title == "-" && artist == "-")
@@ -292,13 +322,20 @@ public partial class TaskbarWindow : Window
             // no media playing, hide UI
             Dispatcher.Invoke(() =>
             {
+                if (SettingsManager.Current.TaskbarWidgetHideCompletely)
+                {
+                    Visibility = Visibility.Collapsed;
+                    return;
+                }
+
                 SongTitle.Text = "";
                 SongArtist.Text = "";
                 SongInfoStackPanel.Visibility = Visibility.Collapsed;
                 SongImagePlaceholder.Symbol = Wpf.Ui.Controls.SymbolRegular.MusicNote220;
                 SongImagePlaceholder.Visibility = Visibility.Visible;
                 SongImage.ImageSource = null;
-                SongImageBorder.Margin = new Thickness(0, 0, 0, -6);
+                BackgroundImage.Source = null;
+                SongImageBorder.Margin = new Thickness(0, 0, 0, -5);
                 UpdatePosition();
                 Visibility = Visibility.Visible;
             });
@@ -331,18 +368,54 @@ public partial class TaskbarWindow : Window
                     SongImage.Opacity = 1;
                 }
                 SongImage.ImageSource = icon;
+                BackgroundImage.Source = icon;
+
+                // start cross-fade if previous task is completed
+                //if (_crossFadeTask.IsCompleted)
+                //{
+                //    _crossFadeTask = CrossFadeBackground(icon);
+                //}
             }
             else
             {
                 SongImagePlaceholder.Symbol = Wpf.Ui.Controls.SymbolRegular.MusicNote220;
                 SongImagePlaceholder.Visibility = Visibility.Visible;
                 SongImage.ImageSource = null;
+                BackgroundImage.Source = null;
             }
 
             SongTitle.Visibility = Visibility.Visible;
             SongArtist.Visibility = Visibility.Visible;
             SongInfoStackPanel.Visibility = Visibility.Visible;
+            BackgroundImage.Visibility = SettingsManager.Current.TaskbarWidgetBackgroundBlur ? Visibility.Visible : Visibility.Collapsed;
             Visibility = Visibility.Visible;
+
+            UpdatePosition();
         });
     }
+
+    //private Task CrossFadeBackground(BitmapImage newImage)
+    //{
+    //    try
+    //    {
+    //        BackgroundImageNext.Source = newImage;
+
+    //        fadeIn.Completed += (s, e) =>
+    //        {
+    //            BackgroundImage.Source = newImage;
+    //            BackgroundImageNext.Opacity = 0;
+    //            BackgroundImageNext.Source = null;
+    //            fadeIn.Completed -= (s, e2) => {  };
+    //        };
+
+    //        BackgroundImage.BeginAnimation(OpacityProperty, fadeOut);
+    //        BackgroundImageNext.BeginAnimation(OpacityProperty, fadeIn);
+    //        return Task.CompletedTask;
+    //    }
+    //    catch
+    //    {
+    //        // ignore errors
+    //        return Task.CompletedTask;
+    //    }
+    //}
 }

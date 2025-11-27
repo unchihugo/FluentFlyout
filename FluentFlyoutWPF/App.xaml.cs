@@ -8,7 +8,7 @@ namespace FluentFlyoutWPF;
 /// </summary>
 public partial class App : Application
 {
-    protected override void OnStartup(StartupEventArgs e)
+    protected override async void OnStartup(StartupEventArgs e)
     {
         // Apply localization before any windows are created
         LocalizationManager.ApplyLocalization();
