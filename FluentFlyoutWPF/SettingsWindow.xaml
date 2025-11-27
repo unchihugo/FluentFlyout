@@ -580,7 +580,7 @@
                                     <TextBlock Text="Access settings from launching the program twice" FontSize="12" Opacity="0.5"/>
                                 </StackPanel>
                             </ui:CardControl.Header>
-                            <controls:ToggleSwitch IsChecked="{Binding NIconHide, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}"/>
+                            <controls:ToggleSwitch Name="NIconHideSwitch" IsChecked="{Binding NIconHide, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}" Click="ToggleSwitch_Click"/>
                         </ui:CardControl>
                     </Grid>
 
@@ -627,7 +627,6 @@
                                 </Style>
                             </ui:InfoBar.Style>
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{DynamicResource PremiumLockedMessage}" VerticalAlignment="Center"/>
                                 <controls:Button Content="{DynamicResource UnlockPremiumButton}" 
                        Click="UnlockPremiumButton_Click" 
                        Style="{StaticResource MicaWPF.Styles.AccentedButton}"

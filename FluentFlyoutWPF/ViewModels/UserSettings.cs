@@ -209,6 +209,12 @@ public partial class UserSettings : ObservableObject
     public partial bool NIconSymbol { get; set; }
 
     /// <summary>
+    /// Hide tray icon completely
+    /// </summary>
+    [ObservableProperty]
+    public partial bool NIconHide { get; set; }
+
+    /// <summary>
     /// Disable flyout when a DirectX exclusive fullscreen app is detected
     /// </summary>
     [ObservableProperty]
@@ -357,6 +363,7 @@ public partial class UserSettings : ObservableObject
         MediaFlyoutEnabled = true;
         MediaFlyoutAlwaysDisplay = false;
         NIconSymbol = false;
+        NIconHide = false;
         DisableIfFullscreen = true;
         LockKeysBoldUi = false;
         LastKnownVersion = "";

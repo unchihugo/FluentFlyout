@@ -92,8 +92,6 @@ public class LicenseManager
                 // Self-compiled or GitHub version - unlock premium for free
                 Debug.WriteLine("LicenseManager: Non-Store version detected. Premium unlocked.");
                 _isPremiumUnlocked = true;
-                //_isPremiumUnlocked = false;
-                //_isStoreVersion = true; // testing
             }
             else
             {

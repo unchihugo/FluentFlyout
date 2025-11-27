@@ -189,27 +189,6 @@ public partial class MainWindow : MicaWindow
         UpdateTaskbar();
     }
 
-    private async void InitializeLicenseAsync()
-    {
-        try
-        {
-            await LicenseManager.Instance.InitializeAsync();
-            
-            // Update settings with license status
-            SettingsManager.Current.IsPremiumUnlocked = LicenseManager.Instance.IsPremiumUnlocked;
-            SettingsManager.Current.IsStoreVersion = LicenseManager.Instance.IsStoreVersion;
-            
-            Debug.WriteLine($"License initialized - Store: {SettingsManager.Current.IsStoreVersion}, Premium: {SettingsManager.Current.IsPremiumUnlocked}");
-        }
-        catch (Exception ex)
-        {
-            Debug.WriteLine($"Error initializing license: {ex.Message}");
-            // On error, default to unlocked (benefit of the doubt)
-            SettingsManager.Current.IsPremiumUnlocked = true;
-            SettingsManager.Current.IsStoreVersion = false;
-        }
-    }
-
     private void openSettings(object? sender, EventArgs e)
     {
         SettingsWindow.ShowInstance();
@@ -1172,6 +1151,19 @@ public partial class MainWindow : MicaWindow
         Hide();
         UpdateUILayout();
         ThemeManager.ApplySavedTheme();
+
+        // add tray icon if not hidden
+        try
+        {
+        if (!SettingsManager.Current.NIconHide)
+            {
+                nIcon.Visibility = Visibility.Visible;
+            }
+        }
+        catch
+        {
+            // ignore
+        }
     }
 
     private void nIcon_LeftClick(Wpf.Ui.Tray.Controls.NotifyIcon sender, RoutedEventArgs e) // change the behavior of the tray icon
