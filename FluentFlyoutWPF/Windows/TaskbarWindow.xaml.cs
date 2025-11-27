@@ -2,10 +2,8 @@
 using FluentFlyout.Classes.Utils;
 using FluentFlyoutWPF;
 using FluentFlyoutWPF.Classes;
-using System.Diagnostics.Eventing.Reader;
 using System.Runtime.InteropServices;
 using System.Windows;
-using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
@@ -13,7 +11,6 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using Windows.Media.Control;
-using Wpf.Ui.Markup;
 
 namespace FluentFlyout.Windows;
 
@@ -66,9 +63,8 @@ public partial class TaskbarWindow : Window
     private const uint SWP_ASYNCWINDOWPOS = 0x4000;
     // ------------------
 
-    private DispatcherTimer _timer;
-
-    private SolidColorBrush _hitTestTransparent;
+    private readonly DispatcherTimer _timer;
+    private readonly SolidColorBrush _hitTestTransparent;
 
     // Cached width calculations
     private string _cachedTitleText = string.Empty;
@@ -223,6 +219,11 @@ public partial class TaskbarWindow : Window
     {
         // get DPI scaling
         PresentationSource source = PresentationSource.FromVisual(this);
+        if (source == null || source.CompositionTarget == null)
+        {
+            // Window is not yet loaded or has been closed; cannot calculate DPI scaling
+            return;
+        }
         double dpiScaleX = source.CompositionTarget.TransformToDevice.M11;
         double dpiScaleY = source.CompositionTarget.TransformToDevice.M22;
 
@@ -246,10 +247,10 @@ public partial class TaskbarWindow : Window
         // maximum width limit, matches default media flyout width
         logicalWidth = Math.Min(logicalWidth, 310);
 
-            SongTitle.Width = logicalWidth - 40 * scale;
-            SongArtist.Width = logicalWidth - 40 * scale;
+        SongTitle.Width = logicalWidth - 40 * scale;
+        SongArtist.Width = logicalWidth - 40 * scale;
 
-            int physicalWidth = (int)(logicalWidth * dpiScaleX);
+        int physicalWidth = (int)(logicalWidth * dpiScaleX);
         int physicalHeight = (int)(this.Height * dpiScaleY);
 
         // Get Taskbar dimensions
@@ -277,9 +278,12 @@ public partial class TaskbarWindow : Window
     public void UpdateUi(string title, string artist, BitmapImage? icon, GlobalSystemMediaTransportControlsSessionPlaybackStatus? playbackStatus)
     {
         // Check premium status - hide widget if not unlocked
-        if (!SettingsManager.Current.TaskbarWidgetEnabled || !SettingsManager.Current.IsPremiumUnlocked)
+        if (Visibility == Visibility.Visible && (!SettingsManager.Current.TaskbarWidgetEnabled || !SettingsManager.Current.IsPremiumUnlocked))
         {
-            Visibility = Visibility.Collapsed;
+            Dispatcher.Invoke(() =>
+            {
+                Visibility = Visibility.Collapsed;
+            });
             return; 
         }
 
@@ -294,6 +298,7 @@ public partial class TaskbarWindow : Window
                 SongImagePlaceholder.Symbol = Wpf.Ui.Controls.SymbolRegular.MusicNote220;
                 SongImagePlaceholder.Visibility = Visibility.Visible;
                 SongImage.ImageSource = null;
+                SongImageBorder.Margin = new Thickness(0, 0, 0, -6);
                 UpdatePosition();
                 Visibility = Visibility.Visible;
             });
@@ -308,23 +313,9 @@ public partial class TaskbarWindow : Window
 
         Dispatcher.Invoke(() =>
         {
-            if (!String.IsNullOrEmpty(title))
-            {
-                SongTitle.Text = title;
-            }
-            else
-            {
-                SongTitle.Text = "-";
-            }
-
-            if (!String.IsNullOrEmpty(artist))
-            {
-                SongArtist.Text = artist;
-            }
-            else
-            {
-                SongArtist.Text = "-";
-            }
+            SongImageBorder.Margin = new Thickness(0, 0, 0, -2);
+            SongTitle.Text = !String.IsNullOrEmpty(title) ? title : "-";
+            SongArtist.Text = !String.IsNullOrEmpty(artist) ? artist : "-";
 
             if (icon != null)
             {

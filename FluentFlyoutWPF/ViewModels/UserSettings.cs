@@ -281,7 +281,8 @@ public partial class UserSettings : ObservableObject
     [XmlIgnore]
     public ObservableCollection<LanguageOption> LanguageOptions { get; } = [];
 
-    [XmlIgnore] [ObservableProperty] 
+    [XmlIgnore]
+    [ObservableProperty] 
     public partial LanguageOption SelectedLanguage { get; set; }
 
     /// <summary>

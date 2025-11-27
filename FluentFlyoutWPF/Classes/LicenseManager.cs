@@ -103,9 +103,6 @@ public class LicenseManager
         catch (Exception ex)
         {
             Debug.WriteLine($"LicenseManager: Error initializing - {ex.Message}");
-            // On error, assume non-Store version and unlock premium
-            _isPremiumUnlocked = true;
-            _isStoreVersion = false;
             _isInitialized = true;
         }
     }

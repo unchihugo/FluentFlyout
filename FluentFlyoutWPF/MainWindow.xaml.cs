@@ -50,8 +50,8 @@ public partial class MainWindow : MicaWindow
     private bool _centerTitleArtist = SettingsManager.Current.CenterTitleArtist;
     private bool _seekBarEnabled = SettingsManager.Current.SeekbarEnabled;
     private bool _alwaysDisplay = SettingsManager.Current.MediaFlyoutAlwaysDisplay;
-    private bool _mediaSessionSupportsSeekbar = false;
-    private bool _acrylicEnabled = false;
+    private bool _mediaSessionSupportsSeekbar = false; // default off to handle initialization
+    private bool _acrylicEnabled = false; // default off to handle initialization
     private int _themeOption = SettingsManager.Current.AppTheme;
 
     static Mutex singleton = new Mutex(true, "FluentFlyout"); // to prevent multiple instances of the app
@@ -387,6 +387,12 @@ public partial class MainWindow : MicaWindow
         pauseOtherMediaSessionsIfNeeded(mediaSession);
 
         var focusedSession = mediaManager.GetFocusedSession();
+        if (focusedSession == null)
+        {
+            taskbarWindow?.UpdateUi("-", "-", null, GlobalSystemMediaTransportControlsSessionPlaybackStatus.Closed);
+            return;
+        }
+
         var songInfo = focusedSession.ControlSession.TryGetMediaPropertiesAsync().GetAwaiter().GetResult();
         taskbarWindow?.UpdateUi(songInfo.Title, songInfo.Artist, Helper.GetThumbnail(songInfo.Thumbnail), playbackInfo?.PlaybackStatus);
 
@@ -993,12 +999,14 @@ public partial class MainWindow : MicaWindow
 
     private void CleanupResources()
     {
+        // should be handled automatically on app exit but just in case
         try
         {
             // unsubscribe from events
             mediaManager.OnAnyMediaPropertyChanged -= MediaManager_OnAnyMediaPropertyChanged;
             mediaManager.OnAnyPlaybackStateChanged -= CurrentSession_OnPlaybackStateChanged;
             mediaManager.OnAnyTimelinePropertyChanged -= MediaManager_OnAnyTimelinePropertyChanged;
+            mediaManager.OnAnySessionClosed -= MediaManager_OnAnySessionClosed;
 
             // dispose managed resources
             _positionTimer?.Change(Timeout.Infinite, Timeout.Infinite);
@@ -1019,6 +1027,9 @@ public partial class MainWindow : MicaWindow
 
             if (nextUpWindow?.IsLoaded == true)
                 nextUpWindow.Close();
+
+            if (taskbarWindow?.IsLoaded == true)
+                taskbarWindow.Close();
 
             // dispose mutex
             singleton?.Dispose();
