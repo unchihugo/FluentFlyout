@@ -3,7 +3,6 @@ using FluentFlyout.Classes.Utils;
 using FluentFlyoutWPF;
 using FluentFlyoutWPF.Classes;
 using System.Diagnostics;
-using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Input;
@@ -69,27 +68,28 @@ public partial class TaskbarWindow : Window
     private readonly SolidColorBrush _hitTestTransparent;
     private readonly int _nativeWidgetsPadding = 216;
     private readonly double _scale = 0.9;
-    private readonly DoubleAnimation fadeIn = new()
-    {
-        From = 0.0,
-        To = 0.5,
-        Duration = new(TimeSpan.FromSeconds(2)),
-        FillBehavior = FillBehavior.Stop
-    };
-    private readonly DoubleAnimation fadeOut = new()
-    {
-        From = 0.5,
-        To = 0.0,
-        Duration = new(TimeSpan.FromSeconds(2)),
-        FillBehavior = FillBehavior.Stop
-    };
+    // unused for now
+    //private readonly DoubleAnimation fadeIn = new()
+    //{
+    //    From = 0.0,
+    //    To = 0.5,
+    //    Duration = new(TimeSpan.FromSeconds(2)),
+    //    FillBehavior = FillBehavior.Stop
+    //};
+    //private readonly DoubleAnimation fadeOut = new()
+    //{
+    //    From = 0.5,
+    //    To = 0.0,
+    //    Duration = new(TimeSpan.FromSeconds(2)),
+    //    FillBehavior = FillBehavior.Stop
+    //};
 
     // Cached width calculations
     private string _cachedTitleText = string.Empty;
     private string _cachedArtistText = string.Empty;
     private double _cachedTitleWidth = 0;
     private double _cachedArtistWidth = 0;
-    private Task _crossFadeTask = Task.CompletedTask;
+    //private Task _crossFadeTask = Task.CompletedTask;
 
     public TaskbarWindow()
     {

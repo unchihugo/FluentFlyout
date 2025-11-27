@@ -35,11 +35,12 @@
 				</Image.Effect>
 			</Image>
 
+            <!-- unused next image for crossfade effect
             <Image x:Name="BackgroundImageNext" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" Opacity="0">
 				<Image.Effect>
 					<BlurEffect Radius="80" />
 				</Image.Effect>
-			</Image>
+			</Image> -->
 			
 			<Border Name="TopBorder" BorderThickness="0,1,0,0" CornerRadius="5" Margin="0,0,0,1">
 				<Grid Name="MainGrid" HorizontalAlignment="Left" VerticalAlignment="Center" RenderTransformOrigin="0,0.5">

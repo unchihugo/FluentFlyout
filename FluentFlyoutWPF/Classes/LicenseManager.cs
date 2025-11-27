@@ -165,18 +165,6 @@ public class LicenseManager
                 return true;
             }
             
-            // Get product info
-            //if (_productResult == null)
-            //{
-            //    _productResult = await _storeContext.GetStoreProductForCurrentAppAsync();
-                
-            //    if (_productResult.ExtendedError != null)
-            //    {
-            //        Debug.WriteLine($"LicenseManager: Error getting product - {_productResult.ExtendedError.Message}");
-            //        return false;
-            //    }
-            //}
-            
             // Get the add-on
             var addOnResult = await _storeContext.GetStoreProductsAsync(new[] { "Durable" }, new[] { PremiumAddOnId });
 

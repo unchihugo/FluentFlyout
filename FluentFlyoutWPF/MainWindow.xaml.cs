@@ -1155,14 +1155,14 @@ public partial class MainWindow : MicaWindow
         // add tray icon if not hidden
         try
         {
-        if (!SettingsManager.Current.NIconHide)
+            if (!SettingsManager.Current.NIconHide)
             {
                 nIcon.Visibility = Visibility.Visible;
             }
         }
-        catch
+        catch (Exception ex)
         {
-            // ignore
+            Debug.WriteLine(ex);
         }
     }
 
