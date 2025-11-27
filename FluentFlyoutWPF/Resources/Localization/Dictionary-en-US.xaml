@@ -40,7 +40,7 @@ hides repeat, shuffle and player info</System:String>
     <System:String x:Key="PauseOtherMediaDescription">When you play or focus on new media, other active sessions are automatically paused</System:String>
     <System:String x:Key="TaskbarWidgetCustomizationTitle">Taskbar Widget Customization</System:String>
     <System:String x:Key="TaskbarWidgetDescription">A compact, built-in widget that lives right on your Windows Taskbar for instant access to your media. Click the widget to expand the full Media Flyout (when enabled).</System:String>
-    <System:String x:Key="TaskbarWidgetEnabledTitle">Enable Taskbar Widget (Premium)</System:String>
+    <System:String x:Key="TaskbarWidgetEnabledTitle">Enable Taskbar Widget</System:String>
     <System:String x:Key="TaskbarWidgetEnabledDescription">Show a compact media widget on the taskbar</System:String>
     <System:String x:Key="TaskbarWidgetVisualIssuesWarning">Configure the options below if you experience visual issues.</System:String>
     <System:String x:Key="TaskbarWidgetPaddingTitle">Add Padding for Windows Widgets button</System:String>
@@ -54,7 +54,7 @@ hides repeat, shuffle and player info</System:String>
     <System:String x:Key="PremiumFeatureTitle">Premium Feature</System:String>
     <System:String x:Key="PremiumFeatureDescription" xml:space="preserve">Your one-time contribution helps me keep FluentFlyout alive and updated. It instantly unlocks all premium customization features, forever.
         
-Note: As an open-source project, these features are also available for free via the manual installer on GitHub.</System:String>
+Note: As an open-source project, these features are also available for free via the manual installer on GitHub. The only trade-off is that updates and installation must be done manually.</System:String>
     <System:String x:Key="PremiumLockedMessage">This feature is part of the premium package</System:String>
     <System:String x:Key="PremiumUnlockedMessage">Premium features unlocked. Thank you for your support!</System:String>
     <System:String x:Key="PremiumGitHubMessage">Premium features are unlocked for GitHub/self-compiled versions</System:String>
