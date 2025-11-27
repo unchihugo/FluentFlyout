@@ -78,8 +78,44 @@ public partial class MainWindow : MicaWindow
 
         if (!singleton.WaitOne(TimeSpan.Zero, true)) // if another instance is already running, close this one
         {
-            Application.Current.Shutdown();
+            // Signal the existing instance to open settings
+            Task.Run(() =>
+            {
+                try
+                {
+                    using (EventWaitHandle settingsEvent = new EventWaitHandle(false, EventResetMode.AutoReset, "FluentFlyout_OpenSettings"))
+                    {
+                        settingsEvent.Set();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine($"Failed to signal existing instance: {ex.Message}");
+                }
+            });
+
+            Environment.Exit(0);
         }
+
+        // in the existing instance, listen for the signal to open settings
+        Task.Run(() =>
+        {
+            try
+            {
+                using (EventWaitHandle settingsEvent = new EventWaitHandle(false, EventResetMode.AutoReset, "FluentFlyout_OpenSettings"))
+                {
+                    while (true)
+                    {
+                        settingsEvent.WaitOne();
+                        Application.Current.Dispatcher.Invoke(() => { SettingsWindow.ShowInstance(); });
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Settings event listener error: {ex.Message}");
+            }
+        });
 
         SettingsManager settingsManager = new();
         try
@@ -90,7 +126,8 @@ public partial class MainWindow : MicaWindow
             // Sync license status from LicenseManager to SettingsManager
             SettingsManager.Current.IsPremiumUnlocked = LicenseManager.Instance.IsPremiumUnlocked;
             SettingsManager.Current.IsStoreVersion = LicenseManager.Instance.IsStoreVersion;
-            
+            SettingsManager.SaveSettings();
+
             Debug.WriteLine($"License synced on startup - Store: {SettingsManager.Current.IsStoreVersion}, Premium: {SettingsManager.Current.IsPremiumUnlocked}");
         }
         catch (Exception ex)

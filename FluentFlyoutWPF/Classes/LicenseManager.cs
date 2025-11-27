@@ -55,7 +55,6 @@ public class LicenseManager
     {
         _isInitialized = false;
         _isPremiumUnlocked = false;
-        _isStoreVersion = false;
     }
     
     /// <summary>
@@ -75,8 +74,9 @@ public class LicenseManager
             _appLicense = await _storeContext.GetAppLicenseAsync();
             
             // if user ever ran a self-compiled or GitHub version, set store version to false
-            if (SettingsManager.Current.LastKnownVersion != null && SettingsManager.Current.IsStoreVersion == false)
+            if (!String.IsNullOrEmpty(SettingsManager.Current.LastKnownVersion) && SettingsManager.Current.IsStoreVersion == false)
             {
+                Debug.WriteLine("LicenseManager: Previous non-Store version detected. Treating as non-Store version.");
                 _isStoreVersion = false;
             }
             else

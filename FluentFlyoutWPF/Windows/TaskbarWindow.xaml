@@ -46,7 +46,7 @@
 					<Grid.RenderTransform>
 						<ScaleTransform ScaleX="0.9" ScaleY="0.9" />
 					</Grid.RenderTransform>
-					<StackPanel Name="MainStackPanel" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Width="Auto" Margin="4,0,-6,0">
+					<StackPanel Name="MainStackPanel" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Width="Auto" Margin="4,0,-10,0">
 						<Border Name="SongImageBorder" CornerRadius="5" Margin="0,0,0,-2" ClipToBounds="True" Width="36" Height="36">
 							<ui:SymbolIcon Name="SongImagePlaceholder" Symbol="MusicNote220" FontSize="24" Filled="True" Foreground="{ui:ThemeResource AccentTextFillColorPrimaryBrush}" />
 							<Border.Background>

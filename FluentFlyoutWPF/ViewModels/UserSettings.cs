@@ -373,7 +373,6 @@ public partial class UserSettings : ObservableObject
         TaskbarWidgetClickable = true;
         TaskbarWidgetBackgroundBlur = false;
         TaskbarWidgetHideCompletely = false;
-        IsStoreVersion = false;
     }
 
     /// <summary>
