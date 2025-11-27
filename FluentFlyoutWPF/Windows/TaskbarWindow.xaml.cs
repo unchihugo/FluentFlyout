@@ -338,6 +338,7 @@ public partial class TaskbarWindow : Window
                 SongImageBorder.Margin = new Thickness(0, 0, 0, -5);
 
                 MainBorder.Background = new SolidColorBrush(Colors.Transparent);
+                MainBorder.Background.Opacity = 0;
                 TopBorder.BorderBrush = System.Windows.Media.Brushes.Transparent;
 
                 UpdatePosition();
