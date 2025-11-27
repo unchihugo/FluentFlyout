@@ -7,7 +7,7 @@
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
     xmlns:controls="clr-namespace:MicaWPF.Controls;assembly=MicaWPF"
     mc:Ignorable="d" 
-    Height="600" MinHeight="300" MinWidth="660" SizeToContent="Width" 
+    Height="7000" MinHeight="300" MinWidth="660" SizeToContent="Width" 
     Title="Settings" Icon="/Resources/FluentFlyout2.ico"
     TextOptions.TextRenderingMode="ClearType" TextOptions.TextFormattingMode="Ideal"
     FontFamily="Segoe UI Variable, Microsoft YaHei, Microsoft JhengHei, MS Gothic"
@@ -47,7 +47,7 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,12">
-                            <ui:Image Source="/Resources/FluentFlyoutDemo3.1.png" Width="128"/>
+                            <ui:Image Source="/Resources/FluentFlyoutDemo3.1.png" Width="164"/>
                             <TextBlock Text="{DynamicResource MediaFlyoutDescription}" FontSize="14" FontWeight="Regular" HorizontalAlignment="Stretch" Opacity="0.75" Margin="12,0,0,0" MaxWidth="450" TextWrapping="WrapWithOverflow" />
                         </StackPanel>
                         <ui:CardControl Grid.Row="1" Icon="{ui:SymbolIcon VideoPlayPause24}" Margin="0,0,0,3">
@@ -176,6 +176,112 @@
                         </ui:CardControl>
                     </Grid>
 
+                    <TextBlock Text="{DynamicResource TaskbarWidgetCustomizationTitle}" FontSize="20" FontWeight="SemiBold" FontFamily="Segoe UI Variable" Margin="0,36,0,0"/>
+                    <Grid Margin="0,12,0,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
+                            <ui:Image Source="/Resources/FluentFlyoutDemo9.1.png" Width="164"/>
+                            <TextBlock FontSize="14" FontWeight="Regular" HorizontalAlignment="Stretch" Opacity="0.75" Margin="12,0,0,0" MaxWidth="450" TextWrapping="WrapWithOverflow" Text="{DynamicResource TaskbarWidgetDescription}"/>
+                        </StackPanel>
+
+                        <!-- Premium Status InfoBar (only shown for Store versions) -->
+                        <ui:InfoBar Grid.Row="1" Title="{DynamicResource PremiumUnlockedMessage}" Severity="Success" IsClosable="True" Margin="0,0,0,3">
+                            <ui:InfoBar.Style>
+                                <Style TargetType="ui:InfoBar" BasedOn="{StaticResource {x:Type ui:InfoBar}}">
+                                    <Setter Property="IsOpen" Value="False" />
+                                    <Style.Triggers>
+                                        <MultiDataTrigger>
+                                            <MultiDataTrigger.Conditions>
+                                                <Condition Binding="{Binding IsStoreVersion}" Value="True"/>
+                                                <Condition Binding="{Binding IsPremiumUnlocked}" Value="True"/>
+                                            </MultiDataTrigger.Conditions>
+                                            <Setter Property="IsOpen" Value="True"/>
+                                        </MultiDataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ui:InfoBar.Style>
+                        </ui:InfoBar>
+
+                        <!-- Premium Locked InfoBar (only shown for Store versions without premium) -->
+                        <ui:InfoBar Grid.Row="1" IsOpen="True" Severity="Warning" IsClosable="False" Margin="0,0,0,3">
+                            <ui:InfoBar.Style>
+                                <Style TargetType="ui:InfoBar">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                    <Style.Triggers>
+                                        <MultiDataTrigger>
+                                            <MultiDataTrigger.Conditions>
+                                                <Condition Binding="{Binding IsStoreVersion}" Value="True"/>
+                                                <Condition Binding="{Binding IsPremiumUnlocked}" Value="False"/>
+                                            </MultiDataTrigger.Conditions>
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                        </MultiDataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ui:InfoBar.Style>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{DynamicResource PremiumLockedMessage}" VerticalAlignment="Center"/>
+                                <controls:Button Name="UnlockPremiumButton" Content="{DynamicResource UnlockPremiumButton}" 
+                                               Click="UnlockPremiumButton_Click" 
+                                               Style="{StaticResource MicaWPF.Styles.AccentedButton}"
+                                               Margin="12,0,0,0" Padding="12,4,12,4" FontSize="12" Height="28"/>
+                            </StackPanel>
+                        </ui:InfoBar>
+
+                        <!-- GitHub Version InfoBar -->
+                        <ui:InfoBar Grid.Row="1" Title="{DynamicResource PremiumGitHubMessage}" IsOpen="True" Severity="Informational" IsClosable="True" Margin="0,0,0,3">
+                            <ui:InfoBar.Style>
+                                <Style TargetType="ui:InfoBar" BasedOn="{StaticResource {x:Type ui:InfoBar}}">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsStoreVersion}" Value="False">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ui:InfoBar.Style>
+                        </ui:InfoBar>
+
+                        <ui:CardControl Grid.Row="2" Icon="{ui:SymbolIcon TabAdd24}" Margin="0,0,0,3">
+                            <ui:CardControl.Header>
+                                <StackPanel Orientation="Vertical">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{DynamicResource TaskbarWidgetEnabledTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
+                                        <ui:SymbolIcon Symbol="LockClosed16" FontSize="12" Margin="6,0,0,0" VerticalAlignment="Center">
+                                            <ui:SymbolIcon.Style>
+                                                <Style TargetType="ui:SymbolIcon">
+                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsPremiumUnlocked}" Value="False">
+                                                            <Setter Property="Visibility" Value="Visible"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </ui:SymbolIcon.Style>
+                                        </ui:SymbolIcon>
+                                    </StackPanel>
+                                    <TextBlock Text="{DynamicResource TaskbarWidgetEnabledDescription}" FontSize="12" Opacity="0.5"/>
+                                </StackPanel>
+                            </ui:CardControl.Header>
+                            <controls:ToggleSwitch IsChecked="{Binding TaskbarWidgetEnabled, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}"/>
+                        </ui:CardControl>
+                        <ui:InfoBar Grid.Row="3" Title="{DynamicResource TaskbarWidgetVisualIssuesWarning}" IsOpen="True" Severity="Warning" IsClosable="False" Margin="0,0,0,3"/>
+                        <ui:CardControl Grid.Row="4" Icon="{ui:SymbolIcon PaddingRight24}" Margin="0,0,0,3">
+                            <ui:CardControl.Header>
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock Text="{DynamicResource TaskbarWidgetPaddingTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
+                                    <TextBlock Text="{DynamicResource TaskbarWidgetPaddingDescription}" FontSize="12" Opacity="0.5"/>
+                                </StackPanel>
+                            </ui:CardControl.Header>
+                            <controls:ToggleSwitch IsChecked="{Binding TaskbarWidgetPadding, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}"/>
+                        </ui:CardControl>
+                    </Grid>
+
                     <TextBlock Text="{DynamicResource NextUpCustomizationTitle}" FontSize="20" FontWeight="SemiBold" FontFamily="Segoe UI Variable" Margin="0,36,0,0"/>
                     <Grid Margin="0,12,0,0">
                         <Grid.RowDefinitions>
@@ -185,7 +291,7 @@
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
                         <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
-                            <ui:Image Source="/Resources/FluentFlyoutDemo4.1.png" Width="128"/>
+                            <ui:Image Source="/Resources/FluentFlyoutDemo4.1.png" Width="164"/>
                             <TextBlock FontSize="14" FontWeight="Regular" HorizontalAlignment="Stretch" Opacity="0.75" Margin="12,0,0,0" MaxWidth="450" TextWrapping="WrapWithOverflow" Text="{DynamicResource NextUpDescription}"/>
                         </StackPanel>
                         <ui:CardControl Grid.Row="1" Icon="{ui:SymbolIcon MusicNote2Play20}" Margin="0,0,0,3">
@@ -231,7 +337,7 @@
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
                         <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
-                            <ui:Image Source="/Resources/FluentFlyoutDemo5.1.png" Width="128"/>
+                            <ui:Image Source="/Resources/FluentFlyoutDemo5.1.png" Width="164"/>
                             <TextBlock FontSize="14" FontWeight="Regular" HorizontalAlignment="Stretch" Opacity="0.75" Margin="12,0,0,0" MaxWidth="450" TextWrapping="WrapWithOverflow" Text="{DynamicResource LockKeysDescription}"/>
                         </StackPanel>
                         <ui:CardControl Grid.Row="1" Icon="{ui:SymbolIcon LockMultiple24}" Margin="0,0,0,3">

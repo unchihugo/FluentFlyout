@@ -1,7 +1,9 @@
 ﻿using System.Collections.ObjectModel;
+using System.Windows;
 using System.Xml.Serialization;
 using CommunityToolkit.Mvvm.ComponentModel;
 using FluentFlyout.Classes;
+using FluentFlyout.Classes.Settings;
 using FluentFlyoutWPF.Models;
 
 namespace FluentFlyoutWPF.ViewModels;
@@ -279,8 +281,34 @@ public partial class UserSettings : ObservableObject
     [XmlIgnore]
     public ObservableCollection<LanguageOption> LanguageOptions { get; } = [];
 
+    [XmlIgnore]
+    [ObservableProperty] 
+    public partial LanguageOption SelectedLanguage { get; set; }
 
-    [XmlIgnore] [ObservableProperty] public partial LanguageOption SelectedLanguage { get; set; }
+    /// <summary>
+    /// Gets or sets a value indicating whether the taskbar widget is enabled
+    /// </summary>
+    [ObservableProperty]
+    public partial bool TaskbarWidgetEnabled { get; set; }
+
+    /// <summary>
+    /// Determines whether padding should be applied to the taskbar widget for the native Windows Widgets button
+    /// </summary>
+    [ObservableProperty]
+    public partial bool TaskbarWidgetPadding { get; set; }
+
+    /// <summary>
+    /// Gets whether premium features are unlocked (runtime only, not persisted)
+    /// </summary>
+    [XmlIgnore]
+    [ObservableProperty]
+    public partial bool IsPremiumUnlocked { get; set; }
+
+    /// <summary>
+    /// Gets whether this is a Store version. Once false, always false (only if last known version was not null).
+    /// </summary>
+    [ObservableProperty]
+    public partial bool IsStoreVersion { get; set; }
 
     public UserSettings()
     {
@@ -309,7 +337,7 @@ public partial class UserSettings : ObservableObject
         MediaFlyoutAlwaysDisplay = false;
         NIconSymbol = false;
         DisableIfFullscreen = true;
-        LockKeysBoldUi = true;
+        LockKeysBoldUi = false;
         LastKnownVersion = "";
         SeekbarEnabled = false;
         PauseOtherSessionsEnabled = false;
@@ -319,6 +347,10 @@ public partial class UserSettings : ObservableObject
         AppLanguage = "system";
         NextUpAcrylicWindowEnabled = true;
         LockKeysAcrylicWindowEnabled = true;
+        TaskbarWidgetEnabled = false;
+        TaskbarWidgetPadding = true;
+        IsPremiumUnlocked = false;
+        IsStoreVersion = false;
         _initializing = false;
     }
 
@@ -351,5 +383,21 @@ public partial class UserSettings : ObservableObject
     {
         if (oldValue == newValue || _initializing) return;
         ThemeManager.UpdateTrayIcon();
+    }
+
+    partial void OnTaskbarWidgetEnabledChanged(bool oldValue, bool newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+        
+        // Check premium status before allowing widget to be enabled
+        if (newValue && !SettingsManager.Current.IsPremiumUnlocked)
+        {
+            // Revert the change if premium is not unlocked
+            TaskbarWidgetEnabled = false;
+            return;
+        }
+        
+        MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+        mainWindow.UpdateTaskbar();
     }
 }

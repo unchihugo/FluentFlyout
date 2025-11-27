@@ -3,9 +3,8 @@ using Microsoft.Win32;
 using System.Diagnostics;
 using System.IO;
 using System.Windows;
-using System.Windows.Controls;
 using Windows.ApplicationModel;
-using MessageBox = System.Windows.MessageBox;
+using MessageBox = Wpf.Ui.Controls.MessageBox;
 using FluentFlyout.Classes.Settings;
 using FluentFlyout.Classes;
 
@@ -117,7 +116,14 @@ public partial class SettingsWindow : MicaWindow
         }
         catch (Exception ex)
         {
-            MessageBox.Show($"Failed to set startup: {ex.Message}");
+            MessageBox messageBox = new()
+            {
+                Title = "Error",
+                Content = $"Failed to set startup: {ex.Message}",
+                CloseButtonText = "OK",
+            };
+
+            _ = messageBox.ShowDialogAsync();
         }
     }
 
@@ -128,4 +134,64 @@ public partial class SettingsWindow : MicaWindow
         e.Handled = true;
     }
     
+    private async void UnlockPremiumButton_Click(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            // Disable button during purchase
+            if (sender is System.Windows.Controls.Button button)
+            {
+                button.IsEnabled = false;
+                button.Content = "Processing...";
+            }
+
+            bool success = await LicenseManager.Instance.PurchasePremiumAsync();
+            
+            if (success)
+            {
+                // Update settings with new license status
+                SettingsManager.Current.IsPremiumUnlocked = true;
+
+                MessageBox messageBox = new()
+                {
+                    Title = "Success",
+                    Content = FindResource("PremiumPurchaseSuccess").ToString(),
+                    CloseButtonText = "OK",
+                };
+
+                await messageBox.ShowDialogAsync();
+            }
+            else
+            {
+                MessageBox messageBox = new()
+                {
+                    Title = "Purchase Failed",
+                    Content = FindResource("PremiumPurchaseFailed").ToString(),
+                    CloseButtonText = "OK",
+                };
+
+                await messageBox.ShowDialogAsync();
+            }
+        }
+        catch (Exception ex)
+        {
+            MessageBox messageBox = new()
+            {
+                Title = "Error",
+                Content = $"An error occurred: {ex.Message}",
+                CloseButtonText = "OK",
+            };
+
+            await messageBox.ShowDialogAsync();
+        }
+        finally
+        {
+            // Re-enable button
+            if (sender is System.Windows.Controls.Button button)
+            {
+                button.IsEnabled = true;
+                button.Content = FindResource("UnlockPremiumButton").ToString();
+            }
+        }
+    }
 }
