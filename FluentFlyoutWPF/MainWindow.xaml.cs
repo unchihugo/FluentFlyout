@@ -78,21 +78,62 @@ public partial class MainWindow : MicaWindow
 
         if (!singleton.WaitOne(TimeSpan.Zero, true)) // if another instance is already running, close this one
         {
-            Application.Current.Shutdown();
+            // Signal the existing instance to open settings
+            Task.Run(() =>
+            {
+                try
+                {
+                    using (EventWaitHandle settingsEvent = new EventWaitHandle(false, EventResetMode.AutoReset, "FluentFlyout_OpenSettings"))
+                    {
+                        settingsEvent.Set();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine($"Failed to signal existing instance: {ex.Message}");
+                }
+            });
+
+            Environment.Exit(0);
         }
+
+        // in the existing instance, listen for the signal to open settings
+        Task.Run(() =>
+        {
+            try
+            {
+                using (EventWaitHandle settingsEvent = new EventWaitHandle(false, EventResetMode.AutoReset, "FluentFlyout_OpenSettings"))
+                {
+                    while (true)
+                    {
+                        settingsEvent.WaitOne();
+                        Application.Current.Dispatcher.Invoke(() => { SettingsWindow.ShowInstance(); });
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Settings event listener error: {ex.Message}");
+            }
+        });
 
         SettingsManager settingsManager = new();
         try
         {
             settingsManager.RestoreSettings();
+            LicenseManager.Instance.InitializeAsync();
+
+            // Sync license status from LicenseManager to SettingsManager
+            SettingsManager.Current.IsPremiumUnlocked = LicenseManager.Instance.IsPremiumUnlocked;
+            SettingsManager.Current.IsStoreVersion = LicenseManager.Instance.IsStoreVersion;
+            SettingsManager.SaveSettings();
+
+            Debug.WriteLine($"License synced on startup - Store: {SettingsManager.Current.IsStoreVersion}, Premium: {SettingsManager.Current.IsPremiumUnlocked}");
         }
         catch (Exception ex)
         {
             MessageBox.Show($"Failed to restore settings: {ex.Message}");
         }
-
-        // Initialize license manager and check premium status
-        InitializeLicenseAsync();
 
         if (SettingsManager.Current.Startup == true) // add to startup programs if enabled, needs improvement
         {
@@ -146,27 +187,6 @@ public partial class MainWindow : MicaWindow
 
         taskbarWindow = new TaskbarWindow();
         UpdateTaskbar();
-    }
-
-    private async void InitializeLicenseAsync()
-    {
-        try
-        {
-            await LicenseManager.Instance.InitializeAsync();
-            
-            // Update settings with license status
-            SettingsManager.Current.IsPremiumUnlocked = LicenseManager.Instance.IsPremiumUnlocked;
-            SettingsManager.Current.IsStoreVersion = LicenseManager.Instance.IsStoreVersion;
-            
-            Debug.WriteLine($"License initialized - Store: {SettingsManager.Current.IsStoreVersion}, Premium: {SettingsManager.Current.IsPremiumUnlocked}");
-        }
-        catch (Exception ex)
-        {
-            Debug.WriteLine($"Error initializing license: {ex.Message}");
-            // On error, default to unlocked (benefit of the doubt)
-            SettingsManager.Current.IsPremiumUnlocked = true;
-            SettingsManager.Current.IsStoreVersion = false;
-        }
     }
 
     private void openSettings(object? sender, EventArgs e)
@@ -1131,6 +1151,19 @@ public partial class MainWindow : MicaWindow
         Hide();
         UpdateUILayout();
         ThemeManager.ApplySavedTheme();
+
+        // add tray icon if not hidden
+        try
+        {
+            if (!SettingsManager.Current.NIconHide)
+            {
+                nIcon.Visibility = Visibility.Visible;
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine(ex);
+        }
     }
 
     private void nIcon_LeftClick(Wpf.Ui.Tray.Controls.NotifyIcon sender, RoutedEventArgs e) // change the behavior of the tray icon

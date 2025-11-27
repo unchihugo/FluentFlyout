@@ -209,6 +209,12 @@ public partial class UserSettings : ObservableObject
     public partial bool NIconSymbol { get; set; }
 
     /// <summary>
+    /// Hide tray icon completely
+    /// </summary>
+    [ObservableProperty]
+    public partial bool NIconHide { get; set; }
+
+    /// <summary>
     /// Disable flyout when a DirectX exclusive fullscreen app is detected
     /// </summary>
     [ObservableProperty]
@@ -298,6 +304,24 @@ public partial class UserSettings : ObservableObject
     public partial bool TaskbarWidgetPadding { get; set; }
 
     /// <summary>
+    /// Gets or sets a value indicating whether the taskbar widget is clickable
+    /// </summary>
+    [ObservableProperty]
+    public partial bool TaskbarWidgetClickable { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indication whether the taskbar widget background should have a blur effect
+    /// </summary>
+    [ObservableProperty]
+    public partial bool TaskbarWidgetBackgroundBlur { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the taskbar widget should be completely hidden from view when no media is playing.
+    /// </summary>
+    [ObservableProperty]
+    public partial bool TaskbarWidgetHideCompletely { get; set; }
+
+    /// <summary>
     /// Gets whether premium features are unlocked (runtime only, not persisted)
     /// </summary>
     [XmlIgnore]
@@ -309,6 +333,9 @@ public partial class UserSettings : ObservableObject
     /// </summary>
     [ObservableProperty]
     public partial bool IsStoreVersion { get; set; }
+
+    [XmlIgnore]
+    private bool _initializing = true;
 
     public UserSettings()
     {
@@ -336,6 +363,7 @@ public partial class UserSettings : ObservableObject
         MediaFlyoutEnabled = true;
         MediaFlyoutAlwaysDisplay = false;
         NIconSymbol = false;
+        NIconHide = false;
         DisableIfFullscreen = true;
         LockKeysBoldUi = false;
         LastKnownVersion = "";
@@ -349,13 +377,18 @@ public partial class UserSettings : ObservableObject
         LockKeysAcrylicWindowEnabled = true;
         TaskbarWidgetEnabled = false;
         TaskbarWidgetPadding = true;
-        IsPremiumUnlocked = false;
-        IsStoreVersion = false;
-        _initializing = false;
+        TaskbarWidgetClickable = true;
+        TaskbarWidgetBackgroundBlur = false;
+        TaskbarWidgetHideCompletely = false;
     }
 
-
-    private static bool _initializing = true;
+    /// <summary>
+    /// Called after deserialization to finalize initialization
+    /// </summary>
+    internal void CompleteInitialization()
+    {
+        _initializing = false;
+    }
 
     partial void OnAppLanguageChanged(string oldValue, string newValue)
     {
@@ -388,7 +421,7 @@ public partial class UserSettings : ObservableObject
     partial void OnTaskbarWidgetEnabledChanged(bool oldValue, bool newValue)
     {
         if (oldValue == newValue || _initializing) return;
-        
+
         // Check premium status before allowing widget to be enabled
         if (newValue && !SettingsManager.Current.IsPremiumUnlocked)
         {
@@ -396,7 +429,31 @@ public partial class UserSettings : ObservableObject
             TaskbarWidgetEnabled = false;
             return;
         }
-        
+
+        UpdateTaskbar();
+    }
+
+    // Update taskbar when relevant settings change
+    partial void OnTaskbarWidgetClickableChanged(bool oldValue, bool newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+        UpdateTaskbar();
+    }
+
+    partial void OnTaskbarWidgetBackgroundBlurChanged(bool oldValue, bool newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+        UpdateTaskbar();
+    }
+
+    partial void OnTaskbarWidgetHideCompletelyChanged(bool oldValue, bool newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+        UpdateTaskbar();
+    }
+
+    private void UpdateTaskbar()
+    {
         MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
         mainWindow.UpdateTaskbar();
     }

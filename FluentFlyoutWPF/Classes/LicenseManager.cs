@@ -1,5 +1,7 @@
 using FluentFlyout.Classes.Settings;
 using System.Diagnostics;
+using System.Windows;
+using System.Windows.Interop;
 using Windows.Services.Store;
 using Wpf.Ui.Controls;
 
@@ -55,7 +57,6 @@ public class LicenseManager
     {
         _isInitialized = false;
         _isPremiumUnlocked = false;
-        _isStoreVersion = false;
     }
     
     /// <summary>
@@ -75,8 +76,9 @@ public class LicenseManager
             _appLicense = await _storeContext.GetAppLicenseAsync();
             
             // if user ever ran a self-compiled or GitHub version, set store version to false
-            if (SettingsManager.Current.LastKnownVersion != null && SettingsManager.Current.IsStoreVersion == false)
+            if (!String.IsNullOrEmpty(SettingsManager.Current.LastKnownVersion) && SettingsManager.Current.IsStoreVersion == false)
             {
+                Debug.WriteLine("LicenseManager: Previous non-Store version detected. Treating as non-Store version.");
                 _isStoreVersion = false;
             }
             else
@@ -163,21 +165,9 @@ public class LicenseManager
                 return true;
             }
             
-            // Get product info
-            if (_productResult == null)
-            {
-                _productResult = await _storeContext.GetStoreProductForCurrentAppAsync();
-                
-                if (_productResult.ExtendedError != null)
-                {
-                    Debug.WriteLine($"LicenseManager: Error getting product - {_productResult.ExtendedError.Message}");
-                    return false;
-                }
-            }
-            
             // Get the add-on
-            var addOnResult = await _storeContext.GetAssociatedStoreProductsAsync(new[] { "Durable" });
-            
+            var addOnResult = await _storeContext.GetStoreProductsAsync(new[] { "Durable" }, new[] { PremiumAddOnId });
+
             if (addOnResult.ExtendedError != null)
             {
                 Debug.WriteLine($"LicenseManager: Error getting add-ons - {addOnResult.ExtendedError.Message}");
@@ -189,7 +179,11 @@ public class LicenseManager
                 Debug.WriteLine("LicenseManager: Premium add-on not found in store");
                 return false;
             }
-            
+
+            var interop = new WindowInteropHelper(Application.Current.MainWindow);
+            IntPtr hwnd = interop.Handle;
+            WinRT.Interop.InitializeWithWindow.Initialize(_storeContext, hwnd);
+
             // Request purchase
             var purchaseResult = await _storeContext.RequestPurchaseAsync(PremiumAddOnId);
             

@@ -194,4 +194,20 @@ public partial class SettingsWindow : MicaWindow
             }
         }
     }
+
+    private void ToggleSwitch_Click(object sender, RoutedEventArgs e)
+    {
+        bool isChecked = (bool)NIconHideSwitch.IsChecked;
+
+        MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+
+        if (!isChecked)
+        {
+            mainWindow.nIcon.Register();
+        }
+        else
+        {
+            mainWindow.nIcon.Unregister();
+        }
+    }
 }
