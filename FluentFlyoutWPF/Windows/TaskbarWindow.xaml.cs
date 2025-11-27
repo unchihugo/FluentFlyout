@@ -129,7 +129,7 @@ public partial class TaskbarWindow : Window
 
     private void Grid_MouseEnter(object sender, MouseEventArgs e)
     {
-        if (!SettingsManager.Current.TaskbarWidgetClickable) return;
+        if (!SettingsManager.Current.TaskbarWidgetClickable || String.IsNullOrEmpty(SongTitle.Text + SongArtist.Text)) return;
 
         // hover effects with animations
         var brush = (SolidColorBrush)Application.Current.Resources["TextFillColorSecondaryBrush"];
@@ -159,7 +159,7 @@ public partial class TaskbarWindow : Window
 
     private void Grid_MouseLeave(object sender, MouseEventArgs e)
     {
-        if (!SettingsManager.Current.TaskbarWidgetClickable) return;
+        if (!SettingsManager.Current.TaskbarWidgetClickable || String.IsNullOrEmpty(SongTitle.Text + SongArtist.Text)) return;
 
         // Animate back to transparent
         var backgroundAnimation = new ColorAnimation
@@ -336,6 +336,10 @@ public partial class TaskbarWindow : Window
                 SongImage.ImageSource = null;
                 BackgroundImage.Source = null;
                 SongImageBorder.Margin = new Thickness(0, 0, 0, -5);
+
+                MainBorder.Background = new SolidColorBrush(Colors.Transparent);
+                TopBorder.BorderBrush = System.Windows.Media.Brushes.Transparent;
+
                 UpdatePosition();
                 Visibility = Visibility.Visible;
             });
@@ -350,7 +354,6 @@ public partial class TaskbarWindow : Window
 
         Dispatcher.Invoke(() =>
         {
-            SongImageBorder.Margin = new Thickness(0, 0, 0, -2);
             SongTitle.Text = !String.IsNullOrEmpty(title) ? title : "-";
             SongArtist.Text = !String.IsNullOrEmpty(artist) ? artist : "-";
 

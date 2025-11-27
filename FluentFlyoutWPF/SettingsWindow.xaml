@@ -296,7 +296,7 @@
                         <ui:CardControl Grid.Row="5" Icon="{ui:SymbolIcon VideoPlayPause24}" Margin="0,0,0,12">
                             <ui:CardControl.Header>
                                 <StackPanel Orientation="Vertical">
-                                    <TextBlock Text="Click to open Media Flyout" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
+                                    <TextBlock Text="Click to open Media Flyout when media is Present" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
                                     <TextBlock Text="If media flyout is enabled, it will open when you click the taskbar widget" FontSize="12" Opacity="0.5"/>
                                 </StackPanel>
                             </ui:CardControl.Header>
