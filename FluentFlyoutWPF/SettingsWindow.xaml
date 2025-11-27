@@ -265,7 +265,7 @@
                                 <StackPanel Orientation="Vertical">
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock Text="{DynamicResource TaskbarWidgetEnabledTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
-                                        <ui:InfoBadge Value="Premium" FontSize="10" Margin="6,-2,0,-2" Severity="Attention"/>
+                                        <ui:InfoBadge Value="Premium" FontWeight="Medium" FontSize="10" Margin="6,-2,0,-2" Severity="Attention"/>
                                     </StackPanel>
                                     <TextBlock Text="{DynamicResource TaskbarWidgetEnabledDescription}" FontSize="12" Opacity="0.5"/>
                                 </StackPanel>
@@ -575,7 +575,7 @@
                                 <StackPanel Orientation="Vertical">
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock Text="{DynamicResource HideTrayIconTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
-                                        <ui:InfoBadge Value="Premium" FontSize="10" Margin="6,-2,0,-2" Severity="Attention"/>
+                                        <ui:InfoBadge Value="Premium" FontSize="10" FontWeight="Medium" Margin="6,-2,0,-2" Severity="Attention"/>
                                     </StackPanel>
                                     <TextBlock Text="{DynamicResource HideTrayIconDescription}" FontSize="12" Opacity="0.5"/>
                                 </StackPanel>
