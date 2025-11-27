@@ -546,7 +546,7 @@
                         </ui:CardControl>
 
                         <!-- tray icon section -->
-                        <TextBlock Grid.Row="6" Text="Tray Icon" FontSize="14" FontWeight="SemiBold" Margin="0,12,0,6"/>
+                        <TextBlock Grid.Row="6" Text="{DynamicResource TrayIconSectionTitle}" FontSize="14" FontWeight="SemiBold" Margin="0,12,0,6"/>
                         <ui:CardControl Grid.Row="7" Icon="{ui:SymbolIcon CursorHover24}" Margin="0,0,0,3">
                             <ui:CardControl.Header>
                                 <StackPanel Orientation="Vertical">
@@ -574,17 +574,17 @@
                             <ui:CardControl.Header>
                                 <StackPanel Orientation="Vertical">
                                     <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="Hide Tray Icon Completely" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
+                                        <TextBlock Text="{DynamicResource HideTrayIconTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
                                         <ui:InfoBadge Value="Premium" FontSize="10" Margin="6,-2,0,-2" Severity="Attention"/>
                                     </StackPanel>
-                                    <TextBlock Text="Access settings from launching the program twice" FontSize="12" Opacity="0.5"/>
+                                    <TextBlock Text="{DynamicResource HideTrayIconDescription}" FontSize="12" Opacity="0.5"/>
                                 </StackPanel>
                             </ui:CardControl.Header>
                             <controls:ToggleSwitch Name="NIconHideSwitch" IsChecked="{Binding NIconHide, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}" Click="ToggleSwitch_Click"/>
                         </ui:CardControl>
                     </Grid>
 
-                    <TextBlock Text="About Premium" FontSize="20" FontWeight="SemiBold" FontFamily="Segoe UI Variable" Margin="0,36,0,0"/>
+                    <TextBlock Text="{DynamicResource AboutPremiumTitle}" FontSize="20" FontWeight="SemiBold" FontFamily="Segoe UI Variable" Margin="0,36,0,0"/>
                     <Grid Margin="0,12,0,0">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
