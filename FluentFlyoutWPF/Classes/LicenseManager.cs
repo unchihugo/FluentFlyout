@@ -69,6 +69,12 @@ public class LicenseManager
             
         try
         {
+#if GITHUB_RELEASE
+            _isStoreVersion = false;
+            _isPremiumUnlocked = true;
+            _isInitialized = true;
+            return;
+#endif
             // Get Store context
             _storeContext = StoreContext.GetDefault();
             

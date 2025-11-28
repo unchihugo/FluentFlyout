@@ -13,6 +13,10 @@
     <Platforms>x64</Platforms>
     <RuntimeIdentifier>win-x64</RuntimeIdentifier>
     <LangVersion>preview</LangVersion>
+    <Configurations>Debug;Release;GitHub Release</Configurations>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'GitHub Release'">
+    <DefineConstants>GITHUB_RELEASE</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <Content Remove="C:\Users\hu8go\.nuget\packages\dubya.windowsmediacontroller\2.5.5\contentFiles\any\net6.0-windows10.0.22000\Icon.ico" />
