@@ -98,10 +98,7 @@ Maintaining a project of this scale takes time and effort. To support ongoing de
 - **Microsoft Store version:** provides automatic background updates and one-click installation. A small set of features is unlocked with a one-time purchase to help fund development.
 - **GitHub version:** Completely free, fully featured, and open-source. The only trade-off is that updates and installation must be done manually.
 
-### A personal note from the maintainer
-FluentFlyout has grown a lot, and I am incredibly grateful to the contributors who have helped make it what it is today! However, being the primary maintainer—managing releases, reviewing code, and handling core development—is a major time commitment.  
-
-As a student, balancing my time between university, work, and this project can be challenging. I hope that you can understand, and I truly appreciate your support!
+Thank you for your support and understanding!
 
 ## Credits 🙌
 - [Hugo Li](https://unchihugo.github.io) - Original Developer, Microsoft Store Publisher, CN & NL Translations
