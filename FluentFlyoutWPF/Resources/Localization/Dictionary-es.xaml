@@ -91,12 +91,40 @@ Puedes ayudar a contribuir con las traducciones en</system:String>
     <system:String x:Key="LockWindow_NumLock">Bloq Num</system:String>
     <system:String x:Key="LockWindow_ScrollLock">Bloq Despl</system:String>
     <system:String x:Key="LockWindow_InsertPressed">Pulsado Insert</system:String>
-    <system:String x:Key="LockWindow_LockOn">encendido</system:String>
-    <system:String x:Key="LockWindow_LockOff">apagado</system:String>
+    <system:String x:Key="LockWindow_LockOn">activado</system:String>
+    <system:String x:Key="LockWindow_LockOff">desactivado</system:String>
     <system:String x:Key="NextUpWindow_UpNextText">Siguiente:</system:String>
     <system:String x:Key="TrayIcon_SettingsOption">Ajustes</system:String>
     <system:String x:Key="TrayIcon_GitHubRepositoryOption">Repositorio</system:String>
     <system:String x:Key="TrayIcon_ReportBugOption">Reportar fallo</system:String>
     <system:String x:Key="TrayIcon_QuitOption">Salir de FluentFlyout</system:String>
     <system:String x:Key="AnimationEasingStyleTitle">Estilo de Suavizado de Animaciones</system:String>
+    <system:String x:Key="TaskbarWidgetCustomizationTitle">Personalización del Widget de la Barra de Tareas</system:String>
+    <system:String x:Key="TaskbarWidgetDescription">Un widget compacto que aparece en la Barra de Tareas de Windows para tener acceso instantáneo a tu contenido multimedia. Haz click en el widget para expandir el Flyout Multimedia.</system:String>
+    <system:String x:Key="TaskbarWidgetEnabledTitle">Activar Widget de la Barra de Tareas</system:String>
+    <system:String x:Key="TaskbarWidgetEnabledDescription">Muestra un widget multimedia compacto en la barra de tareas</system:String>
+    <system:String x:Key="TaskbarWidgetVisualIssuesWarning">Configura las opciones de debajo si experimentas problemas visuales.</system:String>
+    <system:String x:Key="TaskbarWidgetPaddingTitle">Añadir Margen para el Botón de Widgets de Windows</system:String>
+    <system:String x:Key="TaskbarWidgetPaddingDescription">Activa esta función si tienes los Widgets de Windows activados</system:String>
+    <system:String x:Key="TaskbarWidgetClickableTitle">Haz click para abrir el Flyout Multimedia cuando se reproduce multimedia</system:String>
+    <system:String x:Key="TaskbarWidgetClickableDescription">Si el flyout multimedia esta activado se abrirá cuando hagas click en el widget de la barra de tareas</system:String>
+    <system:String x:Key="TaskbarWidgetBackgroundBlurTitle">Difuminado del Fondo</system:String>
+    <system:String x:Key="TaskbarWidgetBackgroundBlurDescription">Añade un efecto de difuminado al fondo del widget de la barra de tareas</system:String>
+    <system:String x:Key="TaskbarWidgetHideCompletelyTitle">Ocultar Completamente Cuando No Hay Multimedia Presente</system:String>
+    <system:String x:Key="TaskbarWidgetHideCompletelyDescription">Oculta completamente el widget cuando no hay contenido multimedia disponible, en vez de mostrar un icono</system:String>
+    <system:String x:Key="PremiumFeatureTitle">Opción Premium</system:String>
+    <system:String x:Key="PremiumFeatureDescription" xml:space="preserve">Tu contribución única me ayuda a mantener FluentFlyout vivo y actualizado. Desbloquea instantáneamente toda las opciones de personalización premiun, para siempre.
+
+Nota: Como proyecto de código abierto, estas opciones también están disponibles gratis mediante el instalador manual de GitHub. El único inconveniente es que las actualizaciones y la instalación debe hacerse de forma manual.</system:String>
+    <system:String x:Key="PremiumLockedMessage">Esta opción es parte del paquete premium</system:String>
+    <system:String x:Key="PremiumUnlockedMessage">Opciones Premium desbloqueadas. ¡Gracias por tu apoyo!</system:String>
+    <system:String x:Key="PremiumGitHubMessage">Las opciones premium están desbloqueadas para versiones de GitHub/compiladas por ti mismo</system:String>
+    <system:String x:Key="UnlockPremiumButton">Desbloquear Premium</system:String>
+    <system:String x:Key="PremiumPurchaseSuccess">¡Premium desbloqueado correctamente!</system:String>
+    <system:String x:Key="PremiumPurchaseFailed">Compra fallida. Por favor inténtalo de nuevo.</system:String>
+    <system:String x:Key="PremiumPurchaseCancelled">Compra cancelada.</system:String>
+    <system:String x:Key="TrayIconSectionTitle">Icono de la Bandeja</system:String>
+    <system:String x:Key="HideTrayIconTitle">Ocultar Icono de la Bandeja Completamente</system:String>
+    <system:String x:Key="HideTrayIconDescription">Acceder a las opciones al ejecutar el programa dos veces</system:String>
+    <system:String x:Key="AboutPremiumTitle">Sobre el Premium</system:String>
 </ResourceDictionary>
