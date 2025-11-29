@@ -3,7 +3,6 @@ using System.Diagnostics;
 using System.Windows;
 using System.Windows.Interop;
 using Windows.Services.Store;
-using Wpf.Ui.Controls;
 
 namespace FluentFlyout.Classes;
 
@@ -77,7 +76,11 @@ public class LicenseManager
 #endif
             // Get Store context
             _storeContext = StoreContext.GetDefault();
-            
+
+            var interop = new WindowInteropHelper(Application.Current.MainWindow);
+            IntPtr hwnd = interop.Handle;
+            WinRT.Interop.InitializeWithWindow.Initialize(_storeContext, hwnd);
+
             // Get app license
             _appLicense = await _storeContext.GetAppLicenseAsync();
             
@@ -114,7 +117,7 @@ public class LicenseManager
             _isInitialized = true;
         }
     }
-    
+
     /// <summary>
     /// Checks if the premium add-on is purchased
     /// </summary>
@@ -124,27 +127,62 @@ public class LicenseManager
         {
             if (_storeContext == null)
                 return;
-                
-            // Get add-on license status
-            var addOns = await _storeContext.GetUserCollectionAsync(new[] { PremiumAddOnId });
-            
-            if (addOns.ExtendedError != null)
+
+            // works offline
+            if (_appLicense == null)
+                _appLicense = await _storeContext.GetAppLicenseAsync();
+
+            if (_appLicense == null)
             {
-                Debug.WriteLine($"LicenseManager: Error getting add-ons - {addOns.ExtendedError.Message}");
+                Debug.WriteLine("LicenseManager: App license is null");
                 return;
             }
-            
-            // Check if premium add-on is in user's collection
-            _isPremiumUnlocked = addOns.Products.ContainsKey(PremiumAddOnId);
-            
-            Debug.WriteLine($"LicenseManager: Premium status = {_isPremiumUnlocked}");
+
+            // check for premium
+            if (_appLicense.AddOnLicenses.TryGetValue(PremiumAddOnId, out StoreLicense addOnLicense))
+            {
+                // verify if premium is active (not refunded)
+                if (addOnLicense.IsActive)
+                {
+                    _isPremiumUnlocked = true;
+                    Debug.WriteLine($"LicenseManager: Premium Active.");
+                    return;
+                }
+                else
+                {
+                    Debug.WriteLine("LicenseManager: Premium license found but is NOT active.");
+                }
+            }
+            else
+            {
+                Debug.WriteLine("LicenseManager: Premium add-on not found in local cache of licenses.");
+            }
+
+            // refresh license from the Store to ensure up-to-date status
+            var addOnResult = await _storeContext.GetStoreProductsAsync(new[] { "Durable" }, new[] { PremiumAddOnId });
+
+            if (addOnResult.ExtendedError != null)
+            {
+                Debug.WriteLine($"LicenseManager: Error refreshing licenses - {addOnResult.ExtendedError.Message}");
+                return;
+            }
+
+            if (addOnResult.Products.TryGetValue(PremiumAddOnId, out StoreProduct storeProduct) && storeProduct.IsInUserCollection)
+            {
+                _isPremiumUnlocked = true;
+                Debug.WriteLine("LicenseManager: Premium confirmed in user collection.");
+            }
+            else
+            {
+                Debug.WriteLine("LicenseManager: Premium add-on not found in refreshed licenses.");
+            }
         }
         catch (Exception ex)
         {
             Debug.WriteLine($"LicenseManager: Error checking premium status - {ex.Message}");
         }
     }
-    
+
     /// <summary>
     /// Prompts the user to purchase the premium add-on
     /// </summary>
@@ -186,10 +224,6 @@ public class LicenseManager
                 return false;
             }
 
-            var interop = new WindowInteropHelper(Application.Current.MainWindow);
-            IntPtr hwnd = interop.Handle;
-            WinRT.Interop.InitializeWithWindow.Initialize(_storeContext, hwnd);
-
             // Request purchase
             var purchaseResult = await _storeContext.RequestPurchaseAsync(PremiumAddOnId);
             
@@ -199,19 +233,26 @@ public class LicenseManager
                 return false;
             }
             
-            bool success = purchaseResult.Status == StorePurchaseStatus.Succeeded;
+            var status = purchaseResult.Status;
             
-            if (success)
+            if (status == StorePurchaseStatus.Succeeded)
             {
                 _isPremiumUnlocked = true;
                 Debug.WriteLine("LicenseManager: Premium purchase successful");
+                return true;
+            }
+            else if (status == StorePurchaseStatus.AlreadyPurchased)
+            {
+                _isPremiumUnlocked = true;
+                Debug.WriteLine("LicenseManager: Premium already purchased");
+                return true;
             }
             else
             {
                 Debug.WriteLine($"LicenseManager: Purchase failed - Status: {purchaseResult.Status}");
             }
             
-            return success;
+            return false;
         }
         catch (Exception ex)
         {
