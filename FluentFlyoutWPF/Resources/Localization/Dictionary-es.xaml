@@ -93,7 +93,7 @@ Puedes ayudar a contribuir con las traducciones en</system:String>
     <system:String x:Key="LockWindow_InsertPressed">Pulsado Insert</system:String>
     <system:String x:Key="LockWindow_LockOn">activado</system:String>
     <system:String x:Key="LockWindow_LockOff">desactivado</system:String>
-    <system:String x:Key="NextUpWindow_UpNextText">Siguiente:</system:String>
+    <system:String x:Key="NextUpWindow_UpNextText">Próximamente:</system:String>
     <system:String x:Key="TrayIcon_SettingsOption">Ajustes</system:String>
     <system:String x:Key="TrayIcon_GitHubRepositoryOption">Repositorio</system:String>
     <system:String x:Key="TrayIcon_ReportBugOption">Reportar fallo</system:String>
