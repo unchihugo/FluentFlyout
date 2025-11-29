@@ -102,4 +102,7 @@
     <system:String x:Key="TrayIconLeftClickBehaviorDescription">選擇單擊托盤圖示時發生的情況</system:String>
     <system:String x:Key="TrayIconLeftClickOption1"> 開啟設定</system:String>
     <system:String x:Key="AnimationEasingStyleTitle">動畫緩動風格</system:String>
+    <system:String x:Key="TaskbarWidgetBackgroundBlurTitle">背景模糊</system:String>
+    <system:String x:Key="PremiumFeatureTitle">高級功能</system:String>
+    <system:String x:Key="UnlockPremiumButton">解鎖高級通行證</system:String>
 </ResourceDictionary>
