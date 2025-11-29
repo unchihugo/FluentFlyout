@@ -146,16 +146,15 @@ public class LicenseManager
                 {
                     _isPremiumUnlocked = true;
                     Debug.WriteLine($"LicenseManager: Premium Active.");
+                    return;
                 }
                 else
                 {
-                    _isPremiumUnlocked = false;
                     Debug.WriteLine("LicenseManager: Premium license found but is NOT active.");
                 }
             }
             else
             {
-                _isPremiumUnlocked = false;
                 Debug.WriteLine("LicenseManager: Premium add-on not found in local cache of licenses.");
             }
 
@@ -168,14 +167,13 @@ public class LicenseManager
                 return;
             }
 
-            if (addOnResult.Products.TryGetValue(PremiumAddOnId, out StoreProduct storeProduct))
+            if (addOnResult.Products.TryGetValue(PremiumAddOnId, out StoreProduct storeProduct) && storeProduct.IsInUserCollection)
             {
                 _isPremiumUnlocked = true;
                 Debug.WriteLine("LicenseManager: Premium confirmed in user collection.");
             }
             else
             {
-                _isPremiumUnlocked = false;
                 Debug.WriteLine("LicenseManager: Premium add-on not found in refreshed licenses.");
             }
         }
