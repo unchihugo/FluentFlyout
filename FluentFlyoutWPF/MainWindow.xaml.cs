@@ -121,14 +121,6 @@ public partial class MainWindow : MicaWindow
         try
         {
             settingsManager.RestoreSettings();
-            LicenseManager.Instance.InitializeAsync();
-
-            // Sync license status from LicenseManager to SettingsManager
-            SettingsManager.Current.IsPremiumUnlocked = LicenseManager.Instance.IsPremiumUnlocked;
-            SettingsManager.Current.IsStoreVersion = LicenseManager.Instance.IsStoreVersion;
-            SettingsManager.SaveSettings();
-
-            Debug.WriteLine($"License synced on startup - Store: {SettingsManager.Current.IsStoreVersion}, Premium: {SettingsManager.Current.IsPremiumUnlocked}");
         }
         catch (Exception ex)
         {
@@ -184,9 +176,6 @@ public partial class MainWindow : MicaWindow
                 SettingsManager.Current.LastKnownVersion = "debug version";
             }
         });
-
-        taskbarWindow = new TaskbarWindow();
-        UpdateTaskbar();
     }
 
     private void openSettings(object? sender, EventArgs e)
@@ -1146,7 +1135,7 @@ public partial class MainWindow : MicaWindow
         }
     }
 
-    private void MicaWindow_Loaded(object sender, RoutedEventArgs e)
+    private async void MicaWindow_Loaded(object sender, RoutedEventArgs e)
     {
         Hide();
         UpdateUILayout();
@@ -1164,6 +1153,25 @@ public partial class MainWindow : MicaWindow
         {
             Debug.WriteLine(ex);
         }
+
+        try
+        {
+            await LicenseManager.Instance.InitializeAsync();
+
+            // Sync license status from LicenseManager to SettingsManager
+            SettingsManager.Current.IsPremiumUnlocked = LicenseManager.Instance.IsPremiumUnlocked;
+            SettingsManager.Current.IsStoreVersion = LicenseManager.Instance.IsStoreVersion;
+            SettingsManager.SaveSettings();
+
+            Debug.WriteLine($"License synced on startup - Store: {SettingsManager.Current.IsStoreVersion}, Premium: {SettingsManager.Current.IsPremiumUnlocked}");
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"License initialization failed: {ex}");
+        }
+
+        taskbarWindow = new TaskbarWindow();
+        UpdateTaskbar();
     }
 
     private void nIcon_LeftClick(Wpf.Ui.Tray.Controls.NotifyIcon sender, RoutedEventArgs e) // change the behavior of the tray icon
