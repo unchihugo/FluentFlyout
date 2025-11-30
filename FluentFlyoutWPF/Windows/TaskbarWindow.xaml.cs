@@ -307,10 +307,16 @@ public partial class TaskbarWindow : Window
                 }
                 break;
             case 1: // center of the taskbar
-                physicalLeft = physicalLeft = (taskbarRect.Right - taskbarRect.Left - physicalWidth) / 2;
+                physicalLeft = (taskbarRect.Right - taskbarRect.Left - physicalWidth) / 2;
                 break;
             case 2: // right aligned next to system tray with tiny bit of padding
                 IntPtr trayHandle = FindWindowEx(taskbarHandle, IntPtr.Zero, "TrayNotifyWnd", null);
+                if (trayHandle == IntPtr.Zero)
+                {
+                    // Fallback to left alignment or handle error appropriately
+                    physicalLeft = 20;
+                    break;
+                }
                 RECT trayRect;
                 GetWindowRect(trayHandle, out trayRect);
                 physicalLeft = trayRect.Left - physicalWidth - 1;
