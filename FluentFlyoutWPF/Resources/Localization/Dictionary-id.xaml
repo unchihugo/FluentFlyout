@@ -3,7 +3,7 @@
     <system:String x:Key="MediaFlyoutTitle">Kustomisasi Media Flyout</system:String>
     <system:String x:Key="MediaFlyoutDescription">Flyout Utama. Ketika mendengarkan sebuah media, menekan sebuah media atau tombol volume (Putar/Jeda, Volume Naik/Turun, dan Seterusnya) pada keyboard untuk menampilkan flyout. Menunjukan tampilan informasi media, bersamaan dengan kontrol pemutaran dan lain-lainnya.</system:String>
     <system:String x:Key="TextBlockText1">Aktifkan Media Flyout</system:String>
-    <system:String x:Key="TextBlockText3">Tampilkan sebuah flyout ketika anda menekan sebuah tombol kunci media</system:String>
+    <system:String x:Key="TextBlockText3">Tampilkan sebuah flyout jika anda menekan sebuah tombol kunci media</system:String>
     <system:String x:Key="TextBlockText2">Pilih sebuah preset latar belakang blur modern yang telah dibuat</system:String>
     <system:String x:Key="BackgroundBlurOption1" xml:space="preserve"> Tidak Ada</system:String>
     <system:String x:Key="BackgroundBlurOption2" xml:space="preserve"> Gaya 1 (Cover Glow)</system:String>
@@ -71,7 +71,7 @@ Catatan: Sebagai proyek open-source, fitur-fitur ini juga tersedia secara gratis
     <system:String x:Key="LockKeysCustomizationTitle">Kustomisasi Tombol Kunci</system:String>
     <system:String x:Key="LockKeysDescription" xml:space="preserve">Periksa status kunci pengunci Anda sekilas pandang. Tampil setelah menekan Caps Lock, Num Lock, atau Scroll Lock. Praktis untuk laptop/keyboard yang tidak dilengkapi indikator lampu kunci pengunci.</system:String>
     <system:String x:Key="EnableLockKeysTitle">Aktifkan Tombol Kunci untuk Flyout</system:String>
-    <system:String x:Key="EnableLockKeysDescription">Menampilkan status kunci pengunci yang ditentukan, apakah dalam keadaan aktif (on) atau tidak aktif (off)</system:String>
+    <system:String x:Key="EnableLockKeysDescription">Menampilkan status kunci pengunci yang ditentukan, apakah dalam keadaan Aktif (ON) atau Tidak Aktif (OFF)</system:String>
     <system:String x:Key="LockKeysStayDurationTitle">Durasi Tampil Kunci Pengunci</system:String>
     <system:String x:Key="LockKeysStayDurationDescription">(default: 2000 milidetik)</system:String>
     <system:String x:Key="LockKeysBoldUITitle">Jenis Huruf dan Simbol Tebal (Bold)</system:String>
@@ -80,7 +80,7 @@ Catatan: Sebagai proyek open-source, fitur-fitur ini juga tersedia secara gratis
     <system:String x:Key="EnableInsertKeyDescription">Menentukan apakah menekan tombol Insert/Overwrite akan menampilkan flyout</system:String>
     <system:String x:Key="SystemSettingsTitle">Sistem</system:String>
     <system:String x:Key="LaunchOnStartupTitle">Jalankan saat startup</system:String>
-    <system:String x:Key="LaunchOnStartupDescription">Mulai dalam mode minimized ke tray saat Anda masuk ke Windows</system:String>
+    <system:String x:Key="LaunchOnStartupDescription">Mulai dalam mode minimized ke tray saat Anda Masuk ke Windows</system:String>
     <system:String x:Key="StartupAppsHyperlinkText">Aplikasi Startup</system:String>
     <system:String x:Key="StartupAppsSettingsInfo">Jika pengaturan ini tidak berfungsi seperti yang diharapkan, periksa</system:String>
     <system:String x:Key="AppThemeTitle">Tema Aplikasi</system:String>
@@ -95,7 +95,7 @@ Catatan: Sebagai proyek open-source, fitur-fitur ini juga tersedia secara gratis
     <system:String x:Key="Win11TrayIconDescription">Gunakan ikon tray yang sesuai dengan Windows 11 (klik untuk memperbarui tema)</system:String>
     <system:String x:Key="TrayIconSectionTitle">Ikon Tray</system:String>
     <system:String x:Key="HideTrayIconTitle">Sembunyikan Ikon Tray Secara Seluruh</system:String>
-    <system:String x:Key="HideTrayIconDescription">Akses pengaturan dengan menjalankan program dua kali</system:String>
+    <system:String x:Key="HideTrayIconDescription">Akses pengaturan dengan membuka program sebanyak dua kali</system:String>
     <system:String x:Key="AnimationSettingsTitle">Pengaturan Animasi</system:String>
     <system:String x:Key="AnimationSettingsDescription">Sesuaikan animasi sesuai keinginan Anda</system:String>
     <system:String x:Key="AnimationDurationScaleTitle">Durasi Skala Animasi</system:String>
@@ -108,7 +108,7 @@ Catatan: Sebagai proyek open-source, fitur-fitur ini juga tersedia secara gratis
     <system:String x:Key="EasingQuadratic" xml:space="preserve"> Kuadratik</system:String>
     <system:String x:Key="EasingCubic" xml:space="preserve"> Kubik</system:String>
     <system:String x:Key="NativeExperienceInfo">Untuk pengalaman Windows 11 asli, pengaturan sebaiknya tetap pada pengaturan default.</system:String>
-    <system:String x:Key="DisableOnFullscreenTitle">Nonaktifkan menu flyout jika program layar penuh DirectX terdeteksi</system:String>
+    <system:String x:Key="DisableOnFullscreenTitle">Non-Aktifkan menu flyout jika sebuah program DirectX dengan layar penuh terdeteksi</system:String>
     <system:String x:Key="DisableOnFullscreenDescription">Mencegah game DirectX dalam mode layar penuh eksklusif agar tidak dapat dikecilkan jika muncul flyout</system:String>
     <system:String x:Key="AboutPremiumTitle">Tentang Premium</system:String>
     <system:String x:Key="EnjoyingAppText" xml:space="preserve">Anda menyukai aplikasi ini? Berikan bintang di GitHub,
