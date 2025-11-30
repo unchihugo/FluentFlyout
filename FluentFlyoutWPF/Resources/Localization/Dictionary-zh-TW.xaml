@@ -37,7 +37,7 @@
     <system:String x:Key="ShowSeekbarDescription">如果播放器支持則會自動顯示可互動的進度條</system:String>
     <system:String x:Key="UnsupportedControlsWarning">*某些瀏覽器/播放器不支援重複、隨機播放和進度條控制。</system:String>
     <system:String x:Key="PauseOtherMediaTitle">自動暫停其他媒體</system:String>
-    <system:String x:Key="PauseOtherMediaDescription">當你播放或專注於新的媒體時，其他作效的媒體會自動暫停</system:String>
+    <system:String x:Key="PauseOtherMediaDescription">當你播放或專注於新的媒體時，其他播放中的媒體會自動暫停</system:String>
     <system:String x:Key="NextUpCustomizationTitle">下一首自訂</system:String>
     <system:String x:Key="NextUpDescription" xml:space="preserve">當歌曲/影片結束時，彈出視窗會顯示下一首。僅會在下一項目自動播放時顯示。如果手動按下下一首或上一首按鈕，則主要彈出視窗會出現。</system:String>
     <system:String x:Key="EnableNextUpTitle">啟用下一首彈出視窗（實驗性功能）</system:String>
@@ -102,4 +102,32 @@
     <system:String x:Key="TrayIconLeftClickBehaviorDescription">選擇單擊托盤圖示時發生的情況</system:String>
     <system:String x:Key="TrayIconLeftClickOption1"> 開啟設定</system:String>
     <system:String x:Key="AnimationEasingStyleTitle">動畫緩動風格</system:String>
+    <system:String x:Key="TaskbarWidgetBackgroundBlurTitle">背景模糊</system:String>
+    <system:String x:Key="PremiumFeatureTitle">高級功能</system:String>
+    <system:String x:Key="UnlockPremiumButton">解鎖高級版</system:String>
+    <system:String x:Key="TaskbarWidgetCustomizationTitle">自訂工作列小工具</system:String>
+    <system:String x:Key="TaskbarWidgetDescription">預設提供的媒體小工具，位於 Windows 工作列，讓你能快速存取媒體控制。點擊小工具可展開完整的媒體控制面板（需先啟用）。</system:String>
+    <system:String x:Key="TaskbarWidgetEnabledTitle">啟用工作列小工具</system:String>
+    <system:String x:Key="TaskbarWidgetEnabledDescription">在工作列顯示精簡的媒體小工具</system:String>
+    <system:String x:Key="TaskbarWidgetVisualIssuesWarning">如果你遇到視覺顯示方面的問題，可以調整以下選項。</system:String>
+    <system:String x:Key="TaskbarWidgetPaddingTitle">加大 Windows 小工具間距</system:String>
+    <system:String x:Key="TaskbarWidgetPaddingDescription">如果你已啟用 Windows 小工具，請開啟此功能</system:String>
+    <system:String x:Key="TaskbarWidgetClickableTitle">當有媒體播放時，點擊以打開媒體彈出視窗</system:String>
+    <system:String x:Key="TaskbarWidgetClickableDescription">如果已啟用媒體彈出視窗，點擊工作列小工具時將會打開它</system:String>
+    <system:String x:Key="TaskbarWidgetBackgroundBlurDescription">為工作列小工具新增背景模糊效果</system:String>
+    <system:String x:Key="TaskbarWidgetHideCompletelyTitle">無媒體播放時完全隱藏</system:String>
+    <system:String x:Key="TaskbarWidgetHideCompletelyDescription">當沒有媒體可用時，隱藏整個小工具，而不是顯示媒體圖示</system:String>
+    <system:String x:Key="PremiumFeatureDescription" xml:space="preserve">你的一次性贊助可以幫助我維持 FluentFlyout 的運作與更新。它將立即解鎖所有高級自訂功能，永久有效。
+
+注意：作為一個開源專案，這些功能也可以透過 GitHub 的手動安裝免費使用。唯一的差別是更新與安裝需要手動操作。</system:String>
+    <system:String x:Key="PremiumLockedMessage">此功能屬於高級版的專屬</system:String>
+    <system:String x:Key="PremiumUnlockedMessage">高級版已解鎖，感謝你的支持！</system:String>
+    <system:String x:Key="PremiumGitHubMessage">GitHub 或自行編譯版本的高級版已解鎖</system:String>
+    <system:String x:Key="PremiumPurchaseSuccess">高級功能已成功解鎖！</system:String>
+    <system:String x:Key="PremiumPurchaseFailed">購買失敗，請再試一次。</system:String>
+    <system:String x:Key="PremiumPurchaseCancelled">購買已取消。</system:String>
+    <system:String x:Key="HideTrayIconTitle">完全隱藏系統匣圖示</system:String>
+    <system:String x:Key="HideTrayIconDescription">透過啟動程式兩次來存取設定</system:String>
+    <system:String x:Key="AboutPremiumTitle">關於高級版</system:String>
+    <system:String x:Key="TrayIconSectionTitle">系統匣圖示</system:String>
 </ResourceDictionary>
