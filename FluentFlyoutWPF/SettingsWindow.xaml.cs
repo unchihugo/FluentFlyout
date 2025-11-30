@@ -82,7 +82,6 @@ public partial class SettingsWindow : MicaWindow
     {
         // might not work if installed using MSIX, needs investigation
         SetStartup(StartupSwitch.IsChecked ?? false);
-        SettingsManager.Current.Startup = StartupSwitch.IsChecked ?? false;
     }
 
     private void SetStartup(bool enable)
