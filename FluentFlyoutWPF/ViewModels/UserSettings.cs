@@ -298,6 +298,13 @@ public partial class UserSettings : ObservableObject
     public partial bool TaskbarWidgetEnabled { get; set; }
 
     /// <summary>
+    /// Gets or sets the position of the taskbar widget, represented as an integer value.
+    /// 0: Left, 1: Center, 2: Right
+    /// </summary>
+    [ObservableProperty]
+    public partial int TaskbarWidgetPosition { get; set; }
+
+    /// <summary>
     /// Determines whether padding should be applied to the taskbar widget for the native Windows Widgets button
     /// </summary>
     [ObservableProperty]
@@ -376,6 +383,7 @@ public partial class UserSettings : ObservableObject
         NextUpAcrylicWindowEnabled = true;
         LockKeysAcrylicWindowEnabled = true;
         TaskbarWidgetEnabled = false;
+        TaskbarWidgetPosition = 0;
         TaskbarWidgetPadding = true;
         TaskbarWidgetClickable = true;
         TaskbarWidgetBackgroundBlur = false;
@@ -434,6 +442,12 @@ public partial class UserSettings : ObservableObject
     }
 
     // Update taskbar when relevant settings change
+    partial void OnTaskbarWidgetPositionChanged(int oldValue, int newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+        UpdateTaskbar();
+    }
+
     partial void OnTaskbarWidgetClickableChanged(bool oldValue, bool newValue)
     {
         if (oldValue == newValue || _initializing) return;
