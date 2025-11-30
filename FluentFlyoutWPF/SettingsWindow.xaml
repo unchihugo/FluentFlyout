@@ -277,7 +277,7 @@
                         <ui:CardControl Grid.Row="4" Icon="{ui:SymbolIcon ArrowMove24}" Margin="0,0,0,3">
                             <ui:CardControl.Header>
                                 <StackPanel Orientation="Vertical">
-                                    <TextBlock Text="Widget Position" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
+                                    <TextBlock Text="{DynamicResource TaskbarWidgetPosition}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
                                 </StackPanel>
                             </ui:CardControl.Header>
                             <ComboBox SelectedIndex="{Binding TaskbarWidgetPosition}" IsEnabled="{Binding IsPremiumUnlocked}">
