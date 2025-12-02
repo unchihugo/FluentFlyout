@@ -94,10 +94,18 @@ public static class MediaPlayerData
 
             try
             {
-                mediaIcon = System.Windows.Interop.Imaging.CreateBitmapSourceFromHIcon(
-                    System.Drawing.Icon.ExtractAssociatedIcon(processData.Path).Handle,
-                    Int32Rect.Empty,
-                    BitmapSizeOptions.FromEmptyOptions());
+                using (var icon = System.Drawing.Icon.ExtractAssociatedIcon(processData.Path))
+                {
+                    if (icon != null)
+                    {
+                        mediaIcon = System.Windows.Interop.Imaging.CreateBitmapSourceFromHIcon(
+                            icon.Handle,
+                            Int32Rect.Empty,
+                            BitmapSizeOptions.FromEmptyOptions());
+
+                        mediaIcon.Freeze();
+                    }
+                }
             }
             catch
             {
