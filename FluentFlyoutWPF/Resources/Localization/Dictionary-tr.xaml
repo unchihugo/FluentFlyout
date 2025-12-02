@@ -102,4 +102,30 @@ veya Microsoft Store'da yorum bırakın!</system:String>
     <system:String x:Key="TrayIcon_QuitOption">FluentFlyout'tan çık</system:String>
     <system:String x:Key="TrayIcon_GitHubRepositoryOption">Depo</system:String>
     <system:String x:Key="TrayIcon_ReportBugOption">Hata bildir</system:String>
+    <system:String x:Key="TaskbarWidgetCustomizationTitle">Görev Çubuğu Widget Özelleştirmesi</system:String>
+    <system:String x:Key="TaskbarWidgetDescription">Medyanıza anında erişim için Windows Görev Çubuğunuzda bulunan kompakt ve yerleşik bir widget. Etkin olduğunda, Medya Açılır Penceresini genişletmek için widget'a tıklayın.</system:String>
+    <system:String x:Key="TaskbarWidgetEnabledTitle">Görev Çubuğu Widget'ını Etkinleştir</system:String>
+    <system:String x:Key="TaskbarWidgetEnabledDescription">Görev çubuğunda kompakt bir medya bileşeni göster</system:String>
+    <system:String x:Key="TaskbarWidgetVisualIssuesWarning">Görsel sorunlar yaşıyorsanız aşağıdaki seçenekleri yapılandırın.</system:String>
+    <system:String x:Key="TaskbarWidgetPaddingTitle">Windows Widget Butonu için Boşluk Ekle</system:String>
+    <system:String x:Key="TaskbarWidgetPaddingDescription">Windows Widget'ları etkinse bu özelliği açın</system:String>
+    <system:String x:Key="TaskbarWidgetClickableTitle">Medya Mevcut olduğunda Medya Açılır Penceresini açmak için tıklayın</system:String>
+    <system:String x:Key="TaskbarWidgetClickableDescription">Medya açılır penceresi etkinse, görev çubuğu widget'ına tıkladığınızda göster</system:String>
+    <system:String x:Key="TaskbarWidgetBackgroundBlurDescription">Görev çubuğu widgetine arka plan bulanıklaştırma efekti ekleyin</system:String>
+    <system:String x:Key="TaskbarWidgetHideCompletelyTitle">Hiçbir Medya Mevcut Değilken Tamamen Gizle</system:String>
+    <system:String x:Key="TaskbarWidgetHideCompletelyDescription">Hiçbir medya mevcut olmadığında, bir medya simgesi görüntülemek yerine tüm widget'ı gizler</system:String>
+    <system:String x:Key="PremiumFeatureDescription" xml:space="preserve">Tek seferlik katkınız, FluentFlyout'u canlı tutmam ve güncel tutmam için bana yardımcı olur. Tüm premium özelleştirme özelliklerini anında ve sonsuza kadar açar.
+        
+Not: Açık kaynaklı bir proje olarak, bu özellikler GitHub'daki manuel yükleyici aracılığıyla da ücretsiz olarak kullanılabilir. Tek dezavantajı, güncellemelerin ve yüklemenin manuel olarak yapılması gerekmektedir.</system:String>
+    <system:String x:Key="PremiumLockedMessage">Bu özellik premium paketin bir parçasıdır</system:String>
+    <system:String x:Key="PremiumUnlockedMessage">Premium özellikler açıldı. Desteğiniz için teşekkür ederiz!</system:String>
+    <system:String x:Key="PremiumGitHubMessage">Premium özellikler GitHub/kendi derlediğiniz sürümler için açıktır</system:String>
+    <system:String x:Key="UnlockPremiumButton">Premium'un kilidini açın</system:String>
+    <system:String x:Key="PremiumPurchaseSuccess">Premium başarıyla açıldı!</system:String>
+    <system:String x:Key="PremiumPurchaseFailed">Satın alma işlemi başarısız oldu. Lütfen tekrar deneyin.</system:String>
+    <system:String x:Key="PremiumPurchaseCancelled">Satın alma iptal edildi.</system:String>
+    <system:String x:Key="TrayIconSectionTitle">Sistem Tepsi Simgesi</system:String>
+    <system:String x:Key="HideTrayIconTitle">Tepsi Simgesini Tamamen Gizle</system:String>
+    <system:String x:Key="HideTrayIconDescription">Ayarlara erişmek için programı iki kez çalıştırın</system:String>
+    <system:String x:Key="AboutPremiumTitle">Premium Hakkında</system:String>
 </ResourceDictionary>
