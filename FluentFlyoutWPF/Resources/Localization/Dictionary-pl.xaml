@@ -121,4 +121,13 @@ Możesz pomóc w tworzeniu tłumaczeń na stronie</system:String>
     <system:String x:Key="LockWindow_LockOff">nieaktywny</system:String>
     <system:String x:Key="NextUpWindow_UpNextText">Następnie:</system:String>
     <system:String x:Key="TrayIcon_QuitOption">Zakończ FluentFlyout</system:String>
+    <system:String x:Key="CloseButton">Zamknij</system:String>
+    <system:String x:Key="AppLanguageTitle">Język aplikacji</system:String>
+    <system:String x:Key="AppLanguageDescriptionLink">Weblate</system:String>
+    <system:String x:Key="LockWindow_CapsLock">Caps Lock</system:String>
+    <system:String x:Key="LockWindow_NumLock">Num Lock</system:String>
+    <system:String x:Key="LockWindow_ScrollLock">Scroll Lock</system:String>
+    <system:String x:Key="TrayIcon_SettingsOption">Ustawienia</system:String>
+    <system:String x:Key="TrayIcon_GitHubRepositoryOption">Repozytorium</system:String>
+    <system:String x:Key="TrayIcon_ReportBugOption">Zgłoś błąd</system:String>
 </ResourceDictionary>
