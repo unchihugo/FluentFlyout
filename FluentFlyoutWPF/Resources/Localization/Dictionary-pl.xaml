@@ -71,4 +71,6 @@ Uwaga: Jako projekt open source, te funkcje są również dostępne za darmo pop
     <system:String x:Key="PositionTopCenter" xml:space="preserve"> U góry pośrodku</system:String>
     <system:String x:Key="TaskbarWidgetBackgroundBlurTitle">Rozmycie tła</system:String>
     <system:String x:Key="PremiumFeatureTitle">Funkcja premium</system:String>
+    <system:String x:Key="AppThemeDark"> Ciemny</system:String>
+    <system:String x:Key="TrayIconLeftClickOption1"> Otwórz Ustawienia</system:String>
 </ResourceDictionary>
