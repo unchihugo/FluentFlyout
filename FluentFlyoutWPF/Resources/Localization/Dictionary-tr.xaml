@@ -128,4 +128,6 @@ Not: Açık kaynaklı bir proje olarak, bu özellikler GitHub'daki manuel yükle
     <system:String x:Key="HideTrayIconTitle">Tepsi Simgesini Tamamen Gizle</system:String>
     <system:String x:Key="HideTrayIconDescription">Ayarlara erişmek için programı iki kez çalıştırın</system:String>
     <system:String x:Key="AboutPremiumTitle">Premium Hakkında</system:String>
+    <system:String x:Key="TaskbarWidgetBackgroundBlurTitle">Arka Plan Bulanıklığı</system:String>
+    <system:String x:Key="PremiumFeatureTitle">Premium özellikler</system:String>
 </ResourceDictionary>
