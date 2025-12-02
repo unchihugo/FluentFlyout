@@ -78,4 +78,5 @@ Uwaga: Jako projekt open source, te funkcje są również dostępne za darmo pop
     <system:String x:Key="EasingSine" xml:space="preserve"> Sinusoidalne</system:String>
     <system:String x:Key="EasingQuadratic" xml:space="preserve"> Kwadratowa</system:String>
     <system:String x:Key="EasingCubic" xml:space="preserve"> Sześcienne</system:String>
+    <system:String x:Key="GitHubRepoLink">Repozytorium Github</system:String>
 </ResourceDictionary>
