@@ -130,4 +130,5 @@ Możesz pomóc w tworzeniu tłumaczeń na stronie</system:String>
     <system:String x:Key="TrayIcon_SettingsOption">Ustawienia</system:String>
     <system:String x:Key="TrayIcon_GitHubRepositoryOption">Repozytorium</system:String>
     <system:String x:Key="TrayIcon_ReportBugOption">Zgłoś błąd</system:String>
+    <system:String x:Key="TaskbarWidgetPosition">Pozycja widgetu</system:String>
 </ResourceDictionary>
