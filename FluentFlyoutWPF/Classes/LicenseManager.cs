@@ -1,4 +1,3 @@
-using FluentFlyout.Classes.Settings;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Interop;
@@ -141,12 +140,13 @@ public class LicenseManager
             }
 
             // check for premium
-            if (_appLicense.AddOnLicenses.TryGetValue(PremiumAddOnId, out StoreLicense license))
+            foreach (var addOnLicense in _appLicense.AddOnLicenses)
             {
+                StoreLicense license = addOnLicense.Value;
+
                 if (license.IsActive)
                 {
                     _isPremiumUnlocked = true;
-                    Debug.WriteLine("LicenseManager: Premium unlocked via AddOnLicenses.");
                     return;
                 }
             }
