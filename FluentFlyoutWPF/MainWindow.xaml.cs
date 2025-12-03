@@ -38,6 +38,7 @@ public partial class MainWindow : MicaWindow
     private LowLevelKeyboardProc _hookProc;
 
     private CancellationTokenSource cts; // to close the flyout after a certain time
+    private long _lastFlyoutTime = 0;
 
     private static readonly WindowsMediaController.MediaManager mediaManager = new();
 
@@ -508,6 +509,16 @@ public partial class MainWindow : MicaWindow
             if (vkCode == 0xB3 || vkCode == 0xB0 || vkCode == 0xB1 || vkCode == 0xB2 // Play/Pause, next, previous, stop
                 || vkCode == 0xAD || vkCode == 0xAE || vkCode == 0xAF) // Mute, Volume Down, Volume Up
             {
+                long currentTime = Environment.TickCount64;
+
+                // debounce to prevent hangs with rapid key presses
+                if ((currentTime - _lastFlyoutTime) < 500) // 500ms debounce time
+                { 
+                    return CallNextHookEx(_hookId, nCode, wParam, lParam);
+                }
+
+                _lastFlyoutTime = currentTime;
+
                 ShowMediaFlyout();
             }
 
