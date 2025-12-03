@@ -360,7 +360,7 @@ public partial class TaskbarWindow : Window
                 SongImagePlaceholder.Visibility = Visibility.Visible;
                 SongImage.ImageSource = null;
                 BackgroundImage.Source = null;
-                SongImageBorder.Margin = new Thickness(0, 0, 0, -5);
+                SongImageBorder.Margin = new Thickness(0, 0, 0, -3); // align music note better when no cover
 
                 MainBorder.Background = new SolidColorBrush(Colors.Transparent);
                 MainBorder.Background.Opacity = 0;
@@ -398,6 +398,7 @@ public partial class TaskbarWindow : Window
                 }
                 SongImage.ImageSource = icon;
                 BackgroundImage.Source = icon;
+                SongImageBorder.Margin = new Thickness(0, 0, 0, -2); // align image better when cover is present
 
                 // start cross-fade if previous task is completed
                 //if (_crossFadeTask.IsCompleted)
