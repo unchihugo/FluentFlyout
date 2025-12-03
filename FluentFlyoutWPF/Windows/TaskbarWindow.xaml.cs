@@ -68,6 +68,7 @@ public partial class TaskbarWindow : Window
     private readonly SolidColorBrush _hitTestTransparent;
     private readonly int _nativeWidgetsPadding = 216;
     private readonly double _scale = 0.9;
+
     // unused for now
     //private readonly DoubleAnimation fadeIn = new()
     //{
@@ -89,6 +90,8 @@ public partial class TaskbarWindow : Window
     private string _cachedArtistText = string.Empty;
     private double _cachedTitleWidth = 0;
     private double _cachedArtistWidth = 0;
+    private double _dpiScaleX;
+    private double _dpiScaleY;
     //private Task _crossFadeTask = Task.CompletedTask;
 
     public TaskbarWindow()
@@ -98,6 +101,10 @@ public partial class TaskbarWindow : Window
         WindowHelper.SetTopmost(this);
 
         _hitTestTransparent = new SolidColorBrush(System.Windows.Media.Color.FromArgb(1, 0, 0, 0));
+
+        // initialize here in case we want to restart the window
+        _dpiScaleX = 0;
+        _dpiScaleY = 0;
 
         _timer = new DispatcherTimer();
         _timer.Interval = TimeSpan.FromMilliseconds(1000);
@@ -198,22 +205,17 @@ public partial class TaskbarWindow : Window
 
         Background = _hitTestTransparent; // ensures that non-content areas also trigger MouseEnter event
 
-        // 3. Find the Taskbar and ReBar
         IntPtr taskbarHandle = FindWindow("Shell_TrayWnd", null);
-        IntPtr rebarHandle = FindWindowEx(taskbarHandle, IntPtr.Zero, "ReBarWindow32", null);
 
         if (taskbarHandle != IntPtr.Zero)
         {
-            // 1. Modify Style: Remove Popup, Add Child
             // This prevents the window from trying to float above the taskbar as a separate entity
             int style = GetWindowLong(myHandle, GWL_STYLE);
             style = (style & ~WS_POPUP) | WS_CHILD;
             SetWindowLong(myHandle, GWL_STYLE, style);
 
-            // 2. Set Parent
             SetParent(myHandle, taskbarHandle);
 
-            // 3. Initial Calculation
             CalculateAndSetPosition(taskbarHandle, myHandle);
         }
 
@@ -250,14 +252,17 @@ public partial class TaskbarWindow : Window
     private void CalculateAndSetPosition(IntPtr taskbarHandle, IntPtr myHandle)
     {
         // get DPI scaling
-        PresentationSource source = PresentationSource.FromVisual(this);
-        if (source == null || source.CompositionTarget == null)
+        if (_dpiScaleX == 0 && _dpiScaleY == 0)
         {
-            // Window is not yet loaded or has been closed; cannot calculate DPI scaling
-            return;
+            PresentationSource source = PresentationSource.FromVisual(this);
+            if (source == null || source.CompositionTarget == null)
+            {
+                // Window is not yet loaded or has been closed; cannot calculate DPI scaling
+                return;
+            }
+            _dpiScaleX = source.CompositionTarget.TransformToDevice.M11;
+            _dpiScaleY = source.CompositionTarget.TransformToDevice.M22;
         }
-        double dpiScaleX = source.CompositionTarget.TransformToDevice.M11;
-        double dpiScaleY = source.CompositionTarget.TransformToDevice.M22;
 
         // calculate widget width - use cached values if text hasn't changed
         string currentTitle = SongTitle.Text;
@@ -281,8 +286,8 @@ public partial class TaskbarWindow : Window
         SongTitle.Width = logicalWidth - 40 * _scale;
         SongArtist.Width = logicalWidth - 40 * _scale;
 
-        int physicalWidth = (int)(logicalWidth * dpiScaleX);
-        int physicalHeight = (int)(this.Height * dpiScaleY);
+        int physicalWidth = (int)(logicalWidth * _dpiScaleX);
+        int physicalHeight = (int)(this.Height * _dpiScaleY);
 
         // Get Taskbar dimensions
         RECT taskbarRect;
@@ -292,10 +297,30 @@ public partial class TaskbarWindow : Window
         // Centered vertically
         int physicalTop = (taskbarHeight - physicalHeight) / 2;
 
-        int physicalLeft = 20; // maybe add automatic widget padding?
-        if (SettingsManager.Current.TaskbarWidgetPadding)
-        {
-            physicalLeft += _nativeWidgetsPadding;
+        int physicalLeft = 0;
+        switch (SettingsManager.Current.TaskbarWidgetPosition) { 
+            case 0: // left aligned with some padding (like native widgets)
+                physicalLeft = 20; // maybe add automatic widget padding?
+                if (SettingsManager.Current.TaskbarWidgetPadding)
+                {
+                    physicalLeft += _nativeWidgetsPadding;
+                }
+                break;
+            case 1: // center of the taskbar
+                physicalLeft = (taskbarRect.Right - taskbarRect.Left - physicalWidth) / 2;
+                break;
+            case 2: // right aligned next to system tray with tiny bit of padding
+                IntPtr trayHandle = FindWindowEx(taskbarHandle, IntPtr.Zero, "TrayNotifyWnd", null);
+                if (trayHandle == IntPtr.Zero)
+                {
+                    // Fallback to left alignment or handle error appropriately
+                    physicalLeft = 20;
+                    break;
+                }
+                RECT trayRect;
+                GetWindowRect(trayHandle, out trayRect);
+                physicalLeft = trayRect.Left - physicalWidth - 1;
+                break;
         }
 
         // Apply using SetWindowPos (Bypassing WPF layout engine)

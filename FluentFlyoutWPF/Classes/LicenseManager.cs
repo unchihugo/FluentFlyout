@@ -83,18 +83,20 @@ public class LicenseManager
 
             // Get app license
             _appLicense = await _storeContext.GetAppLicenseAsync();
-            
+
             // if user ever ran a self-compiled or GitHub version, set store version to false
-            if (!String.IsNullOrEmpty(SettingsManager.Current.LastKnownVersion) && SettingsManager.Current.IsStoreVersion == false)
-            {
-                Debug.WriteLine("LicenseManager: Previous non-Store version detected. Treating as non-Store version.");
-                _isStoreVersion = false;
-            }
-            else
-            {
-                // Check if this is a Store version
-                _isStoreVersion = !string.IsNullOrEmpty(_appLicense?.SkuStoreId);
-            }
+            //if (!String.IsNullOrEmpty(SettingsManager.Current.LastKnownVersion) && SettingsManager.Current.IsStoreVersion == false)
+            //{
+            //    Debug.WriteLine("LicenseManager: Previous non-Store version detected.");
+            //    //_isStoreVersion = false;
+            //}
+            //else
+            //{
+            //    // Check if this is a Store version
+            //    _isStoreVersion = !string.IsNullOrEmpty(_appLicense?.SkuStoreId);
+            //}
+
+            _isStoreVersion = !string.IsNullOrEmpty(_appLicense?.SkuStoreId);
 
             if (!_isStoreVersion)
             {
@@ -139,43 +141,43 @@ public class LicenseManager
             }
 
             // check for premium
-            if (_appLicense.AddOnLicenses.TryGetValue(PremiumAddOnId, out StoreLicense addOnLicense))
+            if (_appLicense.AddOnLicenses.TryGetValue(PremiumAddOnId, out StoreLicense license))
             {
-                // verify if premium is active (not refunded)
-                if (addOnLicense.IsActive)
+                if (license.IsActive)
                 {
                     _isPremiumUnlocked = true;
-                    Debug.WriteLine($"LicenseManager: Premium Active.");
+                    Debug.WriteLine("LicenseManager: Premium unlocked via AddOnLicenses.");
                     return;
                 }
-                else
-                {
-                    Debug.WriteLine("LicenseManager: Premium license found but is NOT active.");
-                }
-            }
-            else
-            {
-                Debug.WriteLine("LicenseManager: Premium add-on not found in local cache of licenses.");
             }
 
+            Debug.WriteLine("LicenseManager: Premium not owned by user.");
+
+            // COMMENTED OUT: unreliable online check
             // refresh license from the Store to ensure up-to-date status
-            var addOnResult = await _storeContext.GetStoreProductsAsync(new[] { "Durable" }, new[] { PremiumAddOnId });
+            //var addOnResult = await _storeContext.GetStoreProductsAsync(new[] { "Durable" }, new[] { PremiumAddOnId });
 
-            if (addOnResult.ExtendedError != null)
-            {
-                Debug.WriteLine($"LicenseManager: Error refreshing licenses - {addOnResult.ExtendedError.Message}");
-                return;
-            }
+            //if (addOnResult.ExtendedError != null)
+            //{
+            //    Debug.WriteLine($"LicenseManager: Error refreshing licenses - {addOnResult.ExtendedError.Message}");
+            //    return;
+            //}
 
-            if (addOnResult.Products.TryGetValue(PremiumAddOnId, out StoreProduct storeProduct) && storeProduct.IsInUserCollection)
-            {
-                _isPremiumUnlocked = true;
-                Debug.WriteLine("LicenseManager: Premium confirmed in user collection.");
-            }
-            else
-            {
-                Debug.WriteLine("LicenseManager: Premium add-on not found in refreshed licenses.");
-            }
+            //if (addOnResult.Products.TryGetValue(PremiumAddOnId, out StoreProduct storeProduct))
+            //{
+            //    if (storeProduct.IsInUserCollection) {
+            //        _isPremiumUnlocked = true;
+            //        Debug.WriteLine("LicenseManager: Premium confirmed in user collection.");
+            //    }
+            //    else
+            //    {
+            //        Debug.WriteLine("LicenseManager: Premium not owned by user.");
+            //    }
+            //}
+            //else
+            //{
+            //    Debug.WriteLine("LicenseManager: Premium add-on not found in refreshed licenses.");
+            //}
         }
         catch (Exception ex)
         {
