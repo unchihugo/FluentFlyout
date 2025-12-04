@@ -414,7 +414,7 @@ public partial class TaskbarWindow : Window
             }
 
             SongTitle.Visibility = Visibility.Visible;
-            SongArtist.Visibility = Visibility.Visible;
+            SongArtist.Visibility = !String.IsNullOrEmpty(artist) ? Visibility.Visible : Visibility.Collapsed; // hide artist if it's not available
             SongInfoStackPanel.Visibility = Visibility.Visible;
             BackgroundImage.Visibility = SettingsManager.Current.TaskbarWidgetBackgroundBlur ? Visibility.Visible : Visibility.Collapsed;
             Visibility = Visibility.Visible;
