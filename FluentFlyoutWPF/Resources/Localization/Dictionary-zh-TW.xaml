@@ -130,4 +130,5 @@
     <system:String x:Key="HideTrayIconDescription">透過啟動程式兩次來存取設定</system:String>
     <system:String x:Key="AboutPremiumTitle">關於高級版</system:String>
     <system:String x:Key="TrayIconSectionTitle">系統匣圖示</system:String>
+    <system:String x:Key="TaskbarWidgetPosition">小工具位置</system:String>
 </ResourceDictionary>
