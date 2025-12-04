@@ -38,6 +38,9 @@ public static class LocalizationManager
 
     public static LocalizationState Instance { get; } = new();
 
+    // current language code (first two letters) for easy access
+    public static string LanguageCode { get; set; }
+
     // dictionary of supported languages where key is the local language name and value is the language/culture code
     // check https://simplelocalize.io/data/locales/ for additional language info
     private static readonly Dictionary<string, string> _supportedLanguages = new()
@@ -80,6 +83,7 @@ public static class LocalizationManager
 
         // extract only the language code (first two letters) from the culture
         string languageCode = culture[..Math.Min(2, culture.Length)];
+        LanguageCode = languageCode;
 
         // get current localization
         var dictionaries = App.Current.Resources.MergedDictionaries;

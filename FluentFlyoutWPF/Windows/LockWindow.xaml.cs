@@ -26,10 +26,9 @@ public partial class LockWindow : MicaWindow
         CustomWindowChrome.GlassFrameThickness = new Thickness(0);
 
         WindowStartupLocation = WindowStartupLocation.Manual;
+        Top = -9999; // start off-screen
         Left = SystemParameters.WorkArea.Width / 2 - Width / 2;
         cts = new CancellationTokenSource();
-        _isHiding = false;
-        mainWindow.OpenAnimation(this, true);
     }
 
     private void setStatus(string key, bool isOn)
@@ -74,6 +73,16 @@ public partial class LockWindow : MicaWindow
         else
         {
             WindowBlurHelper.DisableBlur(this);
+        }
+
+        // lengthen the window width to fit longer translated texts
+        if (LocalizationManager.LanguageCode == "es")
+        {
+            Width = 240; // default width x1.5
+        }
+        else
+        {
+            Width = 160; // default width
         }
 
         setStatus(key, isOn);
