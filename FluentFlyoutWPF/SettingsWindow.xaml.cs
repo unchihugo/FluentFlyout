@@ -144,7 +144,7 @@ public partial class SettingsWindow : MicaWindow
                 button.Content = "Processing...";
             }
 
-            bool success = await LicenseManager.Instance.PurchasePremiumAsync();
+            (bool success, string result) = await LicenseManager.Instance.PurchasePremiumAsync();
             
             if (success)
             {
@@ -165,7 +165,7 @@ public partial class SettingsWindow : MicaWindow
                 MessageBox messageBox = new()
                 {
                     Title = "Purchase Failed",
-                    Content = FindResource("PremiumPurchaseFailed").ToString(),
+                    Content = FindResource("PremiumPurchaseFailed").ToString() + "(" + result + ")",
                     CloseButtonText = "OK",
                 };
 
