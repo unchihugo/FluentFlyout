@@ -1,19 +1,19 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib">
-    <system:String x:Key="PositionBottomLeft" xml:space="preserve"> En bas a gauche</system:String>
+    <system:String x:Key="PositionBottomLeft" xml:space="preserve"> En bas à gauche</system:String>
     <system:String x:Key="PositionBottomCenter" xml:space="preserve"> En bas au centre</system:String>
-    <system:String x:Key="PositionBottomRight" xml:space="preserve"> En bas a droite</system:String>
-    <system:String x:Key="PositionTopLeft" xml:space="preserve"> En haut a gauche</system:String>
+    <system:String x:Key="PositionBottomRight" xml:space="preserve"> En bas à droite</system:String>
+    <system:String x:Key="PositionTopLeft" xml:space="preserve"> En haut à gauche</system:String>
     <system:String x:Key="PositionTopCenter" xml:space="preserve"> En haut au centre</system:String>
-    <system:String x:Key="PositionTopRight" xml:space="preserve"> En haut a droite</system:String>
+    <system:String x:Key="PositionTopRight" xml:space="preserve"> En haut à droite</system:String>
     <system:String x:Key="FlyoutStayDurationTitle">Durée d'affichage du volet</system:String>
-    <system:String x:Key="FlyoutStayDurationDescription">(défaut: 3000 ms)</system:String>
+    <system:String x:Key="FlyoutStayDurationDescription">(par défaut: 3000 ms)</system:String>
     <system:String x:Key="MillisecondsUnit">ms</system:String>
     <system:String x:Key="MediaFlyoutAlwaysDisplay">Toujours afficher</system:String>
     <system:String x:Key="CenterTitleArtistTitle">Centrer le titre et l'artiste</system:String>
     <system:String x:Key="CenterTitleArtistDescription">Aligner le texte au centre au lieu de la gauche</system:String>
     <system:String x:Key="ShowMediaPlayerNameTitle">Afficher le nom du lecteur multimédia</system:String>
     <system:String x:Key="RepeatButtonTitle">Bouton répéter*</system:String>
-    <system:String x:Key="RepeatButtonDescription">Choisissez entre répéter tout ou répéter un seul élément, cela augmente la largeur du volet déroulant.</system:String>
+    <system:String x:Key="RepeatButtonDescription">Choisissez entre répéter tout ou répéter un seul élément, cela augmente la largeur du volet déroulant</system:String>
     <system:String x:Key="ShuffleButtonTitle">Bouton lecture aléatoire*</system:String>
     <system:String x:Key="ShuffleButtonDescription">Augmente la largeur du volet</system:String>
     <system:String x:Key="ShowSeekbarTitle">Barre de progression</system:String>
@@ -21,18 +21,24 @@
     <system:String x:Key="UnsupportedControlsWarning">*Certains navigateurs/lecteurs ne prennent pas en charge les fonctions de répétition, de lecture aléatoire et la barre de progression.</system:String>
     <system:String x:Key="PauseOtherMediaTitle">Mettre en pause automatiquement les autres médias</system:String>
     <system:String x:Key="FlyoutPositionTitle">Position du volet</system:String>
-    <system:String x:Key="TitleText">Paramètre de FluentFlyout</system:String>
-    <system:String x:Key="MediaFlyoutTitle">Personnalisation du volet multimedia</system:String>
-    <system:String x:Key="MediaFlyoutDescription">Lorsque vous écoutez un média, appuyez sur n’importe quelle touche multimédia ou de volume (lecture/pause, volume +/-, etc.) de votre clavier pour afficher le volet. Il affiche les informations du média, ainsi que les commandes de lecture et d’autres options.</system:String>
-    <system:String x:Key="TextBlockText1">Activé le volet multimedia</system:String>
-    <system:String x:Key="TextBlockText3">Afficher un volet quand vous appuiez sur une touche multimédia</system:String>
+    <system:String x:Key="TitleText">Paramètres de FluentFlyout</system:String>
+    <system:String x:Key="MediaFlyoutTitle">Personnalisation du volet multimédia</system:String>
+    <system:String x:Key="MediaFlyoutDescription">Volet principal. Lorsque vous écoutez un média, appuyez sur n’importe quelle touche multimédia ou de volume (lecture/pause, volume +/-, etc.) de votre clavier pour afficher le volet. Il affiche les informations du média, ainsi que les commandes de lecture et d’autres options.</system:String>
+    <system:String x:Key="TextBlockText1">Activer le volet multimédia</system:String>
+    <system:String x:Key="TextBlockText3">Afficher un volet quand vous appuyez sur une touche multimédia</system:String>
     <system:String x:Key="BackgroundBlurOption1" xml:space="preserve"> Aucun</system:String>
     <system:String x:Key="BackgroundBlurTitle">Flou d'arrière-plan</system:String>
-    <system:String x:Key="AcrylicWindowTitle">Fenêtre acrylic</system:String>
-    <system:String x:Key="CompactLayoutTitle">Mis en page compacte</system:String>
-    <system:String x:Key="CompactLayoutDescription" xml:space="preserve">Mis en page plus fine et moins intrusive
-masque les option de répétition, de lecture aléatoire et les informations du lecteur</system:String>
+    <system:String x:Key="AcrylicWindowTitle">Fenêtre acrylique</system:String>
+    <system:String x:Key="CompactLayoutTitle">Mise en page compacte</system:String>
+    <system:String x:Key="CompactLayoutDescription" xml:space="preserve">Mise en page plus fine et moins intrusive
+masque les options de répétition, de lecture aléatoire et les informations du lecteur</system:String>
     <system:String x:Key="NextUpCustomizationTitle">Personnalisation du volet “À suivre”</system:String>
     <system:String x:Key="NextUpDescription" xml:space="preserve">Ce volet affiche ce qui sera lu ensuite lorsque la piste/vidéo en cours se termine. Il n’apparaît que si la lecture suivante se lance automatiquement. Si vous changez de piste manuellement (Suivant/Précédent), le volet principal est affiché à la place.</system:String>
     <system:String x:Key="EnableNextUpTitle">Activer le volet “À suivre” (Expérimentale)</system:String>
+    <system:String x:Key="TextBlockText2">Choisir un flou d'arrière-plan moderne à partir d'un préréglée</system:String>
+    <system:String x:Key="BackgroundBlurOption4" xml:space="preserve"> Style 3 (Flou)</system:String>
+    <system:String x:Key="AcrylicWindowDescription">Appliquer un effet transparent acrylique floué au volet (reviendra à Mica si désactivé)</system:String>
+    <system:String x:Key="PauseOtherMediaDescription">Quand vous reproduisez ou centrez un nouveau média, mettre en pause d'autres sessions actives automatiquement</system:String>
+    <system:String x:Key="TaskbarWidgetCustomizationTitle">Widget de customisation pour la barre de tâches</system:String>
+    <system:String x:Key="TaskbarWidgetDescription">Un widget compact et intégré sur la barre de tâches de Windows pour un accès instant à votre média. Cliquez le widget pour étendre le volet de média complet (lorsqu'elle est activé).</system:String>
 </ResourceDictionary>
