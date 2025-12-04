@@ -114,7 +114,7 @@ veya Microsoft Store'da yorum bırakın!</system:String>
     <system:String x:Key="TaskbarWidgetBackgroundBlurDescription">Görev çubuğu widgetine arka plan bulanıklaştırma efekti ekleyin</system:String>
     <system:String x:Key="TaskbarWidgetHideCompletelyTitle">Hiçbir Medya Mevcut Değilken Tamamen Gizle</system:String>
     <system:String x:Key="TaskbarWidgetHideCompletelyDescription">Hiçbir medya mevcut olmadığında, bir medya simgesi görüntülemek yerine tüm widget'ı gizler</system:String>
-    <system:String x:Key="PremiumFeatureDescription" xml:space="preserve">Tek seferlik katkınız, FluentFlyout'u canlı tutmam ve güncel tutmam için bana yardımcı olur. Tüm premium özelleştirme özelliklerini anında ve sonsuza kadar açar.
+    <system:String x:Key="PremiumFeatureDescription" xml:space="preserve">FluentFlyoutTek seferlik katkınız, FluentFlyout'u canlı tutmam ve güncel tutmam için bana yardımcı olur. Tüm premium özelleştirme özelliklerini anında ve sonsuza kadar açar.
         
 Not: Açık kaynaklı bir proje olarak, bu özellikler GitHub'daki manuel yükleyici aracılığıyla da ücretsiz olarak kullanılabilir. Tek dezavantajı, güncellemelerin ve yüklemenin manuel olarak yapılması gerekmektedir.</system:String>
     <system:String x:Key="PremiumLockedMessage">Bu özellik premium paketin bir parçasıdır</system:String>
@@ -130,4 +130,5 @@ Not: Açık kaynaklı bir proje olarak, bu özellikler GitHub'daki manuel yükle
     <system:String x:Key="AboutPremiumTitle">Premium Hakkında</system:String>
     <system:String x:Key="TaskbarWidgetBackgroundBlurTitle">Arka Plan Bulanıklığı</system:String>
     <system:String x:Key="PremiumFeatureTitle">Premium özellikler</system:String>
+    <system:String x:Key="TaskbarWidgetPosition">Widget Pozisyonu</system:String>
 </ResourceDictionary>
