@@ -102,4 +102,5 @@
     <system:String x:Key="LockWindow_LockOn">вкл.</system:String>
     <system:String x:Key="LockWindow_LockOff">выкл.</system:String>
     <system:String x:Key="TrayIcon_QuitOption">Закрыть FluentFlyout</system:String>
+    <system:String x:Key="TaskbarWidgetCustomizationTitle">Настройка виджета панели задач</system:String>
 </ResourceDictionary>
