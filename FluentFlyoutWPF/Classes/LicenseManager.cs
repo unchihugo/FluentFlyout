@@ -110,7 +110,7 @@ public class LicenseManager
             else
             {
                 // Store version - check if premium add-on is purchased
-                Logger.Info($"Store version detected (SKU: {_appLicense?.SkuStoreId})");
+                Logger.Info("Store version detected (SKU: {Sku})", _appLicense?.SkuStoreId);
                 await CheckPremiumStatusAsync();
             }
             
@@ -220,13 +220,13 @@ public class LicenseManager
 
             if (addOnResult.ExtendedError != null)
             {
-                Logger.Error(addOnResult.ExtendedError.Message, "Error getting add-ons");
+                Logger.Error("Error getting add-ons - {Message}", addOnResult.ExtendedError.Message);
                 return false;
             }
             
             if (!addOnResult.Products.TryGetValue(PremiumAddOnId, out var premiumProduct))
             {
-                Logger.Warn("Premium add-on not found in store - " + PremiumAddOnId);
+                Logger.Warn("Premium add-on not found in store - {AddOnId}", PremiumAddOnId);
                 return false;
             }
 
@@ -235,7 +235,7 @@ public class LicenseManager
             
             if (purchaseResult.ExtendedError != null)
             {
-                Logger.Error(purchaseResult.ExtendedError.Message, "Purchase error");
+                Logger.Error("Error during purchase - {Message}", purchaseResult.ExtendedError.Message);
                 return false;
             }
             
@@ -255,7 +255,7 @@ public class LicenseManager
             }
             else
             {
-                Logger.Info($"Purchase failed - Status: {purchaseResult.Status}");
+                Logger.Info("Purchase failed - Status: {Status}", purchaseResult.Status);
             }
             
             return false;
