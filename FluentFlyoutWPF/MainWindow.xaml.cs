@@ -1057,6 +1057,9 @@ public partial class MainWindow : MicaWindow
 
             // dispose mutex
             singleton?.Dispose();
+
+            // flush and close NLog
+            NLog.LogManager.Shutdown();
         }
         catch (ObjectDisposedException)
         {
