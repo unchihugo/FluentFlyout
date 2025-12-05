@@ -130,4 +130,5 @@ Anda dapat membantu berkontribusi dalam menerjemahkan di</system:String>
     <system:String x:Key="TrayIcon_GitHubRepositoryOption">Repositori</system:String>
     <system:String x:Key="TrayIcon_ReportBugOption">Laporkan kutu</system:String>
     <system:String x:Key="TrayIcon_QuitOption">Keluar dari FluentFlyout</system:String>
+    <system:String x:Key="TaskbarWidgetPosition">Posisi Widget</system:String>
 </ResourceDictionary>
