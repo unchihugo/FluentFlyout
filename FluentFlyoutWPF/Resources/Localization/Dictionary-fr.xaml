@@ -121,7 +121,7 @@ ou laissez un avis sur le Microsoft Store !</system:String>
 Vous pouvez contribuer aux traductions sur</system:String>
     <system:String x:Key="AppLanguageDescriptionLink">Weblate</system:String>
     <system:String x:Key="LockWindow_CapsLock">Verrouillage des majuscules</system:String>
-    <system:String x:Key="LockWindow_NumLock">Verr Num</system:String>
+    <system:String x:Key="LockWindow_NumLock">Verr. Num</system:String>
     <system:String x:Key="LockWindow_ScrollLock">Verr. défilement</system:String>
     <system:String x:Key="LockWindow_InsertPressed">Insérer enfoncé</system:String>
     <system:String x:Key="LockWindow_LockOn">activé</system:String>
