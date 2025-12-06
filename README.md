@@ -17,7 +17,7 @@ The UI seemingly blends in with Windows 11, providing you an uninterrupted, clea
 
 FluentFlyout features smooth animations, blends with your system's color themes and includes a suite of personalization settings while providing media controls, information and more in nice and modern looking popup flyouts.
 
-<a href="https://apps.microsoft.com/detail/9N45NSM4TNBP?mode=direct">
+<a href="https://apps.microsoft.com/detail/9n45nsm4tnbp?referrer=appbadge&cid=GitHub_README&mode=direct">
 	<img src="https://get.microsoft.com/images/en-us%20dark.svg" width="200"/>
 </a>
 
@@ -78,7 +78,7 @@ The **GitHub version** is completely free and open-source, but requires manual u
 Read more about the project's model in the [Sustainability & The Microsoft Store](#sustainability--the-microsoft-store-💰) section below.
 
 ### Using Microsoft Store
-<a href="https://apps.microsoft.com/detail/9N45NSM4TNBP?mode=direct">
+<a href="https://apps.microsoft.com/detail/9n45nsm4tnbp?referrer=appbadge&cid=GitHub_README_2&mode=direct">
 	<img src="https://get.microsoft.com/images/en-us%20dark.svg" width="300"/>
 </a>
 
