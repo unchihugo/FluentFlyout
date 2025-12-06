@@ -78,11 +78,11 @@ public partial class LockWindow : MicaWindow
         // lengthen the window width to fit longer translated texts
         if (LocalizationManager.LanguageCode == "es")
         {
-            Width = 240; // default width x1.5
+            Width = 300; // default width x1.5
         }
         else
         {
-            Width = 160; // default width
+            Width = 200; // default width
         }
 
         setStatus(key, isOn);
