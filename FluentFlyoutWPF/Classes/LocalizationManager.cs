@@ -41,7 +41,7 @@ public static class LocalizationManager
     public static LocalizationState Instance { get; } = new();
 
     // current language code (first two letters) for easy access
-    public static string LanguageCode { get; set; }
+    public static string LanguageCode { get; set; } = string.Empty;
 
     // dictionary of supported languages where key is the local language name and value is the language/culture code
     // check https://simplelocalize.io/data/locales/ for additional language info
