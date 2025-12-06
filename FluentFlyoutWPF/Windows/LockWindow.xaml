@@ -7,7 +7,7 @@
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
     xmlns:controls="clr-namespace:MicaWPF.Controls;assembly=MicaWPF"
     mc:Ignorable="d" 
-    Height="50" Width="160" 
+    Height="50" Width="200" 
     ResizeMode="NoResize"
     WindowStyle="None" ShowInTaskbar="False"
     ChangeTitleColorWhenInactive="False"
