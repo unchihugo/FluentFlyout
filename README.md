@@ -38,6 +38,16 @@ FluentFlyout features smooth animations, blends with your system's color themes 
 - Includes Repeat All, Repeat One and Shuffle
 - Sits unobtrusively in system tray
 
+<p align="center">
+    <a href="https://www.windowscentral.com/microsoft/windows-11/microsoft-is-too-busy-with-ai-to-fix-windows-11s-design-so-developers-stepped-up"><img height="40px" alt="Windows Central" src="https://cdn.mos.cms.futurecdn.net/pJbSHFPBawZknTYBZnj9tS-970-80.jpg.webp"></a>
+    &nbsp;&nbsp;&nbsp;
+    <a href="https://www.neowin.net/news/this-free-unofficial-app-promises-big-list-of-modern-windows-11-fluent-customization-options/"><img height="40px" alt="Neowin" src="https://upload.wikimedia.org/wikipedia/en/1/11/Neowin_Logo_1.png"></a>
+</p>
+<p align="center">
+  <em>"Windows 11 may have just gained another must-have app."</em> — <strong><a href="https://www.windowscentral.com/microsoft/windows-11/microsoft-is-too-busy-with-ai-to-fix-windows-11s-design-so-developers-stepped-up">Windows Central</a></strong><br>
+  <em>"Does a better job than what Microsoft officially offers."</em> — <strong><a href="https://www.neowin.net/news/this-free-unofficial-app-promises-big-list-of-modern-windows-11-fluent-customization-options/">Neowin</a></strong>
+</p>
+
 ## Taskbar widget ⏯️
 <div align="center">
 	<img height="440px" width="auto" src="https://github.com/user-attachments/assets/43963c54-e2d8-4b93-9842-482e12b2c592" />
