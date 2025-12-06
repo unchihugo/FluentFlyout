@@ -165,7 +165,7 @@ public partial class SettingsWindow : MicaWindow
                 MessageBox messageBox = new()
                 {
                     Title = "Purchase Failed",
-                    Content = FindResource("PremiumPurchaseFailed").ToString() + "(" + result + ")",
+                    Content = $"{FindResource("PremiumPurchaseFailed")} ({result})",
                     CloseButtonText = "OK",
                 };
 
