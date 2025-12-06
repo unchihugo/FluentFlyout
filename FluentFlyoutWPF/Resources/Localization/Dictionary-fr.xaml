@@ -6,7 +6,7 @@
     <system:String x:Key="PositionTopCenter" xml:space="preserve"> En haut au centre</system:String>
     <system:String x:Key="PositionTopRight" xml:space="preserve"> En haut à droite</system:String>
     <system:String x:Key="FlyoutStayDurationTitle">Durée d'affichage du volet</system:String>
-    <system:String x:Key="FlyoutStayDurationDescription">(par défaut: 3000 ms)</system:String>
+    <system:String x:Key="FlyoutStayDurationDescription">(par défaut : 3000 ms)</system:String>
     <system:String x:Key="MillisecondsUnit">ms</system:String>
     <system:String x:Key="MediaFlyoutAlwaysDisplay">Toujours afficher</system:String>
     <system:String x:Key="CenterTitleArtistTitle">Centrer le titre et l'artiste</system:String>
@@ -41,4 +41,94 @@ masque les options de répétition, de lecture aléatoire et les informations du
     <system:String x:Key="PauseOtherMediaDescription">Quand vous reproduisez ou centrez un nouveau média, mettre en pause d'autres sessions actives automatiquement</system:String>
     <system:String x:Key="TaskbarWidgetCustomizationTitle">Widget de customisation pour la barre de tâches</system:String>
     <system:String x:Key="TaskbarWidgetDescription">Un widget compact et intégré sur la barre de tâches de Windows pour un accès instant à votre média. Cliquez le widget pour étendre le volet de média complet (lorsqu'elle est activé).</system:String>
+    <system:String x:Key="BackgroundBlurOption2" xml:space="preserve"> Style 1 (Couverture Glow)</system:String>
+    <system:String x:Key="BackgroundBlurOption3" xml:space="preserve"> Style 2 (Lueur montante)</system:String>
+    <system:String x:Key="TaskbarWidgetEnabledTitle">Activer le Widget Barre des tâches</system:String>
+    <system:String x:Key="TaskbarWidgetEnabledDescription">Montrer le widget multimédia compact sur la barre des tâches</system:String>
+    <system:String x:Key="TaskbarWidgetVisualIssuesWarning">Configurez les options ci-dessous si vous rencontrez des problèmes visuels.</system:String>
+    <system:String x:Key="TaskbarWidgetPosition">Position du Widget</system:String>
+    <system:String x:Key="TaskbarWidgetPaddingTitle">Ajouter un bouton de remplissage pour les Widgets Windows</system:String>
+    <system:String x:Key="TaskbarWidgetPaddingDescription">Activez cette fonctionnalité si vous avez activé les Widgets Windows</system:String>
+    <system:String x:Key="TaskbarWidgetClickableTitle">Cliquez pour ouvrir le menu déroulant Média si des médias sont présents</system:String>
+    <system:String x:Key="TaskbarWidgetClickableDescription">Si le menu déroulant multimédia est activé, il s'ouvrira lors du clic sur le widget de la barre des tâches</system:String>
+    <system:String x:Key="TaskbarWidgetBackgroundBlurTitle">Flou d'arrière-plan</system:String>
+    <system:String x:Key="TaskbarWidgetBackgroundBlurDescription">Ajouter un effet de flou d'arrière-plan au widget de la barre des tâches</system:String>
+    <system:String x:Key="TaskbarWidgetHideCompletelyTitle">Masquer complètement en l'absence de médias</system:String>
+    <system:String x:Key="TaskbarWidgetHideCompletelyDescription">Masque l'intégralité du widget quand aucun média n'est disponible, au lieu d'afficher une icône média</system:String>
+    <system:String x:Key="PremiumFeatureTitle">Fonctionnalité Premium</system:String>
+    <system:String x:Key="PremiumFeatureDescription" xml:space="preserve">Votre contribution unique m'aide à maintenir FluentFlyout en activité et à le mettre à jour. Elle débloque instantanément toutes les fonctionnalités de personnalisation premium, pour toujours.
+
+Note : En tant que projet open source, ces fonctionnalités sont également disponibles gratuitement via le programme d'installation manuel sur GitHub. Le seul inconvénient est que les mises à jour et l'installation doivent être effectuées manuellement.</system:String>
+    <system:String x:Key="PremiumLockedMessage">Cette fonctionnalité fait partie du pack premium</system:String>
+    <system:String x:Key="PremiumUnlockedMessage">Fonctionnalités Premium débloquées. Merci pour votre soutien !</system:String>
+    <system:String x:Key="PremiumGitHubMessage">Les fonctionnalités premium sont débloquées pour les versions GitHub/auto-compilées</system:String>
+    <system:String x:Key="UnlockPremiumButton">Débloquer Premium</system:String>
+    <system:String x:Key="PremiumPurchaseSuccess">Premium débloqué avec succès !</system:String>
+    <system:String x:Key="PremiumPurchaseFailed">Achat échoué. Veuillez réessayer.</system:String>
+    <system:String x:Key="PremiumPurchaseCancelled">Achat annulé.</system:String>
+    <system:String x:Key="EnableNextUpDescription">Affiche ce qui suit la fin d'une chanson/vidéo</system:String>
+    <system:String x:Key="NextUpStayDurationTitle">Prochaine étape Durée du séjour</system:String>
+    <system:String x:Key="NextUpStayDurationDescription">(par défaut : 2000 ms)</system:String>
+    <system:String x:Key="LockKeysCustomizationTitle">Personnalisation des clés de verrouillage</system:String>
+    <system:String x:Key="LockKeysDescription" xml:space="preserve">Vérifiez en un coup d'œil l'état de vos touches de verrouillage. S'affiche après avoir appuyé sur Verr. Maj., Verr. Num. ou Arrêt défil. Pratique pour les ordinateurs portables et les claviers sans indicateur de verrouillage.</system:String>
+    <system:String x:Key="EnableLockKeysTitle">Activer le menu déroulant des touches de verrouillage</system:String>
+    <system:String x:Key="EnableLockKeysDescription">Affiche si la touche de verrouillage spécifiée est activée ou désactivée</system:String>
+    <system:String x:Key="LockKeysStayDurationTitle">Durée de conservation des clés de verrouillage</system:String>
+    <system:String x:Key="LockKeysStayDurationDescription">(par défaut : 2000 ms)</system:String>
+    <system:String x:Key="LockKeysBoldUITitle">Symbole et police en gras</system:String>
+    <system:String x:Key="LockKeysBoldUIDescription">Met en évidence le symbole et la police du menu déroulant</system:String>
+    <system:String x:Key="EnableInsertKeyTitle">Activer l'affichage de la touche Insertion</system:String>
+    <system:String x:Key="EnableInsertKeyDescription">Détermine si le fait d'appuyer sur insérer/remplacer affichera le menu déroulant</system:String>
+    <system:String x:Key="SystemSettingsTitle">Système</system:String>
+    <system:String x:Key="LaunchOnStartupTitle">Lancer au démarrage</system:String>
+    <system:String x:Key="LaunchOnStartupDescription">Démarrer minimisé dans la barre d'état système lorsque vous vous connectez à Windows</system:String>
+    <system:String x:Key="StartupAppsHyperlinkText">Apps de démarrage</system:String>
+    <system:String x:Key="StartupAppsSettingsInfo">Si ce paramètre ne fonctionne pas comme prévu, vérifiez</system:String>
+    <system:String x:Key="AppThemeTitle">App Thème</system:String>
+    <system:String x:Key="AppThemeDefault"> Windows par défaut</system:String>
+    <system:String x:Key="AppThemeLight"> Clair</system:String>
+    <system:String x:Key="AppThemeDark"> Sombre</system:String>
+    <system:String x:Key="TrayIconLeftClickBehaviorTitle">Comportement du clic gauche sur l'icône de la barre d'état</system:String>
+    <system:String x:Key="TrayIconLeftClickBehaviorDescription">Choisissez ce qui se passe lors d'un clic gauche sur l'icône de la barre d'état système</system:String>
+    <system:String x:Key="TrayIconLeftClickOption1"> Ouvrir les paramètres</system:String>
+    <system:String x:Key="TrayIconLeftClickOption2"> Afficher le menu déroulant Média</system:String>
+    <system:String x:Key="Win11TrayIconTitle">Icône de barre d'état similaire à Windows 11</system:String>
+    <system:String x:Key="Win11TrayIconDescription">Utilisez une icône de barre d'état système qui correspond à Windows 11 (basculer pour actualiser le thème)</system:String>
+    <system:String x:Key="TrayIconSectionTitle">Icône de la barre d'état</system:String>
+    <system:String x:Key="HideTrayIconTitle">Masquer complètement l'icône de la barre d'état</system:String>
+    <system:String x:Key="HideTrayIconDescription">Accéder aux paramètres en lançant le programme deux fois</system:String>
+    <system:String x:Key="AnimationSettingsTitle">Paramètres d'animation</system:String>
+    <system:String x:Key="AnimationSettingsDescription">Personnalisez les animations à votre guise</system:String>
+    <system:String x:Key="AnimationDurationScaleTitle">Échelle de durée d'animation</system:String>
+    <system:String x:Key="AnimationDurationScaleDescription">Vitesse d'animation plus rapide ou plus lente (par défaut : 1x)</system:String>
+    <system:String x:Key="AnimationSpeedOff">Désactivé</system:String>
+    <system:String x:Key="AnimationEasingStyleTitle">Style d'accélération de l'animation</system:String>
+    <system:String x:Key="AnimationEasingStyleDescription">(par défaut : Quadratique)</system:String>
+    <system:String x:Key="EasingLinear" xml:space="preserve"> Linéaire</system:String>
+    <system:String x:Key="EasingSine" xml:space="preserve"> Sinus</system:String>
+    <system:String x:Key="EasingQuadratic" xml:space="preserve"> Quadratique</system:String>
+    <system:String x:Key="EasingCubic" xml:space="preserve"> Cubique</system:String>
+    <system:String x:Key="NativeExperienceInfo">Pour une expérience Windows 11 optimale, il est conseillé de conserver les paramètres par défaut.</system:String>
+    <system:String x:Key="DisableOnFullscreenTitle">Désactiver les fenêtres contextuelles si un programme DirectX en plein écran est détecté</system:String>
+    <system:String x:Key="DisableOnFullscreenDescription">Empêche la réduction des jeux DirectX en mode plein écran exclusif si une fenêtre contextuelle apparaît</system:String>
+    <system:String x:Key="AboutPremiumTitle">À propos de Premium</system:String>
+    <system:String x:Key="EnjoyingAppText" xml:space="preserve">Vous appréciez l'application ? Ajoutez-la à vos favoris sur GitHub,
+ou laissez un avis sur le Microsoft Store !</system:String>
+    <system:String x:Key="GitHubRepoLink">Dépôt GitHub</system:String>
+    <system:String x:Key="CloseButton">Fermer</system:String>
+    <system:String x:Key="AppLanguageTitle">Langue de l'app</system:String>
+    <system:String x:Key="AppLanguageDescription" xml:space="preserve">Si votre langue n'est pas répertoriée ou est incomplète, l'anglais sera utilisé par défaut.
+Vous pouvez contribuer aux traductions sur</system:String>
+    <system:String x:Key="AppLanguageDescriptionLink">Weblate</system:String>
+    <system:String x:Key="LockWindow_CapsLock">Verrouillage des majuscules</system:String>
+    <system:String x:Key="LockWindow_NumLock">Verr Num</system:String>
+    <system:String x:Key="LockWindow_ScrollLock">Verr. défilement</system:String>
+    <system:String x:Key="LockWindow_InsertPressed">Insérer enfoncé</system:String>
+    <system:String x:Key="LockWindow_LockOn">activé</system:String>
+    <system:String x:Key="LockWindow_LockOff">désactivé</system:String>
+    <system:String x:Key="NextUpWindow_UpNextText">Suivant :</system:String>
+    <system:String x:Key="TrayIcon_SettingsOption">Paramètres</system:String>
+    <system:String x:Key="TrayIcon_GitHubRepositoryOption">Dépôt</system:String>
+    <system:String x:Key="TrayIcon_ReportBugOption">Signaler un bug</system:String>
+    <system:String x:Key="TrayIcon_QuitOption">Quitter FluentFlyout</system:String>
 </ResourceDictionary>
