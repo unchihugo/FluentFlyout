@@ -8,24 +8,25 @@
     xmlns:controls="clr-namespace:MicaWPF.Controls;assembly=MicaWPF"
     mc:Ignorable="d" 
     Height="700" MinHeight="300" MinWidth="660" SizeToContent="Width" 
-    Title="Settings" Icon="/Resources/FluentFlyout2.ico"
+    Title="FluentFlyout" Icon="/Resources/FluentFlyout2.ico"
     TextOptions.TextRenderingMode="ClearType" TextOptions.TextFormattingMode="Ideal"
     FontFamily="Segoe UI Variable, Microsoft YaHei, Microsoft JhengHei, MS Gothic"
     Closing="SettingsWindow_Closing"
     xmlns:System="clr-namespace:System;assembly=System.Runtime"
     xmlns:viewModels="clr-namespace:FluentFlyoutWPF.ViewModels"
     d:DataContext="{d:DesignInstance viewModels:UserSettings}"
+    TitleBarType="WinUI"
     >
     <Grid>
         <ui:PassiveScrollViewer HorizontalScrollBarVisibility="Auto">
             <StackPanel>
-                <StackPanel Orientation="Vertical" Margin="16,12,16,36">
+                <StackPanel Orientation="Vertical" Margin="16,16,16,36">
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="12,0,0,0">
                         <Image Source="/Resources/FluentFlyout2.ico" Width="44" Height="44"/>
                         <TextBlock Text="{DynamicResource TitleText}" FontSize="24" FontWeight="Medium" Margin="12,0,0,0" VerticalAlignment="Center"/>
                         <TextBlock x:Name="VersionTextBlock" FontSize="14" FontWeight="Regular" VerticalAlignment="Bottom" Margin="10" Opacity="0.5"/>
                     </StackPanel>
-                    <TextBlock Text="{DynamicResource MediaFlyoutTitle}" FontSize="20" FontWeight="SemiBold" FontFamily="Segoe UI Variable" Margin="0,36,0,0"/>
+                    <TextBlock Text="{DynamicResource MediaFlyoutTitle}" FontSize="20" FontWeight="SemiBold" FontFamily="Segoe UI Variable" Margin="0,48,0,0"/>
                     <Grid Margin="0,12,0,0">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -265,7 +266,7 @@
                                 <StackPanel Orientation="Vertical">
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock Text="{DynamicResource TaskbarWidgetEnabledTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
-                                        <ui:InfoBadge Value="Premium" FontWeight="Medium" FontSize="10" Margin="6,-2,0,-2" Severity="Attention"/>
+                                        <ui:InfoBadge Value=" Premium " FontWeight="Medium" FontSize="10" Margin="6,-2,0,-2" Severity="Attention"/>
                                     </StackPanel>
                                     <TextBlock Text="{DynamicResource TaskbarWidgetEnabledDescription}" FontSize="12" Opacity="0.5"/>
                                 </StackPanel>
@@ -604,7 +605,7 @@
                                 <StackPanel Orientation="Vertical">
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock Text="{DynamicResource HideTrayIconTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
-                                        <ui:InfoBadge Value="Premium" FontSize="10" FontWeight="Medium" Margin="6,-2,0,-2" Severity="Attention"/>
+                                        <ui:InfoBadge Value=" Premium " FontSize="10" FontWeight="Medium" Margin="6,-2,0,-2" Severity="Attention"/>
                                     </StackPanel>
                                     <TextBlock Text="{DynamicResource HideTrayIconDescription}" FontSize="12" Opacity="0.5"/>
                                 </StackPanel>
