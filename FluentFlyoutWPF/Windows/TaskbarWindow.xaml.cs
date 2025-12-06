@@ -64,6 +64,8 @@ public partial class TaskbarWindow : Window
     private const uint SWP_ASYNCWINDOWPOS = 0x4000;
     // ------------------
 
+    private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+    
     private readonly DispatcherTimer _timer;
     private readonly SolidColorBrush _hitTestTransparent;
     private readonly int _nativeWidgetsPadding = 216;
@@ -200,30 +202,37 @@ public partial class TaskbarWindow : Window
 
     private void SetupWindow()
     {
-        var interop = new WindowInteropHelper(this);
-        IntPtr myHandle = interop.Handle;
-
-        Background = _hitTestTransparent; // ensures that non-content areas also trigger MouseEnter event
-
-        IntPtr taskbarHandle = FindWindow("Shell_TrayWnd", null);
-
-        if (taskbarHandle != IntPtr.Zero)
+        try
         {
-            // This prevents the window from trying to float above the taskbar as a separate entity
-            int style = GetWindowLong(myHandle, GWL_STYLE);
-            style = (style & ~WS_POPUP) | WS_CHILD;
-            SetWindowLong(myHandle, GWL_STYLE, style);
+            var interop = new WindowInteropHelper(this);
+            IntPtr myHandle = interop.Handle;
 
-            SetParent(myHandle, taskbarHandle);
+            Background = _hitTestTransparent; // ensures that non-content areas also trigger MouseEnter event
 
-            CalculateAndSetPosition(taskbarHandle, myHandle);
+            IntPtr taskbarHandle = FindWindow("Shell_TrayWnd", null);
+
+            if (taskbarHandle != IntPtr.Zero)
+            {
+                // This prevents the window from trying to float above the taskbar as a separate entity
+                int style = GetWindowLong(myHandle, GWL_STYLE);
+                style = (style & ~WS_POPUP) | WS_CHILD;
+                SetWindowLong(myHandle, GWL_STYLE, style);
+
+                SetParent(myHandle, taskbarHandle);
+
+                CalculateAndSetPosition(taskbarHandle, myHandle);
+            }
+
+            // for hover animation
+            if (MainBorder.Background is not SolidColorBrush)
+            {
+                MainBorder.Background = new SolidColorBrush(Colors.Transparent);
+                MainBorder.Background.Opacity = 0;
+            }
         }
-
-        // for hover animation
-        if (MainBorder.Background is not SolidColorBrush)
+        catch (Exception ex)
         {
-            MainBorder.Background = new SolidColorBrush(Colors.Transparent);
-            MainBorder.Background.Opacity = 0;
+            Logger.Error(ex, "Taskbar Widget error during setup");
         }
     }
 
@@ -245,7 +254,7 @@ public partial class TaskbarWindow : Window
         }
         catch (Exception ex)
         {
-            Debug.WriteLine("Taskbar Widget error: " + ex.Message);
+            Logger.Error(ex, "Taskbar Widget error during position update");
         }
     }
 
@@ -360,7 +369,7 @@ public partial class TaskbarWindow : Window
                 SongImagePlaceholder.Visibility = Visibility.Visible;
                 SongImage.ImageSource = null;
                 BackgroundImage.Source = null;
-                SongImageBorder.Margin = new Thickness(0, 0, 0, -5);
+                SongImageBorder.Margin = new Thickness(0, 0, 0, -3); // align music note better when no cover
 
                 MainBorder.Background = new SolidColorBrush(Colors.Transparent);
                 MainBorder.Background.Opacity = 0;
@@ -398,6 +407,7 @@ public partial class TaskbarWindow : Window
                 }
                 SongImage.ImageSource = icon;
                 BackgroundImage.Source = icon;
+                SongImageBorder.Margin = new Thickness(0, 0, 0, -2); // align image better when cover is present
 
                 // start cross-fade if previous task is completed
                 //if (_crossFadeTask.IsCompleted)

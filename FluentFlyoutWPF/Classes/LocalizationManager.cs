@@ -10,6 +10,8 @@ namespace FluentFlyout.Classes;
 
 public static class LocalizationManager
 {
+    private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+    
     // class to hold flow direction state
     public class LocalizationState : INotifyPropertyChanged
     {
@@ -99,7 +101,7 @@ public static class LocalizationManager
             }
         }
 
-        Debug.WriteLine("Applying localization for language: " + culture);
+        Logger.Debug("Applying localization for language: " + culture);
 
         // change flow direction of all windows
         ApplyFlowDirection(languageCode);
@@ -132,7 +134,7 @@ public static class LocalizationManager
             catch
             {
                 // do nothing and keep the default (en-US)
-                Debug.WriteLine("Localization file not found for language: " + culture);
+                Logger.Warn("Localization file not found for language: " + culture);
                 return;
             }
         }
@@ -144,7 +146,7 @@ public static class LocalizationManager
             ? FlowDirection.RightToLeft
             : FlowDirection.LeftToRight;
 
-        Debug.WriteLine("Applied flow direction: " + Instance.FlowDirection);
+        Logger.Debug("Applied flow direction: " + Instance.FlowDirection);
 
         // return if there are no windows
         if (!(Application.Current != null && Application.Current.Windows != null && Application.Current.Windows.Count > 0)) return;

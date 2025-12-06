@@ -5,6 +5,8 @@ namespace FluentFlyoutWPF.Classes;
 
 internal class FullscreenDetector
 {
+    private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+    
     /// <summary>
     /// Represents the different states of user notification returned by the Windows Shell API.
     /// </summary>
@@ -46,7 +48,7 @@ internal class FullscreenDetector
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Error detecting fullscreen state: {ex.Message}");
+            Logger.Error(ex, "Error detecting fullscreen state");
             return false;
         }
     }
