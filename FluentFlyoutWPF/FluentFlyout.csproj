@@ -23,6 +23,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Remove="icon.ico" />
+    <None Remove="NLog.config" />
     <None Remove="Resources\FluentFlyout2.ico" />
     <None Remove="Resources\FluentFlyoutBlack.png" />
     <None Remove="Resources\FluentFlyoutDemo3.1.png" />
@@ -34,12 +35,16 @@
   <ItemGroup>
     <PackageReference Include="Dubya.WindowsMediaController" Version="2.5.5" />
     <PackageReference Include="MicaWPF" Version="6.3.0" />
+    <PackageReference Include="NLog" Version="6.0.6" />
     <PackageReference Include="System.Drawing.Common" Version="10.0.0" />
     <PackageReference Include="WPF-UI" Version="4.1.0" />
-    <PackageReference Include="WPF-UI.Tray" Version="4.0.3" />
+    <PackageReference Include="WPF-UI.Tray" Version="4.1.0" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0-preview3" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="NLog.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\FluentFlyoutDemo9.1.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

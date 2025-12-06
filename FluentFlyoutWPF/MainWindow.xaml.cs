@@ -27,6 +27,8 @@ namespace FluentFlyoutWPF;
 
 public partial class MainWindow : MicaWindow
 {
+    private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+    
     [DllImport("user32.dll")]
     public static extern void keybd_event(byte virtualKey, byte scanCode, uint flags, IntPtr extraInfo);
 
@@ -72,6 +74,7 @@ public partial class MainWindow : MicaWindow
 
     public MainWindow()
     {
+        Logger.Info("Starting FluentFlyout MainWindow");
         DataContext = this;
         WindowHelper.SetNoActivate(this); // prevents some fullscreen apps from minimizing
         InitializeComponent();
@@ -91,7 +94,7 @@ public partial class MainWindow : MicaWindow
                 }
                 catch (Exception ex)
                 {
-                    Debug.WriteLine($"Failed to signal existing instance: {ex.Message}");
+                    Logger.Error(ex, "Failed to signal existing instance");
                 }
             });
 
@@ -114,7 +117,7 @@ public partial class MainWindow : MicaWindow
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"Settings event listener error: {ex.Message}");
+                Logger.Error(ex, "Settings event listener error");
             }
         });
 
@@ -126,6 +129,7 @@ public partial class MainWindow : MicaWindow
         catch (Exception ex)
         {
             MessageBox.Show($"Failed to restore settings: {ex.Message}");
+            Logger.Error(ex, "Failed to restore settings");
         }
 
         if (SettingsManager.Current.Startup == true) // add to startup programs if enabled, needs improvement
@@ -392,7 +396,7 @@ public partial class MainWindow : MicaWindow
     private void CurrentSession_OnPlaybackStateChanged(MediaSession mediaSession, GlobalSystemMediaTransportControlsSessionPlaybackInfo? playbackInfo = null)
     {
 #if DEBUG
-        Debug.WriteLine("Playback state changed: " + mediaSession.Id + " " + mediaSession.ControlSession.GetPlaybackInfo().PlaybackStatus);
+        Logger.Debug("Playback state changed: " + mediaSession.Id + " " + mediaSession.ControlSession.GetPlaybackInfo().PlaybackStatus);
 #endif     
         pauseOtherMediaSessionsIfNeeded(mediaSession);
 
@@ -416,7 +420,7 @@ public partial class MainWindow : MicaWindow
     private void MediaManager_OnAnyMediaPropertyChanged(MediaSession mediaSession, GlobalSystemMediaTransportControlsSessionMediaProperties mediaProperties)
     {
 #if DEBUG
-        Debug.WriteLine("Media property changed: " + mediaProperties.Title + " " + mediaSession.ControlSession.GetPlaybackInfo().PlaybackStatus);
+        Logger.Debug("Media property changed: " + mediaProperties.Title + " " + mediaSession.ControlSession.GetPlaybackInfo().PlaybackStatus);
 #endif
         if (mediaManager.GetFocusedSession() == null)
         {
@@ -474,7 +478,7 @@ public partial class MainWindow : MicaWindow
     private void MediaManager_OnAnySessionClosed(MediaSession mediaSession)
     {
 #if DEBUG
-        Debug.WriteLine("Session closed: " + (mediaSession.Id).ToString());
+        Logger.Debug("Session closed: " + (mediaSession.Id).ToString());
 #endif
         var focusedSession = mediaManager.GetFocusedSession();
 
@@ -599,7 +603,7 @@ public partial class MainWindow : MicaWindow
         }
         catch (TaskCanceledException)
         {
-            Debug.WriteLine("Media flyout hide task canceled.");
+            // task was canceled, do nothing
         }
     }
 
@@ -1053,6 +1057,9 @@ public partial class MainWindow : MicaWindow
 
             // dispose mutex
             singleton?.Dispose();
+
+            // flush and close NLog
+            NLog.LogManager.Shutdown();
         }
         catch (ObjectDisposedException)
         {
@@ -1162,7 +1169,7 @@ public partial class MainWindow : MicaWindow
         }
         catch (Exception ex)
         {
-            Debug.WriteLine(ex);
+            Logger.Error(ex, "Failed to initialize tray icon");
         }
 
         try
@@ -1174,11 +1181,11 @@ public partial class MainWindow : MicaWindow
             SettingsManager.Current.IsStoreVersion = LicenseManager.Instance.IsStoreVersion;
             SettingsManager.SaveSettings();
 
-            Debug.WriteLine($"License synced on startup - Store: {SettingsManager.Current.IsStoreVersion}, Premium: {SettingsManager.Current.IsPremiumUnlocked}");
+            Logger.Info($"License synced on startup - Store: {SettingsManager.Current.IsStoreVersion}, Premium: {SettingsManager.Current.IsPremiumUnlocked}");
         }
         catch (Exception ex)
         {
-            Debug.WriteLine($"License initialization failed: {ex}");
+            Logger.Error(ex, "Failed to initialize license");
         }
 
         taskbarWindow = new TaskbarWindow();
