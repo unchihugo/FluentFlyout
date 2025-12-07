@@ -102,4 +102,21 @@
     <system:String x:Key="TrayIcon_GitHubRepositoryOption">存储库</system:String>
     <system:String x:Key="TrayIcon_ReportBugOption">报告错误</system:String>
     <system:String x:Key="TrayIcon_QuitOption">退出 FluentFlyout</system:String>
+    <system:String x:Key="TaskbarWidgetCustomizationTitle">任务栏小组件设置</system:String>
+    <system:String x:Key="TaskbarWidgetDescription">用一个简洁、紧密集成于 Windows 任务栏的小组件来快速访问你的媒体。（当启用时）点击它来展开完整的媒体控制浮窗。</system:String>
+    <system:String x:Key="TaskbarWidgetEnabledTitle">启用任务栏小组件</system:String>
+    <system:String x:Key="TaskbarWidgetEnabledDescription">在任务栏上显示一个简洁的媒体小组件</system:String>
+    <system:String x:Key="TaskbarWidgetVisualIssuesWarning">如果碰到显示问题，请调整下面的选项。</system:String>
+    <system:String x:Key="TaskbarWidgetPosition">小组件位置</system:String>
+    <system:String x:Key="TaskbarWidgetPaddingTitle">为 Windows 小组件按钮添加间距</system:String>
+    <system:String x:Key="TaskbarWidgetPaddingDescription">如果你启用了 Windows 小组件，请启用此选项</system:String>
+    <system:String x:Key="TaskbarWidgetClickableTitle">有播放中的媒体时点击打开媒体浮窗</system:String>
+    <system:String x:Key="TaskbarWidgetClickableDescription">如果启用了媒体浮窗，点击小组件时它将会被打开</system:String>
+    <system:String x:Key="TaskbarWidgetBackgroundBlurDescription">为任务栏小组件添加背景模糊效果</system:String>
+    <system:String x:Key="TaskbarWidgetHideCompletelyTitle">当没有播放中的媒体时完全隐藏</system:String>
+    <system:String x:Key="TaskbarWidgetHideCompletelyDescription">当没有可用媒体时完全隐藏小组件，而不是显示一个媒体图标</system:String>
+    <system:String x:Key="PremiumPurchaseCancelled">已取消购买。</system:String>
+    <system:String x:Key="UnlockPremiumButton">解锁高级功能</system:String>
+    <system:String x:Key="PremiumPurchaseSuccess">高级功能已成功解锁！</system:String>
+    <system:String x:Key="PremiumPurchaseFailed">购买失败，请再试一次。</system:String>
 </ResourceDictionary>
