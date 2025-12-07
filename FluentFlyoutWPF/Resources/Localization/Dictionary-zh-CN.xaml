@@ -125,4 +125,6 @@
     <system:String x:Key="PremiumLockedMessage">此功能是高级包体的一部分</system:String>
     <system:String x:Key="PremiumUnlockedMessage">高级功能已解锁。感谢你的支持！</system:String>
     <system:String x:Key="PremiumGitHubMessage">已针对 GitHub 和自编译版本解锁高级功能</system:String>
+    <system:String x:Key="TaskbarWidgetBackgroundBlurTitle">背景模糊</system:String>
+    <system:String x:Key="PremiumFeatureTitle">高级功能</system:String>
 </ResourceDictionary>
