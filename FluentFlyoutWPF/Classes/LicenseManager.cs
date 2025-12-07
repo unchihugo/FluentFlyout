@@ -193,26 +193,26 @@ public class LicenseManager
     /// Prompts the user to purchase the premium add-on
     /// </summary>
     /// <returns>True if purchase was successful, false otherwise</returns>
-    public async Task<bool> PurchasePremiumAsync()
+    public async Task<(bool, string)> PurchasePremiumAsync()
     {
         try
         {
             if (_storeContext == null)
             {
                 Logger.Warn("Store context not initialized");
-                return false;
+                return (false, "Store context not initialized");
             }
             
             if (!_isStoreVersion)
             {
                 Logger.Warn("Cannot purchase - not a Store version");
-                return false;
+                return (false, "Cannot purchase - not a Store version");
             }
             
             if (_isPremiumUnlocked)
             {
                 Logger.Debug("Premium already unlocked");
-                return true;
+                return (true, string.Empty);
             }
             
             // Get the add-on
@@ -221,13 +221,13 @@ public class LicenseManager
             if (addOnResult.ExtendedError != null)
             {
                 Logger.Error("Error getting add-ons - {Message}", addOnResult.ExtendedError.Message);
-                return false;
+                return (false, "Error getting add-ons - " + addOnResult.ExtendedError.Message);
             }
             
             if (!addOnResult.Products.TryGetValue(PremiumAddOnId, out var premiumProduct))
             {
                 Logger.Warn("Premium add-on not found in store - {AddOnId}", PremiumAddOnId);
-                return false;
+                return (false, "Premium add-on not found in store");
             }
 
             // Request purchase
@@ -236,7 +236,7 @@ public class LicenseManager
             if (purchaseResult.ExtendedError != null)
             {
                 Logger.Error("Error during purchase - {Message}", purchaseResult.ExtendedError.Message);
-                return false;
+                return (false, "Purchase error - " + purchaseResult.ExtendedError.Message);
             }
             
             var status = purchaseResult.Status;
@@ -245,25 +245,24 @@ public class LicenseManager
             {
                 _isPremiumUnlocked = true;
                 Logger.Info("Premium purchase successful");
-                return true;
+                return (true, string.Empty);
             }
             else if (status == StorePurchaseStatus.AlreadyPurchased)
             {
                 _isPremiumUnlocked = true;
                 Logger.Info("Premium already purchased");
-                return true;
+                return (true, string.Empty);
             }
             else
             {
                 Logger.Info("Purchase failed - Status: {Status}", purchaseResult.Status);
+                return (false, $"Purchase failed - Status: {purchaseResult.Status}");
             }
-            
-            return false;
         }
         catch (Exception ex)
         {
             Logger.Error(ex, "Error during purchase");
-            return false;
+            return (false, "Error during purchase - " + ex.Message);
         }
     }
     
