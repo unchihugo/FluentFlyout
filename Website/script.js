@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function updateNavVisibility() {
         if (navLogo && navDownload) {
-            if (window.scrollY > screen.height / 2) {
+            if (window.scrollY > window.innerHeight / 2) {
                 navLogo.classList.remove('opacity-0', 'pointer-events-none');
                 navDownload.classList.remove('opacity-0', 'pointer-events-none');
             } else {
