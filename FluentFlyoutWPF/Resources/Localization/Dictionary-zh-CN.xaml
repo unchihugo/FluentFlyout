@@ -116,7 +116,13 @@
     <system:String x:Key="TaskbarWidgetHideCompletelyTitle">当没有播放中的媒体时完全隐藏</system:String>
     <system:String x:Key="TaskbarWidgetHideCompletelyDescription">当没有可用媒体时完全隐藏小组件，而不是显示一个媒体图标</system:String>
     <system:String x:Key="PremiumPurchaseCancelled">已取消购买。</system:String>
-    <system:String x:Key="UnlockPremiumButton">解锁高级功能</system:String>
+    <system:String x:Key="UnlockPremiumButton">解锁 Premium</system:String>
     <system:String x:Key="PremiumPurchaseSuccess">高级功能已成功解锁！</system:String>
     <system:String x:Key="PremiumPurchaseFailed">购买失败，请再试一次。</system:String>
+    <system:String x:Key="PremiumFeatureDescription" xml:space="preserve">您的一次性捐赠可以帮助我维持 FluentFlyout 的运行和更新。它会立即永久解锁所有高级自定义功能。
+
+注意：作为一个开源项目，这些功能也可以通过 GitHub 上的手动安装器免费获取。唯一的区别是，更新和安装需要手动完成。</system:String>
+    <system:String x:Key="PremiumLockedMessage">此功能是高级包体的一部分</system:String>
+    <system:String x:Key="PremiumUnlockedMessage">高级功能已解锁。感谢你的支持！</system:String>
+    <system:String x:Key="PremiumGitHubMessage">已针对 GitHub 和自编译版本解锁高级功能</system:String>
 </ResourceDictionary>
