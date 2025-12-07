@@ -2,7 +2,6 @@
 using FluentFlyout.Classes.Utils;
 using FluentFlyoutWPF;
 using FluentFlyoutWPF.Classes;
-using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Input;
@@ -12,6 +11,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using Windows.Media.Control;
+using Wpf.Ui.Appearance;
 
 namespace FluentFlyout.Windows;
 
@@ -140,12 +140,18 @@ public partial class TaskbarWindow : Window
     {
         if (!SettingsManager.Current.TaskbarWidgetClickable || String.IsNullOrEmpty(SongTitle.Text + SongArtist.Text)) return;
 
-        // hover effects with animations
-        var brush = (SolidColorBrush)Application.Current.Resources["TextFillColorSecondaryBrush"];
-        var targetBackgroundBrush = new SolidColorBrush(brush.Color) { Opacity = 0.075 };
-
-        var secondBrush = (SolidColorBrush)Application.Current.Resources["TextFillColorDisabledBrush"];
-        TopBorder.BorderBrush = new SolidColorBrush(secondBrush.Color) { Opacity = 0.25 };
+        SolidColorBrush targetBackgroundBrush;
+        // hover effects with animations, hard-coded colors because I can't find the resource brushes
+        if (ApplicationThemeManager.GetSystemTheme() == SystemTheme.Dark)
+        { // dark mode
+            targetBackgroundBrush = new SolidColorBrush(Color.FromArgb(197, 255, 255, 255)) { Opacity = 0.075 };
+            TopBorder.BorderBrush = new SolidColorBrush(Color.FromArgb(93, 255, 255, 255)) { Opacity = 0.25 };
+        }
+        else
+        { // light mode
+            targetBackgroundBrush = new SolidColorBrush(Color.FromArgb(255, 255, 255, 255)) { Opacity = 0.6 };
+            TopBorder.BorderBrush = new SolidColorBrush(Color.FromArgb(93, 255, 255, 255)) { Opacity = 1 };
+        }
 
         // Animate background
         var backgroundAnimation = new ColorAnimation
@@ -157,7 +163,7 @@ public partial class TaskbarWindow : Window
 
         var backgroundOpacityAnimation = new DoubleAnimation
         {
-            To = 0.075,
+            To = targetBackgroundBrush.Opacity,
             Duration = TimeSpan.FromMilliseconds(200),
             EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut }
         };
