@@ -4,6 +4,7 @@ using FluentFlyoutWPF;
 using FluentFlyoutWPF.Classes;
 using System.Runtime.InteropServices;
 using System.Windows;
+using System.Windows.Automation;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
@@ -65,7 +66,7 @@ public partial class TaskbarWindow : Window
     // ------------------
 
     private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
-    
+
     private readonly DispatcherTimer _timer;
     private readonly SolidColorBrush _hitTestTransparent;
     private readonly int _nativeWidgetsPadding = 216;
@@ -94,6 +95,8 @@ public partial class TaskbarWindow : Window
     private double _cachedArtistWidth = 0;
     private double _dpiScaleX;
     private double _dpiScaleY;
+    private IntPtr _trayHandle;
+    private AutomationElement? _widgetElement;
     //private Task _crossFadeTask = Task.CompletedTask;
 
     public TaskbarWindow()
@@ -217,17 +220,14 @@ public partial class TaskbarWindow : Window
 
             IntPtr taskbarHandle = FindWindow("Shell_TrayWnd", null);
 
-            if (taskbarHandle != IntPtr.Zero)
-            {
-                // This prevents the window from trying to float above the taskbar as a separate entity
-                int style = GetWindowLong(myHandle, GWL_STYLE);
-                style = (style & ~WS_POPUP) | WS_CHILD;
-                SetWindowLong(myHandle, GWL_STYLE, style);
+            // This prevents the window from trying to float above the taskbar as a separate entity
+            int style = GetWindowLong(myHandle, GWL_STYLE);
+            style = (style & ~WS_POPUP) | WS_CHILD;
+            SetWindowLong(myHandle, GWL_STYLE, style);
 
-                SetParent(myHandle, taskbarHandle);
+            SetParent(myHandle, taskbarHandle);
 
-                CalculateAndSetPosition(taskbarHandle, myHandle);
-            }
+            CalculateAndSetPosition(taskbarHandle, myHandle);
 
             // for hover animation
             if (MainBorder.Background is not SolidColorBrush)
@@ -252,6 +252,13 @@ public partial class TaskbarWindow : Window
         {
             var interop = new WindowInteropHelper(this);
             IntPtr taskbarHandle = FindWindow("Shell_TrayWnd", null);
+
+            if (interop.Handle == IntPtr.Zero)
+            {
+                _timer.Stop();
+                Logger.Warn("Taskbar Widget window handle is zero, stopping position updates.");
+                return;
+            }
 
             if (taskbarHandle != IntPtr.Zero && interop.Handle != IntPtr.Zero)
             {
@@ -313,28 +320,70 @@ public partial class TaskbarWindow : Window
         int physicalTop = (taskbarHeight - physicalHeight) / 2;
 
         int physicalLeft = 0;
-        switch (SettingsManager.Current.TaskbarWidgetPosition) { 
+        switch (SettingsManager.Current.TaskbarWidgetPosition)
+        {
             case 0: // left aligned with some padding (like native widgets)
-                physicalLeft = 20; // maybe add automatic widget padding?
-                if (SettingsManager.Current.TaskbarWidgetPadding)
+                physicalLeft = 20;
+                if (SettingsManager.Current.TaskbarWidgetPadding) // automatic widget padding
                 {
-                    physicalLeft += _nativeWidgetsPadding;
+                    try
+                    {
+                        // find widget button in XAML
+                        if (_widgetElement == null)
+                        {
+                            AutomationElement root = AutomationElement.FromHandle(taskbarHandle);
+
+                            _widgetElement = root.FindFirst(TreeScope.Descendants,
+                                new PropertyCondition(AutomationElement.AutomationIdProperty, "WidgetsButton"));
+                        }
+
+                        if (_widgetElement == null) // widget most likely disabled
+                            break;
+
+                        Rect widgetRect = _widgetElement.Current.BoundingRectangle;
+
+                        if (widgetRect == Rect.Empty) // widget shown before but most likely disabled now
+                            break;
+
+                        physicalLeft = (int)(widgetRect.Right) + 2; // add small padding
+                    }
+                    catch (Exception ex)
+                    {
+                        // fallback to default padding
+                        Logger.Warn(ex, "Failed to get Widgets button position.");
+                        physicalLeft += _nativeWidgetsPadding + 2;
+                    }
                 }
                 break;
+
             case 1: // center of the taskbar
                 physicalLeft = (taskbarRect.Right - taskbarRect.Left - physicalWidth) / 2;
                 break;
+
             case 2: // right aligned next to system tray with tiny bit of padding
-                IntPtr trayHandle = FindWindowEx(taskbarHandle, IntPtr.Zero, "TrayNotifyWnd", null);
-                if (trayHandle == IntPtr.Zero)
+                try
                 {
-                    // Fallback to left alignment or handle error appropriately
-                    physicalLeft = 20;
-                    break;
+                    if (_trayHandle == IntPtr.Zero)
+                    {
+                        _trayHandle = FindWindowEx(taskbarHandle, IntPtr.Zero, "TrayNotifyWnd", null);
+                    }
+
+                    if (_trayHandle == IntPtr.Zero)
+                    {
+                        // Fallback to left alignment
+                        physicalLeft = 20;
+                        break;
+                    }
+                    RECT trayRect;
+                    GetWindowRect(_trayHandle, out trayRect);
+                    physicalLeft = trayRect.Left - physicalWidth - 1;
                 }
-                RECT trayRect;
-                GetWindowRect(trayHandle, out trayRect);
-                physicalLeft = trayRect.Left - physicalWidth - 1;
+                catch (Exception ex)
+                {
+                    // Fallback to left alignment
+                    Logger.Warn(ex, "Failed to get System Tray position.");
+                    physicalLeft = 20;
+                }
                 break;
         }
 
@@ -350,12 +399,18 @@ public partial class TaskbarWindow : Window
         // Check premium status - hide widget if not unlocked
         if ((!SettingsManager.Current.TaskbarWidgetEnabled || !SettingsManager.Current.IsPremiumUnlocked))
         {
+            if (_timer.IsEnabled) // pause timer to save resources
+                _timer.Stop();
+
             Dispatcher.Invoke(() =>
             {
                 Visibility = Visibility.Collapsed;
             });
             return;
         }
+
+        if (!_timer.IsEnabled)
+            _timer.Start();
 
         if (title == "-" && artist == "-")
         {
