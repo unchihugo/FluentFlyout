@@ -324,28 +324,16 @@ public partial class TaskbarWindow : Window
         {
             case 0: // left aligned with some padding (like native widgets)
                 physicalLeft = 20;
-                if (SettingsManager.Current.TaskbarWidgetPadding) // automatic widget padding
+                if (SettingsManager.Current.TaskbarWidgetPadding) // automatic widget padding to the left
                 {
                     try
                     {
                         // find widget button in XAML
-                        if (_widgetElement == null)
-                        {
-                            AutomationElement root = AutomationElement.FromHandle(taskbarHandle);
+                        (bool found, Rect widgetRect) = GetTaskbarWidgetRect(taskbarHandle);
 
-                            _widgetElement = root.FindFirst(TreeScope.Descendants,
-                                new PropertyCondition(AutomationElement.AutomationIdProperty, "WidgetsButton"));
-                        }
-
-                        if (_widgetElement == null) // widget most likely disabled
-                            break;
-
-                        Rect widgetRect = _widgetElement.Current.BoundingRectangle;
-
-                        if (widgetRect == Rect.Empty) // widget shown before but most likely disabled now
-                            break;
-
-                        physicalLeft = (int)(widgetRect.Right) + 2; // add small padding
+                        // make sure it's on the left side, otherwise ignore (widget might be to the right)
+                        if (found && widgetRect.Right < taskbarRect.Right / 2)
+                            physicalLeft = (int)(widgetRect.Right) + 2; // add small padding
                     }
                     catch (Exception ex)
                     {
@@ -363,6 +351,26 @@ public partial class TaskbarWindow : Window
             case 2: // right aligned next to system tray with tiny bit of padding
                 try
                 {
+                    if (SettingsManager.Current.TaskbarWidgetPadding) // automatic widget padding to the right
+                    {
+                        try
+                        {
+                            // find widget button in XAML
+                            (bool found, Rect widgetRect) = GetTaskbarWidgetRect(taskbarHandle);
+
+                            // make sure it's on the right side, otherwise ignore (widget might be to the left)
+                            if (found && widgetRect.Left > taskbarRect.Right / 2)
+                            {
+                                physicalLeft = (int)(widgetRect.Left) - 2 - physicalWidth; // left of widget
+                                break; // early exit so we don't move it back next to tray below
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Logger.Warn(ex, "Failed to get Widgets button position.");
+                        }
+                    }
+
                     if (_trayHandle == IntPtr.Zero)
                     {
                         _trayHandle = FindWindowEx(taskbarHandle, IntPtr.Zero, "TrayNotifyWnd", null);
@@ -518,4 +526,32 @@ public partial class TaskbarWindow : Window
     //        return Task.CompletedTask;
     //    }
     //}
+
+    /// <summary>
+    /// Attempts to locate the Windows taskbar widgets button and retrieves its bounding rectangle.
+    /// </summary>
+    /// <returns>A tuple where the first value indicates whether the widgets button was found (<see langword="true"/> if found;
+    /// otherwise, <see langword="false"/>), and the second value is the bounding rectangle of the button if found, or
+    /// <see cref="Rect.Empty"/> if not found.</returns>
+    private (bool, Rect) GetTaskbarWidgetRect(IntPtr taskbarHandle)
+    {
+        // find widget button in XAML
+        if (_widgetElement == null)
+        {
+            AutomationElement root = AutomationElement.FromHandle(taskbarHandle);
+
+            _widgetElement = root.FindFirst(TreeScope.Descendants,
+                new PropertyCondition(AutomationElement.AutomationIdProperty, "WidgetsButton"));
+        }
+
+        if (_widgetElement == null) // widget most likely disabled
+            return (false, Rect.Empty);
+
+        Rect widgetRect = _widgetElement.Current.BoundingRectangle;
+
+        if (widgetRect == Rect.Empty) // widget shown before but most likely disabled now
+            return (false, Rect.Empty);
+
+        return (true, widgetRect);
+    }
 }
