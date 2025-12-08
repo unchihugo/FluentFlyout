@@ -91,4 +91,44 @@
     <system:String x:Key="TrayIconLeftClickOption2"> メディアポップアップを表示</system:String>
     <system:String x:Key="Win11TrayIconTitle">Windows 11風のトレイアイコン</system:String>
     <system:String x:Key="Win11TrayIconDescription">Windows 11に合うトレイアイコンを使用する（テーマを更新するには一度スイッチを切り替えてください）</system:String>
+    <system:String x:Key="TrayIconSectionTitle">トレイアイコン</system:String>
+    <system:String x:Key="HideTrayIconTitle">トレイアイコンを完全に非表示</system:String>
+    <system:String x:Key="HideTrayIconDescription">設定画面を開くには、プログラムを2回起動してください</system:String>
+    <system:String x:Key="AnimationSettingsTitle">アニメーション設定</system:String>
+    <system:String x:Key="AnimationSettingsDescription">アニメーションを好みに合わせて微調整します</system:String>
+    <system:String x:Key="AnimationDurationScaleTitle">アニメーション再生速度</system:String>
+    <system:String x:Key="AnimationDurationScaleDescription">ポップアップアニメーションの速度を調整します（既定：1x）</system:String>
+    <system:String x:Key="AnimationSpeedOff">オフ</system:String>
+    <system:String x:Key="AnimationEasingStyleTitle">アニメーションのイージングスタイル</system:String>
+    <system:String x:Key="NativeExperienceInfo">標準の Windows 11 の操作感を維持するには、設定を既定のままにしてください。</system:String>
+    <system:String x:Key="DisableOnFullscreenTitle">DirectXの全画面表示アプリが検出された場合、ポップアップを無効にする</system:String>
+    <system:String x:Key="DisableOnFullscreenDescription">ポップアップが表示されたときに、DirectXの全画面表示ゲームが最小化されるのを防ぎます</system:String>
+    <system:String x:Key="AboutPremiumTitle">プレミアムについて</system:String>
+    <system:String x:Key="EnjoyingAppText" xml:space="preserve">このアプリを気に入っていただけましたか？ GitHubでスターを付けるか、
+または Microsoft Storeでレビューを残してください！</system:String>
+    <system:String x:Key="GitHubRepoLink">GitHubリポジトリ</system:String>
+    <system:String x:Key="CloseButton">閉じる</system:String>
+    <system:String x:Key="AppLanguageTitle">アプリの言語</system:String>
+    <system:String x:Key="AppLanguageDescription" xml:space="preserve">リストにない言語や翻訳が不完全な言語は、英語が既定で適用されます。
+翻訳へのご協力はこちらからお願いします</system:String>
+    <system:String x:Key="AppLanguageDescriptionLink">Weblate</system:String>
+    <system:String x:Key="LockWindow_CapsLock">Caps Lock</system:String>
+    <system:String x:Key="LockWindow_NumLock">Num Lock</system:String>
+    <system:String x:Key="LockWindow_ScrollLock">Scroll Lock</system:String>
+    <system:String x:Key="LockWindow_LockOn">オン</system:String>
+    <system:String x:Key="LockWindow_LockOff">オフ</system:String>
+    <system:String x:Key="NextUpWindow_UpNextText">次の曲:</system:String>
+    <system:String x:Key="TrayIcon_SettingsOption">設定</system:String>
+    <system:String x:Key="TrayIcon_GitHubRepositoryOption">リポジトリ</system:String>
+    <system:String x:Key="TrayIcon_ReportBugOption">バグを報告</system:String>
+    <system:String x:Key="TrayIcon_QuitOption">FluentFlyoutを終了</system:String>
+    <system:String x:Key="LockWindow_InsertPressed">Insertキーが押されました</system:String>
+    <system:String x:Key="PremiumFeatureDescription" xml:space="preserve">一度限りのご支援は、FluentFlyoutの継続的な開発と更新に役立てられます。ご支援いただくと、購入後、すべてのプレミアムカスタマイズ機能が永続的にご利用いただけます。
+        
+注意:本プロジェクトはオープンソースであるため、これらの機能はGitHubの手動インストーラーを通じて無料で入手することも可能です。ただし、その場合は更新とインストールをすべて手動で行っていただく必要があります。</system:String>
+    <system:String x:Key="AnimationEasingStyleDescription">(既定：二次関数)</system:String>
+    <system:String x:Key="EasingLinear" xml:space="preserve"> リニア</system:String>
+    <system:String x:Key="EasingSine" xml:space="preserve"> サイン</system:String>
+    <system:String x:Key="EasingQuadratic" xml:space="preserve"> 二次関数</system:String>
+    <system:String x:Key="EasingCubic" xml:space="preserve"> 三次関数</system:String>
 </ResourceDictionary>
