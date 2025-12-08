@@ -90,4 +90,5 @@
     <system:String x:Key="TrayIconLeftClickOption1"> 設定を開く</system:String>
     <system:String x:Key="TrayIconLeftClickOption2"> メディアポップアップを表示</system:String>
     <system:String x:Key="Win11TrayIconTitle">Windows 11風のトレイアイコン</system:String>
+    <system:String x:Key="Win11TrayIconDescription">Windows 11に合うトレイアイコンを使用する（テーマを更新するには一度スイッチを切り替えてください）</system:String>
 </ResourceDictionary>
