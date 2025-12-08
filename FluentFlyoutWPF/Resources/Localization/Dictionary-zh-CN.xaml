@@ -102,4 +102,33 @@
     <system:String x:Key="TrayIcon_GitHubRepositoryOption">存储库</system:String>
     <system:String x:Key="TrayIcon_ReportBugOption">报告错误</system:String>
     <system:String x:Key="TrayIcon_QuitOption">退出 FluentFlyout</system:String>
+    <system:String x:Key="TaskbarWidgetCustomizationTitle">任务栏小组件设置</system:String>
+    <system:String x:Key="TaskbarWidgetDescription">用一个简洁、紧密集成于 Windows 任务栏的小组件来快速访问你的媒体。（当启用时）点击它来展开完整的媒体控制浮窗。</system:String>
+    <system:String x:Key="TaskbarWidgetEnabledTitle">启用任务栏小组件</system:String>
+    <system:String x:Key="TaskbarWidgetEnabledDescription">在任务栏上显示一个简洁的媒体小组件</system:String>
+    <system:String x:Key="TaskbarWidgetVisualIssuesWarning">如果碰到显示问题，请调整下面的选项。</system:String>
+    <system:String x:Key="TaskbarWidgetPosition">小组件位置</system:String>
+    <system:String x:Key="TaskbarWidgetPaddingTitle">为 Windows 小组件按钮添加间距</system:String>
+    <system:String x:Key="TaskbarWidgetPaddingDescription">如果你启用了 Windows 小组件，请启用此选项</system:String>
+    <system:String x:Key="TaskbarWidgetClickableTitle">有播放中的媒体时点击打开媒体浮窗</system:String>
+    <system:String x:Key="TaskbarWidgetClickableDescription">如果启用了媒体浮窗，点击小组件时它将会被打开</system:String>
+    <system:String x:Key="TaskbarWidgetBackgroundBlurDescription">为任务栏小组件添加背景模糊效果</system:String>
+    <system:String x:Key="TaskbarWidgetHideCompletelyTitle">当没有播放中的媒体时完全隐藏</system:String>
+    <system:String x:Key="TaskbarWidgetHideCompletelyDescription">当没有可用媒体时完全隐藏小组件，而不是显示一个媒体图标</system:String>
+    <system:String x:Key="PremiumPurchaseCancelled">已取消购买。</system:String>
+    <system:String x:Key="UnlockPremiumButton">解锁 Premium</system:String>
+    <system:String x:Key="PremiumPurchaseSuccess">Premium 功能已成功解锁！</system:String>
+    <system:String x:Key="PremiumPurchaseFailed">购买失败，请再试一次。</system:String>
+    <system:String x:Key="PremiumFeatureDescription" xml:space="preserve">您的一次性捐赠可以帮助我维持 FluentFlyout 的运行和更新。它也会立即永久解锁所有包含在 Premium 中的自定义功能。
+
+注：作为一个开源项目，这些功能也可以通过 GitHub 上的手动安装包免费获取。唯一的区别是，软件更新和安装需要手动完成。</system:String>
+    <system:String x:Key="PremiumLockedMessage">此功能是 Premium 的一部分</system:String>
+    <system:String x:Key="PremiumUnlockedMessage">Premium 功能已解锁。感谢你的支持！</system:String>
+    <system:String x:Key="PremiumGitHubMessage">已针对 GitHub 和自编译版本解锁 Premium 功能</system:String>
+    <system:String x:Key="TaskbarWidgetBackgroundBlurTitle">背景模糊</system:String>
+    <system:String x:Key="PremiumFeatureTitle">Premium 功能</system:String>
+    <system:String x:Key="TrayIconSectionTitle">托盘图标</system:String>
+    <system:String x:Key="HideTrayIconTitle">完全隐藏托盘图标</system:String>
+    <system:String x:Key="HideTrayIconDescription">再次启动程序以访问设置</system:String>
+    <system:String x:Key="AboutPremiumTitle">关于高级功能</system:String>
 </ResourceDictionary>
