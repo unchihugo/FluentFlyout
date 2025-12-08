@@ -307,6 +307,13 @@
                                                 </MultiDataTrigger.Conditions>
                                                 <Setter Property="IsEnabled" Value="True" />
                                             </MultiDataTrigger>
+                                            <MultiDataTrigger>
+                                                <MultiDataTrigger.Conditions>
+                                                    <Condition Binding="{Binding IsPremiumUnlocked}" Value="True" />
+                                                    <Condition Binding="{Binding TaskbarWidgetPosition}" Value="2" />
+                                                </MultiDataTrigger.Conditions>
+                                                <Setter Property="IsEnabled" Value="True" />
+                                            </MultiDataTrigger>
                                         </Style.Triggers>
                                     </Style>
                                 </controls:ToggleSwitch.Style>
