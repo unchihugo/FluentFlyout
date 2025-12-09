@@ -127,4 +127,5 @@ Nota: Como proyecto de código abierto, estas opciones también están disponibl
     <system:String x:Key="HideTrayIconTitle">Ocultar Icono de la Bandeja Completamente</system:String>
     <system:String x:Key="HideTrayIconDescription">Acceder a las opciones al ejecutar el programa dos veces</system:String>
     <system:String x:Key="AboutPremiumTitle">Sobre el Premium</system:String>
+    <system:String x:Key="TaskbarWidgetPosition">Posición del Widget</system:String>
 </ResourceDictionary>

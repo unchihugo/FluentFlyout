@@ -1,4 +1,134 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib">
     <system:String x:Key="TitleText">FluentFlyout の設定</system:String>
-    <system:String x:Key="MediaFlyoutDescription">主要フライアウト。メディアを聞いているなから、キーホルダーにキーのヴオルームやメディア(パラー/プアーズ、ヴオルーム上げる/減る、やもと)をクリクしてで、フライアウトを見せられる。</system:String>
+    <system:String x:Key="MediaFlyoutDescription">メインのポップアップ表示。メディア再生中に、キーボードの任意のメディアキーまたは音量キー（再生/一時停止、音量アップ/ダウンなど）を押すと、このポップアップが表示されます。再生コントロールやその他の情報と共に、メディア情報が表示されます。</system:String>
+    <system:String x:Key="MediaFlyoutTitle">メディアのポップアップ表示のカスタマイズ</system:String>
+    <system:String x:Key="TextBlockText1">メディアのポップアップを有効化</system:String>
+    <system:String x:Key="TextBlockText3">メディアキーを押したときにポップアップを表示する</system:String>
+    <system:String x:Key="TextBlockText2">モダンな背景ぼかしスタイルをプリセットから選択</system:String>
+    <system:String x:Key="BackgroundBlurOption1" xml:space="preserve"> なし</system:String>
+    <system:String x:Key="BackgroundBlurOption2" xml:space="preserve"> スタイル 1 (カバー グロー)</system:String>
+    <system:String x:Key="BackgroundBlurOption3" xml:space="preserve"> スタイル 2 (ライジング グロー)</system:String>
+    <system:String x:Key="BackgroundBlurOption4" xml:space="preserve"> スタイル 3 (ぼかし)</system:String>
+    <system:String x:Key="BackgroundBlurTitle">背景のぼかし</system:String>
+    <system:String x:Key="AcrylicWindowTitle">アクリル ウィンドウ</system:String>
+    <system:String x:Key="AcrylicWindowDescription">ポップアップに透明なアクリルぼかし効果を適用します（オフにするとマイカ効果に戻ります）</system:String>
+    <system:String x:Key="CompactLayoutTitle">コンパクト レイアウト</system:String>
+    <system:String x:Key="CompactLayoutDescription" xml:space="preserve">シンプルで邪魔になりにくいレイアウト
+リピート、シャッフル、およびプレイヤー情報を非表示にします</system:String>
+    <system:String x:Key="FlyoutPositionTitle">ポップアップ表示の位置</system:String>
+    <system:String x:Key="PositionBottomLeft" xml:space="preserve"> 左下</system:String>
+    <system:String x:Key="PositionBottomCenter" xml:space="preserve"> 下部中央</system:String>
+    <system:String x:Key="PositionBottomRight" xml:space="preserve"> 右下</system:String>
+    <system:String x:Key="PositionTopLeft" xml:space="preserve"> 左上</system:String>
+    <system:String x:Key="PositionTopCenter" xml:space="preserve"> 上部中央</system:String>
+    <system:String x:Key="PositionTopRight" xml:space="preserve"> 右上</system:String>
+    <system:String x:Key="FlyoutStayDurationTitle">ポップアップの表示時間</system:String>
+    <system:String x:Key="FlyoutStayDurationDescription">(既定値: 3000 ms)</system:String>
+    <system:String x:Key="MillisecondsUnit">ms</system:String>
+    <system:String x:Key="MediaFlyoutAlwaysDisplay">常に表示</system:String>
+    <system:String x:Key="CenterTitleArtistTitle">タイトルとアーティストを中央揃え</system:String>
+    <system:String x:Key="CenterTitleArtistDescription">テキストを左揃えではなく中央に配置します</system:String>
+    <system:String x:Key="ShowMediaPlayerNameTitle">メディアプレイヤー名を表示</system:String>
+    <system:String x:Key="RepeatButtonTitle">リピート ボタン*</system:String>
+    <system:String x:Key="RepeatButtonDescription">すべてリピート、または一曲リピートから選択します。ポップアップの幅が広くなります</system:String>
+    <system:String x:Key="ShuffleButtonTitle">シャッフル ボタン*</system:String>
+    <system:String x:Key="ShuffleButtonDescription">ポップアップの幅が広くなります</system:String>
+    <system:String x:Key="ShowSeekbarTitle">シークバーの表示</system:String>
+    <system:String x:Key="ShowSeekbarDescription">プレイヤーがシークバーに対応している場合、操作可能なシークバーが自動的に表示されます</system:String>
+    <system:String x:Key="UnsupportedControlsWarning">*一部のブラウザやプレイヤーは、リピート、シャッフル、およびシークバーの操作に対応していません。</system:String>
+    <system:String x:Key="PauseOtherMediaTitle">他のメディアを自動的に一時停止</system:String>
+    <system:String x:Key="PauseOtherMediaDescription">新しいメディアを再生またはアクティブにした際、他のアクティブなセッションは自動的に一時停止されます</system:String>
+    <system:String x:Key="TaskbarWidgetCustomizationTitle">タスクバー ウィジェットのカスタマイズ</system:String>
+    <system:String x:Key="TaskbarWidgetDescription">Windowsのタスクバーに組み込まれたコンパクトなウィジェット。メディアへのアクセスを瞬時に行えます。ウィジェットをクリックすると、（有効な場合）メディアポップアップが展開されます。</system:String>
+    <system:String x:Key="TaskbarWidgetEnabledTitle">タスクバーウィジェットを有効化</system:String>
+    <system:String x:Key="TaskbarWidgetEnabledDescription">タスクバーにコンパクトなメディアウィジェットを表示します</system:String>
+    <system:String x:Key="TaskbarWidgetVisualIssuesWarning">表示上の問題が発生する場合は、以下の設定を変更してください。</system:String>
+    <system:String x:Key="TaskbarWidgetPosition">ウィジェットの位置</system:String>
+    <system:String x:Key="TaskbarWidgetPaddingTitle">Windows ウィジェット ボタンに余白を追加</system:String>
+    <system:String x:Key="TaskbarWidgetPaddingDescription">Windowsウィジェットが有効になっている場合は、この機能をオンにしてください</system:String>
+    <system:String x:Key="TaskbarWidgetClickableTitle">メディア再生時にクリックでポップアップを開く</system:String>
+    <system:String x:Key="TaskbarWidgetClickableDescription">メディアポップアップが有効になっている場合、タスクバーウィジェットをクリックするとポップアップが開きます</system:String>
+    <system:String x:Key="TaskbarWidgetBackgroundBlurTitle">背景のぼかし</system:String>
+    <system:String x:Key="TaskbarWidgetBackgroundBlurDescription">タスクバーウィジェットに背景ぼかし効果を追加します</system:String>
+    <system:String x:Key="TaskbarWidgetHideCompletelyTitle">メディアがない場合は完全に非表示</system:String>
+    <system:String x:Key="TaskbarWidgetHideCompletelyDescription">メディアが利用可能でない場合、メディアアイコンを表示する代わりに、ウィジェット全体を非表示にします</system:String>
+    <system:String x:Key="PremiumFeatureTitle">プレミアム機能</system:String>
+    <system:String x:Key="PremiumLockedMessage">この機能はプレミアムパッケージの一部です</system:String>
+    <system:String x:Key="PremiumUnlockedMessage">プレミアム機能が解除されました。ご支援ありがとうございます！</system:String>
+    <system:String x:Key="PremiumGitHubMessage">プレミアム機能は、GitHub版またはセルフコンパイル版で解除されています</system:String>
+    <system:String x:Key="UnlockPremiumButton">プレミアムを解除</system:String>
+    <system:String x:Key="PremiumPurchaseSuccess">プレミアム機能の解除に成功しました！</system:String>
+    <system:String x:Key="PremiumPurchaseFailed">購入に失敗しました。もう一度お試しください。</system:String>
+    <system:String x:Key="PremiumPurchaseCancelled">購入はキャンセルされました。</system:String>
+    <system:String x:Key="NextUpCustomizationTitle">「次に再生」のカスタマイズ</system:String>
+    <system:String x:Key="NextUpDescription" xml:space="preserve">曲や動画が終了した際に、次に再生されるアイテムをポップアップに表示します。 次のアイテムが自動再生される場合にのみ表示されます。手動で「次へ/前へ」を押した場合は、代わりにメインポップアップが表示されます。</system:String>
+    <system:String x:Key="EnableNextUpTitle">次に再生 ポップアップを有効化（実験的）</system:String>
+    <system:String x:Key="EnableNextUpDescription">曲や動画の終了時に次の曲を表示します</system:String>
+    <system:String x:Key="NextUpStayDurationTitle">次に再生ポップアップの表示時間</system:String>
+    <system:String x:Key="NextUpStayDurationDescription">(既定値: 2000 ms)</system:String>
+    <system:String x:Key="LockKeysCustomizationTitle">ロックキーのカスタマイズ</system:String>
+    <system:String x:Key="LockKeysDescription" xml:space="preserve">ロックキーの状態を一目で確認できます。Caps Lock、Num Lock、またはScroll Lockを押すと表示されます。ロックキーインジケーターがないノートPCやキーボードに便利です。</system:String>
+    <system:String x:Key="EnableLockKeysTitle">ロックキーのポップアップを有効化</system:String>
+    <system:String x:Key="EnableLockKeysDescription">指定されたロックキーがオンかオフかを表示します</system:String>
+    <system:String x:Key="LockKeysStayDurationTitle">ロックキーポップアップ表示時間</system:String>
+    <system:String x:Key="LockKeysStayDurationDescription">(既定値: 2000 ms)</system:String>
+    <system:String x:Key="LockKeysBoldUITitle">記号とフォントを太字で表示</system:String>
+    <system:String x:Key="LockKeysBoldUIDescription">ポップアップの記号とフォントを強調します</system:String>
+    <system:String x:Key="EnableInsertKeyTitle">Insertキー ポップアップを有効化</system:String>
+    <system:String x:Key="EnableInsertKeyDescription">Insert/Overwriteキーを押した際にポップアップを表示するかどうかを切り替えます</system:String>
+    <system:String x:Key="SystemSettingsTitle">システム</system:String>
+    <system:String x:Key="LaunchOnStartupTitle">スタートアップ時に起動</system:String>
+    <system:String x:Key="LaunchOnStartupDescription">Windowsにログインした際、トレイに最小化して起動します</system:String>
+    <system:String x:Key="StartupAppsHyperlinkText">スタートアップ アプリ</system:String>
+    <system:String x:Key="StartupAppsSettingsInfo">この設定が期待どおりに機能しない場合は、設定を確認してください</system:String>
+    <system:String x:Key="AppThemeTitle">テーマ</system:String>
+    <system:String x:Key="AppThemeDefault"> Windowsの既定</system:String>
+    <system:String x:Key="AppThemeLight"> ライト</system:String>
+    <system:String x:Key="AppThemeDark"> ダーク</system:String>
+    <system:String x:Key="TrayIconLeftClickBehaviorTitle">トレイアイコン左クリック時の動作</system:String>
+    <system:String x:Key="TrayIconLeftClickBehaviorDescription">トレイアイコンを左クリックしたときに実行される動作を選択してください</system:String>
+    <system:String x:Key="TrayIconLeftClickOption1"> 設定を開く</system:String>
+    <system:String x:Key="TrayIconLeftClickOption2"> メディアポップアップを表示</system:String>
+    <system:String x:Key="Win11TrayIconTitle">Windows 11風のトレイアイコン</system:String>
+    <system:String x:Key="Win11TrayIconDescription">Windows 11に合うトレイアイコンを使用する（テーマを更新するには一度スイッチを切り替えてください）</system:String>
+    <system:String x:Key="TrayIconSectionTitle">トレイアイコン</system:String>
+    <system:String x:Key="HideTrayIconTitle">トレイアイコンを完全に非表示</system:String>
+    <system:String x:Key="HideTrayIconDescription">設定画面を開くには、プログラムを2回起動してください</system:String>
+    <system:String x:Key="AnimationSettingsTitle">アニメーション設定</system:String>
+    <system:String x:Key="AnimationSettingsDescription">アニメーションを好みに合わせて微調整します</system:String>
+    <system:String x:Key="AnimationDurationScaleTitle">アニメーション再生速度</system:String>
+    <system:String x:Key="AnimationDurationScaleDescription">ポップアップアニメーションの速度を調整します（既定：1x）</system:String>
+    <system:String x:Key="AnimationSpeedOff">オフ</system:String>
+    <system:String x:Key="AnimationEasingStyleTitle">アニメーションのイージングスタイル</system:String>
+    <system:String x:Key="NativeExperienceInfo">標準の Windows 11 の操作感を維持するには、設定を既定のままにしてください。</system:String>
+    <system:String x:Key="DisableOnFullscreenTitle">DirectXの全画面表示アプリが検出された場合、ポップアップを無効にする</system:String>
+    <system:String x:Key="DisableOnFullscreenDescription">ポップアップが表示されたときに、DirectXの全画面表示ゲームが最小化されるのを防ぎます</system:String>
+    <system:String x:Key="AboutPremiumTitle">プレミアムについて</system:String>
+    <system:String x:Key="EnjoyingAppText" xml:space="preserve">このアプリを気に入っていただけましたか？ GitHubでスターを付けるか、
+または Microsoft Storeでレビューを残してください！</system:String>
+    <system:String x:Key="GitHubRepoLink">GitHubリポジトリ</system:String>
+    <system:String x:Key="CloseButton">閉じる</system:String>
+    <system:String x:Key="AppLanguageTitle">言語</system:String>
+    <system:String x:Key="AppLanguageDescription" xml:space="preserve">リストにない言語や翻訳が不完全な言語は、英語が既定で適用されます。
+翻訳へのご協力はこちらからお願いします</system:String>
+    <system:String x:Key="AppLanguageDescriptionLink">Weblate</system:String>
+    <system:String x:Key="LockWindow_CapsLock">Caps Lock</system:String>
+    <system:String x:Key="LockWindow_NumLock">Num Lock</system:String>
+    <system:String x:Key="LockWindow_ScrollLock">Scroll Lock</system:String>
+    <system:String x:Key="LockWindow_LockOn">オン</system:String>
+    <system:String x:Key="LockWindow_LockOff">オフ</system:String>
+    <system:String x:Key="NextUpWindow_UpNextText">次に再生:</system:String>
+    <system:String x:Key="TrayIcon_SettingsOption">設定</system:String>
+    <system:String x:Key="TrayIcon_GitHubRepositoryOption">リポジトリ</system:String>
+    <system:String x:Key="TrayIcon_ReportBugOption">バグを報告</system:String>
+    <system:String x:Key="TrayIcon_QuitOption">FluentFlyoutを終了</system:String>
+    <system:String x:Key="LockWindow_InsertPressed">Insertキーが押されました</system:String>
+    <system:String x:Key="PremiumFeatureDescription" xml:space="preserve">一度限りのご支援は、FluentFlyoutの継続的な開発と更新に役立てられます。ご支援いただくと、購入後、すべてのプレミアムカスタマイズ機能が永続的にご利用いただけます。
+        
+注意:本プロジェクトはオープンソースであるため、これらの機能はGitHubの手動インストーラーを通じて無料で入手することも可能です。ただし、その場合は更新とインストールをすべて手動で行っていただく必要があります。</system:String>
+    <system:String x:Key="AnimationEasingStyleDescription">(既定：二次関数)</system:String>
+    <system:String x:Key="EasingLinear" xml:space="preserve"> リニア</system:String>
+    <system:String x:Key="EasingSine" xml:space="preserve"> サイン</system:String>
+    <system:String x:Key="EasingQuadratic" xml:space="preserve"> 二次関数</system:String>
+    <system:String x:Key="EasingCubic" xml:space="preserve"> 三次関数</system:String>
 </ResourceDictionary>
