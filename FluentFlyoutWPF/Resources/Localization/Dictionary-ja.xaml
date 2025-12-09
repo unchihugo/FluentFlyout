@@ -19,7 +19,7 @@
     <system:String x:Key="PositionBottomLeft" xml:space="preserve"> 左下</system:String>
     <system:String x:Key="PositionBottomCenter" xml:space="preserve"> 下部中央</system:String>
     <system:String x:Key="PositionBottomRight" xml:space="preserve"> 右下</system:String>
-    <system:String x:Key="PositionTopLeft" xml:space="preserve"> 上部中央</system:String>
+    <system:String x:Key="PositionTopLeft" xml:space="preserve"> 左上</system:String>
     <system:String x:Key="PositionTopCenter" xml:space="preserve"> 上部中央</system:String>
     <system:String x:Key="PositionTopRight" xml:space="preserve"> 右上</system:String>
     <system:String x:Key="FlyoutStayDurationTitle">ポップアップの表示時間</system:String>
@@ -60,13 +60,13 @@
     <system:String x:Key="PremiumPurchaseSuccess">プレミアム機能の解除に成功しました！</system:String>
     <system:String x:Key="PremiumPurchaseFailed">購入に失敗しました。もう一度お試しください。</system:String>
     <system:String x:Key="PremiumPurchaseCancelled">購入はキャンセルされました。</system:String>
-    <system:String x:Key="NextUpCustomizationTitle">次に再生 カスタマイズ</system:String>
+    <system:String x:Key="NextUpCustomizationTitle">「次に再生」のカスタマイズ</system:String>
     <system:String x:Key="NextUpDescription" xml:space="preserve">曲や動画が終了した際に、次に再生されるアイテムをポップアップに表示します。 次のアイテムが自動再生される場合にのみ表示されます。手動で「次へ/前へ」を押した場合は、代わりにメインポップアップが表示されます。</system:String>
     <system:String x:Key="EnableNextUpTitle">次に再生 ポップアップを有効化（実験的）</system:String>
     <system:String x:Key="EnableNextUpDescription">曲や動画の終了時に次の曲を表示します</system:String>
     <system:String x:Key="NextUpStayDurationTitle">次に再生ポップアップの表示時間</system:String>
     <system:String x:Key="NextUpStayDurationDescription">(既定値: 2000 ms)</system:String>
-    <system:String x:Key="LockKeysCustomizationTitle">ロックキー カスタマイズ</system:String>
+    <system:String x:Key="LockKeysCustomizationTitle">ロックキーのカスタマイズ</system:String>
     <system:String x:Key="LockKeysDescription" xml:space="preserve">ロックキーの状態を一目で確認できます。Caps Lock、Num Lock、またはScroll Lockを押すと表示されます。ロックキーインジケーターがないノートPCやキーボードに便利です。</system:String>
     <system:String x:Key="EnableLockKeysTitle">ロックキーのポップアップを有効化</system:String>
     <system:String x:Key="EnableLockKeysDescription">指定されたロックキーがオンかオフかを表示します</system:String>
@@ -81,7 +81,7 @@
     <system:String x:Key="LaunchOnStartupDescription">Windowsにログインした際、トレイに最小化して起動します</system:String>
     <system:String x:Key="StartupAppsHyperlinkText">スタートアップ アプリ</system:String>
     <system:String x:Key="StartupAppsSettingsInfo">この設定が期待どおりに機能しない場合は、設定を確認してください</system:String>
-    <system:String x:Key="AppThemeTitle">アプリのテーマ</system:String>
+    <system:String x:Key="AppThemeTitle">テーマ</system:String>
     <system:String x:Key="AppThemeDefault"> Windowsの既定</system:String>
     <system:String x:Key="AppThemeLight"> ライト</system:String>
     <system:String x:Key="AppThemeDark"> ダーク</system:String>
@@ -108,7 +108,7 @@
 または Microsoft Storeでレビューを残してください！</system:String>
     <system:String x:Key="GitHubRepoLink">GitHubリポジトリ</system:String>
     <system:String x:Key="CloseButton">閉じる</system:String>
-    <system:String x:Key="AppLanguageTitle">アプリの言語</system:String>
+    <system:String x:Key="AppLanguageTitle">言語</system:String>
     <system:String x:Key="AppLanguageDescription" xml:space="preserve">リストにない言語や翻訳が不完全な言語は、英語が既定で適用されます。
 翻訳へのご協力はこちらからお願いします</system:String>
     <system:String x:Key="AppLanguageDescriptionLink">Weblate</system:String>
@@ -117,7 +117,7 @@
     <system:String x:Key="LockWindow_ScrollLock">Scroll Lock</system:String>
     <system:String x:Key="LockWindow_LockOn">オン</system:String>
     <system:String x:Key="LockWindow_LockOff">オフ</system:String>
-    <system:String x:Key="NextUpWindow_UpNextText">次の曲:</system:String>
+    <system:String x:Key="NextUpWindow_UpNextText">次に再生:</system:String>
     <system:String x:Key="TrayIcon_SettingsOption">設定</system:String>
     <system:String x:Key="TrayIcon_GitHubRepositoryOption">リポジトリ</system:String>
     <system:String x:Key="TrayIcon_ReportBugOption">バグを報告</system:String>
