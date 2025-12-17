@@ -42,7 +42,7 @@
 				</Image.Effect>
 			</Image> -->
 			
-			<Border Name="TopBorder" BorderThickness="0,1,0,0" CornerRadius="5" Margin="0,0,0,1">
+			<Border Name="TopBorder" BorderThickness="0,1.25,0,0" CornerRadius="5" Margin="0,0,0,1.25">
 				<Grid Name="MainGrid" HorizontalAlignment="Left" VerticalAlignment="Center" RenderTransformOrigin="0,0.5">
 					<Grid.RenderTransform>
 						<ScaleTransform ScaleX="0.9" ScaleY="0.9" />
@@ -54,9 +54,9 @@
 								<ImageBrush x:Name="SongImage" Stretch="UniformToFill" />
 							</Border.Background>
 						</Border>
-						<StackPanel Name="SongInfoStackPanel" Orientation="Vertical" VerticalAlignment="Center" Width="Auto" Margin="8,0,0,0">
-							<TextBlock Name="SongTitle" Text="" FontWeight="Normal" TextTrimming="CharacterEllipsis" Foreground="{ui:ThemeResource TextFillColorPrimaryBrush}" />
-							<TextBlock Name="SongArtist" Text="" FontWeight="Normal" Opacity="0.5" Margin="0,-1,0,0" TextTrimming="CharacterEllipsis" Foreground="{ui:ThemeResource TextFillColorPrimaryBrush}" />
+                        <StackPanel Name="SongInfoStackPanel" Orientation="Vertical" VerticalAlignment="Center" Width="Auto" Margin="8,0,0,0">
+                            <TextBlock Name="SongTitle" Text="" FontWeight="Normal" TextTrimming="CharacterEllipsis" Foreground="{ui:ThemeResource TextFillColorPrimaryBrush}" />
+                            <TextBlock Name="SongArtist" Text="" FontWeight="Normal" Opacity="0.5" Margin="0,-1.5,0,0" TextTrimming="CharacterEllipsis" Foreground="{ui:ThemeResource TextFillColorPrimaryBrush}" />
 						</StackPanel>
 					</StackPanel>
 				</Grid>

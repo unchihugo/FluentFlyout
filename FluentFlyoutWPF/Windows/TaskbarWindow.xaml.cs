@@ -2,9 +2,9 @@
 using FluentFlyout.Classes.Utils;
 using FluentFlyoutWPF;
 using FluentFlyoutWPF.Classes;
-using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Windows;
+using System.Windows.Automation;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
@@ -12,6 +12,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using Windows.Media.Control;
+using Wpf.Ui.Appearance;
 
 namespace FluentFlyout.Windows;
 
@@ -65,7 +66,7 @@ public partial class TaskbarWindow : Window
     // ------------------
 
     private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
-    
+
     private readonly DispatcherTimer _timer;
     private readonly SolidColorBrush _hitTestTransparent;
     private readonly int _nativeWidgetsPadding = 216;
@@ -94,6 +95,8 @@ public partial class TaskbarWindow : Window
     private double _cachedArtistWidth = 0;
     private double _dpiScaleX;
     private double _dpiScaleY;
+    private IntPtr _trayHandle;
+    private AutomationElement? _widgetElement;
     //private Task _crossFadeTask = Task.CompletedTask;
 
     public TaskbarWindow()
@@ -140,12 +143,18 @@ public partial class TaskbarWindow : Window
     {
         if (!SettingsManager.Current.TaskbarWidgetClickable || String.IsNullOrEmpty(SongTitle.Text + SongArtist.Text)) return;
 
-        // hover effects with animations
-        var brush = (SolidColorBrush)Application.Current.Resources["TextFillColorSecondaryBrush"];
-        var targetBackgroundBrush = new SolidColorBrush(brush.Color) { Opacity = 0.075 };
-
-        var secondBrush = (SolidColorBrush)Application.Current.Resources["TextFillColorDisabledBrush"];
-        TopBorder.BorderBrush = new SolidColorBrush(secondBrush.Color) { Opacity = 0.25 };
+        SolidColorBrush targetBackgroundBrush;
+        // hover effects with animations, hard-coded colors because I can't find the resource brushes
+        if (ApplicationThemeManager.GetSystemTheme() == SystemTheme.Dark)
+        { // dark mode
+            targetBackgroundBrush = new SolidColorBrush(Color.FromArgb(197, 255, 255, 255)) { Opacity = 0.075 };
+            TopBorder.BorderBrush = new SolidColorBrush(Color.FromArgb(93, 255, 255, 255)) { Opacity = 0.25 };
+        }
+        else
+        { // light mode
+            targetBackgroundBrush = new SolidColorBrush(Color.FromArgb(255, 255, 255, 255)) { Opacity = 0.6 };
+            TopBorder.BorderBrush = new SolidColorBrush(Color.FromArgb(93, 255, 255, 255)) { Opacity = 1 };
+        }
 
         // Animate background
         var backgroundAnimation = new ColorAnimation
@@ -157,7 +166,7 @@ public partial class TaskbarWindow : Window
 
         var backgroundOpacityAnimation = new DoubleAnimation
         {
-            To = 0.075,
+            To = targetBackgroundBrush.Opacity,
             Duration = TimeSpan.FromMilliseconds(200),
             EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut }
         };
@@ -211,17 +220,14 @@ public partial class TaskbarWindow : Window
 
             IntPtr taskbarHandle = FindWindow("Shell_TrayWnd", null);
 
-            if (taskbarHandle != IntPtr.Zero)
-            {
-                // This prevents the window from trying to float above the taskbar as a separate entity
-                int style = GetWindowLong(myHandle, GWL_STYLE);
-                style = (style & ~WS_POPUP) | WS_CHILD;
-                SetWindowLong(myHandle, GWL_STYLE, style);
+            // This prevents the window from trying to float above the taskbar as a separate entity
+            int style = GetWindowLong(myHandle, GWL_STYLE);
+            style = (style & ~WS_POPUP) | WS_CHILD;
+            SetWindowLong(myHandle, GWL_STYLE, style);
 
-                SetParent(myHandle, taskbarHandle);
+            SetParent(myHandle, taskbarHandle);
 
-                CalculateAndSetPosition(taskbarHandle, myHandle);
-            }
+            CalculateAndSetPosition(taskbarHandle, myHandle);
 
             // for hover animation
             if (MainBorder.Background is not SolidColorBrush)
@@ -247,6 +253,13 @@ public partial class TaskbarWindow : Window
             var interop = new WindowInteropHelper(this);
             IntPtr taskbarHandle = FindWindow("Shell_TrayWnd", null);
 
+            if (interop.Handle == IntPtr.Zero)
+            {
+                _timer.Stop();
+                Logger.Warn("Taskbar Widget window handle is zero, stopping position updates.");
+                return;
+            }
+
             if (taskbarHandle != IntPtr.Zero && interop.Handle != IntPtr.Zero)
             {
                 CalculateAndSetPosition(taskbarHandle, interop.Handle);
@@ -263,14 +276,10 @@ public partial class TaskbarWindow : Window
         // get DPI scaling
         if (_dpiScaleX == 0 && _dpiScaleY == 0)
         {
-            PresentationSource source = PresentationSource.FromVisual(this);
-            if (source == null || source.CompositionTarget == null)
-            {
-                // Window is not yet loaded or has been closed; cannot calculate DPI scaling
-                return;
-            }
-            _dpiScaleX = source.CompositionTarget.TransformToDevice.M11;
-            _dpiScaleY = source.CompositionTarget.TransformToDevice.M22;
+            var dpiScale = VisualTreeHelper.GetDpi(this);
+
+            _dpiScaleX = dpiScale.DpiScaleX;
+            _dpiScaleY = dpiScale.DpiScaleY;
         }
 
         // calculate widget width - use cached values if text hasn't changed
@@ -296,7 +305,7 @@ public partial class TaskbarWindow : Window
         SongArtist.Width = logicalWidth - 40 * _scale;
 
         int physicalWidth = (int)(logicalWidth * _dpiScaleX);
-        int physicalHeight = (int)(this.Height * _dpiScaleY);
+        int physicalHeight = (int)(40 * _dpiScaleY); // default height
 
         // Get Taskbar dimensions
         RECT taskbarRect;
@@ -307,30 +316,87 @@ public partial class TaskbarWindow : Window
         int physicalTop = (taskbarHeight - physicalHeight) / 2;
 
         int physicalLeft = 0;
-        switch (SettingsManager.Current.TaskbarWidgetPosition) { 
+        switch (SettingsManager.Current.TaskbarWidgetPosition)
+        {
             case 0: // left aligned with some padding (like native widgets)
-                physicalLeft = 20; // maybe add automatic widget padding?
-                if (SettingsManager.Current.TaskbarWidgetPadding)
+                physicalLeft = 20;
+                if (SettingsManager.Current.TaskbarWidgetPadding) // automatic widget padding to the left
                 {
-                    physicalLeft += _nativeWidgetsPadding;
+                    try
+                    {
+                        // find widget button in XAML
+                        (bool found, Rect widgetRect) = GetTaskbarWidgetRect(taskbarHandle);
+
+                        // make sure it's on the left side, otherwise ignore (widget might be to the right)
+                        if (found && widgetRect.Right < taskbarRect.Right / 2)
+                            physicalLeft = (int)(widgetRect.Right) + 2; // add small padding
+                    }
+                    catch (Exception ex)
+                    {
+                        // fallback to default padding
+                        Logger.Warn(ex, "Failed to get Widgets button position.");
+                        physicalLeft += _nativeWidgetsPadding + 2;
+                    }
                 }
                 break;
+
             case 1: // center of the taskbar
                 physicalLeft = (taskbarRect.Right - taskbarRect.Left - physicalWidth) / 2;
                 break;
+
             case 2: // right aligned next to system tray with tiny bit of padding
-                IntPtr trayHandle = FindWindowEx(taskbarHandle, IntPtr.Zero, "TrayNotifyWnd", null);
-                if (trayHandle == IntPtr.Zero)
+                try
                 {
-                    // Fallback to left alignment or handle error appropriately
-                    physicalLeft = 20;
-                    break;
+                    if (SettingsManager.Current.TaskbarWidgetPadding) // automatic widget padding to the right
+                    {
+                        try
+                        {
+                            // find widget button in XAML
+                            (bool found, Rect widgetRect) = GetTaskbarWidgetRect(taskbarHandle);
+
+                            // make sure it's on the right side, otherwise ignore (widget might be to the left)
+                            if (found && widgetRect.Left > taskbarRect.Right / 2)
+                            {
+                                physicalLeft = (int)(widgetRect.Left) - 2 - physicalWidth; // left of widget
+                                break; // early exit so we don't move it back next to tray below
+                            }
+                        }
+                        catch (Exception ex) // catch exception when getting widget position
+                        {
+                            Logger.Warn(ex, "Failed to get Widgets button position.");
+                        }
+                    }
+
+                    if (_trayHandle == IntPtr.Zero)
+                    {
+                        _trayHandle = FindWindowEx(taskbarHandle, IntPtr.Zero, "TrayNotifyWnd", null);
+                    }
+
+                    if (_trayHandle == IntPtr.Zero)
+                    {
+                        // Fallback to left alignment
+                        physicalLeft = 20;
+                        break;
+                    }
+                    RECT trayRect;
+                    GetWindowRect(_trayHandle, out trayRect);
+                    physicalLeft = trayRect.Left - physicalWidth - 1;
                 }
-                RECT trayRect;
-                GetWindowRect(trayHandle, out trayRect);
-                physicalLeft = trayRect.Left - physicalWidth - 1;
+                catch (Exception ex)
+                {
+                    // Fallback to left alignment
+                    Logger.Warn(ex, "Failed to get System Tray position.");
+                    physicalLeft = 20;
+                }
                 break;
         }
+
+        // TODO: Finish: Update visibility to force layout update after DPI/monitor change
+        //if (SongInfoStackPanel.Visibility == Visibility.Visible)
+        //{
+        //    SongInfoStackPanel.Visibility = Visibility.Collapsed;
+        //    SongInfoStackPanel.Visibility = Visibility.Visible;
+        //}
 
         // Apply using SetWindowPos (Bypassing WPF layout engine)
         SetWindowPos(myHandle, IntPtr.Zero,
@@ -344,12 +410,18 @@ public partial class TaskbarWindow : Window
         // Check premium status - hide widget if not unlocked
         if ((!SettingsManager.Current.TaskbarWidgetEnabled || !SettingsManager.Current.IsPremiumUnlocked))
         {
+            if (_timer.IsEnabled) // pause timer to save resources
+                _timer.Stop();
+
             Dispatcher.Invoke(() =>
             {
                 Visibility = Visibility.Collapsed;
             });
             return;
         }
+
+        if (!_timer.IsEnabled)
+            _timer.Start();
 
         if (title == "-" && artist == "-")
         {
@@ -457,4 +529,32 @@ public partial class TaskbarWindow : Window
     //        return Task.CompletedTask;
     //    }
     //}
+
+    /// <summary>
+    /// Attempts to locate the Windows taskbar widgets button and retrieves its bounding rectangle.
+    /// </summary>
+    /// <returns>A tuple where the first value indicates whether the widgets button was found (<see langword="true"/> if found;
+    /// otherwise, <see langword="false"/>), and the second value is the bounding rectangle of the button if found, or
+    /// <see cref="Rect.Empty"/> if not found.</returns>
+    private (bool, Rect) GetTaskbarWidgetRect(IntPtr taskbarHandle)
+    {
+        // find widget button in XAML
+        if (_widgetElement == null)
+        {
+            AutomationElement root = AutomationElement.FromHandle(taskbarHandle);
+
+            _widgetElement = root.FindFirst(TreeScope.Descendants,
+                new PropertyCondition(AutomationElement.AutomationIdProperty, "WidgetsButton"));
+        }
+
+        if (_widgetElement == null) // widget most likely disabled
+            return (false, Rect.Empty);
+
+        Rect widgetRect = _widgetElement.Current.BoundingRectangle;
+
+        if (widgetRect == Rect.Empty) // widget shown before but most likely disabled now
+            return (false, Rect.Empty);
+
+        return (true, widgetRect);
+    }
 }
