@@ -418,6 +418,8 @@ public partial class MainWindow : MicaWindow
         }
     }
 
+    // for determining whether MediaPropertyChanged has no changes
+    private string previousMediaProperty = "";
     private void MediaManager_OnAnyMediaPropertyChanged(MediaSession mediaSession, GlobalSystemMediaTransportControlsSessionMediaProperties mediaProperties)
     {
 #if DEBUG
@@ -431,6 +433,13 @@ public partial class MainWindow : MicaWindow
 
         var songInfo = mediaSession.ControlSession.TryGetMediaPropertiesAsync().GetAwaiter().GetResult();
         var playbackInfo = mediaSession.ControlSession.GetPlaybackInfo();
+
+        string check = songInfo.Title + songInfo.Artist + playbackInfo.PlaybackStatus + songInfo.Thumbnail;
+        if (previousMediaProperty == check)
+            return; // prevent multiple calls for the same song info
+
+        previousMediaProperty = check;
+
         taskbarWindow?.UpdateUi(songInfo.Title, songInfo.Artist, Helper.GetThumbnail(songInfo.Thumbnail), playbackInfo.PlaybackStatus, playbackInfo.Controls);
 
         pauseOtherMediaSessionsIfNeeded(mediaSession);

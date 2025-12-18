@@ -502,6 +502,12 @@ public partial class TaskbarWindow : Window
 
         Dispatcher.Invoke(() =>
         {
+            if (SongTitle.Text != title && SongArtist.Text != artist)
+            {
+                // changed info
+                AnimateEntrance();
+            }
+
             SongTitle.Text = !String.IsNullOrEmpty(title) ? title : "-";
             SongArtist.Text = !String.IsNullOrEmpty(artist) ? artist : "-";
 
@@ -550,6 +556,50 @@ public partial class TaskbarWindow : Window
 
             UpdatePosition();
         });
+    }
+
+    private async void AnimateEntrance()
+    {
+        try
+        {
+            int msDuration = _mainWindow != null ? _mainWindow.getDuration() : 300;
+
+            // opacity and left to right animation for SongInfoStackPanel
+            DoubleAnimation opacityAnimation = new()
+            {
+                From = 0.0,
+                To = 1.0,
+                Duration = TimeSpan.FromMilliseconds(300),
+                EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseOut }
+            };
+
+            DoubleAnimation translateAnimation = new()
+            {
+                From = -10,
+                To = 0,
+                Duration = TimeSpan.FromMilliseconds(300),
+                EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseOut }
+            };
+
+            // Apply animations
+            SongInfoStackPanel.BeginAnimation(OpacityProperty, opacityAnimation);
+            TranslateTransform translateTransform = new();
+            SongInfoStackPanel.RenderTransform = translateTransform;
+            translateTransform.BeginAnimation(TranslateTransform.XProperty, translateAnimation);
+
+            // don't play ControlsStackPanel animation if it's not enabled
+            if (!SettingsManager.Current.TaskbarWidgetControlsEnabled)
+                return;
+
+            ControlsStackPanel.BeginAnimation(OpacityProperty, opacityAnimation);
+            TranslateTransform translateTransform2 = new();
+            ControlsStackPanel.RenderTransform = translateTransform2;
+            translateTransform2.BeginAnimation(TranslateTransform.XProperty, translateAnimation);
+        }
+        catch (Exception ex)
+        {
+            Logger.Error(ex, "Taskbar Widget error during entrance animation");
+        }
     }
 
     //private Task CrossFadeBackground(BitmapImage newImage)
