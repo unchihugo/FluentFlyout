@@ -31,7 +31,7 @@
 			</VisualBrush>
 		</Border.OpacityMask>
 		<Grid>
-			<Image x:Name="BackgroundImage" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" Opacity="0.5">
+			<Image x:Name="BackgroundImage" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" Opacity="0.4">
 				<Image.Effect>
 					<BlurEffect Radius="80" />
 				</Image.Effect>
