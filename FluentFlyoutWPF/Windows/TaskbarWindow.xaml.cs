@@ -3,6 +3,7 @@ using FluentFlyout.Classes.Utils;
 using FluentFlyoutWPF;
 using FluentFlyoutWPF.Classes;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Automation;
 using System.Windows.Input;
@@ -12,7 +13,9 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using Windows.Media.Control;
+using WindowsMediaController;
 using Wpf.Ui.Appearance;
+using Wpf.Ui.Controls;
 
 namespace FluentFlyout.Windows;
 
@@ -97,6 +100,9 @@ public partial class TaskbarWindow : Window
     private double _dpiScaleY;
     private IntPtr _trayHandle;
     private AutomationElement? _widgetElement;
+    // reference to main window for flyout functions
+    private MainWindow? _mainWindow;
+    private bool _isPaused;
     //private Task _crossFadeTask = Task.CompletedTask;
 
     public TaskbarWindow()
@@ -105,6 +111,9 @@ public partial class TaskbarWindow : Window
         InitializeComponent();
         WindowHelper.SetTopmost(this);
 
+        // Set DataContext for bindings
+        DataContext = SettingsManager.Current;
+
         _hitTestTransparent = new SolidColorBrush(System.Windows.Media.Color.FromArgb(1, 0, 0, 0));
 
         // initialize here in case we want to restart the window
@@ -112,7 +121,7 @@ public partial class TaskbarWindow : Window
         _dpiScaleY = 0;
 
         _timer = new DispatcherTimer();
-        _timer.Interval = TimeSpan.FromMilliseconds(1000);
+        _timer.Interval = TimeSpan.FromMilliseconds(2500); // slow auto-update for display changes
         _timer.Tick += (s, e) => UpdatePosition();
         _timer.Start();
 
@@ -122,6 +131,7 @@ public partial class TaskbarWindow : Window
     private void Window_Loaded(object sender, RoutedEventArgs e)
     {
         SetupWindow();
+        _mainWindow = (MainWindow)Application.Current.MainWindow;
     }
 
     //private void Grid_MouseEnter(object sender, MouseEventArgs e)
@@ -202,11 +212,10 @@ public partial class TaskbarWindow : Window
 
     private void Grid_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
     {
-        if (!SettingsManager.Current.TaskbarWidgetClickable) return;
+        if (!SettingsManager.Current.TaskbarWidgetClickable || _mainWindow == null) return;
 
         // flyout main flyout when clicked
-        var mainWindow = (MainWindow)Application.Current.MainWindow;
-        mainWindow.ShowMediaFlyout();
+        _mainWindow.ShowMediaFlyout();
     }
 
     private void SetupWindow()
@@ -303,6 +312,12 @@ public partial class TaskbarWindow : Window
 
         SongTitle.Width = logicalWidth - 40 * _scale;
         SongArtist.Width = logicalWidth - 40 * _scale;
+
+        // add space for playback controls if enabled
+        if (SettingsManager.Current.TaskbarWidgetControlsEnabled)
+        {
+            logicalWidth += (int)(110 * _scale);
+        }
 
         int physicalWidth = (int)(logicalWidth * _dpiScaleX);
         int physicalHeight = (int)(40 * _dpiScaleY); // default height
@@ -405,7 +420,7 @@ public partial class TaskbarWindow : Window
                  SWP_NOZORDER | SWP_NOACTIVATE | SWP_ASYNCWINDOWPOS | SWP_SHOWWINDOW);
     }
 
-    public void UpdateUi(string title, string artist, BitmapImage? icon, GlobalSystemMediaTransportControlsSessionPlaybackStatus? playbackStatus)
+    public void UpdateUi(string title, string artist, BitmapImage? icon, GlobalSystemMediaTransportControlsSessionPlaybackStatus? playbackStatus, GlobalSystemMediaTransportControlsSessionPlaybackControls? playbackControls = null)
     {
         // Check premium status - hide widget if not unlocked
         if ((!SettingsManager.Current.TaskbarWidgetEnabled || !SettingsManager.Current.IsPremiumUnlocked))
@@ -434,10 +449,11 @@ public partial class TaskbarWindow : Window
                     return;
                 }
 
+                ControlsStackPanel.Visibility = Visibility.Collapsed;
                 SongTitle.Text = "";
                 SongArtist.Text = "";
                 SongInfoStackPanel.Visibility = Visibility.Collapsed;
-                SongImagePlaceholder.Symbol = Wpf.Ui.Controls.SymbolRegular.MusicNote220;
+                SongImagePlaceholder.Symbol = SymbolRegular.MusicNote220;
                 SongImagePlaceholder.Visibility = Visibility.Visible;
                 SongImage.ImageSource = null;
                 BackgroundImage.Source = null;
@@ -445,7 +461,7 @@ public partial class TaskbarWindow : Window
 
                 MainBorder.Background = new SolidColorBrush(Colors.Transparent);
                 MainBorder.Background.Opacity = 0;
-                TopBorder.BorderBrush = System.Windows.Media.Brushes.Transparent;
+                TopBorder.BorderBrush = Brushes.Transparent;
 
                 UpdatePosition();
                 Visibility = Visibility.Visible;
@@ -453,22 +469,61 @@ public partial class TaskbarWindow : Window
             return;
         }
 
-        bool isPaused = false;
+        _isPaused = false;
         if (playbackStatus != GlobalSystemMediaTransportControlsSessionPlaybackStatus.Playing)
         {
-            isPaused = true;
+            _isPaused = true;
         }
+
+        // adjust UI based on available controls
+        Dispatcher.Invoke(() =>
+        {
+            if (SettingsManager.Current.TaskbarWidgetControlsEnabled && playbackControls != null)
+            {
+                PreviousButton.IsHitTestVisible = playbackControls.IsPreviousEnabled;
+                PlayPauseButton.IsHitTestVisible = playbackControls.IsPauseEnabled || playbackControls.IsPlayEnabled;
+                NextButton.IsHitTestVisible = playbackControls.IsNextEnabled;
+
+                PreviousButton.Opacity = playbackControls.IsPreviousEnabled ? 1 : 0.5;
+                PlayPauseButton.Opacity = (playbackControls.IsPauseEnabled || playbackControls.IsPlayEnabled) ? 1 : 0.5;
+                NextButton.Opacity = playbackControls.IsNextEnabled ? 1 : 0.5;
+            }
+            else
+            {
+                PreviousButton.IsHitTestVisible = false;
+                PlayPauseButton.IsHitTestVisible = false;
+                NextButton.IsHitTestVisible = false;
+
+                PreviousButton.Opacity = 0.5;
+                NextButton.Opacity = 0.5;
+                PlayPauseButton.Opacity = 0.5;
+            }
+        });
 
         Dispatcher.Invoke(() =>
         {
+            if (SongTitle.Text != title && SongArtist.Text != artist)
+            {
+                // changed info
+                if (SettingsManager.Current.TaskbarWidgetAnimated)
+                {
+                    AnimateEntrance();
+                }
+            }
+
             SongTitle.Text = !String.IsNullOrEmpty(title) ? title : "-";
             SongArtist.Text = !String.IsNullOrEmpty(artist) ? artist : "-";
 
+            if (SettingsManager.Current.TaskbarWidgetControlsEnabled)
+            {
+                PlayPauseButton.Icon = _isPaused ? new SymbolIcon(SymbolRegular.Play24, filled: true) : new SymbolIcon(SymbolRegular.Pause24, filled: true);
+            }
+
             if (icon != null)
             {
-                if (isPaused)
+                if (_isPaused)
                 { // show pause icon overlay
-                    SongImagePlaceholder.Symbol = Wpf.Ui.Controls.SymbolRegular.Pause24;
+                    SongImagePlaceholder.Symbol = SymbolRegular.Pause24;
                     SongImagePlaceholder.Visibility = Visibility.Visible;
                     SongImage.Opacity = 0.4;
                 }
@@ -489,7 +544,7 @@ public partial class TaskbarWindow : Window
             }
             else
             {
-                SongImagePlaceholder.Symbol = Wpf.Ui.Controls.SymbolRegular.MusicNote220;
+                SongImagePlaceholder.Symbol = SymbolRegular.MusicNote220;
                 SongImagePlaceholder.Visibility = Visibility.Visible;
                 SongImage.ImageSource = null;
                 BackgroundImage.Source = null;
@@ -499,10 +554,55 @@ public partial class TaskbarWindow : Window
             SongArtist.Visibility = !String.IsNullOrEmpty(artist) ? Visibility.Visible : Visibility.Collapsed; // hide artist if it's not available
             SongInfoStackPanel.Visibility = Visibility.Visible;
             BackgroundImage.Visibility = SettingsManager.Current.TaskbarWidgetBackgroundBlur ? Visibility.Visible : Visibility.Collapsed;
+            ControlsStackPanel.Visibility = Visibility.Visible; // on top of XAML visibility binding (XAML binding only hides when disabled in settings)
             Visibility = Visibility.Visible;
 
             UpdatePosition();
         });
+    }
+
+    private async void AnimateEntrance()
+    {
+        try
+        {
+            int msDuration = _mainWindow != null ? _mainWindow.getDuration() : 300;
+
+            // opacity and left to right animation for SongInfoStackPanel
+            DoubleAnimation opacityAnimation = new()
+            {
+                From = 0.0,
+                To = 1.0,
+                Duration = TimeSpan.FromMilliseconds(msDuration),
+                EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseOut }
+            };
+
+            DoubleAnimation translateAnimation = new()
+            {
+                From = -10,
+                To = 0,
+                Duration = TimeSpan.FromMilliseconds(msDuration),
+                EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseOut }
+            };
+
+            // Apply animations
+            SongInfoStackPanel.BeginAnimation(OpacityProperty, opacityAnimation);
+            TranslateTransform translateTransform = new();
+            SongInfoStackPanel.RenderTransform = translateTransform;
+            translateTransform.BeginAnimation(TranslateTransform.XProperty, translateAnimation);
+
+            // don't play ControlsStackPanel animation if it's not enabled
+            if (!SettingsManager.Current.TaskbarWidgetControlsEnabled)
+                return;
+
+            ControlsStackPanel.BeginAnimation(OpacityProperty, opacityAnimation);
+            TranslateTransform translateTransform2 = new();
+            ControlsStackPanel.RenderTransform = translateTransform2;
+            translateTransform2.BeginAnimation(TranslateTransform.XProperty, translateAnimation);
+        }
+        catch (Exception ex)
+        {
+            Logger.Error(ex, "Taskbar Widget error during entrance animation");
+        }
     }
 
     //private Task CrossFadeBackground(BitmapImage newImage)
@@ -556,5 +656,52 @@ public partial class TaskbarWindow : Window
             return (false, Rect.Empty);
 
         return (true, widgetRect);
+    }
+
+    // event handlers for media control buttons
+    private async void Previous_Click(object sender, RoutedEventArgs e)
+    {
+        if (_mainWindow == null) return;
+
+        var mediaManager = _mainWindow.mediaManager;
+        if (mediaManager == null) return;
+
+        var focusedSession = mediaManager.GetFocusedSession();
+        if (focusedSession == null) return;
+
+        await focusedSession.ControlSession.TrySkipPreviousAsync();
+    }
+
+    private async void PlayPause_Click(object sender, RoutedEventArgs e)
+    {
+        if (_mainWindow == null) return;
+
+        var mediaManager = _mainWindow.mediaManager;
+        if (mediaManager == null) return;
+
+        var focusedSession = mediaManager.GetFocusedSession();
+        if (focusedSession == null) return;
+
+        if (_isPaused) // paused
+        {
+            await focusedSession.ControlSession.TryPlayAsync();
+        }
+        else // playing
+        {
+            await focusedSession.ControlSession.TryPauseAsync();
+        }
+    }
+
+    private async void Next_Click(object sender, RoutedEventArgs e)
+    {
+        if (_mainWindow == null) return;
+
+        var mediaManager = _mainWindow.mediaManager;
+        if (mediaManager == null) return;
+
+        var focusedSession = mediaManager.GetFocusedSession();
+        if (focusedSession == null) return;
+
+        await focusedSession.ControlSession.TrySkipNextAsync();
     }
 }

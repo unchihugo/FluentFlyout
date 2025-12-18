@@ -52,6 +52,10 @@ hides repeat, shuffle and player info</System:String>
     <System:String x:Key="TaskbarWidgetBackgroundBlurDescription">Add background blur effect to the taskbar widget</System:String>
     <System:String x:Key="TaskbarWidgetHideCompletelyTitle">Hide Completely When No Media Is Present</System:String>
     <System:String x:Key="TaskbarWidgetHideCompletelyDescription">Hides the entire widget when no media is available, instead of displaying a media icon</System:String>
+    <System:String x:Key="TaskbarWidgetControlsTitle">Widget Media Controls</System:String>
+    <System:String x:Key="TaskbarWidgetControlsDescription">Show media control buttons on the widget</System:String>
+    <System:String x:Key="TaskbarWidgetAnimatedTitle">Widget Animations</System:String>
+    <System:String x:Key="TaskbarWidgetAnimatedDescription">Enable subtle animations for the widget</System:String>
     <System:String x:Key="PremiumFeatureTitle">Premium Feature</System:String>
     <System:String x:Key="PremiumFeatureDescription" xml:space="preserve">Your one-time contribution helps me keep FluentFlyout alive and updated. It instantly unlocks all premium customization features, forever.
         

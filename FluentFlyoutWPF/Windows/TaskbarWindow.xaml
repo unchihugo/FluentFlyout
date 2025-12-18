@@ -14,7 +14,9 @@
         Background="Transparent"
         TextOptions.TextRenderingMode="ClearType" TextOptions.TextFormattingMode="Ideal"
         FontFamily="Segoe UI Variable, Microsoft YaHei, Microsoft JhengHei, MS Gothic"
-        Loaded="Window_Loaded" Visibility="Collapsed">
+        Loaded="Window_Loaded" Visibility="Collapsed"
+        xmlns:viewModels="clr-namespace:FluentFlyoutWPF.ViewModels"
+		d:DataContext="{d:DesignInstance viewModels:UserSettings}">
 	<Border Name="MainBorder" CornerRadius="6" MouseEnter="Grid_MouseEnter" MouseLeave="Grid_MouseLeave" MouseLeftButtonUp="Grid_MouseLeftButtonUp">
 		<Border.OpacityMask>
 			<VisualBrush>
@@ -29,7 +31,7 @@
 			</VisualBrush>
 		</Border.OpacityMask>
 		<Grid>
-			<Image x:Name="BackgroundImage" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" Opacity="0.5">
+			<Image x:Name="BackgroundImage" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" Opacity="0.4">
 				<Image.Effect>
 					<BlurEffect Radius="80" />
 				</Image.Effect>
@@ -47,8 +49,8 @@
 					<Grid.RenderTransform>
 						<ScaleTransform ScaleX="0.9" ScaleY="0.9" />
 					</Grid.RenderTransform>
-					<StackPanel Name="MainStackPanel" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Width="Auto" Margin="4,0,-12,0">
-						<Border Name="SongImageBorder" CornerRadius="5" Margin="0,0,0,-3" ClipToBounds="True" Width="36" Height="36">
+					<StackPanel Name="MainStackPanel" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Width="Auto" Margin="4,0,-100,0">
+                        <Border Name="SongImageBorder" CornerRadius="5" Margin="0,0,0,-3" ClipToBounds="True" Width="36" Height="36" Panel.ZIndex="2">
 							<ui:SymbolIcon Name="SongImagePlaceholder" Symbol="MusicNote220" FontSize="24" Filled="True" Foreground="{ui:ThemeResource AccentTextFillColorPrimaryBrush}" />
 							<Border.Background>
 								<ImageBrush x:Name="SongImage" Stretch="UniformToFill" />
@@ -58,6 +60,21 @@
                             <TextBlock Name="SongTitle" Text="" FontWeight="Normal" TextTrimming="CharacterEllipsis" Foreground="{ui:ThemeResource TextFillColorPrimaryBrush}" />
                             <TextBlock Name="SongArtist" Text="" FontWeight="Normal" Opacity="0.5" Margin="0,-1.5,0,0" TextTrimming="CharacterEllipsis" Foreground="{ui:ThemeResource TextFillColorPrimaryBrush}" />
 						</StackPanel>
+                        <StackPanel Name="ControlsStackPanel" Orientation="Horizontal" VerticalAlignment="Center" Width="Auto" Margin="8,0,0,0">
+                            <StackPanel.Style>
+                                <Style TargetType="StackPanel">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding TaskbarWidgetControlsEnabled}" Value="True">
+                                            <Setter Property="Visibility" Value="Visible" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </StackPanel.Style>
+                            <ui:Button Name="PreviousButton" Appearance="Transparent" Icon="{ui:SymbolIcon Previous20, Filled=True}" Height="32" Width="32" Padding="0" BorderThickness="0" Margin="0,0,0,-1" Click="Previous_Click"/>
+                            <ui:Button Name="PlayPauseButton" Appearance="Transparent" Icon="{ui:SymbolIcon Pause16, Filled=True}" Height="32" Width="32" Padding="0" BorderThickness="0" Margin="0,0,0,-1" Click="PlayPause_Click"/>
+                            <ui:Button Name="NextButton" Appearance="Transparent" Icon="{ui:SymbolIcon Next20, Filled=True}" Height="32" Width="32" Padding="0" BorderThickness="0" Margin="0,0,0,-1" Click="Next_Click"/>
+                        </StackPanel>
 					</StackPanel>
 				</Grid>
 			</Border>
