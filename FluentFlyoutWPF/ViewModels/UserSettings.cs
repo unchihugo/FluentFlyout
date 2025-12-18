@@ -329,6 +329,12 @@ public partial class UserSettings : ObservableObject
     public partial bool TaskbarWidgetHideCompletely { get; set; }
 
     /// <summary>
+    /// Whether taskbar widget controls (pause, previous, next) are enabled.
+    /// </summary>
+    [ObservableProperty]
+    public partial bool TaskbarWidgetControlsEnabled { get; set; }
+
+    /// <summary>
     /// Gets whether premium features are unlocked (runtime only, not persisted)
     /// </summary>
     [XmlIgnore]
@@ -388,6 +394,7 @@ public partial class UserSettings : ObservableObject
         TaskbarWidgetClickable = true;
         TaskbarWidgetBackgroundBlur = false;
         TaskbarWidgetHideCompletely = false;
+        TaskbarWidgetControlsEnabled = false;
     }
 
     /// <summary>
@@ -461,6 +468,12 @@ public partial class UserSettings : ObservableObject
     }
 
     partial void OnTaskbarWidgetHideCompletelyChanged(bool oldValue, bool newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+        UpdateTaskbar();
+    }
+
+    partial void OnTaskbarWidgetControlsEnabledChanged(bool oldValue, bool newValue)
     {
         if (oldValue == newValue || _initializing) return;
         UpdateTaskbar();

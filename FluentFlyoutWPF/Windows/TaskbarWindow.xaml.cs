@@ -105,6 +105,9 @@ public partial class TaskbarWindow : Window
         InitializeComponent();
         WindowHelper.SetTopmost(this);
 
+        // Set DataContext for bindings
+        DataContext = SettingsManager.Current;
+
         _hitTestTransparent = new SolidColorBrush(System.Windows.Media.Color.FromArgb(1, 0, 0, 0));
 
         // initialize here in case we want to restart the window
@@ -303,6 +306,12 @@ public partial class TaskbarWindow : Window
 
         SongTitle.Width = logicalWidth - 40 * _scale;
         SongArtist.Width = logicalWidth - 40 * _scale;
+
+        // add space for playback controls if enabled
+        if (SettingsManager.Current.TaskbarWidgetControlsEnabled)
+        {
+            logicalWidth += (int)(108 * _scale);
+        }
 
         int physicalWidth = (int)(logicalWidth * _dpiScaleX);
         int physicalHeight = (int)(40 * _dpiScaleY); // default height

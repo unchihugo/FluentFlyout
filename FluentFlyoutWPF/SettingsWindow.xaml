@@ -319,7 +319,7 @@
                                 </controls:ToggleSwitch.Style>
                             </controls:ToggleSwitch>
                         </ui:CardControl>
-                        <ui:CardControl Grid.Row="6" Icon="{ui:SymbolIcon VideoPlayPause24}" Margin="0,0,0,3">
+                        <ui:CardControl Grid.Row="6" Icon="{ui:SymbolIcon ExpandUpRight24}" Margin="0,0,0,3">
                             <ui:CardControl.Header>
                                 <StackPanel Orientation="Vertical">
                                     <TextBlock Text="{DynamicResource TaskbarWidgetClickableTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
@@ -345,6 +345,18 @@
                                 </StackPanel>
                             </ui:CardControl.Header>
                             <controls:ToggleSwitch IsChecked="{Binding TaskbarWidgetHideCompletely, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}"/>
+                        </ui:CardControl>
+                        <ui:CardControl Grid.Row="9" Icon="{ui:SymbolIcon VideoPlayPause24}" Margin="0,0,0,12">
+                            <ui:CardControl.Header>
+                                <StackPanel Orientation="Vertical">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{DynamicResource TaskbarWidgetControlsTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
+                                        <ui:InfoBadge Value=" New " FontWeight="Medium" FontSize="10" Margin="6,-2,0,-2" Severity="Success"/>
+                                    </StackPanel>
+                                    <TextBlock Text="{DynamicResource TaskbarWidgetControlsDescription}" FontSize="12" Opacity="0.5"/>
+                                </StackPanel>
+                            </ui:CardControl.Header>
+                            <controls:ToggleSwitch IsChecked="{Binding TaskbarWidgetControlsEnabled, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}"/>
                         </ui:CardControl>
                     </Grid>
 
