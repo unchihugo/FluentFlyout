@@ -335,6 +335,12 @@ public partial class UserSettings : ObservableObject
     public partial bool TaskbarWidgetControlsEnabled { get; set; }
 
     /// <summary>
+    /// Gets or sets a value indicating whether the taskbar widget should play animations.
+    /// </summary>
+    [ObservableProperty]
+    public partial bool TaskbarWidgetAnimated {  get; set; }
+
+    /// <summary>
     /// Gets whether premium features are unlocked (runtime only, not persisted)
     /// </summary>
     [XmlIgnore]
@@ -395,6 +401,7 @@ public partial class UserSettings : ObservableObject
         TaskbarWidgetBackgroundBlur = false;
         TaskbarWidgetHideCompletely = false;
         TaskbarWidgetControlsEnabled = false;
+        TaskbarWidgetAnimated = true;
     }
 
     /// <summary>

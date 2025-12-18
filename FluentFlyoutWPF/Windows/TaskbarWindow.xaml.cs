@@ -505,7 +505,10 @@ public partial class TaskbarWindow : Window
             if (SongTitle.Text != title && SongArtist.Text != artist)
             {
                 // changed info
-                AnimateEntrance();
+                if (SettingsManager.Current.TaskbarWidgetAnimated)
+                {
+                    AnimateEntrance();
+                }
             }
 
             SongTitle.Text = !String.IsNullOrEmpty(title) ? title : "-";
