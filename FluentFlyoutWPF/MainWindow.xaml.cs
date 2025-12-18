@@ -42,7 +42,7 @@ public partial class MainWindow : MicaWindow
     private CancellationTokenSource cts; // to close the flyout after a certain time
     private long _lastFlyoutTime = 0;
 
-    private static readonly WindowsMediaController.MediaManager mediaManager = new();
+    public readonly WindowsMediaController.MediaManager mediaManager = new();
 
     // for detecting changes in settings (lazy way)
     private int _position = SettingsManager.Current.Position;
@@ -361,7 +361,8 @@ public partial class MainWindow : MicaWindow
         }
         var focusedSession = mediaManager.GetFocusedSession();
         var songInfo = focusedSession.ControlSession.TryGetMediaPropertiesAsync().GetAwaiter().GetResult();
-        taskbarWindow?.UpdateUi(songInfo.Title, songInfo.Artist, Helper.GetThumbnail(songInfo.Thumbnail), focusedSession.ControlSession.GetPlaybackInfo().PlaybackStatus);
+        var playbackInfo = focusedSession.ControlSession.GetPlaybackInfo();
+        taskbarWindow?.UpdateUi(songInfo.Title, songInfo.Artist, Helper.GetThumbnail(songInfo.Thumbnail), playbackInfo.PlaybackStatus, playbackInfo.Controls);
     }
 
     private void reportBug(object? sender, EventArgs e)
@@ -408,7 +409,7 @@ public partial class MainWindow : MicaWindow
         }
 
         var songInfo = focusedSession.ControlSession.TryGetMediaPropertiesAsync().GetAwaiter().GetResult();
-        taskbarWindow?.UpdateUi(songInfo.Title, songInfo.Artist, Helper.GetThumbnail(songInfo.Thumbnail), playbackInfo?.PlaybackStatus);
+        taskbarWindow?.UpdateUi(songInfo.Title, songInfo.Artist, Helper.GetThumbnail(songInfo.Thumbnail), playbackInfo?.PlaybackStatus, playbackInfo?.Controls);
 
         if (IsVisible)
         {
@@ -429,7 +430,8 @@ public partial class MainWindow : MicaWindow
         }
 
         var songInfo = mediaSession.ControlSession.TryGetMediaPropertiesAsync().GetAwaiter().GetResult();
-        taskbarWindow?.UpdateUi(songInfo.Title, songInfo.Artist, Helper.GetThumbnail(songInfo.Thumbnail), mediaSession.ControlSession.GetPlaybackInfo().PlaybackStatus);
+        var playbackInfo = mediaSession.ControlSession.GetPlaybackInfo();
+        taskbarWindow?.UpdateUi(songInfo.Title, songInfo.Artist, Helper.GetThumbnail(songInfo.Thumbnail), playbackInfo.PlaybackStatus, playbackInfo.Controls);
 
         pauseOtherMediaSessionsIfNeeded(mediaSession);
 
@@ -439,7 +441,7 @@ public partial class MainWindow : MicaWindow
             {
                 Dispatcher.Invoke(() =>
                 {
-                    if (nextUpWindow == null && mediaSession.ControlSession.GetPlaybackInfo().Controls.IsPauseEnabled) // double-check within the Dispatcher to prevent race conditions
+                    if (nextUpWindow == null && playbackInfo.Controls.IsPauseEnabled) // double-check within the Dispatcher to prevent race conditions
                     {
                         nextUpWindow = new NextUpWindow(songInfo.Title, songInfo.Artist, Helper.GetThumbnail(songInfo.Thumbnail));
                         currentTitle = songInfo.Title;
@@ -489,7 +491,8 @@ public partial class MainWindow : MicaWindow
         else
         {
             var songInfo = focusedSession.ControlSession.TryGetMediaPropertiesAsync().GetAwaiter().GetResult();
-            taskbarWindow?.UpdateUi(songInfo.Title, songInfo.Artist, Helper.GetThumbnail(songInfo.Thumbnail), focusedSession.ControlSession.GetPlaybackInfo().PlaybackStatus);
+            var playbackInfo = focusedSession.ControlSession.GetPlaybackInfo();
+            taskbarWindow?.UpdateUi(songInfo.Title, songInfo.Artist, Helper.GetThumbnail(songInfo.Thumbnail), playbackInfo.PlaybackStatus, playbackInfo.Controls);
         }
     }
 

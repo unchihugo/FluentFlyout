@@ -3,6 +3,7 @@ using FluentFlyout.Classes.Utils;
 using FluentFlyoutWPF;
 using FluentFlyoutWPF.Classes;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Automation;
 using System.Windows.Input;
@@ -12,7 +13,9 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using Windows.Media.Control;
+using WindowsMediaController;
 using Wpf.Ui.Appearance;
+using Wpf.Ui.Controls;
 
 namespace FluentFlyout.Windows;
 
@@ -97,6 +100,9 @@ public partial class TaskbarWindow : Window
     private double _dpiScaleY;
     private IntPtr _trayHandle;
     private AutomationElement? _widgetElement;
+    // reference to main window for flyout functions
+    private MainWindow? _mainWindow;
+    private bool _isPaused;
     //private Task _crossFadeTask = Task.CompletedTask;
 
     public TaskbarWindow()
@@ -125,6 +131,7 @@ public partial class TaskbarWindow : Window
     private void Window_Loaded(object sender, RoutedEventArgs e)
     {
         SetupWindow();
+        _mainWindow = (MainWindow)Application.Current.MainWindow;
     }
 
     //private void Grid_MouseEnter(object sender, MouseEventArgs e)
@@ -205,11 +212,10 @@ public partial class TaskbarWindow : Window
 
     private void Grid_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
     {
-        if (!SettingsManager.Current.TaskbarWidgetClickable) return;
+        if (!SettingsManager.Current.TaskbarWidgetClickable || _mainWindow == null) return;
 
         // flyout main flyout when clicked
-        var mainWindow = (MainWindow)Application.Current.MainWindow;
-        mainWindow.ShowMediaFlyout();
+        _mainWindow.ShowMediaFlyout();
     }
 
     private void SetupWindow()
@@ -310,7 +316,7 @@ public partial class TaskbarWindow : Window
         // add space for playback controls if enabled
         if (SettingsManager.Current.TaskbarWidgetControlsEnabled)
         {
-            logicalWidth += (int)(108 * _scale);
+            logicalWidth += (int)(110 * _scale);
         }
 
         int physicalWidth = (int)(logicalWidth * _dpiScaleX);
@@ -414,7 +420,7 @@ public partial class TaskbarWindow : Window
                  SWP_NOZORDER | SWP_NOACTIVATE | SWP_ASYNCWINDOWPOS | SWP_SHOWWINDOW);
     }
 
-    public void UpdateUi(string title, string artist, BitmapImage? icon, GlobalSystemMediaTransportControlsSessionPlaybackStatus? playbackStatus)
+    public void UpdateUi(string title, string artist, BitmapImage? icon, GlobalSystemMediaTransportControlsSessionPlaybackStatus? playbackStatus, GlobalSystemMediaTransportControlsSessionPlaybackControls? playbackControls = null)
     {
         // Check premium status - hide widget if not unlocked
         if ((!SettingsManager.Current.TaskbarWidgetEnabled || !SettingsManager.Current.IsPremiumUnlocked))
@@ -443,10 +449,11 @@ public partial class TaskbarWindow : Window
                     return;
                 }
 
+                ControlsStackPanel.Visibility = Visibility.Collapsed;
                 SongTitle.Text = "";
                 SongArtist.Text = "";
                 SongInfoStackPanel.Visibility = Visibility.Collapsed;
-                SongImagePlaceholder.Symbol = Wpf.Ui.Controls.SymbolRegular.MusicNote220;
+                SongImagePlaceholder.Symbol = SymbolRegular.MusicNote220;
                 SongImagePlaceholder.Visibility = Visibility.Visible;
                 SongImage.ImageSource = null;
                 BackgroundImage.Source = null;
@@ -454,7 +461,7 @@ public partial class TaskbarWindow : Window
 
                 MainBorder.Background = new SolidColorBrush(Colors.Transparent);
                 MainBorder.Background.Opacity = 0;
-                TopBorder.BorderBrush = System.Windows.Media.Brushes.Transparent;
+                TopBorder.BorderBrush = Brushes.Transparent;
 
                 UpdatePosition();
                 Visibility = Visibility.Visible;
@@ -462,22 +469,52 @@ public partial class TaskbarWindow : Window
             return;
         }
 
-        bool isPaused = false;
+        _isPaused = false;
         if (playbackStatus != GlobalSystemMediaTransportControlsSessionPlaybackStatus.Playing)
         {
-            isPaused = true;
+            _isPaused = true;
         }
+
+        // adjust UI based on available controls
+        Dispatcher.Invoke(() =>
+        {
+            if (SettingsManager.Current.TaskbarWidgetControlsEnabled && playbackControls != null)
+            {
+                PreviousButton.IsHitTestVisible = playbackControls.IsPreviousEnabled;
+                PlayPauseButton.IsHitTestVisible = playbackControls.IsPauseEnabled || playbackControls.IsPlayEnabled;
+                NextButton.IsHitTestVisible = playbackControls.IsNextEnabled;
+
+                PreviousButton.Opacity = playbackControls.IsPreviousEnabled ? 1 : 0.5;
+                PlayPauseButton.Opacity = (playbackControls.IsPauseEnabled || playbackControls.IsPlayEnabled) ? 1 : 0.5;
+                NextButton.Opacity = playbackControls.IsNextEnabled ? 1 : 0.5;
+            }
+            else
+            {
+                PreviousButton.IsHitTestVisible = false;
+                PlayPauseButton.IsHitTestVisible = false;
+                NextButton.IsHitTestVisible = false;
+
+                PreviousButton.Opacity = 0.5;
+                NextButton.Opacity = 0.5;
+                PlayPauseButton.Opacity = 0.5;
+            }
+        });
 
         Dispatcher.Invoke(() =>
         {
             SongTitle.Text = !String.IsNullOrEmpty(title) ? title : "-";
             SongArtist.Text = !String.IsNullOrEmpty(artist) ? artist : "-";
 
+            if (SettingsManager.Current.TaskbarWidgetControlsEnabled)
+            {
+                PlayPauseButton.Icon = _isPaused ? new SymbolIcon(SymbolRegular.Play24, filled: true) : new SymbolIcon(SymbolRegular.Pause24, filled: true);
+            }
+
             if (icon != null)
             {
-                if (isPaused)
+                if (_isPaused)
                 { // show pause icon overlay
-                    SongImagePlaceholder.Symbol = Wpf.Ui.Controls.SymbolRegular.Pause24;
+                    SongImagePlaceholder.Symbol = SymbolRegular.Pause24;
                     SongImagePlaceholder.Visibility = Visibility.Visible;
                     SongImage.Opacity = 0.4;
                 }
@@ -498,7 +535,7 @@ public partial class TaskbarWindow : Window
             }
             else
             {
-                SongImagePlaceholder.Symbol = Wpf.Ui.Controls.SymbolRegular.MusicNote220;
+                SongImagePlaceholder.Symbol = SymbolRegular.MusicNote220;
                 SongImagePlaceholder.Visibility = Visibility.Visible;
                 SongImage.ImageSource = null;
                 BackgroundImage.Source = null;
@@ -508,6 +545,7 @@ public partial class TaskbarWindow : Window
             SongArtist.Visibility = !String.IsNullOrEmpty(artist) ? Visibility.Visible : Visibility.Collapsed; // hide artist if it's not available
             SongInfoStackPanel.Visibility = Visibility.Visible;
             BackgroundImage.Visibility = SettingsManager.Current.TaskbarWidgetBackgroundBlur ? Visibility.Visible : Visibility.Collapsed;
+            ControlsStackPanel.Visibility = Visibility.Visible;
             Visibility = Visibility.Visible;
 
             UpdatePosition();
@@ -565,5 +603,32 @@ public partial class TaskbarWindow : Window
             return (false, Rect.Empty);
 
         return (true, widgetRect);
+    }
+
+    // event handlers for media control buttons
+    private async void Previous_Click(object sender, RoutedEventArgs e)
+    {
+        if (_mainWindow == null) return;
+        await _mainWindow.mediaManager?.GetFocusedSession().ControlSession.TrySkipPreviousAsync();
+    }
+
+    private async void PlayPause_Click(object sender, RoutedEventArgs e)
+    {
+        if (_mainWindow == null) return;
+
+        if (_isPaused) // paused
+        {
+            await _mainWindow.mediaManager?.GetFocusedSession().ControlSession.TryPlayAsync();
+        }
+        else // playing
+        {
+            await _mainWindow.mediaManager?.GetFocusedSession().ControlSession.TryPauseAsync();
+        }
+    }
+
+    private async void Next_Click(object sender, RoutedEventArgs e)
+    {
+        if (_mainWindow == null) return;
+        await _mainWindow.mediaManager?.GetFocusedSession().ControlSession.TrySkipNextAsync();
     }
 }

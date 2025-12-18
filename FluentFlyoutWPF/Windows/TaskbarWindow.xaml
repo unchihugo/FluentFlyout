@@ -71,9 +71,9 @@
                                     </Style.Triggers>
                                 </Style>
                             </StackPanel.Style>
-                            <ui:Button Appearance="Transparent" Icon="{ui:SymbolIcon Previous20, Filled=True}" Height="32" Width="32" Padding="0" BorderThickness="0" Margin="0,0,0,-1"/>
-                            <ui:Button Appearance="Transparent" Icon="{ui:SymbolIcon Pause16, Filled=True}" Height="32" Width="32" Padding="0" BorderThickness="0" Margin="0,0,0,-1"/>
-                            <ui:Button Appearance="Transparent" Icon="{ui:SymbolIcon Next20, Filled=True}" Height="32" Width="32" Padding="0" BorderThickness="0" Margin="0,0,0,-1"/>
+                            <ui:Button Name="PreviousButton" Appearance="Transparent" Icon="{ui:SymbolIcon Previous20, Filled=True}" Height="32" Width="32" Padding="0" BorderThickness="0" Margin="0,0,0,-1" Click="Previous_Click"/>
+                            <ui:Button Name="PlayPauseButton" Appearance="Transparent" Icon="{ui:SymbolIcon Pause16, Filled=True}" Height="32" Width="32" Padding="0" BorderThickness="0" Margin="0,0,0,-1" Click="PlayPause_Click"/>
+                            <ui:Button Name="NextButton" Appearance="Transparent" Icon="{ui:SymbolIcon Next20, Filled=True}" Height="32" Width="32" Padding="0" BorderThickness="0" Margin="0,0,0,-1" Click="Next_Click"/>
                         </StackPanel>
 					</StackPanel>
 				</Grid>
