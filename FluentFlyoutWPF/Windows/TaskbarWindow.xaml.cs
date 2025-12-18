@@ -121,7 +121,7 @@ public partial class TaskbarWindow : Window
         _dpiScaleY = 0;
 
         _timer = new DispatcherTimer();
-        _timer.Interval = TimeSpan.FromMilliseconds(1000);
+        _timer.Interval = TimeSpan.FromMilliseconds(2500); // slow auto-update for display changes
         _timer.Tick += (s, e) => UpdatePosition();
         _timer.Start();
 
