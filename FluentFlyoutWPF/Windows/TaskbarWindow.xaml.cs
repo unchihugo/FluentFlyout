@@ -554,10 +554,17 @@ public partial class TaskbarWindow : Window
             SongArtist.Visibility = !String.IsNullOrEmpty(artist) ? Visibility.Visible : Visibility.Collapsed; // hide artist if it's not available
             SongInfoStackPanel.Visibility = Visibility.Visible;
             BackgroundImage.Visibility = SettingsManager.Current.TaskbarWidgetBackgroundBlur ? Visibility.Visible : Visibility.Collapsed;
-            ControlsStackPanel.Visibility = Visibility.Visible; // on top of XAML visibility binding (XAML binding only hides when disabled in settings)
+
+            // on top of XAML visibility binding (XAML binding only hides when disabled in settings)
+            if (SettingsManager.Current.TaskbarWidgetControlsEnabled)
+            {
+                ControlsStackPanel.Visibility = Visibility.Visible;
+            }
+            
             Visibility = Visibility.Visible;
 
-            UpdatePosition();
+            // defer UpdatePosition to allow WPF layout to complete first
+            Dispatcher.BeginInvoke(() => UpdatePosition(), DispatcherPriority.Background);
         });
     }
 
