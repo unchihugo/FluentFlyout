@@ -800,7 +800,7 @@ public partial class MainWindow : MicaWindow
         {
             int extraWidth = SettingsManager.Current.RepeatEnabled ? 36 : 0;
             extraWidth += SettingsManager.Current.ShuffleEnabled ? 36 : 0;
-            extraWidth += SettingsManager.Current.PlayerInfoEnabled ? 72 : 0;
+            extraWidth += SettingsManager.Current.PlayerInfoEnabled ? 72 : 72; // disabled player info should temporarily keep the widget the same width as no one seems to like the small version
 
             int extraHeight = SettingsManager.Current.SeekbarEnabled && _mediaSessionSupportsSeekbar ? 36 : 0;
 
@@ -825,7 +825,7 @@ public partial class MainWindow : MicaWindow
             }
             else // normal layout
             {
-                Height = 116 + extraHeight;
+                Height = 112 + extraHeight;
                 Width = 310 - 72 + extraWidth;
                 BodyStackPanel.Orientation = Orientation.Vertical;
                 BodyStackPanel.Width = 194 - 72 + extraWidth;

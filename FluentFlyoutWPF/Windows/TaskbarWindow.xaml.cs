@@ -545,7 +545,7 @@ public partial class TaskbarWindow : Window
             SongArtist.Visibility = !String.IsNullOrEmpty(artist) ? Visibility.Visible : Visibility.Collapsed; // hide artist if it's not available
             SongInfoStackPanel.Visibility = Visibility.Visible;
             BackgroundImage.Visibility = SettingsManager.Current.TaskbarWidgetBackgroundBlur ? Visibility.Visible : Visibility.Collapsed;
-            ControlsStackPanel.Visibility = Visibility.Visible;
+            ControlsStackPanel.Visibility = Visibility.Visible; // on top of XAML visibility binding (XAML binding only hides when disabled in settings)
             Visibility = Visibility.Visible;
 
             UpdatePosition();
@@ -609,26 +609,46 @@ public partial class TaskbarWindow : Window
     private async void Previous_Click(object sender, RoutedEventArgs e)
     {
         if (_mainWindow == null) return;
-        await _mainWindow.mediaManager?.GetFocusedSession().ControlSession.TrySkipPreviousAsync();
+
+        var mediaManager = _mainWindow.mediaManager;
+        if (mediaManager == null) return;
+
+        var focusedSession = mediaManager.GetFocusedSession();
+        if (focusedSession == null) return;
+
+        await focusedSession.ControlSession.TrySkipPreviousAsync();
     }
 
     private async void PlayPause_Click(object sender, RoutedEventArgs e)
     {
         if (_mainWindow == null) return;
 
+        var mediaManager = _mainWindow.mediaManager;
+        if (mediaManager == null) return;
+
+        var focusedSession = mediaManager.GetFocusedSession();
+        if (focusedSession == null) return;
+
         if (_isPaused) // paused
         {
-            await _mainWindow.mediaManager?.GetFocusedSession().ControlSession.TryPlayAsync();
+            await focusedSession.ControlSession.TryPlayAsync();
         }
         else // playing
         {
-            await _mainWindow.mediaManager?.GetFocusedSession().ControlSession.TryPauseAsync();
+            await focusedSession.ControlSession.TryPauseAsync();
         }
     }
 
     private async void Next_Click(object sender, RoutedEventArgs e)
     {
         if (_mainWindow == null) return;
-        await _mainWindow.mediaManager?.GetFocusedSession().ControlSession.TrySkipNextAsync();
+
+        var mediaManager = _mainWindow.mediaManager;
+        if (mediaManager == null) return;
+
+        var focusedSession = mediaManager.GetFocusedSession();
+        if (focusedSession == null) return;
+
+        await focusedSession.ControlSession.TrySkipNextAsync();
     }
 }
