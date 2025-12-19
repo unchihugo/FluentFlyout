@@ -75,7 +75,7 @@ https://github.com/user-attachments/assets/bfc7666f-1d59-4cbf-8d15-3855671cb147
 ### Which version should you choose? 
 The **Microsoft Store version** provides automatic updates, but has a one-time purchase to unlock a few extra features.  
 The **GitHub version** is completely free and open-source, but requires manual updates.  
-Read more about the project's model in the [Sustainability & The Microsoft Store](#sustainability--the-microsoft-store-💰) section below.
+Read more about the project's model in the [Sustainability & The Microsoft Store](#sustainability--the-microsoft-store-) section below.
 
 ### Using Microsoft Store
 <a href="https://apps.microsoft.com/detail/9n45nsm4tnbp?referrer=appbadge&cid=GitHub_README_2&mode=direct">
