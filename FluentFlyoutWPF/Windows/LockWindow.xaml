@@ -10,6 +10,7 @@
     Height="50" Width="200" 
     ResizeMode="NoResize"
     WindowStyle="None" ShowInTaskbar="False"
+    Topmost="True"
     ChangeTitleColorWhenInactive="False"
     TextOptions.TextRenderingMode="ClearType" TextOptions.TextFormattingMode="Ideal"
     FontFamily="Segoe UI Variable, Microsoft YaHei, Microsoft JhengHei, MS Gothic"
@@ -36,10 +37,40 @@
     </Window.Triggers>
 
     <Grid Margin="12,6,12,6">
-        <ui:SymbolIcon Name="LockSymbol" HorizontalAlignment="Left" Symbol="LockClosed24" Filled="false" Width="22" Height="22" FontSize="22" VerticalAlignment="Center" Margin="0,0,2,1"/>
+        <ui:SymbolIcon x:Name="LockSymbol" RenderTransformOrigin="0.5,0.5" Opacity="0" HorizontalAlignment="Center" Symbol="LockClosed24" Filled="true" Width="22" Height="22" FontSize="22" VerticalAlignment="Center" Margin="0,0,2,2">
+            <ui:SymbolIcon.RenderTransform>
+                <TransformGroup>
+                    <TranslateTransform x:Name="LockIconTrans"/>
+                    <ScaleTransform x:Name="LockIconScale"/>
+                </TransformGroup>
+            </ui:SymbolIcon.RenderTransform>
+            <ui:SymbolIcon.Effect>
+                <BlurEffect Radius="8" x:Name="LockIconBlur"/>
+            </ui:SymbolIcon.Effect>
+        </ui:SymbolIcon>
+        <ui:SymbolIcon x:Name="UnlockSymbol" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Center" Opacity="0" Symbol="LockOpen24" Filled="false" Width="22" Height="22" FontSize="22" VerticalAlignment="Center" Margin="0,0,2,2">
+            <ui:SymbolIcon.RenderTransform>
+                <TransformGroup>
+                    <TranslateTransform x:Name="UnlockIconTrans"/>
+                    <ScaleTransform x:Name="UnlockIconScale"/>
+                </TransformGroup>
+            </ui:SymbolIcon.RenderTransform>
+            <ui:SymbolIcon.Effect>
+                <BlurEffect Radius="8" x:Name="UnlockIconBlur"/>
+            </ui:SymbolIcon.Effect>
+        </ui:SymbolIcon>
         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="20,0,0,4">
-            <TextBlock Name="LockTextBlock" Text="Loading..." FontSize="14" FontFamily="Segoe UI Variable" FontWeight="Medium" TextTrimming="CharacterEllipsis"/>
+            <TextBlock Name="LockTextBlock" RenderTransformOrigin="0.5,0.5" Opacity="0" Text="Loading..." FontSize="14" FontWeight="Medium" TextTrimming="CharacterEllipsis"/>
+            <StackPanel.RenderTransform>
+                <TransformGroup>
+                    <TranslateTransform x:Name="TextBlockTrans"/>
+                    <ScaleTransform x:Name="TextBlockScale"/>
+                </TransformGroup>
+                </StackPanel.RenderTransform>
+                <StackPanel.Effect>
+                    <BlurEffect Radius="8" x:Name="TextBlockBlur"/>
+                </StackPanel.Effect>
         </StackPanel>
-        <Rectangle Name="LockIndicatorRectangle" Fill="{DynamicResource MicaWPF.Brushes.AccentFillColorDefault}" Height="4" RadiusX="2" RadiusY="2" Width="60" VerticalAlignment="Bottom"/>
+        <Rectangle x:Name="LockIndicatorRectangle" Fill="{DynamicResource MicaWPF.Brushes.AccentFillColorDefault}" Height="4" RadiusX="2" RadiusY="2" Width="60" VerticalAlignment="Bottom"/>
     </Grid>
 </controls:MicaWindow>

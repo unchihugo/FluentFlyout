@@ -2,7 +2,11 @@
 using FluentFlyout.Classes.Settings;
 using FluentFlyoutWPF.Classes;
 using MicaWPF.Controls;
+using System.ComponentModel;
 using System.Windows;
+using System.Windows.Media;
+using System.Windows.Media.Animation;
+using Wpf.Ui.Controls;
 
 
 namespace FluentFlyoutWPF.Windows;
@@ -45,19 +49,30 @@ public partial class LockWindow : MicaWindow
             }
             else LockTextBlock.Text = key + " " + (isOn ? FindResource("LockWindow_LockOn").ToString() : FindResource("LockWindow_LockOff").ToString());
 
-            LockTextBlock.FontWeight = SettingsManager.Current.LockKeysBoldUi ? FontWeights.Medium : FontWeights.Normal;
-
-            if (isOn)
+            LockTextBlock.FontWeight = SettingsManager.Current.LockKeysBoldUi ? FontWeights.Bold : FontWeights.Normal;
+            double duration = mainWindow.getDuration();
+            if (duration == 0)
             {
-                LockIndicatorRectangle.Opacity = 1;
-                if (SettingsManager.Current.LockKeysBoldUi) LockSymbol.Symbol = Wpf.Ui.Controls.SymbolRegular.LockClosed24;
-                else LockSymbol.Symbol = Wpf.Ui.Controls.SymbolRegular.LockClosed20;
+                if (isOn)
+                {
+                    LockIndicatorRectangle.Opacity = 1;
+                    if (SettingsManager.Current.LockKeysBoldUi) LockSymbol.Symbol = Wpf.Ui.Controls.SymbolRegular.LockClosed24;
+                    else LockSymbol.Symbol = Wpf.Ui.Controls.SymbolRegular.LockClosed20;
+                    LockSymbol.Opacity = 1;
+                    UnlockSymbol.Opacity = 0;
+                }
+                else
+                {
+                    LockIndicatorRectangle.Opacity = 0.2;
+                    if (SettingsManager.Current.LockKeysBoldUi) UnlockSymbol.Symbol = Wpf.Ui.Controls.SymbolRegular.LockOpen24;
+                    else UnlockSymbol.Symbol = Wpf.Ui.Controls.SymbolRegular.LockOpen20;
+                    LockSymbol.Opacity = 0;
+                    UnlockSymbol.Opacity = 1;
+                }
             }
-            else
+            else 
             {
-                LockIndicatorRectangle.Opacity = 0.2;
-                if (SettingsManager.Current.LockKeysBoldUi) LockSymbol.Symbol = Wpf.Ui.Controls.SymbolRegular.LockOpen24;
-                else LockSymbol.Symbol = Wpf.Ui.Controls.SymbolRegular.LockOpen20;
+                PlaySwitchAnimation(isOn, duration / 300);
             }
         });
     }
@@ -91,6 +106,38 @@ public partial class LockWindow : MicaWindow
         {
             _isHiding = false;
             mainWindow.OpenAnimation(this, true);
+            double duration = mainWindow.getDuration();
+            if (duration == 0)
+            {
+                LockIconTrans.X = -80;
+                LockIconBlur.Radius = 0;
+                UnlockIconTrans.X = -80;
+                UnlockIconBlur.Radius = 0;
+
+            }
+            else
+            {
+                LockIconTrans.BeginAnimation(TranslateTransform.XProperty, null);
+                UnlockIconTrans.BeginAnimation(TranslateTransform.XProperty, null);
+                LockTextBlock.BeginAnimation(OpacityProperty, null);
+                LockIconScale.BeginAnimation(ScaleTransform.ScaleXProperty, null);
+                LockIconScale.BeginAnimation(ScaleTransform.ScaleYProperty, null);
+                UnlockIconScale.BeginAnimation(ScaleTransform.ScaleXProperty, null);
+                UnlockIconScale.BeginAnimation(ScaleTransform.ScaleYProperty, null);
+
+
+                LockTextBlock.Opacity = 0;
+                LockIconTrans.X = 0;
+                UnlockIconTrans.X = 0;
+                LockIconScale.ScaleX = 1;
+                LockIconScale.ScaleY = 1;
+                UnlockIconScale.ScaleX = 1;
+                UnlockIconScale.ScaleY = 1;
+
+                PlayEntranceAnimation(isOn, duration / 300);
+
+            }
+
         }
         cts.Cancel();
         cts = new CancellationTokenSource();
@@ -115,4 +162,95 @@ public partial class LockWindow : MicaWindow
             // do nothing
         }
     }
-}
+    private void PlaySwitchAnimation(bool isOn, double durationRatio)
+    {
+        var storyboard = new Storyboard();
+
+        void AddAnim(string targetName, string property, double? from, double to, double durationSec, double beginSec = 0, IEasingFunction? easing = null)
+        {
+            var anim = new DoubleAnimation
+            {
+                From = from,
+                To = to,
+                Duration = TimeSpan.FromSeconds(durationSec * durationRatio),
+                BeginTime = TimeSpan.FromSeconds(beginSec),
+                EasingFunction = easing
+            };
+            Storyboard.SetTargetName(anim, targetName);
+            Storyboard.SetTargetProperty(anim, new PropertyPath(property));
+            storyboard.Children.Add(anim);
+        }
+
+        if (isOn)
+        {
+            var StartTimePoint1 = 0.1 * durationRatio;
+            AddAnim("LockIndicatorRectangle", "Width", null, 80, 0.4, StartTimePoint1, new BackEase { EasingMode = EasingMode.EaseOut });
+            AddAnim("LockIndicatorRectangle", "Opacity", null, 1, 0.4, StartTimePoint1, null);
+            AddAnim("UnlockIconBlur", "Radius",null , 8, 0.4, StartTimePoint1, null);
+            AddAnim("UnlockSymbol", "Opacity",1 , 0, 0.5, StartTimePoint1, null);
+            //AddAnim("UnlockIconScale", "ScaleX", 1, 1.5, 0.3, StartTimePoint1, new CircleEase { EasingMode = EasingMode.EaseOut });
+            //AddAnim("UnlockIconScale", "ScaleY", 1,1.5, 0.3, StartTimePoint1, new CircleEase { EasingMode = EasingMode.EaseOut });
+            AddAnim("LockIconBlur", "Radius",8 , 0, 0.5, StartTimePoint1, null);
+            AddAnim("LockSymbol", "Opacity",null , 1, 0.4, StartTimePoint1, null);
+            //AddAnim("LockIconScale", "ScaleX", 1.5, 1, 0.3, StartTimePoint2, new CircleEase { EasingMode = EasingMode.EaseOut });
+            //AddAnim("LockIconScale", "ScaleY", 1.5, 1, 0.3, StartTimePoint2, new CircleEase { EasingMode = EasingMode.EaseOut });
+
+                
+
+        }
+        else  //isOff
+        {
+            var StartTimePoint1 = 0.1 * durationRatio;
+            AddAnim("LockIndicatorRectangle", "Width", null, 60, 0.4, StartTimePoint1, new BackEase { EasingMode = EasingMode.EaseOut });
+            AddAnim("LockIndicatorRectangle", "Opacity", null, 0.2, 0.4, StartTimePoint1, null);
+            AddAnim("LockIconBlur", "Radius", null, 8, 0.4, StartTimePoint1, null);
+            AddAnim("LockSymbol", "Opacity", 1, 0, 0.5, StartTimePoint1, null);
+            //AddAnim("LockIconScale", "ScaleX", 1, 1.5, 0.3, StartTimePoint1, new CircleEase { EasingMode = EasingMode.EaseOut });
+            //AddAnim("LockIconScale", "ScaleY", 1, 1.5, 0.3, StartTimePoint1, new CircleEase { EasingMode = EasingMode.EaseOut });
+            AddAnim("UnlockIconBlur", "Radius", 8, 0, 0.5, StartTimePoint1, null);
+            AddAnim("UnlockSymbol", "Opacity", null, 1, 0.4, StartTimePoint1, null);
+            //AddAnim("UnlockIconScale", "ScaleX", 1.5, 1, 0.3, StartTimePoint2, new CircleEase { EasingMode = EasingMode.EaseOut });
+            //AddAnim("UnlockIconScale", "ScaleY", 1.5, 1, 0.3, StartTimePoint2, new CircleEase { EasingMode = EasingMode.EaseOut });
+        }
+
+
+        storyboard.Begin(this);
+
+    }
+
+    private void PlayEntranceAnimation(bool isOn, double durationRatio)
+    {
+        var storyboard = new Storyboard();
+
+        void AddAnim(string targetName, string property, double? from, double to, double durationSec, double beginSec = 0, IEasingFunction? easing = null)
+        {
+            var anim = new DoubleAnimation
+            {
+                From = from,
+                To = to,
+                Duration = TimeSpan.FromSeconds(durationSec * durationRatio),
+                BeginTime = TimeSpan.FromSeconds(beginSec),
+                EasingFunction = easing
+            };
+            Storyboard.SetTargetName(anim, targetName);
+            Storyboard.SetTargetProperty(anim, new PropertyPath(property));
+            storyboard.Children.Add(anim);
+        }
+        var StartTimePoint1 = 0.6 * durationRatio;
+        AddAnim("LockIconTrans", "X", 0, -80, 1, StartTimePoint1, new CubicEase { EasingMode = EasingMode.EaseInOut });
+        AddAnim("UnlockIconTrans", "X", 0, -80, 1, StartTimePoint1, new CubicEase { EasingMode = EasingMode.EaseInOut });
+        AddAnim("LockTextBlock", "Opacity", 0, 1, 0.5, StartTimePoint1+0.4, null);
+        AddAnim("TextBlockBlur", "Radius", 8, 0, 0.5, StartTimePoint1+0.4, null);
+        AddAnim("TextBlockTrans", "X", 50, 0, 0.5, StartTimePoint1+0.4, new CubicEase { EasingMode = EasingMode.EaseOut });
+        AddAnim("UnlockIconScale", "ScaleX", 1, 0.8, 0.3, StartTimePoint1+0.3, new CubicEase { EasingMode = EasingMode.EaseOut });
+        AddAnim("UnlockIconScale", "ScaleY", 1, 0.8, 0.3, StartTimePoint1+0.3, new CubicEase { EasingMode = EasingMode.EaseOut });
+        AddAnim("LockIconScale", "ScaleX", 1, 0.8, 0.5, StartTimePoint1+0.3, new CubicEase { EasingMode = EasingMode.EaseOut });
+        AddAnim("LockIconScale", "ScaleY", 1, 0.8, 0.5, StartTimePoint1+0.3, new CubicEase { EasingMode = EasingMode.EaseOut });
+
+
+        //AddAnim("TextBlockScale", "ScaleX", 0.5, 1, 0.5, StartTimePoint1 + 0.1, new CubicEase { EasingMode = EasingMode.EaseOut });
+        //AddAnim("TextBlockScale", "ScaleY", 0.5, 1, 0.5, StartTimePoint1 + 0.1, new CubicEase { EasingMode = EasingMode.EaseOut });
+
+        storyboard.Begin(this);
+    } 
+    }
