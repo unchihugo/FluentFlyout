@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
+using System.Windows.Media.Effects;
 using Wpf.Ui.Controls;
 
 
@@ -53,9 +54,20 @@ public partial class LockWindow : MicaWindow
             double duration = mainWindow.getDuration();
             if (duration == 0)
             {
+                LockSymbol.BeginAnimation(OpacityProperty, null);
+                UnlockSymbol.BeginAnimation(OpacityProperty, null);
+                LockIndicatorRectangle.BeginAnimation(OpacityProperty, null);
+                LockIndicatorRectangle.BeginAnimation(WidthProperty, null);
+                LockIconBlur.BeginAnimation(BlurEffect.RadiusProperty, null);
+                UnlockIconBlur.BeginAnimation(BlurEffect.RadiusProperty, null);
+
+                LockIconBlur.Radius = 0;
+                UnlockIconBlur.Radius = 0;
+
                 if (isOn)
                 {
                     LockIndicatorRectangle.Opacity = 1;
+                    LockIndicatorRectangle.Width = 80;
                     if (SettingsManager.Current.LockKeysBoldUi) LockSymbol.Symbol = Wpf.Ui.Controls.SymbolRegular.LockClosed24;
                     else LockSymbol.Symbol = Wpf.Ui.Controls.SymbolRegular.LockClosed20;
                     LockSymbol.Opacity = 1;
@@ -64,6 +76,7 @@ public partial class LockWindow : MicaWindow
                 else
                 {
                     LockIndicatorRectangle.Opacity = 0.2;
+                    LockIndicatorRectangle.Width = 60;
                     if (SettingsManager.Current.LockKeysBoldUi) UnlockSymbol.Symbol = Wpf.Ui.Controls.SymbolRegular.LockOpen24;
                     else UnlockSymbol.Symbol = Wpf.Ui.Controls.SymbolRegular.LockOpen20;
                     LockSymbol.Opacity = 0;
