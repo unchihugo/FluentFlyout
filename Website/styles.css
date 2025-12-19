@@ -1,15 +1,19 @@
 /** @format */
 
 body {
-	font-family: "Segoe UI", sans-serif;
+	font-family: Segoe UI Variable Text, 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif;
 	overflow-x: hidden;
+}
+
+.text-lg, .text-xl, .text-2xl, .text-3xl, .text-4xl, .text-5xl, .text-6xl {
+	font-family: Segoe UI Variable Display, 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif;
 }
 
 /* Animations for scroll */
 .reveal-on-scroll {
 	opacity: 0;
 	transform: translateY(30px);
-	transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+	transition: opacity 0.4s ease-out, transform 0.4s ease-out;
 }
 
 .reveal-on-scroll.is-visible {
