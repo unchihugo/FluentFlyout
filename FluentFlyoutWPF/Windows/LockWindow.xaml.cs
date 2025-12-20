@@ -76,9 +76,9 @@ public partial class LockWindow : MicaWindow
         }
 
         // lengthen the window width to fit longer translated texts
-        if (LocalizationManager.LanguageCode == "es")
+        if (LocalizationManager.LanguageCode != "en")
         {
-            Width = 300; // default width x1.5
+            Width = LocalizationManager.maxLength + 45.0; //Max length of the text + extra space for the icon and padding
         }
         else
         {
