@@ -39,7 +39,7 @@ public static class LocalizationManager
     }
 
     public static LocalizationState Instance { get; } = new();
-    public static double maxLenght = 0;
+    public static double maxLength = 0;
 
     // current language code (first two letters) for easy access
     public static string LanguageCode { get; set; } = string.Empty;
@@ -152,7 +152,7 @@ public static class LocalizationManager
         Lengths.Add(StringWidth.GetStringWidth(OnOffMax + Application.Current.Resources["LockWindow_NumLock"].ToString()));
         Lengths.Add(StringWidth.GetStringWidth(OnOffMax + Application.Current.Resources["LockWindow_ScrollLock"].ToString()));
 
-        maxLenght = Lengths.Max();
+        maxLength = Lengths.Max();
     }
 
     private static void ApplyFlowDirection(string languageCode)
