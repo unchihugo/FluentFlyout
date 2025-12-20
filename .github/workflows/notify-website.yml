@@ -1,0 +1,18 @@
+name: Notify FluentFlyout-Pages of new Release
+
+on:
+  release:
+    types: [published]
+
+  workflow_dispatch:
+
+jobs:
+  dispatch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Website Update
+        uses: peter-evans/repository-dispatch@v4
+        with:
+          token: ${{ secrets.PAGES_CONTROLLER_PAT }}
+          repository: unchihugo/FluentFlyout-Pages 
+          event-type: app-release-published
