@@ -43,9 +43,7 @@ public partial class NextUpWindow : MicaWindow
         if (Width > 400) Width = 400; // max width to prevent window from being too wide
         SongTitle.Text = title;
         SongArtist.Text = artist;
-        SongImage.ImageSource = thumbnail;
-        if (SongImage.ImageSource == null) SongImagePlaceholder.Visibility = Visibility.Visible;
-        else SongImagePlaceholder.Visibility = Visibility.Collapsed;
+        UpdateThumbnail(thumbnail);
         Show();
 
         mainWindow.OpenAnimation(this);
@@ -59,5 +57,12 @@ public partial class NextUpWindow : MicaWindow
         }
 
         wait();
+    }
+
+    public void UpdateThumbnail(BitmapImage thumbnail)
+    {
+        SongImage.ImageSource = thumbnail;
+        if (SongImage.ImageSource == null) SongImagePlaceholder.Visibility = Visibility.Visible;
+        else SongImagePlaceholder.Visibility = Visibility.Collapsed;
     }
 }
