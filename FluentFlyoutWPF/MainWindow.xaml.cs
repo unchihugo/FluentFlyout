@@ -222,73 +222,75 @@ public partial class MainWindow : MicaWindow
         var storyboard = beginStoryboard.Storyboard;
 
         DoubleAnimation moveAnimation = (DoubleAnimation)storyboard.Children[0];
+        var monitors = WindowHelper.GetMonitors();
+        var workArea = monitors[Math.Clamp(SettingsManager.Current.SelectedMonitor, 0, monitors.Count - 1)].workArea;
 
         if (alwaysBottom == false)
         {
             _position = SettingsManager.Current.Position;
             if (_position == 0)
             {
-                window.Left = 16;
+                window.Left = workArea.Left + 16;
                 if (SettingsManager.Current.FlyoutAnimationSpeed == 0) // if off, don't animate (just appear at the bottom)
-                    moveAnimation.From = SystemParameters.WorkArea.Height - window.Height - 16;
+                    moveAnimation.From = workArea.Top + workArea.Height - window.Height - 16;
                 else
-                    moveAnimation.From = SystemParameters.WorkArea.Height - window.Height + 4; // appear from the bottom of the screen
-                moveAnimation.To = SystemParameters.WorkArea.Height - window.Height - 16;
+                    moveAnimation.From = workArea.Top + workArea.Height - window.Height + 4; // appear from the bottom of the screen
+                moveAnimation.To = workArea.Top + workArea.Height - window.Height - 16;
             }
             else if (_position == 1)
             {
-                window.Left = SystemParameters.WorkArea.Width / 2 - window.Width / 2;
+                window.Left = workArea.Left + workArea.Width / 2 - window.Width / 2;
                 if (SettingsManager.Current.FlyoutAnimationSpeed == 0)
-                    moveAnimation.From = SystemParameters.WorkArea.Height - window.Height - 80;
+                    moveAnimation.From = workArea.Top + workArea.Height - window.Height - 80;
                 else
-                    moveAnimation.From = SystemParameters.WorkArea.Height - window.Height - 60;
-                moveAnimation.To = SystemParameters.WorkArea.Height - window.Height - 80;
+                    moveAnimation.From = workArea.Top + workArea.Height - window.Height - 60;
+                moveAnimation.To = workArea.Top + workArea.Height - window.Height - 80;
             }
             else if (_position == 2)
             {
-                window.Left = SystemParameters.WorkArea.Width - window.Width - 16;
+                window.Left = workArea.Left + workArea.Width - window.Width - 16;
                 if (SettingsManager.Current.FlyoutAnimationSpeed == 0)
-                    moveAnimation.From = SystemParameters.WorkArea.Height - window.Height - 16;
+                    moveAnimation.From = workArea.Top + workArea.Height - window.Height - 16;
                 else
-                    moveAnimation.From = SystemParameters.WorkArea.Height - window.Height + 4;
-                moveAnimation.To = SystemParameters.WorkArea.Height - window.Height - 16;
+                    moveAnimation.From = workArea.Top + workArea.Height - window.Height + 4;
+                moveAnimation.To = workArea.Top + workArea.Height - window.Height - 16;
             }
             else if (_position == 3)
             {
-                window.Left = 16;
+                window.Left = workArea.Left + 16;
                 if (SettingsManager.Current.FlyoutAnimationSpeed == 0)
-                    moveAnimation.From = 16;
+                    moveAnimation.From = workArea.Top + 16;
                 else
-                    moveAnimation.From = -4;
-                moveAnimation.To = 16;
+                    moveAnimation.From = workArea.Top + -4;
+                moveAnimation.To = workArea.Top + 16;
             }
             else if (_position == 4)
             {
-                window.Left = SystemParameters.WorkArea.Width / 2 - window.Width / 2;
+                window.Left = workArea.Left + workArea.Width / 2 - window.Width / 2;
                 if (SettingsManager.Current.FlyoutAnimationSpeed == 0)
-                    moveAnimation.From = 16;
+                    moveAnimation.From = workArea.Top + 16;
                 else
-                    moveAnimation.From = -4;
-                moveAnimation.To = 16;
+                    moveAnimation.From = workArea.Top + -4;
+                moveAnimation.To = workArea.Top + 16;
             }
             else if (_position == 5)
             {
-                window.Left = SystemParameters.WorkArea.Width - window.Width - 16;
+                window.Left = workArea.Left + workArea.Width - window.Width - 16;
                 if (SettingsManager.Current.FlyoutAnimationSpeed == 0)
-                    moveAnimation.From = 16;
+                    moveAnimation.From = workArea.Top + 16;
                 else
-                    moveAnimation.From = -4;
-                moveAnimation.To = 16;
+                    moveAnimation.From = workArea.Top + -4;
+                moveAnimation.To = workArea.Top + 16;
             }
         }
         else
         {
-            window.Left = SystemParameters.WorkArea.Width / 2 - window.Width / 2;
+            window.Left = workArea.Left + workArea.Width / 2 - window.Width / 2;
             if (SettingsManager.Current.FlyoutAnimationSpeed == 0)
-                moveAnimation.From = SystemParameters.WorkArea.Height - window.Height - 16;
+                moveAnimation.From = workArea.Top + workArea.Height - window.Height - 16;
             else
-                moveAnimation.From = SystemParameters.WorkArea.Height - window.Height + 4;
-            moveAnimation.To = SystemParameters.WorkArea.Height - window.Height - 16;
+                moveAnimation.From = workArea.Top + workArea.Height - window.Height + 4;
+            moveAnimation.To = workArea.Top + workArea.Height - window.Height - 16;
         }
 
         int msDuration = getDuration();
@@ -312,30 +314,36 @@ public partial class MainWindow : MicaWindow
         var storyboard = beginStoryboard.Storyboard;
 
         DoubleAnimation moveAnimation = (DoubleAnimation)storyboard.Children[0];
+        var monitors = WindowHelper.GetMonitors();
+        var workArea = monitors[Math.Clamp(SettingsManager.Current.SelectedMonitor, 0, monitors.Count - 1)].workArea;
 
         if (alwaysBottom == false)
         {
             _position = SettingsManager.Current.Position;
             if (_position == 0 || _position == 2)
             {
-                moveAnimation.From = SystemParameters.WorkArea.Height - window.Height - 16;
-                if (SettingsManager.Current.FlyoutAnimationSpeed != 0) moveAnimation.To = SystemParameters.WorkArea.Height - window.Height + 4;
+                moveAnimation.From = workArea.Top + workArea.Height - window.Height - 16;
+                if (SettingsManager.Current.FlyoutAnimationSpeed != 0)
+                    moveAnimation.To = workArea.Top + workArea.Height - window.Height + 4;
             }
             else if (_position == 1)
             {
-                moveAnimation.From = SystemParameters.WorkArea.Height - window.Height - 80;
-                if (SettingsManager.Current.FlyoutAnimationSpeed != 0) moveAnimation.To = SystemParameters.WorkArea.Height - window.Height - 60;
+                moveAnimation.From = workArea.Top + workArea.Height - window.Height - 80;
+                if (SettingsManager.Current.FlyoutAnimationSpeed != 0)
+                    moveAnimation.To = workArea.Top + workArea.Height - window.Height - 60;
             }
             else if (_position == 3 || _position == 4 || _position == 5)
             {
-                moveAnimation.From = 16;
-                if (SettingsManager.Current.FlyoutAnimationSpeed != 0) moveAnimation.To = -4;
+                moveAnimation.From = workArea.Top + 16;
+                if (SettingsManager.Current.FlyoutAnimationSpeed != 0)
+                    moveAnimation.To = workArea.Top + -4;
             }
         }
         else
         {
-            moveAnimation.From = SystemParameters.WorkArea.Height - window.Height - 16;
-            if (SettingsManager.Current.FlyoutAnimationSpeed != 0) moveAnimation.To = SystemParameters.WorkArea.Height - window.Height + 4;
+            moveAnimation.From = workArea.Top + workArea.Height - window.Height - 16;
+            if (SettingsManager.Current.FlyoutAnimationSpeed != 0)
+                moveAnimation.To = workArea.Top + workArea.Height - window.Height + 4;
         }
 
         int msDuration = getDuration();

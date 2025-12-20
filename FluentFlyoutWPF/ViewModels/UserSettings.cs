@@ -20,6 +20,12 @@ public partial class UserSettings : ObservableObject
     public partial bool CompactLayout { get; set; }
 
     /// <summary>
+    /// Selected monitor for display
+    /// </summary>
+    [ObservableProperty]
+    public partial int SelectedMonitor { get; set; }
+
+    /// <summary>
     /// Flyout position on screen
     /// </summary>
     [ObservableProperty]
@@ -288,7 +294,7 @@ public partial class UserSettings : ObservableObject
     public ObservableCollection<LanguageOption> LanguageOptions { get; } = [];
 
     [XmlIgnore]
-    [ObservableProperty] 
+    [ObservableProperty]
     public partial LanguageOption SelectedLanguage { get; set; }
 
     /// <summary>
@@ -338,7 +344,7 @@ public partial class UserSettings : ObservableObject
     /// Gets or sets a value indicating whether the taskbar widget should play animations.
     /// </summary>
     [ObservableProperty]
-    public partial bool TaskbarWidgetAnimated {  get; set; }
+    public partial bool TaskbarWidgetAnimated { get; set; }
 
     /// <summary>
     /// Gets whether premium features are unlocked (runtime only, not persisted)
@@ -362,8 +368,9 @@ public partial class UserSettings : ObservableObject
         {
             LanguageOptions.Add(new LanguageOption(supportedLanguage.Key, supportedLanguage.Value));
         }
-        
+
         CompactLayout = false;
+        SelectedMonitor = 0;
         Position = 0;
         FlyoutAnimationSpeed = 2;
         PlayerInfoEnabled = true;
