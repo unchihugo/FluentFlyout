@@ -131,4 +131,8 @@ Puoi contribuire nelle traduzioni su</system:String>
     <system:String x:Key="TrayIcon_GitHubRepositoryOption">Repository</system:String>
     <system:String x:Key="TrayIcon_ReportBugOption">Segnala un problema</system:String>
     <system:String x:Key="TrayIcon_QuitOption">Chiudi FluentFlyout</system:String>
+    <system:String x:Key="TaskbarWidgetControlsTitle">Controlli dei madia dal widget</system:String>
+    <system:String x:Key="TaskbarWidgetControlsDescription">Mostra i pulsanti per il controllo dei media nel widget</system:String>
+    <system:String x:Key="TaskbarWidgetAnimatedTitle">Animazioni del widget</system:String>
+    <system:String x:Key="TaskbarWidgetAnimatedDescription">Attiva leggere animazioni per il widget</system:String>
 </ResourceDictionary>
