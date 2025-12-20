@@ -1204,6 +1204,34 @@ public partial class MainWindow : MicaWindow
         UpdateTaskbar();
     }
 
+    public void RecreateTaskbarWindow()
+    {
+        try
+        {
+            Logger.Info("Recreating Taskbar Widget window");
+
+            if (taskbarWindow != null)
+            {
+                try
+                {
+                    taskbarWindow.Close();
+                }
+                catch { }
+
+                taskbarWindow = null;
+            }
+
+            taskbarWindow = new();
+            UpdateTaskbar();
+
+            Logger.Info("Taskbar Widget window recreated successfully");
+        }
+        catch (Exception ex)
+        {
+            Logger.Error(ex, "Failed to recreate Taskbar Widget window");
+        }
+    }
+
     private void nIcon_LeftClick(Wpf.Ui.Tray.Controls.NotifyIcon sender, RoutedEventArgs e) // change the behavior of the tray icon
     {
         if (SettingsManager.Current.NIconLeftClick == 0)
