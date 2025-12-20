@@ -2,7 +2,6 @@
 using FluentFlyout.Classes.Settings;
 using FluentFlyoutWPF.Classes;
 using MicaWPF.Controls;
-using System.ComponentModel;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
@@ -68,8 +67,7 @@ public partial class LockWindow : MicaWindow
                 {
                     LockIndicatorRectangle.Opacity = 1;
                     LockIndicatorRectangle.Width = 80;
-                    if (SettingsManager.Current.LockKeysBoldUi) LockSymbol.Symbol = Wpf.Ui.Controls.SymbolRegular.LockClosed24;
-                    else LockSymbol.Symbol = Wpf.Ui.Controls.SymbolRegular.LockClosed20;
+                    LockSymbol.Symbol = (SettingsManager.Current.LockKeysBoldUi) ?  SymbolRegular.LockClosed24: SymbolRegular.LockClosed20;              
                     LockSymbol.Opacity = 1;
                     UnlockSymbol.Opacity = 0;
                 }
@@ -77,8 +75,7 @@ public partial class LockWindow : MicaWindow
                 {
                     LockIndicatorRectangle.Opacity = 0.2;
                     LockIndicatorRectangle.Width = 60;
-                    if (SettingsManager.Current.LockKeysBoldUi) UnlockSymbol.Symbol = Wpf.Ui.Controls.SymbolRegular.LockOpen24;
-                    else UnlockSymbol.Symbol = Wpf.Ui.Controls.SymbolRegular.LockOpen20;
+                    UnlockSymbol.Symbol = (SettingsManager.Current.LockKeysBoldUi) ? SymbolRegular.LockOpen24 : SymbolRegular.LockOpen20;
                     LockSymbol.Opacity = 0;
                     UnlockSymbol.Opacity = 1;
                 }
@@ -201,15 +198,13 @@ public partial class LockWindow : MicaWindow
             AddAnim("LockIndicatorRectangle", "Opacity", null, 1, 0.4, StartTimePoint1, null);
             AddAnim("UnlockIconBlur", "Radius",null , 8, 0.4, StartTimePoint1, null);
             AddAnim("UnlockSymbol", "Opacity",1 , 0, 0.5, StartTimePoint1, null);
-            //AddAnim("UnlockIconScale", "ScaleX", 1, 1.5, 0.3, StartTimePoint1, new CircleEase { EasingMode = EasingMode.EaseOut });
-            //AddAnim("UnlockIconScale", "ScaleY", 1,1.5, 0.3, StartTimePoint1, new CircleEase { EasingMode = EasingMode.EaseOut });
             AddAnim("LockIconBlur", "Radius",8 , 0, 0.5, StartTimePoint1, null);
             AddAnim("LockSymbol", "Opacity",null , 1, 0.4, StartTimePoint1, null);
+            //Removed scaling animation for consistency 
+            //AddAnim("UnlockIconScale", "ScaleX", 1, 1.5, 0.3, StartTimePoint1, new CircleEase { EasingMode = EasingMode.EaseOut });
+            //AddAnim("UnlockIconScale", "ScaleY", 1,1.5, 0.3, StartTimePoint1, new CircleEase { EasingMode = EasingMode.EaseOut });
             //AddAnim("LockIconScale", "ScaleX", 1.5, 1, 0.3, StartTimePoint2, new CircleEase { EasingMode = EasingMode.EaseOut });
             //AddAnim("LockIconScale", "ScaleY", 1.5, 1, 0.3, StartTimePoint2, new CircleEase { EasingMode = EasingMode.EaseOut });
-
-                
-
         }
         else  //isOff
         {
@@ -218,10 +213,11 @@ public partial class LockWindow : MicaWindow
             AddAnim("LockIndicatorRectangle", "Opacity", null, 0.2, 0.4, StartTimePoint1, null);
             AddAnim("LockIconBlur", "Radius", null, 8, 0.4, StartTimePoint1, null);
             AddAnim("LockSymbol", "Opacity", 1, 0, 0.5, StartTimePoint1, null);
-            //AddAnim("LockIconScale", "ScaleX", 1, 1.5, 0.3, StartTimePoint1, new CircleEase { EasingMode = EasingMode.EaseOut });
-            //AddAnim("LockIconScale", "ScaleY", 1, 1.5, 0.3, StartTimePoint1, new CircleEase { EasingMode = EasingMode.EaseOut });
             AddAnim("UnlockIconBlur", "Radius", 8, 0, 0.5, StartTimePoint1, null);
             AddAnim("UnlockSymbol", "Opacity", null, 1, 0.4, StartTimePoint1, null);
+            //Removed scaling animation for consistency 
+            //AddAnim("LockIconScale", "ScaleX", 1, 1.5, 0.3, StartTimePoint1, new CircleEase { EasingMode = EasingMode.EaseOut });
+            //AddAnim("LockIconScale", "ScaleY", 1, 1.5, 0.3, StartTimePoint1, new CircleEase { EasingMode = EasingMode.EaseOut });
             //AddAnim("UnlockIconScale", "ScaleX", 1.5, 1, 0.3, StartTimePoint2, new CircleEase { EasingMode = EasingMode.EaseOut });
             //AddAnim("UnlockIconScale", "ScaleY", 1.5, 1, 0.3, StartTimePoint2, new CircleEase { EasingMode = EasingMode.EaseOut });
         }
