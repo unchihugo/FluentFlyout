@@ -4,13 +4,36 @@ using System.Collections.Generic;
 using System.Drawing.Text;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace FluentFlyout.Classes;
 
+[ComVisible(true)]
+[Guid("79086E7F-0D65-4507-82B6-85F2288930D5")]
 internal static class Notifications
 {
+    /// <summary>
+    /// Handle toast notification activation
+    /// </summary>
+    public static void HandleNotificationActivation(ToastNotificationActivatedEventArgsCompat toastArgs)
+    {
+        // Obtain the arguments from the notification
+        ToastArguments args = ToastArguments.Parse(toastArgs.Argument);
+
+        // Check if the user clicked the "View Changes" button
+        if (args.TryGetValue("action", out string action) && action == "viewChanges")
+        {
+            // Open the changelog URL in the default web browser
+            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
+            {
+                FileName = "https://fluentflyout.com/changelog/",
+                UseShellExecute = true
+            });
+        }
+    }
+
     /// <summary>
     /// Show a Windows notification if the application is run for the first time or has been updated.
     /// </summary>
@@ -18,36 +41,44 @@ internal static class Notifications
     /// <param name="currentVersion"></param>
     public static void ShowFirstOrUpdateNotification(string lastKnownVersion, string currentVersion)
     {
-        if (String.IsNullOrEmpty(lastKnownVersion))
-        {
-            // first run
-            new ToastContentBuilder()
-                .AddAppLogoOverride(new Uri("ms-appx:///Assets/FluentFlyoutLogo.png"), ToastGenericAppLogoCrop.None)
-                .AddText("Welcome to FluentFlyout!")
-                .AddText("Thank you for installing FluentFlyout. You can access the settings at any time by clicking the tray icon.")
-                .Show();
+        //if (String.IsNullOrEmpty(lastKnownVersion))
+        //{
+        //    // first run
+        //    return;
 
-            return;
-        }
+        //    new ToastContentBuilder()
+        //        .AddAppLogoOverride(new Uri("ms-appx:///Assets/FluentFlyoutLogo.png"), ToastGenericAppLogoCrop.None)
+        //        .AddText("Welcome to FluentFlyout!")
+        //        .AddText("Thank you for installing FluentFlyout. You can access the settings at any time by clicking the tray icon.")
+        //        .Show();
 
-        if (currentVersion == "debug")
-        {
-            new ToastContentBuilder()
-                .AddAppLogoOverride(new Uri("file:///" + Directory.GetCurrentDirectory() + "/Resources/FluentFlyout2.ico"), ToastGenericAppLogoCrop.None)
-                .AddText("FluentFlyout Debug Build")
-                .AddText("You are running a debug build of FluentFlyout.")
-                .Show();
+        //    //return;
+        //}
 
-            return;
-        }
+        //if (currentVersion == "debug")
+        //{
+        //    return;
+
+        //    new ToastContentBuilder()
+        //        .AddAppLogoOverride(new Uri("file:///" + Directory.GetCurrentDirectory() + "/Resources/FluentFlyout2.ico"), ToastGenericAppLogoCrop.None)
+        //        .AddText("FluentFlyout Debug Build")
+        //        .AddText("You are running a debug build.")
+        //        .Show();
+
+        //    return;
+        //}
 
         if (lastKnownVersion != currentVersion)
         {
             // updated app
             new ToastContentBuilder()
-                .AddAppLogoOverride(new Uri("ms-appx:///Assets/FluentFlyoutLogo.png"), ToastGenericAppLogoCrop.None)
+                //.AddAppLogoOverride(new Uri("file:///" + Directory.GetCurrentDirectory() + "/Resources/FluentFlyout2.ico"), ToastGenericAppLogoCrop.None
                 .AddText("FluentFlyout has been updated!")
-                .AddText($"You are now running version {currentVersion}. Check out the changelog in the GitHub repository for more details.")
+                .AddText($"You are now on {currentVersion}.")
+                .AddButton(new ToastButton()
+                    .SetContent("View Updates")
+                    .AddArgument("action", "viewChanges")
+                    .SetBackgroundActivation())
                 .Show();
 
             return;

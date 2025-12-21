@@ -386,6 +386,12 @@ public partial class MainWindow : MicaWindow
         });
     }
 
+    private void openLogsFolder(object? sender, EventArgs e)
+    {
+        string logFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "FluentFlyout");
+        Process.Start("explorer.exe", logFolderPath);
+    }
+
     private void pauseOtherMediaSessionsIfNeeded(MediaSession mediaSession)
     {
         if (
