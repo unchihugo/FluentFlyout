@@ -38,6 +38,35 @@ hides repeat, shuffle and player info</System:String>
     <System:String x:Key="UnsupportedControlsWarning">*Some browsers/players do not support repeat, shuffle and seekbar control.</System:String>
     <System:String x:Key="PauseOtherMediaTitle">Pause Other Media Automatically</System:String>
     <System:String x:Key="PauseOtherMediaDescription">When you play or focus on new media, other active sessions are automatically paused</System:String>
+    <System:String x:Key="TaskbarWidgetCustomizationTitle">Taskbar Widget Customization</System:String>
+    <System:String x:Key="TaskbarWidgetDescription">A compact, built-in widget that lives right on your Windows Taskbar for instant access to your media. Click the widget to expand the full Media Flyout (when enabled).</System:String>
+    <System:String x:Key="TaskbarWidgetEnabledTitle">Enable Taskbar Widget</System:String>
+    <System:String x:Key="TaskbarWidgetEnabledDescription">Show a compact media widget on the taskbar</System:String>
+    <System:String x:Key="TaskbarWidgetVisualIssuesWarning">Configure the options below if you experience visual issues.</System:String>
+    <System:String x:Key="TaskbarWidgetPosition">Widget Position</System:String>
+    <System:String x:Key="TaskbarWidgetPaddingTitle">Add Padding for Windows Widgets button</System:String>
+    <System:String x:Key="TaskbarWidgetPaddingDescription">Turn this feature on if you have Windows Widgets enabled</System:String>
+    <System:String x:Key="TaskbarWidgetClickableTitle">Click to open Media Flyout when media is Present</System:String>
+    <System:String x:Key="TaskbarWidgetClickableDescription">If media flyout is enabled, it will open when you click the taskbar widget</System:String>
+    <System:String x:Key="TaskbarWidgetBackgroundBlurTitle">Background Blur</System:String>
+    <System:String x:Key="TaskbarWidgetBackgroundBlurDescription">Add background blur effect to the taskbar widget</System:String>
+    <System:String x:Key="TaskbarWidgetHideCompletelyTitle">Hide Completely When No Media Is Present</System:String>
+    <System:String x:Key="TaskbarWidgetHideCompletelyDescription">Hides the entire widget when no media is available, instead of displaying a media icon</System:String>
+    <System:String x:Key="TaskbarWidgetControlsTitle">Widget Media Controls</System:String>
+    <System:String x:Key="TaskbarWidgetControlsDescription">Show media control buttons on the widget</System:String>
+    <System:String x:Key="TaskbarWidgetAnimatedTitle">Widget Animations</System:String>
+    <System:String x:Key="TaskbarWidgetAnimatedDescription">Enable subtle animations for the widget</System:String>
+    <System:String x:Key="PremiumFeatureTitle">Premium Feature</System:String>
+    <System:String x:Key="PremiumFeatureDescription" xml:space="preserve">Your one-time contribution helps me keep FluentFlyout alive and updated. It instantly unlocks all premium customization features, forever.
+        
+Note: As an open-source project, these features are also available for free via the manual installer on GitHub. The only trade-off is that updates and installation must be done manually.</System:String>
+    <System:String x:Key="PremiumLockedMessage">This feature is part of the premium package</System:String>
+    <System:String x:Key="PremiumUnlockedMessage">Premium features unlocked. Thank you for your support!</System:String>
+    <System:String x:Key="PremiumGitHubMessage">Premium features are unlocked for GitHub/self-compiled versions</System:String>
+    <System:String x:Key="UnlockPremiumButton">Unlock Premium</System:String>
+    <System:String x:Key="PremiumPurchaseSuccess">Premium unlocked successfully!</System:String>
+    <System:String x:Key="PremiumPurchaseFailed">Purchase failed. Please try again.</System:String>
+    <System:String x:Key="PremiumPurchaseCancelled">Purchase cancelled.</System:String>
     <System:String x:Key="NextUpCustomizationTitle">Next Up Customization</System:String>
     <System:String x:Key="NextUpDescription" xml:space="preserve">A flyout shows what's next when a song/video ends. Only appears if the next item plays automatically, if next/previous is pressed manually, the main flyout appears instead.</System:String>
     <System:String x:Key="EnableNextUpTitle">Enable Next Up Flyout (Experimental)</System:String>
@@ -69,6 +98,9 @@ hides repeat, shuffle and player info</System:String>
     <System:String x:Key="TrayIconLeftClickOption2"> Show Media Flyout</System:String>
     <System:String x:Key="Win11TrayIconTitle">Windows 11-like Tray Icon</System:String>
     <System:String x:Key="Win11TrayIconDescription">Use a tray icon that matches Windows 11 (toggle to refresh theme)</System:String>
+    <System:String x:Key="TrayIconSectionTitle">Tray Icon</System:String>
+    <System:String x:Key="HideTrayIconTitle">Hide Tray Icon Completely</System:String>
+    <System:String x:Key="HideTrayIconDescription">Access settings from launching the program twice</System:String>
     <System:String x:Key="AnimationSettingsTitle">Animation Settings</System:String>
     <System:String x:Key="AnimationSettingsDescription">Tweak the animations to your liking</System:String>
     <System:String x:Key="AnimationDurationScaleTitle">Animation Duration Scale</System:String>
@@ -83,6 +115,7 @@ hides repeat, shuffle and player info</System:String>
     <System:String x:Key="NativeExperienceInfo">For the native Windows 11 experience, the settings should be kept at default.</System:String>
     <System:String x:Key="DisableOnFullscreenTitle">Disable Flyouts if DirectX fullscreen program is detected</System:String>
     <System:String x:Key="DisableOnFullscreenDescription">Prevents DirectX games in exclusive fullscreen from minimizing if a flyout pops up</System:String>
+    <System:String x:Key="AboutPremiumTitle">About Premium</System:String>
     <System:String x:Key="EnjoyingAppText" xml:space="preserve">Enjoying the app? Star it on GitHub,
 or leave a review on Microsoft Store!</System:String>
     <System:String x:Key="GitHubRepoLink">GitHub Repository</System:String>

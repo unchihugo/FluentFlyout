@@ -26,10 +26,9 @@ public partial class LockWindow : MicaWindow
         CustomWindowChrome.GlassFrameThickness = new Thickness(0);
 
         WindowStartupLocation = WindowStartupLocation.Manual;
+        Top = -9999; // start off-screen
         Left = SystemParameters.WorkArea.Width / 2 - Width / 2;
         cts = new CancellationTokenSource();
-        _isHiding = false;
-        mainWindow.OpenAnimation(this, true);
     }
 
     private void setStatus(string key, bool isOn)
@@ -46,18 +45,18 @@ public partial class LockWindow : MicaWindow
             }
             else LockTextBlock.Text = key + " " + (isOn ? FindResource("LockWindow_LockOn").ToString() : FindResource("LockWindow_LockOff").ToString());
 
-            LockTextBlock.FontWeight = SettingsManager.Current.LockKeysBoldUI ? FontWeights.Medium : FontWeights.Normal;
+            LockTextBlock.FontWeight = SettingsManager.Current.LockKeysBoldUi ? FontWeights.Medium : FontWeights.Normal;
 
             if (isOn)
             {
                 LockIndicatorRectangle.Opacity = 1;
-                if (SettingsManager.Current.LockKeysBoldUI) LockSymbol.Symbol = Wpf.Ui.Controls.SymbolRegular.LockClosed24;
+                if (SettingsManager.Current.LockKeysBoldUi) LockSymbol.Symbol = Wpf.Ui.Controls.SymbolRegular.LockClosed24;
                 else LockSymbol.Symbol = Wpf.Ui.Controls.SymbolRegular.LockClosed20;
             }
             else
             {
                 LockIndicatorRectangle.Opacity = 0.2;
-                if (SettingsManager.Current.LockKeysBoldUI) LockSymbol.Symbol = Wpf.Ui.Controls.SymbolRegular.LockOpen24;
+                if (SettingsManager.Current.LockKeysBoldUi) LockSymbol.Symbol = Wpf.Ui.Controls.SymbolRegular.LockOpen24;
                 else LockSymbol.Symbol = Wpf.Ui.Controls.SymbolRegular.LockOpen20;
             }
         });
@@ -74,6 +73,16 @@ public partial class LockWindow : MicaWindow
         else
         {
             WindowBlurHelper.DisableBlur(this);
+        }
+
+        // lengthen the window width to fit longer translated texts
+        if (LocalizationManager.LanguageCode != "en")
+        {
+            Width = LocalizationManager.maxLength + 45.0; //Max length of the text + extra space for the icon and padding
+        }
+        else
+        {
+            Width = 200; // default width
         }
 
         setStatus(key, isOn);

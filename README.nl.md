@@ -21,6 +21,8 @@ FluentFlyout biedt het mediabediening en informatie in een mooie en moderne pop-
 	<img src="https://get.microsoft.com/images/en-us%20dark.svg" width="200"/>
 </a>
 
+<img alt="FluentFlyoutHero-Cinemascope" src="https://github.com/user-attachments/assets/a7c7e2db-e21b-4435-9acc-0b2c5f38eb7d" />
+
 ## Functies ✨
 - Windows-achtig ontwerp
 - Gebruikt Fluent 2-componenten
@@ -35,6 +37,11 @@ FluentFlyout biedt het mediabediening en informatie in een mooie en moderne pop-
 - **Audio flyout: Toont thumbnail/hoes, titel, artiest en mediabediening**
 - **"Up Next" flyout: toont wat er na het huidige nummer wordt afgespeeld**
 - **Lock Keys flyout: toont de status van de aangetoonde vergrendeltoetsen**
+
+## Taakbalk widget ⏯️
+<div align="center">
+	<img height="440px" width="auto" src="https://github.com/user-attachments/assets/43963c54-e2d8-4b93-9842-482e12b2c592" />
+</div>
 
 ## Audio flyout 🎵
 <div align="center">

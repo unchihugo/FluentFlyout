@@ -20,7 +20,13 @@ FluentFlyout 能够在一个雅观的现代化的弹窗中显示媒体控制和�
 	<img src="https://get.microsoft.com/images/en-us%20dark.svg" width="200"/>
 </a>
 
+<img alt="FluentFlyoutHero-Cinemascope" src="https://github.com/user-attachments/assets/a7c7e2db-e21b-4435-9acc-0b2c5f38eb7d" />
+
 ## 功能 ✨
+- **音乐弹窗：显示封面、标题、艺术家和媒体控制**
+- **“即将播放”弹窗：在歌曲结束时显示下一首曲目**
+- **锁定键弹窗：一目了然地显示锁定键的状态**
+- **任务栏小组件：直接在 Windows 任务栏上显示媒体信息**
 - 原生 Windows 风格设计
 - 使用 Fluent 2 组件
 - 采用 Windows Mica 模糊效果
@@ -31,9 +37,18 @@ FluentFlyout 能够在一个雅观的现代化的弹窗中显示媒体控制和�
 - 包含“列表循环”、“单曲循环”和“随机播放”功能
 - 同时监听音量和媒体输入
 - 安静地驻留在系统托盘
-- **音乐弹窗：显示封面、标题、艺术家和媒体控制**
-- **“即将播放”弹窗：在歌曲结束时显示下一首曲目**
-- **锁定键弹窗：一目了然地显示锁定键的状态**
+
+## 任务栏小组件 ⏯️
+<div align="center">
+	<img height="440px" width="auto" src="https://github.com/user-attachments/assets/43963c54-e2d8-4b93-9842-482e12b2c592" />
+</div>
+
+<details close>
+<summary>视频展示</summary>
+
+https://github.com/user-attachments/assets/bfc7666f-1d59-4cbf-8d15-3855671cb147
+
+</details>
 
 ## 音乐弹窗 🎵
 <div align="center">
@@ -47,15 +62,17 @@ FluentFlyout 能够在一个雅观的现代化的弹窗中显示媒体控制和�
 </details>
 
 ## 怎么下载？
-### 通过 Microsoft Store 安装（推荐）
+### 安装选项
+**Microsoft Store 版本**提供自动更新，但需一次性付费解锁部分额外功能。  
+**GitHub 版本**完全免费且开源，但需手动更新。
+
+### 通过 Microsoft Store 安装
 <a href="https://apps.microsoft.com/detail/9N45NSM4TNBP?mode=direct">
 	<img src="https://get.microsoft.com/images/en-us%20dark.svg" width="300"/>
 </a>
 
 > 在寻找 FluentFlyout 设置吗？点击系统托盘图标来访问设置。
 ### 用 .msixbundle 安装程序（如果 Microsoft Store 不可用）
-> [!Important]
-> 推荐从 Microsoft Store 下载 FluentFlyout，不仅更加方便，还支持自动更新。
 1. 前往 [最新发布](https://github.com/unchihugo/FluentFlyout/releases/latest) 页面
 2. 下载 **"*.cer"** 文件
 3. 打开证书，并使用管理员权限进行安装

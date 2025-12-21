@@ -3,9 +3,8 @@ using Microsoft.Win32;
 using System.Diagnostics;
 using System.IO;
 using System.Windows;
-using System.Windows.Controls;
 using Windows.ApplicationModel;
-using MessageBox = System.Windows.MessageBox;
+using MessageBox = Wpf.Ui.Controls.MessageBox;
 using FluentFlyout.Classes.Settings;
 using FluentFlyout.Classes;
 
@@ -35,38 +34,7 @@ public partial class SettingsWindow : MicaWindow
         instance = this;
 
         Closed += (s, e) => instance = null;
-
-        // is there a better way to do this?
-        LayoutSwitch.IsChecked = SettingsManager.Current.CompactLayout;
-        PositionComboBox.SelectedIndex = SettingsManager.Current.Position;
-        FlyoutAnimationSpeedComboBox.SelectedIndex = SettingsManager.Current.FlyoutAnimationSpeed;
-        PlayerInfoSwitch.IsChecked = SettingsManager.Current.PlayerInfoEnabled;
-        RepeatSwitch.IsChecked = SettingsManager.Current.RepeatEnabled;
-        ShuffleSwitch.IsChecked = SettingsManager.Current.ShuffleEnabled;
-        StartupSwitch.IsChecked = SettingsManager.Current.Startup;
-        DurationTextBox.Text = SettingsManager.Current.Duration.ToString();
-        NextUpSwitch.IsChecked = SettingsManager.Current.NextUpEnabled;
-        NextUpDurationTextBox.Text = SettingsManager.Current.NextUpDuration.ToString();
-        nIconLeftClickComboBox.SelectedIndex = SettingsManager.Current.nIconLeftClick;
-        CenterTitleArtistSwitch.IsChecked = SettingsManager.Current.CenterTitleArtist;
-        AnimationEasingStylesComboBox.SelectedIndex = SettingsManager.Current.FlyoutAnimationEasingStyle;
-        LockKeysSwitch.IsChecked = SettingsManager.Current.LockKeysEnabled;
-        LockKeysDurationTextBox.Text = SettingsManager.Current.LockKeysDuration.ToString();
-        AppThemeComboBox.SelectedIndex = SettingsManager.Current.AppTheme;
-        MediaFlyoutEnabledSwitch.IsChecked = SettingsManager.Current.MediaFlyoutEnabled;
-        nIconSymbolSwitch.IsChecked = SettingsManager.Current.nIconSymbol;
-        DisableIfFullscreenSwitch.IsChecked = SettingsManager.Current.DisableIfFullscreen;
-        LockKeysBoldUISwitch.IsChecked = SettingsManager.Current.LockKeysBoldUI;
-        SeekbarSwitch.IsChecked = SettingsManager.Current.SeekbarEnabled;
-        PauseOtherSessionsEnabledSwitch.IsChecked = SettingsManager.Current.PauseOtherSessionsEnabled;
-        LockKeysEnableInsertSwitch.IsChecked = SettingsManager.Current.LockKeysInsertEnabled;
-        BackgroundComboBox.SelectedIndex = SettingsManager.Current.MediaFlyoutBackgroundBlur;
-        MediaAcrylicWindowSwitch.IsChecked = SettingsManager.Current.MediaFlyoutAcrylicWindowEnabled;
-        NextUpAcrylicWindowSwitch.IsChecked = SettingsManager.Current.NextUpAcrylicWindowEnabled;
-        LockKeysAcrylicWindowSwitch.IsChecked = SettingsManager.Current.LockKeysAcrylicWindowEnabled;
-        MediaFlyoutAlwaysDisplaySwitch.IsChecked = SettingsManager.Current.MediaFlyoutAlwaysDisplay;
-        DurationTextBox.IsEnabled = !SettingsManager.Current.MediaFlyoutAlwaysDisplay;
-
+        DataContext = SettingsManager.Current;
         try // gets the version of the app, works only in release mode
         {
             var version = Package.Current.Id.Version;
@@ -75,28 +43,6 @@ public partial class SettingsWindow : MicaWindow
         catch
         {
             VersionTextBlock.Text = "debug version";
-        }
-
-        // initialize language dropdown & selection
-        try
-        {
-            foreach (var lang in LocalizationManager.SupportedLanguages)
-            {
-                var comboBoxItem = new ComboBoxItem
-                {
-                    Content = lang.Key,
-                    Tag = lang.Value
-                };
-                AppLanguageComboBox.Items.Add(comboBoxItem);
-            }
-
-            AppLanguageComboBox.SelectedItem = AppLanguageComboBox.Items
-            .Cast<ComboBoxItem>()
-            .FirstOrDefault(item => ((string?)item.Tag ?? "system").Equals(SettingsManager.Current.AppLanguage));
-        } 
-        catch (Exception ex)
-        {
-            Debug.WriteLine("Error setting app language: " + ex.Message);
         }
 
         ThemeManager.ApplySavedTheme();
@@ -132,136 +78,10 @@ public partial class SettingsWindow : MicaWindow
         Close();
     }
 
-    private void LayoutSwitch_Click(object sender, RoutedEventArgs e)
-    {
-        SettingsManager.Current.CompactLayout = LayoutSwitch.IsChecked ?? false;
-    }
-
     private void StartupSwitch_Click(object sender, RoutedEventArgs e)
     {
         // might not work if installed using MSIX, needs investigation
         SetStartup(StartupSwitch.IsChecked ?? false);
-        SettingsManager.Current.Startup = StartupSwitch.IsChecked ?? false;
-    }
-
-    private void PositionComboBox_SelectionChanged(object sender,
-        System.Windows.Controls.SelectionChangedEventArgs e)
-    {
-        SettingsManager.Current.Position = PositionComboBox.SelectedIndex;
-    }
-
-    private void RepeatSwitch_Click(object sender, RoutedEventArgs e)
-    {
-        SettingsManager.Current.RepeatEnabled = RepeatSwitch.IsChecked ?? false;
-    }
-
-    private void ShuffleSwitch_Click(object sender, RoutedEventArgs e)
-    {
-        SettingsManager.Current.ShuffleEnabled = ShuffleSwitch.IsChecked ?? false;
-    }
-
-    private void FlyoutAnimationSpeedComboBox_SelectionChanged(object sender,
-        System.Windows.Controls.SelectionChangedEventArgs e)
-    {
-        SettingsManager.Current.FlyoutAnimationSpeed = FlyoutAnimationSpeedComboBox.SelectedIndex;
-    }
-
-    private void NextUpSwitch_Click(object sender, RoutedEventArgs e)
-    {
-        SettingsManager.Current.NextUpEnabled = NextUpSwitch.IsChecked ?? false;
-    }
-
-    private void DurationTextBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
-    {
-        string text = DurationTextBox.Text.Trim();
-        string numericText = new string(text.Where(char.IsDigit).ToArray());
-
-        if (string.IsNullOrEmpty(numericText))
-        {
-            DurationTextBox.Text = "0";
-            SettingsManager.Current.Duration = 0;
-        }
-        else
-        {
-            DurationTextBox.Text = numericText;
-            if (int.TryParse(numericText, out int duration))
-            {
-                if (duration > 10000)
-                {
-                    duration = 10000;
-                }
-
-                DurationTextBox.Text = duration.ToString();
-                SettingsManager.Current.Duration = duration;
-            }
-            else
-            {
-                DurationTextBox.Text = "3000";
-                SettingsManager.Current.Duration = 3000;
-            }
-        }
-
-        DurationTextBox.CaretIndex = DurationTextBox.Text.Length;
-    }
-
-    private void NextUpDurationTextBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
-    {
-        string text = NextUpDurationTextBox.Text.Trim();
-        string numericText = new string(text.Where(char.IsDigit).ToArray());
-
-        if (string.IsNullOrEmpty(numericText))
-        {
-            NextUpDurationTextBox.Text = "0";
-            SettingsManager.Current.NextUpDuration = 0;
-        }
-        else
-        {
-            NextUpDurationTextBox.Text = numericText;
-            if (int.TryParse(numericText, out int duration))
-            {
-                if (duration > 10000)
-                {
-                    duration = 10000;
-                }
-
-                NextUpDurationTextBox.Text = duration.ToString();
-                SettingsManager.Current.NextUpDuration = duration;
-            }
-            else
-            {
-                NextUpDurationTextBox.Text = "2000";
-                SettingsManager.Current.NextUpDuration = 2000;
-            }
-        }
-
-        NextUpDurationTextBox.CaretIndex = NextUpDurationTextBox.Text.Length;
-    }
-
-    private void PlayerInfoSwitch_Click(object sender, RoutedEventArgs e)
-    {
-        SettingsManager.Current.PlayerInfoEnabled = PlayerInfoSwitch.IsChecked ?? false;
-    }
-    
-    private void SeekbarSwitch_Click(object sender, RoutedEventArgs e)
-    {
-        SettingsManager.Current.SeekbarEnabled = SeekbarSwitch.IsChecked ?? false;
-    }
-
-    private void nIconLeftClickComboBox_SelectionChanged(object sender,
-        System.Windows.Controls.SelectionChangedEventArgs e)
-    {
-        SettingsManager.Current.nIconLeftClick = nIconLeftClickComboBox.SelectedIndex;
-    }
-
-    private void CenterTitleArtistSwitch_Click(object sender, RoutedEventArgs e)
-    {
-        SettingsManager.Current.CenterTitleArtist = CenterTitleArtistSwitch.IsChecked ?? false;
-    }
-
-    private void AnimationEasingStylesComboBox_SelectionChanged(object sender,
-        System.Windows.Controls.SelectionChangedEventArgs e)
-    {
-        SettingsManager.Current.FlyoutAnimationEasingStyle = AnimationEasingStylesComboBox.SelectedIndex;
     }
 
     private void SetStartup(bool enable)
@@ -295,7 +115,14 @@ public partial class SettingsWindow : MicaWindow
         }
         catch (Exception ex)
         {
-            MessageBox.Show($"Failed to set startup: {ex.Message}");
+            MessageBox messageBox = new()
+            {
+                Title = "Error",
+                Content = $"Failed to set startup: {ex.Message}",
+                CloseButtonText = "OK",
+            };
+
+            _ = messageBox.ShowDialogAsync();
         }
     }
 
@@ -305,113 +132,81 @@ public partial class SettingsWindow : MicaWindow
         Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri) { UseShellExecute = true });
         e.Handled = true;
     }
-
-    private void LockKeysSwitch_Click(object sender, RoutedEventArgs e)
+    
+    private async void UnlockPremiumButton_Click(object sender, RoutedEventArgs e)
     {
-        SettingsManager.Current.LockKeysEnabled = LockKeysSwitch.IsChecked ?? false;
-    }
-
-    private void LockKeysDurationTextBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
-    {
-        string text = LockKeysDurationTextBox.Text.Trim();
-        string numericText = new string(text.Where(char.IsDigit).ToArray());
-
-        if (string.IsNullOrEmpty(numericText))
+        try
         {
-            LockKeysDurationTextBox.Text = "0";
-            SettingsManager.Current.LockKeysDuration = 0;
-        }
-        else
-        {
-            LockKeysDurationTextBox.Text = numericText;
-            if (int.TryParse(numericText, out int duration))
+            // Disable button during purchase
+            if (sender is System.Windows.Controls.Button button)
             {
-                if (duration > 10000)
-                {
-                    duration = 10000;
-                }
+                button.IsEnabled = false;
+                button.Content = "Processing...";
+            }
 
-                LockKeysDurationTextBox.Text = duration.ToString();
-                SettingsManager.Current.LockKeysDuration = duration;
+            (bool success, string result) = await LicenseManager.Instance.PurchasePremiumAsync();
+            
+            if (success)
+            {
+                // Update settings with new license status
+                SettingsManager.Current.IsPremiumUnlocked = true;
+
+                MessageBox messageBox = new()
+                {
+                    Title = "Success",
+                    Content = FindResource("PremiumPurchaseSuccess").ToString(),
+                    CloseButtonText = "OK",
+                };
+
+                await messageBox.ShowDialogAsync();
             }
             else
             {
-                LockKeysDurationTextBox.Text = "2000";
-                SettingsManager.Current.LockKeysDuration = 2000;
+                MessageBox messageBox = new()
+                {
+                    Title = "Purchase Failed",
+                    Content = $"{FindResource("PremiumPurchaseFailed")} ({result})",
+                    CloseButtonText = "OK",
+                };
+
+                await messageBox.ShowDialogAsync();
             }
         }
+        catch (Exception ex)
+        {
+            MessageBox messageBox = new()
+            {
+                Title = "Error",
+                Content = $"An error occurred: {ex.Message}",
+                CloseButtonText = "OK",
+            };
 
-        LockKeysDurationTextBox.CaretIndex = LockKeysDurationTextBox.Text.Length;
+            await messageBox.ShowDialogAsync();
+        }
+        finally
+        {
+            // Re-enable button
+            if (sender is System.Windows.Controls.Button button)
+            {
+                button.IsEnabled = true;
+                button.Content = FindResource("UnlockPremiumButton").ToString();
+            }
+        }
     }
 
-    /// <summary>
-    /// Changes the application theme when the selection is changed. 0 for default, 1 for light, 2 for dark.
-    /// </summary>
-    private void AppThemeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    private void ToggleSwitch_Click(object sender, RoutedEventArgs e)
     {
-        ThemeManager.ApplyAndSaveTheme(AppThemeComboBox.SelectedIndex);
-    }
+        bool isChecked = (bool)NIconHideSwitch.IsChecked;
 
-    private void MediaFlyoutEnabledSwitch_Click(object sender, RoutedEventArgs e)
-    {
-        SettingsManager.Current.MediaFlyoutEnabled = MediaFlyoutEnabledSwitch.IsChecked ?? false;
-    }
+        MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
 
-    private void nIconSymbolSwitch_Click(object sender, RoutedEventArgs e)
-    {
-        SettingsManager.Current.nIconSymbol = nIconSymbolSwitch.IsChecked ?? false;
-        ThemeManager.UpdateTrayIcon();
-    }
-
-    private void DisableIfFullscreenSwitch_Click(object sender, RoutedEventArgs e)
-    {
-        SettingsManager.Current.DisableIfFullscreen = DisableIfFullscreenSwitch.IsChecked ?? false;
-    }
-
-    private void LockKeysBoldUISwitch_Click(object sender, RoutedEventArgs e)
-    {
-        SettingsManager.Current.LockKeysBoldUI = LockKeysBoldUISwitch.IsChecked ?? false;
-    }
-
-    private void PauseOtherSessionsEnabledSwitch_Click(object sender, RoutedEventArgs e)
-    {
-        SettingsManager.Current.PauseOtherSessionsEnabled = PauseOtherSessionsEnabledSwitch.IsChecked ?? false;
-    }
-    
-    private void LockKeysEnableInsertSwitch_Click(object sender, RoutedEventArgs e)
-    {
-        SettingsManager.Current.LockKeysInsertEnabled = LockKeysEnableInsertSwitch.IsChecked ?? false;
-    }
-
-    private void BackgroundComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-    {
-        SettingsManager.Current.MediaFlyoutBackgroundBlur = BackgroundComboBox.SelectedIndex;
-    }
-
-    private void MediaAcrylicWindowSwitch_Click(object sender, RoutedEventArgs e)
-    {
-        SettingsManager.Current.MediaFlyoutAcrylicWindowEnabled = MediaAcrylicWindowSwitch.IsChecked ?? false;
-    }
-
-    private void NextUpAcrylicWindowSwitch_Click(object sender, RoutedEventArgs e)
-    {
-        SettingsManager.Current.NextUpAcrylicWindowEnabled = NextUpAcrylicWindowSwitch.IsChecked ?? false;
-    }
-
-    private void LockKeysAcrylicWindowSwitch_Click(object sender, RoutedEventArgs e)
-    {
-        SettingsManager.Current.LockKeysAcrylicWindowEnabled = LockKeysAcrylicWindowSwitch.IsChecked ?? false;
-    }
-
-    private void AppLanguageComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-    {
-        SettingsManager.Current.AppLanguage = ((ComboBoxItem)AppLanguageComboBox.SelectedItem).Tag.ToString() ?? "system";
-        LocalizationManager.ApplyLocalization();
-    }
-
-    private void MediaFlyoutAlwaysDisplaySwitch_Click(object sender, RoutedEventArgs e)
-    {
-        SettingsManager.Current.MediaFlyoutAlwaysDisplay = MediaFlyoutAlwaysDisplaySwitch.IsChecked ?? false;
-        DurationTextBox.IsEnabled = !(MediaFlyoutAlwaysDisplaySwitch.IsChecked ?? false);
+        if (!isChecked)
+        {
+            mainWindow.nIcon.Register();
+        }
+        else
+        {
+            mainWindow.nIcon.Unregister();
+        }
     }
 }

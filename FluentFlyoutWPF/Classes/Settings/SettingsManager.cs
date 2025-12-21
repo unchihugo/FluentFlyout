@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using System.IO;
 using System.Xml.Serialization;
+using FluentFlyoutWPF.ViewModels;
 
 namespace FluentFlyout.Classes.Settings;
 
@@ -9,6 +10,8 @@ namespace FluentFlyout.Classes.Settings;
 /// </summary>
 public class SettingsManager
 {
+    private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+
     private static string SettingsFilePath => Path.Combine(
         Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
         "FluentFlyout",
@@ -72,24 +75,26 @@ public class SettingsManager
                 {
                     XmlSerializer xmlSerializer = new XmlSerializer(typeof(UserSettings));
                     _current = (UserSettings)xmlSerializer.Deserialize(reader);
-                    //File.AppendAllText(logFilePath, $"[{DateTime.Now}] Settings restored\n");
-                    //EventLog.WriteEntry("FluentFlyout", "Settings restored", EventLogEntryType.Information);
+                    _current.CompleteInitialization();
+
+                    Logger.Info("Settings successfully restored");
                     return _current;
                 }
             }
         }
         catch (UnauthorizedAccessException ex)
         {
-            //File.AppendAllText(logFilePath, $"[{DateTime.Now}] No permission to write in {SettingsFilePath}: {ex.Message}\n");
+            Logger.Error(ex, "No permission to write in settings file");
         }
         catch (Exception ex)
         {
-            //File.AppendAllText(logFilePath, $"[{DateTime.Now}] Error saving settings: {ex.Message}\n");
+            Logger.Error(ex, "Error restoring settings");
         }
 
         // if the settings file not found or cannot be read
-        //File.AppendAllText(logFilePath, $"[{DateTime.Now}] Settings file not found or cannot be read\n");
+        Logger.Warn("Settings file not found or cannot be read, loading default settings");
         _current = new UserSettings();
+        _current.CompleteInitialization();
         return _current;
     }
 
@@ -115,10 +120,12 @@ public class SettingsManager
         catch (UnauthorizedAccessException ex)
         {
             // if the app doesn't have permission to write to the settings file
+            Logger.Error(ex, "No permission to write in settings file");
         }
         catch (Exception ex)
         {
             // if the settings file cannot be saved
+            Logger.Error(ex, "Error saving settings");
         }
     }
 }

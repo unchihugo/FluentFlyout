@@ -1,7 +1,7 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.11.35327.3
+# Visual Studio Version 18
+VisualStudioVersion = 18.3.11222.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FluentFlyout", "FluentFlyoutWPF\FluentFlyout.csproj", "{A3576152-7AF6-4136-992A-1B3C1091652A}"
 EndProject
@@ -14,6 +14,11 @@ Global
 		Debug|ARM64 = Debug|ARM64
 		Debug|x64 = Debug|x64
 		Debug|x86 = Debug|x86
+		GitHub Release|Any CPU = GitHub Release|Any CPU
+		GitHub Release|ARM = GitHub Release|ARM
+		GitHub Release|ARM64 = GitHub Release|ARM64
+		GitHub Release|x64 = GitHub Release|x64
+		GitHub Release|x86 = GitHub Release|x86
 		Release|Any CPU = Release|Any CPU
 		Release|ARM = Release|ARM
 		Release|ARM64 = Release|ARM64
@@ -23,24 +28,34 @@ Global
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{A3576152-7AF6-4136-992A-1B3C1091652A}.Debug|Any CPU.ActiveCfg = Debug|x64
 		{A3576152-7AF6-4136-992A-1B3C1091652A}.Debug|Any CPU.Build.0 = Debug|x64
-		{A3576152-7AF6-4136-992A-1B3C1091652A}.Debug|ARM.ActiveCfg = Debug|Any CPU
-		{A3576152-7AF6-4136-992A-1B3C1091652A}.Debug|ARM.Build.0 = Debug|Any CPU
-		{A3576152-7AF6-4136-992A-1B3C1091652A}.Debug|ARM64.ActiveCfg = Debug|Any CPU
-		{A3576152-7AF6-4136-992A-1B3C1091652A}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{A3576152-7AF6-4136-992A-1B3C1091652A}.Debug|ARM.ActiveCfg = Debug|x64
+		{A3576152-7AF6-4136-992A-1B3C1091652A}.Debug|ARM.Build.0 = Debug|x64
+		{A3576152-7AF6-4136-992A-1B3C1091652A}.Debug|ARM64.ActiveCfg = Debug|x64
+		{A3576152-7AF6-4136-992A-1B3C1091652A}.Debug|ARM64.Build.0 = Debug|x64
 		{A3576152-7AF6-4136-992A-1B3C1091652A}.Debug|x64.ActiveCfg = Debug|x64
 		{A3576152-7AF6-4136-992A-1B3C1091652A}.Debug|x64.Build.0 = Debug|x64
-		{A3576152-7AF6-4136-992A-1B3C1091652A}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{A3576152-7AF6-4136-992A-1B3C1091652A}.Debug|x86.Build.0 = Debug|Any CPU
-		{A3576152-7AF6-4136-992A-1B3C1091652A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A3576152-7AF6-4136-992A-1B3C1091652A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A3576152-7AF6-4136-992A-1B3C1091652A}.Release|ARM.ActiveCfg = Release|Any CPU
-		{A3576152-7AF6-4136-992A-1B3C1091652A}.Release|ARM.Build.0 = Release|Any CPU
-		{A3576152-7AF6-4136-992A-1B3C1091652A}.Release|ARM64.ActiveCfg = Release|Any CPU
-		{A3576152-7AF6-4136-992A-1B3C1091652A}.Release|ARM64.Build.0 = Release|Any CPU
-		{A3576152-7AF6-4136-992A-1B3C1091652A}.Release|x64.ActiveCfg = Release|Any CPU
-		{A3576152-7AF6-4136-992A-1B3C1091652A}.Release|x64.Build.0 = Release|Any CPU
-		{A3576152-7AF6-4136-992A-1B3C1091652A}.Release|x86.ActiveCfg = Release|Any CPU
-		{A3576152-7AF6-4136-992A-1B3C1091652A}.Release|x86.Build.0 = Release|Any CPU
+		{A3576152-7AF6-4136-992A-1B3C1091652A}.Debug|x86.ActiveCfg = Debug|x64
+		{A3576152-7AF6-4136-992A-1B3C1091652A}.Debug|x86.Build.0 = Debug|x64
+		{A3576152-7AF6-4136-992A-1B3C1091652A}.GitHub Release|Any CPU.ActiveCfg = GitHub Release|x64
+		{A3576152-7AF6-4136-992A-1B3C1091652A}.GitHub Release|Any CPU.Build.0 = GitHub Release|x64
+		{A3576152-7AF6-4136-992A-1B3C1091652A}.GitHub Release|ARM.ActiveCfg = GitHub Release|x64
+		{A3576152-7AF6-4136-992A-1B3C1091652A}.GitHub Release|ARM.Build.0 = GitHub Release|x64
+		{A3576152-7AF6-4136-992A-1B3C1091652A}.GitHub Release|ARM64.ActiveCfg = GitHub Release|x64
+		{A3576152-7AF6-4136-992A-1B3C1091652A}.GitHub Release|ARM64.Build.0 = GitHub Release|x64
+		{A3576152-7AF6-4136-992A-1B3C1091652A}.GitHub Release|x64.ActiveCfg = GitHub Release|x64
+		{A3576152-7AF6-4136-992A-1B3C1091652A}.GitHub Release|x64.Build.0 = GitHub Release|x64
+		{A3576152-7AF6-4136-992A-1B3C1091652A}.GitHub Release|x86.ActiveCfg = GitHub Release|x64
+		{A3576152-7AF6-4136-992A-1B3C1091652A}.GitHub Release|x86.Build.0 = GitHub Release|x64
+		{A3576152-7AF6-4136-992A-1B3C1091652A}.Release|Any CPU.ActiveCfg = Release|x64
+		{A3576152-7AF6-4136-992A-1B3C1091652A}.Release|Any CPU.Build.0 = Release|x64
+		{A3576152-7AF6-4136-992A-1B3C1091652A}.Release|ARM.ActiveCfg = Release|x64
+		{A3576152-7AF6-4136-992A-1B3C1091652A}.Release|ARM.Build.0 = Release|x64
+		{A3576152-7AF6-4136-992A-1B3C1091652A}.Release|ARM64.ActiveCfg = Release|x64
+		{A3576152-7AF6-4136-992A-1B3C1091652A}.Release|ARM64.Build.0 = Release|x64
+		{A3576152-7AF6-4136-992A-1B3C1091652A}.Release|x64.ActiveCfg = Release|x64
+		{A3576152-7AF6-4136-992A-1B3C1091652A}.Release|x64.Build.0 = Release|x64
+		{A3576152-7AF6-4136-992A-1B3C1091652A}.Release|x86.ActiveCfg = Release|x64
+		{A3576152-7AF6-4136-992A-1B3C1091652A}.Release|x86.Build.0 = Release|x64
 		{7C7CB0B2-26B9-4B8B-B5E8-30ABF5E2B331}.Debug|Any CPU.ActiveCfg = Debug|x64
 		{7C7CB0B2-26B9-4B8B-B5E8-30ABF5E2B331}.Debug|Any CPU.Build.0 = Debug|x64
 		{7C7CB0B2-26B9-4B8B-B5E8-30ABF5E2B331}.Debug|Any CPU.Deploy.0 = Debug|x64
@@ -56,6 +71,21 @@ Global
 		{7C7CB0B2-26B9-4B8B-B5E8-30ABF5E2B331}.Debug|x86.ActiveCfg = Debug|x86
 		{7C7CB0B2-26B9-4B8B-B5E8-30ABF5E2B331}.Debug|x86.Build.0 = Debug|x86
 		{7C7CB0B2-26B9-4B8B-B5E8-30ABF5E2B331}.Debug|x86.Deploy.0 = Debug|x86
+		{7C7CB0B2-26B9-4B8B-B5E8-30ABF5E2B331}.GitHub Release|Any CPU.ActiveCfg = GitHub Release|Any CPU
+		{7C7CB0B2-26B9-4B8B-B5E8-30ABF5E2B331}.GitHub Release|Any CPU.Build.0 = GitHub Release|Any CPU
+		{7C7CB0B2-26B9-4B8B-B5E8-30ABF5E2B331}.GitHub Release|Any CPU.Deploy.0 = GitHub Release|Any CPU
+		{7C7CB0B2-26B9-4B8B-B5E8-30ABF5E2B331}.GitHub Release|ARM.ActiveCfg = GitHub Release|ARM
+		{7C7CB0B2-26B9-4B8B-B5E8-30ABF5E2B331}.GitHub Release|ARM.Build.0 = GitHub Release|ARM
+		{7C7CB0B2-26B9-4B8B-B5E8-30ABF5E2B331}.GitHub Release|ARM.Deploy.0 = GitHub Release|ARM
+		{7C7CB0B2-26B9-4B8B-B5E8-30ABF5E2B331}.GitHub Release|ARM64.ActiveCfg = GitHub Release|ARM64
+		{7C7CB0B2-26B9-4B8B-B5E8-30ABF5E2B331}.GitHub Release|ARM64.Build.0 = GitHub Release|ARM64
+		{7C7CB0B2-26B9-4B8B-B5E8-30ABF5E2B331}.GitHub Release|ARM64.Deploy.0 = GitHub Release|ARM64
+		{7C7CB0B2-26B9-4B8B-B5E8-30ABF5E2B331}.GitHub Release|x64.ActiveCfg = GitHub Release|x64
+		{7C7CB0B2-26B9-4B8B-B5E8-30ABF5E2B331}.GitHub Release|x64.Build.0 = GitHub Release|x64
+		{7C7CB0B2-26B9-4B8B-B5E8-30ABF5E2B331}.GitHub Release|x64.Deploy.0 = GitHub Release|x64
+		{7C7CB0B2-26B9-4B8B-B5E8-30ABF5E2B331}.GitHub Release|x86.ActiveCfg = GitHub Release|x86
+		{7C7CB0B2-26B9-4B8B-B5E8-30ABF5E2B331}.GitHub Release|x86.Build.0 = GitHub Release|x86
+		{7C7CB0B2-26B9-4B8B-B5E8-30ABF5E2B331}.GitHub Release|x86.Deploy.0 = GitHub Release|x86
 		{7C7CB0B2-26B9-4B8B-B5E8-30ABF5E2B331}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7C7CB0B2-26B9-4B8B-B5E8-30ABF5E2B331}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7C7CB0B2-26B9-4B8B-B5E8-30ABF5E2B331}.Release|Any CPU.Deploy.0 = Release|Any CPU
@@ -79,3 +109,4 @@ Global
 		SolutionGuid = {41AF4B16-B9E8-4F06-BB36-6F2C3183CBD0}
 	EndGlobalSection
 EndGlobal
+

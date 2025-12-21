@@ -1,2 +1,60 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib">
-    </ResourceDictionary>
+    <system:String x:Key="TitleText">FluentFlyout-Einstellungen</system:String>
+    <system:String x:Key="TextBlockText2">Wählen Sie aus einer Reihe moderner Hintergrundstile</system:String>
+    <system:String x:Key="BackgroundBlurOption2" xml:space="preserve"> Stil 1 (Cover Glow)</system:String>
+    <system:String x:Key="BackgroundBlurOption3" xml:space="preserve"> Stil 2 (Rising Glow)</system:String>
+    <system:String x:Key="BackgroundBlurOption4" xml:space="preserve"> Stil 3 (Unschärfe)</system:String>
+    <system:String x:Key="BackgroundBlurTitle">Hintergrund-Unschärfe</system:String>
+    <system:String x:Key="AcrylicWindowTitle">Akryl-Fenster</system:String>
+    <system:String x:Key="AcrylicWindowDescription">Transparenten Unschärfe-Effekt auf das Flyout anwenden (ansonsten Mica)</system:String>
+    <system:String x:Key="CompactLayoutTitle">Kompaktes Layout</system:String>
+    <system:String x:Key="CompactLayoutDescription" xml:space="preserve">Minimaleres und weniger ablenkendes Layout
+verbirgt autom. Wiederholung, Shuffle und Player-Information</system:String>
+    <system:String x:Key="FlyoutPositionTitle">Position des Flyouts</system:String>
+    <system:String x:Key="PositionBottomLeft" xml:space="preserve"> unten links</system:String>
+    <system:String x:Key="PositionBottomCenter" xml:space="preserve"> unten mittig</system:String>
+    <system:String x:Key="PositionBottomRight" xml:space="preserve"> unten rechts</system:String>
+    <system:String x:Key="PositionTopLeft" xml:space="preserve"> oben links</system:String>
+    <system:String x:Key="PositionTopCenter" xml:space="preserve"> oben mittig</system:String>
+    <system:String x:Key="PositionTopRight" xml:space="preserve"> oben rechts</system:String>
+    <system:String x:Key="FlyoutStayDurationTitle">Anzeigedauer des Flyouts</system:String>
+    <system:String x:Key="FlyoutStayDurationDescription">(standardmäßig: 3000 ms)</system:String>
+    <system:String x:Key="MillisecondsUnit">ms</system:String>
+    <system:String x:Key="MediaFlyoutAlwaysDisplay">Immer anzeigen</system:String>
+    <system:String x:Key="CenterTitleArtistTitle">Titel und Künstler zentrieren</system:String>
+    <system:String x:Key="CenterTitleArtistDescription">Text mittig statt links ausrichten</system:String>
+    <system:String x:Key="ShowMediaPlayerNameTitle">Name des Media Players anzeigen</system:String>
+    <system:String x:Key="RepeatButtonTitle">Wiederholungsknopf</system:String>
+    <system:String x:Key="RepeatButtonDescription">Wählen Sie zwischen "Alle wiederholen" und "Eins wiederholen", vergrößert die Breite des Flyouts</system:String>
+    <system:String x:Key="ShuffleButtonTitle">Shuffle-Knopf*</system:String>
+    <system:String x:Key="ShuffleButtonDescription">Erhöht die Breite des Flyouts</system:String>
+    <system:String x:Key="ShowSeekbarTitle">Suchleiste anzeigen</system:String>
+    <system:String x:Key="ShowSeekbarDescription">Eine interaktive Suchleiste wird automatisch angezeigt, wenn der Player dies unterstützt</system:String>
+    <system:String x:Key="UnsupportedControlsWarning">*Einige Browser/Player unterstützen die automatische Wiederholung, Shuffle und Suchleiste nicht.</system:String>
+    <system:String x:Key="PauseOtherMediaTitle">Andere Medien automatisch pausieren</system:String>
+    <system:String x:Key="PauseOtherMediaDescription">Wenn Sie neue Medien abspielen oder fokussieren, werden andere aktive Mediensitzungen automatisch pausiert</system:String>
+    <system:String x:Key="TaskbarWidgetCustomizationTitle">Anpassung des Taskleisten-Widgets</system:String>
+    <system:String x:Key="TaskbarWidgetDescription">Ein kompaktes, eingebautes Widget, das sich direkt in Ihrer Windows-Taskleiste befindet und sofortigen Zugriff auf Ihre Medien ermöglicht. Klicken Sie auf das Widget, um (falls aktiviert) das vollständige Medien-Flyout anzuzeigen.</system:String>
+    <system:String x:Key="TaskbarWidgetEnabledTitle">Taskleisten-Widget aktivieren</system:String>
+    <system:String x:Key="TaskbarWidgetEnabledDescription">Ein kompaktes Medien-Widget auf der Taskleiste anzeigen</system:String>
+    <system:String x:Key="TaskbarWidgetVisualIssuesWarning">Passen Sie die folgenden Optionen an, falls visuelle Probleme auftreten.</system:String>
+    <system:String x:Key="TaskbarWidgetPaddingDescription">Schalten Sie diese Funktion ein, falls Sie Windows-Widgets eingeschaltet haben</system:String>
+    <system:String x:Key="TaskbarWidgetBackgroundBlurTitle">Hintergrundunschärfe</system:String>
+    <system:String x:Key="PremiumFeatureDescription" xml:space="preserve">Ihr einmaliger Beitrag hilft mir, FluentFlyout zu entwickeln und zu aktualisieren. Der Beitrag schaltet sofort und für immer alle Premium-Anpassungsoptionen frei.
+        
+Anmerkung: Als Open-Source-Projekt sind diese Funktionen auch kostenlos verfügbar, wenn Sie das manuelle Installationsprogramm auf GitHub nutzen. Der einzige Nachteil besteht darin, dass dabei Aktualisierungen sowie die erstmalige Installation manuell durchgeführt werden müssen.</system:String>
+    <system:String x:Key="PremiumLockedMessage">Diese Funktion ist Teil des Premium-Pakets</system:String>
+    <system:String x:Key="PremiumUnlockedMessage">Die Premium-Funktionen wurden freigeschaltet. Vielen Dank für Ihre Unterstützung!</system:String>
+    <system:String x:Key="PremiumGitHubMessage">Premium-Funktionen sind in der Version auf GitHub sowie in selbst kompilierten Versionen bereits freigeschaltet</system:String>
+    <system:String x:Key="TrayIcon_SettingsOption">Einstellungen</system:String>
+    <system:String x:Key="TrayIcon_ReportBugOption">Einen Fehler melden</system:String>
+    <system:String x:Key="TrayIcon_QuitOption">FluentFlyout beenden</system:String>
+    <system:String x:Key="LaunchOnStartupTitle">Beim Hochfahren des Rechners starten</system:String>
+    <system:String x:Key="EasingQuadratic" xml:space="preserve"> Quadratisch</system:String>
+    <system:String x:Key="EasingCubic" xml:space="preserve"> Kubisch</system:String>
+    <system:String x:Key="LockWindow_LockOff">aus</system:String>
+    <system:String x:Key="NextUpWindow_UpNextText">Als nächstes:</system:String>
+    <system:String x:Key="UnlockPremiumButton">Premium freischalten</system:String>
+    <system:String x:Key="SystemSettingsTitle">System</system:String>
+    <system:String x:Key="LockWindow_LockOn">an</system:String>
+</ResourceDictionary>

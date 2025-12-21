@@ -1,6 +1,7 @@
 ﻿using FluentFlyout.Classes;
 using FluentFlyout.Classes.Settings;
 using FluentFlyout.Classes.Utils;
+using FluentFlyout.Windows;
 using FluentFlyoutWPF.Classes;
 using FluentFlyoutWPF.Windows;
 using MicaWPF.Controls;
@@ -26,6 +27,8 @@ namespace FluentFlyoutWPF;
 
 public partial class MainWindow : MicaWindow
 {
+    private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+
     [DllImport("user32.dll")]
     public static extern void keybd_event(byte virtualKey, byte scanCode, uint flags, IntPtr extraInfo);
 
@@ -37,8 +40,9 @@ public partial class MainWindow : MicaWindow
     private LowLevelKeyboardProc _hookProc;
 
     private CancellationTokenSource cts; // to close the flyout after a certain time
+    private long _lastFlyoutTime = 0;
 
-    private static readonly WindowsMediaController.MediaManager mediaManager = new();
+    public readonly WindowsMediaController.MediaManager mediaManager = new();
 
     // for detecting changes in settings (lazy way)
     private int _position = SettingsManager.Current.Position;
@@ -49,8 +53,8 @@ public partial class MainWindow : MicaWindow
     private bool _centerTitleArtist = SettingsManager.Current.CenterTitleArtist;
     private bool _seekBarEnabled = SettingsManager.Current.SeekbarEnabled;
     private bool _alwaysDisplay = SettingsManager.Current.MediaFlyoutAlwaysDisplay;
-    private bool _mediaSessionSupportsSeekbar = false;
-    private bool _acrylicEnabled = SettingsManager.Current.MediaFlyoutAcrylicWindowEnabled;
+    private bool _mediaSessionSupportsSeekbar = false; // default off to handle initialization
+    private bool _acrylicEnabled = false; // default off to handle initialization
     private int _themeOption = SettingsManager.Current.AppTheme;
 
     static Mutex singleton = new Mutex(true, "FluentFlyout"); // to prevent multiple instances of the app
@@ -66,8 +70,11 @@ public partial class MainWindow : MicaWindow
     private LockWindow? lockWindow;
     private DateTime _lastSelfUpdateTimestamp = DateTime.MinValue;
 
+    private TaskbarWindow? taskbarWindow;
+
     public MainWindow()
     {
+        Logger.Info("Starting FluentFlyout MainWindow");
         DataContext = this;
         WindowHelper.SetNoActivate(this); // prevents some fullscreen apps from minimizing
         InitializeComponent();
@@ -75,8 +82,44 @@ public partial class MainWindow : MicaWindow
 
         if (!singleton.WaitOne(TimeSpan.Zero, true)) // if another instance is already running, close this one
         {
-            Application.Current.Shutdown();
+            // Signal the existing instance to open settings
+            Task.Run(() =>
+            {
+                try
+                {
+                    using (EventWaitHandle settingsEvent = new EventWaitHandle(false, EventResetMode.AutoReset, "FluentFlyout_OpenSettings"))
+                    {
+                        settingsEvent.Set();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Logger.Error(ex, "Failed to signal existing instance");
+                }
+            });
+
+            Environment.Exit(0);
         }
+
+        // in the existing instance, listen for the signal to open settings
+        Task.Run(() =>
+        {
+            try
+            {
+                using (EventWaitHandle settingsEvent = new EventWaitHandle(false, EventResetMode.AutoReset, "FluentFlyout_OpenSettings"))
+                {
+                    while (true)
+                    {
+                        settingsEvent.WaitOne();
+                        Application.Current.Dispatcher.Invoke(() => { SettingsWindow.ShowInstance(); });
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "Settings event listener error");
+            }
+        });
 
         SettingsManager settingsManager = new();
         try
@@ -86,6 +129,7 @@ public partial class MainWindow : MicaWindow
         catch (Exception ex)
         {
             MessageBox.Show($"Failed to restore settings: {ex.Message}");
+            Logger.Error(ex, "Failed to restore settings");
         }
 
         if (SettingsManager.Current.Startup == true) // add to startup programs if enabled, needs improvement
@@ -111,6 +155,7 @@ public partial class MainWindow : MicaWindow
         mediaManager.OnAnyMediaPropertyChanged += MediaManager_OnAnyMediaPropertyChanged;
         mediaManager.OnAnyPlaybackStateChanged += CurrentSession_OnPlaybackStateChanged;
         mediaManager.OnAnyTimelinePropertyChanged += MediaManager_OnAnyTimelinePropertyChanged;
+        mediaManager.OnAnySessionClosed += MediaManager_OnAnySessionClosed;
 
         _positionTimer = new Timer(SeekbarUpdateUi, null, Timeout.Infinite, Timeout.Infinite);
         if (_seekBarEnabled && mediaManager.GetFocusedSession() is { } session)
@@ -310,6 +355,19 @@ public partial class MainWindow : MicaWindow
         storyboard.Begin(window);
     }
 
+    public void UpdateTaskbar()
+    {
+        if (!mediaManager.IsStarted || mediaManager.GetFocusedSession() == null)
+        {
+            taskbarWindow?.UpdateUi("-", "-", null, GlobalSystemMediaTransportControlsSessionPlaybackStatus.Closed);
+            return;
+        }
+        var focusedSession = mediaManager.GetFocusedSession();
+        var songInfo = focusedSession.ControlSession.TryGetMediaPropertiesAsync().GetAwaiter().GetResult();
+        var playbackInfo = focusedSession.ControlSession.GetPlaybackInfo();
+        taskbarWindow?.UpdateUi(songInfo.Title, songInfo.Artist, Helper.GetThumbnail(songInfo.Thumbnail), playbackInfo.PlaybackStatus, playbackInfo.Controls);
+    }
+
     private void reportBug(object? sender, EventArgs e)
     {
         Process.Start(new ProcessStartInfo
@@ -341,36 +399,94 @@ public partial class MainWindow : MicaWindow
 
     private void CurrentSession_OnPlaybackStateChanged(MediaSession mediaSession, GlobalSystemMediaTransportControlsSessionPlaybackInfo? playbackInfo = null)
     {
+#if DEBUG
+        Logger.Debug("Playback state changed: " + mediaSession.Id + " " + mediaSession.ControlSession.GetPlaybackInfo().PlaybackStatus);
+#endif     
         pauseOtherMediaSessionsIfNeeded(mediaSession);
 
         var focusedSession = mediaManager.GetFocusedSession();
-        
+        if (focusedSession == null)
+        {
+            taskbarWindow?.UpdateUi("-", "-", null, GlobalSystemMediaTransportControlsSessionPlaybackStatus.Closed);
+            return;
+        }
+
+        var songInfo = focusedSession.ControlSession.TryGetMediaPropertiesAsync().GetAwaiter().GetResult();
+        taskbarWindow?.UpdateUi(songInfo.Title, songInfo.Artist, Helper.GetThumbnail(songInfo.Thumbnail), playbackInfo?.PlaybackStatus, playbackInfo?.Controls);
+
         if (IsVisible)
         {
             UpdateUI(focusedSession);
-            HandlePlayBackState(focusedSession.ControlSession.GetPlaybackInfo().PlaybackStatus);
+            HandlePlayBackState(playbackInfo?.PlaybackStatus);
         }
     }
 
+    // for determining whether MediaPropertyChanged has no changes
+    private string previousMediaProperty = "";
+    private string previousMediaPropertyThumbnail = "";
     private void MediaManager_OnAnyMediaPropertyChanged(MediaSession mediaSession, GlobalSystemMediaTransportControlsSessionMediaProperties mediaProperties)
     {
-        if (mediaManager.GetFocusedSession() == null) return;
+#if DEBUG
+        Logger.Debug("Media property changed: " + mediaProperties.Title + " " + mediaSession.ControlSession.GetPlaybackInfo().PlaybackStatus);
+#endif
+        if (mediaManager.GetFocusedSession() == null)
+        {
+            taskbarWindow?.UpdateUi("-", "-", null, GlobalSystemMediaTransportControlsSessionPlaybackStatus.Closed);
+            return;
+        }
+
+        var songInfo = mediaSession.ControlSession.TryGetMediaPropertiesAsync().GetAwaiter().GetResult();
+        var playbackInfo = mediaSession.ControlSession.GetPlaybackInfo();
+
+        string check = songInfo.Title + songInfo.Artist + playbackInfo.PlaybackStatus;
+        string checkThumbnail = songInfo.Thumbnail?.GetHashCode().ToString() ?? "Null";
+        bool onlyThumbnailChanged = false;
+        if (previousMediaProperty == check)
+        {
+            onlyThumbnailChanged = true;
+            if (previousMediaPropertyThumbnail == checkThumbnail)
+            return; // prevent multiple calls for the same song info
+        }
+
+        previousMediaProperty = check;
+        previousMediaPropertyThumbnail = checkThumbnail;
+
+        taskbarWindow?.UpdateUi(songInfo.Title, songInfo.Artist, Helper.GetThumbnail(songInfo.Thumbnail), playbackInfo.PlaybackStatus, playbackInfo.Controls);
 
         pauseOtherMediaSessionsIfNeeded(mediaSession);
 
         if (SettingsManager.Current.NextUpEnabled && !FullscreenDetector.IsFullscreenApplicationRunning()) // show NextUpWindow if enabled in settings
         {
-            var songInfo = mediaSession.ControlSession.TryGetMediaPropertiesAsync().GetAwaiter().GetResult();
-            if (nextUpWindow == null && IsVisible == false && songInfo.Thumbnail != null && currentTitle != songInfo.Title)
+            void createNewNextUpWindow()
             {
                 Dispatcher.Invoke(() =>
                 {
-                    if (nextUpWindow == null && mediaSession.ControlSession.GetPlaybackInfo().Controls.IsPauseEnabled) // double-check within the Dispatcher to prevent race conditions
+                    if (nextUpWindow == null && playbackInfo.Controls.IsPauseEnabled) // double-check within the Dispatcher to prevent race conditions
                     {
                         nextUpWindow = new NextUpWindow(songInfo.Title, songInfo.Artist, Helper.GetThumbnail(songInfo.Thumbnail));
                         currentTitle = songInfo.Title;
                         nextUpWindow.Closed += (s, e) => nextUpWindow = null; // set nextUpWindow to null when closed
                     }
+                });
+            }
+
+            if (nextUpWindow == null && IsVisible == false && songInfo.Thumbnail != null && currentTitle != songInfo.Title)
+            {
+                createNewNextUpWindow();
+            }
+            else if (nextUpWindow != null && !onlyThumbnailChanged)
+            {
+                Dispatcher.Invoke(() =>
+                {
+                    nextUpWindow?.Close(); // must be cleared by the Closed event
+                });
+                createNewNextUpWindow();
+            }
+            else if (nextUpWindow != null && songInfo.Thumbnail != null)
+            {
+                Dispatcher.Invoke(() =>
+                {
+                    nextUpWindow?.UpdateThumbnail(Helper.GetThumbnail(songInfo.Thumbnail));
                 });
             }
         }
@@ -401,6 +517,25 @@ public partial class MainWindow : MicaWindow
         }
     }
 
+    private void MediaManager_OnAnySessionClosed(MediaSession mediaSession)
+    {
+#if DEBUG
+        Logger.Debug("Session closed: " + (mediaSession.Id).ToString());
+#endif
+        var focusedSession = mediaManager.GetFocusedSession();
+
+        if (focusedSession == null)
+        {
+            taskbarWindow?.UpdateUi("-", "-", null, GlobalSystemMediaTransportControlsSessionPlaybackStatus.Closed);
+        }
+        else
+        {
+            var songInfo = focusedSession.ControlSession.TryGetMediaPropertiesAsync().GetAwaiter().GetResult();
+            var playbackInfo = focusedSession.ControlSession.GetPlaybackInfo();
+            taskbarWindow?.UpdateUi(songInfo.Title, songInfo.Artist, Helper.GetThumbnail(songInfo.Thumbnail), playbackInfo.PlaybackStatus, playbackInfo.Controls);
+        }
+    }
+
     private static IntPtr SetHook(LowLevelKeyboardProc proc) // set the keyboard hook
     {
         using (Process curProcess = Process.GetCurrentProcess())
@@ -421,6 +556,16 @@ public partial class MainWindow : MicaWindow
             if (vkCode == 0xB3 || vkCode == 0xB0 || vkCode == 0xB1 || vkCode == 0xB2 // Play/Pause, next, previous, stop
                 || vkCode == 0xAD || vkCode == 0xAE || vkCode == 0xAF) // Mute, Volume Down, Volume Up
             {
+                long currentTime = Environment.TickCount64;
+
+                // debounce to prevent hangs with rapid key presses
+                if ((currentTime - _lastFlyoutTime) < 500) // 500ms debounce time
+                {
+                    return CallNextHookEx(_hookId, nCode, wParam, lParam);
+                }
+
+                _lastFlyoutTime = currentTime;
+
                 ShowMediaFlyout();
             }
 
@@ -451,7 +596,7 @@ public partial class MainWindow : MicaWindow
         return CallNextHookEx(_hookId, nCode, wParam, lParam);
     }
 
-    private async void ShowMediaFlyout()
+    public async void ShowMediaFlyout()
     {
         if (mediaManager.GetFocusedSession() == null ||
             !SettingsManager.Current.MediaFlyoutEnabled ||
@@ -501,7 +646,7 @@ public partial class MainWindow : MicaWindow
         }
         catch (TaskCanceledException)
         {
-            Debug.WriteLine("Media flyout hide task canceled.");
+            // task was canceled, do nothing
         }
     }
 
@@ -624,7 +769,7 @@ public partial class MainWindow : MicaWindow
                 BackgroundImageStyle3.Visibility = SettingsManager.Current.MediaFlyoutBackgroundBlur == 3 ? Visibility.Visible : Visibility.Collapsed;
 
                 // acrylic effect setting
-                if (SettingsManager.Current.MediaFlyoutAcrylicWindowEnabled != _acrylicEnabled 
+                if (SettingsManager.Current.MediaFlyoutAcrylicWindowEnabled != _acrylicEnabled
                 || SettingsManager.Current.AppTheme != _themeOption) // if theme changes, reapply acrylic for updated background color
                 {
                     _acrylicEnabled = SettingsManager.Current.MediaFlyoutAcrylicWindowEnabled;
@@ -695,7 +840,7 @@ public partial class MainWindow : MicaWindow
         {
             int extraWidth = SettingsManager.Current.RepeatEnabled ? 36 : 0;
             extraWidth += SettingsManager.Current.ShuffleEnabled ? 36 : 0;
-            extraWidth += SettingsManager.Current.PlayerInfoEnabled ? 72 : 0;
+            extraWidth += SettingsManager.Current.PlayerInfoEnabled ? 72 : 72; // disabled player info should temporarily keep the widget the same width as no one seems to like the small version
 
             int extraHeight = SettingsManager.Current.SeekbarEnabled && _mediaSessionSupportsSeekbar ? 36 : 0;
 
@@ -720,7 +865,7 @@ public partial class MainWindow : MicaWindow
             }
             else // normal layout
             {
-                Height = 116 + extraHeight;
+                Height = 112 + extraHeight;
                 Width = 310 - 72 + extraWidth;
                 BodyStackPanel.Orientation = Orientation.Vertical;
                 BodyStackPanel.Width = 194 - 72 + extraWidth;
@@ -919,10 +1064,62 @@ public partial class MainWindow : MicaWindow
         }
     }
 
+    private void CleanupResources()
+    {
+        // should be handled automatically on app exit but just in case
+        try
+        {
+            // unsubscribe from events
+            mediaManager.OnAnyMediaPropertyChanged -= MediaManager_OnAnyMediaPropertyChanged;
+            mediaManager.OnAnyPlaybackStateChanged -= CurrentSession_OnPlaybackStateChanged;
+            mediaManager.OnAnyTimelinePropertyChanged -= MediaManager_OnAnyTimelinePropertyChanged;
+            mediaManager.OnAnySessionClosed -= MediaManager_OnAnySessionClosed;
+
+            // dispose managed resources
+            _positionTimer?.Change(Timeout.Infinite, Timeout.Infinite);
+            _positionTimer?.Dispose();
+            cts?.Cancel();
+            cts?.Dispose();
+
+            // unhook keyboard hook
+            if (_hookId != IntPtr.Zero)
+            {
+                UnhookWindowsHookEx(_hookId);
+                _hookId = IntPtr.Zero;
+            }
+
+            // clean up other resources
+            if (lockWindow?.IsLoaded == true)
+                lockWindow.Close();
+
+            if (nextUpWindow?.IsLoaded == true)
+                nextUpWindow.Close();
+
+            if (taskbarWindow?.IsLoaded == true)
+                taskbarWindow.Close();
+
+            // dispose mutex
+            singleton?.Dispose();
+
+            // flush and close NLog
+            NLog.LogManager.Shutdown();
+        }
+        catch (ObjectDisposedException)
+        {
+            // harmless shutdown exceptions
+        }
+    }
+
     protected override void OnClosed(EventArgs e)
     {
-        UnhookWindowsHookEx(_hookId);
-        base.OnClosed(e);
+        try
+        {
+            CleanupResources();
+        }
+        finally
+        {
+            base.OnClosed(e);
+        }
     }
 
     internal static class Helper
@@ -982,33 +1179,100 @@ public partial class MainWindow : MicaWindow
     private static extern IntPtr GetModuleHandle(string lpModuleName);
 
 
-    private void MicaWindow_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e) // keep the flyout open when mouse is over
+    private void MicaWindow_MouseEnter(object sender, MouseEventArgs e) // keep the flyout open when mouse is over
     {
         ShowMediaFlyout();
     }
 
     private void NotifyIconQuit_Click(object sender, RoutedEventArgs e)
     {
-        System.Windows.Application.Current.Shutdown();
+        try
+        {
+            CleanupResources();
+        }
+        finally
+        {
+            Application.Current.Shutdown();
+        }
     }
 
-    private void MicaWindow_Loaded(object sender, RoutedEventArgs e)
+    private async void MicaWindow_Loaded(object sender, RoutedEventArgs e)
     {
         Hide();
         UpdateUILayout();
         ThemeManager.ApplySavedTheme();
+
+        // add tray icon if not hidden
+        try
+        {
+            if (!SettingsManager.Current.NIconHide)
+            {
+                nIcon.Visibility = Visibility.Visible;
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger.Error(ex, "Failed to initialize tray icon");
+        }
+
+        try
+        {
+            await LicenseManager.Instance.InitializeAsync();
+
+            // Sync license status from LicenseManager to SettingsManager
+            SettingsManager.Current.IsPremiumUnlocked = LicenseManager.Instance.IsPremiumUnlocked;
+            SettingsManager.Current.IsStoreVersion = LicenseManager.Instance.IsStoreVersion;
+            SettingsManager.SaveSettings();
+
+            Logger.Info($"License synced on startup - Store: {SettingsManager.Current.IsStoreVersion}, Premium: {SettingsManager.Current.IsPremiumUnlocked}");
+        }
+        catch (Exception ex)
+        {
+            Logger.Error(ex, "Failed to initialize license");
+        }
+
+        taskbarWindow = new TaskbarWindow();
+        UpdateTaskbar();
+    }
+
+    public void RecreateTaskbarWindow()
+    {
+        try
+        {
+            Logger.Info("Recreating Taskbar Widget window");
+
+            if (taskbarWindow != null)
+            {
+                try
+                {
+                    taskbarWindow.Close();
+                }
+                catch { }
+
+                taskbarWindow = null;
+            }
+
+            taskbarWindow = new();
+            UpdateTaskbar();
+
+            Logger.Info("Taskbar Widget window recreated successfully");
+        }
+        catch (Exception ex)
+        {
+            Logger.Error(ex, "Failed to recreate Taskbar Widget window");
+        }
     }
 
     private void nIcon_LeftClick(Wpf.Ui.Tray.Controls.NotifyIcon sender, RoutedEventArgs e) // change the behavior of the tray icon
     {
-        if (SettingsManager.Current.nIconLeftClick == 0)
+        if (SettingsManager.Current.NIconLeftClick == 0)
         {
             openSettings(sender, e);
             //Wpf.Ui.Appearance.ApplicationThemeManager.Apply(ApplicationTheme.Light, WindowBackdropType.Mica); // to change the theme
             //ThemeService themeService = new ThemeService();
             //themeService.ChangeTheme(MicaWPF.Core.Enums.WindowsTheme.Light);
         }
-        else if (SettingsManager.Current.nIconLeftClick == 1) ShowMediaFlyout();
+        else if (SettingsManager.Current.NIconLeftClick == 1) ShowMediaFlyout();
     }
 
     private Task PauseOtherSessions(MediaSession currentMediaSession)
