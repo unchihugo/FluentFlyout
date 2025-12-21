@@ -1,12 +1,6 @@
 ﻿using Microsoft.Toolkit.Uwp.Notifications;
-using System;
-using System.Collections.Generic;
-using System.Drawing.Text;
-using System.IO;
-using System.Linq;
+using NLog;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FluentFlyout.Classes;
 
@@ -14,23 +8,32 @@ namespace FluentFlyout.Classes;
 [Guid("79086E7F-0D65-4507-82B6-85F2288930D5")]
 internal static class Notifications
 {
+    private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+    
     /// <summary>
     /// Handle toast notification activation
     /// </summary>
     public static void HandleNotificationActivation(ToastNotificationActivatedEventArgsCompat toastArgs)
     {
-        // Obtain the arguments from the notification
-        ToastArguments args = ToastArguments.Parse(toastArgs.Argument);
-
-        // Check if the user clicked the "View Changes" button
-        if (args.TryGetValue("action", out string action) && action == "viewChanges")
+        try
         {
-            // Open the changelog URL in the default web browser
-            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
+            // Obtain the arguments from the notification
+            ToastArguments args = ToastArguments.Parse(toastArgs.Argument);
+
+            // Check if the user clicked the "View Changes" button
+            if (args.TryGetValue("action", out string action) && action == "viewChanges")
             {
-                FileName = "https://fluentflyout.com/changelog/",
-                UseShellExecute = true
-            });
+                // Open the changelog URL in the default web browser
+                System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
+                {
+                    FileName = "https://fluentflyout.com/changelog/",
+                    UseShellExecute = true
+                });
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger.Error(ex, "Failed to handle notification activation");
         }
     }
 
@@ -70,18 +73,29 @@ internal static class Notifications
 
         if (lastKnownVersion != currentVersion)
         {
-            // updated app
-            new ToastContentBuilder()
-                //.AddAppLogoOverride(new Uri("file:///" + Directory.GetCurrentDirectory() + "/Resources/FluentFlyout2.ico"), ToastGenericAppLogoCrop.None
-                .AddText("FluentFlyout has been updated!")
-                .AddText($"You are now on {currentVersion}.")
-                .AddButton(new ToastButton()
-                    .SetContent("View Updates")
-                    .AddArgument("action", "viewChanges")
-                    .SetBackgroundActivation())
-                .Show();
+            try
+            {
 
-            return;
+                // updated app
+                new ToastContentBuilder()
+                    //.AddAppLogoOverride(new Uri("file:///" + Directory.GetCurrentDirectory() + "/Resources/FluentFlyout2.ico"), ToastGenericAppLogoCrop.None
+                    .AddText("FluentFlyout has been updated!")
+                    .AddText($"You are now on {currentVersion}.")
+                    .AddButton(new ToastButton()
+                        .SetContent("View Updates")
+                        .AddArgument("action", "viewChanges")
+                        .SetBackgroundActivation())
+                    .Show();
+
+                Logger.Info($"Displayed update notification for {currentVersion}.");
+
+                return;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "Failed to show update notification");
+                return;
+            }
         }
     }
 }

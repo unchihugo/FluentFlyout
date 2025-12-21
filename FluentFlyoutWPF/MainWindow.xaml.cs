@@ -182,6 +182,8 @@ public partial class MainWindow : MicaWindow
                 SettingsManager.Current.LastKnownVersion = "debug";
             }
 
+            Logger.Info($"Current version: {SettingsManager.Current.LastKnownVersion}");
+
             Notifications.ShowFirstOrUpdateNotification(previousVersion, SettingsManager.Current.LastKnownVersion);
         });
     }
@@ -388,8 +390,15 @@ public partial class MainWindow : MicaWindow
 
     private void openLogsFolder(object? sender, EventArgs e)
     {
-        string logFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "FluentFlyout");
-        Process.Start("explorer.exe", logFolderPath);
+        try
+        {
+            string logFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "FluentFlyout");
+            Process.Start("explorer.exe", logFolderPath);
+        }
+        catch (Exception ex)
+        {
+            Logger.Error(ex, "Failed to open logs folder");
+        }
     }
 
     private void pauseOtherMediaSessionsIfNeeded(MediaSession mediaSession)
