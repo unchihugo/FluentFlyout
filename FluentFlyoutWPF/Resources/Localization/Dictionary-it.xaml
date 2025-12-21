@@ -34,7 +34,7 @@ nasconde ripeti, riproduzione casuale e le informazioni del player</system:Strin
     <system:String x:Key="MediaFlyoutAlwaysDisplay">Mostra sempre</system:String>
     <system:String x:Key="CenterTitleArtistTitle">Centra Titolo e Artista</system:String>
     <system:String x:Key="CenterTitleArtistDescription">Alinea il testo al cantro invece cha a sinistra</system:String>
-    <system:String x:Key="ShowMediaPlayerNameTitle">Mostra il nome del media</system:String>
+    <system:String x:Key="ShowMediaPlayerNameTitle">Mostra il nome del riproduttore del media</system:String>
     <system:String x:Key="RepeatButtonTitle">Tasto ripetizione*</system:String>
     <system:String x:Key="RepeatButtonDescription">Scegliere tra ripeti tutti e ripeti la singola canzone, aumente la larghezza del flyout</system:String>
     <system:String x:Key="ShuffleButtonTitle">Pulsante ripetizione casuale*</system:String>
