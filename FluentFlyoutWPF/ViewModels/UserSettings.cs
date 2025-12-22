@@ -133,7 +133,7 @@ public partial class UserSettings : ObservableObject
     }
 
     /// <summary>
-    /// Enable the 'Next Up' Advaned animation
+    /// Enable the 'Next Up' Advanced animation
     /// </summary>
     [ObservableProperty]
     public partial bool IsNextUpAdvancedAnimationEnabled { get; set; }
