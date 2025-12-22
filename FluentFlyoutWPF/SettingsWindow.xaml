@@ -327,7 +327,11 @@
                                     <TextBlock Text="{DynamicResource TaskbarWidgetClickableDescription}" FontSize="12" Opacity="0.5"/>
                                 </StackPanel>
                             </ui:CardControl.Header>
-                            <controls:ToggleSwitch IsChecked="{Binding TaskbarWidgetClickable, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}"/>
+                            <ComboBox SelectedIndex="{Binding TaskbarWidgetTriggerType, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}">
+                                <ComboBoxItem Content="{DynamicResource TaskbarWidgetTrigger_None}"/>
+                                <ComboBoxItem Content="{DynamicResource TaskbarWidgetTrigger_OnHover}"/>
+                                <ComboBoxItem Content="{DynamicResource TaskbarWidgetTrigger_Clicked}"/>
+                            </ComboBox>
                         </ui:CardControl>
                         <ui:CardControl Grid.Row="7" Icon="{ui:SymbolIcon ColorBackground24}" Margin="0,0,0,3">
                             <ui:CardControl.Header>
@@ -380,6 +384,7 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
                         <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
                             <Border CornerRadius="10" ClipToBounds="True" Width="164" Height="98">
@@ -418,6 +423,15 @@
                                 <ui:TextBox Name="NextUpDurationTextBox" Width="60" ClearButtonEnabled="False" Text="{Binding NextUpDurationText, Mode=TwoWay}"/>
                                 <TextBlock Text="{DynamicResource MillisecondsUnit}" FontSize="14" FontWeight="Regular" Margin="10,0,0,0" VerticalAlignment="Center"/>
                             </StackPanel>
+                        </ui:CardControl>
+                        <ui:CardControl Grid.Row="4" Icon="{ui:SymbolIcon CubeQuick24}" Margin="0,0,0,3">
+                            <ui:CardControl.Header>
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock Text="{DynamicResource NextUpAdvancedAnimation}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
+                                    <TextBlock Text="{DynamicResource NextUpAdvancedAnimationDescription}" FontSize="12" Opacity="0.5"/>
+                                </StackPanel>
+                            </ui:CardControl.Header>
+                            <controls:ToggleSwitch Name="NextUpAdvancedAnimationSwitch"  IsChecked="{Binding IsNextUpAdvancedAnimationEnabled, Mode=TwoWay}"/>
                         </ui:CardControl>
                     </Grid>
 

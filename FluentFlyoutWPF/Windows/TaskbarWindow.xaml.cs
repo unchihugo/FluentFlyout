@@ -153,20 +153,14 @@ public partial class TaskbarWindow : Window
 
     private void Grid_MouseEnter(object sender, MouseEventArgs e)
     {
-        if (!SettingsManager.Current.TaskbarWidgetClickable || String.IsNullOrEmpty(SongTitle.Text + SongArtist.Text)) return;
+        if (SettingsManager.Current.TaskbarWidgetTriggerType == 0 || String.IsNullOrEmpty(SongTitle.Text + SongArtist.Text)) return;
 
-        SolidColorBrush targetBackgroundBrush;
-        // hover effects with animations, hard-coded colors because I can't find the resource brushes
-        if (ApplicationThemeManager.GetSystemTheme() == SystemTheme.Dark)
-        { // dark mode
-            targetBackgroundBrush = new SolidColorBrush(Color.FromArgb(197, 255, 255, 255)) { Opacity = 0.075 };
-            TopBorder.BorderBrush = new SolidColorBrush(Color.FromArgb(93, 255, 255, 255)) { Opacity = 0.25 };
-        }
-        else
-        { // light mode
-            targetBackgroundBrush = new SolidColorBrush(Color.FromArgb(255, 255, 255, 255)) { Opacity = 0.6 };
-            TopBorder.BorderBrush = new SolidColorBrush(Color.FromArgb(93, 255, 255, 255)) { Opacity = 1 };
-        }
+        // hover effects with animations
+        var brush = (SolidColorBrush)Application.Current.Resources["TextFillColorSecondaryBrush"];
+        var targetBackgroundBrush = new SolidColorBrush(brush.Color) { Opacity = 0.075 };
+
+        var secondBrush = (SolidColorBrush)Application.Current.Resources["TextFillColorDisabledBrush"];
+        TopBorder.BorderBrush = new SolidColorBrush(secondBrush.Color) { Opacity = 0.25 };
 
         // Animate background
         var backgroundAnimation = new ColorAnimation
@@ -178,18 +172,24 @@ public partial class TaskbarWindow : Window
 
         var backgroundOpacityAnimation = new DoubleAnimation
         {
-            To = targetBackgroundBrush.Opacity,
+            To = 0.075,
             Duration = TimeSpan.FromMilliseconds(200),
             EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut }
         };
 
         MainBorder.Background.BeginAnimation(SolidColorBrush.ColorProperty, backgroundAnimation);
         MainBorder.Background.BeginAnimation(SolidColorBrush.OpacityProperty, backgroundOpacityAnimation);
+
+        if (SettingsManager.Current.TaskbarWidgetTriggerType == 1)
+        {
+            var mainWindow = (MainWindow)Application.Current.MainWindow;
+            mainWindow.ShowMediaFlyout();
+        }
     }
 
     private void Grid_MouseLeave(object sender, MouseEventArgs e)
     {
-        if (!SettingsManager.Current.TaskbarWidgetClickable || String.IsNullOrEmpty(SongTitle.Text + SongArtist.Text)) return;
+        if (SettingsManager.Current.TaskbarWidgetTriggerType == 0 || String.IsNullOrEmpty(SongTitle.Text + SongArtist.Text)) return;
 
         // Animate back to transparent
         var backgroundAnimation = new ColorAnimation
@@ -214,10 +214,12 @@ public partial class TaskbarWindow : Window
 
     private void Grid_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
     {
-        if (!SettingsManager.Current.TaskbarWidgetClickable || _mainWindow == null) return;
-
-        // flyout main flyout when clicked
-        _mainWindow.ShowMediaFlyout();
+        if (SettingsManager.Current.TaskbarWidgetTriggerType == 2)
+        {
+            // flyout main flyout when clicked
+            var mainWindow = (MainWindow)Application.Current.MainWindow;
+            mainWindow.ShowMediaFlyout();
+        }
     }
 
     private void SetupWindow()

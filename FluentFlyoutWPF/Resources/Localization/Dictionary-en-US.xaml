@@ -46,8 +46,11 @@ hides repeat, shuffle and player info</System:String>
     <System:String x:Key="TaskbarWidgetPosition">Widget Position</System:String>
     <System:String x:Key="TaskbarWidgetPaddingTitle">Add Padding for Windows Widgets button</System:String>
     <System:String x:Key="TaskbarWidgetPaddingDescription">Turn this feature on if you have Windows Widgets enabled</System:String>
-    <System:String x:Key="TaskbarWidgetClickableTitle">Click to open Media Flyout when media is Present</System:String>
-    <System:String x:Key="TaskbarWidgetClickableDescription">If media flyout is enabled, it will open when you click the taskbar widget</System:String>
+    <System:String x:Key="TaskbarWidgetClickableTitle">Interactive way to open Media Flyout when media is Present</System:String>
+    <System:String x:Key="TaskbarWidgetClickableDescription">If media flyout is enabled, it will be opened when you choose how to interact with the widget</System:String>
+    <System:String x:Key="TaskbarWidgetTrigger_None">None</System:String>
+    <System:String x:Key="TaskbarWidgetTrigger_OnHover">OnHover</System:String>
+    <System:String x:Key="TaskbarWidgetTrigger_Clicked">Click</System:String>
     <System:String x:Key="TaskbarWidgetBackgroundBlurTitle">Background Blur</System:String>
     <System:String x:Key="TaskbarWidgetBackgroundBlurDescription">Add background blur effect to the taskbar widget</System:String>
     <System:String x:Key="TaskbarWidgetHideCompletelyTitle">Hide Completely When No Media Is Present</System:String>
@@ -72,7 +75,9 @@ Note: As an open-source project, these features are also available for free via 
     <System:String x:Key="EnableNextUpTitle">Enable Next Up Flyout (Experimental)</System:String>
     <System:String x:Key="EnableNextUpDescription">Shows what's next when a song/video ends</System:String>
     <System:String x:Key="NextUpStayDurationTitle">Next Up Stay Duration</System:String>
-    <System:String x:Key="NextUpStayDurationDescription">(default: 2000 ms)</System:String>
+    <System:String x:Key="NextUpStayDurationDescription">(default: 2500 ms)</System:String>
+    <System:String x:Key="NextUpAdvancedAnimation">Enable Fancy Animations for Next Up Window</System:String>
+    <System:String x:Key="NextUpAdvancedAnimationDescription">Enable a stylish animation with a blur effect for Next Up Window. Disabling this option will display song information immediately and save performance resources.</System:String>
     <System:String x:Key="LockKeysCustomizationTitle">Lock Keys Customization</System:String>
     <System:String x:Key="LockKeysDescription" xml:space="preserve">Check your lock key status at a glance. Appears after pressing Caps Lock, Num Lock or Scroll Lock. Convenient for laptops/keyboards without lock key indicators.</System:String>
     <System:String x:Key="EnableLockKeysTitle">Enable Lock Keys Flyout</System:String>
