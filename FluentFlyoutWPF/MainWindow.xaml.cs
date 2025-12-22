@@ -33,9 +33,13 @@ public partial class MainWindow : MicaWindow
     [DllImport("user32.dll")]
     public static extern void keybd_event(byte virtualKey, byte scanCode, uint flags, IntPtr extraInfo);
 
+    [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+    private static extern int RegisterWindowMessage(string lpString);
+
     private const int WH_KEYBOARD_LL = 13;
     private const int WM_KEYDOWN = 0x0100;
     private const int WM_KEYUP = 0x0101;
+    private int WM_TASKBARCREATED;
 
     private IntPtr _hookId = IntPtr.Zero;
     private LowLevelKeyboardProc _hookProc;
@@ -158,6 +162,8 @@ public partial class MainWindow : MicaWindow
         mediaManager.OnAnyPlaybackStateChanged += CurrentSession_OnPlaybackStateChanged;
         mediaManager.OnAnyTimelinePropertyChanged += MediaManager_OnAnyTimelinePropertyChanged;
         mediaManager.OnAnySessionClosed += MediaManager_OnAnySessionClosed;
+
+        WM_TASKBARCREATED = RegisterWindowMessage("TaskbarCreated");
 
         _positionTimer = new Timer(SeekbarUpdateUi, null, Timeout.Infinite, Timeout.Infinite);
         if (_seekBarEnabled && mediaManager.GetFocusedSession() is { } session)
@@ -1195,13 +1201,10 @@ public partial class MainWindow : MicaWindow
         }
     }
 
-    [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-    private static extern int RegisterWindowMessage(string lpString);
-
     private nint WndProc(nint hwnd, int msg, nint wParam, nint lParam, ref bool handled)
     {
         // Listen for TaskbarCreated message (when explorer.exe restarts)
-        if (msg == RegisterWindowMessage("TaskbarCreated"))
+        if (msg == WM_TASKBARCREATED)
         {
             Logger.Info("TaskbarCreated message received - recreating tray icon");
             nIcon.Visibility = Visibility.Collapsed; // remove tray icon
