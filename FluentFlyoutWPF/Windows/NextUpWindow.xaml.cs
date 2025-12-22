@@ -59,7 +59,7 @@ public partial class NextUpWindow : MicaWindow
         Show();
         mainWindow.OpenAnimation(this);
         double duration = mainWindow.getDuration();
-        if(duration==0)
+        if(duration==0||!SettingsManager.Current.IsNextUpAdvancedAnimationEnabled)
         {
             BackgroundBorder.Opacity = 0;
             ImageScale.ScaleX = 1;
@@ -129,8 +129,8 @@ public partial class NextUpWindow : MicaWindow
         // Title Y
         AddAnim("TitleTranslate", "Y", 30, -2, 0.9, 0, new CircleEase { EasingMode = EasingMode.EaseOut });
         // Title Scale
-        AddAnim("TitleScale", "ScaleX", null, 1.3, 0.7, 0, new CubicEase { EasingMode = EasingMode.EaseOut });
-        AddAnim("TitleScale", "ScaleY", null, 1.3, 0.7, 0, new CubicEase { EasingMode = EasingMode.EaseOut });
+        AddAnim("TitleScale", "ScaleX", null, 1.2, 0.7, 0, new CubicEase { EasingMode = EasingMode.EaseOut });
+        AddAnim("TitleScale", "ScaleY", null, 1.2, 0.7, 0, new CubicEase { EasingMode = EasingMode.EaseOut });
         // NextTitle fade in
         AddAnim("NextTitle", "Opacity", 0, 1, 0.5, 0);
         // Title blur
