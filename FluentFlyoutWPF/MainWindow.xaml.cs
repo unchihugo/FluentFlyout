@@ -9,6 +9,7 @@ using MicaWPF.Core.Extensions;
 using Microsoft.Win32;
 using System.Diagnostics;
 using System.IO;
+using System.Windows.Interop;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
@@ -74,7 +75,6 @@ public partial class MainWindow : MicaWindow
 
     public MainWindow()
     {
-        Logger.Info("Starting FluentFlyout MainWindow");
         DataContext = this;
         WindowHelper.SetNoActivate(this); // prevents some fullscreen apps from minimizing
         InitializeComponent();
@@ -100,6 +100,8 @@ public partial class MainWindow : MicaWindow
 
             Environment.Exit(0);
         }
+
+        Logger.Info("Starting FluentFlyout MainWindow");
 
         // in the existing instance, listen for the signal to open settings
         Task.Run(() =>
@@ -1193,6 +1195,25 @@ public partial class MainWindow : MicaWindow
         }
     }
 
+    [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+    private static extern int RegisterWindowMessage(string lpString);
+
+    private nint WndProc(nint hwnd, int msg, nint wParam, nint lParam, ref bool handled)
+    {
+        // Listen for TaskbarCreated message (when explorer.exe restarts)
+        if (msg == RegisterWindowMessage("TaskbarCreated"))
+        {
+            Logger.Info("TaskbarCreated message received - recreating tray icon");
+            nIcon.Visibility = Visibility.Collapsed; // remove tray icon
+
+            if (SettingsManager.Current.NIconHide)
+                return 0;
+
+            nIcon.Visibility = Visibility.Visible; // re-add tray icon
+        }
+        return 0;
+    }
+
     private async void MicaWindow_Loaded(object sender, RoutedEventArgs e)
     {
         Hide();
@@ -1205,6 +1226,12 @@ public partial class MainWindow : MicaWindow
             if (!SettingsManager.Current.NIconHide)
             {
                 nIcon.Visibility = Visibility.Visible;
+            }
+
+            HwndSource source = PresentationSource.FromVisual(this) as HwndSource;
+            if (source != null)
+            {
+                source.AddHook(WndProc);
             }
         }
         catch (Exception ex)

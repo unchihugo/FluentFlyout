@@ -584,7 +584,7 @@ public partial class TaskbarWindow : Window
             {
                 ControlsStackPanel.Visibility = Visibility.Visible;
             }
-            
+
             Visibility = Visibility.Visible;
 
             // defer UpdatePosition to allow WPF layout to complete first
@@ -688,7 +688,10 @@ public partial class TaskbarWindow : Window
                 Rect widgetRect = _widgetElement.Current.BoundingRectangle;
 
                 if (widgetRect == Rect.Empty) // widget shown before but most likely disabled now
+                {
+                    _widgetElement = null; // reset cache
                     return (false, Rect.Empty);
+                }
 
                 return (true, widgetRect);
             }
@@ -703,11 +706,13 @@ public partial class TaskbarWindow : Window
         catch (COMException ex)
         {
             Logger.Error(ex, "COM error retrieving taskbar widgets button Rect.");
+            _widgetElement = null; // reset cache on error
             return (false, Rect.Empty);
         }
         catch (Exception ex)
         {
             Logger.Error(ex, "Error retrieving taskbar widgets button Rect.");
+            _widgetElement = null; // reset cache on error
             return (false, Rect.Empty);
         }
     }
