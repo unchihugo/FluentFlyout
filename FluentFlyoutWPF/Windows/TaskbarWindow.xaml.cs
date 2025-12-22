@@ -103,6 +103,8 @@ public partial class TaskbarWindow : Window
     // reference to main window for flyout functions
     private MainWindow? _mainWindow;
     private bool _isPaused;
+    private int _recoveryAttempts = 0;
+    private int _maxRecoveryAttempts = 5;
     //private Task _crossFadeTask = Task.CompletedTask;
 
     public TaskbarWindow()
@@ -121,7 +123,7 @@ public partial class TaskbarWindow : Window
         _dpiScaleY = 0;
 
         _timer = new DispatcherTimer();
-        _timer.Interval = TimeSpan.FromMilliseconds(2500); // slow auto-update for display changes
+        _timer.Interval = TimeSpan.FromMilliseconds(1500); // slow auto-update for display changes
         _timer.Tick += (s, e) => UpdatePosition();
         _timer.Start();
 
@@ -262,10 +264,32 @@ public partial class TaskbarWindow : Window
             var interop = new WindowInteropHelper(this);
             IntPtr taskbarHandle = FindWindow("Shell_TrayWnd", null);
 
-            if (interop.Handle == IntPtr.Zero)
+            if (interop.Handle == IntPtr.Zero) // window handle lost, try to reset
             {
                 _timer.Stop();
-                Logger.Warn("Taskbar Widget window handle is zero, stopping position updates.");
+
+                if (_recoveryAttempts >= _maxRecoveryAttempts)
+                {
+                    Logger.Warn("Taskbar Widget window handle is zero and recovery already attempted, stopping updates.");
+                    return; // already tried recovery, don't loop
+                }
+
+                Logger.Warn("Taskbar Widget window handle is zero, attempting recovery...");
+
+                Dispatcher.BeginInvoke(async () =>
+                {
+                    await Task.Delay(1000); // delay before recovery to let taskbar stabilize
+                    try
+                    {
+                        _mainWindow?.RecreateTaskbarWindow();
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.Error(ex, "Failed to signal MainWindow to recover Taskbar Widget window");
+                        _recoveryAttempts++;
+                    }
+                }, DispatcherPriority.Background);
+
                 return;
             }
 
@@ -645,24 +669,47 @@ public partial class TaskbarWindow : Window
     /// <see cref="Rect.Empty"/> if not found.</returns>
     private (bool, Rect) GetTaskbarWidgetRect(IntPtr taskbarHandle)
     {
-        // find widget button in XAML
-        if (_widgetElement == null)
+        try
         {
-            AutomationElement root = AutomationElement.FromHandle(taskbarHandle);
+            // find widget button in XAML
+            if (_widgetElement == null)
+            {
+                AutomationElement root = AutomationElement.FromHandle(taskbarHandle);
 
-            _widgetElement = root.FindFirst(TreeScope.Descendants,
-                new PropertyCondition(AutomationElement.AutomationIdProperty, "WidgetsButton"));
+                _widgetElement = root.FindFirst(TreeScope.Descendants,
+                    new PropertyCondition(AutomationElement.AutomationIdProperty, "WidgetsButton"));
+            }
+
+            if (_widgetElement == null) // widget most likely disabled
+                return (false, Rect.Empty);
+
+            try
+            {
+                Rect widgetRect = _widgetElement.Current.BoundingRectangle;
+
+                if (widgetRect == Rect.Empty) // widget shown before but most likely disabled now
+                    return (false, Rect.Empty);
+
+                return (true, widgetRect);
+            }
+            catch (ElementNotAvailableException)
+            {
+                // element became stale, reset cache
+                Logger.Warn("Taskbar Widgets button element became stale, resetting cache.");
+                _widgetElement = null;
+                return (false, Rect.Empty);
+            }
         }
-
-        if (_widgetElement == null) // widget most likely disabled
+        catch (COMException ex)
+        {
+            Logger.Error(ex, "COM error retrieving taskbar widgets button Rect.");
             return (false, Rect.Empty);
-
-        Rect widgetRect = _widgetElement.Current.BoundingRectangle;
-
-        if (widgetRect == Rect.Empty) // widget shown before but most likely disabled now
+        }
+        catch (Exception ex)
+        {
+            Logger.Error(ex, "Error retrieving taskbar widgets button Rect.");
             return (false, Rect.Empty);
-
-        return (true, widgetRect);
+        }
     }
 
     // event handlers for media control buttons

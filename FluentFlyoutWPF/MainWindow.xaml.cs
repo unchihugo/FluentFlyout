@@ -28,7 +28,7 @@ namespace FluentFlyoutWPF;
 public partial class MainWindow : MicaWindow
 {
     private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
-    
+
     [DllImport("user32.dll")]
     public static extern void keybd_event(byte virtualKey, byte scanCode, uint flags, IntPtr extraInfo);
 
@@ -420,6 +420,7 @@ public partial class MainWindow : MicaWindow
 
     // for determining whether MediaPropertyChanged has no changes
     private string previousMediaProperty = "";
+    private string previousMediaPropertyThumbnail = "";
     private void MediaManager_OnAnyMediaPropertyChanged(MediaSession mediaSession, GlobalSystemMediaTransportControlsSessionMediaProperties mediaProperties)
     {
 #if DEBUG
@@ -434,11 +435,18 @@ public partial class MainWindow : MicaWindow
         var songInfo = mediaSession.ControlSession.TryGetMediaPropertiesAsync().GetAwaiter().GetResult();
         var playbackInfo = mediaSession.ControlSession.GetPlaybackInfo();
 
-        string check = songInfo.Title + songInfo.Artist + playbackInfo.PlaybackStatus + songInfo.Thumbnail;
+        string check = songInfo.Title + songInfo.Artist + playbackInfo.PlaybackStatus;
+        string checkThumbnail = songInfo.Thumbnail?.GetHashCode().ToString() ?? "Null";
+        bool onlyThumbnailChanged = false;
         if (previousMediaProperty == check)
+        {
+            onlyThumbnailChanged = true;
+            if (previousMediaPropertyThumbnail == checkThumbnail)
             return; // prevent multiple calls for the same song info
+        }
 
         previousMediaProperty = check;
+        previousMediaPropertyThumbnail = checkThumbnail;
 
         taskbarWindow?.UpdateUi(songInfo.Title, songInfo.Artist, Helper.GetThumbnail(songInfo.Thumbnail), playbackInfo.PlaybackStatus, playbackInfo.Controls);
 
@@ -446,7 +454,7 @@ public partial class MainWindow : MicaWindow
 
         if (SettingsManager.Current.NextUpEnabled && !FullscreenDetector.IsFullscreenApplicationRunning()) // show NextUpWindow if enabled in settings
         {
-            if (nextUpWindow == null && IsVisible == false && songInfo.Thumbnail != null && currentTitle != songInfo.Title)
+            void createNewNextUpWindow()
             {
                 Dispatcher.Invoke(() =>
                 {
@@ -456,6 +464,26 @@ public partial class MainWindow : MicaWindow
                         currentTitle = songInfo.Title;
                         nextUpWindow.Closed += (s, e) => nextUpWindow = null; // set nextUpWindow to null when closed
                     }
+                });
+            }
+
+            if (nextUpWindow == null && IsVisible == false && songInfo.Thumbnail != null && currentTitle != songInfo.Title)
+            {
+                createNewNextUpWindow();
+            }
+            else if (nextUpWindow != null && !onlyThumbnailChanged)
+            {
+                Dispatcher.Invoke(() =>
+                {
+                    nextUpWindow?.Close(); // must be cleared by the Closed event
+                });
+                createNewNextUpWindow();
+            }
+            else if (nextUpWindow != null && songInfo.Thumbnail != null)
+            {
+                Dispatcher.Invoke(() =>
+                {
+                    nextUpWindow?.UpdateThumbnail(Helper.GetThumbnail(songInfo.Thumbnail));
                 });
             }
         }
@@ -529,7 +557,7 @@ public partial class MainWindow : MicaWindow
 
                 // debounce to prevent hangs with rapid key presses
                 if ((currentTime - _lastFlyoutTime) < 500) // 500ms debounce time
-                { 
+                {
                     return CallNextHookEx(_hookId, nCode, wParam, lParam);
                 }
 
@@ -738,7 +766,7 @@ public partial class MainWindow : MicaWindow
                 BackgroundImageStyle3.Visibility = SettingsManager.Current.MediaFlyoutBackgroundBlur == 3 ? Visibility.Visible : Visibility.Collapsed;
 
                 // acrylic effect setting
-                if (SettingsManager.Current.MediaFlyoutAcrylicWindowEnabled != _acrylicEnabled 
+                if (SettingsManager.Current.MediaFlyoutAcrylicWindowEnabled != _acrylicEnabled
                 || SettingsManager.Current.AppTheme != _themeOption) // if theme changes, reapply acrylic for updated background color
                 {
                     _acrylicEnabled = SettingsManager.Current.MediaFlyoutAcrylicWindowEnabled;
@@ -1202,6 +1230,34 @@ public partial class MainWindow : MicaWindow
 
         taskbarWindow = new TaskbarWindow();
         UpdateTaskbar();
+    }
+
+    public void RecreateTaskbarWindow()
+    {
+        try
+        {
+            Logger.Info("Recreating Taskbar Widget window");
+
+            if (taskbarWindow != null)
+            {
+                try
+                {
+                    taskbarWindow.Close();
+                }
+                catch { }
+
+                taskbarWindow = null;
+            }
+
+            taskbarWindow = new();
+            UpdateTaskbar();
+
+            Logger.Info("Taskbar Widget window recreated successfully");
+        }
+        catch (Exception ex)
+        {
+            Logger.Error(ex, "Failed to recreate Taskbar Widget window");
+        }
     }
 
     private void nIcon_LeftClick(Wpf.Ui.Tray.Controls.NotifyIcon sender, RoutedEventArgs e) // change the behavior of the tray icon

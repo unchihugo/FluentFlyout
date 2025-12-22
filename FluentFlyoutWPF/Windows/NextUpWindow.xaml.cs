@@ -35,17 +35,16 @@ public partial class NextUpWindow : MicaWindow
             WindowBlurHelper.DisableBlur(this);
         }
 
+        var upNextWidth = StringWidth.GetStringWidth(UpNextTextBlock.Text);
         var titleWidth = StringWidth.GetStringWidth(title);
         var artistWidth = StringWidth.GetStringWidth(artist);
-        
-        if (titleWidth > artistWidth) Width = titleWidth + 142;
-        else Width = artistWidth + 142;
+
+        if (titleWidth > artistWidth) Width = titleWidth + 76 + upNextWidth;
+        else Width = artistWidth + 76 + upNextWidth;
         if (Width > 400) Width = 400; // max width to prevent window from being too wide
         SongTitle.Text = title;
         SongArtist.Text = artist;
-        SongImage.ImageSource = thumbnail;
-        if (SongImage.ImageSource == null) SongImagePlaceholder.Visibility = Visibility.Visible;
-        else SongImagePlaceholder.Visibility = Visibility.Collapsed;
+        UpdateThumbnail(thumbnail);
         Show();
 
         mainWindow.OpenAnimation(this);
@@ -59,5 +58,12 @@ public partial class NextUpWindow : MicaWindow
         }
 
         wait();
+    }
+
+    public void UpdateThumbnail(BitmapImage thumbnail)
+    {
+        SongImage.ImageSource = thumbnail;
+        if (SongImage.ImageSource == null) SongImagePlaceholder.Visibility = Visibility.Visible;
+        else SongImagePlaceholder.Visibility = Visibility.Collapsed;
     }
 }

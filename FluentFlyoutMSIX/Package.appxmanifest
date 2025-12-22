@@ -10,7 +10,7 @@
   <Identity
     Name="unchihugo.FluentFlyout"
     Publisher="CN=49793F74-1457-4B66-A672-4ED3A640FC76"
-    Version="2.3.6.0" />
+    Version="2.4.0.0" />
 
   <Properties>
     <DisplayName>FluentFlyout</DisplayName>

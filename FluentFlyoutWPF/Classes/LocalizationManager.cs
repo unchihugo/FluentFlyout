@@ -1,7 +1,7 @@
 ﻿using FluentFlyout.Classes.Settings;
+using FluentFlyout.Classes.Utils;
 using FluentFlyoutWPF;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Globalization;
 using System.Runtime.CompilerServices;
 using System.Windows;
@@ -39,6 +39,7 @@ public static class LocalizationManager
     }
 
     public static LocalizationState Instance { get; } = new();
+    public static double maxLength = 0;
 
     // current language code (first two letters) for easy access
     public static string LanguageCode { get; set; } = string.Empty;
@@ -138,6 +139,20 @@ public static class LocalizationManager
                 return;
             }
         }
+        //Calculate the Lock Key Flyout text's Max Lenght
+        List<double> Lengths = new List<double>();
+
+        Lengths.Add(StringWidth.GetStringWidth(Application.Current.Resources["LockWindow_InsertPressed"].ToString()));
+
+        var On = Application.Current.Resources["LockWindow_LockOn"].ToString();
+        var Off = Application.Current.Resources["LockWindow_LockOff"].ToString();
+        var OnOffMax = On.Length >= Off.Length ? On + " " : Off + " ";
+
+        Lengths.Add(StringWidth.GetStringWidth(OnOffMax + Application.Current.Resources["LockWindow_CapsLock"].ToString()));
+        Lengths.Add(StringWidth.GetStringWidth(OnOffMax + Application.Current.Resources["LockWindow_NumLock"].ToString()));
+        Lengths.Add(StringWidth.GetStringWidth(OnOffMax + Application.Current.Resources["LockWindow_ScrollLock"].ToString()));
+
+        maxLength = Lengths.Max();
     }
 
     private static void ApplyFlowDirection(string languageCode)
