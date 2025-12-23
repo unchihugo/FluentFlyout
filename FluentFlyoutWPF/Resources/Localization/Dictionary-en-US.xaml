@@ -133,6 +133,7 @@ You can help contribute translations on</System:String>
     <System:String x:Key="NextUpWindow_UpNextText">Up next:</System:String>
     <System:String x:Key="TrayIcon_SettingsOption">Settings</System:String>
     <System:String x:Key="TrayIcon_GitHubRepositoryOption">Repository</System:String>
+    <System:String x:Key="TrayIcon_ViewLogsOption">View logs</System:String>
     <System:String x:Key="TrayIcon_ReportBugOption">Report bug</System:String>
     <System:String x:Key="TrayIcon_QuitOption">Quit FluentFlyout</System:String>
 </ResourceDictionary>

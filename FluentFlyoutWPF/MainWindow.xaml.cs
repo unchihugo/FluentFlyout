@@ -168,7 +168,8 @@ public partial class MainWindow : MicaWindow
         {
             LocalizationManager.ApplyLocalization();
             // show settings to new users
-            if (SettingsManager.Current.LastKnownVersion == "")
+            string previousVersion = SettingsManager.Current.LastKnownVersion;
+            if (previousVersion == "")
                 SettingsWindow.ShowInstance();
 
             try // update last known version. gets the version of the app, works only in release mode
@@ -178,8 +179,12 @@ public partial class MainWindow : MicaWindow
             }
             catch
             {
-                SettingsManager.Current.LastKnownVersion = "debug version";
+                SettingsManager.Current.LastKnownVersion = "debug";
             }
+
+            Logger.Info($"Current version: {SettingsManager.Current.LastKnownVersion}");
+
+            Notifications.ShowFirstOrUpdateNotification(previousVersion, SettingsManager.Current.LastKnownVersion);
         });
     }
 
@@ -381,6 +386,19 @@ public partial class MainWindow : MicaWindow
             FileName = "https://github.com/unchihugo/FluentFlyout",
             UseShellExecute = true
         });
+    }
+
+    private void openLogsFolder(object? sender, EventArgs e)
+    {
+        try
+        {
+            string logFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "FluentFlyout");
+            Process.Start("explorer.exe", logFolderPath);
+        }
+        catch (Exception ex)
+        {
+            Logger.Error(ex, "Failed to open logs folder");
+        }
     }
 
     private void pauseOtherMediaSessionsIfNeeded(MediaSession mediaSession)

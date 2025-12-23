@@ -5,6 +5,7 @@
   xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
   xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
   xmlns:desktop="http://schemas.microsoft.com/appx/manifest/desktop/windows10"
+  xmlns:com="http://schemas.microsoft.com/appx/manifest/com/windows10"
   IgnorableNamespaces="uap rescap">
 
   <Identity
@@ -60,6 +61,19 @@
 				  Enabled="true"
 				  DisplayName="FluentFlyout"/>
 			</desktop:Extension>
+
+			<desktop:Extension Category="windows.toastNotificationActivation">
+				<desktop:ToastNotificationActivation
+				  ToastActivatorCLSID="79086E7F-0D65-4507-82B6-85F2288930D5"/>
+			</desktop:Extension>
+			
+			<com:Extension Category="windows.comServer">
+				<com:ComServer>
+					<com:ExeServer Executable="FluentFlyout\FluentFlyout.exe" Arguments="-ToastActivated" DisplayName="View Changes">
+						<com:Class Id="79086E7F-0D65-4507-82B6-85F2288930D5" DisplayName="View Changes"/>
+					</com:ExeServer>
+				</com:ComServer>
+			</com:Extension>
 		</Extensions>
     </Application>
   </Applications>
