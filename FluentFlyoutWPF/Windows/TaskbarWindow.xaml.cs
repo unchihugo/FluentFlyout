@@ -130,6 +130,27 @@ public partial class TaskbarWindow : Window
         Show();
     }
 
+    protected override void OnSourceInitialized(EventArgs e)
+    {
+        base.OnSourceInitialized(e);
+        HwndSource source = (HwndSource)PresentationSource.FromDependencyObject(this);
+        source.AddHook(WindowProc);
+    }
+
+    private static IntPtr WindowProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
+    {
+        // Some interface mods may collect information from all windows associated with the taskbar,
+        // causing the widget and the entire taskbar to freeze.
+        // For example, Nilesoft Shell and "Click on empty taskbar space" from Windhawk.
+        // Therefore, we are preventing the propagation of this message.
+        //
+        // WM_GETOBJECT (Sent by Microsoft UI Automation to obtain information about an accessible object contained in a server application)
+        if (msg == 0x003D)
+            handled = true;
+
+        return IntPtr.Zero;
+    }
+    
     private void Window_Loaded(object sender, RoutedEventArgs e)
     {
         SetupWindow();
