@@ -34,7 +34,7 @@ nasconde ripeti, riproduzione casuale e le informazioni del player</system:Strin
     <system:String x:Key="MediaFlyoutAlwaysDisplay">Mostra sempre</system:String>
     <system:String x:Key="CenterTitleArtistTitle">Centra Titolo e Artista</system:String>
     <system:String x:Key="CenterTitleArtistDescription">Alinea il testo al cantro invece cha a sinistra</system:String>
-    <system:String x:Key="ShowMediaPlayerNameTitle">Mostra il nome del media</system:String>
+    <system:String x:Key="ShowMediaPlayerNameTitle">Mostra il nome del riproduttore del media</system:String>
     <system:String x:Key="RepeatButtonTitle">Tasto ripetizione*</system:String>
     <system:String x:Key="RepeatButtonDescription">Scegliere tra ripeti tutti e ripeti la singola canzone, aumente la larghezza del flyout</system:String>
     <system:String x:Key="ShuffleButtonTitle">Pulsante ripetizione casuale*</system:String>
@@ -131,4 +131,8 @@ Puoi contribuire nelle traduzioni su</system:String>
     <system:String x:Key="TrayIcon_GitHubRepositoryOption">Repository</system:String>
     <system:String x:Key="TrayIcon_ReportBugOption">Segnala un problema</system:String>
     <system:String x:Key="TrayIcon_QuitOption">Chiudi FluentFlyout</system:String>
+    <system:String x:Key="TaskbarWidgetControlsTitle">Controlli dei madia dal widget</system:String>
+    <system:String x:Key="TaskbarWidgetControlsDescription">Mostra i pulsanti per il controllo dei media nel widget</system:String>
+    <system:String x:Key="TaskbarWidgetAnimatedTitle">Animazioni del widget</system:String>
+    <system:String x:Key="TaskbarWidgetAnimatedDescription">Attiva leggere animazioni per il widget</system:String>
 </ResourceDictionary>

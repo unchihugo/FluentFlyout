@@ -131,4 +131,8 @@
     <system:String x:Key="HideTrayIconTitle">完全隐藏托盘图标</system:String>
     <system:String x:Key="HideTrayIconDescription">再次启动程序以访问设置</system:String>
     <system:String x:Key="AboutPremiumTitle">关于高级功能</system:String>
+    <system:String x:Key="TaskbarWidgetControlsTitle">小组件媒体控制</system:String>
+    <system:String x:Key="TaskbarWidgetControlsDescription">在小组件上展示媒体控制按钮</system:String>
+    <system:String x:Key="TaskbarWidgetAnimatedTitle">小组件动画</system:String>
+    <system:String x:Key="TaskbarWidgetAnimatedDescription">为小组件启用细节动画</system:String>
 </ResourceDictionary>

@@ -57,4 +57,82 @@ Anmerkung: Als Open-Source-Projekt sind diese Funktionen auch kostenlos verfügb
     <system:String x:Key="UnlockPremiumButton">Premium freischalten</system:String>
     <system:String x:Key="SystemSettingsTitle">System</system:String>
     <system:String x:Key="LockWindow_LockOn">an</system:String>
+    <system:String x:Key="MediaFlyoutTitle">Anpassung des Medien-Flyouts</system:String>
+    <system:String x:Key="TextBlockText1">Aktiviere das Media-Flyout</system:String>
+    <system:String x:Key="TextBlockText3">Zeigt das Flyout an, wenn eine Medientaste gedrückt wurde</system:String>
+    <system:String x:Key="TaskbarWidgetPosition">Widget Position</system:String>
+    <system:String x:Key="TaskbarWidgetBackgroundBlurDescription">Füge Hintergrundunschärfe für das Taskleisten Widget hinzu</system:String>
+    <system:String x:Key="TaskbarWidgetHideCompletelyTitle">Komplett verstecken, wenn keine Medien abgespielt werden</system:String>
+    <system:String x:Key="TaskbarWidgetControlsTitle">Widget Mediensteuerung</system:String>
+    <system:String x:Key="TaskbarWidgetControlsDescription">Zeigt die Mediensteuerungsknöpfe auf dem Widget</system:String>
+    <system:String x:Key="TaskbarWidgetAnimatedTitle">Widget Animationen</system:String>
+    <system:String x:Key="TaskbarWidgetAnimatedDescription">Aktiviere subtile Animationen für das Widget</system:String>
+    <system:String x:Key="PremiumFeatureTitle">Premium Funktionen</system:String>
+    <system:String x:Key="PremiumPurchaseSuccess">Premium Funktionen erfolgreich freigeschaltet!</system:String>
+    <system:String x:Key="PremiumPurchaseFailed">Kauf fehlgeschlagen. Bitte versuche es erneut.</system:String>
+    <system:String x:Key="PremiumPurchaseCancelled">Kauf abgebrochen.</system:String>
+    <system:String x:Key="EnableNextUpTitle">Flyout „Als nächstes“ aktivieren (experimentell)</system:String>
+    <system:String x:Key="EnableNextUpDescription">Zeigt, welcher Song/Video als nächste abgespielt wird, wenn ein Song/Video endet</system:String>
+    <system:String x:Key="NextUpStayDurationTitle">"Als nächstes" Anzeigedauer</system:String>
+    <system:String x:Key="NextUpStayDurationDescription">(Standard: 2000ms)</system:String>
+    <system:String x:Key="EnableLockKeysDescription">Zeigt an, wenn eine bestimmte Tastensperre aktiv ist oder nicht</system:String>
+    <system:String x:Key="LockKeysStayDurationTitle">Tastensperre Anzeigedauer</system:String>
+    <system:String x:Key="LockKeysStayDurationDescription">(Standard: 2000ms)</system:String>
+    <system:String x:Key="LockKeysBoldUITitle">Dick gedruckte Symbole und Schriftart</system:String>
+    <system:String x:Key="LaunchOnStartupDescription">Starte minimiert, wenn du dich in Windows anmeldest</system:String>
+    <system:String x:Key="StartupAppsHyperlinkText">Autostart Apps</system:String>
+    <system:String x:Key="StartupAppsSettingsInfo">Wenn das nicht funktioniert wie erwartet, überprüfe</system:String>
+    <system:String x:Key="AppThemeTitle">Darstellung</system:String>
+    <system:String x:Key="AppThemeDefault"> System Standard</system:String>
+    <system:String x:Key="AppThemeLight"> Hell</system:String>
+    <system:String x:Key="AppThemeDark"> Dunkel</system:String>
+    <system:String x:Key="TrayIconLeftClickBehaviorTitle">SystemTray Symbol Linksklick verhalten</system:String>
+    <system:String x:Key="TrayIconLeftClickBehaviorDescription">Wähle aus, was passiert, wenn du das Systemtray Symbol Links klickst</system:String>
+    <system:String x:Key="TrayIconLeftClickOption1"> Einstellungen öffnen</system:String>
+    <system:String x:Key="TrayIconLeftClickOption2"> Zeige das Flyout</system:String>
+    <system:String x:Key="Win11TrayIconTitle">Symbol im Windows 11 Stil</system:String>
+    <system:String x:Key="TrayIconSectionTitle">Systemtray Symbol</system:String>
+    <system:String x:Key="HideTrayIconTitle">Verstecke das Systemtray Symbol ganz</system:String>
+    <system:String x:Key="HideTrayIconDescription">Öffnet die Einstellungen bei einem doppelklick auf das Symbol im Systemtray</system:String>
+    <system:String x:Key="AnimationSettingsTitle">Animationseinstellungen</system:String>
+    <system:String x:Key="AnimationSettingsDescription">Passe die Animation nach deinen Präferenzen an</system:String>
+    <system:String x:Key="AnimationDurationScaleDescription">Schnellere oder langsamere Flyout-Animationsgeschwindigkeit (Standard: 1x)</system:String>
+    <system:String x:Key="AnimationSpeedOff">Aus</system:String>
+    <system:String x:Key="AnimationEasingStyleDescription">(Standard: Quadratisch)</system:String>
+    <system:String x:Key="EasingLinear" xml:space="preserve"> Linear</system:String>
+    <system:String x:Key="EasingSine" xml:space="preserve"> Sinus</system:String>
+    <system:String x:Key="NativeExperienceInfo">Für die native Windows 11 Erfahrung sollten die Einstellung auf dem Standardwert belassen werden.</system:String>
+    <system:String x:Key="DisableOnFullscreenTitle">Deaktiviere die Flyout, wenn ein DirectX Programm im Vollbild erkannt wurde</system:String>
+    <system:String x:Key="DisableOnFullscreenDescription">Verhindert, dass DirectX-Spiele im Vollbildmodus minimiert werden, wenn ein Flyout-Fenster angezeigt wird</system:String>
+    <system:String x:Key="AboutPremiumTitle">Über Premium</system:String>
+    <system:String x:Key="EnjoyingAppText" xml:space="preserve">Gefällt dir die App? Gebe der App einen Stern auf Github,
+oder hinterlasse eine Rezension im Microsoft Store!</system:String>
+    <system:String x:Key="GitHubRepoLink">GitHub Repository</system:String>
+    <system:String x:Key="CloseButton">Schließen</system:String>
+    <system:String x:Key="AppLanguageTitle">Sprache</system:String>
+    <system:String x:Key="AppLanguageDescription" xml:space="preserve">Wenn deine Sprache nicht aufgelistet oder nicht vollständig ist, wird standardmäßig Englisch ausgewählt. 
+Du kannst helfen, die App zu übersetzen auf</system:String>
+    <system:String x:Key="AppLanguageDescriptionLink">Weblate</system:String>
+    <system:String x:Key="LockWindow_CapsLock">Feststelltaste</system:String>
+    <system:String x:Key="LockWindow_NumLock">Ziffernblock-Sperre</system:String>
+    <system:String x:Key="LockWindow_ScrollLock">Rollentasten-Sperre</system:String>
+    <system:String x:Key="TrayIcon_GitHubRepositoryOption">Repository</system:String>
+    <system:String x:Key="BackgroundBlurOption1" xml:space="preserve"> Keine</system:String>
+    <system:String x:Key="TaskbarWidgetPaddingTitle">Füge Abstand für Windows Widget hinzu</system:String>
+    <system:String x:Key="TaskbarWidgetClickableTitle">Klicken, um das Medien-Flyout bei vorhandenen Medien zu öffnen</system:String>
+    <system:String x:Key="TaskbarWidgetClickableDescription">Wenn das Medien-Flyout aktiviert ist, wird es beim Klicken auf das Taskleisten-Widget geöffnet</system:String>
+    <system:String x:Key="TaskbarWidgetHideCompletelyDescription">Versteckt das Widget vollständig, wenn keine Medien verfügbar sind</system:String>
+    <system:String x:Key="NextUpCustomizationTitle">„Als Nächstes“ anpassen</system:String>
+    <system:String x:Key="NextUpDescription" xml:space="preserve">Ein Flyout zeigt an, was als Nächstes abgespielt wird, wenn ein Song/Video endet. Es erscheint nur, wenn der nächste Titel automatisch abgespielt wird. Wird „Weiter“ oder „Zurück“ manuell gedrückt, erscheint stattdessen das Haupt-Flyout.</system:String>
+    <system:String x:Key="LockKeysCustomizationTitle">Sperrtasten Anpassung</system:String>
+    <system:String x:Key="LockKeysDescription" xml:space="preserve">Zeigt den Status der Sperrtasten auf einen Blick an. Erscheint nach dem Drücken von Feststelltaste, Ziffernblock-Taste oder Rollen-Taste. Praktisch für Laptops und Tastaturen ohne entsprechende Anzeigen.</system:String>
+    <system:String x:Key="EnableLockKeysTitle">Aktiviere Sperrtasten Flyout</system:String>
+    <system:String x:Key="EnableInsertKeyTitle">Aktiviere das Einfügen-Tasten-Popup</system:String>
+    <system:String x:Key="EnableInsertKeyDescription">Legt fest, ob beim Drücken der Einfügen-/Überschreiben-Taste das Flyout angezeigt wird</system:String>
+    <system:String x:Key="Win11TrayIconDescription">Verwende ein Systemtray Symbol, das zu Windows 11 passt (umschalten, um das Design zu aktualisieren)</system:String>
+    <system:String x:Key="AnimationDurationScaleTitle">Animationsdauer-Skala</system:String>
+    <system:String x:Key="AnimationEasingStyleTitle">Animationsgeschwindigkeit Stil</system:String>
+    <system:String x:Key="LockWindow_InsertPressed">Einfügen gedrückt</system:String>
+    <system:String x:Key="MediaFlyoutDescription">Haupt-Flyout. Beim Abspielen von Medien kannst du eine beliebige Medien- oder Lautstärketaste (Play/Pause, Lauter/Leiser usw.) auf der Tastatur drücken, um das Flyout anzuzeigen. Zeigt Medieninformationen sowie Wiedergabesteuerungen und weitere Optionen.</system:String>
+    <system:String x:Key="LockKeysBoldUIDescription">Hebt das Flyout-Symbol und die Schrift hervor</system:String>
 </ResourceDictionary>
