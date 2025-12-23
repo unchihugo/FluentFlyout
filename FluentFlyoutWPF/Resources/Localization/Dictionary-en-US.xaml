@@ -15,6 +15,7 @@
     <System:String x:Key="CompactLayoutTitle">Compact Layout</System:String>
     <System:String x:Key="CompactLayoutDescription" xml:space="preserve">Slimmer and less intrusive layout
 hides repeat, shuffle and player info</System:String>
+    <System:String x:Key="SelectedMonitorTitle">Flyout Target Display</System:String>
     <System:String x:Key="FlyoutPositionTitle">Flyout Position</System:String>
     <System:String x:Key="PositionBottomLeft" xml:space="preserve"> Bottom Left</System:String>
     <System:String x:Key="PositionBottomCenter" xml:space="preserve"> Bottom Center</System:String>
