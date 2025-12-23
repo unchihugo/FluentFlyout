@@ -57,6 +57,9 @@ public partial class TaskbarWindow : Window
     [DllImport("user32.dll", SetLastError = true)]
     private static extern int GetWindowLong(IntPtr hWnd, int nIndex);
 
+    [DllImport("user32.dll")]
+    private static extern uint GetDpiForWindow(IntPtr hMonitor);
+
     [DllImport("user32.dll", SetLastError = true)]
     private static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, uint uFlags);
 
@@ -102,8 +105,6 @@ public partial class TaskbarWindow : Window
     private string _cachedArtistText = string.Empty;
     private double _cachedTitleWidth = 0;
     private double _cachedArtistWidth = 0;
-    private double _dpiScaleX;
-    private double _dpiScaleY;
     private IntPtr _trayHandle;
     private AutomationElement? _widgetElement;
     // reference to main window for flyout functions
@@ -123,10 +124,6 @@ public partial class TaskbarWindow : Window
         DataContext = SettingsManager.Current;
 
         _hitTestTransparent = new SolidColorBrush(System.Windows.Media.Color.FromArgb(1, 0, 0, 0));
-
-        // initialize here in case we want to restart the window
-        _dpiScaleX = 0;
-        _dpiScaleY = 0;
 
         _timer = new DispatcherTimer();
         _timer.Interval = TimeSpan.FromMilliseconds(1500); // slow auto-update for display changes
@@ -334,13 +331,7 @@ public partial class TaskbarWindow : Window
     private void CalculateAndSetPosition(IntPtr taskbarHandle, IntPtr myHandle)
     {
         // get DPI scaling
-        if (_dpiScaleX == 0 && _dpiScaleY == 0)
-        {
-            var dpiScale = VisualTreeHelper.GetDpi(this);
-
-            _dpiScaleX = dpiScale.DpiScaleX;
-            _dpiScaleY = dpiScale.DpiScaleY;
-        }
+        double dpiScale = GetDpiForWindow(taskbarHandle) / 96.0;
 
         // calculate widget width - use cached values if text hasn't changed
         string currentTitle = SongTitle.Text;
@@ -370,8 +361,8 @@ public partial class TaskbarWindow : Window
             logicalWidth += (int)(110 * _scale);
         }
 
-        int physicalWidth = (int)(logicalWidth * _dpiScaleX);
-        int physicalHeight = (int)(40 * _dpiScaleY); // default height
+        int physicalWidth = (int)(logicalWidth * dpiScale);
+        int physicalHeight = (int)(40 * dpiScale); // default height
 
         // Get Taskbar dimensions
         RECT taskbarRect;
