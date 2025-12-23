@@ -41,6 +41,9 @@ public partial class TaskbarWindow : Window
     private static extern int DwmExtendFrameIntoClientArea(IntPtr hwnd, ref MARGINS margins);
 
     [StructLayout(LayoutKind.Sequential)]
+    public struct POINT { public int X, Y; }
+
+    [StructLayout(LayoutKind.Sequential)]
     public struct RECT
     { public int Left, Top, Right, Bottom; }
 
@@ -56,6 +59,9 @@ public partial class TaskbarWindow : Window
 
     [DllImport("user32.dll", SetLastError = true)]
     private static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, uint uFlags);
+
+    [DllImport("user32.dll")]
+    private static extern bool ScreenToClient(IntPtr hWnd, ref POINT lpPoint);
 
     private const int GWL_STYLE = -16;
     private const int WS_CHILD = 0x40000000;
@@ -373,13 +379,13 @@ public partial class TaskbarWindow : Window
         int taskbarHeight = taskbarRect.Bottom - taskbarRect.Top;
 
         // Centered vertically
-        int physicalTop = (taskbarHeight - physicalHeight) / 2;
+        int physicalTop = taskbarRect.Top + (taskbarHeight - physicalHeight) / 2;
 
         int physicalLeft = 0;
         switch (SettingsManager.Current.TaskbarWidgetPosition)
         {
             case 0: // left aligned with some padding (like native widgets)
-                physicalLeft = 20;
+                physicalLeft = taskbarRect.Left + 20;
                 if (SettingsManager.Current.TaskbarWidgetPadding) // automatic widget padding to the left
                 {
                     try
@@ -389,7 +395,7 @@ public partial class TaskbarWindow : Window
 
                         // make sure it's on the left side, otherwise ignore (widget might be to the right)
                         if (found && widgetRect.Right < taskbarRect.Right / 2)
-                            physicalLeft = (int)(widgetRect.Right) + 2; // add small padding
+                            physicalLeft = taskbarRect.Left + (int)(widgetRect.Right) + 2; // add small padding
                     }
                     catch (Exception ex)
                     {
@@ -401,7 +407,7 @@ public partial class TaskbarWindow : Window
                 break;
 
             case 1: // center of the taskbar
-                physicalLeft = (taskbarRect.Right - taskbarRect.Left - physicalWidth) / 2;
+                physicalLeft = taskbarRect.Left + (taskbarRect.Right - taskbarRect.Left - physicalWidth) / 2;
                 break;
 
             case 2: // right aligned next to system tray with tiny bit of padding
@@ -417,7 +423,7 @@ public partial class TaskbarWindow : Window
                             // make sure it's on the right side, otherwise ignore (widget might be to the left)
                             if (found && widgetRect.Left > taskbarRect.Right / 2)
                             {
-                                physicalLeft = (int)(widgetRect.Left) - 2 - physicalWidth; // left of widget
+                                physicalLeft = taskbarRect.Left + (int)(widgetRect.Left) - 2 - physicalWidth; // left of widget
                                 break; // early exit so we don't move it back next to tray below
                             }
                         }
@@ -435,7 +441,7 @@ public partial class TaskbarWindow : Window
                     if (_trayHandle == IntPtr.Zero)
                     {
                         // Fallback to left alignment
-                        physicalLeft = 20;
+                        physicalLeft = taskbarRect.Left + 20;
                         break;
                     }
                     RECT trayRect;
@@ -446,7 +452,7 @@ public partial class TaskbarWindow : Window
                 {
                     // Fallback to left alignment
                     Logger.Warn(ex, "Failed to get System Tray position.");
-                    physicalLeft = 20;
+                    physicalLeft = taskbarRect.Left + 20;
                 }
                 break;
         }
@@ -458,9 +464,14 @@ public partial class TaskbarWindow : Window
         //    SongInfoStackPanel.Visibility = Visibility.Visible;
         //}
 
+        // Following SetWindowPos will set the position relative to the parent window,
+        // so those coordinates need to be converted.
+        POINT relativePos = new() { X = physicalLeft, Y = physicalTop };
+        ScreenToClient(taskbarHandle, ref relativePos);
+
         // Apply using SetWindowPos (Bypassing WPF layout engine)
         SetWindowPos(myHandle, IntPtr.Zero,
-                 physicalLeft, physicalTop,
+                 relativePos.X, relativePos.Y,
                  physicalWidth, physicalHeight,
                  SWP_NOZORDER | SWP_NOACTIVATE | SWP_ASYNCWINDOWPOS | SWP_SHOWWINDOW);
     }
@@ -605,7 +616,7 @@ public partial class TaskbarWindow : Window
             {
                 ControlsStackPanel.Visibility = Visibility.Visible;
             }
-            
+
             Visibility = Visibility.Visible;
 
             // defer UpdatePosition to allow WPF layout to complete first
