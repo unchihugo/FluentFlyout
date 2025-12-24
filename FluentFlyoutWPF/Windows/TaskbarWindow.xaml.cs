@@ -509,7 +509,6 @@ public partial class TaskbarWindow : Window
                     // try to position next to widgets button if enabled
                     if (SettingsManager.Current.TaskbarWidgetPadding)
                     {
-                        // TODO: support multiple monitors (currently only supports primary monitor)
                         try
                         {
                             // find widget button in XAML
