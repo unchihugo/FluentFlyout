@@ -3,6 +3,7 @@ using FluentFlyout.Classes.Settings;
 using FluentFlyoutWPF.Classes;
 using MicaWPF.Controls;
 using System.Windows;
+using Windows.UI;
 
 
 namespace FluentFlyoutWPF.Windows;
@@ -21,9 +22,6 @@ public partial class LockWindow : MicaWindow
         WindowHelper.SetNoActivate(this);
         InitializeComponent();
         WindowHelper.SetTopmost(this);
-        CustomWindowChrome.CaptionHeight = 0;
-        CustomWindowChrome.UseAeroCaptionButtons = false;
-        CustomWindowChrome.GlassFrameThickness = new Thickness(0);
 
         WindowStartupLocation = WindowStartupLocation.Manual;
         Top = -9999; // start off-screen
@@ -82,7 +80,7 @@ public partial class LockWindow : MicaWindow
         }
         else
         {
-            Width = 200; // default width
+            Width = 160; // default width
         }
 
         setStatus(key, isOn);
@@ -95,7 +93,6 @@ public partial class LockWindow : MicaWindow
         cts.Cancel();
         cts = new CancellationTokenSource();
         var token = cts.Token;
-        Visibility = Visibility.Visible;
 
         try
         {
@@ -106,7 +103,8 @@ public partial class LockWindow : MicaWindow
                 _isHiding = true;
                 await Task.Delay(mainWindow.getDuration());
                 if (_isHiding == false) return;
-                Hide();
+
+                WindowHelper.SetVisibility(this, false);
                 break;
             }
         }
