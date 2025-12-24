@@ -132,4 +132,5 @@
     <system:String x:Key="EasingQuadratic" xml:space="preserve"> 二次関数</system:String>
     <system:String x:Key="EasingCubic" xml:space="preserve"> 三次関数</system:String>
     <system:String x:Key="TaskbarWidgetControlsTitle">ウィジェットメディアコントロール</system:String>
+    <system:String x:Key="TrayIcon_ViewLogsOption">ログを表示</system:String>
 </ResourceDictionary>
