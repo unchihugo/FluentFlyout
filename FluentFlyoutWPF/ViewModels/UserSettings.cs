@@ -20,10 +20,10 @@ public partial class UserSettings : ObservableObject
     public partial bool CompactLayout { get; set; }
 
     /// <summary>
-    /// Selected monitor for display
+    /// Flyout Target Display
     /// </summary>
     [ObservableProperty]
-    public partial int SelectedMonitor { get; set; }
+    public partial int FlyoutSelectedMonitor { get; set; }
 
     /// <summary>
     /// Flyout position on screen
@@ -304,6 +304,12 @@ public partial class UserSettings : ObservableObject
     public partial bool TaskbarWidgetEnabled { get; set; }
 
     /// <summary>
+    /// Widget Target Display
+    /// </summary>
+    [ObservableProperty]
+    public partial int TaskbarWidgetSelectedMonitor { get; set; }
+
+    /// <summary>
     /// Gets or sets the position of the taskbar widget, represented as an integer value.
     /// 0: Left, 1: Center, 2: Right
     /// </summary>
@@ -370,7 +376,7 @@ public partial class UserSettings : ObservableObject
         }
 
         CompactLayout = false;
-        SelectedMonitor = 0;
+        FlyoutSelectedMonitor = 0;
         Position = 0;
         FlyoutAnimationSpeed = 2;
         PlayerInfoEnabled = true;
@@ -402,6 +408,7 @@ public partial class UserSettings : ObservableObject
         NextUpAcrylicWindowEnabled = true;
         LockKeysAcrylicWindowEnabled = true;
         TaskbarWidgetEnabled = false;
+        TaskbarWidgetSelectedMonitor = 0;
         TaskbarWidgetPosition = 0;
         TaskbarWidgetPadding = true;
         TaskbarWidgetClickable = true;

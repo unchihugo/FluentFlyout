@@ -231,7 +231,7 @@ public partial class MainWindow : MicaWindow
     private WindowHelper.MonitorInfo getSelectedMonitor()
     {
         var monitors = WindowHelper.GetMonitors();
-        return monitors[Math.Clamp(SettingsManager.Current.SelectedMonitor, 0, monitors.Count - 1)];
+        return monitors[Math.Clamp(SettingsManager.Current.FlyoutSelectedMonitor, 0, monitors.Count - 1)];
     }
 
     public void OpenAnimation(MicaWindow window, bool alwaysBottom = false)

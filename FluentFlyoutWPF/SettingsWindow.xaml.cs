@@ -215,25 +215,32 @@ public partial class SettingsWindow : MicaWindow
 
     private void UpdateMonitorList()
     {
-        int old_selection = SettingsManager.Current.SelectedMonitor;
-        SelectedMonitorComboBox.Items.Clear();
-        
         var monitors = WindowHelper.GetMonitors();
-        var reset_to_primary = old_selection >= monitors.Count || old_selection < 0;
 
-        for (int i = 0; i < monitors.Count; i++)
+        int update_list(int selectedMonitor, System.Windows.Controls.ComboBox comboBox)
         {
-            var monitor = monitors[i];
-            var cb = new System.Windows.Controls.ComboBoxItem()
-            {
-                Content = monitor.isPrimary ? (i + 1).ToString() + " *" : (i + 1).ToString(),
-            };
-            if (reset_to_primary && monitor.isPrimary)
-                old_selection = i;
+            comboBox.Items.Clear();
 
-            SelectedMonitorComboBox.Items.Add(cb);
+            var resetToPrimary = selectedMonitor >= monitors.Count || selectedMonitor < 0;
+
+            for (int i = 0; i < monitors.Count; i++)
+            {
+                var monitor = monitors[i];
+                var cb = new System.Windows.Controls.ComboBoxItem()
+                {
+                    Content = monitor.isPrimary ? (i + 1).ToString() + " *" : (i + 1).ToString(),
+                };
+                if (resetToPrimary && monitor.isPrimary)
+                    selectedMonitor = i;
+
+                comboBox.Items.Add(cb);
+            }
+
+            comboBox.SelectedIndex = selectedMonitor;
+            return selectedMonitor;
         }
 
-        SelectedMonitorComboBox.SelectedIndex = old_selection;
+        SettingsManager.Current.FlyoutSelectedMonitor = update_list(SettingsManager.Current.FlyoutSelectedMonitor, FlyoutSelectedMonitorComboBox);
+        SettingsManager.Current.TaskbarWidgetSelectedMonitor = update_list(SettingsManager.Current.TaskbarWidgetSelectedMonitor, TaskbarWidgetSelectedMonitorComboBox);
     }
 }
