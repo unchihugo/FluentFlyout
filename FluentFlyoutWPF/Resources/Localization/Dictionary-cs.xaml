@@ -35,7 +35,7 @@ skryje opakování,náhodné přehrávání a informace přehrávače</system:St
     <system:String x:Key="RepeatButtonDescription">Vyberte si mezi opakování všech nebo jedné písničky, rozšíří plovoucí přehrávač</system:String>
     <system:String x:Key="ShuffleButtonTitle">Tlačítko náhodného přehrávání*</system:String>
     <system:String x:Key="ShuffleButtonDescription">Rozšíří plovoucí okno</system:String>
-    <system:String x:Key="ShowSeekbarTitle">Ukáže časovou osu</system:String>
+    <system:String x:Key="ShowSeekbarTitle">Ukazovat časovou osu</system:String>
     <system:String x:Key="ShowSeekbarDescription">Automaticky zobrazí interaktivní časovou osu, pokud ji přehrávač podporuje</system:String>
     <system:String x:Key="UnsupportedControlsWarning">*Některé prohlížeče/přehrávače nepodporují opakování, náhodné přehrávání a ovládání časové osy.</system:String>
     <system:String x:Key="PauseOtherMediaTitle">Automaticky zastaví ostatní média</system:String>
@@ -102,4 +102,19 @@ Můžete pomoct s překlady na</system:String>
     <system:String x:Key="AppLanguageDescriptionLink">Weblate</system:String>
     <system:String x:Key="LockWindow_NumLock">Num Lock</system:String>
     <system:String x:Key="LockWindow_ScrollLock">Scroll Lock</system:String>
+    <system:String x:Key="SelectedMonitorTitle">Monitor s plovoucími okny</system:String>
+    <system:String x:Key="TaskbarWidgetCustomizationTitle">Přizpůsobení widgetu na hlavním panelu</system:String>
+    <system:String x:Key="TaskbarWidgetDescription">Kompaktní, zabudovaní widget, který se nachází na hlavním panelu pro rychlý přístup k médiím. Klikni na widget pro rozšíření na celý plovoucí přehrávač (pokud je povolen).</system:String>
+    <system:String x:Key="TaskbarWidgetEnabledTitle">Povolit widget na hlavním panelu</system:String>
+    <system:String x:Key="TaskbarWidgetEnabledDescription">Ukazovat kompaktní média widget na hlavním panelu</system:String>
+    <system:String x:Key="TaskbarWidgetVisualIssuesWarning">Uprav následující možosti, pokud máš problémy se vzhledem.</system:String>
+    <system:String x:Key="TaskbarWidgetPosition">Pozice widgetu</system:String>
+    <system:String x:Key="TaskbarWidgetPaddingTitle">Přidat odsazení od tlačítka Windows Widgetů</system:String>
+    <system:String x:Key="TaskbarWidgetPaddingDescription">Zapni tuto možnost, pokud máš povolené Windows Widgety</system:String>
+    <system:String x:Key="TaskbarWidgetClickableTitle">Kliknutím k otevřít plovoucí přehrávač, pokud je média k dispozici</system:String>
+    <system:String x:Key="TaskbarWidgetClickableDescription">Pokud je plovoucí přehrávač zapnutý, otevře se při kliknutí na widget na hlavním panelu</system:String>
+    <system:String x:Key="TaskbarWidgetBackgroundBlurTitle">Rozmazání pozadí</system:String>
+    <system:String x:Key="TaskbarWidgetBackgroundBlurDescription">Přidá efekt rozmazaného pozadí na widget na hlavním panelu</system:String>
+    <system:String x:Key="TaskbarWidgetHideCompletelyTitle">Kompletně skrýt, pokud se žádné médium nepřehrává</system:String>
+    <system:String x:Key="TaskbarWidgetHideCompletelyDescription">Skryje celý widget, pokud se nic nepřehrává, místo toho ukáže ikonu médií</system:String>
 </ResourceDictionary>
