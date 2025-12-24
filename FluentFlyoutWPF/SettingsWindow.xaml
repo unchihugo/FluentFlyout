@@ -522,7 +522,7 @@
                             <ui:CardControl.Header>
                                 <StackPanel Orientation="Vertical">
                                     <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="{DynamicResource FlyoutSelectedMonitorTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
+                                        <TextBlock Text="{DynamicResource SelectedMonitorTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
                                         <ui:InfoBadge Value=" New " FontWeight="Medium" FontSize="10" Margin="6,-2,0,-2" Severity="Success"/>
                                     </StackPanel>
                                 </StackPanel>
