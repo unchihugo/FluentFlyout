@@ -5,7 +5,7 @@
     <system:String x:Key="TextBlockText1">啟用媒體彈出視窗</system:String>
     <system:String x:Key="TextBlockText3">當按下媒體鍵時顯示彈出視窗</system:String>
     <system:String x:Key="TextBlockText2">選擇背景模糊樣式</system:String>
-    <system:String x:Key="BackgroundBlurOption1" xml:space="preserve"> None</system:String>
+    <system:String x:Key="BackgroundBlurOption1" xml:space="preserve"> 無</system:String>
     <system:String x:Key="BackgroundBlurOption2" xml:space="preserve"> 風格 1 (Cover Glow)</system:String>
     <system:String x:Key="BackgroundBlurOption3" xml:space="preserve"> 風格 2 (Rising Glow)</system:String>
     <system:String x:Key="BackgroundBlurOption4" xml:space="preserve"> 風格 3 (Blur)</system:String>
@@ -131,4 +131,9 @@
     <system:String x:Key="AboutPremiumTitle">關於高級版</system:String>
     <system:String x:Key="TrayIconSectionTitle">系統匣圖示</system:String>
     <system:String x:Key="TaskbarWidgetPosition">小工具位置</system:String>
+    <system:String x:Key="SelectedMonitorTitle">彈出視窗顯示器</system:String>
+    <system:String x:Key="TaskbarWidgetControlsTitle">小工具媒體控制</system:String>
+    <system:String x:Key="TaskbarWidgetControlsDescription">在小工具顯示媒體控制按鈕</system:String>
+    <system:String x:Key="TaskbarWidgetAnimatedTitle">小工具動畫</system:String>
+    <system:String x:Key="TaskbarWidgetAnimatedDescription">啟用小工具的小動畫</system:String>
 </ResourceDictionary>
