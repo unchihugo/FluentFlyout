@@ -3,7 +3,6 @@ using FluentFlyout.Classes.Settings;
 using FluentFlyoutWPF.Classes;
 using MicaWPF.Controls;
 using System.Windows;
-using Windows.UI;
 
 
 namespace FluentFlyoutWPF.Windows;
