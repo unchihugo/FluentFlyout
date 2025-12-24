@@ -7,7 +7,7 @@
     <system:String x:Key="TextBlockText2">预设的现代背景模糊样式中选择一个</system:String>
     <system:String x:Key="BackgroundBlurOption1" xml:space="preserve"> 无</system:String>
     <system:String x:Key="BackgroundBlurOption2" xml:space="preserve"> 样式 1（封面发光）</system:String>
-    <system:String x:Key="BackgroundBlurOption3" xml:space="preserve"> 样式 2（旭日）</system:String>
+    <system:String x:Key="BackgroundBlurOption3" xml:space="preserve"> 样式 2（辉光）</system:String>
     <system:String x:Key="BackgroundBlurOption4" xml:space="preserve"> 样式 3（封面模糊）</system:String>
     <system:String x:Key="BackgroundBlurTitle">背景模糊</system:String>
     <system:String x:Key="AcrylicWindowTitle">亚克力窗口</system:String>
@@ -30,9 +30,9 @@
     <system:String x:Key="RepeatButtonTitle">循环按钮*</system:String>
     <system:String x:Key="PositionBottomLeft" xml:space="preserve"> 左下角</system:String>
     <system:String x:Key="ShowMediaPlayerNameTitle">显示播放器名称</system:String>
-    <system:String x:Key="RepeatButtonDescription">选择重复全部或重复一项，增加弹出窗口宽度</system:String>
+    <system:String x:Key="RepeatButtonDescription">可选择循环播放或单曲循环，会增大浮窗宽度</system:String>
     <system:String x:Key="ShuffleButtonTitle">随机播放按钮*</system:String>
-    <system:String x:Key="ShuffleButtonDescription">会增加浮窗宽度</system:String>
+    <system:String x:Key="ShuffleButtonDescription">会增大浮窗宽度</system:String>
     <system:String x:Key="ShowSeekbarTitle">显示进度条</system:String>
     <system:String x:Key="ShowSeekbarDescription">如果播放器支持，将会自动显示可交互的进度条</system:String>
     <system:String x:Key="UnsupportedControlsWarning">* 一些浏览器 / 播放器不支持重复、随机播放按钮和进度条控制。</system:String>
@@ -88,7 +88,7 @@
     <system:String x:Key="GitHubRepoLink">GitHub 仓库</system:String>
     <system:String x:Key="CloseButton">关闭此窗口</system:String>
     <system:String x:Key="AppLanguageTitle">应用语言</system:String>
-    <system:String x:Key="AppLanguageDescription" xml:space="preserve">如果你使用的语言未在此处列出或翻译不完整，则默认显示为英语。
+    <system:String x:Key="AppLanguageDescription" xml:space="preserve">如果你使用的语言未在此处列出或翻译不完整，则默认以英文显示。
 你可以在此处帮助翻译：</system:String>
     <system:String x:Key="AppLanguageDescriptionLink">Weblate</system:String>
     <system:String x:Key="LockWindow_ScrollLock">滚动锁定</system:String>
@@ -119,7 +119,7 @@
     <system:String x:Key="UnlockPremiumButton">解锁 Premium</system:String>
     <system:String x:Key="PremiumPurchaseSuccess">Premium 功能已成功解锁！</system:String>
     <system:String x:Key="PremiumPurchaseFailed">购买失败，请再试一次。</system:String>
-    <system:String x:Key="PremiumFeatureDescription" xml:space="preserve">您的一次性捐赠可以帮助我维持 FluentFlyout 的运行和更新。它也会立即永久解锁所有包含在 Premium 中的自定义功能。
+    <system:String x:Key="PremiumFeatureDescription" xml:space="preserve">您的一次性捐赠可以帮助我维持 FluentFlyout 的维护和更新。它也会立即永久解锁所有包含在 Premium 中的自定义功能。
 
 注：作为一个开源项目，这些功能也可以通过 GitHub 上的手动安装包免费获取。唯一的区别是，软件更新和安装需要手动完成。</system:String>
     <system:String x:Key="PremiumLockedMessage">此功能是 Premium 的一部分</system:String>
@@ -130,9 +130,11 @@
     <system:String x:Key="TrayIconSectionTitle">托盘图标</system:String>
     <system:String x:Key="HideTrayIconTitle">完全隐藏托盘图标</system:String>
     <system:String x:Key="HideTrayIconDescription">再次启动程序以访问设置</system:String>
-    <system:String x:Key="AboutPremiumTitle">关于高级功能</system:String>
+    <system:String x:Key="AboutPremiumTitle">关于 Premium</system:String>
     <system:String x:Key="TaskbarWidgetControlsTitle">小组件媒体控制</system:String>
     <system:String x:Key="TaskbarWidgetControlsDescription">在小组件上展示媒体控制按钮</system:String>
     <system:String x:Key="TaskbarWidgetAnimatedTitle">小组件动画</system:String>
     <system:String x:Key="TaskbarWidgetAnimatedDescription">为小组件启用细节动画</system:String>
+    <system:String x:Key="SelectedMonitorTitle">浮窗目标显示器</system:String>
+    <system:String x:Key="TrayIcon_ViewLogsOption">查看日志</system:String>
 </ResourceDictionary>
