@@ -46,8 +46,12 @@ hides repeat, shuffle and player info</System:String>
     <System:String x:Key="TaskbarWidgetVisualIssuesWarning">Configure the options below if you experience visual issues.</System:String>
     <System:String x:Key="TaskbarWidgetSelectedMonitorTitle">Widget Target Display</System:String>
     <System:String x:Key="TaskbarWidgetPosition">Widget Position</System:String>
-    <System:String x:Key="TaskbarWidgetPaddingTitle">Add Padding for Windows Widgets button</System:String>
+    <System:String x:Key="TaskbarWidgetPaddingSettingsTitle">Widget Padding Settings</System:String>
+    <System:String x:Key="TaskbarWidgetPaddingSettingsDescription">Adjust the padding around the widget to fit your taskbar style</System:String>
+    <System:String x:Key="TaskbarWidgetPaddingTitle">Automatic Padding for Windows Widgets button</System:String>
     <System:String x:Key="TaskbarWidgetPaddingDescription">Turn this feature on if you have Windows Widgets enabled</System:String>
+    <System:String x:Key="TaskbarWidgetManualPaddingTitle">Custom Padding</System:String>
+    <System:String x:Key="TaskbarWidgetManualPaddingDescription">Add extra padding (default: 0px)</System:String>
     <System:String x:Key="TaskbarWidgetClickableTitle">Click to open Media Flyout when media is Present</System:String>
     <System:String x:Key="TaskbarWidgetClickableDescription">If media flyout is enabled, it will open when you click the taskbar widget</System:String>
     <System:String x:Key="TaskbarWidgetBackgroundBlurTitle">Background Blur</System:String>
@@ -138,4 +142,5 @@ You can help contribute translations on</System:String>
     <System:String x:Key="TrayIcon_ViewLogsOption">View logs</System:String>
     <System:String x:Key="TrayIcon_ReportBugOption">Report bug</System:String>
     <System:String x:Key="TrayIcon_QuitOption">Quit FluentFlyout</System:String>
+    <System:String x:Key="PixelsUnit">px</System:String>
 </ResourceDictionary>

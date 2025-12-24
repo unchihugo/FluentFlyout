@@ -576,6 +576,8 @@ public partial class TaskbarWindow : Window
         //    SongInfoStackPanel.Visibility = Visibility.Visible;
         //}
 
+        physicalLeft += SettingsManager.Current.TaskbarWidgetManualPadding;
+
         // Following SetWindowPos will set the position relative to the parent window,
         // so those coordinates need to be converted.
         POINT relativePos = new() { X = physicalLeft, Y = physicalTop };
