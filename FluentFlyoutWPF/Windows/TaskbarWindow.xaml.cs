@@ -2,6 +2,7 @@
 using FluentFlyout.Classes.Utils;
 using FluentFlyoutWPF;
 using FluentFlyoutWPF.Classes;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
+using Windows.Graphics.Printing3D;
 using Windows.Media.Control;
 using WindowsMediaController;
 using Wpf.Ui.Appearance;
@@ -474,7 +476,7 @@ public partial class TaskbarWindow : Window
         // Centered vertically
         int physicalTop = taskbarRect.Top + (taskbarHeight - physicalHeight) / 2;
 
-        int physicalLeft = 0;
+        int physicalLeft = taskbarRect.Left;
         switch (SettingsManager.Current.TaskbarWidgetPosition)
         {
             case 0: // left aligned with some padding (like native widgets)
@@ -533,6 +535,18 @@ public partial class TaskbarWindow : Window
 
                     if (_trayHandle == IntPtr.Zero)
                     {
+                        // find secondary tray
+                        (bool found, Rect systemTrayRect) = GetSystemTrayRect(taskbarHandle);
+
+                        if (found)
+                        {
+                            physicalLeft = (int)(systemTrayRect.Left) - 2 - physicalWidth;
+                            break;
+                        }
+                    }
+
+                    if (_trayHandle == IntPtr.Zero)
+                    { 
                         // Fallback to left alignment
                         physicalLeft = taskbarRect.Left + 20;
                         break;
@@ -841,6 +855,102 @@ public partial class TaskbarWindow : Window
             return (false, Rect.Empty);
         }
     }
+
+    private delegate bool EnumWindowsProc(IntPtr hWnd, IntPtr lParam);
+    [DllImport("user32.dll")]
+    private static extern bool EnumWindows(EnumWindowsProc lpEnumFunc, IntPtr lParam);
+
+    [DllImport("user32.dll")]
+    private static extern int GetClassName(IntPtr hWnd, System.Text.StringBuilder lpClassName, int nMaxCount);
+
+    private (bool, Rect) GetSystemTrayRect(IntPtr taskbarHandle)
+    {
+        //try
+        //{
+        //    // find secondary tray
+        //    AutomationElement root = AutomationElement.FromHandle(taskbarHandle);
+        //    AutomationElement trayElement = root.FindFirst(TreeScope.Descendants,
+        //        new PropertyCondition(AutomationElement.AutomationIdProperty, "SystemTrayIcon"));
+        //    if (trayElement == null)
+        //    {// print list of all child elements for debugging
+        //        DebugDumpElement(root);
+
+        //        return (false, Rect.Empty);
+        //    }
+        //    return (true, trayElement.Current.BoundingRectangle);
+        //}
+        //catch (COMException ex)
+        //{
+        //    Logger.Error(ex, "COM error retrieving system tray Rect.");
+        //    return (false, Rect.Empty);
+        //}
+        //catch (Exception ex)
+        //{
+        //    Logger.Error(ex, "Error retrieving system tray Rect.");
+        //    return (false, Rect.Empty);
+        //}
+
+        var taskbarHandles = new List<Rect>();
+
+        var stopwatch = Stopwatch.StartNew();
+        EnumWindows((hWnd, lParam) =>
+        {
+            var sbClassName = new System.Text.StringBuilder(256);
+
+            GetClassName(hWnd, sbClassName, sbClassName.Capacity);
+
+            if (sbClassName.ToString() == "TrayNotifyWnd")
+            {
+                Console.WriteLine("Found TrayNotifyWnd");
+            }
+            return true;
+        }, IntPtr.Zero);
+        stopwatch.Stop();
+        Logger.Debug($"EnumWindows duration: {stopwatch.Elapsed.TotalMilliseconds} ms");
+
+        return (true, Rect.Empty);
+    }
+
+    private void DebugDumpElement(AutomationElement element, int depth = 0)
+    {
+        if (element == null) return;
+
+        try
+        {
+            // Build the indent string for visual hierarchy
+            string indent = new string(' ', depth * 2);
+
+            // Retrieve properties (handle exceptions for individual properties)
+            string name = element.Current.Name ?? "null";
+            string autoId = element.Current.AutomationId ?? "null";
+            string className = element.Current.ClassName ?? "null";
+            string localizedType = element.Current.LocalizedControlType ?? "null";
+
+            // Print to Debug or Console
+            System.Diagnostics.Debug.WriteLine(
+                $"{indent}Name: '{name}' | ID: '{autoId}' | Class: '{className}' | Type: '{localizedType}'"
+            );
+
+            // Traverse children using the RawViewWalker to ensure we see EVERYTHING
+            TreeWalker walker = TreeWalker.RawViewWalker;
+            AutomationElement child = walker.GetFirstChild(element);
+
+            while (child != null)
+            {
+                DebugDumpElement(child, depth + 1);
+                child = walker.GetNextSibling(child);
+            }
+        }
+        catch (ElementNotAvailableException)
+        {
+            // Element disappeared during traversal
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine(new string(' ', depth * 2) + $"Error: {ex.Message}");
+        }
+    }
+
 
     // event handlers for media control buttons
     private async void Previous_Click(object sender, RoutedEventArgs e)
