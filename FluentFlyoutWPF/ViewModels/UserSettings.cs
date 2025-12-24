@@ -316,6 +316,33 @@ public partial class UserSettings : ObservableObject
     [ObservableProperty]
     public partial bool TaskbarWidgetPadding { get; set; }
 
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(TaskbarWidgetManualPaddingText))]
+    public partial int TaskbarWidgetManualPadding { get; set; }
+
+    public string TaskbarWidgetManualPaddingText
+    {
+        get => TaskbarWidgetManualPadding.ToString();
+        set
+        {
+            if (int.TryParse(value, out var result))
+            {
+                TaskbarWidgetManualPadding = result switch
+                {
+                    > 9999 => 9999,
+                    < -9999 => -9999,
+                    _ => result
+                };
+            }
+            else
+            {
+                TaskbarWidgetManualPadding = 0;
+            }
+
+            OnPropertyChanged();
+        }
+    }
+
     /// <summary>
     /// Gets or sets a value indicating whether the taskbar widget is clickable
     /// </summary>
@@ -404,6 +431,7 @@ public partial class UserSettings : ObservableObject
         TaskbarWidgetEnabled = false;
         TaskbarWidgetPosition = 0;
         TaskbarWidgetPadding = true;
+        TaskbarWidgetManualPadding = 0;
         TaskbarWidgetClickable = true;
         TaskbarWidgetBackgroundBlur = false;
         TaskbarWidgetHideCompletely = false;
@@ -464,6 +492,12 @@ public partial class UserSettings : ObservableObject
 
     // Update taskbar when relevant settings change
     partial void OnTaskbarWidgetPositionChanged(int oldValue, int newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+        UpdateTaskbar();
+    }
+
+    partial void OnTaskbarWidgetManualPaddingChanged(int oldValue, int newValue)
     {
         if (oldValue == newValue || _initializing) return;
         UpdateTaskbar();

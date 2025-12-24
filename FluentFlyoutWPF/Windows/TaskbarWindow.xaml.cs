@@ -458,6 +458,8 @@ public partial class TaskbarWindow : Window
         //    SongInfoStackPanel.Visibility = Visibility.Visible;
         //}
 
+        physicalLeft += SettingsManager.Current.TaskbarWidgetManualPadding;
+
         // Apply using SetWindowPos (Bypassing WPF layout engine)
         SetWindowPos(myHandle, IntPtr.Zero,
                  physicalLeft, physicalTop,

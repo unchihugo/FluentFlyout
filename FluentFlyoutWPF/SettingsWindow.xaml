@@ -289,38 +289,63 @@
                                 <ComboBoxItem Content="{DynamicResource PositionBottomRight}"/>
                             </ComboBox>
                         </ui:CardControl>
-                        <ui:CardControl Grid.Row="5" Icon="{ui:SymbolIcon PaddingRight24}" Margin="0,0,0,12">
-                            <ui:CardControl.Header>
+                        
+                        <!-- Padding settings -->
+                        <ui:CardExpander Grid.Row="5" Icon="{ui:SymbolIcon Wrench24}" ContentPadding="6" Margin="0,0,0,12">
+                            <ui:CardExpander.Header>
                                 <StackPanel Orientation="Vertical">
-                                    <TextBlock Text="{DynamicResource TaskbarWidgetPaddingTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
-                                    <TextBlock Text="{DynamicResource TaskbarWidgetPaddingDescription}" FontSize="12" Opacity="0.5"/>
+                                    <TextBlock Text="{DynamicResource TaskbarWidgetPaddingSettingsTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
+                                    <TextBlock Text="{DynamicResource TaskbarWidgetPaddingSettingsDescription}" FontSize="12" Opacity="0.5"/>
                                 </StackPanel>
-                            </ui:CardControl.Header>
-                            <controls:ToggleSwitch IsChecked="{Binding TaskbarWidgetPadding, Mode=TwoWay}">
-                                <controls:ToggleSwitch.Style>
-                                    <!-- Use BasedOn to keep the original look of the ToggleSwitch -->
-                                    <Style TargetType="controls:ToggleSwitch" BasedOn="{StaticResource {x:Type controls:ToggleSwitch}}">
-                                        <Setter Property="IsEnabled" Value="False" />
-                                        <Style.Triggers>
-                                            <MultiDataTrigger>
-                                                <MultiDataTrigger.Conditions>
-                                                    <Condition Binding="{Binding IsPremiumUnlocked}" Value="True" />
-                                                    <Condition Binding="{Binding TaskbarWidgetPosition}" Value="0" />
-                                                </MultiDataTrigger.Conditions>
-                                                <Setter Property="IsEnabled" Value="True" />
-                                            </MultiDataTrigger>
-                                            <MultiDataTrigger>
-                                                <MultiDataTrigger.Conditions>
-                                                    <Condition Binding="{Binding IsPremiumUnlocked}" Value="True" />
-                                                    <Condition Binding="{Binding TaskbarWidgetPosition}" Value="2" />
-                                                </MultiDataTrigger.Conditions>
-                                                <Setter Property="IsEnabled" Value="True" />
-                                            </MultiDataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </controls:ToggleSwitch.Style>
-                            </controls:ToggleSwitch>
-                        </ui:CardControl>
+                            </ui:CardExpander.Header>
+                            <StackPanel>
+                                <ui:CardControl Grid.Row="5" Icon="{ui:SymbolIcon PaddingRight24}" Margin="0,0,0,3">
+                                    <ui:CardControl.Header>
+                                        <StackPanel Orientation="Vertical">
+                                            <TextBlock Text="{DynamicResource TaskbarWidgetPaddingTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
+                                            <TextBlock Text="{DynamicResource TaskbarWidgetPaddingDescription}" FontSize="12" Opacity="0.5"/>
+                                        </StackPanel>
+                                    </ui:CardControl.Header>
+                                    <controls:ToggleSwitch IsChecked="{Binding TaskbarWidgetPadding, Mode=TwoWay}">
+                                        <controls:ToggleSwitch.Style>
+                                            <!-- Use BasedOn to keep the original look of the ToggleSwitch -->
+                                            <Style TargetType="controls:ToggleSwitch" BasedOn="{StaticResource {x:Type controls:ToggleSwitch}}">
+                                                <Setter Property="IsEnabled" Value="False" />
+                                                <Style.Triggers>
+                                                    <MultiDataTrigger>
+                                                        <MultiDataTrigger.Conditions>
+                                                            <Condition Binding="{Binding IsPremiumUnlocked}" Value="True" />
+                                                            <Condition Binding="{Binding TaskbarWidgetPosition}" Value="0" />
+                                                        </MultiDataTrigger.Conditions>
+                                                        <Setter Property="IsEnabled" Value="True" />
+                                                    </MultiDataTrigger>
+                                                    <MultiDataTrigger>
+                                                        <MultiDataTrigger.Conditions>
+                                                            <Condition Binding="{Binding IsPremiumUnlocked}" Value="True" />
+                                                            <Condition Binding="{Binding TaskbarWidgetPosition}" Value="2" />
+                                                        </MultiDataTrigger.Conditions>
+                                                        <Setter Property="IsEnabled" Value="True" />
+                                                    </MultiDataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </controls:ToggleSwitch.Style>
+                                    </controls:ToggleSwitch>
+                                </ui:CardControl>
+                                <ui:CardControl Icon="{ui:SymbolIcon ArrowFit20}" Margin="0,0,0,0">
+                                    <ui:CardControl.Header>
+                                        <StackPanel Orientation="Vertical">
+                                            <TextBlock Text="{DynamicResource TaskbarWidgetManualPaddingTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
+                                            <TextBlock Text="{DynamicResource TaskbarWidgetManualPaddingDescription}" FontSize="12" Opacity="0.5"/>
+                                        </StackPanel>
+                                    </ui:CardControl.Header>
+                                    <StackPanel Orientation="Horizontal">
+                                        <ui:TextBox Width="60" ClearButtonEnabled="False" Text="{Binding TaskbarWidgetManualPaddingText, Mode=TwoWay}"/>
+                                        <TextBlock Text="{DynamicResource PixelsUnit}" FontSize="14" FontWeight="Regular" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                </ui:CardControl>
+                            </StackPanel>
+                        </ui:CardExpander>
+                        
                         <ui:CardControl Grid.Row="6" Icon="{ui:SymbolIcon ExpandUpRight24}" Margin="0,0,0,3">
                             <ui:CardControl.Header>
                                 <StackPanel Orientation="Vertical">
@@ -466,7 +491,7 @@
                                 </StackPanel>
                             </ui:CardControl.Header>
                             <StackPanel Orientation="Horizontal">
-                                <ui:TextBox Name="LockKeysDurationTextBox" Width="60" ClearButtonEnabled="False" Text="{Binding LockKeysDurationText, Mode=TwoWay}"/>
+                                <ui:TextBox Width="60" ClearButtonEnabled="False" Text="{Binding LockKeysDurationText, Mode=TwoWay}"/>
                                 <TextBlock Text="{DynamicResource MillisecondsUnit}" FontSize="14" FontWeight="Regular" Margin="10,0,0,0" VerticalAlignment="Center"/>
                             </StackPanel>
                         </ui:CardControl>
