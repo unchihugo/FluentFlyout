@@ -136,4 +136,5 @@
     <system:String x:Key="TaskbarWidgetControlsDescription">在小工具顯示媒體控制按鈕</system:String>
     <system:String x:Key="TaskbarWidgetAnimatedTitle">小工具動畫</system:String>
     <system:String x:Key="TaskbarWidgetAnimatedDescription">啟用小工具的小動畫</system:String>
+    <system:String x:Key="TrayIcon_ViewLogsOption">查看日誌</system:String>
 </ResourceDictionary>
