@@ -2,10 +2,8 @@
 using FluentFlyout.Classes.Utils;
 using FluentFlyoutWPF;
 using FluentFlyoutWPF.Classes;
-using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Automation;
 using System.Windows.Input;
@@ -14,9 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
-using Windows.Graphics.Printing3D;
 using Windows.Media.Control;
-using WindowsMediaController;
 using Wpf.Ui.Appearance;
 using Wpf.Ui.Controls;
 
@@ -130,6 +126,7 @@ public partial class TaskbarWindow : Window
     private bool _isPaused;
     private int _recoveryAttempts = 0;
     private int _maxRecoveryAttempts = 5;
+    private int _lastSelectedMonitor = -1;
     //private Task _crossFadeTask = Task.CompletedTask;
 
     public TaskbarWindow()
@@ -481,23 +478,25 @@ public partial class TaskbarWindow : Window
         {
             case 0: // left aligned with some padding (like native widgets)
                 physicalLeft = taskbarRect.Left + 20;
-                if (SettingsManager.Current.TaskbarWidgetPadding) // automatic widget padding to the left
-                {
-                    try
-                    {
-                        // find widget button in XAML
-                        (bool found, Rect widgetRect) = GetTaskbarWidgetRect(taskbarHandle);
+                if (!SettingsManager.Current.TaskbarWidgetPadding) 
+                    break;
 
-                        // make sure it's on the left side, otherwise ignore (widget might be to the right)
-                        if (found && widgetRect.Right < taskbarRect.Right / 2)
-                            physicalLeft = taskbarRect.Left + (int)(widgetRect.Right) + 2; // add small padding
-                    }
-                    catch (Exception ex)
-                    {
-                        // fallback to default padding
-                        Logger.Warn(ex, "Failed to get Widgets button position.");
-                        physicalLeft += _nativeWidgetsPadding + 2;
-                    }
+                // automatic widget padding to the left
+                // TODO: support multiple monitors (currently only supports primary monitor)
+                try
+                {
+                    // find widget button in XAML
+                    (bool found, Rect widgetRect) = GetTaskbarWidgetRect(taskbarHandle);
+
+                    // make sure it's on the left side, otherwise ignore (widget might be to the right)
+                    if (found && widgetRect.Right < taskbarRect.Right / 2)
+                        physicalLeft = taskbarRect.Left + (int)(widgetRect.Right) + 2; // add small padding
+                }
+                catch (Exception ex)
+                {
+                    // fallback to default padding
+                    Logger.Warn(ex, "Failed to get Widgets button position.");
+                    physicalLeft += _nativeWidgetsPadding + 2;
                 }
                 break;
 
@@ -508,8 +507,10 @@ public partial class TaskbarWindow : Window
             case 2: // right aligned next to system tray with tiny bit of padding
                 try
                 {
-                    if (SettingsManager.Current.TaskbarWidgetPadding) // automatic widget padding to the right
+                    // try to position next to widgets button if enabled
+                    if (SettingsManager.Current.TaskbarWidgetPadding)
                     {
+                        // TODO: support multiple monitors (currently only supports primary monitor)
                         try
                         {
                             // find widget button in XAML
@@ -518,7 +519,10 @@ public partial class TaskbarWindow : Window
                             // make sure it's on the right side, otherwise ignore (widget might be to the left)
                             if (found && widgetRect.Left > taskbarRect.Right / 2)
                             {
-                                physicalLeft = taskbarRect.Left + (int)(widgetRect.Left) - 2 - physicalWidth; // left of widget
+                                if (SettingsManager.Current.TaskbarWidgetSelectedMonitor == 0)
+                                {
+                                    physicalLeft = taskbarRect.Left + (int)(widgetRect.Left) - 1 - physicalWidth; // left of widget
+                                }
                                 break; // early exit so we don't move it back next to tray below
                             }
                         }
@@ -528,26 +532,32 @@ public partial class TaskbarWindow : Window
                         }
                     }
 
-                    if (_trayHandle == IntPtr.Zero)
+                    // try to position next to system tray
+                    if (SettingsManager.Current.TaskbarWidgetSelectedMonitor != 0)
                     {
-                        _trayHandle = FindWindowEx(taskbarHandle, IntPtr.Zero, "TrayNotifyWnd", null);
-                    }
-
-                    if (_trayHandle == IntPtr.Zero)
-                    {
-                        // find secondary tray
-                        (bool found, Rect systemTrayRect) = GetSystemTrayRect(taskbarHandle);
-
+                        // find secondary tray with automation
+                        (bool found, Rect secondaryTrayRect) = GetSystemTrayRect(taskbarHandle);
                         if (found)
                         {
-                            physicalLeft = (int)(systemTrayRect.Left) - 2 - physicalWidth;
+                            physicalLeft = (int)secondaryTrayRect.Left - physicalWidth - 1;
                             break;
                         }
                     }
+                    else if (_trayHandle == IntPtr.Zero || _lastSelectedMonitor != SettingsManager.Current.TaskbarWidgetSelectedMonitor)
+                    {
+                        if (SettingsManager.Current.TaskbarWidgetSelectedMonitor == 0)
+                        {
+                            // find primary tray handle
+                            _trayHandle = FindWindowEx(taskbarHandle, IntPtr.Zero, "TrayNotifyWnd", null);
+                        }
+                    }
 
+                    // the code reaches here because:
+                    // primary monitor is selected and auto widget padding setting is off
+
+                    // if the tray handle is zero, fallback to left alignment
                     if (_trayHandle == IntPtr.Zero)
                     { 
-                        // Fallback to left alignment
                         physicalLeft = taskbarRect.Left + 20;
                         break;
                     }
@@ -581,6 +591,8 @@ public partial class TaskbarWindow : Window
                  relativePos.X, relativePos.Y,
                  physicalWidth, physicalHeight,
                  SWP_NOZORDER | SWP_NOACTIVATE | SWP_ASYNCWINDOWPOS | SWP_SHOWWINDOW);
+
+        _lastSelectedMonitor = SettingsManager.Current.TaskbarWidgetSelectedMonitor;
     }
 
     public void UpdateUi(string title, string artist, BitmapImage? icon, GlobalSystemMediaTransportControlsSessionPlaybackStatus? playbackStatus, GlobalSystemMediaTransportControlsSessionPlaybackControls? playbackControls = null)
@@ -856,59 +868,32 @@ public partial class TaskbarWindow : Window
         }
     }
 
-    private delegate bool EnumWindowsProc(IntPtr hWnd, IntPtr lParam);
-    [DllImport("user32.dll")]
-    private static extern bool EnumWindows(EnumWindowsProc lpEnumFunc, IntPtr lParam);
-
-    [DllImport("user32.dll")]
-    private static extern int GetClassName(IntPtr hWnd, System.Text.StringBuilder lpClassName, int nMaxCount);
-
     private (bool, Rect) GetSystemTrayRect(IntPtr taskbarHandle)
     {
-        //try
-        //{
-        //    // find secondary tray
-        //    AutomationElement root = AutomationElement.FromHandle(taskbarHandle);
-        //    AutomationElement trayElement = root.FindFirst(TreeScope.Descendants,
-        //        new PropertyCondition(AutomationElement.AutomationIdProperty, "SystemTrayIcon"));
-        //    if (trayElement == null)
-        //    {// print list of all child elements for debugging
-        //        DebugDumpElement(root);
-
-        //        return (false, Rect.Empty);
-        //    }
-        //    return (true, trayElement.Current.BoundingRectangle);
-        //}
-        //catch (COMException ex)
-        //{
-        //    Logger.Error(ex, "COM error retrieving system tray Rect.");
-        //    return (false, Rect.Empty);
-        //}
-        //catch (Exception ex)
-        //{
-        //    Logger.Error(ex, "Error retrieving system tray Rect.");
-        //    return (false, Rect.Empty);
-        //}
-
-        var taskbarHandles = new List<Rect>();
-
-        var stopwatch = Stopwatch.StartNew();
-        EnumWindows((hWnd, lParam) =>
+        try
         {
-            var sbClassName = new System.Text.StringBuilder(256);
+            // find secondary tray
+            AutomationElement root = AutomationElement.FromHandle(taskbarHandle);
+            AutomationElement trayElement = root.FindFirst(TreeScope.Descendants,
+                new PropertyCondition(AutomationElement.AutomationIdProperty, "SystemTrayIcon"));
+            if (trayElement == null)
+            {// print list of all child elements for debugging
+                DebugDumpElement(root);
 
-            GetClassName(hWnd, sbClassName, sbClassName.Capacity);
-
-            if (sbClassName.ToString() == "TrayNotifyWnd")
-            {
-                Console.WriteLine("Found TrayNotifyWnd");
+                return (false, Rect.Empty);
             }
-            return true;
-        }, IntPtr.Zero);
-        stopwatch.Stop();
-        Logger.Debug($"EnumWindows duration: {stopwatch.Elapsed.TotalMilliseconds} ms");
-
-        return (true, Rect.Empty);
+            return (true, trayElement.Current.BoundingRectangle);
+        }
+        catch (COMException ex)
+        {
+            Logger.Error(ex, "COM error retrieving system tray Rect.");
+            return (false, Rect.Empty);
+        }
+        catch (Exception ex)
+        {
+            Logger.Error(ex, "Error retrieving system tray Rect.");
+            return (false, Rect.Empty);
+        }
     }
 
     private void DebugDumpElement(AutomationElement element, int depth = 0)
