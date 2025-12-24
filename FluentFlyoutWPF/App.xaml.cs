@@ -1,4 +1,5 @@
 ﻿using FluentFlyout.Classes;
+using Microsoft.Toolkit.Uwp.Notifications;
 using System.Windows;
 
 namespace FluentFlyoutWPF;
@@ -17,6 +18,9 @@ public partial class App : Application
             NLog.LogManager.Flush(); // Ensure logs are written before application dies
         };
 
+        // Register AUMID for toast notifications
+        ToastNotificationManagerCompat.OnActivated += Notifications.HandleNotificationActivation;
+        
         // Apply localization before any windows are created
         LocalizationManager.ApplyLocalization();
         

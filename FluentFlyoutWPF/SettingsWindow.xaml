@@ -43,6 +43,7 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
@@ -504,7 +505,19 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
-                        <ui:CardControl Grid.Row="0" Icon="{ui:SymbolIcon ShareScreenStart24}" Margin="0,0,0,3">
+                        <ui:CardControl Grid.Row="0" Icon="{ui:SymbolIcon ProjectionScreen24}" Margin="0,0,0,3">
+                            <ui:CardControl.Header>
+                                <StackPanel Orientation="Vertical">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{DynamicResource SelectedMonitorTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
+                                        <ui:InfoBadge Value=" New " FontWeight="Medium" FontSize="10" Margin="6,-2,0,-2" Severity="Success"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </ui:CardControl.Header>
+                            <ComboBox x:Name="SelectedMonitorComboBox" SelectedIndex="{Binding SelectedMonitor, Mode=TwoWay}" >
+                            </ComboBox>
+                        </ui:CardControl>
+                        <ui:CardControl Grid.Row="1" Icon="{ui:SymbolIcon ShareScreenStart24}" Margin="0,0,0,3">
                             <ui:CardControl.Header>
                                 <StackPanel Orientation="Vertical">
                                     <TextBlock Text="{DynamicResource LaunchOnStartupTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
@@ -520,7 +533,7 @@
                             </ui:CardControl.Header>
                             <controls:ToggleSwitch Name="StartupSwitch" Click="StartupSwitch_Click" IsChecked="{Binding Startup, Mode=TwoWay}"/>
                         </ui:CardControl>
-                        <ui:CardControl Grid.Row="1" Icon="{ui:SymbolIcon Color24}" Margin="0,0,0,3">
+                        <ui:CardControl Grid.Row="2" Icon="{ui:SymbolIcon Color24}" Margin="0,0,0,3">
                             <ui:CardControl.Header>
                                 <StackPanel Orientation="Vertical">
                                     <TextBlock Text="{DynamicResource AppThemeTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
@@ -532,7 +545,7 @@
                                 <ComboBoxItem Content="{DynamicResource AppThemeDark}"/>
                             </ComboBox>
                         </ui:CardControl>
-                        <ui:CardControl Grid.Row="2" Icon="{ui:SymbolIcon Globe24}" Margin="0,0,0,3">
+                        <ui:CardControl Grid.Row="3" Icon="{ui:SymbolIcon Globe24}" Margin="0,0,0,3">
                             <ui:CardControl.Header>
                                 <StackPanel Orientation="Vertical">
                                     <TextBlock Text="{DynamicResource AppLanguageTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>

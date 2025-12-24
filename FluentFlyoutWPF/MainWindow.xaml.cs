@@ -176,7 +176,8 @@ public partial class MainWindow : MicaWindow
         {
             LocalizationManager.ApplyLocalization();
             // show settings to new users
-            if (SettingsManager.Current.LastKnownVersion == "")
+            string previousVersion = SettingsManager.Current.LastKnownVersion;
+            if (previousVersion == "")
                 SettingsWindow.ShowInstance();
 
             try // update last known version. gets the version of the app, works only in release mode
@@ -186,8 +187,12 @@ public partial class MainWindow : MicaWindow
             }
             catch
             {
-                SettingsManager.Current.LastKnownVersion = "debug version";
+                SettingsManager.Current.LastKnownVersion = "debug";
             }
+
+            Logger.Info($"Current version: {SettingsManager.Current.LastKnownVersion}");
+
+            Notifications.ShowFirstOrUpdateNotification(previousVersion, SettingsManager.Current.LastKnownVersion);
         });
     }
 
@@ -223,6 +228,12 @@ public partial class MainWindow : MicaWindow
         return easingStyle;
     }
 
+    private WindowHelper.MonitorInfo getSelectedMonitor()
+    {
+        var monitors = WindowHelper.GetMonitors();
+        return monitors[Math.Clamp(SettingsManager.Current.SelectedMonitor, 0, monitors.Count - 1)];
+    }
+
     public void OpenAnimation(MicaWindow window, bool alwaysBottom = false)
     {
         var eventTriggers = window.Triggers[0] as EventTrigger;
@@ -230,74 +241,94 @@ public partial class MainWindow : MicaWindow
         var storyboard = beginStoryboard.Storyboard;
 
         DoubleAnimation moveAnimation = (DoubleAnimation)storyboard.Children[0];
+        var monitor = getSelectedMonitor();
+        var workArea = monitor.workArea;
 
+        // prevent flickering
+        WindowHelper.SetVisibility(window, false); // window.Visibility = Visibility.Hidden works with some delay
+
+        // Update the DPI by moving the window to the target workArea, ignoring WPF scaling
+        WindowHelper.SetPosition(window, workArea.Left, workArea.Top);
+        var windowRect = WindowHelper.GetPlacement(window); // here we take the updated window size in raw coordinates.
+
+        double window_left = 0;
+
+        // Here we work with raw monitor coordinates, without taking DPI into account.
         if (alwaysBottom == false)
         {
             _position = SettingsManager.Current.Position;
             if (_position == 0)
             {
-                window.Left = 16;
+                window_left = workArea.Left + 16;
+                moveAnimation.To = workArea.Top + workArea.Height - windowRect.Height - 16;
                 if (SettingsManager.Current.FlyoutAnimationSpeed == 0) // if off, don't animate (just appear at the bottom)
-                    moveAnimation.From = SystemParameters.WorkArea.Height - window.Height - 16;
+                    moveAnimation.From = moveAnimation.To;
                 else
-                    moveAnimation.From = SystemParameters.WorkArea.Height - window.Height + 4; // appear from the bottom of the screen
-                moveAnimation.To = SystemParameters.WorkArea.Height - window.Height - 16;
+                    moveAnimation.From = workArea.Top + workArea.Height - windowRect.Height + 4; // appear from the bottom of the screen
             }
             else if (_position == 1)
             {
-                window.Left = SystemParameters.WorkArea.Width / 2 - window.Width / 2;
+                window_left = workArea.Left + workArea.Width / 2 - windowRect.Width / 2;
+                moveAnimation.To = workArea.Top + workArea.Height - windowRect.Height - 80;
                 if (SettingsManager.Current.FlyoutAnimationSpeed == 0)
-                    moveAnimation.From = SystemParameters.WorkArea.Height - window.Height - 80;
+                    moveAnimation.From = moveAnimation.To;
                 else
-                    moveAnimation.From = SystemParameters.WorkArea.Height - window.Height - 60;
-                moveAnimation.To = SystemParameters.WorkArea.Height - window.Height - 80;
+                    moveAnimation.From = workArea.Top + workArea.Height - windowRect.Height - 60;
             }
             else if (_position == 2)
             {
-                window.Left = SystemParameters.WorkArea.Width - window.Width - 16;
+                window_left = workArea.Left + workArea.Width - windowRect.Width - 16;
+                moveAnimation.To = workArea.Top + workArea.Height - windowRect.Height - 16;
                 if (SettingsManager.Current.FlyoutAnimationSpeed == 0)
-                    moveAnimation.From = SystemParameters.WorkArea.Height - window.Height - 16;
+                    moveAnimation.From = moveAnimation.To;
                 else
-                    moveAnimation.From = SystemParameters.WorkArea.Height - window.Height + 4;
-                moveAnimation.To = SystemParameters.WorkArea.Height - window.Height - 16;
+                    moveAnimation.From = workArea.Top + workArea.Height - windowRect.Height + 4;
             }
             else if (_position == 3)
             {
-                window.Left = 16;
+                window_left = workArea.Left + 16;
+                moveAnimation.To = workArea.Top + 16;
                 if (SettingsManager.Current.FlyoutAnimationSpeed == 0)
-                    moveAnimation.From = 16;
+                    moveAnimation.From = moveAnimation.To;
                 else
-                    moveAnimation.From = -4;
-                moveAnimation.To = 16;
+                    moveAnimation.From = workArea.Top + -4;
             }
             else if (_position == 4)
             {
-                window.Left = SystemParameters.WorkArea.Width / 2 - window.Width / 2;
+                window_left = workArea.Left + workArea.Width / 2 - windowRect.Width / 2;
+                moveAnimation.To = workArea.Top + 16;
                 if (SettingsManager.Current.FlyoutAnimationSpeed == 0)
-                    moveAnimation.From = 16;
+                    moveAnimation.From = moveAnimation.To;
                 else
-                    moveAnimation.From = -4;
-                moveAnimation.To = 16;
+                    moveAnimation.From = workArea.Top + -4;
             }
             else if (_position == 5)
             {
-                window.Left = SystemParameters.WorkArea.Width - window.Width - 16;
+                window_left = workArea.Left + workArea.Width - windowRect.Width - 16;
+                moveAnimation.To = workArea.Top + 16;
                 if (SettingsManager.Current.FlyoutAnimationSpeed == 0)
-                    moveAnimation.From = 16;
+                    moveAnimation.From = moveAnimation.To;
                 else
-                    moveAnimation.From = -4;
-                moveAnimation.To = 16;
+                    moveAnimation.From = workArea.Top + -4;
             }
         }
         else
         {
-            window.Left = SystemParameters.WorkArea.Width / 2 - window.Width / 2;
+            window_left = workArea.Left + workArea.Width / 2 - windowRect.Width / 2;
+            moveAnimation.To = workArea.Top + workArea.Height - windowRect.Height - 16;
             if (SettingsManager.Current.FlyoutAnimationSpeed == 0)
-                moveAnimation.From = SystemParameters.WorkArea.Height - window.Height - 16;
+                moveAnimation.From = moveAnimation.To;
             else
-                moveAnimation.From = SystemParameters.WorkArea.Height - window.Height + 4;
-            moveAnimation.To = SystemParameters.WorkArea.Height - window.Height - 16;
+                moveAnimation.From = workArea.Top + workArea.Height - windowRect.Height + 4;
         }
+
+        // Set the initial position in raw coordinates.
+        WindowHelper.SetPosition(window, window_left, moveAnimation.From!.Value);
+
+        // Next coordinates will be used to set Window.Top, which takes DPI into account,
+        // so we need to convert the coordinates to DPI scale.
+        moveAnimation.From *= 96.0 / monitor.dpiY;
+        moveAnimation.To *= 96.0 / monitor.dpiY;
 
         int msDuration = getDuration();
 
@@ -311,6 +342,7 @@ public partial class MainWindow : MicaWindow
         moveAnimation.Duration = new Duration(TimeSpan.FromMilliseconds(msDuration));
 
         storyboard.Begin(window);
+        WindowHelper.SetVisibility(window, true);
     }
 
     public void CloseAnimation(MicaWindow window, bool alwaysBottom = false)
@@ -320,31 +352,42 @@ public partial class MainWindow : MicaWindow
         var storyboard = beginStoryboard.Storyboard;
 
         DoubleAnimation moveAnimation = (DoubleAnimation)storyboard.Children[0];
+        var monitor = getSelectedMonitor();
+        var workArea = monitor.workArea;
+        var windowRect = WindowHelper.GetPlacement(window);
 
         if (alwaysBottom == false)
         {
             _position = SettingsManager.Current.Position;
             if (_position == 0 || _position == 2)
             {
-                moveAnimation.From = SystemParameters.WorkArea.Height - window.Height - 16;
-                if (SettingsManager.Current.FlyoutAnimationSpeed != 0) moveAnimation.To = SystemParameters.WorkArea.Height - window.Height + 4;
+                moveAnimation.From = workArea.Top + workArea.Height - windowRect.Height - 16;
+                if (SettingsManager.Current.FlyoutAnimationSpeed != 0)
+                    moveAnimation.To = workArea.Top + workArea.Height - windowRect.Height + 4;
             }
             else if (_position == 1)
             {
-                moveAnimation.From = SystemParameters.WorkArea.Height - window.Height - 80;
-                if (SettingsManager.Current.FlyoutAnimationSpeed != 0) moveAnimation.To = SystemParameters.WorkArea.Height - window.Height - 60;
+                moveAnimation.From = workArea.Top + workArea.Height - windowRect.Height - 80;
+                if (SettingsManager.Current.FlyoutAnimationSpeed != 0)
+                    moveAnimation.To = workArea.Top + workArea.Height - windowRect.Height - 60;
             }
             else if (_position == 3 || _position == 4 || _position == 5)
             {
-                moveAnimation.From = 16;
-                if (SettingsManager.Current.FlyoutAnimationSpeed != 0) moveAnimation.To = -4;
+                moveAnimation.From = workArea.Top + 16;
+                if (SettingsManager.Current.FlyoutAnimationSpeed != 0)
+                    moveAnimation.To = workArea.Top + -4;
             }
         }
         else
         {
-            moveAnimation.From = SystemParameters.WorkArea.Height - window.Height - 16;
-            if (SettingsManager.Current.FlyoutAnimationSpeed != 0) moveAnimation.To = SystemParameters.WorkArea.Height - window.Height + 4;
+            moveAnimation.From = workArea.Top + workArea.Height - windowRect.Height - 16;
+            if (SettingsManager.Current.FlyoutAnimationSpeed != 0)
+                moveAnimation.To = workArea.Top + workArea.Height - windowRect.Height + 4;
         }
+
+        moveAnimation.From *= 96.0 / monitor.dpiY;
+        if (moveAnimation.To != null)
+            moveAnimation.To *= 96.0 / monitor.dpiY;
 
         int msDuration = getDuration();
 
@@ -391,6 +434,19 @@ public partial class MainWindow : MicaWindow
         });
     }
 
+    private void openLogsFolder(object? sender, EventArgs e)
+    {
+        try
+        {
+            string logFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "FluentFlyout");
+            Process.Start("explorer.exe", logFolderPath);
+        }
+        catch (Exception ex)
+        {
+            Logger.Error(ex, "Failed to open logs folder");
+        }
+    }
+
     private void pauseOtherMediaSessionsIfNeeded(MediaSession mediaSession)
     {
         if (
@@ -431,6 +487,10 @@ public partial class MainWindow : MicaWindow
     private string previousMediaPropertyThumbnail = "";
     private void MediaManager_OnAnyMediaPropertyChanged(MediaSession mediaSession, GlobalSystemMediaTransportControlsSessionMediaProperties mediaProperties)
     {
+        // sometimes mediaSession.ControlSession can be null
+        if (mediaSession.ControlSession == null)
+            return;
+
 #if DEBUG
         Logger.Debug("Media property changed: " + mediaProperties.Title + " " + mediaSession.ControlSession.GetPlaybackInfo().PlaybackStatus);
 #endif
@@ -450,7 +510,7 @@ public partial class MainWindow : MicaWindow
         {
             onlyThumbnailChanged = true;
             if (previousMediaPropertyThumbnail == checkThumbnail)
-            return; // prevent multiple calls for the same song info
+                return; // prevent multiple calls for the same song info
         }
 
         previousMediaProperty = check;
@@ -483,7 +543,11 @@ public partial class MainWindow : MicaWindow
             {
                 Dispatcher.Invoke(() =>
                 {
-                    nextUpWindow?.Close(); // must be cleared by the Closed event
+                    if (nextUpWindow != null)
+                    {
+                        WindowHelper.SetVisibility(nextUpWindow, false); // prevents rare flickering during rapid closing
+                        nextUpWindow.Close(); // must be cleared by the Closed event
+                    }
                 });
                 createNewNextUpWindow();
             }
@@ -672,6 +736,12 @@ public partial class MainWindow : MicaWindow
             _alwaysDisplay != SettingsManager.Current.MediaFlyoutAlwaysDisplay)
             UpdateUILayout();
 
+        // sometimes mediaSession.ControlSession can be null
+        if (mediaSession.ControlSession == null)
+            return;
+
+        var controlSession = mediaSession.ControlSession;
+
         Dispatcher.Invoke(() =>
         {
             UpdateMediaFlyoutCloseButtonVisibility();
@@ -690,10 +760,10 @@ public partial class MainWindow : MicaWindow
                 return;
             }
 
-            var mediaProperties = mediaSession.ControlSession.GetPlaybackInfo();
+            var mediaProperties = controlSession.GetPlaybackInfo();
             if (mediaProperties != null)
             {
-                if (mediaSession.ControlSession.GetPlaybackInfo().Controls.IsPauseEnabled)
+                if (mediaProperties.Controls.IsPauseEnabled)
                 {
                     ControlPlayPause.IsEnabled = true;
                     ControlPlayPause.Opacity = 1;
@@ -782,7 +852,7 @@ public partial class MainWindow : MicaWindow
                 }
             }
 
-            var songInfo = mediaSession.ControlSession.TryGetMediaPropertiesAsync().GetAwaiter().GetResult();
+            var songInfo = controlSession.TryGetMediaPropertiesAsync().GetAwaiter().GetResult();
             if (songInfo != null)
             {
                 SongTitle.Text = songInfo.Title;
@@ -815,7 +885,7 @@ public partial class MainWindow : MicaWindow
 
                 if (_seekBarEnabled)
                 {
-                    var timeline = mediaSession.ControlSession.GetTimelineProperties();
+                    var timeline = controlSession.GetTimelineProperties();
 
                     // State tracking
                     bool mediaSessionSupportsSeekbar = timeline.MaxSeekTime.TotalSeconds >= 1.0; // Heuristics

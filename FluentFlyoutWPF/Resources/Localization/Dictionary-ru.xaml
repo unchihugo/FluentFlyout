@@ -131,4 +131,8 @@
     <system:String x:Key="HideTrayIconTitle">Скрыть иконку в трее</system:String>
     <system:String x:Key="HideTrayIconDescription">Получите доступ к настройкам из трея при запуске программы</system:String>
     <system:String x:Key="AboutPremiumTitle">О премиум-функциях</system:String>
+    <system:String x:Key="TaskbarWidgetControlsDescription">Показывать медиа-кнопки на виджете</system:String>
+    <system:String x:Key="TaskbarWidgetAnimatedTitle">Анимации виджета</system:String>
+    <system:String x:Key="TaskbarWidgetAnimatedDescription">Включает некоторые анимации виджета</system:String>
+    <system:String x:Key="TaskbarWidgetControlsTitle">Медиа-кнопки на виджете</system:String>
 </ResourceDictionary>
