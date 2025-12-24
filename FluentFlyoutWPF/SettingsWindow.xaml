@@ -278,19 +278,7 @@
                         </ui:CardControl>
                         <ui:InfoBar Grid.Row="3" Title="{DynamicResource TaskbarWidgetVisualIssuesWarning}" IsOpen="True" Severity="Warning" IsClosable="False" Margin="0,0,0,3"/>
 
-                        <ui:CardControl Grid.Row="4" Icon="{ui:SymbolIcon ProjectionScreen24}" Margin="0,0,0,3">
-                            <ui:CardControl.Header>
-                                <StackPanel Orientation="Vertical">
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="{DynamicResource TaskbarWidgetSelectedMonitorTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
-                                        <ui:InfoBadge Value=" New " FontWeight="Medium" FontSize="10" Margin="6,-2,0,-2" Severity="Success"/>
-                                    </StackPanel>
-                                </StackPanel>
-                            </ui:CardControl.Header>
-                            <ComboBox x:Name="TaskbarWidgetSelectedMonitorComboBox" SelectedIndex="{Binding TaskbarWidgetSelectedMonitor, Mode=TwoWay}" >
-                            </ComboBox>
-                        </ui:CardControl>
-                        <ui:CardControl Grid.Row="5" Icon="{ui:SymbolIcon ArrowMove24}" Margin="0,0,0,3">
+                        <ui:CardControl Grid.Row="4" Icon="{ui:SymbolIcon ArrowMove24}" Margin="0,0,0,3">
                             <ui:CardControl.Header>
                                 <StackPanel Orientation="Vertical">
                                     <TextBlock Text="{DynamicResource TaskbarWidgetPosition}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
@@ -302,9 +290,21 @@
                                 <ComboBoxItem Content="{DynamicResource PositionBottomRight}"/>
                             </ComboBox>
                         </ui:CardControl>
-                        
+                        <ui:CardControl Grid.Row="5" Icon="{ui:SymbolIcon ProjectionScreen24}" Margin="0,0,0,3">
+                            <ui:CardControl.Header>
+                                <StackPanel Orientation="Vertical">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{DynamicResource TaskbarWidgetSelectedMonitorTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
+                                        <ui:InfoBadge Value=" New " FontWeight="Medium" FontSize="10" Margin="6,-2,0,-2" Severity="Success"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </ui:CardControl.Header>
+                            <ComboBox x:Name="TaskbarWidgetSelectedMonitorComboBox" SelectedIndex="{Binding TaskbarWidgetSelectedMonitor, Mode=TwoWay}" >
+                            </ComboBox>
+                        </ui:CardControl>
+
                         <!-- Padding settings -->
-                        <ui:CardExpander Grid.Row="5" Icon="{ui:SymbolIcon Wrench24}" ContentPadding="6" Margin="0,0,0,12">
+                        <ui:CardExpander Grid.Row="6" Icon="{ui:SymbolIcon Wrench24}" ContentPadding="6" Margin="0,0,0,12">
                             <ui:CardExpander.Header>
                                 <StackPanel Orientation="Vertical">
                                     <TextBlock Text="{DynamicResource TaskbarWidgetPaddingSettingsTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
@@ -359,7 +359,7 @@
                             </StackPanel>
                         </ui:CardExpander>
                         
-                        <ui:CardControl Grid.Row="6" Icon="{ui:SymbolIcon ExpandUpRight24}" Margin="0,0,0,3">
+                        <ui:CardControl Grid.Row="7" Icon="{ui:SymbolIcon ExpandUpRight24}" Margin="0,0,0,3">
                             <ui:CardControl.Header>
                                 <StackPanel Orientation="Vertical">
                                     <TextBlock Text="{DynamicResource TaskbarWidgetClickableTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
