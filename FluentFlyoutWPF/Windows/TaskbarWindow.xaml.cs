@@ -477,20 +477,19 @@ public partial class TaskbarWindow : Window
         switch (SettingsManager.Current.TaskbarWidgetPosition)
         {
             case 0: // left aligned with some padding (like native widgets)
-                physicalLeft = taskbarRect.Left + 20;
+                physicalLeft += 20;
                 if (!SettingsManager.Current.TaskbarWidgetPadding) 
                     break;
 
                 // automatic widget padding to the left
-                // TODO: support multiple monitors (currently only supports primary monitor)
                 try
                 {
                     // find widget button in XAML
                     (bool found, Rect widgetRect) = GetTaskbarWidgetRect(taskbarHandle);
 
                     // make sure it's on the left side, otherwise ignore (widget might be to the right)
-                    if (found && widgetRect.Right < taskbarRect.Right / 2)
-                        physicalLeft = taskbarRect.Left + (int)(widgetRect.Right) + 2; // add small padding
+                    if (found && widgetRect.Right < (taskbarRect.Left + taskbarRect.Right) / 2)
+                        physicalLeft = (int)(widgetRect.Right) + 2; // add small padding
                 }
                 catch (Exception ex)
                 {
@@ -501,7 +500,7 @@ public partial class TaskbarWindow : Window
                 break;
 
             case 1: // center of the taskbar
-                physicalLeft = taskbarRect.Left + (taskbarRect.Right - taskbarRect.Left - physicalWidth) / 2;
+                physicalLeft += (taskbarRect.Right - taskbarRect.Left - physicalWidth) / 2;
                 break;
 
             case 2: // right aligned next to system tray with tiny bit of padding
@@ -517,12 +516,9 @@ public partial class TaskbarWindow : Window
                             (bool found, Rect widgetRect) = GetTaskbarWidgetRect(taskbarHandle);
 
                             // make sure it's on the right side, otherwise ignore (widget might be to the left)
-                            if (found && widgetRect.Left > taskbarRect.Right / 2)
+                            if (found && widgetRect.Left > (taskbarRect.Left + taskbarRect.Right) / 2)
                             {
-                                if (SettingsManager.Current.TaskbarWidgetSelectedMonitor == 0)
-                                {
-                                    physicalLeft = taskbarRect.Left + (int)(widgetRect.Left) - 1 - physicalWidth; // left of widget
-                                }
+                                physicalLeft = (int)(widgetRect.Left) - 1 - physicalWidth; // left of widget
                                 break; // early exit so we don't move it back next to tray below
                             }
                         }
@@ -822,6 +818,10 @@ public partial class TaskbarWindow : Window
     {
         try
         {
+            // reset if monitor changed
+            if (_lastSelectedMonitor != SettingsManager.Current.TaskbarWidgetSelectedMonitor)
+                _widgetElement = null;
+
             // find widget button in XAML
             if (_widgetElement == null)
             {
