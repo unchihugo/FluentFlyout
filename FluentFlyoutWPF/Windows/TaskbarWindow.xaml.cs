@@ -35,6 +35,9 @@ public partial class TaskbarWindow : Window
     private static extern IntPtr SetParent(IntPtr hWndChild, IntPtr hWndNewParent);
 
     [DllImport("user32.dll", SetLastError = true)]
+    private static extern IntPtr GetParent(IntPtr hWnd);
+
+    [DllImport("user32.dll", SetLastError = true)]
     private static extern bool GetWindowRect(IntPtr hWnd, out RECT lpRect);
 
     [DllImport("dwmapi.dll")]
@@ -153,7 +156,7 @@ public partial class TaskbarWindow : Window
 
         return IntPtr.Zero;
     }
-    
+
     private void Window_Loaded(object sender, RoutedEventArgs e)
     {
         SetupWindow();
@@ -260,7 +263,7 @@ public partial class TaskbarWindow : Window
             style = (style & ~WS_POPUP) | WS_CHILD;
             SetWindowLong(myHandle, GWL_STYLE, style);
 
-            SetParent(myHandle, taskbarHandle);
+            SetParent(myHandle, taskbarHandle); // if this window is created faster than the Taskbar is loaded, then taskbarHandle will be NULL.
 
             CalculateAndSetPosition(taskbarHandle, myHandle);
 
@@ -315,6 +318,12 @@ public partial class TaskbarWindow : Window
                 }, DispatcherPriority.Background);
 
                 return;
+            }
+
+            // If the Taskbar was not found during initialization, then we need to set the Taskbar as the Parent here.
+            if (GetParent(interop.Handle) != taskbarHandle)
+            {
+                SetParent(interop.Handle, taskbarHandle);
             }
 
             if (taskbarHandle != IntPtr.Zero && interop.Handle != IntPtr.Zero)
