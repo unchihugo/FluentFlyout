@@ -3,6 +3,7 @@ using FluentFlyout.Classes.Utils;
 using FluentFlyoutWPF;
 using FluentFlyoutWPF.Classes;
 using System.Runtime.InteropServices;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Automation;
@@ -26,10 +27,19 @@ public partial class TaskbarWindow : Window
 {
     // --- Win32 APIs ---
     [DllImport("user32.dll", SetLastError = true)]
-    private static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
+    private static extern IntPtr FindWindow(string lpClassName, string? lpWindowName);
 
     [DllImport("user32.dll", SetLastError = true)]
-    private static extern IntPtr FindWindowEx(IntPtr parentHandle, IntPtr childAfter, string className, string windowTitle);
+    private static extern IntPtr FindWindowEx(IntPtr parentHandle, IntPtr childAfter, string? className, string? windowTitle);
+
+    [DllImport("user32.dll", SetLastError = true)]
+    private static extern bool EnumWindows(EnumWindowsProc enumProc, IntPtr lParam);
+    [DllImport("user32.dll", SetLastError = true)]
+    private static extern bool EnumThreadWindows(uint dwThreadId, EnumWindowsProc enumProc, IntPtr lParam);
+    private delegate bool EnumWindowsProc(IntPtr hWnd, IntPtr lParam);
+
+    [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
+    private static extern int GetClassName(IntPtr hWnd, StringBuilder lpClassName, int nMaxCount);
 
     [DllImport("user32.dll", SetLastError = true)]
     private static extern IntPtr SetParent(IntPtr hWndChild, IntPtr hWndNewParent);
@@ -39,6 +49,9 @@ public partial class TaskbarWindow : Window
 
     [DllImport("user32.dll", SetLastError = true)]
     private static extern bool GetWindowRect(IntPtr hWnd, out RECT lpRect);
+
+    [DllImport("user32.dll", SetLastError = true)]
+    private static extern uint GetWindowThreadProcessId(IntPtr hWnd, IntPtr lpdwProcessId);
 
     [DllImport("dwmapi.dll")]
     private static extern int DwmExtendFrameIntoClientArea(IntPtr hwnd, ref MARGINS margins);
@@ -247,6 +260,85 @@ public partial class TaskbarWindow : Window
         _mainWindow.ShowMediaFlyout();
     }
 
+    private IntPtr GetSelectedTaskbarHandle()
+    {
+        var monitors = WindowHelper.GetMonitors();
+        var selectedMonitor = monitors[Math.Clamp(SettingsManager.Current.TaskbarWidgetSelectedMonitor, 0, monitors.Count - 1)];
+
+        // Get the main taskbar and check if it is on the selected monitor.
+        var mainHwnd = FindWindow("Shell_TrayWnd", null);
+        if (WindowHelper.GetMonitor(mainHwnd).deviceId == selectedMonitor.deviceId)
+        {
+            return mainHwnd;
+        }
+
+        if (monitors.Count == 1)
+            return mainHwnd;
+
+        if (monitors.Count == 2)
+        {
+            var hwnd = FindWindow("Shell_SecondaryTrayWnd", null);
+            if (WindowHelper.GetMonitor(hwnd).deviceId == selectedMonitor.deviceId)
+                return hwnd;
+            else
+                return mainHwnd;
+        }
+
+        // If there are more than two monitors, we will need to enumerate all existing windows
+        // to find all Shell_SecondaryTrayWnd among them.
+
+        IntPtr secondHwnd = IntPtr.Zero;
+        StringBuilder className = new(256); // 256 is the maximum class name length
+        IntPtr checkWindowClass(IntPtr wnd)
+        {
+            var len = GetClassName(wnd, className, className.Capacity);
+            if (className.Equals("Shell_SecondaryTrayWnd"))
+            {
+                if (WindowHelper.GetMonitor(wnd).deviceId == selectedMonitor.deviceId)
+                {
+                    return wnd;
+                }
+            }
+            return IntPtr.Zero;
+        }
+
+        // Get the threadId of the main taskbar and check all windows created in the same thread.
+        // This is very fast, but in some cases Shell_TrayWnd and other Shell_SecondaryTrayWnd's may be created in different threads.
+        // Actually, I couldn't achieve that kind of behavior.
+        if (mainHwnd != IntPtr.Zero)
+        {
+            uint threadId = GetWindowThreadProcessId(mainHwnd, IntPtr.Zero);
+            EnumThreadWindows(threadId, (wnd, param) =>
+            {
+                secondHwnd = checkWindowClass(wnd);
+                if (secondHwnd != IntPtr.Zero)
+                    return false; // stop
+
+                return true;
+            }, IntPtr.Zero);
+
+            if (secondHwnd != IntPtr.Zero)
+                return secondHwnd;
+        }
+
+        // If for some reason the taskbars were created in different threads or simply could not be found,
+        // we try to find them among all existing windows.
+        EnumWindows((wnd, param) =>
+        {
+            secondHwnd = checkWindowClass(wnd);
+            if (secondHwnd != IntPtr.Zero)
+                return false; // stop
+
+            return true;
+        }, IntPtr.Zero);
+
+        if (secondHwnd != IntPtr.Zero)
+            return secondHwnd;
+
+        // Logger.Debug($"No taskbar found on the selected monitor. Using the main taskbar.");
+        return mainHwnd;
+    }
+
     private void SetupWindow()
     {
         try
@@ -256,7 +348,7 @@ public partial class TaskbarWindow : Window
 
             Background = _hitTestTransparent; // ensures that non-content areas also trigger MouseEnter event
 
-            IntPtr taskbarHandle = FindWindow("Shell_TrayWnd", null);
+            IntPtr taskbarHandle = GetSelectedTaskbarHandle();
 
             // This prevents the window from trying to float above the taskbar as a separate entity
             int style = GetWindowLong(myHandle, GWL_STYLE);
@@ -289,7 +381,7 @@ public partial class TaskbarWindow : Window
         try
         {
             var interop = new WindowInteropHelper(this);
-            IntPtr taskbarHandle = FindWindow("Shell_TrayWnd", null);
+            IntPtr taskbarHandle = GetSelectedTaskbarHandle();
 
             if (interop.Handle == IntPtr.Zero) // window handle lost, try to reset
             {
@@ -320,7 +412,8 @@ public partial class TaskbarWindow : Window
                 return;
             }
 
-            // If the Taskbar was not found during initialization, then we need to set the Taskbar as the Parent here.
+            // If the Taskbar was not found during initialization or another taskbar was selected,
+            // then we need to set the Taskbar as the Parent here.
             if (GetParent(interop.Handle) != taskbarHandle)
             {
                 SetParent(interop.Handle, taskbarHandle);

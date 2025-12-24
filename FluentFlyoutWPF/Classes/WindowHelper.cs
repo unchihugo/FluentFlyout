@@ -19,6 +19,13 @@ public static class WindowHelper
     private const int MONITORINFOF_PRIMARY = 1;
     private const int SWP_ASYNCWINDOWPOS = 0x4000;
 
+    public enum MonitorFromWindowFlags : int
+    {
+        DEFAULTTONULL = 0,
+        DEFAULTTOPRIMARY = 1,
+        DEFAULTTONEAREST = 2,
+    }
+
     public enum MonitorDpiType
     {
         MDT_EFFECTIVE_DPI = 0,
@@ -61,20 +68,23 @@ public static class WindowHelper
     }
 
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
-    private struct MONITORINFO
+    private struct MONITORINFOEX
     {
         public int cbSize;
         public RECT rcMonitor;
         public RECT rcWork;
         public int dwFlags;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
+        public string szDevice;
 
-        public static implicit operator MonitorInfo(MONITORINFO other)
+        public static implicit operator MonitorInfo(MONITORINFOEX other)
         {
             var monitor = new MonitorInfo
             {
                 monitorArea = other.rcMonitor,
                 workArea = other.rcWork,
-                isPrimary = (other.dwFlags & MONITORINFOF_PRIMARY) != 0
+                isPrimary = (other.dwFlags & MONITORINFOF_PRIMARY) != 0,
+                deviceId = other.szDevice
             };
 
             return monitor;
@@ -88,6 +98,7 @@ public static class WindowHelper
         public bool isPrimary;
         public uint dpiX;
         public uint dpiY;
+        public string deviceId;
     }
 
     private delegate bool MonitorEnumProc(IntPtr hMonitor, IntPtr hdcMonitor, ref RECT lprcMonitor, IntPtr dwData);
@@ -96,7 +107,7 @@ public static class WindowHelper
     private static extern bool EnumDisplayMonitors(IntPtr hdc, IntPtr lprcClip, MonitorEnumProc lpfnEnum, IntPtr dwData);
 
     [DllImport("user32.dll", CharSet = CharSet.Auto)]
-    private static extern bool GetMonitorInfo(IntPtr hMonitor, ref MONITORINFO lpmi);
+    private static extern bool GetMonitorInfo(IntPtr hMonitor, ref MONITORINFOEX lpmi);
 
     [DllImport("user32.dll")]
     private static extern IntPtr MonitorFromWindow(IntPtr hwnd, int dwFlags);
@@ -156,7 +167,7 @@ public static class WindowHelper
 
     private static MonitorInfo getMonitorInfoInternal(IntPtr hMonitor)
     {
-        MONITORINFO info = new() { cbSize = Marshal.SizeOf<MONITORINFO>() };
+        MONITORINFOEX info = new() { cbSize = Marshal.SizeOf<MONITORINFOEX>() };
 
         if (GetMonitorInfo(hMonitor, ref info))
         {
@@ -179,12 +190,15 @@ public static class WindowHelper
         return new MonitorInfo();
     }
 
-    public static MonitorInfo GetMonitor(Window window)
+    public static MonitorInfo GetMonitor(IntPtr hwnd, MonitorFromWindowFlags flag = MonitorFromWindowFlags.DEFAULTTONEAREST)
     {
-        var handle = new WindowInteropHelper(window).Handle;
-        var hMonitor = MonitorFromWindow(handle, MONITOR_DEFAULTTONEAREST);
-
+        var hMonitor = MonitorFromWindow(hwnd, (int)flag);
         return getMonitorInfoInternal(hMonitor);
+    }
+
+    public static MonitorInfo GetMonitor(Window window, MonitorFromWindowFlags flag = MonitorFromWindowFlags.DEFAULTTONEAREST)
+    {
+        return GetMonitor(new WindowInteropHelper(window).Handle, flag);
     }
 
     public static IReadOnlyList<MonitorInfo> GetMonitors()
