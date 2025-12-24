@@ -339,7 +339,7 @@
                                         </StackPanel>
                                     </ui:CardControl.Header>
                                     <StackPanel Orientation="Horizontal">
-                                        <ui:TextBox Width="60" ClearButtonEnabled="False" Text="{Binding TaskbarWidgetManualPaddingText, Mode=TwoWay}"/>
+                                        <ui:TextBox Width="60" ClearButtonEnabled="False" Text="{Binding TaskbarWidgetManualPaddingText, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}"/>
                                         <TextBlock Text="{DynamicResource PixelsUnit}" FontSize="14" FontWeight="Regular" Margin="10,0,0,0" VerticalAlignment="Center"/>
                                     </StackPanel>
                                 </ui:CardControl>

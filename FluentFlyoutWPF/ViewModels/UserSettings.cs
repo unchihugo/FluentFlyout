@@ -316,10 +316,14 @@ public partial class UserSettings : ObservableObject
     [ObservableProperty]
     public partial bool TaskbarWidgetPadding { get; set; }
 
+    /// <summary>
+    /// Manual padding value in pixels applied to the taskbar widget
+    /// </summary>
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(TaskbarWidgetManualPaddingText))]
     public partial int TaskbarWidgetManualPadding { get; set; }
 
+    [XmlIgnore]
     public string TaskbarWidgetManualPaddingText
     {
         get => TaskbarWidgetManualPadding.ToString();
