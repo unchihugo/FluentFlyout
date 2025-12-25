@@ -14,7 +14,7 @@
     <system:String x:Key="AcrylicWindowDescription">Terapkan Transparansi Blur Akrilik pada flyout (Jika tidak, akan menggunakan efek Mika)</system:String>
     <system:String x:Key="CompactLayoutTitle">Tata Letak Ringkas</system:String>
     <system:String x:Key="CompactLayoutDescription" xml:space="preserve">Layout yang lebih ramping dan tidak mencolok 
-menyembunyikan tombol ulangi (repeat), acak (shuffle), serta informasi pemutar.</system:String>
+menyembunyikan tombol ulangi (repeat), acak (shuffle), serta informasi pemutar</system:String>
     <system:String x:Key="FlyoutPositionTitle">Posisi Flyout</system:String>
     <system:String x:Key="PositionBottomLeft" xml:space="preserve"> Kiri Bawah</system:String>
     <system:String x:Key="PositionBottomCenter" xml:space="preserve"> Tengah Bawah</system:String>
