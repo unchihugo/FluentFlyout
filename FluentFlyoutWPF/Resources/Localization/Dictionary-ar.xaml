@@ -78,8 +78,10 @@
     <system:String x:Key="NativeExperienceInfo">للحصول على تجربة Windows 11 الأصلية، يجب إبقاء الإعدادات افتراضية.</system:String>
     <system:String x:Key="DisableOnFullscreenTitle">تعطيل النوافذ المنبثقة إذا تم اكتشاف برنامج DirectX في وضع ملء الشاشة</system:String>
     <system:String x:Key="DisableOnFullscreenDescription">يمنع ألعاب DirectX في وضع ملء الشاشة الحصري من التصغير إذا ظهرت نافذة منبثقة</system:String>
-    <system:String x:Key="EnjoyingAppText" xml:space="preserve">هل تستمتع بالتطبيق؟ قيّمه على GitHub، أو اترك تقييمًا على متجر Microsoft!</system:String>
-    <system:String x:Key="AppLanguageDescription" xml:space="preserve">إذا لم تكن لغتك مُدرجة أو غير مُكتملة، فسيتم اختيار الإنجليزية افتراضيًا.يمكنك المساهمة في الترجمات على</system:String>
+    <system:String x:Key="EnjoyingAppText" xml:space="preserve">هل تستمتع بالتطبيق؟ قيّمه على GitHub،
+أو اترك تقييمًا على متجر Microsoft!</system:String>
+    <system:String x:Key="AppLanguageDescription" xml:space="preserve">إذا لم تكن لغتك مُدرجة أو غير مُكتملة، فسيتم اختيار الإنجليزية افتراضيًا.
+يمكنك المساهمة في الترجمات على</system:String>
     <system:String x:Key="LockWindow_InsertPressed">إدراج مضغوط</system:String>
     <system:String x:Key="TrayIcon_QuitOption">خروج من FluentFlyout</system:String>
     <system:String x:Key="AnimationDurationScaleTitle">مدة الرسوم المتحركة</system:String>
