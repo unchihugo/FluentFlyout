@@ -1,0 +1,26 @@
+'MainWindow / Media Flyout':
+  - changed-files:
+    - any-glob-to-any-file: '**/MainWindow*'
+
+'SettingsWindow':
+  - changed-files:
+    - any-glob-to-any-file: '**/SettingsWindow*'
+
+'Lock Keys Flyout':
+  - changed-files:
+    - any-glob-to-any-file: '**/LockWindow*'
+
+'Next Up Flyout':
+  - changed-files:
+    - any-glob-to-any-file: '**/NextUpWindow*'
+
+'Taskbar Widget':
+  - changed-files:
+    - any-glob-to-any-file: '**/TaskbarWindow*'
+
+# Add translations label to changes within Localization dictionaries except for en-US dictionary
+'translations':
+  - changed-files:
+      - any-glob-to-any-file:
+          - '**/Resources/Localization/*'
+          - '!**/Resources/Localization/Dictionary-en-US.xaml'
