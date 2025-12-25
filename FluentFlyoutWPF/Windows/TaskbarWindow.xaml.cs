@@ -121,13 +121,13 @@ public partial class TaskbarWindow : Window
     private double _cachedArtistWidth = 0;
     private IntPtr _trayHandle;
     private AutomationElement? _widgetElement;
+    private AutomationElement? _trayElement;
     // reference to main window for flyout functions
     private MainWindow? _mainWindow;
     private bool _isPaused;
     private int _recoveryAttempts = 0;
     private int _maxRecoveryAttempts = 5;
     private int _lastSelectedMonitor = -1;
-    private (bool, Rect) _lastSecondaryTrayRect;
     //private Task _crossFadeTask = Task.CompletedTask;
 
     public TaskbarWindow()
@@ -537,15 +537,12 @@ public partial class TaskbarWindow : Window
                     // try to position next to system tray
                     if (!isMainTaskbarSelected)
                     {
-                        if (_lastSelectedMonitor != SettingsManager.Current.TaskbarWidgetSelectedMonitor)
-                        {
-                            // find secondary tray with automation
-                            _lastSecondaryTrayRect = GetSystemTrayRect(taskbarHandle);
-                        }
+                        // find secondary tray with automation
+                        (bool found, Rect secondaryTrayRect) = GetSystemTrayRect(taskbarHandle);
 
-                        if (_lastSecondaryTrayRect.Item1)
+                        if (found)
                         {
-                            physicalLeft = (int)_lastSecondaryTrayRect.Item2.Left - physicalWidth - 1;
+                            physicalLeft = (int)secondaryTrayRect.Left - physicalWidth - 1;
                             break;
                         }
                     }
@@ -884,17 +881,43 @@ public partial class TaskbarWindow : Window
     {
         try
         {
-            // find secondary tray
-            AutomationElement root = AutomationElement.FromHandle(taskbarHandle);
-            AutomationElement trayElement = root.FindFirst(TreeScope.Descendants,
-                new PropertyCondition(AutomationElement.AutomationIdProperty, "SystemTrayIcon"));
-            if (trayElement == null)
-            {// print list of all child elements for debugging
-                DebugDumpElement(root);
+            if (_lastSelectedMonitor != SettingsManager.Current.TaskbarWidgetSelectedMonitor)
+            {
+                _trayElement = null;
+            }
 
+            if (_trayElement == null)
+            { // find secondary tray
+                AutomationElement root = AutomationElement.FromHandle(taskbarHandle);
+
+                _trayElement = root.FindFirst(TreeScope.Descendants,
+                    new PropertyCondition(AutomationElement.AutomationIdProperty, "SystemTrayIcon"));
+            }
+
+            if (_trayElement == null)
+            {
                 return (false, Rect.Empty);
             }
-            return (true, trayElement.Current.BoundingRectangle);
+
+            try
+            {
+                Rect trayRect = _trayElement.Current.BoundingRectangle;
+
+                if (trayRect == Rect.Empty)
+                {
+                    _trayElement = null; // reset cache
+                    return (false, Rect.Empty);
+                }
+
+                return (true, trayRect);
+            }
+            catch (ElementNotAvailableException)
+            {
+                // element became stale, reset cache
+                Logger.Warn("System Tray element became stale, resetting cache.");
+                _trayElement = null;
+                return (false, Rect.Empty);
+            }
         }
         catch (COMException ex)
         {
@@ -907,47 +930,6 @@ public partial class TaskbarWindow : Window
             return (false, Rect.Empty);
         }
     }
-
-    private void DebugDumpElement(AutomationElement element, int depth = 0)
-    {
-        if (element == null) return;
-
-        try
-        {
-            // Build the indent string for visual hierarchy
-            string indent = new string(' ', depth * 2);
-
-            // Retrieve properties (handle exceptions for individual properties)
-            string name = element.Current.Name ?? "null";
-            string autoId = element.Current.AutomationId ?? "null";
-            string className = element.Current.ClassName ?? "null";
-            string localizedType = element.Current.LocalizedControlType ?? "null";
-
-            // Print to Debug or Console
-            System.Diagnostics.Debug.WriteLine(
-                $"{indent}Name: '{name}' | ID: '{autoId}' | Class: '{className}' | Type: '{localizedType}'"
-            );
-
-            // Traverse children using the RawViewWalker to ensure we see EVERYTHING
-            TreeWalker walker = TreeWalker.RawViewWalker;
-            AutomationElement child = walker.GetFirstChild(element);
-
-            while (child != null)
-            {
-                DebugDumpElement(child, depth + 1);
-                child = walker.GetNextSibling(child);
-            }
-        }
-        catch (ElementNotAvailableException)
-        {
-            // Element disappeared during traversal
-        }
-        catch (Exception ex)
-        {
-            System.Diagnostics.Debug.WriteLine(new string(' ', depth * 2) + $"Error: {ex.Message}");
-        }
-    }
-
 
     // event handlers for media control buttons
     private async void Previous_Click(object sender, RoutedEventArgs e)
