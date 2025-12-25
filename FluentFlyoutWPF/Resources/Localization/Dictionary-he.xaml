@@ -26,9 +26,9 @@
     <system:String x:Key="PositionBottomLeft" xml:space="preserve"> למטה משמאל</system:String>
     <system:String x:Key="PositionBottomCenter" xml:space="preserve"> למטה במרכז</system:String>
     <system:String x:Key="PositionBottomRight" xml:space="preserve"> למטה מימין</system:String>
-    <system:String x:Key="PositionTopLeft" xml:space="preserve"> שמאל למעלה</system:String>
-    <system:String x:Key="PositionTopCenter" xml:space="preserve"> מרכז למעלה</system:String>
-    <system:String x:Key="PositionTopRight" xml:space="preserve"> ימין למעלה</system:String>
+    <system:String x:Key="PositionTopLeft" xml:space="preserve"> למעלה משמאל</system:String>
+    <system:String x:Key="PositionTopCenter" xml:space="preserve"> למעלה במרכז</system:String>
+    <system:String x:Key="PositionTopRight" xml:space="preserve"> למעלה מימין</system:String>
     <system:String x:Key="FlyoutStayDurationTitle">משך הצגת החלון הנשלף</system:String>
     <system:String x:Key="FlyoutStayDurationDescription">(ברירת מחדל: 3000 מילישניות)</system:String>
     <system:String x:Key="MillisecondsUnit">מילישניות</system:String>
@@ -63,5 +63,16 @@
     <system:String x:Key="AppLanguageTitle">שפת האפליקציה</system:String>
     <system:String x:Key="AppLanguageDescriptionLink">Weblate</system:String>
     <system:String x:Key="LockWindow_CapsLock">Caps Lock</system:String>
-    <system:String x:Key="LockWindow_NumLock">נעילה נומרית</system:String>
+    <system:String x:Key="LockWindow_NumLock">Num Lock</system:String>
+    <system:String x:Key="PremiumFeatureTitle">תכונת פרימיום</system:String>
+    <system:String x:Key="AppThemeTitle">ערכת נושא לאפליקציה</system:String>
+    <system:String x:Key="TrayIconLeftClickOption1"> פתח הגדרות</system:String>
+    <system:String x:Key="TrayIconSectionTitle">סמל באזור ההודעות</system:String>
+    <system:String x:Key="EasingLinear" xml:space="preserve"> לינארי</system:String>
+    <system:String x:Key="EasingCubic" xml:space="preserve"> קוביתי</system:String>
+    <system:String x:Key="GitHubRepoLink">מאגר גיטהאב</system:String>
+    <system:String x:Key="LockWindow_ScrollLock">Scroll Lock</system:String>
+    <system:String x:Key="NextUpWindow_UpNextText">הבא בתור:</system:String>
+    <system:String x:Key="TrayIcon_ViewLogsOption">הצגת יומנים</system:String>
+    <system:String x:Key="TrayIcon_ReportBugOption">דיווח על באג</system:String>
 </ResourceDictionary>
