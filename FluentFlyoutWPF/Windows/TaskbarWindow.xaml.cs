@@ -127,6 +127,7 @@ public partial class TaskbarWindow : Window
     private int _recoveryAttempts = 0;
     private int _maxRecoveryAttempts = 5;
     private int _lastSelectedMonitor = -1;
+    private (bool, Rect) _lastSecondaryTrayRect;
     //private Task _crossFadeTask = Task.CompletedTask;
 
     public TaskbarWindow()
@@ -259,28 +260,33 @@ public partial class TaskbarWindow : Window
         _mainWindow.ShowMediaFlyout();
     }
 
-    private IntPtr GetSelectedTaskbarHandle()
+    private IntPtr GetSelectedTaskbarHandle(out bool isMainTaskbarSelected)
     {
         var monitors = WindowHelper.GetMonitors();
         var selectedMonitor = monitors[Math.Clamp(SettingsManager.Current.TaskbarWidgetSelectedMonitor, 0, monitors.Count - 1)];
+        isMainTaskbarSelected = true;
 
         // Get the main taskbar and check if it is on the selected monitor.
         var mainHwnd = FindWindow("Shell_TrayWnd", null);
         if (WindowHelper.GetMonitor(mainHwnd).deviceId == selectedMonitor.deviceId)
-        {
             return mainHwnd;
-        }
 
         if (monitors.Count == 1)
             return mainHwnd;
 
+        isMainTaskbarSelected = false;
         if (monitors.Count == 2)
         {
             var hwnd = FindWindow("Shell_SecondaryTrayWnd", null);
             if (WindowHelper.GetMonitor(hwnd).deviceId == selectedMonitor.deviceId)
+            {
                 return hwnd;
+            }
             else
+            {
+                isMainTaskbarSelected = true;
                 return mainHwnd;
+            }
         }
 
         // If there are more than two monitors, we will need to enumerate all existing windows
@@ -335,6 +341,7 @@ public partial class TaskbarWindow : Window
             return secondHwnd;
 
         // Logger.Debug($"No taskbar found on the selected monitor. Using the main taskbar.");
+        isMainTaskbarSelected = true;
         return mainHwnd;
     }
 
@@ -347,7 +354,7 @@ public partial class TaskbarWindow : Window
 
             Background = _hitTestTransparent; // ensures that non-content areas also trigger MouseEnter event
 
-            IntPtr taskbarHandle = GetSelectedTaskbarHandle();
+            IntPtr taskbarHandle = GetSelectedTaskbarHandle(out bool isMainTaskbarSelected);
 
             // This prevents the window from trying to float above the taskbar as a separate entity
             int style = GetWindowLong(myHandle, GWL_STYLE);
@@ -356,7 +363,7 @@ public partial class TaskbarWindow : Window
 
             SetParent(myHandle, taskbarHandle); // if this window is created faster than the Taskbar is loaded, then taskbarHandle will be NULL.
 
-            CalculateAndSetPosition(taskbarHandle, myHandle);
+            CalculateAndSetPosition(taskbarHandle, myHandle, isMainTaskbarSelected);
 
             // for hover animation
             if (MainBorder.Background is not SolidColorBrush)
@@ -380,7 +387,7 @@ public partial class TaskbarWindow : Window
         try
         {
             var interop = new WindowInteropHelper(this);
-            IntPtr taskbarHandle = GetSelectedTaskbarHandle();
+            IntPtr taskbarHandle = GetSelectedTaskbarHandle(out bool isMainTaskbarSelected);
 
             if (interop.Handle == IntPtr.Zero) // window handle lost, try to reset
             {
@@ -420,7 +427,7 @@ public partial class TaskbarWindow : Window
 
             if (taskbarHandle != IntPtr.Zero && interop.Handle != IntPtr.Zero)
             {
-                CalculateAndSetPosition(taskbarHandle, interop.Handle);
+                CalculateAndSetPosition(taskbarHandle, interop.Handle, isMainTaskbarSelected);
             }
         }
         catch (Exception ex)
@@ -429,7 +436,7 @@ public partial class TaskbarWindow : Window
         }
     }
 
-    private void CalculateAndSetPosition(IntPtr taskbarHandle, IntPtr myHandle)
+    private void CalculateAndSetPosition(IntPtr taskbarHandle, IntPtr myHandle, bool isMainTaskbarSelected)
     {
         // get DPI scaling
         double dpiScale = GetDpiForWindow(taskbarHandle) / 96.0;
@@ -478,7 +485,7 @@ public partial class TaskbarWindow : Window
         {
             case 0: // left aligned with some padding (like native widgets)
                 physicalLeft += 20;
-                if (!SettingsManager.Current.TaskbarWidgetPadding) 
+                if (!SettingsManager.Current.TaskbarWidgetPadding)
                     break;
 
                 // automatic widget padding to the left
@@ -528,19 +535,23 @@ public partial class TaskbarWindow : Window
                     }
 
                     // try to position next to system tray
-                    if (SettingsManager.Current.TaskbarWidgetSelectedMonitor != 0)
+                    if (!isMainTaskbarSelected)
                     {
-                        // find secondary tray with automation
-                        (bool found, Rect secondaryTrayRect) = GetSystemTrayRect(taskbarHandle);
-                        if (found)
+                        if (_lastSelectedMonitor != SettingsManager.Current.TaskbarWidgetSelectedMonitor)
                         {
-                            physicalLeft = (int)secondaryTrayRect.Left - physicalWidth - 1;
+                            // find secondary tray with automation
+                            _lastSecondaryTrayRect = GetSystemTrayRect(taskbarHandle);
+                        }
+
+                        if (_lastSecondaryTrayRect.Item1)
+                        {
+                            physicalLeft = (int)_lastSecondaryTrayRect.Item2.Left - physicalWidth - 1;
                             break;
                         }
                     }
                     else if (_trayHandle == IntPtr.Zero || _lastSelectedMonitor != SettingsManager.Current.TaskbarWidgetSelectedMonitor)
                     {
-                        if (SettingsManager.Current.TaskbarWidgetSelectedMonitor == 0)
+                        if (isMainTaskbarSelected)
                         {
                             // find primary tray handle
                             _trayHandle = FindWindowEx(taskbarHandle, IntPtr.Zero, "TrayNotifyWnd", null);
@@ -548,16 +559,16 @@ public partial class TaskbarWindow : Window
                     }
 
                     // the code reaches here because:
-                    // primary monitor is selected and auto widget padding setting is off
+                    // primary taskbar monitor is selected and auto widget padding setting is off
 
-                    // if the tray handle is zero, fallback to left alignment
+                    // if the tray handle is zero, fallback to right alignment,
+                    // since we are aligning to the right side and know the size of the taskbar.
                     if (_trayHandle == IntPtr.Zero)
-                    { 
-                        physicalLeft = taskbarRect.Left + 20;
+                    {
+                        physicalLeft = taskbarRect.Right - physicalWidth - 20;
                         break;
                     }
-                    RECT trayRect;
-                    GetWindowRect(_trayHandle, out trayRect);
+                    GetWindowRect(_trayHandle, out RECT trayRect);
                     physicalLeft = trayRect.Left - physicalWidth - 1;
                 }
                 catch (Exception ex)
