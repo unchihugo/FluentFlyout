@@ -8,4 +8,49 @@
     <system:String x:Key="SystemSettingsTitle">מערכת</system:String>
     <system:String x:Key="LaunchOnStartupTitle">הפעל אוטומטית בעת ההפעלה</system:String>
     <system:String x:Key="LaunchOnStartupDescription">הפעל כממוזער למגש המערכת בעת הכניסה ל-Windows</system:String>
+    <system:String x:Key="MediaFlyoutTitle">התאמה אישית של חלון המדיה</system:String>
+    <system:String x:Key="MediaFlyoutDescription">חלון נשלף ראשי. בעת האזנה למדיה, לחצו על אחד ממקשי המדיה או הווליום במקלדת (הפעלה/השהיה, הגברת/הנמכת עוצמת קול וכו'), כדי להציג את החלון הנשלף. מציג מידע על המדיה, יחד עם לחצני ניגון ואפשרויות נוספות.</system:String>
+    <system:String x:Key="TextBlockText1">הפעלת חלון נשלף של מדיה</system:String>
+    <system:String x:Key="TextBlockText3">מציג חלון נשלף בעת לחיצה על מקש מדיה</system:String>
+    <system:String x:Key="TextBlockText2">בחר מתוך סגנונות מודרניים מוגדרים מראש של טשטוש רקע</system:String>
+    <system:String x:Key="AcrylicWindowTitle">חלון אקרילי</system:String>
+    <system:String x:Key="BackgroundBlurOption2" xml:space="preserve"> סגנון 1 (זוהר עטיפה)</system:String>
+    <system:String x:Key="BackgroundBlurOption3" xml:space="preserve"> סגנון 2 (זוהר מתרומם)</system:String>
+    <system:String x:Key="BackgroundBlurOption4" xml:space="preserve"> סגנון 3 (טשטוש)</system:String>
+    <system:String x:Key="BackgroundBlurTitle">טשטוש רקע</system:String>
+    <system:String x:Key="AcrylicWindowDescription">החלת אפקט טשטוש אקרילי שקוף על החלון הנשלף (כבוי מחזיר ל-Mica)</system:String>
+    <system:String x:Key="CompactLayoutDescription" xml:space="preserve">פריסה דקה ופחות פולשנית
+מסתירה חזרה, ערבוב ומידע על הנגן</system:String>
+    <system:String x:Key="SelectedMonitorTitle">תצוגת יעד של החלון הנשלף</system:String>
+    <system:String x:Key="FlyoutPositionTitle">מיקום החלון הנשלף</system:String>
+    <system:String x:Key="PositionBottomLeft" xml:space="preserve"> שמאל למטה</system:String>
+    <system:String x:Key="PositionBottomCenter" xml:space="preserve"> מרכז למטה</system:String>
+    <system:String x:Key="PositionBottomRight" xml:space="preserve"> ימין למטה</system:String>
+    <system:String x:Key="PositionTopLeft" xml:space="preserve"> שמאל למעלה</system:String>
+    <system:String x:Key="PositionTopCenter" xml:space="preserve"> מרכז למעלה</system:String>
+    <system:String x:Key="PositionTopRight" xml:space="preserve"> ימין למעלה</system:String>
+    <system:String x:Key="FlyoutStayDurationTitle">משך הצגת החלון הנשלף</system:String>
+    <system:String x:Key="FlyoutStayDurationDescription">(ברירת מחדל: 3000 מילישניות)</system:String>
+    <system:String x:Key="MillisecondsUnit">מילישניות</system:String>
+    <system:String x:Key="CenterTitleArtistTitle">מרכז את הכותרת והאמן</system:String>
+    <system:String x:Key="CenterTitleArtistDescription">יישור טקסט למרכז במקום לשמאל</system:String>
+    <system:String x:Key="ShowMediaPlayerNameTitle">הצג את שם נגן המדיה</system:String>
+    <system:String x:Key="RepeatButtonTitle">כפתור חזרה*</system:String>
+    <system:String x:Key="RepeatButtonDescription">בחר בין חזרה על הכל או על שיר אחד, מגדיל את רוחב החלון הנשלף</system:String>
+    <system:String x:Key="ShuffleButtonTitle">כפתור ערבוב*</system:String>
+    <system:String x:Key="ShuffleButtonDescription">מגדיל את רוחב החלון הנשלף</system:String>
+    <system:String x:Key="ShowSeekbarTitle">הצגת סרגל חיפוש</system:String>
+    <system:String x:Key="ShowSeekbarDescription">סרגל חיפוש אינטראקטיבי יוצג אוטומטית אם הנגן תומך בכך</system:String>
+    <system:String x:Key="UnsupportedControlsWarning">*חלק מהדפדפנים/נגנים אינם תומכים בחזרה, ערבוב או שליטה בסרגל חיפוש.</system:String>
+    <system:String x:Key="PauseOtherMediaTitle">השהה מדיה אחרת באופן אוטומטי</system:String>
+    <system:String x:Key="PauseOtherMediaDescription">כאשר אתה מנגן או מתמקד במדיה חדשה, הפעלות אחרות פעילות מושהים אוטומטית</system:String>
+    <system:String x:Key="TaskbarWidgetCustomizationTitle">התאמה אישית של ווידג'ט שורת המשימות</system:String>
+    <system:String x:Key="TaskbarWidgetDescription">ווידג'ט קומפקטי ומובנה שנמצא ישירות בשורת המשימות של Windows לגישה מיידית למדיה שלך. לחץ על הווידג'ט כדי להרחיב את חלון המדיה הנשלף המלא (כאשר מופעל).</system:String>
+    <system:String x:Key="TaskbarWidgetEnabledTitle">הפעלת ווידג'ט שורת המשימות</system:String>
+    <system:String x:Key="TaskbarWidgetEnabledDescription">הצג ווידג'ט מדיה קומפקטי בשורת המשימות</system:String>
+    <system:String x:Key="TaskbarWidgetVisualIssuesWarning">הגדרו את האפשרויות הבאות אם אתם נתקלים בבעיות ויזואליות</system:String>
+    <system:String x:Key="TaskbarWidgetSelectedMonitorTitle">תצוגת יעד הווידג'ט</system:String>
+    <system:String x:Key="TaskbarWidgetPosition">מיקום הווידג'ט</system:String>
+    <system:String x:Key="TaskbarWidgetPaddingSettingsTitle">הגדרות רווח הווידג'ט</system:String>
+    <system:String x:Key="TaskbarWidgetBackgroundBlurTitle">טשטוש רקע</system:String>
 </ResourceDictionary>
