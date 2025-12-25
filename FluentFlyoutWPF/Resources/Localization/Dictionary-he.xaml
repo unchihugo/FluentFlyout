@@ -74,5 +74,10 @@
     <system:String x:Key="LockWindow_ScrollLock">Scroll Lock</system:String>
     <system:String x:Key="NextUpWindow_UpNextText">הבא בתור:</system:String>
     <system:String x:Key="TrayIcon_ViewLogsOption">הצגת יומנים</system:String>
-    <system:String x:Key="TrayIcon_ReportBugOption">דיווח על באג</system:String>
+    <system:String x:Key="TrayIcon_ReportBugOption">דיווח על תקלה</system:String>
+    <system:String x:Key="LockWindow_LockOn">דלוק</system:String>
+    <system:String x:Key="LockWindow_LockOff">כבוי</system:String>
+    <system:String x:Key="TrayIcon_SettingsOption">הגדרות</system:String>
+    <system:String x:Key="TrayIcon_GitHubRepositoryOption">מאגר</system:String>
+    <system:String x:Key="PixelsUnit">פיקסלים (px)</system:String>
 </ResourceDictionary>
