@@ -23,9 +23,9 @@
 מסתירה חזרה, ערבוב ומידע על הנגן</system:String>
     <system:String x:Key="SelectedMonitorTitle">תצוגת יעד של החלון הנשלף</system:String>
     <system:String x:Key="FlyoutPositionTitle">מיקום החלון הנשלף</system:String>
-    <system:String x:Key="PositionBottomLeft" xml:space="preserve"> שמאל למטה</system:String>
-    <system:String x:Key="PositionBottomCenter" xml:space="preserve"> מרכז למטה</system:String>
-    <system:String x:Key="PositionBottomRight" xml:space="preserve"> ימין למטה</system:String>
+    <system:String x:Key="PositionBottomLeft" xml:space="preserve"> למטה משמאל</system:String>
+    <system:String x:Key="PositionBottomCenter" xml:space="preserve"> למטה במרכז</system:String>
+    <system:String x:Key="PositionBottomRight" xml:space="preserve"> למטה מימין</system:String>
     <system:String x:Key="PositionTopLeft" xml:space="preserve"> שמאל למעלה</system:String>
     <system:String x:Key="PositionTopCenter" xml:space="preserve"> מרכז למעלה</system:String>
     <system:String x:Key="PositionTopRight" xml:space="preserve"> ימין למעלה</system:String>
@@ -53,4 +53,15 @@
     <system:String x:Key="TaskbarWidgetPosition">מיקום הווידג'ט</system:String>
     <system:String x:Key="TaskbarWidgetPaddingSettingsTitle">הגדרות רווח הווידג'ט</system:String>
     <system:String x:Key="TaskbarWidgetBackgroundBlurTitle">טשטוש רקע</system:String>
+    <system:String x:Key="MediaFlyoutAlwaysDisplay">תצוגה פעילה תמיד</system:String>
+    <system:String x:Key="AppThemeLight"> בהיר</system:String>
+    <system:String x:Key="AppThemeDark"> כהה</system:String>
+    <system:String x:Key="AnimationSpeedOff">כיבוי</system:String>
+    <system:String x:Key="EasingSine" xml:space="preserve"> סינוס</system:String>
+    <system:String x:Key="EasingQuadratic" xml:space="preserve"> ריבועי</system:String>
+    <system:String x:Key="CloseButton">סגירה</system:String>
+    <system:String x:Key="AppLanguageTitle">שפת האפליקציה</system:String>
+    <system:String x:Key="AppLanguageDescriptionLink">Weblate</system:String>
+    <system:String x:Key="LockWindow_CapsLock">Caps Lock</system:String>
+    <system:String x:Key="LockWindow_NumLock">נעילה נומרית</system:String>
 </ResourceDictionary>
