@@ -22,5 +22,5 @@
 'translations':
   - changed-files:
       - any-glob-to-any-file:
-          - '**/Resources/Localization/*'
-          - '!**/Resources/Localization/Dictionary-en-US.xaml'
+          - 'FluentFlyoutWPF/Resources/Localization/*'
+          - '!FluentFlyoutWPF/Resources/Localization/Dictionary-en-US.xaml'
