@@ -8,7 +8,7 @@
 	<img alt="GitHub contributors" src="https://img.shields.io/github/contributors-anon/unchihugo/fluentflyout?labelColor=midnightblue&color=goldenrod">
 </p>
 <p align="center">
-  <strong>English</strong> | <a href="https://github.com/unchihugo/FluentFlyout/blob/master/README.zh.md">简体中文</a> | <a href="https://github.com/unchihugo/FluentFlyout/blob/master/README.nl.md">Nederlands</a>
+  <strong>English</strong> | <a href="https://github.com/unchihugo/FluentFlyout/blob/master/README.zh.md">简体中文</a> | <a href="https://github.com/unchihugo/FluentFlyout/blob/master/README.nl.md">Nederlands</a> | <a href="https://github.com/unchihugo/FluentFlyout/blob/master/README.zh.md">Türkçe</a>
 </p>
 
 ---
