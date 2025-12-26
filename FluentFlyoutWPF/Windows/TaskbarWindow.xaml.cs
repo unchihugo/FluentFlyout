@@ -223,6 +223,13 @@ public partial class TaskbarWindow : Window
             EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut }
         };
 
+        // rare case where background is not a SolidColorBrush after SetupWindow
+        if (MainBorder.Background is not SolidColorBrush)
+        {
+            MainBorder.Background = new SolidColorBrush(Colors.Transparent);
+            MainBorder.Background.Opacity = 0;
+        }
+
         MainBorder.Background.BeginAnimation(SolidColorBrush.ColorProperty, backgroundAnimation);
         MainBorder.Background.BeginAnimation(SolidColorBrush.OpacityProperty, backgroundOpacityAnimation);
     }
@@ -466,7 +473,7 @@ public partial class TaskbarWindow : Window
         // add space for playback controls if enabled
         if (SettingsManager.Current.TaskbarWidgetControlsEnabled)
         {
-            logicalWidth += (int)(104);
+            logicalWidth += (int)(102);
         }
 
         int physicalWidth = (int)(logicalWidth * dpiScale * _scale);
