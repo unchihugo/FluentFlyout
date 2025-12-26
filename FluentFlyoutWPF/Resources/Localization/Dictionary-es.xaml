@@ -6,7 +6,7 @@
     <system:String x:Key="TextBlockText3">Mostrar flyout cuando pulses una tecla multimedia</system:String>
     <system:String x:Key="TextBlockText2">Elige entre varios ajustes de difuminado del fondo</system:String>
     <system:String x:Key="BackgroundBlurOption1" xml:space="preserve"> Ninguno</system:String>
-    <system:String x:Key="BackgroundBlurTitle">Difuminado del fondo</system:String>
+    <system:String x:Key="BackgroundBlurTitle">Desenfoque del fondo</system:String>
     <system:String x:Key="AcrylicWindowTitle">Ventana Acrilica</system:String>
     <system:String x:Key="AcrylicWindowDescription">Aplica un efecto de transparencia acrilica al flyout (Si se desactiva se usa Mica)</system:String>
     <system:String x:Key="CompactLayoutTitle">Diseño Compacto</system:String>
