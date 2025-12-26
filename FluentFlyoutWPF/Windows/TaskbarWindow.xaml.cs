@@ -817,6 +817,60 @@ public partial class TaskbarWindow : Window
     //    }
     //}
 
+    private (bool, Rect) GetTaskbarXamlElementRect(IntPtr taskbarHandle, ref AutomationElement? elementCache, string elementName)
+    {
+        try
+        {
+            // reset if monitor changed
+            if (_lastSelectedMonitor != SettingsManager.Current.TaskbarWidgetSelectedMonitor)
+                elementCache = null;
+
+            // find widget in XAML
+            if (elementCache == null)
+            {
+                AutomationElement root = AutomationElement.FromHandle(taskbarHandle);
+
+                elementCache = root.FindFirst(TreeScope.Descendants,
+                    new PropertyCondition(AutomationElement.AutomationIdProperty, elementName));
+            }
+
+            if (elementCache == null) // widget most likely disabled
+                return (false, Rect.Empty);
+
+            try
+            {
+                Rect elementRect = elementCache.Current.BoundingRectangle;
+
+                if (elementRect == Rect.Empty) // widget shown before but most likely disabled now
+                {
+                    elementCache = null; // reset cache
+                    return (false, Rect.Empty);
+                }
+
+                return (true, elementRect);
+            }
+            catch (ElementNotAvailableException)
+            {
+                // element became stale, reset cache
+                Logger.Warn("Taskbar XAML element became stale, resetting cache: " + elementName);
+                elementCache = null;
+                return (false, Rect.Empty);
+            }
+        }
+        catch (COMException ex)
+        {
+            Logger.Error(ex, "COM error retrieving taskbar XAML element Rect: " + elementName);
+            elementCache = null; // reset cache on error
+            return (false, Rect.Empty);
+        }
+        catch (Exception ex)
+        {
+            Logger.Error(ex, "Error retrieving taskbar XAML element Rect: " + elementName);
+            elementCache = null; // reset cache on error
+            return (false, Rect.Empty);
+        }
+    }
+
     /// <summary>
     /// Attempts to locate the Windows taskbar widgets button and retrieves its bounding rectangle.
     /// </summary>
@@ -825,110 +879,12 @@ public partial class TaskbarWindow : Window
     /// <see cref="Rect.Empty"/> if not found.</returns>
     private (bool, Rect) GetTaskbarWidgetRect(IntPtr taskbarHandle)
     {
-        try
-        {
-            // reset if monitor changed
-            if (_lastSelectedMonitor != SettingsManager.Current.TaskbarWidgetSelectedMonitor)
-                _widgetElement = null;
-
-            // find widget button in XAML
-            if (_widgetElement == null)
-            {
-                AutomationElement root = AutomationElement.FromHandle(taskbarHandle);
-
-                _widgetElement = root.FindFirst(TreeScope.Descendants,
-                    new PropertyCondition(AutomationElement.AutomationIdProperty, "WidgetsButton"));
-            }
-
-            if (_widgetElement == null) // widget most likely disabled
-                return (false, Rect.Empty);
-
-            try
-            {
-                Rect widgetRect = _widgetElement.Current.BoundingRectangle;
-
-                if (widgetRect == Rect.Empty) // widget shown before but most likely disabled now
-                {
-                    _widgetElement = null; // reset cache
-                    return (false, Rect.Empty);
-                }
-
-                return (true, widgetRect);
-            }
-            catch (ElementNotAvailableException)
-            {
-                // element became stale, reset cache
-                Logger.Warn("Taskbar Widgets button element became stale, resetting cache.");
-                _widgetElement = null;
-                return (false, Rect.Empty);
-            }
-        }
-        catch (COMException ex)
-        {
-            Logger.Error(ex, "COM error retrieving taskbar widgets button Rect.");
-            _widgetElement = null; // reset cache on error
-            return (false, Rect.Empty);
-        }
-        catch (Exception ex)
-        {
-            Logger.Error(ex, "Error retrieving taskbar widgets button Rect.");
-            _widgetElement = null; // reset cache on error
-            return (false, Rect.Empty);
-        }
+        return GetTaskbarXamlElementRect(taskbarHandle, ref _widgetElement, "WidgetsButton");
     }
 
     private (bool, Rect) GetSystemTrayRect(IntPtr taskbarHandle)
     {
-        try
-        {
-            if (_lastSelectedMonitor != SettingsManager.Current.TaskbarWidgetSelectedMonitor)
-            {
-                _trayElement = null;
-            }
-
-            if (_trayElement == null)
-            { // find secondary tray
-                AutomationElement root = AutomationElement.FromHandle(taskbarHandle);
-
-                _trayElement = root.FindFirst(TreeScope.Descendants,
-                    new PropertyCondition(AutomationElement.AutomationIdProperty, "SystemTrayIcon"));
-            }
-
-            if (_trayElement == null)
-            {
-                return (false, Rect.Empty);
-            }
-
-            try
-            {
-                Rect trayRect = _trayElement.Current.BoundingRectangle;
-
-                if (trayRect == Rect.Empty)
-                {
-                    _trayElement = null; // reset cache
-                    return (false, Rect.Empty);
-                }
-
-                return (true, trayRect);
-            }
-            catch (ElementNotAvailableException)
-            {
-                // element became stale, reset cache
-                Logger.Warn("System Tray element became stale, resetting cache.");
-                _trayElement = null;
-                return (false, Rect.Empty);
-            }
-        }
-        catch (COMException ex)
-        {
-            Logger.Error(ex, "COM error retrieving system tray Rect.");
-            return (false, Rect.Empty);
-        }
-        catch (Exception ex)
-        {
-            Logger.Error(ex, "Error retrieving system tray Rect.");
-            return (false, Rect.Empty);
-        }
+        return GetTaskbarXamlElementRect(taskbarHandle, ref _trayElement, "SystemTrayIcon");
     }
 
     // event handlers for media control buttons
