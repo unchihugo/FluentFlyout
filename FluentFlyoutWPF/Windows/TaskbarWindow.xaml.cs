@@ -447,29 +447,29 @@ public partial class TaskbarWindow : Window
 
         if (!string.Equals(currentTitle, _cachedTitleText, StringComparison.Ordinal))
         {
-            _cachedTitleWidth = StringWidth.GetStringWidth(currentTitle);
+            _cachedTitleWidth = StringWidth.GetStringWidth(currentTitle, 400);
             _cachedTitleText = currentTitle;
         }
         if (!string.Equals(currentArtist, _cachedArtistText, StringComparison.Ordinal))
         {
-            _cachedArtistWidth = StringWidth.GetStringWidth(currentArtist);
+            _cachedArtistWidth = StringWidth.GetStringWidth(currentArtist, 400);
             _cachedArtistText = currentArtist;
         }
 
-        double logicalWidth = Math.Max(_cachedTitleWidth, _cachedArtistWidth) + 40 * _scale; // add margin for cover image
+        double logicalWidth = Math.Max(_cachedTitleWidth, _cachedArtistWidth) + 55; // add margin for cover image
         // maximum width limit, same as Windows native widget
-        logicalWidth = Math.Min(logicalWidth, _nativeWidgetsPadding);
+        logicalWidth = Math.Min(logicalWidth, _nativeWidgetsPadding / _scale);
 
-        SongTitle.Width = logicalWidth - 40 * _scale;
-        SongArtist.Width = logicalWidth - 40 * _scale;
+        SongTitle.Width = logicalWidth - 58;
+        SongArtist.Width = logicalWidth - 58;
 
         // add space for playback controls if enabled
         if (SettingsManager.Current.TaskbarWidgetControlsEnabled)
         {
-            logicalWidth += (int)(110 * _scale);
+            logicalWidth += (int)(104);
         }
 
-        int physicalWidth = (int)(logicalWidth * dpiScale);
+        int physicalWidth = (int)(logicalWidth * dpiScale * _scale);
         int physicalHeight = (int)(40 * dpiScale); // default height
 
         // Get Taskbar dimensions
