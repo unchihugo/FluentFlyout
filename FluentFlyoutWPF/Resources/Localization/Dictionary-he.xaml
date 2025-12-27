@@ -8,4 +8,139 @@
     <system:String x:Key="SystemSettingsTitle">מערכת</system:String>
     <system:String x:Key="LaunchOnStartupTitle">הפעל אוטומטית בעת ההפעלה</system:String>
     <system:String x:Key="LaunchOnStartupDescription">הפעל כממוזער למגש המערכת בעת הכניסה ל-Windows</system:String>
+    <system:String x:Key="MediaFlyoutTitle">התאמה אישית של חלון המדיה</system:String>
+    <system:String x:Key="MediaFlyoutDescription">חלון נשלף ראשי. בעת האזנה למדיה, לחצו על אחד ממקשי המדיה או הווליום במקלדת (הפעלה/השהיה, הגברת/הנמכת עוצמת קול וכו'), כדי להציג את החלון הנשלף. מציג מידע על המדיה, יחד עם לחצני ניגון ואפשרויות נוספות.</system:String>
+    <system:String x:Key="TextBlockText1">הפעלת חלון נשלף של מדיה</system:String>
+    <system:String x:Key="TextBlockText3">מציג חלון נשלף בעת לחיצה על מקש מדיה</system:String>
+    <system:String x:Key="TextBlockText2">בחר מתוך סגנונות מודרניים מוגדרים מראש של טשטוש רקע</system:String>
+    <system:String x:Key="AcrylicWindowTitle">חלון אקרילי</system:String>
+    <system:String x:Key="BackgroundBlurOption2" xml:space="preserve"> סגנון 1 (זוהר עטיפה)</system:String>
+    <system:String x:Key="BackgroundBlurOption3" xml:space="preserve"> סגנון 2 (זוהר מתרומם)</system:String>
+    <system:String x:Key="BackgroundBlurOption4" xml:space="preserve"> סגנון 3 (טשטוש)</system:String>
+    <system:String x:Key="BackgroundBlurTitle">טשטוש רקע</system:String>
+    <system:String x:Key="AcrylicWindowDescription">החלת אפקט טשטוש אקרילי שקוף על החלון הנשלף (כבוי מחזיר ל-Mica)</system:String>
+    <system:String x:Key="CompactLayoutDescription" xml:space="preserve">פריסה דקה ופחות פולשנית
+מסתירה חזרה, ערבוב ומידע על הנגן</system:String>
+    <system:String x:Key="SelectedMonitorTitle">תצוגת יעד של החלון הנשלף</system:String>
+    <system:String x:Key="FlyoutPositionTitle">מיקום החלון הנשלף</system:String>
+    <system:String x:Key="PositionBottomLeft" xml:space="preserve"> למטה משמאל</system:String>
+    <system:String x:Key="PositionBottomCenter" xml:space="preserve"> למטה במרכז</system:String>
+    <system:String x:Key="PositionBottomRight" xml:space="preserve"> למטה מימין</system:String>
+    <system:String x:Key="PositionTopLeft" xml:space="preserve"> למעלה משמאל</system:String>
+    <system:String x:Key="PositionTopCenter" xml:space="preserve"> למעלה במרכז</system:String>
+    <system:String x:Key="PositionTopRight" xml:space="preserve"> למעלה מימין</system:String>
+    <system:String x:Key="FlyoutStayDurationTitle">משך הצגת החלון הנשלף</system:String>
+    <system:String x:Key="FlyoutStayDurationDescription">(ברירת מחדל: 3000 מילישניות)</system:String>
+    <system:String x:Key="MillisecondsUnit">מילישניות</system:String>
+    <system:String x:Key="CenterTitleArtistTitle">מרכז את הכותרת והאמן</system:String>
+    <system:String x:Key="CenterTitleArtistDescription">יישור טקסט למרכז במקום לשמאל</system:String>
+    <system:String x:Key="ShowMediaPlayerNameTitle">הצג את שם נגן המדיה</system:String>
+    <system:String x:Key="RepeatButtonTitle">כפתור חזרה*</system:String>
+    <system:String x:Key="RepeatButtonDescription">בחר בין חזרה על הכל או על שיר אחד, מגדיל את רוחב החלון הנשלף</system:String>
+    <system:String x:Key="ShuffleButtonTitle">כפתור ערבוב*</system:String>
+    <system:String x:Key="ShuffleButtonDescription">מגדיל את רוחב החלון הנשלף</system:String>
+    <system:String x:Key="ShowSeekbarTitle">הצגת סרגל חיפוש</system:String>
+    <system:String x:Key="ShowSeekbarDescription">סרגל חיפוש אינטראקטיבי יוצג אוטומטית אם הנגן תומך בכך</system:String>
+    <system:String x:Key="UnsupportedControlsWarning">*חלק מהדפדפנים/נגנים אינם תומכים בחזרה, ערבוב או שליטה בסרגל חיפוש.</system:String>
+    <system:String x:Key="PauseOtherMediaTitle">השהה מדיה אחרת באופן אוטומטי</system:String>
+    <system:String x:Key="PauseOtherMediaDescription">כאשר אתה מנגן או מתמקד במדיה חדשה, הפעלות אחרות פעילות מושהים אוטומטית</system:String>
+    <system:String x:Key="TaskbarWidgetCustomizationTitle">התאמה אישית של ווידג'ט שורת המשימות</system:String>
+    <system:String x:Key="TaskbarWidgetDescription">ווידג'ט קומפקטי ומובנה שנמצא ישירות בשורת המשימות של Windows לגישה מיידית למדיה שלך. לחץ על הווידג'ט כדי להרחיב את חלון המדיה הנשלף המלא (כאשר מופעל).</system:String>
+    <system:String x:Key="TaskbarWidgetEnabledTitle">הפעלת ווידג'ט שורת המשימות</system:String>
+    <system:String x:Key="TaskbarWidgetEnabledDescription">הצג ווידג'ט מדיה קומפקטי בשורת המשימות</system:String>
+    <system:String x:Key="TaskbarWidgetVisualIssuesWarning">הגדרו את האפשרויות הבאות אם אתם נתקלים בבעיות חזותיות.</system:String>
+    <system:String x:Key="TaskbarWidgetSelectedMonitorTitle">תצוגת יעד הווידג'ט</system:String>
+    <system:String x:Key="TaskbarWidgetPosition">מיקום הווידג'ט</system:String>
+    <system:String x:Key="TaskbarWidgetPaddingSettingsTitle">הגדרות רווח הווידג'ט</system:String>
+    <system:String x:Key="TaskbarWidgetBackgroundBlurTitle">טשטוש רקע</system:String>
+    <system:String x:Key="MediaFlyoutAlwaysDisplay">תצוגה פעילה תמיד</system:String>
+    <system:String x:Key="AppThemeLight"> בהיר</system:String>
+    <system:String x:Key="AppThemeDark"> כהה</system:String>
+    <system:String x:Key="AnimationSpeedOff">כיבוי</system:String>
+    <system:String x:Key="EasingSine" xml:space="preserve"> סינוס</system:String>
+    <system:String x:Key="EasingQuadratic" xml:space="preserve"> ריבועי</system:String>
+    <system:String x:Key="CloseButton">סגירה</system:String>
+    <system:String x:Key="AppLanguageTitle">שפת האפליקציה</system:String>
+    <system:String x:Key="AppLanguageDescriptionLink">Weblate</system:String>
+    <system:String x:Key="LockWindow_CapsLock">Caps Lock</system:String>
+    <system:String x:Key="LockWindow_NumLock">Num Lock</system:String>
+    <system:String x:Key="PremiumFeatureTitle">תכונת פרימיום</system:String>
+    <system:String x:Key="AppThemeTitle">ערכת נושא לאפליקציה</system:String>
+    <system:String x:Key="TrayIconLeftClickOption1"> פתח הגדרות</system:String>
+    <system:String x:Key="TrayIconSectionTitle">סמל באזור ההודעות</system:String>
+    <system:String x:Key="EasingLinear" xml:space="preserve"> לינארי</system:String>
+    <system:String x:Key="EasingCubic" xml:space="preserve"> קוביתי</system:String>
+    <system:String x:Key="GitHubRepoLink">מאגר גיטהאב</system:String>
+    <system:String x:Key="LockWindow_ScrollLock">Scroll Lock</system:String>
+    <system:String x:Key="NextUpWindow_UpNextText">הבא בתור:</system:String>
+    <system:String x:Key="TrayIcon_ViewLogsOption">הצגת יומנים</system:String>
+    <system:String x:Key="TrayIcon_ReportBugOption">דיווח על תקלה</system:String>
+    <system:String x:Key="LockWindow_LockOn">דלוק</system:String>
+    <system:String x:Key="LockWindow_LockOff">כבוי</system:String>
+    <system:String x:Key="TrayIcon_SettingsOption">הגדרות</system:String>
+    <system:String x:Key="TrayIcon_GitHubRepositoryOption">מאגר</system:String>
+    <system:String x:Key="PixelsUnit">פיקסלים (px)</system:String>
+    <system:String x:Key="TaskbarWidgetPaddingSettingsDescription">כוונן את הרווח סביב הווידג'ט כדי להתאים לסגנון שורת המשימות שלך</system:String>
+    <system:String x:Key="TaskbarWidgetPaddingDescription">הפעל תכונה זו אם ווידג'טים של חלונות מופעלים</system:String>
+    <system:String x:Key="TaskbarWidgetManualPaddingTitle">רווחים מותאמים אישית</system:String>
+    <system:String x:Key="TaskbarWidgetManualPaddingDescription">הוספת רווח נוסף (ברירת מחדל: 0 פיקסלים)</system:String>
+    <system:String x:Key="TaskbarWidgetClickableTitle">לחץ כדי לפתוח את חלון המדיה הנשלף כאשר יש מדיה פעילה</system:String>
+    <system:String x:Key="TaskbarWidgetClickableDescription">אם חלון המדיה הנשלף מופעל, הוא ייפתח כאשר תלחץ על ווידג'ט שורת המשימות</system:String>
+    <system:String x:Key="TaskbarWidgetBackgroundBlurDescription">הוסף אפקט טשטוש רקע לווידג'ט שורת המשימות</system:String>
+    <system:String x:Key="TaskbarWidgetHideCompletelyTitle">להסתיר לחלוטין כאשר אין מדיה פעילה</system:String>
+    <system:String x:Key="TaskbarWidgetHideCompletelyDescription">מסתיר את כל הווידג'ט כאשר אין מדיה זמינה, במקום להציג אייקון מדיה</system:String>
+    <system:String x:Key="TaskbarWidgetControlsDescription">הצג כפתורי שליטה על המדיה בווידג'ט</system:String>
+    <system:String x:Key="TaskbarWidgetAnimatedTitle">אנימציות ווידג'ט</system:String>
+    <system:String x:Key="TaskbarWidgetAnimatedDescription">הפעלת אנימציות עדינות לווידג'ט</system:String>
+    <system:String x:Key="PremiumFeatureDescription" xml:space="preserve">תרומה חד־פעמית שלך עוזרת לשמור על FluentFlyout חי ומעודכן. היא פותחת את כל אפשרויות הפרימיום לנצח.
+        
+הערה: כפרויקט קוד פתוח, אפשרויות אלו זמינות גם בחינם דרך התקנה ידנית מ-GitHub. ההבדל הוא שאם עושים כך, העדכונים וההתקנה צריכים להתבצע באופן ידני.</system:String>
+    <system:String x:Key="PremiumLockedMessage">תכונה זו היא חלק מחבילת הפרימיום</system:String>
+    <system:String x:Key="PremiumUnlockedMessage">תכונות הפרימיום פתוחות. תודה על התמיכה שלך!</system:String>
+    <system:String x:Key="PremiumGitHubMessage">תכונות הפרימיום פתוחות עבור גרסאות GitHub/התקנות ידניות</system:String>
+    <system:String x:Key="UnlockPremiumButton">פתיחת פרימיום</system:String>
+    <system:String x:Key="PremiumPurchaseSuccess">‍פרימיום נפתח בהצלחה!</system:String>
+    <system:String x:Key="PremiumPurchaseFailed">הרכישה נכשלה. אנא נסה שוב.</system:String>
+    <system:String x:Key="PremiumPurchaseCancelled">הרכישה בוטלה.</system:String>
+    <system:String x:Key="NextUpCustomizationTitle">התאמה אישית הבאה</system:String>
+    <system:String x:Key="NextUpStayDurationTitle">משך הצגה הבאה</system:String>
+    <system:String x:Key="NextUpStayDurationDescription">(ברירת מחדל: 2000 מילישניות.)</system:String>
+    <system:String x:Key="LockKeysCustomizationTitle">התאמה אישית של מקשי נעילה</system:String>
+    <system:String x:Key="LockKeysDescription" xml:space="preserve">בדוק את מצב מקשי הנעילה במבט חטוף. מופיע לאחר לחיצה על Caps Lock, Num Lock או Scroll Lock. נוח למחשבים ניידים ומקלדות ללא מנורות מצב למקשי הנעילה.</system:String>
+    <system:String x:Key="EnableLockKeysTitle">הפעל את חלון נשלף של נעילת מקשים</system:String>
+    <system:String x:Key="EnableLockKeysDescription">מציג אם מקש הנעילה שנבחר פועל או כבוי</system:String>
+    <system:String x:Key="LockKeysStayDurationTitle">משך הצגת מצב מקשי הנעילה</system:String>
+    <system:String x:Key="LockKeysStayDurationDescription">(ברירת מחדל: 2000 מילישניות)</system:String>
+    <system:String x:Key="LockKeysBoldUITitle">הדגשת הסמל והגופן</system:String>
+    <system:String x:Key="LockKeysBoldUIDescription">מדגיש את סמל החלון הנשלף והגופן</system:String>
+    <system:String x:Key="StartupAppsHyperlinkText">אפליקציות שמופעלות אוטומטית בעת ההפעלה</system:String>
+    <system:String x:Key="StartupAppsSettingsInfo">אם הגדרה זו אינה פועלת כמצופה, בדוק</system:String>
+    <system:String x:Key="AppThemeDefault"> ברירת מחדל של Windows</system:String>
+    <system:String x:Key="TrayIconLeftClickBehaviorTitle">התנהגות לחיצה שמאלית על האייקון במגש</system:String>
+    <system:String x:Key="TrayIconLeftClickBehaviorDescription">בחר מה יקרה כאשר תלחץ בלחיצה שמאלית על האייקון במגש</system:String>
+    <system:String x:Key="TrayIconLeftClickOption2"> הצגת חלון נשלף של מדיה</system:String>
+    <system:String x:Key="Win11TrayIconTitle">אייקון במגש בסגנון Windows 11</system:String>
+    <system:String x:Key="Win11TrayIconDescription">השתמש באייקון במגש שמתאים ל-Windows 11 (הפעל את המתג כדי לרענן את העיצוב)</system:String>
+    <system:String x:Key="HideTrayIconTitle">הסתר לחלוין את סמל המגש</system:String>
+    <system:String x:Key="HideTrayIconDescription">גישה להגדרות על ידי הרצת התוכנית פעמיים</system:String>
+    <system:String x:Key="AnimationSettingsTitle">הגדרות אנימציה</system:String>
+    <system:String x:Key="AnimationSettingsDescription">התאמת האנימציות לפי העדפותיך</system:String>
+    <system:String x:Key="AnimationDurationScaleTitle">קנה מידה של משך האנימציה</system:String>
+    <system:String x:Key="AnimationDurationScaleDescription">מהירות אנימציה של החלון הנשלף – מהיר או איטי יותר (ברירת מחדל: x1)</system:String>
+    <system:String x:Key="AnimationEasingStyleTitle">סגנון הריכוך של האנימציה</system:String>
+    <system:String x:Key="AnimationEasingStyleDescription">(ברירת מחדל: קוודרטי)</system:String>
+    <system:String x:Key="NativeExperienceInfo">כדי לקבל חוויית Windows 11 מקורית, ההגדרות צריכות להישאר על ברירת המחדל.</system:String>
+    <system:String x:Key="DisableOnFullscreenTitle">כבה חלונות נשלפים אם זוהתה תוכנית DirectX במסך מלא</system:String>
+    <system:String x:Key="DisableOnFullscreenDescription">מונע ממשחקי DirectX במצב מסך מלא בלעדי להתמזג אם חלון נשלף קופץ</system:String>
+    <system:String x:Key="AboutPremiumTitle">אודות פרימיום</system:String>
+    <system:String x:Key="EnjoyingAppText" xml:space="preserve">נהנתם מהאפליקציה? סמנו אותה בכוכב בגיטהאב,
+או השאירו ביקורת בחנות מיקרוסופט!</system:String>
+    <system:String x:Key="AppLanguageDescription" xml:space="preserve">אם השפה שלכם אינה מופיעה או שהיא לא מלאה, היא תוגדר כברירת מחדל לאנגלית.
+תוכלו לעזור בתרומת תרגומים ב-</system:String>
+    <system:String x:Key="TrayIcon_QuitOption">צא מ-FluentFlyout</system:String>
+    <system:String x:Key="TaskbarWidgetPaddingTitle">כפתור רווח אוטומטי לווידג'טים של Windows</system:String>
+    <system:String x:Key="TaskbarWidgetControlsTitle">בקרות מדיה של ווידג'ט</system:String>
+    <system:String x:Key="EnableInsertKeyTitle">הפעל את חלונית מקש ה-Insert</system:String>
+    <system:String x:Key="EnableInsertKeyDescription">קובע אם לחיצה על מקש ההכנסה/החלפה תציג את החלון הנשלף</system:String>
+    <system:String x:Key="LockWindow_InsertPressed">מקש ה-Insert לחוץ</system:String>
 </ResourceDictionary>
