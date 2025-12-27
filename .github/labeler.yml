@@ -20,7 +20,8 @@
 
 # Add translations label to changes within Localization dictionaries except for en-US dictionary
 'translations':
-  - changed-files:
-      - any-glob-to-any-file:
-          - 'FluentFlyoutWPF/Resources/Localization/*'
-          - '!FluentFlyoutWPF/Resources/Localization/Dictionary-en-US.xaml'
+  - all:
+      - changed-files:
+          - any-glob-to-any-file:
+              - 'FluentFlyoutWPF/Resources/Localization/*'
+              - '!FluentFlyoutWPF/Resources/Localization/Dictionary-en-US.xaml'
