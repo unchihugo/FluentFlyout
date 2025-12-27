@@ -104,7 +104,10 @@
                     </Border>
                     <StackPanel Name="BodyStackPanel" Orientation="Vertical" VerticalAlignment="Center" Width="194">
                         <StackPanel Orientation="Horizontal">
-                            <StackPanel Name="SongInfoStackPanel" Margin="12,0,0,0" Orientation="Vertical" VerticalAlignment="Center" Width="182">
+                            <StackPanel Name="SongInfoStackPanel" Margin="12,0,0,0" Orientation="Vertical" VerticalAlignment="Center" Width="182"
+                                        ToolTipService.InitialShowDelay="800"
+                                        ToolTipService.Placement="Top"
+                                        ToolTipService.VerticalOffset="-16">
                                 <TextBlock Name="SongTitle" Text="Song Title" FontSize="14" FontWeight="Medium" TextTrimming="CharacterEllipsis" />
                                 <TextBlock Name="SongArtist" Text="Artist Name" FontSize="14" FontWeight="Medium" Opacity="0.5" TextTrimming="CharacterEllipsis" />
                             </StackPanel>

@@ -757,6 +757,7 @@ public partial class MainWindow : MicaWindow
                 ControlPlayPause.Opacity = 0.35;
                 ControlBack.IsEnabled = ControlForward.IsEnabled = false;
                 ControlBack.Opacity = ControlForward.Opacity = 0.35;
+                SongInfoStackPanel.ToolTip = "";
                 return;
             }
 
@@ -859,6 +860,11 @@ public partial class MainWindow : MicaWindow
                 SongArtist.Text = songInfo.Artist;
                 var image = Helper.GetThumbnail(songInfo.Thumbnail);
                 SongImage.ImageSource = image;
+
+                // set tooltip
+                SongInfoStackPanel.ToolTip = "";
+                SongInfoStackPanel.ToolTip += !String.IsNullOrEmpty(SongTitle.Text) ? $"{SongTitle.Text}" : "";
+                SongInfoStackPanel.ToolTip += !String.IsNullOrEmpty(SongArtist.Text) ? $"\n{SongArtist.Text}" : "";
 
                 // background blurred image
                 if (SettingsManager.Current.MediaFlyoutBackgroundBlur != 0)

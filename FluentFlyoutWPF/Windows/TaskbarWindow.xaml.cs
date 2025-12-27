@@ -640,6 +640,7 @@ public partial class TaskbarWindow : Window
                 SongTitle.Text = "";
                 SongArtist.Text = "";
                 SongInfoStackPanel.Visibility = Visibility.Collapsed;
+                SongInfoStackPanel.ToolTip = null;
                 SongImagePlaceholder.Symbol = SymbolRegular.MusicNote220;
                 SongImagePlaceholder.Visibility = Visibility.Visible;
                 SongImage.ImageSource = null;
@@ -700,6 +701,10 @@ public partial class TaskbarWindow : Window
 
             SongTitle.Text = !String.IsNullOrEmpty(title) ? title : "-";
             SongArtist.Text = !String.IsNullOrEmpty(artist) ? artist : "-";
+
+            // Update tooltip with song info
+            SongInfoStackPanel.ToolTip += !String.IsNullOrEmpty(title) ? $"{SongTitle.Text}" : "";
+            SongInfoStackPanel.ToolTip += !String.IsNullOrEmpty(artist) ? $"\n{SongArtist.Text}" : "";
 
             if (SettingsManager.Current.TaskbarWidgetControlsEnabled)
             {
