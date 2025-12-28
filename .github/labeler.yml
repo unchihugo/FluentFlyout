@@ -1,26 +1,27 @@
 'MainWindow / Media Flyout':
   - changed-files:
-      - any-glob-to-any-file: '**/MainWindow.*'
+      - any-glob-to-any-file: 'FluentFlyoutWPF/MainWindow.{xaml,xaml.cs}'
 
 'SettingsWindow':
   - changed-files:
-      - any-glob-to-any-file: '**/SettingsWindow.*'
+      - any-glob-to-any-file: 'FluentFlyoutWPF/SettingsWindow.{xaml,xaml.cs}'
 
 'Lock Keys Flyout':
   - changed-files:
-      - any-glob-to-any-file: '**/LockWindow.*'
+      - any-glob-to-any-file: 'FluentFlyoutWPF/Windows/LockWindow.{xaml,xaml.cs}'
 
 'Next Up Flyout':
   - changed-files:
-      - any-glob-to-any-file: '**/NextUpWindow.*'
+      - any-glob-to-any-file: 'FluentFlyoutWPF/Windows/NextUpWindow.{xaml,xaml.cs}'
 
 'Taskbar Widget':
   - changed-files:
-      - any-glob-to-any-file: '**/TaskbarWindow.*'
+      - any-glob-to-any-file: 'FluentFlyoutWPF/Windows/TaskbarWindow.{xaml,xaml.cs}'
 
 # Add translations label to changes within Localization dictionaries except for en-US dictionary
 'translations':
-  - changed-files:
-      - any-glob-to-any-file:
-          - '**/Resources/Localization/*'
-          - '!**/Resources/Localization/Dictionary-en-US.xaml'
+  - all:
+      - changed-files:
+          - any-glob-to-any-file:
+              - 'FluentFlyoutWPF/Resources/Localization/*'
+              - '!FluentFlyoutWPF/Resources/Localization/Dictionary-en-US.xaml'
