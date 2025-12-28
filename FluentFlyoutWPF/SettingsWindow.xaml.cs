@@ -1,12 +1,13 @@
-﻿using MicaWPF.Controls;
+﻿using FluentFlyout.Classes;
+using FluentFlyout.Classes.Settings;
+using FluentFlyoutWPF.Classes;
+using MicaWPF.Controls;
 using Microsoft.Win32;
 using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using Windows.ApplicationModel;
 using MessageBox = Wpf.Ui.Controls.MessageBox;
-using FluentFlyout.Classes.Settings;
-using FluentFlyout.Classes;
 
 
 namespace FluentFlyoutWPF;
@@ -46,6 +47,7 @@ public partial class SettingsWindow : MicaWindow
         }
 
         ThemeManager.ApplySavedTheme();
+        UpdateMonitorList();
     }
 
     public static void ShowInstance()
@@ -64,6 +66,7 @@ public partial class SettingsWindow : MicaWindow
 
             instance.Activate();
             instance.Focus();
+            instance.UpdateMonitorList();
         }
     }
 
@@ -132,7 +135,7 @@ public partial class SettingsWindow : MicaWindow
         Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri) { UseShellExecute = true });
         e.Handled = true;
     }
-    
+
     private async void UnlockPremiumButton_Click(object sender, RoutedEventArgs e)
     {
         try
@@ -145,7 +148,7 @@ public partial class SettingsWindow : MicaWindow
             }
 
             (bool success, string result) = await LicenseManager.Instance.PurchasePremiumAsync();
-            
+
             if (success)
             {
                 // Update settings with new license status
@@ -208,5 +211,36 @@ public partial class SettingsWindow : MicaWindow
         {
             mainWindow.nIcon.Unregister();
         }
+    }
+
+    private void UpdateMonitorList()
+    {
+        var monitors = WindowHelper.GetMonitors();
+
+        int update_list(int selectedMonitor, System.Windows.Controls.ComboBox comboBox)
+        {
+            comboBox.Items.Clear();
+
+            var resetToPrimary = selectedMonitor >= monitors.Count || selectedMonitor < 0;
+
+            for (int i = 0; i < monitors.Count; i++)
+            {
+                var monitor = monitors[i];
+                var cb = new System.Windows.Controls.ComboBoxItem()
+                {
+                    Content = monitor.isPrimary ? (i + 1).ToString() + " *" : (i + 1).ToString(),
+                };
+                if (resetToPrimary && monitor.isPrimary)
+                    selectedMonitor = i;
+
+                comboBox.Items.Add(cb);
+            }
+
+            comboBox.SelectedIndex = selectedMonitor;
+            return selectedMonitor;
+        }
+
+        SettingsManager.Current.FlyoutSelectedMonitor = update_list(SettingsManager.Current.FlyoutSelectedMonitor, FlyoutSelectedMonitorComboBox);
+        SettingsManager.Current.TaskbarWidgetSelectedMonitor = update_list(SettingsManager.Current.TaskbarWidgetSelectedMonitor, TaskbarWidgetSelectedMonitorComboBox);
     }
 }

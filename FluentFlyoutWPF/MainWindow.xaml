@@ -185,6 +185,11 @@
                             <ui:SymbolIcon Symbol="DocumentChevronDouble20"/>
                         </ui:MenuItem.Icon>
                     </ui:MenuItem>
+                    <ui:MenuItem x:Name="NotifyIconViewLogs" Header="{DynamicResource TrayIcon_ViewLogsOption}" Click="openLogsFolder">
+                        <ui:MenuItem.Icon>
+                            <ui:SymbolIcon Symbol="FolderOpen20"/>
+                        </ui:MenuItem.Icon>
+                    </ui:MenuItem>
                     <ui:MenuItem x:Name="NotifyIconReportBug" Header="{DynamicResource TrayIcon_ReportBugOption}" Click="reportBug">
                         <ui:MenuItem.Icon>
                             <ui:SymbolIcon Symbol="Bug20"/>

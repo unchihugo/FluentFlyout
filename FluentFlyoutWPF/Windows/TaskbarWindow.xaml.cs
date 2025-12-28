@@ -3,7 +3,7 @@ using FluentFlyout.Classes.Utils;
 using FluentFlyoutWPF;
 using FluentFlyoutWPF.Classes;
 using System.Runtime.InteropServices;
-using System.Threading.Tasks;
+using System.Text;
 using System.Windows;
 using System.Windows.Automation;
 using System.Windows.Input;
@@ -13,7 +13,6 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using Windows.Media.Control;
-using WindowsMediaController;
 using Wpf.Ui.Appearance;
 using Wpf.Ui.Controls;
 
@@ -26,19 +25,37 @@ public partial class TaskbarWindow : Window
 {
     // --- Win32 APIs ---
     [DllImport("user32.dll", SetLastError = true)]
-    private static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
+    private static extern IntPtr FindWindow(string lpClassName, string? lpWindowName);
 
     [DllImport("user32.dll", SetLastError = true)]
-    private static extern IntPtr FindWindowEx(IntPtr parentHandle, IntPtr childAfter, string className, string windowTitle);
+    private static extern IntPtr FindWindowEx(IntPtr parentHandle, IntPtr childAfter, string? className, string? windowTitle);
+
+    [DllImport("user32.dll", SetLastError = true)]
+    private static extern bool EnumWindows(EnumWindowsProc enumProc, IntPtr lParam);
+    [DllImport("user32.dll", SetLastError = true)]
+    private static extern bool EnumThreadWindows(uint dwThreadId, EnumWindowsProc enumProc, IntPtr lParam);
+    private delegate bool EnumWindowsProc(IntPtr hWnd, IntPtr lParam);
+
+    [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
+    private static extern int GetClassName(IntPtr hWnd, StringBuilder lpClassName, int nMaxCount);
 
     [DllImport("user32.dll", SetLastError = true)]
     private static extern IntPtr SetParent(IntPtr hWndChild, IntPtr hWndNewParent);
 
     [DllImport("user32.dll", SetLastError = true)]
+    private static extern IntPtr GetParent(IntPtr hWnd);
+
+    [DllImport("user32.dll", SetLastError = true)]
     private static extern bool GetWindowRect(IntPtr hWnd, out RECT lpRect);
+
+    [DllImport("user32.dll", SetLastError = true)]
+    private static extern uint GetWindowThreadProcessId(IntPtr hWnd, IntPtr lpdwProcessId);
 
     [DllImport("dwmapi.dll")]
     private static extern int DwmExtendFrameIntoClientArea(IntPtr hwnd, ref MARGINS margins);
+
+    [StructLayout(LayoutKind.Sequential)]
+    public struct POINT { public int X, Y; }
 
     [StructLayout(LayoutKind.Sequential)]
     public struct RECT
@@ -54,8 +71,14 @@ public partial class TaskbarWindow : Window
     [DllImport("user32.dll", SetLastError = true)]
     private static extern int GetWindowLong(IntPtr hWnd, int nIndex);
 
+    [DllImport("user32.dll")]
+    private static extern uint GetDpiForWindow(IntPtr hMonitor);
+
     [DllImport("user32.dll", SetLastError = true)]
     private static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, uint uFlags);
+
+    [DllImport("user32.dll")]
+    private static extern bool ScreenToClient(IntPtr hWnd, ref POINT lpPoint);
 
     private const int GWL_STYLE = -16;
     private const int WS_CHILD = 0x40000000;
@@ -96,15 +119,15 @@ public partial class TaskbarWindow : Window
     private string _cachedArtistText = string.Empty;
     private double _cachedTitleWidth = 0;
     private double _cachedArtistWidth = 0;
-    private double _dpiScaleX;
-    private double _dpiScaleY;
     private IntPtr _trayHandle;
     private AutomationElement? _widgetElement;
+    private AutomationElement? _trayElement;
     // reference to main window for flyout functions
     private MainWindow? _mainWindow;
     private bool _isPaused;
     private int _recoveryAttempts = 0;
     private int _maxRecoveryAttempts = 5;
+    private int _lastSelectedMonitor = -1;
     //private Task _crossFadeTask = Task.CompletedTask;
 
     public TaskbarWindow()
@@ -118,16 +141,33 @@ public partial class TaskbarWindow : Window
 
         _hitTestTransparent = new SolidColorBrush(System.Windows.Media.Color.FromArgb(1, 0, 0, 0));
 
-        // initialize here in case we want to restart the window
-        _dpiScaleX = 0;
-        _dpiScaleY = 0;
-
         _timer = new DispatcherTimer();
         _timer.Interval = TimeSpan.FromMilliseconds(1500); // slow auto-update for display changes
         _timer.Tick += (s, e) => UpdatePosition();
         _timer.Start();
 
         Show();
+    }
+
+    protected override void OnSourceInitialized(EventArgs e)
+    {
+        base.OnSourceInitialized(e);
+        HwndSource source = (HwndSource)PresentationSource.FromDependencyObject(this);
+        source.AddHook(WindowProc);
+    }
+
+    private static IntPtr WindowProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
+    {
+        // Some interface mods may collect information from all windows associated with the taskbar,
+        // causing the widget and the entire taskbar to freeze.
+        // For example, Nilesoft Shell and "Click on empty taskbar space" from Windhawk.
+        // Therefore, we are preventing the propagation of this message.
+        //
+        // WM_GETOBJECT (Sent by Microsoft UI Automation to obtain information about an accessible object contained in a server application)
+        if (msg == 0x003D)
+            handled = true;
+
+        return IntPtr.Zero;
     }
 
     private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -177,6 +217,13 @@ public partial class TaskbarWindow : Window
             EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut }
         };
 
+        // rare case where background is not a SolidColorBrush after SetupWindow
+        if (MainBorder.Background is not SolidColorBrush)
+        {
+            MainBorder.Background = new SolidColorBrush(Colors.Transparent);
+            MainBorder.Background.Opacity = 0;
+        }
+
         MainBorder.Background.BeginAnimation(SolidColorBrush.ColorProperty, backgroundAnimation);
         MainBorder.Background.BeginAnimation(SolidColorBrush.OpacityProperty, backgroundOpacityAnimation);
 
@@ -222,6 +269,91 @@ public partial class TaskbarWindow : Window
         }
     }
 
+    private IntPtr GetSelectedTaskbarHandle(out bool isMainTaskbarSelected)
+    {
+        var monitors = WindowHelper.GetMonitors();
+        var selectedMonitor = monitors[Math.Clamp(SettingsManager.Current.TaskbarWidgetSelectedMonitor, 0, monitors.Count - 1)];
+        isMainTaskbarSelected = true;
+
+        // Get the main taskbar and check if it is on the selected monitor.
+        var mainHwnd = FindWindow("Shell_TrayWnd", null);
+        if (WindowHelper.GetMonitor(mainHwnd).deviceId == selectedMonitor.deviceId)
+            return mainHwnd;
+
+        if (monitors.Count == 1)
+            return mainHwnd;
+
+        isMainTaskbarSelected = false;
+        if (monitors.Count == 2)
+        {
+            var hwnd = FindWindow("Shell_SecondaryTrayWnd", null);
+            if (WindowHelper.GetMonitor(hwnd).deviceId == selectedMonitor.deviceId)
+            {
+                return hwnd;
+            }
+            else
+            {
+                isMainTaskbarSelected = true;
+                return mainHwnd;
+            }
+        }
+
+        // If there are more than two monitors, we will need to enumerate all existing windows
+        // to find all Shell_SecondaryTrayWnd among them.
+
+        IntPtr secondHwnd = IntPtr.Zero;
+        StringBuilder className = new(256); // 256 is the maximum class name length
+        IntPtr checkWindowClass(IntPtr wnd)
+        {
+            var len = GetClassName(wnd, className, className.Capacity);
+            if (className.Equals("Shell_SecondaryTrayWnd"))
+            {
+                if (WindowHelper.GetMonitor(wnd).deviceId == selectedMonitor.deviceId)
+                {
+                    return wnd;
+                }
+            }
+            return IntPtr.Zero;
+        }
+
+        // Get the threadId of the main taskbar and check all windows created in the same thread.
+        // This is very fast, but in some cases Shell_TrayWnd and other Shell_SecondaryTrayWnd's may be created in different threads.
+        // Actually, I couldn't achieve that kind of behavior.
+        if (mainHwnd != IntPtr.Zero)
+        {
+            uint threadId = GetWindowThreadProcessId(mainHwnd, IntPtr.Zero);
+            EnumThreadWindows(threadId, (wnd, param) =>
+            {
+                secondHwnd = checkWindowClass(wnd);
+                if (secondHwnd != IntPtr.Zero)
+                    return false; // stop
+
+                return true;
+            }, IntPtr.Zero);
+
+            if (secondHwnd != IntPtr.Zero)
+                return secondHwnd;
+        }
+
+        // If for some reason the taskbars were created in different threads or simply could not be found,
+        // we try to find them among all existing windows.
+        EnumWindows((wnd, param) =>
+        {
+            secondHwnd = checkWindowClass(wnd);
+            if (secondHwnd != IntPtr.Zero)
+                return false; // stop
+
+            return true;
+        }, IntPtr.Zero);
+
+        if (secondHwnd != IntPtr.Zero)
+            return secondHwnd;
+
+        // Logger.Debug($"No taskbar found on the selected monitor. Using the main taskbar.");
+        isMainTaskbarSelected = true;
+        return mainHwnd;
+    }
+
     private void SetupWindow()
     {
         try
@@ -231,16 +363,16 @@ public partial class TaskbarWindow : Window
 
             Background = _hitTestTransparent; // ensures that non-content areas also trigger MouseEnter event
 
-            IntPtr taskbarHandle = FindWindow("Shell_TrayWnd", null);
+            IntPtr taskbarHandle = GetSelectedTaskbarHandle(out bool isMainTaskbarSelected);
 
             // This prevents the window from trying to float above the taskbar as a separate entity
             int style = GetWindowLong(myHandle, GWL_STYLE);
             style = (style & ~WS_POPUP) | WS_CHILD;
             SetWindowLong(myHandle, GWL_STYLE, style);
 
-            SetParent(myHandle, taskbarHandle);
+            SetParent(myHandle, taskbarHandle); // if this window is created faster than the Taskbar is loaded, then taskbarHandle will be NULL.
 
-            CalculateAndSetPosition(taskbarHandle, myHandle);
+            CalculateAndSetPosition(taskbarHandle, myHandle, isMainTaskbarSelected);
 
             // for hover animation
             if (MainBorder.Background is not SolidColorBrush)
@@ -264,7 +396,7 @@ public partial class TaskbarWindow : Window
         try
         {
             var interop = new WindowInteropHelper(this);
-            IntPtr taskbarHandle = FindWindow("Shell_TrayWnd", null);
+            IntPtr taskbarHandle = GetSelectedTaskbarHandle(out bool isMainTaskbarSelected);
 
             if (interop.Handle == IntPtr.Zero) // window handle lost, try to reset
             {
@@ -295,9 +427,16 @@ public partial class TaskbarWindow : Window
                 return;
             }
 
+            // If the Taskbar was not found during initialization or another taskbar was selected,
+            // then we need to set the Taskbar as the Parent here.
+            if (GetParent(interop.Handle) != taskbarHandle)
+            {
+                SetParent(interop.Handle, taskbarHandle);
+            }
+
             if (taskbarHandle != IntPtr.Zero && interop.Handle != IntPtr.Zero)
             {
-                CalculateAndSetPosition(taskbarHandle, interop.Handle);
+                CalculateAndSetPosition(taskbarHandle, interop.Handle, isMainTaskbarSelected);
             }
         }
         catch (Exception ex)
@@ -306,16 +445,10 @@ public partial class TaskbarWindow : Window
         }
     }
 
-    private void CalculateAndSetPosition(IntPtr taskbarHandle, IntPtr myHandle)
+    private void CalculateAndSetPosition(IntPtr taskbarHandle, IntPtr myHandle, bool isMainTaskbarSelected)
     {
         // get DPI scaling
-        if (_dpiScaleX == 0 && _dpiScaleY == 0)
-        {
-            var dpiScale = VisualTreeHelper.GetDpi(this);
-
-            _dpiScaleX = dpiScale.DpiScaleX;
-            _dpiScaleY = dpiScale.DpiScaleY;
-        }
+        double dpiScale = GetDpiForWindow(taskbarHandle) / 96.0;
 
         // calculate widget width - use cached values if text hasn't changed
         string currentTitle = SongTitle.Text;
@@ -323,30 +456,30 @@ public partial class TaskbarWindow : Window
 
         if (!string.Equals(currentTitle, _cachedTitleText, StringComparison.Ordinal))
         {
-            _cachedTitleWidth = StringWidth.GetStringWidth(currentTitle);
+            _cachedTitleWidth = StringWidth.GetStringWidth(currentTitle, 400);
             _cachedTitleText = currentTitle;
         }
         if (!string.Equals(currentArtist, _cachedArtistText, StringComparison.Ordinal))
         {
-            _cachedArtistWidth = StringWidth.GetStringWidth(currentArtist);
+            _cachedArtistWidth = StringWidth.GetStringWidth(currentArtist, 400);
             _cachedArtistText = currentArtist;
         }
 
-        double logicalWidth = Math.Max(_cachedTitleWidth, _cachedArtistWidth) + 40 * _scale; // add margin for cover image
+        double logicalWidth = Math.Max(_cachedTitleWidth, _cachedArtistWidth) + 55; // add margin for cover image
         // maximum width limit, same as Windows native widget
-        logicalWidth = Math.Min(logicalWidth, _nativeWidgetsPadding);
+        logicalWidth = Math.Min(logicalWidth, _nativeWidgetsPadding / _scale);
 
-        SongTitle.Width = logicalWidth - 40 * _scale;
-        SongArtist.Width = logicalWidth - 40 * _scale;
+        SongTitle.Width = logicalWidth - 58;
+        SongArtist.Width = logicalWidth - 58;
 
         // add space for playback controls if enabled
         if (SettingsManager.Current.TaskbarWidgetControlsEnabled)
         {
-            logicalWidth += (int)(110 * _scale);
+            logicalWidth += (int)(102);
         }
 
-        int physicalWidth = (int)(logicalWidth * _dpiScaleX);
-        int physicalHeight = (int)(40 * _dpiScaleY); // default height
+        int physicalWidth = (int)(logicalWidth * dpiScale * _scale);
+        int physicalHeight = (int)(40 * dpiScale); // default height
 
         // Get Taskbar dimensions
         RECT taskbarRect;
@@ -354,41 +487,43 @@ public partial class TaskbarWindow : Window
         int taskbarHeight = taskbarRect.Bottom - taskbarRect.Top;
 
         // Centered vertically
-        int physicalTop = (taskbarHeight - physicalHeight) / 2;
+        int physicalTop = taskbarRect.Top + (taskbarHeight - physicalHeight) / 2;
 
-        int physicalLeft = 0;
+        int physicalLeft = taskbarRect.Left;
         switch (SettingsManager.Current.TaskbarWidgetPosition)
         {
             case 0: // left aligned with some padding (like native widgets)
-                physicalLeft = 20;
-                if (SettingsManager.Current.TaskbarWidgetPadding) // automatic widget padding to the left
-                {
-                    try
-                    {
-                        // find widget button in XAML
-                        (bool found, Rect widgetRect) = GetTaskbarWidgetRect(taskbarHandle);
+                physicalLeft += 20;
+                if (!SettingsManager.Current.TaskbarWidgetPadding)
+                    break;
 
-                        // make sure it's on the left side, otherwise ignore (widget might be to the right)
-                        if (found && widgetRect.Right < taskbarRect.Right / 2)
-                            physicalLeft = (int)(widgetRect.Right) + 2; // add small padding
-                    }
-                    catch (Exception ex)
-                    {
-                        // fallback to default padding
-                        Logger.Warn(ex, "Failed to get Widgets button position.");
-                        physicalLeft += _nativeWidgetsPadding + 2;
-                    }
+                // automatic widget padding to the left
+                try
+                {
+                    // find widget button in XAML
+                    (bool found, Rect widgetRect) = GetTaskbarWidgetRect(taskbarHandle);
+
+                    // make sure it's on the left side, otherwise ignore (widget might be to the right)
+                    if (found && widgetRect.Right < (taskbarRect.Left + taskbarRect.Right) / 2)
+                        physicalLeft = (int)(widgetRect.Right) + 2; // add small padding
+                }
+                catch (Exception ex)
+                {
+                    // fallback to default padding
+                    Logger.Warn(ex, "Failed to get Widgets button position.");
+                    physicalLeft += _nativeWidgetsPadding + 2;
                 }
                 break;
 
             case 1: // center of the taskbar
-                physicalLeft = (taskbarRect.Right - taskbarRect.Left - physicalWidth) / 2;
+                physicalLeft += (taskbarRect.Right - taskbarRect.Left - physicalWidth) / 2;
                 break;
 
             case 2: // right aligned next to system tray with tiny bit of padding
                 try
                 {
-                    if (SettingsManager.Current.TaskbarWidgetPadding) // automatic widget padding to the right
+                    // try to position next to widgets button if enabled
+                    if (SettingsManager.Current.TaskbarWidgetPadding)
                     {
                         try
                         {
@@ -396,9 +531,9 @@ public partial class TaskbarWindow : Window
                             (bool found, Rect widgetRect) = GetTaskbarWidgetRect(taskbarHandle);
 
                             // make sure it's on the right side, otherwise ignore (widget might be to the left)
-                            if (found && widgetRect.Left > taskbarRect.Right / 2)
+                            if (found && widgetRect.Left > (taskbarRect.Left + taskbarRect.Right) / 2)
                             {
-                                physicalLeft = (int)(widgetRect.Left) - 2 - physicalWidth; // left of widget
+                                physicalLeft = (int)(widgetRect.Left) - 1 - physicalWidth; // left of widget
                                 break; // early exit so we don't move it back next to tray below
                             }
                         }
@@ -408,26 +543,45 @@ public partial class TaskbarWindow : Window
                         }
                     }
 
-                    if (_trayHandle == IntPtr.Zero)
+                    // try to position next to system tray
+                    if (!isMainTaskbarSelected)
                     {
-                        _trayHandle = FindWindowEx(taskbarHandle, IntPtr.Zero, "TrayNotifyWnd", null);
+                        // find secondary tray with automation
+                        (bool found, Rect secondaryTrayRect) = GetSystemTrayRect(taskbarHandle);
+
+                        if (found)
+                        {
+                            physicalLeft = (int)secondaryTrayRect.Left - physicalWidth - 1;
+                            break;
+                        }
+                    }
+                    else if (_trayHandle == IntPtr.Zero || _lastSelectedMonitor != SettingsManager.Current.TaskbarWidgetSelectedMonitor)
+                    {
+                        if (isMainTaskbarSelected)
+                        {
+                            // find primary tray handle
+                            _trayHandle = FindWindowEx(taskbarHandle, IntPtr.Zero, "TrayNotifyWnd", null);
+                        }
                     }
 
+                    // the code reaches here because:
+                    // primary taskbar monitor is selected and auto widget padding setting is off
+
+                    // if the tray handle is zero, fallback to right alignment,
+                    // since we are aligning to the right side and know the size of the taskbar.
                     if (_trayHandle == IntPtr.Zero)
                     {
-                        // Fallback to left alignment
-                        physicalLeft = 20;
+                        physicalLeft = taskbarRect.Right - physicalWidth - 20;
                         break;
                     }
-                    RECT trayRect;
-                    GetWindowRect(_trayHandle, out trayRect);
+                    GetWindowRect(_trayHandle, out RECT trayRect);
                     physicalLeft = trayRect.Left - physicalWidth - 1;
                 }
                 catch (Exception ex)
                 {
                     // Fallback to left alignment
                     Logger.Warn(ex, "Failed to get System Tray position.");
-                    physicalLeft = 20;
+                    physicalLeft = taskbarRect.Left + 20;
                 }
                 break;
         }
@@ -439,11 +593,20 @@ public partial class TaskbarWindow : Window
         //    SongInfoStackPanel.Visibility = Visibility.Visible;
         //}
 
+        physicalLeft += SettingsManager.Current.TaskbarWidgetManualPadding;
+
+        // Following SetWindowPos will set the position relative to the parent window,
+        // so those coordinates need to be converted.
+        POINT relativePos = new() { X = physicalLeft, Y = physicalTop };
+        ScreenToClient(taskbarHandle, ref relativePos);
+
         // Apply using SetWindowPos (Bypassing WPF layout engine)
         SetWindowPos(myHandle, IntPtr.Zero,
-                 physicalLeft, physicalTop,
+                 relativePos.X, relativePos.Y,
                  physicalWidth, physicalHeight,
                  SWP_NOZORDER | SWP_NOACTIVATE | SWP_ASYNCWINDOWPOS | SWP_SHOWWINDOW);
+
+        _lastSelectedMonitor = SettingsManager.Current.TaskbarWidgetSelectedMonitor;
     }
 
     public void UpdateUi(string title, string artist, BitmapImage? icon, GlobalSystemMediaTransportControlsSessionPlaybackStatus? playbackStatus, GlobalSystemMediaTransportControlsSessionPlaybackControls? playbackControls = null)
@@ -586,7 +749,7 @@ public partial class TaskbarWindow : Window
             {
                 ControlsStackPanel.Visibility = Visibility.Visible;
             }
-            
+
             Visibility = Visibility.Visible;
 
             // defer UpdatePosition to allow WPF layout to complete first
@@ -663,6 +826,60 @@ public partial class TaskbarWindow : Window
     //    }
     //}
 
+    private (bool, Rect) GetTaskbarXamlElementRect(IntPtr taskbarHandle, ref AutomationElement? elementCache, string elementName)
+    {
+        try
+        {
+            // reset if monitor changed
+            if (_lastSelectedMonitor != SettingsManager.Current.TaskbarWidgetSelectedMonitor)
+                elementCache = null;
+
+            // find widget in XAML
+            if (elementCache == null)
+            {
+                AutomationElement root = AutomationElement.FromHandle(taskbarHandle);
+
+                elementCache = root.FindFirst(TreeScope.Descendants,
+                    new PropertyCondition(AutomationElement.AutomationIdProperty, elementName));
+            }
+
+            if (elementCache == null) // widget most likely disabled
+                return (false, Rect.Empty);
+
+            try
+            {
+                Rect elementRect = elementCache.Current.BoundingRectangle;
+
+                if (elementRect == Rect.Empty) // widget shown before but most likely disabled now
+                {
+                    elementCache = null; // reset cache
+                    return (false, Rect.Empty);
+                }
+
+                return (true, elementRect);
+            }
+            catch (ElementNotAvailableException)
+            {
+                // element became stale, reset cache
+                Logger.Warn("Taskbar XAML element became stale, resetting cache: " + elementName);
+                elementCache = null;
+                return (false, Rect.Empty);
+            }
+        }
+        catch (COMException ex)
+        {
+            Logger.Error(ex, "COM error retrieving taskbar XAML element Rect: " + elementName);
+            elementCache = null; // reset cache on error
+            return (false, Rect.Empty);
+        }
+        catch (Exception ex)
+        {
+            Logger.Error(ex, "Error retrieving taskbar XAML element Rect: " + elementName);
+            elementCache = null; // reset cache on error
+            return (false, Rect.Empty);
+        }
+    }
+
     /// <summary>
     /// Attempts to locate the Windows taskbar widgets button and retrieves its bounding rectangle.
     /// </summary>
@@ -671,47 +888,12 @@ public partial class TaskbarWindow : Window
     /// <see cref="Rect.Empty"/> if not found.</returns>
     private (bool, Rect) GetTaskbarWidgetRect(IntPtr taskbarHandle)
     {
-        try
-        {
-            // find widget button in XAML
-            if (_widgetElement == null)
-            {
-                AutomationElement root = AutomationElement.FromHandle(taskbarHandle);
+        return GetTaskbarXamlElementRect(taskbarHandle, ref _widgetElement, "WidgetsButton");
+    }
 
-                _widgetElement = root.FindFirst(TreeScope.Descendants,
-                    new PropertyCondition(AutomationElement.AutomationIdProperty, "WidgetsButton"));
-            }
-
-            if (_widgetElement == null) // widget most likely disabled
-                return (false, Rect.Empty);
-
-            try
-            {
-                Rect widgetRect = _widgetElement.Current.BoundingRectangle;
-
-                if (widgetRect == Rect.Empty) // widget shown before but most likely disabled now
-                    return (false, Rect.Empty);
-
-                return (true, widgetRect);
-            }
-            catch (ElementNotAvailableException)
-            {
-                // element became stale, reset cache
-                Logger.Warn("Taskbar Widgets button element became stale, resetting cache.");
-                _widgetElement = null;
-                return (false, Rect.Empty);
-            }
-        }
-        catch (COMException ex)
-        {
-            Logger.Error(ex, "COM error retrieving taskbar widgets button Rect.");
-            return (false, Rect.Empty);
-        }
-        catch (Exception ex)
-        {
-            Logger.Error(ex, "Error retrieving taskbar widgets button Rect.");
-            return (false, Rect.Empty);
-        }
+    private (bool, Rect) GetSystemTrayRect(IntPtr taskbarHandle)
+    {
+        return GetTaskbarXamlElementRect(taskbarHandle, ref _trayElement, "SystemTrayIcon");
     }
 
     // event handlers for media control buttons

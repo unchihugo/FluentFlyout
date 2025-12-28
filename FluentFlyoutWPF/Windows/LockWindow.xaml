@@ -7,10 +7,10 @@
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
     xmlns:controls="clr-namespace:MicaWPF.Controls;assembly=MicaWPF"
     mc:Ignorable="d" 
-    Height="50" Width="200" 
+    Height="50" Width="160" 
     ResizeMode="NoResize"
     WindowStyle="None" ShowInTaskbar="False"
-    ChangeTitleColorWhenInactive="False"
+    ChangeTitleColorWhenInactive="False" Visibility="Visible"
     TextOptions.TextRenderingMode="ClearType" TextOptions.TextFormattingMode="Ideal"
     FontFamily="Segoe UI Variable, Microsoft YaHei, Microsoft JhengHei, MS Gothic"
     >

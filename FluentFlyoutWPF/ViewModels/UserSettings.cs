@@ -20,6 +20,12 @@ public partial class UserSettings : ObservableObject
     public partial bool CompactLayout { get; set; }
 
     /// <summary>
+    /// Flyout Target Display
+    /// </summary>
+    [ObservableProperty]
+    public partial int FlyoutSelectedMonitor { get; set; }
+
+    /// <summary>
     /// Flyout position on screen
     /// </summary>
     [ObservableProperty]
@@ -294,7 +300,7 @@ public partial class UserSettings : ObservableObject
     public ObservableCollection<LanguageOption> LanguageOptions { get; } = [];
 
     [XmlIgnore]
-    [ObservableProperty] 
+    [ObservableProperty]
     public partial LanguageOption SelectedLanguage { get; set; }
 
     /// <summary>
@@ -302,6 +308,12 @@ public partial class UserSettings : ObservableObject
     /// </summary>
     [ObservableProperty]
     public partial bool TaskbarWidgetEnabled { get; set; }
+
+    /// <summary>
+    /// Widget Target Display
+    /// </summary>
+    [ObservableProperty]
+    public partial int TaskbarWidgetSelectedMonitor { get; set; }
 
     /// <summary>
     /// Gets or sets the position of the taskbar widget, represented as an integer value.
@@ -317,7 +329,38 @@ public partial class UserSettings : ObservableObject
     public partial bool TaskbarWidgetPadding { get; set; }
 
     /// <summary>
-    /// Gets or sets a value indicating the triggertype of the taskbar widget
+    /// Manual padding value in pixels applied to the taskbar widget
+    /// </summary>
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(TaskbarWidgetManualPaddingText))]
+    public partial int TaskbarWidgetManualPadding { get; set; }
+
+    [XmlIgnore]
+    public string TaskbarWidgetManualPaddingText
+    {
+        get => TaskbarWidgetManualPadding.ToString();
+        set
+        {
+            if (int.TryParse(value, out var result))
+            {
+                TaskbarWidgetManualPadding = result switch
+                {
+                    > 9999 => 9999,
+                    < -9999 => -9999,
+                    _ => result
+                };
+            }
+            else
+            {
+                TaskbarWidgetManualPadding = 0;
+            }
+
+            OnPropertyChanged();
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the taskbar widget is clickable
     /// </summary>
     [ObservableProperty]
     public partial int TaskbarWidgetTriggerType { get; set; }
@@ -344,7 +387,7 @@ public partial class UserSettings : ObservableObject
     /// Gets or sets a value indicating whether the taskbar widget should play animations.
     /// </summary>
     [ObservableProperty]
-    public partial bool TaskbarWidgetAnimated {  get; set; }
+    public partial bool TaskbarWidgetAnimated { get; set; }
 
     /// <summary>
     /// Gets whether premium features are unlocked (runtime only, not persisted)
@@ -368,8 +411,9 @@ public partial class UserSettings : ObservableObject
         {
             LanguageOptions.Add(new LanguageOption(supportedLanguage.Key, supportedLanguage.Value));
         }
-        
+
         CompactLayout = false;
+        FlyoutSelectedMonitor = 0;
         Position = 0;
         FlyoutAnimationSpeed = 2;
         PlayerInfoEnabled = true;
@@ -402,9 +446,12 @@ public partial class UserSettings : ObservableObject
         IsNextUpAdvancedAnimationEnabled = true;
         LockKeysAcrylicWindowEnabled = true;
         TaskbarWidgetEnabled = false;
+        TaskbarWidgetSelectedMonitor = 0;
         TaskbarWidgetPosition = 0;
         TaskbarWidgetPadding = true;
         TaskbarWidgetTriggerType = 2;
+        TaskbarWidgetManualPadding = 0;
+        //TaskbarWidgetClickable = true;
         TaskbarWidgetBackgroundBlur = false;
         TaskbarWidgetHideCompletely = false;
         TaskbarWidgetControlsEnabled = false;
@@ -464,6 +511,12 @@ public partial class UserSettings : ObservableObject
 
     // Update taskbar when relevant settings change
     partial void OnTaskbarWidgetPositionChanged(int oldValue, int newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+        UpdateTaskbar();
+    }
+
+    partial void OnTaskbarWidgetManualPaddingChanged(int oldValue, int newValue)
     {
         if (oldValue == newValue || _initializing) return;
         UpdateTaskbar();

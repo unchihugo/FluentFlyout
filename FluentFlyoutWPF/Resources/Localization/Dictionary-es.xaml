@@ -128,4 +128,11 @@ Nota: Como proyecto de código abierto, estas opciones también están disponibl
     <system:String x:Key="HideTrayIconDescription">Acceder a las opciones al ejecutar el programa dos veces</system:String>
     <system:String x:Key="AboutPremiumTitle">Sobre el Premium</system:String>
     <system:String x:Key="TaskbarWidgetPosition">Posición del Widget</system:String>
+    <system:String x:Key="TaskbarWidgetControlsTitle">Controles Multimedia del Widget</system:String>
+    <system:String x:Key="TaskbarWidgetControlsDescription">Muestra controles multimedia en el widget</system:String>
+    <system:String x:Key="TaskbarWidgetAnimatedTitle">Animaciones del Widget</system:String>
+    <system:String x:Key="TaskbarWidgetAnimatedDescription">Activa animaciones sutiles para el widget</system:String>
+    <system:String x:Key="BackgroundBlurOption2" xml:space="preserve"> Tipo 1 (Cover Glow)</system:String>
+    <system:String x:Key="BackgroundBlurOption3" xml:space="preserve"> Tipo 2 (Rising Glow)</system:String>
+    <system:String x:Key="BackgroundBlurOption4" xml:space="preserve"> Tipo 3 (Blur)</system:String>
 </ResourceDictionary>

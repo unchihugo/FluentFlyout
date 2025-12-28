@@ -15,6 +15,7 @@
     <System:String x:Key="CompactLayoutTitle">Compact Layout</System:String>
     <System:String x:Key="CompactLayoutDescription" xml:space="preserve">Slimmer and less intrusive layout
 hides repeat, shuffle and player info</System:String>
+    <System:String x:Key="SelectedMonitorTitle">Flyout Target Display</System:String>
     <System:String x:Key="FlyoutPositionTitle">Flyout Position</System:String>
     <System:String x:Key="PositionBottomLeft" xml:space="preserve"> Bottom Left</System:String>
     <System:String x:Key="PositionBottomCenter" xml:space="preserve"> Bottom Center</System:String>
@@ -43,14 +44,19 @@ hides repeat, shuffle and player info</System:String>
     <System:String x:Key="TaskbarWidgetEnabledTitle">Enable Taskbar Widget</System:String>
     <System:String x:Key="TaskbarWidgetEnabledDescription">Show a compact media widget on the taskbar</System:String>
     <System:String x:Key="TaskbarWidgetVisualIssuesWarning">Configure the options below if you experience visual issues.</System:String>
+    <System:String x:Key="TaskbarWidgetSelectedMonitorTitle">Widget Target Display</System:String>
     <System:String x:Key="TaskbarWidgetPosition">Widget Position</System:String>
-    <System:String x:Key="TaskbarWidgetPaddingTitle">Add Padding for Windows Widgets button</System:String>
+    <System:String x:Key="TaskbarWidgetPaddingSettingsTitle">Widget Padding Settings</System:String>
+    <System:String x:Key="TaskbarWidgetPaddingSettingsDescription">Adjust the padding around the widget to fit your taskbar style</System:String>
+    <System:String x:Key="TaskbarWidgetPaddingTitle">Automatic Padding for Windows Widgets button</System:String>
     <System:String x:Key="TaskbarWidgetPaddingDescription">Turn this feature on if you have Windows Widgets enabled</System:String>
     <System:String x:Key="TaskbarWidgetClickableTitle">Interactive way to open Media Flyout when media is Present</System:String>
     <System:String x:Key="TaskbarWidgetClickableDescription">If media flyout is enabled, it will open based on your chosen interaction method with the widget</System:String>
     <System:String x:Key="TaskbarWidgetTrigger_None">None</System:String>
     <System:String x:Key="TaskbarWidgetTrigger_OnHover">OnHover</System:String>
     <System:String x:Key="TaskbarWidgetTrigger_Clicked">Click</System:String>
+    <System:String x:Key="TaskbarWidgetManualPaddingTitle">Custom Padding</System:String>
+    <System:String x:Key="TaskbarWidgetManualPaddingDescription">Add extra padding (default: 0px)</System:String>
     <System:String x:Key="TaskbarWidgetBackgroundBlurTitle">Background Blur</System:String>
     <System:String x:Key="TaskbarWidgetBackgroundBlurDescription">Add background blur effect to the taskbar widget</System:String>
     <System:String x:Key="TaskbarWidgetHideCompletelyTitle">Hide Completely When No Media Is Present</System:String>
@@ -138,6 +144,8 @@ You can help contribute translations on</System:String>
     <System:String x:Key="NextUpWindow_UpNextText">Up next:</System:String>
     <System:String x:Key="TrayIcon_SettingsOption">Settings</System:String>
     <System:String x:Key="TrayIcon_GitHubRepositoryOption">Repository</System:String>
+    <System:String x:Key="TrayIcon_ViewLogsOption">View logs</System:String>
     <System:String x:Key="TrayIcon_ReportBugOption">Report bug</System:String>
     <System:String x:Key="TrayIcon_QuitOption">Quit FluentFlyout</System:String>
+    <System:String x:Key="PixelsUnit">px</System:String>
 </ResourceDictionary>
