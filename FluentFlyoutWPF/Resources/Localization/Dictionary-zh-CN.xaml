@@ -108,7 +108,7 @@
     <system:String x:Key="TaskbarWidgetEnabledDescription">在任务栏上显示一个简洁的媒体小组件</system:String>
     <system:String x:Key="TaskbarWidgetVisualIssuesWarning">如果碰到显示问题，请调整下面的选项。</system:String>
     <system:String x:Key="TaskbarWidgetPosition">小组件位置</system:String>
-    <system:String x:Key="TaskbarWidgetPaddingTitle">为 Windows 小组件按钮添加间距</system:String>
+    <system:String x:Key="TaskbarWidgetPaddingTitle">自动为 Windows 小组件按钮添加间距</system:String>
     <system:String x:Key="TaskbarWidgetPaddingDescription">如果你启用了 Windows 小组件，请启用此选项</system:String>
     <system:String x:Key="TaskbarWidgetClickableTitle">有播放中的媒体时点击打开媒体浮窗</system:String>
     <system:String x:Key="TaskbarWidgetClickableDescription">如果启用了媒体浮窗，点击小组件时它将会被打开</system:String>
@@ -137,4 +137,9 @@
     <system:String x:Key="TaskbarWidgetAnimatedDescription">为小组件启用细节动画</system:String>
     <system:String x:Key="SelectedMonitorTitle">浮窗目标显示器</system:String>
     <system:String x:Key="TrayIcon_ViewLogsOption">查看日志</system:String>
+    <system:String x:Key="TaskbarWidgetSelectedMonitorTitle">小组件目标显示器</system:String>
+    <system:String x:Key="TaskbarWidgetPaddingSettingsTitle">小组件间距设置</system:String>
+    <system:String x:Key="TaskbarWidgetPaddingSettingsDescription">调整小组件与周围元素的间距来搭配你的任务栏风格</system:String>
+    <system:String x:Key="TaskbarWidgetManualPaddingTitle">自定义间距</system:String>
+    <system:String x:Key="TaskbarWidgetManualPaddingDescription">添加额外的间距（默认：0 像素）</system:String>
 </ResourceDictionary>
