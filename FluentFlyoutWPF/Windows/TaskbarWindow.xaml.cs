@@ -467,8 +467,8 @@ public partial class TaskbarWindow : Window
         // maximum width limit, same as Windows native widget
         logicalWidth = Math.Min(logicalWidth, _nativeWidgetsPadding / _scale);
 
-        SongTitle.Width = logicalWidth - 58;
-        SongArtist.Width = logicalWidth - 58;
+        SongTitle.Width = Math.Max(logicalWidth - 58, 0);
+        SongArtist.Width = Math.Max(logicalWidth - 58, 0);
 
         // add space for playback controls if enabled
         if (SettingsManager.Current.TaskbarWidgetControlsEnabled)
