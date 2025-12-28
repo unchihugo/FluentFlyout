@@ -137,4 +137,9 @@
     <system:String x:Key="TaskbarWidgetAnimatedTitle">小工具動畫</system:String>
     <system:String x:Key="TaskbarWidgetAnimatedDescription">啟用小工具的小動畫</system:String>
     <system:String x:Key="TrayIcon_ViewLogsOption">查看日誌</system:String>
+    <system:String x:Key="TaskbarWidgetSelectedMonitorTitle">小工具目標顯示器</system:String>
+    <system:String x:Key="TaskbarWidgetPaddingSettingsTitle">小工具邊距設定</system:String>
+    <system:String x:Key="TaskbarWidgetPaddingSettingsDescription">調整小工具周圍的邊距，以符合你的工作列樣式</system:String>
+    <system:String x:Key="TaskbarWidgetManualPaddingTitle">自訂邊距</system:String>
+    <system:String x:Key="TaskbarWidgetManualPaddingDescription">新增額外邊距（預設值：0px）</system:String>
 </ResourceDictionary>
