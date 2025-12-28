@@ -142,4 +142,5 @@
     <system:String x:Key="TaskbarWidgetPaddingSettingsDescription">调整小组件与周围元素的间距来搭配你的任务栏风格</system:String>
     <system:String x:Key="TaskbarWidgetManualPaddingTitle">自定义间距</system:String>
     <system:String x:Key="TaskbarWidgetManualPaddingDescription">添加额外的间距（默认：0 像素）</system:String>
+    <system:String x:Key="PixelsUnit">像素</system:String>
 </ResourceDictionary>
