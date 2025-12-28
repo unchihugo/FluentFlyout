@@ -404,7 +404,7 @@ public partial class UserSettings : ObservableObject
         TaskbarWidgetEnabled = false;
         TaskbarWidgetPosition = 0;
         TaskbarWidgetPadding = true;
-        TaskbarWidgetTriggerType = 1;
+        TaskbarWidgetTriggerType = 2;
         TaskbarWidgetBackgroundBlur = false;
         TaskbarWidgetHideCompletely = false;
         TaskbarWidgetControlsEnabled = false;
