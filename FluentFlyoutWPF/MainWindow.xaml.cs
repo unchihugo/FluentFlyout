@@ -177,7 +177,7 @@ public partial class MainWindow : MicaWindow
             LocalizationManager.ApplyLocalization();
             // show settings to new users
             string previousVersion = SettingsManager.Current.LastKnownVersion;
-            if (previousVersion == "")
+            if (previousVersion == string.Empty)
                 SettingsWindow.ShowInstance();
 
             try // update last known version. gets the version of the app, works only in release mode
@@ -750,14 +750,14 @@ public partial class MainWindow : MicaWindow
             if (mediaSession == null)
             {
                 SongTitle.Text = "No media playing";
-                SongArtist.Text = "";
+                SongArtist.Text = string.Empty;
                 SongImage.ImageSource = null;
                 SymbolPlayPause.Symbol = Wpf.Ui.Controls.SymbolRegular.Stop16;
                 ControlPlayPause.IsEnabled = false;
                 ControlPlayPause.Opacity = 0.35;
                 ControlBack.IsEnabled = ControlForward.IsEnabled = false;
                 ControlBack.Opacity = ControlForward.Opacity = 0.35;
-                SongInfoStackPanel.ToolTip = "";
+                SongInfoStackPanel.ToolTip = string.Empty;
                 return;
             }
 
@@ -862,9 +862,9 @@ public partial class MainWindow : MicaWindow
                 SongImage.ImageSource = image;
 
                 // set tooltip
-                SongInfoStackPanel.ToolTip = "";
-                SongInfoStackPanel.ToolTip += !String.IsNullOrEmpty(SongTitle.Text) ? $"{SongTitle.Text}" : "";
-                SongInfoStackPanel.ToolTip += !String.IsNullOrEmpty(SongArtist.Text) ? $"\n{SongArtist.Text}" : "";
+                SongInfoStackPanel.ToolTip = string.Empty;
+                SongInfoStackPanel.ToolTip += !String.IsNullOrEmpty(songInfo.Title) ? songInfo.Title : string.Empty;
+                SongInfoStackPanel.ToolTip += !String.IsNullOrEmpty(songInfo.Artist) ? "\n" + songInfo.Artist : string.Empty;
 
                 // background blurred image
                 if (SettingsManager.Current.MediaFlyoutBackgroundBlur != 0)
