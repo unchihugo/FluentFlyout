@@ -44,7 +44,10 @@
 								<ImageBrush x:Name="SongImage" Stretch="UniformToFill" />
 							</Border.Background>
 						</Border>
-                        <StackPanel Name="SongInfoStackPanel" Orientation="Vertical" VerticalAlignment="Center" Width="Auto" Margin="8,0,0,0">
+                        <StackPanel Name="SongInfoStackPanel" Orientation="Vertical" VerticalAlignment="Center" Width="Auto" Margin="8,0,0,0" 
+                                    ToolTipService.InitialShowDelay="800"
+                                    ToolTipService.Placement="RelativePoint"
+                                    ToolTipService.VerticalOffset="-16">
                             <TextBlock Name="SongTitle" Text="" FontWeight="Normal" TextTrimming="CharacterEllipsis" Foreground="{ui:ThemeResource TextFillColorPrimaryBrush}" />
                             <TextBlock Name="SongArtist" Text="" FontWeight="Normal" Opacity="0.5" Margin="0,-1.5,0,0" TextTrimming="CharacterEllipsis" Foreground="{ui:ThemeResource TextFillColorPrimaryBrush}" />
 						</StackPanel>
