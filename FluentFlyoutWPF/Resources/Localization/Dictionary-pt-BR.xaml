@@ -39,7 +39,7 @@
     <system:String x:Key="CompactLayoutDescription" xml:space="preserve">Layout mais fino e menos intrusivo
 esconde os botões de repetir, aleatório e as informações do player</system:String>
     <system:String x:Key="RepeatButtonDescription">Escolha entre repetir todos ou repetir um, aumenta a largura do flyout</system:String>
-    <system:String x:Key="ShowSeekbarDescription">Uma barra de progresso interativa será exibida automaticamente se o player tiver suporte.</system:String>
+    <system:String x:Key="ShowSeekbarDescription">Uma barra de progresso interativa será exibida automaticamente se o player tiver suporte</system:String>
     <system:String x:Key="UnsupportedControlsWarning">Alguns navegadores/reprodutores não oferecem suporte aos controles de repetir, aleatório e barra de progresso.</system:String>
     <system:String x:Key="PauseOtherMediaDescription">Quando você reproduzir ou alternar o foco para uma nova mídia, outras sessões ativas serão pausadas automaticamente</system:String>
     <system:String x:Key="TaskbarWidgetCustomizationTitle">Costumização do widget da barra de tarefas</system:String>

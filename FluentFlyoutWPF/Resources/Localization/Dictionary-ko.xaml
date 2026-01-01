@@ -86,7 +86,7 @@
     <system:String x:Key="CloseButton">닫기</system:String>
     <system:String x:Key="AppLanguageTitle">앱 언어</system:String>
     <system:String x:Key="AppLanguageDescription" xml:space="preserve">사용하시는 언어가 목록에 없거나 번역이 불완전한 경우, 기본적으로 영어로 표시됩니다.
-번역에 기여하고 싶으시면 다음 링크에서 참여하실 수 있습니다.</system:String>
+번역에 기여하고 싶으시면 다음 링크에서 참여하실 수 있습니다</system:String>
     <system:String x:Key="AppLanguageDescriptionLink">Weblate</system:String>
     <system:String x:Key="SystemSettingsTitle">시스템</system:String>
     <system:String x:Key="LaunchOnStartupTitle">시작 시 실행</system:String>

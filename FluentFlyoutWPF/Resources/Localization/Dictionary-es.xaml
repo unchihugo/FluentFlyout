@@ -6,12 +6,12 @@
     <system:String x:Key="TextBlockText3">Mostrar flyout cuando pulses una tecla multimedia</system:String>
     <system:String x:Key="TextBlockText2">Elige entre varios ajustes de difuminado del fondo</system:String>
     <system:String x:Key="BackgroundBlurOption1" xml:space="preserve"> Ninguno</system:String>
-    <system:String x:Key="BackgroundBlurTitle">Difuminado del fondo</system:String>
-    <system:String x:Key="AcrylicWindowTitle">Ventana Acrylic</system:String>
-    <system:String x:Key="AcrylicWindowDescription">Aplica el efecto de tranparencia acrylic al flyout (Si se desactiva usa Mica)</system:String>
+    <system:String x:Key="BackgroundBlurTitle">Desenfoque del fondo</system:String>
+    <system:String x:Key="AcrylicWindowTitle">Ventana Acrilica</system:String>
+    <system:String x:Key="AcrylicWindowDescription">Aplica un efecto de transparencia acrilica al flyout (Si se desactiva se usa Mica)</system:String>
     <system:String x:Key="CompactLayoutTitle">Diseño Compacto</system:String>
-    <system:String x:Key="CompactLayoutDescription" xml:space="preserve">Un diseño más fino y menos intrusivo
-oculta repetir, aleatorio y la información del reproductor</system:String>
+    <system:String x:Key="CompactLayoutDescription" xml:space="preserve">Un diseño más ligero y menos intrusivo
+oculta los botones de repetir y aleatorio y la información del reproductor</system:String>
     <system:String x:Key="FlyoutPositionTitle">Posición del Flyout</system:String>
     <system:String x:Key="PositionBottomLeft" xml:space="preserve"> Abajo a la izquierda</system:String>
     <system:String x:Key="PositionBottomCenter" xml:space="preserve"> Abajo centrado</system:String>
@@ -104,7 +104,7 @@ Puedes ayudar a contribuir con las traducciones en</system:String>
     <system:String x:Key="TaskbarWidgetEnabledTitle">Activar Widget de la Barra de Tareas</system:String>
     <system:String x:Key="TaskbarWidgetEnabledDescription">Muestra un widget multimedia compacto en la barra de tareas</system:String>
     <system:String x:Key="TaskbarWidgetVisualIssuesWarning">Configura las opciones de debajo si experimentas problemas visuales.</system:String>
-    <system:String x:Key="TaskbarWidgetPaddingTitle">Añadir Margen para el Botón de Widgets de Windows</system:String>
+    <system:String x:Key="TaskbarWidgetPaddingTitle">Margen Automático para el Botón de Widgets de Windows</system:String>
     <system:String x:Key="TaskbarWidgetPaddingDescription">Activa esta función si tienes los Widgets de Windows activados</system:String>
     <system:String x:Key="TaskbarWidgetClickableTitle">Haz click para abrir el Flyout Multimedia cuando se reproduce multimedia</system:String>
     <system:String x:Key="TaskbarWidgetClickableDescription">Si el flyout multimedia esta activado se abrirá cuando hagas click en el widget de la barra de tareas</system:String>
@@ -132,7 +132,15 @@ Nota: Como proyecto de código abierto, estas opciones también están disponibl
     <system:String x:Key="TaskbarWidgetControlsDescription">Muestra controles multimedia en el widget</system:String>
     <system:String x:Key="TaskbarWidgetAnimatedTitle">Animaciones del Widget</system:String>
     <system:String x:Key="TaskbarWidgetAnimatedDescription">Activa animaciones sutiles para el widget</system:String>
-    <system:String x:Key="BackgroundBlurOption2" xml:space="preserve"> Tipo 1 (Cover Glow)</system:String>
-    <system:String x:Key="BackgroundBlurOption3" xml:space="preserve"> Tipo 2 (Rising Glow)</system:String>
-    <system:String x:Key="BackgroundBlurOption4" xml:space="preserve"> Tipo 3 (Blur)</system:String>
+    <system:String x:Key="BackgroundBlurOption2" xml:space="preserve"> Tipo 1 (Iluminado de la Portada)</system:String>
+    <system:String x:Key="BackgroundBlurOption3" xml:space="preserve"> Tipo 2 (Iluminado Difuminado)</system:String>
+    <system:String x:Key="BackgroundBlurOption4" xml:space="preserve"> Tipo 3 (Desenfoque)</system:String>
+    <system:String x:Key="SelectedMonitorTitle">Monitor en el que aparecerá el Flyout</system:String>
+    <system:String x:Key="TaskbarWidgetSelectedMonitorTitle">Monitor en el que estará el Widget</system:String>
+    <system:String x:Key="TaskbarWidgetPaddingSettingsTitle">Opciones de espaciado del Widget</system:String>
+    <system:String x:Key="TaskbarWidgetPaddingSettingsDescription">Ajustar el espaciado del widget para acomodarse al estilo de tu barra de tareas</system:String>
+    <system:String x:Key="TaskbarWidgetManualPaddingTitle">Margen Personalizado</system:String>
+    <system:String x:Key="TaskbarWidgetManualPaddingDescription">Añadir margen extra (por defecto: 0px)</system:String>
+    <system:String x:Key="TrayIcon_ViewLogsOption">Ver el registro</system:String>
+    <system:String x:Key="PixelsUnit">px</system:String>
 </ResourceDictionary>

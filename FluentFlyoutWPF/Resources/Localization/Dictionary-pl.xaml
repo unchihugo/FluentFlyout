@@ -41,7 +41,7 @@ Ukrywa informacje o odtwarzaczu, odtwarzanie losowe i zapętlenie</system:String
     <system:String x:Key="TaskbarWidgetEnabledTitle">Włącz widżet paska zadań</system:String>
     <system:String x:Key="TaskbarWidgetEnabledDescription">Pokaż kompaktowy widżet mediów na pasku zadań</system:String>
     <system:String x:Key="TaskbarWidgetVisualIssuesWarning">Skonfiguruj poniższe opcje, jeśli występują problemy z wyświetlaniem.</system:String>
-    <system:String x:Key="TaskbarWidgetPaddingTitle">Dodaj margines dla przycisku widżetów Windows</system:String>
+    <system:String x:Key="TaskbarWidgetPaddingTitle">Automatyczny odstęp dla przycisku widżetów Windows</system:String>
     <system:String x:Key="TaskbarWidgetPaddingDescription">Włącz tę funkcję, jeśli masz włączone widżety Windows</system:String>
     <system:String x:Key="TaskbarWidgetClickableTitle">Kliknij, aby otworzyć wysuwany panel mediów, gdy media są dostępne</system:String>
     <system:String x:Key="TaskbarWidgetClickableDescription">Jeśli wysuwany panel mediów jest włączony, otworzy się po kliknięciu widżetu na pasku zadań﻿</system:String>
@@ -135,4 +135,12 @@ Możesz pomóc w tworzeniu tłumaczeń na stronie</system:String>
     <system:String x:Key="TaskbarWidgetControlsDescription">Pokaż przyciski kontroli mediów na widgecie</system:String>
     <system:String x:Key="TaskbarWidgetAnimatedTitle">Animacje widgetu</system:String>
     <system:String x:Key="TaskbarWidgetAnimatedDescription">Włącz subtelne animacje dla widgetu</system:String>
+    <system:String x:Key="SelectedMonitorTitle">Wyświetlacz docelowy dla paneli</system:String>
+    <system:String x:Key="TaskbarWidgetSelectedMonitorTitle">Wyświetlacz docelowy dla widgetu</system:String>
+    <system:String x:Key="TaskbarWidgetPaddingSettingsTitle">Ustawienia odstępu dla widgetu</system:String>
+    <system:String x:Key="TaskbarWidgetPaddingSettingsDescription">Dostosuj odstęp wokół widgetu do stylu paska zadań</system:String>
+    <system:String x:Key="TaskbarWidgetManualPaddingTitle">Niestandardowe odstępy</system:String>
+    <system:String x:Key="TaskbarWidgetManualPaddingDescription">Dodaj dodatkowy odstęp (domyślnie: 1px)</system:String>
+    <system:String x:Key="TrayIcon_ViewLogsOption">Sprawdź dziennik zdarzeń</system:String>
+    <system:String x:Key="PixelsUnit">px</system:String>
 </ResourceDictionary>
