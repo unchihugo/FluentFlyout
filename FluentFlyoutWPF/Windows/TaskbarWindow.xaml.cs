@@ -470,8 +470,8 @@ public partial class TaskbarWindow : Window
         SongTitle.Width = Math.Max(logicalWidth - 58, 0);
         SongArtist.Width = Math.Max(logicalWidth - 58, 0);
 
-        // add space for playback controls if enabled
-        if (SettingsManager.Current.TaskbarWidgetControlsEnabled)
+        // add space for playback controls if enabled and visible
+        if (SettingsManager.Current.TaskbarWidgetControlsEnabled && ControlsStackPanel.Visibility == Visibility.Visible)
         {
             logicalWidth += (int)(102);
         }
