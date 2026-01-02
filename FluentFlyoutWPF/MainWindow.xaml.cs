@@ -145,6 +145,12 @@ public partial class MainWindow : MicaWindow
             key?.SetValue("FluentFlyout", executablePath);
         }
 
+        // display tray icon if enabled
+        if (!SettingsManager.Current.NIconHide)
+        {
+            nIcon.Visibility = Visibility.Visible;
+        }
+
         cts = new CancellationTokenSource();
 
         mediaManager.Start();
@@ -1289,6 +1295,7 @@ public partial class MainWindow : MicaWindow
                 return 0;
 
             nIcon.Visibility = Visibility.Visible; // re-add tray icon
+            nIcon.Register();
         }
         return 0;
     }
@@ -1299,14 +1306,9 @@ public partial class MainWindow : MicaWindow
         UpdateUILayout();
         ThemeManager.ApplySavedTheme();
 
-        // add tray icon if not hidden
+        // add tray icon hook when taskbar resets
         try
         {
-            if (!SettingsManager.Current.NIconHide)
-            {
-                nIcon.Visibility = Visibility.Visible;
-            }
-
             HwndSource source = PresentationSource.FromVisual(this) as HwndSource;
             if (source != null)
             {
