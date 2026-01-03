@@ -107,7 +107,7 @@ veya Microsoft Store'da yorum bırakın!</system:String>
     <system:String x:Key="TaskbarWidgetEnabledTitle">Görev Çubuğu Widget'ını Etkinleştir</system:String>
     <system:String x:Key="TaskbarWidgetEnabledDescription">Görev çubuğunda kompakt bir medya bileşeni göster</system:String>
     <system:String x:Key="TaskbarWidgetVisualIssuesWarning">Görsel sorunlar yaşıyorsanız aşağıdaki seçenekleri yapılandırın.</system:String>
-    <system:String x:Key="TaskbarWidgetPaddingTitle">Windows Widget Butonu için Boşluk Ekle</system:String>
+    <system:String x:Key="TaskbarWidgetPaddingTitle">Windows Widget Butonu için Otomatik Boşluk</system:String>
     <system:String x:Key="TaskbarWidgetPaddingDescription">Windows Widget'ları etkinse bu özelliği açın</system:String>
     <system:String x:Key="TaskbarWidgetClickableTitle">Medya Mevcut olduğunda Medya Açılır Penceresini açmak için tıklayın</system:String>
     <system:String x:Key="TaskbarWidgetClickableDescription">Medya açılır penceresi etkinse, görev çubuğu widget'ına tıkladığınızda göster</system:String>
@@ -131,4 +131,16 @@ Not: Açık kaynaklı bir proje olarak, bu özellikler GitHub'daki manuel yükle
     <system:String x:Key="TaskbarWidgetBackgroundBlurTitle">Arka Plan Bulanıklığı</system:String>
     <system:String x:Key="PremiumFeatureTitle">Premium özellikler</system:String>
     <system:String x:Key="TaskbarWidgetPosition">Widget Pozisyonu</system:String>
+    <system:String x:Key="SelectedMonitorTitle">Flyout Hedef Ekranı</system:String>
+    <system:String x:Key="TaskbarWidgetSelectedMonitorTitle">Widget Hedef Ekranı</system:String>
+    <system:String x:Key="TaskbarWidgetPaddingSettingsTitle">Widget Boşluk Ayarları</system:String>
+    <system:String x:Key="TaskbarWidgetPaddingSettingsDescription">Widget'ın etrafındaki boşluğu görev çubuğu stilinize uyacak şekilde ayarlayın</system:String>
+    <system:String x:Key="TaskbarWidgetManualPaddingTitle">Özel Boşluk</system:String>
+    <system:String x:Key="TaskbarWidgetManualPaddingDescription">Ekstra boşluk ekle (varsayılan: 0px)</system:String>
+    <system:String x:Key="TaskbarWidgetControlsTitle">Widget Medya Denetimleri</system:String>
+    <system:String x:Key="TaskbarWidgetControlsDescription">Widget üzerinde medya kontrol düğmelerini göster</system:String>
+    <system:String x:Key="TaskbarWidgetAnimatedTitle">Widget Animasyonları</system:String>
+    <system:String x:Key="TaskbarWidgetAnimatedDescription">Widget için ince animasyonları etkinleştir</system:String>
+    <system:String x:Key="TrayIcon_ViewLogsOption">Logları görüntüle</system:String>
+    <system:String x:Key="PixelsUnit">px</system:String>
 </ResourceDictionary>
