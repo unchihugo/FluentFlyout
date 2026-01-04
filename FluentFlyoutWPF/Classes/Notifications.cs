@@ -1,6 +1,7 @@
 ﻿using Microsoft.Toolkit.Uwp.Notifications;
 using NLog;
 using System.Runtime.InteropServices;
+using System.Windows;
 
 namespace FluentFlyout.Classes;
 
@@ -57,9 +58,9 @@ internal static class Notifications
             //return;
         }
 
-        if (currentVersion == "debug" || lastKnownVersion == "debug")
+        if (currentVersion == "debug")
         {
-            // debug build or when switching between debug and release builds
+            // when on debug build
             return;
 
             //new ToastContentBuilder()
@@ -76,10 +77,10 @@ internal static class Notifications
             {
                 // updated app version
                 new ToastContentBuilder()
-                    .AddText("FluentFlyout has been updated!")
-                    .AddText($"You are now on {currentVersion}.")
+                    .AddText(Application.Current.FindResource("UpdateToastTitle").ToString())
+                    .AddText(string.Format(Application.Current.FindResource("UpdateToastMessage").ToString(), currentVersion))
                     .AddButton(new ToastButton()
-                        .SetContent("View Updates")
+                        .SetContent(Application.Current.FindResource("UpdateToastButton").ToString())
                         .AddArgument("action", "viewChanges")
                         .SetBackgroundActivation())
                     .Show();
