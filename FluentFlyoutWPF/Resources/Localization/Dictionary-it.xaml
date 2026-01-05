@@ -50,7 +50,7 @@ nasconde ripeti, riproduzione casuale e le informazioni del player</system:Strin
     <system:String x:Key="TaskbarWidgetEnabledDescription">Mostra un Widget compatto per i media sulla Taskbar</system:String>
     <system:String x:Key="TaskbarWidgetVisualIssuesWarning">Configura le seguenti impostazioni se hai dei problemi di visualizzazione.</system:String>
     <system:String x:Key="TaskbarWidgetPosition">Posizione del Widget</system:String>
-    <system:String x:Key="TaskbarWidgetPaddingTitle">Aggiungi un identeazione per il pulsante dei Widget di Windows</system:String>
+    <system:String x:Key="TaskbarWidgetPaddingTitle">Aggiunge un indentazione automatica per il pulsante dei Widget di Windows</system:String>
     <system:String x:Key="TaskbarWidgetPaddingDescription">Attiva questa caratteristica se hai i Widget di Windows attivi</system:String>
     <system:String x:Key="TaskbarWidgetClickableTitle">Premi per aprire il Flyout dei media quando è attivo</system:String>
     <system:String x:Key="TaskbarWidgetClickableDescription">Se il Flyout dei media è attivato, si aprirà quando premerai sul Widget della Taskbar</system:String>
@@ -135,4 +135,15 @@ Puoi contribuire nelle traduzioni su</system:String>
     <system:String x:Key="TaskbarWidgetControlsDescription">Mostra i pulsanti per il controllo dei media nel widget</system:String>
     <system:String x:Key="TaskbarWidgetAnimatedTitle">Animazioni del widget</system:String>
     <system:String x:Key="TaskbarWidgetAnimatedDescription">Attiva leggere animazioni per il widget</system:String>
+    <system:String x:Key="SelectedMonitorTitle">Display di destinazione del Flyout</system:String>
+    <system:String x:Key="TaskbarWidgetSelectedMonitorTitle">Display di destinazione del Widget</system:String>
+    <system:String x:Key="TaskbarWidgetPaddingSettingsTitle">Impostazioni dell'identazione del Widget</system:String>
+    <system:String x:Key="TaskbarWidgetPaddingSettingsDescription">Aggiusta l'identazione del widget per farlo combaciare con lo stile della taskbar</system:String>
+    <system:String x:Key="TaskbarWidgetManualPaddingTitle">Indentazione personalizzata</system:String>
+    <system:String x:Key="TaskbarWidgetManualPaddingDescription">Aggiunge un indentazione personalizzata (default: 0px)</system:String>
+    <system:String x:Key="TrayIcon_ViewLogsOption">Guarda i log</system:String>
+    <system:String x:Key="PixelsUnit">px</system:String>
+    <system:String x:Key="UpdateToastTitle">FluentFlyout è stato aggiornato!</system:String>
+    <system:String x:Key="UpdateToastMessage">Ora sei alla {0}.</system:String>
+    <system:String x:Key="UpdateToastButton">Guarda gli aggiornamenti</system:String>
 </ResourceDictionary>
