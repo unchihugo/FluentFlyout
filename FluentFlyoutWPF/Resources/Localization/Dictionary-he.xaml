@@ -143,4 +143,7 @@
     <system:String x:Key="EnableInsertKeyTitle">הפעל את חלונית מקש ה-Insert</system:String>
     <system:String x:Key="EnableInsertKeyDescription">קובע אם לחיצה על מקש ההכנסה/החלפה תציג את החלון הנשלף</system:String>
     <system:String x:Key="LockWindow_InsertPressed">מקש ה-Insert לחוץ</system:String>
+    <system:String x:Key="UpdateToastTitle">FluentFlyout עודכן!</system:String>
+    <system:String x:Key="UpdateToastButton">הצג עדכונים</system:String>
+    <system:String x:Key="UpdateToastMessage">{0} דוגמה לשומר מקום: "v1.2.3". מחרוזת זו תהפוך ל-"You are now on v1.2.3." באנגלית.</system:String>
 </ResourceDictionary>
