@@ -43,7 +43,7 @@ menyembunyikan tombol ulangi (repeat), acak (shuffle), serta informasi pemutar</
     <system:String x:Key="TaskbarWidgetEnabledTitle">Aktifkan Widget Taskbar</system:String>
     <system:String x:Key="TaskbarWidgetEnabledDescription">Tampilkan media widget ringkas pada taskbar</system:String>
     <system:String x:Key="TaskbarWidgetVisualIssuesWarning">Atur opsi dibawah ini jika anda mengalami gangguan visual.</system:String>
-    <system:String x:Key="TaskbarWidgetPaddingTitle">Tambahkan sebuah padding untuk tombol widget windows</system:String>
+    <system:String x:Key="TaskbarWidgetPaddingTitle">Padding otomatis untuk tombol widget windows</system:String>
     <system:String x:Key="TaskbarWidgetPaddingDescription">Aktifkan fitur ini jika anda memliki Widget Windows aktif</system:String>
     <system:String x:Key="TaskbarWidgetClickableTitle">Klik untuk membuka Flyout media ketika sebuah media tersedia</system:String>
     <system:String x:Key="TaskbarWidgetClickableDescription">Jika flyout media dinyalakan, akan buka apabila anda klik widget pada taskbar</system:String>
@@ -135,4 +135,14 @@ Anda dapat membantu berkontribusi dalam menerjemahkan di</system:String>
     <system:String x:Key="TaskbarWidgetControlsDescription">Tampilkan tombol kontrol media di widget</system:String>
     <system:String x:Key="TaskbarWidgetAnimatedTitle">Animasi Widget</system:String>
     <system:String x:Key="TaskbarWidgetAnimatedDescription">Aktifkan animasi halus untuk widget</system:String>
+    <system:String x:Key="SelectedMonitorTitle">Target Layar Flyout</system:String>
+    <system:String x:Key="TaskbarWidgetSelectedMonitorTitle">Target Layar Widget</system:String>
+    <system:String x:Key="TaskbarWidgetPaddingSettingsTitle">Pengaturan Padding Widget</system:String>
+    <system:String x:Key="TaskbarWidgetPaddingSettingsDescription">Atur padding di sekitar widget untuk mencocokan gaya taskbar anda</system:String>
+    <system:String x:Key="TaskbarWidgetManualPaddingDescription">Tambahkan extra padding (default: 0px)</system:String>
+    <system:String x:Key="TrayIcon_ViewLogsOption">Lihat log</system:String>
+    <system:String x:Key="PixelsUnit">px</system:String>
+    <system:String x:Key="UpdateToastTitle">FluentFlyout telah diperbarui!</system:String>
+    <system:String x:Key="UpdateToastMessage">Anda sekarang di {0}.</system:String>
+    <system:String x:Key="UpdateToastButton">Lihat Pembaruan</system:String>
 </ResourceDictionary>
