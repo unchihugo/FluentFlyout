@@ -870,7 +870,7 @@ public partial class MainWindow : MicaWindow
                 // set tooltip
                 SongInfoStackPanel.ToolTip = string.Empty;
                 SongInfoStackPanel.ToolTip += !String.IsNullOrEmpty(songInfo.Title) ? songInfo.Title : string.Empty;
-                SongInfoStackPanel.ToolTip += !String.IsNullOrEmpty(songInfo.Artist) ? "\n" + songInfo.Artist : string.Empty;
+                SongInfoStackPanel.ToolTip += !String.IsNullOrEmpty(songInfo.Artist) ? "\n\n" + songInfo.Artist : string.Empty;
 
                 // background blurred image
                 if (SettingsManager.Current.MediaFlyoutBackgroundBlur != 0)

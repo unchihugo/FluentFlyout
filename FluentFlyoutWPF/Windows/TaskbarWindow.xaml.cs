@@ -705,7 +705,7 @@ public partial class TaskbarWindow : Window
             // Update tooltip with song info
             SongInfoStackPanel.ToolTip = string.Empty;
             SongInfoStackPanel.ToolTip += !String.IsNullOrEmpty(title) ? title : string.Empty;
-            SongInfoStackPanel.ToolTip += !String.IsNullOrEmpty(artist) ? "\n" + artist : string.Empty;
+            SongInfoStackPanel.ToolTip += !String.IsNullOrEmpty(artist) ? "\n\n" + artist : string.Empty;
 
             if (SettingsManager.Current.TaskbarWidgetControlsEnabled)
             {
