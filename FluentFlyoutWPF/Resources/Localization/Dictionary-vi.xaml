@@ -100,7 +100,6 @@ Bạn có thể hỗ trợ dịch tại</system:String>
     <system:String x:Key="SelectedMonitorTitle">Màn hình hiển thị</system:String>
     <system:String x:Key="TaskbarWidgetDescription">Widget này hiển thị thông tin sơ lược về phương tiện đang phát, và có thể cài đặt thêm để điều khiển phát lại hoặc làm nút bấm mở lên giao diện điều khiển phát lại.</system:String>
     <system:String x:Key="TaskbarWidgetSelectedMonitorTitle">Màn hình hiển thị</system:String>
-    <system:String x:Key="TaskbarWidgetPaddingSettingsTitle"></system:String>
     <system:String x:Key="TaskbarWidgetManualPaddingTitle">Chiều rộng tùy chọn</system:String>
     <system:String x:Key="TaskbarWidgetManualPaddingDescription">Tùy chọn chiều rộng cho khoảng trống (mặc định: 0px)</system:String>
     <system:String x:Key="TaskbarWidgetClickableTitle">Mở giao diện điều khiển phát lại khi nhấn vào</system:String>
