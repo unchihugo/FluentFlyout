@@ -9,19 +9,22 @@ using MicaWPF.Core.Extensions;
 using Microsoft.Win32;
 using System.Diagnostics;
 using System.IO;
-using System.Windows.Interop;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
+using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
+using System.Windows.Threading;
 using Windows.ApplicationModel;
 using Windows.Media.Control;
 using Windows.Storage.Streams;
 using static WindowsMediaController.MediaManager;
+using System.Runtime.InteropServices;
+using System.Text;
 
 
 namespace FluentFlyoutWPF;
@@ -34,6 +37,7 @@ public partial class MainWindow : MicaWindow
     public static extern void keybd_event(byte virtualKey, byte scanCode, uint flags, IntPtr extraInfo);
 
     [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+
     private static extern int RegisterWindowMessage(string lpString);
 
     private const int WH_KEYBOARD_LL = 13;
@@ -76,6 +80,8 @@ public partial class MainWindow : MicaWindow
     private DateTime _lastSelfUpdateTimestamp = DateTime.MinValue;
 
     private TaskbarWindow? taskbarWindow;
+
+    internal static volatile bool ExplorerRestarting = false;
 
     public MainWindow()
     {
@@ -1283,21 +1289,103 @@ public partial class MainWindow : MicaWindow
         }
     }
 
+    //private nint WndProc(nint hwnd, int msg, nint wParam, nint lParam, ref bool handled)
+    //{
+    //    // Listen for TaskbarCreated message (when explorer.exe restarts)
+    //    if (msg == WM_TASKBARCREATED)
+    //    {
+    //        //Logger.Info("TaskbarCreated message received - recreating tray icon");
+    //        //nIcon.Visibility = Visibility.Collapsed; // remove tray icon
+
+    //        //if (SettingsManager.Current.NIconHide)
+    //        //    return 0;
+
+    //        //nIcon.Visibility = Visibility.Visible; // re-add tray icon
+    //        //nIcon.Register();
+    //        Logger.Debug("Restarted without tray icon stuff cus its buggy asf");
+    //    }
+    //    return 0;
+    //}
+    private async Task<bool> WaitForExplorerReadyAsync(int timeoutMs = 8000)
+    {
+        var sw = Stopwatch.StartNew();
+
+        while (sw.ElapsedMilliseconds < timeoutMs)
+        {
+            IntPtr taskbar = TaskbarWindow.FindWindow("Shell_TrayWnd", null);
+            if (taskbar != IntPtr.Zero)
+            {
+                if (TaskbarWindow.GetWindowRect(taskbar, out TaskbarWindow.RECT rect))
+                {
+                    if (rect.Right > rect.Left && rect.Bottom > rect.Top)
+                    {
+                        return true; // taskbar exists and has geometry
+                    }
+                }
+            }
+
+            await Task.Delay(200);
+        }
+
+        return false;
+    }
+
     private nint WndProc(nint hwnd, int msg, nint wParam, nint lParam, ref bool handled)
     {
-        // Listen for TaskbarCreated message (when explorer.exe restarts)
         if (msg == WM_TASKBARCREATED)
         {
-            Logger.Info("TaskbarCreated message received - recreating tray icon");
-            nIcon.Visibility = Visibility.Collapsed; // remove tray icon
+            Logger.Warn("Explorer restart detected (TaskbarCreated)");
 
-            if (SettingsManager.Current.NIconHide)
-                return 0;
+            ExplorerRestarting = true;
 
-            nIcon.Visibility = Visibility.Visible; // re-add tray icon
-            nIcon.Register();
+            // Defer recovery, do NOT touch tray/taskbar immediately
+            Dispatcher.BeginInvoke(async () =>
+            {
+                try
+                {
+                    // Wait for Explorer to actually stabilize
+                    if (await WaitForExplorerReadyAsync())
+                    {
+                        ExplorerRestarting = false;
+                        Logger.Info("Explorer stabilized, resuming taskbar integration");
+
+                        // Now it is safe to recreate tray icon
+                        RecreateTrayIconSafely();
+                    }
+                    else
+                    {
+                        Logger.Warn("Explorer did not stabilize within timeout; keeping integration disabled");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Logger.Error(ex, "Explorer recovery failed");
+                }
+            }, DispatcherPriority.Background);
+
+            handled = true;
+            return 0;
         }
+
         return 0;
+    }
+
+    private void RecreateTrayIconSafely()
+    {
+        try
+        {
+            nIcon.Visibility = Visibility.Collapsed;
+
+            if (!SettingsManager.Current.NIconHide)
+            {
+                nIcon.Visibility = Visibility.Visible;
+                nIcon.Register();
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger.Error(ex, "Failed to recreate tray icon safely");
+        }
     }
 
     private async void MicaWindow_Loaded(object sender, RoutedEventArgs e)

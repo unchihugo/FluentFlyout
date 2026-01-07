@@ -25,7 +25,7 @@ public partial class TaskbarWindow : Window
 {
     // --- Win32 APIs ---
     [DllImport("user32.dll", SetLastError = true)]
-    private static extern IntPtr FindWindow(string lpClassName, string? lpWindowName);
+    public static extern IntPtr FindWindow(string lpClassName, string? lpWindowName);
 
     [DllImport("user32.dll", SetLastError = true)]
     private static extern IntPtr FindWindowEx(IntPtr parentHandle, IntPtr childAfter, string? className, string? windowTitle);
@@ -46,7 +46,7 @@ public partial class TaskbarWindow : Window
     private static extern IntPtr GetParent(IntPtr hWnd);
 
     [DllImport("user32.dll", SetLastError = true)]
-    private static extern bool GetWindowRect(IntPtr hWnd, out RECT lpRect);
+    public static extern bool GetWindowRect(IntPtr hWnd, out RECT lpRect);
 
     [DllImport("user32.dll", SetLastError = true)]
     private static extern uint GetWindowThreadProcessId(IntPtr hWnd, IntPtr lpdwProcessId);
@@ -385,8 +385,16 @@ public partial class TaskbarWindow : Window
         }
     }
 
+
+
     private void UpdatePosition()
     {
+        if (MainWindow.ExplorerRestarting)
+        {
+            // Explorer is restarting -- do NOTHING
+            return;
+        }
+
         // Check premium status before allowing widget to be displayed
         if (!SettingsManager.Current.TaskbarWidgetEnabled || !SettingsManager.Current.IsPremiumUnlocked)
             return;
@@ -396,30 +404,47 @@ public partial class TaskbarWindow : Window
             var interop = new WindowInteropHelper(this);
             IntPtr taskbarHandle = GetSelectedTaskbarHandle(out bool isMainTaskbarSelected);
 
-            if (interop.Handle == IntPtr.Zero) // window handle lost, try to reset
-            {
-                _timer.Stop();
+            //if (interop.Handle == IntPtr.Zero) // window handle lost, try to reset
+            //{
+            //    _timer.Stop();
 
-                if (_recoveryAttempts >= _maxRecoveryAttempts)
+            //    if (_recoveryAttempts >= _maxRecoveryAttempts)
+            //    {
+            //        Logger.Warn("Taskbar Widget window handle is zero and recovery already attempted, stopping updates.");
+            //        return; // already tried recovery, don't loop
+            //    }
+
+            //    Logger.Warn("Taskbar Widget window handle is zero, attempting recovery...");
+
+            //    Dispatcher.BeginInvoke(async () =>
+            //    {
+            //        await Task.Delay(1000); // delay before recovery to let taskbar stabilize
+            //        try
+            //        {
+            //            _mainWindow?.RecreateTaskbarWindow();
+            //        }
+            //        catch (Exception ex)
+            //        {
+            //            Logger.Error(ex, "Failed to signal MainWindow to recover Taskbar Widget window");
+            //            _recoveryAttempts++;
+            //        }
+            //    }, DispatcherPriority.Background);
+
+            //    return;
+            //}
+            if (interop.Handle == IntPtr.Zero)
+            {
+                if (MainWindow.ExplorerRestarting)
                 {
-                    Logger.Warn("Taskbar Widget window handle is zero and recovery already attempted, stopping updates.");
-                    return; // already tried recovery, don't loop
+                    Logger.Info("Skipping TaskbarWindow recovery during Explorer restart");
+                    return;
                 }
 
-                Logger.Warn("Taskbar Widget window handle is zero, attempting recovery...");
+                _timer.Stop();
 
-                Dispatcher.BeginInvoke(async () =>
+                Dispatcher.BeginInvoke(() =>
                 {
-                    await Task.Delay(1000); // delay before recovery to let taskbar stabilize
-                    try
-                    {
-                        _mainWindow?.RecreateTaskbarWindow();
-                    }
-                    catch (Exception ex)
-                    {
-                        Logger.Error(ex, "Failed to signal MainWindow to recover Taskbar Widget window");
-                        _recoveryAttempts++;
-                    }
+                    _mainWindow?.RecreateTaskbarWindow();
                 }, DispatcherPriority.Background);
 
                 return;
