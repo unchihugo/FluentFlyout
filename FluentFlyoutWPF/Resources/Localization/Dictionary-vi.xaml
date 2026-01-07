@@ -1,34 +1,33 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib">
     <system:String x:Key="TitleText">Cài đặt FluentFlyout</system:String>
-    <system:String x:Key="MediaFlyoutTitle">Tinh chỉnh Flyout Media</system:String>
-    <system:String x:Key="MediaFlyoutDescription">Khi đang phát nhạc hoặc các âm thanh khác, bạn có thể làm hiển thị flyout media bằng cách nhấn một phím điều khiển media (phát/dùng , ...) hoặc tăng/giảm âm lượng. Flyout media hiển thị thông tin nhạc, cùng với các phím điều khiển và nhiều hơn thế nữa.</system:String>
-    <system:String x:Key="TextBlockText1">Bật flyout media</system:String>
-    <system:String x:Key="TextBlockText3">Hiện flyout khi bạn nhấn phím media</system:String>
+    <system:String x:Key="MediaFlyoutTitle">Giao diện điều khiển phát lại</system:String>
+    <system:String x:Key="MediaFlyoutDescription">Giao diện này hiện lên mỗi khi bạn nhấn một phím play/pause, tăng/giảm âm lượng, v.v. Giao diện cho phép bạn theo dõi thông tin sơ lược về phương tiện và điều khiển phát lại.</system:String>
+    <system:String x:Key="TextBlockText1">Hiển thị giao diện</system:String>
+    <system:String x:Key="TextBlockText3">Hiển thị giao diện mỗi khi bạn nhấn phím điều chỉnh phát lại hoặc âm lượng</system:String>
     <system:String x:Key="CompactLayoutTitle">Giao diện nhỏ gọn</system:String>
-    <system:String x:Key="CompactLayoutDescription" xml:space="preserve">Giao diện nhỏ gọn và giảm bố cục phức tạp,
-ẩn tên chương trình đang phát, các nút 'lặp lại' và 'trộn bài'</system:String>
-    <system:String x:Key="FlyoutPositionTitle">Vị trí flyout</system:String>
-    <system:String x:Key="PositionBottomLeft" xml:space="preserve"> Góc trái phía dưới</system:String>
-    <system:String x:Key="PositionBottomCenter" xml:space="preserve"> Căn giữa phía dưới</system:String>
-    <system:String x:Key="PositionBottomRight" xml:space="preserve"> Góc phải phía dưới</system:String>
-    <system:String x:Key="PositionTopLeft" xml:space="preserve"> Góc trái phía trên</system:String>
-    <system:String x:Key="PositionTopCenter" xml:space="preserve"> Căn giữa phía trên</system:String>
+    <system:String x:Key="CompactLayoutDescription" xml:space="preserve">Ẩn tên ứng dụng đang phát, các nút 'lặp lại' và 'trộn bài'</system:String>
+    <system:String x:Key="FlyoutPositionTitle">Vị trí giao diện</system:String>
+    <system:String x:Key="PositionBottomLeft" xml:space="preserve"> Góc trái bên dưới</system:String>
+    <system:String x:Key="PositionBottomCenter" xml:space="preserve"> Góc giữa bên dưới</system:String>
+    <system:String x:Key="PositionBottomRight" xml:space="preserve"> Góc phải bên dưới</system:String>
+    <system:String x:Key="PositionTopLeft" xml:space="preserve"> Góc trái bên trên</system:String>
+    <system:String x:Key="PositionTopCenter" xml:space="preserve"> Góc giữa bên trên</system:String>
     <system:String x:Key="PositionTopRight" xml:space="preserve"> Góc phải bên trên</system:String>
     <system:String x:Key="FlyoutStayDurationTitle">Thời gian hiển thị</system:String>
     <system:String x:Key="FlyoutStayDurationDescription">(mặc định: 3000 ms)</system:String>
     <system:String x:Key="MillisecondsUnit">ms</system:String>
     <system:String x:Key="CenterTitleArtistTitle">Căn giữa tiêu đề và tên tác giả</system:String>
-    <system:String x:Key="CenterTitleArtistDescription">Căn giữa văn bản thay vì căn lề trái</system:String>
-    <system:String x:Key="ShowMediaPlayerNameTitle">Hiển thị tên phần mềm phát nhạc</system:String>
+    <system:String x:Key="CenterTitleArtistDescription">Căn giữa thay vì căn lề trái</system:String>
+    <system:String x:Key="ShowMediaPlayerNameTitle">Hiển thị tên ứng dụng đang phát</system:String>
     <system:String x:Key="RepeatButtonTitle">Nút lặp lại*</system:String>
-    <system:String x:Key="RepeatButtonDescription">Chọn chế độ lặp lại liên tục hay lặp lại một lần, tăng chiều rộng của flyout</system:String>
+    <system:String x:Key="RepeatButtonDescription">Lặp lại liên tục hay chỉ một lần, làm tăng chiều rộng giao diện</system:String>
     <system:String x:Key="ShuffleButtonTitle">Nút trộn bài*</system:String>
-    <system:String x:Key="ShuffleButtonDescription">Tăng chiều rộng của flyout</system:String>
-    <system:String x:Key="ShowSeekbarTitle">Hiển thị thanh tiến trình</system:String>
-    <system:String x:Key="ShowSeekbarDescription">Cho phép tua đi tua lại media hiện tại</system:String>
-    <system:String x:Key="UnsupportedControlsWarning">*Một số trình duyệt/phần mềm phát nhạc không hỗ trợ lặp lại, trộn bài hoặc thanh thời gian.</system:String>
-    <system:String x:Key="PauseOtherMediaTitle">Tự động tạm dừng media khác</system:String>
-    <system:String x:Key="PauseOtherMediaDescription">Khi bạn phát hoặc tập trung vào một bản nhạc, các media khác sẽ tự động tạm dừng</system:String>
+    <system:String x:Key="ShuffleButtonDescription">Làm tăng chiều rộng giao diện</system:String>
+    <system:String x:Key="ShowSeekbarTitle">Hiển thị thanh phát lại</system:String>
+    <system:String x:Key="ShowSeekbarDescription">Chỉ hiện thị nếu ứng dụng đang phát có hỗ trợ</system:String>
+    <system:String x:Key="UnsupportedControlsWarning">*Một số ứng dụng không hỗ trợ lặp lại, trộn bài hoặc thanh phát lại.</system:String>
+    <system:String x:Key="PauseOtherMediaTitle">Tự động tạm dừng các phương tiện khác</system:String>
+    <system:String x:Key="PauseOtherMediaDescription">Tự động tạm dừng các phương tiện ngoài phương tiện hiện đang phát</system:String>
     <system:String x:Key="NextUpCustomizationTitle">Tinh chỉnh bài hát tiếp theo</system:String>
     <system:String x:Key="NextUpDescription" xml:space="preserve">Flyout hiển thị những gì tiếp theo khi một bài hát/video kết thúc. Chỉ hiển thị nếu thứ tiếp đến tự động phát, nếu phím đi tiếp/tua lại được nhấn thủ công, flyout chính sẽ hiện lên thay thế.</system:String>
     <system:String x:Key="EnableNextUpTitle">Bật flyout dự báo bài hát tiếp theo (Thử nghiệm)</system:String>
@@ -82,20 +81,37 @@ hoặc viết một bài đánh giá trên Microsoft Store để ủng hộ tác
     <system:String x:Key="AcrylicWindowDescription">Áp dụng hiệu ứng acrylic cho flyout (khi tắt thì sẽ sử dụng Mica)</system:String>
     <system:String x:Key="BackgroundBlurTitle">Làm mờ nền</system:String>
     <system:String x:Key="BackgroundBlurOption1" xml:space="preserve"> Không làm mờ</system:String>
-    <system:String x:Key="BackgroundBlurOption2" xml:space="preserve"> Kiểu 1 (Phát quang bề mặt)</system:String>
-    <system:String x:Key="BackgroundBlurOption3" xml:space="preserve"> Kiểu 2 (Phát quang lan tỏa)</system:String>
-    <system:String x:Key="BackgroundBlurOption4" xml:space="preserve"> Kiểu 3 (Làm mờ)</system:String>
-    <system:String x:Key="TextBlockText2">Lựa chọn từ các bản mẫu hiệu ứng làm mờ nền hiện đại</system:String>
+    <system:String x:Key="BackgroundBlurOption2" xml:space="preserve"> Kiểu 1 (Mờ bên trái)</system:String>
+    <system:String x:Key="BackgroundBlurOption3" xml:space="preserve"> Kiểu 2 (Mờ bên dưới)</system:String>
+    <system:String x:Key="BackgroundBlurOption4" xml:space="preserve"> Kiểu 3 (Mờ toàn phần)</system:String>
+    <system:String x:Key="TextBlockText2">Lựa chọn hiệu ứng làm mờ nền giao diện</system:String>
     <system:String x:Key="StartupAppsHyperlinkText">Các ứng dụng khởi động cùng hệ thống</system:String>
     <system:String x:Key="AppLanguageDescription" xml:space="preserve">Ngôn ngữ nào chưa hoàn thành biên dịch thì sẽ tự động trả về tiếng Anh.
 Bạn có thể hỗ trợ dịch tại</system:String>
     <system:String x:Key="AppLanguageDescriptionLink">Liên kết đóng góp bản dịch</system:String>
     <system:String x:Key="MediaFlyoutAlwaysDisplay">Luôn hiển thị</system:String>
-    <system:String x:Key="TaskbarWidgetCustomizationTitle">Tùy chỉnh widget taskbar</system:String>
-    <system:String x:Key="TaskbarWidgetEnabledTitle">Bật Taskbar Widget</system:String>
-    <system:String x:Key="TaskbarWidgetEnabledDescription">Hiện media widget nhỏ trên taskbar</system:String>
-    <system:String x:Key="TaskbarWidgetVisualIssuesWarning">Điều chỉnh các lựa chọn nếu bạn gặp phải vấn đề về trải nghiệm giao diện.</system:String>
+    <system:String x:Key="TaskbarWidgetCustomizationTitle">Widget trên thanh tác vụ</system:String>
+    <system:String x:Key="TaskbarWidgetEnabledTitle">Hiển thị widget</system:String>
+    <system:String x:Key="TaskbarWidgetEnabledDescription">Hiển thị widget này</system:String>
+    <system:String x:Key="TaskbarWidgetVisualIssuesWarning">Tùy chỉnh các lựa chọn sau nếu bạn không hài lòng về trải nghiệm.</system:String>
     <system:String x:Key="TaskbarWidgetPosition">Vị trí widget</system:String>
-    <system:String x:Key="TaskbarWidgetPaddingTitle">Thêm khoảng cách cho nút Windows Widgets</system:String>
-    <system:String x:Key="TaskbarWidgetPaddingDescription">Bật tính năng này nếu bạn kích hoạt Windows Widgets</system:String>
+    <system:String x:Key="TaskbarWidgetPaddingTitle">Tạo khoảng trống cho nút Widgets</system:String>
+    <system:String x:Key="TaskbarWidgetPaddingDescription">Bạn nên bật nếu có nút này trên thanh tác vụ</system:String>
+    <system:String x:Key="SelectedMonitorTitle">Màn hình hiển thị</system:String>
+    <system:String x:Key="TaskbarWidgetDescription">Widget này hiển thị thông tin sơ lược về phương tiện đang phát, và có thể cài đặt thêm để điều khiển phát lại hoặc làm nút bấm mở lên giao diện điều khiển phát lại.</system:String>
+    <system:String x:Key="TaskbarWidgetSelectedMonitorTitle">Màn hình hiển thị</system:String>
+    <system:String x:Key="TaskbarWidgetPaddingSettingsTitle"></system:String>
+    <system:String x:Key="TaskbarWidgetManualPaddingTitle">Chiều rộng tùy chọn</system:String>
+    <system:String x:Key="TaskbarWidgetManualPaddingDescription">Tùy chọn chiều rộng cho khoảng trống (mặc định: 0px)</system:String>
+    <system:String x:Key="TaskbarWidgetClickableTitle">Mở giao diện điều khiển phát lại khi nhấn vào</system:String>
+    <system:String x:Key="TaskbarWidgetClickableDescription">Nếu cài đặt cho phép hiển thị, widget sẽ mở lên giao diện điều khiển phát lại khi bạn nhấn vào</system:String>
+    <system:String x:Key="TaskbarWidgetBackgroundBlurTitle">Làm mờ nền</system:String>
+    <system:String x:Key="TaskbarWidgetBackgroundBlurDescription">Áp dụng hiệu ứng làm mờ nền widget</system:String>
+    <system:String x:Key="TaskbarWidgetHideCompletelyTitle">Ẩn khi không phát</system:String>
+    <system:String x:Key="TaskbarWidgetHideCompletelyDescription">Ẩn widget khi không phát phương tiện nào</system:String>
+    <system:String x:Key="TaskbarWidgetControlsTitle">Thêm các nút điều khiển phát lại</system:String>
+    <system:String x:Key="TaskbarWidgetControlsDescription">Thêm các nút điều khiển phát lại cho widget</system:String>
+    <system:String x:Key="TaskbarWidgetAnimatedTitle">Cho phép chuyển động</system:String>
+    <system:String x:Key="TaskbarWidgetAnimatedDescription">Cho phép chuyển động nho nhỏ trên widget</system:String>
+    <system:String x:Key="PremiumFeatureTitle">Tính năng trả phí</system:String>
 </ResourceDictionary>
