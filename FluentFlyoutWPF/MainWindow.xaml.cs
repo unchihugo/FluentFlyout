@@ -23,8 +23,6 @@ using Windows.ApplicationModel;
 using Windows.Media.Control;
 using Windows.Storage.Streams;
 using static WindowsMediaController.MediaManager;
-using System.Runtime.InteropServices;
-using System.Text;
 
 
 namespace FluentFlyoutWPF;
@@ -1296,15 +1294,12 @@ public partial class MainWindow : MicaWindow
         while (sw.ElapsedMilliseconds < timeoutMs)
         {
             IntPtr taskbar = TaskbarWindow.FindWindow("Shell_TrayWnd", null);
-            if (taskbar != IntPtr.Zero)
+            if (taskbar != IntPtr.Zero &&
+                TaskbarWindow.GetWindowRect(taskbar, out TaskbarWindow.RECT rect) &&
+                rect.Right > rect.Left &&
+                rect.Bottom > rect.Top)
             {
-                if (TaskbarWindow.GetWindowRect(taskbar, out TaskbarWindow.RECT rect))
-                {
-                    if (rect.Right > rect.Left && rect.Bottom > rect.Top)
-                    {
-                        return true; // taskbar exists and has geometry
-                    }
-                }
+                return true; // taskbar exists and has geometry
             }
 
             await Task.Delay(200);
