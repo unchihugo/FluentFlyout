@@ -48,7 +48,7 @@ public static class WindowBlurHelper
     /// <param name="window">The window to apply blur to</param>
     /// <param name="blurOpacity">Opacity of the blur (0-255)</param>
     /// <param name="blurBackgroundColor">Background color in BGR format (default: 0x990000)</param>
-    public static void EnableBlur(Window window, uint blurOpacity = 150, uint blurBackgroundColor = 0x000000)
+    public static void EnableBlur(Window window, uint blurOpacity = 175, uint blurBackgroundColor = 0x000000)
     {
         var windowHelper = new WindowInteropHelper(window);
 

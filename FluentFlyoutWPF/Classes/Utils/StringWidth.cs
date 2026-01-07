@@ -15,14 +15,14 @@ namespace FluentFlyout.Classes.Utils
         /// <param name="text">Text to measure</param>
         /// <param name="fontWeight">Weight of the font. Defaults to 500 (Medium)</param>
         /// <returns>The width of the specified text, in device-independent units (pixels), including a small padding.</returns>
-        public static double GetStringWidth(string text, int fontWeight = 500)
+        public static double GetStringWidth(string text, int fontWeight = 500, int fontSize = 14)
         {
             var formattedText = new FormattedText(
                 text,
                 System.Globalization.CultureInfo.CurrentCulture,
                 FlowDirection.LeftToRight,
                 fontWeight == 400 ? normalTypeface : mediumTypeface,
-                14,
+                fontSize,
                 Brushes.Black,
                 null,
                 1);
