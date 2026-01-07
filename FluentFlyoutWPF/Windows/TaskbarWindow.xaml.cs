@@ -404,34 +404,6 @@ public partial class TaskbarWindow : Window
             var interop = new WindowInteropHelper(this);
             IntPtr taskbarHandle = GetSelectedTaskbarHandle(out bool isMainTaskbarSelected);
 
-            //if (interop.Handle == IntPtr.Zero) // window handle lost, try to reset
-            //{
-            //    _timer.Stop();
-
-            //    if (_recoveryAttempts >= _maxRecoveryAttempts)
-            //    {
-            //        Logger.Warn("Taskbar Widget window handle is zero and recovery already attempted, stopping updates.");
-            //        return; // already tried recovery, don't loop
-            //    }
-
-            //    Logger.Warn("Taskbar Widget window handle is zero, attempting recovery...");
-
-            //    Dispatcher.BeginInvoke(async () =>
-            //    {
-            //        await Task.Delay(1000); // delay before recovery to let taskbar stabilize
-            //        try
-            //        {
-            //            _mainWindow?.RecreateTaskbarWindow();
-            //        }
-            //        catch (Exception ex)
-            //        {
-            //            Logger.Error(ex, "Failed to signal MainWindow to recover Taskbar Widget window");
-            //            _recoveryAttempts++;
-            //        }
-            //    }, DispatcherPriority.Background);
-
-            //    return;
-            //}
             if (interop.Handle == IntPtr.Zero)
             {
                 if (MainWindow.ExplorerRestarting)
@@ -444,7 +416,15 @@ public partial class TaskbarWindow : Window
 
                 Dispatcher.BeginInvoke(() =>
                 {
-                    _mainWindow?.RecreateTaskbarWindow();
+                    try
+                    {
+                        _mainWindow?.RecreateTaskbarWindow();
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.Error(ex, "Failed to signal MainWindow to recover Taskbar Widget window");
+                        _recoveryAttempts++;
+                    }
                 }, DispatcherPriority.Background);
 
                 return;

@@ -1289,23 +1289,6 @@ public partial class MainWindow : MicaWindow
         }
     }
 
-    //private nint WndProc(nint hwnd, int msg, nint wParam, nint lParam, ref bool handled)
-    //{
-    //    // Listen for TaskbarCreated message (when explorer.exe restarts)
-    //    if (msg == WM_TASKBARCREATED)
-    //    {
-    //        //Logger.Info("TaskbarCreated message received - recreating tray icon");
-    //        //nIcon.Visibility = Visibility.Collapsed; // remove tray icon
-
-    //        //if (SettingsManager.Current.NIconHide)
-    //        //    return 0;
-
-    //        //nIcon.Visibility = Visibility.Visible; // re-add tray icon
-    //        //nIcon.Register();
-    //        Logger.Debug("Restarted without tray icon stuff cus its buggy asf");
-    //    }
-    //    return 0;
-    //}
     private async Task<bool> WaitForExplorerReadyAsync(int timeoutMs = 8000)
     {
         var sw = Stopwatch.StartNew();
