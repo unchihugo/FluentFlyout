@@ -1287,7 +1287,7 @@ public partial class MainWindow : MicaWindow
         }
     }
 
-    private async Task<bool> WaitForExplorerReadyAsync(int timeoutMs = 8000)
+    private async Task<bool> WaitForExplorerReadyAsync(int timeoutMs = 60000)
     {
         var sw = Stopwatch.StartNew();
 
