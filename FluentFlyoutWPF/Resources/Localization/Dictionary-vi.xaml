@@ -1,9 +1,9 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib">
     <system:String x:Key="TitleText">Cài đặt FluentFlyout</system:String>
     <system:String x:Key="MediaFlyoutTitle">Giao diện điều khiển phát lại</system:String>
-    <system:String x:Key="MediaFlyoutDescription">Giao diện này hiện lên mỗi khi bạn nhấn một phím play/pause, tăng/giảm âm lượng, v.v. Giao diện cho phép bạn theo dõi thông tin sơ lược về phương tiện và điều khiển phát lại.</system:String>
-    <system:String x:Key="TextBlockText1">Hiển thị giao diện</system:String>
-    <system:String x:Key="TextBlockText3">Hiển thị giao diện mỗi khi nhấn phím điều khiển phát lại hoặc âm lượng</system:String>
+    <system:String x:Key="MediaFlyoutDescription">Giao diện hiện lên mỗi khi bạn nhấn phím play/pause, tăng/giảm âm lượng, v.v. cho phép bạn theo dõi thông tin về nội dung đang phát và điều khiển phát lại.</system:String>
+    <system:String x:Key="TextBlockText1">Cho phép hiển thị</system:String>
+    <system:String x:Key="TextBlockText3">Cho phép giao diện hiển thị</system:String>
     <system:String x:Key="CompactLayoutTitle">Giao diện nhỏ gọn</system:String>
     <system:String x:Key="CompactLayoutDescription" xml:space="preserve">Ẩn tên ứng dụng đang phát, các nút 'lặp lại' và 'trộn bài'</system:String>
     <system:String x:Key="FlyoutPositionTitle">Vị trí giao diện</system:String>
@@ -26,24 +26,24 @@
     <system:String x:Key="ShowSeekbarTitle">Hiển thị thanh phát lại</system:String>
     <system:String x:Key="ShowSeekbarDescription">Chỉ hiện thị nếu ứng dụng đang phát có hỗ trợ</system:String>
     <system:String x:Key="UnsupportedControlsWarning">*Một số ứng dụng không hỗ trợ chức năng lặp lại, trộn bài hoặc thanh phát lại.</system:String>
-    <system:String x:Key="PauseOtherMediaTitle">Tự động tạm dừng các phương tiện khác</system:String>
-    <system:String x:Key="PauseOtherMediaDescription">Tự động tạm dừng các phương tiện ngoài phương tiện hiện đang phát</system:String>
+    <system:String x:Key="PauseOtherMediaTitle">Tự động tạm dừng các nội dung khác</system:String>
+    <system:String x:Key="PauseOtherMediaDescription">Tự động tạm dừng các nội dung khác ngoài nội dung đang phát</system:String>
     <system:String x:Key="NextUpCustomizationTitle">Giao diện dự kiến phát</system:String>
-    <system:String x:Key="NextUpDescription" xml:space="preserve">Giao diện này hiển thị thông tin sơ lược của phương tiện dự kiến phát sau phương tiện hiện tại.</system:String>
+    <system:String x:Key="NextUpDescription" xml:space="preserve">Giao diện cho biết nội dung tiếp theo. Chỉ hiển thị khi dự kiến phát tự động, không hiển thị khi bạn chuyển nội dung.</system:String>
     <system:String x:Key="EnableNextUpTitle">Hiển thị giao diện dự kiến phát (tính năng thử nghiệm)</system:String>
-    <system:String x:Key="EnableNextUpDescription">Hiển thị phương tiện dự kiến phát sau phương tiện hiện tại</system:String>
+    <system:String x:Key="EnableNextUpDescription">Cho biết nội dung tiếp theo</system:String>
     <system:String x:Key="NextUpStayDurationTitle">Thời gian hiển thị</system:String>
     <system:String x:Key="NextUpStayDurationDescription">(mặc định: 2000 ms)</system:String>
     <system:String x:Key="LockKeysCustomizationTitle">Giao diện phím lock</system:String>
-    <system:String x:Key="LockKeysDescription" xml:space="preserve">Cho biết trạng thái bật/tắt mỗi khi bạn nhấn phím Caps Lock, Num Lock và Scroll Lock. Giao diện này hữu ích cho các máy tính/bàn phím mà không có hiển thị thông tin này.</system:String>
-    <system:String x:Key="EnableLockKeysTitle">Hiển thị giao diện</system:String>
-    <system:String x:Key="EnableLockKeysDescription">Hiển thị giao diện này mỗi khi nhấn phím lock</system:String>
+    <system:String x:Key="LockKeysDescription" xml:space="preserve">Giao diện cho biết trạng thái bật/tắt mỗi khi bạn nhấn phím Caps Lock, Num Lock và Scroll Lock.</system:String>
+    <system:String x:Key="EnableLockKeysTitle">Cho phép hiển thị</system:String>
+    <system:String x:Key="EnableLockKeysDescription">Cho phép giao diện hiển thị</system:String>
     <system:String x:Key="LockKeysStayDurationTitle">Thời gian hiển thị</system:String>
     <system:String x:Key="LockKeysStayDurationDescription">(mặc định: 2000 ms)</system:String>
     <system:String x:Key="LockKeysBoldUITitle">Phông chữ và biểu tượng đậm</system:String>
     <system:String x:Key="LockKeysBoldUIDescription">Tô đậm phông chữ và biểu tượng của flyout</system:String>
-    <system:String x:Key="EnableInsertKeyTitle">Hiển thị giao diện khi nhấn phím Insert</system:String>
-    <system:String x:Key="EnableInsertKeyDescription">Hiển thị giao diện này mỗi khi nhấn phím Insert</system:String>
+    <system:String x:Key="EnableInsertKeyTitle">Cho phép hiển thị mỗi khi nhấn phím Insert</system:String>
+    <system:String x:Key="EnableInsertKeyDescription">Cho phép giao diện hiển thị mỗi khi nhấn phím Insert</system:String>
     <system:String x:Key="SystemSettingsTitle">Hệ thống</system:String>
     <system:String x:Key="LaunchOnStartupTitle">Khởi động cùng hệ thống</system:String>
     <system:String x:Key="LaunchOnStartupDescription">Khởi động ứng dụng cùng hệ thống và ẩn trong thanh công cụ</system:String>
@@ -70,8 +70,8 @@
     <system:String x:Key="EasingQuadratic" xml:space="preserve"> Hàm số bậc hai</system:String>
     <system:String x:Key="EasingCubic" xml:space="preserve"> Hàm số bậc ba</system:String>
     <system:String x:Key="NativeExperienceInfo">Để được trải nghiệm Windows 11 thuần túy, bạn nên để cài đặt mặc định.</system:String>
-    <system:String x:Key="DisableOnFullscreenTitle">Vô hiệu hóa các giao diện bay ra khi có cửa sổ DirectX toàn màn hình</system:String>
-    <system:String x:Key="DisableOnFullscreenDescription">Cài đặt này giúp tránh các cửa sổ DirectX toàn màn hình khỏi bị thu nhỏ về thanh công cụ</system:String>
+    <system:String x:Key="DisableOnFullscreenTitle">Không hiển thị giao diện bay ra khi có cửa sổ DirectX toàn màn hình</system:String>
+    <system:String x:Key="DisableOnFullscreenDescription">Giúp tránh các cửa sổ DirectX toàn màn hình khỏi bị thu nhỏ về thanh công cụ</system:String>
     <system:String x:Key="AppLanguageTitle">Ngôn ngữ</system:String>
     <system:String x:Key="EnjoyingAppText" xml:space="preserve">Nếu bạn cảm thấy ứng dụng này hữu ích, bạn có thể gắn sao cho repo GitHub
 hoặc viết một bài đánh giá trên Microsoft Store để ủng hộ tác giả.</system:String>
@@ -91,31 +91,31 @@ Bạn có thể hỗ trợ dịch tại</system:String>
     <system:String x:Key="AppLanguageDescriptionLink">Weblate</system:String>
     <system:String x:Key="MediaFlyoutAlwaysDisplay">Luôn hiển thị</system:String>
     <system:String x:Key="TaskbarWidgetCustomizationTitle">Widget trên thanh tác vụ</system:String>
-    <system:String x:Key="TaskbarWidgetEnabledTitle">Hiển thị widget</system:String>
-    <system:String x:Key="TaskbarWidgetEnabledDescription">Hiển thị widget này</system:String>
+    <system:String x:Key="TaskbarWidgetEnabledTitle">Cho phép hiển thị</system:String>
+    <system:String x:Key="TaskbarWidgetEnabledDescription">Cho phép widget hiển thị</system:String>
     <system:String x:Key="TaskbarWidgetVisualIssuesWarning">Nếu chưa hài lòng về vị trí đặt widget, bạn nên điều chỉnh các cài đặt sau.</system:String>
     <system:String x:Key="TaskbarWidgetPosition">Vị trí widget</system:String>
     <system:String x:Key="TaskbarWidgetPaddingTitle">Tạo khoảng trống cho nút Widgets</system:String>
-    <system:String x:Key="TaskbarWidgetPaddingDescription">Lựa chọn nên được bật nếu widget hiển thị đè trên nút Widgets trong thanh tác vụ</system:String>
+    <system:String x:Key="TaskbarWidgetPaddingDescription">Cài đặt nên được bật nếu widget này đè lên nút Widgets của Windows trong thanh tác vụ</system:String>
     <system:String x:Key="SelectedMonitorTitle">Màn hình hiển thị</system:String>
-    <system:String x:Key="TaskbarWidgetDescription">Widget này hiển thị thông tin sơ lược về phương tiện đang phát, và có thể cài đặt thêm để điều khiển phát lại hoặc làm nút bấm mở lên giao diện điều khiển phát lại.</system:String>
+    <system:String x:Key="TaskbarWidgetDescription">Widget cho biết nội dung đang phát, có thể cài đặt để thêm nút bấm điều khiển nội đung hoặc làm hiện ra giao diện điều khiển phát lại.</system:String>
     <system:String x:Key="TaskbarWidgetSelectedMonitorTitle">Màn hình hiển thị</system:String>
     <system:String x:Key="TaskbarWidgetManualPaddingTitle">Chiều rộng tùy chọn</system:String>
     <system:String x:Key="TaskbarWidgetManualPaddingDescription">Tùy chọn chiều rộng cho khoảng trống (mặc định: 0px)</system:String>
     <system:String x:Key="TaskbarWidgetClickableTitle">Mở giao diện điều khiển phát lại khi nhấn vào widget</system:String>
-    <system:String x:Key="TaskbarWidgetClickableDescription">Nếu cài đặt cho phép hiển thị, widget sẽ mở lên giao diện điều khiển phát lại khi được nhấn</system:String>
+    <system:String x:Key="TaskbarWidgetClickableDescription">Nếu cài đặt cho phép hiển thị, giao diện điều khiển phát lại sẽ bay ra khi nhấn vào</system:String>
     <system:String x:Key="TaskbarWidgetBackgroundBlurTitle">Làm mờ nền</system:String>
     <system:String x:Key="TaskbarWidgetBackgroundBlurDescription">Áp dụng hiệu ứng làm mờ nền widget</system:String>
     <system:String x:Key="TaskbarWidgetHideCompletelyTitle">Ẩn khi không phát</system:String>
-    <system:String x:Key="TaskbarWidgetHideCompletelyDescription">Ẩn widget khi không có phương tiện nào đang phát</system:String>
+    <system:String x:Key="TaskbarWidgetHideCompletelyDescription">Ẩn widget khi không phát</system:String>
     <system:String x:Key="TaskbarWidgetControlsTitle">Thêm các nút điều khiển phát lại</system:String>
     <system:String x:Key="TaskbarWidgetControlsDescription">Thêm các nút điều khiển phát lại cho widget</system:String>
     <system:String x:Key="TaskbarWidgetAnimatedTitle">Hiệu ứng chuyển động</system:String>
     <system:String x:Key="TaskbarWidgetAnimatedDescription">Cho phép hiệu ứng chuyển động trên widget</system:String>
     <system:String x:Key="PremiumFeatureTitle">Tính năng premium</system:String>
-    <system:String x:Key="PremiumFeatureDescription" xml:space="preserve">Nếu cài đặt từ Microsoft Store, bạn sẽ mở khóa được các tính năng premium sau khi giao dịch trong ứng dụng này. Một ít quyên góp từ bạn giúp tác giả phát triển và vận hành dự án.
+    <system:String x:Key="PremiumFeatureDescription" xml:space="preserve">Nếu cài đặt từ Microsoft Store, bạn sẽ mở khóa được các tính năng premium sau khi giao dịch trong ứng dụng. Một ít quyên góp từ bạn giúp tác giả phát triển và vận hành dự án này.
         
-Vì dự án này mã nguồn mở, bạn cũng có thể bỏ qua bước giao dịch bằng cách tải ứng dụng từ GitHub hoặc tự biên dịch mã nguồn.</system:String>
+Vì là phần mềm mã nguồn mở, bạn cũng có thể bỏ qua bước giao dịch bằng cách tải ứng dụng từ GitHub hoặc tự biên dịch mã nguồn.</system:String>
     <system:String x:Key="PremiumLockedMessage">Tính năng này đã bị khóa</system:String>
     <system:String x:Key="PremiumUnlockedMessage">Đã mở khóa các tính năng premium. Chân thành cảm ơn bạn đã ủng hộ dự án!</system:String>
     <system:String x:Key="PremiumGitHubMessage">Các tính năng premium tự động được mở khóa khi cài đặt từ GitHub hoặc tự biên dịch mã nguồn</system:String>
@@ -127,7 +127,7 @@ Vì dự án này mã nguồn mở, bạn cũng có thể bỏ qua bước giao 
     <system:String x:Key="LockWindow_CapsLock">Caps Lock</system:String>
     <system:String x:Key="LockWindow_NumLock">Num Lock</system:String>
     <system:String x:Key="LockWindow_ScrollLock">Scroll Lock</system:String>
-    <system:String x:Key="LockWindow_InsertPressed">Đang ấn Insert</system:String>
+    <system:String x:Key="LockWindow_InsertPressed">Đang nhấn Insert</system:String>
     <system:String x:Key="LockWindow_LockOn">bật</system:String>
     <system:String x:Key="LockWindow_LockOff">tắt</system:String>
     <system:String x:Key="NextUpWindow_UpNextText">Tiếp theo:</system:String>
@@ -137,7 +137,7 @@ Vì dự án này mã nguồn mở, bạn cũng có thể bỏ qua bước giao 
     <system:String x:Key="TrayIcon_ReportBugOption">Phản ánh lỗi</system:String>
     <system:String x:Key="TrayIcon_QuitOption">Kết thúc</system:String>
     <system:String x:Key="PixelsUnit">px</system:String>
-    <system:String x:Key="UpdateToastTitle">FluentFlyout đã được cập nhật.</system:String>
+    <system:String x:Key="UpdateToastTitle">FluentFlyout vừa được cập nhật.</system:String>
     <system:String x:Key="UpdateToastMessage">Phiên bản hiện tại là {0}.</system:String>
     <system:String x:Key="UpdateToastButton">Có gì mới</system:String>
     <system:String x:Key="TrayIconSectionTitle">Biểu tượng thanh công cụ</system:String>
