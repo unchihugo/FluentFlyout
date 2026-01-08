@@ -131,4 +131,16 @@ Vous pouvez contribuer aux traductions sur</system:String>
     <system:String x:Key="TrayIcon_GitHubRepositoryOption">Dépôt</system:String>
     <system:String x:Key="TrayIcon_ReportBugOption">Signaler un bug</system:String>
     <system:String x:Key="TrayIcon_QuitOption">Quitter FluentFlyout</system:String>
+    <system:String x:Key="SelectedMonitorTitle">Affichage cible Flyout</system:String>
+    <system:String x:Key="TaskbarWidgetSelectedMonitorTitle">Affichage cible du widget</system:String>
+    <system:String x:Key="TaskbarWidgetPaddingSettingsTitle">Paramètres de remplissage du widget</system:String>
+    <system:String x:Key="TaskbarWidgetPaddingSettingsDescription">Ajustez la marge autour du widget pour l'adapter au style de votre barre des tâches</system:String>
+    <system:String x:Key="TaskbarWidgetManualPaddingTitle">Remplissage personnalisé</system:String>
+    <system:String x:Key="TaskbarWidgetManualPaddingDescription">Ajouter un rembourrage supplémentaire (par défaut : 0 px)</system:String>
+    <system:String x:Key="TaskbarWidgetControlsTitle">Widget Commandes multimédia</system:String>
+    <system:String x:Key="TaskbarWidgetControlsDescription">Afficher les boutons de contrôle multimédia sur le widget</system:String>
+    <system:String x:Key="TaskbarWidgetAnimatedTitle">Animations widgets</system:String>
+    <system:String x:Key="TaskbarWidgetAnimatedDescription">Activer les animations subtiles pour le widget</system:String>
+    <system:String x:Key="TrayIcon_ViewLogsOption">Consulter les journaux</system:String>
+    <system:String x:Key="PixelsUnit">px</system:String>
 </ResourceDictionary>
