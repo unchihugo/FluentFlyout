@@ -117,7 +117,7 @@ Bạn có thể hỗ trợ dịch tại</system:String>
         
 Vì là phần mềm mã nguồn mở, bạn cũng có thể bỏ qua bước giao dịch bằng cách tải ứng dụng từ GitHub hoặc tự biên dịch mã nguồn.</system:String>
     <system:String x:Key="PremiumLockedMessage">Tính năng này đã bị khóa</system:String>
-    <system:String x:Key="PremiumUnlockedMessage">Đã mở khóa các tính năng premium. Chân thành cảm ơn bạn đã ủng hộ dự án!</system:String>
+    <system:String x:Key="PremiumUnlockedMessage">Đã mở khóa các tính năng premium. Cảm ơn bạn đã ủng hộ dự án!</system:String>
     <system:String x:Key="PremiumGitHubMessage">Các tính năng premium tự động được mở khóa khi cài đặt từ GitHub hoặc tự biên dịch mã nguồn</system:String>
     <system:String x:Key="UnlockPremiumButton">Mở khóa premium</system:String>
     <system:String x:Key="PremiumPurchaseSuccess">Đã mở khóa các tính năng premium!</system:String>
