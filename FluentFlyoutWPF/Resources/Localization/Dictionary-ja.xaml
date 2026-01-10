@@ -133,4 +133,14 @@
     <system:String x:Key="EasingCubic" xml:space="preserve"> 三次関数</system:String>
     <system:String x:Key="TaskbarWidgetControlsTitle">ウィジェットメディアコントロール</system:String>
     <system:String x:Key="TrayIcon_ViewLogsOption">ログを表示</system:String>
+    <system:String x:Key="SelectedMonitorTitle">ポップアップを表示すすディスプレイ</system:String>
+    <system:String x:Key="TaskbarWidgetSelectedMonitorTitle">ウィジェットを表示するディスプレイ</system:String>
+    <system:String x:Key="TaskbarWidgetPaddingSettingsTitle">ウィジェットの余白設定</system:String>
+    <system:String x:Key="TaskbarWidgetPaddingSettingsDescription">タスクバーのスタイルに合わせてウィジェットの空白を調整します</system:String>
+    <system:String x:Key="TaskbarWidgetControlsDescription">ウィジェットにメディアコントロールボタンを表示</system:String>
+    <system:String x:Key="TaskbarWidgetAnimatedTitle">ウィジェットアニメーション</system:String>
+    <system:String x:Key="TaskbarWidgetAnimatedDescription">ウィジェットの微妙なアニメーションを有効化</system:String>
+    <system:String x:Key="UpdateToastTitle">FluentFlyoutがアップデートされました！</system:String>
+    <system:String x:Key="UpdateToastMessage">現在のバージョンは {0} です。</system:String>
+    <system:String x:Key="UpdateToastButton">アップデートを見る</system:String>
 </ResourceDictionary>
