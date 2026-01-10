@@ -143,4 +143,7 @@ Możesz pomóc w tworzeniu tłumaczeń na stronie</system:String>
     <system:String x:Key="TaskbarWidgetManualPaddingDescription">Dodaj dodatkowy odstęp (domyślnie: 1px)</system:String>
     <system:String x:Key="TrayIcon_ViewLogsOption">Sprawdź dziennik zdarzeń</system:String>
     <system:String x:Key="PixelsUnit">px</system:String>
+    <system:String x:Key="UpdateToastTitle">FluentFlyout zostało zatkualizowane!</system:String>
+    <system:String x:Key="UpdateToastMessage">Jesteś na {0}.</system:String>
+    <system:String x:Key="UpdateToastButton">Pokaż aktualizacje</system:String>
 </ResourceDictionary>
