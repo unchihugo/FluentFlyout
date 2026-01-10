@@ -32,8 +32,10 @@ public partial class TaskbarWindow : Window
 
     [DllImport("user32.dll", SetLastError = true)]
     private static extern bool EnumWindows(EnumWindowsProc enumProc, IntPtr lParam);
+
     [DllImport("user32.dll", SetLastError = true)]
     private static extern bool EnumThreadWindows(uint dwThreadId, EnumWindowsProc enumProc, IntPtr lParam);
+
     private delegate bool EnumWindowsProc(IntPtr hWnd, IntPtr lParam);
 
     [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
@@ -55,7 +57,8 @@ public partial class TaskbarWindow : Window
     private static extern int DwmExtendFrameIntoClientArea(IntPtr hwnd, ref MARGINS margins);
 
     [StructLayout(LayoutKind.Sequential)]
-    public struct POINT { public int X, Y; }
+    public struct POINT
+    { public int X, Y; }
 
     [StructLayout(LayoutKind.Sequential)]
     public struct RECT
@@ -162,10 +165,34 @@ public partial class TaskbarWindow : Window
         // causing the widget and the entire taskbar to freeze.
         // For example, Nilesoft Shell and "Click on empty taskbar space" from Windhawk.
         // Therefore, we are preventing the propagation of this message.
-        //
-        // WM_GETOBJECT (Sent by Microsoft UI Automation to obtain information about an accessible object contained in a server application)
-        if (msg == 0x003D)
-            handled = true;
+        // Also prevents the widget from blocking taskbar's message processing, which is another source of freezes.
+        switch (msg)
+        {
+            case 0x003D: // WM_GETOBJECT (Sent by Microsoft UI Automation to obtain information about an accessible object contained in a server application)
+            case 0x0018: // WM_SHOWWINDOW
+            case 0x0046: // WM_WINDOWPOSCHANGING - Triggers during alt-tabs, window changes
+            case 0x0083: // WM_NCCALCSIZE - Can trigger layout storms
+            case 0x0281: // WM_IME_SETCONTEXT - IME conflicts
+            case 0x0282: // WM_IME_NOTIFY
+                handled = true;
+                return IntPtr.Zero;
+
+            case 0x0003: // WM_MOVE - Triggers when windows are moved, breaks widget size calculations when handled
+            case 0x0005: // WM_SIZE - Triggers when windows change size, breaks widget media changes when handled
+            case 0x0086: // WM_NCACTIVATE - Triggers when clicking taskbar icons, breaks taskbar interaction when handled
+                return IntPtr.Zero;
+                // Handle other known harmless messages that are sent when FluentFlyout starts, Windows locks, etc.
+                // Needs testing
+                //case 0x0047:
+                //case 0x02B1:
+                //case 0x001E:
+                //case 0x0164:
+                //case 0xC25F:
+                //    handled = true;
+                //    return IntPtr.Zero;
+        }
+
+        Logger.Debug($"Unhandled Taskbar Widget message: 0x{msg:X}");
 
         return IntPtr.Zero;
     }
@@ -434,7 +461,10 @@ public partial class TaskbarWindow : Window
 
             if (taskbarHandle != IntPtr.Zero && interop.Handle != IntPtr.Zero)
             {
-                CalculateAndSetPosition(taskbarHandle, interop.Handle, isMainTaskbarSelected);
+                Dispatcher.BeginInvoke(() =>
+                {
+                    CalculateAndSetPosition(taskbarHandle, interop.Handle, isMainTaskbarSelected);
+                }, DispatcherPriority.Background);
             }
         }
         catch (Exception ex)
