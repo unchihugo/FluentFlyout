@@ -1,7 +1,7 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib">
     <system:String x:Key="TitleText">Cài đặt FluentFlyout</system:String>
     <system:String x:Key="MediaFlyoutTitle">Giao diện điều khiển phát lại</system:String>
-    <system:String x:Key="MediaFlyoutDescription">Giao diện này hiện lên mỗi khi bạn nhấn phím phát/ngừng phát, tăng/giảm âm lượng, v.v. cho phép bạn theo dõi nội dung đang phát và điều khiển phát lại.</system:String>
+    <system:String x:Key="MediaFlyoutDescription">Giao diện này hiện lên mỗi khi nhấn phím phát/ngừng phát, tăng/giảm âm lượng, v.v. cho phép bạn theo dõi nội dung đang phát và điều khiển phát lại.</system:String>
     <system:String x:Key="TextBlockText1">Cho phép hiển thị</system:String>
     <system:String x:Key="TextBlockText3">Cho phép hiển thị giao diện</system:String>
     <system:String x:Key="CompactLayoutTitle">Giao diện nhỏ gọn</system:String>
@@ -29,7 +29,7 @@
     <system:String x:Key="PauseOtherMediaTitle">Tự động tạm dừng các nội dung khác</system:String>
     <system:String x:Key="PauseOtherMediaDescription">Tự động tạm dừng các nội dung khác ngoài nội dung đang phát</system:String>
     <system:String x:Key="NextUpCustomizationTitle">Giao diện nội dung tiếp theo</system:String>
-    <system:String x:Key="NextUpDescription" xml:space="preserve">Giao diện này chỉ hiển thị khi đang tự động phát.</system:String>
+    <system:String x:Key="NextUpDescription" xml:space="preserve">Giao diện này chỉ hiển thị khi đang tự động phát, cho phép bạn theo dõi nội dung tiếp theo.</system:String>
     <system:String x:Key="EnableNextUpTitle">Cho phép hiển thị (beta)</system:String>
     <system:String x:Key="EnableNextUpDescription">Cho phép hiển thị giao diện</system:String>
     <system:String x:Key="NextUpStayDurationTitle">Thời gian hiển thị</system:String>
@@ -57,7 +57,7 @@
     <system:String x:Key="TrayIconLeftClickOption1"> Cài đặt FluentFlyout</system:String>
     <system:String x:Key="TrayIconLeftClickOption2"> Giao diện điều khiển phát lại</system:String>
     <system:String x:Key="Win11TrayIconTitle">Biểu tượng đơn sắc</system:String>
-    <system:String x:Key="Win11TrayIconDescription">Dùng biểu tượng đơn sắc trong thanh công cụ</system:String>
+    <system:String x:Key="Win11TrayIconDescription">Dùng biểu tượng đơn sắc trong khay hệ thống</system:String>
     <system:String x:Key="AnimationSettingsTitle">Hiệu ứng chuyển động</system:String>
     <system:String x:Key="AnimationSettingsDescription">Điều chỉnh tốc độ và hiệu ứng làm mượt chuyển động cho các giao diện bay ra</system:String>
     <system:String x:Key="AnimationDurationScaleTitle">Tốc độ chuyển động</system:String>
@@ -71,7 +71,7 @@
     <system:String x:Key="EasingCubic" xml:space="preserve"> Hàm số bậc ba</system:String>
     <system:String x:Key="NativeExperienceInfo">Để có được hiệu ứng như Windows, bạn nên để cài đặt mặc định.</system:String>
     <system:String x:Key="DisableOnFullscreenTitle">Không hiển thị giao diện bay ra khi có cửa sổ DirectX toàn màn hình</system:String>
-    <system:String x:Key="DisableOnFullscreenDescription">Giúp tránh các cửa sổ DirectX toàn màn hình khỏi bị thu nhỏ về thanh công cụ</system:String>
+    <system:String x:Key="DisableOnFullscreenDescription">Giúp tránh các cửa sổ DirectX toàn màn hình khỏi bị thu nhỏ về thanh tác vụ</system:String>
     <system:String x:Key="AppLanguageTitle">Ngôn ngữ</system:String>
     <system:String x:Key="EnjoyingAppText" xml:space="preserve">Nếu thích ứng dụng này, bạn có thể gắn sao trên GitHub
 hoặc chia sẻ trải nghiệm của bạn trên Microsoft Store.</system:String>
@@ -80,7 +80,7 @@ hoặc chia sẻ trải nghiệm của bạn trên Microsoft Store.</system:Stri
     <system:String x:Key="AcrylicWindowTitle">Nền Acrylic</system:String>
     <system:String x:Key="AcrylicWindowDescription">Khi tắt, giao diện sẽ có nền mờ như thiết kế Mica của Windows</system:String>
     <system:String x:Key="BackgroundBlurTitle">In mờ ảnh bìa trên nền</system:String>
-    <system:String x:Key="BackgroundBlurOption1" xml:space="preserve"> Không làm mờ</system:String>
+    <system:String x:Key="BackgroundBlurOption1" xml:space="preserve"> Không in mờ</system:String>
     <system:String x:Key="BackgroundBlurOption2" xml:space="preserve"> Kiểu 1 (Mờ bên trái)</system:String>
     <system:String x:Key="BackgroundBlurOption3" xml:space="preserve"> Kiểu 2 (Mờ bên dưới)</system:String>
     <system:String x:Key="BackgroundBlurOption4" xml:space="preserve"> Kiểu 3 (Mờ toàn phần)</system:String>
@@ -138,11 +138,11 @@ Do ứng dụng phát hành trong phạm vi mã nguồn mở, bạn vẫn có th
     <system:String x:Key="TrayIcon_QuitOption">Kết thúc</system:String>
     <system:String x:Key="PixelsUnit">px</system:String>
     <system:String x:Key="UpdateToastTitle">FluentFlyout vừa được cập nhật.</system:String>
-    <system:String x:Key="UpdateToastMessage">Bạn đang ở phiên bản {0}.</system:String>
+    <system:String x:Key="UpdateToastMessage">Đã cập nhật lên {0}.</system:String>
     <system:String x:Key="UpdateToastButton">Có gì mới</system:String>
-    <system:String x:Key="TrayIconSectionTitle">Biểu tượng thanh công cụ</system:String>
+    <system:String x:Key="TrayIconSectionTitle">Biểu tượng khay hệ thống</system:String>
     <system:String x:Key="HideTrayIconTitle">Ẩn biểu tượng</system:String>
-    <system:String x:Key="HideTrayIconDescription">Khi chọn, bạn sẽ phải mở giao diện cài đặt bằng cách khác thay cho thanh công cụ</system:String>
+    <system:String x:Key="HideTrayIconDescription">Khi chọn, bạn sẽ phải mở giao diện cài đặt bằng cách khác thay cho khay hệ thống</system:String>
     <system:String x:Key="TaskbarWidgetPaddingSettingsDescription">Điều chỉnh khoảng trống quanh widget</system:String>
     <system:String x:Key="TaskbarWidgetPaddingSettingsTitle">Khoảng trống xung quanh</system:String>
 </ResourceDictionary>
