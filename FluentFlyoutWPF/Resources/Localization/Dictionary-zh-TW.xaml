@@ -43,7 +43,7 @@
     <system:String x:Key="EnableNextUpTitle">啟用下一首彈出視窗（實驗性功能）</system:String>
     <system:String x:Key="EnableNextUpDescription">當歌曲/影片結束時顯示下一首</system:String>
     <system:String x:Key="NextUpStayDurationTitle">下一首停留時間</system:String>
-    <system:String x:Key="NextUpStayDurationDescription">(預設 : 2000 毫秒）</system:String>
+    <system:String x:Key="NextUpStayDurationDescription">(預設 : 2500 毫秒）</system:String>
     <system:String x:Key="LockKeysCustomizationTitle">鎖定鍵自訂</system:String>
     <system:String x:Key="LockKeysDescription" xml:space="preserve">立即查看鎖定鍵狀態。按下 Caps Lock、Num Lock 或 Scroll Lock 後出現。適合沒有鎖定鍵指示燈的筆電/鍵盤。</system:String>
     <system:String x:Key="EnableLockKeysTitle">啟用鎖定鍵彈出視窗</system:String>
