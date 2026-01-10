@@ -43,4 +43,8 @@ esconde os botões de repetir, aleatório e as informações do player</system:S
     <system:String x:Key="UnsupportedControlsWarning">Alguns navegadores/reprodutores não oferecem suporte aos controles de repetir, aleatório e barra de progresso.</system:String>
     <system:String x:Key="PauseOtherMediaDescription">Quando você reproduzir ou alternar o foco para uma nova mídia, outras sessões ativas serão pausadas automaticamente</system:String>
     <system:String x:Key="TaskbarWidgetCustomizationTitle">Costumização do widget da barra de tarefas</system:String>
+    <system:String x:Key="TaskbarWidgetEnabledTitle">Habilitar Widget na Barra de Tarefas</system:String>
+    <system:String x:Key="TaskbarWidgetEnabledDescription">Mostrar um widget de multimédia compacto na barra de tarefas</system:String>
+    <system:String x:Key="TaskbarWidgetVisualIssuesWarning">Configure as opções abaixo se ocorrer erros visuais.</system:String>
+    <system:String x:Key="TaskbarWidgetPosition">Posição do Widget</system:String>
 </ResourceDictionary>
