@@ -9,9 +9,8 @@
     <RootNamespace>FluentFlyoutWPF</RootNamespace>
     <StartupObject>FluentFlyoutWPF.App</StartupObject>
     <AssemblyName>$(MSBuildProjectName)</AssemblyName>
-    <PlatformTarget>x64</PlatformTarget>
-    <Platforms>x64</Platforms>
-    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <Platforms>x64;ARM64</Platforms>
+	<RuntimeIdentifiers>win-x64;win-arm64</RuntimeIdentifiers>
     <LangVersion>preview</LangVersion>
     <Configurations>Debug;Release;GitHub Release</Configurations>
     <ApplicationManifest>app.manifest</ApplicationManifest>
