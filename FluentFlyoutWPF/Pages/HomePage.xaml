@@ -5,13 +5,18 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
       xmlns:viewModels="clr-namespace:FluentFlyoutWPF.ViewModels"
+      xmlns:classes="clr-namespace:FluentFlyout.Classes"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="HomePage"
       d:DataContext="{d:DesignInstance viewModels:UserSettings}"
 	  ui:Design.Background="{DynamicResource ApplicationBackgroundBrush}"
-    ui:Design.Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+      ui:Design.Foreground="{DynamicResource TextFillColorPrimaryBrush}"
 	  Foreground="{DynamicResource TextFillColorPrimaryBrush}">
+
+    <Page.Resources>
+        <classes:BoolToEnabledDisabledConverter x:Key="BoolToEnabledDisabledConverter"/>
+    </Page.Resources>
 
     <ui:PassiveScrollViewer HorizontalScrollBarVisibility="Auto">
         <StackPanel MaxWidth="1000" Margin="16">
@@ -24,7 +29,7 @@
             <TextBlock Text="Home" FontSize="24" FontWeight="SemiBold" FontFamily="Segoe UI Variable" Margin="0,36,0,12"/>
             <ui:Button Appearance="Transparent" Padding="0,0,16,0" BorderBrush="Transparent" Margin="0,0,0,36" Click="ViewUpdates_Click">
                 <StackPanel Orientation="Horizontal">
-                    <Border CornerRadius="8" ClipToBounds="True" Width="164" Height="74" Margin="0,0,16,0">
+                    <Border CornerRadius="8" ClipToBounds="True" Width="200" Height="98" Margin="0,0,16,0">
                         <Border.Background>
                             <ImageBrush ImageSource="/Resources/FluentFlyoutHero-NoTitle.webp" Stretch="UniformToFill"/>
                         </Border.Background>
@@ -36,6 +41,7 @@
                 </StackPanel>
             </ui:Button>
 
+            <TextBlock Grid.Row="6" Text="Dashboard" FontSize="14" FontWeight="SemiBold" Margin="0,0,0,6"/>
             <Grid Margin="-4">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -48,47 +54,92 @@
                 </Grid.ColumnDefinitions>
                 <ui:CardAction Grid.Row="0" Grid.Column="0" Margin="4" Padding="12,20" IsChevronVisible="True" Click="MediaFlyout_Click">
                     <ui:CardAction.Icon>
-                        <ui:SymbolIcon Symbol="VideoPlayPause24" FontSize="30" />
+                        <ui:SymbolIcon Symbol="VideoPlayPause24" FontSize="30" Filled="False" />
                     </ui:CardAction.Icon>
                     <StackPanel>
                         <ui:TextBlock FontWeight="Medium" Text="{DynamicResource MediaFlyoutTitle}" />
-                        <ui:TextBlock Appearance="Secondary" Text="Configure" />
+                        <ui:TextBlock Appearance="Secondary" Text="{Binding MediaFlyoutEnabled, Converter={StaticResource BoolToEnabledDisabledConverter}}">
+                            <ui:TextBlock.Style>
+                                <Style TargetType="ui:TextBlock">
+                                    <Setter Property="Opacity" Value="1"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding MediaFlyoutEnabled}" Value="False">
+                                            <Setter Property="Opacity" Value="0.5"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ui:TextBlock.Style>
+                        </ui:TextBlock>
                     </StackPanel>
                 </ui:CardAction>
 
                 <ui:CardAction Grid.Row="0" Grid.Column="1" Margin="4" Padding="12,20" IsChevronVisible="True" Click="TaskbarWidget_Click">
                     <ui:CardAction.Icon>
-                        <ui:SymbolIcon Symbol="TextboxAlignBottom24" FontSize="30" />
+                        <ui:SymbolIcon Symbol="TextboxAlignBottom24" FontSize="30" Filled="False" />
                     </ui:CardAction.Icon>
                     <StackPanel>
                         <ui:TextBlock FontWeight="Medium" Text="{DynamicResource TaskbarWidgetCustomizationTitle}" />
-                        <ui:TextBlock Appearance="Secondary" Text="Configure" />
+                        <ui:TextBlock Appearance="Secondary" Text="{Binding TaskbarWidgetEnabled, Converter={StaticResource BoolToEnabledDisabledConverter}}">
+                            <ui:TextBlock.Style>
+                                <Style TargetType="ui:TextBlock">
+                                    <Setter Property="Opacity" Value="1"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding TaskbarWidgetEnabled}" Value="False">
+                                            <Setter Property="Opacity" Value="0.5"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ui:TextBlock.Style>
+                        </ui:TextBlock>
                     </StackPanel>
                 </ui:CardAction>
 
                 <ui:CardAction Grid.Row="1" Grid.Column="0" Margin="4" Padding="12,20" IsChevronVisible="True" Click="NextUp_Click">
                     <ui:CardAction.Icon>
-                        <ui:SymbolIcon Symbol="MusicNote2Play20" FontSize="30" />
+                        <ui:SymbolIcon Symbol="MusicNote2Play20" FontSize="30" Filled="False" />
                     </ui:CardAction.Icon>
                     <StackPanel>
                         <ui:TextBlock FontWeight="Medium" Text="{DynamicResource NextUpCustomizationTitle}" />
-                        <ui:TextBlock Appearance="Secondary" Text="Configure" />
+                        <ui:TextBlock Appearance="Secondary" Text="{Binding NextUpEnabled, Converter={StaticResource BoolToEnabledDisabledConverter}}">
+                            <ui:TextBlock.Style>
+                                <Style TargetType="ui:TextBlock">
+                                    <Setter Property="Opacity" Value="1"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding NextUpEnabled}" Value="False">
+                                            <Setter Property="Opacity" Value="0.5"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ui:TextBlock.Style>
+                        </ui:TextBlock>
+                        
                     </StackPanel>
                 </ui:CardAction>
 
                 <ui:CardAction Grid.Row="1" Grid.Column="1" Margin="4" Padding="12,20" IsChevronVisible="True" Click="LockKeys_Click">
                     <ui:CardAction.Icon>
-                        <ui:SymbolIcon Symbol="LockMultiple24" FontSize="30" />
+                        <ui:SymbolIcon Symbol="LockMultiple24" FontSize="30" Filled="False" />
                     </ui:CardAction.Icon>
                     <StackPanel>
                         <ui:TextBlock FontWeight="Medium" Text="{DynamicResource LockKeysCustomizationTitle}" />
-                        <ui:TextBlock Appearance="Secondary" Text="Configure" />
+                        <ui:TextBlock Appearance="Secondary" Text="{Binding LockKeysEnabled, Converter={StaticResource BoolToEnabledDisabledConverter}}">
+                            <ui:TextBlock.Style>
+                                <Style TargetType="ui:TextBlock">
+                                    <Setter Property="Opacity" Value="1"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding LockKeysEnabled}" Value="False">
+                                            <Setter Property="Opacity" Value="0.5"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ui:TextBlock.Style>
+                        </ui:TextBlock>
                     </StackPanel>
                 </ui:CardAction>
 
                 <ui:CardAction Grid.Row="2" Grid.Column="0" Margin="4" Padding="12,20" IsChevronVisible="True" Click="System_Click">
                     <ui:CardAction.Icon>
-                        <ui:SymbolIcon Symbol="Settings24" FontSize="30" />
+                        <ui:SymbolIcon Symbol="Settings24" FontSize="30" Filled="False" />
                     </ui:CardAction.Icon>
                     <StackPanel>
                         <ui:TextBlock FontWeight="Medium" Text="{DynamicResource SystemSettingsTitle}" />
@@ -160,7 +211,7 @@
                 <TextBlock Grid.Row="1" FontSize="14" Margin="4,0,0,0" FontWeight="Regular" HorizontalAlignment="Left" Opacity="0.75" MaxWidth="600" TextWrapping="WrapWithOverflow" Text="{DynamicResource PremiumFeatureDescription}"/>
             </Grid>
 
-            <DockPanel LastChildFill="False" Margin="0,24,0,0">
+            <DockPanel LastChildFill="False" Margin="0,24,0,12">
                 <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" HorizontalAlignment="Left">
                     <ui:SymbolIcon Symbol="Star24" Filled="True" Width="24" Height="24" FontSize="16" VerticalAlignment="Center" Foreground="Gold"/>
                     <StackPanel Orientation="Vertical" VerticalAlignment="Center">

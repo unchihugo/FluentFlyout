@@ -1,5 +1,7 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:System="clr-namespace:System;assembly=mscorlib">
     <System:String x:Key="TitleText">FluentFlyout Settings</System:String>
+    <System:String x:Key="Enabled">Enabled</System:String>
+    <System:String x:Key="Disabled">Disabled</System:String>
     <System:String x:Key="MediaFlyoutTitle">Media Flyout Customization</System:String>
     <System:String x:Key="MediaFlyoutDescription">Main flyout. When listening to media, press any media or volume key (play/pause, volume up/down, etc.) on your keyboard to display the flyout. Displays media info, along with playback controls and more.</System:String>
     <System:String x:Key="TextBlockText1">Enable Media Flyout</System:String>

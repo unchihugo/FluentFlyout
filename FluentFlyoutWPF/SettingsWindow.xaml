@@ -26,8 +26,12 @@
 		<ui:NavigationView x:Name="RootNavigation"
                           IsTopSeparatorVisible="false"
 						  IsFooterSeparatorVisible="false"
-                          PaneDisplayMode="LeftFluent"
-						  TransitionDuration="300">
+                          PaneDisplayMode="Left"
+						  TransitionDuration="300"
+						   IsBackButtonVisible="Auto"
+						   IsPaneToggleVisible="true"
+						   OpenPaneLength="240"
+						   IsPaneOpen="false">
 			<ui:NavigationView.MenuItems>
 				<ui:NavigationViewItem Content="Home" Icon="{ui:SymbolIcon Home24}" TargetPageType="{x:Type pages:HomePage}" />
 				<ui:NavigationViewItem Content="Media Flyout" Icon="{ui:SymbolIcon VideoPlayPause24}" TargetPageType="{x:Type pages:MediaFlyoutPage}" />

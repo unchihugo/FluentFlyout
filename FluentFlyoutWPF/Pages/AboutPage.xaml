@@ -83,6 +83,16 @@
 
                 <TextBlock Grid.Row="2" FontSize="14" Margin="4,0,0,0" FontWeight="Regular" HorizontalAlignment="Left" Opacity="0.75" MaxWidth="600" TextWrapping="WrapWithOverflow" Text="{DynamicResource PremiumFeatureDescription}"/>
             </Grid>
+
+            <DockPanel LastChildFill="False" Margin="0,24,0,12">
+                <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" HorizontalAlignment="Left">
+                    <ui:SymbolIcon Symbol="Star24" Filled="True" Width="24" Height="24" FontSize="16" VerticalAlignment="Center" Foreground="Gold"/>
+                    <StackPanel Orientation="Vertical" VerticalAlignment="Center">
+                        <TextBlock Text="{DynamicResource EnjoyingAppText}" HorizontalAlignment="Center" FontSize="12" Opacity="0.5" VerticalAlignment="Center" Margin="4,0,0,0"/>
+                    </StackPanel>
+                    <ui:Anchor Content="{DynamicResource GitHubRepoLink}" Icon="{ui:SymbolIcon Open24}" NavigateUri="https://github.com/unchihugo/FluentFlyout" Margin="12,0,0,0"/>
+                </StackPanel>
+            </DockPanel>
         </StackPanel>
     </ui:PassiveScrollViewer>
 </Page>
