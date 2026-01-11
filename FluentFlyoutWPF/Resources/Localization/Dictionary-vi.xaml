@@ -18,12 +18,12 @@
     <system:String x:Key="MillisecondsUnit">ms</system:String>
     <system:String x:Key="CenterTitleArtistTitle">Căn giữa tiêu đề và tên tác giả</system:String>
     <system:String x:Key="CenterTitleArtistDescription">Căn giữa thay vì căn lề trái</system:String>
-    <system:String x:Key="ShowMediaPlayerNameTitle">Hiển thị tên ứng dụng đang phát</system:String>
+    <system:String x:Key="ShowMediaPlayerNameTitle">Tên ứng dụng đang phát</system:String>
     <system:String x:Key="RepeatButtonTitle">Nút lặp lại*</system:String>
-    <system:String x:Key="RepeatButtonDescription">Lặp lại một lần hoặc liên tục</system:String>
+    <system:String x:Key="RepeatButtonDescription">Lặp lại nội dung một lần hoặc liên tục</system:String>
     <system:String x:Key="ShuffleButtonTitle">Nút trộn bài*</system:String>
     <system:String x:Key="ShuffleButtonDescription">Ngẫu nhiên chọn nội dung</system:String>
-    <system:String x:Key="ShowSeekbarTitle">Hiển thị thanh phát lại</system:String>
+    <system:String x:Key="ShowSeekbarTitle">Thanh phát lại</system:String>
     <system:String x:Key="ShowSeekbarDescription">Tua đi tua lại nội dung</system:String>
     <system:String x:Key="UnsupportedControlsWarning">*Một số ứng dụng không hỗ trợ chức năng lặp lại, trộn bài hoặc hiện thanh phát lại.</system:String>
     <system:String x:Key="PauseOtherMediaTitle">Tự động tạm dừng các nội dung khác</system:String>
@@ -77,7 +77,7 @@
 hoặc chia sẻ trải nghiệm của bạn trên Microsoft Store.</system:String>
     <system:String x:Key="GitHubRepoLink">Trang GitHub</system:String>
     <system:String x:Key="CloseButton">Đóng</system:String>
-    <system:String x:Key="AcrylicWindowTitle">Nền Acrylic</system:String>
+    <system:String x:Key="AcrylicWindowTitle">Nền acrylic</system:String>
     <system:String x:Key="AcrylicWindowDescription">Khi tắt, giao diện sẽ có nền mờ như thiết kế Mica của Windows</system:String>
     <system:String x:Key="BackgroundBlurTitle">In mờ ảnh bìa trên nền</system:String>
     <system:String x:Key="BackgroundBlurOption1" xml:space="preserve"> Không in mờ</system:String>
@@ -100,8 +100,8 @@ Bạn có thể hỗ trợ dịch tại</system:String>
     <system:String x:Key="SelectedMonitorTitle">Màn hình hiển thị</system:String>
     <system:String x:Key="TaskbarWidgetDescription">Widget này cho biết nội dung đang phát, có thể cài đặt để thêm nút bấm điều khiển nội đung hoặc làm hiện ra giao diện điều khiển phát lại.</system:String>
     <system:String x:Key="TaskbarWidgetSelectedMonitorTitle">Màn hình hiển thị</system:String>
-    <system:String x:Key="TaskbarWidgetManualPaddingTitle">Chiều rộng tùy chọn</system:String>
-    <system:String x:Key="TaskbarWidgetManualPaddingDescription">Điều chỉnh chiều rộng cho khoảng trống (mặc định: 0px)</system:String>
+    <system:String x:Key="TaskbarWidgetManualPaddingTitle">Độ rộng khoảng trống</system:String>
+    <system:String x:Key="TaskbarWidgetManualPaddingDescription">Điều chỉnh độ rộng cho khoảng trống (mặc định: 0px)</system:String>
     <system:String x:Key="TaskbarWidgetClickableTitle">Mở giao diện điều khiển phát lại khi nhấn vào</system:String>
     <system:String x:Key="TaskbarWidgetClickableDescription">Giao diện chỉ mở lên khi được cho phép hiển thị trong cài đặt</system:String>
     <system:String x:Key="TaskbarWidgetBackgroundBlurTitle">In mờ ảnh bìa trên nền</system:String>
@@ -143,6 +143,6 @@ Do ứng dụng phát hành trong phạm vi mã nguồn mở, bạn vẫn có th
     <system:String x:Key="TrayIconSectionTitle">Biểu tượng khay hệ thống</system:String>
     <system:String x:Key="HideTrayIconTitle">Ẩn biểu tượng</system:String>
     <system:String x:Key="HideTrayIconDescription">Khi chọn, bạn sẽ phải mở giao diện cài đặt bằng cách khác thay cho khay hệ thống</system:String>
-    <system:String x:Key="TaskbarWidgetPaddingSettingsDescription">Điều chỉnh khoảng trống quanh widget</system:String>
-    <system:String x:Key="TaskbarWidgetPaddingSettingsTitle">Khoảng trống xung quanh</system:String>
+    <system:String x:Key="TaskbarWidgetPaddingSettingsDescription">Điều chỉnh độ rộng khoảng trống, tách khỏi nút Widgets</system:String>
+    <system:String x:Key="TaskbarWidgetPaddingSettingsTitle">Khoảng trống hai bên</system:String>
 </ResourceDictionary>
