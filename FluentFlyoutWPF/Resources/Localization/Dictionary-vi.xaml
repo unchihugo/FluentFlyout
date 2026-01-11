@@ -1,7 +1,7 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib">
     <system:String x:Key="TitleText">Cài đặt FluentFlyout</system:String>
     <system:String x:Key="MediaFlyoutTitle">Giao diện điều khiển phát lại</system:String>
-    <system:String x:Key="MediaFlyoutDescription">Giao diện này hiện lên mỗi khi nhấn phím phát/ngừng phát, tăng/giảm âm lượng, v.v. cho phép bạn theo dõi nội dung đang phát và điều khiển phát lại.</system:String>
+    <system:String x:Key="MediaFlyoutDescription">Giao diện này hiện lên mỗi khi nhấn phím phát, ngừng phát, tăng, giảm âm lượng, v.v. cho phép bạn theo dõi nội dung đang phát và điều khiển phát lại.</system:String>
     <system:String x:Key="TextBlockText1">Cho phép hiển thị</system:String>
     <system:String x:Key="TextBlockText3">Cho phép hiển thị giao diện</system:String>
     <system:String x:Key="CompactLayoutTitle">Giao diện nhỏ gọn</system:String>
@@ -58,17 +58,17 @@
     <system:String x:Key="TrayIconLeftClickOption2"> Giao diện điều khiển phát lại</system:String>
     <system:String x:Key="Win11TrayIconTitle">Biểu tượng đơn sắc</system:String>
     <system:String x:Key="Win11TrayIconDescription">Dùng biểu tượng đơn sắc trong khay hệ thống</system:String>
-    <system:String x:Key="AnimationSettingsTitle">Chuyển động bay ra</system:String>
-    <system:String x:Key="AnimationSettingsDescription">Điều chỉnh tốc độ và hiệu ứng làm mượt chuyển động bay ra của các giao diện</system:String>
-    <system:String x:Key="AnimationDurationScaleTitle">Tốc độ chuyển động</system:String>
-    <system:String x:Key="AnimationEasingStyleTitle">Làm mượt chuyển động</system:String>
-    <system:String x:Key="AnimationSpeedOff">Không hiệu ứng</system:String>
-    <system:String x:Key="AnimationDurationScaleDescription">(mặc định: 1x)</system:String>
-    <system:String x:Key="AnimationEasingStyleDescription">(mặc định: Hàm số bậc hai)</system:String>
+    <system:String x:Key="AnimationSettingsTitle">Biến thiên vận tốc bay ra, bay vô</system:String>
+    <system:String x:Key="AnimationSettingsDescription">Thay đổi hàm số, độ chậm biến thiên vận tốc hiện, ẩn các giao diện bay ra</system:String>
+    <system:String x:Key="AnimationDurationScaleTitle">Độ chậm biến thiên</system:String>
+    <system:String x:Key="AnimationEasingStyleTitle">Hàm số biến thiên</system:String>
+    <system:String x:Key="AnimationSpeedOff">Tắt hiệu ứng</system:String>
+    <system:String x:Key="AnimationDurationScaleDescription">Có thể tắt hiệu ứng tại đây (mặc định: 1x)</system:String>
+    <system:String x:Key="AnimationEasingStyleDescription">(mặc định: Bình phương một số)</system:String>
     <system:String x:Key="EasingLinear" xml:space="preserve"> Tuyến tính</system:String>
     <system:String x:Key="EasingSine" xml:space="preserve"> Sin</system:String>
-    <system:String x:Key="EasingQuadratic" xml:space="preserve"> Hàm số bậc hai</system:String>
-    <system:String x:Key="EasingCubic" xml:space="preserve"> Hàm số bậc ba</system:String>
+    <system:String x:Key="EasingQuadratic" xml:space="preserve"> Bình phương một số</system:String>
+    <system:String x:Key="EasingCubic" xml:space="preserve"> Lập phương một số</system:String>
     <system:String x:Key="NativeExperienceInfo">Để có được hiệu ứng như Windows, bạn nên để cài đặt mặc định.</system:String>
     <system:String x:Key="DisableOnFullscreenTitle">Không hiển thị giao diện bay ra khi có cửa sổ DirectX toàn màn hình</system:String>
     <system:String x:Key="DisableOnFullscreenDescription">Giúp tránh các cửa sổ DirectX toàn màn hình khỏi bị thu nhỏ về thanh tác vụ</system:String>
@@ -93,7 +93,7 @@ Bạn có thể hỗ trợ dịch tại</system:String>
     <system:String x:Key="TaskbarWidgetCustomizationTitle">Widget trên thanh tác vụ</system:String>
     <system:String x:Key="TaskbarWidgetEnabledTitle">Cho phép hiển thị</system:String>
     <system:String x:Key="TaskbarWidgetEnabledDescription">Cho phép hiển thị widget</system:String>
-    <system:String x:Key="TaskbarWidgetVisualIssuesWarning">Nếu chưa hài lòng với vị trí widget, bạn nên điều chỉnh các cài đặt sau.</system:String>
+    <system:String x:Key="TaskbarWidgetVisualIssuesWarning">Nếu chưa hài lòng với vị trí widget, bạn nên thay đổi các cài đặt sau.</system:String>
     <system:String x:Key="TaskbarWidgetPosition">Vị trí widget</system:String>
     <system:String x:Key="TaskbarWidgetPaddingTitle">Tách khỏi nút Widgets</system:String>
     <system:String x:Key="TaskbarWidgetPaddingDescription">Không hiển thị đè lên nút Widgets của Windows</system:String>
@@ -101,7 +101,7 @@ Bạn có thể hỗ trợ dịch tại</system:String>
     <system:String x:Key="TaskbarWidgetDescription">Widget này cho biết nội dung đang phát, có thể cài đặt để thêm nút bấm điều khiển nội đung hoặc làm hiện ra giao diện điều khiển phát lại.</system:String>
     <system:String x:Key="TaskbarWidgetSelectedMonitorTitle">Màn hình hiển thị</system:String>
     <system:String x:Key="TaskbarWidgetManualPaddingTitle">Độ rộng khoảng trống</system:String>
-    <system:String x:Key="TaskbarWidgetManualPaddingDescription">Điều chỉnh độ rộng cho khoảng trống (mặc định: 0px)</system:String>
+    <system:String x:Key="TaskbarWidgetManualPaddingDescription">Thay đổi độ rộng cho khoảng trống (mặc định: 0px)</system:String>
     <system:String x:Key="TaskbarWidgetClickableTitle">Mở giao diện điều khiển phát lại khi nhấn vào</system:String>
     <system:String x:Key="TaskbarWidgetClickableDescription">Giao diện chỉ mở lên khi được cho phép hiển thị trong cài đặt</system:String>
     <system:String x:Key="TaskbarWidgetBackgroundBlurTitle">In mờ ảnh bìa trên nền</system:String>
@@ -143,6 +143,6 @@ Do ứng dụng phát hành trong phạm vi mã nguồn mở, bạn vẫn có th
     <system:String x:Key="TrayIconSectionTitle">Biểu tượng khay hệ thống</system:String>
     <system:String x:Key="HideTrayIconTitle">Ẩn biểu tượng</system:String>
     <system:String x:Key="HideTrayIconDescription">Khi chọn, bạn sẽ phải mở giao diện cài đặt bằng cách khác thay cho khay hệ thống</system:String>
-    <system:String x:Key="TaskbarWidgetPaddingSettingsDescription">Điều chỉnh độ rộng khoảng trống, tách khỏi nút Widgets</system:String>
+    <system:String x:Key="TaskbarWidgetPaddingSettingsDescription">Thay đổi độ rộng khoảng trống, tách khỏi nút Widgets</system:String>
     <system:String x:Key="TaskbarWidgetPaddingSettingsTitle">Khoảng trống hai bên</system:String>
 </ResourceDictionary>
