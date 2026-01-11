@@ -17,7 +17,7 @@
     <system:String x:Key="FlyoutStayDurationDescription">(mặc định: 3000 ms)</system:String>
     <system:String x:Key="MillisecondsUnit">ms</system:String>
     <system:String x:Key="CenterTitleArtistTitle">Căn giữa tiêu đề và tên tác giả</system:String>
-    <system:String x:Key="CenterTitleArtistDescription">Căn giữa thay vì căn lề trái</system:String>
+    <system:String x:Key="CenterTitleArtistDescription">Khi tắt, các thông tin đó sẽ căn lề trái</system:String>
     <system:String x:Key="ShowMediaPlayerNameTitle">Tên ứng dụng đang phát</system:String>
     <system:String x:Key="RepeatButtonTitle">Nút lặp lại*</system:String>
     <system:String x:Key="RepeatButtonDescription">Lặp lại nội dung một lần hoặc liên tục</system:String>
@@ -107,7 +107,7 @@ Bạn có thể hỗ trợ dịch tại</system:String>
     <system:String x:Key="TaskbarWidgetBackgroundBlurTitle">In mờ ảnh bìa trên nền</system:String>
     <system:String x:Key="TaskbarWidgetBackgroundBlurDescription">In mờ ảnh bìa của nội dung trên nền</system:String>
     <system:String x:Key="TaskbarWidgetHideCompletelyTitle">Ẩn khi không phát</system:String>
-    <system:String x:Key="TaskbarWidgetHideCompletelyDescription">Ẩn widget khi không phát</system:String>
+    <system:String x:Key="TaskbarWidgetHideCompletelyDescription">Khi tắt, widget sẽ hiển thị biểu tượng mặc định</system:String>
     <system:String x:Key="TaskbarWidgetControlsTitle">Thêm điều khiển phát lại</system:String>
     <system:String x:Key="TaskbarWidgetControlsDescription">Chỉ thêm vào widget</system:String>
     <system:String x:Key="TaskbarWidgetAnimatedTitle">Hiệu ứng chuyển tiếp</system:String>
