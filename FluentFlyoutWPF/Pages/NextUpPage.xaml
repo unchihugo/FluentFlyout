@@ -1,0 +1,68 @@
+<Page x:Class="FluentFlyoutWPF.Pages.NextUpPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+      xmlns:controls="clr-namespace:MicaWPF.Controls;assembly=MicaWPF"
+      xmlns:viewModels="clr-namespace:FluentFlyoutWPF.ViewModels"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="NextUpPage"
+      d:DataContext="{d:DesignInstance viewModels:UserSettings}"
+	  ui:Design.Background="{DynamicResource ApplicationBackgroundBrush}"
+    ui:Design.Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+	Foreground="{DynamicResource TextFillColorPrimaryBrush}">
+
+    <ui:PassiveScrollViewer HorizontalScrollBarVisibility="Auto">
+        <StackPanel MaxWidth="1000" Margin="16">
+            <TextBlock Text="{DynamicResource NextUpCustomizationTitle}" FontSize="24" FontWeight="SemiBold" FontFamily="Segoe UI Variable" Margin="0,0,0,20"/>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,24">
+                    <Border CornerRadius="10" ClipToBounds="True" Width="164" Height="98">
+                        <Border.Background>
+                            <ImageBrush ImageSource="/Resources/FluentFlyoutDemo4.1.png" Stretch="UniformToFill"/>
+                        </Border.Background>
+                    </Border>
+                    <TextBlock FontSize="14" FontWeight="Regular" HorizontalAlignment="Stretch" Opacity="0.75" Margin="12,0,0,0" MaxWidth="450" TextWrapping="WrapWithOverflow" Text="{DynamicResource NextUpDescription}"/>
+                </StackPanel>
+                <ui:CardControl Grid.Row="1" Icon="{ui:SymbolIcon MusicNote2Play20}" Margin="0,0,0,24">
+                    <ui:CardControl.Header>
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock Text="{DynamicResource EnableNextUpTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
+                            <TextBlock Text="{DynamicResource EnableNextUpDescription}" FontSize="12" Opacity="0.5"/>
+                        </StackPanel>
+                    </ui:CardControl.Header>
+                    <controls:ToggleSwitch Name="NextUpSwitch" IsChecked="{Binding NextUpEnabled, Mode=TwoWay}"/>
+                </ui:CardControl>
+                <ui:CardControl Grid.Row="2" Icon="{ui:SymbolIcon Blur24}" Margin="0,0,0,3">
+                    <ui:CardControl.Header>
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock Text="{DynamicResource AcrylicWindowTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
+                            <TextBlock Text="{DynamicResource AcrylicWindowDescription}" FontSize="12" Opacity="0.5"/>
+                        </StackPanel>
+                    </ui:CardControl.Header>
+                    <controls:ToggleSwitch Name="NextUpAcrylicWindowSwitch"  IsChecked="{Binding NextUpAcrylicWindowEnabled, Mode=TwoWay}"/>
+                </ui:CardControl>
+                <ui:CardControl Grid.Row="3" Icon="{ui:SymbolIcon Timer24}" Margin="0,0,0,3">
+                    <ui:CardControl.Header>
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock Text="{DynamicResource NextUpStayDurationTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
+                            <TextBlock Text="{DynamicResource NextUpStayDurationDescription}" FontSize="12" Opacity="0.5"/>
+                        </StackPanel>
+                    </ui:CardControl.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <ui:TextBox Name="NextUpDurationTextBox" Width="60" ClearButtonEnabled="False" Text="{Binding NextUpDurationText, Mode=TwoWay}"/>
+                        <TextBlock Text="{DynamicResource MillisecondsUnit}" FontSize="14" FontWeight="Regular" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </ui:CardControl>
+            </Grid>
+        </StackPanel>
+    </ui:PassiveScrollViewer>
+</Page>

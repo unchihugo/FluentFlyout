@@ -1,20 +1,17 @@
 ﻿using FluentFlyout.Classes;
 using FluentFlyout.Classes.Settings;
-using FluentFlyoutWPF.Classes;
+using FluentFlyoutWPF.Pages;
 using MicaWPF.Controls;
-using Microsoft.Win32;
-using System.Diagnostics;
-using System.IO;
+using System.Threading.Tasks;
 using System.Windows;
-using Windows.ApplicationModel;
-using MessageBox = Wpf.Ui.Controls.MessageBox;
-
+using Wpf.Ui.Controls;
 
 namespace FluentFlyoutWPF;
 
 public partial class SettingsWindow : MicaWindow
 {
-    private static SettingsWindow? instance; // for singleton
+    private static SettingsWindow? instance;
+    private Type? _currentPageType;
 
     public SettingsWindow()
     {
@@ -36,18 +33,6 @@ public partial class SettingsWindow : MicaWindow
 
         Closed += (s, e) => instance = null;
         DataContext = SettingsManager.Current;
-        try // gets the version of the app, works only in release mode
-        {
-            var version = Package.Current.Id.Version;
-            VersionTextBlock.Text = $"v{version.Major}.{version.Minor}.{version.Build}";
-        }
-        catch
-        {
-            VersionTextBlock.Text = "debug version";
-        }
-
-        ThemeManager.ApplySavedTheme();
-        UpdateMonitorList();
     }
 
     public static void ShowInstance()
@@ -66,8 +51,36 @@ public partial class SettingsWindow : MicaWindow
 
             instance.Activate();
             instance.Focus();
-            instance.UpdateMonitorList();
         }
+    }
+
+    private async void SettingsWindow_Loaded(object sender, RoutedEventArgs e)
+    {
+        _currentPageType = typeof(HomePage);
+        RootNavigation.Navigate(_currentPageType);
+        
+        // Subscribe to navigation to track current page
+        RootNavigation.Navigated += (s, args) =>
+        {
+            _currentPageType = args.Page?.GetType();
+        };
+        
+        // Subscribe to theme change to refresh NavigationView if needed
+        SettingsManager.Current.PropertyChanged += (s, args) =>
+        {
+            if (args.PropertyName == nameof(SettingsManager.Current.AppTheme))
+            {
+                // Force NavigationView to refresh after theme change
+                Dispatcher.InvokeAsync(() =>
+                {
+                    if (_currentPageType != null)
+                    {
+                        Task.Delay(200).Wait();
+                        RootNavigation.Navigate(_currentPageType);
+                    }
+                }, System.Windows.Threading.DispatcherPriority.Loaded);
+            }
+        };
     }
 
     private void SettingsWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -79,168 +92,5 @@ public partial class SettingsWindow : MicaWindow
     {
         SettingsManager.SaveSettings();
         Close();
-    }
-
-    private void StartupSwitch_Click(object sender, RoutedEventArgs e)
-    {
-        // might not work if installed using MSIX, needs investigation
-        SetStartup(StartupSwitch.IsChecked ?? false);
-    }
-
-    private void SetStartup(bool enable)
-    {
-        try
-        {
-            using var key = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true);
-            if (key == null) return;
-            const string appName = "FluentFlyout";
-            var executablePath = Environment.ProcessPath;
-
-            if (enable)
-            {
-                // Check if the path is valid before setting
-                if (File.Exists(executablePath))
-                {
-                    key.SetValue(appName, executablePath);
-                }
-                else
-                {
-                    throw new FileNotFoundException("Application executable not found");
-                }
-            }
-            else
-            {
-                if (key.GetValue(appName) != null)
-                {
-                    key.DeleteValue(appName, false);
-                }
-            }
-        }
-        catch (Exception ex)
-        {
-            MessageBox messageBox = new()
-            {
-                Title = "Error",
-                Content = $"Failed to set startup: {ex.Message}",
-                CloseButtonText = "OK",
-            };
-
-            _ = messageBox.ShowDialogAsync();
-        }
-    }
-
-    private void StartupHyperlink_RequestNavigate(object sender,
-        System.Windows.Navigation.RequestNavigateEventArgs e)
-    {
-        Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri) { UseShellExecute = true });
-        e.Handled = true;
-    }
-
-    private async void UnlockPremiumButton_Click(object sender, RoutedEventArgs e)
-    {
-        try
-        {
-            // Disable button during purchase
-            if (sender is System.Windows.Controls.Button button)
-            {
-                button.IsEnabled = false;
-                button.Content = "Processing...";
-            }
-
-            (bool success, string result) = await LicenseManager.Instance.PurchasePremiumAsync();
-
-            if (success)
-            {
-                // Update settings with new license status
-                SettingsManager.Current.IsPremiumUnlocked = true;
-
-                MessageBox messageBox = new()
-                {
-                    Title = "Success",
-                    Content = FindResource("PremiumPurchaseSuccess").ToString(),
-                    CloseButtonText = "OK",
-                };
-
-                await messageBox.ShowDialogAsync();
-            }
-            else
-            {
-                MessageBox messageBox = new()
-                {
-                    Title = "Purchase Failed",
-                    Content = $"{FindResource("PremiumPurchaseFailed")} ({result})",
-                    CloseButtonText = "OK",
-                };
-
-                await messageBox.ShowDialogAsync();
-            }
-        }
-        catch (Exception ex)
-        {
-            MessageBox messageBox = new()
-            {
-                Title = "Error",
-                Content = $"An error occurred: {ex.Message}",
-                CloseButtonText = "OK",
-            };
-
-            await messageBox.ShowDialogAsync();
-        }
-        finally
-        {
-            // Re-enable button
-            if (sender is System.Windows.Controls.Button button)
-            {
-                button.IsEnabled = true;
-                button.Content = FindResource("UnlockPremiumButton").ToString();
-            }
-        }
-    }
-
-    private void ToggleSwitch_Click(object sender, RoutedEventArgs e)
-    {
-        bool isChecked = (bool)NIconHideSwitch.IsChecked;
-
-        MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
-
-        if (!isChecked)
-        {
-            mainWindow.nIcon.Register();
-        }
-        else
-        {
-            mainWindow.nIcon.Unregister();
-        }
-    }
-
-    private void UpdateMonitorList()
-    {
-        var monitors = WindowHelper.GetMonitors();
-
-        int update_list(int selectedMonitor, System.Windows.Controls.ComboBox comboBox)
-        {
-            comboBox.Items.Clear();
-
-            var resetToPrimary = selectedMonitor >= monitors.Count || selectedMonitor < 0;
-
-            for (int i = 0; i < monitors.Count; i++)
-            {
-                var monitor = monitors[i];
-                var cb = new System.Windows.Controls.ComboBoxItem()
-                {
-                    Content = monitor.isPrimary ? (i + 1).ToString() + " *" : (i + 1).ToString(),
-                };
-                if (resetToPrimary && monitor.isPrimary)
-                    selectedMonitor = i;
-
-                comboBox.Items.Add(cb);
-            }
-
-            comboBox.SelectedIndex = selectedMonitor;
-            return selectedMonitor;
-        }
-
-        SettingsManager.Current.FlyoutSelectedMonitor = update_list(SettingsManager.Current.FlyoutSelectedMonitor, FlyoutSelectedMonitorComboBox);
-        SettingsManager.Current.TaskbarWidgetSelectedMonitor = update_list(SettingsManager.Current.TaskbarWidgetSelectedMonitor, TaskbarWidgetSelectedMonitorComboBox);
     }
 }
