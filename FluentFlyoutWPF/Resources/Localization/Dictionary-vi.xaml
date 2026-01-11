@@ -23,7 +23,7 @@
     <system:String x:Key="RepeatButtonDescription">Lặp lại nội dung một lần hoặc liên tục</system:String>
     <system:String x:Key="ShuffleButtonTitle">Nút trộn bài*</system:String>
     <system:String x:Key="ShuffleButtonDescription">Ngẫu nhiên chọn nội dung</system:String>
-    <system:String x:Key="ShowSeekbarTitle">Thanh phát lại</system:String>
+    <system:String x:Key="ShowSeekbarTitle">Thanh phát lại*</system:String>
     <system:String x:Key="ShowSeekbarDescription">Tua đi tua lại nội dung</system:String>
     <system:String x:Key="UnsupportedControlsWarning">*Một số ứng dụng không hỗ trợ chức năng lặp lại, trộn bài hoặc hiện thanh phát lại.</system:String>
     <system:String x:Key="PauseOtherMediaTitle">Tự động tạm dừng các nội dung khác</system:String>
