@@ -34,7 +34,7 @@ hides repeat, shuffle and player info</System:String>
     <System:String x:Key="RepeatButtonDescription">Choose between repeat all or repeat one, increases flyout width</System:String>
     <System:String x:Key="ShuffleButtonTitle">Shuffle Button*</System:String>
     <System:String x:Key="ShuffleButtonDescription">Increases flyout width</System:String>
-    <System:String x:Key="ShowSeekbarTitle">Show Seekbar</System:String>
+    <System:String x:Key="ShowSeekbarTitle">Show Seekbar*</System:String>
     <System:String x:Key="ShowSeekbarDescription">An interactable seekbar will automatically display if the player supports it</System:String>
     <System:String x:Key="UnsupportedControlsWarning">*Some browsers/players do not support repeat, shuffle and seekbar control.</System:String>
     <System:String x:Key="PauseOtherMediaTitle">Pause Other Media Automatically</System:String>
