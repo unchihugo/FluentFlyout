@@ -143,4 +143,7 @@
     <system:String x:Key="TaskbarWidgetManualPaddingTitle">自定义间距</system:String>
     <system:String x:Key="TaskbarWidgetManualPaddingDescription">添加额外的间距（默认：0 像素）</system:String>
     <system:String x:Key="PixelsUnit">像素</system:String>
+    <system:String x:Key="UpdateToastTitle">FluentFlyout 已成功更新！</system:String>
+    <system:String x:Key="UpdateToastMessage">当前版本为 {0}。</system:String>
+    <system:String x:Key="UpdateToastButton">查看更新日志</system:String>
 </ResourceDictionary>
