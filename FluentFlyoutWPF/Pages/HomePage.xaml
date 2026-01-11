@@ -7,7 +7,7 @@
       xmlns:viewModels="clr-namespace:FluentFlyoutWPF.ViewModels"
       xmlns:classes="clr-namespace:FluentFlyout.Classes"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      d:DesignHeight="800" d:DesignWidth="600"
       Title="HomePage"
       d:DataContext="{d:DesignInstance viewModels:UserSettings}"
 	  ui:Design.Background="{DynamicResource ApplicationBackgroundBrush}"
@@ -27,19 +27,21 @@
             </StackPanel>
 
             <TextBlock Text="Home" FontSize="24" FontWeight="SemiBold" FontFamily="Segoe UI Variable" Margin="0,36,0,12"/>
-            <ui:Button Appearance="Transparent" Padding="0,0,16,0" BorderBrush="Transparent" Margin="0,0,0,36" Click="ViewUpdates_Click">
-                <StackPanel Orientation="Horizontal">
-                    <Border CornerRadius="8" ClipToBounds="True" Width="200" Height="98" Margin="0,0,16,0">
-                        <Border.Background>
-                            <ImageBrush ImageSource="/Resources/FluentFlyoutHero-NoTitle.webp" Stretch="UniformToFill"/>
-                        </Border.Background>
-                    </Border>
-                    <StackPanel Orientation="Vertical" VerticalAlignment="Center">
-                        <ui:TextBlock Text="{DynamicResource UpdateToastButton}" FontWeight="SemiBold"/>
-                        <ui:TextBlock Text="{DynamicResource UpdateToastTitle}" Opacity="0.5"/>
+            <StackPanel Orientation="Horizontal">
+                <ui:Button Appearance="Transparent" Padding="0,0,16,0" BorderBrush="Transparent" Margin="0,0,0,36" Click="ViewUpdates_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <Border CornerRadius="8" ClipToBounds="True" Width="200" Height="98" Margin="0,0,16,0">
+                            <Border.Background>
+                                <ImageBrush ImageSource="/Resources/FluentFlyoutHero-NoTitle.webp" Stretch="UniformToFill"/>
+                            </Border.Background>
+                        </Border>
+                        <StackPanel Orientation="Vertical" VerticalAlignment="Center">
+                            <ui:TextBlock Text="{DynamicResource UpdateToastButton}" FontWeight="SemiBold"/>
+                            <ui:TextBlock Text="{DynamicResource UpdateToastTitle}" Opacity="0.5"/>
+                        </StackPanel>
                     </StackPanel>
-                </StackPanel>
-            </ui:Button>
+                </ui:Button>
+            </StackPanel>
 
             <TextBlock Grid.Row="6" Text="Dashboard" FontSize="14" FontWeight="SemiBold" Margin="0,0,0,6"/>
             <Grid Margin="-4">
@@ -147,7 +149,37 @@
                     </StackPanel>
                 </ui:CardAction>
             </Grid>
-            <TextBlock Text="{DynamicResource AboutPremiumTitle}" FontSize="20" FontWeight="SemiBold" FontFamily="Segoe UI Variable" Margin="0,36,0,0"/>
+
+            <StackPanel Orientation="Horizontal" Margin="0,16,0,0">
+                <ui:Button Appearance="Transparent" Padding="16,0,16,0" Height="48" BorderBrush="Transparent" Margin="0,0,8,0" Click="ViewUpdates_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <StackPanel Orientation="Vertical" VerticalAlignment="Center">
+                            <ui:SymbolIcon Symbol="StoreMicrosoft20" FontSize="18" Filled="False" />
+                            <ui:TextBlock Text="Microsoft Store" FontWeight="Normal"/>
+                        </StackPanel>
+                    </StackPanel>
+                </ui:Button>
+                
+                <ui:Button Appearance="Transparent" Padding="16,0,16,0" Height="48" BorderBrush="Transparent" Margin="0,0,8,0" Click="ViewUpdates_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <StackPanel Orientation="Vertical" VerticalAlignment="Center">
+                                <ui:SymbolIcon Symbol="FolderOpen20" FontSize="18" Filled="False" />
+                                <ui:TextBlock Text="{DynamicResource TrayIcon_ViewLogsOption}" FontWeight="Normal"/>
+                        </StackPanel>
+                    </StackPanel>
+                </ui:Button>
+
+                <ui:Button Appearance="Transparent" Padding="16,0,16,0" Height="48" BorderBrush="Transparent" Margin="0,0,8,0" Click="ViewUpdates_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <StackPanel Orientation="Vertical" VerticalAlignment="Center">
+                                <ui:SymbolIcon Symbol="Bug20" FontSize="18" Filled="False" />
+                                <ui:TextBlock Text="{DynamicResource TrayIcon_ReportBugOption}" FontWeight="Normal"/>
+                        </StackPanel>
+                    </StackPanel>
+                </ui:Button>
+            </StackPanel>
+            
+            <TextBlock Text="{DynamicResource AboutPremiumTitle}" FontSize="14" FontWeight="SemiBold" FontFamily="Segoe UI Variable" Margin="0,36,0,0"/>
             <Grid Margin="0,12,0,0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
