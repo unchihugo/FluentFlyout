@@ -177,10 +177,6 @@ public partial class TaskbarWindow : Window
                 handled = true;
                 return IntPtr.Zero;
 
-            case 0x0003: // WM_MOVE - Triggers when windows are moved, breaks widget size calculations when handled
-            case 0x0005: // WM_SIZE - Triggers when windows change size, breaks widget media changes when handled
-            case 0x0086: // WM_NCACTIVATE - Triggers when clicking taskbar icons, breaks taskbar interaction when handled
-                return IntPtr.Zero;
                 // Handle other known harmless messages that are sent when FluentFlyout starts, Windows locks, etc.
                 // Needs testing
                 //case 0x0047:
@@ -191,8 +187,6 @@ public partial class TaskbarWindow : Window
                 //    handled = true;
                 //    return IntPtr.Zero;
         }
-
-        Logger.Debug($"Unhandled Taskbar Widget message: 0x{msg:X}");
 
         return IntPtr.Zero;
     }
