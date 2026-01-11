@@ -48,7 +48,7 @@
     <system:String x:Key="LaunchOnStartupTitle">Khởi động cùng Windows</system:String>
     <system:String x:Key="LaunchOnStartupDescription">Giao diện cài đặt sẽ không hiển thị</system:String>
     <system:String x:Key="StartupAppsSettingsInfo">Nếu ứng dụng không khởi động, bạn hãy điều chỉnh</system:String>
-    <system:String x:Key="AppThemeTitle">Chế độ sáng/tối</system:String>
+    <system:String x:Key="AppThemeTitle">Phối màu</system:String>
     <system:String x:Key="AppThemeDefault"> Theo hệ thống</system:String>
     <system:String x:Key="AppThemeLight"> Sáng</system:String>
     <system:String x:Key="AppThemeDark"> Tối</system:String>
@@ -58,12 +58,12 @@
     <system:String x:Key="TrayIconLeftClickOption2"> Giao diện điều khiển phát lại</system:String>
     <system:String x:Key="Win11TrayIconTitle">Biểu tượng đơn sắc</system:String>
     <system:String x:Key="Win11TrayIconDescription">Dùng biểu tượng đơn sắc trong khay hệ thống</system:String>
-    <system:String x:Key="AnimationSettingsTitle">Hiệu ứng chuyển động</system:String>
-    <system:String x:Key="AnimationSettingsDescription">Điều chỉnh tốc độ và hiệu ứng làm mượt chuyển động cho các giao diện bay ra</system:String>
+    <system:String x:Key="AnimationSettingsTitle">Chuyển động bay ra</system:String>
+    <system:String x:Key="AnimationSettingsDescription">Điều chỉnh tốc độ và hiệu ứng làm mượt chuyển động bay ra của các giao diện</system:String>
     <system:String x:Key="AnimationDurationScaleTitle">Tốc độ chuyển động</system:String>
     <system:String x:Key="AnimationEasingStyleTitle">Làm mượt chuyển động</system:String>
     <system:String x:Key="AnimationSpeedOff">Không hiệu ứng</system:String>
-    <system:String x:Key="AnimationDurationScaleDescription">Điều chỉnh tốc độ hiện/ẩn giao diện (mặc định: 1x)</system:String>
+    <system:String x:Key="AnimationDurationScaleDescription">(mặc định: 1x)</system:String>
     <system:String x:Key="AnimationEasingStyleDescription">(mặc định: Hàm số bậc hai)</system:String>
     <system:String x:Key="EasingLinear" xml:space="preserve"> Tuyến tính</system:String>
     <system:String x:Key="EasingSine" xml:space="preserve"> Sin</system:String>
@@ -110,8 +110,8 @@ Bạn có thể hỗ trợ dịch tại</system:String>
     <system:String x:Key="TaskbarWidgetHideCompletelyDescription">Ẩn widget khi không phát</system:String>
     <system:String x:Key="TaskbarWidgetControlsTitle">Thêm điều khiển phát lại</system:String>
     <system:String x:Key="TaskbarWidgetControlsDescription">Chỉ thêm vào widget</system:String>
-    <system:String x:Key="TaskbarWidgetAnimatedTitle">Hiệu ứng chuyển động</system:String>
-    <system:String x:Key="TaskbarWidgetAnimatedDescription">Chuyển động mỗi khi chuyển nội dung</system:String>
+    <system:String x:Key="TaskbarWidgetAnimatedTitle">Hiệu ứng chuyển tiếp</system:String>
+    <system:String x:Key="TaskbarWidgetAnimatedDescription">Xuất hiện hiệu ứng khi chuyển tiếp nội dung</system:String>
     <system:String x:Key="PremiumFeatureTitle">Tính năng premium</system:String>
     <system:String x:Key="PremiumFeatureDescription" xml:space="preserve">Nếu tải từ Microsoft Store, bạn có thể mở khóa premium qua giao dịch trong ứng dụng. Số tiền nho nhỏ từ bạn góp phần tạo động lực để tác giả phát triển dự án này.
         
