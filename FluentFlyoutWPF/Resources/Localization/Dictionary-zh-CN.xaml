@@ -33,7 +33,7 @@
     <system:String x:Key="RepeatButtonDescription">可选择循环播放或单曲循环，会增大浮窗宽度</system:String>
     <system:String x:Key="ShuffleButtonTitle">随机播放按钮*</system:String>
     <system:String x:Key="ShuffleButtonDescription">会增大浮窗宽度</system:String>
-    <system:String x:Key="ShowSeekbarTitle">显示进度条</system:String>
+    <system:String x:Key="ShowSeekbarTitle">显示进度条*</system:String>
     <system:String x:Key="ShowSeekbarDescription">如果播放器支持，将会自动显示可交互的进度条</system:String>
     <system:String x:Key="UnsupportedControlsWarning">* 一些浏览器 / 播放器不支持重复、随机播放按钮和进度条控制。</system:String>
     <system:String x:Key="PauseOtherMediaTitle">自动暂停其它媒体内容</system:String>
