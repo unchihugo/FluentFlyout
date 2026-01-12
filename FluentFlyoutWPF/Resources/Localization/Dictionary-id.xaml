@@ -33,7 +33,7 @@ menyembunyikan tombol ulangi (repeat), acak (shuffle), serta informasi pemutar</
     <system:String x:Key="RepeatButtonDescription">Pilih diantara ulangi semua atau ulangi satu, meningkatkan lebar flyout</system:String>
     <system:String x:Key="ShuffleButtonTitle">Tombol Acak*</system:String>
     <system:String x:Key="ShuffleButtonDescription">Tingkatkan lebar flyout</system:String>
-    <system:String x:Key="ShowSeekbarTitle">Tampilkan Seekbar</system:String>
+    <system:String x:Key="ShowSeekbarTitle">Tampilkan Seekbar*</system:String>
     <system:String x:Key="ShowSeekbarDescription">Seekbar yang dapat berinteraksi akan otomatis muncul jika player mendukungnya</system:String>
     <system:String x:Key="UnsupportedControlsWarning">*Beberapa browser tidak mendukung mengulangi(repeat), acak(shuffle) dan kontrol seekbar.</system:String>
     <system:String x:Key="PauseOtherMediaTitle">Jeda Media Lain secara Otomatis</system:String>

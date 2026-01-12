@@ -33,7 +33,7 @@
     <system:String x:Key="RepeatButtonDescription">اختر بين تكرار الكل أو تكرار واحد، مما يزيد من عرض القائمة المنبثقة</system:String>
     <system:String x:Key="ShuffleButtonTitle">زر الخلط*</system:String>
     <system:String x:Key="ShuffleButtonDescription">يزيد عرض القائمة المنبثقة</system:String>
-    <system:String x:Key="ShowSeekbarTitle">إظهار شريط البحث</system:String>
+    <system:String x:Key="ShowSeekbarTitle">إظهار شريط البحث*</system:String>
     <system:String x:Key="ShowSeekbarDescription">سيتم عرض شريط البحث التفاعلي تلقائيًا إذا كان المشغل يدعمه</system:String>
     <system:String x:Key="UnsupportedControlsWarning">*بعض المتصفحات/المشغلات لا تدعم التكرار والخلط والتحكم في شريط البحث.</system:String>
     <system:String x:Key="PauseOtherMediaTitle">إيقاف الوسائط الأخرى تلقائيًا</system:String>

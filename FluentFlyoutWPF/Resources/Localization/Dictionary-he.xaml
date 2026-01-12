@@ -39,7 +39,7 @@
     <system:String x:Key="RepeatButtonDescription">בחר בין חזרה על הכל או על שיר אחד, מגדיל את רוחב החלון הנשלף</system:String>
     <system:String x:Key="ShuffleButtonTitle">כפתור ערבוב*</system:String>
     <system:String x:Key="ShuffleButtonDescription">מגדיל את רוחב החלון הנשלף</system:String>
-    <system:String x:Key="ShowSeekbarTitle">הצגת סרגל חיפוש</system:String>
+    <system:String x:Key="ShowSeekbarTitle">הצגת סרגל חיפוש*</system:String>
     <system:String x:Key="ShowSeekbarDescription">סרגל חיפוש אינטראקטיבי יוצג אוטומטית אם הנגן תומך בכך</system:String>
     <system:String x:Key="UnsupportedControlsWarning">*חלק מהדפדפנים/נגנים אינם תומכים בחזרה, ערבוב או שליטה בסרגל חיפוש.</system:String>
     <system:String x:Key="PauseOtherMediaTitle">השהה מדיה אחרת באופן אוטומטי</system:String>

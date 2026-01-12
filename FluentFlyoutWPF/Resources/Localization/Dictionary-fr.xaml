@@ -16,7 +16,7 @@
     <system:String x:Key="RepeatButtonDescription">Choisissez entre répéter tout ou répéter un seul élément, cela augmente la largeur du volet déroulant</system:String>
     <system:String x:Key="ShuffleButtonTitle">Bouton lecture aléatoire*</system:String>
     <system:String x:Key="ShuffleButtonDescription">Augmente la largeur du volet</system:String>
-    <system:String x:Key="ShowSeekbarTitle">Barre de progression</system:String>
+    <system:String x:Key="ShowSeekbarTitle">Barre de progression*</system:String>
     <system:String x:Key="ShowSeekbarDescription">Une barre de progression interactive sera affichée si le lecteur la prend en charge</system:String>
     <system:String x:Key="UnsupportedControlsWarning">*Certains navigateurs/lecteurs ne prennent pas en charge les fonctions de répétition, de lecture aléatoire et la barre de progression.</system:String>
     <system:String x:Key="PauseOtherMediaTitle">Mettre en pause automatiquement les autres médias</system:String>
