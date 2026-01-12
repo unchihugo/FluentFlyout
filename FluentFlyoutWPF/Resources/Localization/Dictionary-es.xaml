@@ -30,7 +30,7 @@ oculta los botones de repetir y aleatorio y la información del reproductor</sys
     <system:String x:Key="RepeatButtonDescription">Elige entre repetir todo o repetir uno, aumenta el ancho del flyout</system:String>
     <system:String x:Key="ShuffleButtonTitle">Botón de Aleatorio*</system:String>
     <system:String x:Key="ShuffleButtonDescription">Aumenta el ancho del flyout</system:String>
-    <system:String x:Key="ShowSeekbarTitle">Mostrar barra de progreso</system:String>
+    <system:String x:Key="ShowSeekbarTitle">Mostrar barra de progreso*</system:String>
     <system:String x:Key="ShowSeekbarDescription">Una barra de progreso aparecerá si el reproductor lo soporta</system:String>
     <system:String x:Key="UnsupportedControlsWarning">*Algunos navegadores/reproductores no soportan controles para repetir, aleatorio o la barra de progreso.</system:String>
     <system:String x:Key="PauseOtherMediaTitle">Pausar Otro Contenido Multimedia Automáticamente</system:String>
