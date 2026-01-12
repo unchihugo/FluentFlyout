@@ -33,7 +33,7 @@
     <system:String x:Key="RepeatButtonDescription">選擇全部重複或單一重複，增加彈出視窗寬度</system:String>
     <system:String x:Key="ShuffleButtonTitle">隨機播放按鈕*</system:String>
     <system:String x:Key="ShuffleButtonDescription">增加彈出視窗寬度</system:String>
-    <system:String x:Key="ShowSeekbarTitle">顯示進度條</system:String>
+    <system:String x:Key="ShowSeekbarTitle">顯示進度條*</system:String>
     <system:String x:Key="ShowSeekbarDescription">如果播放器支持則會自動顯示可互動的進度條</system:String>
     <system:String x:Key="UnsupportedControlsWarning">*某些瀏覽器/播放器不支援重複、隨機播放和進度條控制。</system:String>
     <system:String x:Key="PauseOtherMediaTitle">自動暫停其他媒體</system:String>
