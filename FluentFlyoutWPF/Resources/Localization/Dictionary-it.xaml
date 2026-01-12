@@ -39,7 +39,7 @@ nasconde ripeti, riproduzione casuale e le informazioni del player</system:Strin
     <system:String x:Key="RepeatButtonDescription">Scegliere tra ripeti tutti e ripeti la singola canzone, aumente la larghezza del flyout</system:String>
     <system:String x:Key="ShuffleButtonTitle">Pulsante ripetizione casuale*</system:String>
     <system:String x:Key="ShuffleButtonDescription">Aumenta la larghezza del flyout</system:String>
-    <system:String x:Key="ShowSeekbarTitle">Mostra barra di ricerca</system:String>
+    <system:String x:Key="ShowSeekbarTitle">Mostra barra di ricerca*</system:String>
     <system:String x:Key="ShowSeekbarDescription">Una barra di ricerca iteragibile che verrà mostrata autonomamente se il player lo supporta</system:String>
     <system:String x:Key="UnsupportedControlsWarning">*Alcuni Browser/Player non supportano il ripeti, riproduzione casuale e la barra di ricerca.</system:String>
     <system:String x:Key="PauseOtherMediaTitle">Ferma gli altri media autonomamente</system:String>

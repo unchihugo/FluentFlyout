@@ -14,7 +14,7 @@
     <system:String x:Key="RepeatButtonTitle">Botão de Repetir*</system:String>
     <system:String x:Key="ShuffleButtonTitle">Botão de Ordem Aleatória*</system:String>
     <system:String x:Key="ShuffleButtonDescription">Aumentar tamanho do submenu</system:String>
-    <system:String x:Key="ShowSeekbarTitle">Mostrar barra de busca</system:String>
+    <system:String x:Key="ShowSeekbarTitle">Mostrar barra de busca*</system:String>
     <system:String x:Key="PauseOtherMediaTitle">Pausar Outra Mídia Automaticamente</system:String>
     <system:String x:Key="NextUpCustomizationTitle">Customização do Próximo</system:String>
     <system:String x:Key="EnableNextUpTitle">Habilitar Submenu "Próximo" (Experimental)</system:String>

@@ -28,7 +28,7 @@ verbirgt autom. Wiederholung, Shuffle und Player-Information</system:String>
     <system:String x:Key="RepeatButtonDescription">Wählen Sie zwischen "Alle wiederholen" und "Eins wiederholen", vergrößert die Breite des Flyouts</system:String>
     <system:String x:Key="ShuffleButtonTitle">Shuffle-Knopf*</system:String>
     <system:String x:Key="ShuffleButtonDescription">Erhöht die Breite des Flyouts</system:String>
-    <system:String x:Key="ShowSeekbarTitle">Suchleiste anzeigen</system:String>
+    <system:String x:Key="ShowSeekbarTitle">Suchleiste anzeigen*</system:String>
     <system:String x:Key="ShowSeekbarDescription">Eine interaktive Suchleiste wird automatisch angezeigt, wenn der Player dies unterstützt</system:String>
     <system:String x:Key="UnsupportedControlsWarning">*Einige Browser/Player unterstützen die automatische Wiederholung, Shuffle und Suchleiste nicht.</system:String>
     <system:String x:Key="PauseOtherMediaTitle">Andere Medien automatisch pausieren</system:String>
