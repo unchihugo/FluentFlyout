@@ -31,7 +31,7 @@ Ukrywa informacje o odtwarzaczu, odtwarzanie losowe i zapętlenie</system:String
     <system:String x:Key="RepeatButtonDescription">Wybierz między powtarzaniem wszystkiego lub jednego, zwiększa szerokość panelu</system:String>
     <system:String x:Key="ShowMediaPlayerNameTitle">Pokaż nazwę odtwarzacza</system:String>
     <system:String x:Key="ShuffleButtonDescription">Zwiększa szerokość panelu</system:String>
-    <system:String x:Key="ShowSeekbarTitle">Pokaż pasek przewijania</system:String>
+    <system:String x:Key="ShowSeekbarTitle">Pokaż pasek przewijania*</system:String>
     <system:String x:Key="ShowSeekbarDescription">Interaktywny pasek przewijania wyświetli się automatycznie, jeśli odtwarzacz go obsługuje﻿</system:String>
     <system:String x:Key="UnsupportedControlsWarning">*Niektóre przeglądarki/odtwarzacze nie obsługują funkcji powtarzania, losowego odtwarzania i sterowania paskiem przewijania.</system:String>
     <system:String x:Key="PauseOtherMediaTitle">Automatycznie wstrzymaj inne media﻿</system:String>
