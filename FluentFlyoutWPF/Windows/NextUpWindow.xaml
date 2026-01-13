@@ -9,7 +9,7 @@
       mc:Ignorable="d" 
       Height="50" Width="310"
       ResizeMode="NoResize"
-      WindowStyle="None" ShowInTaskbar="False"
+      WindowStyle="None" ShowInTaskbar="False" Topmost="True"
       SystemBackdropType="Mica" ChangeTitleColorWhenInactive="False"
       TextOptions.TextRenderingMode="ClearType" TextOptions.TextFormattingMode="Ideal"
       FontFamily="Segoe UI Variable, Microsoft YaHei, Microsoft JhengHei, MS Gothic"
@@ -35,25 +35,70 @@
         </EventTrigger>
     </Window.Triggers>
 
-    <Grid Margin="12,0,12,0">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-            <ui:SymbolIcon Symbol="MusicNote120" Filled="True" Width="14" Height="14" FontSize="14" VerticalAlignment="Center" Margin="0,0,2,0"/>
-            <TextBlock x:Name="UpNextTextBlock" Text="{DynamicResource NextUpWindow_UpNextText}" FontSize="12" VerticalAlignment="Center" FontFamily="Segoe UI Variable" FontWeight="Medium"/>
-        </StackPanel>
-        <Border Grid.Column="1" Name="SongImageBorder" CornerRadius="6" Margin="12,1,0,0" ClipToBounds="True" Width="38" Height="38">
-            <ui:SymbolIcon Name="SongImagePlaceholder" Symbol="MusicNote220" FontSize="40" Filled="True" Foreground="{DynamicResource MicaWPF.Brushes.SystemAccentColorLight2}" Visibility="Collapsed" />
+    <Grid>
+        <Border VerticalAlignment="Stretch" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Stretch" x:Name="BackgroundBorder" Margin="-100">
             <Border.Background>
-                <ImageBrush x:Name="SongImage" Stretch="UniformToFill"/>
+                <RadialGradientBrush Center="0.5,0.5" GradientOrigin="0.5,0.5"  RadiusX="0.6" RadiusY="1.5" Opacity="1">
+                    <GradientStop Color="#ffffffff" x:Name="BackgroundGradientStopColor" Offset="0"/>
+                    <GradientStop Color="{ui:ThemeResource SolidBackgroundFillColorTransparent}" Offset="0.7"/>
+                </RadialGradientBrush>
             </Border.Background>
+            <Border.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform  x:Name="BackgroundScale"/>
+                    <TranslateTransform x:Name="BackgroundTranslate"/>
+                </TransformGroup>
+            </Border.RenderTransform>
         </Border>
-        <StackPanel Grid.Column="2" Name="SongInfoStackPanel" Margin="6,0,0,0" Orientation="Vertical" VerticalAlignment="Center">
-            <TextBlock Name="SongTitle" Text="Song Title" FontSize="14" FontFamily="Segoe UI Variable" FontWeight="Medium" TextTrimming="CharacterEllipsis"/>
-            <TextBlock Name="SongArtist" Text="Artist Name" FontSize="14" FontFamily="Segoe UI Variable" FontWeight="Medium" Opacity="0.5" TextTrimming="CharacterEllipsis"/>
+
+        <Grid Margin="12,0,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="80" x:Name="TitleColumn"/>
+                <ColumnDefinition Width="50"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Border Grid.Column="1" x:Name="SongImageBorder" RenderTransformOrigin="0.5,0.5" CornerRadius="6" Margin="2" HorizontalAlignment="Center" ClipToBounds="True" Width="38" Height="38" Opacity="0">
+                <Border.RenderTransform>
+                    <TransformGroup>
+                        <TranslateTransform x:Name="ImageTranslate" Y="0"/>
+                        <ScaleTransform x:Name="ImageScale" ScaleX="0.3" ScaleY="0.3"/>
+                    </TransformGroup>
+                </Border.RenderTransform>
+                <ui:SymbolIcon Name="SongImagePlaceholder" Symbol="MusicNote220" FontSize="40" Filled="True" Foreground="{ui:ThemeResource SystemAccentColorPrimaryBrush}" Visibility="Collapsed" />
+                <Border.Background>
+                    <ImageBrush x:Name="SongImage" Stretch="UniformToFill"/>
+                </Border.Background>
+                <Border.Effect>
+                    <BlurEffect  KernelType="Gaussian" Radius="6" x:Name="ImageBlur"/>
+                </Border.Effect>
+            </Border>
+            <StackPanel Grid.Column="2" RenderTransformOrigin="0.5,0.5" x:Name="SongInfoStackPanel" Margin="6,0,0,0" Orientation="Vertical" VerticalAlignment="Center" Opacity="0">
+                <StackPanel.RenderTransform>
+                    <TransformGroup>
+                        <TranslateTransform Y="0" x:Name="InfoTranslate"/>
+                        <ScaleTransform ScaleX="0.3" ScaleY="0.3" x:Name="InfoScale"/>
+                    </TransformGroup>
+                </StackPanel.RenderTransform>
+                <TextBlock Name="SongTitle" Text="Song Title" FontSize="14" FontFamily="Segoe UI Variable" FontWeight="Medium" TextTrimming="CharacterEllipsis" />
+                <TextBlock Name="SongArtist" Text="Artist Name" FontSize="14" FontFamily="Segoe UI Variable" FontWeight="Medium" Opacity="0.5" TextTrimming="CharacterEllipsis"/>
+                <StackPanel.Effect>
+                    <BlurEffect  KernelType="Gaussian" Radius="6" x:Name="InfoBlur"/>
+                </StackPanel.Effect>
+            </StackPanel>
+        </Grid>
+        <StackPanel Name="NextTitle" Orientation="Horizontal" Opacity="0" VerticalAlignment="Center" HorizontalAlignment="Center" RenderTransformOrigin="0.5,0.5">
+            <ui:SymbolIcon Symbol="MusicNote120" Filled="True" Width="14" Height="14" FontSize="14" VerticalAlignment="Center" Margin="0,0,2,0"/>
+            <TextBlock Text="{DynamicResource NextUpWindow_UpNextText}" FontSize="12" VerticalAlignment="Center" FontFamily="Segoe UI Variable" FontWeight="Medium"/>
+            <StackPanel.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform x:Name="TitleScale" ScaleX="0.3" ScaleY="0.3" />
+                    <TranslateTransform x:Name="TitleTranslate" X="0"/>
+                </TransformGroup>
+            </StackPanel.RenderTransform>
+            <StackPanel.Effect>
+                <BlurEffect  KernelType="Gaussian" Radius="6" x:Name="TitleBlur"/>
+            </StackPanel.Effect>
         </StackPanel>
     </Grid>
+
 </controls:MicaWindow>

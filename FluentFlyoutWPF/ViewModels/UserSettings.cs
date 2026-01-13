@@ -125,18 +125,24 @@ public partial class UserSettings : ObservableObject
                 NextUpDuration = result switch
                 {
                     > 10000 => 10000,
-                    < 0 => 0,
+                    < 2000 => 2000,
                     _ => result
                 };
             }
             else
             {
-                NextUpDuration = 2000;
+                NextUpDuration = 2500;
             }
 
             OnPropertyChanged();
         }
     }
+
+    /// <summary>
+    /// Enable the 'Next Up' Advanced animation
+    /// </summary>
+    [ObservableProperty]
+    public partial bool IsNextUpAdvancedAnimationEnabled { get; set; }
 
     /// <summary>
     /// Tray icon left-click behavior
@@ -357,7 +363,7 @@ public partial class UserSettings : ObservableObject
     /// Gets or sets a value indicating whether the taskbar widget is clickable
     /// </summary>
     [ObservableProperty]
-    public partial bool TaskbarWidgetClickable { get; set; }
+    public partial int TaskbarWidgetTriggerType { get; set; }
 
     /// <summary>
     /// Gets or sets a value indication whether the taskbar widget background should have a blur effect
@@ -416,7 +422,7 @@ public partial class UserSettings : ObservableObject
         Startup = true;
         Duration = 3000;
         NextUpEnabled = false;
-        NextUpDuration = 2000;
+        NextUpDuration = 2500;
         NIconLeftClick = 0;
         CenterTitleArtist = false;
         FlyoutAnimationEasingStyle = 2;
@@ -437,13 +443,15 @@ public partial class UserSettings : ObservableObject
         MediaFlyoutAcrylicWindowEnabled = true;
         AppLanguage = "system";
         NextUpAcrylicWindowEnabled = true;
+        IsNextUpAdvancedAnimationEnabled = true;
         LockKeysAcrylicWindowEnabled = true;
         TaskbarWidgetEnabled = false;
         TaskbarWidgetSelectedMonitor = 0;
         TaskbarWidgetPosition = 0;
         TaskbarWidgetPadding = true;
+        TaskbarWidgetTriggerType = 2;
         TaskbarWidgetManualPadding = 0;
-        TaskbarWidgetClickable = true;
+        //TaskbarWidgetClickable = true;
         TaskbarWidgetBackgroundBlur = false;
         TaskbarWidgetHideCompletely = false;
         TaskbarWidgetControlsEnabled = false;
@@ -514,7 +522,7 @@ public partial class UserSettings : ObservableObject
         UpdateTaskbar();
     }
 
-    partial void OnTaskbarWidgetClickableChanged(bool oldValue, bool newValue)
+    partial void OnTaskbarWidgetTriggerTypeChanged(int oldValue, int newValue)
     {
         if (oldValue == newValue || _initializing) return;
         UpdateTaskbar();
