@@ -7,14 +7,10 @@
       xmlns:controls="clr-namespace:MicaWPF.Controls;assembly=MicaWPF"
       xmlns:viewModels="clr-namespace:FluentFlyoutWPF.ViewModels"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      d:DesignHeight="2000" d:DesignWidth="800"
       Title="SystemPage"
-      d:DataContext="{d:DesignInstance viewModels:UserSettings}"
-	  ui:Design.Background="{DynamicResource ApplicationBackgroundBrush}"
-    ui:Design.Foreground="{DynamicResource TextFillColorPrimaryBrush}"
-	Foreground="{DynamicResource TextFillColorPrimaryBrush}">
+      d:DataContext="{d:DesignInstance viewModels:UserSettings}">
 
-    <ui:PassiveScrollViewer HorizontalScrollBarVisibility="Auto">
         <StackPanel MaxWidth="1000" Margin="16">
             <TextBlock Text="{DynamicResource SystemSettingsTitle}" FontSize="24" FontWeight="SemiBold" Margin="0,0,0,24"/>
             <Grid>
@@ -145,10 +141,30 @@
                     </ui:CardControl.Header>
                     <controls:ToggleSwitch Name="DisableIfFullscreenSwitch" IsChecked="{Binding DisableIfFullscreen, Mode=TwoWay}"/>
                 </ui:CardControl>
+                <ui:CardControl Grid.Row="6" Icon="{ui:SymbolIcon ArrowMinimize24}" Margin="0,0,0,3">
+                    <ui:CardControl.Header>
+                        <StackPanel Orientation="Vertical">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Acrylic Blur Opacity" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
+                                <ui:InfoBadge Value=" PREMIUM " FontSize="10" FontWeight="Medium" Margin="6,-2,0,-2" Severity="Attention"/>
+                            </StackPanel>
+                            <TextBlock Text="Adjust the see-through effect on Acrylic flyouts (default: 175)" FontSize="12" Opacity="0.5"/>
+                        </StackPanel>
+                    </ui:CardControl.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <Slider Minimum="0" Maximum="255" Value="{Binding AcrylicBlurOpacity, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}" TickFrequency="5" IsSnapToTickEnabled="True" Width="150"
+                                ToolTip="{Binding AcrylicBlurOpacity}"
+                                ToolTipService.Placement="MousePoint"
+                                ToolTipService.ShowOnDisabled="False"
+                                ToolTipService.InitialShowDelay="0"
+                                ToolTipService.ShowDuration="2000"/>
+                        <ui:TextBlock Text="{Binding AcrylicBlurOpacity}" Width="24" TextAlignment="Center" Margin="12,0,0,0"/>
+                    </StackPanel>
+                </ui:CardControl>
 
                 <!-- tray icon section -->
-                <TextBlock Grid.Row="6" Text="{DynamicResource TrayIconSectionTitle}" FontSize="14" FontWeight="SemiBold" Margin="0,12,0,6"/>
-                <ui:CardControl Grid.Row="7" Icon="{ui:SymbolIcon CursorHover24}" Margin="0,0,0,3">
+                <TextBlock Grid.Row="7" Text="{DynamicResource TrayIconSectionTitle}" FontSize="14" FontWeight="SemiBold" Margin="0,12,0,6"/>
+                <ui:CardControl Grid.Row="8" Icon="{ui:SymbolIcon CursorHover24}" Margin="0,0,0,3">
                     <ui:CardControl.Header>
                         <StackPanel Orientation="Vertical">
                             <TextBlock Text="{DynamicResource TrayIconLeftClickBehaviorTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
@@ -162,7 +178,7 @@
                         </ComboBox>
                     </StackPanel>
                 </ui:CardControl>
-                <ui:CardControl Grid.Row="8" Icon="{ui:SymbolIcon PaintBrush24}" Margin="0,0,0,3">
+                <ui:CardControl Grid.Row="9" Icon="{ui:SymbolIcon PaintBrush24}" Margin="0,0,0,3">
                     <ui:CardControl.Header>
                         <StackPanel Orientation="Vertical">
                             <TextBlock Text="{DynamicResource Win11TrayIconTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center"/>
@@ -171,7 +187,7 @@
                     </ui:CardControl.Header>
                     <controls:ToggleSwitch IsChecked="{Binding NIconSymbol, Mode=TwoWay}"/>
                 </ui:CardControl>
-                <ui:CardControl Grid.Row="9" Icon="{ui:SymbolIcon EyeOff24}" Margin="0,0,0,3">
+                <ui:CardControl Grid.Row="10" Icon="{ui:SymbolIcon EyeOff24}" Margin="0,0,0,3">
                     <ui:CardControl.Header>
                         <StackPanel Orientation="Vertical">
                             <StackPanel Orientation="Horizontal">
@@ -195,5 +211,4 @@
                 </StackPanel>
             </DockPanel>
         </StackPanel>
-    </ui:PassiveScrollViewer>
 </Page>

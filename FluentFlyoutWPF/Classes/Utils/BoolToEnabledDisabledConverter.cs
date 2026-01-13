@@ -2,7 +2,7 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
 
-namespace FluentFlyout.Classes;
+namespace FluentFlyoutWPF.Classes.Utils;
 
 public class BoolToEnabledDisabledConverter : IValueConverter
 {

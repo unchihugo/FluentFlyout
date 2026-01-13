@@ -5,20 +5,17 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
       xmlns:viewModels="clr-namespace:FluentFlyoutWPF.ViewModels"
-      xmlns:classes="clr-namespace:FluentFlyout.Classes"
+      xmlns:utils="clr-namespace:FluentFlyoutWPF.Classes.Utils"
       mc:Ignorable="d" 
       d:DesignHeight="800" d:DesignWidth="600"
       Title="HomePage"
       d:DataContext="{d:DesignInstance viewModels:UserSettings}"
-	  ui:Design.Background="{DynamicResource ApplicationBackgroundBrush}"
-      ui:Design.Foreground="{DynamicResource TextFillColorPrimaryBrush}"
-	  Foreground="{DynamicResource TextFillColorPrimaryBrush}">
+      >
 
     <Page.Resources>
-        <classes:BoolToEnabledDisabledConverter x:Key="BoolToEnabledDisabledConverter"/>
+        <utils:BoolToEnabledDisabledConverter x:Key="BoolToEnabledDisabledConverter"/>
     </Page.Resources>
 
-    <ui:PassiveScrollViewer HorizontalScrollBarVisibility="Auto">
         <StackPanel MaxWidth="1000" Margin="16">
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="12,0,0,0">
                 <Image Source="/Resources/FluentFlyout2.ico" Width="44" Height="44"/>
@@ -253,5 +250,4 @@
                 </StackPanel>
             </DockPanel>
         </StackPanel>
-    </ui:PassiveScrollViewer>
 </Page>

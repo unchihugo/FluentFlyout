@@ -391,6 +391,12 @@ public partial class UserSettings : ObservableObject
     public partial bool IsPremiumUnlocked { get; set; }
 
     /// <summary>
+    /// Gets or sets the opacity level of the acrylic blur effect.
+    /// </summary>
+    [ObservableProperty]
+    public partial uint AcrylicBlurOpacity { get; set; }
+
+    /// <summary>
     /// Gets whether this is a Store version. Once false, always false (only if last known version was not null).
     /// </summary>
     [ObservableProperty]
@@ -448,6 +454,7 @@ public partial class UserSettings : ObservableObject
         TaskbarWidgetHideCompletely = false;
         TaskbarWidgetControlsEnabled = false;
         TaskbarWidgetAnimated = true;
+        AcrylicBlurOpacity = 175;
     }
 
     /// <summary>
@@ -484,6 +491,12 @@ public partial class UserSettings : ObservableObject
     {
         if (oldValue == newValue || _initializing) return;
         ThemeManager.UpdateTrayIcon();
+    }
+
+    partial void OnAcrylicBlurOpacityChanged(uint oldValue, uint newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+        WindowBlurHelper.AdjustBlurOpacityForAllWindows(newValue);
     }
 
     partial void OnTaskbarWidgetEnabledChanged(bool oldValue, bool newValue)

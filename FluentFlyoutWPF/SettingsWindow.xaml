@@ -1,4 +1,5 @@
-<controls:MicaWindow x:Class="FluentFlyoutWPF.SettingsWindow"
+<ui:FluentWindow 
+	x:Class="FluentFlyoutWPF.SettingsWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -6,32 +7,29 @@
     xmlns:local="clr-namespace:FluentFlyoutWPF"
     xmlns:pages="clr-namespace:FluentFlyoutWPF.Pages"
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
-    xmlns:controls="clr-namespace:MicaWPF.Controls;assembly=MicaWPF"
     mc:Ignorable="d"
-    Height="700" MinHeight="300" MinWidth="800" SizeToContent="Width"
+    Height="700" MinHeight="300" MinWidth="900"
     Title="FluentFlyout" Icon="/Resources/FluentFlyout2.ico"
     TextOptions.TextRenderingMode="ClearType" TextOptions.TextFormattingMode="Ideal"
     FontFamily="Segoe UI Variable, Microsoft YaHei, Microsoft JhengHei, MS Gothic"
     Closing="SettingsWindow_Closing"
-    xmlns:System="clr-namespace:System;assembly=System.Runtime"
     xmlns:viewModels="clr-namespace:FluentFlyoutWPF.ViewModels"
     d:DataContext="{d:DesignInstance viewModels:UserSettings}"
 	ui:Design.Background="{DynamicResource ApplicationBackgroundBrush}"
     ui:Design.Foreground="{DynamicResource TextFillColorPrimaryBrush}"
-	Foreground="{DynamicResource TextFillColorPrimaryBrush}"
-	Background="{DynamicResource ApplicationBackgroundBrush}"
+	ExtendsContentIntoTitleBar="True"
+	WindowBackdropType="Mica"
 	Loaded="SettingsWindow_Loaded">
 
 	<Grid>
 		<ui:NavigationView x:Name="RootNavigation"
-                          IsTopSeparatorVisible="false"
-						  IsFooterSeparatorVisible="false"
-                          PaneDisplayMode="Left"
-						  TransitionDuration="300"
-						   IsBackButtonVisible="Auto"
+                           PaneDisplayMode="Left"
+						   TransitionDuration="300"
 						   IsPaneToggleVisible="true"
-						   OpenPaneLength="240"
-						   IsPaneOpen="false">
+						   Margin="0, 40, 0, 0"
+							OpenPaneLength="250"
+							IsTopSeparatorVisible="false"
+						   IsFooterSeparatorVisible="false">
 			<ui:NavigationView.MenuItems>
 				<ui:NavigationViewItem Content="Home" Icon="{ui:SymbolIcon Home24}" TargetPageType="{x:Type pages:HomePage}" />
 				<ui:NavigationViewItem Content="Media Flyout" Icon="{ui:SymbolIcon VideoPlayPause24}" TargetPageType="{x:Type pages:MediaFlyoutPage}" />
@@ -41,8 +39,24 @@
 				<ui:NavigationViewItem Content="System" Icon="{ui:SymbolIcon Settings24}" TargetPageType="{x:Type pages:SystemPage}" />
 			</ui:NavigationView.MenuItems>
 			<ui:NavigationView.FooterMenuItems>
-				<ui:NavigationViewItem Content="About" Icon="{ui:SymbolIcon Info24}" TargetPageType="{x:Type pages:AboutPage}" />
+				<ui:NavigationViewItem TargetPageType="{x:Type pages:AboutPage}" >
+					<ui:NavigationViewItem.Icon>
+						<ui:SymbolIcon FontSize="20" Symbol="Info24" />
+					</ui:NavigationViewItem.Icon>
+					<ui:NavigationViewItem.Content>
+						<TextBlock FontSize="11" Text="About" />
+					</ui:NavigationViewItem.Content>
+				</ui:NavigationViewItem>
 			</ui:NavigationView.FooterMenuItems>
 		</ui:NavigationView>
+
+		<ui:TitleBar
+            x:Name="TitleBar"
+            Title="FluentFlyout"
+            Grid.Row="0">
+			<ui:TitleBar.Icon>
+				<ui:ImageIcon Source="/Resources/FluentFlyout2.ico" />
+			</ui:TitleBar.Icon>
+		</ui:TitleBar>
 	</Grid>
-</controls:MicaWindow>
+</ui:FluentWindow>

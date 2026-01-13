@@ -14,7 +14,6 @@
 ui:Design.Foreground="{DynamicResource TextFillColorPrimaryBrush}"
 Foreground="{DynamicResource TextFillColorPrimaryBrush}">
 
-    <ui:PassiveScrollViewer HorizontalScrollBarVisibility="Auto">
         <StackPanel MaxWidth="1000" Margin="16">
             <TextBlock Text="{DynamicResource MediaFlyoutTitle}" FontSize="24" FontWeight="SemiBold" FontFamily="Segoe UI Variable" Margin="0,0,0,20"/>
             <Grid>
@@ -182,5 +181,4 @@ Foreground="{DynamicResource TextFillColorPrimaryBrush}">
                 </StackPanel>
             </DockPanel>
         </StackPanel>
-    </ui:PassiveScrollViewer>
 </Page>

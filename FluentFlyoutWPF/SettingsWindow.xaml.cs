@@ -1,17 +1,17 @@
-﻿using FluentFlyout.Classes;
-using FluentFlyout.Classes.Settings;
+﻿using FluentFlyout.Classes.Settings;
 using FluentFlyoutWPF.Pages;
-using MicaWPF.Controls;
-using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
 using Wpf.Ui.Controls;
 
 namespace FluentFlyoutWPF;
 
-public partial class SettingsWindow : MicaWindow
+public partial class SettingsWindow : FluentWindow
 {
     private static SettingsWindow? instance;
     private Type? _currentPageType;
+    private ScrollViewer? _contentScrollViewer;
 
     public SettingsWindow()
     {
@@ -33,6 +33,8 @@ public partial class SettingsWindow : MicaWindow
 
         Closed += (s, e) => instance = null;
         DataContext = SettingsManager.Current;
+
+        RootNavigation.SetCurrentValue(NavigationView.IsPaneOpenProperty, false);
     }
 
     public static void ShowInstance()
@@ -56,28 +58,41 @@ public partial class SettingsWindow : MicaWindow
 
     private async void SettingsWindow_Loaded(object sender, RoutedEventArgs e)
     {
+        RootNavigation.IsPaneOpen = false;
+
         _currentPageType = typeof(HomePage);
         RootNavigation.Navigate(_currentPageType);
-        
-        // Subscribe to navigation to track current page
+
+        // wrkaround for WPF-UI NavigationView theme change bug:
+        // force pane initialization by toggling it once to prevent width corruption on theme changes
+        // not sure why this has to be done
+        await Task.Delay(100);
+        RootNavigation.IsPaneOpen = true;
+        await Task.Delay(50);
+        RootNavigation.IsPaneOpen = false;
+
         RootNavigation.Navigated += (s, args) =>
         {
             _currentPageType = args.Page?.GetType();
+            ResetScrollPosition();
         };
-        
-        // Subscribe to theme change to refresh NavigationView if needed
-        SettingsManager.Current.PropertyChanged += (s, args) =>
+
+        SettingsManager.Current.PropertyChanged += async (s, args) =>
         {
             if (args.PropertyName == nameof(SettingsManager.Current.AppTheme))
             {
-                // Force NavigationView to refresh after theme change
-                Dispatcher.InvokeAsync(() =>
+                var wasPaneOpen = RootNavigation.IsPaneOpen;
+
+                // force fix pane state after theme change
+                await Dispatcher.InvokeAsync(async () =>
                 {
-                    if (_currentPageType != null)
-                    {
-                        Task.Delay(200).Wait();
-                        RootNavigation.Navigate(_currentPageType);
-                    }
+                    await Task.Delay(100);
+                    RootNavigation.IsPaneOpen = !wasPaneOpen;
+                    await Task.Delay(50);
+                    RootNavigation.IsPaneOpen = wasPaneOpen;
+
+                    await Task.Delay(300);
+                    RootNavigation.Navigate(typeof(HomePage));
                 }, System.Windows.Threading.DispatcherPriority.Loaded);
             }
         };
@@ -92,5 +107,84 @@ public partial class SettingsWindow : MicaWindow
     {
         SettingsManager.SaveSettings();
         Close();
+    }
+
+    private void ResetScrollPosition()
+    {
+        Dispatcher.BeginInvoke(new Action(() =>
+        {
+            try
+            {
+                _contentScrollViewer ??= FindScrollableScrollViewer(RootNavigation);
+
+                if (_contentScrollViewer != null)
+                {
+                    _contentScrollViewer.ScrollToVerticalOffset(0);
+                }
+            }
+            catch (Exception ex)
+            {
+                // Ignore exceptions during scroll reset
+            }
+        }), System.Windows.Threading.DispatcherPriority.Loaded);
+    }
+
+    // helper functions to traverse visual tree
+
+    private static T? FindChildByName<T>(DependencyObject parent, string name) where T : FrameworkElement
+    {
+        for (int i = 0; i < VisualTreeHelper.GetChildrenCount(parent); i++)
+        {
+            var child = VisualTreeHelper.GetChild(parent, i);
+            if (child is T typedChild && typedChild.Name == name)
+            {
+                return typedChild;
+            }
+
+            var result = FindChildByName<T>(child, name);
+            if (result != null)
+            {
+                return result;
+            }
+        }
+        return null;
+    }
+
+    private static ScrollViewer? FindScrollableScrollViewer(DependencyObject parent)
+    {
+        for (int i = 0; i < VisualTreeHelper.GetChildrenCount(parent); i++)
+        {
+            var child = VisualTreeHelper.GetChild(parent, i);
+            if (child is ScrollViewer sv && sv.ScrollableHeight > 0)
+            {
+                return sv;
+            }
+
+            var result = FindScrollableScrollViewer(child);
+            if (result != null)
+            {
+                return result;
+            }
+        }
+        return null;
+    }
+
+    private static T? FindVisualChild<T>(DependencyObject parent) where T : DependencyObject
+    {
+        for (int i = 0; i < VisualTreeHelper.GetChildrenCount(parent); i++)
+        {
+            var child = VisualTreeHelper.GetChild(parent, i);
+            if (child is T typedChild)
+            {
+                return typedChild;
+            }
+
+            var result = FindVisualChild<T>(child);
+            if (result != null)
+            {
+                return result;
+            }
+        }
+        return null;
     }
 }
