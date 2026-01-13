@@ -28,4 +28,14 @@ nasumičnu reprodukciju i informacije o mediju</system:String>
     <system:String x:Key="ShowSeekbarDescription">Interaktivna traka za traženje će se automatski prikazati ako ju aplikacija podržava</system:String>
     <system:String x:Key="UnsupportedControlsWarning">*Neki preglednici/aplikacije ne podržavaju ponavljanje, nasumičnu reprodukciju i traku za traženje.</system:String>
     <system:String x:Key="PauseOtherMediaTitle">Pauziraj druge medije automatski</system:String>
+    <system:String x:Key="BackgroundBlurOption1" xml:space="preserve"> Nijedan</system:String>
+    <system:String x:Key="BackgroundBlurTitle">Zamućenje pozadine</system:String>
+    <system:String x:Key="CompactLayoutTitle">Kompaktni raspored</system:String>
+    <system:String x:Key="PositionBottomLeft" xml:space="preserve"> Dolje lijevo</system:String>
+    <system:String x:Key="PositionBottomCenter" xml:space="preserve"> Dolje centrirano</system:String>
+    <system:String x:Key="PositionBottomRight" xml:space="preserve"> Dolje desno</system:String>
+    <system:String x:Key="PositionTopLeft" xml:space="preserve"> Gore lijevo</system:String>
+    <system:String x:Key="PositionTopCenter" xml:space="preserve"> Sredina gore</system:String>
+    <system:String x:Key="PositionTopRight" xml:space="preserve"> Gore desno</system:String>
+    <system:String x:Key="MediaFlyoutAlwaysDisplay">Uvijek na ekranu</system:String>
 </ResourceDictionary>
