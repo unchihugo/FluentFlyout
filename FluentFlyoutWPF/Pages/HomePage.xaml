@@ -147,7 +147,7 @@
         </Grid>
 
         <StackPanel Orientation="Horizontal" Margin="0,16,0,0">
-            <ui:Button Appearance="Transparent" Padding="16,0,16,0" Height="48" BorderBrush="Transparent" Margin="0,0,8,0" Click="ViewUpdates_Click">
+            <ui:Button Appearance="Transparent" Padding="16,4,16,0" Height="56" BorderBrush="Transparent" Margin="0,0,8,0" Click="ViewUpdates_Click">
                 <StackPanel Orientation="Horizontal">
                     <StackPanel Orientation="Vertical" VerticalAlignment="Center">
                         <ui:SymbolIcon Symbol="StoreMicrosoft20" FontSize="18" Filled="False" />
@@ -156,7 +156,7 @@
                 </StackPanel>
             </ui:Button>
 
-            <ui:Button Appearance="Transparent" Padding="16,0,16,0" Height="48" BorderBrush="Transparent" Margin="0,0,8,0" Click="ViewUpdates_Click">
+            <ui:Button Appearance="Transparent" Padding="16,4,16,0" Height="56" BorderBrush="Transparent" Margin="0,0,8,0" Click="ViewUpdates_Click">
                 <StackPanel Orientation="Horizontal">
                     <StackPanel Orientation="Vertical" VerticalAlignment="Center">
                         <ui:SymbolIcon Symbol="FolderOpen20" FontSize="18" Filled="False" />
@@ -165,7 +165,7 @@
                 </StackPanel>
             </ui:Button>
 
-            <ui:Button Appearance="Transparent" Padding="16,0,16,0" Height="48" BorderBrush="Transparent" Margin="0,0,8,0" Click="ViewUpdates_Click">
+            <ui:Button Appearance="Transparent" Padding="16,4,16,0" Height="56" BorderBrush="Transparent" Margin="0,0,8,0" Click="ViewUpdates_Click">
                 <StackPanel Orientation="Horizontal">
                     <StackPanel Orientation="Vertical" VerticalAlignment="Center">
                         <ui:SymbolIcon Symbol="Bug20" FontSize="18" Filled="False" />
@@ -184,17 +184,17 @@
             </Grid.RowDefinitions>
 
             <!-- Premium Status InfoBar (only shown for Store versions) -->
-            <ui:InfoBar Grid.Row="0" Title="{DynamicResource PremiumUnlockedMessage}" Severity="Success" IsClosable="False" Margin="0,0,0,12">
+            <ui:InfoBar Grid.Row="1" Title="{DynamicResource PremiumUnlockedMessage}" Severity="Success" IsClosable="True" Margin="0,0,0,3">
                 <ui:InfoBar.Style>
                     <Style TargetType="ui:InfoBar" BasedOn="{StaticResource {x:Type ui:InfoBar}}">
                         <Setter Property="IsOpen" Value="False" />
                         <Style.Triggers>
                             <MultiDataTrigger>
                                 <MultiDataTrigger.Conditions>
-                                    <Condition Binding="{Binding IsStoreVersion}" Value="True" />
-                                    <Condition Binding="{Binding IsPremiumUnlocked}" Value="True" />
+                                    <Condition Binding="{Binding IsStoreVersion}" Value="True"/>
+                                    <Condition Binding="{Binding IsPremiumUnlocked}" Value="True"/>
                                 </MultiDataTrigger.Conditions>
-                                <Setter Property="IsOpen" Value="True" />
+                                <Setter Property="IsOpen" Value="True"/>
                             </MultiDataTrigger>
                         </Style.Triggers>
                     </Style>
@@ -202,23 +202,26 @@
             </ui:InfoBar>
 
             <!-- Premium Locked InfoBar (only shown for Store versions without premium) -->
-            <ui:InfoBar Grid.Row="0" IsOpen="True" Severity="Warning" IsClosable="False" Margin="0,0,0,12">
+            <ui:InfoBar Grid.Row="0" IsOpen="True" Severity="Warning" IsClosable="False" Margin="0,0,0,3">
                 <ui:InfoBar.Style>
                     <Style TargetType="ui:InfoBar">
-                        <Setter Property="Visibility" Value="Collapsed" />
+                        <Setter Property="Visibility" Value="Collapsed"/>
                         <Style.Triggers>
                             <MultiDataTrigger>
                                 <MultiDataTrigger.Conditions>
-                                    <Condition Binding="{Binding IsStoreVersion}" Value="True" />
-                                    <Condition Binding="{Binding IsPremiumUnlocked}" Value="False" />
+                                    <Condition Binding="{Binding IsStoreVersion}" Value="True"/>
+                                    <Condition Binding="{Binding IsPremiumUnlocked}" Value="False"/>
                                 </MultiDataTrigger.Conditions>
-                                <Setter Property="Visibility" Value="Visible" />
+                                <Setter Property="Visibility" Value="Visible"/>
                             </MultiDataTrigger>
                         </Style.Triggers>
                     </Style>
                 </ui:InfoBar.Style>
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="{DynamicResource PremiumLockedMessage}" VerticalAlignment="Center" />
+                    <ui:Button Name="UnlockPremiumButton" Content="{DynamicResource UnlockPremiumButton}" 
+                                               Click="UnlockPremiumButton_Click" 
+                                               Appearance="Primary"
+                                               Margin="4,0,0,8" FontSize="12"/>
                 </StackPanel>
             </ui:InfoBar>
 

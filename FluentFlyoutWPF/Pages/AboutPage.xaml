@@ -13,7 +13,11 @@
       Foreground="{DynamicResource TextFillColorPrimaryBrush}">
 
     <StackPanel MaxWidth="1000" Margin="16">
-        <TextBlock Text="{DynamicResource AboutPremiumTitle}" FontSize="20" FontWeight="SemiBold" FontFamily="Segoe UI Variable" Margin="0,0,0,0" />
+        <TextBlock Text="❤️ Meet Our Contributors" FontSize="20" FontWeight="SemiBold" FontFamily="Segoe UI Variable" Margin="0,0,0,0" />
+        <TextBlock Text="A big thank you to all the amazing people who have contributed to FluentFlyout's development and success!" FontSize="14" Margin="4,12,0,0" FontWeight="Regular" HorizontalAlignment="Left" Opacity="0.75" TextWrapping="WrapWithOverflow" />
+        <ui:TextBlock Text="{Binding AboutViewModel.ContributorsText}" FontSize="14" Margin="4,8,0,0" FontWeight="Regular" HorizontalAlignment="Left" Opacity="0.5" TextWrapping="WrapWithOverflow" />
+
+        <TextBlock Text="{DynamicResource AboutPremiumTitle}" FontSize="20" FontWeight="SemiBold" FontFamily="Segoe UI Variable" Margin="0,24,0,0" />
         <Grid Margin="0,12,0,0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -30,8 +34,8 @@
                         <Style.Triggers>
                             <MultiDataTrigger>
                                 <MultiDataTrigger.Conditions>
-                                    <Condition Binding="{Binding IsStoreVersion}" Value="True" />
-                                    <Condition Binding="{Binding IsPremiumUnlocked}" Value="True" />
+                                    <Condition Binding="{Binding UserSettings.IsStoreVersion}" Value="True" />
+                                    <Condition Binding="{Binding UserSettings.IsPremiumUnlocked}" Value="True" />
                                 </MultiDataTrigger.Conditions>
                                 <Setter Property="IsOpen" Value="True" />
                             </MultiDataTrigger>
@@ -41,15 +45,15 @@
             </ui:InfoBar>
 
             <!-- Premium Locked InfoBar (only shown for Store versions without premium) -->
-            <ui:InfoBar Grid.Row="1" IsOpen="True" Severity="Warning" IsClosable="False" Margin="0,0,0,12">
+            <ui:InfoBar Grid.Row="1" Title="{DynamicResource PremiumLockedMessage}" IsOpen="True" Severity="Warning" IsClosable="False" Margin="0,0,0,12">
                 <ui:InfoBar.Style>
                     <Style TargetType="ui:InfoBar">
                         <Setter Property="Visibility" Value="Collapsed" />
                         <Style.Triggers>
                             <MultiDataTrigger>
                                 <MultiDataTrigger.Conditions>
-                                    <Condition Binding="{Binding IsStoreVersion}" Value="True" />
-                                    <Condition Binding="{Binding IsPremiumUnlocked}" Value="False" />
+                                    <Condition Binding="{Binding UserSettings.IsStoreVersion}" Value="True" />
+                                    <Condition Binding="{Binding UserSettings.IsPremiumUnlocked}" Value="False" />
                                 </MultiDataTrigger.Conditions>
                                 <Setter Property="Visibility" Value="Visible" />
                             </MultiDataTrigger>
@@ -70,7 +74,7 @@
                     <Style TargetType="ui:InfoBar" BasedOn="{StaticResource {x:Type ui:InfoBar}}">
                         <Setter Property="Visibility" Value="Collapsed" />
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding IsStoreVersion}" Value="False">
+                            <DataTrigger Binding="{Binding UserSettings.IsStoreVersion}" Value="False">
                                 <Setter Property="Visibility" Value="Visible" />
                             </DataTrigger>
                         </Style.Triggers>
@@ -78,8 +82,27 @@
                 </ui:InfoBar.Style>
             </ui:InfoBar>
 
-            <TextBlock Grid.Row="2" FontSize="14" Margin="4,0,0,0" FontWeight="Regular" HorizontalAlignment="Left" Opacity="0.75" MaxWidth="600" TextWrapping="WrapWithOverflow" Text="{DynamicResource PremiumFeatureDescription}" />
+            <TextBlock Grid.Row="2" FontSize="14" Margin="4,0,0,0" FontWeight="Regular" HorizontalAlignment="Left" Opacity="0.75" TextWrapping="WrapWithOverflow" Text="{DynamicResource PremiumFeatureDescription}" />
         </Grid>
+
+        <TextBlock Text="Open Source Licenses" FontSize="20" FontWeight="SemiBold" FontFamily="Segoe UI Variable" Margin="0,36,0,12" />
+        <TextBlock Text="FluentFlyout is built with the following open source packages:" FontSize="14" Margin="4,0,0,0" FontWeight="Regular" HorizontalAlignment="Left" Opacity="0.75" TextWrapping="WrapWithOverflow" />
+        
+        <ItemsControl ItemsSource="{Binding AboutViewModel.Licenses}" Margin="0,12,0,0">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <ui:CardAction Margin="4" Padding="16,12" IsChevronVisible="False" Command="{Binding DataContext.AboutViewModel.OpenLicenseUrlCommand, RelativeSource={RelativeSource AncestorType=Page}}" CommandParameter="{Binding Url}">
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+                                <ui:TextBlock Text="{Binding Name}" FontWeight="SemiBold" FontSize="14" VerticalAlignment="Center" />
+                                <ui:TextBlock Text="{Binding Version}" FontSize="12" Opacity="0.6" VerticalAlignment="Center" Margin="8,0,0,-4" />
+                            </StackPanel>
+                            <ui:TextBlock Text="{Binding License, StringFormat={}{0} license}" Appearance="Secondary" FontSize="12" />
+                        </StackPanel>
+                    </ui:CardAction>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
 
         <DockPanel LastChildFill="False" Margin="0,24,0,12">
             <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" HorizontalAlignment="Left">

@@ -1,5 +1,6 @@
 using FluentFlyout.Classes;
 using FluentFlyout.Classes.Settings;
+using FluentFlyoutWPF.ViewModels;
 using System.Windows;
 using System.Windows.Controls;
 using MessageBox = Wpf.Ui.Controls.MessageBox;
@@ -8,12 +9,16 @@ namespace FluentFlyoutWPF.Pages;
 
 public partial class AboutPage : Page
 {
+    public AboutViewModel AboutViewModel { get; } = new();
+    public ViewModels.UserSettings UserSettings => SettingsManager.Current;
+
     public AboutPage()
     {
         InitializeComponent();
-        DataContext = SettingsManager.Current;
+        DataContext = this;
     }
 
+    // same as in HomePage.xaml.cs
     private async void UnlockPremiumButton_Click(object sender, RoutedEventArgs e)
     {
         try
