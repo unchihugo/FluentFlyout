@@ -8,7 +8,7 @@
     xmlns:pages="clr-namespace:FluentFlyoutWPF.Pages"
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
     mc:Ignorable="d"
-    Height="700" MinHeight="300" MinWidth="900"
+    Height="700" MinHeight="300" MinWidth="750" Width="800"
     Title="FluentFlyout" Icon="/Resources/FluentFlyout2.ico"
     TextOptions.TextRenderingMode="ClearType" TextOptions.TextFormattingMode="Ideal"
     FontFamily="Segoe UI Variable, Microsoft YaHei, Microsoft JhengHei, MS Gothic"

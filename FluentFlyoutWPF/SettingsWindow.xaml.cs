@@ -68,7 +68,7 @@ public partial class SettingsWindow : FluentWindow
         // not sure why this has to be done
         await Task.Delay(100);
         RootNavigation.IsPaneOpen = true;
-        await Task.Delay(50);
+        await Task.Delay(10);
         RootNavigation.IsPaneOpen = false;
 
         RootNavigation.Navigated += (s, args) =>
@@ -88,7 +88,7 @@ public partial class SettingsWindow : FluentWindow
                 {
                     await Task.Delay(100);
                     RootNavigation.IsPaneOpen = !wasPaneOpen;
-                    await Task.Delay(50);
+                    await Task.Delay(10);
                     RootNavigation.IsPaneOpen = wasPaneOpen;
 
                     await Task.Delay(300);
