@@ -23,7 +23,7 @@
             <TextBlock x:Name="VersionTextBlock" FontSize="14" FontWeight="Regular" VerticalAlignment="Bottom" Margin="10" Opacity="0.5" />
         </StackPanel>
 
-        <TextBlock Text="Home" FontSize="24" FontWeight="SemiBold" FontFamily="Segoe UI Variable" Margin="0,36,0,12" />
+        <TextBlock Text="{DynamicResource HomeTitle}" FontSize="24" FontWeight="SemiBold" FontFamily="Segoe UI Variable" Margin="0,36,0,12" />
         <StackPanel Orientation="Horizontal">
             <ui:Button Appearance="Transparent" Padding="0,0,16,0" BorderBrush="Transparent" Margin="0,0,0,36" Click="ViewUpdates_Click">
                 <StackPanel Orientation="Horizontal">
@@ -34,13 +34,13 @@
                     </Border>
                     <StackPanel Orientation="Vertical" VerticalAlignment="Center">
                         <ui:TextBlock Text="{DynamicResource UpdateToastButton}" FontWeight="SemiBold" />
-                        <ui:TextBlock Text="{DynamicResource UpdateToastTitle}" Opacity="0.5" />
+                        <ui:TextBlock Text="{DynamicResource HomeUpdateDescription}" Opacity="0.5" />
                     </StackPanel>
                 </StackPanel>
             </ui:Button>
         </StackPanel>
 
-        <TextBlock Grid.Row="6" Text="Dashboard" FontSize="14" FontWeight="SemiBold" Margin="0,0,0,6" />
+        <TextBlock Grid.Row="6" Text="{DynamicResource HomeDashboardTitle}" FontSize="14" FontWeight="SemiBold" Margin="0,0,0,6" />
         <Grid Margin="-4">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -141,7 +141,7 @@
                 </ui:CardAction.Icon>
                 <StackPanel>
                     <ui:TextBlock FontWeight="Medium" Text="{DynamicResource SystemSettingsTitle}" />
-                    <ui:TextBlock Appearance="Secondary" Text="Configure" />
+                    <ui:TextBlock Appearance="Secondary" Text="{DynamicResource SystemConfigure}" />
                 </StackPanel>
             </ui:CardAction>
         </Grid>

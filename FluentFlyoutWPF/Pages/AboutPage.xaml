@@ -13,8 +13,8 @@
       Foreground="{DynamicResource TextFillColorPrimaryBrush}">
 
     <StackPanel MaxWidth="1000" Margin="16">
-        <TextBlock Text="❤️ Meet Our Contributors" FontSize="20" FontWeight="SemiBold" FontFamily="Segoe UI Variable" Margin="0,0,0,0" />
-        <TextBlock Text="A big thank you to all the amazing people who have contributed to FluentFlyout's development and success!" FontSize="14" Margin="4,12,0,0" FontWeight="Regular" HorizontalAlignment="Left" Opacity="0.75" TextWrapping="WrapWithOverflow" />
+        <TextBlock Text="{DynamicResource AboutContributorsTitle}" FontSize="20" FontWeight="SemiBold" FontFamily="Segoe UI Variable" Margin="0,0,0,0" />
+        <TextBlock Text="{DynamicResource AboutContributorsDescription}" FontSize="14" Margin="4,12,0,0" FontWeight="Regular" HorizontalAlignment="Left" Opacity="0.75" TextWrapping="WrapWithOverflow" />
         <ui:TextBlock Text="{Binding AboutViewModel.ContributorsText}" FontSize="14" Margin="4,8,0,0" FontWeight="Regular" HorizontalAlignment="Left" Opacity="0.5" TextWrapping="WrapWithOverflow" />
 
         <TextBlock Text="{DynamicResource AboutPremiumTitle}" FontSize="20" FontWeight="SemiBold" FontFamily="Segoe UI Variable" Margin="0,24,0,0" />
@@ -85,8 +85,8 @@
             <TextBlock Grid.Row="2" FontSize="14" Margin="4,0,0,0" FontWeight="Regular" HorizontalAlignment="Left" Opacity="0.75" TextWrapping="WrapWithOverflow" Text="{DynamicResource PremiumFeatureDescription}" />
         </Grid>
 
-        <TextBlock Text="Open Source Licenses" FontSize="20" FontWeight="SemiBold" FontFamily="Segoe UI Variable" Margin="0,36,0,12" />
-        <TextBlock Text="FluentFlyout is built with the following open source packages:" FontSize="14" Margin="4,0,0,0" FontWeight="Regular" HorizontalAlignment="Left" Opacity="0.75" TextWrapping="WrapWithOverflow" />
+        <TextBlock Text="{DynamicResource AboutOpenSourceLicensesTitle}" FontSize="20" FontWeight="SemiBold" FontFamily="Segoe UI Variable" Margin="0,36,0,12" />
+        <TextBlock Text="{DynamicResource AboutOpenSourceLicensesDescription}" FontSize="14" Margin="4,0,0,0" FontWeight="Regular" HorizontalAlignment="Left" Opacity="0.75" TextWrapping="WrapWithOverflow" />
         
         <ItemsControl ItemsSource="{Binding AboutViewModel.Licenses}" Margin="0,12,0,0">
             <ItemsControl.ItemTemplate>

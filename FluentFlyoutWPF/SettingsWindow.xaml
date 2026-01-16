@@ -1,5 +1,5 @@
-<ui:FluentWindow 
-	x:Class="FluentFlyoutWPF.SettingsWindow"
+<ui:FluentWindow
+    x:Class="FluentFlyoutWPF.SettingsWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -15,36 +15,36 @@
     Closing="SettingsWindow_Closing"
     xmlns:viewModels="clr-namespace:FluentFlyoutWPF.ViewModels"
     d:DataContext="{d:DesignInstance viewModels:UserSettings}"
-	ui:Design.Background="{DynamicResource ApplicationBackgroundBrush}"
+    ui:Design.Background="{DynamicResource ApplicationBackgroundBrush}"
     ui:Design.Foreground="{DynamicResource TextFillColorPrimaryBrush}"
-	ExtendsContentIntoTitleBar="True"
-	WindowBackdropType="Mica"
-	Loaded="SettingsWindow_Loaded">
+    ExtendsContentIntoTitleBar="True"
+    WindowBackdropType="Mica"
+    Loaded="SettingsWindow_Loaded">
 
 	<Grid>
 		<ui:NavigationView x:Name="RootNavigation"
                            PaneDisplayMode="Left"
-						   TransitionDuration="300"
-						   IsPaneToggleVisible="true"
-						   Margin="0, 40, 0, 0"
-							OpenPaneLength="250"
-							IsTopSeparatorVisible="false"
-						   IsFooterSeparatorVisible="false">
+                           TransitionDuration="300"
+                           IsPaneToggleVisible="true"
+                           Margin="0, 40, 0, 0"
+                           OpenPaneLength="250"
+                           IsTopSeparatorVisible="false"
+                           IsFooterSeparatorVisible="false">
 			<ui:NavigationView.MenuItems>
-				<ui:NavigationViewItem Content="Home" Icon="{ui:SymbolIcon Home24}" TargetPageType="{x:Type pages:HomePage}" />
-				<ui:NavigationViewItem Content="Media Flyout" Icon="{ui:SymbolIcon VideoPlayPause24}" TargetPageType="{x:Type pages:MediaFlyoutPage}" />
-				<ui:NavigationViewItem Content="Taskbar Widget" Icon="{ui:SymbolIcon TextboxAlignBottom24}" TargetPageType="{x:Type pages:TaskbarWidgetPage}" />
-				<ui:NavigationViewItem Content="Next Up" Icon="{ui:SymbolIcon MusicNote2Play20}" TargetPageType="{x:Type pages:NextUpPage}" />
-				<ui:NavigationViewItem Content="Lock Keys" Icon="{ui:SymbolIcon LockMultiple24}" TargetPageType="{x:Type pages:LockKeysPage}" />
-				<ui:NavigationViewItem Content="System" Icon="{ui:SymbolIcon Settings24}" TargetPageType="{x:Type pages:SystemPage}" />
+				<ui:NavigationViewItem Content="{DynamicResource HomeTitle}" Icon="{ui:SymbolIcon Home24}" TargetPageType="{x:Type pages:HomePage}" />
+				<ui:NavigationViewItem Content="{DynamicResource MediaFlyoutTitle}" Icon="{ui:SymbolIcon VideoPlayPause24}" TargetPageType="{x:Type pages:MediaFlyoutPage}" />
+				<ui:NavigationViewItem Content="{DynamicResource TaskbarWidgetCustomizationTitle}" Icon="{ui:SymbolIcon TextboxAlignBottom24}" TargetPageType="{x:Type pages:TaskbarWidgetPage}" />
+				<ui:NavigationViewItem Content="{DynamicResource NextUpCustomizationTitle}" Icon="{ui:SymbolIcon MusicNote2Play20}" TargetPageType="{x:Type pages:NextUpPage}" />
+				<ui:NavigationViewItem Content="{DynamicResource LockKeysCustomizationTitle}" Icon="{ui:SymbolIcon LockMultiple24}" TargetPageType="{x:Type pages:LockKeysPage}" />
+				<ui:NavigationViewItem Content="{DynamicResource SystemSettingsTitle}" Icon="{ui:SymbolIcon Settings24}" TargetPageType="{x:Type pages:SystemPage}" />
 			</ui:NavigationView.MenuItems>
 			<ui:NavigationView.FooterMenuItems>
-				<ui:NavigationViewItem TargetPageType="{x:Type pages:AboutPage}" >
+				<ui:NavigationViewItem TargetPageType="{x:Type pages:AboutPage}">
 					<ui:NavigationViewItem.Icon>
 						<ui:SymbolIcon FontSize="20" Symbol="Info24" />
 					</ui:NavigationViewItem.Icon>
 					<ui:NavigationViewItem.Content>
-						<TextBlock FontSize="11" Text="About" />
+						<TextBlock FontSize="11" Text="{DynamicResource AboutTitle}" />
 					</ui:NavigationViewItem.Content>
 				</ui:NavigationViewItem>
 			</ui:NavigationView.FooterMenuItems>
