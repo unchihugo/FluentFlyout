@@ -39,14 +39,7 @@
 				<ui:NavigationViewItem Content="{DynamicResource SystemSettingsTitle}" Icon="{ui:SymbolIcon Settings24}" TargetPageType="{x:Type pages:SystemPage}" />
 			</ui:NavigationView.MenuItems>
 			<ui:NavigationView.FooterMenuItems>
-				<ui:NavigationViewItem TargetPageType="{x:Type pages:AboutPage}">
-					<ui:NavigationViewItem.Icon>
-						<ui:SymbolIcon FontSize="20" Symbol="Info24" />
-					</ui:NavigationViewItem.Icon>
-					<ui:NavigationViewItem.Content>
-						<TextBlock FontSize="11" Text="{DynamicResource AboutTitle}" />
-					</ui:NavigationViewItem.Content>
-				</ui:NavigationViewItem>
+				<ui:NavigationViewItem Content="{DynamicResource AboutTitle}" Icon="{ui:SymbolIcon Info24}" TargetPageType="{x:Type pages:AboutPage}" />
 			</ui:NavigationView.FooterMenuItems>
 		</ui:NavigationView>
 
