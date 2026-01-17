@@ -30,6 +30,7 @@ hides repeat, shuffle and player info</System:String>
     <System:String x:Key="FlyoutStayDurationDescription">(default: 3000 ms)</System:String>
     <System:String x:Key="MillisecondsUnit">ms</System:String>
     <System:String x:Key="MediaFlyoutAlwaysDisplay">Always Display</System:String>
+    <System:String x:Key="MediaFlyoutAlwaysDisplayDescription">The flyout stays open until you click the close button</System:String>
     <System:String x:Key="CenterTitleArtistTitle">Center Title and Artist</System:String>
     <System:String x:Key="CenterTitleArtistDescription">Align text to the center instead of the left</System:String>
     <System:String x:Key="ShowMediaPlayerNameTitle">Show Media Player name</System:String>

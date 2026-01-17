@@ -147,7 +147,7 @@
         </Grid>
 
         <StackPanel Orientation="Horizontal" Margin="0,16,0,0">
-            <ui:Button Appearance="Transparent" Padding="16,4,16,0" Height="56" BorderBrush="Transparent" Margin="0,0,8,0" Click="ViewUpdates_Click">
+            <ui:Button Appearance="Transparent" Padding="16,4,16,0" Height="56" BorderBrush="Transparent" Margin="0,0,8,0" Click="ViewMicrosoftStore_Click">
                 <StackPanel Orientation="Horizontal">
                     <StackPanel Orientation="Vertical" VerticalAlignment="Center">
                         <ui:SymbolIcon Symbol="StoreMicrosoft20" FontSize="18" Filled="False" />
@@ -156,7 +156,7 @@
                 </StackPanel>
             </ui:Button>
 
-            <ui:Button Appearance="Transparent" Padding="16,4,16,0" Height="56" BorderBrush="Transparent" Margin="0,0,8,0" Click="ViewUpdates_Click">
+            <ui:Button Appearance="Transparent" Padding="16,4,16,0" Height="56" BorderBrush="Transparent" Margin="0,0,8,0" Click="ViewLogs_Click">
                 <StackPanel Orientation="Horizontal">
                     <StackPanel Orientation="Vertical" VerticalAlignment="Center">
                         <ui:SymbolIcon Symbol="FolderOpen20" FontSize="18" Filled="False" />
@@ -165,7 +165,7 @@
                 </StackPanel>
             </ui:Button>
 
-            <ui:Button Appearance="Transparent" Padding="16,4,16,0" Height="56" BorderBrush="Transparent" Margin="0,0,8,0" Click="ViewUpdates_Click">
+            <ui:Button Appearance="Transparent" Padding="16,4,16,0" Height="56" BorderBrush="Transparent" Margin="0,0,8,0" Click="ReportBug_Click">
                 <StackPanel Orientation="Horizontal">
                     <StackPanel Orientation="Vertical" VerticalAlignment="Center">
                         <ui:SymbolIcon Symbol="Bug20" FontSize="18" Filled="False" />

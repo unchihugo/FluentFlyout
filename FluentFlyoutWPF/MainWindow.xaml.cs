@@ -422,7 +422,7 @@ public partial class MainWindow : MicaWindow
         taskbarWindow?.UpdateUi(songInfo.Title, songInfo.Artist, Helper.GetThumbnail(songInfo.Thumbnail), playbackInfo.PlaybackStatus, playbackInfo.Controls);
     }
 
-    private void reportBug(object? sender, EventArgs e)
+    public void reportBug(object? sender, EventArgs e)
     {
         Process.Start(new ProcessStartInfo
         {
@@ -440,7 +440,7 @@ public partial class MainWindow : MicaWindow
         });
     }
 
-    private void openLogsFolder(object? sender, EventArgs e)
+    public void openLogsFolder(object? sender, EventArgs e)
     {
         try
         {

@@ -81,7 +81,7 @@
                 </ui:CardControl.Header>
                 <controls:ToggleSwitch Name="LayoutSwitch" IsChecked="{Binding CompactLayout, Mode=TwoWay}" />
             </ui:CardControl>
-            <ui:CardControl Grid.Row="5" Icon="{ui:SymbolIcon ArrowMove24}" Margin="0,0,0,3">
+            <ui:CardControl Grid.Row="5" Icon="{ui:SymbolIcon ArrowMove24}" Margin="0,0,0,12">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
                         <TextBlock Text="{DynamicResource FlyoutPositionTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
@@ -96,7 +96,7 @@
                     <ComboBoxItem Content="{DynamicResource PositionTopRight}" />
                 </ComboBox>
             </ui:CardControl>
-            <ui:CardControl Grid.Row="6" Icon="{ui:SymbolIcon Timer24}" Margin="0,0,0,12">
+            <ui:CardControl Grid.Row="6" Icon="{ui:SymbolIcon Timer24}" Margin="0,0,0,3">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
                         <TextBlock Text="{DynamicResource FlyoutStayDurationTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
@@ -104,13 +104,22 @@
                     </StackPanel>
                 </ui:CardControl.Header>
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="{DynamicResource MediaFlyoutAlwaysDisplay}" VerticalAlignment="Center" />
-                    <controls:ToggleSwitch Margin="4,0,12,0" IsChecked="{Binding MediaFlyoutAlwaysDisplay, Mode=TwoWay}" />
                     <ui:TextBox Name="DurationTextBox" Width="60" ClearButtonEnabled="False" Text="{Binding DurationText, Mode=TwoWay}" IsEnabled="{Binding IsDurationEditable, Mode=OneWay}" />
                     <TextBlock Text="{DynamicResource MillisecondsUnit}" FontSize="14" FontWeight="Regular" Margin="10,0,0,0" VerticalAlignment="Center" />
                 </StackPanel>
             </ui:CardControl>
-            <ui:CardControl Grid.Row="7" Icon="{ui:SymbolIcon AlignLeft24}" Margin="0,0,0,3">
+            <ui:CardControl Grid.Row="7" Icon="{ui:SymbolIcon TimerOff24}" Margin="0,0,0,12">
+                <ui:CardControl.Header>
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="{DynamicResource MediaFlyoutAlwaysDisplay}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
+                        <TextBlock Text="{DynamicResource MediaFlyoutAlwaysDisplayDescription}" FontSize="12" Opacity="0.5" />
+                    </StackPanel>
+                </ui:CardControl.Header>
+                <StackPanel Orientation="Horizontal">
+                    <controls:ToggleSwitch IsChecked="{Binding MediaFlyoutAlwaysDisplay, Mode=TwoWay}" />
+                </StackPanel>
+            </ui:CardControl>
+            <ui:CardControl Grid.Row="8" Icon="{ui:SymbolIcon AlignLeft24}" Margin="0,0,0,3">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
                         <TextBlock Text="{DynamicResource CenterTitleArtistTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
@@ -119,7 +128,7 @@
                 </ui:CardControl.Header>
                 <controls:ToggleSwitch Name="CenterTitleArtistSwitch" IsChecked="{Binding CenterTitleArtist, Mode=TwoWay}" />
             </ui:CardControl>
-            <ui:CardControl Grid.Row="8" Icon="{ui:SymbolIcon Subtitles24}" Margin="0,0,0,12">
+            <ui:CardControl Grid.Row="9" Icon="{ui:SymbolIcon Subtitles24}" Margin="0,0,0,12">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
                         <TextBlock Text="{DynamicResource ShowMediaPlayerNameTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
@@ -127,7 +136,7 @@
                 </ui:CardControl.Header>
                 <controls:ToggleSwitch Name="PlayerInfoSwitch" IsChecked="{Binding PlayerInfoEnabled, Mode=TwoWay}" />
             </ui:CardControl>
-            <ui:CardControl Grid.Row="9" Icon="{ui:SymbolIcon ArrowRepeatAll24}" Margin="0,0,0,3">
+            <ui:CardControl Grid.Row="10" Icon="{ui:SymbolIcon ArrowRepeatAll24}" Margin="0,0,0,3">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
                         <TextBlock Text="{DynamicResource RepeatButtonTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
@@ -136,7 +145,7 @@
                 </ui:CardControl.Header>
                 <controls:ToggleSwitch Name="RepeatSwitch" IsChecked="{Binding RepeatEnabled, Mode=TwoWay}" />
             </ui:CardControl>
-            <ui:CardControl Grid.Row="10" Icon="{ui:SymbolIcon ArrowShuffle24}" Margin="0,0,0,3">
+            <ui:CardControl Grid.Row="11" Icon="{ui:SymbolIcon ArrowShuffle24}" Margin="0,0,0,3">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
                         <TextBlock Text="{DynamicResource ShuffleButtonTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
@@ -145,7 +154,7 @@
                 </ui:CardControl.Header>
                 <controls:ToggleSwitch Name="ShuffleSwitch" IsChecked="{Binding ShuffleEnabled, Mode=TwoWay}" />
             </ui:CardControl>
-            <ui:CardControl Grid.Row="11" Icon="{ui:SymbolIcon SlideArrowRight24}" Margin="0,0,0,3">
+            <ui:CardControl Grid.Row="12" Icon="{ui:SymbolIcon SlideArrowRight24}" Margin="0,0,0,3">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
                         <TextBlock Text="{DynamicResource ShowSeekbarTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
@@ -154,8 +163,8 @@
                 </ui:CardControl.Header>
                 <controls:ToggleSwitch Name="SeekbarSwitch" IsChecked="{Binding SeekbarEnabled, Mode=TwoWay}" />
             </ui:CardControl>
-            <ui:InfoBar Grid.Row="12" Title="{DynamicResource UnsupportedControlsWarning}" IsOpen="True" Severity="Warning" IsClosable="False" Margin="0,0,0,12" />
-            <ui:CardControl Grid.Row="13" Icon="{ui:SymbolIcon Pause24}" Margin="0,0,0,3">
+            <ui:InfoBar Grid.Row="13" Title="{DynamicResource UnsupportedControlsWarning}" IsOpen="True" Severity="Warning" IsClosable="False" Margin="0,0,0,12" />
+            <ui:CardControl Grid.Row="14" Icon="{ui:SymbolIcon Pause24}" Margin="0,0,0,3">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
                         <TextBlock Text="{DynamicResource PauseOtherMediaTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
