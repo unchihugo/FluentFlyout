@@ -45,7 +45,7 @@
     <system:String x:Key="RepeatButtonDescription">Отображает кнопку выбора режима повторения (увеличивает ширину окна)</system:String>
     <system:String x:Key="ShuffleButtonTitle">Кнопка перемешивания*</system:String>
     <system:String x:Key="ShuffleButtonDescription">(увеличивает ширину окна)</system:String>
-    <system:String x:Key="ShowSeekbarTitle">Показывать ползунок времени</system:String>
+    <system:String x:Key="ShowSeekbarTitle">Показывать ползунок времени*</system:String>
     <system:String x:Key="ShowSeekbarDescription">Интерактивный временной статус-бар будет отображаться автоматически, если плеер это поддерживает</system:String>
     <system:String x:Key="UnsupportedControlsWarning">*Некоторые браузеры/плееры не поддерживают управление повтором, перемешиванием и перемоткой.</system:String>
     <system:String x:Key="PauseOtherMediaTitle">Автоматически приостанавливать другой плеер</system:String>

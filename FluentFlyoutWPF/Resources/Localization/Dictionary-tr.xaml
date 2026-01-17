@@ -32,7 +32,7 @@ tekrar, karıştırma ve oynatıcı bilgilerini gizler</system:String>
     <system:String x:Key="RepeatButtonDescription">Tümünü tekrarla veya birini tekrarla arasında seçim yapın, açılır pencere genişliğini artırır</system:String>
     <system:String x:Key="ShuffleButtonTitle">Karıştır Düğmesi*</system:String>
     <system:String x:Key="ShuffleButtonDescription">Açılır pencere genişliğini artırır</system:String>
-    <system:String x:Key="ShowSeekbarTitle">İlerleme Çubuğunu Göster</system:String>
+    <system:String x:Key="ShowSeekbarTitle">İlerleme Çubuğunu Göster*</system:String>
     <system:String x:Key="ShowSeekbarDescription">Eğer oynatıcı destekliyorsa, etkileşimli ilerleme çubuğu otomatik olarak görüntülenecektir</system:String>
     <system:String x:Key="UnsupportedControlsWarning">*Bazı tarayıcılar/oynatıcılar tekrar, karıştırma ve ilerleme çubuğu kontrolünü desteklemez.</system:String>
     <system:String x:Key="PauseOtherMediaTitle">Diğer Medyaları Otomatik Olarak Duraklat</system:String>

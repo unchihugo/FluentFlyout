@@ -32,7 +32,7 @@ piilottaa toistamisen, shufflen sekä soittimen tiedot</system:String>
     <system:String x:Key="RepeatButtonDescription">Valitse toistetaanko kaikki vai yksi kappale, lisää flyoutin leveyttä</system:String>
     <system:String x:Key="ShuffleButtonTitle">Sekoituspainike*</system:String>
     <system:String x:Key="ShuffleButtonDescription">Lisää flyoutin leveyttä</system:String>
-    <system:String x:Key="ShowSeekbarTitle">Näytä Hakupalkki</system:String>
+    <system:String x:Key="ShowSeekbarTitle">Näytä Hakupalkki*</system:String>
     <system:String x:Key="ShowSeekbarDescription">Interaktiivinen hakupalkki joka näkyy automaattisesti jos mediatoistin tukee sitä</system:String>
     <system:String x:Key="UnsupportedControlsWarning">*Jotkin selaimet/toistimet eivät tue toistoa, sekoitusta taikka hakupalkki-toimintoja.</system:String>
     <system:String x:Key="PauseOtherMediaTitle">Keskeytä Muut Toistetut Mediat Automaattisesti</system:String>

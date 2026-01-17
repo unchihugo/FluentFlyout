@@ -35,7 +35,7 @@ skryje opakování,náhodné přehrávání a informace přehrávače</system:St
     <system:String x:Key="RepeatButtonDescription">Vyberte si mezi opakování všech nebo jedné písničky, rozšíří plovoucí přehrávač</system:String>
     <system:String x:Key="ShuffleButtonTitle">Tlačítko náhodného přehrávání*</system:String>
     <system:String x:Key="ShuffleButtonDescription">Rozšíří plovoucí okno</system:String>
-    <system:String x:Key="ShowSeekbarTitle">Ukazovat časovou osu</system:String>
+    <system:String x:Key="ShowSeekbarTitle">Ukazovat časovou osu*</system:String>
     <system:String x:Key="ShowSeekbarDescription">Automaticky zobrazí interaktivní časovou osu, pokud ji přehrávač podporuje</system:String>
     <system:String x:Key="UnsupportedControlsWarning">*Některé prohlížeče/přehrávače nepodporují opakování, náhodné přehrávání a ovládání časové osy.</system:String>
     <system:String x:Key="PauseOtherMediaTitle">Automaticky zastaví ostatní média</system:String>

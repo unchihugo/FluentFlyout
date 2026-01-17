@@ -32,7 +32,7 @@
     <system:String x:Key="RepeatButtonDescription">모두 반복 또는 하나 반복 선택, 적용 시 플라이아웃 너비 증가</system:String>
     <system:String x:Key="ShuffleButtonTitle">셔플 버튼*</system:String>
     <system:String x:Key="ShuffleButtonDescription">적용 시 플라이아웃 너비 증가</system:String>
-    <system:String x:Key="ShowSeekbarTitle">재생 위치 막대 표시</system:String>
+    <system:String x:Key="ShowSeekbarTitle">재생 위치 막대 표시*</system:String>
     <system:String x:Key="ShowSeekbarDescription">플레이어가 지원하는 경우 상호 작용 가능한 탐색 막대가 자동으로 표시</system:String>
     <system:String x:Key="UnsupportedControlsWarning">*일부 브라우저/플레이어는 반복, 셔플 및 탐색 막대 제어를 지원하지 않습니다.</system:String>
     <system:String x:Key="PauseOtherMediaTitle">다른 미디어 자동 일시 정지</system:String>

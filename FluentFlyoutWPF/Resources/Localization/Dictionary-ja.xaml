@@ -33,7 +33,7 @@
     <system:String x:Key="RepeatButtonDescription">すべてリピート、または一曲リピートから選択します。ポップアップの幅が広くなります</system:String>
     <system:String x:Key="ShuffleButtonTitle">シャッフル ボタン*</system:String>
     <system:String x:Key="ShuffleButtonDescription">ポップアップの幅が広くなります</system:String>
-    <system:String x:Key="ShowSeekbarTitle">シークバーの表示</system:String>
+    <system:String x:Key="ShowSeekbarTitle">シークバーの表示*</system:String>
     <system:String x:Key="ShowSeekbarDescription">プレイヤーがシークバーに対応している場合、操作可能なシークバーが自動的に表示されます</system:String>
     <system:String x:Key="UnsupportedControlsWarning">*一部のブラウザやプレイヤーは、リピート、シャッフル、およびシークバーの操作に対応していません。</system:String>
     <system:String x:Key="PauseOtherMediaTitle">他のメディアを自動的に一時停止</system:String>
