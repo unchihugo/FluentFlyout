@@ -24,17 +24,28 @@ internal static class Notifications
             // Check if the user clicked the "View Changes" button
             if (args.TryGetValue("action", out string action) && action == "viewChanges")
             {
-                // Open the changelog URL in the default web browser
-                System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
-                {
-                    FileName = "https://fluentflyout.com/changelog/",
-                    UseShellExecute = true
-                });
+                OpenChangelogInBrowser();
             }
         }
         catch (Exception ex)
         {
             Logger.Error(ex, "Failed to handle notification activation");
+        }
+    }
+
+    public static void OpenChangelogInBrowser()
+    {
+        try
+        {
+            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
+            {
+                FileName = "https://fluentflyout.com/changelog/",
+                UseShellExecute = true
+            });
+        }
+        catch (Exception ex)
+        {
+            Logger.Error(ex, "Failed to open changelog in browser");
         }
     }
 

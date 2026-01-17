@@ -1,20 +1,19 @@
-﻿using FluentFlyout.Classes;
-using FluentFlyout.Classes.Settings;
-using FluentFlyoutWPF.Classes;
-using MicaWPF.Controls;
-using Microsoft.Win32;
-using System.Diagnostics;
-using System.IO;
+﻿using FluentFlyout.Classes.Settings;
+using FluentFlyoutWPF.Pages;
 using System.Windows;
-using Windows.ApplicationModel;
-using MessageBox = Wpf.Ui.Controls.MessageBox;
-
+using System.Windows.Controls;
+using System.Windows.Media;
+using Wpf.Ui.Controls;
 
 namespace FluentFlyoutWPF;
 
-public partial class SettingsWindow : MicaWindow
+public partial class SettingsWindow : FluentWindow
 {
-    private static SettingsWindow? instance; // for singleton
+    private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+
+    private static SettingsWindow? instance;
+    private Type? _currentPageType;
+    private ScrollViewer? _contentScrollViewer;
 
     public SettingsWindow()
     {
@@ -36,18 +35,8 @@ public partial class SettingsWindow : MicaWindow
 
         Closed += (s, e) => instance = null;
         DataContext = SettingsManager.Current;
-        try // gets the version of the app, works only in release mode
-        {
-            var version = Package.Current.Id.Version;
-            VersionTextBlock.Text = $"v{version.Major}.{version.Minor}.{version.Build}";
-        }
-        catch
-        {
-            VersionTextBlock.Text = "debug version";
-        }
 
-        ThemeManager.ApplySavedTheme();
-        UpdateMonitorList();
+        RootNavigation.SetCurrentValue(NavigationView.IsPaneOpenProperty, false);
     }
 
     public static void ShowInstance()
@@ -66,8 +55,49 @@ public partial class SettingsWindow : MicaWindow
 
             instance.Activate();
             instance.Focus();
-            instance.UpdateMonitorList();
         }
+    }
+
+    private async void SettingsWindow_Loaded(object sender, RoutedEventArgs e)
+    {
+        RootNavigation.IsPaneOpen = false;
+
+        _currentPageType = typeof(HomePage);
+        RootNavigation.Navigate(_currentPageType);
+
+        // wrkaround for WPF-UI NavigationView theme change bug:
+        // force pane initialization by toggling it once to prevent width corruption on theme changes
+        // not sure why this has to be done
+        await Task.Delay(100);
+        RootNavigation.IsPaneOpen = true;
+        await Task.Delay(10);
+        RootNavigation.IsPaneOpen = false;
+
+        RootNavigation.Navigated += (s, args) =>
+        {
+            _currentPageType = args.Page?.GetType();
+            ResetScrollPosition();
+        };
+
+        SettingsManager.Current.PropertyChanged += async (s, args) =>
+        {
+            if (args.PropertyName == nameof(SettingsManager.Current.AppTheme))
+            {
+                var wasPaneOpen = RootNavigation.IsPaneOpen;
+
+                // force fix pane state after theme change
+                await Dispatcher.InvokeAsync(async () =>
+                {
+                    await Task.Delay(100);
+                    RootNavigation.IsPaneOpen = !wasPaneOpen;
+                    await Task.Delay(10);
+                    RootNavigation.IsPaneOpen = wasPaneOpen;
+
+                    await Task.Delay(300);
+                    RootNavigation.Navigate(typeof(HomePage));
+                }, System.Windows.Threading.DispatcherPriority.Loaded);
+            }
+        };
     }
 
     private void SettingsWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -81,166 +111,82 @@ public partial class SettingsWindow : MicaWindow
         Close();
     }
 
-    private void StartupSwitch_Click(object sender, RoutedEventArgs e)
+    private void ResetScrollPosition()
     {
-        // might not work if installed using MSIX, needs investigation
-        SetStartup(StartupSwitch.IsChecked ?? false);
-    }
-
-    private void SetStartup(bool enable)
-    {
-        try
+        Dispatcher.BeginInvoke(new Action(() =>
         {
-            using var key = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true);
-            if (key == null) return;
-            const string appName = "FluentFlyout";
-            var executablePath = Environment.ProcessPath;
-
-            if (enable)
+            try
             {
-                // Check if the path is valid before setting
-                if (File.Exists(executablePath))
+                _contentScrollViewer ??= FindScrollableScrollViewer(RootNavigation);
+
+                if (_contentScrollViewer != null)
                 {
-                    key.SetValue(appName, executablePath);
-                }
-                else
-                {
-                    throw new FileNotFoundException("Application executable not found");
+                    _contentScrollViewer.ScrollToVerticalOffset(0);
                 }
             }
-            else
+            catch (Exception ex)
             {
-                if (key.GetValue(appName) != null)
-                {
-                    key.DeleteValue(appName, false);
-                }
+                Logger.Error(ex, "Error resetting scroll position in SettingsWindow");
             }
-        }
-        catch (Exception ex)
-        {
-            MessageBox messageBox = new()
-            {
-                Title = "Error",
-                Content = $"Failed to set startup: {ex.Message}",
-                CloseButtonText = "OK",
-            };
-
-            _ = messageBox.ShowDialogAsync();
-        }
+        }), System.Windows.Threading.DispatcherPriority.Loaded);
     }
 
-    private void StartupHyperlink_RequestNavigate(object sender,
-        System.Windows.Navigation.RequestNavigateEventArgs e)
+    // helper functions to traverse visual tree
+
+    private static T? FindChildByName<T>(DependencyObject parent, string name) where T : FrameworkElement
     {
-        Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri) { UseShellExecute = true });
-        e.Handled = true;
+        for (int i = 0; i < VisualTreeHelper.GetChildrenCount(parent); i++)
+        {
+            var child = VisualTreeHelper.GetChild(parent, i);
+            if (child is T typedChild && typedChild.Name == name)
+            {
+                return typedChild;
+            }
+
+            var result = FindChildByName<T>(child, name);
+            if (result != null)
+            {
+                return result;
+            }
+        }
+        return null;
     }
 
-    private async void UnlockPremiumButton_Click(object sender, RoutedEventArgs e)
+    private static ScrollViewer? FindScrollableScrollViewer(DependencyObject parent)
     {
-        try
+        for (int i = 0; i < VisualTreeHelper.GetChildrenCount(parent); i++)
         {
-            // Disable button during purchase
-            if (sender is System.Windows.Controls.Button button)
+            var child = VisualTreeHelper.GetChild(parent, i);
+            if (child is ScrollViewer sv && sv.ScrollableHeight > 0)
             {
-                button.IsEnabled = false;
-                button.Content = "Processing...";
+                return sv;
             }
 
-            (bool success, string result) = await LicenseManager.Instance.PurchasePremiumAsync();
-
-            if (success)
+            var result = FindScrollableScrollViewer(child);
+            if (result != null)
             {
-                // Update settings with new license status
-                SettingsManager.Current.IsPremiumUnlocked = true;
-
-                MessageBox messageBox = new()
-                {
-                    Title = "Success",
-                    Content = FindResource("PremiumPurchaseSuccess").ToString(),
-                    CloseButtonText = "OK",
-                };
-
-                await messageBox.ShowDialogAsync();
-            }
-            else
-            {
-                MessageBox messageBox = new()
-                {
-                    Title = "Purchase Failed",
-                    Content = $"{FindResource("PremiumPurchaseFailed")} ({result})",
-                    CloseButtonText = "OK",
-                };
-
-                await messageBox.ShowDialogAsync();
+                return result;
             }
         }
-        catch (Exception ex)
-        {
-            MessageBox messageBox = new()
-            {
-                Title = "Error",
-                Content = $"An error occurred: {ex.Message}",
-                CloseButtonText = "OK",
-            };
-
-            await messageBox.ShowDialogAsync();
-        }
-        finally
-        {
-            // Re-enable button
-            if (sender is System.Windows.Controls.Button button)
-            {
-                button.IsEnabled = true;
-                button.Content = FindResource("UnlockPremiumButton").ToString();
-            }
-        }
+        return null;
     }
 
-    private void ToggleSwitch_Click(object sender, RoutedEventArgs e)
+    private static T? FindVisualChild<T>(DependencyObject parent) where T : DependencyObject
     {
-        bool isChecked = (bool)NIconHideSwitch.IsChecked;
-
-        MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
-
-        if (!isChecked)
+        for (int i = 0; i < VisualTreeHelper.GetChildrenCount(parent); i++)
         {
-            mainWindow.nIcon.Register();
-        }
-        else
-        {
-            mainWindow.nIcon.Unregister();
-        }
-    }
-
-    private void UpdateMonitorList()
-    {
-        var monitors = WindowHelper.GetMonitors();
-
-        int update_list(int selectedMonitor, System.Windows.Controls.ComboBox comboBox)
-        {
-            comboBox.Items.Clear();
-
-            var resetToPrimary = selectedMonitor >= monitors.Count || selectedMonitor < 0;
-
-            for (int i = 0; i < monitors.Count; i++)
+            var child = VisualTreeHelper.GetChild(parent, i);
+            if (child is T typedChild)
             {
-                var monitor = monitors[i];
-                var cb = new System.Windows.Controls.ComboBoxItem()
-                {
-                    Content = monitor.isPrimary ? (i + 1).ToString() + " *" : (i + 1).ToString(),
-                };
-                if (resetToPrimary && monitor.isPrimary)
-                    selectedMonitor = i;
-
-                comboBox.Items.Add(cb);
+                return typedChild;
             }
 
-            comboBox.SelectedIndex = selectedMonitor;
-            return selectedMonitor;
+            var result = FindVisualChild<T>(child);
+            if (result != null)
+            {
+                return result;
+            }
         }
-
-        SettingsManager.Current.FlyoutSelectedMonitor = update_list(SettingsManager.Current.FlyoutSelectedMonitor, FlyoutSelectedMonitorComboBox);
-        SettingsManager.Current.TaskbarWidgetSelectedMonitor = update_list(SettingsManager.Current.TaskbarWidgetSelectedMonitor, TaskbarWidgetSelectedMonitorComboBox);
+        return null;
     }
 }

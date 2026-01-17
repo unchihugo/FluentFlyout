@@ -1,7 +1,8 @@
-using System.Diagnostics;
+using FluentFlyout.Classes.Settings;
 using System.Windows;
 using System.Windows.Interop;
 using Windows.Services.Store;
+using MessageBox = Wpf.Ui.Controls.MessageBox;
 
 namespace FluentFlyout.Classes;
 
@@ -193,7 +194,7 @@ public class LicenseManager
     /// Prompts the user to purchase the premium add-on
     /// </summary>
     /// <returns>True if purchase was successful, false otherwise</returns>
-    public async Task<(bool, string)> PurchasePremiumAsync()
+    private async Task<(bool, string)> PurchasePremiumAsync()
     {
         try
         {
@@ -303,6 +304,64 @@ public class LicenseManager
         {
             Logger.Error(ex, "Error getting product info");
             return null;
+        }
+    }
+
+    public static async void UnlockPremium(object sender)
+    {
+        try
+        {
+            if (sender is Wpf.Ui.Controls.Button button)
+            {
+                button.IsEnabled = false;
+                button.Content = "Processing...";
+            }
+
+            (bool success, string result) = await Instance.PurchasePremiumAsync();
+
+            if (success)
+            {
+                SettingsManager.Current.IsPremiumUnlocked = true;
+
+                MessageBox messageBox = new()
+                {
+                    Title = "Success",
+                    Content = Application.Current.TryFindResource("PremiumPurchaseSuccess").ToString(),
+                    CloseButtonText = "OK",
+                };
+
+                await messageBox.ShowDialogAsync();
+            }
+            else
+            {
+                MessageBox messageBox = new()
+                {
+                    Title = "Purchase Failed",
+                    Content = $"{Application.Current.TryFindResource("PremiumPurchaseFailed")} ({result})",
+                    CloseButtonText = "OK",
+                };
+
+                await messageBox.ShowDialogAsync();
+            }
+        }
+        catch (Exception ex)
+        {
+            MessageBox messageBox = new()
+            {
+                Title = "Error",
+                Content = $"An error occurred: {ex.Message}",
+                CloseButtonText = "OK",
+            };
+
+            await messageBox.ShowDialogAsync();
+        }
+        finally
+        {
+            if (sender is Wpf.Ui.Controls.Button button)
+            {
+                button.IsEnabled = true;
+                button.Content = Application.Current.TryFindResource("UnlockPremiumButton").ToString();
+            }
         }
     }
 }
