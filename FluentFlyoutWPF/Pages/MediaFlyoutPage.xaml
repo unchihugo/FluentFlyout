@@ -38,7 +38,7 @@
                         <ImageBrush ImageSource="/Resources/FluentFlyoutDemo3.1.png" Stretch="UniformToFill" />
                     </Border.Background>
                 </Border>
-                    <TextBlock Text="{DynamicResource MediaFlyoutDescription}" FontSize="14" FontWeight="Regular" HorizontalAlignment="Stretch" Opacity="0.75" Margin="12,0,0,0" MaxWidth="450" TextWrapping="WrapWithOverflow" />
+                <TextBlock Text="{DynamicResource MediaFlyoutDescription}" FontSize="14" FontWeight="Regular" HorizontalAlignment="Stretch" Opacity="0.75" Margin="12,0,0,0" MaxWidth="450" TextWrapping="WrapWithOverflow" />
             </StackPanel>
             <ui:CardControl Grid.Row="1" Icon="{ui:SymbolIcon VideoPlayPause24}" Margin="0,0,0,24">
                 <ui:CardControl.Header>
@@ -174,15 +174,5 @@
                 <controls:ToggleSwitch Name="PauseOtherSessionsEnabledSwitch" IsChecked="{Binding PauseOtherSessionsEnabled, Mode=TwoWay}" />
             </ui:CardControl>
         </Grid>
-
-        <DockPanel LastChildFill="False" Margin="0,24,0,12">
-            <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" HorizontalAlignment="Left">
-                <ui:SymbolIcon Symbol="Star24" Filled="True" Width="24" Height="24" FontSize="16" VerticalAlignment="Center" Foreground="Gold" />
-                <StackPanel Orientation="Vertical" VerticalAlignment="Center">
-                    <TextBlock Text="{DynamicResource EnjoyingAppText}" HorizontalAlignment="Center" FontSize="12" Opacity="0.5" VerticalAlignment="Center" Margin="4,0,0,0" />
-                </StackPanel>
-                <ui:Anchor Content="{DynamicResource GitHubRepoLink}" Icon="{ui:SymbolIcon Open24}" NavigateUri="https://github.com/unchihugo/FluentFlyout" Margin="12,0,0,0" />
-            </StackPanel>
-        </DockPanel>
     </StackPanel>
 </Page>

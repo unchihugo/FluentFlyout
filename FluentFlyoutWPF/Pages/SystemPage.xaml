@@ -202,15 +202,5 @@
                 <controls:ToggleSwitch x:Name="NIconHideSwitch" IsChecked="{Binding NIconHide, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}" Click="ToggleSwitch_Click" />
             </ui:CardControl>
         </Grid>
-
-        <DockPanel LastChildFill="False" Margin="0,24,0,12">
-            <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" HorizontalAlignment="Left">
-                <ui:SymbolIcon Symbol="Star24" Filled="True" Width="24" Height="24" FontSize="16" VerticalAlignment="Center" Foreground="Gold" />
-                <StackPanel Orientation="Vertical" VerticalAlignment="Center">
-                    <TextBlock Text="{DynamicResource EnjoyingAppText}" HorizontalAlignment="Center" FontSize="12" Opacity="0.5" VerticalAlignment="Center" Margin="4,0,0,0" />
-                </StackPanel>
-                <ui:Anchor Content="{DynamicResource GitHubRepoLink}" Icon="{ui:SymbolIcon Open24}" NavigateUri="https://github.com/unchihugo/FluentFlyout" Margin="12,0,0,0" />
-            </StackPanel>
-        </DockPanel>
     </StackPanel>
 </Page>
