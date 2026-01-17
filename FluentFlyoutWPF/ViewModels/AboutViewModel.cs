@@ -1,20 +1,15 @@
-using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.Windows;
-using System.Xml.Serialization;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using FluentFlyout.Classes;
-using FluentFlyout.Classes.Settings;
-using FluentFlyoutWPF.Models;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
 
 namespace FluentFlyoutWPF.ViewModels;
 
 public partial class AboutViewModel : ObservableObject
-   {
-       public ObservableCollection<string> Contributors { get; } = 
-       [
-           "unchihugo",
+{
+    public ObservableCollection<string> Contributors { get; } =
+    [
+        "unchihugo",
            "LiAuTraver",
            "kitUIN",
            "DmitriySalnikov",
@@ -60,21 +55,21 @@ public partial class AboutViewModel : ObservableObject
            "Atalanttore",
            "Simnico99",
             "NimiGames68"
-        ];
-        
-        public string ContributorsText => string.Join(", ", Contributors);
+     ];
 
-        public class LicenseInfo
-        {
-            public string Name { get; set; } = string.Empty;
-            public string Version { get; set; } = string.Empty;
-            public string License { get; set; } = string.Empty;
-            public string Url { get; set; } = string.Empty;
-        }
+    public string ContributorsText => string.Join(", ", Contributors);
 
-        public ObservableCollection<LicenseInfo> Licenses { get; } =
-        [
-            new LicenseInfo
+    public class LicenseInfo
+    {
+        public string Name { get; set; } = string.Empty;
+        public string Version { get; set; } = string.Empty;
+        public string License { get; set; } = string.Empty;
+        public string Url { get; set; } = string.Empty;
+    }
+
+    public ObservableCollection<LicenseInfo> Licenses { get; } =
+    [
+        new LicenseInfo
             {
                 Name = "Dubya.WindowsMediaController",
                 Version = "2.5.5",
@@ -130,25 +125,25 @@ public partial class AboutViewModel : ObservableObject
                 License = "MIT",
                 Url = "https://github.com/CommunityToolkit/dotnet"
             }
-        ];
+    ];
 
-        [RelayCommand]
-        private void OpenLicenseUrl(string url)
+    [RelayCommand]
+    private void OpenLicenseUrl(string url)
+    {
+        if (!string.IsNullOrEmpty(url))
         {
-            if (!string.IsNullOrEmpty(url))
+            try
             {
-                try
+                Process.Start(new ProcessStartInfo
                 {
-                    Process.Start(new ProcessStartInfo
-                    {
-                        FileName = url,
-                        UseShellExecute = true
-                    });
-                }
-                catch
-                {
-                    // Silently fail if URL cannot be opened
-                }
+                    FileName = url,
+                    UseShellExecute = true
+                });
+            }
+            catch
+            {
+                // Silently fail if URL cannot be opened
             }
         }
     }
+}

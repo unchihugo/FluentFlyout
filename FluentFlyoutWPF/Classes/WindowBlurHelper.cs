@@ -51,7 +51,10 @@ public static class WindowBlurHelper
     /// <param name="blurBackgroundColor">Background color in BGR format (default: 0x000000)</param>
     public static void EnableBlur(Window window, uint blurOpacity = 175, uint blurBackgroundColor = 0x000000)
     {
+        // override opacity if premium is unlocked
         if (SettingsManager.Current.IsPremiumUnlocked) blurOpacity = SettingsManager.Current.AcrylicBlurOpacity;
+        blurOpacity = Math.Clamp(blurOpacity, 0, 255);
+
         var windowHelper = new WindowInteropHelper(window);
 
         var currentTheme = ApplicationThemeManager.GetAppTheme();

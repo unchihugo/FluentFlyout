@@ -6,8 +6,6 @@ using System.IO;
 using System.Windows.Controls;
 using Windows.ApplicationModel;
 using Wpf.Ui.Controls;
-using Button = Wpf.Ui.Controls.Button;
-using MessageBox = Wpf.Ui.Controls.MessageBox;
 
 namespace FluentFlyoutWPF.Pages;
 
@@ -71,60 +69,7 @@ public partial class HomePage : Page
     // same as in AboutPage.xaml.cs
     private async void UnlockPremiumButton_Click(object sender, System.Windows.RoutedEventArgs e)
     {
-        try
-        {
-            if (sender is Button button)
-            {
-                button.IsEnabled = false;
-                button.Content = "Processing...";
-            }
-
-            (bool success, string result) = await LicenseManager.Instance.PurchasePremiumAsync();
-
-            if (success)
-            {
-                SettingsManager.Current.IsPremiumUnlocked = true;
-
-                MessageBox messageBox = new()
-                {
-                    Title = "Success",
-                    Content = FindResource("PremiumPurchaseSuccess").ToString(),
-                    CloseButtonText = "OK",
-                };
-
-                await messageBox.ShowDialogAsync();
-            }
-            else
-            {
-                MessageBox messageBox = new()
-                {
-                    Title = "Purchase Failed",
-                    Content = $"{FindResource("PremiumPurchaseFailed")} ({result})",
-                    CloseButtonText = "OK",
-                };
-
-                await messageBox.ShowDialogAsync();
-            }
-        }
-        catch (Exception ex)
-        {
-            MessageBox messageBox = new()
-            {
-                Title = "Error",
-                Content = $"An error occurred: {ex.Message}",
-                CloseButtonText = "OK",
-            };
-
-            await messageBox.ShowDialogAsync();
-        }
-        finally
-        {
-            if (sender is Button button)
-            {
-                button.IsEnabled = true;
-                button.Content = FindResource("UnlockPremiumButton").ToString();
-            }
-        }
+        LicenseManager.UnlockPremium(sender);
     }
 
     private void ViewMicrosoftStore_Click(object sender, System.Windows.RoutedEventArgs e)

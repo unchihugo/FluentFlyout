@@ -9,6 +9,8 @@ namespace FluentFlyoutWPF;
 
 public partial class SettingsWindow : FluentWindow
 {
+    private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+
     private static SettingsWindow? instance;
     private Type? _currentPageType;
     private ScrollViewer? _contentScrollViewer;
@@ -124,7 +126,7 @@ public partial class SettingsWindow : FluentWindow
             }
             catch (Exception ex)
             {
-                // Ignore exceptions during scroll reset
+                Logger.Error(ex, "Error resetting scroll position in SettingsWindow");
             }
         }), System.Windows.Threading.DispatcherPriority.Loaded);
     }

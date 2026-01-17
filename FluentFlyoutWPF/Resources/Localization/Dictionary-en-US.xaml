@@ -125,6 +125,8 @@ Note: As an open-source project, these features are also available for free via 
     <System:String x:Key="NativeExperienceInfo">For the native Windows 11 experience, the settings should be kept at default.</System:String>
     <System:String x:Key="DisableOnFullscreenTitle">Disable Flyouts if DirectX fullscreen program is detected</System:String>
     <System:String x:Key="DisableOnFullscreenDescription">Prevents DirectX games in exclusive fullscreen from minimizing if a flyout pops up</System:String>
+    <System:String x:Key="AcrylicBlurOpacityTitle">Acrylic Blur Opacity</System:String>
+    <System:String x:Key="AcrylicBlurOpacityDescription">Adjust the see-through effect on Acrylic flyouts (default: 175)</System:String>
     <System:String x:Key="HomeUpdateDescription">Learn what's new</System:String>
     <System:String x:Key="HomeDashboardTitle">Dashboard</System:String>
     <System:String x:Key="SystemConfigure">Configure</System:String>

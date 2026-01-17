@@ -146,20 +146,15 @@
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Acrylic Blur Opacity" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
+                            <TextBlock Text="{DynamicResource AcrylicBlurOpacityTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
                             <ui:InfoBadge Value=" PREMIUM " FontSize="10" FontWeight="Medium" Margin="6,-2,0,-2" Severity="Attention" />
                             <ui:InfoBadge Value=" NEW " FontWeight="Medium" FontSize="10" Margin="2,-2,0,-2" Severity="Success" />
                         </StackPanel>
-                        <TextBlock Text="Adjust the see-through effect on Acrylic flyouts (default: 175)" FontSize="12" Opacity="0.5" />
+                        <TextBlock Text="{DynamicResource AcrylicBlurOpacityDescription}" FontSize="12" Opacity="0.5" />
                     </StackPanel>
                 </ui:CardControl.Header>
                 <StackPanel Orientation="Horizontal">
-                    <Slider Minimum="0" Maximum="255" Value="{Binding AcrylicBlurOpacity, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}" TickFrequency="5" IsSnapToTickEnabled="True" Width="150"
-                                ToolTip="{Binding AcrylicBlurOpacity}"
-                                ToolTipService.Placement="MousePoint"
-                                ToolTipService.ShowOnDisabled="False"
-                                ToolTipService.InitialShowDelay="0"
-                                ToolTipService.ShowDuration="2000" />
+                    <Slider Minimum="0" Maximum="255" Value="{Binding AcrylicBlurOpacity, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}" TickFrequency="5" IsSnapToTickEnabled="True" Width="150" />
                     <ui:TextBlock Text="{Binding AcrylicBlurOpacity}" Width="24" TextAlignment="Center" Margin="12,0,0,0" />
                 </StackPanel>
             </ui:CardControl>

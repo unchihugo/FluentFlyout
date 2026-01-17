@@ -61,10 +61,10 @@
                     </Style>
                 </ui:InfoBar.Style>
                 <StackPanel Orientation="Horizontal">
-                    <controls:Button x:Name="UnlockPremiumButton" Content="{DynamicResource UnlockPremiumButton}"
-                               Click="UnlockPremiumButton_Click"
-                               Style="{StaticResource MicaWPF.Styles.AccentedButton}"
-                               Margin="12,0,0,0" Padding="12,4,12,4" FontSize="12" Height="28" />
+                    <ui:Button Name="UnlockPremiumButton" Content="{DynamicResource UnlockPremiumButton}" 
+                           Click="UnlockPremiumButton_Click" 
+                           Appearance="Primary"
+                           Margin="4,0,0,8" FontSize="12"/>
                 </StackPanel>
             </ui:InfoBar>
 
