@@ -33,7 +33,7 @@
     <system:String x:Key="RepeatButtonDescription">可选择循环播放或单曲循环，会增大浮窗宽度</system:String>
     <system:String x:Key="ShuffleButtonTitle">随机播放按钮*</system:String>
     <system:String x:Key="ShuffleButtonDescription">会增大浮窗宽度</system:String>
-    <system:String x:Key="ShowSeekbarTitle">显示进度条</system:String>
+    <system:String x:Key="ShowSeekbarTitle">显示进度条*</system:String>
     <system:String x:Key="ShowSeekbarDescription">如果播放器支持，将会自动显示可交互的进度条</system:String>
     <system:String x:Key="UnsupportedControlsWarning">* 一些浏览器 / 播放器不支持重复、随机播放按钮和进度条控制。</system:String>
     <system:String x:Key="PauseOtherMediaTitle">自动暂停其它媒体内容</system:String>
@@ -143,4 +143,7 @@
     <system:String x:Key="TaskbarWidgetManualPaddingTitle">自定义间距</system:String>
     <system:String x:Key="TaskbarWidgetManualPaddingDescription">添加额外的间距（默认：0 像素）</system:String>
     <system:String x:Key="PixelsUnit">像素</system:String>
+    <system:String x:Key="UpdateToastTitle">FluentFlyout 已成功更新！</system:String>
+    <system:String x:Key="UpdateToastMessage">当前版本为 {0}。</system:String>
+    <system:String x:Key="UpdateToastButton">查看更新日志</system:String>
 </ResourceDictionary>
