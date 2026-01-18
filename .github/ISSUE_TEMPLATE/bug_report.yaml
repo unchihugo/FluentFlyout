@@ -31,7 +31,7 @@ body:
       ...
 - type: markdown
   attributes:
-    value: "Prepare your logs: you can find them in `%appData%\\FluentFlyout\\` in v2.4.0+. Choose the non-verbose logs."
+    value: "Prepare your logs: you can find them by right-clicking the Tray Icon or in Settings > Home."
 - type: textarea
   id: additional-context
   attributes:
