@@ -38,11 +38,14 @@
 						<ScaleTransform ScaleX="0.9" ScaleY="0.9" />
 					</Grid.RenderTransform>
 					<StackPanel Name="MainStackPanel" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Width="Auto" Margin="4,0,-100,0">
-                        <Border Name="SongImageBorder" CornerRadius="5" Margin="0,0,0,-3" ClipToBounds="True" Width="36" Height="36" Panel.ZIndex="2">
+                        <Border Name="SongImageBorder" CornerRadius="5" Margin="0,0,0,-3" ClipToBounds="True" Width="36" Height="36" Panel.ZIndex="2" 
+                                ToolTipService.InitialShowDelay="800"
+                                ToolTipService.Placement="RelativePoint"
+                                ToolTipService.VerticalOffset="-16">
 							<ui:SymbolIcon Name="SongImagePlaceholder" Symbol="MusicNote220" FontSize="24" Filled="True" Foreground="{ui:ThemeResource AccentTextFillColorPrimaryBrush}" />
 							<Border.Background>
-								<ImageBrush x:Name="SongImage" Stretch="UniformToFill" />
-							</Border.Background>
+                                <ImageBrush x:Name="SongImage" Stretch="UniformToFill" />
+                            </Border.Background>
 						</Border>
                         <StackPanel Name="SongInfoStackPanel" Orientation="Vertical" VerticalAlignment="Center" Width="Auto" Margin="8,0,0,0" 
                                     ToolTipService.InitialShowDelay="800"

@@ -665,6 +665,7 @@ public partial class TaskbarWindow : Window
                 SongArtist.Text = string.Empty;
                 SongInfoStackPanel.Visibility = Visibility.Collapsed;
                 SongInfoStackPanel.ToolTip = string.Empty;
+                SongImageBorder.ToolTip = null;
                 SongImagePlaceholder.Symbol = SymbolRegular.MusicNote220;
                 SongImagePlaceholder.Visibility = Visibility.Visible;
                 SongImage.ImageSource = null;
@@ -753,6 +754,14 @@ public partial class TaskbarWindow : Window
                 BackgroundImage.Source = icon;
                 SongImageBorder.Margin = new Thickness(0, 0, 0, -2); // align image better when cover is present
 
+                SongImageBorder.ToolTip = new System.Windows.Controls.Image
+                {
+                    Source = icon,
+                    MaxWidth = 300,
+                    MaxHeight = 300,
+                    Stretch = Stretch.Uniform
+                };
+
                 // start cross-fade if previous task is completed
                 //if (_crossFadeTask.IsCompleted)
                 //{
@@ -765,6 +774,7 @@ public partial class TaskbarWindow : Window
                 SongImagePlaceholder.Visibility = Visibility.Visible;
                 SongImage.ImageSource = null;
                 BackgroundImage.Source = null;
+                SongImageBorder.ToolTip = null;
             }
 
             SongTitle.Visibility = Visibility.Visible;
