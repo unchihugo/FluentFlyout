@@ -10,7 +10,7 @@ body:
       options:
       - label: "I have searched that there is no existing issue regarding my feature request"
         required: true
-      - label: "I have read the [FAQ](https://github.com/unchihugo/FluentFlyout/wiki/Frequently-Asked-Questions-(FAQ)) and there is no answer to my request"
+      - label: "I have read the [FAQ](https://fluentflyout.com/faq/) and there is no answer to my request"
         required: true
   - type: textarea
     id: description
