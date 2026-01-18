@@ -1,0 +1,26 @@
+name: Feature request
+description: Suggest an idea for this project
+title: "[FEATURE REQUEST] Add Title Here"
+labels: ["enhancement"]
+body:
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: "Confirm that you have done the following:"
+      options:
+      - label: "I have searched that there is no existing issue regarding my feature request"
+        required: true
+      - label: "I have read the [FAQ](https://github.com/unchihugo/FluentFlyout/wiki/Frequently-Asked-Questions-(FAQ)) and there is no answer to my request"
+        required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: "A clear and concise description of what you'd like to have."
+    validations:
+      required: true
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional context
+      description: "Add any other context or screenshots about the feature request here."

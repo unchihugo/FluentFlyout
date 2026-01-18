@@ -1,0 +1,47 @@
+name: Bug report
+description: Create a report to help us improve
+title: "[BUG] Add Title Here"
+labels: ["bug"]
+body:
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: "Confirm that you have done the following:"
+      options:
+        - label: "I have searched that there is no existing issue regarding my bug"
+          required: true
+        - label: "I have read the [FAQ](https://github.com/unchihugo/FluentFlyout/wiki/Frequently-Asked-Questions-(FAQ)) and there is no answer to my issue"
+          required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: "Describe the bug"
+      description: "Write a clear and concise description of what the bug is."
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction-steps
+    attributes:
+      label: "To Reproduce"
+      description: "Steps to reproduce the behavior:"
+      value: |
+        1.
+        2.
+        3.
+        ...
+  - type: markdown
+    attributes:
+      value: "Prepare your logs: you can find them by right-clicking the Tray Icon or in Settings > Home."
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: "Logs, screenshots & additional context"
+      description: "Attach your logs here. If applicable, add screenshots and any other context about the problem."
+  - type: textarea
+    id: desktop-info
+    attributes:
+      label: Desktop
+      value: |
+        - OS: [e.g. Windows 11]
+        - FluentFlyout version: [e.g. v1.2.2]
+
