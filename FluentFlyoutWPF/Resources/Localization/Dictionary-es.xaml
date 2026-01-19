@@ -146,4 +146,6 @@ Nota: Como proyecto de código abierto, estas opciones también están disponibl
     <system:String x:Key="UpdateToastTitle">¡FluentFlyout se ha actualizado!</system:String>
     <system:String x:Key="UpdateToastMessage">Estás usando la versión {0}.</system:String>
     <system:String x:Key="UpdateToastButton">Ver Actualizaciones</system:String>
+    <system:String x:Key="AboutTitle">Información</system:String>
+    <system:String x:Key="AboutOpenSourceLicensesTitle">Licencias de código abierto</system:String>
 </ResourceDictionary>
