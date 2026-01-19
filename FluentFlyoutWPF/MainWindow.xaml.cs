@@ -8,13 +8,14 @@ using MicaWPF.Controls;
 using MicaWPF.Core.Extensions;
 using Microsoft.Win32;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
-using System.Windows.Interop;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
+using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
@@ -764,6 +765,7 @@ public partial class MainWindow : MicaWindow
                 ControlBack.IsEnabled = ControlForward.IsEnabled = false;
                 ControlBack.Opacity = ControlForward.Opacity = 0.35;
                 SongInfoStackPanel.ToolTip = string.Empty;
+                SongImageBorder.ToolTip = null;
                 return;
             }
 
@@ -892,8 +894,22 @@ public partial class MainWindow : MicaWindow
                     }
                 }
 
-                if (SongImage.ImageSource == null) SongImagePlaceholder.Visibility = Visibility.Visible;
-                else SongImagePlaceholder.Visibility = Visibility.Collapsed;
+                if (SongImage.ImageSource == null)
+                {
+                    SongImagePlaceholder.Visibility = Visibility.Visible;
+                    SongImageBorder.ToolTip = null;
+                }
+                else
+                {
+                    SongImagePlaceholder.Visibility = Visibility.Collapsed;
+                    SongImageBorder.ToolTip = new System.Windows.Controls.Image
+                    {
+                        Source = image,
+                        MaxWidth = 300,
+                        MaxHeight = 300,
+                        Stretch = Stretch.Uniform
+                    };
+                }
 
                 if (_seekBarEnabled)
                 {
@@ -1213,7 +1229,7 @@ public partial class MainWindow : MicaWindow
     {
         private const int MaxThumbnailSize = 512;
 
-        internal static BitmapImage? GetThumbnail(IRandomAccessStreamReference Thumbnail, bool convertToPng = true)
+        internal static BitmapImage? GetThumbnail(IRandomAccessStreamReference Thumbnail, bool convertToPng = true, int maxThumbnailSize = MaxThumbnailSize)
         {
             if (Thumbnail == null)
                 return null;
@@ -1224,7 +1240,7 @@ public partial class MainWindow : MicaWindow
                 // initialize the BitmapImage
                 image.BeginInit();
                 image.CacheOption = BitmapCacheOption.OnLoad;
-                image.DecodePixelWidth = MaxThumbnailSize;
+                image.DecodePixelWidth = maxThumbnailSize;
                 image.StreamSource = imageStream;
                 image.EndInit();
             }
