@@ -11,34 +11,7 @@ namespace FluentFlyout.Classes;
 public static class LocalizationManager
 {
     private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
-    
-    // class to hold flow direction state
-    public class LocalizationState : INotifyPropertyChanged
-    {
-        private FlowDirection _flowDirection = FlowDirection.LeftToRight;
 
-        public FlowDirection FlowDirection
-        {
-            get => _flowDirection;
-            set
-            {
-                if (_flowDirection != value)
-                {
-                    _flowDirection = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-
-        protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-    }
-
-    public static LocalizationState Instance { get; } = new();
     public static double maxLength = 0;
 
     // current language code (first two letters) for easy access
@@ -157,22 +130,10 @@ public static class LocalizationManager
 
     private static void ApplyFlowDirection(string languageCode)
     {
-        Instance.FlowDirection = _rtlLanguages.Contains(languageCode)
+        SettingsManager.Current.FlowDirection = _rtlLanguages.Contains(languageCode)
             ? FlowDirection.RightToLeft
             : FlowDirection.LeftToRight;
 
-        Logger.Debug("Applied flow direction: " + Instance.FlowDirection);
-
-        // return if there are no windows
-        if (!(Application.Current != null && Application.Current.Windows != null && Application.Current.Windows.Count > 0)) return;
-
-        // Update all existing windows
-        Application.Current.Dispatcher.Invoke(() =>
-    {
-        foreach (Window window in Application.Current.Windows)
-        {
-            window.FlowDirection = Instance.FlowDirection;
-        }
-    });
+        Logger.Debug("Applied flow direction: " + SettingsManager.Current.FlowDirection);
     }
 }

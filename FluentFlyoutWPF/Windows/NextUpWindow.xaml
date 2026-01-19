@@ -6,6 +6,7 @@
       xmlns:local="clr-namespace:FluentFlyoutWPF"
       xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
       xmlns:controls="clr-namespace:MicaWPF.Controls;assembly=MicaWPF"
+      xmlns:viewModels="clr-namespace:FluentFlyoutWPF.ViewModels"
       mc:Ignorable="d" 
       Height="50" Width="310"
       ResizeMode="NoResize"
@@ -13,6 +14,8 @@
       SystemBackdropType="Mica" ChangeTitleColorWhenInactive="False"
       TextOptions.TextRenderingMode="ClearType" TextOptions.TextFormattingMode="Ideal"
       FontFamily="Segoe UI Variable, Microsoft YaHei, Microsoft JhengHei, MS Gothic"
+      FlowDirection="{Binding FlowDirection}"
+      d:DataContext="{d:DesignInstance viewModels:UserSettings}"
       >
     <Window.Triggers>
         <EventTrigger RoutedEvent="Window.Loaded">

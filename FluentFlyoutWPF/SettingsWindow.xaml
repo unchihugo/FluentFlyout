@@ -12,6 +12,7 @@
     Title="FluentFlyout" Icon="/Resources/FluentFlyout2.ico"
     TextOptions.TextRenderingMode="ClearType" TextOptions.TextFormattingMode="Ideal"
     FontFamily="Segoe UI Variable, Microsoft YaHei, Microsoft JhengHei, MS Gothic"
+	FlowDirection="{Binding FlowDirection}"
     Closing="SettingsWindow_Closing"
     xmlns:viewModels="clr-namespace:FluentFlyoutWPF.ViewModels"
     d:DataContext="{d:DesignInstance viewModels:UserSettings}"
