@@ -404,6 +404,12 @@ public partial class TaskbarWindow : Window
                 MainBorder.Background = new SolidColorBrush(Colors.Transparent);
                 MainBorder.Background.Opacity = 0;
             }
+
+            MainBorder.SizeChanged += (s, e) =>
+            {
+                var rect = new RectangleGeometry(new Rect(0, 0, MainBorder.ActualWidth, MainBorder.ActualHeight), 6, 6);
+                MainBorder.Clip = rect;
+            };
         }
         catch (Exception ex)
         {
