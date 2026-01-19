@@ -77,13 +77,13 @@ Note: As an open-source project, these features are also available for free via 
     <System:String x:Key="PremiumPurchaseSuccess">Premium unlocked successfully!</System:String>
     <System:String x:Key="PremiumPurchaseFailed">Purchase failed. Please try again.</System:String>
     <System:String x:Key="PremiumPurchaseCancelled">Purchase cancelled.</System:String>
-    <System:String x:Key="NextUpCustomizationTitle">Next Up</System:String>
+    <System:String x:Key="NextUpCustomizationTitle">Next Up Flyout</System:String>
     <System:String x:Key="NextUpDescription" xml:space="preserve">A flyout shows what's next when a song/video ends. Only appears if the next item plays automatically, if next/previous is pressed manually, the main flyout appears instead.</System:String>
     <System:String x:Key="EnableNextUpTitle">Enable Next Up Flyout (Experimental)</System:String>
     <System:String x:Key="EnableNextUpDescription">Shows what's next when a song/video ends</System:String>
     <System:String x:Key="NextUpStayDurationTitle">Next Up Stay Duration</System:String>
     <System:String x:Key="NextUpStayDurationDescription">(default: 2000 ms)</System:String>
-    <System:String x:Key="LockKeysCustomizationTitle">Lock Keys</System:String>
+    <System:String x:Key="LockKeysCustomizationTitle">Lock Keys Flyout</System:String>
     <System:String x:Key="LockKeysDescription" xml:space="preserve">Check your lock key status at a glance. Appears after pressing Caps Lock, Num Lock or Scroll Lock. Convenient for laptops/keyboards without lock key indicators.</System:String>
     <System:String x:Key="EnableLockKeysTitle">Enable Lock Keys Flyout</System:String>
     <System:String x:Key="EnableLockKeysDescription">Displays whether the specified lock key is on or off</System:String>
