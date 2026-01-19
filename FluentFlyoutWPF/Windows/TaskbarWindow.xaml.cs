@@ -83,6 +83,11 @@ public partial class TaskbarWindow : Window
     [DllImport("user32.dll")]
     private static extern bool ScreenToClient(IntPtr hWnd, ref POINT lpPoint);
 
+    [DllImport("dwmapi.dll")]
+    private static extern int DwmGetWindowAttribute(IntPtr hwnd, int dwAttribute, out RECT pvAttribute, int cbAttribute);
+
+    private const int DWMWA_EXTENDED_FRAME_BOUNDS = 9;
+
     private const int GWL_STYLE = -16;
     private const int WS_CHILD = 0x40000000;
     private const int WS_POPUP = unchecked((int)0x80000000);
@@ -505,7 +510,7 @@ public partial class TaskbarWindow : Window
 
         // Get Taskbar dimensions
         RECT taskbarRect;
-        GetWindowRect(taskbarHandle, out taskbarRect);
+        DwmGetWindowAttribute(taskbarHandle, DWMWA_EXTENDED_FRAME_BOUNDS, out taskbarRect, Marshal.SizeOf(typeof(RECT)));
         int taskbarHeight = taskbarRect.Bottom - taskbarRect.Top;
 
         // Centered vertically
