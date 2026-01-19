@@ -14,6 +14,7 @@
         Background="Transparent"
         TextOptions.TextRenderingMode="ClearType" TextOptions.TextFormattingMode="Ideal"
         FontFamily="Segoe UI Variable, Microsoft YaHei, Microsoft JhengHei, MS Gothic"
+        FlowDirection="{Binding FlowDirection}"
         Loaded="Window_Loaded" Visibility="Collapsed"
         xmlns:viewModels="clr-namespace:FluentFlyoutWPF.ViewModels"
 		d:DataContext="{d:DesignInstance viewModels:UserSettings}">
@@ -37,8 +38,8 @@
 						<ScaleTransform ScaleX="0.9" ScaleY="0.9" />
 					</Grid.RenderTransform>
 					<StackPanel Name="MainStackPanel" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Width="Auto" Margin="4,0,-100,0">
-                        <Border Name="SongImageBorder" CornerRadius="5" Margin="0,0,0,-2" ClipToBounds="True" Width="36" Height="36" Panel.ZIndex="2">
-							<ui:SymbolIcon Name="SongImagePlaceholder" Symbol="MusicNote220" FontSize="24" Filled="True" Foreground="{ui:ThemeResource AccentTextFillColorPrimaryBrush}" />
+            <Border Name="SongImageBorder" CornerRadius="5" Margin="0,0,0,-2" ClipToBounds="True" Width="36" Height="36" Panel.ZIndex="2">
+              <ui:SymbolIcon Name="SongImagePlaceholder" Symbol="MusicNote220" FontSize="24" Filled="True" Foreground="{DynamicResource MicaWPF.Brushes.SystemAccentColorTertiary}" />
 							<Border.Background>
 								<ImageBrush x:Name="SongImage" Stretch="UniformToFill" />
 							</Border.Background>

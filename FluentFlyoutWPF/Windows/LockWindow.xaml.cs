@@ -18,6 +18,7 @@ public partial class LockWindow : MicaWindow
 
     public LockWindow()
     {
+        DataContext = SettingsManager.Current;
         WindowHelper.SetNoActivate(this);
         InitializeComponent();
         WindowHelper.SetTopmost(this);

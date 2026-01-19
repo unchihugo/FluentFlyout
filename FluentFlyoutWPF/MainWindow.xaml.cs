@@ -79,7 +79,7 @@ public partial class MainWindow : MicaWindow
 
     public MainWindow()
     {
-        DataContext = this;
+        DataContext = SettingsManager.Current;
         WindowHelper.SetNoActivate(this); // prevents some fullscreen apps from minimizing
         InitializeComponent();
         WindowHelper.SetTopmost(this); // more prevention of fullscreen apps minimizing
@@ -199,6 +199,7 @@ public partial class MainWindow : MicaWindow
             Logger.Info($"Current version: {SettingsManager.Current.LastKnownVersion}");
 
             Notifications.ShowFirstOrUpdateNotification(previousVersion, SettingsManager.Current.LastKnownVersion);
+            FlowDirection = SettingsManager.Current.FlowDirection;
         });
     }
 
