@@ -17,6 +17,7 @@ public partial class NextUpWindow : MicaWindow
     MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
     public NextUpWindow(string title, string artist, BitmapImage thumbnail)
     {
+        DataContext = SettingsManager.Current;
         WindowStartupLocation = WindowStartupLocation.Manual;
         Left = -Width - 9999; // move window out of bounds to prevent flickering, maybe needs better solution
         Top = 9999;

@@ -297,6 +297,10 @@ public partial class UserSettings : ObservableObject
     [ObservableProperty]
     public partial LanguageOption SelectedLanguage { get; set; }
 
+    [XmlIgnore]
+    [ObservableProperty]
+    public partial FlowDirection FlowDirection { get; set; }
+
     /// <summary>
     /// Gets or sets a value indicating whether the taskbar widget is enabled
     /// </summary>
@@ -442,6 +446,7 @@ public partial class UserSettings : ObservableObject
         MediaFlyoutBackgroundBlur = 0;
         MediaFlyoutAcrylicWindowEnabled = true;
         AppLanguage = "system";
+        FlowDirection = FlowDirection.LeftToRight;
         NextUpAcrylicWindowEnabled = true;
         LockKeysAcrylicWindowEnabled = true;
         TaskbarWidgetEnabled = false;
