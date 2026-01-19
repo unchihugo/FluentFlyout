@@ -157,4 +157,7 @@ Nota: Como proyecto de código abierto, estas opciones también están disponibl
     <system:String x:Key="AboutContributorsTitle">❤️ Conoce a Nuestros Contribuidores</system:String>
     <system:String x:Key="AboutContributorsDescription">¡Muchas gracias a todas las increíbles personas que han contribuido al desarrollo y éxito de FluentFlyout!</system:String>
     <system:String x:Key="MediaFlyoutAlwaysDisplayDescription">El flyout permanece abierto hasta que haces clic en el botón de cerrar</system:String>
+    <system:String x:Key="HomeTitle">Inicio</system:String>
+    <system:String x:Key="Enabled">Habilitado</system:String>
+    <system:String x:Key="Disabled">Deshabilitado</system:String>
 </ResourceDictionary>
