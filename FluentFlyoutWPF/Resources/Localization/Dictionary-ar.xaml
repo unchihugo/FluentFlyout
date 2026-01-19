@@ -18,7 +18,7 @@
     <system:String x:Key="FlyoutStayDurationTitle">مدة ظهور أداة التحكم</system:String>
     <system:String x:Key="FlyoutStayDurationDescription">(الافتراضي: 3000 مللي ثانية)</system:String>
     <system:String x:Key="BackgroundBlurTitle">تمويه الخلفية</system:String>
-    <system:String x:Key="PositionBottomLeft" xml:space="preserve"> في الأسفل يساراً</system:String>
+    <system:String x:Key="PositionBottomLeft" xml:space="preserve"> أسفل اليسار</system:String>
     <system:String x:Key="PositionBottomCenter" xml:space="preserve"> ‫أسفل منتصف</system:String>
     <system:String x:Key="PositionBottomRight" xml:space="preserve"> أسفل اليمين</system:String>
     <system:String x:Key="PositionTopLeft" xml:space="preserve"> الأعلى يساراً</system:String>
