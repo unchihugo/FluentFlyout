@@ -6,21 +6,21 @@
     <system:String x:Key="LockWindow_LockOn">Attivo</system:String>
     <system:String x:Key="LockWindow_LockOff">Disattivo</system:String>
     <system:String x:Key="TitleText">Impostazioni di FluentFlyout</system:String>
-    <system:String x:Key="MediaFlyoutTitle">Personalizzazione del Media Flyout</system:String>
-    <system:String x:Key="MediaFlyoutDescription">Flyout principale. Quando si sta ascoltando un media, la pressione di un qualsiasi testo per il controllo multimediale o per il controllo del volume (Play/Pausa, Volume su/Volume Giù, ecc...) sulla tua tastire per mostrare il flyout. Mostra le informazioni del media assieme ai controlli per il playback e altro.</system:String>
+    <system:String x:Key="MediaFlyoutTitle">Media Flyout</system:String>
+    <system:String x:Key="MediaFlyoutDescription">Flyout principale. Quando si sta ascoltando un media, la pressione di un qualsiasi testo per il controllo multimediale o per il controllo del volume (Play/Pausa, Volume su/Volume Giù, ecc...) sulla tua tastiera per mostrare il flyout. Mostra le informazioni del media assieme ai controlli per il playback e altro.</system:String>
     <system:String x:Key="TextBlockText1">Abilita il Media Flyout</system:String>
     <system:String x:Key="TextBlockText3">Mostra il flyout quando premi un tasto per il controllo dei media</system:String>
     <system:String x:Key="TextBlockText2">Scegli un preset per una moderna sfocatura dello sfondo</system:String>
     <system:String x:Key="BackgroundBlurOption1" xml:space="preserve"> Nessuna</system:String>
-    <system:String x:Key="BackgroundBlurOption2" xml:space="preserve"> Stile 1 (Copertina Luminosa)</system:String>
-    <system:String x:Key="BackgroundBlurOption3" xml:space="preserve"> Stile 2 (Bagliore in salita)</system:String>
+    <system:String x:Key="BackgroundBlurOption2" xml:space="preserve"> Stile 1 (Bagliore copertina)</system:String>
+    <system:String x:Key="BackgroundBlurOption3" xml:space="preserve"> Stile 2 (Bagliore crescente)</system:String>
     <system:String x:Key="BackgroundBlurOption4" xml:space="preserve"> Stile 3 (Sfocatura)</system:String>
-    <system:String x:Key="BackgroundBlurTitle">Sfocatura di sfondo</system:String>
+    <system:String x:Key="BackgroundBlurTitle">Sfocatura sfondo</system:String>
     <system:String x:Key="AcrylicWindowTitle">Finestra Acrilica</system:String>
-    <system:String x:Key="AcrylicWindowDescription">Applica un effettto di trasparenza acrilica al flyoout (Se disattivato riutillazza Mica)</system:String>
+    <system:String x:Key="AcrylicWindowDescription">Applica un effetto di trasparenza acrilica al flyout (Mica se disattivato)</system:String>
     <system:String x:Key="CompactLayoutTitle">Layout compatto</system:String>
-    <system:String x:Key="CompactLayoutDescription" xml:space="preserve">Layout più senllo e meno intrusivo
-nasconde ripeti, riproduzione casuale e le informazioni del player</system:String>
+    <system:String x:Key="CompactLayoutDescription" xml:space="preserve">Layout più snello e meno intrusivo
+nasconde ripeti, casuale e informazioni player</system:String>
     <system:String x:Key="FlyoutPositionTitle">Posizione del Flyout</system:String>
     <system:String x:Key="PositionBottomLeft" xml:space="preserve"> In Basso a Sinistra</system:String>
     <system:String x:Key="PositionBottomCenter" xml:space="preserve"> In Basso al Centro</system:String>
@@ -33,14 +33,14 @@ nasconde ripeti, riproduzione casuale e le informazioni del player</system:Strin
     <system:String x:Key="MillisecondsUnit">ms</system:String>
     <system:String x:Key="MediaFlyoutAlwaysDisplay">Mostra sempre</system:String>
     <system:String x:Key="CenterTitleArtistTitle">Centra Titolo e Artista</system:String>
-    <system:String x:Key="CenterTitleArtistDescription">Alinea il testo al cantro invece cha a sinistra</system:String>
-    <system:String x:Key="ShowMediaPlayerNameTitle">Mostra il nome del riproduttore del media</system:String>
+    <system:String x:Key="CenterTitleArtistDescription">Alinea il testo al centro invece cha a sinistra</system:String>
+    <system:String x:Key="ShowMediaPlayerNameTitle">Mostra il nome del player</system:String>
     <system:String x:Key="RepeatButtonTitle">Tasto ripetizione*</system:String>
-    <system:String x:Key="RepeatButtonDescription">Scegliere tra ripeti tutti e ripeti la singola canzone, aumente la larghezza del flyout</system:String>
-    <system:String x:Key="ShuffleButtonTitle">Pulsante ripetizione casuale*</system:String>
+    <system:String x:Key="RepeatButtonDescription">Scegli tra ripeti tutti e ripeti singolo, allarga il flyout</system:String>
+    <system:String x:Key="ShuffleButtonTitle">Pulsante Casuale*</system:String>
     <system:String x:Key="ShuffleButtonDescription">Aumenta la larghezza del flyout</system:String>
-    <system:String x:Key="ShowSeekbarTitle">Mostra barra di ricerca*</system:String>
-    <system:String x:Key="ShowSeekbarDescription">Una barra di ricerca iteragibile che verrà mostrata autonomamente se il player lo supporta</system:String>
+    <system:String x:Key="ShowSeekbarTitle">Mostra barra di avanzamento*</system:String>
+    <system:String x:Key="ShowSeekbarDescription">Una barra di ricerca interattiva che verrà mostrata autonomamente se il player lo supporta</system:String>
     <system:String x:Key="UnsupportedControlsWarning">*Alcuni Browser/Player non supportano il ripeti, riproduzione casuale e la barra di ricerca.</system:String>
     <system:String x:Key="PauseOtherMediaTitle">Ferma gli altri media autonomamente</system:String>
     <system:String x:Key="PauseOtherMediaDescription">Quando riproduci o metti in primo piano un nuovo media, le altre sessioni attive vengono messe in pausa autonomamente</system:String>
@@ -135,7 +135,7 @@ Puoi contribuire nelle traduzioni su</system:String>
     <system:String x:Key="TaskbarWidgetControlsDescription">Mostra i pulsanti per il controllo dei media nel widget</system:String>
     <system:String x:Key="TaskbarWidgetAnimatedTitle">Animazioni del widget</system:String>
     <system:String x:Key="TaskbarWidgetAnimatedDescription">Attiva leggere animazioni per il widget</system:String>
-    <system:String x:Key="SelectedMonitorTitle">Display di destinazione del Flyout</system:String>
+    <system:String x:Key="SelectedMonitorTitle">Display del Flyout</system:String>
     <system:String x:Key="TaskbarWidgetSelectedMonitorTitle">Display di destinazione del Widget</system:String>
     <system:String x:Key="TaskbarWidgetPaddingSettingsTitle">Impostazioni dell'identazione del Widget</system:String>
     <system:String x:Key="TaskbarWidgetPaddingSettingsDescription">Aggiusta l'identazione del widget per farlo combaciare con lo stile della taskbar</system:String>
@@ -146,4 +146,8 @@ Puoi contribuire nelle traduzioni su</system:String>
     <system:String x:Key="UpdateToastTitle">FluentFlyout è stato aggiornato!</system:String>
     <system:String x:Key="UpdateToastMessage">Ora sei alla {0}.</system:String>
     <system:String x:Key="UpdateToastButton">Guarda gli aggiornamenti</system:String>
+    <system:String x:Key="HomeTitle">Home</system:String>
+    <system:String x:Key="Enabled">Abilitato</system:String>
+    <system:String x:Key="Disabled">Disabilitato</system:String>
+    <system:String x:Key="MediaFlyoutAlwaysDisplayDescription">Il flyout resta aperto fino al clic sul pulsante di chiusura</system:String>
 </ResourceDictionary>
