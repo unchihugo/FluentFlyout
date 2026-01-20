@@ -38,13 +38,13 @@
     <system:String x:Key="UnsupportedControlsWarning">*بعض المتصفحات/المشغلات لا تدعم التكرار والخلط والتحكم في شريط البحث.</system:String>
     <system:String x:Key="PauseOtherMediaTitle">إيقاف الوسائط الأخرى تلقائيًا</system:String>
     <system:String x:Key="PauseOtherMediaDescription">عند تشغيل الوسائط الجديدة أو التركيز عليها، يتم إيقاف الجلسات النشطة الأخرى تلقائيًا</system:String>
-    <system:String x:Key="NextUpCustomizationTitle">التالي</system:String>
+    <system:String x:Key="NextUpCustomizationTitle">إشعار الوسائط التالية</system:String>
     <system:String x:Key="NextUpDescription" xml:space="preserve">تُظهر نافذة منبثقة ما يلي عند انتهاء أغنية/فيديو. تظهر فقط عند تشغيل العنصر التالي تلقائيًا، أما عند الضغط على التالي/السابق يدويًا، فتظهر النافذة الرئيسية.</system:String>
     <system:String x:Key="EnableNextUpTitle">تمكين القائمة المنبثقة التالية (تجريبي)</system:String>
     <system:String x:Key="EnableNextUpDescription">يُظهر ما التالي بعد انتهاء الأغنية/الفيديو</system:String>
     <system:String x:Key="NextUpStayDurationTitle">التالي مده الاقامه</system:String>
     <system:String x:Key="NextUpStayDurationDescription">(الافتراضي: 2000 مللي ثانية)</system:String>
-    <system:String x:Key="LockKeysCustomizationTitle">مفاتيح القفل</system:String>
+    <system:String x:Key="LockKeysCustomizationTitle">إشعار مفاتيح القفل</system:String>
     <system:String x:Key="LockKeysDescription" xml:space="preserve">تحقق من حالة مفتاح القفل بنظرة واحدة. يظهر بعد الضغط على Caps Lock أو Num Lock أو Scroll Lock. مناسب لأجهزة الكمبيوتر المحمولة/لوحات المفاتيح التي لا تحتوي على مؤشرات مفاتيح القفل.</system:String>
     <system:String x:Key="EnableLockKeysTitle">تفعيل مفاتيح القفل المنبثقة</system:String>
     <system:String x:Key="EnableLockKeysDescription">يعرض ما إذا كان مفتاح القفل المحدد قيد التشغيل أم متوقفًا</system:String>
