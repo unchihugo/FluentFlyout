@@ -159,4 +159,5 @@ Puoi contribuire nelle traduzioni su</system:String>
     <system:String x:Key="AboutContributorsDescription">Grazie mille a tutti voi e a tutte le persone che hanno contribuito all sviluppo e al successo di FluentFlyout!</system:String>
     <system:String x:Key="AboutOpenSourceLicensesTitle">Licenze Open Source</system:String>
     <system:String x:Key="AboutOpenSourceLicensesDescription">FluentFlyout è stato compilato con i seguenti pacchentti open source:</system:String>
+    <system:String x:Key="AboutTitle">Di che si tratta</system:String>
 </ResourceDictionary>
