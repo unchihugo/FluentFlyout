@@ -44,7 +44,7 @@ nasconde ripeti, casuale e informazioni player</system:String>
     <system:String x:Key="UnsupportedControlsWarning">*Alcuni Browser/Player non supportano il ripeti, riproduzione casuale e la barra di ricerca.</system:String>
     <system:String x:Key="PauseOtherMediaTitle">Ferma gli altri media autonomamente</system:String>
     <system:String x:Key="PauseOtherMediaDescription">Quando riproduci o metti in primo piano un nuovo media, le altre sessioni attive vengono messe in pausa autonomamente</system:String>
-    <system:String x:Key="TaskbarWidgetCustomizationTitle">Personalizzazione del Widget della Taskbar</system:String>
+    <system:String x:Key="TaskbarWidgetCustomizationTitle">Widget della Taskbar</system:String>
     <system:String x:Key="TaskbarWidgetDescription">Un compatto, integrato widget che è presente sulla Taskbar di Windows per un accesso instantenea al tuo media. Premi il widget per espandere il media flyout completo (se è attivo).</system:String>
     <system:String x:Key="TaskbarWidgetEnabledTitle">Attiva il Widget per la Taskbar</system:String>
     <system:String x:Key="TaskbarWidgetEnabledDescription">Mostra un Widget compatto per i media sulla Taskbar</system:String>
@@ -69,13 +69,13 @@ Nota: VIsto che questo è un progetto open-source, queste funzionalità sono avi
     <system:String x:Key="PremiumPurchaseSuccess">Premium sbloccato con successo!</system:String>
     <system:String x:Key="PremiumPurchaseFailed">Acquisto fallito. Per favore, prova ancora.</system:String>
     <system:String x:Key="PremiumPurchaseCancelled">Acquisto cancellato.</system:String>
-    <system:String x:Key="NextUpCustomizationTitle">Prossima media personalizzazione</system:String>
+    <system:String x:Key="NextUpCustomizationTitle">Prossimo media Flyout</system:String>
     <system:String x:Key="NextUpDescription" xml:space="preserve">Un flyout che mostra cosa verrà riprodotto sucessivamente alla fine della canzone/video. Appare solamente se l'elemenro sucessivo si riproduce autonomamente, se prossimo/precedente vengono premuti manualmente, apparirà invece il flyout principale.</system:String>
     <system:String x:Key="EnableNextUpTitle">Attiva il flyout per il prossimo elemento (Sperimentale)</system:String>
     <system:String x:Key="EnableNextUpDescription">Mostra cosa c'è dopo quando una canzone/video finisce</system:String>
     <system:String x:Key="NextUpStayDurationTitle">Durata a schermo del Successivo</system:String>
     <system:String x:Key="NextUpStayDurationDescription">(default: 2000 ms)</system:String>
-    <system:String x:Key="LockKeysCustomizationTitle">Personalizzazione dei tasti di blocco</system:String>
+    <system:String x:Key="LockKeysCustomizationTitle">Flyout dei tasti di blocco</system:String>
     <system:String x:Key="LockKeysDescription" xml:space="preserve">Controlla lo stato dei tuoi pulsanti di blocco con uno sguardo. Appare dopo aver premuto il blocco maiuscolo, blocco numerico o il scroll lock. Utile per laptop/tastire che non hanno degli indicatori per i pulsati di blocco.</system:String>
     <system:String x:Key="EnableLockKeysTitle">Attiva il Flyout dei pulsanti di blocco</system:String>
     <system:String x:Key="EnableLockKeysDescription">Mastra quando uno specifico tasto è attivo o no</system:String>
@@ -150,4 +150,5 @@ Puoi contribuire nelle traduzioni su</system:String>
     <system:String x:Key="Enabled">Abilitato</system:String>
     <system:String x:Key="Disabled">Disabilitato</system:String>
     <system:String x:Key="MediaFlyoutAlwaysDisplayDescription">Il flyout resta aperto fino al clic sul pulsante di chiusura</system:String>
+    <system:String x:Key="AcrylicBlurOpacityTitle">Sfocatura acrilica opaca</system:String>
 </ResourceDictionary>
