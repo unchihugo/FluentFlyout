@@ -52,11 +52,11 @@ nasconde ripeti, casuale e informazioni player</system:String>
     <system:String x:Key="TaskbarWidgetPosition">Posizione del Widget</system:String>
     <system:String x:Key="TaskbarWidgetPaddingTitle">Spaziatura Automatica per Pulsante Widget di Windows</system:String>
     <system:String x:Key="TaskbarWidgetPaddingDescription">Attiva questa funzione se hai i Widget di Windows attivi</system:String>
-    <system:String x:Key="TaskbarWidgetClickableTitle">Premi per aprire il Flyout dei media quando è attivo</system:String>
-    <system:String x:Key="TaskbarWidgetClickableDescription">Se il Flyout dei media è attivato, si aprirà quando premerai sul Widget della Taskbar</system:String>
-    <system:String x:Key="TaskbarWidgetBackgroundBlurTitle">Sfocatura dello sfondo</system:String>
+    <system:String x:Key="TaskbarWidgetClickableTitle">Premi per aprire il Flyout Multimediale quando è attivo</system:String>
+    <system:String x:Key="TaskbarWidgetClickableDescription">Se il flyout multimediale è attivato, si aprirà quando premerai sul widget nella barra delle applicazione</system:String>
+    <system:String x:Key="TaskbarWidgetBackgroundBlurTitle">Sfocatura Sfondo</system:String>
     <system:String x:Key="TaskbarWidgetBackgroundBlurDescription">Aggiunge un effetto di sfocatura dello sfondo</system:String>
-    <system:String x:Key="TaskbarWidgetHideCompletelyTitle">Sì nasconde completamente quando nessun media è presente</system:String>
+    <system:String x:Key="TaskbarWidgetHideCompletelyTitle">Nascondi Quando Nessun Contenuto è Presente</system:String>
     <system:String x:Key="TaskbarWidgetHideCompletelyDescription">Nasconde completamente il Widget quanod non c'è nessun media, invece di mostra un'icona dei media</system:String>
     <system:String x:Key="PremiumFeatureTitle">Funzionalità premium</system:String>
     <system:String x:Key="PremiumFeatureDescription" xml:space="preserve">Il tuo contributo di una volta mi permette di tenere FluentFlyout attivo e aggiornato. Sbloccca immediatamente tutte le persoanlizzazioni premuim, per sempre
@@ -140,7 +140,7 @@ Puoi contribuire nelle traduzioni su</system:String>
     <system:String x:Key="TaskbarWidgetPaddingSettingsTitle">Spaziatura Interna del Widget</system:String>
     <system:String x:Key="TaskbarWidgetPaddingSettingsDescription">Regola la spaziatura interna attorno al widget per adattarlo alla tua barra delle applicazioni</system:String>
     <system:String x:Key="TaskbarWidgetManualPaddingTitle">Spaziatura Personalizzata</system:String>
-    <system:String x:Key="TaskbarWidgetManualPaddingDescription">Aggiunge un indentazione personalizzata (default: 0px)</system:String>
+    <system:String x:Key="TaskbarWidgetManualPaddingDescription">Aggiunge un spaziamento personalizzato (predefinita: 0px)</system:String>
     <system:String x:Key="TrayIcon_ViewLogsOption">Guarda i log</system:String>
     <system:String x:Key="PixelsUnit">px</system:String>
     <system:String x:Key="UpdateToastTitle">FluentFlyout è stato aggiornato!</system:String>
