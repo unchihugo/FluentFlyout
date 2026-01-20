@@ -11,10 +11,12 @@
       d:DesignHeight="1600" d:DesignWidth="800"
       Title="TaskbarWidgetPage"
       d:DataContext="{d:DesignInstance viewModels:UserSettings}"
-      Foreground="{DynamicResource TextFillColorPrimaryBrush}">
+      Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+      d:Background="White">
 
     <Page.Resources>
         <utils:BoolToVisibleCollapsedConverter x:Key="BoolToCollapsedVisibleConverter" TrueValue="Collapsed" FalseValue="Visible" />
+        <utils:BoolToFullHalfOpacityConverter x:Key="BoolToFullHalfOpacityConverter" />
     </Page.Resources>
 
     <StackPanel MaxWidth="1000" Margin="16">
@@ -88,8 +90,10 @@
 
             <!-- GitHub Version InfoBar -->
             <ui:InfoBar Grid.Row="1" Title="{DynamicResource PremiumGitHubMessage}" IsOpen="True" Severity="Informational" IsClosable="True" Margin="0,0,0,3" Visibility="{Binding IsStoreVersion, Converter={StaticResource BoolToCollapsedVisibleConverter}}" />
+        </Grid>
 
-            <ui:CardControl Grid.Row="2" Icon="{ui:SymbolIcon TextboxAlignBottom24}" Margin="0,0,0,24">
+        <StackPanel Opacity="{Binding IsPremiumUnlocked, Converter={StaticResource BoolToFullHalfOpacityConverter}}">
+                <ui:CardControl Grid.Row="2" Icon="{ui:SymbolIcon TextboxAlignBottom24}" Margin="0,0,0,24">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
                         <StackPanel Orientation="Horizontal">
@@ -234,6 +238,6 @@
                 </ui:CardControl.Header>
                 <controls:ToggleSwitch IsChecked="{Binding TaskbarWidgetAnimated, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}" />
             </ui:CardControl>
-        </Grid>
+        </StackPanel>
     </StackPanel>
 </Page>
