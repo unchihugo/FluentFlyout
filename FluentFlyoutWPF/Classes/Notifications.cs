@@ -118,7 +118,7 @@ internal static class Notifications
     {
         long currentUnixSeconds = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
 
-        if (currentUnixSeconds - SettingsManager.Current.LastUpdateNotificationUnixSeconds < TimeSpan.FromDays(3).TotalSeconds) // 3 days cooldown
+        if (currentUnixSeconds - SettingsManager.Current.LastUpdateNotificationUnixSeconds < TimeSpan.FromDays(5).TotalSeconds) // 5 days cooldown
         {
             return;
         }
