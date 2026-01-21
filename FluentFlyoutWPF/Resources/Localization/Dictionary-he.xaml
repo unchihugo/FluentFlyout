@@ -157,4 +157,7 @@
     <system:String x:Key="AboutContributorsTitle">❤️ הכירו את התורמים שלנו</system:String>
     <system:String x:Key="AboutOpenSourceLicensesTitle">רישיונות קוד פתוח</system:String>
     <system:String x:Key="MediaFlyoutAlwaysDisplayDescription">החלון הנשלף נשאר פתוח עד שתלחצו על כפתור הסגירה</system:String>
+    <system:String x:Key="AboutContributorsDescription">תודה ענקית לכל האנשים המדהימים שתרמו לפיתוח ולהצלחת FluentFlyout!</system:String>
+    <system:String x:Key="AboutOpenSourceLicensesDescription">FluentFlyout בנויה עם חבילות הקוד הפתוח הבאות:</system:String>
+    <system:String x:Key="AcrylicBlurOpacityDescription">כוונון אפקט השקיפות של Acrylic flyouts (ברירת מחדל: 175)</system:String>
 </ResourceDictionary>
