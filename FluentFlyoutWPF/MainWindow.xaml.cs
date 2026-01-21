@@ -22,6 +22,7 @@ using Windows.ApplicationModel;
 using Windows.Media.Control;
 using Windows.Storage.Streams;
 using static WindowsMediaController.MediaManager;
+using FluentFlyoutWPF.ViewModels;
 
 
 namespace FluentFlyoutWPF;
@@ -200,7 +201,35 @@ public partial class MainWindow : MicaWindow
 
             Notifications.ShowFirstOrUpdateNotification(previousVersion, SettingsManager.Current.LastKnownVersion);
             FlowDirection = SettingsManager.Current.FlowDirection;
+
+            // check for updates on startup
+            _ = CheckForUpdatesOnStartupAsync();
         });
+    }
+
+    private async Task CheckForUpdatesOnStartupAsync()
+    {
+        try
+        {
+            var result = await UpdateChecker.CheckForUpdatesAsync(SettingsManager.Current.LastKnownVersion);
+
+            if (result.Success)
+            {
+                UpdateState.Current.IsUpdateAvailable = result.IsUpdateAvailable;
+                UpdateState.Current.NewestVersion = result.NewestVersion;
+                UpdateState.Current.UpdateUrl = result.UpdateUrl;
+                UpdateState.Current.LastUpdateCheck = result.CheckedAt;
+
+                if (result.IsUpdateAvailable)
+                {
+                    Notifications.ShowUpdateAvailableNotification(result.NewestVersion, result.UpdateUrl);
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger.Error(ex, "Failed to check for updates on startup");
+        }
     }
 
     private void openSettings(object? sender, EventArgs e)

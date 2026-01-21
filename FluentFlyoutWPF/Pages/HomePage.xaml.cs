@@ -1,8 +1,10 @@
 using FluentFlyout.Classes;
 using FluentFlyout.Classes.Settings;
+using FluentFlyoutWPF.ViewModels;
 using NLog;
 using System.Diagnostics;
 using System.IO;
+using System.Windows;
 using System.Windows.Controls;
 using Windows.ApplicationModel;
 using Wpf.Ui.Controls;
@@ -27,11 +29,100 @@ public partial class HomePage : Page
         {
             VersionTextBlock.Text = "debug version";
         }
+
+        UpdateLastCheckedText();
     }
 
-    private void ViewUpdates_Click(object sender, System.Windows.RoutedEventArgs e)
+    private void UpdateLastCheckedText()
+    {
+        if (UpdateState.Current.LastUpdateCheck != default)
+        {
+            LastCheckedText.Text = string.Format(
+                Application.Current.FindResource("LastChecked")?.ToString() ?? "Last checked: {0}",
+                UpdateState.Current.LastCheckedText);
+        }
+        else
+        {
+            LastCheckedText.Text = string.Empty;
+        }
+    }
+
+    private void ViewUpdates_Click(object sender, RoutedEventArgs e)
     {
         Notifications.OpenChangelogInBrowser();
+    }
+
+    private long _lastChecked = 0;
+
+    private async void CheckForUpdates_Click(object sender, RoutedEventArgs e)
+    {
+        // prevent multiple clicks within 1 second
+        if (DateTimeOffset.UtcNow.ToUnixTimeSeconds() - _lastChecked < 1)
+        {
+            return;
+        }
+
+        _lastChecked = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+
+        if (UpdateState.Current.IsUpdateAvailable)
+        {
+            string url = !string.IsNullOrEmpty(UpdateState.Current.UpdateUrl) ? UpdateState.Current.UpdateUrl : "https://fluentflyout.com/changelog/";
+            UpdateChecker.OpenUpdateUrl(url);
+        }
+        else
+        {
+            await CheckForUpdatesAsync();
+        }
+    }
+
+    private async Task CheckForUpdatesAsync()
+    {
+        try
+        {
+            UpdateStatusText.Text = Application.Current.FindResource("CheckingForUpdates")?.ToString() ?? "Checking...";
+
+            var result = await UpdateChecker.CheckForUpdatesAsync(SettingsManager.Current.LastKnownVersion);
+
+            if (result.Success)
+            {
+                UpdateState.Current.IsUpdateAvailable = result.IsUpdateAvailable;
+                UpdateState.Current.NewestVersion = result.NewestVersion;
+                UpdateState.Current.UpdateUrl = result.UpdateUrl;
+                UpdateState.Current.LastUpdateCheck = result.CheckedAt;
+
+                UpdateLastCheckedText();
+
+                _ = Dispatcher.InvokeAsync(async () =>
+                {
+                    try
+                    {
+                        await Task.Delay(500); // slight delay for better UX
+
+                        if (result.IsUpdateAvailable)
+                        {
+                            UpdateStatusText.Text = Application.Current.FindResource("UpdateAvailableNotificationTitle")?.ToString();
+                        }
+                        else
+                        {
+                            UpdateStatusText.Text = Application.Current.FindResource("UpToDate")?.ToString();
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.Error(ex, "Error while updating update status text on UI thread");
+                    }
+                });
+            }
+            else
+            {
+                UpdateStatusText.Text = Application.Current.FindResource("UpToDate")?.ToString();
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger.Error(ex, "Failed to check for updates from HomePage");
+            UpdateStatusText.Text = "Unable to check for updates"; // not localized
+        }
     }
 
     private void MediaFlyout_Click(object sender, System.Windows.RoutedEventArgs e)

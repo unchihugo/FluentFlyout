@@ -27,7 +27,7 @@
 
         <TextBlock Text="{DynamicResource HomeTitle}" FontSize="24" FontWeight="SemiBold" FontFamily="Segoe UI Variable" Margin="0,36,0,12" />
         <StackPanel Orientation="Horizontal">
-            <ui:Button Appearance="Transparent" Padding="0,0,16,0" BorderBrush="Transparent" Margin="0,0,16,16" Click="ViewUpdates_Click">
+            <ui:Button x:Name="ViewUpdatesButton" Appearance="Transparent" Padding="0,0,16,0" BorderBrush="Transparent" Margin="0,0,16,16" Click="ViewUpdates_Click">
                 <StackPanel Orientation="Horizontal">
                     <Border CornerRadius="8" ClipToBounds="True" Width="200" Height="98" Margin="0,0,16,0">
                         <Border.Background>
@@ -36,7 +36,48 @@
                     </Border>
                     <StackPanel Orientation="Vertical" VerticalAlignment="Center">
                         <ui:TextBlock Text="{DynamicResource UpdateToastButton}" FontWeight="SemiBold" />
-                        <ui:TextBlock Text="{DynamicResource HomeUpdateDescription}" Opacity="0.5" />
+                        <ui:TextBlock Text="{DynamicResource HomeUpdateDescription}" Opacity="0.5" FontSize="12" />
+                    </StackPanel>
+                </StackPanel>
+            </ui:Button>
+
+            <!--Update status indicator-->
+            <ui:Button Appearance="Transparent" Padding="8" BorderBrush="Transparent" Margin="0,0,16,16" Click="CheckForUpdates_Click">
+                <StackPanel Orientation="Horizontal">
+                    <ui:SymbolIcon x:Name="UpdateStatusIcon" FontSize="24" Margin="0,0,12,0">
+                        <ui:SymbolIcon.Style>
+                            <Style TargetType="ui:SymbolIcon">
+                                <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsUpdateAvailable, Source={x:Static viewModels:UpdateState.Current}}" Value="True">
+                                        <Setter Property="Symbol" Value="ArrowDownload24" />
+                                        <Setter Property="Foreground" Value="{DynamicResource AccentTextFillColorPrimaryBrush}" />
+                                        <Setter Property="Filled" Value="False" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding IsUpdateAvailable, Source={x:Static viewModels:UpdateState.Current}}" Value="False">
+                                        <Setter Property="Symbol" Value="CheckmarkCircle24" />
+                                        <Setter Property="Foreground" Value="{DynamicResource SystemFillColorSuccessBrush}" />
+                                        <Setter Property="Filled" Value="True" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ui:SymbolIcon.Style>
+                    </ui:SymbolIcon>
+                    <StackPanel Orientation="Vertical" VerticalAlignment="Center">
+                        <ui:TextBlock x:Name="UpdateStatusText" FontWeight="SemiBold">
+                            <ui:TextBlock.Style>
+                                <Style TargetType="ui:TextBlock">
+                                    <Setter Property="Text" Value="{DynamicResource UpToDate}" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsUpdateAvailable, Source={x:Static viewModels:UpdateState.Current}}" Value="True">
+                                            <Setter Property="Text" Value="{DynamicResource UpdateAvailable}" />
+                                            <Setter Property="Foreground" Value="{DynamicResource AccentTextFillColorPrimaryBrush}" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ui:TextBlock.Style>
+                        </ui:TextBlock>
+                        <ui:TextBlock x:Name="LastCheckedText" Opacity="0.5" FontSize="12" />
                     </StackPanel>
                 </StackPanel>
             </ui:Button>

@@ -406,6 +406,12 @@ public partial class UserSettings : ObservableObject
     [ObservableProperty]
     public partial bool IsStoreVersion { get; set; }
 
+    /// <summary>
+    /// Last time the program has sent an update notification in Unix seconds.
+    /// </summary>
+    [ObservableProperty]
+    public partial long LastUpdateNotificationUnixSeconds { get; set; }
+
     [XmlIgnore]
     private bool _initializing = true;
 
@@ -460,6 +466,7 @@ public partial class UserSettings : ObservableObject
         TaskbarWidgetControlsEnabled = false;
         TaskbarWidgetAnimated = true;
         AcrylicBlurOpacity = 175;
+        LastUpdateNotificationUnixSeconds = 0;
     }
 
     /// <summary>

@@ -1,4 +1,5 @@
-﻿using Microsoft.Toolkit.Uwp.Notifications;
+﻿using FluentFlyout.Classes.Settings;
+using Microsoft.Toolkit.Uwp.Notifications;
 using NLog;
 using System.Runtime.InteropServices;
 using System.Windows;
@@ -22,9 +23,20 @@ internal static class Notifications
             ToastArguments args = ToastArguments.Parse(toastArgs.Argument);
 
             // Check if the user clicked the "View Changes" button
-            if (args.TryGetValue("action", out string action) && action == "viewChanges")
+            if (args.TryGetValue("action", out string action))
             {
-                OpenChangelogInBrowser();
+                switch (action)
+                {
+                    case "viewChanges":
+                        OpenChangelogInBrowser();
+                        break;
+                    case "downloadUpdate":
+                        if (args.TryGetValue("url", out string url))
+                        {
+                            OpenUrlInBrowser(url);
+                        }
+                        break;
+                }
             }
         }
         catch (Exception ex)
@@ -35,18 +47,7 @@ internal static class Notifications
 
     public static void OpenChangelogInBrowser()
     {
-        try
-        {
-            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
-            {
-                FileName = "https://fluentflyout.com/changelog/",
-                UseShellExecute = true
-            });
-        }
-        catch (Exception ex)
-        {
-            Logger.Error(ex, "Failed to open changelog in browser");
-        }
+        OpenUrlInBrowser("https://fluentflyout.com/changelog/");
     }
 
     /// <summary>
@@ -105,6 +106,66 @@ internal static class Notifications
                 Logger.Error(ex, "Failed to show update notification");
                 return;
             }
+        }
+    }
+
+    /// <summary>
+    /// Show a Windows notification when an update is available
+    /// </summary>
+    /// <param name="newVersion">The new version available</param>
+    /// <param name="updateUrl">The URL to download the update (can be empty)</param>
+    public static void ShowUpdateAvailableNotification(string newVersion, string updateUrl)
+    {
+        long currentUnixSeconds = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+
+        if (currentUnixSeconds - SettingsManager.Current.LastUpdateNotificationUnixSeconds < TimeSpan.FromDays(5).TotalSeconds) // 5 days cooldown
+        {
+            return;
+        }
+
+        try
+        {
+            var builder = new ToastContentBuilder()
+                .AddText(Application.Current.FindResource("UpdateAvailableNotificationTitle").ToString())
+                .AddText(string.Format(Application.Current.FindResource("UpdateAvailableNotificationMessage").ToString(), newVersion));
+
+            // only add download button if URL is available
+            if (!string.IsNullOrEmpty(updateUrl))
+            {
+                builder.AddButton(new ToastButton()
+                    .SetContent(Application.Current.FindResource("UpdateAvailableNotificationButton").ToString())
+                    .AddArgument("action", "downloadUpdate")
+                    .AddArgument("url", updateUrl)
+                    .SetBackgroundActivation());
+            }
+
+            builder.Show();
+
+            SettingsManager.Current.LastUpdateNotificationUnixSeconds = currentUnixSeconds;
+
+            Logger.Info($"Displayed update available notification for {newVersion}");
+        }
+        catch (Exception ex)
+        {
+            Logger.Error(ex, "Failed to show update available notification");
+        }
+    }
+
+    public static void OpenUrlInBrowser(string url)
+    {
+        if (string.IsNullOrEmpty(url)) return;
+
+        try
+        {
+            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
+            {
+                FileName = url,
+                UseShellExecute = true
+            });
+        }
+        catch (Exception ex)
+        {
+            Logger.Error(ex, "Failed to open URL in browser");
         }
     }
 }
