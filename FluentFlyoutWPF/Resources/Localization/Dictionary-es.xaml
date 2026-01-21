@@ -35,13 +35,13 @@ oculta los botones de repetir y aleatorio y la información del reproductor</sys
     <system:String x:Key="UnsupportedControlsWarning">*Algunos navegadores/reproductores no soportan controles para repetir, aleatorio o la barra de progreso.</system:String>
     <system:String x:Key="PauseOtherMediaTitle">Pausar Otro Contenido Multimedia Automáticamente</system:String>
     <system:String x:Key="PauseOtherMediaDescription">Cuando reproduces o seleccionas nuevo contenido, otras sesiones activas se pausan automáticamente</system:String>
-    <system:String x:Key="NextUpCustomizationTitle">Siguiente</system:String>
+    <system:String x:Key="NextUpCustomizationTitle">Flyout de Siguiente</system:String>
     <system:String x:Key="NextUpDescription" xml:space="preserve">Un flyout que muestra la siguiente canción/video cuando acaba el actual. Solo aparece si el siguiente se reproduce automáticamente, si se presiona siguiente/anterior manualmente, aparecerá el flyout principal.</system:String>
     <system:String x:Key="EnableNextUpTitle">Activar Flyout de Siguiente (Experimental)</system:String>
     <system:String x:Key="EnableNextUpDescription">Muestra lo que viene cuando acaba una canción/video</system:String>
     <system:String x:Key="NextUpStayDurationTitle">Duración de Siguiente</system:String>
     <system:String x:Key="NextUpStayDurationDescription">(por defecto: 2000 ms)</system:String>
-    <system:String x:Key="LockKeysCustomizationTitle">Teclas de Bloqueo</system:String>
+    <system:String x:Key="LockKeysCustomizationTitle">Flyout de Teclas de Bloqueo</system:String>
     <system:String x:Key="LockKeysDescription" xml:space="preserve">Revisa el estado de las teclas de bloqueo de un vistazo. Aparece al pulsar Bloq Mayús, Bloq Num o Bloq Despl. Útil para portátiles/teclados sin indicadores de teclas de bloqueo.</system:String>
     <system:String x:Key="EnableLockKeysTitle">Activar Flyout de Teclas de Bloqueo</system:String>
     <system:String x:Key="EnableLockKeysDescription">Muestra si la tecla de bloqueo especificada está activa o no</system:String>
