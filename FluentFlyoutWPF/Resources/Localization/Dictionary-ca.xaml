@@ -1,0 +1,12 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib">
+    <system:String x:Key="TitleText">Paràmetres del FluentFlyout</system:String>
+    <system:String x:Key="HomeTitle">Inici</system:String>
+    <system:String x:Key="Enabled">Activat</system:String>
+    <system:String x:Key="Disabled">Desactivat</system:String>
+    <system:String x:Key="MediaFlyoutTitle">Flyout Multimèdia</system:String>
+    <system:String x:Key="MediaFlyoutDescription">Flyout Principal. En escoltar multimèdia, premeu qualsevol tecla de volum o relacionada amb multimèdia (reproduir/aturar, apujar/abaixar volum, etc.) al teclat per mostrar el flyout. Mostra informació multimèdia, juntament amb controls de reproducció i més.</system:String>
+    <system:String x:Key="TextBlockText1">Habilitar Flyout Multimèdia</system:String>
+    <system:String x:Key="TextBlockText3">Es mostra un flyout quan es prem una tecla multimèdia</system:String>
+    <system:String x:Key="TextBlockText2">Tria des d'un conjunt predeterminat d'estils de desenfocament moderns</system:String>
+    <system:String x:Key="BackgroundBlurOption1" xml:space="preserve"> Cap</system:String>
+</ResourceDictionary>

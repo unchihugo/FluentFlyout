@@ -16,13 +16,13 @@
     <system:String x:Key="RepeatButtonDescription">Choisissez entre répéter tout ou répéter un seul élément, cela augmente la largeur du volet déroulant</system:String>
     <system:String x:Key="ShuffleButtonTitle">Bouton lecture aléatoire*</system:String>
     <system:String x:Key="ShuffleButtonDescription">Augmente la largeur du volet</system:String>
-    <system:String x:Key="ShowSeekbarTitle">Barre de progression*</system:String>
+    <system:String x:Key="ShowSeekbarTitle">Afficher la barre de recherche*</system:String>
     <system:String x:Key="ShowSeekbarDescription">Une barre de progression interactive sera affichée si le lecteur la prend en charge</system:String>
     <system:String x:Key="UnsupportedControlsWarning">*Certains navigateurs/lecteurs ne prennent pas en charge les fonctions de répétition, de lecture aléatoire et la barre de progression.</system:String>
     <system:String x:Key="PauseOtherMediaTitle">Mettre en pause automatiquement les autres médias</system:String>
     <system:String x:Key="FlyoutPositionTitle">Position du volet</system:String>
-    <system:String x:Key="TitleText">Paramètres de FluentFlyout</system:String>
-    <system:String x:Key="MediaFlyoutTitle">Personnalisation du volet multimédia</system:String>
+    <system:String x:Key="TitleText">Paramètres FluentFlyout</system:String>
+    <system:String x:Key="MediaFlyoutTitle">Menu déroulant Médias</system:String>
     <system:String x:Key="MediaFlyoutDescription">Volet principal. Lorsque vous écoutez un média, appuyez sur n’importe quelle touche multimédia ou de volume (lecture/pause, volume +/-, etc.) de votre clavier pour afficher le volet. Il affiche les informations du média, ainsi que les commandes de lecture et d’autres options.</system:String>
     <system:String x:Key="TextBlockText1">Activer le volet multimédia</system:String>
     <system:String x:Key="TextBlockText3">Afficher un volet quand vous appuyez sur une touche multimédia</system:String>
@@ -32,14 +32,14 @@
     <system:String x:Key="CompactLayoutTitle">Mise en page compacte</system:String>
     <system:String x:Key="CompactLayoutDescription" xml:space="preserve">Mise en page plus fine et moins intrusive
 masque les options de répétition, de lecture aléatoire et les informations du lecteur</system:String>
-    <system:String x:Key="NextUpCustomizationTitle">Personnalisation du volet “À suivre”</system:String>
+    <system:String x:Key="NextUpCustomizationTitle">Suivant Flyout</system:String>
     <system:String x:Key="NextUpDescription" xml:space="preserve">Ce volet affiche ce qui sera lu ensuite lorsque la piste/vidéo en cours se termine. Il n’apparaît que si la lecture suivante se lance automatiquement. Si vous changez de piste manuellement (Suivant/Précédent), le volet principal est affiché à la place.</system:String>
     <system:String x:Key="EnableNextUpTitle">Activer le volet “À suivre” (Expérimentale)</system:String>
     <system:String x:Key="TextBlockText2">Choisir un flou d'arrière-plan moderne à partir d'un préréglée</system:String>
     <system:String x:Key="BackgroundBlurOption4" xml:space="preserve"> Style 3 (Flou)</system:String>
     <system:String x:Key="AcrylicWindowDescription">Appliquer un effet transparent acrylique floué au volet (reviendra à Mica si désactivé)</system:String>
     <system:String x:Key="PauseOtherMediaDescription">Quand vous reproduisez ou centrez un nouveau média, mettre en pause d'autres sessions actives automatiquement</system:String>
-    <system:String x:Key="TaskbarWidgetCustomizationTitle">Widget de customisation pour la barre de tâches</system:String>
+    <system:String x:Key="TaskbarWidgetCustomizationTitle">Widget de la barre des tâches</system:String>
     <system:String x:Key="TaskbarWidgetDescription">Un widget compact et intégré sur la barre de tâches de Windows pour un accès instant à votre média. Cliquez le widget pour étendre le volet de média complet (lorsqu'elle est activé).</system:String>
     <system:String x:Key="BackgroundBlurOption2" xml:space="preserve"> Style 1 (Couverture Glow)</system:String>
     <system:String x:Key="BackgroundBlurOption3" xml:space="preserve"> Style 2 (Lueur montante)</system:String>
@@ -69,7 +69,7 @@ Note : En tant que projet open source, ces fonctionnalités sont également dis
     <system:String x:Key="EnableNextUpDescription">Affiche ce qui suit la fin d'une chanson/vidéo</system:String>
     <system:String x:Key="NextUpStayDurationTitle">Prochaine étape Durée du séjour</system:String>
     <system:String x:Key="NextUpStayDurationDescription">(par défaut : 2000 ms)</system:String>
-    <system:String x:Key="LockKeysCustomizationTitle">Personnalisation des clés de verrouillage</system:String>
+    <system:String x:Key="LockKeysCustomizationTitle">Clés de verrouillage</system:String>
     <system:String x:Key="LockKeysDescription" xml:space="preserve">Vérifiez en un coup d'œil l'état de vos touches de verrouillage. S'affiche après avoir appuyé sur Verr. Maj., Verr. Num. ou Arrêt défil. Pratique pour les ordinateurs portables et les claviers sans indicateur de verrouillage.</system:String>
     <system:String x:Key="EnableLockKeysTitle">Activer le menu déroulant des touches de verrouillage</system:String>
     <system:String x:Key="EnableLockKeysDescription">Affiche si la touche de verrouillage spécifiée est activée ou désactivée</system:String>
@@ -101,7 +101,7 @@ Note : En tant que projet open source, ces fonctionnalités sont également dis
     <system:String x:Key="AnimationSettingsDescription">Personnalisez les animations à votre guise</system:String>
     <system:String x:Key="AnimationDurationScaleTitle">Échelle de durée d'animation</system:String>
     <system:String x:Key="AnimationDurationScaleDescription">Vitesse d'animation plus rapide ou plus lente (par défaut : 1x)</system:String>
-    <system:String x:Key="AnimationSpeedOff">Désactivé</system:String>
+    <system:String x:Key="AnimationSpeedOff">Éteindre</system:String>
     <system:String x:Key="AnimationEasingStyleTitle">Style d'accélération de l'animation</system:String>
     <system:String x:Key="AnimationEasingStyleDescription">(par défaut : Quadratique)</system:String>
     <system:String x:Key="EasingLinear" xml:space="preserve"> Linéaire</system:String>
@@ -143,4 +143,21 @@ Vous pouvez contribuer aux traductions sur</system:String>
     <system:String x:Key="TaskbarWidgetAnimatedDescription">Activer les animations subtiles pour le widget</system:String>
     <system:String x:Key="TrayIcon_ViewLogsOption">Consulter les journaux</system:String>
     <system:String x:Key="PixelsUnit">px</system:String>
+    <system:String x:Key="HomeTitle">Accueil</system:String>
+    <system:String x:Key="Enabled">Activé</system:String>
+    <system:String x:Key="Disabled">Désactivé</system:String>
+    <system:String x:Key="MediaFlyoutAlwaysDisplayDescription">Le menu déroulant reste ouvert jusqu'à ce que vous cliquiez sur le bouton Fermer</system:String>
+    <system:String x:Key="AcrylicBlurOpacityTitle">Opacité flou acrylique</system:String>
+    <system:String x:Key="AcrylicBlurOpacityDescription">Ajuster l'effet de transparence des volets en acrylique (par défaut : 175)</system:String>
+    <system:String x:Key="HomeUpdateDescription">Découvrez les nouveautés</system:String>
+    <system:String x:Key="HomeDashboardTitle">Tableau de bord</system:String>
+    <system:String x:Key="SystemConfigure">Configurer</system:String>
+    <system:String x:Key="AboutTitle">À propos de</system:String>
+    <system:String x:Key="AboutContributorsTitle">❤️ Découvrez nos contributeurs</system:String>
+    <system:String x:Key="AboutContributorsDescription">Un grand merci à toutes les personnes formidables qui ont contribué au développement et au succès de FluentFlyout !</system:String>
+    <system:String x:Key="AboutOpenSourceLicensesTitle">Licences Open Source</system:String>
+    <system:String x:Key="AboutOpenSourceLicensesDescription">FluentFlyout est construit avec les packages open source suivants :</system:String>
+    <system:String x:Key="UpdateToastTitle">FluentFlyout a été mis à jour !</system:String>
+    <system:String x:Key="UpdateToastMessage">Vous êtes maintenant sur {0}.</system:String>
+    <system:String x:Key="UpdateToastButton">Voir les mises à jour</system:String>
 </ResourceDictionary>

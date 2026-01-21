@@ -8,7 +8,7 @@
     <system:String x:Key="SystemSettingsTitle">מערכת</system:String>
     <system:String x:Key="LaunchOnStartupTitle">הפעל אוטומטית בעת ההפעלה</system:String>
     <system:String x:Key="LaunchOnStartupDescription">הפעל כממוזער למגש המערכת בעת הכניסה ל-Windows</system:String>
-    <system:String x:Key="MediaFlyoutTitle">התאמה אישית של חלון המדיה</system:String>
+    <system:String x:Key="MediaFlyoutTitle">חלון המדיה</system:String>
     <system:String x:Key="MediaFlyoutDescription">חלון נשלף ראשי. בעת האזנה למדיה, לחצו על אחד ממקשי המדיה או הווליום במקלדת (הפעלה/השהיה, הגברת/הנמכת עוצמת קול וכו'), כדי להציג את החלון הנשלף. מציג מידע על המדיה, יחד עם לחצני ניגון ואפשרויות נוספות.</system:String>
     <system:String x:Key="TextBlockText1">הפעלת חלון נשלף של מדיה</system:String>
     <system:String x:Key="TextBlockText3">מציג חלון נשלף בעת לחיצה על מקש מדיה</system:String>
@@ -39,12 +39,12 @@
     <system:String x:Key="RepeatButtonDescription">בחר בין חזרה על הכל או על שיר אחד, מגדיל את רוחב החלון הנשלף</system:String>
     <system:String x:Key="ShuffleButtonTitle">כפתור ערבוב*</system:String>
     <system:String x:Key="ShuffleButtonDescription">מגדיל את רוחב החלון הנשלף</system:String>
-    <system:String x:Key="ShowSeekbarTitle">הצגת סרגל חיפוש*</system:String>
+    <system:String x:Key="ShowSeekbarTitle">הצגת סרגל החיפוש*</system:String>
     <system:String x:Key="ShowSeekbarDescription">סרגל חיפוש אינטראקטיבי יוצג אוטומטית אם הנגן תומך בכך</system:String>
     <system:String x:Key="UnsupportedControlsWarning">*חלק מהדפדפנים/נגנים אינם תומכים בחזרה, ערבוב או שליטה בסרגל חיפוש.</system:String>
     <system:String x:Key="PauseOtherMediaTitle">השהה מדיה אחרת באופן אוטומטי</system:String>
     <system:String x:Key="PauseOtherMediaDescription">כאשר אתה מנגן או מתמקד במדיה חדשה, הפעלות אחרות פעילות מושהים אוטומטית</system:String>
-    <system:String x:Key="TaskbarWidgetCustomizationTitle">התאמה אישית של ווידג'ט שורת המשימות</system:String>
+    <system:String x:Key="TaskbarWidgetCustomizationTitle">ווידג'ט שורת המשימות</system:String>
     <system:String x:Key="TaskbarWidgetDescription">ווידג'ט קומפקטי ומובנה שנמצא ישירות בשורת המשימות של Windows לגישה מיידית למדיה שלך. לחץ על הווידג'ט כדי להרחיב את חלון המדיה הנשלף המלא (כאשר מופעל).</system:String>
     <system:String x:Key="TaskbarWidgetEnabledTitle">הפעלת ווידג'ט שורת המשימות</system:String>
     <system:String x:Key="TaskbarWidgetEnabledDescription">הצג ווידג'ט מדיה קומפקטי בשורת המשימות</system:String>
@@ -102,10 +102,10 @@
     <system:String x:Key="PremiumPurchaseSuccess">‍פרימיום נפתח בהצלחה!</system:String>
     <system:String x:Key="PremiumPurchaseFailed">הרכישה נכשלה. אנא נסה שוב.</system:String>
     <system:String x:Key="PremiumPurchaseCancelled">הרכישה בוטלה.</system:String>
-    <system:String x:Key="NextUpCustomizationTitle">התאמה אישית הבאה</system:String>
+    <system:String x:Key="NextUpCustomizationTitle">חלון נשלף הבא</system:String>
     <system:String x:Key="NextUpStayDurationTitle">משך הצגה הבאה</system:String>
     <system:String x:Key="NextUpStayDurationDescription">(ברירת מחדל: 2000 מילישניות.)</system:String>
-    <system:String x:Key="LockKeysCustomizationTitle">התאמה אישית של מקשי נעילה</system:String>
+    <system:String x:Key="LockKeysCustomizationTitle">חלון נשלף של מקשי נעילה</system:String>
     <system:String x:Key="LockKeysDescription" xml:space="preserve">בדוק את מצב מקשי הנעילה במבט חטוף. מופיע לאחר לחיצה על Caps Lock, Num Lock או Scroll Lock. נוח למחשבים ניידים ומקלדות ללא מנורות מצב למקשי הנעילה.</system:String>
     <system:String x:Key="EnableLockKeysTitle">הפעל את חלון נשלף של נעילת מקשים</system:String>
     <system:String x:Key="EnableLockKeysDescription">מציג אם מקש הנעילה שנבחר פועל או כבוי</system:String>
@@ -146,4 +146,18 @@
     <system:String x:Key="UpdateToastTitle">FluentFlyout עודכן!</system:String>
     <system:String x:Key="UpdateToastButton">הצג עדכונים</system:String>
     <system:String x:Key="UpdateToastMessage">{0} דוגמה לשומר מקום: "v1.2.3". מחרוזת זו תהפוך ל-"You are now on v1.2.3." באנגלית.</system:String>
+    <system:String x:Key="HomeTitle">בית</system:String>
+    <system:String x:Key="Enabled">מופעל</system:String>
+    <system:String x:Key="Disabled">מושבת</system:String>
+    <system:String x:Key="AcrylicBlurOpacityTitle">אטימות טשטוש אקרילית</system:String>
+    <system:String x:Key="HomeUpdateDescription">גלו מה חדש</system:String>
+    <system:String x:Key="HomeDashboardTitle">לוח מחוונים</system:String>
+    <system:String x:Key="SystemConfigure">הגדרה</system:String>
+    <system:String x:Key="AboutTitle">אודות</system:String>
+    <system:String x:Key="AboutContributorsTitle">❤️ הכירו את התורמים שלנו</system:String>
+    <system:String x:Key="AboutOpenSourceLicensesTitle">רישיונות קוד פתוח</system:String>
+    <system:String x:Key="MediaFlyoutAlwaysDisplayDescription">החלון הנשלף נשאר פתוח עד שתלחצו על כפתור הסגירה</system:String>
+    <system:String x:Key="AboutContributorsDescription">תודה ענקית לכל האנשים המדהימים שתרמו לפיתוח ולהצלחת FluentFlyout!</system:String>
+    <system:String x:Key="AboutOpenSourceLicensesDescription">FluentFlyout בנויה עם חבילות הקוד הפתוח הבאות:</system:String>
+    <system:String x:Key="AcrylicBlurOpacityDescription">כוונון אפקט השקיפות של Acrylic flyouts (ברירת מחדל: 175)</system:String>
 </ResourceDictionary>
