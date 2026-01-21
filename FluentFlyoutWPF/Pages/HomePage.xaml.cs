@@ -94,15 +94,22 @@ public partial class HomePage : Page
 
                 _ = Dispatcher.InvokeAsync(async () =>
                 {
-                    await Task.Delay(500); // slight delay for better UX
+                    try
+                    {
+                        await Task.Delay(500); // slight delay for better UX
 
-                    if (result.IsUpdateAvailable)
-                    {
-                        UpdateStatusText.Text = Application.Current.FindResource("UpdateAvailableNotificationTitle")?.ToString();
+                        if (result.IsUpdateAvailable)
+                        {
+                            UpdateStatusText.Text = Application.Current.FindResource("UpdateAvailableNotificationTitle")?.ToString();
+                        }
+                        else
+                        {
+                            UpdateStatusText.Text = Application.Current.FindResource("UpToDate")?.ToString();
+                        }
                     }
-                    else
+                    catch (Exception ex)
                     {
-                        UpdateStatusText.Text = Application.Current.FindResource("UpToDate")?.ToString();
+                        Logger.Error(ex, "Error while updating update status text on UI thread");
                     }
                 });
             }
