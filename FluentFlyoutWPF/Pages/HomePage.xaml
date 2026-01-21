@@ -7,7 +7,7 @@
       xmlns:viewModels="clr-namespace:FluentFlyoutWPF.ViewModels"
       xmlns:utils="clr-namespace:FluentFlyoutWPF.Classes.Utils"
       mc:Ignorable="d"
-      d:DesignHeight="800" d:DesignWidth="600"
+      d:DesignHeight="1000" d:DesignWidth="600"
       Title="HomePage"
       d:DataContext="{d:DesignInstance viewModels:UserSettings}"
       Foreground="{DynamicResource TextFillColorPrimaryBrush}"
@@ -16,7 +16,6 @@
     <Page.Resources>
         <utils:BoolToEnabledDisabledConverter x:Key="BoolToEnabledDisabledConverter" />
         <utils:BoolToVisibleCollapsedConverter x:Key="BoolToCollapsedVisibleConverter" TrueValue="Collapsed" FalseValue="Visible" />
-        <utils:BoolToVisibleCollapsedConverter x:Key="BoolToVisibleCollapsedConverter" />
     </Page.Resources>
 
     <StackPanel MaxWidth="1000" Margin="16">
@@ -105,7 +104,10 @@
                     <ui:SymbolIcon Symbol="TextboxAlignBottom24" FontSize="30" Filled="False" />
                 </ui:CardAction.Icon>
                 <StackPanel>
-                    <ui:TextBlock FontWeight="Medium" Text="{DynamicResource TaskbarWidgetCustomizationTitle}" />
+                    <StackPanel Orientation="Horizontal">
+                        <ui:TextBlock FontWeight="Medium" Text="{DynamicResource TaskbarWidgetCustomizationTitle}" />
+                        <ui:InfoBadge Value=" PREMIUM " FontSize="8" FontWeight="Medium" Margin="6,-2,0,-2" Severity="Attention" />
+                    </StackPanel>
                     <ui:TextBlock Appearance="Secondary" Text="{Binding TaskbarWidgetEnabled, Converter={StaticResource BoolToEnabledDisabledConverter}}">
                         <ui:TextBlock.Style>
                             <Style TargetType="ui:TextBlock">
@@ -256,7 +258,7 @@
             <!-- GitHub Version InfoBar -->
             <ui:InfoBar Grid.Row="0" Title="{DynamicResource PremiumGitHubMessage}" IsOpen="True" Severity="Informational" IsClosable="False" Margin="0,0,0,12" Visibility="{Binding IsStoreVersion, Converter={StaticResource BoolToCollapsedVisibleConverter}}" />
 
-            <ui:TextBlock Grid.Row="1" FontSize="14" Margin="4,0,0,0" FontWeight="Regular" HorizontalAlignment="Left" Opacity="0.75" TextWrapping="WrapWithOverflow" Text="{DynamicResource PremiumFeatureDescription}" Visibility="{Binding IsStoreVersion, Converter={StaticResource BoolToVisibleCollapsedConverter}}" />
+            <ui:TextBlock Grid.Row="1" FontSize="14" Margin="4,0,0,0" FontWeight="Regular" HorizontalAlignment="Left" Opacity="0.75" TextWrapping="WrapWithOverflow" Text="{DynamicResource PremiumFeatureDescription}" />
         </Grid>
 
         <DockPanel LastChildFill="False" Margin="0,24,0,12">
