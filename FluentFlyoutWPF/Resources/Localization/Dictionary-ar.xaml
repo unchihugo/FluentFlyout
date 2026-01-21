@@ -55,17 +55,17 @@
     <system:String x:Key="EnableInsertKeyTitle">تفعيل نافذة إدراج المفتاح المنبثقة</system:String>
     <system:String x:Key="EnableInsertKeyDescription">يحدد ما إذا كان الضغط على الإدراج/الكتابة فوق سيؤدي إلى عرض القائمة المنبثقة</system:String>
     <system:String x:Key="SystemSettingsTitle">النظام</system:String>
-    <system:String x:Key="LaunchOnStartupTitle">الإطلاق عند بدء التشغيل</system:String>
+    <system:String x:Key="LaunchOnStartupTitle">تشغيل البرنامج عند بدء الجهاز</system:String>
     <system:String x:Key="LaunchOnStartupDescription">ابدأ في التصغير إلى علبة النظام عند تسجيل الدخول إلى Windows</system:String>
     <system:String x:Key="StartupAppsHyperlinkText">تطبيقات بدء التشغيل</system:String>
     <system:String x:Key="StartupAppsSettingsInfo">إذا لم يعمل هذا الإعداد كما يجب، فتحقق منه</system:String>
-    <system:String x:Key="AppThemeTitle">شكل التطبيق</system:String>
+    <system:String x:Key="AppThemeTitle">سمة التطبيق</system:String>
     <system:String x:Key="AppThemeDefault"> Windows الافتراضي</system:String>
     <system:String x:Key="AppThemeLight"> مضيء</system:String>
     <system:String x:Key="AppThemeDark"> داكن</system:String>
     <system:String x:Key="TrayIconLeftClickBehaviorTitle">سلوك النقر بزر الماوس الأيسر على أيقونة العلبة</system:String>
     <system:String x:Key="TrayIconLeftClickBehaviorDescription">اختر ما يحدث عند النقر بزر الماوس الأيسر على أيقونة التطبيق</system:String>
-    <system:String x:Key="TrayIconLeftClickOption1"> افتح الإعدادات</system:String>
+    <system:String x:Key="TrayIconLeftClickOption1"> فتح إعدادات</system:String>
     <system:String x:Key="TrayIconLeftClickOption2"> عرض الوسائط النافذه المنبثقة</system:String>
     <system:String x:Key="Win11TrayIconTitle">أيقونة مشابهة لنظام التشغيل Windows 11</system:String>
     <system:String x:Key="Win11TrayIconDescription">استخدم أيقونة علبة تتوافق مع نظام التشغيل Windows 11 (قم بالتبديل لتحديث السمة)</system:String>
@@ -74,7 +74,7 @@
     <system:String x:Key="AnimationDurationScaleDescription">سرعة الرسوم المتحركة المنبثقة أسرع أو أبطأ (الافتراضي: 1x)</system:String>
     <system:String x:Key="AnimationEasingStyleTitle">أسلوب اظهار الرسوم المتحركة</system:String>
     <system:String x:Key="AnimationEasingStyleDescription">(افتراضي: تربيعي)</system:String>
-    <system:String x:Key="EasingLinear" xml:space="preserve"> خطي</system:String>
+    <system:String x:Key="EasingLinear" xml:space="preserve"> خطِّيّ</system:String>
     <system:String x:Key="NativeExperienceInfo">للحصول على تجربة Windows 11 الأصلية، يجب إبقاء الإعدادات افتراضية.</system:String>
     <system:String x:Key="DisableOnFullscreenTitle">تعطيل النوافذ المنبثقة إذا تم اكتشاف برنامج DirectX في وضع ملء الشاشة</system:String>
     <system:String x:Key="DisableOnFullscreenDescription">يمنع ألعاب DirectX في وضع ملء الشاشة الحصري من التصغير إذا ظهرت نافذة منبثقة</system:String>
@@ -130,7 +130,7 @@
     <system:String x:Key="TaskbarWidgetControlsDescription">يظهر التحكم بالوسائط في أداة شريط المهام</system:String>
     <system:String x:Key="TaskbarWidgetAnimatedTitle">حركات أداة شريط المهام</system:String>
     <system:String x:Key="TaskbarWidgetAnimatedDescription">تفعيل إعطاء تحريك بسيط لأداة شريط المهام</system:String>
-    <system:String x:Key="PremiumFeatureTitle">ميزة خاصة</system:String>
+    <system:String x:Key="PremiumFeatureTitle">المميزات الكاملة</system:String>
     <system:String x:Key="PremiumFeatureDescription" xml:space="preserve">تساهم مساهمتك لمرة واحدة في استمرار تطوير FluentFlyout. فهي تتيح لك الوصول الفوري إلى جميع ميزات التخصيص المتقدمة، بشكل دائم.
 
 ملاحظة: كون المشروع مفتوح المصدر، فإن هذه الميزات متاحة أيضًا مجانًا عبر أداة التثبيت اليدوي على GitHub. المقابل الوحيد هو أن التحديثات والتثبيت يجب أن يتمّا يدويًا.</system:String>
@@ -149,7 +149,7 @@
     <system:String x:Key="HomeUpdateDescription">تعرف على الجديد</system:String>
     <system:String x:Key="HomeDashboardTitle">لوحة التحكم</system:String>
     <system:String x:Key="SystemConfigure">الضبط</system:String>
-    <system:String x:Key="AboutTitle">حول</system:String>
+    <system:String x:Key="AboutTitle">حول التطبيق</system:String>
     <system:String x:Key="AboutContributorsTitle">❤️ تعرف على المساهمين</system:String>
     <system:String x:Key="AboutContributorsDescription">شكرًا جزيلًا لجميع الأشخاص الرائعين الذين ساهموا في تطوير ونجاح FluentFlyout!</system:String>
     <system:String x:Key="AboutPremiumTitle">حول الميزات الخاصة</system:String>
