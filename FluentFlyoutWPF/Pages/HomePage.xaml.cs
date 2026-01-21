@@ -1,5 +1,6 @@
 using FluentFlyout.Classes;
 using FluentFlyout.Classes.Settings;
+using FluentFlyoutWPF.ViewModels;
 using NLog;
 using System.Diagnostics;
 using System.IO;
@@ -34,11 +35,11 @@ public partial class HomePage : Page
 
     private void UpdateLastCheckedText()
     {
-        if (SettingsManager.Current.LastUpdateCheck != default)
+        if (UpdateState.Current.LastUpdateCheck != default)
         {
             LastCheckedText.Text = string.Format(
                 Application.Current.FindResource("LastChecked")?.ToString() ?? "Last checked: {0}",
-                SettingsManager.Current.LastCheckedText);
+                UpdateState.Current.LastCheckedText);
         }
         else
         {
@@ -63,10 +64,10 @@ public partial class HomePage : Page
 
         _lastChecked = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
 
-        if (SettingsManager.Current.IsUpdateAvailable)
+        if (UpdateState.Current.IsUpdateAvailable)
         {
-            if (string.IsNullOrEmpty(SettingsManager.Current.UpdateUrl)) return;
-            UpdateChecker.OpenUpdateUrl(SettingsManager.Current.UpdateUrl);
+            string url = !string.IsNullOrEmpty(UpdateState.Current.UpdateUrl) ? UpdateState.Current.UpdateUrl : "https://fluentflyout.com/changelog/";
+            UpdateChecker.OpenUpdateUrl(url);
         }
         else
         {
@@ -84,21 +85,26 @@ public partial class HomePage : Page
 
             if (result.Success)
             {
-                SettingsManager.Current.IsUpdateAvailable = result.IsUpdateAvailable;
-                SettingsManager.Current.NewestVersion = result.NewestVersion;
-                SettingsManager.Current.UpdateUrl = result.UpdateUrl;
-                SettingsManager.Current.LastUpdateCheck = result.CheckedAt;
+                UpdateState.Current.IsUpdateAvailable = result.IsUpdateAvailable;
+                UpdateState.Current.NewestVersion = result.NewestVersion;
+                UpdateState.Current.UpdateUrl = result.UpdateUrl;
+                UpdateState.Current.LastUpdateCheck = result.CheckedAt;
 
                 UpdateLastCheckedText();
 
-                if (result.IsUpdateAvailable)
+                _ = Dispatcher.InvokeAsync(async () =>
                 {
-                    UpdateStatusText.Text = Application.Current.FindResource("UpdateAvailableNotificationTitle")?.ToString();
-                }
-                else
-                {
-                    UpdateStatusText.Text = Application.Current.FindResource("UpToDate")?.ToString();
-                }
+                    await Task.Delay(500); // slight delay for better UX
+
+                    if (result.IsUpdateAvailable)
+                    {
+                        UpdateStatusText.Text = Application.Current.FindResource("UpdateAvailableNotificationTitle")?.ToString();
+                    }
+                    else
+                    {
+                        UpdateStatusText.Text = Application.Current.FindResource("UpToDate")?.ToString();
+                    }
+                });
             }
             else
             {

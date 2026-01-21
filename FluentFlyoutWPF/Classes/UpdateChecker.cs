@@ -10,7 +10,7 @@ namespace FluentFlyout.Classes;
 public static class UpdateChecker
 {
     private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-    private static readonly HttpClient HttpClient = new();
+    private static readonly HttpClient HttpClient = new() { Timeout = TimeSpan.FromSeconds(10) };
     private const string ApiEndpoint = "https://fluentflyout.com/api/newest-version";
 
     /// <summary>
@@ -32,9 +32,6 @@ public static class UpdateChecker
     /// <returns>UpdateCheckResult with update information</returns>
     public static async Task<UpdateCheckResult> CheckForUpdatesAsync(string currentVersion)
     {
-        // prevent indefinite hangs
-        HttpClient.Timeout = TimeSpan.FromSeconds(10);
-
         var result = new UpdateCheckResult
         {
             CheckedAt = DateTime.Now
@@ -50,8 +47,15 @@ public static class UpdateChecker
             result.Success = true;
 
             // Compare versions
-            result.IsUpdateAvailable = currentVersion != result.NewestVersion;
-            
+            if (currentVersion != "debug")
+            {
+                result.IsUpdateAvailable = currentVersion != result.NewestVersion;
+            }
+            else
+            {
+                result.IsUpdateAvailable = false;
+            }
+
             Logger.Info($"Update check complete. Current: {currentVersion}, Newest: {result.NewestVersion}, Update available: {result.IsUpdateAvailable}");
         }
         catch (HttpRequestException ex)

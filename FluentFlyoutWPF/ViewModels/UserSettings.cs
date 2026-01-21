@@ -406,6 +406,12 @@ public partial class UserSettings : ObservableObject
     [ObservableProperty]
     public partial bool IsStoreVersion { get; set; }
 
+    /// <summary>
+    /// Last time the program has sent an update notification in Unix seconds.
+    /// </summary>
+    [ObservableProperty]
+    public partial long LastUpdateNotificationUnixSeconds { get; set; }
+
     [XmlIgnore]
     private bool _initializing = true;
 
@@ -562,54 +568,4 @@ public partial class UserSettings : ObservableObject
         MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
         mainWindow.UpdateTaskbar();
     }
-
-    #region Update Check Properties
-
-    /// <summary>
-    /// Whether an update is available
-    /// </summary>
-    [XmlIgnore]
-    [ObservableProperty]
-    public partial bool IsUpdateAvailable { get; set; }
-
-    /// <summary>
-    /// The newest version available from the API
-    /// </summary>
-    [XmlIgnore]
-    [ObservableProperty]
-    public partial string NewestVersion { get; set; } = string.Empty;
-
-    /// <summary>
-    /// The URL to download the update (if available)
-    /// </summary>
-    [XmlIgnore]
-    [ObservableProperty]
-    public partial string UpdateUrl { get; set; } = string.Empty;
-
-    /// <summary>
-    /// Timestamp of the last update check
-    /// </summary>
-    [XmlIgnore]
-    [ObservableProperty]
-    [NotifyPropertyChangedFor(nameof(LastCheckedText))]
-    public partial DateTime LastUpdateCheck { get; set; }
-
-    [ObservableProperty]
-    public partial long LastUpdateNotificationUnixSeconds { get; set; }
-
-    /// <summary>
-    /// Formatted text for the last update check time
-    /// </summary>
-    [XmlIgnore]
-    public string LastCheckedText
-    {
-        get
-        {
-            if (LastUpdateCheck == default)
-                return string.Empty;
-            return LastUpdateCheck.ToString("g");
-        }
-    }
-
-    #endregion
 }

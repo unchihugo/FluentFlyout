@@ -50,12 +50,12 @@
                             <Style TargetType="ui:SymbolIcon">
                                 <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}" />
                                 <Style.Triggers>
-                                    <DataTrigger Binding="{Binding IsUpdateAvailable}" Value="True">
+                                    <DataTrigger Binding="{Binding IsUpdateAvailable, Source={x:Static viewModels:UpdateState.Current}}" Value="True">
                                         <Setter Property="Symbol" Value="ArrowDownload24" />
                                         <Setter Property="Foreground" Value="{DynamicResource AccentTextFillColorPrimaryBrush}" />
                                         <Setter Property="Filled" Value="False" />
                                     </DataTrigger>
-                                    <DataTrigger Binding="{Binding IsUpdateAvailable}" Value="False">
+                                    <DataTrigger Binding="{Binding IsUpdateAvailable, Source={x:Static viewModels:UpdateState.Current}}" Value="False">
                                         <Setter Property="Symbol" Value="CheckmarkCircle24" />
                                         <Setter Property="Foreground" Value="#62a733" />
                                         <Setter Property="Filled" Value="True" />
@@ -70,7 +70,7 @@
                                 <Style TargetType="ui:TextBlock">
                                     <Setter Property="Text" Value="{DynamicResource UpToDate}" />
                                     <Style.Triggers>
-                                        <DataTrigger Binding="{Binding IsUpdateAvailable}" Value="True">
+                                        <DataTrigger Binding="{Binding IsUpdateAvailable, Source={x:Static viewModels:UpdateState.Current}}" Value="True">
                                             <Setter Property="Text" Value="{DynamicResource UpdateAvailable}" />
                                             <Setter Property="Foreground" Value="{DynamicResource AccentTextFillColorPrimaryBrush}" />
                                         </DataTrigger>
