@@ -200,7 +200,35 @@ public partial class MainWindow : MicaWindow
 
             Notifications.ShowFirstOrUpdateNotification(previousVersion, SettingsManager.Current.LastKnownVersion);
             FlowDirection = SettingsManager.Current.FlowDirection;
+
+            // check for updates on startup
+            _ = CheckForUpdatesOnStartupAsync();
         });
+    }
+
+    private async Task CheckForUpdatesOnStartupAsync()
+    {
+        try
+        {
+            var result = await UpdateChecker.CheckForUpdatesAsync(SettingsManager.Current.LastKnownVersion);
+
+            if (result.Success)
+            {
+                SettingsManager.Current.IsUpdateAvailable = result.IsUpdateAvailable;
+                SettingsManager.Current.NewestVersion = result.NewestVersion;
+                SettingsManager.Current.UpdateUrl = result.UpdateUrl;
+                SettingsManager.Current.LastUpdateCheck = result.CheckedAt;
+
+                if (result.IsUpdateAvailable)
+                {
+                    Notifications.ShowUpdateAvailableNotification(result.NewestVersion, result.UpdateUrl);
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger.Error(ex, "Failed to check for updates on startup");
+        }
     }
 
     private void openSettings(object? sender, EventArgs e)

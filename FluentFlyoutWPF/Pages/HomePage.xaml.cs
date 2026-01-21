@@ -3,6 +3,7 @@ using FluentFlyout.Classes.Settings;
 using NLog;
 using System.Diagnostics;
 using System.IO;
+using System.Windows;
 using System.Windows.Controls;
 using Windows.ApplicationModel;
 using Wpf.Ui.Controls;
@@ -27,11 +28,87 @@ public partial class HomePage : Page
         {
             VersionTextBlock.Text = "debug version";
         }
+
+        UpdateLastCheckedText();
     }
 
-    private void ViewUpdates_Click(object sender, System.Windows.RoutedEventArgs e)
+    private void UpdateLastCheckedText()
+    {
+        if (SettingsManager.Current.LastUpdateCheck != default)
+        {
+            LastCheckedText.Text = string.Format(
+                Application.Current.FindResource("LastChecked")?.ToString() ?? "Last checked: {0}",
+                SettingsManager.Current.LastCheckedText);
+        }
+        else
+        {
+            LastCheckedText.Text = string.Empty;
+        }
+    }
+
+    private async void ViewUpdates_Click(object sender, RoutedEventArgs e)
     {
         Notifications.OpenChangelogInBrowser();
+    }
+
+    private long _lastChecked = 0;
+
+    private async void CheckForUpdates_Click(object sender, RoutedEventArgs e)
+    {
+        // prevent multiple clicks within 1 second
+        if (DateTimeOffset.UtcNow.ToUnixTimeSeconds() - _lastChecked < 1)
+        {
+            return;
+        }
+
+        _lastChecked = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+
+        if (SettingsManager.Current.IsUpdateAvailable)
+        {
+            if (string.IsNullOrEmpty(SettingsManager.Current.UpdateUrl)) return;
+            UpdateChecker.OpenUpdateUrl(SettingsManager.Current.UpdateUrl);
+        }
+        else
+        {
+            await CheckForUpdatesAsync();
+        }
+    }
+
+    private async Task CheckForUpdatesAsync()
+    {
+        try
+        {
+            UpdateStatusText.Text = Application.Current.FindResource("CheckingForUpdates")?.ToString() ?? "Checking...";
+
+            var result = await UpdateChecker.CheckForUpdatesAsync(SettingsManager.Current.LastKnownVersion);
+
+            if (result.Success)
+            {
+                SettingsManager.Current.IsUpdateAvailable = result.IsUpdateAvailable;
+                SettingsManager.Current.NewestVersion = result.NewestVersion;
+                SettingsManager.Current.UpdateUrl = result.UpdateUrl;
+                SettingsManager.Current.LastUpdateCheck = result.CheckedAt;
+
+                UpdateLastCheckedText();
+
+                if (result.IsUpdateAvailable)
+                {
+                    UpdateStatusText.Text = Application.Current.FindResource("UpdateAvailableNotificationTitle")?.ToString();
+                }
+                else
+                {
+                    UpdateStatusText.Text = Application.Current.FindResource("UpToDate")?.ToString();
+                }
+            }
+            else
+            {
+                UpdateStatusText.Text = Application.Current.FindResource("UpToDate")?.ToString();
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger.Error(ex, "Failed to check for updates from HomePage");
+        }
     }
 
     private void MediaFlyout_Click(object sender, System.Windows.RoutedEventArgs e)

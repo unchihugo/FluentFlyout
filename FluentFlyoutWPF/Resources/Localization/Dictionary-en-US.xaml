@@ -160,4 +160,11 @@ You can help contribute translations on</System:String>
     <System:String x:Key="UpdateToastTitle">FluentFlyout has been updated!</System:String>
     <System:String x:Key="UpdateToastMessage">You are now on {0}.</System:String>
     <System:String x:Key="UpdateToastButton">View Updates</System:String>
+    <System:String x:Key="UpdateAvailable">Update available</System:String>
+    <System:String x:Key="UpToDate">Up to date</System:String>
+    <System:String x:Key="LastChecked">Last checked: {0}</System:String>
+    <System:String x:Key="CheckingForUpdates">Checking...</System:String>
+    <System:String x:Key="UpdateAvailableNotificationTitle">Update Available!</System:String>
+    <System:String x:Key="UpdateAvailableNotificationMessage">A new version ({0}) is available.</System:String>
+    <System:String x:Key="UpdateAvailableNotificationButton">Download Update</System:String>
 </ResourceDictionary>
