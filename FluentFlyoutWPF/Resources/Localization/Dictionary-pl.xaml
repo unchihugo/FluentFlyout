@@ -60,7 +60,7 @@ Uwaga: Jako projekt open-source, te funkcje są również dostępne za darmo pop
     <system:String x:Key="PremiumPurchaseCancelled">Zakup anulowany.</system:String>
     <system:String x:Key="NextUpDescription" xml:space="preserve">Panel pokazuje, co jest następne, gdy utwór lub wideo się zakończy. Pojawia się tylko wtedy, gdy kolejny element odtwarza się automatycznie. Jeśli przycisk następny/poprzedni zostanie naciśnięty ręcznie, wyświetlany jest główny panel.</system:String>
     <system:String x:Key="EnableNextUpTitle">Włącz panel "Next Up" (eksperymentalny)</system:String>
-    <system:String x:Key="NextUpCustomizationTitle">Nastepne w kolejce</system:String>
+    <system:String x:Key="NextUpCustomizationTitle">Panel "Następne w kolejce"</system:String>
     <system:String x:Key="EnableNextUpDescription">Pokazuje co następne, gdy utwór lub wideo się zakończy</system:String>
     <system:String x:Key="NextUpStayDurationTitle">Czas wyświetlania panelu "Next Up"</system:String>
     <system:String x:Key="NextUpStayDurationDescription">(domyślnie: 2000 ms)</system:String>
@@ -81,7 +81,7 @@ Uwaga: Jako projekt open-source, te funkcje są również dostępne za darmo pop
     <system:String x:Key="GitHubRepoLink">Repozytorium GitHub</system:String>
     <system:String x:Key="AppThemeTitle">Motyw aplikacji</system:String>
     <system:String x:Key="LockKeysDescription" xml:space="preserve">Sprawdź stan przycisków blokady jednym spojrzeniem. Wyświetla się po naciśnięciu klawisza Caps Lock, Num Lock lub Scroll Lock. Wygodne rozwiązanie dla laptopów/klawiatur bez wskaźników statusu blokady.</system:String>
-    <system:String x:Key="LockKeysCustomizationTitle">Klawisze blokady</system:String>
+    <system:String x:Key="LockKeysCustomizationTitle">Panel "Klawisze blokady"</system:String>
     <system:String x:Key="EnableLockKeysTitle">Włącz wyświetlanie panelu blokady klawiszy</system:String>
     <system:String x:Key="EnableLockKeysDescription">Wyświetla informację, czy dany klawisz blokady jest włączony lub wyłączony</system:String>
     <system:String x:Key="LockKeysStayDurationTitle">Czas trwania wyświetlania panelu blokady klawiszy</system:String>
