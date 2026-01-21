@@ -47,7 +47,7 @@ public partial class HomePage : Page
         }
     }
 
-    private async void ViewUpdates_Click(object sender, RoutedEventArgs e)
+    private void ViewUpdates_Click(object sender, RoutedEventArgs e)
     {
         Notifications.OpenChangelogInBrowser();
     }
@@ -114,6 +114,7 @@ public partial class HomePage : Page
         catch (Exception ex)
         {
             Logger.Error(ex, "Failed to check for updates from HomePage");
+            UpdateStatusText.Text = "Unable to check for updates"; // not localized
         }
     }
 

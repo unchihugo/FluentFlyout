@@ -47,14 +47,7 @@ public static class UpdateChecker
             result.Success = true;
 
             // Compare versions
-            if (currentVersion != "debug")
-            {
-                result.IsUpdateAvailable = currentVersion != result.NewestVersion;
-            }
-            else
-            {
-                result.IsUpdateAvailable = false;
-            }
+            result.IsUpdateAvailable = currentVersion != "debug" && currentVersion != result.NewestVersion;
 
             Logger.Info($"Update check complete. Current: {currentVersion}, Newest: {result.NewestVersion}, Update available: {result.IsUpdateAvailable}");
         }

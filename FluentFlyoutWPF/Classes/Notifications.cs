@@ -123,8 +123,6 @@ internal static class Notifications
             return;
         }
 
-        SettingsManager.Current.LastUpdateNotificationUnixSeconds = currentUnixSeconds;
-
         try
         {
             var builder = new ToastContentBuilder()
@@ -142,6 +140,8 @@ internal static class Notifications
             }
 
             builder.Show();
+
+            SettingsManager.Current.LastUpdateNotificationUnixSeconds = currentUnixSeconds;
 
             Logger.Info($"Displayed update available notification for {newVersion}");
         }

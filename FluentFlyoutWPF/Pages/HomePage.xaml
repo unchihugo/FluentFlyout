@@ -57,7 +57,7 @@
                                     </DataTrigger>
                                     <DataTrigger Binding="{Binding IsUpdateAvailable, Source={x:Static viewModels:UpdateState.Current}}" Value="False">
                                         <Setter Property="Symbol" Value="CheckmarkCircle24" />
-                                        <Setter Property="Foreground" Value="#62a733" />
+                                        <Setter Property="Foreground" Value="{DynamicResource SystemFillColorSuccessBrush}" />
                                         <Setter Property="Filled" Value="True" />
                                     </DataTrigger>
                                 </Style.Triggers>
