@@ -1,10 +1,12 @@
-﻿using System.Collections.ObjectModel;
-using System.Windows;
-using System.Xml.Serialization;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using FluentFlyout.Classes;
 using FluentFlyout.Classes.Settings;
+using FluentFlyoutWPF.Classes;
 using FluentFlyoutWPF.Models;
+using System.Collections.ObjectModel;
+using System.Windows;
+using System.Windows.Media.Imaging;
+using System.Xml.Serialization;
 
 namespace FluentFlyoutWPF.ViewModels;
 

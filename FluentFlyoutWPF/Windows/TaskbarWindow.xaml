@@ -15,7 +15,7 @@
         TextOptions.TextRenderingMode="ClearType" TextOptions.TextFormattingMode="Ideal"
         FontFamily="Segoe UI Variable, Microsoft YaHei, Microsoft JhengHei, MS Gothic"
         FlowDirection="{Binding FlowDirection}"
-        Loaded="Window_Loaded" Visibility="Collapsed"
+        Loaded="Window_Loaded" Visibility="Collapsed" d:Visibility="Visible"
         xmlns:viewModels="clr-namespace:FluentFlyoutWPF.ViewModels"
 		d:DataContext="{d:DesignInstance viewModels:UserSettings}">
     <Border Name="MainBorder" CornerRadius="6" MouseEnter="Grid_MouseEnter" MouseLeave="Grid_MouseLeave" MouseLeftButtonUp="Grid_MouseLeftButtonUp" ClipToBounds="True">
@@ -37,13 +37,17 @@
 					<Grid.RenderTransform>
 						<ScaleTransform ScaleX="0.9" ScaleY="0.9" />
 					</Grid.RenderTransform>
-					<StackPanel Name="MainStackPanel" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Width="Auto" Margin="4,0,-100,0">
-            <Border Name="SongImageBorder" CornerRadius="5" Margin="0,0,0,-2" ClipToBounds="True" Width="36" Height="36" Panel.ZIndex="2">
-              <ui:SymbolIcon Name="SongImagePlaceholder" Symbol="MusicNote220" FontSize="24" Filled="True" Foreground="{DynamicResource MicaWPF.Brushes.SystemAccentColorTertiary}" />
-							<Border.Background>
-								<ImageBrush x:Name="SongImage" Stretch="UniformToFill" />
-							</Border.Background>
-						</Border>
+                    <StackPanel Name="MainStackPanel" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Width="Auto" Margin="4,0,-100,0">
+                        <Border Name="SongImageBorder" CornerRadius="5" Margin="0,0,0,-2" ClipToBounds="True" Width="36" Height="36" Panel.ZIndex="2">
+                            <Grid>
+                                <ui:SymbolIcon Name="SongImagePlaceholder" Symbol="MusicNote220" FontSize="24" Filled="True" Foreground="{DynamicResource MicaWPF.Brushes.SystemAccentColorTertiary}" />
+                                <!--<Image x:Name="VisualizerContainer" Width="Auto" Height="Auto" Margin="4" />-->
+                            </Grid>
+                            <Border.Background>
+                                <ImageBrush x:Name="SongImage" Stretch="UniformToFill" />
+                            </Border.Background>
+                        </Border>
+
                         <StackPanel Name="SongInfoStackPanel" Orientation="Vertical" VerticalAlignment="Center" Width="Auto" Margin="8,0,0,0" 
                                     ToolTipService.InitialShowDelay="800"
                                     ToolTipService.Placement="RelativePoint"
@@ -51,6 +55,7 @@
                             <TextBlock Name="SongTitle" Text="" FontWeight="Normal" TextTrimming="CharacterEllipsis" Foreground="{ui:ThemeResource TextFillColorPrimaryBrush}" />
                             <TextBlock Name="SongArtist" Text="" FontWeight="Normal" Opacity="0.5" Margin="0,-1.5,0,0" TextTrimming="CharacterEllipsis" Foreground="{ui:ThemeResource TextFillColorPrimaryBrush}" />
                         </StackPanel>
+
                         <StackPanel Name="ControlsStackPanel" Orientation="Horizontal" VerticalAlignment="Center" Width="Auto" Margin="8,0,0,0">
                             <StackPanel.Style>
                                 <Style TargetType="StackPanel">
@@ -66,7 +71,11 @@
                             <ui:Button Name="PlayPauseButton" Appearance="Transparent" Icon="{ui:SymbolIcon Pause16, Filled=True}" Height="32" Width="32" Padding="0" BorderThickness="0" Margin="0,0,0,-1" Click="PlayPause_Click"/>
                             <ui:Button Name="NextButton" Appearance="Transparent" Icon="{ui:SymbolIcon Next20, Filled=True}" Height="32" Width="32" Padding="0" BorderThickness="0" Margin="0,0,0,-1" Click="Next_Click"/>
                         </StackPanel>
-					</StackPanel>
+
+                        <StackPanel Name="VisualizerStackPanel" Margin="8,0,0,0" >
+                            <Image x:Name="VisualizerContainer" Width="100" Height="40" />
+                        </StackPanel>
+                    </StackPanel>
 				</Grid>
 			</Border>
 		</Grid>

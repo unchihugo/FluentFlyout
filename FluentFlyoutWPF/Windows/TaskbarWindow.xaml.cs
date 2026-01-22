@@ -137,6 +137,7 @@ public partial class TaskbarWindow : Window
     private int _maxRecoveryAttempts = 5;
     private int _lastSelectedMonitor = -1;
     //private Task _crossFadeTask = Task.CompletedTask;
+    Visualizer visualizer = new();
 
     public TaskbarWindow()
     {
@@ -155,6 +156,9 @@ public partial class TaskbarWindow : Window
         _timer.Start();
 
         Show();
+
+        visualizer.Start();
+        VisualizerContainer.Source = visualizer.Bitmap;
     }
 
     protected override void OnSourceInitialized(EventArgs e)
@@ -511,6 +515,8 @@ public partial class TaskbarWindow : Window
             logicalWidth += (int)(102);
         }
 
+        logicalWidth += 108;
+
         int physicalWidth = (int)(logicalWidth * dpiScale * _scale);
         int physicalHeight = (int)(40 * dpiScale); // default height
 
@@ -787,6 +793,10 @@ public partial class TaskbarWindow : Window
             if (SettingsManager.Current.TaskbarWidgetControlsEnabled)
             {
                 ControlsStackPanel.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                ControlsStackPanel.Visibility = Visibility.Collapsed;
             }
 
             Visibility = Visibility.Visible;
