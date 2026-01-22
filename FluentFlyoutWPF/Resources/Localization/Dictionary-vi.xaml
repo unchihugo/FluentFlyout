@@ -2,7 +2,7 @@
     <system:String x:Key="TitleText">Cài đặt FluentFlyout</system:String>
     <system:String x:Key="MediaFlyoutTitle">Giao diện điều khiển phát lại</system:String>
     <system:String x:Key="MediaFlyoutDescription">Giao diện này hiện lên mỗi khi nhấn phím phát, ngừng phát, tăng, giảm âm lượng, v.v. cho phép bạn theo dõi nội dung đang phát và điều khiển phát lại.</system:String>
-    <system:String x:Key="TextBlockText1">Cho phép hiển thị</system:String>
+    <system:String x:Key="TextBlockText1">Bật giao diện</system:String>
     <system:String x:Key="TextBlockText3">Cho phép hiển thị giao diện</system:String>
     <system:String x:Key="CompactLayoutTitle">Giao diện nhỏ gọn</system:String>
     <system:String x:Key="CompactLayoutDescription" xml:space="preserve">Ẩn tên ứng dụng đang phát, các nút lặp lại và trộn bài</system:String>
@@ -17,7 +17,7 @@
     <system:String x:Key="FlyoutStayDurationDescription">(mặc định: 3000 ms)</system:String>
     <system:String x:Key="MillisecondsUnit">ms</system:String>
     <system:String x:Key="CenterTitleArtistTitle">Căn giữa tiêu đề và tên tác giả</system:String>
-    <system:String x:Key="CenterTitleArtistDescription">Khi tắt, các thông tin đó sẽ căn lề trái</system:String>
+    <system:String x:Key="CenterTitleArtistDescription">Khi tắt, các thông tin trên sẽ căn lề trái</system:String>
     <system:String x:Key="ShowMediaPlayerNameTitle">Tên ứng dụng đang phát</system:String>
     <system:String x:Key="RepeatButtonTitle">Nút lặp lại*</system:String>
     <system:String x:Key="RepeatButtonDescription">Lặp lại nội dung một lần hoặc liên tục</system:String>
@@ -30,20 +30,20 @@
     <system:String x:Key="PauseOtherMediaDescription">Tự động tạm dừng các nội dung khác ngoài nội dung đang phát</system:String>
     <system:String x:Key="NextUpCustomizationTitle">Giao diện nội dung tiếp theo</system:String>
     <system:String x:Key="NextUpDescription" xml:space="preserve">Giao diện này chỉ hiển thị khi đang tự động phát, cho phép bạn theo dõi nội dung tiếp theo.</system:String>
-    <system:String x:Key="EnableNextUpTitle">Cho phép hiển thị (beta)</system:String>
+    <system:String x:Key="EnableNextUpTitle">Bật giao diện (beta)</system:String>
     <system:String x:Key="EnableNextUpDescription">Cho phép hiển thị giao diện</system:String>
     <system:String x:Key="NextUpStayDurationTitle">Thời gian hiển thị</system:String>
     <system:String x:Key="NextUpStayDurationDescription">(mặc định: 2000 ms)</system:String>
     <system:String x:Key="LockKeysCustomizationTitle">Giao diện phím lock</system:String>
     <system:String x:Key="LockKeysDescription" xml:space="preserve">Giao diện này cho biết trạng thái bật/tắt mỗi khi bạn nhấn phím Caps Lock, Num Lock và Scroll Lock.</system:String>
-    <system:String x:Key="EnableLockKeysTitle">Cho phép hiển thị</system:String>
+    <system:String x:Key="EnableLockKeysTitle">Bật giao diện</system:String>
     <system:String x:Key="EnableLockKeysDescription">Cho phép hiển thị giao diện</system:String>
     <system:String x:Key="LockKeysStayDurationTitle">Thời gian hiển thị</system:String>
     <system:String x:Key="LockKeysStayDurationDescription">(mặc định: 2000 ms)</system:String>
     <system:String x:Key="LockKeysBoldUITitle">Tô đậm chữ và viền biểu tượng</system:String>
     <system:String x:Key="LockKeysBoldUIDescription">Tô đậm chữ và viền biểu tượng</system:String>
-    <system:String x:Key="EnableInsertKeyTitle">Cho phép hiển thị mỗi khi nhấn Insert</system:String>
-    <system:String x:Key="EnableInsertKeyDescription">Cho phép hiển thị giao diện mỗi khi nhấn phím Insert</system:String>
+    <system:String x:Key="EnableInsertKeyTitle">Mở giao diện mỗi khi nhấn phím Insert</system:String>
+    <system:String x:Key="EnableInsertKeyDescription">Mở giao diện mỗi khi nhấn phím Insert</system:String>
     <system:String x:Key="SystemSettingsTitle">Tùy chọn khác</system:String>
     <system:String x:Key="LaunchOnStartupTitle">Khởi động cùng Windows</system:String>
     <system:String x:Key="LaunchOnStartupDescription">Giao diện cài đặt sẽ không hiển thị</system:String>
@@ -89,9 +89,9 @@ hoặc chia sẻ trải nghiệm của bạn trên Microsoft Store.</system:Stri
     <system:String x:Key="AppLanguageDescription" xml:space="preserve">Các phần không được biên dịch sẽ tự động trả về tiếng Anh.
 Bạn có thể hỗ trợ dịch tại</system:String>
     <system:String x:Key="AppLanguageDescriptionLink">Weblate</system:String>
-    <system:String x:Key="MediaFlyoutAlwaysDisplay">Luôn luôn</system:String>
+    <system:String x:Key="MediaFlyoutAlwaysDisplay">Luôn luôn hiển thị</system:String>
     <system:String x:Key="TaskbarWidgetCustomizationTitle">Widget trên thanh tác vụ</system:String>
-    <system:String x:Key="TaskbarWidgetEnabledTitle">Cho phép hiển thị</system:String>
+    <system:String x:Key="TaskbarWidgetEnabledTitle">Bật widget</system:String>
     <system:String x:Key="TaskbarWidgetEnabledDescription">Cho phép hiển thị widget</system:String>
     <system:String x:Key="TaskbarWidgetVisualIssuesWarning">Nếu chưa hài lòng với vị trí widget, bạn nên thay đổi các cài đặt sau.</system:String>
     <system:String x:Key="TaskbarWidgetPosition">Vị trí widget</system:String>
@@ -142,7 +142,28 @@ Do ứng dụng phát hành trong phạm vi mã nguồn mở, bạn vẫn có th
     <system:String x:Key="UpdateToastButton">Có gì mới</system:String>
     <system:String x:Key="TrayIconSectionTitle">Biểu tượng khay hệ thống</system:String>
     <system:String x:Key="HideTrayIconTitle">Ẩn biểu tượng</system:String>
-    <system:String x:Key="HideTrayIconDescription">Khi chọn, bạn sẽ phải mở giao diện cài đặt bằng cách khác thay cho khay hệ thống</system:String>
+    <system:String x:Key="HideTrayIconDescription">Khi ẩn biểu tượng, bạn sẽ phải mở cài đặt bằng cách khác</system:String>
     <system:String x:Key="TaskbarWidgetPaddingSettingsDescription">Thay đổi độ rộng khoảng trống, tách khỏi nút Widgets</system:String>
     <system:String x:Key="TaskbarWidgetPaddingSettingsTitle">Khoảng trống hai bên</system:String>
+    <system:String x:Key="HomeTitle">Trang chủ</system:String>
+    <system:String x:Key="Enabled">Đang bật</system:String>
+    <system:String x:Key="Disabled">Đang tắt</system:String>
+    <system:String x:Key="MediaFlyoutAlwaysDisplayDescription">Hiển thị giao diện cho đến khi ấn nút đóng</system:String>
+    <system:String x:Key="AcrylicBlurOpacityTitle">Độ đục nền acrylic</system:String>
+    <system:String x:Key="AcrylicBlurOpacityDescription">Độ đục nền acrylic cho các giao diện bay ra (mặc định: 175)</system:String>
+    <system:String x:Key="HomeUpdateDescription">Có gì mới sau cập nhật</system:String>
+    <system:String x:Key="HomeDashboardTitle">Cài đặt</system:String>
+    <system:String x:Key="SystemConfigure">Cho ứng dụng và các giao diện trên</system:String>
+    <system:String x:Key="AboutTitle">Thông tin thêm</system:String>
+    <system:String x:Key="AboutContributorsTitle">Ghi công</system:String>
+    <system:String x:Key="AboutContributorsDescription">Cảm ơn các bạn đã đóng góp cho FluentFlyout!</system:String>
+    <system:String x:Key="AboutOpenSourceLicensesTitle">Thành phần phụ thuộc</system:String>
+    <system:String x:Key="AboutOpenSourceLicensesDescription">FluentFlyout tích hợp mã nguồn từ các dự án sau đây:</system:String>
+    <system:String x:Key="UpdateAvailable">Có cập nhật mới</system:String>
+    <system:String x:Key="UpToDate">Đang ở bản mới nhất</system:String>
+    <system:String x:Key="LastChecked">Xác nhận lần cuối: {0}</system:String>
+    <system:String x:Key="CheckingForUpdates">Đang xác định cập nhật mới...</system:String>
+    <system:String x:Key="UpdateAvailableNotificationTitle">Có cập nhật mới</system:String>
+    <system:String x:Key="UpdateAvailableNotificationMessage">Bạn có thể cập nhật lên {0}.</system:String>
+    <system:String x:Key="UpdateAvailableNotificationButton">Cập nhật</system:String>
 </ResourceDictionary>
