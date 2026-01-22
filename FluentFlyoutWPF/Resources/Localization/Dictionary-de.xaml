@@ -144,4 +144,8 @@ Du kannst helfen, die App zu übersetzen auf</system:String>
     <system:String x:Key="CheckingForUpdates">Wird geprüft...</system:String>
     <system:String x:Key="UpdateAvailableNotificationTitle">Aktualisierung verfügbar!</system:String>
     <system:String x:Key="UpdateAvailableNotificationMessage">Eine neue Version ({0}) ist verfügbar.</system:String>
+    <system:String x:Key="Enabled">Aktiviert</system:String>
+    <system:String x:Key="Disabled">Deaktiviert</system:String>
+    <system:String x:Key="TrayIcon_ViewLogsOption">Protokolle anzeigen</system:String>
+    <system:String x:Key="PixelsUnit">px</system:String>
 </ResourceDictionary>
