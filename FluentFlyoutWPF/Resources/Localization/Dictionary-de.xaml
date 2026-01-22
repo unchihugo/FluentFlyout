@@ -33,7 +33,7 @@ verbirgt autom. Wiederholung, Shuffle und Player-Information</system:String>
     <system:String x:Key="UnsupportedControlsWarning">*Einige Browser/Player unterstützen die automatische Wiederholung, Shuffle und Suchleiste nicht.</system:String>
     <system:String x:Key="PauseOtherMediaTitle">Andere Medien automatisch pausieren</system:String>
     <system:String x:Key="PauseOtherMediaDescription">Wenn Sie neue Medien abspielen oder fokussieren, werden andere aktive Mediensitzungen automatisch pausiert</system:String>
-    <system:String x:Key="TaskbarWidgetCustomizationTitle">Anpassung des Taskleisten-Widgets</system:String>
+    <system:String x:Key="TaskbarWidgetCustomizationTitle">Taskleisten-Widget</system:String>
     <system:String x:Key="TaskbarWidgetDescription">Ein kompaktes, eingebautes Widget, das sich direkt in Ihrer Windows-Taskleiste befindet und sofortigen Zugriff auf Ihre Medien ermöglicht. Klicken Sie auf das Widget, um (falls aktiviert) das vollständige Medien-Flyout anzuzeigen.</system:String>
     <system:String x:Key="TaskbarWidgetEnabledTitle">Taskleisten-Widget aktivieren</system:String>
     <system:String x:Key="TaskbarWidgetEnabledDescription">Ein kompaktes Medien-Widget auf der Taskleiste anzeigen</system:String>
@@ -57,7 +57,7 @@ Anmerkung: Als Open-Source-Projekt sind diese Funktionen auch kostenlos verfügb
     <system:String x:Key="UnlockPremiumButton">Premium freischalten</system:String>
     <system:String x:Key="SystemSettingsTitle">System</system:String>
     <system:String x:Key="LockWindow_LockOn">an</system:String>
-    <system:String x:Key="MediaFlyoutTitle">Anpassung des Medien-Flyouts</system:String>
+    <system:String x:Key="MediaFlyoutTitle">Medien-Flyout</system:String>
     <system:String x:Key="TextBlockText1">Aktiviere das Media-Flyout</system:String>
     <system:String x:Key="TextBlockText3">Zeigt das Flyout an, wenn eine Medientaste gedrückt wurde</system:String>
     <system:String x:Key="TaskbarWidgetPosition">Widget Position</system:String>
@@ -135,4 +135,13 @@ Du kannst helfen, die App zu übersetzen auf</system:String>
     <system:String x:Key="LockWindow_InsertPressed">Einfügen gedrückt</system:String>
     <system:String x:Key="MediaFlyoutDescription">Haupt-Flyout. Beim Abspielen von Medien kannst du eine beliebige Medien- oder Lautstärketaste (Play/Pause, Lauter/Leiser usw.) auf der Tastatur drücken, um das Flyout anzuzeigen. Zeigt Medieninformationen sowie Wiedergabesteuerungen und weitere Optionen.</system:String>
     <system:String x:Key="LockKeysBoldUIDescription">Hebt das Flyout-Symbol und die Schrift hervor</system:String>
+    <system:String x:Key="UpdateAvailableNotificationButton">Aktualisierung herunterladen</system:String>
+    <system:String x:Key="UpdateToastTitle">FluentFlyout wurde aktualisiert!</system:String>
+    <system:String x:Key="UpdateToastButton">Aktualisierungen ansehen</system:String>
+    <system:String x:Key="UpdateAvailable">Aktualisierung verfügbar</system:String>
+    <system:String x:Key="UpToDate">Auf dem neuesten Stand</system:String>
+    <system:String x:Key="LastChecked">Zuletzt geprüft: {0}</system:String>
+    <system:String x:Key="CheckingForUpdates">Wird geprüft...</system:String>
+    <system:String x:Key="UpdateAvailableNotificationTitle">Aktualisierung verfügbar!</system:String>
+    <system:String x:Key="UpdateAvailableNotificationMessage">Eine neue Version ({0}) ist verfügbar.</system:String>
 </ResourceDictionary>
