@@ -160,4 +160,11 @@
     <system:String x:Key="UpdateToastTitle">تم تحديث FluentFlyout!</system:String>
     <system:String x:Key="UpdateToastMessage">انت الأن على تحديث {0}.</system:String>
     <system:String x:Key="UpdateToastButton">إطلع على التحديثات</system:String>
+    <system:String x:Key="UpdateAvailable">يتوفر تحديث</system:String>
+    <system:String x:Key="UpToDate">مُحدث للنسخة الأخيرة</system:String>
+    <system:String x:Key="LastChecked">آخر تحقق: {0}</system:String>
+    <system:String x:Key="CheckingForUpdates">التحقق من وجود تحديثات...</system:String>
+    <system:String x:Key="UpdateAvailableNotificationTitle">يتوفر تحديث!</system:String>
+    <system:String x:Key="UpdateAvailableNotificationMessage">الإصدار الجديد ({0}) متوفر.</system:String>
+    <system:String x:Key="UpdateAvailableNotificationButton">تنزيل التحديث</system:String>
 </ResourceDictionary>
