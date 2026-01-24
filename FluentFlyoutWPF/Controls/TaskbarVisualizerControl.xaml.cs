@@ -22,8 +22,7 @@ public partial class TaskbarVisualizerControl : UserControl
 
     // reference to main window for flyout functions
     private FluentFlyoutWPF.MainWindow? _mainWindow;
-    private bool _isPaused;
-    private Visualizer visualizer = new();
+    private static readonly Visualizer visualizer = new();
 
     public TaskbarVisualizerControl()
     {
@@ -32,12 +31,31 @@ public partial class TaskbarVisualizerControl : UserControl
         // Set DataContext for bindings
         DataContext = SettingsManager.Current;
 
-        visualizer.Start();
+        if (SettingsManager.Current.TaskbarVisualizerEnabled)
+        {
+            visualizer.Start();
+        }
+
         VisualizerContainer.Source = visualizer.Bitmap;
     }
 
     public void SetMainWindow(FluentFlyoutWPF.MainWindow mainWindow)
     {
         _mainWindow = mainWindow;
+    }
+
+    public static void OnTaskbarVisualizerEnabledChanged(bool value)
+    {
+        if (visualizer == null)
+            return;
+
+        if (value)
+        {
+            visualizer.Start();
+        }
+        else
+        {
+            visualizer.Stop();
+        }
     }
 }

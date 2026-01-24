@@ -384,6 +384,9 @@ public partial class TaskbarWindow : Window
 
     private void PositionWidget(IntPtr taskbarHandle, RECT taskbarRect, double dpiScale, bool isMainTaskbarSelected)
     {
+        if (!SettingsManager.Current.TaskbarWidgetEnabled)
+            return;
+
         // Calculate widget size
         var (logicalWidth, logicalHeight) = Widget.CalculateSize(dpiScale);
 
@@ -402,8 +405,8 @@ public partial class TaskbarWindow : Window
             case 0: // left aligned with some padding (like native widgets)
                 widgetLeft = 20;
 
-                //if (SettingsManager.Current.TaskbarVisualizerEnabled && visPos == 0)
-                        widgetLeft += (int)(TaskbarVisualizer.Width * dpiScale) + 4;
+                if (SettingsManager.Current.TaskbarVisualizerEnabled && SettingsManager.Current.TaskbarVisualizerPosition == 0)
+                    widgetLeft += (int)(TaskbarVisualizer.Width * dpiScale) + 4;
 
                 if (!SettingsManager.Current.TaskbarWidgetPadding)
                     break;
@@ -432,19 +435,19 @@ public partial class TaskbarWindow : Window
             case 1: // center of the taskbar
                 widgetLeft = (taskbarRect.Right - taskbarRect.Left - physicalWidth) / 2;
 
-                //if (SettingsManager.Current.TaskbarVisualizerEnabled)
-                    //if (visPos == 0)
-                        //widgetLeft += (int)(TaskbarVisualizer.Width * dpiScale) / 2 + 4;
-                    //else
-                        //widgetLeft -= (int)(TaskbarVisualizer.Width * dpiScale) / 2 - 4;
+                if (SettingsManager.Current.TaskbarVisualizerEnabled)
+                    if (SettingsManager.Current.TaskbarVisualizerPosition == 0)
+                        widgetLeft += (int)(TaskbarVisualizer.Width * dpiScale) / 2 + 4;
+                    else
+                        widgetLeft -= (int)(TaskbarVisualizer.Width * dpiScale) / 2 - 4;
 
                 break;
 
             case 2: // right aligned next to system tray with tiny bit of padding
                 try
                 {
-                    //if (SettingsManager.Current.TaskbarVisualizerEnabled && visPos == 1)
-                        //widgetLeft -= (int)(TaskbarVisualizer.Width * dpiScale) - 4;
+                    if (SettingsManager.Current.TaskbarVisualizerEnabled && SettingsManager.Current.TaskbarVisualizerPosition == 1)
+                        widgetLeft -= (int)(TaskbarVisualizer.Width * dpiScale) - 4;
 
                     // try to position next to widgets button if enabled
                     if (SettingsManager.Current.TaskbarWidgetPadding)
@@ -458,7 +461,7 @@ public partial class TaskbarWindow : Window
                             if (found && widgetRect.Left > (taskbarRect.Left + taskbarRect.Right) / 2)
                             {
                                 // Convert absolute screen position to relative position within taskbar
-                                widgetLeft = (int)(widgetRect.Left - taskbarRect.Left) - 1 - physicalWidth;
+                                widgetLeft += (int)(widgetRect.Left - taskbarRect.Left) - 1 - physicalWidth;
                                 break; // early exit so we don't move it back next to tray below
                             }
                         }
@@ -477,7 +480,7 @@ public partial class TaskbarWindow : Window
                         if (found)
                         {
                             // Convert absolute screen position to relative position within taskbar
-                            widgetLeft = (int)(secondaryTrayRect.Left - taskbarRect.Left) - physicalWidth - 1;
+                            widgetLeft += (int)(secondaryTrayRect.Left - taskbarRect.Left) - physicalWidth - 1;
                             break;
                         }
                     }
@@ -497,12 +500,12 @@ public partial class TaskbarWindow : Window
                     // since we are aligning to the right side and know the size of the taskbar.
                     if (_trayHandle == IntPtr.Zero)
                     {
-                        widgetLeft = taskbarRect.Right - taskbarRect.Left - physicalWidth - 20;
+                        widgetLeft += taskbarRect.Right - taskbarRect.Left - physicalWidth - 20;
                         break;
                     }
                     GetWindowRect(_trayHandle, out RECT trayRect);
                     // Convert absolute screen position to relative position within taskbar
-                    widgetLeft = trayRect.Left - taskbarRect.Left - physicalWidth - 1;
+                    widgetLeft += trayRect.Left - taskbarRect.Left - physicalWidth - 1;
                 }
                 catch (Exception ex)
                 {
@@ -524,26 +527,22 @@ public partial class TaskbarWindow : Window
 
     private void PositionVisualizer(IntPtr taskbarHandle, RECT taskbarRect, double dpiScale, bool isMainTaskbarSelected)
     {
-        //if (!SettingsManager.Current.TaskbarVisualizerEnabled)
-        //    return;
+        if (!SettingsManager.Current.TaskbarVisualizerEnabled)
+            return;
 
         int taskbarHeight = taskbarRect.Bottom - taskbarRect.Top;
         int visualizerTop = (taskbarHeight - (int)(TaskbarVisualizer.Height * dpiScale)) / 2;
 
-        // Calculate horizontal position based on alignment setting
         int visualizerLeft = 0;
-        int _tempSwitch = 0;
-        //switch (SettingsManager.Current.TaskbarVisualizerPosition)
-        switch (_tempSwitch)
+        switch (SettingsManager.Current.TaskbarVisualizerPosition)
         {
             case 0: // left aligned next to widget
                 visualizerLeft = (int)(System.Windows.Controls.Canvas.GetLeft(Widget) * dpiScale) - (int)(TaskbarVisualizer.Width * dpiScale) - 4;
                 break;
             case 1: // right aligned next to widget
-                visualizerLeft = (int)(System.Windows.Controls.Canvas.GetLeft(Widget) * dpiScale) + 4;
+                visualizerLeft = (int)(System.Windows.Controls.Canvas.GetLeft(Widget) * dpiScale) + (int)(Widget.Width * dpiScale) + 4;
                 break;
         }
-        //visualizerLeft += SettingsManager.Current.TaskbarVisualizerManualPadding;
 
         // Set visualizer position within canvas
         System.Windows.Controls.Canvas.SetLeft(TaskbarVisualizer, visualizerLeft / dpiScale);

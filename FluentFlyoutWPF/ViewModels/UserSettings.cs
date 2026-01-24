@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using FluentFlyout.Classes;
 using FluentFlyout.Classes.Settings;
+using FluentFlyout.Controls;
 using FluentFlyoutWPF.Classes;
 using FluentFlyoutWPF.Models;
 using System.Collections.ObjectModel;
@@ -390,6 +391,19 @@ public partial class UserSettings : ObservableObject
     public partial bool TaskbarWidgetAnimated { get; set; }
 
     /// <summary>
+    /// Gets or sets a value indicating whether the taskbar visualizer is enabled.
+    /// </summary>
+    /// <remarks>For now, this requires Premium and Taskbar Widget to be enabled.</remarks>
+    [ObservableProperty]
+    public partial bool TaskbarVisualizerEnabled { get; set; }
+
+    /// <summary>
+    /// Position of the visualizer, where 0 and 1 are to the left or right of the widget.
+    /// </summary>
+    [ObservableProperty]
+    public partial int TaskbarVisualizerPosition { get; set; }
+
+    /// <summary>
     /// Gets whether premium features are unlocked (runtime only, not persisted)
     /// </summary>
     [XmlIgnore]
@@ -467,6 +481,8 @@ public partial class UserSettings : ObservableObject
         TaskbarWidgetHideCompletely = false;
         TaskbarWidgetControlsEnabled = false;
         TaskbarWidgetAnimated = true;
+        TaskbarVisualizerEnabled = false;
+        TaskbarVisualizerPosition = 0;
         AcrylicBlurOpacity = 175;
         LastUpdateNotificationUnixSeconds = 0;
     }
@@ -569,5 +585,11 @@ public partial class UserSettings : ObservableObject
     {
         MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
         mainWindow.UpdateTaskbar();
+    }
+
+    partial void OnTaskbarVisualizerEnabledChanged(bool oldValue, bool newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+        TaskbarVisualizerControl.OnTaskbarVisualizerEnabledChanged(newValue);
     }
 }
