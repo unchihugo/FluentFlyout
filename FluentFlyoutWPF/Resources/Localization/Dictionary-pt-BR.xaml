@@ -7,7 +7,7 @@
     <system:String x:Key="FlyoutStayDurationTitle">Duração do Submenu</system:String>
     <system:String x:Key="FlyoutStayDurationDescription">(padrão: 3000 ms)</system:String>
     <system:String x:Key="MillisecondsUnit">ms</system:String>
-    <system:String x:Key="MediaFlyoutAlwaysDisplay">Exibir Sempre</system:String>
+    <system:String x:Key="MediaFlyoutAlwaysDisplay">Always On Display</system:String>
     <system:String x:Key="CenterTitleArtistTitle">Título Principal e Artista</system:String>
     <system:String x:Key="CenterTitleArtistDescription">Alinhar texto para o centro ao invés da direita</system:String>
     <system:String x:Key="ShowMediaPlayerNameTitle">Mostrar nome do tocador de mídia</system:String>
@@ -56,53 +56,53 @@ esconde os botões de repetir, aleatório e as informações do player</system:S
     <system:String x:Key="AboutContributorsDescription">Agradecemos muito a todas as pessoas incríveis que ajudaram no desenvolvimento e no sucesso do FluentFlyout!</system:String>
     <system:String x:Key="AboutContributorsTitle">❤️ Conheça nossos colaboradores</system:String>
     <system:String x:Key="AboutOpenSourceLicensesDescription">O FluentFlyout é desenvolvido com os seguintes pacotes de código aberto:</system:String>
-    <system:String x:Key="Disabled">Desativado</system:String>
+    <system:String x:Key="Disabled">Desabilitado</system:String>
     <system:String x:Key="LockKeysBoldUITitle">Símbolo e fonte em negrito</system:String>
     <system:String x:Key="EnableInsertKeyDescription">Determina se a tecla Insert/Sobrescrever mostrará o painel</system:String>
     <system:String x:Key="StartupAppsSettingsInfo">Se esta opção não funcionar corretamente, verifique</system:String>
-    <system:String x:Key="AppLanguageTitle">Idioma do aplicativo</system:String>
+    <system:String x:Key="AppLanguageTitle">Idioma do Aplicativo</system:String>
     <system:String x:Key="AppLanguageDescription" xml:space="preserve">Se o seu idioma não estiver listado ou estiver incompleto, o app usará o inglês como padrão.
 Você pode ajudar a contribuir com traduções em</system:String>
     <system:String x:Key="AnimationDurationScaleDescription">Velocidade da animação do painel (padrão: 1x)</system:String>
-    <system:String x:Key="AnimationSpeedOff">Desligado</system:String>
+    <system:String x:Key="AnimationSpeedOff">Off</system:String>
     <system:String x:Key="AnimationEasingStyleTitle">Estilo de suavização da animação</system:String>
     <system:String x:Key="AnimationEasingStyleDescription">(padrão: Quadratic)</system:String>
-    <system:String x:Key="CheckingForUpdates">Verificando...</system:String>
+    <system:String x:Key="CheckingForUpdates">Procurando...</system:String>
     <system:String x:Key="UpdateAvailableNotificationTitle">Atualização disponível!</system:String>
-    <system:String x:Key="UpdateAvailableNotificationMessage">Uma nova versão ({0}) está disponível.</system:String>
+    <system:String x:Key="UpdateAvailableNotificationMessage">Uma nova versão está disponível.</system:String>
     <system:String x:Key="UpdateAvailableNotificationButton">Baixar atualização</system:String>
     <system:String x:Key="TrayIcon_QuitOption">Sair do FluentFlyout</system:String>
     <system:String x:Key="LockWindow_NumLock">Num Lock</system:String>
     <system:String x:Key="LockWindow_ScrollLock">Scroll Lock</system:String>
     <system:String x:Key="LockWindow_InsertPressed">Tecla Insert pressionada</system:String>
-    <system:String x:Key="LockWindow_LockOn">Ligado</system:String>
-    <system:String x:Key="LockWindow_LockOff">Desligado</system:String>
-    <system:String x:Key="NextUpWindow_UpNextText">Próximo:</system:String>
+    <system:String x:Key="LockWindow_LockOn">em</system:String>
+    <system:String x:Key="LockWindow_LockOff">desligado</system:String>
+    <system:String x:Key="NextUpWindow_UpNextText">A seguir:</system:String>
     <system:String x:Key="TrayIcon_SettingsOption">Configurações</system:String>
     <system:String x:Key="TrayIcon_GitHubRepositoryOption">Repositório</system:String>
-    <system:String x:Key="TrayIcon_ViewLogsOption">Visualizar logs</system:String>
-    <system:String x:Key="TrayIcon_ReportBugOption">Relatar problema</system:String>
+    <system:String x:Key="TrayIcon_ViewLogsOption">Ver registros</system:String>
+    <system:String x:Key="TrayIcon_ReportBugOption">Reportar um bug</system:String>
     <system:String x:Key="TrayIconLeftClickBehaviorDescription">Escolha o que acontece ao clicar com o botão esquerdo no ícone da bandeja</system:String>
-    <system:String x:Key="TrayIconLeftClickOption1"> Abrir configurações</system:String>
+    <system:String x:Key="TrayIconLeftClickOption1"> Abrir Ajustes</system:String>
     <system:String x:Key="TrayIconLeftClickOption2"> Mostrar painel de mídia</system:String>
     <system:String x:Key="Win11TrayIconTitle">Ícone na bandeja no estilo do Windows 11</system:String>
     <system:String x:Key="Win11TrayIconDescription">Use um ícone na bandeja que combine com o Windows 11 (ative/desative para atualizar o tema)</system:String>
-    <system:String x:Key="TrayIconSectionTitle">Ícone na bandeja</system:String>
+    <system:String x:Key="TrayIconSectionTitle">Ícone na Área de Notificação</system:String>
     <system:String x:Key="LaunchOnStartupDescription">Iniciar minimizado na bandeja ao entrar no Windows</system:String>
     <system:String x:Key="StartupAppsHyperlinkText">Aplicativos de inicialização</system:String>
-    <system:String x:Key="AppThemeTitle">Tema do app</system:String>
+    <system:String x:Key="AppThemeTitle">Aparência do App</system:String>
     <system:String x:Key="AppThemeDefault"> Padrão do Windows</system:String>
     <system:String x:Key="AppThemeLight"> Claro</system:String>
     <system:String x:Key="AppThemeDark"> Escuro</system:String>
     <system:String x:Key="TrayIconLeftClickBehaviorTitle">Ação do clique esquerdo no ícone da bandeja</system:String>
     <system:String x:Key="AnimationSettingsTitle">Configurações de animação</system:String>
     <system:String x:Key="AnimationSettingsDescription">Ajuste as animações do seu jeito</system:String>
-    <system:String x:Key="AnimationDurationScaleTitle">Escala da duração da animação</system:String>
+    <system:String x:Key="AnimationDurationScaleTitle">Duração da Animação</system:String>
     <system:String x:Key="AboutPremiumTitle">Sobre a versão Premium</system:String>
-    <system:String x:Key="AboutOpenSourceLicensesTitle">Licenças de código aberto</system:String>
+    <system:String x:Key="AboutOpenSourceLicensesTitle">Licenças de Código Aberto</system:String>
     <system:String x:Key="EnjoyingAppText" xml:space="preserve">Gostou do app? Deixe uma estrela no GitHub
 ou avalie na Microsoft Store!</system:String>
-    <system:String x:Key="GitHubRepoLink">Repositório no GitHub</system:String>
+    <system:String x:Key="GitHubRepoLink">Repositório GitHub</system:String>
     <system:String x:Key="CloseButton">Fechar</system:String>
     <system:String x:Key="AppLanguageDescriptionLink">Weblate</system:String>
     <system:String x:Key="LockWindow_CapsLock">Caps Lock</system:String>
@@ -110,8 +110,8 @@ ou avalie na Microsoft Store!</system:String>
     <system:String x:Key="HomeUpdateDescription">Veja as novidades</system:String>
     <system:String x:Key="EnableLockKeysTitle">Ativar indicador das teclas de bloqueio</system:String>
     <system:String x:Key="LockKeysStayDurationTitle">Duração de exibição das teclas de bloqueio</system:String>
-    <system:String x:Key="HomeTitle">Página inicial</system:String>
-    <system:String x:Key="Enabled">Ativado</system:String>
+    <system:String x:Key="HomeTitle">Início</system:String>
+    <system:String x:Key="Enabled">Habilitado</system:String>
     <system:String x:Key="SelectedMonitorTitle">Destino de exibição do painel</system:String>
     <system:String x:Key="MediaFlyoutAlwaysDisplayDescription">O painel permanece aberto até você clicar no botão Fechar</system:String>
     <system:String x:Key="TaskbarWidgetDescription">Um widget compacto e integrado que fica na barra de tarefas do Windows para acesso rápido à sua mídia. Clique no widget para expandir o Painel de Mídia completo (quando ativado).</system:String>
@@ -124,15 +124,15 @@ ou avalie na Microsoft Store!</system:String>
     <system:String x:Key="TaskbarWidgetManualPaddingDescription">Adicionar espaçamento extra (padrão: 0px)</system:String>
     <system:String x:Key="TaskbarWidgetClickableTitle">Clique para abrir o Painel de Mídia quando houver mídia em reprodução</system:String>
     <system:String x:Key="TaskbarWidgetClickableDescription">Se o Painel de Mídia estiver ativado, ele será aberto ao clicar no widget da barra de tarefas</system:String>
-    <system:String x:Key="TaskbarWidgetBackgroundBlurTitle">Desfoque de fundo</system:String>
+    <system:String x:Key="TaskbarWidgetBackgroundBlurTitle">Blur de fundo</system:String>
     <system:String x:Key="TaskbarWidgetBackgroundBlurDescription">Adicionar efeito de desfoque ao fundo no widget da barra de tarefas</system:String>
     <system:String x:Key="TaskbarWidgetHideCompletelyTitle">Ocultar completamente quando não houver mídia em reprodução</system:String>
     <system:String x:Key="TaskbarWidgetHideCompletelyDescription">Oculta totalmente o widget quando não há mídia, em vez de exibir o ícone de mídia</system:String>
-    <system:String x:Key="TaskbarWidgetControlsTitle">Controles de mídia do widget</system:String>
+    <system:String x:Key="TaskbarWidgetControlsTitle">Controles de Mídia</system:String>
     <system:String x:Key="TaskbarWidgetControlsDescription">Mostrar botões de controle de mídia no widget</system:String>
     <system:String x:Key="TaskbarWidgetAnimatedTitle">Animações do widget</system:String>
     <system:String x:Key="TaskbarWidgetAnimatedDescription">Ativar animações sutis no widget</system:String>
-    <system:String x:Key="PremiumFeatureTitle">Recurso Premium</system:String>
+    <system:String x:Key="PremiumFeatureTitle">Recursos Premium</system:String>
     <system:String x:Key="PremiumFeatureDescription" xml:space="preserve">Sua contribuição única me ajuda a manter o FluentFlyout vivo e atualizado. Ela desbloqueia instantaneamente todos os recursos premium de personalização, para sempre
 
 Nota: Como um projeto de código aberto, esses recursos também estão disponíveis gratuitamente por meio do instalador manual no GitHub. A única diferença é que as atualizações e a instalação precisam ser feitas manualmente.</system:String>
@@ -147,10 +147,10 @@ Nota: Como um projeto de código aberto, esses recursos também estão disponív
     <system:String x:Key="LockKeysCustomizationTitle">Flyout das teclas de bloqueio</system:String>
     <system:String x:Key="EnableInsertKeyTitle">Ativar pop-up da tecla Insert</system:String>
     <system:String x:Key="SystemSettingsTitle">Sistema</system:String>
-    <system:String x:Key="LaunchOnStartupTitle">Iniciar com o Windows</system:String>
+    <system:String x:Key="LaunchOnStartupTitle">Abrir ao iniciar o Windows</system:String>
     <system:String x:Key="EasingLinear" xml:space="preserve"> Linear</system:String>
-    <system:String x:Key="EasingSine" xml:space="preserve"> Seno</system:String>
-    <system:String x:Key="EasingQuadratic" xml:space="preserve"> Quadrática</system:String>
+    <system:String x:Key="EasingSine" xml:space="preserve"> Senoidal</system:String>
+    <system:String x:Key="EasingQuadratic" xml:space="preserve"> Quadratica</system:String>
     <system:String x:Key="EasingCubic" xml:space="preserve"> Cúbica</system:String>
     <system:String x:Key="NativeExperienceInfo">Para a experiência nativa do Windows 11 as configurações devem ser mantidas no padrão.</system:String>
     <system:String x:Key="DisableOnFullscreenTitle">Desativar flyouts quando um programa em tela cheia com DirectX for detectado</system:String>
@@ -166,5 +166,5 @@ Nota: Como um projeto de código aberto, esses recursos também estão disponív
     <system:String x:Key="UpdateToastButton">Ver atualizações</system:String>
     <system:String x:Key="UpdateAvailable">Atualização disponível</system:String>
     <system:String x:Key="UpToDate">Atualizado</system:String>
-    <system:String x:Key="LastChecked">Última verificação: {0}</system:String>
+    <system:String x:Key="LastChecked">Última verificação: {}</system:String>
 </ResourceDictionary>
