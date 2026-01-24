@@ -8,6 +8,8 @@ namespace FluentFlyoutWPF.Classes
 {
     public class Visualizer : IDisposable
     {
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+
         public int BarCount = 10;
         public int ImageWidth = 76*3;
         public int ImageHeight = 32*3;
@@ -86,8 +88,7 @@ namespace FluentFlyoutWPF.Classes
             }
             catch (Exception ex)
             {
-                // Handle exception (e.g., no audio device available)
-                System.Diagnostics.Debug.WriteLine($"Failed to start audio capture: {ex.Message}");
+                Logger.Error(ex, "Failed to start visualizer");
             }
         }
 
@@ -306,7 +307,7 @@ namespace FluentFlyoutWPF.Classes
         {
             if (e.Exception != null)
             {
-                System.Diagnostics.Debug.WriteLine($"Recording stopped with error: {e.Exception.Message}");
+                Logger.Error(e.Exception, "Visualizer recording stopped due to an error");
             }
         }
 

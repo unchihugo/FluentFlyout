@@ -18,8 +18,6 @@ namespace FluentFlyout.Controls;
 /// </summary>
 public partial class TaskbarVisualizerControl : UserControl
 {
-    private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
-
     // reference to main window for flyout functions
     private FluentFlyoutWPF.MainWindow? _mainWindow;
     private static readonly Visualizer visualizer = new();
@@ -57,5 +55,13 @@ public partial class TaskbarVisualizerControl : UserControl
         {
             visualizer.Stop();
         }
+    }
+
+    public static void DisposeVisualizer()
+    {
+        if (visualizer == null)
+            return;
+
+        visualizer.Dispose();
     }
 }

@@ -23,6 +23,7 @@ using Windows.Media.Control;
 using Windows.Storage.Streams;
 using static WindowsMediaController.MediaManager;
 using FluentFlyoutWPF.ViewModels;
+using FluentFlyout.Controls;
 
 
 namespace FluentFlyoutWPF;
@@ -1197,6 +1198,8 @@ public partial class MainWindow : MicaWindow
             _positionTimer?.Dispose();
             cts?.Cancel();
             cts?.Dispose();
+
+            TaskbarVisualizerControl.DisposeVisualizer();
 
             // unhook keyboard hook
             if (_hookId != IntPtr.Zero)
