@@ -8,10 +8,10 @@ namespace FluentFlyoutWPF.Classes
 {
     public class Visualizer : IDisposable
     {
-        private const int BarCount = 10;
-        private const int ImageWidth = 300;
-        public int ImageHeight = 100;
-        private const int BarSpacing = 4;
+        public int BarCount = 10;
+        public int ImageWidth = 76*3;
+        public int ImageHeight = 32*3;
+        public int BarSpacing = 2*3;
 
         //private const int BarCount = 6;
         //private const int ImageWidth = 100;
@@ -19,7 +19,7 @@ namespace FluentFlyoutWPF.Classes
         //private const int BarSpacing = 8;
 
         private WasapiLoopbackCapture? _capture;
-        private readonly float[] _barValues = new float[BarCount];
+        private float[] _barValues;
         private WriteableBitmap? _bitmap;
         private bool _isRunning;
         private readonly object _lock = new();
@@ -72,6 +72,9 @@ namespace FluentFlyoutWPF.Classes
         {
             if (_isRunning)
                 return;
+
+            float barCount = BarCount >= 0 ? BarCount : 8;
+            _barValues = new float[(int)barCount];
 
             try
             {
@@ -182,7 +185,7 @@ namespace FluentFlyoutWPF.Classes
 
                 float db = 20f * (float)Math.Log10(maxAmplitude);
 
-                float minDb = -40f;
+                float minDb = -50f;
                 float maxDb = -10f;
 
                 float intensity = (db - minDb) / (maxDb - minDb);
@@ -243,7 +246,7 @@ namespace FluentFlyoutWPF.Classes
                                 int barX = i * (barWidth + BarSpacing);
                                 int barY = ImageHeight - barHeight;
 
-                                int cornerRadius = 8;
+                                int cornerRadius = 6;
 
                                 for (int y = barY; y < ImageHeight && y < barY + barHeight; y++)
                                 {

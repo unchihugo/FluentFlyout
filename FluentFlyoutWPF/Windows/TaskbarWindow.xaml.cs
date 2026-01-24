@@ -1,4 +1,4 @@
-﻿using FluentFlyout.Classes.Settings;
+using FluentFlyout.Classes.Settings;
 using FluentFlyout.Classes.Utils;
 using FluentFlyoutWPF;
 using FluentFlyoutWPF.Classes;
@@ -102,42 +102,17 @@ public partial class TaskbarWindow : Window
     private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
     private readonly DispatcherTimer _timer;
-    private readonly SolidColorBrush _hitTestTransparent;
     private readonly int _nativeWidgetsPadding = 216;
     private readonly double _scale = 0.9;
 
-    // unused for now
-    //private readonly DoubleAnimation fadeIn = new()
-    //{
-    //    From = 0.0,
-    //    To = 0.5,
-    //    Duration = new(TimeSpan.FromSeconds(2)),
-    //    FillBehavior = FillBehavior.Stop
-    //};
-    //private readonly DoubleAnimation fadeOut = new()
-    //{
-    //    From = 0.5,
-    //    To = 0.0,
-    //    Duration = new(TimeSpan.FromSeconds(2)),
-    //    FillBehavior = FillBehavior.Stop
-    //};
-
-    // Cached width calculations
-    private string _cachedTitleText = string.Empty;
-    private string _cachedArtistText = string.Empty;
-    private double _cachedTitleWidth = 0;
-    private double _cachedArtistWidth = 0;
     private IntPtr _trayHandle;
     private AutomationElement? _widgetElement;
     private AutomationElement? _trayElement;
     // reference to main window for flyout functions
     private MainWindow? _mainWindow;
-    private bool _isPaused;
     private int _recoveryAttempts = 0;
     private int _maxRecoveryAttempts = 5;
     private int _lastSelectedMonitor = -1;
-    //private Task _crossFadeTask = Task.CompletedTask;
-    Visualizer visualizer = new();
 
     public TaskbarWindow()
     {
@@ -148,17 +123,12 @@ public partial class TaskbarWindow : Window
         // Set DataContext for bindings
         DataContext = SettingsManager.Current;
 
-        _hitTestTransparent = new SolidColorBrush(System.Windows.Media.Color.FromArgb(1, 0, 0, 0));
-
         _timer = new DispatcherTimer();
         _timer.Interval = TimeSpan.FromMilliseconds(1500); // slow auto-update for display changes
         _timer.Tick += (s, e) => UpdatePosition();
         _timer.Start();
 
         Show();
-
-        visualizer.Start();
-        VisualizerContainer.Source = visualizer.Bitmap;
     }
 
     protected override void OnSourceInitialized(EventArgs e)
@@ -204,97 +174,8 @@ public partial class TaskbarWindow : Window
     {
         SetupWindow();
         _mainWindow = (MainWindow)Application.Current.MainWindow;
-    }
-
-    //private void Grid_MouseEnter(object sender, MouseEventArgs e)
-    //{
-    //    // hover effects
-    //    var brush = (SolidColorBrush)Application.Current.Resources["TextFillColorSecondaryBrush"];
-    //    MainBorder.Background = new SolidColorBrush(brush.Color) { Opacity = 0.075 };
-    //    var secondBrush = (SolidColorBrush)Application.Current.Resources["TextFillColorDisabledBrush"];
-    //    TopBorder.BorderBrush = new SolidColorBrush(secondBrush.Color) { Opacity = 0.2 };
-    //}
-
-    //private void Grid_MouseLeave(object sender, MouseEventArgs e)
-    //{
-    //    MainBorder.Background = Brushes.Transparent;
-    //    TopBorder.BorderBrush = Brushes.Transparent;
-    //}
-
-    private void Grid_MouseEnter(object sender, MouseEventArgs e)
-    {
-        if (!SettingsManager.Current.TaskbarWidgetClickable || String.IsNullOrEmpty(SongTitle.Text + SongArtist.Text)) return;
-
-        SolidColorBrush targetBackgroundBrush;
-        // hover effects with animations, hard-coded colors because I can't find the resource brushes
-        if (ApplicationThemeManager.GetSystemTheme() == SystemTheme.Dark)
-        { // dark mode
-            targetBackgroundBrush = new SolidColorBrush(Color.FromArgb(197, 255, 255, 255)) { Opacity = 0.075 };
-            TopBorder.BorderBrush = new SolidColorBrush(Color.FromArgb(93, 255, 255, 255)) { Opacity = 0.25 };
-        }
-        else
-        { // light mode
-            targetBackgroundBrush = new SolidColorBrush(Color.FromArgb(255, 255, 255, 255)) { Opacity = 0.6 };
-            TopBorder.BorderBrush = new SolidColorBrush(Color.FromArgb(93, 255, 255, 255)) { Opacity = 1 };
-        }
-
-        // Animate background
-        var backgroundAnimation = new ColorAnimation
-        {
-            To = targetBackgroundBrush.Color,
-            Duration = TimeSpan.FromMilliseconds(200),
-            EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut }
-        };
-
-        var backgroundOpacityAnimation = new DoubleAnimation
-        {
-            To = targetBackgroundBrush.Opacity,
-            Duration = TimeSpan.FromMilliseconds(200),
-            EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut }
-        };
-
-        // rare case where background is not a SolidColorBrush after SetupWindow
-        if (MainBorder.Background is not SolidColorBrush)
-        {
-            MainBorder.Background = new SolidColorBrush(Colors.Transparent);
-            MainBorder.Background.Opacity = 0;
-        }
-
-        MainBorder.Background.BeginAnimation(SolidColorBrush.ColorProperty, backgroundAnimation);
-        MainBorder.Background.BeginAnimation(SolidColorBrush.OpacityProperty, backgroundOpacityAnimation);
-    }
-
-    private void Grid_MouseLeave(object sender, MouseEventArgs e)
-    {
-        if (!SettingsManager.Current.TaskbarWidgetClickable || String.IsNullOrEmpty(SongTitle.Text + SongArtist.Text)) return;
-
-        // Animate back to transparent
-        var backgroundAnimation = new ColorAnimation
-        {
-            To = Colors.Transparent,
-            Duration = TimeSpan.FromMilliseconds(200),
-            EasingFunction = new CubicEase { EasingMode = EasingMode.EaseInOut }
-        };
-
-        var backgroundOpacityAnimation = new DoubleAnimation
-        {
-            To = 0,
-            Duration = TimeSpan.FromMilliseconds(200),
-            EasingFunction = new CubicEase { EasingMode = EasingMode.EaseInOut }
-        };
-
-        MainBorder.Background?.BeginAnimation(SolidColorBrush.ColorProperty, backgroundAnimation);
-        MainBorder.Background?.BeginAnimation(SolidColorBrush.OpacityProperty, backgroundOpacityAnimation);
-
-        TopBorder.BorderBrush = System.Windows.Media.Brushes.Transparent;
-    }
-
-    private void Grid_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-    {
-        if (!SettingsManager.Current.TaskbarWidgetClickable || _mainWindow == null) return;
-
-        // flyout main flyout when clicked
-        _mainWindow.ShowMediaFlyout();
+        Widget.SetMainWindow(_mainWindow);
+        TaskbarVisualizer.SetMainWindow(_mainWindow);
     }
 
     private IntPtr GetSelectedTaskbarHandle(out bool isMainTaskbarSelected)
@@ -389,7 +270,7 @@ public partial class TaskbarWindow : Window
             var interop = new WindowInteropHelper(this);
             IntPtr myHandle = interop.Handle;
 
-            Background = _hitTestTransparent; // ensures that non-content areas also trigger MouseEnter event
+            //Background = _hitTestTransparent; // ensures that non-content areas also trigger MouseEnter event
 
             IntPtr taskbarHandle = GetSelectedTaskbarHandle(out bool isMainTaskbarSelected);
 
@@ -401,19 +282,6 @@ public partial class TaskbarWindow : Window
             SetParent(myHandle, taskbarHandle); // if this window is created faster than the Taskbar is loaded, then taskbarHandle will be NULL.
 
             CalculateAndSetPosition(taskbarHandle, myHandle, isMainTaskbarSelected);
-
-            // for hover animation
-            if (MainBorder.Background is not SolidColorBrush)
-            {
-                MainBorder.Background = new SolidColorBrush(Colors.Transparent);
-                MainBorder.Background.Opacity = 0;
-            }
-
-            MainBorder.SizeChanged += (s, e) =>
-            {
-                var rect = new RectangleGeometry(new Rect(0, 0, MainBorder.ActualWidth, MainBorder.ActualHeight), 6, 6);
-                MainBorder.Clip = rect;
-            };
         }
         catch (Exception ex)
         {
@@ -487,52 +355,56 @@ public partial class TaskbarWindow : Window
         // get DPI scaling
         double dpiScale = GetDpiForWindow(taskbarHandle) / 96.0;
 
-        // calculate widget width - use cached values if text hasn't changed
-        string currentTitle = SongTitle.Text;
-        string currentArtist = SongArtist.Text;
-
-        if (!string.Equals(currentTitle, _cachedTitleText, StringComparison.Ordinal))
-        {
-            _cachedTitleWidth = StringWidth.GetStringWidth(currentTitle, 400);
-            _cachedTitleText = currentTitle;
-        }
-        if (!string.Equals(currentArtist, _cachedArtistText, StringComparison.Ordinal))
-        {
-            _cachedArtistWidth = StringWidth.GetStringWidth(currentArtist, 400);
-            _cachedArtistText = currentArtist;
-        }
-
-        double logicalWidth = Math.Max(_cachedTitleWidth, _cachedArtistWidth) + 55; // add margin for cover image
-        // maximum width limit, same as Windows native widget
-        logicalWidth = Math.Min(logicalWidth, _nativeWidgetsPadding / _scale);
-
-        SongTitle.Width = Math.Max(logicalWidth - 58, 0);
-        SongArtist.Width = Math.Max(logicalWidth - 58, 0);
-
-        // add space for playback controls if enabled and visible
-        if (SettingsManager.Current.TaskbarWidgetControlsEnabled && ControlsStackPanel.Visibility == Visibility.Visible)
-        {
-            logicalWidth += (int)(102);
-        }
-
-        logicalWidth += 108;
-
-        int physicalWidth = (int)(logicalWidth * dpiScale * _scale);
-        int physicalHeight = (int)(40 * dpiScale); // default height
-
         // Get Taskbar dimensions
         RECT taskbarRect;
         DwmGetWindowAttribute(taskbarHandle, DWMWA_EXTENDED_FRAME_BOUNDS, out taskbarRect, Marshal.SizeOf(typeof(RECT)));
         int taskbarHeight = taskbarRect.Bottom - taskbarRect.Top;
+        int taskbarWidth = taskbarRect.Right - taskbarRect.Left;
 
-        // Centered vertically
-        int physicalTop = taskbarRect.Top + (taskbarHeight - physicalHeight) / 2;
+        int containerWidth = taskbarWidth;
+        int containerHeight = taskbarHeight;
 
-        int physicalLeft = taskbarRect.Left;
+        // Following SetWindowPos will set the position relative to the parent window,
+        // so those coordinates need to be converted.
+        POINT containerPos = new() { X = taskbarRect.Left, Y = taskbarRect.Top };
+        ScreenToClient(taskbarHandle, ref containerPos);
+
+        // Apply using SetWindowPos (Bypassing WPF layout engine)
+        SetWindowPos(myHandle, IntPtr.Zero,
+                 containerPos.X, containerPos.Y,
+                 containerWidth, containerHeight,
+                 SWP_NOZORDER | SWP_NOACTIVATE | SWP_ASYNCWINDOWPOS | SWP_SHOWWINDOW);
+
+        PositionWidget(taskbarHandle, taskbarRect, dpiScale, isMainTaskbarSelected);
+
+        PositionVisualizer(taskbarHandle, taskbarRect, dpiScale, isMainTaskbarSelected);
+
+        _lastSelectedMonitor = SettingsManager.Current.TaskbarWidgetSelectedMonitor;
+    }
+
+    private void PositionWidget(IntPtr taskbarHandle, RECT taskbarRect, double dpiScale, bool isMainTaskbarSelected)
+    {
+        // Calculate widget size
+        var (logicalWidth, logicalHeight) = Widget.CalculateSize(dpiScale);
+
+        int physicalWidth = (int)(logicalWidth * dpiScale * _scale);
+        int physicalHeight = (int)(logicalHeight * dpiScale);
+
+        int taskbarHeight = taskbarRect.Bottom - taskbarRect.Top;
+
+        // Calculate vertical position (centered in taskbar)
+        int widgetTop = (taskbarHeight - physicalHeight) / 2;
+
+        // Calculate horizontal position based on alignment setting
+        int widgetLeft = 0;
         switch (SettingsManager.Current.TaskbarWidgetPosition)
         {
             case 0: // left aligned with some padding (like native widgets)
-                physicalLeft += 20;
+                widgetLeft = 20;
+
+                //if (SettingsManager.Current.TaskbarVisualizerEnabled && visPos == 0)
+                        widgetLeft += (int)(TaskbarVisualizer.Width * dpiScale) + 4;
+
                 if (!SettingsManager.Current.TaskbarWidgetPadding)
                     break;
 
@@ -544,23 +416,36 @@ public partial class TaskbarWindow : Window
 
                     // make sure it's on the left side, otherwise ignore (widget might be to the right)
                     if (found && widgetRect.Right < (taskbarRect.Left + taskbarRect.Right) / 2)
-                        physicalLeft = (int)(widgetRect.Right) + 2; // add small padding
+                    {
+                        // Convert absolute screen position to relative position within taskbar
+                        widgetLeft = (int)(widgetRect.Right - taskbarRect.Left) + 2;
+                    }
                 }
                 catch (Exception ex)
                 {
                     // fallback to default padding
                     Logger.Warn(ex, "Failed to get Widgets button position.");
-                    physicalLeft += _nativeWidgetsPadding + 2;
+                    widgetLeft += _nativeWidgetsPadding + 2;
                 }
                 break;
 
             case 1: // center of the taskbar
-                physicalLeft += (taskbarRect.Right - taskbarRect.Left - physicalWidth) / 2;
+                widgetLeft = (taskbarRect.Right - taskbarRect.Left - physicalWidth) / 2;
+
+                //if (SettingsManager.Current.TaskbarVisualizerEnabled)
+                    //if (visPos == 0)
+                        //widgetLeft += (int)(TaskbarVisualizer.Width * dpiScale) / 2 + 4;
+                    //else
+                        //widgetLeft -= (int)(TaskbarVisualizer.Width * dpiScale) / 2 - 4;
+
                 break;
 
             case 2: // right aligned next to system tray with tiny bit of padding
                 try
                 {
+                    //if (SettingsManager.Current.TaskbarVisualizerEnabled && visPos == 1)
+                        //widgetLeft -= (int)(TaskbarVisualizer.Width * dpiScale) - 4;
+
                     // try to position next to widgets button if enabled
                     if (SettingsManager.Current.TaskbarWidgetPadding)
                     {
@@ -572,7 +457,8 @@ public partial class TaskbarWindow : Window
                             // make sure it's on the right side, otherwise ignore (widget might be to the left)
                             if (found && widgetRect.Left > (taskbarRect.Left + taskbarRect.Right) / 2)
                             {
-                                physicalLeft = (int)(widgetRect.Left) - 1 - physicalWidth; // left of widget
+                                // Convert absolute screen position to relative position within taskbar
+                                widgetLeft = (int)(widgetRect.Left - taskbarRect.Left) - 1 - physicalWidth;
                                 break; // early exit so we don't move it back next to tray below
                             }
                         }
@@ -590,7 +476,8 @@ public partial class TaskbarWindow : Window
 
                         if (found)
                         {
-                            physicalLeft = (int)secondaryTrayRect.Left - physicalWidth - 1;
+                            // Convert absolute screen position to relative position within taskbar
+                            widgetLeft = (int)(secondaryTrayRect.Left - taskbarRect.Left) - physicalWidth - 1;
                             break;
                         }
                     }
@@ -610,42 +497,57 @@ public partial class TaskbarWindow : Window
                     // since we are aligning to the right side and know the size of the taskbar.
                     if (_trayHandle == IntPtr.Zero)
                     {
-                        physicalLeft = taskbarRect.Right - physicalWidth - 20;
+                        widgetLeft = taskbarRect.Right - taskbarRect.Left - physicalWidth - 20;
                         break;
                     }
                     GetWindowRect(_trayHandle, out RECT trayRect);
-                    physicalLeft = trayRect.Left - physicalWidth - 1;
+                    // Convert absolute screen position to relative position within taskbar
+                    widgetLeft = trayRect.Left - taskbarRect.Left - physicalWidth - 1;
                 }
                 catch (Exception ex)
                 {
                     // Fallback to left alignment
                     Logger.Warn(ex, "Failed to get System Tray position.");
-                    physicalLeft = taskbarRect.Left + 20;
+                    widgetLeft = 20;
                 }
                 break;
         }
 
-        // TODO: Finish: Update visibility to force layout update after DPI/monitor change
-        //if (SongInfoStackPanel.Visibility == Visibility.Visible)
-        //{
-        //    SongInfoStackPanel.Visibility = Visibility.Collapsed;
-        //    SongInfoStackPanel.Visibility = Visibility.Visible;
-        //}
+        widgetLeft += SettingsManager.Current.TaskbarWidgetManualPadding;
 
-        physicalLeft += SettingsManager.Current.TaskbarWidgetManualPadding;
+        // Set widget position within canvas
+        System.Windows.Controls.Canvas.SetLeft(Widget, widgetLeft / dpiScale);
+        System.Windows.Controls.Canvas.SetTop(Widget, widgetTop / dpiScale);
+        Widget.Width = physicalWidth / dpiScale;
+        Widget.Height = physicalHeight / dpiScale;
+    }
 
-        // Following SetWindowPos will set the position relative to the parent window,
-        // so those coordinates need to be converted.
-        POINT relativePos = new() { X = physicalLeft, Y = physicalTop };
-        ScreenToClient(taskbarHandle, ref relativePos);
+    private void PositionVisualizer(IntPtr taskbarHandle, RECT taskbarRect, double dpiScale, bool isMainTaskbarSelected)
+    {
+        //if (!SettingsManager.Current.TaskbarVisualizerEnabled)
+        //    return;
 
-        // Apply using SetWindowPos (Bypassing WPF layout engine)
-        SetWindowPos(myHandle, IntPtr.Zero,
-                 relativePos.X, relativePos.Y,
-                 physicalWidth, physicalHeight,
-                 SWP_NOZORDER | SWP_NOACTIVATE | SWP_ASYNCWINDOWPOS | SWP_SHOWWINDOW);
+        int taskbarHeight = taskbarRect.Bottom - taskbarRect.Top;
+        int visualizerTop = (taskbarHeight - (int)(TaskbarVisualizer.Height * dpiScale)) / 2;
 
-        _lastSelectedMonitor = SettingsManager.Current.TaskbarWidgetSelectedMonitor;
+        // Calculate horizontal position based on alignment setting
+        int visualizerLeft = 0;
+        int _tempSwitch = 0;
+        //switch (SettingsManager.Current.TaskbarVisualizerPosition)
+        switch (_tempSwitch)
+        {
+            case 0: // left aligned next to widget
+                visualizerLeft = (int)(System.Windows.Controls.Canvas.GetLeft(Widget) * dpiScale) - (int)(TaskbarVisualizer.Width * dpiScale) - 4;
+                break;
+            case 1: // right aligned next to widget
+                visualizerLeft = (int)(System.Windows.Controls.Canvas.GetLeft(Widget) * dpiScale) + 4;
+                break;
+        }
+        //visualizerLeft += SettingsManager.Current.TaskbarVisualizerManualPadding;
+
+        // Set visualizer position within canvas
+        System.Windows.Controls.Canvas.SetLeft(TaskbarVisualizer, visualizerLeft / dpiScale);
+        System.Windows.Controls.Canvas.SetTop(TaskbarVisualizer, visualizerTop / dpiScale);
     }
 
     public void UpdateUi(string title, string artist, BitmapImage? icon, GlobalSystemMediaTransportControlsSessionPlaybackStatus? playbackStatus, GlobalSystemMediaTransportControlsSessionPlaybackControls? playbackControls = null)
@@ -666,214 +568,17 @@ public partial class TaskbarWindow : Window
         if (!_timer.IsEnabled)
             _timer.Start();
 
-        if (title == "-" && artist == "-")
-        {
-            // no media playing, hide UI
-            Dispatcher.Invoke(() =>
-            {
-                if (SettingsManager.Current.TaskbarWidgetHideCompletely)
-                {
-                    Visibility = Visibility.Collapsed;
-                    return;
-                }
+        // Delegate UI update to widget control
+        Widget.UpdateUi(title, artist, icon, playbackStatus, playbackControls);
 
-                ControlsStackPanel.Visibility = Visibility.Collapsed;
-                SongTitle.Text = string.Empty;
-                SongArtist.Text = string.Empty;
-                SongInfoStackPanel.Visibility = Visibility.Collapsed;
-                SongInfoStackPanel.ToolTip = string.Empty;
-                SongImagePlaceholder.Symbol = SymbolRegular.MusicNote220;
-                SongImagePlaceholder.Visibility = Visibility.Visible;
-                SongImage.ImageSource = null;
-                BackgroundImage.Source = null;
-                SongImageBorder.Margin = new Thickness(0, 0, 0, -3); // align music note better when no cover
-
-                MainBorder.Background = new SolidColorBrush(Colors.Transparent);
-                MainBorder.Background.Opacity = 0;
-                TopBorder.BorderBrush = Brushes.Transparent;
-
-                UpdatePosition();
-                Visibility = Visibility.Visible;
-            });
-            return;
-        }
-
-        _isPaused = false;
-        if (playbackStatus != GlobalSystemMediaTransportControlsSessionPlaybackStatus.Playing)
-        {
-            _isPaused = true;
-        }
-
-        // adjust UI based on available controls
-        Dispatcher.Invoke(() =>
-        {
-            if (SettingsManager.Current.TaskbarWidgetControlsEnabled && playbackControls != null)
-            {
-                PreviousButton.IsHitTestVisible = playbackControls.IsPreviousEnabled;
-                PlayPauseButton.IsHitTestVisible = playbackControls.IsPauseEnabled || playbackControls.IsPlayEnabled;
-                NextButton.IsHitTestVisible = playbackControls.IsNextEnabled;
-
-                PreviousButton.Opacity = playbackControls.IsPreviousEnabled ? 1 : 0.5;
-                PlayPauseButton.Opacity = (playbackControls.IsPauseEnabled || playbackControls.IsPlayEnabled) ? 1 : 0.5;
-                NextButton.Opacity = playbackControls.IsNextEnabled ? 1 : 0.5;
-            }
-            else
-            {
-                PreviousButton.IsHitTestVisible = false;
-                PlayPauseButton.IsHitTestVisible = false;
-                NextButton.IsHitTestVisible = false;
-
-                PreviousButton.Opacity = 0.5;
-                NextButton.Opacity = 0.5;
-                PlayPauseButton.Opacity = 0.5;
-            }
-        });
+        // Update position after UI change
+        Dispatcher.BeginInvoke(() => UpdatePosition(), DispatcherPriority.Background);
 
         Dispatcher.Invoke(() =>
         {
-            if (SongTitle.Text != title && SongArtist.Text != artist)
-            {
-                // changed info
-                if (SettingsManager.Current.TaskbarWidgetAnimated)
-                {
-                    AnimateEntrance();
-                }
-            }
-
-            SongTitle.Text = !String.IsNullOrEmpty(title) ? title : "-";
-            SongArtist.Text = !String.IsNullOrEmpty(artist) ? artist : "-";
-
-            // Update tooltip with song info
-            SongInfoStackPanel.ToolTip = string.Empty;
-            SongInfoStackPanel.ToolTip += !String.IsNullOrEmpty(title) ? title : string.Empty;
-            SongInfoStackPanel.ToolTip += !String.IsNullOrEmpty(artist) ? "\n\n" + artist : string.Empty;
-
-            if (SettingsManager.Current.TaskbarWidgetControlsEnabled)
-            {
-                PlayPauseButton.Icon = _isPaused ? new SymbolIcon(SymbolRegular.Play24, filled: true) : new SymbolIcon(SymbolRegular.Pause24, filled: true);
-            }
-
-            if (icon != null)
-            {
-                if (_isPaused)
-                { // show pause icon overlay
-                    SongImagePlaceholder.Symbol = SymbolRegular.Pause24;
-                    SongImagePlaceholder.Visibility = Visibility.Visible;
-                    SongImage.Opacity = 0.4;
-                }
-                else
-                {
-                    SongImagePlaceholder.Visibility = Visibility.Collapsed;
-                    SongImage.Opacity = 1;
-                }
-                SongImage.ImageSource = icon;
-                BackgroundImage.Source = icon;
-                SongImageBorder.Margin = new Thickness(0, 0, 0, -2); // align image better when cover is present
-
-                // start cross-fade if previous task is completed
-                //if (_crossFadeTask.IsCompleted)
-                //{
-                //    _crossFadeTask = CrossFadeBackground(icon);
-                //}
-            }
-            else
-            {
-                SongImagePlaceholder.Symbol = SymbolRegular.MusicNote220;
-                SongImagePlaceholder.Visibility = Visibility.Visible;
-                SongImage.ImageSource = null;
-                BackgroundImage.Source = null;
-            }
-
-            SongTitle.Visibility = Visibility.Visible;
-            SongArtist.Visibility = !String.IsNullOrEmpty(artist) ? Visibility.Visible : Visibility.Collapsed; // hide artist if it's not available
-            SongInfoStackPanel.Visibility = Visibility.Visible;
-            BackgroundImage.Visibility = SettingsManager.Current.TaskbarWidgetBackgroundBlur ? Visibility.Visible : Visibility.Collapsed;
-
-            // on top of XAML visibility binding (XAML binding only hides when disabled in settings)
-            if (SettingsManager.Current.TaskbarWidgetControlsEnabled)
-            {
-                ControlsStackPanel.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                ControlsStackPanel.Visibility = Visibility.Collapsed;
-            }
-
             Visibility = Visibility.Visible;
-
-            // defer UpdatePosition to allow WPF layout to complete first
-            Dispatcher.BeginInvoke(() => UpdatePosition(), DispatcherPriority.Background);
         });
     }
-
-    private async void AnimateEntrance()
-    {
-        try
-        {
-            int msDuration = _mainWindow != null ? _mainWindow.getDuration() : 300;
-
-            // opacity and left to right animation for SongInfoStackPanel
-            DoubleAnimation opacityAnimation = new()
-            {
-                From = 0.0,
-                To = 1.0,
-                Duration = TimeSpan.FromMilliseconds(msDuration),
-                EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseOut }
-            };
-
-            DoubleAnimation translateAnimation = new()
-            {
-                From = -10,
-                To = 0,
-                Duration = TimeSpan.FromMilliseconds(msDuration),
-                EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseOut }
-            };
-
-            // Apply animations
-            SongInfoStackPanel.BeginAnimation(OpacityProperty, opacityAnimation);
-            TranslateTransform translateTransform = new();
-            SongInfoStackPanel.RenderTransform = translateTransform;
-            translateTransform.BeginAnimation(TranslateTransform.XProperty, translateAnimation);
-
-            // don't play ControlsStackPanel animation if it's not enabled
-            if (!SettingsManager.Current.TaskbarWidgetControlsEnabled)
-                return;
-
-            ControlsStackPanel.BeginAnimation(OpacityProperty, opacityAnimation);
-            TranslateTransform translateTransform2 = new();
-            ControlsStackPanel.RenderTransform = translateTransform2;
-            translateTransform2.BeginAnimation(TranslateTransform.XProperty, translateAnimation);
-        }
-        catch (Exception ex)
-        {
-            Logger.Error(ex, "Taskbar Widget error during entrance animation");
-        }
-    }
-
-    //private Task CrossFadeBackground(BitmapImage newImage)
-    //{
-    //    try
-    //    {
-    //        BackgroundImageNext.Source = newImage;
-
-    //        fadeIn.Completed += (s, e) =>
-    //        {
-    //            BackgroundImage.Source = newImage;
-    //            BackgroundImageNext.Opacity = 0;
-    //            BackgroundImageNext.Source = null;
-    //            fadeIn.Completed -= (s, e2) => {  };
-    //        };
-
-    //        BackgroundImage.BeginAnimation(OpacityProperty, fadeOut);
-    //        BackgroundImageNext.BeginAnimation(OpacityProperty, fadeIn);
-    //        return Task.CompletedTask;
-    //    }
-    //    catch
-    //    {
-    //        // ignore errors
-    //        return Task.CompletedTask;
-    //    }
-    //}
 
     private (bool, Rect) GetTaskbarXamlElementRect(IntPtr taskbarHandle, ref AutomationElement? elementCache, string elementName)
     {
@@ -943,52 +648,5 @@ public partial class TaskbarWindow : Window
     private (bool, Rect) GetSystemTrayRect(IntPtr taskbarHandle)
     {
         return GetTaskbarXamlElementRect(taskbarHandle, ref _trayElement, "SystemTrayIcon");
-    }
-
-    // event handlers for media control buttons
-    private async void Previous_Click(object sender, RoutedEventArgs e)
-    {
-        if (_mainWindow == null) return;
-
-        var mediaManager = _mainWindow.mediaManager;
-        if (mediaManager == null) return;
-
-        var focusedSession = mediaManager.GetFocusedSession();
-        if (focusedSession == null) return;
-
-        await focusedSession.ControlSession.TrySkipPreviousAsync();
-    }
-
-    private async void PlayPause_Click(object sender, RoutedEventArgs e)
-    {
-        if (_mainWindow == null) return;
-
-        var mediaManager = _mainWindow.mediaManager;
-        if (mediaManager == null) return;
-
-        var focusedSession = mediaManager.GetFocusedSession();
-        if (focusedSession == null) return;
-
-        if (_isPaused) // paused
-        {
-            await focusedSession.ControlSession.TryPlayAsync();
-        }
-        else // playing
-        {
-            await focusedSession.ControlSession.TryPauseAsync();
-        }
-    }
-
-    private async void Next_Click(object sender, RoutedEventArgs e)
-    {
-        if (_mainWindow == null) return;
-
-        var mediaManager = _mainWindow.mediaManager;
-        if (mediaManager == null) return;
-
-        var focusedSession = mediaManager.GetFocusedSession();
-        if (focusedSession == null) return;
-
-        await focusedSession.ControlSession.TrySkipNextAsync();
     }
 }
