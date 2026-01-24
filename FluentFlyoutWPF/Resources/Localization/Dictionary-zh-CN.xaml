@@ -165,4 +165,6 @@
     <system:String x:Key="LastChecked">上次检查：{0}</system:String>
     <system:String x:Key="CheckingForUpdates">正在检查...</system:String>
     <system:String x:Key="UpdateAvailableNotificationMessage">有新版本 ({0}) 可用。</system:String>
+    <system:String x:Key="UpdateAvailableNotificationTitle">更新可用！</system:String>
+    <system:String x:Key="UpdateAvailableNotificationButton">下载更新</system:String>
 </ResourceDictionary>
