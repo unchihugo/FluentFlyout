@@ -160,4 +160,11 @@
     <system:String x:Key="AboutContributorsDescription">תודה ענקית לכל האנשים המדהימים שתרמו לפיתוח ולהצלחת FluentFlyout!</system:String>
     <system:String x:Key="AboutOpenSourceLicensesDescription">FluentFlyout בנויה עם חבילות הקוד הפתוח הבאות:</system:String>
     <system:String x:Key="AcrylicBlurOpacityDescription">כוונון אפקט השקיפות של Acrylic flyouts (ברירת מחדל: 175)</system:String>
+    <system:String x:Key="UpdateAvailable">עדכון זמין</system:String>
+    <system:String x:Key="UpToDate">מעודכן</system:String>
+    <system:String x:Key="LastChecked">נבדק לאחרונה: {0}</system:String>
+    <system:String x:Key="CheckingForUpdates">בודק...</system:String>
+    <system:String x:Key="UpdateAvailableNotificationTitle">עדכון זמין!</system:String>
+    <system:String x:Key="UpdateAvailableNotificationMessage">גרסה חדשה ({0}) זמינה.</system:String>
+    <system:String x:Key="UpdateAvailableNotificationButton">הורד עדכון</system:String>
 </ResourceDictionary>

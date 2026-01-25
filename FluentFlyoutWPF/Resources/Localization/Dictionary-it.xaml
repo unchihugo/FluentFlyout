@@ -160,4 +160,11 @@ Puoi contribuire alla traduzione su</system:String>
     <system:String x:Key="AboutOpenSourceLicensesTitle">Licenze Open Source</system:String>
     <system:String x:Key="AboutOpenSourceLicensesDescription">FluentFlyout è compilato con i seguenti pacchetti open source:</system:String>
     <system:String x:Key="AboutTitle">Info</system:String>
+    <system:String x:Key="UpdateAvailable">Aggiornamento disponibile</system:String>
+    <system:String x:Key="UpToDate">Aggiornato</system:String>
+    <system:String x:Key="LastChecked">Ultimo controllo: {0}</system:String>
+    <system:String x:Key="CheckingForUpdates">Controllando...</system:String>
+    <system:String x:Key="UpdateAvailableNotificationTitle">Aggiornamento Disponibile!</system:String>
+    <system:String x:Key="UpdateAvailableNotificationMessage">Una nuova versione ({0}) è disponibile.</system:String>
+    <system:String x:Key="UpdateAvailableNotificationButton">Scarica Aggiornamento</system:String>
 </ResourceDictionary>
