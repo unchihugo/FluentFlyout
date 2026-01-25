@@ -1,14 +1,14 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib">
     <system:String x:Key="TitleText">Configurações do FluentFlyout</system:String>
     <system:String x:Key="MediaFlyoutTitle">Personalização do painel de mídia</system:String>
-    <system:String x:Key="TextBlockText1">Habilitar Submenu de Mídia</system:String>
+    <system:String x:Key="TextBlockText1">Habilitar Painel de mídia</system:String>
     <system:String x:Key="TextBlockText3">Exibir submenu quando você apertar uma tecla de mídia</system:String>
     <system:String x:Key="FlyoutPositionTitle">Posição do Submenu</system:String>
     <system:String x:Key="FlyoutStayDurationTitle">Duração do Submenu</system:String>
     <system:String x:Key="FlyoutStayDurationDescription">(padrão: 3000 ms)</system:String>
     <system:String x:Key="MillisecondsUnit">ms</system:String>
-    <system:String x:Key="MediaFlyoutAlwaysDisplay">Always On Display</system:String>
-    <system:String x:Key="CenterTitleArtistTitle">Título Principal e Artista</system:String>
+    <system:String x:Key="MediaFlyoutAlwaysDisplay">Sempre visível</system:String>
+    <system:String x:Key="CenterTitleArtistTitle">Centralizar título e artista</system:String>
     <system:String x:Key="CenterTitleArtistDescription">Alinhar texto para o centro ao invés da direita</system:String>
     <system:String x:Key="ShowMediaPlayerNameTitle">Mostrar nome do tocador de mídia</system:String>
     <system:String x:Key="RepeatButtonTitle">Botão de Repetir*</system:String>
@@ -17,7 +17,7 @@
     <system:String x:Key="ShowSeekbarTitle">Mostrar barra de reprodução*</system:String>
     <system:String x:Key="PauseOtherMediaTitle">Pausar Outra Mídia Automaticamente</system:String>
     <system:String x:Key="NextUpCustomizationTitle">Personalização do flyout A seguir</system:String>
-    <system:String x:Key="EnableNextUpTitle">Habilitar Submenu "Próximo" (Experimental)</system:String>
+    <system:String x:Key="EnableNextUpTitle">Ativar flyout A seguir (experimental)</system:String>
     <system:String x:Key="NextUpStayDurationTitle">Duração do "Próximo"</system:String>
     <system:String x:Key="NextUpStayDurationDescription">(padrão: 2000 ms)</system:String>
     <system:String x:Key="BackgroundBlurOption1" xml:space="preserve"> Nenhum</system:String>
@@ -64,19 +64,19 @@ esconde os botões de repetir, aleatório e as informações do player</system:S
     <system:String x:Key="AppLanguageDescription" xml:space="preserve">Se o seu idioma não estiver listado ou estiver incompleto, o app usará o inglês como padrão.
 Você pode ajudar a contribuir com traduções em</system:String>
     <system:String x:Key="AnimationDurationScaleDescription">Velocidade da animação do painel (padrão: 1x)</system:String>
-    <system:String x:Key="AnimationSpeedOff">Off</system:String>
+    <system:String x:Key="AnimationSpeedOff">Desligado</system:String>
     <system:String x:Key="AnimationEasingStyleTitle">Estilo de suavização da animação</system:String>
     <system:String x:Key="AnimationEasingStyleDescription">(padrão: Quadratic)</system:String>
     <system:String x:Key="CheckingForUpdates">Procurando...</system:String>
     <system:String x:Key="UpdateAvailableNotificationTitle">Atualização disponível!</system:String>
-    <system:String x:Key="UpdateAvailableNotificationMessage">Uma nova versão está disponível.</system:String>
+    <system:String x:Key="UpdateAvailableNotificationMessage">Uma nova versão ({0}) está disponível.</system:String>
     <system:String x:Key="UpdateAvailableNotificationButton">Baixar atualização</system:String>
     <system:String x:Key="TrayIcon_QuitOption">Sair do FluentFlyout</system:String>
     <system:String x:Key="LockWindow_NumLock">Num Lock</system:String>
     <system:String x:Key="LockWindow_ScrollLock">Scroll Lock</system:String>
     <system:String x:Key="LockWindow_InsertPressed">Tecla Insert pressionada</system:String>
-    <system:String x:Key="LockWindow_LockOn">em</system:String>
-    <system:String x:Key="LockWindow_LockOff">desligado</system:String>
+    <system:String x:Key="LockWindow_LockOn">Ativado</system:String>
+    <system:String x:Key="LockWindow_LockOff">Desativado</system:String>
     <system:String x:Key="NextUpWindow_UpNextText">A seguir:</system:String>
     <system:String x:Key="TrayIcon_SettingsOption">Configurações</system:String>
     <system:String x:Key="TrayIcon_GitHubRepositoryOption">Repositório</system:String>
@@ -112,7 +112,7 @@ ou avalie na Microsoft Store!</system:String>
     <system:String x:Key="LockKeysStayDurationTitle">Duração de exibição das teclas de bloqueio</system:String>
     <system:String x:Key="HomeTitle">Início</system:String>
     <system:String x:Key="Enabled">Habilitado</system:String>
-    <system:String x:Key="SelectedMonitorTitle">Destino de exibição do painel</system:String>
+    <system:String x:Key="SelectedMonitorTitle">Monitor do Submenu</system:String>
     <system:String x:Key="MediaFlyoutAlwaysDisplayDescription">O painel permanece aberto até você clicar no botão Fechar</system:String>
     <system:String x:Key="TaskbarWidgetDescription">Um widget compacto e integrado que fica na barra de tarefas do Windows para acesso rápido à sua mídia. Clique no widget para expandir o Painel de Mídia completo (quando ativado).</system:String>
     <system:String x:Key="TaskbarWidgetSelectedMonitorTitle">Tela de destino do widget</system:String>
@@ -137,13 +137,13 @@ ou avalie na Microsoft Store!</system:String>
 
 Nota: Como um projeto de código aberto, esses recursos também estão disponíveis gratuitamente por meio do instalador manual no GitHub. A única diferença é que as atualizações e a instalação precisam ser feitas manualmente.</system:String>
     <system:String x:Key="PremiumLockedMessage">Este recurso faz parte do pacote premium</system:String>
-    <system:String x:Key="PremiumUnlockedMessage">Recursos premium desbloqueados Obrigado pelo seu apoio!</system:String>
+    <system:String x:Key="PremiumUnlockedMessage">Recursos premium desbloqueados. Obrigado pelo seu apoio!</system:String>
     <system:String x:Key="PremiumGitHubMessage">Os recursos premium estão desbloqueados nas versões do GitHub ou compiladas manualmente</system:String>
     <system:String x:Key="UnlockPremiumButton">Desbloquear Premium</system:String>
     <system:String x:Key="PremiumPurchaseSuccess">Premium desbloqueado com sucesso!</system:String>
-    <system:String x:Key="PremiumPurchaseFailed">A compra falhou Tente novamente.</system:String>
+    <system:String x:Key="PremiumPurchaseFailed">A compra falhou. Tente novamente.</system:String>
     <system:String x:Key="PremiumPurchaseCancelled">Compra cancelada.</system:String>
-    <system:String x:Key="NextUpDescription" xml:space="preserve">Um flyout mostra o que vem a seguir quando uma música ou vídeo termina Só aparece se o próximo item for reproduzido automaticamente se avançar ou voltar manualmente o painel principal é exibido.</system:String>
+    <system:String x:Key="NextUpDescription" xml:space="preserve">Um flyout mostra o que vem a seguir quando uma música ou vídeo termina. Só aparece se o próximo item for reproduzido automaticamente se avançar ou voltar manualmente o painel principal é exibido.</system:String>
     <system:String x:Key="LockKeysCustomizationTitle">Flyout das teclas de bloqueio</system:String>
     <system:String x:Key="EnableInsertKeyTitle">Ativar pop-up da tecla Insert</system:String>
     <system:String x:Key="SystemSettingsTitle">Sistema</system:String>
@@ -166,5 +166,5 @@ Nota: Como um projeto de código aberto, esses recursos também estão disponív
     <system:String x:Key="UpdateToastButton">Ver atualizações</system:String>
     <system:String x:Key="UpdateAvailable">Atualização disponível</system:String>
     <system:String x:Key="UpToDate">Atualizado</system:String>
-    <system:String x:Key="LastChecked">Última verificação: {}</system:String>
+    <system:String x:Key="LastChecked">Última verificação: {0}</system:String>
 </ResourceDictionary>
