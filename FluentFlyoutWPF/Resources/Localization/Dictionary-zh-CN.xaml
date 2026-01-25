@@ -152,7 +152,7 @@
     <system:String x:Key="HomeTitle">首页</system:String>
     <system:String x:Key="AboutOpenSourceLicensesTitle">开源许可</system:String>
     <system:String x:Key="AboutOpenSourceLicensesDescription">FluentFlyout 使用了以下开源软件包：</system:String>
-    <system:String x:Key="HomeUpdateDescription">了解更新内容</system:String>
+    <system:String x:Key="HomeUpdateDescription">了解更新详情</system:String>
     <system:String x:Key="HomeDashboardTitle">仪表板</system:String>
     <system:String x:Key="SystemConfigure">设置</system:String>
     <system:String x:Key="AboutTitle">关于</system:String>
