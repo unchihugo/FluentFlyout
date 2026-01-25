@@ -404,6 +404,24 @@ public partial class UserSettings : ObservableObject
     public partial int TaskbarVisualizerPosition { get; set; }
 
     /// <summary>
+    /// The number of visualizer bars to display.
+    /// </summary>
+    [ObservableProperty]
+    public partial int TaskbarVisualizerBarCount { get; set; }
+
+    /// <summary>
+    /// Whether the visualizer should be symmetrical/mirrored.
+    /// </summary>
+    [ObservableProperty]
+    public partial bool TaskbarVisualizerCenteredBars { get; set; }
+
+    /// <summary>
+    /// Gets or sets whether a bar baseline is shown.
+    /// </summary>
+    [ObservableProperty]
+    public partial bool TaskbarVisualizerBaseline { get; set; }
+
+    /// <summary>
     /// Gets whether premium features are unlocked (runtime only, not persisted)
     /// </summary>
     [XmlIgnore]
@@ -483,6 +501,9 @@ public partial class UserSettings : ObservableObject
         TaskbarWidgetAnimated = true;
         TaskbarVisualizerEnabled = false;
         TaskbarVisualizerPosition = 0;
+        TaskbarVisualizerBarCount = 10;
+        TaskbarVisualizerCenteredBars = false;
+        TaskbarVisualizerBaseline = false;
         AcrylicBlurOpacity = 175;
         LastUpdateNotificationUnixSeconds = 0;
     }
@@ -591,5 +612,11 @@ public partial class UserSettings : ObservableObject
     {
         if (oldValue == newValue || _initializing) return;
         TaskbarVisualizerControl.OnTaskbarVisualizerEnabledChanged(newValue);
+    }
+
+    partial void OnTaskbarVisualizerBarCountChanged(int oldValue, int newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+        Visualizer.ResizeBarList(newValue);
     }
 }

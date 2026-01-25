@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using FluentFlyout.Classes.Settings;
 using NAudio.Dsp;
 using NAudio.Wave;
 
@@ -10,18 +11,13 @@ namespace FluentFlyoutWPF.Classes
     {
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
-        public int BarCount = 10;
+        public static int BarCount = 10;
         public int ImageWidth = 76*3;
         public int ImageHeight = 32*3;
         public int BarSpacing = 2*3;
 
-        //private const int BarCount = 6;
-        //private const int ImageWidth = 100;
-        //public int ImageHeight = 100;
-        //private const int BarSpacing = 8;
-
         private WasapiLoopbackCapture? _capture;
-        private float[] _barValues;
+        private static float[]? _barValues;
         private WriteableBitmap? _bitmap;
         private bool _isRunning;
         private readonly object _lock = new();
@@ -68,6 +64,12 @@ namespace FluentFlyoutWPF.Classes
                     _bitmap = new WriteableBitmap(ImageWidth, ImageHeight, 96, 96, PixelFormats.Bgra32, null);
                 }
             });
+        }
+
+        public static void ResizeBarList(int newBarCount)
+        {
+            BarCount = newBarCount;
+            _barValues = new float[BarCount];
         }
 
         public void Start()
@@ -242,31 +244,58 @@ namespace FluentFlyoutWPF.Classes
                             int barWidth = (ImageWidth - (BarCount - 1) * BarSpacing) / BarCount;
                             var brush = (SolidColorBrush)Application.Current.Resources["MicaWPF.Brushes.SystemAccentColorTertiary"];
 
+                            bool centeredBars = SettingsManager.Current.TaskbarVisualizerCenteredBars;
+                            int barBaseline = SettingsManager.Current.TaskbarVisualizerBaseline ? 4 : 0;
+
+                            int centerY = ImageHeight / 2;
+                            
                             for (int i = 0; i < BarCount; i++)
                             {
                                 float normalizedValue = Math.Clamp(_barValues[i], 0f, 1f);
-                                int barHeight = Math.Max((int)(normalizedValue * ImageHeight), 3);
+                                int barHeight = Math.Max((int)(normalizedValue * ImageHeight), barBaseline);
                                 int barX = i * (barWidth + BarSpacing);
-                                int barY = ImageHeight - barHeight;
+                                
+                                int barY, barEndY;
+                                if (centeredBars)
+                                {
+                                    // Center the bars - expand up and down from middle
+                                    int halfHeight = barHeight / 2;
+                                    barY = centerY - halfHeight;
+                                    barEndY = centerY + halfHeight;
+                                }
+                                else
+                                {
+                                    // Original behavior - bars rise from bottom
+                                    barY = ImageHeight - barHeight;
+                                    barEndY = ImageHeight;
+                                }
 
                                 int cornerRadius = 6;
 
-                                for (int y = barY; y < ImageHeight && y < barY + barHeight; y++)
+                                for (int y = barY; y < barEndY && y < ImageHeight && y >= 0; y++)
                                 {
                                     for (int x = barX; x < barX + barWidth && x < ImageWidth; x++)
                                     {
                                         float alpha = 1f;
 
-                                        // Check corners
-                                        bool inTopLeftCorner = (y - barY < cornerRadius) && (x - barX < cornerRadius);
-                                        bool inTopRightCorner = (y - barY < cornerRadius) && (barX + barWidth - x <= cornerRadius);
+                                        // Calculate relative position within the bar
+                                        int relativeY = y - barY;
+                                        int actualBarHeight = barEndY - barY;
 
-                                        if (inTopLeftCorner || inTopRightCorner)
+                                        // Check corners
+                                        bool inTopLeftCorner = (relativeY < cornerRadius) && (x - barX < cornerRadius);
+                                        bool inTopRightCorner = (relativeY < cornerRadius) && (barX + barWidth - x <= cornerRadius);
+                                        bool inBottomLeftCorner = centeredBars && (barEndY - y <= cornerRadius) && (x - barX < cornerRadius);
+                                        bool inBottomRightCorner = centeredBars && (barEndY - y <= cornerRadius) && (barX + barWidth - x <= cornerRadius);
+
+                                        if (inTopLeftCorner || inTopRightCorner || inBottomLeftCorner || inBottomRightCorner)
                                         {
-                                            float dx = inTopLeftCorner ?
+                                            float dx = (inTopLeftCorner || inBottomLeftCorner) ?
                                                 (cornerRadius - 0.5f - (x - barX)) :
                                                 (cornerRadius - 0.5f - (barX + barWidth - x));
-                                            float dy = cornerRadius - 0.5f - (y - barY);
+                                            float dy = (inTopLeftCorner || inTopRightCorner) ?
+                                                (cornerRadius - 0.5f - relativeY) :
+                                                (cornerRadius - 0.5f - (barEndY - y));
                                             float distance = MathF.Sqrt(dx * dx + dy * dy);
 
                                             if (distance > cornerRadius)
