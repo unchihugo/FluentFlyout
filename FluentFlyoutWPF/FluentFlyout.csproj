@@ -30,7 +30,7 @@
     <None Remove="Resources\FluentFlyoutDemo4.1.png" />
     <None Remove="Resources\FluentFlyoutDemo5.1.png" />
     <None Remove="Resources\FluentFlyoutDemo9.1.png" />
-    <None Remove="Resources\FluentFlyoutHero-NoTitle.webp" />
+    <None Remove="Resources\FluentFlyoutHero-NoTitle.png" />
     <None Remove="Resources\FluentFlyoutWhite.png" />
   </ItemGroup>
   <ItemGroup>
@@ -50,7 +50,7 @@
     <Content Include="Resources\FluentFlyoutDemo9.1.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\FluentFlyoutHero-NoTitle.webp">
+    <Content Include="Resources\FluentFlyoutHero-NoTitle.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\TrayIcons\FluentFlyoutBlack.png">
