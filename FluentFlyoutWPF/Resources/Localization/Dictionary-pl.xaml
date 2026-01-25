@@ -59,10 +59,10 @@ Uwaga: Jako projekt open-source, te funkcje są również dostępne za darmo pop
     <system:String x:Key="PremiumPurchaseFailed">Zakup nie powiódł się. Proszę spróbować ponownie.</system:String>
     <system:String x:Key="PremiumPurchaseCancelled">Zakup anulowany.</system:String>
     <system:String x:Key="NextUpDescription" xml:space="preserve">Panel pokazuje, co jest następne, gdy utwór lub wideo się zakończy. Pojawia się tylko wtedy, gdy kolejny element odtwarza się automatycznie. Jeśli przycisk następny/poprzedni zostanie naciśnięty ręcznie, wyświetlany jest główny panel.</system:String>
-    <system:String x:Key="EnableNextUpTitle">Włącz panel "Next Up" (eksperymentalny)</system:String>
+    <system:String x:Key="EnableNextUpTitle">Włącz panel "Następne w kolejce" (eksperymentalny)</system:String>
     <system:String x:Key="NextUpCustomizationTitle">Panel "Następne w kolejce"</system:String>
     <system:String x:Key="EnableNextUpDescription">Pokazuje co następne, gdy utwór lub wideo się zakończy</system:String>
-    <system:String x:Key="NextUpStayDurationTitle">Czas wyświetlania panelu "Next Up"</system:String>
+    <system:String x:Key="NextUpStayDurationTitle">Czas wyświetlania panelu "Następne w kolejce"</system:String>
     <system:String x:Key="NextUpStayDurationDescription">(domyślnie: 2000 ms)</system:String>
     <system:String x:Key="SystemSettingsTitle">Ustawienia systemowe</system:String>
     <system:String x:Key="LaunchOnStartupTitle">Uruchom przy starcie systemu</system:String>
@@ -160,4 +160,11 @@ Możesz pomóc w tworzeniu tłumaczeń na stronie</system:String>
     <system:String x:Key="AboutContributorsTitle">❤️ Poznaj naszych współtwórców</system:String>
     <system:String x:Key="AboutContributorsDescription">Wielkie podziękowania dla wszystkich wspaniałych osób które pomogły w rozwoju i sukcesie FluentFlyout!</system:String>
     <system:String x:Key="AboutOpenSourceLicensesTitle">Licencje otwartoźródłowe</system:String>
+    <system:String x:Key="UpdateAvailable">Dostępna aktualizacja</system:String>
+    <system:String x:Key="UpToDate">Aktualne</system:String>
+    <system:String x:Key="LastChecked">Ostatnio sprawdzone: {0}</system:String>
+    <system:String x:Key="CheckingForUpdates">Sprawdzanie...</system:String>
+    <system:String x:Key="UpdateAvailableNotificationTitle">Aktualizacja dostępna!</system:String>
+    <system:String x:Key="UpdateAvailableNotificationMessage">Nowa wersja ({0}) jest dostępna.</system:String>
+    <system:String x:Key="UpdateAvailableNotificationButton">Pobierz aktualizację</system:String>
 </ResourceDictionary>
