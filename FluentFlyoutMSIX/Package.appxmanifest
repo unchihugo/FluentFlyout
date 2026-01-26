@@ -26,16 +26,27 @@
 
   <Resources>
       <Resource Language="en-US"/>
-	  <Resource Language="el"/>
-	  <Resource Language="es"/>
-	  <Resource Language="he"/>
-	  <Resource Language="ko"/>
+	  <Resource Language="ar"/>
+	  <Resource Language="zh-CN"/>
+	  <Resource Language="zh-TW"/>
+	  <Resource Language="hr"/>
+	  <Resource Language="cs"/>
 	  <Resource Language="nl"/>
+	  <Resource Language="fi"/>
+	  <Resource Language="fr"/>
+	  <Resource Language="de"/>
+	  <Resource Language="he"/>
+	  <Resource Language="id"/>
+	  <Resource Language="it"/>
+	  <Resource Language="ja"/>
+	  <Resource Language="ko"/>
+	  <Resource Language="pl"/>
 	  <Resource Language="pt-BR"/>
 	  <Resource Language="ru"/>
+	  <Resource Language="es"/>
 	  <Resource Language="tr"/>
+	  <Resource Language="uk"/>
 	  <Resource Language="vi"/>
-	  <Resource Language="zh-CN"/>
   </Resources>
 
   <Applications>
