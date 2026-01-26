@@ -39,4 +39,6 @@
     <system:String x:Key="UnsupportedControlsWarning">*Деякі браузери/програвачі не підтримують функції повтору, випадкового відтворення та управління смугою пошуку.</system:String>
     <system:String x:Key="PauseOtherMediaTitle">Автоматично призупиняти інші медіа</system:String>
     <system:String x:Key="PauseOtherMediaDescription">Коли ви граєте або зосереджуєтеся на нових медіа, інші активні сесії автоматично призупиняються</system:String>
+    <system:String x:Key="Disabled">Вимкнено</system:String>
+    <system:String x:Key="Enabled">Увімкнено</system:String>
 </ResourceDictionary>
