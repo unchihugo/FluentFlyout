@@ -67,6 +67,16 @@ hides repeat, shuffle and player info</System:String>
     <System:String x:Key="TaskbarWidgetAnimatedTitle">Widget Animations</System:String>
     <System:String x:Key="TaskbarWidgetAnimatedDescription">Enable subtle animations for the widget</System:String>
     <System:String x:Key="TaskbarVisualizerTitle">Taskbar Visualizer</System:String>
+    <System:String x:Key="TaskbarVisualizerDescription">A real-time audio visualizer on your taskbar. Designed to have minimal performance impact on modern systems.</System:String>
+    <System:String x:Key="TaskbarVisualizerEnabledTitle">Enable Taskbar Visualizer (Experimental)</System:String>
+    <System:String x:Key="TaskbarVisualizerEnabledDescription">Experimental: This feature will only work if the Taskbar Widget is enabled</System:String>
+    <System:String x:Key="TaskbarVisualizerPositionTitle">Visualizer Position Relative to Taskbar Widget</System:String>
+    <System:String x:Key="TaskbarVisualizerBarCountTitle">Bar Count</System:String>
+    <System:String x:Key="TaskbarVisualizerBarCountDescription">The amount of visualizer bars</System:String>
+    <System:String x:Key="TaskbarVisualizerCenteredBarsTitle">Centered Bars</System:String>
+    <System:String x:Key="TaskbarVisualizerCenteredBarsDescription">Bars that expand symmetrically from the center instead of rising from the bottom</System:String>
+    <System:String x:Key="TaskbarVisualizerBaselineTitle">Show Baseline</System:String>
+    <System:String x:Key="TaskbarVisualizerBaselineDescription">Displays a thin line when audio levels are at zero</System:String>
     <System:String x:Key="PremiumFeatureTitle">Premium Feature</System:String>
     <System:String x:Key="PremiumFeatureDescription" xml:space="preserve">Your one-time contribution helps me keep FluentFlyout alive and updated. It instantly unlocks all premium customization features, forever.
         
