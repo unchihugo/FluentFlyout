@@ -160,4 +160,7 @@ Nota: Como proyecto de código abierto, estas opciones también están disponibl
     <system:String x:Key="HomeTitle">Inicio</system:String>
     <system:String x:Key="Enabled">Habilitado</system:String>
     <system:String x:Key="Disabled">Deshabilitado</system:String>
+    <system:String x:Key="UpdateAvailableNotificationButton">Descargar Actualización</system:String>
+    <system:String x:Key="LastChecked">Última comprobación: {0}</system:String>
+    <system:String x:Key="UpdateAvailableNotificationMessage">Hay una nueva versión ({0}) disponible.</system:String>
 </ResourceDictionary>
