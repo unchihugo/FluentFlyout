@@ -66,6 +66,7 @@ hides repeat, shuffle and player info</System:String>
     <System:String x:Key="TaskbarWidgetControlsDescription">Show media control buttons on the widget</System:String>
     <System:String x:Key="TaskbarWidgetAnimatedTitle">Widget Animations</System:String>
     <System:String x:Key="TaskbarWidgetAnimatedDescription">Enable subtle animations for the widget</System:String>
+    <System:String x:Key="TaskbarVisualizerTitle">Taskbar Visualizer</System:String>
     <System:String x:Key="PremiumFeatureTitle">Premium Feature</System:String>
     <System:String x:Key="PremiumFeatureDescription" xml:space="preserve">Your one-time contribution helps me keep FluentFlyout alive and updated. It instantly unlocks all premium customization features, forever.
         

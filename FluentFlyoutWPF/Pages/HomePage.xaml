@@ -212,15 +212,15 @@
                 </ui:CardAction.Icon>
                 <StackPanel>
                     <StackPanel Orientation="Horizontal">
-                        <ui:TextBlock FontWeight="Medium" Text="Taskbar Visualizer" />
+                        <ui:TextBlock FontWeight="Medium" Text="{DynamicResource TaskbarVisualizerTitle}" />
                         <ui:InfoBadge Value=" PREMIUM " FontSize="8" FontWeight="Medium" Margin="6,-2,0,-2" Severity="Attention" />
                     </StackPanel>
-                    <ui:TextBlock Appearance="Secondary" Text="{Binding TaskbarWidgetEnabled, Converter={StaticResource BoolToEnabledDisabledConverter}}">
+                    <ui:TextBlock Appearance="Secondary" Text="{Binding TaskbarVisualizerEnabled, Converter={StaticResource BoolToEnabledDisabledConverter}}">
                         <ui:TextBlock.Style>
                             <Style TargetType="ui:TextBlock">
                                 <Setter Property="Opacity" Value="1" />
                                 <Style.Triggers>
-                                    <DataTrigger Binding="{Binding TaskbarWidgetEnabled}" Value="False">
+                                    <DataTrigger Binding="{Binding TaskbarVisualizerEnabled}" Value="False">
                                         <Setter Property="Opacity" Value="0.5" />
                                     </DataTrigger>
                                 </Style.Triggers>

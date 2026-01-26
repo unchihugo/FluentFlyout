@@ -10,7 +10,8 @@
       d:DesignHeight="1600" d:DesignWidth="800"
       Title="MediaFlyoutPage"
       d:DataContext="{d:DesignInstance viewModels:UserSettings}"
-      Foreground="{DynamicResource TextFillColorPrimaryBrush}">
+      Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+      d:Background="White">
 
     <StackPanel MaxWidth="1000" Margin="16">
         <TextBlock Text="{DynamicResource MediaFlyoutTitle}" FontSize="24" FontWeight="SemiBold" FontFamily="Segoe UI Variable" Margin="0,0,0,20" />
@@ -164,7 +165,7 @@
                 <controls:ToggleSwitch Name="SeekbarSwitch" IsChecked="{Binding SeekbarEnabled, Mode=TwoWay}" />
             </ui:CardControl>
             <ui:InfoBar Grid.Row="13" Title="{DynamicResource UnsupportedControlsWarning}" IsOpen="True" Severity="Warning" IsClosable="False" Margin="0,0,0,12" />
-            <ui:CardControl Grid.Row="14" Icon="{ui:SymbolIcon Pause24}" Margin="0,0,0,3">
+            <ui:CardControl Grid.Row="14" Icon="{ui:SymbolIcon Pause24}" Margin="0,0,0,76">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
                         <TextBlock Text="{DynamicResource PauseOtherMediaTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />

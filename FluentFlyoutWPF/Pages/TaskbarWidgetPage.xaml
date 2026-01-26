@@ -226,7 +226,7 @@
                 </ui:CardControl.Header>
                 <controls:ToggleSwitch IsChecked="{Binding TaskbarWidgetControlsEnabled, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}" />
             </ui:CardControl>
-            <ui:CardControl Grid.Row="11" Icon="{ui:SymbolIcon Wand24}" Margin="0,0,0,3">
+            <ui:CardControl Grid.Row="11" Icon="{ui:SymbolIcon Wand24}" Margin="0,0,0,76">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
                         <StackPanel Orientation="Horizontal">

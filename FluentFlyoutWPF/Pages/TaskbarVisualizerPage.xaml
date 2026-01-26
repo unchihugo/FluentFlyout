@@ -8,7 +8,7 @@
       xmlns:viewModels="clr-namespace:FluentFlyoutWPF.ViewModels"
       xmlns:utils="clr-namespace:FluentFlyoutWPF.Classes.Utils"
       mc:Ignorable="d"
-      d:DesignHeight="1600" d:DesignWidth="800"
+      d:DesignHeight="800" d:DesignWidth="800"
       Title="TaskbarWidgetPage"
       d:DataContext="{d:DesignInstance viewModels:UserSettings}"
       Foreground="{DynamicResource TextFillColorPrimaryBrush}"
@@ -143,7 +143,7 @@
                 <controls:ToggleSwitch IsChecked="{Binding TaskbarVisualizerCenteredBars, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}" />
             </ui:CardControl>
 
-            <ui:CardControl Icon="{ui:SymbolIcon LineHorizontal120, Filled=False}" Margin="0,0,0,3">
+            <ui:CardControl Icon="{ui:SymbolIcon LineHorizontal120, Filled=False}" Margin="0,0,0,76">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
                         <TextBlock Text="Show Baseline" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />

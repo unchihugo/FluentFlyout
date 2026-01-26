@@ -10,7 +10,8 @@
       d:DesignHeight="800" d:DesignWidth="800"
       Title="LockKeysPage"
       d:DataContext="{d:DesignInstance viewModels:UserSettings}"
-      Foreground="{DynamicResource TextFillColorPrimaryBrush}">
+      Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+      d:Background="White">
 
     <StackPanel MaxWidth="1000" Margin="16">
         <TextBlock Text="{DynamicResource LockKeysCustomizationTitle}" FontSize="24" FontWeight="SemiBold" FontFamily="Segoe UI Variable" Margin="0,0,0,20" />
@@ -70,7 +71,7 @@
                 </ui:CardControl.Header>
                 <controls:ToggleSwitch Name="LockKeysBoldUISwitch" IsChecked="{Binding LockKeysBoldUi, Mode=TwoWay}" />
             </ui:CardControl>
-            <ui:CardControl Grid.Row="5" Icon="{ui:SymbolIcon Info24}" Margin="0,0,0,3">
+            <ui:CardControl Grid.Row="5" Icon="{ui:SymbolIcon Info24}" Margin="0,0,0,76">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
                         <TextBlock Text="{DynamicResource EnableInsertKeyTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
