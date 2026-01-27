@@ -159,4 +159,12 @@ Not: Açık kaynaklı bir proje olarak, bu özellikler GitHub'daki manuel yükle
     <system:String x:Key="UpdateToastButton">Güncellemeleri Görüntüle</system:String>
     <system:String x:Key="LastChecked">Son denetleme: {0}</system:String>
     <system:String x:Key="UpdateAvailableNotificationMessage">Yeni bir sürüm ({0}) mevcuttur.</system:String>
+    <system:String x:Key="HomeDashboardTitle">Dashboard</system:String>
+    <system:String x:Key="AboutTitle">Hakkında</system:String>
+    <system:String x:Key="AboutOpenSourceLicensesTitle">Açık Kaynak Lisansları</system:String>
+    <system:String x:Key="UpdateAvailable">Güncelleme mevcut</system:String>
+    <system:String x:Key="UpToDate">Güncel</system:String>
+    <system:String x:Key="CheckingForUpdates">Doğrulanıyor...</system:String>
+    <system:String x:Key="UpdateAvailableNotificationTitle">Güncelleme Mevcut!</system:String>
+    <system:String x:Key="UpdateAvailableNotificationButton">Güncellemeyi İndir</system:String>
 </ResourceDictionary>
