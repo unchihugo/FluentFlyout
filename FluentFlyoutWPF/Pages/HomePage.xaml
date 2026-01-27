@@ -25,7 +25,7 @@
             <TextBlock x:Name="VersionTextBlock" FontSize="14" FontWeight="Regular" VerticalAlignment="Bottom" Margin="10" Opacity="0.5" />
         </StackPanel>
 
-        <TextBlock Text="{DynamicResource HomeTitle}" FontSize="24" FontWeight="SemiBold" FontFamily="Segoe UI Variable" Margin="0,36,0,12" />
+        <TextBlock Text="{DynamicResource HomeTitle}" FontSize="24" FontWeight="SemiBold" Margin="0,36,0,12" />
         <StackPanel Orientation="Horizontal">
             <ui:Button x:Name="ViewUpdatesButton" Appearance="Transparent" Padding="0,0,16,0" BorderBrush="Transparent" Margin="0,0,16,16" Click="ViewUpdates_Click">
                 <StackPanel Orientation="Horizontal">
@@ -246,7 +246,7 @@
             </ui:Button>
         </StackPanel>
 
-        <TextBlock Text="{DynamicResource AboutPremiumTitle}" FontSize="14" FontWeight="SemiBold" FontFamily="Segoe UI Variable" Margin="0,36,0,0" />
+        <TextBlock Text="{DynamicResource AboutPremiumTitle}" FontSize="14" FontWeight="SemiBold" Margin="0,36,0,0" />
         <Grid Margin="0,12,0,0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />

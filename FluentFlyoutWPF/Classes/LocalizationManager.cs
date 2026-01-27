@@ -46,6 +46,16 @@ public static class LocalizationManager
         { "Tiếng Việt", "vi" },
     };
 
+    // dictionary of font families for specific languages, priorities are switched around
+    private static readonly Dictionary<string, string> _languageFontFamilies = new()
+    {
+        { "default", "Segoe UI Variable, Microsoft YaHei UI, Yu Gothic UI, Malgun Gothic" }, // default support for multiple languages
+        //{ "zh-CN", "Segoe UI Variable, Microsoft YaHei UI, Yu Gothic UI, Malgun Gothic" }, // same as default
+        { "zh-TW", "Segoe UI Variable, Microsoft JhengHei UI, Yu Gothic UI, Malgun Gothic" },
+        { "ja", "Segoe UI Variable, Yu Gothic UI, Microsoft YaHei UI, Malgun Gothic" },
+        { "ko", "Segoe UI Variable, Malgun Gothic, Microsoft YaHei UI, Yu Gothic UI" },
+    };
+
     // right-to-left languages
     private static readonly HashSet<string> _rtlLanguages = ["ar", "he"];
 
@@ -86,6 +96,8 @@ public static class LocalizationManager
 
         // change flow direction of all windows
         ApplyFlowDirection(languageCode);
+
+        ApplyFontFamily(culture);
 
         // if English, the default (en-US) is already loaded, so no need to add another dictionary
         if (languageCode == "en") return;
@@ -142,5 +154,25 @@ public static class LocalizationManager
             : FlowDirection.LeftToRight;
 
         Logger.Debug("Applied flow direction: " + SettingsManager.Current.FlowDirection);
+    }
+
+    private static void ApplyFontFamily(string culture)
+    {
+        string fontFamily;
+        if (_languageFontFamilies.TryGetValue(culture, out string? value))
+        {
+            fontFamily = value;
+        }
+        else if (_languageFontFamilies.TryGetValue(LanguageCode, out string? value1))
+        {
+            fontFamily = value1;
+        }
+        else
+        {
+            fontFamily = _languageFontFamilies["default"];
+        }
+        SettingsManager.Current.FontFamily = fontFamily;
+
+        Logger.Debug("Applied font family: " + fontFamily);
     }
 }
