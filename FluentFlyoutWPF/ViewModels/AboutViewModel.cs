@@ -7,57 +7,74 @@ namespace FluentFlyoutWPF.ViewModels;
 
 public partial class AboutViewModel : ObservableObject
 {
-    public ObservableCollection<string> Contributors { get; } =
+    public ObservableCollection<string> Developers { get; } =
     [
         "unchihugo",
-           "LiAuTraver",
-           "kitUIN",
-           "DmitriySalnikov",
-           "AksharDP",
-           "nopeless",
-           "tnhung2011",
-           "xsm2",
-           "Ste3798",
-           "weiss-rn",
-           "lechixy",
-           "VeryFat123",
-           "ysfemreAlbyrk",
-           "CC-D-Y",
-           "LOGYT-Eberk",
-           "logounet",
-           "Nikolai-Misha",
-           "bropines",
-           "RandomKuchen",
-           "ebraheemelteyb",
-           "genotypePL",
-           "Pigeon0v0",
-           "fortIItude",
-           "maksymser",
-           "se34k",
-           "nath89-52",
-           "yoyo435",
-           "gustavo-bozzano",
-           "Xshadow9",
-           "Aris-Offline",
-           "Y-PLONI",
-           "bywhite0",
-           "Tomflame-4ever",
-           "Hykerisme",
-           "oski165",
-           "thinkii",
-           "trlef19",
-           "v3vishal",
-           "CielWhitefox",
-           "kek353",
-           "ThePerson-o",
-           "naturbrilian",
-           "avshalombegler",
-           "Atalanttore",
-           "Simnico99",
-            "NimiGames68"
+        "LiAuTraver",
+        "kitUIN",
+        "DmitriySalnikov",
+        "AksharDP",
+        "nopeless",
+        "xsm2",
+        "Simnico99"
      ];
 
-    public string ContributorsText => string.Join(", ", Contributors);
+    public ObservableCollection<string> Translators { get; } =
+    [
+        "unchihugo",
+        "tnhung2011",
+        "xsm2",
+        "Ste3798",
+        "weiss-rn",
+        "lechixy",
+        "VeryFat123",
+        "ysfemreAlbyrk",
+        "CC-D-Y",
+        "LOGYT-Eberk",
+        "logounet",
+        "Nikolai-Misha",
+        "bropines",
+        "RandomKuchen",
+        "ebraheemelteyb",
+        "genotypePL",
+        "Pigeon0v0",
+        "fortIItude",
+        "maksymser",
+        "se34k",
+        "nath89-52",
+        "gustavo-bozzano",
+        "Xshadow9",
+        "Aris-Offline",
+        "Y-PLONI",
+        "bywhite0",
+        "Tomflame-4ever",
+        "Hykerisme",
+        "oski165",
+        "thinkii",
+        "trlef19",
+        "v3vishal",
+        "CielWhitefox",
+        "kek353",
+        "ThePerson-o",
+        "naturbrilian",
+        "avshalombegler",
+        "Atalanttore",
+        "NimiGames68",
+        "FenrirXVII",
+        "junior0liveira",
+        "3mr9",
+        "hayiamzhengxum",
+        "VolodymyrBryzh",
+        "havrlisan",
+        "Self4215",
+        "manuelitou",
+        "aic-6301"
+    ];
+
+
+    public string DevelopersText => string.Join(", ", Developers);
+
+    public string TranslatorsText => string.Join(", ", Translators);
 
     public class LicenseInfo
     {
