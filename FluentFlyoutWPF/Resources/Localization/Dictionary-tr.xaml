@@ -143,4 +143,7 @@ Not: Açık kaynaklı bir proje olarak, bu özellikler GitHub'daki manuel yükle
     <system:String x:Key="TaskbarWidgetAnimatedDescription">Widget için ince animasyonları etkinleştir</system:String>
     <system:String x:Key="TrayIcon_ViewLogsOption">Logları görüntüle</system:String>
     <system:String x:Key="PixelsUnit">px</system:String>
+    <system:String x:Key="HomeTitle">Ana Sayfa</system:String>
+    <system:String x:Key="Enabled">Etkin</system:String>
+    <system:String x:Key="Disabled">Engellenmiş</system:String>
 </ResourceDictionary>
