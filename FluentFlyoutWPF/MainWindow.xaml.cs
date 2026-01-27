@@ -233,6 +233,19 @@ public partial class MainWindow : MicaWindow
         }
     }
 
+    private static GlobalSystemMediaTransportControlsSessionMediaProperties? TryGetMediaProperties(GlobalSystemMediaTransportControlsSession controlSession)
+    {
+        try
+        {
+            return controlSession.TryGetMediaPropertiesAsync().GetAwaiter().GetResult();
+        }
+        catch (COMException ex)
+        {
+            Logger.Error(ex, "Failed to retrieve data from the player");
+            return null;
+        }
+    }
+
     private void openSettings(object? sender, EventArgs e)
     {
         SettingsWindow.ShowInstance();
@@ -448,7 +461,10 @@ public partial class MainWindow : MicaWindow
             return;
         }
         var focusedSession = mediaManager.GetFocusedSession();
-        var songInfo = focusedSession.ControlSession.TryGetMediaPropertiesAsync().GetAwaiter().GetResult();
+        var songInfo = TryGetMediaProperties(focusedSession.ControlSession);
+        if (songInfo == null)
+            return;
+
         var playbackInfo = focusedSession.ControlSession.GetPlaybackInfo();
         taskbarWindow?.UpdateUi(songInfo.Title, songInfo.Artist, Helper.GetThumbnail(songInfo.Thumbnail), playbackInfo.PlaybackStatus, playbackInfo.Controls);
     }
@@ -509,7 +525,10 @@ public partial class MainWindow : MicaWindow
             return;
         }
 
-        var songInfo = focusedSession.ControlSession.TryGetMediaPropertiesAsync().GetAwaiter().GetResult();
+        var songInfo = TryGetMediaProperties(focusedSession.ControlSession);
+        if (songInfo == null)
+            return;
+
         taskbarWindow?.UpdateUi(songInfo.Title, songInfo.Artist, Helper.GetThumbnail(songInfo.Thumbnail), playbackInfo?.PlaybackStatus, playbackInfo?.Controls);
 
         if (IsVisible)
@@ -537,7 +556,10 @@ public partial class MainWindow : MicaWindow
             return;
         }
 
-        var songInfo = mediaSession.ControlSession.TryGetMediaPropertiesAsync().GetAwaiter().GetResult();
+        var songInfo = TryGetMediaProperties(mediaSession.ControlSession);
+        if (songInfo == null)
+            return;
+
         var playbackInfo = mediaSession.ControlSession.GetPlaybackInfo();
 
         string check = songInfo.Title + songInfo.Artist + playbackInfo.PlaybackStatus;
@@ -636,7 +658,10 @@ public partial class MainWindow : MicaWindow
         }
         else
         {
-            var songInfo = focusedSession.ControlSession.TryGetMediaPropertiesAsync().GetAwaiter().GetResult();
+            var songInfo = TryGetMediaProperties(focusedSession.ControlSession);
+            if (songInfo == null)
+                return;
+
             var playbackInfo = focusedSession.ControlSession.GetPlaybackInfo();
             taskbarWindow?.UpdateUi(songInfo.Title, songInfo.Artist, Helper.GetThumbnail(songInfo.Thumbnail), playbackInfo.PlaybackStatus, playbackInfo.Controls);
         }
@@ -890,7 +915,10 @@ public partial class MainWindow : MicaWindow
                 }
             }
 
-            var songInfo = controlSession.TryGetMediaPropertiesAsync().GetAwaiter().GetResult();
+            var songInfo = TryGetMediaProperties(controlSession);
+            if (songInfo == null)
+                return;
+
             if (songInfo != null)
             {
                 SongTitle.Text = songInfo.Title;

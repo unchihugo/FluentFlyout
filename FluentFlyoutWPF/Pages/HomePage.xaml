@@ -31,7 +31,7 @@
                 <StackPanel Orientation="Horizontal">
                     <Border CornerRadius="8" ClipToBounds="True" Width="200" Height="98" Margin="0,0,16,0">
                         <Border.Background>
-                            <ImageBrush ImageSource="/Resources/FluentFlyoutHero-NoTitle.webp" Stretch="UniformToFill" />
+                            <ImageBrush ImageSource="/Resources/FluentFlyoutHero-NoTitle.png" Stretch="UniformToFill" />
                         </Border.Background>
                     </Border>
                     <StackPanel Orientation="Vertical" VerticalAlignment="Center">

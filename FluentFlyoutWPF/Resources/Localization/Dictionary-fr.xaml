@@ -160,4 +160,11 @@ Vous pouvez contribuer aux traductions sur</system:String>
     <system:String x:Key="UpdateToastTitle">FluentFlyout a été mis à jour !</system:String>
     <system:String x:Key="UpdateToastMessage">Vous êtes maintenant sur {0}.</system:String>
     <system:String x:Key="UpdateToastButton">Voir les mises à jour</system:String>
+    <system:String x:Key="UpdateAvailable">Mise à jour disponible</system:String>
+    <system:String x:Key="UpToDate">À jour</system:String>
+    <system:String x:Key="LastChecked">Dernière vérification : {0}</system:String>
+    <system:String x:Key="CheckingForUpdates">Vérification...</system:String>
+    <system:String x:Key="UpdateAvailableNotificationTitle">Une mise à jour est disponible !</system:String>
+    <system:String x:Key="UpdateAvailableNotificationMessage">Une nouvelle version ({0}) est disponible.</system:String>
+    <system:String x:Key="UpdateAvailableNotificationButton">Télécharger la mise à jour</system:String>
 </ResourceDictionary>
