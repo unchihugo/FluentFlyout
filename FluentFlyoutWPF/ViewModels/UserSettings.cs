@@ -301,6 +301,10 @@ public partial class UserSettings : ObservableObject
     [ObservableProperty]
     public partial FlowDirection FlowDirection { get; set; }
 
+    [XmlIgnore]
+    [ObservableProperty]
+    public partial string FontFamily { get; set; }
+
     /// <summary>
     /// Gets or sets a value indicating whether the taskbar widget is enabled
     /// </summary>
@@ -453,6 +457,7 @@ public partial class UserSettings : ObservableObject
         MediaFlyoutAcrylicWindowEnabled = true;
         AppLanguage = "system";
         FlowDirection = FlowDirection.LeftToRight;
+        FontFamily = "Segoe UI Variable, Microsoft YaHei UI, Yu Gothic UI";
         NextUpAcrylicWindowEnabled = true;
         LockKeysAcrylicWindowEnabled = true;
         TaskbarWidgetEnabled = false;
