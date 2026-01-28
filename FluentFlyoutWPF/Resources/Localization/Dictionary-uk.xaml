@@ -56,4 +56,8 @@
     <system:String x:Key="TaskbarWidgetPaddingDescription">Увімкніть цю функцію, якщо у вас увімкнені віджети Windows</system:String>
     <system:String x:Key="TaskbarWidgetManualPaddingTitle">Власний відступ</system:String>
     <system:String x:Key="TaskbarWidgetManualPaddingDescription">Додатковий відступ (за замовчуванням: 0px)</system:String>
+    <system:String x:Key="UnlockPremiumButton">Розблокувати преміум</system:String>
+    <system:String x:Key="PremiumPurchaseSuccess">Преміум успішно розблоковано!</system:String>
+    <system:String x:Key="PremiumPurchaseFailed">Покупка не вдалася. Спробуйте ще раз.</system:String>
+    <system:String x:Key="PremiumPurchaseCancelled">Покупка скасована.</system:String>
 </ResourceDictionary>
