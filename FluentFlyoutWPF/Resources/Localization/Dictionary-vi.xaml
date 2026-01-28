@@ -113,9 +113,9 @@ Bạn có thể hỗ trợ dịch tại</system:String>
     <system:String x:Key="TaskbarWidgetAnimatedTitle">Hiệu ứng chuyển tiếp</system:String>
     <system:String x:Key="TaskbarWidgetAnimatedDescription">Xuất hiện hiệu ứng khi chuyển tiếp nội dung</system:String>
     <system:String x:Key="PremiumFeatureTitle">Tính năng premium</system:String>
-    <system:String x:Key="PremiumFeatureDescription" xml:space="preserve">Nếu tải từ Microsoft Store, bạn có thể mở khóa premium qua giao dịch trong ứng dụng. Số tiền nho nhỏ từ bạn góp phần tạo động lực để tác giả phát triển dự án này.
+    <system:String x:Key="PremiumFeatureDescription" xml:space="preserve">Nếu tải từ Microsoft Store, bạn có thể mở khóa premium khi giao dịch trong ứng dụng. Số tiền nho nhỏ từ bạn góp phần tạo động lực để tác giả phát triển dự án này.
         
-Do ứng dụng phát hành trong phạm vi mã nguồn mở, bạn vẫn có thể mở khóa miễn phí bằng cách tải từ GitHub hoặc tự compile (xây dựng ứng dụng từ mã nguồn).</system:String>
+Tuy vậy, do là dự án mã nguồn mở, bạn vẫn có thể mở khóa miễn phí bằng cách tải từ GitHub hoặc tự compile (xây dựng ứng dụng từ mã nguồn). Đổi lại, bạn sẽ không thể tự động cập nhật như bản Microsoft Store.</system:String>
     <system:String x:Key="PremiumLockedMessage">Tính năng này đã bị khóa</system:String>
     <system:String x:Key="PremiumUnlockedMessage">Đã mở khóa các tính năng premium. Cảm ơn bạn đã ủng hộ dự án!</system:String>
     <system:String x:Key="PremiumGitHubMessage">Premium sẽ mở khóa miễn phí khi cài đặt từ GitHub hoặc tự compile</system:String>
