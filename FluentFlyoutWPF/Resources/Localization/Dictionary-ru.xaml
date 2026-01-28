@@ -135,4 +135,8 @@
     <system:String x:Key="TaskbarWidgetAnimatedTitle">Анимации виджета</system:String>
     <system:String x:Key="TaskbarWidgetAnimatedDescription">Включает некоторые анимации виджета</system:String>
     <system:String x:Key="TaskbarWidgetControlsTitle">Медиа-кнопки на виджете</system:String>
+    <system:String x:Key="HomeTitle">Домашняя страница</system:String>
+    <system:String x:Key="Enabled">Включено</system:String>
+    <system:String x:Key="SystemConfigure">Конфигурация</system:String>
+    <system:String x:Key="AboutTitle">О приложении</system:String>
 </ResourceDictionary>
