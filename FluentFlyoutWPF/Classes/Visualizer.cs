@@ -87,6 +87,8 @@ namespace FluentFlyoutWPF.Classes
                 _capture.RecordingStopped += OnRecordingStopped;
                 _capture.StartRecording();
                 _isRunning = true;
+
+                // set an automatic update timer in case audio data is not updated
             }
             catch (Exception ex)
             {
