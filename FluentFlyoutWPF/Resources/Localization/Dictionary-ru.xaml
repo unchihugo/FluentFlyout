@@ -139,4 +139,16 @@
     <system:String x:Key="Enabled">Включено</system:String>
     <system:String x:Key="SystemConfigure">Конфигурация</system:String>
     <system:String x:Key="AboutTitle">О приложении</system:String>
+    <system:String x:Key="Disabled">Отключено</system:String>
+    <system:String x:Key="SelectedMonitorTitle">Основной экран</system:String>
+    <system:String x:Key="MediaFlyoutAlwaysDisplayDescription">Всплывающее меню остается открытым, пока вы не закроете его</system:String>
+    <system:String x:Key="TaskbarWidgetSelectedMonitorTitle">Виджет основного экрана</system:String>
+    <system:String x:Key="TaskbarWidgetPaddingSettingsTitle">Настройка отступа виджета</system:String>
+    <system:String x:Key="TaskbarWidgetPaddingSettingsDescription">Настройте отступы вокруг виджета в соответствии со стилем вашей панели задач</system:String>
+    <system:String x:Key="TaskbarWidgetManualPaddingTitle">Индивидуальный отступ</system:String>
+    <system:String x:Key="TaskbarWidgetManualPaddingDescription">Дополнительный отступ (по умолчанию: 0px)</system:String>
+    <system:String x:Key="AcrylicBlurOpacityTitle">Непрозрачность акрилового размытия</system:String>
+    <system:String x:Key="AcrylicBlurOpacityDescription">Отрегулируйте эффект полупрозрачности акрила во всплывающих окнах (по умолчанию: 175)</system:String>
+    <system:String x:Key="HomeUpdateDescription">Узнайте о последних новостях</system:String>
+    <system:String x:Key="HomeDashboardTitle">Панель управления</system:String>
 </ResourceDictionary>
