@@ -422,6 +422,12 @@ public partial class UserSettings : ObservableObject
     public partial bool TaskbarVisualizerBaseline { get; set; }
 
     /// <summary>
+    /// Gets or sets the audio sensitivity for the taskbar visualizer from 1 to 3, where 2 is the default.
+    /// </summary>
+    [ObservableProperty]
+    public partial int TaskbarVisualizerAudioSensitivity { get; set; }
+
+    /// <summary>
     /// Gets whether premium features are unlocked (runtime only, not persisted)
     /// </summary>
     [XmlIgnore]
@@ -504,6 +510,7 @@ public partial class UserSettings : ObservableObject
         TaskbarVisualizerBarCount = 10;
         TaskbarVisualizerCenteredBars = false;
         TaskbarVisualizerBaseline = false;
+        TaskbarVisualizerAudioSensitivity = 2;
         AcrylicBlurOpacity = 175;
         LastUpdateNotificationUnixSeconds = 0;
     }

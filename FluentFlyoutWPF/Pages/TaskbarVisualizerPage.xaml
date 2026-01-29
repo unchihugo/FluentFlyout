@@ -143,7 +143,7 @@
                 <controls:ToggleSwitch IsChecked="{Binding TaskbarVisualizerCenteredBars, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}" />
             </ui:CardControl>
 
-            <ui:CardControl Icon="{ui:SymbolIcon LineHorizontal120, Filled=False}" Margin="0,0,0,76">
+            <ui:CardControl Icon="{ui:SymbolIcon LineHorizontal120, Filled=False}" Margin="0,0,0,12">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
                         <TextBlock Text="{DynamicResource TaskbarVisualizerBaselineTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
@@ -151,6 +151,20 @@
                     </StackPanel>
                 </ui:CardControl.Header>
                 <controls:ToggleSwitch IsChecked="{Binding TaskbarVisualizerBaseline, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}" />
+            </ui:CardControl>
+
+            <ui:CardControl Icon="{ui:SymbolIcon BezierCurveSquare20, Filled=False}" Margin="0,0,0,76">
+                <ui:CardControl.Header>
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="Audio Sensitivity" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
+                        <TextBlock Text="How strongly the bars respond to audio loudness" FontSize="12" Opacity="0.5" />
+                    </StackPanel>
+                </ui:CardControl.Header>
+                <StackPanel Orientation="Horizontal" Opacity="{Binding IsPremiumUnlocked, Converter={StaticResource BoolToFullHalfOpacityConverter}}" >
+                    <ui:SymbolIcon Symbol="Subtract24" Width="24" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <Slider Minimum="1" Maximum="3" Value="{Binding TaskbarVisualizerAudioSensitivity, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}" TickFrequency="1" TickPlacement="Both" IsSnapToTickEnabled="True" Width="150" Margin="12,0,12,0" />
+                    <ui:SymbolIcon Symbol="Add24" Width="24" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                </StackPanel>
             </ui:CardControl>
         </StackPanel>
     </StackPanel>

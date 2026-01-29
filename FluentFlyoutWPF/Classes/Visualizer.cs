@@ -12,9 +12,9 @@ namespace FluentFlyoutWPF.Classes
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
         public static int BarCount = 10;
-        public int ImageWidth = 76*3;
-        public int ImageHeight = 32*3;
-        public int BarSpacing = 2*3;
+        private int ImageWidth = 76*3;
+        private int ImageHeight = 32*3;
+        private int BarSpacing = 2*3;
 
         private WasapiLoopbackCapture? _capture;
         private static float[]? _barValues;
@@ -38,12 +38,6 @@ namespace FluentFlyoutWPF.Classes
                     return _bitmap;
                 }
             }
-        }
-
-        public int TargetFps
-        {
-            get => _targetFps;
-            set => _targetFps = Math.Clamp(value, 1, 120);
         }
 
         public event EventHandler? BitmapUpdated;
@@ -88,7 +82,7 @@ namespace FluentFlyoutWPF.Classes
                 _capture.StartRecording();
                 _isRunning = true;
 
-                // set an automatic update timer in case audio data is not updated
+                // TODO: set an automatic update timer in case audio data is not updated
             }
             catch (Exception ex)
             {
@@ -160,6 +154,10 @@ namespace FluentFlyoutWPF.Classes
 
             double minFreq = 40;   // Hz
             double maxFreq = 8000; // Hz
+            //double minFreq = 40;  // Hz // could be a setting to be bass only
+            //double maxFreq = 120; // Hz
+            float minDb = (SettingsManager.Current.TaskbarVisualizerAudioSensitivity * -10f) + -30f;
+            float maxDb = -10f;
 
             float[] currentBars = new float[BarCount];
 
@@ -192,9 +190,6 @@ namespace FluentFlyoutWPF.Classes
 
                 float db = 20f * (float)Math.Log10(maxAmplitude);
 
-                float minDb = -50f;
-                float maxDb = -10f;
-
                 float intensity = (db - minDb) / (maxDb - minDb);
                 intensity = Math.Clamp(intensity, 0f, 1f);
 
@@ -211,7 +206,10 @@ namespace FluentFlyoutWPF.Classes
                 else
                 {
                     // Fall down slowly
-                    _barValues[i] = (_barValues[i] * 0.85f) + (currentBars[i] * 0.15f);
+                    //_barValues[i] = (_barValues[i] * 0.9f) + (currentBars[i] * 0.1f);
+                    _barValues[i] = (_barValues[i] * 0.8f) + (currentBars[i] * 0.2f);
+                    //_barValues[i] = (_barValues[i] * 0.7f) + (currentBars[i] * 0.3f); // could be options for smoothening
+                    //_barValues[i] = (_barValues[i] * 0.6f) + (currentBars[i] * 0.4f);
                 }
             }
         }

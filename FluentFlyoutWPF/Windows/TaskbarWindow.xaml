@@ -20,7 +20,7 @@
         xmlns:viewModels="clr-namespace:FluentFlyoutWPF.ViewModels"
 		d:DataContext="{d:DesignInstance viewModels:UserSettings}">
     <Canvas Name="WidgetCanvas" Background="Transparent">
-		<controls:TaskbarVisualizerControl x:Name="TaskbarVisualizer" />
+		<controls:TaskbarVisualizerControl x:Name="TaskbarVisualizer" Margin="0,1,0,0" />
         <controls:TaskbarWidgetControl x:Name="Widget" />
     </Canvas>
 </Window>
