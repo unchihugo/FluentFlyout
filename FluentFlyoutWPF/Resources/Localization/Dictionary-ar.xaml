@@ -167,4 +167,6 @@
     <system:String x:Key="UpdateAvailableNotificationTitle">يتوفر تحديث!</system:String>
     <system:String x:Key="UpdateAvailableNotificationMessage">الإصدار الجديد ({0}) متوفر.</system:String>
     <system:String x:Key="UpdateAvailableNotificationButton">تنزيل التحديث</system:String>
+    <system:String x:Key="MediaFlyoutExcludeVolumeTitle">إستثناء مفاتيح الصوت</system:String>
+    <system:String x:Key="MediaFlyoutExcludeVolumeDescription">لا تعرض اداة التحكم عند الضغط على أزرار رفع/ خفض/ كتم الصوت</system:String>
 </ResourceDictionary>
