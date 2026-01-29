@@ -10,4 +10,14 @@ public partial class MediaFlyoutPage : Page
         InitializeComponent();
         DataContext = SettingsManager.Current;
     }
+
+    private void CardControl_Click(object sender, System.Windows.RoutedEventArgs e)
+    {
+
+    }
+
+    private void CardControl_Click_1(object sender, System.Windows.RoutedEventArgs e)
+    {
+
+    }
 }
