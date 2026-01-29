@@ -14,7 +14,7 @@
         AllowsTransparency="True"
         Background="Transparent"
         TextOptions.TextRenderingMode="ClearType" TextOptions.TextFormattingMode="Ideal"
-        FontFamily="Segoe UI Variable, Microsoft YaHei, Microsoft JhengHei, MS Gothic"
+        FontFamily="{Binding FontFamily}"
         FlowDirection="{Binding FlowDirection}"
         Loaded="Window_Loaded" Visibility="Collapsed" d:Visibility="Visible"
         xmlns:viewModels="clr-namespace:FluentFlyoutWPF.ViewModels"

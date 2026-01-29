@@ -11,7 +11,7 @@
     Height="700" MinHeight="300" MinWidth="750" Width="800"
     Title="FluentFlyout" Icon="/Resources/FluentFlyout2.ico"
     TextOptions.TextRenderingMode="ClearType" TextOptions.TextFormattingMode="Ideal"
-    FontFamily="Segoe UI Variable, Microsoft YaHei, Microsoft JhengHei, MS Gothic"
+    FontFamily="{Binding FontFamily}"
 	FlowDirection="{Binding FlowDirection}"
     Closing="SettingsWindow_Closing"
     xmlns:viewModels="clr-namespace:FluentFlyoutWPF.ViewModels"

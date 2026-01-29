@@ -20,7 +20,7 @@
     </Page.Resources>
 
     <StackPanel MaxWidth="1000" Margin="16">
-        <TextBlock Text="{DynamicResource TaskbarWidgetCustomizationTitle}" FontSize="24" FontWeight="SemiBold" FontFamily="Segoe UI Variable" Margin="0,0,0,20" />
+        <TextBlock Text="{DynamicResource TaskbarWidgetCustomizationTitle}" FontSize="24" FontWeight="SemiBold" Margin="0,0,0,20" />
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />

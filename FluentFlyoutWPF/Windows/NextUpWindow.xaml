@@ -13,7 +13,7 @@
       WindowStyle="None" ShowInTaskbar="False"
       SystemBackdropType="Mica" ChangeTitleColorWhenInactive="False"
       TextOptions.TextRenderingMode="ClearType" TextOptions.TextFormattingMode="Ideal"
-      FontFamily="Segoe UI Variable, Microsoft YaHei, Microsoft JhengHei, MS Gothic"
+      FontFamily="{Binding FontFamily}"
       FlowDirection="{Binding FlowDirection}"
       d:DataContext="{d:DesignInstance viewModels:UserSettings}"
       >
@@ -46,7 +46,7 @@
         </Grid.ColumnDefinitions>
         <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
             <ui:SymbolIcon Symbol="MusicNote120" Filled="True" Width="14" Height="14" FontSize="14" VerticalAlignment="Center" Margin="0,0,2,0"/>
-            <TextBlock x:Name="UpNextTextBlock" Text="{DynamicResource NextUpWindow_UpNextText}" FontSize="12" VerticalAlignment="Center" FontFamily="Segoe UI Variable" FontWeight="Medium"/>
+            <TextBlock x:Name="UpNextTextBlock" Text="{DynamicResource NextUpWindow_UpNextText}" FontSize="12" VerticalAlignment="Center" FontWeight="Medium"/>
         </StackPanel>
         <Border Grid.Column="1" Name="SongImageBorder" CornerRadius="6" Margin="12,1,0,0" ClipToBounds="True" Width="38" Height="38">
             <ui:SymbolIcon Name="SongImagePlaceholder" Symbol="MusicNote220" FontSize="40" Filled="True" Foreground="{DynamicResource MicaWPF.Brushes.SystemAccentColorLight2}" Visibility="Collapsed" />
@@ -55,8 +55,8 @@
             </Border.Background>
         </Border>
         <StackPanel Grid.Column="2" Name="SongInfoStackPanel" Margin="6,0,0,0" Orientation="Vertical" VerticalAlignment="Center">
-            <TextBlock Name="SongTitle" Text="Song Title" FontSize="14" FontFamily="Segoe UI Variable" FontWeight="Medium" TextTrimming="CharacterEllipsis"/>
-            <TextBlock Name="SongArtist" Text="Artist Name" FontSize="14" FontFamily="Segoe UI Variable" FontWeight="Medium" Opacity="0.5" TextTrimming="CharacterEllipsis"/>
+            <TextBlock Name="SongTitle" Text="Song Title" FontSize="14" FontWeight="Medium" TextTrimming="CharacterEllipsis"/>
+            <TextBlock Name="SongArtist" Text="Artist Name" FontSize="14" FontWeight="Medium" Opacity="0.5" TextTrimming="CharacterEllipsis"/>
         </StackPanel>
     </Grid>
 </controls:MicaWindow>

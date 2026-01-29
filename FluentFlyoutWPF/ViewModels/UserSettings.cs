@@ -211,6 +211,12 @@ public partial class UserSettings : ObservableObject
     public partial bool MediaFlyoutEnabled { get; set; }
 
     /// <summary>
+    /// Exclude volume keys from triggering media flyout
+    /// </summary>
+    [ObservableProperty]
+    public partial bool MediaFlyoutVolumeKeysExcluded { get; set; }
+
+    /// <summary>
     /// Use symbol-style tray icon
     /// </summary>
     [ObservableProperty]
@@ -303,6 +309,10 @@ public partial class UserSettings : ObservableObject
     [XmlIgnore]
     [ObservableProperty]
     public partial FlowDirection FlowDirection { get; set; }
+
+    [XmlIgnore]
+    [ObservableProperty]
+    public partial string FontFamily { get; set; }
 
     /// <summary>
     /// Gets or sets a value indicating whether the taskbar widget is enabled
@@ -481,6 +491,7 @@ public partial class UserSettings : ObservableObject
         AppTheme = 0;
         MediaFlyoutEnabled = true;
         MediaFlyoutAlwaysDisplay = false;
+        MediaFlyoutVolumeKeysExcluded = false;
         NIconSymbol = false;
         NIconHide = false;
         DisableIfFullscreen = true;
@@ -493,6 +504,7 @@ public partial class UserSettings : ObservableObject
         MediaFlyoutAcrylicWindowEnabled = true;
         AppLanguage = "system";
         FlowDirection = FlowDirection.LeftToRight;
+        FontFamily = "Segoe UI Variable, Microsoft YaHei UI, Yu Gothic UI";
         NextUpAcrylicWindowEnabled = true;
         LockKeysAcrylicWindowEnabled = true;
         TaskbarWidgetEnabled = false;
