@@ -208,6 +208,12 @@ public partial class UserSettings : ObservableObject
     public partial bool MediaFlyoutEnabled { get; set; }
 
     /// <summary>
+    /// Exclude volume keys from triggering media flyout
+    /// </summary>
+    [ObservableProperty]
+    public partial bool MediaFlyoutVolumeKeysExcluded { get; set; }
+
+    /// <summary>
     /// Use symbol-style tray icon
     /// </summary>
     [ObservableProperty]
@@ -445,6 +451,7 @@ public partial class UserSettings : ObservableObject
         AppTheme = 0;
         MediaFlyoutEnabled = true;
         MediaFlyoutAlwaysDisplay = false;
+        MediaFlyoutVolumeKeysExcluded = false;
         NIconSymbol = false;
         NIconHide = false;
         DisableIfFullscreen = true;
