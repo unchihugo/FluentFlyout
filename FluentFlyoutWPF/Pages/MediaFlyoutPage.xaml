@@ -41,7 +41,7 @@
                 </Border>
                 <TextBlock Text="{DynamicResource MediaFlyoutDescription}" FontSize="14" FontWeight="Regular" HorizontalAlignment="Stretch" Opacity="0.75" Margin="12,0,0,0" MaxWidth="450" TextWrapping="WrapWithOverflow" />
             </StackPanel>
-            <ui:CardControl Grid.Row="1" Icon="{ui:SymbolIcon VideoPlayPause24}" Margin="0,0,0,3" Click="CardControl_Click_1">
+            <ui:CardControl Grid.Row="1" Icon="{ui:SymbolIcon VideoPlayPause24}" Margin="0,0,0,3">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
                         <TextBlock Text="{DynamicResource TextBlockText1}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
@@ -50,7 +50,7 @@
                 </ui:CardControl.Header>
                 <controls:ToggleSwitch Name="MediaFlyoutEnabledSwitch" IsChecked="{Binding MediaFlyoutEnabled, Mode=TwoWay}" />
             </ui:CardControl>
-            <ui:CardControl Grid.Row="2" Icon="{ui:SymbolIcon Speaker224}" Margin="0,0,0,24" Click="CardControl_Click">
+            <ui:CardControl Grid.Row="2" Icon="{ui:SymbolIcon Speaker224}" Margin="0,0,0,24">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
                         <TextBlock Text="{DynamicResource MediaFlyoutExcludeVolumeTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
