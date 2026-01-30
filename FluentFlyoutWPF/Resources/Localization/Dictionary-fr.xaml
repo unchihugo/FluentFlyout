@@ -167,4 +167,6 @@ Vous pouvez contribuer aux traductions sur</system:String>
     <system:String x:Key="UpdateAvailableNotificationTitle">Une mise à jour est disponible !</system:String>
     <system:String x:Key="UpdateAvailableNotificationMessage">Une nouvelle version ({0}) est disponible.</system:String>
     <system:String x:Key="UpdateAvailableNotificationButton">Télécharger la mise à jour</system:String>
+    <system:String x:Key="MediaFlyoutExcludeVolumeTitle">Exclure les Touches de Volume</system:String>
+    <system:String x:Key="MediaFlyoutExcludeVolumeDescription">Ne pas montrer le volet quand la touche d'augmentation/diminution/muet de volume est appuyé</system:String>
 </ResourceDictionary>
