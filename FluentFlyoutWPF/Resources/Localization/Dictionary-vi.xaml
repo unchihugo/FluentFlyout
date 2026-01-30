@@ -40,8 +40,8 @@
     <system:String x:Key="EnableLockKeysDescription">Cho phép hiển thị giao diện</system:String>
     <system:String x:Key="LockKeysStayDurationTitle">Thời gian hiển thị</system:String>
     <system:String x:Key="LockKeysStayDurationDescription">(mặc định: 2000 ms)</system:String>
-    <system:String x:Key="LockKeysBoldUITitle">Tô đậm chữ và viền biểu tượng</system:String>
-    <system:String x:Key="LockKeysBoldUIDescription">Tô đậm chữ và viền biểu tượng</system:String>
+    <system:String x:Key="LockKeysBoldUITitle">Tô đậm chữ và nét biểu tượng</system:String>
+    <system:String x:Key="LockKeysBoldUIDescription">Tô đậm chữ và nét biểu tượng</system:String>
     <system:String x:Key="EnableInsertKeyTitle">Mở giao diện mỗi khi nhấn phím Insert</system:String>
     <system:String x:Key="EnableInsertKeyDescription">Mở giao diện mỗi khi nhấn phím Insert</system:String>
     <system:String x:Key="SystemSettingsTitle">Tùy chọn khác</system:String>
