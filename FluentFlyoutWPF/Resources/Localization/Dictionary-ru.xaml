@@ -158,14 +158,14 @@
     <system:String x:Key="AboutOpenSourceLicensesTitle">Лицензии с открытым исходным кодом</system:String>
     <system:String x:Key="AboutOpenSourceLicensesDescription">FluentFlyout скомпилирован с использованием следующих пакетов с открытым исходным кодом:</system:String>
     <system:String x:Key="TrayIcon_ViewLogsOption">Просмотреть логи</system:String>
-    <system:String x:Key="PixelsUnit">рх</system:String>
+    <system:String x:Key="PixelsUnit">пикс.</system:String>
     <system:String x:Key="UpdateToastTitle">Приложение FluentFlyout обновлено!</system:String>
     <system:String x:Key="UpdateToastMessage">Ваша текущая версия: {0}.</system:String>
     <system:String x:Key="UpdateToastButton">Проверить наличие обновлений</system:String>
     <system:String x:Key="UpdateAvailable">Доступно обновление</system:String>
-    <system:String x:Key="UpToDate">Обновлено</system:String>
+    <system:String x:Key="UpToDate">Актуальная версия</system:String>
     <system:String x:Key="LastChecked">Последняя проверка: {0}</system:String>
-    <system:String x:Key="CheckingForUpdates">Проверка...</system:String>
+    <system:String x:Key="CheckingForUpdates">Проверяем...</system:String>
     <system:String x:Key="UpdateAvailableNotificationTitle">Доступно обновление!</system:String>
     <system:String x:Key="UpdateAvailableNotificationMessage">Доступна новая версия ({0}).</system:String>
     <system:String x:Key="UpdateAvailableNotificationButton">Скачать обновление</system:String>
