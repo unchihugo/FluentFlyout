@@ -6,8 +6,8 @@
     <system:String x:Key="PositionBottomCenter" xml:space="preserve"> Внизу по центру</system:String>
     <system:String x:Key="PositionBottomRight" xml:space="preserve"> Внизу справа</system:String>
     <system:String x:Key="PositionTopLeft" xml:space="preserve"> Сверху слева</system:String>
-    <system:String x:Key="PositionTopCenter" xml:space="preserve"> Сверху по центру</system:String>
-    <system:String x:Key="PositionTopRight" xml:space="preserve"> Сверху справа</system:String>
+    <system:String x:Key="PositionTopCenter" xml:space="preserve"> Вверху по центру</system:String>
+    <system:String x:Key="PositionTopRight" xml:space="preserve"> Вверху справа</system:String>
     <system:String x:Key="MillisecondsUnit">мс</system:String>
     <system:String x:Key="SystemSettingsTitle">Система</system:String>
     <system:String x:Key="LaunchOnStartupTitle">Запускать при запуске</system:String>
@@ -22,7 +22,7 @@
     <system:String x:Key="EasingLinear" xml:space="preserve"> Линейное</system:String>
     <system:String x:Key="EasingSine" xml:space="preserve"> Синусоидальное</system:String>
     <system:String x:Key="TitleText">Настройки FluentFlyout</system:String>
-    <system:String x:Key="MediaFlyoutTitle">Всплывающий плеер</system:String>
+    <system:String x:Key="MediaFlyoutTitle">Mediа Flyout</system:String>
     <system:String x:Key="MediaFlyoutDescription">Основное окно. При прослушивании медиа нажмите любую медиаклавишу или кнопку регулировки громкости (воспроизведение/пауза, увеличение/уменьшение громкости и т. д.) на вашей клавиатуре, чтобы отобразить плеер. Отображает информацию об играющем медиа, а также элементы управления воспроизведением и многое другое.</system:String>
     <system:String x:Key="TextBlockText1">Включить всплывающий плеер</system:String>
     <system:String x:Key="TextBlockText3">Отображает плеер, при нажатии на медиаклавиши</system:String>
@@ -45,7 +45,7 @@
     <system:String x:Key="RepeatButtonDescription">Отображает кнопку выбора режима повторения (увеличивает ширину окна)</system:String>
     <system:String x:Key="ShuffleButtonTitle">Кнопка перемешивания*</system:String>
     <system:String x:Key="ShuffleButtonDescription">(увеличивает ширину окна)</system:String>
-    <system:String x:Key="ShowSeekbarTitle">Показывать ползунок времени*</system:String>
+    <system:String x:Key="ShowSeekbarTitle">Показывать индикатор времени*</system:String>
     <system:String x:Key="ShowSeekbarDescription">Интерактивный временной статус-бар будет отображаться автоматически, если плеер это поддерживает</system:String>
     <system:String x:Key="UnsupportedControlsWarning">*Некоторые браузеры/плееры не поддерживают управление повтором, перемешиванием и перемоткой.</system:String>
     <system:String x:Key="PauseOtherMediaTitle">Автоматически приостанавливать другой плеер</system:String>
@@ -56,7 +56,7 @@
     <system:String x:Key="EnableNextUpDescription">Показывает, что будет дальше после окончания текущего медиа</system:String>
     <system:String x:Key="NextUpStayDurationTitle">Длительность отображения окна</system:String>
     <system:String x:Key="NextUpStayDurationDescription">(по умолчанию: 2000 мс)</system:String>
-    <system:String x:Key="LockKeysCustomizationTitle">Уведомления клавиш-переключателей</system:String>
+    <system:String x:Key="LockKeysCustomizationTitle">Всплывающие клавиши-переключатели</system:String>
     <system:String x:Key="LockKeysDescription" xml:space="preserve">Уведомление о смене состояния клавиш-переключателей. Появляется после нажатия Caps Lock, Num Lock или Scroll Lock. Удобно для ноутбуков и клавиатур без индикаторов клавиш-переключателей.</system:String>
     <system:String x:Key="EnableLockKeysTitle">Включить уведомления</system:String>
     <system:String x:Key="EnableLockKeysDescription">Отображает окно о состоянии нажатой клавиши-переключателе</system:String>
@@ -103,12 +103,12 @@
     <system:String x:Key="LockWindow_LockOff">выкл.</system:String>
     <system:String x:Key="TrayIcon_QuitOption">Закрыть FluentFlyout</system:String>
     <system:String x:Key="TaskbarWidgetCustomizationTitle">Виджет на панели задач</system:String>
-    <system:String x:Key="TaskbarWidgetDescription">Компактный виджет, который находится на панели задач Windows и обеспечивает мгновенный доступ к управлению медиа. Щелкните виджет, чтобы открыть всплывающее окно (если оно включено).</system:String>
+    <system:String x:Key="TaskbarWidgetDescription">Компактный виджет, который находится на панели задач Windows и обеспечивает мгновенный доступ к управлению медиа. Нажмите на виджет, чтобы открыть всплывающее окно (если оно включено).</system:String>
     <system:String x:Key="TaskbarWidgetEnabledTitle">Включить виджет</system:String>
     <system:String x:Key="TaskbarWidgetEnabledDescription">Показать виджет на панели задач</system:String>
     <system:String x:Key="TaskbarWidgetVisualIssuesWarning">Если у вас возникают проблемы с отображением виджета, то настройте параметры ниже.</system:String>
     <system:String x:Key="TaskbarWidgetPosition">Расположение виджета</system:String>
-    <system:String x:Key="TaskbarWidgetPaddingTitle">Добавить отступ от кнопки виджетов Windows</system:String>
+    <system:String x:Key="TaskbarWidgetPaddingTitle">Автоматический отступ для кнопки виджетов Windows</system:String>
     <system:String x:Key="TaskbarWidgetPaddingDescription">Включите эту функцию, если у вас включены виджеты Windows</system:String>
     <system:String x:Key="TaskbarWidgetClickableDescription">Если всплывающее окно включено, то оно откроется, когда вы нажмёте по виджету на панели задач</system:String>
     <system:String x:Key="TaskbarWidgetClickableTitle">Открывать всплывающее окно, если активно воспроизведение</system:String>
@@ -151,4 +151,22 @@
     <system:String x:Key="AcrylicBlurOpacityDescription">Отрегулируйте эффект полупрозрачности акрила во всплывающих окнах (по умолчанию: 175)</system:String>
     <system:String x:Key="HomeUpdateDescription">Узнайте о последних новостях</system:String>
     <system:String x:Key="HomeDashboardTitle">Панель управления</system:String>
+    <system:String x:Key="MediaFlyoutExcludeVolumeTitle">Исключить клавиши регулировки громкости</system:String>
+    <system:String x:Key="MediaFlyoutExcludeVolumeDescription">Не отображать всплывающее меню при нажатии кнопок увеличения/уменьшения громкости/отключения звука</system:String>
+    <system:String x:Key="AboutContributorsTitle">❤️ Познакомьтесь с нашими авторами</system:String>
+    <system:String x:Key="AboutContributorsDescription">Огромное спасибо всем замечательным людям, которые внесли свой вклад в разработку и успех FluentFlyout!</system:String>
+    <system:String x:Key="AboutOpenSourceLicensesTitle">Лицензии с открытым исходным кодом</system:String>
+    <system:String x:Key="AboutOpenSourceLicensesDescription">FluentFlyout скомпилирован с использованием следующих пакетов с открытым исходным кодом:</system:String>
+    <system:String x:Key="TrayIcon_ViewLogsOption">Просмотреть логи</system:String>
+    <system:String x:Key="PixelsUnit">рх</system:String>
+    <system:String x:Key="UpdateToastTitle">Приложение FluentFlyout обновлено!</system:String>
+    <system:String x:Key="UpdateToastMessage">Ваша текущая версия: {0}.</system:String>
+    <system:String x:Key="UpdateToastButton">Проверить наличие обновлений</system:String>
+    <system:String x:Key="UpdateAvailable">Доступно обновление</system:String>
+    <system:String x:Key="UpToDate">Обновлено</system:String>
+    <system:String x:Key="LastChecked">Последняя проверка: {0}</system:String>
+    <system:String x:Key="CheckingForUpdates">Проверка...</system:String>
+    <system:String x:Key="UpdateAvailableNotificationTitle">Доступно обновление!</system:String>
+    <system:String x:Key="UpdateAvailableNotificationMessage">Доступна новая версия ({0}).</system:String>
+    <system:String x:Key="UpdateAvailableNotificationButton">Скачать обновление</system:String>
 </ResourceDictionary>
