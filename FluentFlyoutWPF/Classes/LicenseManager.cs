@@ -18,7 +18,7 @@ public class LicenseManager
     
     private StoreContext? _storeContext;
     private StoreAppLicense? _appLicense;
-    private StoreProductResult? _productResult;
+    private StoreProduct? _productResult;
     
     private const string PremiumAddOnId = "9N3XXQFPGFW5";
     
@@ -225,7 +225,7 @@ public class LicenseManager
                 return (false, "Error getting add-ons - " + addOnResult.ExtendedError.Message);
             }
             
-            if (!addOnResult.Products.TryGetValue(PremiumAddOnId, out var premiumProduct))
+            if (!addOnResult.Products.TryGetValue(PremiumAddOnId, out _productResult))
             {
                 Logger.Warn("Premium add-on not found in store - {AddOnId}", PremiumAddOnId);
                 return (false, "Premium add-on not found in store");
@@ -281,29 +281,59 @@ public class LicenseManager
     /// <summary>
     /// Gets premium product information for display
     /// </summary>
-    /// <returns>Tuple of (Title, Description, FormattedPrice) or null if unavailable</returns>
-    public async Task<(string Title, string Description, string Price)?> GetPremiumProductInfoAsync()
+    private async Task<string?> GetPremiumProductInfoAsync()
     {
         try
         {
             if (_storeContext == null || !_isStoreVersion)
                 return null;
+
+            string price;
+
+            // previous price is cached - can change implementation to refresh if needed later
+            if (_productResult != null)
+            {
+                price = _productResult.Price?.FormattedPrice ?? "N/A";
+                SettingsManager.Current.PremiumPrice = price;
+
+                return price;
+            }
                 
-            var addOnResult = await _storeContext.GetAssociatedStoreProductsAsync(new[] { "Durable" });
-            
-            if (addOnResult.ExtendedError != null || !addOnResult.Products.TryGetValue(PremiumAddOnId, out var product))
+            var addOnResult = await _storeContext.GetStoreProductsAsync(new[] { "Durable" }, new[] { PremiumAddOnId });
+
+            if (addOnResult.ExtendedError != null)
+            {
+                Logger.Error("Error getting premium add-on - {Message}", addOnResult.ExtendedError.Message);
                 return null;
-                
-            return (
-                product.Title ?? "Premium Features",
-                product.Description ?? "Unlock premium features",
-                product.Price?.FormattedPrice ?? "N/A"
-            );
+            }
+
+            if (!addOnResult.Products.TryGetValue(PremiumAddOnId, out _productResult))
+            {
+                Logger.Warn("Premium add-on not found in store - {AddOnId}", PremiumAddOnId);
+                return null;
+            }
+
+            price = _productResult.Price?.FormattedPrice ?? "N/A";
+            SettingsManager.Current.PremiumPrice = price;
+
+            return price;
         }
         catch (Exception ex)
         {
             Logger.Error(ex, "Error getting product info");
             return null;
+        }
+    }
+
+    public static async void GetPremiumProductInfo()
+    {
+        try
+        {
+            await Instance.GetPremiumProductInfoAsync();
+        }
+        catch (Exception ex)
+        {
+            Logger.Error(ex, "Error updating premium product info");
         }
     }
 

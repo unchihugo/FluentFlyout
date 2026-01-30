@@ -1,4 +1,5 @@
-﻿using FluentFlyout.Classes.Settings;
+﻿using FluentFlyout.Classes;
+using FluentFlyout.Classes.Settings;
 using FluentFlyoutWPF.Pages;
 using System.Windows;
 using System.Windows.Controls;
@@ -37,6 +38,8 @@ public partial class SettingsWindow : FluentWindow
         DataContext = SettingsManager.Current;
 
         RootNavigation.SetCurrentValue(NavigationView.IsPaneOpenProperty, false);
+
+        LicenseManager.GetPremiumProductInfo();
     }
 
     public static void ShowInstance()

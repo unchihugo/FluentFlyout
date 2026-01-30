@@ -80,10 +80,18 @@
                     </Style>
                 </ui:InfoBar.Style>
                 <StackPanel Orientation="Horizontal">
-                    <ui:Button Name="UnlockPremiumButton" Content="{DynamicResource UnlockPremiumButton}" 
-                           Click="UnlockPremiumButton_Click" 
-                           Appearance="Primary"
-                           Margin="4,0,0,8" FontSize="12"/>
+                    <ui:Button Name="UnlockPremiumButton"
+                            Click="UnlockPremiumButton_Click" 
+                            Appearance="Primary"
+                            Margin="4,0,0,8" FontSize="12">
+                        <ui:Button.Content>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{DynamicResource UnlockPremiumButton}" />
+                                <TextBlock Text=" - " />
+                                <TextBlock Text="{Binding PremiumPrice}" />
+                            </StackPanel>
+                        </ui:Button.Content>
+                    </ui:Button>
                 </StackPanel>
             </ui:InfoBar>
 
