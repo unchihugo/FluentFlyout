@@ -167,4 +167,6 @@ Nota: Como proyecto de código abierto, estas opciones también están disponibl
     <system:String x:Key="UpToDate">Actualizado</system:String>
     <system:String x:Key="CheckingForUpdates">Verificando...</system:String>
     <system:String x:Key="UpdateAvailableNotificationTitle">¡Actualización disponible!</system:String>
+    <system:String x:Key="MediaFlyoutExcludeVolumeTitle">Excluir las Teclas de Volumen</system:String>
+    <system:String x:Key="MediaFlyoutExcludeVolumeDescription">No mostrar el flyout cuando se presionen las teclas de volumen arriba/abajo/mudo</system:String>
 </ResourceDictionary>
