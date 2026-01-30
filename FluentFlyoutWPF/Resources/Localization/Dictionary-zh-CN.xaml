@@ -167,4 +167,5 @@
     <system:String x:Key="UpdateAvailableNotificationMessage">有新版本 ({0}) 可用。</system:String>
     <system:String x:Key="UpdateAvailableNotificationTitle">更新可用！</system:String>
     <system:String x:Key="UpdateAvailableNotificationButton">下载更新</system:String>
+    <system:String x:Key="MediaFlyoutExcludeVolumeTitle">排除音量键</system:String>
 </ResourceDictionary>
