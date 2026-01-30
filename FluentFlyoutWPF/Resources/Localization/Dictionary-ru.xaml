@@ -12,7 +12,7 @@
     <system:String x:Key="SystemSettingsTitle">Система</system:String>
     <system:String x:Key="LaunchOnStartupTitle">Запускать при запуске</system:String>
     <system:String x:Key="AppThemeTitle">Тема приложения</system:String>
-    <system:String x:Key="AppThemeDefault"> Как в Windows</system:String>
+    <system:String x:Key="AppThemeDefault"> Как в системе</system:String>
     <system:String x:Key="AppThemeLight"> Светлая</system:String>
     <system:String x:Key="AppThemeDark"> Тёмная</system:String>
     <system:String x:Key="TrayIconLeftClickOption1"> Открыть настройки</system:String>
