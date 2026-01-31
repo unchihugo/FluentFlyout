@@ -169,7 +169,6 @@ public partial class TaskbarWidgetControl : UserControl
             logicalWidth += (int)(102);
         }
 
-        //logicalWidth += 108;
 
         double logicalHeight = 40; // default height
 
@@ -295,14 +294,9 @@ public partial class TaskbarWidgetControl : UserControl
             BackgroundImage.Visibility = SettingsManager.Current.TaskbarWidgetBackgroundBlur ? Visibility.Visible : Visibility.Collapsed;
 
             // on top of XAML visibility binding (XAML binding only hides when disabled in settings)
-            if (SettingsManager.Current.TaskbarWidgetControlsEnabled)
-            {
-                ControlsStackPanel.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                ControlsStackPanel.Visibility = Visibility.Collapsed;
-            }
+            ControlsStackPanel.Visibility = SettingsManager.Current.TaskbarWidgetControlsEnabled
+                ? Visibility.Visible
+                : Visibility.Collapsed;
 
             Visibility = Visibility.Visible;
         });
