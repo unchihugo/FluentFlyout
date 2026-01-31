@@ -167,4 +167,6 @@ Nota: Como um projeto de código aberto, esses recursos também estão disponív
     <system:String x:Key="UpdateAvailable">Atualização disponível</system:String>
     <system:String x:Key="UpToDate">Atualizado</system:String>
     <system:String x:Key="LastChecked">Última verificação: {0}</system:String>
+    <system:String x:Key="MediaFlyoutExcludeVolumeTitle">Excluir Teclas de Volume</system:String>
+    <system:String x:Key="MediaFlyoutExcludeVolumeDescription">Não exibir o menu suspenso ao pressionar aumentar/diminuir/mutar o volume</system:String>
 </ResourceDictionary>
