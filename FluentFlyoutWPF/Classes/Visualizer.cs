@@ -12,9 +12,9 @@ namespace FluentFlyoutWPF.Classes
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
         public static int BarCount = 10;
-        private int ImageWidth = 76*3;
-        private int ImageHeight = 32*3;
-        private int BarSpacing = 2*3;
+        private readonly int ImageWidth = 76*3;
+        private readonly int ImageHeight = 32*3;
+        private readonly int BarSpacing = 2*3;
 
         private WasapiLoopbackCapture? _capture;
         private static float[]? _barValues;
@@ -24,9 +24,9 @@ namespace FluentFlyoutWPF.Classes
 
         private readonly int _fftLength = 4096;
         private int _fftPos = 0;
-        private Complex[] _fftBuffer;
+        private readonly Complex[] _fftBuffer;
 
-        private int _targetFps = 30;
+        private readonly int _targetFps = 30;
         private DateTime _lastUpdateTime = DateTime.MinValue;
 
         public WriteableBitmap? Bitmap
@@ -280,7 +280,7 @@ namespace FluentFlyoutWPF.Classes
 
                                         // Calculate relative position within the bar
                                         int relativeY = y - barY;
-                                        int actualBarHeight = barEndY - barY;
+
 
                                         // Check corners
                                         bool inTopLeftCorner = (relativeY < cornerRadius) && (x - barX < cornerRadius);

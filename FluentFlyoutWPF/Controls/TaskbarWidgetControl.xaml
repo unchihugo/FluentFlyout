@@ -65,9 +65,6 @@
                             <ui:Button Name="NextButton" Appearance="Transparent" Icon="{ui:SymbolIcon Next20, Filled=True}" Height="32" Width="32" Padding="0" BorderThickness="0" Margin="0,0,0,-1" Click="Next_Click"/>
                         </StackPanel>
 
-                        <StackPanel Name="VisualizerStackPanel" Margin="8,0,0,0" >
-                            <Image x:Name="VisualizerContainer" Width="100" Height="40" />
-                        </StackPanel>
                     </StackPanel>
                 </Grid>
             </Border>
