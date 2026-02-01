@@ -90,7 +90,7 @@ hoặc chia sẻ trải nghiệm của bạn trên Microsoft Store.</system:Stri
 Bạn có thể hỗ trợ dịch tại</system:String>
     <system:String x:Key="AppLanguageDescriptionLink">Weblate</system:String>
     <system:String x:Key="MediaFlyoutAlwaysDisplay">Luôn luôn hiển thị</system:String>
-    <system:String x:Key="TaskbarWidgetCustomizationTitle">Thông tin trên thanh tác vụ</system:String>
+    <system:String x:Key="TaskbarWidgetCustomizationTitle">Thẻ thông tin thanh tác vụ</system:String>
     <system:String x:Key="TaskbarWidgetEnabledTitle">Bật giao diện</system:String>
     <system:String x:Key="TaskbarWidgetEnabledDescription">Cho phép hiển thị giao diện</system:String>
     <system:String x:Key="TaskbarWidgetVisualIssuesWarning">Nếu chưa hài lòng với vị trí giao diện, bạn nên thay đổi các lựa chọn sau.</system:String>
