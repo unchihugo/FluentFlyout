@@ -70,61 +70,67 @@ public partial class AboutViewModel : ObservableObject
     public ObservableCollection<LicenseInfo> Licenses { get; } =
     [
         new LicenseInfo
-            {
-                Name = "Dubya.WindowsMediaController",
-                Version = "2.5.5",
-                License = "MIT",
-                Url = "https://github.com/DubyaDude/WindowsMediaController"
-            },
-            new LicenseInfo
-            {
-                Name = "MicaWPF",
-                Version = "6.3.2",
-                License = "MIT",
-                Url = "https://github.com/Simnico99/MicaWPF"
-            },
-            new LicenseInfo
-            {
-                Name = "Microsoft.Toolkit.Uwp.Notifications",
-                Version = "7.1.3",
-                License = "MIT",
-                Url = "https://github.com/CommunityToolkit/WindowsCommunityToolkit"
-            },
-            new LicenseInfo
-            {
-                Name = "NLog",
-                Version = "6.0.6",
-                License = "BSD-3-Clause",
-                Url = "https://nlog-project.org/"
-            },
-            new LicenseInfo
-            {
-                Name = "System.Drawing.Common",
-                Version = "10.0.0",
-                License = "MIT",
-                Url = "https://dot.net/"
-            },
-            new LicenseInfo
-            {
-                Name = "WPF-UI",
-                Version = "4.2.0",
-                License = "MIT",
-                Url = "https://github.com/lepoco/wpfui"
-            },
-            new LicenseInfo
-            {
-                Name = "WPF-UI.Tray",
-                Version = "4.2.0",
-                License = "MIT",
-                Url = "https://github.com/lepoco/wpfui"
-            },
-            new LicenseInfo
-            {
-                Name = "CommunityToolkit.Mvvm",
-                Version = "8.4.0-preview3",
-                License = "MIT",
-                Url = "https://github.com/CommunityToolkit/dotnet"
-            }
+        {
+            Name = "CommunityToolkit.Mvvm",
+            Version = "8.4.0-preview3",
+            License = "MIT",
+            Url = "https://github.com/CommunityToolkit/dotnet"
+        },
+        new LicenseInfo
+        {
+            Name = "Dubya.WindowsMediaController",
+            Version = "2.5.5",
+            License = "MIT",
+            Url = "https://github.com/DubyaDude/WindowsMediaController"
+        },
+        new LicenseInfo
+        {
+            Name = "MicaWPF",
+            Version = "6.3.2",
+            License = "MIT",
+            Url = "https://github.com/Simnico99/MicaWPF"
+        },
+        new LicenseInfo
+        {
+            Name = "Microsoft.Toolkit.Uwp.Notifications",
+            Version = "7.1.3",
+            License = "MIT",
+            Url = "https://github.com/CommunityToolkit/WindowsCommunityToolkit"
+        },
+        new LicenseInfo{
+            Name = "NAudio",
+            Version = "2.2.1",
+            License = "MIT",
+            Url = "https://github.com/naudio/NAudio"
+        },
+        new LicenseInfo
+        {
+            Name = "NLog",
+            Version = "6.0.6",
+            License = "BSD-3-Clause",
+            Url = "https://nlog-project.org/"
+        },
+        new LicenseInfo
+        {
+            Name = "System.Drawing.Common",
+            Version = "10.0.0",
+            License = "MIT",
+            Url = "https://dot.net/"
+        },
+        new LicenseInfo
+        {
+            Name = "WPF-UI",
+            Version = "4.2.0",
+            License = "MIT",
+            Url = "https://github.com/lepoco/wpfui"
+        },
+        new LicenseInfo
+        {
+            Name = "WPF-UI.Tray",
+            Version = "4.2.0",
+            License = "MIT",
+            Url = "https://github.com/lepoco/wpfui"
+        },
     ];
 
     [RelayCommand]

@@ -1,0 +1,23 @@
+<UserControl x:Class="FluentFlyout.Controls.TaskbarVisualizerControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+             xmlns:viewModels="clr-namespace:FluentFlyoutWPF.ViewModels"
+             xmlns:utils="clr-namespace:FluentFlyoutWPF.Classes.Utils"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance viewModels:UserSettings}"
+             Height="32" Width="76"
+             TextOptions.TextRenderingMode="ClearType" TextOptions.TextFormattingMode="Ideal"
+             FontFamily="Segoe UI Variable, Microsoft YaHei, Microsoft JhengHei, MS Gothic"
+             FlowDirection="{Binding FlowDirection}" HorizontalAlignment="Center" VerticalAlignment="Center">
+
+    <UserControl.Resources>
+        <utils:BoolToVisibleCollapsedConverter x:Key="BoolToCollapsedVisibleConverter"/>
+    </UserControl.Resources>
+
+    <Grid Visibility="{Binding TaskbarVisualizerEnabled, Converter={StaticResource BoolToCollapsedVisibleConverter}}">
+        <Image x:Name="VisualizerContainer"/>
+    </Grid>
+</UserControl>

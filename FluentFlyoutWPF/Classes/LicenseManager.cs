@@ -18,7 +18,6 @@ public class LicenseManager
     
     private StoreContext? _storeContext;
     private StoreAppLicense? _appLicense;
-    private StoreProductResult? _productResult;
     
     private const string PremiumAddOnId = "9N3XXQFPGFW5";
     

@@ -1,10 +1,13 @@
-﻿using System.Collections.ObjectModel;
-using System.Windows;
-using System.Xml.Serialization;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using FluentFlyout.Classes;
 using FluentFlyout.Classes.Settings;
+using FluentFlyout.Controls;
+using FluentFlyoutWPF.Classes;
 using FluentFlyoutWPF.Models;
+using System.Collections.ObjectModel;
+using System.Windows;
+using System.Windows.Media.Imaging;
+using System.Xml.Serialization;
 
 namespace FluentFlyoutWPF.ViewModels;
 
@@ -398,6 +401,43 @@ public partial class UserSettings : ObservableObject
     public partial bool TaskbarWidgetAnimated { get; set; }
 
     /// <summary>
+    /// Gets or sets a value indicating whether the taskbar visualizer is enabled.
+    /// </summary>
+    /// <remarks>For now, this requires Premium and Taskbar Widget to be enabled.</remarks>
+    [ObservableProperty]
+    public partial bool TaskbarVisualizerEnabled { get; set; }
+
+    /// <summary>
+    /// Position of the visualizer, where 0 and 1 are to the left or right of the widget.
+    /// </summary>
+    [ObservableProperty]
+    public partial int TaskbarVisualizerPosition { get; set; }
+
+    /// <summary>
+    /// The number of visualizer bars to display.
+    /// </summary>
+    [ObservableProperty]
+    public partial int TaskbarVisualizerBarCount { get; set; }
+
+    /// <summary>
+    /// Whether the visualizer should be symmetrical/mirrored.
+    /// </summary>
+    [ObservableProperty]
+    public partial bool TaskbarVisualizerCenteredBars { get; set; }
+
+    /// <summary>
+    /// Gets or sets whether a bar baseline is shown.
+    /// </summary>
+    [ObservableProperty]
+    public partial bool TaskbarVisualizerBaseline { get; set; }
+
+    /// <summary>
+    /// Gets or sets the audio sensitivity for the taskbar visualizer from 1 to 3, where 2 is the default.
+    /// </summary>
+    [ObservableProperty]
+    public partial int TaskbarVisualizerAudioSensitivity { get; set; }
+
+    /// <summary>
     /// Gets whether premium features are unlocked (runtime only, not persisted)
     /// </summary>
     [XmlIgnore]
@@ -477,6 +517,12 @@ public partial class UserSettings : ObservableObject
         TaskbarWidgetHideCompletely = false;
         TaskbarWidgetControlsEnabled = false;
         TaskbarWidgetAnimated = true;
+        TaskbarVisualizerEnabled = false;
+        TaskbarVisualizerPosition = 0;
+        TaskbarVisualizerBarCount = 10;
+        TaskbarVisualizerCenteredBars = false;
+        TaskbarVisualizerBaseline = false;
+        TaskbarVisualizerAudioSensitivity = 2;
         AcrylicBlurOpacity = 175;
         LastUpdateNotificationUnixSeconds = 0;
     }
@@ -575,9 +621,28 @@ public partial class UserSettings : ObservableObject
         UpdateTaskbar();
     }
 
+    partial void OnTaskbarVisualizerPositionChanged(int oldValue, int newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+        UpdateTaskbar();
+    }
+
     private void UpdateTaskbar()
     {
         MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
         mainWindow.UpdateTaskbar();
+    }
+
+    partial void OnTaskbarVisualizerEnabledChanged(bool oldValue, bool newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+        TaskbarVisualizerControl.OnTaskbarVisualizerEnabledChanged(newValue);
+        UpdateTaskbar();
+    }
+
+    partial void OnTaskbarVisualizerBarCountChanged(int oldValue, int newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+        Visualizer.ResizeBarList(newValue);
     }
 }
