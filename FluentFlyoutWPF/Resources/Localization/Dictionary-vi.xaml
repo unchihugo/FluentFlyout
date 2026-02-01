@@ -1,7 +1,7 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib">
     <system:String x:Key="TitleText">Cấu hình FluentFlyout</system:String>
     <system:String x:Key="MediaFlyoutTitle">Điều khiển phát lại</system:String>
-    <system:String x:Key="MediaFlyoutDescription">Giao diện này hiện lên mỗi khi nhấn phím phát, ngừng phát, tăng, giảm, tắt tiếng, v.v. cho phép bạn theo dõi nội dung đang phát và điều khiển phát lại.</system:String>
+    <system:String x:Key="MediaFlyoutDescription">Giao diện này hiện lên mỗi khi nhấn phím phát, ngừng phát, tăng, giảm, tắt tiếng, v.v. cho phép bạn theo dõi và điều khiển nội dung đang phát.</system:String>
     <system:String x:Key="TextBlockText1">Bật giao diện</system:String>
     <system:String x:Key="TextBlockText3">Cho phép hiển thị giao diện</system:String>
     <system:String x:Key="CompactLayoutTitle">Giao diện nhỏ gọn</system:String>
@@ -21,21 +21,21 @@
     <system:String x:Key="ShowMediaPlayerNameTitle">Tên ứng dụng đang phát</system:String>
     <system:String x:Key="RepeatButtonTitle">Nút lặp lại*</system:String>
     <system:String x:Key="RepeatButtonDescription">Lặp lại nội dung một lần hoặc liên tục</system:String>
-    <system:String x:Key="ShuffleButtonTitle">Nút trộn bài*</system:String>
-    <system:String x:Key="ShuffleButtonDescription">Ngẫu nhiên chọn nội dung</system:String>
+    <system:String x:Key="ShuffleButtonTitle">Nút xáo trộn*</system:String>
+    <system:String x:Key="ShuffleButtonDescription">Xáo trộn danh sách phát</system:String>
     <system:String x:Key="ShowSeekbarTitle">Thanh phát lại*</system:String>
     <system:String x:Key="ShowSeekbarDescription">Tua đi tua lại nội dung</system:String>
     <system:String x:Key="UnsupportedControlsWarning">*Một số ứng dụng không hỗ trợ chức năng lặp lại, trộn bài hoặc hiện thanh phát lại.</system:String>
     <system:String x:Key="PauseOtherMediaTitle">Tự động tạm dừng các nội dung khác</system:String>
     <system:String x:Key="PauseOtherMediaDescription">Tự động tạm dừng các nội dung khác ngoài nội dung đang phát</system:String>
     <system:String x:Key="NextUpCustomizationTitle">Thông báo nội dung tiếp theo</system:String>
-    <system:String x:Key="NextUpDescription" xml:space="preserve">Giao diện này chỉ hiển thị khi đang tự động phát, cho phép bạn theo dõi nội dung tiếp theo.</system:String>
+    <system:String x:Key="NextUpDescription" xml:space="preserve">Giao diện này cho phép bạn theo dõi nội dung tiếp theo, và chỉ hiện lên khi đang phát tự động.</system:String>
     <system:String x:Key="EnableNextUpTitle">Bật giao diện (beta)</system:String>
     <system:String x:Key="EnableNextUpDescription">Cho phép hiển thị giao diện</system:String>
     <system:String x:Key="NextUpStayDurationTitle">Thời gian hiển thị</system:String>
     <system:String x:Key="NextUpStayDurationDescription">(mặc định: 2000 ms)</system:String>
     <system:String x:Key="LockKeysCustomizationTitle">Thông báo trạng thái phím lock</system:String>
-    <system:String x:Key="LockKeysDescription" xml:space="preserve">Giao diện này cho biết trạng thái bật, tắt mỗi khi bạn nhấn phím Caps Lock, Num Lock và Scroll Lock. Ngoài ra còn có thể thiết lập cho phím Insert.</system:String>
+    <system:String x:Key="LockKeysDescription" xml:space="preserve">Giao diện này cho biết trạng thái bật, tắt mỗi khi bạn nhấn phím Caps Lock, Num Lock và Scroll Lock. Ngoài ra còn có thể thiết lập thêm cho phím Insert.</system:String>
     <system:String x:Key="EnableLockKeysTitle">Bật giao diện</system:String>
     <system:String x:Key="EnableLockKeysDescription">Cho phép hiển thị giao diện</system:String>
     <system:String x:Key="LockKeysStayDurationTitle">Thời gian hiển thị</system:String>
@@ -98,7 +98,7 @@ Bạn có thể hỗ trợ dịch tại</system:String>
     <system:String x:Key="TaskbarWidgetPaddingTitle">Tách khỏi nút Widgets</system:String>
     <system:String x:Key="TaskbarWidgetPaddingDescription">Không hiển thị đè lên nút Widgets của Windows</system:String>
     <system:String x:Key="SelectedMonitorTitle">Màn hình hiển thị</system:String>
-    <system:String x:Key="TaskbarWidgetDescription">Giao diện này cho biết nội dung đang phát, có thể gắn thêm các nút điều khiển phát lại, và chỉnh thành nút mở giao diện hỗ trợ phát lại.</system:String>
+    <system:String x:Key="TaskbarWidgetDescription">Giao diện này cho biết nội dung đang phát, có thể gắn thêm các nút điều khiển, và chỉnh thành nút mở giao diện điều khiển phát lại.</system:String>
     <system:String x:Key="TaskbarWidgetSelectedMonitorTitle">Màn hình hiển thị</system:String>
     <system:String x:Key="TaskbarWidgetManualPaddingTitle">Độ rộng khoảng trống</system:String>
     <system:String x:Key="TaskbarWidgetManualPaddingDescription">Thay đổi độ rộng cho khoảng trống (mặc định: 0px)</system:String>
