@@ -168,4 +168,5 @@
     <system:String x:Key="UpdateAvailableNotificationTitle">更新可用！</system:String>
     <system:String x:Key="UpdateAvailableNotificationButton">下载更新</system:String>
     <system:String x:Key="MediaFlyoutExcludeVolumeTitle">排除音量键</system:String>
+    <system:String x:Key="MediaFlyoutExcludeVolumeDescription">当按下音量加/音量减/静音时不显示浮窗</system:String>
 </ResourceDictionary>
