@@ -621,6 +621,12 @@ public partial class UserSettings : ObservableObject
         UpdateTaskbar();
     }
 
+    partial void OnTaskbarVisualizerPositionChanged(int oldValue, int newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+        UpdateTaskbar();
+    }
+
     private void UpdateTaskbar()
     {
         MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
@@ -631,6 +637,7 @@ public partial class UserSettings : ObservableObject
     {
         if (oldValue == newValue || _initializing) return;
         TaskbarVisualizerControl.OnTaskbarVisualizerEnabledChanged(newValue);
+        UpdateTaskbar();
     }
 
     partial void OnTaskbarVisualizerBarCountChanged(int oldValue, int newValue)

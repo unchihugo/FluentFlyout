@@ -79,6 +79,8 @@ hides repeat, shuffle and player info</System:String>
     <System:String x:Key="TaskbarVisualizerCenteredBarsDescription">Bars that expand symmetrically from the center instead of rising from the bottom</System:String>
     <System:String x:Key="TaskbarVisualizerBaselineTitle">Show Baseline</System:String>
     <System:String x:Key="TaskbarVisualizerBaselineDescription">Displays a thin line when audio levels are at zero</System:String>
+    <System:String x:Key="TaskbarVisualizerAudioSensitivityTitle">Audio Sensitivity</System:String>
+    <System:String x:Key="TaskbarVisualizerAudioSensitivityDescription">How strongly the bars respond to audio loudness</System:String>
     <System:String x:Key="PremiumFeatureTitle">Premium Feature</System:String>
     <System:String x:Key="PremiumFeatureDescription" xml:space="preserve">Your one-time contribution helps me keep FluentFlyout alive and updated. It instantly unlocks all premium customization features, forever.
         
