@@ -23,7 +23,7 @@
     <system:String x:Key="EasingSine" xml:space="preserve"> Синусоидальное</system:String>
     <system:String x:Key="TitleText">Настройки FluentFlyout</system:String>
     <system:String x:Key="MediaFlyoutTitle">Mediа Flyout</system:String>
-    <system:String x:Key="MediaFlyoutDescription">Основное окно. При прослушивании медиа нажмите любую медиаклавишу или кнопку регулировки громкости (воспроизведение/пауза, увеличение/уменьшение громкости и т. д.) на вашей клавиатуре, чтобы отобразить плеер. Отображает информацию об играющем медиа, а также элементы управления воспроизведением и многое другое.</system:String>
+    <system:String x:Key="MediaFlyoutDescription">При прослушивании медиа нажмите любую медиаклавишу или кнопку регулировки громкости (воспроизведение/пауза, увеличение/уменьшение громкости и т. д.) на вашей клавиатуре, чтобы отобразить плеер. Отображает информацию об играющем медиа, а также элементы управления воспроизведением и многое другое.</system:String>
     <system:String x:Key="TextBlockText1">Включить всплывающий плеер</system:String>
     <system:String x:Key="TextBlockText3">Отображает плеер, при нажатии на медиаклавиши</system:String>
     <system:String x:Key="TextBlockText2">Выберите пресет стиля размытия фона</system:String>
