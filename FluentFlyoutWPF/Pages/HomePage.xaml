@@ -25,7 +25,7 @@
             <TextBlock x:Name="VersionTextBlock" FontSize="14" FontWeight="Regular" VerticalAlignment="Bottom" Margin="10" Opacity="0.5" />
         </StackPanel>
 
-        <TextBlock Text="{DynamicResource HomeTitle}" FontSize="24" FontWeight="SemiBold" FontFamily="Segoe UI Variable" Margin="0,36,0,12" />
+        <TextBlock Text="{DynamicResource HomeTitle}" FontSize="24" FontWeight="SemiBold" Margin="0,36,0,12" />
         <StackPanel Orientation="Horizontal">
             <ui:Button x:Name="ViewUpdatesButton" Appearance="Transparent" Padding="0,0,16,0" BorderBrush="Transparent" Margin="0,0,16,16" Click="ViewUpdates_Click">
                 <StackPanel Orientation="Horizontal">
@@ -206,7 +206,31 @@
                 </StackPanel>
             </ui:CardAction>
 
-            <ui:CardAction Grid.Row="2" Grid.Column="0" Margin="4" Padding="12,20" IsChevronVisible="True" Click="System_Click">
+            <ui:CardAction Grid.Row="2" Grid.Column="0" Margin="4" Padding="12,20" IsChevronVisible="True" Click="TaskbarVisualizer_Click">
+                <ui:CardAction.Icon>
+                    <ui:SymbolIcon Symbol="SoundWaveCircle24" FontSize="30" Filled="False" />
+                </ui:CardAction.Icon>
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <ui:TextBlock FontWeight="Medium" Text="{DynamicResource TaskbarVisualizerTitle}" />
+                        <ui:InfoBadge Value=" PREMIUM " FontSize="8" FontWeight="Medium" Margin="6,-2,0,-2" Severity="Attention" />
+                    </StackPanel>
+                    <ui:TextBlock Appearance="Secondary" Text="{Binding TaskbarVisualizerEnabled, Converter={StaticResource BoolToEnabledDisabledConverter}}">
+                        <ui:TextBlock.Style>
+                            <Style TargetType="ui:TextBlock">
+                                <Setter Property="Opacity" Value="1" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding TaskbarVisualizerEnabled}" Value="False">
+                                        <Setter Property="Opacity" Value="0.5" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ui:TextBlock.Style>
+                    </ui:TextBlock>
+                </StackPanel>
+            </ui:CardAction>
+
+            <ui:CardAction Grid.Row="2" Grid.Column="1" Margin="4" Padding="12,20" IsChevronVisible="True" Click="System_Click">
                 <ui:CardAction.Icon>
                     <ui:SymbolIcon Symbol="Settings24" FontSize="30" Filled="False" />
                 </ui:CardAction.Icon>
@@ -246,7 +270,7 @@
             </ui:Button>
         </StackPanel>
 
-        <TextBlock Text="{DynamicResource AboutPremiumTitle}" FontSize="14" FontWeight="SemiBold" FontFamily="Segoe UI Variable" Margin="0,36,0,0" />
+        <TextBlock Text="{DynamicResource AboutPremiumTitle}" FontSize="14" FontWeight="SemiBold" Margin="0,36,0,0" />
         <Grid Margin="0,12,0,0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />

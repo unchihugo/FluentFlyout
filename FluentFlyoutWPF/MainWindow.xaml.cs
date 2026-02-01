@@ -23,6 +23,7 @@ using Windows.Media.Control;
 using Windows.Storage.Streams;
 using static WindowsMediaController.MediaManager;
 using FluentFlyoutWPF.ViewModels;
+using FluentFlyout.Controls;
 
 
 namespace FluentFlyoutWPF;
@@ -683,8 +684,10 @@ public partial class MainWindow : MicaWindow
         {
             int vkCode = Marshal.ReadInt32(lParam);
 
-            if (vkCode == 0xB3 || vkCode == 0xB0 || vkCode == 0xB1 || vkCode == 0xB2 // Play/Pause, next, previous, stop
-                || vkCode == 0xAD || vkCode == 0xAE || vkCode == 0xAF) // Mute, Volume Down, Volume Up
+            bool mediaKeysPressed = vkCode == 0xB3 || vkCode == 0xB0 || vkCode == 0xB1 || vkCode == 0xB2; // Play/Pause, next, previous, stop
+            bool volumeKeysPressed = vkCode == 0xAD || vkCode == 0xAE || vkCode == 0xAF; // Mute, Volume Down, Volume Up
+
+            if (mediaKeysPressed || (!SettingsManager.Current.MediaFlyoutVolumeKeysExcluded && volumeKeysPressed))
             {
                 long currentTime = Environment.TickCount64;
 
@@ -1225,6 +1228,8 @@ public partial class MainWindow : MicaWindow
             _positionTimer?.Dispose();
             cts?.Cancel();
             cts?.Dispose();
+
+            TaskbarVisualizerControl.DisposeVisualizer();
 
             // unhook keyboard hook
             if (_hookId != IntPtr.Zero)

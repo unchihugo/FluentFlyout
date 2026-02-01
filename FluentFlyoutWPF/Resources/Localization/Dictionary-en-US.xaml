@@ -4,9 +4,11 @@
     <System:String x:Key="Enabled">Enabled</System:String>
     <System:String x:Key="Disabled">Disabled</System:String>
     <System:String x:Key="MediaFlyoutTitle">Media Flyout</System:String>
-    <System:String x:Key="MediaFlyoutDescription">Main flyout. When listening to media, press any media or volume key (play/pause, volume up/down, etc.) on your keyboard to display the flyout. Displays media info, along with playback controls and more.</System:String>
+    <System:String x:Key="MediaFlyoutDescription">When listening to media, press any media or volume key (play/pause, volume up/down, etc.) on your keyboard to display the flyout. Displays media info, along with playback controls and more.</System:String>
     <System:String x:Key="TextBlockText1">Enable Media Flyout</System:String>
     <System:String x:Key="TextBlockText3">Display a flyout when you press a media key</System:String>
+    <System:String x:Key="MediaFlyoutExcludeVolumeTitle">Exclude Volume Keys</System:String>
+    <System:String x:Key="MediaFlyoutExcludeVolumeDescription">Do not display the flyout when pressing volume up/down/mute</System:String>
     <System:String x:Key="TextBlockText2">Choose from a preset of modern background blur styles</System:String>
     <System:String x:Key="BackgroundBlurOption1" xml:space="preserve"> None</System:String>
     <System:String x:Key="BackgroundBlurOption2" xml:space="preserve"> Style 1 (Cover Glow)</System:String>
@@ -66,6 +68,19 @@ hides repeat, shuffle and player info</System:String>
     <System:String x:Key="TaskbarWidgetControlsDescription">Show media control buttons on the widget</System:String>
     <System:String x:Key="TaskbarWidgetAnimatedTitle">Widget Animations</System:String>
     <System:String x:Key="TaskbarWidgetAnimatedDescription">Enable subtle animations for the widget</System:String>
+    <System:String x:Key="TaskbarVisualizerTitle">Taskbar Visualizer</System:String>
+    <System:String x:Key="TaskbarVisualizerDescription">A real-time audio visualizer on your taskbar. Designed to have minimal performance impact on modern systems.</System:String>
+    <System:String x:Key="TaskbarVisualizerEnabledTitle">Enable Taskbar Visualizer (Experimental)</System:String>
+    <System:String x:Key="TaskbarVisualizerEnabledDescription">Experimental: This feature will only work if the Taskbar Widget is enabled</System:String>
+    <System:String x:Key="TaskbarVisualizerPositionTitle">Visualizer Position Relative to Taskbar Widget</System:String>
+    <System:String x:Key="TaskbarVisualizerBarCountTitle">Bar Count</System:String>
+    <System:String x:Key="TaskbarVisualizerBarCountDescription">The amount of visualizer bars</System:String>
+    <System:String x:Key="TaskbarVisualizerCenteredBarsTitle">Centered Bars</System:String>
+    <System:String x:Key="TaskbarVisualizerCenteredBarsDescription">Bars that expand symmetrically from the center instead of rising from the bottom</System:String>
+    <System:String x:Key="TaskbarVisualizerBaselineTitle">Show Baseline</System:String>
+    <System:String x:Key="TaskbarVisualizerBaselineDescription">Displays a thin line when audio levels are at zero</System:String>
+    <System:String x:Key="TaskbarVisualizerAudioSensitivityTitle">Audio Sensitivity</System:String>
+    <System:String x:Key="TaskbarVisualizerAudioSensitivityDescription">How strongly the bars respond to audio loudness</System:String>
     <System:String x:Key="PremiumFeatureTitle">Premium Feature</System:String>
     <System:String x:Key="PremiumFeatureDescription" xml:space="preserve">Your one-time contribution helps me keep FluentFlyout alive and updated. It instantly unlocks all premium customization features, forever.
         

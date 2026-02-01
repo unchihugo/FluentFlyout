@@ -145,6 +145,11 @@ public partial class HomePage : Page
         NavigateToPage(typeof(LockKeysPage));
     }
 
+    private void TaskbarVisualizer_Click(object sender, System.Windows.RoutedEventArgs e)
+    {
+        NavigateToPage(typeof(TaskbarVisualizerPage));
+    }
+
     private void System_Click(object sender, System.Windows.RoutedEventArgs e)
     {
         NavigateToPage(typeof(SystemPage));
