@@ -167,4 +167,6 @@ Możesz pomóc w tworzeniu tłumaczeń na stronie</system:String>
     <system:String x:Key="UpdateAvailableNotificationTitle">Aktualizacja dostępna!</system:String>
     <system:String x:Key="UpdateAvailableNotificationMessage">Nowa wersja ({0}) jest dostępna.</system:String>
     <system:String x:Key="UpdateAvailableNotificationButton">Pobierz aktualizację</system:String>
+    <system:String x:Key="MediaFlyoutExcludeVolumeTitle">Wyklucz klawisze głośności</system:String>
+    <system:String x:Key="MediaFlyoutExcludeVolumeDescription">Nie wyświetlaj panelu gdy wciśnięty jest przycisk zwiększenie/zmniejszenia/wyciszenia głośności dźwięku</system:String>
 </ResourceDictionary>
