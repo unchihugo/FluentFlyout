@@ -112,7 +112,7 @@ Puedes ayudar a contribuir con las traducciones en</system:String>
     <system:String x:Key="TaskbarWidgetBackgroundBlurDescription">Añade un efecto de difuminado al fondo del widget de la barra de tareas</system:String>
     <system:String x:Key="TaskbarWidgetHideCompletelyTitle">Ocultar Completamente Cuando No Hay Multimedia Presente</system:String>
     <system:String x:Key="TaskbarWidgetHideCompletelyDescription">Oculta completamente el widget cuando no hay contenido multimedia disponible, en vez de mostrar un icono</system:String>
-    <system:String x:Key="PremiumFeatureTitle">Opción Premium</system:String>
+    <system:String x:Key="PremiumFeatureTitle">Funcionalidades Premium</system:String>
     <system:String x:Key="PremiumFeatureDescription" xml:space="preserve">Tu contribución única me ayuda a mantener FluentFlyout vivo y actualizado. Desbloquea instantáneamente toda las opciones de personalización premiun, para siempre.
 
 Nota: Como proyecto de código abierto, estas opciones también están disponibles gratis mediante el instalador manual de GitHub. El único inconveniente es que las actualizaciones y la instalación debe hacerse de forma manual.</system:String>
@@ -181,4 +181,5 @@ Nota: Como proyecto de código abierto, estas opciones también están disponibl
     <system:String x:Key="TaskbarVisualizerCenteredBarsDescription">Barras que se expanden simétricamente desde el centro en vez de subir desde abajo</system:String>
     <system:String x:Key="TaskbarVisualizerBaselineDescription">Muestra una fina linea cuando los niveles de audio están a cero</system:String>
     <system:String x:Key="TaskbarVisualizerAudioSensitivityTitle">Sensibilidad del Audio</system:String>
+    <system:String x:Key="TaskbarVisualizerBaselineTitle">Mostrar Línea de Base</system:String>
 </ResourceDictionary>
