@@ -78,7 +78,7 @@ hoặc chia sẻ trải nghiệm của bạn trên Microsoft Store.</system:Stri
     <system:String x:Key="GitHubRepoLink">Trang GitHub</system:String>
     <system:String x:Key="CloseButton">Đóng</system:String>
     <system:String x:Key="AcrylicWindowTitle">Nền acrylic</system:String>
-    <system:String x:Key="AcrylicWindowDescription">Khi tắt, giao diện sẽ có nền mờ như thiết kế Mica của Windows</system:String>
+    <system:String x:Key="AcrylicWindowDescription">Khi tắt, giao diện sẽ trở về nền mờ nhẹ, tuân theo thiết kế Mica của Windows</system:String>
     <system:String x:Key="BackgroundBlurTitle">In mờ ảnh bìa trên nền</system:String>
     <system:String x:Key="BackgroundBlurOption1" xml:space="preserve"> Không in mờ</system:String>
     <system:String x:Key="BackgroundBlurOption2" xml:space="preserve"> Kiểu 1 (Mờ bên trái)</system:String>
@@ -107,9 +107,9 @@ Bạn có thể hỗ trợ dịch tại</system:String>
     <system:String x:Key="TaskbarWidgetBackgroundBlurTitle">In mờ ảnh bìa trên nền</system:String>
     <system:String x:Key="TaskbarWidgetBackgroundBlurDescription">In mờ ảnh bìa của nội dung trên nền</system:String>
     <system:String x:Key="TaskbarWidgetHideCompletelyTitle">Ẩn khi không phát</system:String>
-    <system:String x:Key="TaskbarWidgetHideCompletelyDescription">Khi tắt, giao diện sẽ hiển thị biểu tượng mặc định</system:String>
+    <system:String x:Key="TaskbarWidgetHideCompletelyDescription">Không hiển thị biểu tượng mặc định khi không phát</system:String>
     <system:String x:Key="TaskbarWidgetControlsTitle">Thêm các nút điều khiển phát lại</system:String>
-    <system:String x:Key="TaskbarWidgetControlsDescription">Chỉ thêm vào giao diện này</system:String>
+    <system:String x:Key="TaskbarWidgetControlsDescription">Thêm các nút phát, chuyển sang nội dung mới và về nội dung cũ</system:String>
     <system:String x:Key="TaskbarWidgetAnimatedTitle">Hiệu ứng chuyển tiếp</system:String>
     <system:String x:Key="TaskbarWidgetAnimatedDescription">Xuất hiện hiệu ứng khi chuyển tiếp nội dung</system:String>
     <system:String x:Key="PremiumFeatureTitle">Tính năng premium</system:String>
@@ -168,4 +168,17 @@ Tuy vậy, bạn sẽ không phải mở khóa khi cài đặt từ GitHub hoặ
     <system:String x:Key="UpdateAvailableNotificationButton">Cập nhật</system:String>
     <system:String x:Key="MediaFlyoutExcludeVolumeTitle">Loại trừ các phím âm lượng</system:String>
     <system:String x:Key="MediaFlyoutExcludeVolumeDescription">Khi nhấn các phím tăng, giảm hoặc tắt tiếng, giao diện sẽ không hiển thị</system:String>
+    <system:String x:Key="TaskbarVisualizerTitle">Sóng âm trên thanh tác vụ</system:String>
+    <system:String x:Key="TaskbarVisualizerDescription">Sóng âm cập nhật liên tục trên thanh tác vụ. Ít ảnh hưởng đến hiệu năng máy tính bạn.</system:String>
+    <system:String x:Key="TaskbarVisualizerEnabledTitle">Bật giao diện (beta)</system:String>
+    <system:String x:Key="TaskbarVisualizerEnabledDescription">Hiện tại, giao diện chỉ hiển thị khi có bật phần thông tin trên thanh tác vụ</system:String>
+    <system:String x:Key="TaskbarVisualizerPositionTitle">Vị trí giao diện (so với phần thông tin)</system:String>
+    <system:String x:Key="TaskbarVisualizerBarCountTitle">Số thanh biểu thị</system:String>
+    <system:String x:Key="TaskbarVisualizerBarCountDescription">Số thanh biểu thị</system:String>
+    <system:String x:Key="TaskbarVisualizerCenteredBarsTitle">Tỏa ra từ trung đoạn</system:String>
+    <system:String x:Key="TaskbarVisualizerCenteredBarsDescription">Khi tắt, các thanh biểu diễn sóng âm sẽ tỏa ra từ đáy</system:String>
+    <system:String x:Key="TaskbarVisualizerBaselineTitle">Hiển thị cả khi ngắt tiếng, lắng tiếng</system:String>
+    <system:String x:Key="TaskbarVisualizerBaselineDescription">Hiển thị cả khi ngắt tiếng, lắng tiếng</system:String>
+    <system:String x:Key="TaskbarVisualizerAudioSensitivityTitle">Tỷ lệ biểu thị</system:String>
+    <system:String x:Key="TaskbarVisualizerAudioSensitivityDescription">Co giãn thanh biểu diễn sóng âm so với mức thông thường</system:String>
 </ResourceDictionary>
