@@ -29,7 +29,7 @@
     <system:String x:Key="PositionTopLeft" xml:space="preserve"> Superior esquerdo</system:String>
     <system:String x:Key="PositionTopCenter" xml:space="preserve"> Superior Central</system:String>
     <system:String x:Key="PositionTopRight" xml:space="preserve"> Superior Direito</system:String>
-    <system:String x:Key="MediaFlyoutDescription">Quando estiver a reproduzir mídia, pressione qualquer tecla de controle de mídia ou volume (como reproduzir/pausar, aumentar ou diminuir o volume) no teclado para exibir o flyout. O flyout mostra informações sobre a mídia em reprodução, além de oferecer controles de playback e outras opções.</system:String>
+    <system:String x:Key="MediaFlyoutDescription">Ao ouvir mídia, pressione qualquer tecla de mídia ou volume (reproduzir pausar, aumentar diminuir volume, etc.) no teclado para exibir o flyout. Exibe informações da mídia, junto com controles de reprodução e muito mais.</system:String>
     <system:String x:Key="TextBlockText2">Escolha entre um conjunto pré-definido de estilos modernos de desfoque de fundo</system:String>
     <system:String x:Key="BackgroundBlurOption2" xml:space="preserve"> Estilo 1 (Brilho de Capa)</system:String>
     <system:String x:Key="BackgroundBlurOption3" xml:space="preserve"> Estilo 2 (Brilho Ascendente)</system:String>
@@ -169,4 +169,17 @@ Nota: Como um projeto de código aberto, esses recursos também estão disponív
     <system:String x:Key="LastChecked">Última verificação: {0}</system:String>
     <system:String x:Key="MediaFlyoutExcludeVolumeTitle">Excluir Teclas de Volume</system:String>
     <system:String x:Key="MediaFlyoutExcludeVolumeDescription">Não exibir o menu suspenso ao pressionar aumentar/diminuir/mutar o volume</system:String>
+    <system:String x:Key="TaskbarVisualizerTitle">Visualizador da barra de tarefas</system:String>
+    <system:String x:Key="TaskbarVisualizerDescription">Um visualizador de áudio em tempo real na sua barra de tarefas. Projetado para ter impacto mínimo no desempenho em sistemas modernos.</system:String>
+    <system:String x:Key="TaskbarVisualizerEnabledTitle">Ativar visualizador da barra de tarefas (experimental)</system:String>
+    <system:String x:Key="TaskbarVisualizerEnabledDescription">Experimental: este recurso só funcionará se o widget da barra de tarefas estiver ativado</system:String>
+    <system:String x:Key="TaskbarVisualizerPositionTitle">Posição do visualizador em relação ao widget da barra de tarefas</system:String>
+    <system:String x:Key="TaskbarVisualizerBarCountTitle">Quantidade de barras</system:String>
+    <system:String x:Key="TaskbarVisualizerBarCountDescription">A quantidade de barras do visualizador</system:String>
+    <system:String x:Key="TaskbarVisualizerCenteredBarsTitle">Barras centralizadas</system:String>
+    <system:String x:Key="TaskbarVisualizerCenteredBarsDescription">Barras que se expandem de forma simétrica a partir do centro em vez de subir a partir da base</system:String>
+    <system:String x:Key="TaskbarVisualizerBaselineTitle">Mostrar linha de base</system:String>
+    <system:String x:Key="TaskbarVisualizerBaselineDescription">Exibe uma linha fina quando os níveis de áudio estão em zero</system:String>
+    <system:String x:Key="TaskbarVisualizerAudioSensitivityTitle">Sensibilidade de áudio</system:String>
+    <system:String x:Key="TaskbarVisualizerAudioSensitivityDescription">O quão fortemente as barras respondem à intensidade do áudio</system:String>
 </ResourceDictionary>
