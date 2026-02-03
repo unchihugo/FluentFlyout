@@ -103,7 +103,7 @@ Bạn có thể hỗ trợ dịch tại</system:String>
     <system:String x:Key="TaskbarWidgetManualPaddingTitle">Độ rộng khoảng trống</system:String>
     <system:String x:Key="TaskbarWidgetManualPaddingDescription">Thay đổi độ rộng cho khoảng trống (mặc định: 0px)</system:String>
     <system:String x:Key="TaskbarWidgetClickableTitle">Mở giao diện điều khiển phát lại khi nhấn vào</system:String>
-    <system:String x:Key="TaskbarWidgetClickableDescription">Giao diện chỉ mở lên khi được cho phép hiển thị</system:String>
+    <system:String x:Key="TaskbarWidgetClickableDescription">Giao diện trên chỉ mở lên khi được cho phép hiển thị</system:String>
     <system:String x:Key="TaskbarWidgetBackgroundBlurTitle">In mờ ảnh bìa trên nền</system:String>
     <system:String x:Key="TaskbarWidgetBackgroundBlurDescription">In mờ ảnh bìa của nội dung trên nền</system:String>
     <system:String x:Key="TaskbarWidgetHideCompletelyTitle">Ẩn khi không phát</system:String>
@@ -166,19 +166,19 @@ Tuy vậy, bạn sẽ không phải mở khóa khi cài đặt từ GitHub hoặ
     <system:String x:Key="UpdateAvailableNotificationTitle">Có cập nhật mới</system:String>
     <system:String x:Key="UpdateAvailableNotificationMessage">Bạn có thể cập nhật lên {0}.</system:String>
     <system:String x:Key="UpdateAvailableNotificationButton">Cập nhật</system:String>
-    <system:String x:Key="MediaFlyoutExcludeVolumeTitle">Loại trừ các phím âm lượng</system:String>
-    <system:String x:Key="MediaFlyoutExcludeVolumeDescription">Khi nhấn các phím tăng, giảm hoặc tắt tiếng, giao diện sẽ không hiển thị</system:String>
+    <system:String x:Key="MediaFlyoutExcludeVolumeTitle">Không bắt các phím tăng, giảm và tắt tiếng</system:String>
+    <system:String x:Key="MediaFlyoutExcludeVolumeDescription">Không mở giao diện trong các trường hợp trên</system:String>
     <system:String x:Key="TaskbarVisualizerTitle">Sóng âm trên thanh tác vụ</system:String>
     <system:String x:Key="TaskbarVisualizerDescription">Sóng âm cập nhật liên tục trên thanh tác vụ. Ít ảnh hưởng đến hiệu năng máy tính bạn.</system:String>
     <system:String x:Key="TaskbarVisualizerEnabledTitle">Bật giao diện (beta)</system:String>
     <system:String x:Key="TaskbarVisualizerEnabledDescription">Hiện tại, giao diện chỉ hiển thị khi có bật phần thông tin trên thanh tác vụ</system:String>
     <system:String x:Key="TaskbarVisualizerPositionTitle">Vị trí giao diện (so với phần thông tin)</system:String>
-    <system:String x:Key="TaskbarVisualizerBarCountTitle">Số thanh biểu thị</system:String>
-    <system:String x:Key="TaskbarVisualizerBarCountDescription">Số thanh biểu thị</system:String>
-    <system:String x:Key="TaskbarVisualizerCenteredBarsTitle">Tỏa ra từ trung đoạn</system:String>
-    <system:String x:Key="TaskbarVisualizerCenteredBarsDescription">Khi tắt, các thanh biểu diễn sóng âm sẽ tỏa ra từ đáy</system:String>
+    <system:String x:Key="TaskbarVisualizerBarCountTitle">Số cột biểu thị</system:String>
+    <system:String x:Key="TaskbarVisualizerBarCountDescription">Số cột biểu thị</system:String>
+    <system:String x:Key="TaskbarVisualizerCenteredBarsTitle">Tỏa ra từ giữa</system:String>
+    <system:String x:Key="TaskbarVisualizerCenteredBarsDescription">Khi tắt, các cột biểu diễn sóng âm sẽ tỏa ra từ đáy</system:String>
     <system:String x:Key="TaskbarVisualizerBaselineTitle">Hiển thị cả khi ngắt tiếng, lắng tiếng</system:String>
     <system:String x:Key="TaskbarVisualizerBaselineDescription">Hiển thị cả khi ngắt tiếng, lắng tiếng</system:String>
     <system:String x:Key="TaskbarVisualizerAudioSensitivityTitle">Tỷ lệ biểu thị</system:String>
-    <system:String x:Key="TaskbarVisualizerAudioSensitivityDescription">Co giãn thanh biểu diễn sóng âm so với mức thông thường</system:String>
+    <system:String x:Key="TaskbarVisualizerAudioSensitivityDescription">Co giãn cột biểu diễn sóng âm so với mức thông thường</system:String>
 </ResourceDictionary>
