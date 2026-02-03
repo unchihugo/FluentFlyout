@@ -81,10 +81,18 @@
                 </ui:InfoBar.Style>
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="{DynamicResource PremiumLockedMessage}" VerticalAlignment="Center" />
-                    <ui:Button Name="UnlockPremiumButton" Content="{DynamicResource UnlockPremiumButton}" 
-                           Click="UnlockPremiumButton_Click" 
-                           Appearance="Primary"
-                           Margin="12,2,0,2" FontSize="12"/>
+                    <ui:Button Name="UnlockPremiumButton"
+                            Click="UnlockPremiumButton_Click" 
+                            Appearance="Primary"
+                            Margin="12,2,0,2" FontSize="12">
+                        <ui:Button.Content>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{DynamicResource UnlockPremiumButton}" />
+                                <TextBlock Text=" - " />
+                                <TextBlock Text="{Binding PremiumPrice}" />
+                            </StackPanel>
+                        </ui:Button.Content>
+                    </ui:Button>
                 </StackPanel>
             </ui:InfoBar>
 
@@ -217,10 +225,7 @@
             <ui:CardControl Grid.Row="10" Icon="{ui:SymbolIcon VideoPlayPause24}" Margin="0,0,0,3">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{DynamicResource TaskbarWidgetControlsTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
-                            <ui:InfoBadge Value=" NEW " FontWeight="Medium" FontSize="10" Margin="6,-2,0,-2" Severity="Success" />
-                        </StackPanel>
+                        <TextBlock Text="{DynamicResource TaskbarWidgetControlsTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
                         <TextBlock Text="{DynamicResource TaskbarWidgetControlsDescription}" FontSize="12" Opacity="0.5" />
                     </StackPanel>
                 </ui:CardControl.Header>
@@ -229,10 +234,7 @@
             <ui:CardControl Grid.Row="11" Icon="{ui:SymbolIcon Wand24}" Margin="0,0,0,76">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{DynamicResource TaskbarWidgetAnimatedTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
-                            <ui:InfoBadge Value=" NEW " FontWeight="Medium" FontSize="10" Margin="6,-2,0,-2" Severity="Success" />
-                        </StackPanel>
+                        <TextBlock Text="{DynamicResource TaskbarWidgetAnimatedTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
                         <TextBlock Text="{DynamicResource TaskbarWidgetAnimatedDescription}" FontSize="12" Opacity="0.5" />
                     </StackPanel>
                 </ui:CardControl.Header>

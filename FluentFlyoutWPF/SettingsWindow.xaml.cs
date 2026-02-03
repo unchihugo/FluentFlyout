@@ -1,4 +1,5 @@
-﻿using FluentFlyout.Classes.Settings;
+﻿using FluentFlyout.Classes;
+using FluentFlyout.Classes.Settings;
 using FluentFlyoutWPF.Pages;
 using System.Windows;
 using System.Windows.Controls;
@@ -72,6 +73,8 @@ public partial class SettingsWindow : FluentWindow
         RootNavigation.IsPaneOpen = true;
         await Task.Delay(10);
         RootNavigation.IsPaneOpen = false;
+
+        LicenseManager.GetPremiumProductInfo();
 
         RootNavigation.Navigated += (s, args) =>
         {
