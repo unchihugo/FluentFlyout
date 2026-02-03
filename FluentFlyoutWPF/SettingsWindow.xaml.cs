@@ -38,8 +38,6 @@ public partial class SettingsWindow : FluentWindow
         DataContext = SettingsManager.Current;
 
         RootNavigation.SetCurrentValue(NavigationView.IsPaneOpenProperty, false);
-
-        LicenseManager.GetPremiumProductInfo();
     }
 
     public static void ShowInstance()
@@ -75,6 +73,8 @@ public partial class SettingsWindow : FluentWindow
         RootNavigation.IsPaneOpen = true;
         await Task.Delay(10);
         RootNavigation.IsPaneOpen = false;
+
+        LicenseManager.GetPremiumProductInfo();
 
         RootNavigation.Navigated += (s, args) =>
         {

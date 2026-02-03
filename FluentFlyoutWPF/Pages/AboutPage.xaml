@@ -24,14 +24,14 @@
 
         <ui:CardExpander Icon="{ui:SymbolIcon Code24}" ContentPadding="6" Margin="0,0,0,4">
             <ui:CardExpander.Header>
-                <TextBlock Text="Developers" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
+                <TextBlock Text="{DynamicResource DevelopersTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
             </ui:CardExpander.Header>
             <ui:TextBlock Text="{Binding AboutViewModel.DevelopersText}" FontSize="14" Margin="8" FontWeight="Regular" HorizontalAlignment="Left" Opacity="0.75" TextWrapping="WrapWithOverflow" />
         </ui:CardExpander>
 
         <ui:CardExpander Icon="{ui:SymbolIcon Translate24}" ContentPadding="6" Margin="0,0,0,8">
             <ui:CardExpander.Header>
-                <TextBlock Text="Translators" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
+                <TextBlock Text="{DynamicResource TranslatorsTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
             </ui:CardExpander.Header>
             <ui:TextBlock Text="{Binding AboutViewModel.TranslatorsText}" FontSize="14" Margin="8" FontWeight="Regular" HorizontalAlignment="Left" Opacity="0.75" TextWrapping="WrapWithOverflow" />
         </ui:CardExpander>
@@ -88,7 +88,7 @@
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="{DynamicResource UnlockPremiumButton}" />
                                 <TextBlock Text=" - " />
-                                <TextBlock Text="{Binding PremiumPrice}" />
+                                <TextBlock Text="{Binding UserSettings.PremiumPrice}" />
                             </StackPanel>
                         </ui:Button.Content>
                     </ui:Button>
@@ -101,8 +101,8 @@
             <TextBlock Grid.Row="2" FontSize="14" Margin="4,0,0,0" FontWeight="Regular" HorizontalAlignment="Left" Opacity="0.75" TextWrapping="WrapWithOverflow" Text="{DynamicResource PremiumFeatureDescription}" />
 
             <StackPanel Grid.Row="3" Orientation="Horizontal" Margin="0,12,0,0">
-                <ui:Anchor Content="Sponsor me" Icon="{ui:SymbolIcon Heart24}" NavigateUri="https://github.com/sponsors/unchihugo" Margin="0,0,4,0" />
-                <ui:Anchor Content="Buy me a coffee" Icon="{ui:SymbolIcon DrinkCoffee24}" NavigateUri="https://ko-fi.com/unchihugo" Margin="0,0,4,0" />
+                <ui:Anchor Content="{DynamicResource SponsorMeLink}" Icon="{ui:SymbolIcon Heart24}" NavigateUri="https://github.com/sponsors/unchihugo" Margin="0,0,4,0" />
+                <ui:Anchor Content="{DynamicResource BuyMeCoffeeLink}" Icon="{ui:SymbolIcon DrinkCoffee24}" NavigateUri="https://ko-fi.com/unchihugo" Margin="0,0,4,0" />
             </StackPanel>
         </Grid>
 

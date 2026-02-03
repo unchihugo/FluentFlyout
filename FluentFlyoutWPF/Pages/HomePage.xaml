@@ -284,7 +284,7 @@
                     <StackPanel>
                         <StackPanel Margin="0,0,0,12" Visibility="{Binding IsPremiumUnlocked, Converter={StaticResource BoolToCollapsedVisibleConverter}}">
                             <ui:TextBlock FontSize="14" Margin="0,0,0,8" TextWrapping="WrapWithOverflow"
-                                  Text="Unlock the full FluentFlyout experience:" />
+                                  Text="{DynamicResource UnlockFullExperienceText}" />
                             <ui:TextBlock FontSize="14" Margin="12,0,12,4" Opacity="0.75" TextWrapping="WrapWithOverflow"
                                   Text="{Binding Source={StaticResource TaskbarWidgetCustomizationTitle}, StringFormat='•  {0}'}" />
                             <ui:TextBlock FontSize="14" Margin="12,0,12,4" Opacity="0.75" TextWrapping="WrapWithOverflow"
@@ -292,7 +292,7 @@
                             <ui:TextBlock FontSize="14" Margin="12,0,12,4" Opacity="0.75" TextWrapping="WrapWithOverflow"
                                   Text="{Binding Source={StaticResource HideTrayIconTitle}, StringFormat='•  {0}'}" />
                             <ui:TextBlock FontSize="14" Margin="12,0,12,0" Opacity="0.75" TextWrapping="WrapWithOverflow"
-                                  Text="•  All future Premium features" />
+                                  Text="{Binding Source={StaticResource AllFuturePremiumFeatures}, StringFormat='•  {0}'}" />
                         </StackPanel>
 
                         <!-- Premium Status InfoBar (only shown for Store versions) -->
@@ -352,8 +352,8 @@
             </ui:CardControl>
 
             <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0,12,0,0">
-                <ui:Anchor Content="Sponsor me" Icon="{ui:SymbolIcon Heart24}" NavigateUri="https://github.com/sponsors/unchihugo" Margin="0,0,4,0" />
-                <ui:Anchor Content="Buy me a coffee" Icon="{ui:SymbolIcon DrinkCoffee24}" NavigateUri="https://ko-fi.com/unchihugo" Margin="0,0,4,0" />
+                <ui:Anchor Content="{DynamicResource SponsorMeLink}" Icon="{ui:SymbolIcon Heart24}" NavigateUri="https://github.com/sponsors/unchihugo" Margin="0,0,4,0" />
+                <ui:Anchor Content="{DynamicResource BuyMeCoffeeLink}" Icon="{ui:SymbolIcon DrinkCoffee24}" NavigateUri="https://ko-fi.com/unchihugo" Margin="0,0,4,0" />
             </StackPanel>
         </Grid>
 
