@@ -93,6 +93,9 @@ Note: As an open-source project, these features are also available for free via 
     <System:String x:Key="PremiumPurchaseFailed">Purchase failed. Please try again.</System:String>
     <System:String x:Key="PremiumPurchaseCancelled">Purchase cancelled.</System:String>
     <System:String x:Key="UnlockFullExperienceText">Unlock the full FluentFlyout experience:</System:String>
+    <System:String x:Key="TaskbarWidgetCustomizationPerk">Taskbar Widget</System:String>
+    <System:String x:Key="AcrylicBlurOpacityPerk">Acrylic Blur Opacity</System:String>
+    <System:String x:Key="HideTrayIconPerk">Hide Tray Icon</System:String>
     <System:String x:Key="AllFuturePremiumFeatures">All future Premium features</System:String>
     <System:String x:Key="NextUpCustomizationTitle">Next Up Flyout</System:String>
     <System:String x:Key="NextUpDescription" xml:space="preserve">A flyout shows what's next when a song/video ends. Only appears if the next item plays automatically, if next/previous is pressed manually, the main flyout appears instead.</System:String>
