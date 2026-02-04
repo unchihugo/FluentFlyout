@@ -182,4 +182,10 @@ Nota: Como um projeto de código aberto, esses recursos também estão disponív
     <system:String x:Key="TaskbarVisualizerBaselineDescription">Exibe uma linha fina quando os níveis de áudio estão em zero</system:String>
     <system:String x:Key="TaskbarVisualizerAudioSensitivityTitle">Sensibilidade de áudio</system:String>
     <system:String x:Key="TaskbarVisualizerAudioSensitivityDescription">O quão fortemente as barras respondem à intensidade do áudio</system:String>
+    <system:String x:Key="UnlockFullExperienceText">Desbloqueie a experiência completa do FluentFlyout:</system:String>
+    <system:String x:Key="AllFuturePremiumFeatures">Todos os futuros recursos Premium</system:String>
+    <system:String x:Key="DevelopersTitle">Desenvolvedores</system:String>
+    <system:String x:Key="TranslatorsTitle">Tradutores</system:String>
+    <system:String x:Key="SponsorMeLink">Patrocine-me</system:String>
+    <system:String x:Key="BuyMeCoffeeLink">Compre-me um café</system:String>
 </ResourceDictionary>
