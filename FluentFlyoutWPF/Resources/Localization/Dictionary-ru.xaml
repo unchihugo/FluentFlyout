@@ -128,7 +128,7 @@
     <system:String x:Key="PremiumPurchaseFailed">Ошибка при покупке. Попробуйте ещё раз.</system:String>
     <system:String x:Key="PremiumPurchaseCancelled">Покупка отменена.</system:String>
     <system:String x:Key="TrayIconSectionTitle">Иконка в трее</system:String>
-    <system:String x:Key="HideTrayIconTitle">Скрыть иконку в трее</system:String>
+    <system:String x:Key="HideTrayIconTitle">Скрыть иконку в трее полностью</system:String>
     <system:String x:Key="HideTrayIconDescription">Получите доступ к настройкам из трея при запуске программы</system:String>
     <system:String x:Key="AboutPremiumTitle">О премиум-функциях</system:String>
     <system:String x:Key="TaskbarWidgetControlsDescription">Отображает медиакнопки на виджете</system:String>
@@ -188,4 +188,7 @@
     <system:String x:Key="DevelopersTitle">Разработчики</system:String>
     <system:String x:Key="TranslatorsTitle">Переводчики</system:String>
     <system:String x:Key="SponsorMeLink">Поддержите меня</system:String>
+    <system:String x:Key="TaskbarWidgetCustomizationPerk">Виджет на панели задач</system:String>
+    <system:String x:Key="AcrylicBlurOpacityPerk">Непрозрачность акрилового размытия</system:String>
+    <system:String x:Key="HideTrayIconPerk">Скрыть иконку в трее</system:String>
 </ResourceDictionary>
