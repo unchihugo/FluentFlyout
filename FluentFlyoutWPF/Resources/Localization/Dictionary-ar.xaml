@@ -183,6 +183,9 @@
     <system:String x:Key="TaskbarVisualizerAudioSensitivityDescription">مدى استجابة الأعمدة لشدة الصوت</system:String>
     <system:String x:Key="UnlockFullExperienceText">احصل على تجربة FluentFlyout الكاملة:</system:String>
     <system:String x:Key="AllFuturePremiumFeatures">جميع المميزات الخاصة المستقبلية</system:String>
-    <system:String x:Key="TranslatorsTitle">المترجمون</system:String>
+    <system:String x:Key="TranslatorsTitle">المترجمين</system:String>
     <system:String x:Key="SponsorMeLink">إدعمني</system:String>
+    <system:String x:Key="TaskbarVisualizerBaselineTitle">إظهار خط الأساس</system:String>
+    <system:String x:Key="DevelopersTitle">المطوِّرون</system:String>
+    <system:String x:Key="BuyMeCoffeeLink">اشترِ لي قهوة</system:String>
 </ResourceDictionary>
