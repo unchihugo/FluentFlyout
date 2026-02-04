@@ -182,4 +182,7 @@
     <system:String x:Key="TaskbarVisualizerBaselineDescription">При нулевом уровне звука отображается тонкая линия</system:String>
     <system:String x:Key="TaskbarVisualizerAudioSensitivityTitle">Чувствительность звука</system:String>
     <system:String x:Key="TaskbarVisualizerAudioSensitivityDescription">Насколько сильно такты реагируют на громкость звука</system:String>
+    <system:String x:Key="UnlockFullExperienceText">Раскройте весь потенциал FluentFlyout:</system:String>
+    <system:String x:Key="AllFuturePremiumFeatures">Все будущие Премиум функции</system:String>
+    <system:String x:Key="BuyMeCoffeeLink">Купите мне кофе</system:String>
 </ResourceDictionary>
