@@ -1,9 +1,9 @@
-﻿using System.Windows;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using FluentFlyout.Classes.Settings;
+﻿using FluentFlyout.Classes.Settings;
 using NAudio.Dsp;
 using NAudio.Wave;
+using System.Windows;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace FluentFlyoutWPF.Classes
 {

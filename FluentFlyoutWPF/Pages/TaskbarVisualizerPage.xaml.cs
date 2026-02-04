@@ -1,6 +1,5 @@
 using FluentFlyout.Classes;
 using FluentFlyout.Classes.Settings;
-using FluentFlyoutWPF.Classes;
 using System.Windows;
 using System.Windows.Controls;
 

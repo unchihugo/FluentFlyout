@@ -4,7 +4,6 @@ using FluentFlyout.Classes.Utils;
 using FluentFlyoutWPF.Classes;
 using MicaWPF.Controls;
 using System.Windows;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace FluentFlyoutWPF.Windows;

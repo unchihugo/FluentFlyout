@@ -1,8 +1,10 @@
 ﻿using FluentFlyout.Classes;
 using FluentFlyout.Classes.Settings;
 using FluentFlyout.Classes.Utils;
+using FluentFlyout.Controls;
 using FluentFlyout.Windows;
 using FluentFlyoutWPF.Classes;
+using FluentFlyoutWPF.ViewModels;
 using FluentFlyoutWPF.Windows;
 using MicaWPF.Controls;
 using MicaWPF.Core.Extensions;
@@ -23,8 +25,6 @@ using Windows.ApplicationModel;
 using Windows.Media.Control;
 using Windows.Storage.Streams;
 using static WindowsMediaController.MediaManager;
-using FluentFlyoutWPF.ViewModels;
-using FluentFlyout.Controls;
 
 
 namespace FluentFlyoutWPF;

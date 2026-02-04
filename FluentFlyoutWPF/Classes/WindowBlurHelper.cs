@@ -1,7 +1,7 @@
+using FluentFlyout.Classes.Settings;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interop;
-using FluentFlyout.Classes.Settings;
 using Wpf.Ui.Appearance;
 
 namespace FluentFlyout.Classes;

@@ -1,9 +1,9 @@
-﻿using System.Windows;
-using System.Windows.Media.Imaging;
-using FluentFlyout.Classes.Settings;
+﻿using FluentFlyout.Classes.Settings;
 using MicaWPF.Core.Enums;
 using MicaWPF.Core.Helpers;
 using MicaWPF.Core.Services;
+using System.Windows;
+using System.Windows.Media.Imaging;
 using Wpf.Ui.Appearance;
 using Wpf.Ui.Tray.Controls;
 

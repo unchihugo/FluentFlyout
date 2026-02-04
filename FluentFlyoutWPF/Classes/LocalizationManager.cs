@@ -1,9 +1,7 @@
 ﻿using FluentFlyout.Classes.Settings;
 using FluentFlyout.Classes.Utils;
 using FluentFlyoutWPF;
-using System.ComponentModel;
 using System.Globalization;
-using System.Runtime.CompilerServices;
 using System.Windows;
 
 namespace FluentFlyout.Classes;

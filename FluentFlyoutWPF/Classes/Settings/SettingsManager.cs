@@ -1,7 +1,6 @@
-﻿using System.Diagnostics;
+﻿using FluentFlyoutWPF.ViewModels;
 using System.IO;
 using System.Xml.Serialization;
-using FluentFlyoutWPF.ViewModels;
 
 namespace FluentFlyout.Classes.Settings;
 

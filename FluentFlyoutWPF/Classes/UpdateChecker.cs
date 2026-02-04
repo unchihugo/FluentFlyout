@@ -1,6 +1,6 @@
+using NLog;
 using System.Net.Http;
 using System.Text.Json;
-using NLog;
 
 namespace FluentFlyout.Classes;
 

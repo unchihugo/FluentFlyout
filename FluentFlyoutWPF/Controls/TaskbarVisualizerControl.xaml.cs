@@ -1,15 +1,6 @@
 using FluentFlyout.Classes.Settings;
-using FluentFlyout.Classes.Utils;
 using FluentFlyoutWPF.Classes;
-using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Media.Imaging;
-using Windows.Media.Control;
-using Wpf.Ui.Appearance;
-using Wpf.Ui.Controls;
 
 namespace FluentFlyout.Controls;
 

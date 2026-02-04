@@ -6,7 +6,6 @@ using FluentFlyoutWPF.Classes;
 using FluentFlyoutWPF.Models;
 using System.Collections.ObjectModel;
 using System.Windows;
-using System.Windows.Media.Imaging;
 using System.Xml.Serialization;
 
 namespace FluentFlyoutWPF.ViewModels;
