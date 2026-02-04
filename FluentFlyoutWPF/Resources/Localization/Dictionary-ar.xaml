@@ -1,7 +1,7 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib">
     <system:String x:Key="TitleText">إعدادات FluentFlyout</system:String>
     <system:String x:Key="MediaFlyoutTitle">القائمة المنبثقة</system:String>
-    <system:String x:Key="MediaFlyoutDescription">النافذة الرئيسية. عند الاستماع إلى الوسائط، اضغط على أي مفتاح وسائط أو مفتاح مستوى الصوت (تشغيل/إيقاف مؤقت، رفع/خفض الصوت، إلخ) على لوحة المفاتيح لعرض النافذة. تعرض معلومات الوسائط، بالإضافة إلى عناصر تحكم التشغيل، والمزيد.</system:String>
+    <system:String x:Key="MediaFlyoutDescription">عند الاستماع إلى الوسائط، اضغط على أي مفتاح وسائط أو مفتاح مستوى الصوت (تشغيل/إيقاف مؤقت، رفع/خفض الصوت، إلخ) على لوحة المفاتيح لعرض النافذة. تعرض معلومات الوسائط، بالإضافة إلى عناصر تحكم التشغيل والمزيد.</system:String>
     <system:String x:Key="TextBlockText1">تفعيل الوسائط المنبثقة</system:String>
     <system:String x:Key="TextBlockText3">عرض نافذة منبثقة عند الضغط على مفتاح الوسائط</system:String>
     <system:String x:Key="TextBlockText2">اختر من بين مجموعة مسبقة من أشكال الخلفية الحديثة</system:String>
@@ -169,4 +169,20 @@
     <system:String x:Key="UpdateAvailableNotificationButton">تنزيل التحديث</system:String>
     <system:String x:Key="MediaFlyoutExcludeVolumeTitle">إستثناء مفاتيح الصوت</system:String>
     <system:String x:Key="MediaFlyoutExcludeVolumeDescription">لا تعرض اداة التحكم عند الضغط على أزرار رفع/ خفض/ كتم الصوت</system:String>
+    <system:String x:Key="TaskbarVisualizerTitle">مرئيات تفاعلية في شريط المهام</system:String>
+    <system:String x:Key="TaskbarVisualizerDescription">مرئيات تفاعلية تعمل في الوقت الفعلي على شريط المهام. مصممة لتكون تأثيرها على أداء الأنظمة الحديثة ضئيلاً.</system:String>
+    <system:String x:Key="TaskbarVisualizerEnabledTitle">تفعيل المرئيات التفاعلية على شريط المهام (تجريبي)</system:String>
+    <system:String x:Key="TaskbarVisualizerEnabledDescription">تجريبي: هذه الميزة ستعمل فقط إن كانت أداة شريط المهام مفعلة</system:String>
+    <system:String x:Key="TaskbarVisualizerPositionTitle">موقع المرئيات التفاعلية بالنسبة لأداة شريط المهام</system:String>
+    <system:String x:Key="TaskbarVisualizerBarCountTitle">عدد الأعمدة</system:String>
+    <system:String x:Key="TaskbarVisualizerBarCountDescription">عدد الأعمدة في المرئيات التفاعلية</system:String>
+    <system:String x:Key="TaskbarVisualizerCenteredBarsTitle">الأعمدة المتوسطة</system:String>
+    <system:String x:Key="TaskbarVisualizerCenteredBarsDescription">أعمدة تتمدد بشكل متناظر من المركز بدلاً من أن ترتفع من الأسفل</system:String>
+    <system:String x:Key="TaskbarVisualizerBaselineDescription">إظهار خط رفيع عندما يكون مستوى الصوت صفر</system:String>
+    <system:String x:Key="TaskbarVisualizerAudioSensitivityTitle">حساسية الصوت</system:String>
+    <system:String x:Key="TaskbarVisualizerAudioSensitivityDescription">مدى استجابة الأعمدة لشدة الصوت</system:String>
+    <system:String x:Key="UnlockFullExperienceText">احصل على تجربة FluentFlyout الكاملة:</system:String>
+    <system:String x:Key="AllFuturePremiumFeatures">جميع المميزات الخاصة المستقبلية</system:String>
+    <system:String x:Key="TranslatorsTitle">المترجمون</system:String>
+    <system:String x:Key="SponsorMeLink">إدعمني</system:String>
 </ResourceDictionary>
