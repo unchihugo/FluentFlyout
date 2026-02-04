@@ -186,4 +186,5 @@
     <system:String x:Key="DevelopersTitle">开发人员</system:String>
     <system:String x:Key="TranslatorsTitle">翻译</system:String>
     <system:String x:Key="SponsorMeLink">赞助</system:String>
+    <system:String x:Key="BuyMeCoffeeLink">请我喝杯咖啡</system:String>
 </ResourceDictionary>
