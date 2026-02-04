@@ -182,4 +182,5 @@
     <system:String x:Key="TaskbarVisualizerBaselineDescription">当音频电平为零时，显示一条细线</system:String>
     <system:String x:Key="TaskbarVisualizerAudioSensitivityTitle">音频灵敏度</system:String>
     <system:String x:Key="TaskbarVisualizerAudioSensitivityDescription">频谱柱对音频响度响应的强弱程度</system:String>
+    <system:String x:Key="AllFuturePremiumFeatures">所有高级功能</system:String>
 </ResourceDictionary>
