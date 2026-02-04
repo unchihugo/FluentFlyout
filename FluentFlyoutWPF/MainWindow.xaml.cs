@@ -1,8 +1,13 @@
-﻿using FluentFlyout.Classes;
+﻿// Copyright © 2024-2026 The FluentFlyout Authors
+// SPDX-License-Identifier: GPL-3.0-or-later
+
+using FluentFlyout.Classes;
 using FluentFlyout.Classes.Settings;
 using FluentFlyout.Classes.Utils;
+using FluentFlyout.Controls;
 using FluentFlyout.Windows;
 using FluentFlyoutWPF.Classes;
+using FluentFlyoutWPF.ViewModels;
 using FluentFlyoutWPF.Windows;
 using MicaWPF.Controls;
 using MicaWPF.Core.Extensions;
@@ -22,9 +27,8 @@ using System.Windows.Threading;
 using Windows.ApplicationModel;
 using Windows.Media.Control;
 using Windows.Storage.Streams;
+using static FluentFlyout.Classes.NativeMethods;
 using static WindowsMediaController.MediaManager;
-using FluentFlyoutWPF.ViewModels;
-using FluentFlyout.Controls;
 
 
 namespace FluentFlyoutWPF;
@@ -33,16 +37,6 @@ public partial class MainWindow : MicaWindow
 {
     private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
-    [DllImport("user32.dll")]
-    public static extern void keybd_event(byte virtualKey, byte scanCode, uint flags, IntPtr extraInfo);
-
-    [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-
-    private static extern int RegisterWindowMessage(string lpString);
-
-    private const int WH_KEYBOARD_LL = 13;
-    private const int WM_KEYDOWN = 0x0100;
-    private const int WM_KEYUP = 0x0101;
     private int WM_TASKBARCREATED;
 
     private IntPtr _hookId = IntPtr.Zero;
@@ -680,8 +674,6 @@ public partial class MainWindow : MicaWindow
         }
     }
 
-    private delegate IntPtr LowLevelKeyboardProc(int nCode, IntPtr wParam, IntPtr lParam);
-
     private IntPtr HookCallback(int nCode, IntPtr wParam, IntPtr lParam)
     {
         if (nCode >= 0 && (wParam == (IntPtr)WM_KEYDOWN || wParam == (IntPtr)WM_KEYUP))
@@ -1318,21 +1310,6 @@ public partial class MainWindow : MicaWindow
         }
     }
 
-
-    [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-    private static extern IntPtr SetWindowsHookEx(int idHook, LowLevelKeyboardProc lpfn, IntPtr hMod, uint dwThreadId);
-
-    [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    private static extern bool UnhookWindowsHookEx(IntPtr hhk);
-
-    [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-    private static extern IntPtr CallNextHookEx(IntPtr hhk, int nCode, IntPtr wParam, IntPtr lParam);
-
-    [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-    private static extern IntPtr GetModuleHandle(string lpModuleName);
-
-
     private void MicaWindow_MouseEnter(object sender, MouseEventArgs e) // keep the flyout open when mouse is over
     {
         ShowMediaFlyout();
@@ -1356,9 +1333,9 @@ public partial class MainWindow : MicaWindow
 
         while (sw.ElapsedMilliseconds < timeoutMs)
         {
-            IntPtr taskbar = TaskbarWindow.FindWindow("Shell_TrayWnd", null);
+            IntPtr taskbar = FindWindow("Shell_TrayWnd", null);
             if (taskbar != IntPtr.Zero &&
-                TaskbarWindow.GetWindowRect(taskbar, out TaskbarWindow.RECT rect) &&
+                GetWindowRect(taskbar, out NativeMethods.RECT rect) &&
                 rect.Right > rect.Left &&
                 rect.Bottom > rect.Top)
             {

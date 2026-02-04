@@ -1,4 +1,7 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿// Copyright © 2024-2026 The FluentFlyout Authors
+// SPDX-License-Identifier: GPL-3.0-or-later
+
+using CommunityToolkit.Mvvm.ComponentModel;
 using FluentFlyout.Classes;
 using FluentFlyout.Classes.Settings;
 using FluentFlyout.Controls;
@@ -6,7 +9,6 @@ using FluentFlyoutWPF.Classes;
 using FluentFlyoutWPF.Models;
 using System.Collections.ObjectModel;
 using System.Windows;
-using System.Windows.Media.Imaging;
 using System.Xml.Serialization;
 
 namespace FluentFlyoutWPF.ViewModels;

@@ -1,9 +1,10 @@
-﻿using FluentFlyout.Classes.Settings;
+﻿// Copyright © 2024-2026 The FluentFlyout Authors
+// SPDX-License-Identifier: GPL-3.0-or-later
+
+using FluentFlyout.Classes.Settings;
 using FluentFlyout.Classes.Utils;
 using FluentFlyoutWPF;
-using System.ComponentModel;
 using System.Globalization;
-using System.Runtime.CompilerServices;
 using System.Windows;
 
 namespace FluentFlyout.Classes;

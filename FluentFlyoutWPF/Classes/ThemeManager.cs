@@ -1,9 +1,12 @@
-﻿using System.Windows;
-using System.Windows.Media.Imaging;
+﻿// Copyright © 2024-2026 The FluentFlyout Authors
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 using FluentFlyout.Classes.Settings;
 using MicaWPF.Core.Enums;
 using MicaWPF.Core.Helpers;
 using MicaWPF.Core.Services;
+using System.Windows;
+using System.Windows.Media.Imaging;
 using Wpf.Ui.Appearance;
 using Wpf.Ui.Tray.Controls;
 

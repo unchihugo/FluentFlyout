@@ -1,9 +1,12 @@
-﻿using System.Windows;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
+﻿// Copyright © 2024-2026 The FluentFlyout Authors
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 using FluentFlyout.Classes.Settings;
 using NAudio.Dsp;
 using NAudio.Wave;
+using System.Windows;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace FluentFlyoutWPF.Classes
 {
