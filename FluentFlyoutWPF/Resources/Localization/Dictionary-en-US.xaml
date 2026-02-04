@@ -93,7 +93,7 @@ Note: As an open-source project, these features are also available for free via 
     <System:String x:Key="PremiumPurchaseFailed">Purchase failed. Please try again.</System:String>
     <System:String x:Key="PremiumPurchaseCancelled">Purchase cancelled.</System:String>
     <System:String x:Key="UnlockFullExperienceText">Unlock the full FluentFlyout experience:</System:String>
-    <System:String x:Key="TaskbarWidgetCustomizationPerk">Taskbar Widget</System:String>
+    <System:String x:Key="TaskbarWidgetCustomizationPerk">Taskbar Widget and Visualizer</System:String>
     <System:String x:Key="AcrylicBlurOpacityPerk">Acrylic Blur Opacity</System:String>
     <System:String x:Key="HideTrayIconPerk">Hide Tray Icon</System:String>
     <System:String x:Key="AllFuturePremiumFeatures">All future Premium features</System:String>
