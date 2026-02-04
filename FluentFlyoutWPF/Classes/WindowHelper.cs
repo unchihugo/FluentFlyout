@@ -1,42 +1,16 @@
 ﻿// Copyright © 2024-2026 The FluentFlyout Authors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+using FluentFlyout.Classes;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interop;
+using static FluentFlyout.Classes.NativeMethods;
 
 namespace FluentFlyoutWPF.Classes;
 
 public static class WindowHelper
 {
-    private const int S_OK = 0;
-    private const int GWL_EXSTYLE = -20;
-    private const int WS_EX_NOACTIVATE = 0x08000000;
-    private const int HWND_TOPMOST = -1;
-    private const int SWP_NOSIZE = 0x0001;
-    private const int SWP_NOMOVE = 0x0002;
-    private const int SWP_NOZORDER = 0x0004;
-    private const int SWP_SHOWWINDOW = 0x0040;
-    private const int SWP_HIDEWINDOW = 0x0080;
-    private const int MONITOR_DEFAULTTONEAREST = 2;
-    private const int MONITORINFOF_PRIMARY = 1;
-    private const int SWP_ASYNCWINDOWPOS = 0x4000;
-
-    public enum MonitorFromWindowFlags : int
-    {
-        DEFAULTTONULL = 0,
-        DEFAULTTOPRIMARY = 1,
-        DEFAULTTONEAREST = 2,
-    }
-
-    public enum MonitorDpiType
-    {
-        MDT_EFFECTIVE_DPI = 0,
-        MDT_ANGULAR_DPI = 1,
-        MDT_RAW_DPI = 2,
-        MDT_DEFAULT
-    }
-
     [StructLayout(LayoutKind.Sequential)]
     public struct RECT
     {
@@ -51,49 +25,6 @@ public static class WindowHelper
         }
     }
 
-    [StructLayout(LayoutKind.Sequential)]
-    struct POINT
-    {
-        public int X;
-        public int Y;
-    }
-
-    [StructLayout(LayoutKind.Sequential)]
-    struct WINDOWPLACEMENT
-    {
-        public int length;
-        public int flags;
-        public int showCmd;
-        public POINT ptMinPosition;
-        public POINT ptMaxPosition;
-        public RECT rcNormalPosition;
-        public RECT rcDevice;
-    }
-
-    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
-    private struct MONITORINFOEX
-    {
-        public int cbSize;
-        public RECT rcMonitor;
-        public RECT rcWork;
-        public int dwFlags;
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
-        public string szDevice;
-
-        public static implicit operator MonitorInfo(MONITORINFOEX other)
-        {
-            var monitor = new MonitorInfo
-            {
-                monitorArea = other.rcMonitor,
-                workArea = other.rcWork,
-                isPrimary = (other.dwFlags & MONITORINFOF_PRIMARY) != 0,
-                deviceId = other.szDevice
-            };
-
-            return monitor;
-        }
-    }
-
     public struct MonitorInfo
     {
         public Rect monitorArea;
@@ -103,31 +34,6 @@ public static class WindowHelper
         public uint dpiY;
         public string deviceId;
     }
-
-    private delegate bool MonitorEnumProc(IntPtr hMonitor, IntPtr hdcMonitor, ref RECT lprcMonitor, IntPtr dwData);
-
-    [DllImport("user32.dll")]
-    private static extern bool EnumDisplayMonitors(IntPtr hdc, IntPtr lprcClip, MonitorEnumProc lpfnEnum, IntPtr dwData);
-
-    [DllImport("user32.dll", CharSet = CharSet.Auto)]
-    private static extern bool GetMonitorInfo(IntPtr hMonitor, ref MONITORINFOEX lpmi);
-
-    [DllImport("user32.dll")]
-    private static extern IntPtr MonitorFromWindow(IntPtr hwnd, int dwFlags);
-
-    [DllImport("shcore.dll")]
-    private static extern int GetDpiForMonitor(IntPtr hMonitor, MonitorDpiType dpiType, out uint dpiX, out uint dpiY);
-    [DllImport("user32.dll")]
-    private static extern bool GetWindowPlacement(IntPtr hWnd, ref WINDOWPLACEMENT lpwndpl);
-
-    [DllImport("user32.dll")]
-    private static extern IntPtr SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
-
-    [DllImport("user32.dll")]
-    private static extern int GetWindowLong(IntPtr hWnd, int nIndex);
-
-    [DllImport("user32.dll", SetLastError = true)]
-    private static extern bool SetWindowPos(IntPtr hWnd, int hWndInsertAfter, int x, int y, int cx, int cy, uint uFlags);
 
     public static void SetTopmost(Window window) // workaround to set window even more topmost
     {
@@ -143,12 +49,14 @@ public static class WindowHelper
 
     public static Rect GetPlacement(Window window) // get the window position, ignoring WPF
     {
-        WINDOWPLACEMENT wp = new() { length = Marshal.SizeOf<WINDOWPLACEMENT>() };
+        var wp = new NativeMethods.WINDOWPLACEMENT { length = Marshal.SizeOf<NativeMethods.WINDOWPLACEMENT>() };
 
         var handle = new WindowInteropHelper(window).Handle;
         GetWindowPlacement(handle, ref wp);
 
-        return wp.rcNormalPosition;
+        return new Rect(wp.rcNormalPosition.Left, wp.rcNormalPosition.Top, 
+            wp.rcNormalPosition.Right - wp.rcNormalPosition.Left, 
+            wp.rcNormalPosition.Bottom - wp.rcNormalPosition.Top);
     }
 
     public static void SetPosition(Window window, double x, double y, bool async = false) // set the position of the window, ignoring WPF
@@ -170,11 +78,17 @@ public static class WindowHelper
 
     private static MonitorInfo getMonitorInfoInternal(IntPtr hMonitor)
     {
-        MONITORINFOEX info = new() { cbSize = Marshal.SizeOf<MONITORINFOEX>() };
+        var info = new NativeMethods.MONITORINFOEX { cbSize = Marshal.SizeOf<NativeMethods.MONITORINFOEX>() };
 
         if (GetMonitorInfo(hMonitor, ref info))
         {
-            MonitorInfo new_info = info;
+            MonitorInfo new_info = new MonitorInfo
+            {
+                monitorArea = new Rect(info.rcMonitor.Left, info.rcMonitor.Top, info.rcMonitor.Right - info.rcMonitor.Left, info.rcMonitor.Bottom - info.rcMonitor.Top),
+                workArea = new Rect(info.rcWork.Left, info.rcWork.Top, info.rcWork.Right - info.rcWork.Left, info.rcWork.Bottom - info.rcWork.Top),
+                isPrimary = (info.dwFlags & MONITORINFOF_PRIMARY) != 0,
+                deviceId = info.szDevice
+            };
 
             if (GetDpiForMonitor(hMonitor, MonitorDpiType.MDT_EFFECTIVE_DPI, out uint dpiX, out uint dpiY) == S_OK)
             {

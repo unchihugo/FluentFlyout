@@ -6,46 +6,12 @@ using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interop;
 using Wpf.Ui.Appearance;
+using static FluentFlyout.Classes.NativeMethods;
 
 namespace FluentFlyout.Classes;
 
-internal enum AccentState
-{
-    ACCENT_DISABLED = 0,
-    ACCENT_ENABLE_GRADIENT = 1,
-    ACCENT_ENABLE_TRANSPARENTGRADIENT = 2,
-    ACCENT_ENABLE_BLURBEHIND = 3,
-    ACCENT_ENABLE_ACRYLICBLURBEHIND = 4,
-    ACCENT_INVALID_STATE = 5
-}
-
-[StructLayout(LayoutKind.Sequential)]
-internal struct AccentPolicy
-{
-    public AccentState AccentState;
-    public uint AccentFlags;
-    public uint GradientColor;
-    public uint AnimationId;
-}
-
-[StructLayout(LayoutKind.Sequential)]
-internal struct WindowCompositionAttributeData
-{
-    public WindowCompositionAttribute Attribute;
-    public IntPtr Data;
-    public int SizeOfData;
-}
-
-internal enum WindowCompositionAttribute
-{
-    WCA_ACCENT_POLICY = 19
-}
-
 public static class WindowBlurHelper
 {
-    [DllImport("user32.dll")]
-    internal static extern int SetWindowCompositionAttribute(IntPtr hwnd, ref WindowCompositionAttributeData data);
-
     /// <summary>
     /// Enables acrylic blur effect on the specified window
     /// </summary>
