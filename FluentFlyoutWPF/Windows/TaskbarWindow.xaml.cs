@@ -191,20 +191,20 @@ public partial class TaskbarWindow : Window
         try
         {
             var interop = new WindowInteropHelper(this);
-            IntPtr myHandle = interop.Handle;
+            IntPtr taskbarWindowHandle = interop.Handle;
 
             //Background = _hitTestTransparent; // ensures that non-content areas also trigger MouseEnter event
 
             IntPtr taskbarHandle = GetSelectedTaskbarHandle(out bool isMainTaskbarSelected);
 
             // This prevents the window from trying to float above the taskbar as a separate entity
-            int style = GetWindowLong(myHandle, GWL_STYLE);
+            int style = GetWindowLong(taskbarWindowHandle, GWL_STYLE);
             style = (style & ~WS_POPUP) | WS_CHILD;
-            SetWindowLong(myHandle, GWL_STYLE, style);
+            SetWindowLong(taskbarWindowHandle, GWL_STYLE, style);
 
-            SetParent(myHandle, taskbarHandle); // if this window is created faster than the Taskbar is loaded, then taskbarHandle will be NULL.
+            SetParent(taskbarWindowHandle, taskbarHandle); // if this window is created faster than the Taskbar is loaded, then taskbarHandle will be NULL.
 
-            CalculateAndSetPosition(taskbarHandle, myHandle, isMainTaskbarSelected);
+            CalculateAndSetPosition(taskbarHandle, taskbarWindowHandle, isMainTaskbarSelected);
         }
         catch (Exception ex)
         {
@@ -278,7 +278,7 @@ public partial class TaskbarWindow : Window
         }
     }
 
-    private void CalculateAndSetPosition(IntPtr taskbarHandle, IntPtr myHandle, bool isMainTaskbarSelected)
+    private void CalculateAndSetPosition(IntPtr taskbarHandle, IntPtr taskbarWindowHandle, bool isMainTaskbarSelected)
     {
         // get DPI scaling
         double dpiScale = GetDpiForWindow(taskbarHandle) / 96.0;
@@ -298,7 +298,7 @@ public partial class TaskbarWindow : Window
         ScreenToClient(taskbarHandle, ref containerPos);
 
         // Apply using SetWindowPos (Bypassing WPF layout engine)
-        SetWindowPos(myHandle, IntPtr.Zero,
+        SetWindowPos(taskbarWindowHandle, 0,
                  containerPos.X, containerPos.Y,
                  containerWidth, containerHeight,
                  SWP_NOZORDER | SWP_NOACTIVATE | SWP_ASYNCWINDOWPOS | SWP_SHOWWINDOW);
