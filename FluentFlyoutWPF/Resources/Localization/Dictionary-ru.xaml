@@ -185,4 +185,7 @@
     <system:String x:Key="UnlockFullExperienceText">Раскройте весь потенциал FluentFlyout:</system:String>
     <system:String x:Key="AllFuturePremiumFeatures">Все будущие Премиум функции</system:String>
     <system:String x:Key="BuyMeCoffeeLink">Купите мне кофе</system:String>
+    <system:String x:Key="DevelopersTitle">Разработчики</system:String>
+    <system:String x:Key="TranslatorsTitle">Переводчики</system:String>
+    <system:String x:Key="SponsorMeLink">Поддержите меня</system:String>
 </ResourceDictionary>
