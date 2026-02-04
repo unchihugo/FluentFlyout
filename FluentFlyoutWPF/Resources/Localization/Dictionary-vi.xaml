@@ -181,4 +181,10 @@ Tuy vậy, bạn sẽ không phải mở khóa khi cài đặt từ GitHub hoặ
     <system:String x:Key="TaskbarVisualizerBaselineDescription">Hiển thị cả khi ngắt tiếng, lắng tiếng</system:String>
     <system:String x:Key="TaskbarVisualizerAudioSensitivityTitle">Tỷ lệ biểu thị</system:String>
     <system:String x:Key="TaskbarVisualizerAudioSensitivityDescription">Co giãn cột biểu diễn sóng âm so với mức thông thường</system:String>
+    <system:String x:Key="UnlockFullExperienceText">Mở khóa trọn gói trải nghiệm FluentFlyout:</system:String>
+    <system:String x:Key="AllFuturePremiumFeatures">Và thêm nữa trong tương lai...</system:String>
+    <system:String x:Key="DevelopersTitle">Lập trình viên</system:String>
+    <system:String x:Key="TranslatorsTitle">Dịch giả</system:String>
+    <system:String x:Key="SponsorMeLink">Tài trợ cho tác giả</system:String>
+    <system:String x:Key="BuyMeCoffeeLink">Buy me a coffee</system:String>
 </ResourceDictionary>
