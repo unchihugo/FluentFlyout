@@ -185,7 +185,7 @@
     <system:String x:Key="AllFuturePremiumFeatures">计划将来实现的所有 Premium 功能</system:String>
     <system:String x:Key="DevelopersTitle">开发人员</system:String>
     <system:String x:Key="TranslatorsTitle">翻译人员</system:String>
-    <system:String x:Key="SponsorMeLink">赞助我（Github）</system:String>
-    <system:String x:Key="BuyMeCoffeeLink">请我喝杯咖啡（ko-fi）</system:String>
+    <system:String x:Key="SponsorMeLink">赞助我</system:String>
+    <system:String x:Key="BuyMeCoffeeLink">请我喝杯咖啡</system:String>
     <system:String x:Key="UnlockFullExperienceText">解锁完整的 FluentFlyout 体验：</system:String>
 </ResourceDictionary>
