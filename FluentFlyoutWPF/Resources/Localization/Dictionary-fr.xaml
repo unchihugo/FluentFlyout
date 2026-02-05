@@ -23,7 +23,7 @@
     <system:String x:Key="FlyoutPositionTitle">Position du volet</system:String>
     <system:String x:Key="TitleText">Paramètres FluentFlyout</system:String>
     <system:String x:Key="MediaFlyoutTitle">Menu déroulant Médias</system:String>
-    <system:String x:Key="MediaFlyoutDescription">Volet principal. Lorsque vous écoutez un média, appuyez sur n’importe quelle touche multimédia ou de volume (lecture/pause, volume +/-, etc.) de votre clavier pour afficher le volet. Il affiche les informations du média, ainsi que les commandes de lecture et d’autres options.</system:String>
+    <system:String x:Key="MediaFlyoutDescription">Lorsque vous écoutez un média, appuyez sur n’importe quelle touche multimédia ou de volume (lecture/pause, volume +/-, etc.) de votre clavier pour afficher le volet. Il affiche les informations du média, ainsi que les commandes de lecture et d’autres options.</system:String>
     <system:String x:Key="TextBlockText1">Activer le volet multimédia</system:String>
     <system:String x:Key="TextBlockText3">Afficher un volet quand vous appuyez sur une touche multimédia</system:String>
     <system:String x:Key="BackgroundBlurOption1" xml:space="preserve"> Aucun</system:String>
@@ -169,4 +169,6 @@ Vous pouvez contribuer aux traductions sur</system:String>
     <system:String x:Key="UpdateAvailableNotificationButton">Télécharger la mise à jour</system:String>
     <system:String x:Key="MediaFlyoutExcludeVolumeTitle">Exclure les Touches de Volume</system:String>
     <system:String x:Key="MediaFlyoutExcludeVolumeDescription">Ne pas montrer le volet quand la touche d'augmentation/diminution/muet de volume est appuyé</system:String>
+    <system:String x:Key="TaskbarVisualizerTitle">Visualisateur de la barre de tâches</system:String>
+    <system:String x:Key="TaskbarVisualizerDescription">Un visualisateur d'audio en temps réel sur votre barre de tâches. Conçu pour avoir un impact minimal sur la performance sur des systèmes modernes.</system:String>
 </ResourceDictionary>
