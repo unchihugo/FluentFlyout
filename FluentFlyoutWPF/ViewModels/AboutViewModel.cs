@@ -66,7 +66,7 @@ public partial class AboutViewModel : ObservableObject
         "NimiGames68",
         "FenrirXVII",
         "junior0liveira",
-        "3mr9",
+        "AttackerMR",
         "hayiamzhengxum",
         "VolodymyrBryzh",
         "havrlisan",
