@@ -182,4 +182,15 @@ Puoi contribuire alla traduzione su</system:String>
     <system:String x:Key="TaskbarVisualizerBaselineDescription">Visualizza una sottile linea quando il livello dell'audio è a zero</system:String>
     <system:String x:Key="TaskbarVisualizerAudioSensitivityTitle">Sensibilità Audio</system:String>
     <system:String x:Key="TaskbarVisualizerAudioSensitivityDescription">Quanto intensamente le barre reagiscono al volume dell’audio</system:String>
+    <system:String x:Key="UnlockFullExperienceText">Sblocca l'esperienza FluentFlyout completa:</system:String>
+    <system:String x:Key="TaskbarWidgetCustomizationPerk">Widget Barra delle Applicazioni e Visualizzatore</system:String>
+    <system:String x:Key="HideTrayIconPerk">Nascondi Icona Area di Notifica</system:String>
+    <system:String x:Key="AllFuturePremiumFeatures">Tutte le funzionalità premium future</system:String>
+    <system:String x:Key="AppearanceBehaviorSectionTitle">Aspetto e Comportamento</system:String>
+    <system:String x:Key="UpdatesSectionTitle">Aggiornamenti</system:String>
+    <system:String x:Key="DevelopersTitle">Sviluppatori</system:String>
+    <system:String x:Key="TranslatorsTitle">Traduttori</system:String>
+    <system:String x:Key="SponsorMeLink">Supportami</system:String>
+    <system:String x:Key="BuyMeCoffeeLink">Offrimi un caffè</system:String>
+    <system:String x:Key="ShowUpdateNotificationsTitle">Mostra Notifiche per Nuovi Aggiornamenti</system:String>
 </ResourceDictionary>
