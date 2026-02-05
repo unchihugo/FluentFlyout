@@ -21,7 +21,6 @@ namespace FluentFlyout.Windows;
 /// </summary>
 public partial class TaskbarWindow : Window
 {
-
     private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
     private readonly DispatcherTimer _timer;
@@ -31,10 +30,9 @@ public partial class TaskbarWindow : Window
     private IntPtr _trayHandle;
     private AutomationElement? _widgetElement;
     private AutomationElement? _trayElement;
+    private AutomationElement? _taskbarFrameElement;
     // reference to main window for flyout functions
     private MainWindow? _mainWindow;
-    private int _recoveryAttempts = 0;
-    private int _maxRecoveryAttempts = 5;
     private int _lastSelectedMonitor = -1;
 
     public TaskbarWindow()
@@ -212,8 +210,6 @@ public partial class TaskbarWindow : Window
         }
     }
 
-
-
     private void UpdatePosition()
     {
         if (MainWindow.ExplorerRestarting)
@@ -250,7 +246,6 @@ public partial class TaskbarWindow : Window
                     catch (Exception ex)
                     {
                         Logger.Error(ex, "Failed to signal MainWindow to recover Taskbar Widget window");
-                        _recoveryAttempts++;
                     }
                 }, DispatcherPriority.Background);
 
@@ -285,7 +280,25 @@ public partial class TaskbarWindow : Window
 
         // Get Taskbar dimensions
         RECT taskbarRect;
-        DwmGetWindowAttribute(taskbarHandle, DWMWA_EXTENDED_FRAME_BOUNDS, out taskbarRect, Marshal.SizeOf(typeof(RECT)));
+        // first, try to find the Taskbar.TaskbarFrame element in the XAML
+        // this should give us the actual bounds of the taskbar, excluding invisible margins on some Windows configurations
+        (bool success, Rect result) = GetTaskbarFrameRect(taskbarHandle);
+        if (success)
+        {
+            taskbarRect = new RECT
+            {
+                Left = (int)result.Left,
+                Top = (int)result.Top,
+                Right = (int)result.Right,
+                Bottom = (int)result.Bottom
+            };
+        }
+        else
+        {
+            // fallback to GetWindowRect if we fail to get the frame bounds for some reason
+            GetWindowRect(taskbarHandle, out taskbarRect);
+        }
+
         int taskbarHeight = taskbarRect.Bottom - taskbarRect.Top;
         int taskbarWidth = taskbarRect.Right - taskbarRect.Left;
 
@@ -467,6 +480,7 @@ public partial class TaskbarWindow : Window
             case 0: // left aligned next to widget
                 visualizerLeft = (int)(System.Windows.Controls.Canvas.GetLeft(Widget) * dpiScale) - (int)(TaskbarVisualizer.Width * dpiScale) - 4;
                 break;
+
             case 1: // right aligned next to widget
                 visualizerLeft = (int)(System.Windows.Controls.Canvas.GetLeft(Widget) * dpiScale) + (int)(Widget.Width * dpiScale) + 4;
                 break;
@@ -575,5 +589,10 @@ public partial class TaskbarWindow : Window
     private (bool, Rect) GetSystemTrayRect(IntPtr taskbarHandle)
     {
         return GetTaskbarXamlElementRect(taskbarHandle, ref _trayElement, "SystemTrayIcon");
+    }
+
+    private (bool, Rect) GetTaskbarFrameRect(IntPtr taskbarHandle)
+    {
+        return GetTaskbarXamlElementRect(taskbarHandle, ref _taskbarFrameElement, "TaskbarFrame");
     }
 }
