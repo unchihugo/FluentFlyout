@@ -42,7 +42,7 @@
     <system:String x:Key="NextUpDescription" xml:space="preserve">تُظهر نافذة منبثقة ما يلي عند انتهاء أغنية/فيديو. تظهر فقط عند تشغيل العنصر التالي تلقائيًا، أما عند الضغط على التالي/السابق يدويًا، فتظهر النافذة الرئيسية.</system:String>
     <system:String x:Key="EnableNextUpTitle">تمكين القائمة المنبثقة التالية (تجريبي)</system:String>
     <system:String x:Key="EnableNextUpDescription">يُظهر ما التالي بعد انتهاء الأغنية/الفيديو</system:String>
-    <system:String x:Key="NextUpStayDurationTitle">التالي مده الاقامه</system:String>
+    <system:String x:Key="NextUpStayDurationTitle">مدة ظهور إشعار الوسائط التالية</system:String>
     <system:String x:Key="NextUpStayDurationDescription">(الافتراضي: 2000 مللي ثانية)</system:String>
     <system:String x:Key="LockKeysCustomizationTitle">إشعار مفاتيح القفل</system:String>
     <system:String x:Key="LockKeysDescription" xml:space="preserve">تحقق من حالة مفتاح القفل بنظرة واحدة. يظهر بعد الضغط على Caps Lock أو Num Lock أو Scroll Lock. مناسب لأجهزة الكمبيوتر المحمولة/لوحات المفاتيح التي لا تحتوي على مؤشرات مفاتيح القفل.</system:String>
@@ -62,9 +62,9 @@
     <system:String x:Key="AppThemeTitle">سمة التطبيق</system:String>
     <system:String x:Key="AppThemeDefault"> Windows الافتراضي</system:String>
     <system:String x:Key="AppThemeLight"> مضيء</system:String>
-    <system:String x:Key="AppThemeDark"> داكن</system:String>
-    <system:String x:Key="TrayIconLeftClickBehaviorTitle">سلوك النقر بزر الماوس الأيسر على أيقونة العلبة</system:String>
-    <system:String x:Key="TrayIconLeftClickBehaviorDescription">اختر ما يحدث عند النقر بزر الماوس الأيسر على أيقونة التطبيق</system:String>
+    <system:String x:Key="AppThemeDark"> مظلم</system:String>
+    <system:String x:Key="TrayIconLeftClickBehaviorTitle">سلوك النقر بزر الفأرة الأيسر على أيقونة شريط المهام</system:String>
+    <system:String x:Key="TrayIconLeftClickBehaviorDescription">اختر ما يحدث عند النقر بزر الفأرة الأيسر على أيقونة التطبيق</system:String>
     <system:String x:Key="TrayIconLeftClickOption1"> فتح إعدادات</system:String>
     <system:String x:Key="TrayIconLeftClickOption2"> عرض الوسائط النافذه المنبثقة</system:String>
     <system:String x:Key="Win11TrayIconTitle">أيقونة مشابهة لنظام التشغيل Windows 11</system:String>
@@ -88,7 +88,7 @@
     <system:String x:Key="AnimationSpeedOff">إيقاف</system:String>
     <system:String x:Key="EasingSine" xml:space="preserve"> جيبية</system:String>
     <system:String x:Key="EasingQuadratic" xml:space="preserve"> تربيعي</system:String>
-    <system:String x:Key="EasingCubic" xml:space="preserve"> المكعبي</system:String>
+    <system:String x:Key="EasingCubic" xml:space="preserve"> تكعيبي</system:String>
     <system:String x:Key="GitHubRepoLink">صفحة GitHub</system:String>
     <system:String x:Key="CloseButton">أغلق</system:String>
     <system:String x:Key="AppLanguageTitle">لغة التطبيق</system:String>
@@ -188,4 +188,9 @@
     <system:String x:Key="TaskbarVisualizerBaselineTitle">إظهار خط الأساس</system:String>
     <system:String x:Key="DevelopersTitle">المطوِّرون</system:String>
     <system:String x:Key="BuyMeCoffeeLink">اشترِ لي قهوة</system:String>
+    <system:String x:Key="TaskbarWidgetCustomizationPerk">أداة شريط المهام والمرئيات التفاعلية</system:String>
+    <system:String x:Key="AcrylicBlurOpacityPerk">مستوى شفافية تمويه الاكرليك</system:String>
+    <system:String x:Key="HideTrayIconPerk">إخفاء أيقونة شريط المهام</system:String>
+    <system:String x:Key="AppearanceBehaviorSectionTitle">المظهر والتفاعل</system:String>
+    <system:String x:Key="ShowUpdateNotificationsTitle">إظهار إشعارات للتحديثات الجديدة</system:String>
 </ResourceDictionary>
