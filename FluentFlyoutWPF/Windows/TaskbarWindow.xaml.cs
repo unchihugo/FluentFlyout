@@ -34,6 +34,7 @@ public partial class TaskbarWindow : Window
     // reference to main window for flyout functions
     private MainWindow? _mainWindow;
     private int _lastSelectedMonitor = -1;
+    private bool _positionUpdateInProgress;
 
     public TaskbarWindow()
     {
@@ -275,8 +276,20 @@ public partial class TaskbarWindow : Window
 
     private void CalculateAndSetPosition(IntPtr taskbarHandle, IntPtr taskbarWindowHandle, bool isMainTaskbarSelected)
     {
+        // Prevent overlapping updates — if a previous update is still running
+        // (e.g. waiting for an automation query timeout), skip this tick.
+        if (_positionUpdateInProgress)
+            return;
+        _positionUpdateInProgress = true;
+
+        try
+        {
         // get DPI scaling
         double dpiScale = GetDpiForWindow(taskbarHandle) / 96.0;
+
+        // Guard against invalid DPI (e.g. during explorer restart when handle is stale)
+        if (dpiScale <= 0)
+            return;
 
         // Get Taskbar dimensions
         RECT taskbarRect;
@@ -321,6 +334,11 @@ public partial class TaskbarWindow : Window
         PositionVisualizer(taskbarHandle, taskbarRect, dpiScale, isMainTaskbarSelected);
 
         _lastSelectedMonitor = SettingsManager.Current.TaskbarWidgetSelectedMonitor;
+        }
+        finally
+        {
+            _positionUpdateInProgress = false;
+        }
     }
 
     private void PositionWidget(IntPtr taskbarHandle, RECT taskbarRect, double dpiScale, bool isMainTaskbarSelected)
@@ -523,6 +541,9 @@ public partial class TaskbarWindow : Window
 
     private (bool, Rect) GetTaskbarXamlElementRect(IntPtr taskbarHandle, ref AutomationElement? elementCache, string elementName)
     {
+        if (taskbarHandle == IntPtr.Zero)
+            return (false, Rect.Empty);
+
         try
         {
             // reset if monitor changed
@@ -532,10 +553,28 @@ public partial class TaskbarWindow : Window
             // find widget in XAML
             if (elementCache == null)
             {
-                AutomationElement root = AutomationElement.FromHandle(taskbarHandle);
+                // Run FindFirst on a background (MTA) thread to avoid cross-process COM deadlock.
+                // This window is a child of explorer's taskbar. If the UI thread (STA) makes a
+                // synchronous COM call into explorer, and explorer tries to message this child
+                // window during processing, a deadlock occurs because the STA can't pump messages
+                // while blocked on the COM call. Running from an MTA thread breaks this cycle.
+                AutomationElement? found = null;
+                var findTask = Task.Run(() =>
+                {
+                    var root = AutomationElement.FromHandle(taskbarHandle);
+                    found = root.FindFirst(TreeScope.Descendants,
+                        new PropertyCondition(AutomationElement.AutomationIdProperty, elementName));
+                });
 
-                elementCache = root.FindFirst(TreeScope.Descendants,
-                    new PropertyCondition(AutomationElement.AutomationIdProperty, elementName));
+                if (!findTask.Wait(2000))
+                {
+                    Logger.Warn("Timeout querying taskbar XAML element: " + elementName);
+                    return (false, Rect.Empty);
+                }
+
+                // Propagate any exception from the background thread
+                findTask.GetAwaiter().GetResult();
+                elementCache = found;
             }
 
             if (elementCache == null) // widget most likely disabled
@@ -543,7 +582,18 @@ public partial class TaskbarWindow : Window
 
             try
             {
-                Rect elementRect = elementCache.Current.BoundingRectangle;
+                // Also read BoundingRectangle off the UI thread for the same deadlock reason
+                var cachedElement = elementCache;
+                var boundsTask = Task.Run(() => cachedElement.Current.BoundingRectangle);
+
+                if (!boundsTask.Wait(1000))
+                {
+                    Logger.Warn("Timeout getting bounds for taskbar XAML element: " + elementName);
+                    elementCache = null;
+                    return (false, Rect.Empty);
+                }
+
+                Rect elementRect = boundsTask.GetAwaiter().GetResult();
 
                 if (elementRect == Rect.Empty) // widget shown before but most likely disabled now
                 {
@@ -563,8 +613,14 @@ public partial class TaskbarWindow : Window
         }
         catch (COMException ex)
         {
-            Logger.Error(ex, "COM error retrieving taskbar XAML element Rect: " + elementName);
+            Logger.Warn(ex, "COM error retrieving taskbar XAML element Rect: " + elementName);
             elementCache = null; // reset cache on error
+            return (false, Rect.Empty);
+        }
+        catch (ElementNotAvailableException)
+        {
+            Logger.Warn("Taskbar XAML element not available, resetting cache: " + elementName);
+            elementCache = null;
             return (false, Rect.Empty);
         }
         catch (Exception ex)
