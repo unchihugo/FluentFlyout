@@ -1,7 +1,7 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib">
     <system:String x:Key="TitleText">FluentFlyout 设置</system:String>
     <system:String x:Key="MediaFlyoutTitle">媒体浮窗</system:String>
-    <system:String x:Key="MediaFlyoutDescription">主要浮窗。在播放媒体时、按下键盘上的任意媒体控制按键或音量按键（播放 / 暂停、音量增大 / 减小等）时会出现。会显示媒体信息、播放控制按钮和其它内容。</system:String>
+    <system:String x:Key="MediaFlyoutDescription">在播放媒体时、按下键盘上的任意媒体控制按键或音量按键（播放 / 暂停、音量增大 / 减小等）时，出现该浮窗。会显示媒体信息、播放控制按钮和其它内容。</system:String>
     <system:String x:Key="TextBlockText1">开启媒体浮窗</system:String>
     <system:String x:Key="TextBlockText3">当按下媒体控制按键时显示浮窗</system:String>
     <system:String x:Key="TextBlockText2">从预设的现代背景模糊样式中选择一个</system:String>
@@ -167,4 +167,31 @@
     <system:String x:Key="UpdateAvailableNotificationMessage">有新版本 ({0}) 可用。</system:String>
     <system:String x:Key="UpdateAvailableNotificationTitle">更新可用！</system:String>
     <system:String x:Key="UpdateAvailableNotificationButton">下载更新</system:String>
+    <system:String x:Key="MediaFlyoutExcludeVolumeTitle">排除音量键</system:String>
+    <system:String x:Key="MediaFlyoutExcludeVolumeDescription">当按下音量加/音量减/静音时不显示浮窗</system:String>
+    <system:String x:Key="TaskbarVisualizerTitle">任务栏频谱可视化</system:String>
+    <system:String x:Key="TaskbarVisualizerDescription">在任务栏上显示当前实时播放音频的频谱可视化。专为现代系统设计，性能影响极低。</system:String>
+    <system:String x:Key="TaskbarVisualizerEnabledTitle">启用任务栏频谱可视化（实验性）</system:String>
+    <system:String x:Key="TaskbarVisualizerEnabledDescription">实验性功能：仅当任务栏小组件启用时，此功能才会生效</system:String>
+    <system:String x:Key="TaskbarVisualizerPositionTitle">频谱可视化相对于任务栏小组件的位置</system:String>
+    <system:String x:Key="TaskbarVisualizerBarCountTitle">频谱柱数量</system:String>
+    <system:String x:Key="TaskbarVisualizerBarCountDescription">显示的频谱柱的总数</system:String>
+    <system:String x:Key="TaskbarVisualizerCenteredBarsTitle">频谱柱居中显示</system:String>
+    <system:String x:Key="TaskbarVisualizerCenteredBarsDescription">开启后频谱柱从中心向上下对称展开，关闭后从底部向上延伸</system:String>
+    <system:String x:Key="TaskbarVisualizerBaselineTitle">显示基线</system:String>
+    <system:String x:Key="TaskbarVisualizerBaselineDescription">当音频电平为零时，显示一条细线</system:String>
+    <system:String x:Key="TaskbarVisualizerAudioSensitivityTitle">音频灵敏度</system:String>
+    <system:String x:Key="TaskbarVisualizerAudioSensitivityDescription">频谱柱对音频响度响应的强弱程度</system:String>
+    <system:String x:Key="AllFuturePremiumFeatures">将来推出的所有 Premium 功能</system:String>
+    <system:String x:Key="DevelopersTitle">开发人员</system:String>
+    <system:String x:Key="TranslatorsTitle">翻译人员</system:String>
+    <system:String x:Key="SponsorMeLink">赞助我</system:String>
+    <system:String x:Key="BuyMeCoffeeLink">请我喝杯咖啡</system:String>
+    <system:String x:Key="UnlockFullExperienceText">解锁完整的 FluentFlyout 体验：</system:String>
+    <system:String x:Key="AppearanceBehaviorSectionTitle">外观与行为</system:String>
+    <system:String x:Key="UpdatesSectionTitle">软件更新</system:String>
+    <system:String x:Key="ShowUpdateNotificationsTitle">有更新时显示通知</system:String>
+    <system:String x:Key="TaskbarWidgetCustomizationPerk">任务栏小组件与频谱可视化</system:String>
+    <system:String x:Key="HideTrayIconPerk">隐藏托盘图标</system:String>
+    <system:String x:Key="AcrylicBlurOpacityPerk">亚克力模糊效果的不透明度</system:String>
 </ResourceDictionary>

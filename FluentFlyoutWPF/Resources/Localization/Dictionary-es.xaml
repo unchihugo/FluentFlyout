@@ -1,7 +1,7 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib">
     <system:String x:Key="TitleText">Ajustes de FluentFlyout</system:String>
     <system:String x:Key="MediaFlyoutTitle">Flyout de Multimedia</system:String>
-    <system:String x:Key="MediaFlyoutDescription">Flyout Principal. Cuando estés reproduciendo multimedia, pulsa cualquier tecla de multimedia o volumen (reproducir/pausar, subir/bajar volumen, etc.) en tu teclado para mostrar el flyout. Muestra información, junto con controles de reproducción y más.</system:String>
+    <system:String x:Key="MediaFlyoutDescription">Cuando estés reproduciendo multimedia, pulsa cualquier tecla de multimedia o volumen (reproducir/pausar, subir/bajar volumen, etc.) en tu teclado para mostrar el flyout. Muestra información, junto con controles de reproducción y más.</system:String>
     <system:String x:Key="TextBlockText1">Activar Flyout de Multimedia</system:String>
     <system:String x:Key="TextBlockText3">Mostrar flyout cuando pulses una tecla multimedia</system:String>
     <system:String x:Key="TextBlockText2">Elige entre varios ajustes de difuminado del fondo</system:String>
@@ -112,7 +112,7 @@ Puedes ayudar a contribuir con las traducciones en</system:String>
     <system:String x:Key="TaskbarWidgetBackgroundBlurDescription">Añade un efecto de difuminado al fondo del widget de la barra de tareas</system:String>
     <system:String x:Key="TaskbarWidgetHideCompletelyTitle">Ocultar Completamente Cuando No Hay Multimedia Presente</system:String>
     <system:String x:Key="TaskbarWidgetHideCompletelyDescription">Oculta completamente el widget cuando no hay contenido multimedia disponible, en vez de mostrar un icono</system:String>
-    <system:String x:Key="PremiumFeatureTitle">Opción Premium</system:String>
+    <system:String x:Key="PremiumFeatureTitle">Funcionalidades Premium</system:String>
     <system:String x:Key="PremiumFeatureDescription" xml:space="preserve">Tu contribución única me ayuda a mantener FluentFlyout vivo y actualizado. Desbloquea instantáneamente toda las opciones de personalización premiun, para siempre.
 
 Nota: Como proyecto de código abierto, estas opciones también están disponibles gratis mediante el instalador manual de GitHub. El único inconveniente es que las actualizaciones y la instalación debe hacerse de forma manual.</system:String>
@@ -160,4 +160,26 @@ Nota: Como proyecto de código abierto, estas opciones también están disponibl
     <system:String x:Key="HomeTitle">Inicio</system:String>
     <system:String x:Key="Enabled">Habilitado</system:String>
     <system:String x:Key="Disabled">Deshabilitado</system:String>
+    <system:String x:Key="UpdateAvailableNotificationButton">Descargar Actualización</system:String>
+    <system:String x:Key="LastChecked">Última comprobación: {0}</system:String>
+    <system:String x:Key="UpdateAvailableNotificationMessage">Hay una nueva versión ({0}) disponible.</system:String>
+    <system:String x:Key="UpdateAvailable">Actualización disponible</system:String>
+    <system:String x:Key="UpToDate">Actualizado</system:String>
+    <system:String x:Key="CheckingForUpdates">Verificando...</system:String>
+    <system:String x:Key="UpdateAvailableNotificationTitle">¡Actualización disponible!</system:String>
+    <system:String x:Key="MediaFlyoutExcludeVolumeTitle">Excluir las Teclas de Volumen</system:String>
+    <system:String x:Key="MediaFlyoutExcludeVolumeDescription">No mostrar el flyout cuando se presionen las teclas de volumen arriba/abajo/mudo</system:String>
+    <system:String x:Key="TaskbarVisualizerAudioSensitivityDescription">Con cuanta intensidad responden las barras al volumen</system:String>
+    <system:String x:Key="TaskbarVisualizerTitle">Visualizador de la Barra de Tareas</system:String>
+    <system:String x:Key="TaskbarVisualizerDescription">Un visualizador de audio en tiempo real en tu barra de tareas. Diseñado para un impacto mínimo en el rendimiento de sistemas modernos.</system:String>
+    <system:String x:Key="TaskbarVisualizerEnabledTitle">Activar Visualizador de la Barra de Tareas (Experimental)</system:String>
+    <system:String x:Key="TaskbarVisualizerEnabledDescription">Experimental: Esta funcionalidad solo funciona si el Widget de la Barra de Tareas esta activado</system:String>
+    <system:String x:Key="TaskbarVisualizerPositionTitle">Posición del Visualizador Realitiva al Widget de la Barra de Tareas</system:String>
+    <system:String x:Key="TaskbarVisualizerBarCountTitle">Número de Barras</system:String>
+    <system:String x:Key="TaskbarVisualizerBarCountDescription">La cantidad de barras del visualizador</system:String>
+    <system:String x:Key="TaskbarVisualizerCenteredBarsTitle">Barras Centradas</system:String>
+    <system:String x:Key="TaskbarVisualizerCenteredBarsDescription">Barras que se expanden simétricamente desde el centro en vez de subir desde abajo</system:String>
+    <system:String x:Key="TaskbarVisualizerBaselineDescription">Muestra una fina linea cuando los niveles de audio están a cero</system:String>
+    <system:String x:Key="TaskbarVisualizerAudioSensitivityTitle">Sensibilidad del Audio</system:String>
+    <system:String x:Key="TaskbarVisualizerBaselineTitle">Mostrar Línea de Base</system:String>
 </ResourceDictionary>
