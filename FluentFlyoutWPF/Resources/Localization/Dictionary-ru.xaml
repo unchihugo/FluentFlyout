@@ -188,7 +188,9 @@
     <system:String x:Key="DevelopersTitle">Разработчики</system:String>
     <system:String x:Key="TranslatorsTitle">Переводчики</system:String>
     <system:String x:Key="SponsorMeLink">Поддержите меня</system:String>
-    <system:String x:Key="TaskbarWidgetCustomizationPerk">Виджет на панели задач</system:String>
+    <system:String x:Key="TaskbarWidgetCustomizationPerk">Виджет и Визуализатор на панели задач</system:String>
     <system:String x:Key="AcrylicBlurOpacityPerk">Непрозрачность акрилового размытия</system:String>
     <system:String x:Key="HideTrayIconPerk">Скрыть иконку в трее</system:String>
+    <system:String x:Key="AppearanceBehaviorSectionTitle">Внешний вид и режим</system:String>
+    <system:String x:Key="ShowUpdateNotificationsTitle">Отображать уведомления о наличии обновлений</system:String>
 </ResourceDictionary>
