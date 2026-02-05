@@ -21,7 +21,6 @@ namespace FluentFlyout.Windows;
 /// </summary>
 public partial class TaskbarWindow : Window
 {
-
     private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
     private readonly DispatcherTimer _timer;
@@ -211,8 +210,6 @@ public partial class TaskbarWindow : Window
         }
     }
 
-
-
     private void UpdatePosition()
     {
         if (MainWindow.ExplorerRestarting)
@@ -286,7 +283,8 @@ public partial class TaskbarWindow : Window
         // first, try to find the Taskbar.TaskbarFrame element in the XAML
         // this should give us the actual bounds of the taskbar, excluding invisible margins on some Windows configurations
         (bool success, Rect result) = GetTaskbarFrameRect(taskbarHandle);
-        if (success) {
+        if (success)
+        {
             taskbarRect = new RECT
             {
                 Left = (int)result.Left,
@@ -482,6 +480,7 @@ public partial class TaskbarWindow : Window
             case 0: // left aligned next to widget
                 visualizerLeft = (int)(System.Windows.Controls.Canvas.GetLeft(Widget) * dpiScale) - (int)(TaskbarVisualizer.Width * dpiScale) - 4;
                 break;
+
             case 1: // right aligned next to widget
                 visualizerLeft = (int)(System.Windows.Controls.Canvas.GetLeft(Widget) * dpiScale) + (int)(Widget.Width * dpiScale) + 4;
                 break;
