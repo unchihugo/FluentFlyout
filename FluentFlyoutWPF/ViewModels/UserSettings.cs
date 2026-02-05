@@ -468,6 +468,12 @@ public partial class UserSettings : ObservableObject
     [ObservableProperty]
     public partial long LastUpdateNotificationUnixSeconds { get; set; }
 
+    /// <summary>
+    /// Determines whether user will get Windows notifications when a new update is available.
+    /// </summary>
+    [ObservableProperty]
+    public partial bool ShowUpdateNotifications { get; set; }
+
     [XmlIgnore]
     private bool _initializing = true;
 
@@ -531,6 +537,7 @@ public partial class UserSettings : ObservableObject
         TaskbarVisualizerAudioSensitivity = 2;
         AcrylicBlurOpacity = 175;
         LastUpdateNotificationUnixSeconds = 0;
+        ShowUpdateNotifications = true;
     }
 
     /// <summary>

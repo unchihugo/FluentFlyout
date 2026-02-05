@@ -119,6 +119,8 @@ internal static class Notifications
     /// <param name="updateUrl">The URL to download the update (can be empty)</param>
     public static void ShowUpdateAvailableNotification(string newVersion, string updateUrl)
     {
+        if (!SettingsManager.Current.ShowUpdateNotifications) return;
+
         long currentUnixSeconds = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
 
         if (currentUnixSeconds - SettingsManager.Current.LastUpdateNotificationUnixSeconds < TimeSpan.FromDays(5).TotalSeconds) // 5 days cooldown
