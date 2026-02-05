@@ -188,4 +188,10 @@ Nota: Como um projeto de código aberto, esses recursos também estão disponív
     <system:String x:Key="TranslatorsTitle">Tradutores</system:String>
     <system:String x:Key="SponsorMeLink">Patrocine-me</system:String>
     <system:String x:Key="BuyMeCoffeeLink">Compre-me um café</system:String>
+    <system:String x:Key="TaskbarWidgetCustomizationPerk">Widget da barra de tarefas e visualizador</system:String>
+    <system:String x:Key="AcrylicBlurOpacityPerk">Opacidade do desfoque acrílico</system:String>
+    <system:String x:Key="HideTrayIconPerk">Ocultar ícone da bandeja</system:String>
+    <system:String x:Key="AppearanceBehaviorSectionTitle">Aparência e comportamento</system:String>
+    <system:String x:Key="UpdatesSectionTitle">Atualizações</system:String>
+    <system:String x:Key="ShowUpdateNotificationsTitle">Mostrar notificações para novas atualizações</system:String>
 </ResourceDictionary>
