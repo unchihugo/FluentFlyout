@@ -193,4 +193,5 @@
     <system:String x:Key="HideTrayIconPerk">إخفاء أيقونة شريط المهام</system:String>
     <system:String x:Key="AppearanceBehaviorSectionTitle">المظهر والتفاعل</system:String>
     <system:String x:Key="ShowUpdateNotificationsTitle">إظهار إشعارات للتحديثات الجديدة</system:String>
+    <system:String x:Key="UpdatesSectionTitle">التحديثات</system:String>
 </ResourceDictionary>
