@@ -171,4 +171,6 @@ Vous pouvez contribuer aux traductions sur</system:String>
     <system:String x:Key="MediaFlyoutExcludeVolumeDescription">Ne pas montrer le volet quand la touche d'augmentation/diminution/muet de volume est appuyé</system:String>
     <system:String x:Key="TaskbarVisualizerTitle">Visualisateur de la barre de tâches</system:String>
     <system:String x:Key="TaskbarVisualizerDescription">Un visualisateur d'audio en temps réel sur votre barre de tâches. Conçu pour avoir un impact minimal sur la performance sur des systèmes modernes.</system:String>
+    <system:String x:Key="TaskbarWidgetCustomizationPerk">Widget de la barre des tâches</system:String>
+    <system:String x:Key="AcrylicBlurOpacityPerk">Opacité flou acrylique</system:String>
 </ResourceDictionary>
