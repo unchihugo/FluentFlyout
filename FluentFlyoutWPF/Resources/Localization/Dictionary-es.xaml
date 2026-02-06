@@ -182,4 +182,5 @@ Nota: Como proyecto de código abierto, estas opciones también están disponibl
     <system:String x:Key="TaskbarVisualizerBaselineDescription">Muestra una fina linea cuando los niveles de audio están a cero</system:String>
     <system:String x:Key="TaskbarVisualizerAudioSensitivityTitle">Sensibilidad del Audio</system:String>
     <system:String x:Key="TaskbarVisualizerBaselineTitle">Mostrar Línea de Base</system:String>
+    <system:String x:Key="TaskbarWidgetCustomizationPerk">Widget de la Barra de Tareas</system:String>
 </ResourceDictionary>
