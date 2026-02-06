@@ -1,7 +1,7 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib">
     <system:String x:Key="TitleText">FluentFlyout - Ustawienia</system:String>
     <system:String x:Key="MediaFlyoutTitle">Media Flyout</system:String>
-    <system:String x:Key="MediaFlyoutDescription">Główny panel. Podczas odtwarzania multimediów naciśnij dowolny klawisz multimedialny lub głośności (odtwarzanie/pauza, zwiększanie/zmniejszanie głośności, itp.) na klawiaturze, aby wyświetlić panel. Wyświetla informacje o multimediach, elementy sterujące odtwarzaniem i wiele innych.</system:String>
+    <system:String x:Key="MediaFlyoutDescription">Podczas odtwarzania multimediów naciśnij dowolny klawisz multimedialny lub głośności (odtwarzanie/pauza, zwiększanie/zmniejszanie głośności, itp.) na klawiaturze, aby wyświetlić panel. Wyświetla informacje o multimediach, elementy sterujące odtwarzaniem i wiele innych.</system:String>
     <system:String x:Key="TextBlockText1">Włącz Media Flyout</system:String>
     <system:String x:Key="TextBlockText3">Wyświetla panel po naciśnięciu klawisza multimediów</system:String>
     <system:String x:Key="TextBlockText2">Wybierz jeden z predefiniowanych stylów rozmycia tła</system:String>
@@ -169,4 +169,29 @@ Możesz pomóc w tworzeniu tłumaczeń na stronie</system:String>
     <system:String x:Key="UpdateAvailableNotificationButton">Pobierz aktualizację</system:String>
     <system:String x:Key="MediaFlyoutExcludeVolumeTitle">Wyklucz klawisze głośności</system:String>
     <system:String x:Key="MediaFlyoutExcludeVolumeDescription">Nie wyświetlaj panelu gdy wciśnięty jest przycisk zwiększenie/zmniejszenia/wyciszenia głośności dźwięku</system:String>
+    <system:String x:Key="TaskbarVisualizerTitle">Wizualizer na pasku zadań</system:String>
+    <system:String x:Key="TaskbarVisualizerDescription">Wizualizer audio w czasie rzeczywistym na twoim pasku zadań. Zaprojektowany z myślą o minimalnym wpływie na wydajność na nowoczesnych systemach.</system:String>
+    <system:String x:Key="TaskbarVisualizerEnabledTitle">Włącz wizualizer na pasku zadań (eksperymentalne)</system:String>
+    <system:String x:Key="TaskbarVisualizerEnabledDescription">Eksperymentalne: Ta funkcja będzie działać tylko gdy Widżet na Pasku Zadań jest włączony</system:String>
+    <system:String x:Key="TaskbarVisualizerPositionTitle">Pozycja wizualizera w stosunku do Widżetu na Pasku Zadań</system:String>
+    <system:String x:Key="TaskbarVisualizerBarCountTitle">Ilość kolumn</system:String>
+    <system:String x:Key="TaskbarVisualizerBarCountDescription">Ilość kolumn wizualizera</system:String>
+    <system:String x:Key="TaskbarVisualizerCenteredBarsTitle">Wyśrodkowane kolumny</system:String>
+    <system:String x:Key="TaskbarVisualizerCenteredBarsDescription">Kolumny które rozszerzają się symetrycznie od środka zamiast pojawiać się od spodu</system:String>
+    <system:String x:Key="TaskbarVisualizerBaselineTitle">Pokaż podstawę</system:String>
+    <system:String x:Key="TaskbarVisualizerBaselineDescription">Pokazuje cienką linię gdy poziomy audio są wyzerowane</system:String>
+    <system:String x:Key="TaskbarVisualizerAudioSensitivityTitle">Czułość na dźwięk</system:String>
+    <system:String x:Key="TaskbarVisualizerAudioSensitivityDescription">Jak bardzo kolumny reagują na głośność audio</system:String>
+    <system:String x:Key="UnlockFullExperienceText">Odblokuj pelne doświadczenia z FluentFlyout:</system:String>
+    <system:String x:Key="TaskbarWidgetCustomizationPerk">Widżet Paska Zadań i Wizualizer</system:String>
+    <system:String x:Key="AcrylicBlurOpacityPerk">Przezroczystość rozmycia akrylowego</system:String>
+    <system:String x:Key="HideTrayIconPerk">Ukryj ikonę zasobnika</system:String>
+    <system:String x:Key="AllFuturePremiumFeatures">Wszystkie przyszłe funkcje Premium</system:String>
+    <system:String x:Key="AppearanceBehaviorSectionTitle">Wygląd i zachowanie</system:String>
+    <system:String x:Key="UpdatesSectionTitle">Aktualizacje</system:String>
+    <system:String x:Key="DevelopersTitle">Deweloperzy</system:String>
+    <system:String x:Key="TranslatorsTitle">Tłumacze</system:String>
+    <system:String x:Key="SponsorMeLink">Wesprzyj mnie</system:String>
+    <system:String x:Key="BuyMeCoffeeLink">Kup mi kawę</system:String>
+    <system:String x:Key="ShowUpdateNotificationsTitle">Pokaż powiadomienia o aktualizacjach</system:String>
 </ResourceDictionary>
