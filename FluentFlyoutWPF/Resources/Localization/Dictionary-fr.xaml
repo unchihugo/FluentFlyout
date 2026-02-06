@@ -187,4 +187,11 @@ Vous pouvez contribuer aux traductions sur</system:String>
     <system:String x:Key="HideTrayIconPerk">Cacher l'icône de la barre d'état</system:String>
     <system:String x:Key="TaskbarVisualizerAudioSensitivityDescription">L'intensité avec laquelle les barres audio réagissent à l'intensité sonore</system:String>
     <system:String x:Key="ShowUpdateNotificationsTitle">Montrer des notifications pour les nouvelles mises à jour</system:String>
+    <system:String x:Key="AllFuturePremiumFeatures">Toutes les fonctionnalités premium</system:String>
+    <system:String x:Key="AppearanceBehaviorSectionTitle">Apparence et comportement</system:String>
+    <system:String x:Key="UpdatesSectionTitle">Mises à jour</system:String>
+    <system:String x:Key="DevelopersTitle">Développeurs</system:String>
+    <system:String x:Key="TranslatorsTitle">Traducteurs</system:String>
+    <system:String x:Key="SponsorMeLink">Soutenez-moi</system:String>
+    <system:String x:Key="BuyMeCoffeeLink">Offrez-moi un café</system:String>
 </ResourceDictionary>
