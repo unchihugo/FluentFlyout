@@ -128,7 +128,7 @@
     <system:String x:Key="PremiumPurchaseFailed">Ошибка при покупке. Попробуйте ещё раз.</system:String>
     <system:String x:Key="PremiumPurchaseCancelled">Покупка отменена.</system:String>
     <system:String x:Key="TrayIconSectionTitle">Иконка в трее</system:String>
-    <system:String x:Key="HideTrayIconTitle">Скрыть полностью иконку в трее</system:String>
+    <system:String x:Key="HideTrayIconTitle">Полностью скрыть иконку в трее</system:String>
     <system:String x:Key="HideTrayIconDescription">Получите доступ к настройкам из трея при запуске программы</system:String>
     <system:String x:Key="AboutPremiumTitle">О премиум-функциях</system:String>
     <system:String x:Key="TaskbarWidgetControlsDescription">Отображает медиакнопки на виджете</system:String>
