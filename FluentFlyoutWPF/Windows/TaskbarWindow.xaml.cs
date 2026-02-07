@@ -478,11 +478,11 @@ public partial class TaskbarWindow : Window
         switch (SettingsManager.Current.TaskbarVisualizerPosition)
         {
             case 0: // left aligned next to widget
-                visualizerLeft = (int)(System.Windows.Controls.Canvas.GetLeft(Widget) * dpiScale) - (int)(TaskbarVisualizer.Width * dpiScale) - 4;
+                visualizerLeft = (int)(System.Windows.Controls.Canvas.GetLeft(Widget) * dpiScale) - (int)(TaskbarVisualizer.Width * dpiScale);
                 break;
 
             case 1: // right aligned next to widget
-                visualizerLeft = (int)(System.Windows.Controls.Canvas.GetLeft(Widget) * dpiScale) + (int)(Widget.Width * dpiScale) + 4;
+                visualizerLeft = (int)(System.Windows.Controls.Canvas.GetLeft(Widget) * dpiScale) + (int)(Widget.Width * dpiScale);
                 break;
         }
 
