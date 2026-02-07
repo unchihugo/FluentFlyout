@@ -553,11 +553,7 @@ public partial class TaskbarWindow : Window
             // find widget in XAML
             if (elementCache == null)
             {
-                // Run FindFirst on a background (MTA) thread to avoid cross-process COM deadlock.
-                // This window is a child of explorer's taskbar. If the UI thread (STA) makes a
-                // synchronous COM call into explorer, and explorer tries to message this child
-                // window during processing, a deadlock occurs because the STA can't pump messages
-                // while blocked on the COM call. Running from an MTA thread breaks this cycle.
+                // asynchronous query
                 AutomationElement? found = null;
                 var findTask = Task.Run(() =>
                 {
@@ -566,7 +562,7 @@ public partial class TaskbarWindow : Window
                         new PropertyCondition(AutomationElement.AutomationIdProperty, elementName));
                 });
 
-                if (!findTask.Wait(2000))
+                if (!findTask.Wait(1000))
                 {
                     Logger.Warn("Timeout querying taskbar XAML element: " + elementName);
                     return (false, Rect.Empty);
@@ -582,11 +578,10 @@ public partial class TaskbarWindow : Window
 
             try
             {
-                // Also read BoundingRectangle off the UI thread for the same deadlock reason
                 var cachedElement = elementCache;
                 var boundsTask = Task.Run(() => cachedElement.Current.BoundingRectangle);
 
-                if (!boundsTask.Wait(1000))
+                if (!boundsTask.Wait(500))
                 {
                     Logger.Warn("Timeout getting bounds for taskbar XAML element: " + elementName);
                     elementCache = null;
