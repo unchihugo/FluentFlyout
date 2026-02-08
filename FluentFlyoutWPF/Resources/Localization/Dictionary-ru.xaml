@@ -22,7 +22,7 @@
     <system:String x:Key="EasingLinear" xml:space="preserve"> Линейное</system:String>
     <system:String x:Key="EasingSine" xml:space="preserve"> Синусоидальное</system:String>
     <system:String x:Key="TitleText">Настройки FluentFlyout</system:String>
-    <system:String x:Key="MediaFlyoutTitle">Всплывающий плеер</system:String>
+    <system:String x:Key="MediaFlyoutTitle">Плеер</system:String>
     <system:String x:Key="MediaFlyoutDescription">При прослушивании медиа нажмите любую медиа-клавишу или кнопку регулировки громкости (воспроизведение/пауза, увеличение/уменьшение громкости и т. д.) на вашей клавиатуре, чтобы отобразить плеер. Отображает информацию об играющем медиа, а также элементы управления воспроизведением и многое другое.</system:String>
     <system:String x:Key="TextBlockText1">Включить всплывающий плеер</system:String>
     <system:String x:Key="TextBlockText3">Отображает плеер, при нажатии на медиа-клавиши</system:String>
@@ -50,7 +50,7 @@
     <system:String x:Key="UnsupportedControlsWarning">*Некоторые браузеры/плееры не поддерживают управление повтором, перемешиванием и перемоткой.</system:String>
     <system:String x:Key="PauseOtherMediaTitle">Автоматически приостанавливать другой плеер</system:String>
     <system:String x:Key="PauseOtherMediaDescription">При начале воспроизведения из другого плеера активный плеер будет автоматически приостановлен</system:String>
-    <system:String x:Key="NextUpCustomizationTitle">Всплывающее окно «Далее»</system:String>
+    <system:String x:Key="NextUpCustomizationTitle">Окно «Далее»</system:String>
     <system:String x:Key="NextUpDescription" xml:space="preserve">Этот всплывающий элемент отображает, что будет воспроизводиться после окончания текущего медиа. Появляется, только если следующий медиафайл воспроизводится автоматически. Не появляется при ручном нажатии на «следующий»/«предыдущий».</system:String>
     <system:String x:Key="EnableNextUpTitle">Включить всплывающее окно «Далее» (экспериментальная функция)</system:String>
     <system:String x:Key="EnableNextUpDescription">Отображает, что будет дальше после окончания текущего медиа</system:String>
@@ -102,7 +102,7 @@
     <system:String x:Key="LockWindow_LockOn">вкл.</system:String>
     <system:String x:Key="LockWindow_LockOff">выкл.</system:String>
     <system:String x:Key="TrayIcon_QuitOption">Закрыть FluentFlyout</system:String>
-    <system:String x:Key="TaskbarWidgetCustomizationTitle">Виджет на панели задач</system:String>
+    <system:String x:Key="TaskbarWidgetCustomizationTitle">Виджет</system:String>
     <system:String x:Key="TaskbarWidgetDescription">Компактный виджет, который находится на панели задач Windows и обеспечивает мгновенный доступ к управлению медиа. Нажмите на виджет для открытия всплывающего плеера (если включено).</system:String>
     <system:String x:Key="TaskbarWidgetEnabledTitle">Включить виджет</system:String>
     <system:String x:Key="TaskbarWidgetEnabledDescription">Отображает виджет на панели задач</system:String>
@@ -170,7 +170,7 @@
     <system:String x:Key="UpdateAvailableNotificationMessage">Доступна новая версия ({0}).</system:String>
     <system:String x:Key="UpdateAvailableNotificationButton">Скачать обновление</system:String>
     <system:String x:Key="TaskbarVisualizerEnabledTitle">Включить визуализатор (экспериментальная функция)</system:String>
-    <system:String x:Key="TaskbarVisualizerTitle">Визуализатор на панели задач</system:String>
+    <system:String x:Key="TaskbarVisualizerTitle">Визуализатор</system:String>
     <system:String x:Key="TaskbarVisualizerDescription">Визуализатор звука в реальном времени на панели задач. Разработан для минимального влияния на производительность современных систем.</system:String>
     <system:String x:Key="TaskbarVisualizerEnabledDescription">Экспериментальная функция: Эта функция работает только при включенном виджете на панели задач</system:String>
     <system:String x:Key="TaskbarVisualizerPositionTitle">Расположение визуализатора относительно виджета панели задач</system:String>
