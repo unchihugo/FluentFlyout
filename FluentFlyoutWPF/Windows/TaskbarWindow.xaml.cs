@@ -35,6 +35,7 @@ public partial class TaskbarWindow : Window
     private MainWindow? _mainWindow;
     private int _lastSelectedMonitor = -1;
     private bool _positionUpdateInProgress;
+    private readonly Dictionary<string, Task> _pendingAutomationTasks = [];
 
     public TaskbarWindow()
     {
@@ -276,7 +277,7 @@ public partial class TaskbarWindow : Window
 
     private void CalculateAndSetPosition(IntPtr taskbarHandle, IntPtr taskbarWindowHandle, bool isMainTaskbarSelected)
     {
-        // Prevent overlapping updates — if a previous update is still running
+        // Prevent overlapping updates - if a previous update is still running
         // (e.g. waiting for an automation query timeout), skip this tick.
         if (_positionUpdateInProgress)
             return;
@@ -284,56 +285,56 @@ public partial class TaskbarWindow : Window
 
         try
         {
-        // get DPI scaling
-        double dpiScale = GetDpiForWindow(taskbarHandle) / 96.0;
+            // get DPI scaling
+            double dpiScale = GetDpiForWindow(taskbarHandle) / 96.0;
 
-        // Guard against invalid DPI (e.g. during explorer restart when handle is stale)
-        if (dpiScale <= 0)
-            return;
+            // Guard against invalid DPI (e.g. during explorer restart when handle is stale)
+            if (dpiScale <= 0)
+                return;
 
-        // Get Taskbar dimensions
-        RECT taskbarRect;
-        // first, try to find the Taskbar.TaskbarFrame element in the XAML
-        // this should give us the actual bounds of the taskbar, excluding invisible margins on some Windows configurations
-        (bool success, Rect result) = GetTaskbarFrameRect(taskbarHandle);
-        if (success)
-        {
-            taskbarRect = new RECT
+            // Get Taskbar dimensions
+            RECT taskbarRect;
+            // first, try to find the Taskbar.TaskbarFrame element in the XAML
+            // this should give us the actual bounds of the taskbar, excluding invisible margins on some Windows configurations
+            (bool success, Rect result) = GetTaskbarFrameRect(taskbarHandle);
+            if (success)
             {
-                Left = (int)result.Left,
-                Top = (int)result.Top,
-                Right = (int)result.Right,
-                Bottom = (int)result.Bottom
-            };
-        }
-        else
-        {
-            // fallback to GetWindowRect if we fail to get the frame bounds for some reason
-            GetWindowRect(taskbarHandle, out taskbarRect);
-        }
+                taskbarRect = new RECT
+                {
+                    Left = (int)result.Left,
+                    Top = (int)result.Top,
+                    Right = (int)result.Right,
+                    Bottom = (int)result.Bottom
+                };
+            }
+            else
+            {
+                // fallback to GetWindowRect if we fail to get the frame bounds for some reason
+                GetWindowRect(taskbarHandle, out taskbarRect);
+            }
 
-        int taskbarHeight = taskbarRect.Bottom - taskbarRect.Top;
-        int taskbarWidth = taskbarRect.Right - taskbarRect.Left;
+            int taskbarHeight = taskbarRect.Bottom - taskbarRect.Top;
+            int taskbarWidth = taskbarRect.Right - taskbarRect.Left;
 
-        int containerWidth = taskbarWidth;
-        int containerHeight = taskbarHeight;
+            int containerWidth = taskbarWidth;
+            int containerHeight = taskbarHeight;
 
-        // Following SetWindowPos will set the position relative to the parent window,
-        // so those coordinates need to be converted.
-        POINT containerPos = new() { X = taskbarRect.Left, Y = taskbarRect.Top };
-        ScreenToClient(taskbarHandle, ref containerPos);
+            // Following SetWindowPos will set the position relative to the parent window,
+            // so those coordinates need to be converted.
+            POINT containerPos = new() { X = taskbarRect.Left, Y = taskbarRect.Top };
+            ScreenToClient(taskbarHandle, ref containerPos);
 
-        // Apply using SetWindowPos (Bypassing WPF layout engine)
-        SetWindowPos(taskbarWindowHandle, 0,
-                 containerPos.X, containerPos.Y,
-                 containerWidth, containerHeight,
-                 SWP_NOZORDER | SWP_NOACTIVATE | SWP_ASYNCWINDOWPOS | SWP_SHOWWINDOW);
+            // Apply using SetWindowPos (Bypassing WPF layout engine)
+            SetWindowPos(taskbarWindowHandle, 0,
+                     containerPos.X, containerPos.Y,
+                     containerWidth, containerHeight,
+                     SWP_NOZORDER | SWP_NOACTIVATE | SWP_ASYNCWINDOWPOS | SWP_SHOWWINDOW);
 
-        PositionWidget(taskbarHandle, taskbarRect, dpiScale, isMainTaskbarSelected);
+            PositionWidget(taskbarHandle, taskbarRect, dpiScale, isMainTaskbarSelected);
 
-        PositionVisualizer(taskbarHandle, taskbarRect, dpiScale, isMainTaskbarSelected);
+            PositionVisualizer(taskbarHandle, taskbarRect, dpiScale, isMainTaskbarSelected);
 
-        _lastSelectedMonitor = SettingsManager.Current.TaskbarWidgetSelectedMonitor;
+            _lastSelectedMonitor = SettingsManager.Current.TaskbarWidgetSelectedMonitor;
         }
         finally
         {
@@ -553,7 +554,16 @@ public partial class TaskbarWindow : Window
             // find widget in XAML
             if (elementCache == null)
             {
-                // asynchronous query
+                // If a previous automation query for THIS element is still running (timed out
+                // but not yet completed), don't spawn another one to avoid threadpool exhaustion.
+                if (_pendingAutomationTasks.TryGetValue(elementName, out var pendingTask) && !pendingTask.IsCompleted)
+                    return (false, Rect.Empty);
+
+                // Run FindFirst on a background (MTA) thread to avoid cross-process COM deadlock.
+                // This window is a child of explorer's taskbar. If the UI thread (STA) makes a
+                // synchronous COM call into explorer, and explorer tries to message this child
+                // window during processing, a deadlock occurs because the STA can't pump messages
+                // while blocked on the COM call. Running from an MTA thread breaks this cycle.
                 AutomationElement? found = null;
                 var findTask = Task.Run(() =>
                 {
@@ -561,6 +571,7 @@ public partial class TaskbarWindow : Window
                     found = root.FindFirst(TreeScope.Descendants,
                         new PropertyCondition(AutomationElement.AutomationIdProperty, elementName));
                 });
+                _pendingAutomationTasks[elementName] = findTask;
 
                 if (!findTask.Wait(1000))
                 {
@@ -578,8 +589,16 @@ public partial class TaskbarWindow : Window
 
             try
             {
+                // Also guard BoundingRectangle: it's a cross-process COM call too
+                if (_pendingAutomationTasks.TryGetValue(elementName, out var pendingTask) && !pendingTask.IsCompleted)
+                {
+                    elementCache = null;
+                    return (false, Rect.Empty);
+                }
+
                 var cachedElement = elementCache;
                 var boundsTask = Task.Run(() => cachedElement.Current.BoundingRectangle);
+                _pendingAutomationTasks[elementName] = boundsTask;
 
                 if (!boundsTask.Wait(500))
                 {
