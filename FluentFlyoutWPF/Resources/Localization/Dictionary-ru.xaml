@@ -71,7 +71,7 @@
     <system:String x:Key="StartupAppsSettingsInfo">Если эта настройка не работает как ожидалось, проверьте</system:String>
     <system:String x:Key="TrayIconLeftClickBehaviorTitle">Действие по левому клику на иконку в трее</system:String>
     <system:String x:Key="TrayIconLeftClickBehaviorDescription">Выберите, что будет происходить при нажатии левой кнопкой мыши на иконку в трее</system:String>
-    <system:String x:Key="TrayIconLeftClickOption2"> Отобразить всплывающее окно</system:String>
+    <system:String x:Key="TrayIconLeftClickOption2"> Отобразить всплывающий плеер</system:String>
     <system:String x:Key="Win11TrayIconTitle">Стиль иконки как в Windows 11</system:String>
     <system:String x:Key="Win11TrayIconDescription">Использовать иконку в трее в стиле Windows 11 (переключите для обновления)</system:String>
     <system:String x:Key="AnimationSettingsDescription">Настройте анимации по своему вкусу</system:String>
@@ -103,15 +103,15 @@
     <system:String x:Key="LockWindow_LockOff">выкл.</system:String>
     <system:String x:Key="TrayIcon_QuitOption">Закрыть FluentFlyout</system:String>
     <system:String x:Key="TaskbarWidgetCustomizationTitle">Виджет на панели задач</system:String>
-    <system:String x:Key="TaskbarWidgetDescription">Компактный виджет, который находится на панели задач Windows и обеспечивает мгновенный доступ к управлению медиа. Нажмите на виджет, чтобы открыть всплывающее окно (если оно включено).</system:String>
+    <system:String x:Key="TaskbarWidgetDescription">Компактный виджет, который находится на панели задач Windows и обеспечивает мгновенный доступ к управлению медиа. Нажмите на виджет для открытия всплывающего плеера (если включено).</system:String>
     <system:String x:Key="TaskbarWidgetEnabledTitle">Включить виджет</system:String>
     <system:String x:Key="TaskbarWidgetEnabledDescription">Отображает виджет на панели задач</system:String>
     <system:String x:Key="TaskbarWidgetVisualIssuesWarning">Если у вас возникают проблемы с отображением виджета, настройте параметры ниже.</system:String>
     <system:String x:Key="TaskbarWidgetPosition">Расположение виджета</system:String>
     <system:String x:Key="TaskbarWidgetPaddingTitle">Автоматический отступ для кнопки виджетов Windows</system:String>
     <system:String x:Key="TaskbarWidgetPaddingDescription">Включите эту функцию, если у вас включены виджеты Windows</system:String>
-    <system:String x:Key="TaskbarWidgetClickableDescription">Если всплывающее окно включено, то оно откроется, когда вы нажмёте по виджету на панели задач</system:String>
-    <system:String x:Key="TaskbarWidgetClickableTitle">Открывать всплывающее окно, если активно воспроизведение</system:String>
+    <system:String x:Key="TaskbarWidgetClickableDescription">Если всплывающий плеер включен, он отобразится при нажатии по виджету на панели задач</system:String>
+    <system:String x:Key="TaskbarWidgetClickableTitle">Открывать всплывающий плеер, если активно воспроизведение</system:String>
     <system:String x:Key="TaskbarWidgetBackgroundBlurTitle">Эффект размытия фона</system:String>
     <system:String x:Key="TaskbarWidgetBackgroundBlurDescription">Добавляет эффект блюра на фон виджета</system:String>
     <system:String x:Key="TaskbarWidgetHideCompletelyTitle">Скрывать виджет, если нет активного медиа</system:String>
