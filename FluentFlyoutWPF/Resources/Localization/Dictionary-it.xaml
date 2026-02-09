@@ -169,7 +169,7 @@ Puoi contribuire alla traduzione su</system:String>
     <system:String x:Key="UpdateAvailableNotificationButton">Scarica Aggiornamento</system:String>
     <system:String x:Key="MediaFlyoutExcludeVolumeTitle">Escludi i Tasti Volume</system:String>
     <system:String x:Key="MediaFlyoutExcludeVolumeDescription">Non mostrare il flyout quando premi i tasti volume su/giù/muto</system:String>
-    <system:String x:Key="TaskbarVisualizerTitle">Visualizzatore Barra delle Applicazioni</system:String>
+    <system:String x:Key="TaskbarVisualizerTitle">Visualizzatore Barra delle App.</system:String>
     <system:String x:Key="TaskbarVisualizerDescription">Un visualizzatore musicale in tempo reale sulla barra delle applicazioni, progettato per avere un impatto minimo sulle prestazioni dei sistemi moderni.</system:String>
     <system:String x:Key="TaskbarVisualizerEnabledTitle">Abilita Visualizzatore Barra delle Applicazioni (Sperimentale)</system:String>
     <system:String x:Key="TaskbarVisualizerEnabledDescription">Sperimentale: questa funzionalità richiede che il widget della barra delle applicazioni sia abilitato</system:String>
