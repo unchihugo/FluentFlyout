@@ -13,16 +13,16 @@
     <system:String x:Key="CompactLayoutDescription" xml:space="preserve">Un diseño más ligero y menos intrusivo
 oculta los botones de repetir y aleatorio y la información del reproductor</system:String>
     <system:String x:Key="FlyoutPositionTitle">Posición del Flyout</system:String>
-    <system:String x:Key="PositionBottomLeft" xml:space="preserve"> Abajo a la izquierda</system:String>
+    <system:String x:Key="PositionBottomLeft" xml:space="preserve"> Inferior izquierda</system:String>
     <system:String x:Key="PositionBottomCenter" xml:space="preserve"> Abajo centrado</system:String>
-    <system:String x:Key="PositionBottomRight" xml:space="preserve"> Abajo a la derecha</system:String>
-    <system:String x:Key="PositionTopLeft" xml:space="preserve"> Arriba a la izquierda</system:String>
+    <system:String x:Key="PositionBottomRight" xml:space="preserve"> Inferior derecha</system:String>
+    <system:String x:Key="PositionTopLeft" xml:space="preserve"> Superior Izquierda</system:String>
     <system:String x:Key="PositionTopCenter" xml:space="preserve"> Arriba centrado</system:String>
-    <system:String x:Key="PositionTopRight" xml:space="preserve"> Arriba a la derecha</system:String>
+    <system:String x:Key="PositionTopRight" xml:space="preserve"> Superior derecha</system:String>
     <system:String x:Key="FlyoutStayDurationTitle">Duración del Flyout</system:String>
     <system:String x:Key="FlyoutStayDurationDescription">(por defecto: 3000 ms)</system:String>
     <system:String x:Key="MillisecondsUnit">ms</system:String>
-    <system:String x:Key="MediaFlyoutAlwaysDisplay">Mostrar Siempre</system:String>
+    <system:String x:Key="MediaFlyoutAlwaysDisplay">Siempre en pantalla</system:String>
     <system:String x:Key="CenterTitleArtistTitle">Centrar Título y Artista</system:String>
     <system:String x:Key="CenterTitleArtistDescription">Centrar el texto en vez de alinearlo a la izquierda</system:String>
     <system:String x:Key="ShowMediaPlayerNameTitle">Mostrar el Nombre del Reproductor</system:String>
@@ -57,16 +57,16 @@ oculta los botones de repetir y aleatorio y la información del reproductor</sys
     <system:String x:Key="StartupAppsHyperlinkText">Aplicaciones de Arranque</system:String>
     <system:String x:Key="StartupAppsSettingsInfo">Si este ajuste no funciona como debería, revisa</system:String>
     <system:String x:Key="AppThemeTitle">Tema de la Aplicación</system:String>
-    <system:String x:Key="AppThemeDefault"> Por defecto de Windows</system:String>
+    <system:String x:Key="AppThemeDefault"> Predeterminado de Windows</system:String>
     <system:String x:Key="AppThemeLight"> Claro</system:String>
     <system:String x:Key="AppThemeDark"> Oscuro</system:String>
     <system:String x:Key="TrayIconLeftClickBehaviorTitle">Comportamiento del clic izquierdo en la bandeja</system:String>
     <system:String x:Key="TrayIconLeftClickBehaviorDescription">Elige qué pasa cuando haces clic izquierdo en el icono de la bandeja</system:String>
-    <system:String x:Key="TrayIconLeftClickOption1"> Abrir ajustes</system:String>
+    <system:String x:Key="TrayIconLeftClickOption1"> Abrir Ajustes</system:String>
     <system:String x:Key="TrayIconLeftClickOption2"> Mostrar Flyout Multimedia</system:String>
     <system:String x:Key="Win11TrayIconTitle">Estilo de Windows 11 para el Icono de la bandeja</system:String>
     <system:String x:Key="Win11TrayIconDescription">Usa un icono que hace juego con Windows 11 (cambia para refrescar el tema)</system:String>
-    <system:String x:Key="AnimationSettingsTitle">Ajustes de Animación</system:String>
+    <system:String x:Key="AnimationSettingsTitle">Parámetros de animación</system:String>
     <system:String x:Key="AnimationSettingsDescription">Modifica las animaciones a tu gusto</system:String>
     <system:String x:Key="AnimationDurationScaleTitle">Duración de la animación</system:String>
     <system:String x:Key="AnimationDurationScaleDescription">Acelera o ralentiza la velocidad de la animación del flyout (por defecto: x1)</system:String>
@@ -87,7 +87,7 @@ o deja una opinión en la Microsoft Store!</system:String>
     <system:String x:Key="AppLanguageDescription" xml:space="preserve">Si tu idioma no esta listado o está incompleto, por defecto se usará inglés
 Puedes ayudar a contribuir con las traducciones en</system:String>
     <system:String x:Key="AppLanguageDescriptionLink">Weblate</system:String>
-    <system:String x:Key="LockWindow_CapsLock">Bloq Mayús</system:String>
+    <system:String x:Key="LockWindow_CapsLock">Bloq. Mayús</system:String>
     <system:String x:Key="LockWindow_NumLock">Bloq Num</system:String>
     <system:String x:Key="LockWindow_ScrollLock">Bloq Despl</system:String>
     <system:String x:Key="LockWindow_InsertPressed">Pulsado Insert</system:String>
@@ -141,7 +141,7 @@ Nota: Como proyecto de código abierto, estas opciones también están disponibl
     <system:String x:Key="TaskbarWidgetPaddingSettingsDescription">Ajustar el espaciado del widget para acomodarse al estilo de tu barra de tareas</system:String>
     <system:String x:Key="TaskbarWidgetManualPaddingTitle">Margen Personalizado</system:String>
     <system:String x:Key="TaskbarWidgetManualPaddingDescription">Añadir margen extra (por defecto: 0px)</system:String>
-    <system:String x:Key="TrayIcon_ViewLogsOption">Ver el registro</system:String>
+    <system:String x:Key="TrayIcon_ViewLogsOption">Ver los registros</system:String>
     <system:String x:Key="PixelsUnit">px</system:String>
     <system:String x:Key="UpdateToastTitle">¡FluentFlyout se ha actualizado!</system:String>
     <system:String x:Key="UpdateToastMessage">Estás usando la versión {0}.</system:String>
@@ -184,4 +184,11 @@ Nota: Como proyecto de código abierto, estas opciones también están disponibl
     <system:String x:Key="TaskbarVisualizerBaselineTitle">Mostrar Línea de Base</system:String>
     <system:String x:Key="TaskbarWidgetCustomizationPerk">Widget de la Barra de Tareas y Visualizador</system:String>
     <system:String x:Key="UnlockFullExperienceText">Desbloquea la experiencia completa de FluentFlyout:</system:String>
+    <system:String x:Key="AcrylicBlurOpacityPerk">Opacidad del difuminado Acrylic</system:String>
+    <system:String x:Key="AllFuturePremiumFeatures">Todas las funciones premium</system:String>
+    <system:String x:Key="AppearanceBehaviorSectionTitle">Apariencia y comportamiento</system:String>
+    <system:String x:Key="UpdatesSectionTitle">Actualizaciones</system:String>
+    <system:String x:Key="DevelopersTitle">Desarrolladores</system:String>
+    <system:String x:Key="TranslatorsTitle">Traductores</system:String>
+    <system:String x:Key="BuyMeCoffeeLink">Invítame a un café</system:String>
 </ResourceDictionary>
