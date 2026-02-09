@@ -13,12 +13,12 @@
     <system:String x:Key="CompactLayoutDescription" xml:space="preserve">Un diseño más ligero y menos intrusivo
 oculta los botones de repetir y aleatorio y la información del reproductor</system:String>
     <system:String x:Key="FlyoutPositionTitle">Posición del Flyout</system:String>
-    <system:String x:Key="PositionBottomLeft" xml:space="preserve"> Inferior izquierda</system:String>
-    <system:String x:Key="PositionBottomCenter" xml:space="preserve"> Abajo centrado</system:String>
-    <system:String x:Key="PositionBottomRight" xml:space="preserve"> Inferior derecha</system:String>
+    <system:String x:Key="PositionBottomLeft" xml:space="preserve"> Inferior Izquierda</system:String>
+    <system:String x:Key="PositionBottomCenter" xml:space="preserve"> Inferior Centrado</system:String>
+    <system:String x:Key="PositionBottomRight" xml:space="preserve"> Inferior Derecha</system:String>
     <system:String x:Key="PositionTopLeft" xml:space="preserve"> Superior Izquierda</system:String>
-    <system:String x:Key="PositionTopCenter" xml:space="preserve"> Arriba centrado</system:String>
-    <system:String x:Key="PositionTopRight" xml:space="preserve"> Superior derecha</system:String>
+    <system:String x:Key="PositionTopCenter" xml:space="preserve"> Superior Centrado</system:String>
+    <system:String x:Key="PositionTopRight" xml:space="preserve"> Superior Derecha</system:String>
     <system:String x:Key="FlyoutStayDurationTitle">Duración del Flyout</system:String>
     <system:String x:Key="FlyoutStayDurationDescription">(por defecto: 3000 ms)</system:String>
     <system:String x:Key="MillisecondsUnit">ms</system:String>
@@ -70,7 +70,7 @@ oculta los botones de repetir y aleatorio y la información del reproductor</sys
     <system:String x:Key="AnimationSettingsDescription">Modifica las animaciones a tu gusto</system:String>
     <system:String x:Key="AnimationDurationScaleTitle">Duración de la animación</system:String>
     <system:String x:Key="AnimationDurationScaleDescription">Acelera o ralentiza la velocidad de la animación del flyout (por defecto: x1)</system:String>
-    <system:String x:Key="AnimationSpeedOff">Desactivada</system:String>
+    <system:String x:Key="AnimationSpeedOff">Desactivado</system:String>
     <system:String x:Key="AnimationEasingStyleDescription">(por defecto: Cuadrática)</system:String>
     <system:String x:Key="EasingLinear" xml:space="preserve"> Lineal</system:String>
     <system:String x:Key="EasingSine" xml:space="preserve"> Seno</system:String>
@@ -88,7 +88,7 @@ o deja una opinión en la Microsoft Store!</system:String>
 Puedes ayudar a contribuir con las traducciones en</system:String>
     <system:String x:Key="AppLanguageDescriptionLink">Weblate</system:String>
     <system:String x:Key="LockWindow_CapsLock">Bloq. Mayús</system:String>
-    <system:String x:Key="LockWindow_NumLock">Bloq Num</system:String>
+    <system:String x:Key="LockWindow_NumLock">Bloq. Num</system:String>
     <system:String x:Key="LockWindow_ScrollLock">Bloq Despl</system:String>
     <system:String x:Key="LockWindow_InsertPressed">Pulsado Insert</system:String>
     <system:String x:Key="LockWindow_LockOn">activado</system:String>
@@ -191,4 +191,7 @@ Nota: Como proyecto de código abierto, estas opciones también están disponibl
     <system:String x:Key="DevelopersTitle">Desarrolladores</system:String>
     <system:String x:Key="TranslatorsTitle">Traductores</system:String>
     <system:String x:Key="BuyMeCoffeeLink">Invítame a un café</system:String>
+    <system:String x:Key="ShowUpdateNotificationsTitle">Mostrar notificaciones para actualizaciones</system:String>
+    <system:String x:Key="HideTrayIconPerk">Ocultar Icono de la Bandeja</system:String>
+    <system:String x:Key="SponsorMeLink">Patrociname</system:String>
 </ResourceDictionary>
