@@ -109,7 +109,7 @@ Můžete pomoct s překlady na</system:String>
     <system:String x:Key="TaskbarWidgetEnabledDescription">Ukazovat kompaktní média widget na hlavním panelu</system:String>
     <system:String x:Key="TaskbarWidgetVisualIssuesWarning">Uprav následující možosti, pokud máš problémy se vzhledem.</system:String>
     <system:String x:Key="TaskbarWidgetPosition">Pozice widgetu</system:String>
-    <system:String x:Key="TaskbarWidgetPaddingTitle">Přidat odsazení od tlačítka Windows Widgetů</system:String>
+    <system:String x:Key="TaskbarWidgetPaddingTitle">Automatické odsazení od tlačítka Windows Widgetů</system:String>
     <system:String x:Key="TaskbarWidgetPaddingDescription">Zapni tuto možnost, pokud máš povolené Windows Widgety</system:String>
     <system:String x:Key="TaskbarWidgetClickableTitle">Kliknutím k otevřít plovoucí přehrávač, pokud je média k dispozici</system:String>
     <system:String x:Key="TaskbarWidgetClickableDescription">Pokud je plovoucí přehrávač zapnutý, otevře se při kliknutí na widget na hlavním panelu</system:String>
@@ -120,4 +120,28 @@ Můžete pomoct s překlady na</system:String>
     <system:String x:Key="HomeTitle">Domů</system:String>
     <system:String x:Key="Disabled">Zakázáno</system:String>
     <system:String x:Key="Enabled">Povoleno</system:String>
+    <system:String x:Key="MediaFlyoutExcludeVolumeDescription">Neukazovat plovoucí přehrávač při změně hlasitosti/zltumení</system:String>
+    <system:String x:Key="MediaFlyoutExcludeVolumeTitle">Nedetekovat tlačítka hlasitosti</system:String>
+    <system:String x:Key="MediaFlyoutAlwaysDisplayDescription">Plovoucí přehrávač zůstane zobrazený, dokud ho nezavřete tlačítkem</system:String>
+    <system:String x:Key="TaskbarWidgetSelectedMonitorTitle">Monitor s Widgetem</system:String>
+    <system:String x:Key="TaskbarWidgetPaddingSettingsTitle">Nastavení odsazení u Widgetu</system:String>
+    <system:String x:Key="TaskbarWidgetPaddingSettingsDescription">Uprav odsazení okolo Widgetu, aby seděl na tvůj styl hlavního panelu</system:String>
+    <system:String x:Key="TaskbarWidgetManualPaddingTitle">Vlastní odsazení</system:String>
+    <system:String x:Key="TaskbarWidgetManualPaddingDescription">Přidá odsazení navíc (výchozí: 0px)</system:String>
+    <system:String x:Key="TaskbarWidgetControlsTitle">Tlačítka médií na Widgetu</system:String>
+    <system:String x:Key="TaskbarWidgetControlsDescription">Ukazovat tlačítka ovládání medií na Widgetu</system:String>
+    <system:String x:Key="TaskbarWidgetAnimatedTitle">Animace Widgetu</system:String>
+    <system:String x:Key="TaskbarWidgetAnimatedDescription">Povolit jemné animace pro widget</system:String>
+    <system:String x:Key="TaskbarVisualizerTitle">Vizualizér na hlavním panelu</system:String>
+    <system:String x:Key="TaskbarVisualizerDescription">Vizualizér zvuku v reálném čase na hlavním panelu. Navržen tak, aby měl minimální dopad na výkon moderních systémů.</system:String>
+    <system:String x:Key="TaskbarVisualizerEnabledTitle">Povolit Vizualizér na hlavním panelu (Experimentální)</system:String>
+    <system:String x:Key="TaskbarVisualizerEnabledDescription">Experiment: Tato funkce bude fungovat pouze pokud je povolený Widget na hlavním panelu</system:String>
+    <system:String x:Key="TaskbarVisualizerPositionTitle">Relativní pozice Vizualizéru orpoti Widgetu na hlavním panelu</system:String>
+    <system:String x:Key="TaskbarVisualizerBarCountTitle">Počet sloupečků</system:String>
+    <system:String x:Key="TaskbarVisualizerBarCountDescription">Počet vyobrazovaných sloupečků vizualizéru</system:String>
+    <system:String x:Key="TaskbarVisualizerCenteredBarsTitle">Vystředit sloupečky</system:String>
+    <system:String x:Key="TaskbarVisualizerCenteredBarsDescription">Sloupečky, které se symetricky rozšiřují od středu, místo aby stoupaly odspodu</system:String>
+    <system:String x:Key="TaskbarVisualizerBaselineTitle">Zobrazovat základní úroveň</system:String>
+    <system:String x:Key="TaskbarVisualizerBaselineDescription">Zobrazuje tenkou čáru, když jsou úrovně zvuku nulové</system:String>
+    <system:String x:Key="TaskbarVisualizerAudioSensitivityTitle">Citlivost zvuku</system:String>
 </ResourceDictionary>
