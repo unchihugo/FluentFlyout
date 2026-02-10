@@ -26,6 +26,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using Windows.ApplicationModel;
 using Windows.Media.Control;
+using Windows.Storage;
 using Windows.Storage.Streams;
 using static FluentFlyout.Classes.NativeMethods;
 using static WindowsMediaController.MediaManager;
@@ -489,7 +490,11 @@ public partial class MainWindow : MicaWindow
     {
         try
         {
-            string logFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "FluentFlyout");
+            // path containerized for store version, regular path for non-store version
+            string logFolderPath = SettingsManager.Current.IsStoreVersion
+                ? Path.Combine(ApplicationData.Current.LocalCacheFolder.Path, "Roaming", "FluentFlyout")
+                : Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "FluentFlyout");
+
             Process.Start("explorer.exe", logFolderPath);
         }
         catch (Exception ex)
