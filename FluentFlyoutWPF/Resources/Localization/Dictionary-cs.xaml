@@ -117,6 +117,7 @@ Můžete pomoct s překlady na</system:String>
     <system:String x:Key="TaskbarWidgetBackgroundBlurDescription">Přidá efekt rozmazaného pozadí na widget na hlavním panelu</system:String>
     <system:String x:Key="TaskbarWidgetHideCompletelyTitle">Kompletně skrýt, pokud se žádné médium nepřehrává</system:String>
     <system:String x:Key="TaskbarWidgetHideCompletelyDescription">Skryje celý widget, pokud se nic nepřehrává, místo toho ukáže ikonu médií</system:String>
-    <system:String x:Key="HomeTitle">Domov</system:String>
+    <system:String x:Key="HomeTitle">Domů</system:String>
     <system:String x:Key="Disabled">Zakázáno</system:String>
+    <system:String x:Key="Enabled">Povoleno</system:String>
 </ResourceDictionary>
