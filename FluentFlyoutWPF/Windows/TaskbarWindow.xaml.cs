@@ -554,16 +554,9 @@ public partial class TaskbarWindow : Window
             // find widget in XAML
             if (elementCache == null)
             {
-                // If a previous automation query for THIS element is still running (timed out
-                // but not yet completed), don't spawn another one to avoid threadpool exhaustion.
                 if (_pendingAutomationTasks.TryGetValue(elementName, out var pendingTask) && !pendingTask.IsCompleted)
                     return (false, Rect.Empty);
 
-                // Run FindFirst on a background (MTA) thread to avoid cross-process COM deadlock.
-                // This window is a child of explorer's taskbar. If the UI thread (STA) makes a
-                // synchronous COM call into explorer, and explorer tries to message this child
-                // window during processing, a deadlock occurs because the STA can't pump messages
-                // while blocked on the COM call. Running from an MTA thread breaks this cycle.
                 AutomationElement? found = null;
                 var findTask = Task.Run(() =>
                 {
@@ -589,7 +582,6 @@ public partial class TaskbarWindow : Window
 
             try
             {
-                // Also guard BoundingRectangle: it's a cross-process COM call too
                 if (_pendingAutomationTasks.TryGetValue(elementName, out var pendingTask) && !pendingTask.IsCompleted)
                 {
                     elementCache = null;

@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 using FluentFlyout.Classes.Settings;
+using NAudio.CoreAudioApi;
 using NAudio.Dsp;
 using NAudio.Wave;
 using System.Windows;
@@ -50,6 +51,8 @@ namespace FluentFlyoutWPF.Classes
             InitializeBitmap();
 
             _fftBuffer = new Complex[_fftLength];
+
+            AudioDeviceMonitor.Instance.DefaultDeviceChanged += OnDefaultDeviceChanged;
         }
 
         private void InitializeBitmap()
@@ -61,6 +64,24 @@ namespace FluentFlyoutWPF.Classes
                     _bitmap = new WriteableBitmap(ImageWidth, ImageHeight, 96, 96, PixelFormats.Bgra32, null);
                 }
             });
+        }
+
+        private void OnDefaultDeviceChanged(object? sender, DefaultDeviceChangedEventArgs e)
+        {
+            if (e.DataFlow == DataFlow.Render && e.Role == Role.Multimedia)
+            {
+                Logger.Info("Default audio output device changed, restarting visualizer");
+
+                if (_isRunning)
+                {
+                    Task.Run(() =>
+                    {
+                        Stop();
+                        Task.Delay(100).Wait();
+                        Start();
+                    });
+                }
+            }
         }
 
         public static void ResizeBarList(int newBarCount)
@@ -346,6 +367,8 @@ namespace FluentFlyoutWPF.Classes
         public void Dispose()
         {
             Stop();
+
+            AudioDeviceMonitor.Instance.DefaultDeviceChanged -= OnDefaultDeviceChanged;
 
             if (_capture != null)
             {
