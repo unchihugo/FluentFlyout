@@ -76,6 +76,8 @@ public partial class MainWindow : MicaWindow
 
     private TaskbarWindow? taskbarWindow;
 
+    private VolumeMixerWindow? volumeMixerWindow;
+
     internal static volatile bool ExplorerRestarting = false;
 
     public MainWindow()
@@ -688,7 +690,7 @@ public partial class MainWindow : MicaWindow
             bool mediaKeysPressed = vkCode == 0xB3 || vkCode == 0xB0 || vkCode == 0xB1 || vkCode == 0xB2; // Play/Pause, next, previous, stop
             bool volumeKeysPressed = vkCode == 0xAD || vkCode == 0xAE || vkCode == 0xAF; // Mute, Volume Down, Volume Up
 
-            if (mediaKeysPressed || (!SettingsManager.Current.MediaFlyoutVolumeKeysExcluded && volumeKeysPressed))
+            if (mediaKeysPressed || volumeKeysPressed)
             {
                 long currentTime = Environment.TickCount64;
 
@@ -700,7 +702,12 @@ public partial class MainWindow : MicaWindow
 
                 _lastFlyoutTime = currentTime;
 
-                ShowMediaFlyout();
+                volumeMixerWindow?.ShowFlyout();
+
+                if (!SettingsManager.Current.MediaFlyoutVolumeKeysExcluded && volumeKeysPressed)
+                {
+                    ShowMediaFlyout();
+                }
             }
 
             if (SettingsManager.Current.LockKeysEnabled && !FullscreenDetector.IsFullscreenApplicationRunning())
@@ -1449,7 +1456,7 @@ public partial class MainWindow : MicaWindow
 
         taskbarWindow = new TaskbarWindow();
         UpdateTaskbar();
-        _ = new VolumeMixerWindow();
+        volumeMixerWindow = new VolumeMixerWindow();
     }
 
     public void RecreateTaskbarWindow()

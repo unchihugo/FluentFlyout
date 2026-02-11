@@ -56,7 +56,7 @@ public partial class TaskbarWidgetControl : UserControl
             MainBorder.Background.Opacity = 0;
         }
 
-        Background = new SolidColorBrush(Color.FromArgb(1, 0, 0, 0)); ;
+        Background = new SolidColorBrush(Color.FromArgb(1, 0, 0, 0));
     }
 
     public void SetMainWindow(MainWindow mainWindow)
