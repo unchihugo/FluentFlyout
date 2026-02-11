@@ -29,8 +29,8 @@ public partial class VolumeMixerWindow : MicaWindow
     public VolumeMixerViewModel ViewModel { get; } = new();
     public UserSettings UserSettings => SettingsManager.Current;
 
-    private IntPtr _nativeOsdElement = IntPtr.Zero;
-    private int _nativeOsdOriginalExStyle;
+    private static IntPtr _nativeOsdElement = IntPtr.Zero;
+    private static int _nativeOsdOriginalExStyle;
     private CancellationTokenSource _cts; 
     private MainWindow _mainWindow;
     private readonly double _collapsedHeight = 50;
@@ -98,7 +98,7 @@ public partial class VolumeMixerWindow : MicaWindow
                 await Task.Delay(100, token); // check if mouse is over every 100ms
                 if (!IsMouseOverWindow())
                 {
-                    await Task.Delay(300000, token);
+                    await Task.Delay(3000, token);
                     if (!IsMouseOverWindow())
                     {
                         _mainWindow.CloseAnimation(this, true);
@@ -134,7 +134,7 @@ public partial class VolumeMixerWindow : MicaWindow
     }
 
     // derived from gpkgpk/HideVolumeOSD: https://github.com/gpkgpk/HideVolumeOSD
-    private void HideVolumeOsd()
+    private static void HideVolumeOsd()
     {
         // find widget in XAML
         IntPtr hwndXamlIsland, hwndOsd = IntPtr.Zero;
@@ -187,7 +187,7 @@ public partial class VolumeMixerWindow : MicaWindow
         Logger.Info("Successfully hid volume OSD.");
     }
 
-    private void ShowVolumeOsd()
+    public static void ShowVolumeOsd()
     {
         if (_nativeOsdElement == IntPtr.Zero)
         {
