@@ -205,6 +205,8 @@ public partial class MainWindow : MicaWindow
             // check for updates on startup
             _ = CheckForUpdatesOnStartupAsync();
         });
+
+        _ = new VolumeMixerWindow();
     }
 
     private async Task CheckForUpdatesOnStartupAsync()
