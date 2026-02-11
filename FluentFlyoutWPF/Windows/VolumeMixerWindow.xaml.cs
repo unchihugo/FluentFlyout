@@ -15,12 +15,10 @@ using FluentFlyoutWPF.ViewModels;
 using MicaWPF.Controls;
 using NLog;
 using System.Windows;
+using System.Windows.Interop;
 using System.Windows.Media.Animation;
 
 namespace FluentFlyoutWPF.Windows;
-
-// TODO: the native volume OSD is hit testable even when hidden
-// TODO: make whole window react to IsMouseOver (margins are ignored)
 
 /// <summary>
 /// Interaction logic for VolumeMixerWindow.xaml
@@ -32,6 +30,7 @@ public partial class VolumeMixerWindow : MicaWindow
     public UserSettings UserSettings => SettingsManager.Current;
 
     private IntPtr _nativeOsdElement = IntPtr.Zero;
+    private int _nativeOsdOriginalExStyle;
     private CancellationTokenSource _cts; 
     private MainWindow _mainWindow;
     private readonly double _collapsedHeight = 50;
@@ -79,6 +78,9 @@ public partial class VolumeMixerWindow : MicaWindow
                 WindowBlurHelper.DisableBlur(this);
             }
 
+            // refresh the data
+            ViewModel.OnPollTick(null, EventArgs.Empty);
+
             Show();
             //WindowHelper.SetNoActivate(this);
             WindowHelper.SetTopmost(this);
@@ -94,10 +96,10 @@ public partial class VolumeMixerWindow : MicaWindow
             while (!token.IsCancellationRequested)
             {
                 await Task.Delay(100, token); // check if mouse is over every 100ms
-                if (!IsMouseOver)
+                if (!IsMouseOverWindow())
                 {
-                    await Task.Delay(3000, token);
-                    if (!IsMouseOver)
+                    await Task.Delay(300000, token);
+                    if (!IsMouseOverWindow())
                     {
                         _mainWindow.CloseAnimation(this, true);
                         _isHiding = true;
@@ -176,8 +178,12 @@ public partial class VolumeMixerWindow : MicaWindow
 
         // the parent owns the hit-test region on the desktop
         _nativeOsdElement = hwndXamlIsland;
+        _nativeOsdOriginalExStyle = NativeMethods.GetWindowLong(_nativeOsdElement, NativeMethods.GWL_EXSTYLE);
+        NativeMethods.SetWindowLong(_nativeOsdElement, NativeMethods.GWL_EXSTYLE,
+            _nativeOsdOriginalExStyle | NativeMethods.WS_EX_LAYERED | NativeMethods.WS_EX_TRANSPARENT);
         NativeMethods.SetWindowPos(_nativeOsdElement, 0, -99999, -99999, 0, 0,
             NativeMethods.SWP_NOSIZE | NativeMethods.SWP_NOZORDER | NativeMethods.SWP_NOACTIVATE);
+        NativeMethods.ShowWindow(_nativeOsdElement, 6); // SW_MINIMIZE
         Logger.Info("Successfully hid volume OSD.");
     }
 
@@ -189,8 +195,10 @@ public partial class VolumeMixerWindow : MicaWindow
             return;
         }
 
+        NativeMethods.SetWindowLong(_nativeOsdElement, NativeMethods.GWL_EXSTYLE, _nativeOsdOriginalExStyle);
         NativeMethods.SetWindowPos(_nativeOsdElement, 0, 0, 0, 0, 0,
             NativeMethods.SWP_NOSIZE | NativeMethods.SWP_NOZORDER | NativeMethods.SWP_NOACTIVATE);
+        NativeMethods.ShowWindow(_nativeOsdElement, 5); // SW_SHOW
         _nativeOsdElement = IntPtr.Zero;
         Logger.Info("Successfully restored volume OSD.");
     }
@@ -250,5 +258,18 @@ public partial class VolumeMixerWindow : MicaWindow
 
         BeginAnimation(TopProperty, topAnimation);
         BeginAnimation(HeightProperty, heightAnimation);
+    }
+
+    private bool IsMouseOverWindow()
+    {
+        if (!NativeMethods.GetCursorPos(out NativeMethods.POINT cursor))
+            return false;
+
+        var hwnd = new WindowInteropHelper(this).Handle;
+        if (!NativeMethods.GetWindowRect(hwnd, out NativeMethods.RECT rect))
+            return false;
+
+        return cursor.X >= rect.Left && cursor.X <= rect.Right &&
+               cursor.Y >= rect.Top && cursor.Y <= rect.Bottom;
     }
 }

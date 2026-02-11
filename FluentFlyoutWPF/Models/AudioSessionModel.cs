@@ -30,6 +30,10 @@ public partial class AudioSessionModel : ObservableObject
 
     public ImageSource? Icon { get; }
 
+    public bool HasIcon => Icon != null;
+
+    public bool IsActive => State == AudioSessionState.AudioSessionStateActive;
+
     public AudioSessionModel(AudioSessionControl sessionControl, string displayName, int processId, AudioSessionState sessionState, ImageSource? icon)
     {
         _sessionControl = sessionControl;

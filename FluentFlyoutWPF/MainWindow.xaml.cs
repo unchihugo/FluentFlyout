@@ -692,6 +692,7 @@ public partial class MainWindow : MicaWindow
 
             if (mediaKeysPressed || volumeKeysPressed)
             {
+                volumeMixerWindow?.ViewModel.SyncMasterFromDevice();
                 long currentTime = Environment.TickCount64;
 
                 // debounce to prevent hangs with rapid key presses

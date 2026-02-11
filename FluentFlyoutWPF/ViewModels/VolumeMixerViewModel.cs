@@ -45,12 +45,13 @@ public partial class VolumeMixerViewModel : ObservableObject, IDisposable
 
         AttachDevice(AudioDeviceMonitor.Instance.GetDefaultRenderDevice());
 
-        _pollTimer = new DispatcherTimer
-        {
-            Interval = TimeSpan.FromMilliseconds(500)
-        };
-        _pollTimer.Tick += OnPollTick;
-        _pollTimer.Start();
+        // slow polling to detect changes just in case
+        //_pollTimer = new DispatcherTimer
+        //{
+        //    Interval = TimeSpan.FromMilliseconds(5000)
+        //};
+        //_pollTimer.Tick += OnPollTick;
+        //_pollTimer.Start();
     }
 
     partial void OnIsExpandedChanged(bool oldValue, bool newValue)
@@ -114,7 +115,7 @@ public partial class VolumeMixerViewModel : ObservableObject, IDisposable
     }
 
 
-    private void SyncMasterFromDevice()
+    public void SyncMasterFromDevice()
     {
         if (_device == null) return;
 
@@ -189,7 +190,7 @@ public partial class VolumeMixerViewModel : ObservableObject, IDisposable
     }
 
 
-    private void OnPollTick(object? sender, EventArgs e)
+    public void OnPollTick(object? sender, EventArgs e)
     {
         SyncMasterFromDevice();
 

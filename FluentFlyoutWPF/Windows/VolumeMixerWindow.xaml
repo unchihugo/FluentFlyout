@@ -44,6 +44,9 @@
         <utils:BoolToVisibleCollapsedConverter x:Key="BoolToCollapsed" TrueValue="Collapsed" FalseValue="Visible" />
         <utils:DecimalPercentageToFullConverter x:Key="DecimalPercentage" />
         <utils:BoolToFullHalfOpacityConverter x:Key="BoolToFullHalf" TrueValue="0.5" FalseValue="1" />
+        <utils:VolumeToSpeakerSymbolConverter x:Key="VolumeToSpeaker" />
+        <utils:NullToVisibilityConverter x:Key="NullToCollapsed" NullValue="Visible" NonNullValue="Collapsed" />
+        <utils:BoolToAccentBrushConverter x:Key="ActiveToAccentBrush" ActiveOpacity="0.1" />
     </Window.Resources>
 
     <StackPanel Margin="8">
@@ -60,7 +63,7 @@
                        ToolTipService.InitialShowDelay="0"
                        ToolTipService.Placement="Right">
                 <Grid>
-                    <ui:SymbolIcon Symbol="Speaker228" FontSize="16"
+                    <ui:SymbolIcon Symbol="{Binding ViewModel.MasterVolume, Converter={StaticResource VolumeToSpeaker}}" FontSize="16"
                                    Visibility="{Binding ViewModel.IsMasterMuted, Converter={StaticResource BoolToCollapsed}}" />
                     <ui:SymbolIcon Symbol="SpeakerMute28" FontSize="16" Margin="0,0,0,0"
                                    Visibility="{Binding ViewModel.IsMasterMuted, Converter={StaticResource BoolToVisible}}" />
@@ -69,7 +72,7 @@
             <Slider Grid.Column="1" Value="{Binding ViewModel.MasterVolume, Mode=TwoWay}" Minimum="0" Maximum="1" TickFrequency="0.01" VerticalAlignment="Center" />
             <TextBlock Grid.Column="2" Text="{Binding ViewModel.MasterVolume, Converter={StaticResource DecimalPercentage}}" FontSize="14" VerticalAlignment="Center" Margin="8,-2,8,0" Width="24" TextAlignment="Center" />
             <ui:Button Name="OpenVolumeMixerButton" Grid.Column="3" VerticalAlignment="Center" Padding="4" Margin="0,0,4,0"
-                       Command="{Binding ViewModel.OpenVolumeMixerCommand}" >
+                       Command="{Binding ViewModel.OpenVolumeMixerCommand}" Focusable="False" >
                 <ui:SymbolIcon x:Name="ChevronIcon" Symbol="ChevronUp24" FontSize="16" RenderTransformOrigin="0.5,0.5">
                     <ui:SymbolIcon.RenderTransform>
                         <RotateTransform x:Name="ChevronRotation" Angle="0" />
@@ -78,32 +81,35 @@
             </ui:Button>
         </Grid>
         <ItemsControl x:Name="SessionsPanel" ItemsSource="{Binding ViewModel.Sessions}"
-                      Visibility="Collapsed">
+                      Visibility="Collapsed" Focusable="False" >
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
-                        <ui:Button Appearance="Transparent" BorderBrush="Transparent" VerticalAlignment="Center" Padding="8" Margin="0,0,4,0"
+                    <Border CornerRadius="4" Background="{Binding IsActive, Converter={StaticResource ActiveToAccentBrush}}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <ui:Button Appearance="Transparent" BorderBrush="Transparent" VerticalAlignment="Center" Padding="8" Margin="0,0,4,0"
                                    Command="{Binding ToggleMuteCommand}"
                                    ToolTipService.ToolTip="{Binding DisplayName}"
                                    ToolTipService.InitialShowDelay="0"
                                    ToolTipService.Placement="Right">
-                            <Grid>
-                                <ui:SymbolIcon Symbol="SoundSource24" FontSize="16"
-                                               Opacity="{Binding IsMuted, Converter={StaticResource BoolToFullHalf}}"/>
-                                <Image Source="{Binding Icon}" Width="16" Height="16"
+                                <Grid>
+                                    <ui:SymbolIcon Symbol="SoundSource24" FontSize="16"
+                                               Opacity="{Binding IsMuted, Converter={StaticResource BoolToFullHalf}}"
+                                               Visibility="{Binding Icon, Converter={StaticResource NullToCollapsed}}" />
+                                    <Image Source="{Binding Icon}" Width="16" Height="16"
                                        Opacity="{Binding IsMuted, Converter={StaticResource BoolToFullHalf}}" />
-                                <ui:SymbolIcon Symbol="SpeakerMute28" FontSize="12" Margin="0,0,-16,-16"
+                                    <ui:SymbolIcon Symbol="SpeakerMute28" FontSize="12" Margin="0,0,-16,-16"
                                                Visibility="{Binding IsMuted, Converter={StaticResource BoolToVisible}}" />
-                            </Grid>
-                        </ui:Button>
-                        <Slider Grid.Column="1" Value="{Binding Volume, Mode=TwoWay}" Minimum="0" Maximum="1" TickFrequency="0.01" VerticalAlignment="Center" />
-                        <TextBlock Grid.Column="2" Text="{Binding Volume, Converter={StaticResource DecimalPercentage}}" FontSize="12" VerticalAlignment="Center" Margin="8,0,4,0" Width="24" TextAlignment="Center" />
-                    </Grid>
+                                </Grid>
+                            </ui:Button>
+                            <Slider Grid.Column="1" Value="{Binding Volume, Mode=TwoWay}" Minimum="0" Maximum="1" TickFrequency="0.01" VerticalAlignment="Center" />
+                            <TextBlock Grid.Column="2" Text="{Binding Volume, Converter={StaticResource DecimalPercentage}}" FontSize="12" VerticalAlignment="Center" Margin="8,0,4,0" Width="24" TextAlignment="Center" />
+                        </Grid>
+                    </Border>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
