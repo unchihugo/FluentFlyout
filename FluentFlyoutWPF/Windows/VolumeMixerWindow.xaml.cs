@@ -212,13 +212,13 @@ public partial class VolumeMixerWindow : MicaWindow
         double expandedHeight;
         if (expand)
         {
-            SessionsPanel.Visibility = Visibility.Visible;
+            SessionsExpanded.Visibility = Visibility.Visible;
             SessionsPanel.UpdateLayout();
         }
 
         // measure desired size
-        SessionsPanel.Measure(new Size(ActualWidth, double.PositiveInfinity));
-        expandedHeight = _collapsedHeight + SessionsPanel.DesiredSize.Height;
+        SessionsExpanded.Measure(new Size(ActualWidth, double.PositiveInfinity));
+        expandedHeight = _collapsedHeight + SessionsExpanded.DesiredSize.Height;
 
         double targetHeight = expand ? expandedHeight : _collapsedHeight;
         double currentHeight = ActualHeight;
@@ -252,7 +252,7 @@ public partial class VolumeMixerWindow : MicaWindow
         {
             heightAnimation.Completed += (s, e) =>
             {
-                SessionsPanel.Visibility = Visibility.Collapsed;
+                SessionsExpanded.Visibility = Visibility.Collapsed;
             };
         }
 

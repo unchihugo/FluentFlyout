@@ -80,38 +80,43 @@
                 </ui:SymbolIcon>
             </ui:Button>
         </Grid>
-        <ItemsControl x:Name="SessionsPanel" ItemsSource="{Binding ViewModel.Sessions}"
-                      Visibility="Collapsed" Focusable="False" >
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <Border CornerRadius="4" Background="{Binding IsActive, Converter={StaticResource ActiveToAccentBrush}}">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-                            <ui:Button Appearance="Transparent" BorderBrush="Transparent" VerticalAlignment="Center" Padding="8" Margin="0,0,4,0"
+        <StackPanel x:Name="SessionsExpanded" Visibility="Collapsed" >
+            <Border BorderThickness="0 1 0 0" BorderBrush="{DynamicResource TextFillColorDisabledBrush}" Opacity="0.5" Margin="0,5" />
+            <StackPanel Orientation="Horizontal" Margin="8,8">
+                <TextBlock Text="Volume Mixer" FontWeight="Medium" />
+            </StackPanel>
+            <ItemsControl x:Name="SessionsPanel" ItemsSource="{Binding ViewModel.Sessions}" Focusable="False" >
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border CornerRadius="4" Background="{Binding IsActive, Converter={StaticResource ActiveToAccentBrush}}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <ui:Button Appearance="Transparent" BorderBrush="Transparent" VerticalAlignment="Center" Padding="8" Margin="0,0,4,0"
                                    Command="{Binding ToggleMuteCommand}"
                                    ToolTipService.ToolTip="{Binding DisplayName}"
                                    ToolTipService.InitialShowDelay="0"
                                    ToolTipService.Placement="Right">
-                                <Grid>
-                                    <ui:SymbolIcon Symbol="SoundSource24" FontSize="16"
+                                    <Grid>
+                                        <ui:SymbolIcon Symbol="SoundSource24" FontSize="16"
                                                Opacity="{Binding IsMuted, Converter={StaticResource BoolToFullHalf}}"
                                                Visibility="{Binding Icon, Converter={StaticResource NullToCollapsed}}" />
-                                    <Image Source="{Binding Icon}" Width="16" Height="16"
+                                        <Image Source="{Binding Icon}" Width="16" Height="16"
                                        Opacity="{Binding IsMuted, Converter={StaticResource BoolToFullHalf}}" />
-                                    <ui:SymbolIcon Symbol="SpeakerMute28" FontSize="12" Margin="0,0,-16,-16"
+                                        <ui:SymbolIcon Symbol="SpeakerMute28" FontSize="12" Margin="0,0,-16,-16"
                                                Visibility="{Binding IsMuted, Converter={StaticResource BoolToVisible}}" />
-                                </Grid>
-                            </ui:Button>
-                            <Slider Grid.Column="1" Value="{Binding Volume, Mode=TwoWay}" Minimum="0" Maximum="1" TickFrequency="0.01" VerticalAlignment="Center" />
-                            <TextBlock Grid.Column="2" Text="{Binding Volume, Converter={StaticResource DecimalPercentage}}" FontSize="12" VerticalAlignment="Center" Margin="8,0,4,0" Width="24" TextAlignment="Center" />
-                        </Grid>
-                    </Border>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
+                                    </Grid>
+                                </ui:Button>
+                                <Slider Grid.Column="1" Value="{Binding Volume, Mode=TwoWay}" Minimum="0" Maximum="1" TickFrequency="0.01" VerticalAlignment="Center" />
+                                <TextBlock Grid.Column="2" Text="{Binding Volume, Converter={StaticResource DecimalPercentage}}" FontSize="12" VerticalAlignment="Center" Margin="8,0,4,0" Width="24" TextAlignment="Center" />
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </StackPanel>
     </StackPanel>
 </controls:MicaWindow>
