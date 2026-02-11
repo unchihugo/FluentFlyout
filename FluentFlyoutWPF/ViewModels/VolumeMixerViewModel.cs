@@ -33,6 +33,9 @@ public partial class VolumeMixerViewModel : ObservableObject, IDisposable
     [ObservableProperty]
     public partial string DeviceName { get; set; }
 
+    [ObservableProperty]
+    public partial bool IsExpanded { get; set; }
+
     public ObservableCollection<AudioSessionModel> Sessions { get; } = [];
 
     public VolumeMixerViewModel()
@@ -48,6 +51,12 @@ public partial class VolumeMixerViewModel : ObservableObject, IDisposable
         };
         _pollTimer.Tick += OnPollTick;
         _pollTimer.Start();
+    }
+
+    partial void OnIsExpandedChanged(bool oldValue, bool newValue)
+    {
+        if (oldValue == newValue) return;
+        RefreshSessions();
     }
 
     private void AttachDevice(MMDevice? device)
@@ -84,6 +93,9 @@ public partial class VolumeMixerViewModel : ObservableObject, IDisposable
 
     [RelayCommand]
     private void ToggleMasterMute() => IsMasterMuted = !IsMasterMuted;
+
+    [RelayCommand]
+    private void OpenVolumeMixer() => IsExpanded = !IsExpanded;
 
     partial void OnMasterVolumeChanged(float value)
     {
@@ -134,12 +146,13 @@ public partial class VolumeMixerViewModel : ObservableObject, IDisposable
             {
                 var session = sessions[i];
                 AudioSessionState sessionState = session.State;
-                if (sessionState == AudioSessionState.AudioSessionStateExpired)
-                    continue;
+                if (sessionState == AudioSessionState.AudioSessionStateExpired) continue;
 
                 int pid = (int)session.GetProcessID;
 
                 string name = pid != 0 ? GetSessionDisplayName(session) : "System sounds";
+
+                if (name == "FluentFlyout") continue;
 
                 var icon = MediaPlayerData.GetProcessIcon(pid, name);
                 Sessions.Add(new AudioSessionModel(session, name, pid, sessionState, icon));
@@ -183,9 +196,8 @@ public partial class VolumeMixerViewModel : ObservableObject, IDisposable
         foreach (var session in Sessions)
         {
             session.SyncFromDevice();
-
-            Logger.Trace("Session '{0}' (PID {1}) - Volume: {2}, Muted: {3}, State: {4}",
-                session.DisplayName, session.ProcessId, session.Volume, session.IsMuted, session.State);
+            //Logger.Trace("Session '{0}' (PID {1}) - Volume: {2}, Muted: {3}, State: {4}",
+            //    session.DisplayName, session.ProcessId, session.Volume, session.IsMuted, session.State);
         }
     }
 

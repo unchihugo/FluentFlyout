@@ -205,8 +205,6 @@ public partial class MainWindow : MicaWindow
             // check for updates on startup
             _ = CheckForUpdatesOnStartupAsync();
         });
-
-        _ = new VolumeMixerWindow();
     }
 
     private async Task CheckForUpdatesOnStartupAsync()
@@ -1451,6 +1449,7 @@ public partial class MainWindow : MicaWindow
 
         taskbarWindow = new TaskbarWindow();
         UpdateTaskbar();
+        _ = new VolumeMixerWindow();
     }
 
     public void RecreateTaskbarWindow()

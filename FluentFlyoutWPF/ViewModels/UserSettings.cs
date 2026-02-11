@@ -292,6 +292,9 @@ public partial class UserSettings : ObservableObject
     [ObservableProperty]
     public partial bool LockKeysAcrylicWindowEnabled { get; set; }
 
+    [ObservableProperty]
+    public partial bool VolumeMixerAcrylicWindowEnabled { get; set; }
+
     /// <summary>
     /// User's preferred app language (e.g., "system" for system default)
     /// </summary>
@@ -513,12 +516,13 @@ public partial class UserSettings : ObservableObject
         PauseOtherSessionsEnabled = false;
         LockKeysInsertEnabled = true;
         MediaFlyoutBackgroundBlur = 0;
-        MediaFlyoutAcrylicWindowEnabled = true;
         AppLanguage = "system";
         FlowDirection = FlowDirection.LeftToRight;
         FontFamily = "Segoe UI Variable, Microsoft YaHei UI, Yu Gothic UI";
+        MediaFlyoutAcrylicWindowEnabled = true;
         NextUpAcrylicWindowEnabled = true;
         LockKeysAcrylicWindowEnabled = true;
+        VolumeMixerAcrylicWindowEnabled = true;
         TaskbarWidgetEnabled = false;
         TaskbarWidgetSelectedMonitor = 0;
         TaskbarWidgetPosition = 0;
