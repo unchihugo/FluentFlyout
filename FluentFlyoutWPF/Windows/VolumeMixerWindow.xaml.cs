@@ -34,6 +34,7 @@ public partial class VolumeMixerWindow : MicaWindow
     private CancellationTokenSource _cts; 
     private MainWindow _mainWindow;
     private readonly double _collapsedHeight = 50;
+    private readonly double _normalWidth;
     private bool _isHiding = true;
 
     public VolumeMixerWindow()
@@ -46,6 +47,7 @@ public partial class VolumeMixerWindow : MicaWindow
 
         _mainWindow = (MainWindow)Application.Current.MainWindow;
         _cts = new CancellationTokenSource();
+        _normalWidth = Width;
 
         ViewModel.PropertyChanged += OnViewModelPropertyChanged;
     }
@@ -76,10 +78,20 @@ public partial class VolumeMixerWindow : MicaWindow
             // refresh all data
             ViewModel.OnPollTick(null, EventArgs.Empty);
 
+            bool aboveMedia = SettingsManager.Current.VolumeControlAboveMediaFlyout;
+            if (aboveMedia)
+                Width = _mainWindow.Width;
+            else
+                Width = _normalWidth;
+
+            if (aboveMedia)
+                _mainWindow.OpenAnimation(this, aboveReference: _mainWindow);
+            else
+                _mainWindow.OpenAnimation(this, true);
+
             Show();
             //WindowHelper.SetNoActivate(this);
             WindowHelper.SetTopmost(this);
-            _mainWindow.OpenAnimation(this, true);
         }
 
         _cts.Cancel();
@@ -98,7 +110,7 @@ public partial class VolumeMixerWindow : MicaWindow
                     await Task.Delay(SettingsManager.Current.VolumeControlDuration, token);
                     if (!IsMouseOverWindow())
                     {
-                        _mainWindow.CloseAnimation(this, true);
+                        _mainWindow.CloseAnimation(this);
                         _isHiding = true;
                         await Task.Delay(_mainWindow.getDuration());
                         if (_isHiding == false) return;
@@ -119,7 +131,10 @@ public partial class VolumeMixerWindow : MicaWindow
     private void MicaWindow_Loaded(object sender, RoutedEventArgs e)
     {
         WindowHelper.SetTopmost(this);
-        _mainWindow.OpenAnimation(this, true);
+        if (SettingsManager.Current.VolumeControlAboveMediaFlyout)
+            _mainWindow.OpenAnimation(this, aboveReference: _mainWindow);
+        else
+            _mainWindow.OpenAnimation(this, true);
     }
 
     private void OnViewModelPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
