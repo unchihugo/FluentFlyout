@@ -58,19 +58,19 @@ skryje opakování,náhodné přehrávání a informace přehrávače</system:St
     <system:String x:Key="EnableInsertKeyDescription">Určuje, zda se po stisknutí tlačítka insert/overwrite zobrazí plovoucí okno</system:String>
     <system:String x:Key="SystemSettingsTitle">Systém</system:String>
     <system:String x:Key="LaunchOnStartupTitle">Spustit při startu počítače</system:String>
-    <system:String x:Key="LaunchOnStartupDescription">Po přihlášení do systému Windows se spustí minimalizované do systémové lišty</system:String>
+    <system:String x:Key="LaunchOnStartupDescription">Po přihlášení do systému Windows se spustí minimalizované do systémové oblasti</system:String>
     <system:String x:Key="StartupAppsHyperlinkText">Aplikace při spuštení</system:String>
     <system:String x:Key="StartupAppsSettingsInfo">Pokud toto nastavení nefunguje podle očekávání, zkontrolujte</system:String>
     <system:String x:Key="AppThemeTitle">Vzhled aplikace</system:String>
     <system:String x:Key="AppThemeDefault"> Systém</system:String>
     <system:String x:Key="AppThemeLight"> Světlý</system:String>
     <system:String x:Key="AppThemeDark"> Tmavý</system:String>
-    <system:String x:Key="TrayIconLeftClickBehaviorTitle">Chování ikony v systémové liště při levém kliknutí</system:String>
-    <system:String x:Key="TrayIconLeftClickBehaviorDescription">Vyberte, co se stane, když kliknete levím tlačítkem na ikony v systémové liště</system:String>
+    <system:String x:Key="TrayIconLeftClickBehaviorTitle">Chování ikony v systémové oblasti při levém kliknutí</system:String>
+    <system:String x:Key="TrayIconLeftClickBehaviorDescription">Vyberte, co se stane, když kliknete levím tlačítkem na ikony v systémové oblasti</system:String>
     <system:String x:Key="TrayIconLeftClickOption1"> Otevřít nastavení</system:String>
     <system:String x:Key="TrayIconLeftClickOption2"> Ukázat ploovucí přehrávač</system:String>
-    <system:String x:Key="Win11TrayIconTitle">Ikona v systémové liště ve stylu Windows 11</system:String>
-    <system:String x:Key="Win11TrayIconDescription">Použije ikonu v systémové liště, která zapadá do Windows 11 (přepnutím změníš vzhled)</system:String>
+    <system:String x:Key="Win11TrayIconTitle">Ikona v systémové oblasti ve stylu Windows 11</system:String>
+    <system:String x:Key="Win11TrayIconDescription">Použije ikonu v systémové oblasti, která zapadá do Windows 11 (přepnutím změníš vzhled)</system:String>
     <system:String x:Key="AnimationSettingsTitle">Nastavení animací</system:String>
     <system:String x:Key="AnimationSettingsDescription">Upravte animace podle svých představ</system:String>
     <system:String x:Key="AnimationDurationScaleTitle">Délka animace</system:String>
@@ -144,4 +144,40 @@ Můžete pomoct s překlady na</system:String>
     <system:String x:Key="TaskbarVisualizerBaselineTitle">Zobrazovat základní úroveň</system:String>
     <system:String x:Key="TaskbarVisualizerBaselineDescription">Zobrazuje tenkou čáru, když jsou úrovně zvuku nulové</system:String>
     <system:String x:Key="TaskbarVisualizerAudioSensitivityTitle">Citlivost zvuku</system:String>
+    <system:String x:Key="TaskbarVisualizerAudioSensitivityDescription">Síla, jak silně reagují sloupečky na hlasitost zvuku</system:String>
+    <system:String x:Key="PremiumFeatureTitle">Prémiová funkce</system:String>
+    <system:String x:Key="PremiumFeatureDescription" xml:space="preserve">Váš jednorázový příspěvek mi pomůže udržovat FluentFlyout aktivní a aktuální. Okamžitě a navždy odemkne všechny prémiové funkce přizpůsobení.
+        
+Poznámka: Jelikož se jedná o open-source projekt, jsou tyto funkce k dispozici také zdarma prostřednictvím ručního instalačního programu na GitHubu. Jedinou nevýhodou je, že aktualizace a instalaci je nutné provádět ručně.</system:String>
+    <system:String x:Key="PremiumLockedMessage">Tato funkce je součástí prémiového balíčku</system:String>
+    <system:String x:Key="PremiumUnlockedMessage">Prémiové funkce odemčeny. Děkuji za tvou podporu!</system:String>
+    <system:String x:Key="PremiumGitHubMessage">Prémiové funkce jsou odemčeny pro verze z GitHubu/samostatně kompilované verze</system:String>
+    <system:String x:Key="UnlockPremiumButton">Odemknout Prémium</system:String>
+    <system:String x:Key="PremiumPurchaseSuccess">Prémium úspěšně odemknuto!</system:String>
+    <system:String x:Key="PremiumPurchaseFailed">Nákup se nezdařil. Zkuste to prosím znovu.</system:String>
+    <system:String x:Key="PremiumPurchaseCancelled">Nákup zrušen.</system:String>
+    <system:String x:Key="UnlockFullExperienceText">Odemkněte si plný zážitek z FluentFlyout:</system:String>
+    <system:String x:Key="TaskbarWidgetCustomizationPerk">Widget a Vizualizér na hlavním panelu</system:String>
+    <system:String x:Key="AcrylicBlurOpacityPerk">Průhlednost Akrylového rozmazání</system:String>
+    <system:String x:Key="HideTrayIconPerk">Skrytí ikony v systémové oblasti</system:String>
+    <system:String x:Key="AllFuturePremiumFeatures">Všechny budoucí prémiové funkce</system:String>
+    <system:String x:Key="HideTrayIconTitle">Skrýt ikonu v systémové oblasti</system:String>
+    <system:String x:Key="HideTrayIconDescription">Do nastavení se dostaneš pomocí spuštění programu dvakrát</system:String>
+    <system:String x:Key="AcrylicBlurOpacityTitle">Průhlednost akrylového rozmazání</system:String>
+    <system:String x:Key="AcrylicBlurOpacityDescription">Úprava efektu průhlednosti u Acrylic plovoucích oken (výchozí: 175)</system:String>
+    <system:String x:Key="HomeUpdateDescription">Zjisti, co je nového</system:String>
+    <system:String x:Key="AppearanceBehaviorSectionTitle">Vzhled a chování</system:String>
+    <system:String x:Key="SystemConfigure">Konfigurovat</system:String>
+    <system:String x:Key="AboutContributorsTitle">❤️ Seznam se s našimi přispěvateli</system:String>
+    <system:String x:Key="AboutContributorsDescription">Velké poděkování všem úžasným lidem, kteří přispěli k vývoji a úspěchu FluentFlyout!</system:String>
+    <system:String x:Key="AboutPremiumTitle">O Prémium</system:String>
+    <system:String x:Key="AboutOpenSourceLicensesTitle">Open Source Licence</system:String>
+    <system:String x:Key="AboutOpenSourceLicensesDescription">FluentFlyout je sestaven s následujícími balíčky s otevřeným zdrojovým kódem:</system:String>
+    <system:String x:Key="SponsorMeLink">Podpoř mě</system:String>
+    <system:String x:Key="UpdateToastTitle">FluentFlyout byl aktualizován!</system:String>
+    <system:String x:Key="UpdateToastMessage">Nyní jsi na {0}.</system:String>
+    <system:String x:Key="UpdateToastButton">Zobrazit aktualizace</system:String>
+    <system:String x:Key="LastChecked">Poslední kontrola: {0}</system:String>
+    <system:String x:Key="UpdateAvailableNotificationMessage">Nová verze ({0}) je k dispozici.</system:String>
+    <system:String x:Key="ShowUpdateNotificationsTitle">Zobrazovat oznámení o nových aktualizacích</system:String>
 </ResourceDictionary>
