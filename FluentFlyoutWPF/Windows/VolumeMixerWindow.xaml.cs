@@ -78,7 +78,7 @@ public partial class VolumeMixerWindow : MicaWindow
                 WindowBlurHelper.DisableBlur(this);
             }
 
-            // refresh the data
+            // refresh all data
             ViewModel.OnPollTick(null, EventArgs.Empty);
 
             Show();
@@ -96,6 +96,8 @@ public partial class VolumeMixerWindow : MicaWindow
             while (!token.IsCancellationRequested)
             {
                 await Task.Delay(100, token); // check if mouse is over every 100ms
+                // update master volume again because it can be slow to update when coming from a hardware key press
+                ViewModel.SyncMasterFromDevice();
                 if (!IsMouseOverWindow())
                 {
                     await Task.Delay(3000, token);
@@ -230,7 +232,10 @@ public partial class VolumeMixerWindow : MicaWindow
             Duration = duration,
             EasingFunction = easing
         };
-        ChevronRotation.BeginAnimation(System.Windows.Media.RotateTransform.AngleProperty, chevronAnimation);
+        Dispatcher.Invoke(() =>
+        {
+            ChevronRotation.BeginAnimation(System.Windows.Media.RotateTransform.AngleProperty, chevronAnimation);
+        });
 
         var heightAnimation = new DoubleAnimation
         {
@@ -256,8 +261,10 @@ public partial class VolumeMixerWindow : MicaWindow
             };
         }
 
-        BeginAnimation(TopProperty, topAnimation);
-        BeginAnimation(HeightProperty, heightAnimation);
+        Dispatcher.Invoke(() => {
+            BeginAnimation(TopProperty, topAnimation);
+            BeginAnimation(HeightProperty, heightAnimation);
+        });
     }
 
     private bool IsMouseOverWindow()

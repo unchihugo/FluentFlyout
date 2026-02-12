@@ -692,7 +692,9 @@ public partial class MainWindow : MicaWindow
 
             if (mediaKeysPressed || volumeKeysPressed)
             {
-                volumeMixerWindow?.ViewModel.SyncMasterFromDevice();
+                if (SettingsManager.Current.VolumeControlEnabled)
+                    volumeMixerWindow?.ViewModel.SyncMasterFromDevice();
+
                 long currentTime = Environment.TickCount64;
 
                 // debounce to prevent hangs with rapid key presses
@@ -703,12 +705,11 @@ public partial class MainWindow : MicaWindow
 
                 _lastFlyoutTime = currentTime;
 
-                volumeMixerWindow?.ShowFlyout();
+                if (SettingsManager.Current.VolumeControlEnabled)
+                    volumeMixerWindow?.ShowFlyout();
 
                 if (!SettingsManager.Current.MediaFlyoutVolumeKeysExcluded && volumeKeysPressed)
-                {
                     ShowMediaFlyout();
-                }
             }
 
             if (SettingsManager.Current.LockKeysEnabled && !FullscreenDetector.IsFullscreenApplicationRunning())

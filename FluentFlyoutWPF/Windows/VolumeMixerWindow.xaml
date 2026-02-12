@@ -9,7 +9,7 @@
       xmlns:viewModels="clr-namespace:FluentFlyoutWPF.ViewModels"
       xmlns:utils="clr-namespace:FluentFlyoutWPF.Classes.Utils"
       mc:Ignorable="d"
-      Title="VolumeMixerWindow" Height="50" Width="260"
+      Title="VolumeMixerWindow" Height="50" Width="240"
       ResizeMode="NoResize"
       WindowStyle="None" ShowInTaskbar="False"
       ChangeTitleColorWhenInactive="False"
