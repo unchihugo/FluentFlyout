@@ -22,7 +22,7 @@
     <system:String x:Key="PositionBottomRight" xml:space="preserve"> Знизу праворуч</system:String>
     <system:String x:Key="PositionTopLeft" xml:space="preserve"> Вгорі ліворуч</system:String>
     <system:String x:Key="PositionTopCenter" xml:space="preserve"> Вгорі по центру</system:String>
-    <system:String x:Key="PositionTopRight" xml:space="preserve"> Вгорі праворуч</system:String>
+    <system:String x:Key="PositionTopRight" xml:space="preserve"> Угорі праворуч</system:String>
     <system:String x:Key="FlyoutStayDurationTitle">Тривалість спливаючого меню</system:String>
     <system:String x:Key="FlyoutStayDurationDescription">(за замовчуванням: 3000 мс)</system:String>
     <system:String x:Key="MillisecondsUnit">мс</system:String>
@@ -41,7 +41,7 @@
     <system:String x:Key="PauseOtherMediaDescription">Коли ви граєте або зосереджуєтеся на нових медіа, інші активні сесії автоматично призупиняються</system:String>
     <system:String x:Key="Disabled">Вимкнено</system:String>
     <system:String x:Key="Enabled">Увімкнено</system:String>
-    <system:String x:Key="HomeTitle">Головна</system:String>
+    <system:String x:Key="HomeTitle">Домашня сторінка</system:String>
     <system:String x:Key="MediaFlyoutAlwaysDisplayDescription">Спливаюче меню залишається відкритим, поки ви не натиснете кнопку закриття</system:String>
     <system:String x:Key="TaskbarWidgetCustomizationTitle">Віджет панелі завдань</system:String>
     <system:String x:Key="TaskbarWidgetDescription">Компактний вбудований віджет, який розміщується прямо на панелі завдань Windows для миттєвого доступу до ваших медіафайлів. Клацніть на віджет, щоб розгорнути повне спливаюче медіа (якщо воно ввімкнене).</system:String>
@@ -69,4 +69,7 @@
     <system:String x:Key="MediaFlyoutExcludeVolumeDescription">Не відображати спливаюче вікно при натисканні кнопки збільшення/зменшення гучності/вимкнення звуку</system:String>
     <system:String x:Key="TaskbarWidgetClickableTitle">Натисніть, щоб відкрити спливаюче меню медіа, коли медіа присутнє</system:String>
     <system:String x:Key="TaskbarWidgetClickableDescription">Якщо ввімкнено спливаюче меню медіа, воно відкриється при натисканні на віджет панелі завдань</system:String>
+    <system:String x:Key="LockWindow_LockOff">вимк</system:String>
+    <system:String x:Key="TaskbarWidgetBackgroundBlurTitle">Розмиття фону</system:String>
+    <system:String x:Key="PremiumFeatureTitle">Преміум-функції</system:String>
 </ResourceDictionary>
