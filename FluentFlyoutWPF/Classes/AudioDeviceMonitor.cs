@@ -89,6 +89,7 @@ namespace FluentFlyoutWPF.Classes
                 {
                     Logger.Error(ex, "Failed to unregister device notification callback");
                 }
+                _deviceEnumerator.Dispose();
                 _deviceEnumerator = null;
             }
 

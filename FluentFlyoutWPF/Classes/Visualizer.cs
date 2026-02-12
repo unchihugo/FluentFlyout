@@ -74,10 +74,10 @@ namespace FluentFlyoutWPF.Classes
 
                 if (_isRunning)
                 {
-                    Task.Run(() =>
+                    Task.Run(async () =>
                     {
                         Stop();
-                        Task.Delay(100).Wait();
+                        await Task.Delay(100);
                         Start();
                     });
                 }
@@ -123,6 +123,8 @@ namespace FluentFlyoutWPF.Classes
             _capture?.DataAvailable -= OnDataAvailable;
             _capture?.RecordingStopped -= OnRecordingStopped;
             _capture?.StopRecording();
+            _capture?.Dispose();
+            _capture = null;
         }
 
         private void OnDataAvailable(object? sender, WaveInEventArgs e)
