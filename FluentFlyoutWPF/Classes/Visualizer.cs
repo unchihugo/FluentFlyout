@@ -50,6 +50,8 @@ namespace FluentFlyoutWPF.Classes
             InitializeBitmap();
 
             _fftBuffer = new Complex[_fftLength];
+
+            ResizeBarList(SettingsManager.Current.TaskbarVisualizerBarCount);
         }
 
         private void InitializeBitmap()
@@ -273,7 +275,7 @@ namespace FluentFlyoutWPF.Classes
                                     barEndY = ImageHeight;
                                 }
 
-                                int cornerRadius = 6;
+                                float cornerRadius = 6 / MathF.Max(1, (SettingsManager.Current.TaskbarVisualizerBarCount / 10));
 
                                 for (int y = barY; y < barEndY && y < ImageHeight && y >= 0; y++)
                                 {
