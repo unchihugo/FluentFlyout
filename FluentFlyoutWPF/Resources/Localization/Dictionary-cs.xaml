@@ -180,4 +180,18 @@ Poznámka: Jelikož se jedná o open-source projekt, jsou tyto funkce k dispozic
     <system:String x:Key="LastChecked">Poslední kontrola: {0}</system:String>
     <system:String x:Key="UpdateAvailableNotificationMessage">Nová verze ({0}) je k dispozici.</system:String>
     <system:String x:Key="ShowUpdateNotificationsTitle">Zobrazovat oznámení o nových aktualizacích</system:String>
+    <system:String x:Key="HomeDashboardTitle">Ovládací panel</system:String>
+    <system:String x:Key="TrayIconSectionTitle">Ikona v systémové oblasti</system:String>
+    <system:String x:Key="UpdatesSectionTitle">Aktualizace</system:String>
+    <system:String x:Key="AboutTitle">O programu</system:String>
+    <system:String x:Key="DevelopersTitle">Vývojáři</system:String>
+    <system:String x:Key="TranslatorsTitle">Překladatelé</system:String>
+    <system:String x:Key="BuyMeCoffeeLink">Kupte mi kafe</system:String>
+    <system:String x:Key="TrayIcon_ViewLogsOption">Zobrazit logy</system:String>
+    <system:String x:Key="PixelsUnit">px</system:String>
+    <system:String x:Key="UpdateAvailable">Dostupná aktualizace</system:String>
+    <system:String x:Key="UpToDate">Aktuální</system:String>
+    <system:String x:Key="CheckingForUpdates">Probíhá kontrola...</system:String>
+    <system:String x:Key="UpdateAvailableNotificationTitle">Dostupná aktualizace!</system:String>
+    <system:String x:Key="UpdateAvailableNotificationButton">Stáhnout aktualizaci</system:String>
 </ResourceDictionary>
