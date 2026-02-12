@@ -39,10 +39,11 @@
             <StackPanel Orientation="Horizontal" Margin="0,0,0,24">
                 <Border CornerRadius="10" ClipToBounds="True" Width="164" Height="98">
                     <Border.Background>
-                        <ImageBrush ImageSource="/Resources/FluentFlyoutTaskbar-NoTitle-Zoomed.png" Stretch="UniformToFill" />
+                        <ImageBrush ImageSource="/Resources/TrayIcons/FluentFlyoutBlack.png" Stretch="UniformToFill" />
                     </Border.Background>
                 </Border>
-                <TextBlock FontSize="14" FontWeight="Regular" HorizontalAlignment="Stretch" Opacity="0.75" Margin="12,0,0,0" MaxWidth="450" TextWrapping="WrapWithOverflow" Text="A standalone volume control flyout that expands into a volume mixer, replacing the default Windows volume flyout." />
+                <TextBlock FontSize="14" FontWeight="Regular" HorizontalAlignment="Stretch" Opacity="0.75" Margin="12,0,0,0" MaxWidth="450" TextWrapping="WrapWithOverflow"
+                           Text="A standalone volume control flyout that expands into a volume mixer, replacing the default Windows volume flyout." />
             </StackPanel>
         </Grid>
 
@@ -69,7 +70,7 @@
                 <controls:ToggleSwitch IsChecked="{Binding VolumeControlAboveMediaFlyout, Mode=TwoWay}" />
             </ui:CardControl>
 
-            <ui:CardControl Grid.Row="3" Icon="{ui:SymbolIcon Timer24}" Margin="0,0,0,3">
+            <ui:CardControl Grid.Row="3" Icon="{ui:SymbolIcon Timer24}" Margin="0,0,0,12">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
                         <TextBlock Text="Volume Flyout Stay Duration" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
@@ -82,38 +83,25 @@
                 </StackPanel>
             </ui:CardControl>
 
-            <ui:CardControl Icon="{ui:SymbolIcon AlignCenterHorizontal24, Filled=True}" Margin="0,0,0,3">
+            <TextBlock Text="Volume Mixer" FontSize="14" FontWeight="SemiBold" Margin="0,12,0,6" />
+            <ui:CardControl Icon="{ui:SymbolIcon SpeakerSettings24}" Margin="0,0,0,3">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
-                        <TextBlock Text="{DynamicResource TaskbarVisualizerCenteredBarsTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
-                        <TextBlock Text="{DynamicResource TaskbarVisualizerCenteredBarsDescription}" FontSize="12" Opacity="0.5" />
+                        <TextBlock Text="Enable Volume Mixer" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
+                        <TextBlock Text="Fine control over individual application volumes" FontSize="12" Opacity="0.5" />
                     </StackPanel>
                 </ui:CardControl.Header>
-                <controls:ToggleSwitch IsChecked="{Binding TaskbarVisualizerCenteredBars, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}" />
+                <controls:ToggleSwitch IsChecked="{Binding VolumeMixerEnabled, Mode=TwoWay}" />
             </ui:CardControl>
 
-            <ui:CardControl Icon="{ui:SymbolIcon LineHorizontal120, Filled=False}" Margin="0,0,0,12">
+            <ui:CardControl Icon="{ui:SymbolIcon Highlight24}" Margin="0,0,0,76">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
-                        <TextBlock Text="{DynamicResource TaskbarVisualizerBaselineTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
-                        <TextBlock Text="{DynamicResource TaskbarVisualizerBaselineDescription}" FontSize="12" Opacity="0.5" />
+                        <TextBlock Text="Highlight apps playing audio" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
+                        <TextBlock Text="See which apps are currently outputting audio" FontSize="12" Opacity="0.5" />
                     </StackPanel>
                 </ui:CardControl.Header>
-                <controls:ToggleSwitch IsChecked="{Binding TaskbarVisualizerBaseline, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}" />
-            </ui:CardControl>
-
-            <ui:CardControl Icon="{ui:SymbolIcon BezierCurveSquare20, Filled=False}" Margin="0,0,0,76">
-                <ui:CardControl.Header>
-                    <StackPanel Orientation="Vertical">
-                        <TextBlock Text="{DynamicResource TaskbarVisualizerAudioSensitivityTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
-                        <TextBlock Text="{DynamicResource TaskbarVisualizerAudioSensitivityDescription}" FontSize="12" Opacity="0.5" />
-                    </StackPanel>
-                </ui:CardControl.Header>
-                <StackPanel Orientation="Horizontal" Opacity="{Binding IsPremiumUnlocked, Converter={StaticResource BoolToFullHalfOpacityConverter}}" >
-                    <ui:SymbolIcon Symbol="Subtract24" Width="24" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                    <Slider Minimum="1" Maximum="3" Value="{Binding TaskbarVisualizerAudioSensitivity, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}" TickFrequency="1" TickPlacement="Both" IsSnapToTickEnabled="True" Width="150" Margin="12,0,12,0" />
-                    <ui:SymbolIcon Symbol="Add24" Width="24" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                </StackPanel>
+                <controls:ToggleSwitch IsChecked="{Binding VolumeMixerHighlightActiveApps, Mode=TwoWay}" />
             </ui:CardControl>
         </StackPanel>
     </StackPanel>

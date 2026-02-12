@@ -62,11 +62,6 @@ public partial class VolumeMixerWindow : MicaWindow
                     HideVolumeOsd();
                 });
             }
-            else
-            {
-                NativeMethods.SetWindowPos(_nativeOsdElement, 0, -99999, -99999, 0, 0,
-                    NativeMethods.SWP_NOSIZE | NativeMethods.SWP_NOZORDER | NativeMethods.SWP_NOACTIVATE);
-            }
 
             _isHiding = false;
             if (SettingsManager.Current.VolumeMixerAcrylicWindowEnabled)
@@ -100,7 +95,7 @@ public partial class VolumeMixerWindow : MicaWindow
                 ViewModel.SyncMasterFromDevice();
                 if (!IsMouseOverWindow())
                 {
-                    await Task.Delay(3000, token);
+                    await Task.Delay(SettingsManager.Current.VolumeControlDuration, token);
                     if (!IsMouseOverWindow())
                     {
                         _mainWindow.CloseAnimation(this, true);
@@ -267,6 +262,7 @@ public partial class VolumeMixerWindow : MicaWindow
         });
     }
 
+    // TODO: other windows should use this too instead of IsMouseOver, consider moving to a helper class
     private bool IsMouseOverWindow()
     {
         if (!NativeMethods.GetCursorPos(out NativeMethods.POINT cursor))

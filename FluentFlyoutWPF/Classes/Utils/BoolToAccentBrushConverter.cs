@@ -1,6 +1,7 @@
 // Copyright © 2024-2026 The FluentFlyout Authors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+using FluentFlyout.Classes.Settings;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
@@ -14,6 +15,9 @@ public class BoolToAccentBrushConverter : IValueConverter
 
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
+        // If the setting to highlight active apps in the volume mixer is disabled, return transparent
+        if (!SettingsManager.Current.VolumeMixerHighlightActiveApps) return Brushes.Transparent;
+
         if (value is bool isActive && isActive)
         {
             if (Application.Current.TryFindResource("AccentTextFillColorPrimaryBrush") is SolidColorBrush accentBrush)

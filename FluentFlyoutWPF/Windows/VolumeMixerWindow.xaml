@@ -72,7 +72,8 @@
             <Slider Grid.Column="1" Value="{Binding ViewModel.MasterVolume, Mode=TwoWay}" Minimum="0" Maximum="1" TickFrequency="0.01" VerticalAlignment="Center" />
             <TextBlock Grid.Column="2" Text="{Binding ViewModel.MasterVolume, Converter={StaticResource DecimalPercentage}}" FontSize="14" VerticalAlignment="Center" Margin="8,-2,8,0" Width="24" TextAlignment="Center" />
             <ui:Button Name="OpenVolumeMixerButton" Grid.Column="3" VerticalAlignment="Center" Padding="4" Margin="0,0,4,0"
-                       Command="{Binding ViewModel.OpenVolumeMixerCommand}" Focusable="False" >
+                       Command="{Binding ViewModel.OpenVolumeMixerCommand}" Focusable="False"
+                       Visibility="{Binding VolumeMixerEnabled, Converter={StaticResource BoolToVisible}}">
                 <ui:SymbolIcon x:Name="ChevronIcon" Symbol="ChevronUp24" FontSize="16" RenderTransformOrigin="0.5,0.5">
                     <ui:SymbolIcon.RenderTransform>
                         <RotateTransform x:Name="ChevronRotation" Angle="0" />
@@ -88,7 +89,7 @@
             <ItemsControl x:Name="SessionsPanel" ItemsSource="{Binding ViewModel.Sessions}" Focusable="False" >
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Border CornerRadius="4" Background="{Binding IsActive, Converter={StaticResource ActiveToAccentBrush}}">
+                        <Border CornerRadius="4" Background="{Binding IsActive, Converter={StaticResource ActiveToAccentBrush}}" >
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto" />
