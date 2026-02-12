@@ -11,7 +11,7 @@
     <system:String x:Key="BackgroundBlurOption4" xml:space="preserve"> Стиль 3 (Розмиття)</system:String>
     <system:String x:Key="BackgroundBlurTitle">Розмиття фону</system:String>
     <system:String x:Key="AcrylicWindowTitle">Акрилове вікно</system:String>
-    <system:String x:Key="AcrylicWindowDescription">Застосувати прозорий акриловий ефект розмиття до спливаючого меню (при вимкненні повертається до Mica)</system:String>
+    <system:String x:Key="AcrylicWindowDescription">Застосувати прозорий акриловий ефект розмиття до спливаючого меню</system:String>
     <system:String x:Key="CompactLayoutTitle">Компактне розташування</system:String>
     <system:String x:Key="CompactLayoutDescription" xml:space="preserve">Більш компактний і менш нав'язливий макет
 приховує повторення, перетасовку та інформацію про програвач</system:String>
@@ -72,4 +72,8 @@
     <system:String x:Key="LockWindow_LockOff">вимк</system:String>
     <system:String x:Key="TaskbarWidgetBackgroundBlurTitle">Розмиття фону</system:String>
     <system:String x:Key="PremiumFeatureTitle">Преміум-функції</system:String>
+    <system:String x:Key="TaskbarWidgetBackgroundBlurDescription">Додати ефект розмиття фону до віджету панелі завдань</system:String>
+    <system:String x:Key="TaskbarWidgetHideCompletelyTitle">Приховати повністю, якщо немає медіа</system:String>
+    <system:String x:Key="TaskbarVisualizerBaselineTitle">Показати основу</system:String>
+    <system:String x:Key="TaskbarWidgetCustomizationPerk">Віджет панелі завдань і візуалізатор</system:String>
 </ResourceDictionary>
