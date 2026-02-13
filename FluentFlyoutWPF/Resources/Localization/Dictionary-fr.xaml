@@ -38,7 +38,7 @@ masque les options de répétition, de lecture aléatoire et les informations du
     <system:String x:Key="TextBlockText2">Choisir un flou d'arrière-plan moderne à partir d'un préréglée</system:String>
     <system:String x:Key="BackgroundBlurOption4" xml:space="preserve"> Style 3 (Flou)</system:String>
     <system:String x:Key="AcrylicWindowDescription">Appliquer un effet transparent acrylique floué au volet (reviendra à Mica si désactivé)</system:String>
-    <system:String x:Key="PauseOtherMediaDescription">Quand vous reproduisez ou centrez un nouveau média, mettre en pause d'autres sessions actives automatiquement</system:String>
+    <system:String x:Key="PauseOtherMediaDescription">Lorsque vous lissez ou vous sélectionner de nouveau media, les autres session active sont automatiquement mises en pause</system:String>
     <system:String x:Key="TaskbarWidgetCustomizationTitle">Widget de la barre des tâches</system:String>
     <system:String x:Key="TaskbarWidgetDescription">Un widget compact et intégré sur la barre de tâches de Windows pour un accès instant à votre média. Cliquez le widget pour étendre le volet de média complet (lorsqu'elle est activé).</system:String>
     <system:String x:Key="BackgroundBlurOption2" xml:space="preserve"> Style 1 (Couverture Glow)</system:String>
