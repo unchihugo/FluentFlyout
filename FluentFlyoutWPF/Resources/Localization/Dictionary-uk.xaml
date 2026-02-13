@@ -81,4 +81,6 @@
     <system:String x:Key="AppThemeLight"> Світла</system:String>
     <system:String x:Key="TaskbarWidgetHideCompletelyDescription">Приховує весь віджет, коли медіа недоступне, замість відображення піктограми медіа</system:String>
     <system:String x:Key="TaskbarWidgetControlsTitle">Керування медіа</system:String>
+    <system:String x:Key="AppThemeDark"> Темна</system:String>
+    <system:String x:Key="TrayIconLeftClickOption1"> Відкрити Налаштування</system:String>
 </ResourceDictionary>
