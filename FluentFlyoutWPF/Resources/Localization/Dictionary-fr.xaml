@@ -80,11 +80,11 @@ Note : En tant que projet open source, ces fonctionnalités sont également dis
     <system:String x:Key="EnableInsertKeyTitle">Activer l'affichage de la touche Insertion</system:String>
     <system:String x:Key="EnableInsertKeyDescription">Détermine si le fait d'appuyer sur insérer/remplacer affichera le menu déroulant</system:String>
     <system:String x:Key="SystemSettingsTitle">Système</system:String>
-    <system:String x:Key="LaunchOnStartupTitle">Lancer au démarrage</system:String>
+    <system:String x:Key="LaunchOnStartupTitle">Lancement au démarrage</system:String>
     <system:String x:Key="LaunchOnStartupDescription">Démarrer minimisé dans la barre d'état système lorsque vous vous connectez à Windows</system:String>
     <system:String x:Key="StartupAppsHyperlinkText">Apps de démarrage</system:String>
     <system:String x:Key="StartupAppsSettingsInfo">Si ce paramètre ne fonctionne pas comme prévu, vérifiez</system:String>
-    <system:String x:Key="AppThemeTitle">App Thème</system:String>
+    <system:String x:Key="AppThemeTitle">Thème de l'application</system:String>
     <system:String x:Key="AppThemeDefault"> Windows par défaut</system:String>
     <system:String x:Key="AppThemeLight"> Clair</system:String>
     <system:String x:Key="AppThemeDark"> Sombre</system:String>
@@ -101,7 +101,7 @@ Note : En tant que projet open source, ces fonctionnalités sont également dis
     <system:String x:Key="AnimationSettingsDescription">Personnalisez les animations à votre guise</system:String>
     <system:String x:Key="AnimationDurationScaleTitle">Échelle de durée d'animation</system:String>
     <system:String x:Key="AnimationDurationScaleDescription">Vitesse d'animation plus rapide ou plus lente (par défaut : 1x)</system:String>
-    <system:String x:Key="AnimationSpeedOff">Éteindre</system:String>
+    <system:String x:Key="AnimationSpeedOff">Inactif</system:String>
     <system:String x:Key="AnimationEasingStyleTitle">Style d'accélération de l'animation</system:String>
     <system:String x:Key="AnimationEasingStyleDescription">(par défaut : Quadratique)</system:String>
     <system:String x:Key="EasingLinear" xml:space="preserve"> Linéaire</system:String>
@@ -116,7 +116,7 @@ Note : En tant que projet open source, ces fonctionnalités sont également dis
 ou laissez un avis sur le Microsoft Store !</system:String>
     <system:String x:Key="GitHubRepoLink">Dépôt GitHub</system:String>
     <system:String x:Key="CloseButton">Fermer</system:String>
-    <system:String x:Key="AppLanguageTitle">Langue de l'app</system:String>
+    <system:String x:Key="AppLanguageTitle">Languages de l'application</system:String>
     <system:String x:Key="AppLanguageDescription" xml:space="preserve">Si votre langue n'est pas répertoriée ou est incomplète, l'anglais sera utilisé par défaut.
 Vous pouvez contribuer aux traductions sur</system:String>
     <system:String x:Key="AppLanguageDescriptionLink">Weblate</system:String>
