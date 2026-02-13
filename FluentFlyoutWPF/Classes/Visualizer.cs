@@ -253,7 +253,8 @@ namespace FluentFlyoutWPF.Classes
                             int barBaseline = SettingsManager.Current.TaskbarVisualizerBaseline ? 4 : 0;
 
                             int centerY = ImageHeight / 2;
-                            
+                            float cornerRadius = 6f / MathF.Max(1f, SettingsManager.Current.TaskbarVisualizerBarCount / 10f);
+
                             for (int i = 0; i < BarCount; i++)
                             {
                                 float normalizedValue = Math.Clamp(_barValues[i], 0f, 1f);
@@ -275,8 +276,6 @@ namespace FluentFlyoutWPF.Classes
                                     barEndY = ImageHeight;
                                 }
 
-                                float cornerRadius = 6 / MathF.Max(1, (SettingsManager.Current.TaskbarVisualizerBarCount / 10));
-
                                 for (int y = barY; y < barEndY && y < ImageHeight && y >= 0; y++)
                                 {
                                     for (int x = barX; x < barX + barWidth && x < ImageWidth; x++)
@@ -285,7 +284,6 @@ namespace FluentFlyoutWPF.Classes
 
                                         // Calculate relative position within the bar
                                         int relativeY = y - barY;
-
 
                                         // Check corners
                                         bool inTopLeftCorner = (relativeY < cornerRadius) && (x - barX < cornerRadius);
