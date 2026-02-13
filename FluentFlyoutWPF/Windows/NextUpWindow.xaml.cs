@@ -29,7 +29,7 @@ public partial class NextUpWindow : MicaWindow
         CustomWindowChrome.CaptionHeight = 0;
         CustomWindowChrome.UseAeroCaptionButtons = false;
         CustomWindowChrome.GlassFrameThickness = new Thickness(0);
-        if (SettingsManager.Current.NextUpAcrylicWindowEnabled)
+        if (SettingsManager.Current.VolumeMixerAcrylicWindowEnabled)
         {
             WindowBlurHelper.EnableBlur(this);
         }
