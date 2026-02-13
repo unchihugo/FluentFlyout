@@ -77,4 +77,5 @@
     <system:String x:Key="TaskbarVisualizerBaselineTitle">Показати основу</system:String>
     <system:String x:Key="TaskbarWidgetCustomizationPerk">Віджет панелі завдань і візуалізатор</system:String>
     <system:String x:Key="AppThemeTitle">Тема додатка</system:String>
+    <system:String x:Key="AppThemeDefault"> За замовчуванням Windows</system:String>
 </ResourceDictionary>
