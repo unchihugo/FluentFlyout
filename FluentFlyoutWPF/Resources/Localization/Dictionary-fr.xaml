@@ -38,7 +38,7 @@ masque les options de répétition, de lecture aléatoire et les informations du
     <system:String x:Key="TextBlockText2">Choisir un flou d'arrière-plan moderne à partir d'un préréglée</system:String>
     <system:String x:Key="BackgroundBlurOption4" xml:space="preserve"> Style 3 (Flou)</system:String>
     <system:String x:Key="AcrylicWindowDescription">Appliquer un effet transparent acrylique floué au volet (reviendra à Mica si désactivé)</system:String>
-    <system:String x:Key="PauseOtherMediaDescription">Lorsque vous lissez ou vous sélectionner de nouveau media, les autres session active sont automatiquement mises en pause</system:String>
+    <system:String x:Key="PauseOtherMediaDescription">Lorsque vous reproduisez ou sélectionnez de nouveau média, les autres sessions actives seront mises en pause automatiquement</system:String>
     <system:String x:Key="TaskbarWidgetCustomizationTitle">Widget de la barre des tâches</system:String>
     <system:String x:Key="TaskbarWidgetDescription">Un widget compact et intégré sur la barre de tâches de Windows pour un accès instant à votre média. Cliquez le widget pour étendre le volet de média complet (lorsqu'elle est activé).</system:String>
     <system:String x:Key="BackgroundBlurOption2" xml:space="preserve"> Style 1 (Couverture Glow)</system:String>
@@ -116,11 +116,11 @@ Note : En tant que projet open source, ces fonctionnalités sont également dis
 ou laissez un avis sur le Microsoft Store !</system:String>
     <system:String x:Key="GitHubRepoLink">Dépôt GitHub</system:String>
     <system:String x:Key="CloseButton">Fermer</system:String>
-    <system:String x:Key="AppLanguageTitle">Languages de l'application</system:String>
+    <system:String x:Key="AppLanguageTitle">Language de l'application</system:String>
     <system:String x:Key="AppLanguageDescription" xml:space="preserve">Si votre langue n'est pas répertoriée ou est incomplète, l'anglais sera utilisé par défaut.
 Vous pouvez contribuer aux traductions sur</system:String>
     <system:String x:Key="AppLanguageDescriptionLink">Weblate</system:String>
-    <system:String x:Key="LockWindow_CapsLock">Verr Maj</system:String>
+    <system:String x:Key="LockWindow_CapsLock">Verr. Maj.</system:String>
     <system:String x:Key="LockWindow_NumLock">Verr. num.</system:String>
     <system:String x:Key="LockWindow_ScrollLock">Arrêt défil.</system:String>
     <system:String x:Key="LockWindow_InsertPressed">Insérer appuyée</system:String>
@@ -137,7 +137,7 @@ Vous pouvez contribuer aux traductions sur</system:String>
     <system:String x:Key="TaskbarWidgetPaddingSettingsDescription">Ajustez la marge autour du widget pour l'adapter au style de votre barre des tâches</system:String>
     <system:String x:Key="TaskbarWidgetManualPaddingTitle">Remplissage personnalisé</system:String>
     <system:String x:Key="TaskbarWidgetManualPaddingDescription">Ajouter un rembourrage supplémentaire (par défaut : 0 px)</system:String>
-    <system:String x:Key="TaskbarWidgetControlsTitle">Contrôles multimédias</system:String>
+    <system:String x:Key="TaskbarWidgetControlsTitle">Contrôles multimédias du widget</system:String>
     <system:String x:Key="TaskbarWidgetControlsDescription">Afficher les boutons de contrôle multimédia sur le widget</system:String>
     <system:String x:Key="TaskbarWidgetAnimatedTitle">Animations widgets</system:String>
     <system:String x:Key="TaskbarWidgetAnimatedDescription">Activer les animations subtiles pour le widget</system:String>
@@ -159,7 +159,7 @@ Vous pouvez contribuer aux traductions sur</system:String>
     <system:String x:Key="AboutOpenSourceLicensesDescription">FluentFlyout est construit avec les packages open source suivants :</system:String>
     <system:String x:Key="UpdateToastTitle">FluentFlyout a été mis à jour !</system:String>
     <system:String x:Key="UpdateToastMessage">Vous êtes maintenant sur {0}.</system:String>
-    <system:String x:Key="UpdateToastButton">Afficher la mise à jour</system:String>
+    <system:String x:Key="UpdateToastButton">Afficher les mises à jour</system:String>
     <system:String x:Key="UpdateAvailable">Mise à jour disponible</system:String>
     <system:String x:Key="UpToDate">À jour</system:String>
     <system:String x:Key="LastChecked">Dernière vérification : {0}</system:String>
@@ -178,7 +178,7 @@ Vous pouvez contribuer aux traductions sur</system:String>
     <system:String x:Key="TaskbarVisualizerBarCountDescription">La quantité de barres visualisatrices</system:String>
     <system:String x:Key="TaskbarVisualizerCenteredBarsTitle">Barres centrées</system:String>
     <system:String x:Key="TaskbarVisualizerCenteredBarsDescription">Barres qui s'expandent symmétriquement depuis le centre au lieu de monter depuis le bas</system:String>
-    <system:String x:Key="TaskbarVisualizerBaselineTitle">Montrer la ligne de base</system:String>
+    <system:String x:Key="TaskbarVisualizerBaselineTitle">Afficher la ligne de base</system:String>
     <system:String x:Key="TaskbarVisualizerBaselineDescription">Montre une ligne fine quand les niveaux d'audio sont à zèro</system:String>
     <system:String x:Key="TaskbarVisualizerAudioSensitivityTitle">Sensibilité audio</system:String>
     <system:String x:Key="TaskbarVisualizerPositionTitle">Position Relative du Visualisateur par rapport au Widget de la Barre de Tâches</system:String>
