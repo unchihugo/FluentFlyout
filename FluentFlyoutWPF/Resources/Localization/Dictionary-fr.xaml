@@ -3,12 +3,12 @@
     <system:String x:Key="PositionBottomCenter" xml:space="preserve"> En bas au centre</system:String>
     <system:String x:Key="PositionBottomRight" xml:space="preserve"> En bas à droite</system:String>
     <system:String x:Key="PositionTopLeft" xml:space="preserve"> En haut à gauche</system:String>
-    <system:String x:Key="PositionTopCenter" xml:space="preserve"> En haut au centre</system:String>
+    <system:String x:Key="PositionTopCenter" xml:space="preserve"> En haut au milieu</system:String>
     <system:String x:Key="PositionTopRight" xml:space="preserve"> En haut à droite</system:String>
     <system:String x:Key="FlyoutStayDurationTitle">Durée d'affichage du volet</system:String>
     <system:String x:Key="FlyoutStayDurationDescription">(par défaut : 3000 ms)</system:String>
     <system:String x:Key="MillisecondsUnit">ms</system:String>
-    <system:String x:Key="MediaFlyoutAlwaysDisplay">Toujours afficher</system:String>
+    <system:String x:Key="MediaFlyoutAlwaysDisplay">Affichage Permanent</system:String>
     <system:String x:Key="CenterTitleArtistTitle">Centrer le titre et l'artiste</system:String>
     <system:String x:Key="CenterTitleArtistDescription">Aligner le texte au centre au lieu de la gauche</system:String>
     <system:String x:Key="ShowMediaPlayerNameTitle">Afficher le nom du lecteur multimédia</system:String>
@@ -29,7 +29,7 @@
     <system:String x:Key="BackgroundBlurOption1" xml:space="preserve"> Aucun</system:String>
     <system:String x:Key="BackgroundBlurTitle">Flou d'arrière-plan</system:String>
     <system:String x:Key="AcrylicWindowTitle">Fenêtre acrylique</system:String>
-    <system:String x:Key="CompactLayoutTitle">Mise en page compacte</system:String>
+    <system:String x:Key="CompactLayoutTitle">Disposition compacte</system:String>
     <system:String x:Key="CompactLayoutDescription" xml:space="preserve">Mise en page plus fine et moins intrusive
 masque les options de répétition, de lecture aléatoire et les informations du lecteur</system:String>
     <system:String x:Key="NextUpCustomizationTitle">Volet "À suivre"</system:String>
@@ -137,7 +137,7 @@ Vous pouvez contribuer aux traductions sur</system:String>
     <system:String x:Key="TaskbarWidgetPaddingSettingsDescription">Ajustez la marge autour du widget pour l'adapter au style de votre barre des tâches</system:String>
     <system:String x:Key="TaskbarWidgetManualPaddingTitle">Remplissage personnalisé</system:String>
     <system:String x:Key="TaskbarWidgetManualPaddingDescription">Ajouter un rembourrage supplémentaire (par défaut : 0 px)</system:String>
-    <system:String x:Key="TaskbarWidgetControlsTitle">Widget Commandes multimédia</system:String>
+    <system:String x:Key="TaskbarWidgetControlsTitle">Contrôles multimédias</system:String>
     <system:String x:Key="TaskbarWidgetControlsDescription">Afficher les boutons de contrôle multimédia sur le widget</system:String>
     <system:String x:Key="TaskbarWidgetAnimatedTitle">Animations widgets</system:String>
     <system:String x:Key="TaskbarWidgetAnimatedDescription">Activer les animations subtiles pour le widget</system:String>
