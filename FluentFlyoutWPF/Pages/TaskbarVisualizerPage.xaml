@@ -153,7 +153,7 @@
                 <controls:ToggleSwitch IsChecked="{Binding TaskbarVisualizerBaseline, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}" />
             </ui:CardControl>
 
-            <ui:CardControl Icon="{ui:SymbolIcon BezierCurveSquare20, Filled=False}" Margin="0,0,0,76">
+            <ui:CardControl Icon="{ui:SymbolIcon BezierCurveSquare20, Filled=False}" Margin="0,0,0,3">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
                         <TextBlock Text="{DynamicResource TaskbarVisualizerAudioSensitivityTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
@@ -165,6 +165,22 @@
                     <Slider Minimum="1" Maximum="3" Value="{Binding TaskbarVisualizerAudioSensitivity, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}" TickFrequency="1" TickPlacement="Both" IsSnapToTickEnabled="True" Width="150" Margin="12,0,12,0" />
                     <ui:SymbolIcon Symbol="Add24" Width="24" HorizontalAlignment="Center" VerticalAlignment="Center" />
                 </StackPanel>
+            </ui:CardControl>
+
+            <ui:CardControl Icon="{ui:SymbolIcon Speaker224}" Margin="0,0,0,76">
+                <ui:CardControl.Header>
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock FontSize="14" FontWeight="Regular" VerticalAlignment="Center">
+                            <Hyperlink x:Name="StartupHyperlink" NavigateUri="ms-settings:apps-volume" BaselineAlignment="Center"
+                                   RequestNavigate="StartupHyperlink_RequestNavigate" TextDecorations="None" Foreground="{DynamicResource AccentTextFillColorPrimaryBrush}" >
+                                <Run Text="Output Device" />
+                                <ui:SymbolIcon VerticalAlignment="Center" FontSize="14" Symbol="ArrowUpRight24" />
+                            </Hyperlink>
+                        </TextBlock>
+                        <TextBlock Text="Change what the visualizer listens to by switching FluentFlyout's output device." FontSize="12" Opacity="0.5" />
+                    </StackPanel>
+                </ui:CardControl.Header>
+                
             </ui:CardControl>
         </StackPanel>
     </StackPanel>
