@@ -141,7 +141,7 @@ Vous pouvez contribuer aux traductions sur</system:String>
     <system:String x:Key="TaskbarWidgetControlsDescription">Afficher les boutons de contrôle multimédia sur le widget</system:String>
     <system:String x:Key="TaskbarWidgetAnimatedTitle">Animations widgets</system:String>
     <system:String x:Key="TaskbarWidgetAnimatedDescription">Activer les animations subtiles pour le widget</system:String>
-    <system:String x:Key="TrayIcon_ViewLogsOption">Consulter les journaux</system:String>
+    <system:String x:Key="TrayIcon_ViewLogsOption">Voir les journaux</system:String>
     <system:String x:Key="PixelsUnit">px</system:String>
     <system:String x:Key="HomeTitle">Accueil</system:String>
     <system:String x:Key="Enabled">Activé</system:String>
@@ -159,7 +159,7 @@ Vous pouvez contribuer aux traductions sur</system:String>
     <system:String x:Key="AboutOpenSourceLicensesDescription">FluentFlyout est construit avec les packages open source suivants :</system:String>
     <system:String x:Key="UpdateToastTitle">FluentFlyout a été mis à jour !</system:String>
     <system:String x:Key="UpdateToastMessage">Vous êtes maintenant sur {0}.</system:String>
-    <system:String x:Key="UpdateToastButton">Voir les mises à jour</system:String>
+    <system:String x:Key="UpdateToastButton">Afficher la mise à jour</system:String>
     <system:String x:Key="UpdateAvailable">Mise à jour disponible</system:String>
     <system:String x:Key="UpToDate">À jour</system:String>
     <system:String x:Key="LastChecked">Dernière vérification : {0}</system:String>
