@@ -76,7 +76,9 @@
     <system:String x:Key="TaskbarWidgetHideCompletelyTitle">Приховати повністю, якщо немає медіа</system:String>
     <system:String x:Key="TaskbarVisualizerBaselineTitle">Показати основу</system:String>
     <system:String x:Key="TaskbarWidgetCustomizationPerk">Віджет панелі завдань і візуалізатор</system:String>
-    <system:String x:Key="AppThemeTitle">Тема додатка</system:String>
-    <system:String x:Key="AppThemeDefault"> За замовчуванням Windows</system:String>
-    <system:String x:Key="AppThemeLight"> Світло</system:String>
+    <system:String x:Key="AppThemeTitle">Тема програми</system:String>
+    <system:String x:Key="AppThemeDefault"> Стандартна Windows</system:String>
+    <system:String x:Key="AppThemeLight"> Світла</system:String>
+    <system:String x:Key="TaskbarWidgetHideCompletelyDescription">Приховує весь віджет, коли медіа недоступне, замість відображення піктограми медіа</system:String>
+    <system:String x:Key="TaskbarWidgetControlsTitle">Керування медіа</system:String>
 </ResourceDictionary>
