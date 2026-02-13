@@ -14,7 +14,7 @@
 oculta los botones de repetir y aleatorio y la información del reproductor</system:String>
     <system:String x:Key="FlyoutPositionTitle">Posición del Flyout</system:String>
     <system:String x:Key="PositionBottomLeft" xml:space="preserve"> Inferior Izquierda</system:String>
-    <system:String x:Key="PositionBottomCenter" xml:space="preserve"> Inferior Centrado</system:String>
+    <system:String x:Key="PositionBottomCenter" xml:space="preserve"> Inferior Central</system:String>
     <system:String x:Key="PositionBottomRight" xml:space="preserve"> Inferior Derecha</system:String>
     <system:String x:Key="PositionTopLeft" xml:space="preserve"> Superior Izquierda</system:String>
     <system:String x:Key="PositionTopCenter" xml:space="preserve"> Superior Centrado</system:String>
