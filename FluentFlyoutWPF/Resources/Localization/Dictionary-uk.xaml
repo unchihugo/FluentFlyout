@@ -76,4 +76,5 @@
     <system:String x:Key="TaskbarWidgetHideCompletelyTitle">Приховати повністю, якщо немає медіа</system:String>
     <system:String x:Key="TaskbarVisualizerBaselineTitle">Показати основу</system:String>
     <system:String x:Key="TaskbarWidgetCustomizationPerk">Віджет панелі завдань і візуалізатор</system:String>
+    <system:String x:Key="AppThemeTitle">Тема додатка</system:String>
 </ResourceDictionary>
