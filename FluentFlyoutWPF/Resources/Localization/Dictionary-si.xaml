@@ -14,5 +14,4 @@
     <system:String x:Key="BackgroundBlurOption2" xml:space="preserve"> Cover එක දිලිසෙන (Style 1)</system:String>
     <system:String x:Key="BackgroundBlurOption3" xml:space="preserve"> ඉර පායනවා වගේ දිලිසෙන (Style 2)</system:String>
     <system:String x:Key="BackgroundBlurOption4" xml:space="preserve"> බොඳ වුන (Style 3)</system:String>
-    <system:String x:Key="BackgroundBlurTitle"></system:String>
 </ResourceDictionary>
