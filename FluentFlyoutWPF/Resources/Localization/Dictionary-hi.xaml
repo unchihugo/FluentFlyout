@@ -7,4 +7,7 @@
     <system:String x:Key="TextBlockText2">आधुनिक पृष्ठभूमि धुंधला शैलियों के प्रीसेट में से चुनें</system:String>
     <system:String x:Key="BackgroundBlurOption1" xml:space="preserve"> कोई नहीं</system:String>
     <system:String x:Key="BackgroundBlurOption2" xml:space="preserve"> स्टाइल 1 (कवर ग्लो)</system:String>
+    <system:String x:Key="HomeTitle">होम</system:String>
+    <system:String x:Key="Enabled">सक्षम</system:String>
+    <system:String x:Key="Disabled">निष्क्रिय</system:String>
 </ResourceDictionary>
