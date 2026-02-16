@@ -1,7 +1,7 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib">
-    <system:String x:Key="TitleText">FluentFlyout सेटिंग्स</system:String>
+    <system:String x:Key="TitleText">फ्लाईआउट सेटिंग्स</system:String>
     <system:String x:Key="MediaFlyoutTitle">मीडिया फ्लाईआउट अनुकूलन</system:String>
-    <system:String x:Key="MediaFlyoutDescription">मुख्य फ्लाईआउट । मीडिया को सुनते समय, फ्लाईआउट प्रदर्शित करने के लिए अपने कीबोर्ड पर किसी भी मीडिया या वॉल्यूम कुंजी (प्ले / ठहराव, वॉल्यूम अप / डाउन, आदि) को दबाएं। प्लेबैक नियंत्रण और अधिक के साथ मीडिया जानकारी प्रदर्शित करता है।</system:String>
+    <system:String x:Key="MediaFlyoutDescription">मुख्य फ्लाईआउट । मीडिया को सुनते समय, फ्लाईआउट प्रदर्शित करने के लिए अपने कीबोर्ड पर किसी भी मीडिया या वॉल्यूम कुंजी (प्ले / पॉज़, वॉल्यूम अप / डाउन, आदि) को दबाएं। प्लेबैक नियंत्रण के साथ मीडिया जानकारी प्रदर्शित करता है।</system:String>
     <system:String x:Key="TextBlockText1">मीडिया फ्लाईआउट सक्षम करें</system:String>
     <system:String x:Key="TextBlockText3">जब आप मीडिया कुंजी दबाते हैं तो फ्लाईआउट प्रदर्शित करें</system:String>
     <system:String x:Key="TextBlockText2">आधुनिक पृष्ठभूमि धुंधला शैलियों के प्रीसेट में से चुनें</system:String>
