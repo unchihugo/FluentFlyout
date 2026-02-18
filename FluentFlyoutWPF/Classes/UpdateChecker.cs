@@ -50,7 +50,7 @@ public static class UpdateChecker
             result.Success = true;
 
             // Compare versions
-            result.IsUpdateAvailable = currentVersion != "debug" && currentVersion != result.NewestVersion;
+            result.IsUpdateAvailable = currentVersion != "debug" && IsNewerVersion(currentVersion, result.NewestVersion);
 
             Logger.Info($"Update check complete. Current: {currentVersion}, Newest: {result.NewestVersion}, Update available: {result.IsUpdateAvailable}");
         }
@@ -83,6 +83,21 @@ public static class UpdateChecker
         catch (Exception ex)
         {
             Logger.Error(ex, "Failed to open update URL");
+        }
+    }
+
+    private static bool IsNewerVersion(string currentVersion, string newestVersion)
+    {
+        try
+        {
+            var current = Version.Parse(currentVersion.TrimStart('v'));
+            var newest = Version.Parse(newestVersion.TrimStart('v'));
+            return newest > current;
+        }
+        catch (Exception ex)
+        {
+            Logger.Error(ex, $"Failed to compare versions: {currentVersion} vs {newestVersion}");
+            return false;
         }
     }
 }

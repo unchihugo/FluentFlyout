@@ -34,6 +34,8 @@ public partial class TaskbarWindow : Window
     // reference to main window for flyout functions
     private MainWindow? _mainWindow;
     private int _lastSelectedMonitor = -1;
+    private bool _positionUpdateInProgress;
+    private readonly Dictionary<string, Task> _pendingAutomationTasks = [];
 
     public TaskbarWindow()
     {
@@ -275,52 +277,69 @@ public partial class TaskbarWindow : Window
 
     private void CalculateAndSetPosition(IntPtr taskbarHandle, IntPtr taskbarWindowHandle, bool isMainTaskbarSelected)
     {
-        // get DPI scaling
-        double dpiScale = GetDpiForWindow(taskbarHandle) / 96.0;
+        // Prevent overlapping updates - if a previous update is still running
+        // (e.g. waiting for an automation query timeout), skip this tick.
+        if (_positionUpdateInProgress)
+            return;
+        _positionUpdateInProgress = true;
 
-        // Get Taskbar dimensions
-        RECT taskbarRect;
-        // first, try to find the Taskbar.TaskbarFrame element in the XAML
-        // this should give us the actual bounds of the taskbar, excluding invisible margins on some Windows configurations
-        (bool success, Rect result) = GetTaskbarFrameRect(taskbarHandle);
-        if (success)
+        try
         {
-            taskbarRect = new RECT
+            // get DPI scaling
+            double dpiScale = GetDpiForWindow(taskbarHandle) / 96.0;
+
+            // Guard against invalid DPI (e.g. during explorer restart when handle is stale)
+            if (dpiScale <= 0)
+                return;
+
+            // Get Taskbar dimensions
+            RECT taskbarRect;
+            // first, try to find the Taskbar.TaskbarFrame element in the XAML
+            // this should give us the actual bounds of the taskbar, excluding invisible margins on some Windows configurations
+            (bool success, Rect result) = GetTaskbarFrameRect(taskbarHandle);
+            if (success)
             {
-                Left = (int)result.Left,
-                Top = (int)result.Top,
-                Right = (int)result.Right,
-                Bottom = (int)result.Bottom
-            };
+                taskbarRect = new RECT
+                {
+                    Left = (int)result.Left,
+                    Top = (int)result.Top,
+                    Right = (int)result.Right,
+                    Bottom = (int)result.Bottom
+                };
+            }
+            else
+            {
+                // fallback to GetWindowRect if we fail to get the frame bounds for some reason
+                GetWindowRect(taskbarHandle, out taskbarRect);
+            }
+
+            int taskbarHeight = taskbarRect.Bottom - taskbarRect.Top;
+            int taskbarWidth = taskbarRect.Right - taskbarRect.Left;
+
+            int containerWidth = taskbarWidth;
+            int containerHeight = taskbarHeight;
+
+            // Following SetWindowPos will set the position relative to the parent window,
+            // so those coordinates need to be converted.
+            POINT containerPos = new() { X = taskbarRect.Left, Y = taskbarRect.Top };
+            ScreenToClient(taskbarHandle, ref containerPos);
+
+            // Apply using SetWindowPos (Bypassing WPF layout engine)
+            SetWindowPos(taskbarWindowHandle, 0,
+                     containerPos.X, containerPos.Y,
+                     containerWidth, containerHeight,
+                     SWP_NOZORDER | SWP_NOACTIVATE | SWP_ASYNCWINDOWPOS | SWP_SHOWWINDOW);
+
+            PositionWidget(taskbarHandle, taskbarRect, dpiScale, isMainTaskbarSelected);
+
+            PositionVisualizer(taskbarHandle, taskbarRect, dpiScale, isMainTaskbarSelected);
+
+            _lastSelectedMonitor = SettingsManager.Current.TaskbarWidgetSelectedMonitor;
         }
-        else
+        finally
         {
-            // fallback to GetWindowRect if we fail to get the frame bounds for some reason
-            GetWindowRect(taskbarHandle, out taskbarRect);
+            _positionUpdateInProgress = false;
         }
-
-        int taskbarHeight = taskbarRect.Bottom - taskbarRect.Top;
-        int taskbarWidth = taskbarRect.Right - taskbarRect.Left;
-
-        int containerWidth = taskbarWidth;
-        int containerHeight = taskbarHeight;
-
-        // Following SetWindowPos will set the position relative to the parent window,
-        // so those coordinates need to be converted.
-        POINT containerPos = new() { X = taskbarRect.Left, Y = taskbarRect.Top };
-        ScreenToClient(taskbarHandle, ref containerPos);
-
-        // Apply using SetWindowPos (Bypassing WPF layout engine)
-        SetWindowPos(taskbarWindowHandle, 0,
-                 containerPos.X, containerPos.Y,
-                 containerWidth, containerHeight,
-                 SWP_NOZORDER | SWP_NOACTIVATE | SWP_ASYNCWINDOWPOS | SWP_SHOWWINDOW);
-
-        PositionWidget(taskbarHandle, taskbarRect, dpiScale, isMainTaskbarSelected);
-
-        PositionVisualizer(taskbarHandle, taskbarRect, dpiScale, isMainTaskbarSelected);
-
-        _lastSelectedMonitor = SettingsManager.Current.TaskbarWidgetSelectedMonitor;
     }
 
     private void PositionWidget(IntPtr taskbarHandle, RECT taskbarRect, double dpiScale, bool isMainTaskbarSelected)
@@ -523,6 +542,9 @@ public partial class TaskbarWindow : Window
 
     private (bool, Rect) GetTaskbarXamlElementRect(IntPtr taskbarHandle, ref AutomationElement? elementCache, string elementName)
     {
+        if (taskbarHandle == IntPtr.Zero)
+            return (false, Rect.Empty);
+
         try
         {
             // reset if monitor changed
@@ -532,10 +554,27 @@ public partial class TaskbarWindow : Window
             // find widget in XAML
             if (elementCache == null)
             {
-                AutomationElement root = AutomationElement.FromHandle(taskbarHandle);
+                if (_pendingAutomationTasks.TryGetValue(elementName, out var pendingTask) && !pendingTask.IsCompleted)
+                    return (false, Rect.Empty);
 
-                elementCache = root.FindFirst(TreeScope.Descendants,
-                    new PropertyCondition(AutomationElement.AutomationIdProperty, elementName));
+                AutomationElement? found = null;
+                var findTask = Task.Run(() =>
+                {
+                    var root = AutomationElement.FromHandle(taskbarHandle);
+                    found = root.FindFirst(TreeScope.Descendants,
+                        new PropertyCondition(AutomationElement.AutomationIdProperty, elementName));
+                });
+                _pendingAutomationTasks[elementName] = findTask;
+
+                if (!findTask.Wait(1000))
+                {
+                    Logger.Warn("Timeout querying taskbar XAML element: " + elementName);
+                    return (false, Rect.Empty);
+                }
+
+                // Propagate any exception from the background thread
+                findTask.GetAwaiter().GetResult();
+                elementCache = found;
             }
 
             if (elementCache == null) // widget most likely disabled
@@ -543,7 +582,24 @@ public partial class TaskbarWindow : Window
 
             try
             {
-                Rect elementRect = elementCache.Current.BoundingRectangle;
+                if (_pendingAutomationTasks.TryGetValue(elementName, out var pendingTask) && !pendingTask.IsCompleted)
+                {
+                    elementCache = null;
+                    return (false, Rect.Empty);
+                }
+
+                var cachedElement = elementCache;
+                var boundsTask = Task.Run(() => cachedElement.Current.BoundingRectangle);
+                _pendingAutomationTasks[elementName] = boundsTask;
+
+                if (!boundsTask.Wait(500))
+                {
+                    Logger.Warn("Timeout getting bounds for taskbar XAML element: " + elementName);
+                    elementCache = null;
+                    return (false, Rect.Empty);
+                }
+
+                Rect elementRect = boundsTask.GetAwaiter().GetResult();
 
                 if (elementRect == Rect.Empty) // widget shown before but most likely disabled now
                 {
@@ -563,8 +619,14 @@ public partial class TaskbarWindow : Window
         }
         catch (COMException ex)
         {
-            Logger.Error(ex, "COM error retrieving taskbar XAML element Rect: " + elementName);
+            Logger.Warn(ex, "COM error retrieving taskbar XAML element Rect: " + elementName);
             elementCache = null; // reset cache on error
+            return (false, Rect.Empty);
+        }
+        catch (ElementNotAvailableException)
+        {
+            Logger.Warn("Taskbar XAML element not available, resetting cache: " + elementName);
+            elementCache = null;
             return (false, Rect.Empty);
         }
         catch (Exception ex)

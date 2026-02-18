@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 using FluentFlyout.Classes.Settings;
+using NAudio.CoreAudioApi;
 using NAudio.Dsp;
 using NAudio.Wave;
 using System.Windows;
@@ -50,6 +51,9 @@ namespace FluentFlyoutWPF.Classes
             InitializeBitmap();
 
             _fftBuffer = new Complex[_fftLength];
+
+            ResizeBarList(SettingsManager.Current.TaskbarVisualizerBarCount);
+            AudioDeviceMonitor.Instance.DefaultDeviceChanged += OnDefaultDeviceChanged;
         }
 
         private void InitializeBitmap()
@@ -61,6 +65,24 @@ namespace FluentFlyoutWPF.Classes
                     _bitmap = new WriteableBitmap(ImageWidth, ImageHeight, 96, 96, PixelFormats.Bgra32, null);
                 }
             });
+        }
+
+        private void OnDefaultDeviceChanged(object? sender, DefaultDeviceChangedEventArgs e)
+        {
+            if (e.DataFlow == DataFlow.Render && e.Role == Role.Multimedia)
+            {
+                Logger.Info("Default audio output device changed, restarting visualizer");
+
+                if (_isRunning)
+                {
+                    Task.Run(async () =>
+                    {
+                        Stop();
+                        await Task.Delay(100);
+                        Start();
+                    });
+                }
+            }
         }
 
         public static void ResizeBarList(int newBarCount)
@@ -102,6 +124,8 @@ namespace FluentFlyoutWPF.Classes
             _capture?.DataAvailable -= OnDataAvailable;
             _capture?.RecordingStopped -= OnRecordingStopped;
             _capture?.StopRecording();
+            _capture?.Dispose();
+            _capture = null;
         }
 
         private void OnDataAvailable(object? sender, WaveInEventArgs e)
@@ -251,7 +275,8 @@ namespace FluentFlyoutWPF.Classes
                             int barBaseline = SettingsManager.Current.TaskbarVisualizerBaseline ? 4 : 0;
 
                             int centerY = ImageHeight / 2;
-                            
+                            float cornerRadius = 6f / MathF.Max(1f, SettingsManager.Current.TaskbarVisualizerBarCount / 10f);
+
                             for (int i = 0; i < BarCount; i++)
                             {
                                 float normalizedValue = Math.Clamp(_barValues[i], 0f, 1f);
@@ -273,8 +298,6 @@ namespace FluentFlyoutWPF.Classes
                                     barEndY = ImageHeight;
                                 }
 
-                                int cornerRadius = 6;
-
                                 for (int y = barY; y < barEndY && y < ImageHeight && y >= 0; y++)
                                 {
                                     for (int x = barX; x < barX + barWidth && x < ImageWidth; x++)
@@ -283,7 +306,6 @@ namespace FluentFlyoutWPF.Classes
 
                                         // Calculate relative position within the bar
                                         int relativeY = y - barY;
-
 
                                         // Check corners
                                         bool inTopLeftCorner = (relativeY < cornerRadius) && (x - barX < cornerRadius);
@@ -346,6 +368,8 @@ namespace FluentFlyoutWPF.Classes
         public void Dispose()
         {
             Stop();
+
+            AudioDeviceMonitor.Instance.DefaultDeviceChanged -= OnDefaultDeviceChanged;
 
             if (_capture != null)
             {
