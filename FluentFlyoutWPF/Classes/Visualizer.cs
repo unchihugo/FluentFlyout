@@ -33,6 +33,8 @@ namespace FluentFlyoutWPF.Classes
         private readonly int _targetFps = 30;
         private DateTime _lastUpdateTime = DateTime.MinValue;
 
+        private System.Timers.Timer _captureWatchdog;
+
         public WriteableBitmap? Bitmap
         {
             get
@@ -43,8 +45,6 @@ namespace FluentFlyoutWPF.Classes
                 }
             }
         }
-
-        public event EventHandler? BitmapUpdated;
 
         public Visualizer()
         {
@@ -107,7 +107,23 @@ namespace FluentFlyoutWPF.Classes
                 _capture.StartRecording();
                 _isRunning = true;
 
-                // TODO: set an automatic update timer in case audio data is not updated
+                // automatic update timer in case audio data is not updated
+                _captureWatchdog = new(500)
+                {
+                    AutoReset = false
+                };
+                _captureWatchdog.Elapsed += (_, _) =>
+                {
+                    if (_isRunning)
+                    {
+                        for (int i = 0; i < _barValues.Length; i++)
+                        {
+                            _barValues[i] = 0;
+                        }
+                        UpdateBitmap();
+                        SettingsManager.Current.TaskbarVisualizerHasContent = false;
+                    }
+                };
             }
             catch (Exception ex)
             {
@@ -132,6 +148,9 @@ namespace FluentFlyoutWPF.Classes
         {
             if (!_isRunning || e.BytesRecorded == 0)
                 return;
+
+            _captureWatchdog.Stop();
+            _captureWatchdog.Start();
 
             int bytesPerSample = _capture!.WaveFormat.BitsPerSample / 8;
             int samplesRecorded = e.BytesRecorded / bytesPerSample;
@@ -166,6 +185,7 @@ namespace FluentFlyoutWPF.Classes
                     if (timeSinceLastUpdate >= minFrameTime)
                     {
                         _lastUpdateTime = now;
+                        SettingsManager.Current.TaskbarVisualizerHasContent = true;
                         UpdateBitmap();
                     }
                 }
@@ -351,8 +371,6 @@ namespace FluentFlyoutWPF.Classes
                     {
                         _bitmap.Unlock();
                     }
-
-                    BitmapUpdated?.Invoke(this, EventArgs.Empty);
                 }
             }, System.Windows.Threading.DispatcherPriority.Render);
         }
