@@ -195,4 +195,5 @@ Nota: Como um projeto de código aberto, esses recursos também estão disponív
     <system:String x:Key="UpdatesSectionTitle">Atualizações</system:String>
     <system:String x:Key="ShowUpdateNotificationsTitle">Mostrar notificações para novas atualizações</system:String>
     <system:String x:Key="TaskbarVisualizerOutputDeviceTitle">Dispositivo de Saída</system:String>
+    <system:String x:Key="TaskbarVisualizerOutputDeviceDescription">Altere o que o visualizador capta alternando o dispositivo de saída do FluentFlyout.</system:String>
 </ResourceDictionary>
