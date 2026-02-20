@@ -194,4 +194,6 @@ Możesz pomóc w tworzeniu tłumaczeń na stronie</system:String>
     <system:String x:Key="SponsorMeLink">Wesprzyj mnie</system:String>
     <system:String x:Key="BuyMeCoffeeLink">Kup mi kawę</system:String>
     <system:String x:Key="ShowUpdateNotificationsTitle">Pokaż powiadomienia o aktualizacjach</system:String>
+    <system:String x:Key="TaskbarVisualizerOutputDeviceTitle">Urządzenie wyjściowe</system:String>
+    <system:String x:Key="TaskbarVisualizerOutputDeviceDescription">Zmień czego nasłuchuje wizualizer poprzez zmianę urządzenia wyjściowego dla FluentFlyout.</system:String>
 </ResourceDictionary>
