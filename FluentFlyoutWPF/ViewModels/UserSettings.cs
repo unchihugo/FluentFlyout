@@ -416,6 +416,23 @@ public partial class UserSettings : ObservableObject
     public partial int TaskbarVisualizerPosition { get; set; }
 
     /// <summary>
+    /// Whether the visualizer is clickable to open the flyout
+    /// </summary>
+    /// <remarks>
+    /// same setting as TaskbarWidgetClickable for now since the visualizer is part of the widget,
+    /// but separate in case we want to differentiate in the future
+    /// </remarks>
+    [ObservableProperty]
+    public partial bool TaskbarVisualizerClickable { get; set; }
+
+    /// <summary>
+    /// Indicates whether the visualizer has content to display, and is not persisted since it's only relevant at runtime.
+    /// </summary>
+    [XmlIgnore]
+    [ObservableProperty]
+    public partial bool TaskbarVisualizerHasContent { get; set; }
+
+    /// <summary>
     /// The number of visualizer bars to display.
     /// </summary>
     [ObservableProperty]
@@ -531,6 +548,7 @@ public partial class UserSettings : ObservableObject
         TaskbarWidgetAnimated = true;
         TaskbarVisualizerEnabled = false;
         TaskbarVisualizerPosition = 0;
+        TaskbarVisualizerClickable = false;
         TaskbarVisualizerBarCount = 10;
         TaskbarVisualizerCenteredBars = false;
         TaskbarVisualizerBaseline = false;
