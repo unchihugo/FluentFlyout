@@ -194,4 +194,5 @@ Nota: Como um projeto de código aberto, esses recursos também estão disponív
     <system:String x:Key="AppearanceBehaviorSectionTitle">Aparência e comportamento</system:String>
     <system:String x:Key="UpdatesSectionTitle">Atualizações</system:String>
     <system:String x:Key="ShowUpdateNotificationsTitle">Mostrar notificações para novas atualizações</system:String>
+    <system:String x:Key="TaskbarVisualizerOutputDeviceTitle">Dispositivo de Saída</system:String>
 </ResourceDictionary>
