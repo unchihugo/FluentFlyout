@@ -194,4 +194,5 @@ Du kannst helfen, die App zu übersetzen auf</system:String>
     <system:String x:Key="BuyMeCoffeeLink">Kaffee spendieren</system:String>
     <system:String x:Key="UpdateToastMessage">Sie nutzen jetzt Version {0}.</system:String>
     <system:String x:Key="ShowUpdateNotificationsTitle">Benachrichtigungen bei neuen Updates anzeigen</system:String>
+    <system:String x:Key="TaskbarVisualizerOutputDeviceTitle">Ausgabe Gerät</system:String>
 </ResourceDictionary>
