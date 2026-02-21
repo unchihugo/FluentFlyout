@@ -195,4 +195,5 @@
     <system:String x:Key="ShowUpdateNotificationsTitle">Отображать уведомления о наличии обновлений</system:String>
     <system:String x:Key="UpdatesSectionTitle">Обновления</system:String>
     <system:String x:Key="TaskbarVisualizerOutputDeviceTitle">Устройство вывода</system:String>
+    <system:String x:Key="TaskbarVisualizerOutputDeviceDescription">Измените источник звука для визуализатора, переключив устройство вывода в FluentFlyout.</system:String>
 </ResourceDictionary>
