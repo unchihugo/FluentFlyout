@@ -194,4 +194,5 @@
     <system:String x:Key="TaskbarWidgetCustomizationPerk">任务栏小组件与频谱可视化</system:String>
     <system:String x:Key="HideTrayIconPerk">隐藏托盘图标</system:String>
     <system:String x:Key="AcrylicBlurOpacityPerk">亚克力模糊效果的不透明度</system:String>
+    <system:String x:Key="TaskbarVisualizerOutputDeviceTitle">输出设备</system:String>
 </ResourceDictionary>
