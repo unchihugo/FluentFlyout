@@ -143,7 +143,7 @@ Nota: Como um projeto de código aberto, esses recursos também estão disponív
     <system:String x:Key="PremiumPurchaseSuccess">Premium desbloqueado com sucesso!</system:String>
     <system:String x:Key="PremiumPurchaseFailed">A compra falhou. Tente novamente.</system:String>
     <system:String x:Key="PremiumPurchaseCancelled">Compra cancelada.</system:String>
-    <system:String x:Key="NextUpDescription" xml:space="preserve">Um flyout mostra o que vem a seguir quando uma música ou vídeo termina. Só aparece se o próximo item for reproduzido automaticamente se avançar ou voltar manualmente o painel principal é exibido.</system:String>
+    <system:String x:Key="NextUpDescription" xml:space="preserve">Um flyout mostra o que vem a seguir quando uma música ou vídeo termina. Só aparece se o próximo item for reproduzido automaticamente, se avançar ou voltar manualmente, o painel principal é exibido.</system:String>
     <system:String x:Key="LockKeysCustomizationTitle">Flyout das teclas de bloqueio</system:String>
     <system:String x:Key="EnableInsertKeyTitle">Ativar pop-up da tecla Insert</system:String>
     <system:String x:Key="SystemSettingsTitle">Sistema</system:String>
@@ -194,4 +194,6 @@ Nota: Como um projeto de código aberto, esses recursos também estão disponív
     <system:String x:Key="AppearanceBehaviorSectionTitle">Aparência e comportamento</system:String>
     <system:String x:Key="UpdatesSectionTitle">Atualizações</system:String>
     <system:String x:Key="ShowUpdateNotificationsTitle">Mostrar notificações para novas atualizações</system:String>
+    <system:String x:Key="TaskbarVisualizerOutputDeviceTitle">Dispositivo de Saída</system:String>
+    <system:String x:Key="TaskbarVisualizerOutputDeviceDescription">Altere o que o visualizador capta alternando o dispositivo de saída do FluentFlyout.</system:String>
 </ResourceDictionary>
