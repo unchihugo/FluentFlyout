@@ -156,7 +156,7 @@
     <system:String x:Key="HomeDashboardTitle">仪表板</system:String>
     <system:String x:Key="SystemConfigure">设置</system:String>
     <system:String x:Key="AboutTitle">关于</system:String>
-    <system:String x:Key="AboutContributorsTitle">❤️ 认识我们的贡献者</system:String>
+    <system:String x:Key="AboutContributorsTitle">❤️ 看看我们的贡献者</system:String>
     <system:String x:Key="AboutContributorsDescription">衷心感谢所有为 FluentFlyout 的开发与成功作出贡献的伙伴，大家都很棒！</system:String>
     <system:String x:Key="AcrylicBlurOpacityTitle">亚克力模糊效果的不透明度</system:String>
     <system:String x:Key="AcrylicBlurOpacityDescription">调整亚克力窗口的透视效果（值越高越不透明，默认：175）</system:String>
@@ -195,4 +195,5 @@
     <system:String x:Key="HideTrayIconPerk">隐藏托盘图标</system:String>
     <system:String x:Key="AcrylicBlurOpacityPerk">亚克力模糊效果的不透明度</system:String>
     <system:String x:Key="TaskbarVisualizerOutputDeviceTitle">输出设备</system:String>
+    <system:String x:Key="TaskbarVisualizerOutputDeviceDescription">切换 FluentFlyout 的输出设备来更改可视化监听的输出设备。</system:String>
 </ResourceDictionary>
