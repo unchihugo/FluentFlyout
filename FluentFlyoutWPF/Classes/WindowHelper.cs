@@ -131,7 +131,10 @@ public static class WindowHelper
             IntPtr.Zero
         );
 
-        return result;
-    }
 
+        return result
+            .OrderByDescending(m => m.isPrimary)
+            .ThenBy(m => m.monitorArea.Left)
+            .ToList();
+    }
 }
