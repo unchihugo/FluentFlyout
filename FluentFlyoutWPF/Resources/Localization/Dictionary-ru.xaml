@@ -174,14 +174,14 @@
     <system:String x:Key="TaskbarVisualizerDescription">Визуализатор звука в реальном времени на панели задач. Разработан для минимального влияния на производительность современных систем.</system:String>
     <system:String x:Key="TaskbarVisualizerEnabledDescription">Экспериментальная функция: Эта функция работает только при включенном виджете на панели задач</system:String>
     <system:String x:Key="TaskbarVisualizerPositionTitle">Расположение визуализатора относительно виджета панели задач</system:String>
-    <system:String x:Key="TaskbarVisualizerBarCountTitle">Количество тактов</system:String>
-    <system:String x:Key="TaskbarVisualizerBarCountDescription">Количество тактов визуализатора</system:String>
-    <system:String x:Key="TaskbarVisualizerCenteredBarsTitle">Центрирование тактов</system:String>
-    <system:String x:Key="TaskbarVisualizerCenteredBarsDescription">Такты, которые симметрично расширяются от центра</system:String>
+    <system:String x:Key="TaskbarVisualizerBarCountTitle">Количество полос</system:String>
+    <system:String x:Key="TaskbarVisualizerBarCountDescription">Количество полос визуализатора</system:String>
+    <system:String x:Key="TaskbarVisualizerCenteredBarsTitle">Центрирование полос</system:String>
+    <system:String x:Key="TaskbarVisualizerCenteredBarsDescription">Полосы, которые симметрично расширяются от центра</system:String>
     <system:String x:Key="TaskbarVisualizerBaselineTitle">Отображать базовый уровень</system:String>
     <system:String x:Key="TaskbarVisualizerBaselineDescription">При нулевом уровне звука отображается тонкая линия</system:String>
     <system:String x:Key="TaskbarVisualizerAudioSensitivityTitle">Чувствительность звука</system:String>
-    <system:String x:Key="TaskbarVisualizerAudioSensitivityDescription">Насколько сильно такты реагируют на громкость звука</system:String>
+    <system:String x:Key="TaskbarVisualizerAudioSensitivityDescription">Насколько громким должен быть звук, чтобы полоски начали двигаться</system:String>
     <system:String x:Key="UnlockFullExperienceText">Раскройте весь потенциал FluentFlyout:</system:String>
     <system:String x:Key="AllFuturePremiumFeatures">Все будущие Премиум функции</system:String>
     <system:String x:Key="BuyMeCoffeeLink">Купите мне кофе</system:String>
@@ -196,4 +196,6 @@
     <system:String x:Key="UpdatesSectionTitle">Обновления</system:String>
     <system:String x:Key="TaskbarVisualizerOutputDeviceTitle">Устройство вывода</system:String>
     <system:String x:Key="TaskbarVisualizerOutputDeviceDescription">Измените источник звука для визуализатора, переключив устройство вывода в FluentFlyout.</system:String>
+    <system:String x:Key="TaskbarVisualizerAudioPeakLevelTitle">Пиковый уровень звука</system:String>
+    <system:String x:Key="TaskbarVisualizerAudioPeakLevelDescription">Насколько громким должен быть звук, чтобы полосы достигли максимальной высоты</system:String>
 </ResourceDictionary>
