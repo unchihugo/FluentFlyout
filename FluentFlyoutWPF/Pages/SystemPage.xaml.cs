@@ -3,6 +3,7 @@
 
 using FluentFlyout.Classes.Settings;
 using FluentFlyoutWPF.Classes;
+using FluentFlyoutWPF.Classes.Utils;
 using Microsoft.Win32;
 using System.Diagnostics;
 using System.IO;
@@ -91,27 +92,9 @@ public partial class SystemPage : Page
 
     private void UpdateMonitorList()
     {
-        var monitors = WindowHelper.GetMonitors();
-        FlyoutSelectedMonitorComboBox.Items.Clear();
-
-        var resetToPrimary = SettingsManager.Current.FlyoutSelectedMonitor >= monitors.Count || 
-                           SettingsManager.Current.FlyoutSelectedMonitor < 0;
-        int selectedMonitor = SettingsManager.Current.FlyoutSelectedMonitor;
-
-        for (int i = 0; i < monitors.Count; i++)
-        {
-            var monitor = monitors[i];
-            var cb = new ComboBoxItem()
-            {
-                Content = monitor.isPrimary ? (i + 1).ToString() + " *" : (i + 1).ToString(),
-            };
-            if (resetToPrimary && monitor.isPrimary)
-                selectedMonitor = i;
-
-            FlyoutSelectedMonitorComboBox.Items.Add(cb);
-        }
-
-        FlyoutSelectedMonitorComboBox.SelectedIndex = selectedMonitor;
-        SettingsManager.Current.FlyoutSelectedMonitor = selectedMonitor;
+        MonitorUtil.UpdateMonitorList(
+            FlyoutSelectedMonitorComboBox,
+            () => SettingsManager.Current.FlyoutSelectedMonitor,
+            value => SettingsManager.Current.FlyoutSelectedMonitor = value);
     }
 }
