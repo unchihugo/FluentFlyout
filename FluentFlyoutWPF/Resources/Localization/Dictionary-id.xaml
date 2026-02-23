@@ -167,4 +167,15 @@ Anda dapat membantu berkontribusi dalam menerjemahkan di</system:String>
     <system:String x:Key="UpdateAvailableNotificationMessage">Sebuah versi ({0}) telah tersedia.</system:String>
     <system:String x:Key="UpdateAvailableNotificationButton">Unduh Pembaruan</system:String>
     <system:String x:Key="HomeTitle">Beranda</system:String>
+    <system:String x:Key="MediaFlyoutExcludeVolumeTitle">Kecualikan tombol volume</system:String>
+    <system:String x:Key="MediaFlyoutExcludeVolumeDescription">Jangan tampilkan flyout ketika menekan volume atas/bawah/bisu</system:String>
+    <system:String x:Key="TaskbarVisualizerTitle">Visualizer Taskbar</system:String>
+    <system:String x:Key="TaskbarVisualizerDescription">Visualizer audio waktu nyata pada taskbar Anda. Dirancang untuk memiliki dampak performa minimal pada sistem modern.</system:String>
+    <system:String x:Key="TaskbarVisualizerEnabledTitle">Nyalakan Visualizer Taskbar (Eksperimental)</system:String>
+    <system:String x:Key="TaskbarVisualizerEnabledDescription">Eksperimental: Fitur ini hanya berfungsi jika Taskbar Widget dinyalakan</system:String>
+    <system:String x:Key="TaskbarVisualizerPositionTitle">Posisi Relatif Visualizer pada Widget Taskbar</system:String>
+    <system:String x:Key="TaskbarVisualizerBarCountTitle">Jumlah Bar</system:String>
+    <system:String x:Key="TaskbarVisualizerBarCountDescription">Jumlah bar pada visualizer</system:String>
+    <system:String x:Key="TaskbarVisualizerCenteredBarsTitle">Bar Rata Tengah</system:String>
+    <system:String x:Key="TaskbarVisualizerCenteredBarsDescription">Bar yang dapat ekspansi secara simetris dari tengah daripada muncul dari bawah</system:String>
 </ResourceDictionary>
