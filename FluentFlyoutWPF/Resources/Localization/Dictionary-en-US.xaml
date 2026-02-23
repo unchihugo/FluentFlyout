@@ -80,7 +80,9 @@ hides repeat, shuffle and player info</System:String>
     <System:String x:Key="TaskbarVisualizerBaselineTitle">Show Baseline</System:String>
     <System:String x:Key="TaskbarVisualizerBaselineDescription">Displays a thin line when audio levels are at zero</System:String>
     <System:String x:Key="TaskbarVisualizerAudioSensitivityTitle">Audio Sensitivity</System:String>
-    <System:String x:Key="TaskbarVisualizerAudioSensitivityDescription">How strongly the bars respond to audio loudness</System:String>
+    <System:String x:Key="TaskbarVisualizerAudioSensitivityDescription">How loud audio must be before the bars start moving</System:String>
+    <System:String x:Key="TaskbarVisualizerAudioPeakLevelTitle">Audio Peak Threshold</System:String>
+    <System:String x:Key="TaskbarVisualizerAudioPeakLevelDescription">How loud audio must be for the bars to reach their maximum height</System:String>
     <System:String x:Key="TaskbarVisualizerOutputDeviceTitle">Output Device</System:String>
     <System:String x:Key="TaskbarVisualizerOutputDeviceDescription">Change what the visualizer listens to by switching FluentFlyout's output device.</System:String>
     <System:String x:Key="PremiumFeatureTitle">Premium Feature</System:String>

@@ -183,8 +183,8 @@ namespace FluentFlyoutWPF.Classes
             double maxFreq = 8000; // Hz
             //double minFreq = 40;  // Hz // could be a setting to be bass only
             //double maxFreq = 120; // Hz
-            float minDb = (SettingsManager.Current.TaskbarVisualizerAudioSensitivity * -10f) + -30f;
-            float maxDb = -10f;
+            float minDb = (SettingsManager.Current.TaskbarVisualizerAudioSensitivity * -10f) - 30f;
+            float maxDb = (SettingsManager.Current.TaskbarVisualizerAudioPeakLevel * 10f) - 30f;
 
             float[] currentBars = new float[BarCount];
 
