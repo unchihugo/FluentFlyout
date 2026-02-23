@@ -194,4 +194,5 @@ Vous pouvez contribuer aux traductions sur</system:String>
     <system:String x:Key="TranslatorsTitle">Traducteurs</system:String>
     <system:String x:Key="SponsorMeLink">Soutenez-moi</system:String>
     <system:String x:Key="BuyMeCoffeeLink">Offrez-moi un café</system:String>
+    <system:String x:Key="TaskbarVisualizerOutputDeviceTitle">Périphérique de sortie</system:String>
 </ResourceDictionary>
