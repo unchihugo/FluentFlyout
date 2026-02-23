@@ -440,6 +440,13 @@ public partial class UserSettings : ObservableObject
     public partial int TaskbarVisualizerAudioSensitivity { get; set; }
 
     /// <summary>
+    /// The audio peak level for the taskbar visualizer from 1 to 3.
+    /// This is used to calibrate the visualizer bar height to the audio output.
+    /// </summary>
+    [ObservableProperty]
+    public partial int TaskbarVisualizerAudioPeakLevel { get; set; }
+
+    /// <summary>
     /// Gets whether premium features are unlocked (runtime only, not persisted)
     /// </summary>
     [XmlIgnore]
@@ -535,6 +542,7 @@ public partial class UserSettings : ObservableObject
         TaskbarVisualizerCenteredBars = false;
         TaskbarVisualizerBaseline = false;
         TaskbarVisualizerAudioSensitivity = 2;
+        TaskbarVisualizerAudioPeakLevel = 2;
         AcrylicBlurOpacity = 175;
         LastUpdateNotificationUnixSeconds = 0;
         ShowUpdateNotifications = true;
