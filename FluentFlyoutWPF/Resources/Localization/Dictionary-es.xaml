@@ -194,4 +194,6 @@ Nota: Como proyecto de código abierto, estas opciones también están disponibl
     <system:String x:Key="ShowUpdateNotificationsTitle">Mostrar notificaciones para actualizaciones</system:String>
     <system:String x:Key="HideTrayIconPerk">Ocultar Icono de la Bandeja</system:String>
     <system:String x:Key="SponsorMeLink">Patrociname</system:String>
+    <system:String x:Key="TaskbarVisualizerOutputDeviceDescription">Cambia lo que muestra el visualizador cambiando el dispositivo de salida de FluentFlyout.</system:String>
+    <system:String x:Key="TaskbarVisualizerOutputDeviceTitle">Dispositivo de Salida</system:String>
 </ResourceDictionary>
