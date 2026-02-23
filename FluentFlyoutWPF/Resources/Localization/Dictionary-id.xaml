@@ -178,4 +178,5 @@ Anda dapat membantu berkontribusi dalam menerjemahkan di</system:String>
     <system:String x:Key="TaskbarVisualizerBarCountDescription">Jumlah bar pada visualizer</system:String>
     <system:String x:Key="TaskbarVisualizerCenteredBarsTitle">Bar Rata Tengah</system:String>
     <system:String x:Key="TaskbarVisualizerCenteredBarsDescription">Bar yang dapat ekspansi secara simetris dari tengah daripada muncul dari bawah</system:String>
+    <system:String x:Key="TaskbarVisualizerBaselineTitle">Perlihatkan garis dasar</system:String>
 </ResourceDictionary>
