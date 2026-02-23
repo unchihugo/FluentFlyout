@@ -3,7 +3,6 @@
 
 using System.Runtime.InteropServices;
 using System.Text;
-using Windows.Devices.Display.Core;
 
 namespace FluentFlyout.Classes;
 

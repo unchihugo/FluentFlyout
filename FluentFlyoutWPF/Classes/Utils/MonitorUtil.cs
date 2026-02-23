@@ -1,12 +1,11 @@
 ﻿// Copyright © 2024-2026 The FluentFlyout Authors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+using FluentFlyout.Classes;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Interop;
-
-using FluentFlyout.Classes;
 using static FluentFlyout.Classes.NativeMethods;
 
 namespace FluentFlyoutWPF.Classes.Utils;
@@ -102,11 +101,10 @@ public static class MonitorUtil
             cb = Marshal.SizeOf<NativeMethods.DISPLAY_DEVICE>()
         };
 
-        // Step 1: Get adapter info (NULL, iDevNum)
-        // Step 2: Get monitor info (deviceId, 0)
+        //Enumurate all display devices to find display given by deviceId
         if (EnumDisplayDevices(deviceId, 0, ref displayDevice, 0))
         {
-            return displayDevice.DeviceString.Trim(); // "Dell U2720Q"
+            return displayDevice.DeviceString.Trim(); // "Eg: Dell U2720Q"
         }
         return "Unknown Monitor";
     }
