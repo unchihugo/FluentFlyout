@@ -40,7 +40,7 @@
           - 'FluentFlyoutWPF/Pages/TaskbarVisualizerPage.{xaml,xaml.cs}'
           - 'FluentFlyoutWPF/Controls/TaskbarVisualizerControl.{xaml,xaml.cs}'
 
-'Volume Mixer':
+'Volume Flyout':
   - changed-files:
       - any-glob-to-any-file: 'FluentFlyoutWPF/Windows/VolumeMixerWindow.{xaml,xaml.cs}'
 
