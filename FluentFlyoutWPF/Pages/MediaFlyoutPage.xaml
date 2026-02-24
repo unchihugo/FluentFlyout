@@ -176,7 +176,7 @@
                 </ui:CardControl.Header>
                 <controls:ToggleSwitch Name="PauseOtherSessionsEnabledSwitch" IsChecked="{Binding PauseOtherSessionsEnabled, Mode=TwoWay}" />
             </ui:CardControl>
-            <ui:CardControl Grid.Row="15" Icon="{ui:SymbolIcon SpeakerOff24}" Margin="0,0,0,3">
+            <ui:CardControl Grid.Row="15" Icon="{ui:SymbolIcon SpeakerOff24}" Margin="0,0,0,76">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
                         <StackPanel Orientation="Horizontal">
@@ -187,18 +187,6 @@
                     </StackPanel>
                 </ui:CardControl.Header>
                 <controls:ToggleSwitch Name="MediaFlyoutVolumeKeysExcludedSwitch" IsChecked="{Binding MediaFlyoutVolumeKeysExcluded, Mode=TwoWay}" />
-            </ui:CardControl>
-            <ui:CardControl Grid.Row="16" Icon="{ui:SymbolIcon ArrowSwap24}" Margin="0,0,0,76">
-                <ui:CardControl.Header>
-                    <StackPanel Orientation="Vertical">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{DynamicResource TaskbarWidgetCloseableFlyoutTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
-                            <ui:InfoBadge Value=" NEW " FontWeight="Medium" FontSize="10" Margin="6,-2,0,-2" Severity="Success" />
-                        </StackPanel>
-                        <TextBlock Text="{DynamicResource TaskbarWidgetCloseableFlyoutDescription}" FontSize="12" Opacity="0.5" />
-                    </StackPanel>
-                </ui:CardControl.Header>
-                <controls:ToggleSwitch Name="TaskbarWidgetCloseableFlyoutSwitch" IsChecked="{Binding TaskbarWidgetCloseableFlyout, Mode=TwoWay}" />
             </ui:CardControl>
         </Grid>
     </StackPanel>
