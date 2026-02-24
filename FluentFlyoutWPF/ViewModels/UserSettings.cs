@@ -382,7 +382,7 @@ public partial class UserSettings : ObservableObject
     /// Gets or sets a value indicating whether clicking the taskbar widget toggles the flyout (close if already open)
     /// </summary>
     [ObservableProperty]
-    public partial bool TaskbarWidgetToggleFlyout { get; set; }
+    public partial bool TaskbarWidgetCloseableFlyout { get; set; }
 
     /// <summary>
     /// Gets or sets a value indication whether the taskbar widget background should have a blur effect
@@ -538,7 +538,7 @@ public partial class UserSettings : ObservableObject
         TaskbarWidgetPadding = true;
         TaskbarWidgetManualPadding = 0;
         TaskbarWidgetClickable = true;
-        TaskbarWidgetToggleFlyout = true;
+        TaskbarWidgetCloseableFlyout = true;
         TaskbarWidgetBackgroundBlur = false;
         TaskbarWidgetHideCompletely = false;
         TaskbarWidgetControlsEnabled = false;
