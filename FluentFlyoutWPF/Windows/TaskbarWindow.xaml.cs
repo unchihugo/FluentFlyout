@@ -218,6 +218,10 @@ public partial class TaskbarWindow : Window
         IntPtr rgn = CreateRectRgn(0, 0, 0, 0);
         foreach (var r in rects)
         {
+            // make sure rect is not empty - happens when setting elements to collapsed
+            if (r == Rect.Empty)
+                continue;
+
             IntPtr newRgn = CreateRectRgn((int)r.Left, (int)r.Top, (int)r.Right, (int)r.Bottom);
             if (newRgn == IntPtr.Zero)
             {
@@ -545,7 +549,7 @@ public partial class TaskbarWindow : Window
             return Rect.Empty;
 
         int taskbarHeight = taskbarRect.Bottom - taskbarRect.Top;
-        int visualizerTop = (taskbarHeight - (int)(TaskbarVisualizer.Height * dpiScale)) / 2;
+        int visualizerTop = (taskbarHeight - (int)(TaskbarVisualizer.Height * dpiScale)) / 2 - 1; // -1 to align because Windows taskbar positions native elements slightly above the exact center
 
         int visualizerLeft = 0;
         switch (SettingsManager.Current.TaskbarVisualizerPosition)

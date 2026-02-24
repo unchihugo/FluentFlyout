@@ -8,7 +8,7 @@
              xmlns:utils="clr-namespace:FluentFlyoutWPF.Classes.Utils"
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance viewModels:UserSettings}"
-             Height="39" Width="84"
+             Height="40" Width="84"
              TextOptions.TextRenderingMode="ClearType" TextOptions.TextFormattingMode="Ideal"
              FontFamily="Segoe UI Variable, Microsoft YaHei, Microsoft JhengHei, MS Gothic"
              FlowDirection="{Binding FlowDirection}" HorizontalAlignment="Center" VerticalAlignment="Center">
@@ -18,10 +18,12 @@
     </UserControl.Resources>
 
     <Grid Visibility="{Binding TaskbarVisualizerEnabled, Converter={StaticResource BoolToCollapsedVisibleConverter}}">
-        <Border Name="MainBorder" CornerRadius="6" ClipToBounds="True" MouseEnter="Grid_MouseEnter" MouseLeave="Grid_MouseLeave" MouseLeftButtonUp="Grid_MouseLeftButtonUp">
-            <Border Name="TopBorder" BorderThickness="0,1.25,0,0" CornerRadius="5" Margin="0,0,0,1.25">
-                <Image x:Name="VisualizerContainer" Margin="4,0"/>
+        <Grid Visibility="{Binding TaskbarVisualizerHasContent, Converter={StaticResource BoolToCollapsedVisibleConverter}}">
+            <Border Name="MainBorder" CornerRadius="6" ClipToBounds="True" MouseEnter="Grid_MouseEnter" MouseLeave="Grid_MouseLeave" MouseLeftButtonUp="Grid_MouseLeftButtonUp">
+                <Border Name="TopBorder" BorderThickness="0,1.25,0,0" CornerRadius="5" Margin="0,0,0,1.25">
+                    <Image x:Name="VisualizerContainer" Margin="4,0"/>
+                </Border>
             </Border>
-        </Border>
+        </Grid>
     </Grid>
 </UserControl>
