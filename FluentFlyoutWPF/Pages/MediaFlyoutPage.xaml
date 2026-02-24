@@ -192,13 +192,13 @@
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{DynamicResource TaskbarWidgetToggleFlyoutTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
+                            <TextBlock Text="{DynamicResource TaskbarWidgetCloseableFlyoutTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
                             <ui:InfoBadge Value=" NEW " FontWeight="Medium" FontSize="10" Margin="6,-2,0,-2" Severity="Success" />
                         </StackPanel>
-                        <TextBlock Text="{DynamicResource TaskbarWidgetToggleFlyoutDescription}" FontSize="12" Opacity="0.5" />
+                        <TextBlock Text="{DynamicResource TaskbarWidgetCloseableFlyoutDescription}" FontSize="12" Opacity="0.5" />
                     </StackPanel>
                 </ui:CardControl.Header>
-                <controls:ToggleSwitch Name="TaskbarWidgetToggleFlyoutSwitch" IsChecked="{Binding TaskbarWidgetToggleFlyout, Mode=TwoWay}" />
+                <controls:ToggleSwitch Name="TaskbarWidgetCloseableFlyoutSwitch" IsChecked="{Binding TaskbarWidgetCloseableFlyout, Mode=TwoWay}" />
             </ui:CardControl>
         </Grid>
     </StackPanel>
