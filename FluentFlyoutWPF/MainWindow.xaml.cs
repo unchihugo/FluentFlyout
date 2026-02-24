@@ -1538,20 +1538,7 @@ public partial class MainWindow : MicaWindow
 
     private void MediaFlyoutCloseButton_Click(object sender, RoutedEventArgs e)
     {
-        CloseAnimation(this);
-        _isHiding = true;
-        Task.Run(async () =>
-        {
-            await Task.Delay(getDuration());
-            Dispatcher.Invoke(() =>
-            {
-                if (_isHiding)
-                {
-                    Hide();
-                    if (_seekBarEnabled)
-                        HandlePlayBackState(GlobalSystemMediaTransportControlsSessionPlaybackStatus.Paused);
-                }
-            });
-        });
+        // Use the updated ShowMediaFlyout method with toggle mode to close the flyout
+        ShowMediaFlyout(toggleMode: true);
     }
 }
