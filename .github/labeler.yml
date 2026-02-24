@@ -24,13 +24,20 @@
           - 'FluentFlyoutWPF/Windows/NextUpWindow.{xaml,xaml.cs}'
           - 'FluentFlyoutWPF/Pages/NextUpPage.{xaml,xaml.cs}'
 
+'TaskbarWindow':
+  - changed-files:
+      - any-glob-to-any-file: 'FluentFlyoutWPF/Windows/TaskbarWindow.{xaml,xaml.cs}'
+
 'Taskbar Widget':
   - changed-files:
       - any-glob-to-any-file:
-          - 'FluentFlyoutWPF/Windows/TaskbarWindow.{xaml,xaml.cs}'
           - 'FluentFlyoutWPF/Pages/TaskbarWidgetPage.{xaml,xaml.cs}'
-          - 'FluentFlyoutWPF/Pages/TaskbarVisualizerPage.{xaml,xaml.cs}'
           - 'FluentFlyoutWPF/Controls/TaskbarWidgetControl.{xaml,xaml.cs}'
+
+'Taskbar Visualizer':
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'FluentFlyoutWPF/Pages/TaskbarVisualizerPage.{xaml,xaml.cs}'
           - 'FluentFlyoutWPF/Controls/TaskbarVisualizerControl.{xaml,xaml.cs}'
 
 'Volume Mixer':
