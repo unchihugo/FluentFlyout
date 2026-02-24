@@ -181,7 +181,7 @@
     <system:String x:Key="TaskbarVisualizerBaselineTitle">显示基线</system:String>
     <system:String x:Key="TaskbarVisualizerBaselineDescription">当音频电平为零时，显示一条细线</system:String>
     <system:String x:Key="TaskbarVisualizerAudioSensitivityTitle">音频灵敏度</system:String>
-    <system:String x:Key="TaskbarVisualizerAudioSensitivityDescription">频谱柱对音频响度响应的强弱程度</system:String>
+    <system:String x:Key="TaskbarVisualizerAudioSensitivityDescription">频谱柱开始出现时，对应的音频音量大小</system:String>
     <system:String x:Key="AllFuturePremiumFeatures">将来推出的所有 Premium 功能</system:String>
     <system:String x:Key="DevelopersTitle">开发人员</system:String>
     <system:String x:Key="TranslatorsTitle">翻译人员</system:String>
@@ -196,4 +196,6 @@
     <system:String x:Key="AcrylicBlurOpacityPerk">亚克力模糊效果的不透明度</system:String>
     <system:String x:Key="TaskbarVisualizerOutputDeviceTitle">输出设备</system:String>
     <system:String x:Key="TaskbarVisualizerOutputDeviceDescription">切换 FluentFlyout 的输出设备来更改可视化监听的输出设备。</system:String>
+    <system:String x:Key="TaskbarVisualizerAudioPeakLevelTitle">音频峰值阈值</system:String>
+    <system:String x:Key="TaskbarVisualizerAudioPeakLevelDescription">频谱柱达到最大高度时，对应的音频音量大小</system:String>
 </ResourceDictionary>
