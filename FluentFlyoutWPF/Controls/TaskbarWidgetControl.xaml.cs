@@ -137,7 +137,7 @@ public partial class TaskbarWidgetControl : UserControl
         if (!SettingsManager.Current.TaskbarWidgetClickable || _mainWindow == null) return;
 
         // toggle main flyout when clicked if toggle mode is enabled, otherwise just open
-        _mainWindow.ShowMediaFlyout(toggleMode: SettingsManager.Current.TaskbarWidgetToggleFlyout);
+        _mainWindow.ShowMediaFlyout(toggleMode: SettingsManager.Current.TaskbarWidgetCloseableFlyout);
     }
 
     public (double logicalWidth, double logicalHeight) CalculateSize(double dpiScale)
