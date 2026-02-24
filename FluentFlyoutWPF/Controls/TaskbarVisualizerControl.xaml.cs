@@ -138,6 +138,10 @@ public partial class TaskbarVisualizerControl : UserControl
 
     private void Grid_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
     {
+        // Early return for now because the click serves the same function as the taskbar media widget,
+        // we need to find a new function for clicking the visualizer if there's any (like expanding the visualizer or something)
+        return;
+
         if (!SettingsManager.Current.TaskbarWidgetClickable || _mainWindow == null) return;
 
         // flyout main flyout when clicked
