@@ -1,4 +1,4 @@
-﻿// Copyright © 2024-2026 The FluentFlyout Authors
+// Copyright © 2024-2026 The FluentFlyout Authors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 using FluentFlyout.Classes;
@@ -730,12 +730,29 @@ public partial class MainWindow : MicaWindow
         return CallNextHookEx(_hookId, nCode, wParam, lParam);
     }
 
-    public async void ShowMediaFlyout()
+    public async void ShowMediaFlyout(bool toggleMode = false)
     {
         if (mediaManager.GetFocusedSession() == null ||
             !SettingsManager.Current.MediaFlyoutEnabled ||
             FullscreenDetector.IsFullscreenApplicationRunning())
             return;
+
+        // If in toggle mode and flyout is visible, close it
+        if (toggleMode && Visibility == Visibility.Visible && !_isHiding)
+        {
+            CloseAnimation(this);
+            _isHiding = true;
+            cts.Cancel();
+            await Task.Delay(getDuration());
+            if (_isHiding)
+            {
+                Hide();
+                if (_seekBarEnabled)
+                    HandlePlayBackState(GlobalSystemMediaTransportControlsSessionPlaybackStatus.Paused);
+            }
+            return;
+        }
+
         UpdateUI(mediaManager.GetFocusedSession());
         if (_seekBarEnabled)
             HandlePlayBackState(mediaManager.GetFocusedSession().ControlSession.GetPlaybackInfo().PlaybackStatus);
