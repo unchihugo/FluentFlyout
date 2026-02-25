@@ -118,13 +118,13 @@ Du kannst helfen, die App zu übersetzen auf</system:String>
     <system:String x:Key="LockWindow_ScrollLock">Rollentasten-Sperre</system:String>
     <system:String x:Key="TrayIcon_GitHubRepositoryOption">Repository</system:String>
     <system:String x:Key="BackgroundBlurOption1" xml:space="preserve"> Keine</system:String>
-    <system:String x:Key="TaskbarWidgetPaddingTitle">Füge Abstand für Windows Widget hinzu</system:String>
+    <system:String x:Key="TaskbarWidgetPaddingTitle">Automatischer Abstand für Windows-Widgets</system:String>
     <system:String x:Key="TaskbarWidgetClickableTitle">Klicken, um das Medien-Flyout bei vorhandenen Medien zu öffnen</system:String>
     <system:String x:Key="TaskbarWidgetClickableDescription">Wenn das Medien-Flyout aktiviert ist, wird es beim Klicken auf das Taskleisten-Widget geöffnet</system:String>
     <system:String x:Key="TaskbarWidgetHideCompletelyDescription">Versteckt das Widget vollständig, wenn keine Medien verfügbar sind</system:String>
-    <system:String x:Key="NextUpCustomizationTitle">„Als Nächstes“ anpassen</system:String>
+    <system:String x:Key="NextUpCustomizationTitle">„Nächster Titel“-Flyout</system:String>
     <system:String x:Key="NextUpDescription" xml:space="preserve">Ein Flyout zeigt an, was als Nächstes abgespielt wird, wenn ein Song/Video endet. Es erscheint nur, wenn der nächste Titel automatisch abgespielt wird. Wird „Weiter“ oder „Zurück“ manuell gedrückt, erscheint stattdessen das Haupt-Flyout.</system:String>
-    <system:String x:Key="LockKeysCustomizationTitle">Sperrtasten Anpassung</system:String>
+    <system:String x:Key="LockKeysCustomizationTitle">"Sperrtasten"-Flyout</system:String>
     <system:String x:Key="LockKeysDescription" xml:space="preserve">Zeigt den Status der Sperrtasten auf einen Blick an. Erscheint nach dem Drücken von Feststelltaste, Ziffernblock-Taste oder Rollen-Taste. Praktisch für Laptops und Tastaturen ohne entsprechende Anzeigen.</system:String>
     <system:String x:Key="EnableLockKeysTitle">Aktiviere Sperrtasten Flyout</system:String>
     <system:String x:Key="EnableInsertKeyTitle">Aktiviere das Einfügen-Tasten-Popup</system:String>
@@ -133,7 +133,7 @@ Du kannst helfen, die App zu übersetzen auf</system:String>
     <system:String x:Key="AnimationDurationScaleTitle">Animationsdauer-Skala</system:String>
     <system:String x:Key="AnimationEasingStyleTitle">Animationsgeschwindigkeit Stil</system:String>
     <system:String x:Key="LockWindow_InsertPressed">Einfügen gedrückt</system:String>
-    <system:String x:Key="MediaFlyoutDescription">Haupt-Flyout. Beim Abspielen von Medien kannst du eine beliebige Medien- oder Lautstärketaste (Play/Pause, Lauter/Leiser usw.) auf der Tastatur drücken, um das Flyout anzuzeigen. Zeigt Medieninformationen sowie Wiedergabesteuerungen und weitere Optionen.</system:String>
+    <system:String x:Key="MediaFlyoutDescription">Beim Abspielen von Medien kannst du eine beliebige Medien- oder Lautstärketaste (Play/Pause, Lauter/Leiser usw.) auf der Tastatur drücken, um das Flyout anzuzeigen. Zeigt Medieninformationen sowie Wiedergabesteuerungen und weitere Optionen.</system:String>
     <system:String x:Key="LockKeysBoldUIDescription">Hebt das Flyout-Symbol und die Schrift hervor</system:String>
     <system:String x:Key="UpdateAvailableNotificationButton">Aktualisierung herunterladen</system:String>
     <system:String x:Key="UpdateToastTitle">FluentFlyout wurde aktualisiert!</system:String>
@@ -148,4 +148,51 @@ Du kannst helfen, die App zu übersetzen auf</system:String>
     <system:String x:Key="Disabled">Deaktiviert</system:String>
     <system:String x:Key="TrayIcon_ViewLogsOption">Protokolle anzeigen</system:String>
     <system:String x:Key="PixelsUnit">px</system:String>
+    <system:String x:Key="HomeTitle">Startseite</system:String>
+    <system:String x:Key="MediaFlyoutExcludeVolumeTitle">Lautstärketasten ausschließen</system:String>
+    <system:String x:Key="MediaFlyoutExcludeVolumeDescription">Beim Ändern der Lautstärke oder Stummschalten kein Flyout anzeigen</system:String>
+    <system:String x:Key="SelectedMonitorTitle">Zielbildschirm für Flyout</system:String>
+    <system:String x:Key="MediaFlyoutAlwaysDisplayDescription">Das Flyout bleibt geöffnet, bis die Schließen-Schaltfläche geklickt wird</system:String>
+    <system:String x:Key="TaskbarWidgetSelectedMonitorTitle">Zielbildschirm für Widget</system:String>
+    <system:String x:Key="TaskbarWidgetPaddingSettingsTitle">Widget-Abstandseinstellungen</system:String>
+    <system:String x:Key="TaskbarWidgetPaddingSettingsDescription">Passe den Abstand um das Widget an, damit es zum Stil deiner Taskleiste passt</system:String>
+    <system:String x:Key="TaskbarWidgetManualPaddingTitle">Benutzerdefinierter Abstand</system:String>
+    <system:String x:Key="TaskbarWidgetManualPaddingDescription">Zusätzlichen Abstand hinzufügen (Standard: 0px)</system:String>
+    <system:String x:Key="TaskbarVisualizerTitle">Taskleisten-Visualisierung</system:String>
+    <system:String x:Key="TaskbarVisualizerDescription">Ein Echtzeit-Audio-Visualizer für deine Taskleiste. Entwickelt für minimale Auswirkungen auf die Systemleistung moderner Computer.</system:String>
+    <system:String x:Key="TaskbarVisualizerEnabledTitle">Taskleisten-Visualizer aktivieren (experimentell)</system:String>
+    <system:String x:Key="TaskbarVisualizerEnabledDescription">Experimentell: Diese Funktion ist nur verfügbar, wenn das Taskleisten-Widget aktiviert ist</system:String>
+    <system:String x:Key="TaskbarVisualizerPositionTitle">Position des Visualizers relativ zum Taskleisten-Widget</system:String>
+    <system:String x:Key="TaskbarVisualizerBarCountTitle">Balkenanzahl</system:String>
+    <system:String x:Key="TaskbarVisualizerBarCountDescription">Die Anzahl der Visualizer-Balken</system:String>
+    <system:String x:Key="TaskbarVisualizerCenteredBarsTitle">Zentrierte Balken</system:String>
+    <system:String x:Key="TaskbarVisualizerCenteredBarsDescription">Balken, die sich symmetrisch von der Mitte ausdehnen, anstatt vom unteren Rand aufzusteigen</system:String>
+    <system:String x:Key="TaskbarVisualizerBaselineTitle">Basislinie anzeigen</system:String>
+    <system:String x:Key="TaskbarVisualizerBaselineDescription">Zeigt eine dünne Linie an, wenn kein Ton anliegt</system:String>
+    <system:String x:Key="TaskbarVisualizerAudioSensitivityTitle">Audio-Empfindlichkeit</system:String>
+    <system:String x:Key="TaskbarVisualizerAudioSensitivityDescription">Legt fest, wie stark die Balken auf die Lautstärke reagieren</system:String>
+    <system:String x:Key="UnlockFullExperienceText">Schalte das volle FluentFlyout-Erlebnis frei:</system:String>
+    <system:String x:Key="TaskbarWidgetCustomizationPerk">Taskleisten-Widget und -Visualizer</system:String>
+    <system:String x:Key="AcrylicBlurOpacityPerk">Deckkraft der Acryl-Unschärfe</system:String>
+    <system:String x:Key="HideTrayIconPerk">Symbol im Infobereich ausblenden</system:String>
+    <system:String x:Key="AllFuturePremiumFeatures">Alle zukünftigen Premium-Funktionen</system:String>
+    <system:String x:Key="AcrylicBlurOpacityTitle">Deckkraft der Acryl-Unschärfe</system:String>
+    <system:String x:Key="AcrylicBlurOpacityDescription">Passe die Transparenz der Acryl-Flyouts an (Standard: 175)</system:String>
+    <system:String x:Key="HomeUpdateDescription">Neuerungen entdecken</system:String>
+    <system:String x:Key="HomeDashboardTitle">Dashboard</system:String>
+    <system:String x:Key="AppearanceBehaviorSectionTitle">Design &amp; Verhalten</system:String>
+    <system:String x:Key="UpdatesSectionTitle">Aktualisierungen</system:String>
+    <system:String x:Key="SystemConfigure">Konfigurieren</system:String>
+    <system:String x:Key="AboutTitle">Über</system:String>
+    <system:String x:Key="AboutContributorsTitle">❤️ Unsere Mitwirkenden</system:String>
+    <system:String x:Key="AboutContributorsDescription">Ein großes Dankeschön an all die großartigen Menschen, die zur Entwicklung und zum Erfolg von FluentFlyout beigetragen haben!</system:String>
+    <system:String x:Key="DevelopersTitle">Entwickler</system:String>
+    <system:String x:Key="TranslatorsTitle">Übersetzer</system:String>
+    <system:String x:Key="AboutOpenSourceLicensesTitle">Open-Source-Lizenzen</system:String>
+    <system:String x:Key="AboutOpenSourceLicensesDescription">FluentFlyout nutzt die folgenden Open-Source-Pakete:</system:String>
+    <system:String x:Key="SponsorMeLink">Unterstütze mich</system:String>
+    <system:String x:Key="BuyMeCoffeeLink">Kaffee spendieren</system:String>
+    <system:String x:Key="UpdateToastMessage">Sie nutzen jetzt Version {0}.</system:String>
+    <system:String x:Key="ShowUpdateNotificationsTitle">Benachrichtigungen bei neuen Updates anzeigen</system:String>
+    <system:String x:Key="TaskbarVisualizerOutputDeviceTitle">Ausgabe Gerät</system:String>
 </ResourceDictionary>

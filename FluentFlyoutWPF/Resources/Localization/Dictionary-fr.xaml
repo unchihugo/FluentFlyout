@@ -3,12 +3,12 @@
     <system:String x:Key="PositionBottomCenter" xml:space="preserve"> En bas au centre</system:String>
     <system:String x:Key="PositionBottomRight" xml:space="preserve"> En bas à droite</system:String>
     <system:String x:Key="PositionTopLeft" xml:space="preserve"> En haut à gauche</system:String>
-    <system:String x:Key="PositionTopCenter" xml:space="preserve"> En haut au centre</system:String>
+    <system:String x:Key="PositionTopCenter" xml:space="preserve"> En haut au milieu</system:String>
     <system:String x:Key="PositionTopRight" xml:space="preserve"> En haut à droite</system:String>
     <system:String x:Key="FlyoutStayDurationTitle">Durée d'affichage du volet</system:String>
     <system:String x:Key="FlyoutStayDurationDescription">(par défaut : 3000 ms)</system:String>
     <system:String x:Key="MillisecondsUnit">ms</system:String>
-    <system:String x:Key="MediaFlyoutAlwaysDisplay">Toujours afficher</system:String>
+    <system:String x:Key="MediaFlyoutAlwaysDisplay">Affichage Permanent</system:String>
     <system:String x:Key="CenterTitleArtistTitle">Centrer le titre et l'artiste</system:String>
     <system:String x:Key="CenterTitleArtistDescription">Aligner le texte au centre au lieu de la gauche</system:String>
     <system:String x:Key="ShowMediaPlayerNameTitle">Afficher le nom du lecteur multimédia</system:String>
@@ -29,16 +29,16 @@
     <system:String x:Key="BackgroundBlurOption1" xml:space="preserve"> Aucun</system:String>
     <system:String x:Key="BackgroundBlurTitle">Flou d'arrière-plan</system:String>
     <system:String x:Key="AcrylicWindowTitle">Fenêtre acrylique</system:String>
-    <system:String x:Key="CompactLayoutTitle">Mise en page compacte</system:String>
+    <system:String x:Key="CompactLayoutTitle">Disposition compacte</system:String>
     <system:String x:Key="CompactLayoutDescription" xml:space="preserve">Mise en page plus fine et moins intrusive
 masque les options de répétition, de lecture aléatoire et les informations du lecteur</system:String>
-    <system:String x:Key="NextUpCustomizationTitle">Suivant Flyout</system:String>
+    <system:String x:Key="NextUpCustomizationTitle">Volet "À suivre"</system:String>
     <system:String x:Key="NextUpDescription" xml:space="preserve">Ce volet affiche ce qui sera lu ensuite lorsque la piste/vidéo en cours se termine. Il n’apparaît que si la lecture suivante se lance automatiquement. Si vous changez de piste manuellement (Suivant/Précédent), le volet principal est affiché à la place.</system:String>
     <system:String x:Key="EnableNextUpTitle">Activer le volet “À suivre” (Expérimentale)</system:String>
     <system:String x:Key="TextBlockText2">Choisir un flou d'arrière-plan moderne à partir d'un préréglée</system:String>
     <system:String x:Key="BackgroundBlurOption4" xml:space="preserve"> Style 3 (Flou)</system:String>
     <system:String x:Key="AcrylicWindowDescription">Appliquer un effet transparent acrylique floué au volet (reviendra à Mica si désactivé)</system:String>
-    <system:String x:Key="PauseOtherMediaDescription">Quand vous reproduisez ou centrez un nouveau média, mettre en pause d'autres sessions actives automatiquement</system:String>
+    <system:String x:Key="PauseOtherMediaDescription">Lorsque vous reproduisez ou sélectionnez de nouveau média, les autres sessions actives seront mises en pause automatiquement</system:String>
     <system:String x:Key="TaskbarWidgetCustomizationTitle">Widget de la barre des tâches</system:String>
     <system:String x:Key="TaskbarWidgetDescription">Un widget compact et intégré sur la barre de tâches de Windows pour un accès instant à votre média. Cliquez le widget pour étendre le volet de média complet (lorsqu'elle est activé).</system:String>
     <system:String x:Key="BackgroundBlurOption2" xml:space="preserve"> Style 1 (Couverture Glow)</system:String>
@@ -69,7 +69,7 @@ Note : En tant que projet open source, ces fonctionnalités sont également dis
     <system:String x:Key="EnableNextUpDescription">Affiche ce qui suit la fin d'une chanson/vidéo</system:String>
     <system:String x:Key="NextUpStayDurationTitle">Prochaine étape Durée du séjour</system:String>
     <system:String x:Key="NextUpStayDurationDescription">(par défaut : 2000 ms)</system:String>
-    <system:String x:Key="LockKeysCustomizationTitle">Clés de verrouillage</system:String>
+    <system:String x:Key="LockKeysCustomizationTitle">Volet des touches de verrouillage</system:String>
     <system:String x:Key="LockKeysDescription" xml:space="preserve">Vérifiez en un coup d'œil l'état de vos touches de verrouillage. S'affiche après avoir appuyé sur Verr. Maj., Verr. Num. ou Arrêt défil. Pratique pour les ordinateurs portables et les claviers sans indicateur de verrouillage.</system:String>
     <system:String x:Key="EnableLockKeysTitle">Activer le menu déroulant des touches de verrouillage</system:String>
     <system:String x:Key="EnableLockKeysDescription">Affiche si la touche de verrouillage spécifiée est activée ou désactivée</system:String>
@@ -80,11 +80,11 @@ Note : En tant que projet open source, ces fonctionnalités sont également dis
     <system:String x:Key="EnableInsertKeyTitle">Activer l'affichage de la touche Insertion</system:String>
     <system:String x:Key="EnableInsertKeyDescription">Détermine si le fait d'appuyer sur insérer/remplacer affichera le menu déroulant</system:String>
     <system:String x:Key="SystemSettingsTitle">Système</system:String>
-    <system:String x:Key="LaunchOnStartupTitle">Lancer au démarrage</system:String>
+    <system:String x:Key="LaunchOnStartupTitle">Lancement au démarrage</system:String>
     <system:String x:Key="LaunchOnStartupDescription">Démarrer minimisé dans la barre d'état système lorsque vous vous connectez à Windows</system:String>
     <system:String x:Key="StartupAppsHyperlinkText">Apps de démarrage</system:String>
     <system:String x:Key="StartupAppsSettingsInfo">Si ce paramètre ne fonctionne pas comme prévu, vérifiez</system:String>
-    <system:String x:Key="AppThemeTitle">App Thème</system:String>
+    <system:String x:Key="AppThemeTitle">Thème de l'application</system:String>
     <system:String x:Key="AppThemeDefault"> Windows par défaut</system:String>
     <system:String x:Key="AppThemeLight"> Clair</system:String>
     <system:String x:Key="AppThemeDark"> Sombre</system:String>
@@ -101,7 +101,7 @@ Note : En tant que projet open source, ces fonctionnalités sont également dis
     <system:String x:Key="AnimationSettingsDescription">Personnalisez les animations à votre guise</system:String>
     <system:String x:Key="AnimationDurationScaleTitle">Échelle de durée d'animation</system:String>
     <system:String x:Key="AnimationDurationScaleDescription">Vitesse d'animation plus rapide ou plus lente (par défaut : 1x)</system:String>
-    <system:String x:Key="AnimationSpeedOff">Éteindre</system:String>
+    <system:String x:Key="AnimationSpeedOff">Inactif</system:String>
     <system:String x:Key="AnimationEasingStyleTitle">Style d'accélération de l'animation</system:String>
     <system:String x:Key="AnimationEasingStyleDescription">(par défaut : Quadratique)</system:String>
     <system:String x:Key="EasingLinear" xml:space="preserve"> Linéaire</system:String>
@@ -116,14 +116,14 @@ Note : En tant que projet open source, ces fonctionnalités sont également dis
 ou laissez un avis sur le Microsoft Store !</system:String>
     <system:String x:Key="GitHubRepoLink">Dépôt GitHub</system:String>
     <system:String x:Key="CloseButton">Fermer</system:String>
-    <system:String x:Key="AppLanguageTitle">Langue de l'app</system:String>
+    <system:String x:Key="AppLanguageTitle">Language de l'application</system:String>
     <system:String x:Key="AppLanguageDescription" xml:space="preserve">Si votre langue n'est pas répertoriée ou est incomplète, l'anglais sera utilisé par défaut.
 Vous pouvez contribuer aux traductions sur</system:String>
     <system:String x:Key="AppLanguageDescriptionLink">Weblate</system:String>
-    <system:String x:Key="LockWindow_CapsLock">Verrouillage des majuscules</system:String>
-    <system:String x:Key="LockWindow_NumLock">Verr. Num</system:String>
-    <system:String x:Key="LockWindow_ScrollLock">Verr. défilement</system:String>
-    <system:String x:Key="LockWindow_InsertPressed">Insérer enfoncé</system:String>
+    <system:String x:Key="LockWindow_CapsLock">Verr. Maj.</system:String>
+    <system:String x:Key="LockWindow_NumLock">Verr. num.</system:String>
+    <system:String x:Key="LockWindow_ScrollLock">Arrêt défil.</system:String>
+    <system:String x:Key="LockWindow_InsertPressed">Insérer appuyée</system:String>
     <system:String x:Key="LockWindow_LockOn">activé</system:String>
     <system:String x:Key="LockWindow_LockOff">désactivé</system:String>
     <system:String x:Key="NextUpWindow_UpNextText">Suivant :</system:String>
@@ -137,11 +137,11 @@ Vous pouvez contribuer aux traductions sur</system:String>
     <system:String x:Key="TaskbarWidgetPaddingSettingsDescription">Ajustez la marge autour du widget pour l'adapter au style de votre barre des tâches</system:String>
     <system:String x:Key="TaskbarWidgetManualPaddingTitle">Remplissage personnalisé</system:String>
     <system:String x:Key="TaskbarWidgetManualPaddingDescription">Ajouter un rembourrage supplémentaire (par défaut : 0 px)</system:String>
-    <system:String x:Key="TaskbarWidgetControlsTitle">Widget Commandes multimédia</system:String>
+    <system:String x:Key="TaskbarWidgetControlsTitle">Contrôles multimédias du widget</system:String>
     <system:String x:Key="TaskbarWidgetControlsDescription">Afficher les boutons de contrôle multimédia sur le widget</system:String>
     <system:String x:Key="TaskbarWidgetAnimatedTitle">Animations widgets</system:String>
     <system:String x:Key="TaskbarWidgetAnimatedDescription">Activer les animations subtiles pour le widget</system:String>
-    <system:String x:Key="TrayIcon_ViewLogsOption">Consulter les journaux</system:String>
+    <system:String x:Key="TrayIcon_ViewLogsOption">Voir les journaux</system:String>
     <system:String x:Key="PixelsUnit">px</system:String>
     <system:String x:Key="HomeTitle">Accueil</system:String>
     <system:String x:Key="Enabled">Activé</system:String>
@@ -159,7 +159,7 @@ Vous pouvez contribuer aux traductions sur</system:String>
     <system:String x:Key="AboutOpenSourceLicensesDescription">FluentFlyout est construit avec les packages open source suivants :</system:String>
     <system:String x:Key="UpdateToastTitle">FluentFlyout a été mis à jour !</system:String>
     <system:String x:Key="UpdateToastMessage">Vous êtes maintenant sur {0}.</system:String>
-    <system:String x:Key="UpdateToastButton">Voir les mises à jour</system:String>
+    <system:String x:Key="UpdateToastButton">Afficher les mises à jour</system:String>
     <system:String x:Key="UpdateAvailable">Mise à jour disponible</system:String>
     <system:String x:Key="UpToDate">À jour</system:String>
     <system:String x:Key="LastChecked">Dernière vérification : {0}</system:String>
@@ -171,4 +171,28 @@ Vous pouvez contribuer aux traductions sur</system:String>
     <system:String x:Key="MediaFlyoutExcludeVolumeDescription">Ne pas montrer le volet quand la touche d'augmentation/diminution/muet de volume est appuyé</system:String>
     <system:String x:Key="TaskbarVisualizerTitle">Visualisateur de la barre de tâches</system:String>
     <system:String x:Key="TaskbarVisualizerDescription">Un visualisateur d'audio en temps réel sur votre barre de tâches. Conçu pour avoir un impact minimal sur la performance sur des systèmes modernes.</system:String>
+    <system:String x:Key="TaskbarWidgetCustomizationPerk">Widget de la barre des tâches et visualisateur</system:String>
+    <system:String x:Key="AcrylicBlurOpacityPerk">Opacité flou acrylique</system:String>
+    <system:String x:Key="TaskbarVisualizerEnabledTitle">Activer le visualisateur de la barre de tâches (Expérimental)</system:String>
+    <system:String x:Key="TaskbarVisualizerEnabledDescription">Expérimental : Cette fonction ne fonctione que si le Widget de la Barre de Tâches est activé</system:String>
+    <system:String x:Key="TaskbarVisualizerBarCountDescription">La quantité de barres visualisatrices</system:String>
+    <system:String x:Key="TaskbarVisualizerCenteredBarsTitle">Barres centrées</system:String>
+    <system:String x:Key="TaskbarVisualizerCenteredBarsDescription">Barres qui s'expandent symmétriquement depuis le centre au lieu de monter depuis le bas</system:String>
+    <system:String x:Key="TaskbarVisualizerBaselineTitle">Afficher la ligne de base</system:String>
+    <system:String x:Key="TaskbarVisualizerBaselineDescription">Montre une ligne fine quand les niveaux d'audio sont à zèro</system:String>
+    <system:String x:Key="TaskbarVisualizerAudioSensitivityTitle">Sensibilité audio</system:String>
+    <system:String x:Key="TaskbarVisualizerPositionTitle">Position Relative du Visualisateur par rapport au Widget de la Barre de Tâches</system:String>
+    <system:String x:Key="TaskbarVisualizerBarCountTitle">Nombre de Barres</system:String>
+    <system:String x:Key="UnlockFullExperienceText">Débloquez l'expérience compléte de FluentFlyout :</system:String>
+    <system:String x:Key="HideTrayIconPerk">Cacher l'icône de la barre d'état</system:String>
+    <system:String x:Key="TaskbarVisualizerAudioSensitivityDescription">L'intensité avec laquelle les barres audio réagissent à l'intensité sonore</system:String>
+    <system:String x:Key="ShowUpdateNotificationsTitle">Montrer des notifications pour les nouvelles mises à jour</system:String>
+    <system:String x:Key="AllFuturePremiumFeatures">Toutes les fonctionnalités premium</system:String>
+    <system:String x:Key="AppearanceBehaviorSectionTitle">Apparence et comportement</system:String>
+    <system:String x:Key="UpdatesSectionTitle">Mises à jour</system:String>
+    <system:String x:Key="DevelopersTitle">Développeurs</system:String>
+    <system:String x:Key="TranslatorsTitle">Traducteurs</system:String>
+    <system:String x:Key="SponsorMeLink">Soutenez-moi</system:String>
+    <system:String x:Key="BuyMeCoffeeLink">Offrez-moi un café</system:String>
+    <system:String x:Key="TaskbarVisualizerOutputDeviceTitle">Périphérique de sortie</system:String>
 </ResourceDictionary>
