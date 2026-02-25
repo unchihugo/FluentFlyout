@@ -1,48 +1,22 @@
 'MainWindow / Media Flyout':
   - changed-files:
-      - any-glob-to-any-file:
-          - 'FluentFlyoutWPF/MainWindow.{xaml,xaml.cs}'
-          - 'FluentFlyoutWPF/Pages/MediaFlyoutPage.{xaml,xaml.cs}'
+      - any-glob-to-any-file: 'FluentFlyoutWPF/MainWindow.{xaml,xaml.cs}'
 
 'SettingsWindow':
   - changed-files:
-      - any-glob-to-any-file:
-          - 'FluentFlyoutWPF/SettingsWindow.{xaml,xaml.cs}'
-          - 'FluentFlyoutWPF/Pages/HomePage.{xaml,xaml.cs}'
-          - 'FluentFlyoutWPF/Pages/AboutPage.{xaml,xaml.cs}'
-          - 'FluentFlyoutWPF/Pages/SystemPage.{xaml,xaml.cs}'
+      - any-glob-to-any-file: 'FluentFlyoutWPF/SettingsWindow.{xaml,xaml.cs}'
 
 'Lock Keys Flyout':
   - changed-files:
-      - any-glob-to-any-file:
-          - 'FluentFlyoutWPF/Windows/LockWindow.{xaml,xaml.cs}'
-          - 'FluentFlyoutWPF/Pages/LockKeysPage.{xaml,xaml.cs}'
+      - any-glob-to-any-file: 'FluentFlyoutWPF/Windows/LockWindow.{xaml,xaml.cs}'
 
 'Next Up Flyout':
   - changed-files:
-      - any-glob-to-any-file:
-          - 'FluentFlyoutWPF/Windows/NextUpWindow.{xaml,xaml.cs}'
-          - 'FluentFlyoutWPF/Pages/NextUpPage.{xaml,xaml.cs}'
-
-'TaskbarWindow':
-  - changed-files:
-      - any-glob-to-any-file: 'FluentFlyoutWPF/Windows/TaskbarWindow.{xaml,xaml.cs}'
+      - any-glob-to-any-file: 'FluentFlyoutWPF/Windows/NextUpWindow.{xaml,xaml.cs}'
 
 'Taskbar Widget':
   - changed-files:
-      - any-glob-to-any-file:
-          - 'FluentFlyoutWPF/Pages/TaskbarWidgetPage.{xaml,xaml.cs}'
-          - 'FluentFlyoutWPF/Controls/TaskbarWidgetControl.{xaml,xaml.cs}'
-
-'Taskbar Visualizer':
-  - changed-files:
-      - any-glob-to-any-file:
-          - 'FluentFlyoutWPF/Pages/TaskbarVisualizerPage.{xaml,xaml.cs}'
-          - 'FluentFlyoutWPF/Controls/TaskbarVisualizerControl.{xaml,xaml.cs}'
-
-'Volume Flyout':
-  - changed-files:
-      - any-glob-to-any-file: 'FluentFlyoutWPF/Windows/VolumeMixerWindow.{xaml,xaml.cs}'
+      - any-glob-to-any-file: 'FluentFlyoutWPF/Windows/TaskbarWindow.{xaml,xaml.cs}'
 
 # Add translations label to changes within Localization dictionaries except for en-US dictionary
 'translations':

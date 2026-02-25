@@ -153,6 +153,8 @@
     <system:String x:Key="HomeDashboardTitle">Панель управления</system:String>
     <system:String x:Key="MediaFlyoutExcludeVolumeTitle">Исключить клавиши регулировки громкости</system:String>
     <system:String x:Key="MediaFlyoutExcludeVolumeDescription">Не отображать всплывающее меню при нажатии кнопок увеличения/уменьшения громкости/отключения звука</system:String>
+    <system:String x:Key="TaskbarWidgetCloseableFlyoutTitle">Переключение всплывающего окна при клике на виджет</system:String>
+    <system:String x:Key="TaskbarWidgetCloseableFlyoutDescription">Закрывать всплывающее окно, если оно уже открыто, при клике на виджет панели задач</system:String>
     <system:String x:Key="AboutContributorsTitle">❤️ Познакомьтесь с нашими авторами</system:String>
     <system:String x:Key="AboutContributorsDescription">Огромное спасибо всем замечательным людям, которые внесли свой вклад в разработку и успех FluentFlyout!</system:String>
     <system:String x:Key="AboutOpenSourceLicensesTitle">Лицензии с открытым исходным кодом</system:String>
