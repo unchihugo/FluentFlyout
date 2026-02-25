@@ -194,4 +194,5 @@ Puoi contribuire alla traduzione su</system:String>
     <system:String x:Key="BuyMeCoffeeLink">Offrimi un caffè</system:String>
     <system:String x:Key="ShowUpdateNotificationsTitle">Mostra Notifiche per Nuovi Aggiornamenti</system:String>
     <system:String x:Key="AcrylicBlurOpacityPerk">Opacità Sfocatura Acrilica</system:String>
+    <system:String x:Key="TaskbarVisualizerOutputDeviceTitle">Dispositivo di uscita</system:String>
 </ResourceDictionary>
