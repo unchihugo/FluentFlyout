@@ -1,4 +1,4 @@
-// Copyright Â© 2024-2026 The FluentFlyout Authors
+// Copyright © 2024-2026 The FluentFlyout Authors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 using FluentFlyout.Classes.Settings;
@@ -136,8 +136,8 @@ public partial class TaskbarWidgetControl : UserControl
     {
         if (!SettingsManager.Current.TaskbarWidgetClickable || _mainWindow == null) return;
 
-        // toggle main flyout when clicked if toggle mode is enabled, otherwise just open
-        _mainWindow.ShowMediaFlyout(toggleMode: SettingsManager.Current.TaskbarWidgetCloseableFlyout);
+        // flyout main flyout when clicked
+        _mainWindow.ShowMediaFlyout();
     }
 
     public (double logicalWidth, double logicalHeight) CalculateSize(double dpiScale)
