@@ -4,6 +4,7 @@
 using FluentFlyout.Classes.Settings;
 using FluentFlyoutWPF;
 using FluentFlyoutWPF.Classes;
+using FluentFlyoutWPF.Classes.Utils;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows;
@@ -104,13 +105,13 @@ public partial class TaskbarWindow : Window
 
     private IntPtr GetSelectedTaskbarHandle(out bool isMainTaskbarSelected)
     {
-        var monitors = WindowHelper.GetMonitors();
+        var monitors = MonitorUtil.GetMonitors();
         var selectedMonitor = monitors[Math.Clamp(SettingsManager.Current.TaskbarWidgetSelectedMonitor, 0, monitors.Count - 1)];
         isMainTaskbarSelected = true;
 
         // Get the main taskbar and check if it is on the selected monitor.
         var mainHwnd = FindWindow("Shell_TrayWnd", null);
-        if (WindowHelper.GetMonitor(mainHwnd).deviceId == selectedMonitor.deviceId)
+        if (MonitorUtil.GetMonitor(mainHwnd).deviceId == selectedMonitor.deviceId)
             return mainHwnd;
 
         if (monitors.Count == 1)
@@ -120,7 +121,7 @@ public partial class TaskbarWindow : Window
         if (monitors.Count == 2)
         {
             var hwnd = FindWindow("Shell_SecondaryTrayWnd", null);
-            if (WindowHelper.GetMonitor(hwnd).deviceId == selectedMonitor.deviceId)
+            if (MonitorUtil.GetMonitor(hwnd).deviceId == selectedMonitor.deviceId)
             {
                 return hwnd;
             }
@@ -141,7 +142,7 @@ public partial class TaskbarWindow : Window
             var len = GetClassName(wnd, className, className.Capacity);
             if (className.Equals("Shell_SecondaryTrayWnd"))
             {
-                if (WindowHelper.GetMonitor(wnd).deviceId == selectedMonitor.deviceId)
+                if (MonitorUtil.GetMonitor(wnd).deviceId == selectedMonitor.deviceId)
                 {
                     return wnd;
                 }

@@ -8,7 +8,7 @@
     xmlns:pages="clr-namespace:FluentFlyoutWPF.Pages"
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
     mc:Ignorable="d"
-    Height="700" MinHeight="300" MinWidth="750" Width="800"
+    Height="700" MinHeight="300" MinWidth="750" Width="900"
     Title="FluentFlyout" Icon="/Resources/FluentFlyout2.ico"
     TextOptions.TextRenderingMode="ClearType" TextOptions.TextFormattingMode="Ideal"
     FontFamily="{Binding FontFamily}"
@@ -28,6 +28,7 @@
                            TransitionDuration="300"
                            IsPaneToggleVisible="true"
                            Margin="0, 40, 0, 0"
+						   FrameMargin="0, 0, 0, 0"
                            OpenPaneLength="250"
                            IsTopSeparatorVisible="false"
                            IsFooterSeparatorVisible="false">

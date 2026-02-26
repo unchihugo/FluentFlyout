@@ -88,6 +88,20 @@ public static class NativeMethods
         QUNS_APP = 7
     }
 
+    [Flags]
+    internal enum DisplayDeviceStateFlags : int
+    {
+        AttachedToDesktop = 0x1,
+        MultiDriver = 0x2,
+        PrimaryDevice = 0x4,
+        MirroringDriver = 0x8,
+        VGACompatibleDevice = 0x10,
+        RemovableDevice = 0x20,
+        ModesPruned = 0x8000000,
+        Remote = 0x4000000,
+        Disconnect = 0x2000000
+    }
+
     #endregion
 
     #region Structs
@@ -138,6 +152,23 @@ public static class NativeMethods
         public int dwFlags;
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
         public string szDevice;
+    }
+
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+    internal struct DISPLAY_DEVICE
+    {
+        [MarshalAs(UnmanagedType.U4)]
+        public int cb;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
+        public string DeviceName;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 128)]
+        public string DeviceString;
+        [MarshalAs(UnmanagedType.U4)]
+        public DisplayDeviceStateFlags StateFlags;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 128)]
+        public string DeviceID;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 128)]
+        public string DeviceKey;
     }
 
     [StructLayout(LayoutKind.Sequential)]
@@ -213,6 +244,9 @@ public static class NativeMethods
 
     [DllImport("user32.dll")]
     internal static extern bool ScreenToClient(IntPtr hWnd, ref POINT lpPoint);
+    
+    [DllImport("user32.dll", CharSet = CharSet.Auto)]
+    internal static extern bool EnumDisplayDevices(string? lpDevice, uint iDevNum, ref DISPLAY_DEVICE lpDisplayDevice, uint dwFlags);
 
     [DllImport("user32.dll")]
     internal static extern bool EnumDisplayMonitors(IntPtr hdc, IntPtr lprcClip, MonitorEnumProc lpfnEnum, IntPtr dwData);

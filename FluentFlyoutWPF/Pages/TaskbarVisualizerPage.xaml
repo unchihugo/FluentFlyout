@@ -8,7 +8,7 @@
       xmlns:viewModels="clr-namespace:FluentFlyoutWPF.ViewModels"
       xmlns:utils="clr-namespace:FluentFlyoutWPF.Classes.Utils"
       mc:Ignorable="d"
-      d:DesignHeight="800" d:DesignWidth="800"
+      d:DesignHeight="1000" d:DesignWidth="800"
       Title="TaskbarWidgetPage"
       d:DataContext="{d:DesignInstance viewModels:UserSettings}"
       Foreground="{DynamicResource TextFillColorPrimaryBrush}"
@@ -167,17 +167,31 @@
                 </StackPanel>
             </ui:CardControl>
 
+            <ui:CardControl Icon="{ui:SymbolIcon ArrowAutofitUp24, Filled=False}" Margin="0,0,0,3">
+                <ui:CardControl.Header>
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="{DynamicResource TaskbarVisualizerAudioPeakLevelTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
+                        <TextBlock Text="{DynamicResource TaskbarVisualizerAudioPeakLevelDescription}" FontSize="12" Opacity="0.5" />
+                    </StackPanel>
+                </ui:CardControl.Header>
+                <StackPanel Orientation="Horizontal" Opacity="{Binding IsPremiumUnlocked, Converter={StaticResource BoolToFullHalfOpacityConverter}}" >
+                    <ui:SymbolIcon Symbol="Subtract24" Width="24" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <Slider Minimum="1" Maximum="3" Value="{Binding TaskbarVisualizerAudioPeakLevel, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}" TickFrequency="1" TickPlacement="Both" IsSnapToTickEnabled="True" Width="150" Margin="12,0,12,0" />
+                    <ui:SymbolIcon Symbol="Add24" Width="24" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                </StackPanel>
+            </ui:CardControl>
+
             <ui:CardControl Icon="{ui:SymbolIcon Speaker224}" Margin="0,0,0,76">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
                         <TextBlock FontSize="14" FontWeight="Regular" VerticalAlignment="Center">
                             <Hyperlink x:Name="StartupHyperlink" NavigateUri="ms-settings:apps-volume" BaselineAlignment="Center"
                                    RequestNavigate="StartupHyperlink_RequestNavigate" TextDecorations="None" Foreground="{DynamicResource AccentTextFillColorPrimaryBrush}" >
-                                <Run Text="Output Device" />
+                                <Run Text="{DynamicResource TaskbarVisualizerOutputDeviceTitle}" />
                                 <ui:SymbolIcon VerticalAlignment="Center" FontSize="14" Symbol="ArrowUpRight24" />
                             </Hyperlink>
                         </TextBlock>
-                        <TextBlock Text="Change what the visualizer listens to by switching FluentFlyout's output device." FontSize="12" Opacity="0.5" />
+                        <TextBlock Text="{DynamicResource TaskbarVisualizerOutputDeviceDescription}" FontSize="12" Opacity="0.5" />
                     </StackPanel>
                 </ui:CardControl.Header>
                 

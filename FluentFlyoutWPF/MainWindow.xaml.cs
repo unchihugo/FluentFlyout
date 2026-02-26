@@ -7,6 +7,7 @@ using FluentFlyout.Classes.Utils;
 using FluentFlyout.Controls;
 using FluentFlyout.Windows;
 using FluentFlyoutWPF.Classes;
+using FluentFlyoutWPF.Classes.Utils;
 using FluentFlyoutWPF.ViewModels;
 using FluentFlyoutWPF.Windows;
 using MicaWPF.Controls;
@@ -277,10 +278,9 @@ public partial class MainWindow : MicaWindow
         return easingStyle;
     }
 
-    private WindowHelper.MonitorInfo getSelectedMonitor()
+    private MonitorUtil.MonitorInfo getSelectedMonitor()
     {
-        var monitors = WindowHelper.GetMonitors();
-        return monitors[Math.Clamp(SettingsManager.Current.FlyoutSelectedMonitor, 0, monitors.Count - 1)];
+        return MonitorUtil.getSelectedMonitor(SettingsManager.Current.FlyoutSelectedMonitor);
     }
 
     public void OpenAnimation(MicaWindow window, bool alwaysBottom = false)
