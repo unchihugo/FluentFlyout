@@ -99,7 +99,7 @@
     <system:String x:Key="LockWindow_CapsLock">大写锁定</system:String>
     <system:String x:Key="LockWindow_NumLock">数字锁定</system:String>
     <system:String x:Key="TrayIcon_SettingsOption">设置</system:String>
-    <system:String x:Key="TrayIcon_GitHubRepositoryOption">存储库</system:String>
+    <system:String x:Key="TrayIcon_GitHubRepositoryOption">Github 仓库</system:String>
     <system:String x:Key="TrayIcon_ReportBugOption">报告错误</system:String>
     <system:String x:Key="TrayIcon_QuitOption">退出 FluentFlyout</system:String>
     <system:String x:Key="TaskbarWidgetCustomizationTitle">任务栏小组件</system:String>
@@ -198,4 +198,6 @@
     <system:String x:Key="TaskbarVisualizerOutputDeviceDescription">切换 FluentFlyout 的输出设备来更改可视化监听的输出设备。</system:String>
     <system:String x:Key="TaskbarVisualizerAudioPeakLevelTitle">音频峰值阈值</system:String>
     <system:String x:Key="TaskbarVisualizerAudioPeakLevelDescription">频谱柱达到最大高度时，对应的音频音量大小</system:String>
+    <system:String x:Key="TaskbarWidgetCloseableFlyoutTitle">再次点击关闭浮窗</system:String>
+    <system:String x:Key="TaskbarWidgetCloseableFlyoutDescription">已打开媒体浮窗时，再次点击任务栏小组件会关闭媒体浮窗</system:String>
 </ResourceDictionary>
