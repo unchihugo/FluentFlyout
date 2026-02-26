@@ -41,7 +41,7 @@ public partial class TaskbarVisualizerControl : UserControl
             MainBorder.Background.Opacity = 0;
         }
 
-        Background = new SolidColorBrush(Color.FromArgb(1, 0, 0, 0)); ;
+        Background = new SolidColorBrush(Color.FromArgb(1, 0, 0, 0));
     }
 
     public void SetMainWindow(FluentFlyoutWPF.MainWindow mainWindow)
@@ -72,8 +72,13 @@ public partial class TaskbarVisualizerControl : UserControl
         visualizer.Dispose();
     }
 
+    // TODO: The following mouse events are almost the same as the ones in TaskbarWidgetControl.xaml.cs.
+    // We should find a way to unify these methods instead of duplicating them.
+
     private void Grid_MouseEnter(object sender, MouseEventArgs e)
     {
+        if (!SettingsManager.Current.TaskbarVisualizerClickable || !SettingsManager.Current.TaskbarVisualizerHasContent) return;
+
         SolidColorBrush targetBackgroundBrush;
         // hover effects with animations, hard-coded colors because I can't find the resource brushes
         if (ApplicationThemeManager.GetSystemTheme() == SystemTheme.Dark)
@@ -115,6 +120,8 @@ public partial class TaskbarVisualizerControl : UserControl
 
     private void Grid_MouseLeave(object sender, MouseEventArgs e)
     {
+        if (!SettingsManager.Current.TaskbarVisualizerClickable || !SettingsManager.Current.TaskbarVisualizerHasContent) return;
+        
         // Animate back to transparent
         var backgroundAnimation = new ColorAnimation
         {
@@ -142,7 +149,7 @@ public partial class TaskbarVisualizerControl : UserControl
         // we need to find a new function for clicking the visualizer if there's any (like expanding the visualizer or something)
         return;
 
-        if (!SettingsManager.Current.TaskbarWidgetClickable || _mainWindow == null) return;
+        if (!SettingsManager.Current.TaskbarVisualizerClickable || !SettingsManager.Current.TaskbarVisualizerHasContent) return;
 
         // flyout main flyout when clicked
         _mainWindow.ShowMediaFlyout();

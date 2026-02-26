@@ -676,4 +676,10 @@ public partial class UserSettings : ObservableObject
         if (oldValue == newValue || _initializing) return;
         Visualizer.ResizeBarList(newValue);
     }
+
+    partial void OnTaskbarVisualizerBaselineChanged(bool oldValue, bool newValue)
+    {
+        if (oldValue == newValue || _initializing || newValue == false) return;
+        TaskbarVisualizerHasContent = true;
+    }
 }

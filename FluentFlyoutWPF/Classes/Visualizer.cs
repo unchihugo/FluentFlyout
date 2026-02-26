@@ -33,7 +33,7 @@ namespace FluentFlyoutWPF.Classes
         private readonly int _targetFps = 30;
         private DateTime _lastUpdateTime = DateTime.MinValue;
 
-        private System.Timers.Timer _captureWatchdog;
+        private System.Timers.Timer? _captureWatchdog;
 
         public WriteableBitmap? Bitmap
         {
@@ -121,7 +121,9 @@ namespace FluentFlyoutWPF.Classes
                             _barValues[i] = 0;
                         }
                         UpdateBitmap();
-                        SettingsManager.Current.TaskbarVisualizerHasContent = false;
+
+                        if (!SettingsManager.Current.TaskbarVisualizerBaseline) // if baseline is enabled, don't switch the setting
+                            SettingsManager.Current.TaskbarVisualizerHasContent = false;
                     }
                 };
             }
@@ -137,11 +139,16 @@ namespace FluentFlyoutWPF.Classes
                 return;
 
             _isRunning = false;
+
             _capture?.DataAvailable -= OnDataAvailable;
             _capture?.RecordingStopped -= OnRecordingStopped;
             _capture?.StopRecording();
             _capture?.Dispose();
             _capture = null;
+
+            _captureWatchdog?.Stop();
+            _captureWatchdog?.Dispose();
+            _captureWatchdog = null;
         }
 
         private void OnDataAvailable(object? sender, WaveInEventArgs e)
