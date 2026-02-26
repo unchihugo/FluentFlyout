@@ -490,12 +490,7 @@ public partial class MainWindow : MicaWindow
     {
         try
         {
-            // path containerized for store version, regular path for non-store version
-            string logFolderPath = SettingsManager.Current.IsStoreVersion
-                ? Path.Combine(ApplicationData.Current.LocalCacheFolder.Path, "Roaming", "FluentFlyout")
-                : Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "FluentFlyout");
-
-            Process.Start("explorer.exe", logFolderPath);
+            Process.Start("explorer.exe", FileSystemHelper.GetLogsPath());
         }
         catch (Exception ex)
         {
