@@ -32,6 +32,10 @@ public static class NativeMethods
     internal const uint SWP_ASYNCWINDOWPOS = 0x4000;
     internal const uint SWP_NOACTIVATE = 0x0010;
 
+    // ShowWindow Commands
+    internal const int SW_MINIMIZE = 6;
+    internal const int SW_RESTORE = 9;
+
     // Monitor Flags
     internal const int MONITOR_DEFAULTTONEAREST = 2;
     internal const int MONITORINFOF_PRIMARY = 1;

@@ -73,7 +73,7 @@
             <TextBlock Grid.Column="2" Text="{Binding ViewModel.MasterVolume, Converter={StaticResource DecimalPercentage}}" FontSize="14" VerticalAlignment="Center" Margin="8,-2,8,0" Width="24" TextAlignment="Center" />
             <ui:Button Name="OpenVolumeMixerButton" Grid.Column="3" VerticalAlignment="Center" Padding="4" Margin="0,0,4,0"
                        Command="{Binding ViewModel.OpenVolumeMixerCommand}" Focusable="False"
-                       Visibility="{Binding VolumeMixerEnabled, Converter={StaticResource BoolToVisible}}">
+                       Visibility="{Binding UserSettings.VolumeMixerEnabled, Converter={StaticResource BoolToVisible}}">
                 <ui:SymbolIcon x:Name="ChevronIcon" Symbol="ChevronUp24" FontSize="16" RenderTransformOrigin="0.5,0.5">
                     <ui:SymbolIcon.RenderTransform>
                         <RotateTransform x:Name="ChevronRotation" Angle="0" />
@@ -102,7 +102,7 @@
                                    ToolTipService.InitialShowDelay="0"
                                    ToolTipService.Placement="Right">
                                     <Grid>
-                                        <ui:SymbolIcon Symbol="SoundSource24" FontSize="16"
+                                        <ui:SymbolIcon Symbol="DesktopSpeaker24" FontSize="16"
                                                Opacity="{Binding IsMuted, Converter={StaticResource BoolToFullHalf}}"
                                                Visibility="{Binding Icon, Converter={StaticResource NullToCollapsed}}" />
                                         <Image Source="{Binding Icon}" Width="16" Height="16"

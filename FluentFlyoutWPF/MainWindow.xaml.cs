@@ -1276,6 +1276,12 @@ public partial class MainWindow : MicaWindow
             if (taskbarWindow?.IsLoaded == true)
                 taskbarWindow.Close();
 
+            if (volumeMixerWindow?.IsLoaded == true)
+                volumeMixerWindow.Close();
+
+            // restore native volume OSD
+            VolumeMixerWindow.ShowVolumeOsd();
+
             // dispose mutex
             singleton?.Dispose();
 

@@ -17,6 +17,7 @@ using NLog;
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media.Animation;
+using static FluentFlyout.Classes.NativeMethods;
 
 namespace FluentFlyoutWPF.Windows;
 
@@ -31,7 +32,7 @@ public partial class VolumeMixerWindow : MicaWindow
 
     private static IntPtr _nativeOsdElement = IntPtr.Zero;
     private static int _nativeOsdOriginalExStyle;
-    private CancellationTokenSource _cts; 
+    private CancellationTokenSource _cts;
     private MainWindow _mainWindow;
     private readonly double _collapsedHeight = 50;
     private readonly double _normalWidth;
@@ -51,7 +52,7 @@ public partial class VolumeMixerWindow : MicaWindow
 
         ViewModel.PropertyChanged += OnViewModelPropertyChanged;
     }
-    
+
     // one day we might want to convert these to an interface
     public async void ShowFlyout()
     {
@@ -150,29 +151,29 @@ public partial class VolumeMixerWindow : MicaWindow
     {
         // find widget in XAML
         IntPtr hwndXamlIsland, hwndOsd = IntPtr.Zero;
-        while ((hwndXamlIsland = NativeMethods.FindWindowEx(IntPtr.Zero, IntPtr.Zero, "XamlExplorerHostIslandWindow", null)) != IntPtr.Zero)
+        while ((hwndXamlIsland = FindWindowEx(IntPtr.Zero, IntPtr.Zero, "XamlExplorerHostIslandWindow", null)) != IntPtr.Zero)
         {
             if (hwndXamlIsland == IntPtr.Zero)
             {
                 continue;
             }
 
-            hwndOsd = NativeMethods.FindWindowEx(hwndXamlIsland, IntPtr.Zero, "Windows.UI.Composition.DesktopWindowContentBridge", "DesktopWindowXamlSource");
+            hwndOsd = FindWindowEx(hwndXamlIsland, IntPtr.Zero, "Windows.UI.Composition.DesktopWindowContentBridge", "DesktopWindowXamlSource");
             if (hwndOsd == IntPtr.Zero)
             {
                 continue;
             }
 
             // check if the child window has the expected class name and title
-            IntPtr hwndInputClass = NativeMethods.FindWindowEx(hwndOsd, IntPtr.Zero, "Windows.UI.Input.InputSite.WindowClass", null);
+            IntPtr hwndInputClass = FindWindowEx(hwndOsd, IntPtr.Zero, "Windows.UI.Input.InputSite.WindowClass", null);
             if (hwndInputClass == IntPtr.Zero)
             {
                 hwndOsd = IntPtr.Zero;
                 continue;
             }
 
-            NativeMethods.ShowWindow(hwndInputClass, 9); // SW_RESTORE
-            if (NativeMethods.GetWindowRect(hwndInputClass, out NativeMethods.RECT rect))
+            ShowWindow(hwndInputClass, 9); // SW_RESTORE
+            if (GetWindowRect(hwndInputClass, out RECT rect))
             {
                 if (rect.Top == 0 && rect.Left == 0 && rect.Bottom == 0 && rect.Right == 0)
                 {
@@ -190,12 +191,12 @@ public partial class VolumeMixerWindow : MicaWindow
 
         // the parent owns the hit-test region on the desktop
         _nativeOsdElement = hwndXamlIsland;
-        _nativeOsdOriginalExStyle = NativeMethods.GetWindowLong(_nativeOsdElement, NativeMethods.GWL_EXSTYLE);
-        NativeMethods.SetWindowLong(_nativeOsdElement, NativeMethods.GWL_EXSTYLE,
-            _nativeOsdOriginalExStyle | NativeMethods.WS_EX_LAYERED | NativeMethods.WS_EX_TRANSPARENT);
-        NativeMethods.SetWindowPos(_nativeOsdElement, 0, -99999, -99999, 0, 0,
-            NativeMethods.SWP_NOSIZE | NativeMethods.SWP_NOZORDER | NativeMethods.SWP_NOACTIVATE);
-        NativeMethods.ShowWindow(_nativeOsdElement, 6); // SW_MINIMIZE
+        _nativeOsdOriginalExStyle = GetWindowLong(_nativeOsdElement, GWL_EXSTYLE);
+        SetWindowLong(_nativeOsdElement, GWL_EXSTYLE,
+            _nativeOsdOriginalExStyle | WS_EX_LAYERED | WS_EX_TRANSPARENT);
+        SetWindowPos(_nativeOsdElement, 0, -99999, -99999, 0, 0,
+            SWP_NOSIZE | SWP_NOZORDER | SWP_NOACTIVATE);
+        ShowWindow(_nativeOsdElement, SW_MINIMIZE); // SW_MINIMIZE
         Logger.Info("Successfully hid volume OSD.");
     }
 
@@ -203,14 +204,14 @@ public partial class VolumeMixerWindow : MicaWindow
     {
         if (_nativeOsdElement == IntPtr.Zero)
         {
-            Logger.Warn("Cannot restore OSD because it was not found.");
+            Logger.Warn("Did not try to restore OSD because it was either not found or was not hidden.");
             return;
         }
 
-        NativeMethods.SetWindowLong(_nativeOsdElement, NativeMethods.GWL_EXSTYLE, _nativeOsdOriginalExStyle);
-        NativeMethods.SetWindowPos(_nativeOsdElement, 0, 0, 0, 0, 0,
-            NativeMethods.SWP_NOSIZE | NativeMethods.SWP_NOZORDER | NativeMethods.SWP_NOACTIVATE);
-        NativeMethods.ShowWindow(_nativeOsdElement, 5); // SW_SHOW
+        SetWindowLong(_nativeOsdElement, GWL_EXSTYLE, _nativeOsdOriginalExStyle);
+        SetWindowPos(_nativeOsdElement, 0, 0, 0, 0, 0,
+            SWP_NOSIZE | SWP_NOZORDER | SWP_NOACTIVATE);
+        ShowWindow(_nativeOsdElement, SW_RESTORE); // SW_RESTORE
         _nativeOsdElement = IntPtr.Zero;
         Logger.Info("Successfully restored volume OSD.");
     }
@@ -271,7 +272,8 @@ public partial class VolumeMixerWindow : MicaWindow
             };
         }
 
-        Dispatcher.Invoke(() => {
+        Dispatcher.Invoke(() =>
+        {
             BeginAnimation(TopProperty, topAnimation);
             BeginAnimation(HeightProperty, heightAnimation);
         });
@@ -280,11 +282,11 @@ public partial class VolumeMixerWindow : MicaWindow
     // TODO: other windows should use this too instead of IsMouseOver, consider moving to a helper class
     private bool IsMouseOverWindow()
     {
-        if (!NativeMethods.GetCursorPos(out NativeMethods.POINT cursor))
+        if (!GetCursorPos(out POINT cursor))
             return false;
 
         var hwnd = new WindowInteropHelper(this).Handle;
-        if (!NativeMethods.GetWindowRect(hwnd, out NativeMethods.RECT rect))
+        if (!GetWindowRect(hwnd, out RECT rect))
             return false;
 
         return cursor.X >= rect.Left && cursor.X <= rect.Right &&
