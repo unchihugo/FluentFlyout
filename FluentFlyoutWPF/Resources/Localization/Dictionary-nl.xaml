@@ -16,8 +16,56 @@
     <system:String x:Key="AppLanguageTitle">App-taal</system:String>
     <system:String x:Key="AppLanguageDescriptionLink">Weblate</system:String>
     <system:String x:Key="TextBlockText2">Kies uit een reeks moderne achtergrondvervagingsstijlen</system:String>
-    <system:String x:Key="BackgroundBlurOption1" xml:space="preserve"> Niks</system:String>
+    <system:String x:Key="BackgroundBlurOption1" xml:space="preserve"> Niets</system:String>
     <system:String x:Key="BackgroundBlurOption2" xml:space="preserve"> Stijl 1 (Albumhoes schijn)</system:String>
     <system:String x:Key="BackgroundBlurOption3" xml:space="preserve"> Stijl 2 (Stijgende schijn)</system:String>
     <system:String x:Key="BackgroundBlurOption4" xml:space="preserve"> Stijl 3 (Vervaging)</system:String>
+    <system:String x:Key="AcrylicWindowTitle">Acrylvenster</system:String>
+    <system:String x:Key="AcrylicWindowDescription">Transparant Acrylic-effect toepassen op de flyout (uit schakelt terug naar Mica)</system:String>
+    <system:String x:Key="CompactLayoutDescription" xml:space="preserve">Slankere, minder storende indeling
+verbergt herhalen, shuffle en spelerinfo</system:String>
+    <system:String x:Key="SelectedMonitorTitle">Flyout-doelscherm</system:String>
+    <system:String x:Key="FlyoutPositionTitle">Flyoutpositie</system:String>
+    <system:String x:Key="PositionTopCenter" xml:space="preserve"> Middenboven</system:String>
+    <system:String x:Key="PositionTopRight" xml:space="preserve"> Rechtsboven</system:String>
+    <system:String x:Key="FlyoutStayDurationTitle">Weergaveduur flyout</system:String>
+    <system:String x:Key="FlyoutStayDurationDescription">(standaard: 3000 ms)</system:String>
+    <system:String x:Key="MediaFlyoutAlwaysDisplay">Altijd weergeven</system:String>
+    <system:String x:Key="MediaFlyoutAlwaysDisplayDescription">De flyout blijft openstaan totdat u op de sluitknop klikt</system:String>
+    <system:String x:Key="CenterTitleArtistTitle">Titel en artiest centreren</system:String>
+    <system:String x:Key="CenterTitleArtistDescription">Tekst centreren in plaats van links uitlijnen</system:String>
+    <system:String x:Key="ShowMediaPlayerNameTitle">Naam van mediaspeler weergeven</system:String>
+    <system:String x:Key="RepeatButtonTitle">Herhaalknop*</system:String>
+    <system:String x:Key="RepeatButtonDescription">Kies tussen alles herhalen of één herhalen, verbreedt de flyout</system:String>
+    <system:String x:Key="ShuffleButtonTitle">Shuffle knop*</system:String>
+    <system:String x:Key="ShuffleButtonDescription">Verbreedt de flyout</system:String>
+    <system:String x:Key="ShowSeekbarTitle">Afspeelbalk weergeven*</system:String>
+    <system:String x:Key="ShowSeekbarDescription">Er wordt automatisch een interactieve afspeelbalk weergegeven als de speler dit ondersteunt</system:String>
+    <system:String x:Key="UnsupportedControlsWarning">*Sommige browsers of spelers ondersteunen de bediening voor herhalen, shuffle en de afspeelbalk niet.</system:String>
+    <system:String x:Key="PauseOtherMediaTitle">Andere media automatisch pauzeren</system:String>
+    <system:String x:Key="PauseOtherMediaDescription">Wanneer u nieuwe media afspeelt of erop focust, worden andere actieve sessies automatisch gepauzeerd</system:String>
+    <system:String x:Key="TaskbarWidgetCustomizationTitle">Taakbalkwidget</system:String>
+    <system:String x:Key="TaskbarWidgetDescription">Een compacte, ingebouwde widget die zich direct op uw Windows-taakbalk bevindt voor directe toegang tot uw media. Klik op de widget om de volledige Media-flyout uit te vouwen (indien ingeschakeld).</system:String>
+    <system:String x:Key="TaskbarWidgetEnabledTitle">Taakbalkwidget inschakelen</system:String>
+    <system:String x:Key="TaskbarWidgetEnabledDescription">Een compacte mediawidget weergeven op de taakbalk</system:String>
+    <system:String x:Key="TaskbarWidgetVisualIssuesWarning">Pas de onderstaande opties aan als u weergaveproblemen ondervindt.</system:String>
+    <system:String x:Key="TaskbarWidgetSelectedMonitorTitle">Widget-doelscherm</system:String>
+    <system:String x:Key="TaskbarWidgetPosition">Widget positie</system:String>
+    <system:String x:Key="TaskbarWidgetPaddingSettingsTitle">Widget-padding-instellingen</system:String>
+    <system:String x:Key="TaskbarWidgetPaddingSettingsDescription">Pas de padding rond de widget aan uw taakbalkstijl aan</system:String>
+    <system:String x:Key="TaskbarWidgetClickableTitle">Klik om Media-flyout te openen wanneer media aanwezig is</system:String>
+    <system:String x:Key="TaskbarWidgetClickableDescription">Als de Media-flyout is ingeschakeld, wordt deze geopend wanneer u op de taakbalkwidget klikt</system:String>
+    <system:String x:Key="TaskbarWidgetBackgroundBlurTitle">Achtergrondvervaging</system:String>
+    <system:String x:Key="TaskbarWidgetBackgroundBlurDescription">Een achtergrondvervagingseffect toevoegen aan de taakbalkwidget</system:String>
+    <system:String x:Key="TaskbarWidgetHideCompletelyTitle">Volledig verbergen wanneer er geen media aanwezig is</system:String>
+    <system:String x:Key="TaskbarWidgetHideCompletelyDescription">Verbergt de volledige widget wanneer er geen media aanwezig is, in plaats van een media-pictogram weer te geven</system:String>
+    <system:String x:Key="TaskbarWidgetControlsTitle">Widget-mediaknoppen</system:String>
+    <system:String x:Key="TaskbarWidgetControlsDescription">Mediaknoppen weergeven op de widget</system:String>
+    <system:String x:Key="TaskbarWidgetAnimatedTitle">Widget-animaties</system:String>
+    <system:String x:Key="TaskbarWidgetAnimatedDescription">Subtiele animaties voor de widget inschakelen</system:String>
+    <system:String x:Key="TaskbarVisualizerTitle">Taakbalkvisualizer</system:String>
+    <system:String x:Key="TaskbarVisualizerDescription">Een realtime audiovisualizer op uw taakbalk. Ontworpen voor een minimale impact op de prestaties van moderne systemen.</system:String>
+    <system:String x:Key="TaskbarVisualizerEnabledTitle">Taakbalkvisualizer inschakelen (experimenteel)</system:String>
+    <system:String x:Key="TaskbarVisualizerEnabledDescription">Experimenteel: Deze functie werkt alleen als de taakbalkwidget is ingeschakeld</system:String>
+    <system:String x:Key="TaskbarVisualizerPositionTitle">Positie van visualizer ten opzichte van de taakbalkwidget</system:String>
 </ResourceDictionary>

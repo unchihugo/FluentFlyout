@@ -7,7 +7,7 @@
     <system:String x:Key="LockWindow_LockOff">disattivato</system:String>
     <system:String x:Key="TitleText">Impostazioni di FluentFlyout</system:String>
     <system:String x:Key="MediaFlyoutTitle">Media Flyout</system:String>
-    <system:String x:Key="MediaFlyoutDescription">Quando ascolti un contenuto multimediale, premi un qualsiasi tasto controllo multimediale o volume (Play/Pausa, Volume su/Volume Giù, ecc...) sulla tua tastiera per mostrare il flyout. Mostra le informazioni del contenuto assieme ai controlli per il playback e altro.</system:String>
+    <system:String x:Key="MediaFlyoutDescription">Quando ascolti un contenuto multimediale, premi un qualsiasi tasto controllo multimediale o volume (Play/Pausa, Volume su/Volume Giù, ecc...) sulla tua tastiera per mostrare il flyout. Mostra le informazioni del contenuto assieme ai controlli per la riproduzione e altro.</system:String>
     <system:String x:Key="TextBlockText1">Abilita il Media Flyout</system:String>
     <system:String x:Key="TextBlockText3">Mostra il flyout quando premi un tasto per il controllo dei contenuti multimediali</system:String>
     <system:String x:Key="TextBlockText2">Scegli un preset per una moderna sfocatura dello sfondo</system:String>
@@ -81,7 +81,7 @@ Nota: essendo un progetto open-source, queste funzionalità sono comunque dispon
     <system:String x:Key="EnableLockKeysDescription">Mostra quando uno specifico tasto di blocco è attivo o meno</system:String>
     <system:String x:Key="LockKeysStayDurationTitle">Durata Pulsanti di Blocco</system:String>
     <system:String x:Key="LockKeysStayDurationDescription">(predefinito: 2000 ms)</system:String>
-    <system:String x:Key="LockKeysBoldUITitle">Icona e Font in Grassetto</system:String>
+    <system:String x:Key="LockKeysBoldUITitle">Icona e Testo in Grassetto</system:String>
     <system:String x:Key="LockKeysBoldUIDescription">Enfatizza l'icona ed il font del flyout</system:String>
     <system:String x:Key="EnableInsertKeyTitle">Attiva Popup per il Tasto Insert</system:String>
     <system:String x:Key="EnableInsertKeyDescription">Mostra il flyout premendo il tasto Insert/Sovrascrittura</system:String>
@@ -135,8 +135,8 @@ Puoi contribuire alla traduzione su</system:String>
     <system:String x:Key="TaskbarWidgetControlsDescription">Mostra i pulsanti di controllo dei contenuti multimediali sul widget</system:String>
     <system:String x:Key="TaskbarWidgetAnimatedTitle">Animazioni Widget</system:String>
     <system:String x:Key="TaskbarWidgetAnimatedDescription">Attiva animazioni delicate per il widget</system:String>
-    <system:String x:Key="SelectedMonitorTitle">Display del Flyout</system:String>
-    <system:String x:Key="TaskbarWidgetSelectedMonitorTitle">Schermo di Destinazione del Widget</system:String>
+    <system:String x:Key="SelectedMonitorTitle">Schermo del Flyout</system:String>
+    <system:String x:Key="TaskbarWidgetSelectedMonitorTitle">Schermo del Widget</system:String>
     <system:String x:Key="TaskbarWidgetPaddingSettingsTitle">Spaziatura Interna Widget</system:String>
     <system:String x:Key="TaskbarWidgetPaddingSettingsDescription">Regola la spaziatura interna attorno al widget per adattarlo alla tua barra delle applicazioni</system:String>
     <system:String x:Key="TaskbarWidgetManualPaddingTitle">Spaziatura Personalizzata</system:String>
@@ -169,7 +169,7 @@ Puoi contribuire alla traduzione su</system:String>
     <system:String x:Key="UpdateAvailableNotificationButton">Scarica Aggiornamento</system:String>
     <system:String x:Key="MediaFlyoutExcludeVolumeTitle">Escludi i Tasti Volume</system:String>
     <system:String x:Key="MediaFlyoutExcludeVolumeDescription">Non mostrare il flyout quando premi i tasti volume su/giù/muto</system:String>
-    <system:String x:Key="TaskbarVisualizerTitle">Visualizzatore Barra delle Applicazioni</system:String>
+    <system:String x:Key="TaskbarVisualizerTitle">Visualizzatore Barra delle App</system:String>
     <system:String x:Key="TaskbarVisualizerDescription">Un visualizzatore musicale in tempo reale sulla barra delle applicazioni, progettato per avere un impatto minimo sulle prestazioni dei sistemi moderni.</system:String>
     <system:String x:Key="TaskbarVisualizerEnabledTitle">Abilita Visualizzatore Barra delle Applicazioni (Sperimentale)</system:String>
     <system:String x:Key="TaskbarVisualizerEnabledDescription">Sperimentale: questa funzionalità richiede che il widget della barra delle applicazioni sia abilitato</system:String>
@@ -181,7 +181,7 @@ Puoi contribuire alla traduzione su</system:String>
     <system:String x:Key="TaskbarVisualizerBaselineTitle">Mostra Linea di Base</system:String>
     <system:String x:Key="TaskbarVisualizerBaselineDescription">Visualizza una sottile linea quando il livello dell'audio è a zero</system:String>
     <system:String x:Key="TaskbarVisualizerAudioSensitivityTitle">Sensibilità Audio</system:String>
-    <system:String x:Key="TaskbarVisualizerAudioSensitivityDescription">Quanto intensamente le barre reagiscono al volume dell’audio</system:String>
+    <system:String x:Key="TaskbarVisualizerAudioSensitivityDescription">Quanto deve essere forte il volume prima che le barre inizino a muoversi</system:String>
     <system:String x:Key="UnlockFullExperienceText">Sblocca l'esperienza FluentFlyout completa:</system:String>
     <system:String x:Key="TaskbarWidgetCustomizationPerk">Widget Barra delle Applicazioni e Visualizzatore</system:String>
     <system:String x:Key="HideTrayIconPerk">Nascondi Icona Area di Notifica</system:String>
@@ -194,4 +194,8 @@ Puoi contribuire alla traduzione su</system:String>
     <system:String x:Key="BuyMeCoffeeLink">Offrimi un caffè</system:String>
     <system:String x:Key="ShowUpdateNotificationsTitle">Mostra Notifiche per Nuovi Aggiornamenti</system:String>
     <system:String x:Key="AcrylicBlurOpacityPerk">Opacità Sfocatura Acrilica</system:String>
+    <system:String x:Key="TaskbarVisualizerOutputDeviceTitle">Dispositivo di Uscita</system:String>
+    <system:String x:Key="TaskbarVisualizerAudioPeakLevelTitle">Soglia del Picco Audio</system:String>
+    <system:String x:Key="TaskbarVisualizerAudioPeakLevelDescription">Quanto deve essere forte l'audio affinché le barre raggiungano l'altezza massima</system:String>
+    <system:String x:Key="TaskbarVisualizerOutputDeviceDescription">Cambia la sorgente del visualizzatore modificando il dispositivo di uscita di FluentFlyout.</system:String>
 </ResourceDictionary>

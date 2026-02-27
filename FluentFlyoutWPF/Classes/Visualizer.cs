@@ -33,6 +33,8 @@ namespace FluentFlyoutWPF.Classes
         private readonly int _targetFps = 30;
         private DateTime _lastUpdateTime = DateTime.MinValue;
 
+        private System.Timers.Timer? _captureWatchdog;
+
         public WriteableBitmap? Bitmap
         {
             get
@@ -44,14 +46,13 @@ namespace FluentFlyoutWPF.Classes
             }
         }
 
-        public event EventHandler? BitmapUpdated;
-
         public Visualizer()
         {
             InitializeBitmap();
 
             _fftBuffer = new Complex[_fftLength];
 
+            ResizeBarList(SettingsManager.Current.TaskbarVisualizerBarCount);
             AudioDeviceMonitor.Instance.DefaultDeviceChanged += OnDefaultDeviceChanged;
         }
 
@@ -74,10 +75,10 @@ namespace FluentFlyoutWPF.Classes
 
                 if (_isRunning)
                 {
-                    Task.Run(() =>
+                    Task.Run(async () =>
                     {
                         Stop();
-                        Task.Delay(100).Wait();
+                        await Task.Delay(100);
                         Start();
                     });
                 }
@@ -106,7 +107,25 @@ namespace FluentFlyoutWPF.Classes
                 _capture.StartRecording();
                 _isRunning = true;
 
-                // TODO: set an automatic update timer in case audio data is not updated
+                // automatic update timer in case audio data is not updated
+                _captureWatchdog = new(500)
+                {
+                    AutoReset = false
+                };
+                _captureWatchdog.Elapsed += (_, _) =>
+                {
+                    if (_isRunning)
+                    {
+                        for (int i = 0; i < _barValues.Length; i++)
+                        {
+                            _barValues[i] = 0;
+                        }
+                        UpdateBitmap();
+
+                        if (!SettingsManager.Current.TaskbarVisualizerBaseline) // if baseline is enabled, don't switch the setting
+                            SettingsManager.Current.TaskbarVisualizerHasContent = false;
+                    }
+                };
             }
             catch (Exception ex)
             {
@@ -120,15 +139,25 @@ namespace FluentFlyoutWPF.Classes
                 return;
 
             _isRunning = false;
+
             _capture?.DataAvailable -= OnDataAvailable;
             _capture?.RecordingStopped -= OnRecordingStopped;
             _capture?.StopRecording();
+            _capture?.Dispose();
+            _capture = null;
+
+            _captureWatchdog?.Stop();
+            _captureWatchdog?.Dispose();
+            _captureWatchdog = null;
         }
 
         private void OnDataAvailable(object? sender, WaveInEventArgs e)
         {
             if (!_isRunning || e.BytesRecorded == 0)
                 return;
+
+            _captureWatchdog.Stop();
+            _captureWatchdog.Start();
 
             int bytesPerSample = _capture!.WaveFormat.BitsPerSample / 8;
             int samplesRecorded = e.BytesRecorded / bytesPerSample;
@@ -163,6 +192,7 @@ namespace FluentFlyoutWPF.Classes
                     if (timeSinceLastUpdate >= minFrameTime)
                     {
                         _lastUpdateTime = now;
+                        SettingsManager.Current.TaskbarVisualizerHasContent = true;
                         UpdateBitmap();
                     }
                 }
@@ -180,8 +210,8 @@ namespace FluentFlyoutWPF.Classes
             double maxFreq = 8000; // Hz
             //double minFreq = 40;  // Hz // could be a setting to be bass only
             //double maxFreq = 120; // Hz
-            float minDb = (SettingsManager.Current.TaskbarVisualizerAudioSensitivity * -10f) + -30f;
-            float maxDb = -10f;
+            float minDb = (SettingsManager.Current.TaskbarVisualizerAudioSensitivity * -10f) - 30f;
+            float maxDb = (SettingsManager.Current.TaskbarVisualizerAudioPeakLevel * 10f) - 30f;
 
             float[] currentBars = new float[BarCount];
 
@@ -272,7 +302,8 @@ namespace FluentFlyoutWPF.Classes
                             int barBaseline = SettingsManager.Current.TaskbarVisualizerBaseline ? 4 : 0;
 
                             int centerY = ImageHeight / 2;
-                            
+                            float cornerRadius = 6f / MathF.Max(1f, SettingsManager.Current.TaskbarVisualizerBarCount / 10f);
+
                             for (int i = 0; i < BarCount; i++)
                             {
                                 float normalizedValue = Math.Clamp(_barValues[i], 0f, 1f);
@@ -294,8 +325,6 @@ namespace FluentFlyoutWPF.Classes
                                     barEndY = ImageHeight;
                                 }
 
-                                int cornerRadius = 6;
-
                                 for (int y = barY; y < barEndY && y < ImageHeight && y >= 0; y++)
                                 {
                                     for (int x = barX; x < barX + barWidth && x < ImageWidth; x++)
@@ -304,7 +333,6 @@ namespace FluentFlyoutWPF.Classes
 
                                         // Calculate relative position within the bar
                                         int relativeY = y - barY;
-
 
                                         // Check corners
                                         bool inTopLeftCorner = (relativeY < cornerRadius) && (x - barX < cornerRadius);
@@ -350,8 +378,6 @@ namespace FluentFlyoutWPF.Classes
                     {
                         _bitmap.Unlock();
                     }
-
-                    BitmapUpdated?.Invoke(this, EventArgs.Empty);
                 }
             }, System.Windows.Threading.DispatcherPriority.Render);
         }

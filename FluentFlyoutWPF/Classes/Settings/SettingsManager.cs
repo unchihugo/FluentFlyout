@@ -1,6 +1,7 @@
 ﻿// Copyright © 2024-2026 The FluentFlyout Authors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+using FluentFlyoutWPF.Classes.Utils;
 using FluentFlyoutWPF.ViewModels;
 using System.IO;
 using System.Xml.Serialization;
@@ -19,7 +20,7 @@ public class SettingsManager
         "FluentFlyout",
         "settings.xml"
     );
-    string logFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "FluentFlyout", "log.txt");
+    string logFilePath = Path.Combine(FileSystemHelper.GetLogsPath(), "FluentFlyout", "log.txt");
     private static UserSettings _current;
 
     /// <summary>

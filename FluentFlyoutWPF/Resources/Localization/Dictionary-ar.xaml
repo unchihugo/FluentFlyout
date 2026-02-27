@@ -194,4 +194,6 @@
     <system:String x:Key="AppearanceBehaviorSectionTitle">المظهر والتفاعل</system:String>
     <system:String x:Key="ShowUpdateNotificationsTitle">إظهار إشعارات للتحديثات الجديدة</system:String>
     <system:String x:Key="UpdatesSectionTitle">التحديثات</system:String>
+    <system:String x:Key="TaskbarVisualizerOutputDeviceTitle">جهاز الإخراج</system:String>
+    <system:String x:Key="TaskbarVisualizerOutputDeviceDescription">تغيير جهاز الإخراج الذي يستعمله FluentFlyout للمرئيات التفاعلية.</system:String>
 </ResourceDictionary>

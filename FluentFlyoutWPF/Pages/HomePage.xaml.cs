@@ -3,6 +3,7 @@
 
 using FluentFlyout.Classes;
 using FluentFlyout.Classes.Settings;
+using FluentFlyoutWPF.Classes.Utils;
 using FluentFlyoutWPF.ViewModels;
 using NLog;
 using System.Diagnostics;
@@ -196,8 +197,7 @@ public partial class HomePage : Page
     {
         try
         {
-            string logFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "FluentFlyout");
-            Process.Start("explorer.exe", logFolderPath);
+            Process.Start("explorer.exe", FileSystemHelper.GetLogsPath());
         }
         catch (Exception ex)
         {

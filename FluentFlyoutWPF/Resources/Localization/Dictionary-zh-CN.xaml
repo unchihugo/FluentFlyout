@@ -156,7 +156,7 @@
     <system:String x:Key="HomeDashboardTitle">仪表板</system:String>
     <system:String x:Key="SystemConfigure">设置</system:String>
     <system:String x:Key="AboutTitle">关于</system:String>
-    <system:String x:Key="AboutContributorsTitle">❤️ 认识我们的贡献者</system:String>
+    <system:String x:Key="AboutContributorsTitle">❤️ 看看我们的贡献者</system:String>
     <system:String x:Key="AboutContributorsDescription">衷心感谢所有为 FluentFlyout 的开发与成功作出贡献的伙伴，大家都很棒！</system:String>
     <system:String x:Key="AcrylicBlurOpacityTitle">亚克力模糊效果的不透明度</system:String>
     <system:String x:Key="AcrylicBlurOpacityDescription">调整亚克力窗口的透视效果（值越高越不透明，默认：175）</system:String>
@@ -181,7 +181,7 @@
     <system:String x:Key="TaskbarVisualizerBaselineTitle">显示基线</system:String>
     <system:String x:Key="TaskbarVisualizerBaselineDescription">当音频电平为零时，显示一条细线</system:String>
     <system:String x:Key="TaskbarVisualizerAudioSensitivityTitle">音频灵敏度</system:String>
-    <system:String x:Key="TaskbarVisualizerAudioSensitivityDescription">频谱柱对音频响度响应的强弱程度</system:String>
+    <system:String x:Key="TaskbarVisualizerAudioSensitivityDescription">频谱柱开始出现时，对应的音频音量大小</system:String>
     <system:String x:Key="AllFuturePremiumFeatures">将来推出的所有 Premium 功能</system:String>
     <system:String x:Key="DevelopersTitle">开发人员</system:String>
     <system:String x:Key="TranslatorsTitle">翻译人员</system:String>
@@ -194,4 +194,8 @@
     <system:String x:Key="TaskbarWidgetCustomizationPerk">任务栏小组件与频谱可视化</system:String>
     <system:String x:Key="HideTrayIconPerk">隐藏托盘图标</system:String>
     <system:String x:Key="AcrylicBlurOpacityPerk">亚克力模糊效果的不透明度</system:String>
+    <system:String x:Key="TaskbarVisualizerOutputDeviceTitle">输出设备</system:String>
+    <system:String x:Key="TaskbarVisualizerOutputDeviceDescription">切换 FluentFlyout 的输出设备来更改可视化监听的输出设备。</system:String>
+    <system:String x:Key="TaskbarVisualizerAudioPeakLevelTitle">音频峰值阈值</system:String>
+    <system:String x:Key="TaskbarVisualizerAudioPeakLevelDescription">频谱柱达到最大高度时，对应的音频音量大小</system:String>
 </ResourceDictionary>

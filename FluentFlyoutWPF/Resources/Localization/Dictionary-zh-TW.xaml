@@ -168,4 +168,10 @@
     <system:String x:Key="UpdateAvailableNotificationMessage">有新版本（{0}） 可用。</system:String>
     <system:String x:Key="UpdateAvailableNotificationButton">下載更新</system:String>
     <system:String x:Key="MediaFlyoutExcludeVolumeTitle">排除音量鍵</system:String>
+    <system:String x:Key="MediaFlyoutExcludeVolumeDescription">按下音量增加／降低／靜音鍵時，不顯示彈出視窗</system:String>
+    <system:String x:Key="TaskbarVisualizerTitle">工作列視覺化工具</system:String>
+    <system:String x:Key="TaskbarVisualizerDescription">在工作列上即時顯示的音訊視覺化效果，專為現代系統設計，將效能影響降到最低。</system:String>
+    <system:String x:Key="TaskbarVisualizerEnabledTitle">啟用工作列視覺化工具（實驗性功能）</system:String>
+    <system:String x:Key="TaskbarVisualizerPositionTitle">視覺化效果相對於工作列小工具的位置</system:String>
+    <system:String x:Key="TaskbarVisualizerBarCountTitle">長條數量</system:String>
 </ResourceDictionary>

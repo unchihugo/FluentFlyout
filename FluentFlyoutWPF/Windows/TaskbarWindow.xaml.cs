@@ -1,13 +1,15 @@
-// Copyright © 2024-2026 The FluentFlyout Authors
+// Copyright Â© 2024-2026 The FluentFlyout Authors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 using FluentFlyout.Classes.Settings;
 using FluentFlyoutWPF;
 using FluentFlyoutWPF.Classes;
+using FluentFlyoutWPF.Classes.Utils;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows;
 using System.Windows.Automation;
+using System.Windows.Controls;
 using System.Windows.Interop;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
@@ -103,13 +105,13 @@ public partial class TaskbarWindow : Window
 
     private IntPtr GetSelectedTaskbarHandle(out bool isMainTaskbarSelected)
     {
-        var monitors = WindowHelper.GetMonitors();
+        var monitors = MonitorUtil.GetMonitors();
         var selectedMonitor = monitors[Math.Clamp(SettingsManager.Current.TaskbarWidgetSelectedMonitor, 0, monitors.Count - 1)];
         isMainTaskbarSelected = true;
 
         // Get the main taskbar and check if it is on the selected monitor.
         var mainHwnd = FindWindow("Shell_TrayWnd", null);
-        if (WindowHelper.GetMonitor(mainHwnd).deviceId == selectedMonitor.deviceId)
+        if (MonitorUtil.GetMonitor(mainHwnd).deviceId == selectedMonitor.deviceId)
             return mainHwnd;
 
         if (monitors.Count == 1)
@@ -119,7 +121,7 @@ public partial class TaskbarWindow : Window
         if (monitors.Count == 2)
         {
             var hwnd = FindWindow("Shell_SecondaryTrayWnd", null);
-            if (WindowHelper.GetMonitor(hwnd).deviceId == selectedMonitor.deviceId)
+            if (MonitorUtil.GetMonitor(hwnd).deviceId == selectedMonitor.deviceId)
             {
                 return hwnd;
             }
@@ -140,7 +142,7 @@ public partial class TaskbarWindow : Window
             var len = GetClassName(wnd, className, className.Capacity);
             if (className.Equals("Shell_SecondaryTrayWnd"))
             {
-                if (WindowHelper.GetMonitor(wnd).deviceId == selectedMonitor.deviceId)
+                if (MonitorUtil.GetMonitor(wnd).deviceId == selectedMonitor.deviceId)
                 {
                     return wnd;
                 }
@@ -210,6 +212,60 @@ public partial class TaskbarWindow : Window
         {
             Logger.Error(ex, "Taskbar Widget error during setup");
         }
+    }
+
+    private void UpdateWindowRegion(IntPtr windowHandle, params Rect[] rects)
+    {
+        IntPtr rgn = CreateRectRgn(0, 0, 0, 0);
+        foreach (var r in rects)
+        {
+            // make sure rect is not empty - happens when setting elements to collapsed
+            if (r == Rect.Empty)
+                continue;
+
+            IntPtr newRgn = CreateRectRgn((int)r.Left, (int)r.Top, (int)r.Right, (int)r.Bottom);
+            if (newRgn == IntPtr.Zero)
+            {
+                Logger.Error($"Taskbar Widget error during CreateRectRgn({(int)r.Left}, {(int)r.Top}, {(int)r.Right}, {(int)r.Bottom}).");
+                goto on_error;
+            }
+
+            if (CombineRgn(rgn, rgn, newRgn, 2 /*RGN_OR*/) == 0)
+            {
+                Logger.Error($"Taskbar Widget error during CombineRgn. Combined regions: {string.Join(", ", rects.Select(i => $"RECT({(int)i.Left}, {(int)i.Top}, {(int)i.Right}, {(int)i.Bottom})"))}");
+                DeleteObject(newRgn);
+                goto on_error;
+            }
+
+            DeleteObject(newRgn);
+        }
+
+        if (SetWindowRgn(windowHandle, rgn, true) == 0)
+        {
+            Logger.Error($"Taskbar Widget error during SetWindowRgn.");
+            goto on_error;
+        }
+
+        // Simple debugging to display the window region:
+#if false
+        var whiteRect = WidgetCanvas.Children.Cast<FrameworkElement>().FirstOrDefault(e => e.Name == "test_border");
+        if (whiteRect == null)
+        {
+            whiteRect = new System.Windows.Shapes.Rectangle() { Name = "test_border", Width = 20000, Height = 20000, Fill = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Colors.Black) };
+            WidgetCanvas.Children.Add(whiteRect);
+            Canvas.SetLeft(whiteRect, -10000);
+            Canvas.SetTop(whiteRect, -10000);
+        }
+#endif
+
+        return;
+
+    on_error:
+
+        // All regions that were not sent without errors to SetWindowRgn must be destroyed manually
+        DeleteObject(rgn);
+        if (SetWindowRgn(windowHandle, IntPtr.Zero, true) == 0)
+            Logger.Error("Taskbar Widget error during window region reset.");
     }
 
     private void UpdatePosition()
@@ -330,9 +386,10 @@ public partial class TaskbarWindow : Window
                      containerWidth, containerHeight,
                      SWP_NOZORDER | SWP_NOACTIVATE | SWP_ASYNCWINDOWPOS | SWP_SHOWWINDOW);
 
-            PositionWidget(taskbarHandle, taskbarRect, dpiScale, isMainTaskbarSelected);
+            var wRect = PositionWidget(taskbarHandle, taskbarRect, dpiScale, isMainTaskbarSelected);
+            var vRect = PositionVisualizer(taskbarHandle, taskbarRect, dpiScale, isMainTaskbarSelected);
 
-            PositionVisualizer(taskbarHandle, taskbarRect, dpiScale, isMainTaskbarSelected);
+            UpdateWindowRegion(taskbarWindowHandle, wRect, vRect);
 
             _lastSelectedMonitor = SettingsManager.Current.TaskbarWidgetSelectedMonitor;
         }
@@ -342,10 +399,10 @@ public partial class TaskbarWindow : Window
         }
     }
 
-    private void PositionWidget(IntPtr taskbarHandle, RECT taskbarRect, double dpiScale, bool isMainTaskbarSelected)
+    private Rect PositionWidget(IntPtr taskbarHandle, RECT taskbarRect, double dpiScale, bool isMainTaskbarSelected)
     {
         if (!SettingsManager.Current.TaskbarWidgetEnabled)
-            return;
+            return Rect.Empty;
 
         // Calculate widget size
         var (logicalWidth, logicalHeight) = Widget.CalculateSize(dpiScale);
@@ -479,35 +536,39 @@ public partial class TaskbarWindow : Window
         widgetLeft += SettingsManager.Current.TaskbarWidgetManualPadding;
 
         // Set widget position within canvas
-        System.Windows.Controls.Canvas.SetLeft(Widget, widgetLeft / dpiScale);
-        System.Windows.Controls.Canvas.SetTop(Widget, widgetTop / dpiScale);
+        Canvas.SetLeft(Widget, widgetLeft / dpiScale);
+        Canvas.SetTop(Widget, widgetTop / dpiScale);
         Widget.Width = physicalWidth / dpiScale;
         Widget.Height = physicalHeight / dpiScale;
+
+        return new Rect(Canvas.GetLeft(Widget) * dpiScale, Canvas.GetTop(Widget) * dpiScale, Widget.Width * dpiScale, Widget.Height * dpiScale);
     }
 
-    private void PositionVisualizer(IntPtr taskbarHandle, RECT taskbarRect, double dpiScale, bool isMainTaskbarSelected)
+    private Rect PositionVisualizer(IntPtr taskbarHandle, RECT taskbarRect, double dpiScale, bool isMainTaskbarSelected)
     {
         if (!SettingsManager.Current.TaskbarVisualizerEnabled)
-            return;
+            return Rect.Empty;
 
         int taskbarHeight = taskbarRect.Bottom - taskbarRect.Top;
-        int visualizerTop = (taskbarHeight - (int)(TaskbarVisualizer.Height * dpiScale)) / 2;
+        int visualizerTop = (taskbarHeight - (int)(TaskbarVisualizer.Height * dpiScale)) / 2 - 1; // -1 to align because Windows taskbar positions native elements slightly above the exact center
 
         int visualizerLeft = 0;
         switch (SettingsManager.Current.TaskbarVisualizerPosition)
         {
             case 0: // left aligned next to widget
-                visualizerLeft = (int)(System.Windows.Controls.Canvas.GetLeft(Widget) * dpiScale) - (int)(TaskbarVisualizer.Width * dpiScale) - 4;
+                visualizerLeft = (int)(Canvas.GetLeft(Widget) * dpiScale) - (int)(TaskbarVisualizer.Width * dpiScale);
                 break;
 
             case 1: // right aligned next to widget
-                visualizerLeft = (int)(System.Windows.Controls.Canvas.GetLeft(Widget) * dpiScale) + (int)(Widget.Width * dpiScale) + 4;
+                visualizerLeft = (int)(Canvas.GetLeft(Widget) * dpiScale) + (int)(Widget.Width * dpiScale);
                 break;
         }
 
         // Set visualizer position within canvas
-        System.Windows.Controls.Canvas.SetLeft(TaskbarVisualizer, visualizerLeft / dpiScale);
-        System.Windows.Controls.Canvas.SetTop(TaskbarVisualizer, visualizerTop / dpiScale);
+        Canvas.SetLeft(TaskbarVisualizer, visualizerLeft / dpiScale);
+        Canvas.SetTop(TaskbarVisualizer, visualizerTop / dpiScale);
+
+        return new Rect(Canvas.GetLeft(TaskbarVisualizer) * dpiScale, Canvas.GetTop(TaskbarVisualizer) * dpiScale, TaskbarVisualizer.Width * dpiScale, TaskbarVisualizer.Height * dpiScale);
     }
 
     public void UpdateUi(string title, string artist, BitmapImage? icon, GlobalSystemMediaTransportControlsSessionPlaybackStatus? playbackStatus, GlobalSystemMediaTransportControlsSessionPlaybackControls? playbackControls = null)

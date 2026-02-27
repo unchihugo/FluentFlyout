@@ -94,6 +94,20 @@ public static class NativeMethods
         QUNS_APP = 7
     }
 
+    [Flags]
+    internal enum DisplayDeviceStateFlags : int
+    {
+        AttachedToDesktop = 0x1,
+        MultiDriver = 0x2,
+        PrimaryDevice = 0x4,
+        MirroringDriver = 0x8,
+        VGACompatibleDevice = 0x10,
+        RemovableDevice = 0x20,
+        ModesPruned = 0x8000000,
+        Remote = 0x4000000,
+        Disconnect = 0x2000000
+    }
+
     #endregion
 
     #region Structs
@@ -144,6 +158,23 @@ public static class NativeMethods
         public int dwFlags;
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
         public string szDevice;
+    }
+
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+    internal struct DISPLAY_DEVICE
+    {
+        [MarshalAs(UnmanagedType.U4)]
+        public int cb;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
+        public string DeviceName;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 128)]
+        public string DeviceString;
+        [MarshalAs(UnmanagedType.U4)]
+        public DisplayDeviceStateFlags StateFlags;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 128)]
+        public string DeviceID;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 128)]
+        public string DeviceKey;
     }
 
     [StructLayout(LayoutKind.Sequential)]
@@ -199,6 +230,9 @@ public static class NativeMethods
     [DllImport("user32.dll", SetLastError = true)]
     internal static extern bool GetWindowRect(IntPtr hWnd, out RECT lpRect);
 
+    [DllImport("user32.dll")]
+    internal static extern int SetWindowRgn(IntPtr hWnd, IntPtr hRgn, bool bRedraw);
+
     [DllImport("user32.dll", SetLastError = true)]
     internal static extern uint GetWindowThreadProcessId(IntPtr hWnd, IntPtr lpdwProcessId);
 
@@ -219,6 +253,9 @@ public static class NativeMethods
 
     [DllImport("user32.dll")]
     internal static extern bool ScreenToClient(IntPtr hWnd, ref POINT lpPoint);
+    
+    [DllImport("user32.dll", CharSet = CharSet.Auto)]
+    internal static extern bool EnumDisplayDevices(string? lpDevice, uint iDevNum, ref DISPLAY_DEVICE lpDisplayDevice, uint dwFlags);
 
     [DllImport("user32.dll")]
     internal static extern bool GetCursorPos(out POINT lpPoint);
@@ -253,6 +290,19 @@ public static class NativeMethods
 
     [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
     internal static extern IntPtr CallNextHookEx(IntPtr hhk, int nCode, IntPtr wParam, IntPtr lParam);
+
+    #endregion
+
+    #region gdi32.dll
+
+    [DllImport("gdi32.dll")]
+    internal static extern IntPtr CreateRectRgn(int left, int top, int right, int bottom);
+
+    [DllImport("gdi32.dll")]
+    internal static extern int CombineRgn(IntPtr dest, IntPtr src1, IntPtr src2, int mode);
+
+    [DllImport("gdi32.dll")]
+    internal static extern bool DeleteObject(IntPtr hObject);
 
     #endregion
 

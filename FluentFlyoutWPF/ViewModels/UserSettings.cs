@@ -1,4 +1,4 @@
-﻿// Copyright © 2024-2026 The FluentFlyout Authors
+// Copyright © 2024-2026 The FluentFlyout Authors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -383,6 +383,12 @@ public partial class UserSettings : ObservableObject
     public partial bool TaskbarWidgetClickable { get; set; }
 
     /// <summary>
+    /// Gets or sets a value indicating whether clicking the taskbar widget toggles the flyout (close if already open)
+    /// </summary>
+    [ObservableProperty]
+    public partial bool TaskbarWidgetCloseableFlyout { get; set; }
+
+    /// <summary>
     /// Gets or sets a value indication whether the taskbar widget background should have a blur effect
     /// </summary>
     [ObservableProperty]
@@ -418,6 +424,23 @@ public partial class UserSettings : ObservableObject
     /// </summary>
     [ObservableProperty]
     public partial int TaskbarVisualizerPosition { get; set; }
+
+    /// <summary>
+    /// Whether the visualizer is clickable to open the flyout
+    /// </summary>
+    /// <remarks>
+    /// same setting as TaskbarWidgetClickable for now since the visualizer is part of the widget,
+    /// but separate in case we want to differentiate in the future
+    /// </remarks>
+    [ObservableProperty]
+    public partial bool TaskbarVisualizerClickable { get; set; }
+
+    /// <summary>
+    /// Indicates whether the visualizer has content to display, and is not persisted since it's only relevant at runtime.
+    /// </summary>
+    [XmlIgnore]
+    [ObservableProperty]
+    public partial bool TaskbarVisualizerHasContent { get; set; }
 
     /// <summary>
     /// The number of visualizer bars to display.
@@ -482,6 +505,13 @@ public partial class UserSettings : ObservableObject
 
     [ObservableProperty]
     public partial bool VolumeMixerHighlightActiveApps { get; set; }
+
+    /// <summary>
+    /// The audio peak level for the taskbar visualizer from 1 to 3.
+    /// This is used to calibrate the visualizer bar height to the audio output.
+    /// </summary>
+    [ObservableProperty]
+    public partial int TaskbarVisualizerAudioPeakLevel { get; set; }
 
     /// <summary>
     /// Gets whether premium features are unlocked (runtime only, not persisted)
@@ -570,16 +600,19 @@ public partial class UserSettings : ObservableObject
         TaskbarWidgetPadding = true;
         TaskbarWidgetManualPadding = 0;
         TaskbarWidgetClickable = true;
+        TaskbarWidgetCloseableFlyout = true;
         TaskbarWidgetBackgroundBlur = false;
         TaskbarWidgetHideCompletely = false;
         TaskbarWidgetControlsEnabled = false;
         TaskbarWidgetAnimated = true;
         TaskbarVisualizerEnabled = false;
         TaskbarVisualizerPosition = 0;
+        TaskbarVisualizerClickable = false;
         TaskbarVisualizerBarCount = 10;
         TaskbarVisualizerCenteredBars = false;
         TaskbarVisualizerBaseline = false;
         TaskbarVisualizerAudioSensitivity = 2;
+        TaskbarVisualizerAudioPeakLevel = 2;
         VolumeControlEnabled = false;
         VolumeControlAboveMediaFlyout = false;
         VolumeControlDuration = 3000;
@@ -707,6 +740,12 @@ public partial class UserSettings : ObservableObject
     {
         if (oldValue == newValue || _initializing) return;
         Visualizer.ResizeBarList(newValue);
+    }
+
+    partial void OnTaskbarVisualizerBaselineChanged(bool oldValue, bool newValue)
+    {
+        if (oldValue == newValue || _initializing || newValue == false) return;
+        TaskbarVisualizerHasContent = true;
     }
 
     partial void OnVolumeControlEnabledChanged(bool oldValue, bool newValue)
