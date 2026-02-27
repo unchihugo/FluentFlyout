@@ -59,7 +59,7 @@
             </Grid.ColumnDefinitions>
             <ui:Button Appearance="Transparent" BorderBrush="Transparent" VerticalAlignment="Center" Padding="8" Margin="0,0,4,0"
                        Command="{Binding ViewModel.ToggleMasterMuteCommand}"
-                       ToolTipService.ToolTip="Master volume"
+                       ToolTipService.ToolTip="{DynamicResource MasterVolumeText}"
                        ToolTipService.InitialShowDelay="0"
                        ToolTipService.Placement="Right">
                 <Grid>
@@ -84,7 +84,7 @@
         <StackPanel x:Name="SessionsExpanded" Visibility="Collapsed" >
             <Border BorderThickness="0 1 0 0" BorderBrush="{DynamicResource TextFillColorDisabledBrush}" Opacity="0.5" Margin="0,5" />
             <StackPanel Orientation="Horizontal" Margin="8,8">
-                <TextBlock Text="Volume Mixer" FontWeight="Medium" />
+                <TextBlock Text="{DynamicResource VolumeMixerSectionTitle}" FontWeight="Medium" />
             </StackPanel>
             <ItemsControl x:Name="SessionsPanel" ItemsSource="{Binding ViewModel.Sessions}" Focusable="False" >
                 <ItemsControl.ItemTemplate>

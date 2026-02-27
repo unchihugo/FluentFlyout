@@ -34,11 +34,11 @@
 			<ui:NavigationView.MenuItems>
 				<ui:NavigationViewItem Content="{DynamicResource HomeTitle}" Icon="{ui:SymbolIcon Home24}" TargetPageType="{x:Type pages:HomePage}" />
 				<ui:NavigationViewItem Content="{DynamicResource MediaFlyoutTitle}" Icon="{ui:SymbolIcon VideoPlayPause24}" TargetPageType="{x:Type pages:MediaFlyoutPage}" />
-				<ui:NavigationViewItem Content="Volume Flyout" Icon="{ui:SymbolIcon Speaker224}" TargetPageType="{x:Type pages:VolumeMixerPage}" />
+				<ui:NavigationViewItem Content="{DynamicResource VolumeFlyoutTitle}" Icon="{ui:SymbolIcon Speaker224}" TargetPageType="{x:Type pages:VolumeMixerPage}" />
 				<ui:NavigationViewItem Content="{DynamicResource TaskbarWidgetCustomizationTitle}" Icon="{ui:SymbolIcon TextboxAlignBottom24}" TargetPageType="{x:Type pages:TaskbarWidgetPage}" />
+				<ui:NavigationViewItem Content="{DynamicResource TaskbarVisualizerTitle}" Icon="{ui:SymbolIcon SoundWaveCircle24}" TargetPageType="{x:Type pages:TaskbarVisualizerPage}" />
 				<ui:NavigationViewItem Content="{DynamicResource NextUpCustomizationTitle}" Icon="{ui:SymbolIcon MusicNote2Play20}" TargetPageType="{x:Type pages:NextUpPage}" />
 				<ui:NavigationViewItem Content="{DynamicResource LockKeysCustomizationTitle}" Icon="{ui:SymbolIcon LockMultiple24}" TargetPageType="{x:Type pages:LockKeysPage}" />
-				<ui:NavigationViewItem Content="{DynamicResource TaskbarVisualizerTitle}" Icon="{ui:SymbolIcon SoundWaveCircle24}" TargetPageType="{x:Type pages:TaskbarVisualizerPage}" />
 				<ui:NavigationViewItem Content="{DynamicResource SystemSettingsTitle}" Icon="{ui:SymbolIcon Settings24}" TargetPageType="{x:Type pages:SystemPage}" />
 			</ui:NavigationView.MenuItems>
 			<ui:NavigationView.FooterMenuItems>

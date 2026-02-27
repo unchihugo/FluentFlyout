@@ -13,7 +13,6 @@ namespace FluentFlyoutWPF.Classes
         private static readonly object _instanceLock = new();
 
         private MMDeviceEnumerator? _deviceEnumerator;
-        private AudioDeviceNotificationClient? _notificationClient;
 
         public event EventHandler<DefaultDeviceChangedEventArgs>? DefaultDeviceChanged;
 
@@ -42,9 +41,6 @@ namespace FluentFlyoutWPF.Classes
             try
             {
                 _deviceEnumerator = new MMDeviceEnumerator();
-                _notificationClient = new AudioDeviceNotificationClient();
-                _notificationClient.DefaultDeviceChanged += OnDefaultDeviceChanged;
-                _deviceEnumerator.RegisterEndpointNotificationCallback(_notificationClient);
                 
                 Logger.Info("Audio device monitoring initialized");
             }
@@ -74,54 +70,7 @@ namespace FluentFlyoutWPF.Classes
 
         public void Dispose()
         {
-            if (_notificationClient != null)
-            {
-                _notificationClient.DefaultDeviceChanged -= OnDefaultDeviceChanged;
-            }
-
-            if (_deviceEnumerator != null && _notificationClient != null)
-            {
-                try
-                {
-                    _deviceEnumerator.UnregisterEndpointNotificationCallback(_notificationClient);
-                }
-                catch (Exception ex)
-                {
-                    Logger.Error(ex, "Failed to unregister device notification callback");
-                }
-                _deviceEnumerator = null;
-            }
-
-            _notificationClient = null;
-
             GC.SuppressFinalize(this);
-        }
-    }
-
-    // classes to handle audio device notifications
-    public class AudioDeviceNotificationClient : IMMNotificationClient
-    {
-        public event EventHandler<DefaultDeviceChangedEventArgs>? DefaultDeviceChanged;
-
-        public void OnDeviceStateChanged(string deviceId, DeviceState newState)
-        {
-        }
-
-        public void OnDeviceAdded(string pwstrDeviceId)
-        {
-        }
-
-        public void OnDeviceRemoved(string deviceId)
-        {
-        }
-
-        public void OnDefaultDeviceChanged(DataFlow flow, Role role, string defaultDeviceId)
-        {
-            DefaultDeviceChanged?.Invoke(this, new DefaultDeviceChangedEventArgs(flow, role, defaultDeviceId));
-        }
-
-        public void OnPropertyValueChanged(string pwstrDeviceId, PropertyKey key)
-        {
         }
     }
 

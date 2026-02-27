@@ -20,7 +20,7 @@
     </Page.Resources>
 
     <StackPanel MaxWidth="1000" Margin="16">
-        <TextBlock Text="Volume Flyout" FontSize="24" FontWeight="SemiBold" FontFamily="Segoe UI Variable" Margin="0,0,0,20" />
+        <TextBlock Text="{DynamicResource VolumeFlyoutTitle}" FontSize="24" FontWeight="SemiBold" FontFamily="Segoe UI Variable" Margin="0,0,0,20" />
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -39,11 +39,11 @@
             <StackPanel Orientation="Horizontal" Margin="0,0,0,24">
                 <Border CornerRadius="10" ClipToBounds="True" Width="164" Height="98">
                     <Border.Background>
-                        <ImageBrush ImageSource="/Resources/TrayIcons/FluentFlyoutBlack.png" Stretch="UniformToFill" />
+                        <ImageBrush ImageSource="/Resources/FluentFlyoutVolumeDemo.png" Stretch="UniformToFill" />
                     </Border.Background>
                 </Border>
                 <TextBlock FontSize="14" FontWeight="Regular" HorizontalAlignment="Stretch" Opacity="0.75" Margin="12,0,0,0" MaxWidth="450" TextWrapping="WrapWithOverflow"
-                           Text="A standalone volume control flyout that expands into a volume mixer, replacing the default Windows volume flyout." />
+                           Text="{DynamicResource VolumeFlyoutDescription}" />
             </StackPanel>
         </Grid>
 
@@ -52,10 +52,10 @@
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Enable Volume Flyout" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
+                            <TextBlock Text="{DynamicResource EnableVolumeFlyoutTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
                             <ui:InfoBadge Value=" NEW " FontWeight="Medium" FontSize="10" Margin="2,-2,0,-2" Severity="Success" />
                         </StackPanel>
-                        <TextBlock Text="Replace the default Windows volume flyout" FontSize="12" Opacity="0.5" />
+                        <TextBlock Text="{DynamicResource EnableVolumeFlyoutDescription}" FontSize="12" Opacity="0.5" />
                     </StackPanel>
                 </ui:CardControl.Header>
                 <controls:ToggleSwitch IsChecked="{Binding VolumeControlEnabled, Mode=TwoWay}" />
@@ -64,7 +64,7 @@
             <ui:CardControl Icon="{ui:SymbolIcon ArrowMove24}" Margin="0,0,0,3">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
-                        <TextBlock Text="Position Volume Flyout above Media Flyout" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
+                        <TextBlock Text="{DynamicResource VolumeAboveMediaFlyoutTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
                     </StackPanel>
                 </ui:CardControl.Header>
                 <controls:ToggleSwitch IsChecked="{Binding VolumeControlAboveMediaFlyout, Mode=TwoWay}" />
@@ -73,7 +73,7 @@
             <ui:CardControl Grid.Row="3" Icon="{ui:SymbolIcon Timer24}" Margin="0,0,0,12">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
-                        <TextBlock Text="Volume Flyout Stay Duration" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
+                        <TextBlock Text="{DynamicResource VolumeFlyoutStayDurationTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
                         <TextBlock Text="{DynamicResource FlyoutStayDurationDescription}" FontSize="12" Opacity="0.5" />
                     </StackPanel>
                 </ui:CardControl.Header>
@@ -83,12 +83,12 @@
                 </StackPanel>
             </ui:CardControl>
 
-            <TextBlock Text="Volume Mixer" FontSize="14" FontWeight="SemiBold" Margin="0,12,0,6" />
+            <TextBlock Text="{DynamicResource VolumeMixerSectionTitle}" FontSize="14" FontWeight="SemiBold" Margin="0,12,0,6" />
             <ui:CardControl Icon="{ui:SymbolIcon SpeakerSettings24}" Margin="0,0,0,3">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
-                        <TextBlock Text="Enable Volume Mixer" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
-                        <TextBlock Text="Fine control over individual application volumes" FontSize="12" Opacity="0.5" />
+                        <TextBlock Text="{DynamicResource EnableVolumeMixerTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
+                        <TextBlock Text="{DynamicResource EnableVolumeMixerDescription}" FontSize="12" Opacity="0.5" />
                     </StackPanel>
                 </ui:CardControl.Header>
                 <controls:ToggleSwitch IsChecked="{Binding VolumeMixerEnabled, Mode=TwoWay}" />
@@ -97,8 +97,8 @@
             <ui:CardControl Icon="{ui:SymbolIcon Highlight24}" Margin="0,0,0,76">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
-                        <TextBlock Text="Highlight apps playing audio" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
-                        <TextBlock Text="See which apps are currently outputting audio" FontSize="12" Opacity="0.5" />
+                        <TextBlock Text="{DynamicResource VolumeMixerHighlightTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
+                        <TextBlock Text="{DynamicResource VolumeMixerHighlightDescription}" FontSize="12" Opacity="0.5" />
                     </StackPanel>
                 </ui:CardControl.Header>
                 <controls:ToggleSwitch IsChecked="{Binding VolumeMixerHighlightActiveApps, Mode=TwoWay}" />

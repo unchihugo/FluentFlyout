@@ -196,7 +196,7 @@ public partial class VolumeMixerWindow : MicaWindow
             _nativeOsdOriginalExStyle | WS_EX_LAYERED | WS_EX_TRANSPARENT);
         SetWindowPos(_nativeOsdElement, 0, -99999, -99999, 0, 0,
             SWP_NOSIZE | SWP_NOZORDER | SWP_NOACTIVATE);
-        ShowWindow(_nativeOsdElement, SW_MINIMIZE); // SW_MINIMIZE
+        ShowWindow(_nativeOsdElement, SW_MINIMIZE);
         Logger.Info("Successfully hid volume OSD.");
     }
 
@@ -211,7 +211,7 @@ public partial class VolumeMixerWindow : MicaWindow
         SetWindowLong(_nativeOsdElement, GWL_EXSTYLE, _nativeOsdOriginalExStyle);
         SetWindowPos(_nativeOsdElement, 0, 0, 0, 0, 0,
             SWP_NOSIZE | SWP_NOZORDER | SWP_NOACTIVATE);
-        ShowWindow(_nativeOsdElement, SW_RESTORE); // SW_RESTORE
+        ShowWindow(_nativeOsdElement, SW_RESTORE);
         _nativeOsdElement = IntPtr.Zero;
         Logger.Info("Successfully restored volume OSD.");
     }

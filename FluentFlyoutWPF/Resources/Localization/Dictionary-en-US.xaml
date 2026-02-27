@@ -194,4 +194,16 @@ You can help contribute translations on</System:String>
     <System:String x:Key="UpdateAvailableNotificationMessage">A new version ({0}) is available.</System:String>
     <System:String x:Key="UpdateAvailableNotificationButton">Download Update</System:String>
     <System:String x:Key="ShowUpdateNotificationsTitle">Show notifications for new updates</System:String>
+    <System:String x:Key="VolumeFlyoutTitle">Volume Flyout</System:String>
+    <System:String x:Key="VolumeFlyoutDescription">A standalone volume control flyout that expands into a volume mixer, replacing the default Windows volume interface.</System:String>
+    <System:String x:Key="EnableVolumeFlyoutTitle">Enable Volume Flyout</System:String>
+    <System:String x:Key="EnableVolumeFlyoutDescription">Replace the default Windows volume flyout</System:String>
+    <System:String x:Key="VolumeAboveMediaFlyoutTitle">Position Volume Flyout above Media Flyout</System:String>
+    <System:String x:Key="VolumeFlyoutStayDurationTitle">Volume Flyout Stay Duration</System:String>
+    <System:String x:Key="VolumeMixerSectionTitle">Volume Mixer</System:String>
+    <System:String x:Key="EnableVolumeMixerTitle">Enable Volume Mixer</System:String>
+    <System:String x:Key="EnableVolumeMixerDescription">Fine control over individual app volumes</System:String>
+    <System:String x:Key="VolumeMixerHighlightTitle">Highlight apps playing audio</System:String>
+    <System:String x:Key="VolumeMixerHighlightDescription">See which apps are currently outputting audio</System:String>
+    <System:String x:Key="MasterVolumeText">Master volume</System:String>
 </ResourceDictionary>

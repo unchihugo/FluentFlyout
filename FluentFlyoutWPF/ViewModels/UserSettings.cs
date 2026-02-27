@@ -711,7 +711,7 @@ public partial class UserSettings : ObservableObject
 
     partial void OnVolumeControlEnabledChanged(bool oldValue, bool newValue)
     {
-        if (newValue == true || oldValue != newValue || _initializing) return;
+        if (newValue == true || oldValue == newValue || _initializing) return;
 
         // re-enable native volume flyout
         VolumeMixerWindow.ShowVolumeOsd();
