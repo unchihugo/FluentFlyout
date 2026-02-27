@@ -131,4 +131,70 @@ public class SettingsManager
             Logger.Error(ex, "Error saving settings");
         }
     }
+
+    /// <summary>
+    /// Exports the current settings to a file selected by the user.
+    /// </summary>
+    /// <returns>True if export was successful, false otherwise.</returns>
+    public static bool ExportSettings(string filePath)
+    {
+        try
+        {
+            using (StreamWriter writer = new (filePath))
+            {
+                XmlSerializer xmlSerializer = new (typeof(UserSettings));
+                xmlSerializer.Serialize(writer, _current);
+            }
+            Logger.Info($"Settings successfully exported to {filePath}");
+            return true;
+        }
+        catch (UnauthorizedAccessException ex)
+        {
+            Logger.Error(ex, "No permission to write to export file");
+            return false;
+        }
+        catch (Exception ex)
+        {
+            Logger.Error(ex, "Error exporting settings");
+            return false;
+        }
+    }
+
+    /// <summary>
+    /// Imports settings from a file selected by the user.
+    /// </summary>
+    /// <returns>True if import was successful, false otherwise.</returns>
+    public static bool ImportSettings(string filePath)
+    {
+        try
+        {
+            if (!File.Exists(filePath))
+            {
+                Logger.Warn($"Import file not found: {filePath}");
+                return false;
+            }
+
+            using StreamReader reader = new(filePath);
+            XmlSerializer xmlSerializer = new(typeof(UserSettings));
+
+            if (xmlSerializer.Deserialize(reader) is UserSettings importedSettings)
+            {
+                _current = importedSettings;
+                _current.CompleteInitialization();
+                SaveSettings();
+                Logger.Info("Settings successfully imported");
+                return true;
+            }
+        }
+        catch (UnauthorizedAccessException ex)
+        {
+            Logger.Error(ex, "No permission to read import file");
+        }
+        catch (Exception ex)
+        {
+            Logger.Error(ex, "Error importing settings");
+        }
+
+        return false;
+    }
 }
