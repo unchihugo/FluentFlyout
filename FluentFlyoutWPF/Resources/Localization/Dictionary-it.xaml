@@ -198,4 +198,6 @@ Puoi contribuire alla traduzione su</system:String>
     <system:String x:Key="TaskbarVisualizerAudioPeakLevelTitle">Soglia del Picco Audio</system:String>
     <system:String x:Key="TaskbarVisualizerAudioPeakLevelDescription">Quanto deve essere forte l'audio affinché le barre raggiungano l'altezza massima</system:String>
     <system:String x:Key="TaskbarVisualizerOutputDeviceDescription">Cambia la sorgente del visualizzatore modificando il dispositivo di uscita di FluentFlyout.</system:String>
+    <system:String x:Key="TaskbarWidgetCloseableFlyoutTitle">Chiudi Flyout al Secondo Clic</system:String>
+    <system:String x:Key="TaskbarWidgetCloseableFlyoutDescription">Chiude il flyout se è già aperto quando si clicca il widget della barra delle applicazioni</system:String>
 </ResourceDictionary>
