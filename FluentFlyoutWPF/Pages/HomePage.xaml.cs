@@ -12,6 +12,7 @@ using System.Windows;
 using System.Windows.Controls;
 using Windows.ApplicationModel;
 using Wpf.Ui.Controls;
+using MessageBox = Wpf.Ui.Controls.MessageBox;
 
 namespace FluentFlyoutWPF.Pages;
 
@@ -42,7 +43,7 @@ public partial class HomePage : Page
         if (UpdateState.Current.LastUpdateCheck != default)
         {
             LastCheckedText.Text = string.Format(
-                Application.Current.FindResource("LastChecked")?.ToString() ?? "Last checked: {0}",
+                Application.Current.FindResource("LastChecked")?.ToString(),
                 UpdateState.Current.LastCheckedText);
         }
         else
@@ -83,7 +84,7 @@ public partial class HomePage : Page
     {
         try
         {
-            UpdateStatusText.Text = Application.Current.FindResource("CheckingForUpdates")?.ToString() ?? "Checking...";
+            UpdateStatusText.Text = Application.Current.FindResource("CheckingForUpdates")?.ToString();
 
             var result = await UpdateChecker.CheckForUpdatesAsync(SettingsManager.Current.LastKnownVersion);
 
@@ -213,6 +214,104 @@ public partial class HomePage : Page
         catch (Exception ex)
         {
             Logger.Error(ex, "Failed to open bug report page");
+        }
+    }
+
+    private async void ExportButton_Click(object sender, System.Windows.RoutedEventArgs e)
+    {
+        var saveFileDialog = new Microsoft.Win32.SaveFileDialog
+        {
+            FileName = $"FluentFlyout_Settings_{DateTime.Now:yyyy-MM-dd_HH-mm-ss}",
+            DefaultExt = ".xml",
+            Filter = "XML Files (*.xml)|*.xml|All Files (*.*)|*.*"
+        };
+
+        if (saveFileDialog.ShowDialog() == true)
+        {
+            try
+            {
+                SettingsManager.SaveSettings(saveFileDialog.FileName);
+
+                Wpf.Ui.Controls.MessageBox messageBox = new()
+                {
+                    Title = Application.Current.FindResource("ExportSuccessful").ToString(),
+                    Content = Application.Current.FindResource("SettingsExportedSuccessfully").ToString(),
+                    CloseButtonText = "OK",
+                };
+
+                _ = messageBox.ShowDialogAsync();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "Error exporting settings");
+
+                Wpf.Ui.Controls.MessageBox messageBox = new()
+                {
+                    Title = Application.Current.FindResource("ExportFailed").ToString(),
+                    Content = Application.Current.FindResource("FailedToExportSettings").ToString(),
+                    CloseButtonText = "OK",
+                };
+
+                _ = messageBox.ShowDialogAsync();
+            }
+        }
+    }
+
+    private async void ImportButton_Click(object sender, System.Windows.RoutedEventArgs e)
+    {
+        var openFileDialog = new Microsoft.Win32.OpenFileDialog
+        {
+            DefaultExt = ".xml",
+            Filter = "XML Files (*.xml)|*.xml|All Files (*.*)|*.*"
+        };
+
+        if (openFileDialog.ShowDialog() == true)
+        {
+            Wpf.Ui.Controls.MessageBox confirmBox = new()
+            {
+                Title = Application.Current.FindResource("ImportSettings").ToString(),
+                Content = Application.Current.FindResource("ImportSettingsWarning").ToString(),
+                CloseButtonText = "No",
+                SecondaryButtonText = "Yes",
+            };
+
+            var result = await confirmBox.ShowDialogAsync();
+
+            if (result == Wpf.Ui.Controls.MessageBoxResult.Secondary)
+            {
+                try
+                {
+                    SettingsManager settingsManager = new();
+                    settingsManager.RestoreSettings(openFileDialog.FileName);
+                    SettingsManager.SaveSettings();
+
+                    Wpf.Ui.Controls.MessageBox messageBox = new()
+                    {
+                        Title = Application.Current.FindResource("ImportSuccessful").ToString(),
+                        Content = Application.Current.FindResource("SettingsImportedSuccessfully").ToString(),
+                        CloseButtonText = "OK",
+                    };
+
+                    _ = messageBox.ShowDialogAsync();
+
+                    // Restart the application
+                    Application.Current.Shutdown();
+                    System.Diagnostics.Process.Start(System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName);
+                }
+                catch (Exception ex)
+                {
+                    Logger.Error(ex, "Error importing settings");
+
+                    Wpf.Ui.Controls.MessageBox messageBox = new()
+                    {
+                        Title = Application.Current.FindResource("ImportFailed").ToString(),
+                        Content = Application.Current.FindResource("FailedToImportSettings").ToString(),
+                        CloseButtonText = "OK",
+                    };
+
+                    _ = messageBox.ShowDialogAsync();
+                }
+            }
         }
     }
 }

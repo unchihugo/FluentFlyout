@@ -200,4 +200,15 @@ You can help contribute translations on</System:String>
     <System:String x:Key="UpdateAvailableNotificationMessage">A new version ({0}) is available.</System:String>
     <System:String x:Key="UpdateAvailableNotificationButton">Download Update</System:String>
     <System:String x:Key="ShowUpdateNotificationsTitle">Show notifications for new updates</System:String>
+    <System:String x:Key="ExportSettings">Export Settings</System:String>
+    <System:String x:Key="ImportSettings">Import Settings</System:String>
+    <System:String x:Key="ExportSuccessful">Export Successful</System:String>
+    <System:String x:Key="ExportFailed">Export Failed</System:String>
+    <System:String x:Key="ImportSuccessful">Import Successful</System:String>
+    <System:String x:Key="ImportFailed">Import Failed</System:String>
+    <System:String x:Key="SettingsExportedSuccessfully">Settings exported successfully!</System:String>
+    <System:String x:Key="FailedToExportSettings">Failed to export settings. Check the logs for details.</System:String>
+    <System:String x:Key="SettingsImportedSuccessfully">Settings imported successfully! The application will now restart to apply changes.</System:String>
+    <System:String x:Key="ImportSettingsWarning">This will replace all your current settings. Continue?</System:String>
+    <System:String x:Key="FailedToImportSettings">Failed to import settings. Check the logs for details.</System:String>
 </ResourceDictionary>

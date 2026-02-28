@@ -67,14 +67,15 @@ public class SettingsManager
     /// Restores the settings `SettingsManager.Current` from the settings file.
     /// </summary>
     /// <returns>The restored settings.</returns>
-    public UserSettings RestoreSettings()
+    public UserSettings RestoreSettings(string filePath = null)
     {
-        //File.AppendAllText(logFilePath, $"[{DateTime.Now}] {SettingsFilePath}\n");
+        filePath ??= SettingsFilePath;
+
         try
         {
-            if (File.Exists(SettingsFilePath))
+            if (File.Exists(filePath))
             {
-                using (StreamReader reader = new StreamReader(SettingsFilePath))
+                using (StreamReader reader = new StreamReader(filePath))
                 {
                     XmlSerializer xmlSerializer = new XmlSerializer(typeof(UserSettings));
                     _current = (UserSettings)xmlSerializer.Deserialize(reader);
@@ -104,17 +105,19 @@ public class SettingsManager
     /// <summary>
     /// Saves the app settings to the settings file.
     /// </summary>
-    public static void SaveSettings()
+    public static void SaveSettings(string filePath = null)
     {
+        filePath ??= SettingsFilePath;
+
         try
         {
-            string directory = Path.GetDirectoryName(SettingsFilePath);
+            string directory = Path.GetDirectoryName(filePath);
             if (directory != null && !Directory.Exists(directory))
             {
                 Directory.CreateDirectory(directory);
             }
 
-            using (StreamWriter writer = new StreamWriter(SettingsFilePath))
+            using (StreamWriter writer = new StreamWriter(filePath))
             {
                 XmlSerializer xmlSerializer = new XmlSerializer(typeof(UserSettings));
                 xmlSerializer.Serialize(writer, _current);
