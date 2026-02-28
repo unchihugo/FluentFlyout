@@ -19,6 +19,8 @@ public static class NativeMethods
     internal const int WS_CHILD = 0x40000000;
     internal const int WS_POPUP = unchecked((int)0x80000000);
     internal const int WS_EX_NOACTIVATE = 0x08000000;
+    internal const int WS_EX_LAYERED = 0x00080000;
+    internal const int WS_EX_TRANSPARENT = 0x00000020;
 
     // SetWindowPos Flags
     internal const int HWND_TOPMOST = -1;
@@ -29,6 +31,10 @@ public static class NativeMethods
     internal const uint SWP_HIDEWINDOW = 0x0080;
     internal const uint SWP_ASYNCWINDOWPOS = 0x4000;
     internal const uint SWP_NOACTIVATE = 0x0010;
+
+    // ShowWindow Commands
+    internal const int SW_MINIMIZE = 6;
+    internal const int SW_RESTORE = 9;
 
     // Monitor Flags
     internal const int MONITOR_DEFAULTTONEAREST = 2;
@@ -243,10 +249,16 @@ public static class NativeMethods
     internal static extern bool SetWindowPos(IntPtr hWnd, int hWndInsertAfter, int x, int y, int cx, int cy, uint uFlags);
 
     [DllImport("user32.dll")]
+    internal static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+
+    [DllImport("user32.dll")]
     internal static extern bool ScreenToClient(IntPtr hWnd, ref POINT lpPoint);
     
     [DllImport("user32.dll", CharSet = CharSet.Auto)]
     internal static extern bool EnumDisplayDevices(string? lpDevice, uint iDevNum, ref DISPLAY_DEVICE lpDisplayDevice, uint dwFlags);
+
+    [DllImport("user32.dll")]
+    internal static extern bool GetCursorPos(out POINT lpPoint);
 
     [DllImport("user32.dll")]
     internal static extern bool EnumDisplayMonitors(IntPtr hdc, IntPtr lprcClip, MonitorEnumProc lpfnEnum, IntPtr dwData);

@@ -1,0 +1,123 @@
+﻿<controls:MicaWindow x:Class="FluentFlyoutWPF.Windows.VolumeMixerWindow"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:FluentFlyoutWPF"
+      xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+      xmlns:controls="clr-namespace:MicaWPF.Controls;assembly=MicaWPF"
+      xmlns:viewModels="clr-namespace:FluentFlyoutWPF.ViewModels"
+      xmlns:utils="clr-namespace:FluentFlyoutWPF.Classes.Utils"
+      mc:Ignorable="d"
+      Title="VolumeMixerWindow" Height="50" Width="240"
+      ResizeMode="NoResize"
+      WindowStyle="None" ShowInTaskbar="False"
+      ChangeTitleColorWhenInactive="False"
+      TextOptions.TextRenderingMode="ClearType" TextOptions.TextFormattingMode="Ideal"
+      FontFamily="{Binding UserSettings.FontFamily}"
+      FlowDirection="{Binding UserSettings.FlowDirection}"
+      d:DataContext="{d:DesignInstance viewModels:UserSettings}" Loaded="MicaWindow_Loaded">
+    
+    <Window.Triggers>
+        <EventTrigger RoutedEvent="Window.Loaded">
+            <EventTrigger.Actions>
+                <BeginStoryboard>
+                    <Storyboard>
+                        <DoubleAnimation Storyboard.TargetProperty="(Window.Top)">
+                            <DoubleAnimation.EasingFunction>
+                                <CubicEase EasingMode="EaseOut"/>
+                            </DoubleAnimation.EasingFunction>
+                        </DoubleAnimation>
+                        <DoubleAnimation Storyboard.TargetProperty="(Window.Opacity)">
+                            <DoubleAnimation.EasingFunction>
+                                <CubicEase EasingMode="EaseOut"/>
+                            </DoubleAnimation.EasingFunction>
+                        </DoubleAnimation>
+                    </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger.Actions>
+        </EventTrigger>
+    </Window.Triggers>
+    
+    <Window.Resources>
+        <utils:BoolToVisibleCollapsedConverter x:Key="BoolToVisible" />
+        <utils:BoolToVisibleCollapsedConverter x:Key="BoolToCollapsed" TrueValue="Collapsed" FalseValue="Visible" />
+        <utils:DecimalPercentageToFullConverter x:Key="DecimalPercentage" />
+        <utils:BoolToFullHalfOpacityConverter x:Key="BoolToFullHalf" TrueValue="0.5" FalseValue="1" />
+        <utils:VolumeToSpeakerSymbolConverter x:Key="VolumeToSpeaker" />
+        <utils:NullToVisibilityConverter x:Key="NullToCollapsed" NullValue="Visible" NonNullValue="Collapsed" />
+        <utils:BoolToAccentBrushConverter x:Key="ActiveToAccentBrush" ActiveOpacity="0.1" />
+    </Window.Resources>
+
+    <StackPanel Margin="8">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <ui:Button Appearance="Transparent" BorderBrush="Transparent" VerticalAlignment="Center" Padding="8" Margin="0,0,4,0"
+                       Command="{Binding ViewModel.ToggleMasterMuteCommand}"
+                       ToolTipService.ToolTip="{DynamicResource MasterVolumeText}"
+                       ToolTipService.InitialShowDelay="0"
+                       ToolTipService.Placement="Right">
+                <Grid>
+                    <ui:SymbolIcon Symbol="{Binding ViewModel.MasterVolume, Converter={StaticResource VolumeToSpeaker}}" FontSize="16"
+                                   Visibility="{Binding ViewModel.IsMasterMuted, Converter={StaticResource BoolToCollapsed}}" />
+                    <ui:SymbolIcon Symbol="SpeakerMute28" FontSize="16" Margin="0,0,0,0"
+                                   Visibility="{Binding ViewModel.IsMasterMuted, Converter={StaticResource BoolToVisible}}" />
+                </Grid>
+            </ui:Button>
+            <Slider Grid.Column="1" Value="{Binding ViewModel.MasterVolume, Mode=TwoWay}" Minimum="0" Maximum="1" TickFrequency="0.01" VerticalAlignment="Center" />
+            <TextBlock Grid.Column="2" Text="{Binding ViewModel.MasterVolume, Converter={StaticResource DecimalPercentage}}" FontSize="14" VerticalAlignment="Center" Margin="8,-2,8,0" Width="24" TextAlignment="Center" />
+            <ui:Button Name="OpenVolumeMixerButton" Grid.Column="3" VerticalAlignment="Center" Padding="4" Margin="0,0,4,0"
+                       Command="{Binding ViewModel.OpenVolumeMixerCommand}" Focusable="False"
+                       Visibility="{Binding UserSettings.VolumeMixerEnabled, Converter={StaticResource BoolToVisible}}">
+                <ui:SymbolIcon x:Name="ChevronIcon" Symbol="ChevronUp24" FontSize="16" RenderTransformOrigin="0.5,0.5">
+                    <ui:SymbolIcon.RenderTransform>
+                        <RotateTransform x:Name="ChevronRotation" Angle="0" />
+                    </ui:SymbolIcon.RenderTransform>
+                </ui:SymbolIcon>
+            </ui:Button>
+        </Grid>
+        <StackPanel x:Name="SessionsExpanded" Visibility="Collapsed" >
+            <Border BorderThickness="0 1 0 0" BorderBrush="{DynamicResource TextFillColorDisabledBrush}" Opacity="0.5" Margin="0,5" />
+            <StackPanel Orientation="Horizontal" Margin="8,8">
+                <TextBlock Text="{DynamicResource VolumeMixerSectionTitle}" FontWeight="Medium" />
+            </StackPanel>
+            <ItemsControl x:Name="SessionsPanel" ItemsSource="{Binding ViewModel.Sessions}" Focusable="False" >
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border CornerRadius="4" Background="{Binding IsActive, Converter={StaticResource ActiveToAccentBrush}}" >
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <ui:Button Appearance="Transparent" BorderBrush="Transparent" VerticalAlignment="Center" Padding="8" Margin="0,0,4,0"
+                                   Command="{Binding ToggleMuteCommand}"
+                                   ToolTipService.ToolTip="{Binding DisplayName}"
+                                   ToolTipService.InitialShowDelay="0"
+                                   ToolTipService.Placement="Right">
+                                    <Grid>
+                                        <ui:SymbolIcon Symbol="DesktopSpeaker24" FontSize="16"
+                                               Opacity="{Binding IsMuted, Converter={StaticResource BoolToFullHalf}}"
+                                               Visibility="{Binding Icon, Converter={StaticResource NullToCollapsed}}" />
+                                        <Image Source="{Binding Icon}" Width="16" Height="16"
+                                       Opacity="{Binding IsMuted, Converter={StaticResource BoolToFullHalf}}" />
+                                        <ui:SymbolIcon Symbol="SpeakerMute28" FontSize="12" Margin="0,0,-16,-16"
+                                               Visibility="{Binding IsMuted, Converter={StaticResource BoolToVisible}}" />
+                                    </Grid>
+                                </ui:Button>
+                                <Slider Grid.Column="1" Value="{Binding Volume, Mode=TwoWay}" Minimum="0" Maximum="1" TickFrequency="0.01" VerticalAlignment="Center" />
+                                <TextBlock Grid.Column="2" Text="{Binding Volume, Converter={StaticResource DecimalPercentage}}" FontSize="12" VerticalAlignment="Center" Margin="8,0,4,0" Width="24" TextAlignment="Center" />
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </StackPanel>
+    </StackPanel>
+</controls:MicaWindow>

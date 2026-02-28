@@ -114,6 +114,7 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
@@ -131,6 +132,27 @@
                                 <Setter Property="Opacity" Value="1" />
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding MediaFlyoutEnabled}" Value="False">
+                                        <Setter Property="Opacity" Value="0.5" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ui:TextBlock.Style>
+                    </ui:TextBlock>
+                </StackPanel>
+            </ui:CardAction>
+
+            <ui:CardAction Grid.Row="1" Grid.Column="0" Margin="4" Padding="12,20" IsChevronVisible="True" Click="VolumeFlyout_Click">
+                <ui:CardAction.Icon>
+                    <ui:SymbolIcon Symbol="Speaker224" FontSize="30" Filled="False" />
+                </ui:CardAction.Icon>
+                <StackPanel>
+                    <ui:TextBlock FontWeight="Medium" Text="{DynamicResource VolumeFlyoutTitle}" />
+                    <ui:TextBlock Appearance="Secondary" Text="{Binding VolumeControlEnabled, Converter={StaticResource BoolToEnabledDisabledConverter}}">
+                        <ui:TextBlock.Style>
+                            <Style TargetType="ui:TextBlock">
+                                <Setter Property="Opacity" Value="1" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding VolumeControlEnabled}" Value="False">
                                         <Setter Property="Opacity" Value="0.5" />
                                     </DataTrigger>
                                 </Style.Triggers>
@@ -164,7 +186,7 @@
                 </StackPanel>
             </ui:CardAction>
 
-            <ui:CardAction Grid.Row="1" Grid.Column="0" Margin="4" Padding="12,20" IsChevronVisible="True" Click="NextUp_Click">
+            <ui:CardAction Grid.Row="2" Grid.Column="0" Margin="4" Padding="12,20" IsChevronVisible="True" Click="NextUp_Click">
                 <ui:CardAction.Icon>
                     <ui:SymbolIcon Symbol="MusicNote2Play20" FontSize="30" Filled="False" />
                 </ui:CardAction.Icon>
@@ -185,7 +207,7 @@
                 </StackPanel>
             </ui:CardAction>
 
-            <ui:CardAction Grid.Row="1" Grid.Column="1" Margin="4" Padding="12,20" IsChevronVisible="True" Click="LockKeys_Click">
+            <ui:CardAction Grid.Row="2" Grid.Column="1" Margin="4" Padding="12,20" IsChevronVisible="True" Click="LockKeys_Click">
                 <ui:CardAction.Icon>
                     <ui:SymbolIcon Symbol="LockMultiple24" FontSize="30" Filled="False" />
                 </ui:CardAction.Icon>
@@ -206,7 +228,7 @@
                 </StackPanel>
             </ui:CardAction>
 
-            <ui:CardAction Grid.Row="2" Grid.Column="0" Margin="4" Padding="12,20" IsChevronVisible="True" Click="TaskbarVisualizer_Click">
+            <ui:CardAction Grid.Row="1" Grid.Column="1" Margin="4" Padding="12,20" IsChevronVisible="True" Click="TaskbarVisualizer_Click">
                 <ui:CardAction.Icon>
                     <ui:SymbolIcon Symbol="SoundWaveCircle24" FontSize="30" Filled="False" />
                 </ui:CardAction.Icon>
@@ -230,7 +252,7 @@
                 </StackPanel>
             </ui:CardAction>
 
-            <ui:CardAction Grid.Row="2" Grid.Column="1" Margin="4" Padding="12,20" IsChevronVisible="True" Click="System_Click">
+            <ui:CardAction Grid.Row="3" Grid.Column="0" Margin="4" Padding="12,20" IsChevronVisible="True" Click="System_Click">
                 <ui:CardAction.Icon>
                     <ui:SymbolIcon Symbol="Settings24" FontSize="30" Filled="False" />
                 </ui:CardAction.Icon>

@@ -77,6 +77,8 @@ public partial class MainWindow : MicaWindow
 
     private TaskbarWindow? taskbarWindow;
 
+    private VolumeMixerWindow? volumeMixerWindow;
+
     internal static volatile bool ExplorerRestarting = false;
 
     public MainWindow()
@@ -283,7 +285,29 @@ public partial class MainWindow : MicaWindow
         return MonitorUtil.getSelectedMonitor(SettingsManager.Current.FlyoutSelectedMonitor);
     }
 
-    public void OpenAnimation(MicaWindow window, bool alwaysBottom = false)
+    /// <summary>
+    /// Computes the final resting position (left, top) for a window based on the current
+    /// position setting and the selected monitor's work area.
+    /// </summary>
+    private (double left, double top) GetFinalPosition(Rect windowRect, Rect workArea)
+    {
+        int position = SettingsManager.Current.Position;
+        double left = position switch
+        {
+            0 or 3 => workArea.Left + 16,
+            2 or 5 => workArea.Left + workArea.Width - windowRect.Width - 16,
+            _ => workArea.Left + workArea.Width / 2 - windowRect.Width / 2
+        };
+        double top = position switch
+        {
+            0 or 2 => workArea.Top + workArea.Height - windowRect.Height - 16,
+            1 => workArea.Top + workArea.Height - windowRect.Height - 80,
+            _ => workArea.Top + 16
+        };
+        return (left, top);
+    }
+
+    public void OpenAnimation(MicaWindow window, bool alwaysBottom = false, MicaWindow? aboveReference = null)
     {
         var eventTriggers = window.Triggers[0] as EventTrigger;
         var beginStoryboard = eventTriggers.Actions[0] as BeginStoryboard;
@@ -303,7 +327,22 @@ public partial class MainWindow : MicaWindow
         double window_left = 0;
 
         // Here we work with raw monitor coordinates, without taking DPI into account.
-        if (alwaysBottom == false)
+        if (aboveReference != null)
+        {
+            double refWidth = aboveReference.Width * monitor.dpiX / 96.0;
+            double refHeight = aboveReference.Height * monitor.dpiY / 96.0;
+            var refRect = new Rect(0, 0, refWidth, refHeight);
+            var (refLeft, refTop) = GetFinalPosition(refRect, workArea);
+
+            window_left = refLeft + refWidth / 2 - windowRect.Width / 2;
+            double aboveTop = refTop - windowRect.Height - 8;
+            moveAnimation.To = aboveTop;
+            if (SettingsManager.Current.FlyoutAnimationSpeed == 0)
+                moveAnimation.From = moveAnimation.To;
+            else
+                moveAnimation.From = aboveTop + 20;
+        }
+        else if (alwaysBottom == false)
         {
             _position = SettingsManager.Current.Position;
             if (_position == 0)
@@ -394,7 +433,7 @@ public partial class MainWindow : MicaWindow
         WindowHelper.SetVisibility(window, true);
     }
 
-    public void CloseAnimation(MicaWindow window, bool alwaysBottom = false)
+    public void CloseAnimation(MicaWindow window)
     {
         var eventTriggers = window.Triggers[0] as EventTrigger;
         var beginStoryboard = eventTriggers.Actions[0] as BeginStoryboard;
@@ -405,33 +444,14 @@ public partial class MainWindow : MicaWindow
         var workArea = monitor.workArea;
         var windowRect = WindowHelper.GetPlacement(window);
 
-        if (alwaysBottom == false)
+        // Use the window's actual current position as the animation start
+        moveAnimation.From = windowRect.Top;
+
+        if (SettingsManager.Current.FlyoutAnimationSpeed != 0)
         {
-            _position = SettingsManager.Current.Position;
-            if (_position == 0 || _position == 2)
-            {
-                moveAnimation.From = workArea.Top + workArea.Height - windowRect.Height - 16;
-                if (SettingsManager.Current.FlyoutAnimationSpeed != 0)
-                    moveAnimation.To = workArea.Top + workArea.Height - windowRect.Height + 4;
-            }
-            else if (_position == 1)
-            {
-                moveAnimation.From = workArea.Top + workArea.Height - windowRect.Height - 80;
-                if (SettingsManager.Current.FlyoutAnimationSpeed != 0)
-                    moveAnimation.To = workArea.Top + workArea.Height - windowRect.Height - 60;
-            }
-            else if (_position == 3 || _position == 4 || _position == 5)
-            {
-                moveAnimation.From = workArea.Top + 16;
-                if (SettingsManager.Current.FlyoutAnimationSpeed != 0)
-                    moveAnimation.To = workArea.Top + -4;
-            }
-        }
-        else
-        {
-            moveAnimation.From = workArea.Top + workArea.Height - windowRect.Height - 16;
-            if (SettingsManager.Current.FlyoutAnimationSpeed != 0)
-                moveAnimation.To = workArea.Top + workArea.Height - windowRect.Height + 4;
+            // Determine slide direction
+            bool isTopHalf = windowRect.Top + windowRect.Height / 2 < workArea.Top + workArea.Height / 2;
+            moveAnimation.To = windowRect.Top + (isTopHalf ? -20 : 20);
         }
 
         moveAnimation.From *= 96.0 / monitor.dpiY;
@@ -683,8 +703,11 @@ public partial class MainWindow : MicaWindow
             bool mediaKeysPressed = vkCode == 0xB3 || vkCode == 0xB0 || vkCode == 0xB1 || vkCode == 0xB2; // Play/Pause, next, previous, stop
             bool volumeKeysPressed = vkCode == 0xAD || vkCode == 0xAE || vkCode == 0xAF; // Mute, Volume Down, Volume Up
 
-            if (mediaKeysPressed || (!SettingsManager.Current.MediaFlyoutVolumeKeysExcluded && volumeKeysPressed))
+            if (mediaKeysPressed || volumeKeysPressed)
             {
+                if (SettingsManager.Current.VolumeControlEnabled)
+                    volumeMixerWindow?.ViewModel.SyncMasterFromDevice();
+
                 long currentTime = Environment.TickCount64;
 
                 // debounce to prevent hangs with rapid key presses
@@ -695,7 +718,11 @@ public partial class MainWindow : MicaWindow
 
                 _lastFlyoutTime = currentTime;
 
-                ShowMediaFlyout();
+                if (SettingsManager.Current.VolumeControlEnabled)
+                    volumeMixerWindow?.ShowFlyout();
+
+                if (!SettingsManager.Current.MediaFlyoutVolumeKeysExcluded && volumeKeysPressed)
+                    ShowMediaFlyout();
             }
 
             if (SettingsManager.Current.LockKeysEnabled && !FullscreenDetector.IsFullscreenApplicationRunning())
@@ -1261,6 +1288,12 @@ public partial class MainWindow : MicaWindow
             if (taskbarWindow?.IsLoaded == true)
                 taskbarWindow.Close();
 
+            if (volumeMixerWindow?.IsLoaded == true)
+                volumeMixerWindow.Close();
+
+            // restore native volume OSD
+            VolumeMixerWindow.ShowVolumeOsd();
+
             // dispose mutex
             singleton?.Dispose();
 
@@ -1461,6 +1494,7 @@ public partial class MainWindow : MicaWindow
 
         taskbarWindow = new TaskbarWindow();
         UpdateTaskbar();
+        volumeMixerWindow = new VolumeMixerWindow();
     }
 
     public void RecreateTaskbarWindow()

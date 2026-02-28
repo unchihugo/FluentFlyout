@@ -7,6 +7,7 @@ using FluentFlyout.Classes.Settings;
 using FluentFlyout.Controls;
 using FluentFlyoutWPF.Classes;
 using FluentFlyoutWPF.Models;
+using FluentFlyoutWPF.Windows;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Xml.Serialization;
@@ -292,6 +293,9 @@ public partial class UserSettings : ObservableObject
     [ObservableProperty]
     public partial bool LockKeysAcrylicWindowEnabled { get; set; }
 
+    [ObservableProperty]
+    public partial bool VolumeMixerAcrylicWindowEnabled { get; set; }
+
     /// <summary>
     /// User's preferred app language (e.g., "system" for system default)
     /// </summary>
@@ -462,6 +466,46 @@ public partial class UserSettings : ObservableObject
     [ObservableProperty]
     public partial int TaskbarVisualizerAudioSensitivity { get; set; }
 
+    [ObservableProperty]
+    public partial bool VolumeControlEnabled { get; set; }
+
+    [ObservableProperty]
+    public partial bool VolumeControlAboveMediaFlyout { get; set; }
+
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(VolumeControlDurationText))]
+    public partial int VolumeControlDuration { get; set; }
+
+    [XmlIgnore]
+    public string VolumeControlDurationText
+    {
+        get => VolumeControlDuration.ToString();
+        set
+        {
+            if (int.TryParse(value, out var result))
+            {
+                VolumeControlDuration = result switch
+                {
+                    > 10000 => 10000,
+                    < 0 => 0,
+                    _ => result
+                };
+            }
+            else
+            {
+                VolumeControlDuration = 3000;
+            }
+
+            OnPropertyChanged();
+        }
+    }
+
+    [ObservableProperty]
+    public partial bool VolumeMixerEnabled { get; set; }
+
+    [ObservableProperty]
+    public partial bool VolumeMixerHighlightActiveApps { get; set; }
+
     /// <summary>
     /// The audio peak level for the taskbar visualizer from 1 to 3.
     /// This is used to calibrate the visualizer bar height to the audio output.
@@ -543,12 +587,13 @@ public partial class UserSettings : ObservableObject
         PauseOtherSessionsEnabled = false;
         LockKeysInsertEnabled = true;
         MediaFlyoutBackgroundBlur = 0;
-        MediaFlyoutAcrylicWindowEnabled = true;
         AppLanguage = "system";
         FlowDirection = FlowDirection.LeftToRight;
         FontFamily = "Segoe UI Variable, Microsoft YaHei UI, Yu Gothic UI";
+        MediaFlyoutAcrylicWindowEnabled = true;
         NextUpAcrylicWindowEnabled = true;
         LockKeysAcrylicWindowEnabled = true;
+        VolumeMixerAcrylicWindowEnabled = true;
         TaskbarWidgetEnabled = false;
         TaskbarWidgetSelectedMonitor = 0;
         TaskbarWidgetPosition = 0;
@@ -568,6 +613,11 @@ public partial class UserSettings : ObservableObject
         TaskbarVisualizerBaseline = false;
         TaskbarVisualizerAudioSensitivity = 2;
         TaskbarVisualizerAudioPeakLevel = 2;
+        VolumeControlEnabled = false;
+        VolumeControlAboveMediaFlyout = false;
+        VolumeControlDuration = 3000;
+        VolumeMixerEnabled = true;
+        VolumeMixerHighlightActiveApps = true;
         AcrylicBlurOpacity = 175;
         LastUpdateNotificationUnixSeconds = 0;
         ShowUpdateNotifications = true;
@@ -696,5 +746,13 @@ public partial class UserSettings : ObservableObject
     {
         if (oldValue == newValue || _initializing || newValue == false) return;
         TaskbarVisualizerHasContent = true;
+    }
+
+    partial void OnVolumeControlEnabledChanged(bool oldValue, bool newValue)
+    {
+        if (newValue == true || oldValue == newValue || _initializing) return;
+
+        // re-enable native volume flyout
+        VolumeMixerWindow.ShowVolumeOsd();
     }
 }

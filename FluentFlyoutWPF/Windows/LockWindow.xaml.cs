@@ -102,7 +102,7 @@ public partial class LockWindow : MicaWindow
             while (!token.IsCancellationRequested)
             {
                 await Task.Delay(SettingsManager.Current.LockKeysDuration, token);
-                mainWindow.CloseAnimation(this, true);
+                mainWindow.CloseAnimation(this);
                 _isHiding = true;
                 await Task.Delay(mainWindow.getDuration());
                 if (_isHiding == false) return;

@@ -33,6 +33,7 @@
     <None Remove="Resources\FluentFlyoutDemo9.1.png" />
     <None Remove="Resources\FluentFlyoutHero-NoTitle.png" />
     <None Remove="Resources\FluentFlyoutTaskbar-NoTitle-Zoomed.png" />
+    <None Remove="Resources\FluentFlyoutVolumeDemo.png" />
     <None Remove="Resources\FluentFlyoutWhite.png" />
   </ItemGroup>
   <ItemGroup>
@@ -57,6 +58,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\FluentFlyoutTaskbar-NoTitle-Zoomed.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\FluentFlyoutVolumeDemo.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\TrayIcons\FluentFlyoutBlack.png">
