@@ -198,4 +198,6 @@
     <system:String x:Key="TaskbarVisualizerOutputDeviceDescription">Измените источник звука для визуализатора, переключив устройство вывода в FluentFlyout.</system:String>
     <system:String x:Key="TaskbarVisualizerAudioPeakLevelTitle">Пиковый уровень звука</system:String>
     <system:String x:Key="TaskbarVisualizerAudioPeakLevelDescription">Насколько громким должен быть звук, чтобы полосы достигли максимальной высоты</system:String>
+    <system:String x:Key="TaskbarWidgetCloseableFlyoutTitle">Закрывать всплывающее окно при повторном нажатии</system:String>
+    <system:String x:Key="TaskbarWidgetCloseableFlyoutDescription">Закрывает всплывающее окно, если оно уже открыто, при нажатии на виджет на панели задач</system:String>
 </ResourceDictionary>

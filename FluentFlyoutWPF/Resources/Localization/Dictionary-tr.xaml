@@ -167,4 +167,15 @@ Not: Açık kaynaklı bir proje olarak, bu özellikler GitHub'daki manuel yükle
     <system:String x:Key="CheckingForUpdates">Doğrulanıyor...</system:String>
     <system:String x:Key="UpdateAvailableNotificationTitle">Güncelleme Mevcut!</system:String>
     <system:String x:Key="UpdateAvailableNotificationButton">Güncellemeyi İndir</system:String>
+    <system:String x:Key="MediaFlyoutExcludeVolumeTitle">Ses Tuşlarını Hariç Tut</system:String>
+    <system:String x:Key="MediaFlyoutExcludeVolumeDescription">Ses açma/kısma/sessize alma tuşlarına basıldığında açılır menüyü göstermeyin.</system:String>
+    <system:String x:Key="TaskbarWidgetCloseableFlyoutTitle">İkinci Tıklamada Flyout’u Kapat</system:String>
+    <system:String x:Key="TaskbarWidgetCloseableFlyoutDescription">Görev çubuğu widget'ına tıkladığınızda zaten açıksa açılır pencereyi kapatın.</system:String>
+    <system:String x:Key="TaskbarVisualizerTitle">Görev Çubuğu Görselleştiricisi</system:String>
+    <system:String x:Key="TaskbarVisualizerDescription">Görev çubuğunuzda gerçek zamanlı bir ses görselleştirici.  Modern sistemlerde minimal performans etkisi olacak şekilde tasarlandı.</system:String>
+    <system:String x:Key="TaskbarVisualizerEnabledTitle">Görev Çubuğu Görselleştiricisini Etkinleştir (Deneysel)</system:String>
+    <system:String x:Key="TaskbarVisualizerEnabledDescription">Deneysel: Bu özellik yalnızca görev çubuğu widget'ı etkinleştirildiğinde çalışacaktır.</system:String>
+    <system:String x:Key="TaskbarVisualizerPositionTitle">Görselleştirici Pozisyonu Görev Çubuğuna Göre  Widget</system:String>
+    <system:String x:Key="TaskbarVisualizerBarCountTitle">Bar Sayısı</system:String>
+    <system:String x:Key="TaskbarVisualizerBarCountDescription">Görselleştirici çubuklarının miktarı</system:String>
 </ResourceDictionary>
