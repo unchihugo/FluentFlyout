@@ -1,0 +1,46 @@
+name: Build and Package MSIX
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    env:
+      SOLUTION_PATH: FluentFlyout.sln
+      WAP_PROJECT_PATH: FluentFlyoutMSIX\FluentFlyoutMSIX.wapproj
+      CONFIGURATION: "GitHub Release"
+      PLATFORM: x64
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v2
+
+      - name: Decode signing certificate
+        run: |
+          $cert = [Convert]::FromBase64String("${{ secrets.MSIX_CERT_BASE64 }}")
+          [IO.File]::WriteAllBytes("$env:RUNNER_TEMP\cert.pfx", $cert)
+
+      - name: Restore NuGet packages
+        run: nuget restore $env:SOLUTION_PATH
+
+      - name: Build & Package (MSIX)
+        run: |
+          msbuild $env:WAP_PROJECT_PATH `
+            /p:Configuration=$env:CONFIGURATION `
+            /p:Platform=$env:PLATFORM `
+            /p:UapAppxPackageBuildMode=StoreUpload `
+            /p:AppxPackageDir="$env:GITHUB_WORKSPACE\AppxPackages\\" `
+            /p:AppxPackageSigningEnabled=true `
+            /p:PackageCertificateKeyFile="$env:RUNNER_TEMP\cert.pfx" `
+            /p:PackageCertificatePassword="${{ secrets.MSIX_CERT_PASSWORD }}"
+
+      - name: Upload MSIX bundle as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: MSIX-Package
+          path: AppxPackages\**\*.msixbundle
