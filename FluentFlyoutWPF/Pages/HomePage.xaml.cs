@@ -43,7 +43,7 @@ public partial class HomePage : Page
         if (UpdateState.Current.LastUpdateCheck != default)
         {
             LastCheckedText.Text = string.Format(
-                Application.Current.FindResource("LastChecked")?.ToString() ?? "Last checked: {0}",
+                Application.Current.FindResource("LastChecked")?.ToString(),
                 UpdateState.Current.LastCheckedText);
         }
         else
@@ -84,7 +84,7 @@ public partial class HomePage : Page
     {
         try
         {
-            UpdateStatusText.Text = Application.Current.FindResource("CheckingForUpdates")?.ToString() ?? "Checking...";
+            UpdateStatusText.Text = Application.Current.FindResource("CheckingForUpdates")?.ToString();
 
             var result = await UpdateChecker.CheckForUpdatesAsync(SettingsManager.Current.LastKnownVersion);
 
@@ -217,7 +217,7 @@ public partial class HomePage : Page
         }
     }
 
-    private void ExportButton_Click(object sender, System.Windows.RoutedEventArgs e)
+    private async void ExportButton_Click(object sender, System.Windows.RoutedEventArgs e)
     {
         var saveFileDialog = new Microsoft.Win32.SaveFileDialog
         {
@@ -228,25 +228,27 @@ public partial class HomePage : Page
 
         if (saveFileDialog.ShowDialog() == true)
         {
-            bool success = SettingsManager.ExportSettings(saveFileDialog.FileName);
-
-            if (success)
+            try
             {
+                SettingsManager.SaveSettings(saveFileDialog.FileName);
+
                 Wpf.Ui.Controls.MessageBox messageBox = new()
                 {
-                    Title = Application.Current.FindResource("ExportSuccessful")?.ToString() ?? "Export Successful",
-                    Content = Application.Current.FindResource("SettingsExportedSuccessfully")?.ToString() ?? "Settings exported successfully!",
+                    Title = Application.Current.FindResource("ExportSuccessful").ToString(),
+                    Content = Application.Current.FindResource("SettingsExportedSuccessfully").ToString(),
                     CloseButtonText = "OK",
                 };
 
                 _ = messageBox.ShowDialogAsync();
             }
-            else
+            catch (Exception ex)
             {
+                Logger.Error(ex, "Error exporting settings");
+
                 Wpf.Ui.Controls.MessageBox messageBox = new()
                 {
-                    Title = Application.Current.FindResource("ExportFailed")?.ToString() ?? "Export Failed",
-                    Content = Application.Current.FindResource("FailedToExportSettings")?.ToString() ?? "Failed to export settings. Check the logs for details.",
+                    Title = Application.Current.FindResource("ExportFailed").ToString(),
+                    Content = Application.Current.FindResource("FailedToExportSettings").ToString(),
                     CloseButtonText = "OK",
                 };
 
@@ -267,8 +269,8 @@ public partial class HomePage : Page
         {
             Wpf.Ui.Controls.MessageBox confirmBox = new()
             {
-                Title = Application.Current.FindResource("ImportSettings")?.ToString() ?? "Import Settings",
-                Content = Application.Current.FindResource("ImportSettingsWarning")?.ToString() ?? "This will replace all your current settings. Continue?",
+                Title = Application.Current.FindResource("ImportSettings").ToString(),
+                Content = Application.Current.FindResource("ImportSettingsWarning").ToString(),
                 CloseButtonText = "No",
                 SecondaryButtonText = "Yes",
             };
@@ -277,14 +279,16 @@ public partial class HomePage : Page
 
             if (result == Wpf.Ui.Controls.MessageBoxResult.Secondary)
             {
-                bool success = SettingsManager.ImportSettings(openFileDialog.FileName);
-
-                if (success)
+                try
                 {
+                    SettingsManager settingsManager = new();
+                    settingsManager.RestoreSettings(openFileDialog.FileName);
+                    SettingsManager.SaveSettings();
+
                     Wpf.Ui.Controls.MessageBox messageBox = new()
                     {
-                        Title = Application.Current.FindResource("ImportSuccessful")?.ToString() ?? "Import Successful",
-                        Content = Application.Current.FindResource("SettingsImportedSuccessfully")?.ToString() ?? "Settings imported successfully! The application will now restart to apply changes.",
+                        Title = Application.Current.FindResource("ImportSuccessful").ToString(),
+                        Content = Application.Current.FindResource("SettingsImportedSuccessfully").ToString(),
                         CloseButtonText = "OK",
                     };
 
@@ -294,12 +298,14 @@ public partial class HomePage : Page
                     Application.Current.Shutdown();
                     System.Diagnostics.Process.Start(System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName);
                 }
-                else
+                catch (Exception ex)
                 {
+                    Logger.Error(ex, "Error importing settings");
+
                     Wpf.Ui.Controls.MessageBox messageBox = new()
                     {
-                        Title = Application.Current.FindResource("ImportFailed")?.ToString() ?? "Import Failed",
-                        Content = Application.Current.FindResource("FailedToImportSettings")?.ToString() ?? "Failed to import settings. Check the logs for details.",
+                        Title = Application.Current.FindResource("ImportFailed").ToString(),
+                        Content = Application.Current.FindResource("FailedToImportSettings").ToString(),
                         CloseButtonText = "OK",
                     };
 

@@ -67,14 +67,15 @@ public class SettingsManager
     /// Restores the settings `SettingsManager.Current` from the settings file.
     /// </summary>
     /// <returns>The restored settings.</returns>
-    public UserSettings RestoreSettings()
+    public UserSettings RestoreSettings(string filePath = null)
     {
-        //File.AppendAllText(logFilePath, $"[{DateTime.Now}] {SettingsFilePath}\n");
+        filePath ??= SettingsFilePath;
+
         try
         {
-            if (File.Exists(SettingsFilePath))
+            if (File.Exists(filePath))
             {
-                using (StreamReader reader = new StreamReader(SettingsFilePath))
+                using (StreamReader reader = new StreamReader(filePath))
                 {
                     XmlSerializer xmlSerializer = new XmlSerializer(typeof(UserSettings));
                     _current = (UserSettings)xmlSerializer.Deserialize(reader);
@@ -104,17 +105,19 @@ public class SettingsManager
     /// <summary>
     /// Saves the app settings to the settings file.
     /// </summary>
-    public static void SaveSettings()
+    public static void SaveSettings(string filePath = null)
     {
+        filePath ??= SettingsFilePath;
+
         try
         {
-            string directory = Path.GetDirectoryName(SettingsFilePath);
+            string directory = Path.GetDirectoryName(filePath);
             if (directory != null && !Directory.Exists(directory))
             {
                 Directory.CreateDirectory(directory);
             }
 
-            using (StreamWriter writer = new StreamWriter(SettingsFilePath))
+            using (StreamWriter writer = new StreamWriter(filePath))
             {
                 XmlSerializer xmlSerializer = new XmlSerializer(typeof(UserSettings));
                 xmlSerializer.Serialize(writer, _current);
@@ -130,71 +133,5 @@ public class SettingsManager
             // if the settings file cannot be saved
             Logger.Error(ex, "Error saving settings");
         }
-    }
-
-    /// <summary>
-    /// Exports the current settings to a file selected by the user.
-    /// </summary>
-    /// <returns>True if export was successful, false otherwise.</returns>
-    public static bool ExportSettings(string filePath)
-    {
-        try
-        {
-            using (StreamWriter writer = new (filePath))
-            {
-                XmlSerializer xmlSerializer = new (typeof(UserSettings));
-                xmlSerializer.Serialize(writer, _current);
-            }
-            Logger.Info($"Settings successfully exported to {filePath}");
-            return true;
-        }
-        catch (UnauthorizedAccessException ex)
-        {
-            Logger.Error(ex, "No permission to write to export file");
-            return false;
-        }
-        catch (Exception ex)
-        {
-            Logger.Error(ex, "Error exporting settings");
-            return false;
-        }
-    }
-
-    /// <summary>
-    /// Imports settings from a file selected by the user.
-    /// </summary>
-    /// <returns>True if import was successful, false otherwise.</returns>
-    public static bool ImportSettings(string filePath)
-    {
-        try
-        {
-            if (!File.Exists(filePath))
-            {
-                Logger.Warn($"Import file not found: {filePath}");
-                return false;
-            }
-
-            using StreamReader reader = new(filePath);
-            XmlSerializer xmlSerializer = new(typeof(UserSettings));
-
-            if (xmlSerializer.Deserialize(reader) is UserSettings importedSettings)
-            {
-                _current = importedSettings;
-                _current.CompleteInitialization();
-                SaveSettings();
-                Logger.Info("Settings successfully imported");
-                return true;
-            }
-        }
-        catch (UnauthorizedAccessException ex)
-        {
-            Logger.Error(ex, "No permission to read import file");
-        }
-        catch (Exception ex)
-        {
-            Logger.Error(ex, "Error importing settings");
-        }
-
-        return false;
     }
 }
