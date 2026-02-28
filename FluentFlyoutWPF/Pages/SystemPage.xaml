@@ -191,6 +191,18 @@
                 <controls:ToggleSwitch x:Name="NIconHideSwitch" IsChecked="{Binding NIconHide, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}" Click="ToggleSwitch_Click" />
             </ui:CardControl>
 
+            <!-- back up & restore section -->
+            <TextBlock Text="{DynamicResource BackupRestoreSectionTitle}" FontSize="14" FontWeight="SemiBold" Margin="0,12,0,6" />
+            <ui:CardControl Icon="{ui:SymbolIcon ArrowCounterclockwise24}" Margin="0,0,0,3">
+                <ui:CardControl.Header>
+                    <TextBlock Text="{DynamicResource BackupRestoreCardTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
+                </ui:CardControl.Header>
+                <StackPanel Orientation="Horizontal">
+                    <ui:Button Content="{DynamicResource ExportSettings}" Click="ExportButton_Click" Margin="0,0,6,0" />
+                    <ui:Button Content="{DynamicResource ImportSettings}" Click="ImportButton_Click" />
+                </StackPanel>
+            </ui:CardControl>
+
             <!-- update section -->
             <TextBlock Text="{DynamicResource UpdatesSectionTitle}" FontSize="14" FontWeight="SemiBold" Margin="0,12,0,6" />
             <ui:CardControl Margin="0,0,0,76" >

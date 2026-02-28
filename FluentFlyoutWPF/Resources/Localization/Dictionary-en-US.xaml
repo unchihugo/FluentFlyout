@@ -200,6 +200,8 @@ You can help contribute translations on</System:String>
     <System:String x:Key="UpdateAvailableNotificationMessage">A new version ({0}) is available.</System:String>
     <System:String x:Key="UpdateAvailableNotificationButton">Download Update</System:String>
     <System:String x:Key="ShowUpdateNotificationsTitle">Show notifications for new updates</System:String>
+    <System:String x:Key="BackupRestoreSectionTitle">Back up &amp; restore</System:String>
+    <System:String x:Key="BackupRestoreCardTitle">Back up and restore your settings</System:String>
     <System:String x:Key="ExportSettings">Export Settings</System:String>
     <System:String x:Key="ImportSettings">Import Settings</System:String>
     <System:String x:Key="ExportSuccessful">Export Successful</System:String>

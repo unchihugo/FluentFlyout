@@ -268,24 +268,6 @@
                     </StackPanel>
                 </StackPanel>
             </ui:Button>
-
-            <ui:Button Appearance="Transparent" Padding="16,4,16,0" Height="56" BorderBrush="Transparent" Margin="0,0,8,0" Click="ExportButton_Click">
-                <StackPanel Orientation="Horizontal">
-                    <StackPanel Orientation="Vertical" VerticalAlignment="Center">
-                        <ui:SymbolIcon Symbol="Save20" FontSize="18" Filled="False" />
-                        <ui:TextBlock Text="{DynamicResource ExportSettings}" FontWeight="Normal" />
-                    </StackPanel>
-                </StackPanel>
-            </ui:Button>
-
-            <ui:Button Appearance="Transparent" Padding="16,4,16,0" Height="56" BorderBrush="Transparent" Margin="0,0,8,0" Click="ImportButton_Click">
-                <StackPanel Orientation="Horizontal">
-                    <StackPanel Orientation="Vertical" VerticalAlignment="Center">
-                        <ui:SymbolIcon Symbol="FolderOpen20" FontSize="18" Filled="False" />
-                        <ui:TextBlock Text="{DynamicResource ImportSettings}" FontWeight="Normal" />
-                    </StackPanel>
-                </StackPanel>
-            </ui:Button>
         </StackPanel>
 
         <TextBlock Text="{DynamicResource AboutPremiumTitle}" FontSize="14" FontWeight="SemiBold" Margin="0,36,0,0" />
