@@ -482,6 +482,9 @@ public partial class UserSettings : ObservableObject
     [ObservableProperty]
     public partial uint AcrylicBlurOpacity { get; set; }
 
+    [ObservableProperty]
+    public partial bool UseAlbumArtAsAccentColor { get; set; }
+
     /// <summary>
     /// Gets whether this is a Store version. Once false, always false (only if last known version was not null).
     /// </summary>
@@ -569,6 +572,7 @@ public partial class UserSettings : ObservableObject
         TaskbarVisualizerAudioSensitivity = 2;
         TaskbarVisualizerAudioPeakLevel = 2;
         AcrylicBlurOpacity = 175;
+        UseAlbumArtAsAccentColor = false;
         LastUpdateNotificationUnixSeconds = 0;
         ShowUpdateNotifications = true;
     }
@@ -696,5 +700,11 @@ public partial class UserSettings : ObservableObject
     {
         if (oldValue == newValue || _initializing || newValue == false) return;
         TaskbarVisualizerHasContent = true;
+    }
+
+    partial void OnUseAlbumArtAsAccentColorChanged(bool oldValue, bool newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+        // refresh colors
     }
 }

@@ -300,13 +300,16 @@ namespace FluentFlyoutWPF.Classes
 
                             // get dominant color for bars
                             // TODO: implement if no colors are available, fallback to accent color
-                            Color c;
+                            SolidColorBrush brush;
                             if (BitmapHelper.SavedDominantColors.Count > 0)
                             {
-                                c = BitmapHelper.SavedDominantColors[0];
+                                brush = BitmapHelper.SavedDominantColors[0];
+                            } 
+                            else
+                            {
+                                // normally should never reach here
+                                brush = (SolidColorBrush)Application.Current.Resources["SystemAccentColorBrush"];
                             }
-
-                            var brush = new SolidColorBrush(c) ?? (SolidColorBrush)Application.Current.Resources["MicaWPF.Brushes.SystemAccentColorTertiary"];
 
                             bool centeredBars = SettingsManager.Current.TaskbarVisualizerCenteredBars;
                             int barBaseline = SettingsManager.Current.TaskbarVisualizerBaseline ? 4 : 0;
