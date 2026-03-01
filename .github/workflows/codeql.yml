@@ -79,7 +79,12 @@ jobs:
         # queries: security-extended,security-and-quality
 
     - name: Setup MSBuild
+      if: matrix.build-mode == 'manual'
       uses: microsoft/setup-msbuild@v2
+
+    - name: Restore NuGet packages
+      if: matrix.build-mode == 'manual'
+      run: nuget restore FluentFlyout.sln
 
     # If the analyze step fails for one of the languages you are analyzing with
     # "We were unable to automatically build your code", modify the matrix above
