@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 using FluentFlyout.Classes.Settings;
+using FluentFlyoutWPF.Classes.Utils;
 using NAudio.CoreAudioApi;
 using NAudio.Dsp;
 using NAudio.Wave;
@@ -296,7 +297,16 @@ namespace FluentFlyoutWPF.Classes
 
                             // Draw bars
                             int barWidth = (ImageWidth - (BarCount - 1) * BarSpacing) / BarCount;
-                            var brush = (SolidColorBrush)Application.Current.Resources["MicaWPF.Brushes.SystemAccentColorTertiary"];
+
+                            // get dominant color for bars
+                            // TODO: implement if no colors are available, fallback to accent color
+                            Color c;
+                            if (BitmapHelper.SavedDominantColors.Count > 0)
+                            {
+                                c = BitmapHelper.SavedDominantColors[0];
+                            }
+
+                            var brush = new SolidColorBrush(c) ?? (SolidColorBrush)Application.Current.Resources["MicaWPF.Brushes.SystemAccentColorTertiary"];
 
                             bool centeredBars = SettingsManager.Current.TaskbarVisualizerCenteredBars;
                             int barBaseline = SettingsManager.Current.TaskbarVisualizerBaseline ? 4 : 0;
