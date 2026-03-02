@@ -128,6 +128,8 @@ Note: As an open-source project, these features are also available for free via 
     <System:String x:Key="AppThemeDefault"> Windows Default</System:String>
     <System:String x:Key="AppThemeLight"> Light</System:String>
     <System:String x:Key="AppThemeDark"> Dark</System:String>
+    <System:String x:Key="UseAlbumArtAccentColorTitle">Use Album Art as Accent Color</System:String>
+    <System:String x:Key="UseAlbumArtAccentColorDescription">Some UI elements will use the album art color instead of the system theme</System:String>
     <System:String x:Key="TrayIconLeftClickBehaviorTitle">Tray Icon Left Click Behavior</System:String>
     <System:String x:Key="TrayIconLeftClickBehaviorDescription">Choose what happens when you left click the tray icon</System:String>
     <System:String x:Key="TrayIconLeftClickOption1"> Open Settings</System:String>

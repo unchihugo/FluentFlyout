@@ -705,6 +705,6 @@ public partial class UserSettings : ObservableObject
     partial void OnUseAlbumArtAsAccentColorChanged(bool oldValue, bool newValue)
     {
         if (oldValue == newValue || _initializing) return;
-        // refresh colors
+        // TODO: refresh colors
     }
 }
