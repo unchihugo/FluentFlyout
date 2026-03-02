@@ -27,7 +27,6 @@
                     <StackPanel Orientation="Vertical">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="{DynamicResource SelectedMonitorTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
-                            <ui:InfoBadge Value=" NEW " FontWeight="Medium" FontSize="10" Margin="6,-2,0,-2" Severity="Success" />
                         </StackPanel>
                     </StackPanel>
                 </ui:CardControl.Header>
@@ -40,7 +39,6 @@
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="{DynamicResource AcrylicBlurOpacityTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
                             <ui:InfoBadge Value=" PREMIUM " FontSize="10" FontWeight="Medium" Margin="6,-2,0,-2" Severity="Attention" />
-                            <ui:InfoBadge Value=" NEW " FontWeight="Medium" FontSize="10" Margin="2,-2,0,-2" Severity="Success" />
                         </StackPanel>
                         <TextBlock Text="{DynamicResource AcrylicBlurOpacityDescription}" FontSize="12" Opacity="0.5" />
                     </StackPanel>
@@ -195,10 +193,13 @@
             <TextBlock Text="{DynamicResource BackupRestoreSectionTitle}" FontSize="14" FontWeight="SemiBold" Margin="0,12,0,6" />
             <ui:CardControl Icon="{ui:SymbolIcon ArrowCounterclockwise24}" Margin="0,0,0,3">
                 <ui:CardControl.Header>
-                    <TextBlock Text="{DynamicResource BackupRestoreCardTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{DynamicResource BackupRestoreCardTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
+                        <ui:InfoBadge Value=" NEW " FontWeight="Medium" FontSize="10" Margin="6,-2,0,-2" Severity="Success" />
+                    </StackPanel>
                 </ui:CardControl.Header>
                 <StackPanel Orientation="Horizontal">
-                    <ui:Button Content="{DynamicResource ExportSettings}" Click="ExportButton_Click" Margin="0,0,6,0" />
+                    <ui:Button Content="{DynamicResource ExportSettings}" Click="ExportButton_Click" Margin="0,0,8,0" />
                     <ui:Button Content="{DynamicResource ImportSettings}" Click="ImportButton_Click" />
                 </StackPanel>
             </ui:CardControl>
