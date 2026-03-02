@@ -212,4 +212,5 @@ Nota: Como proyecto de código abierto, estas opciones también están disponibl
     <system:String x:Key="TaskbarWidgetCloseableFlyoutDescription">Cierra el flyout si esta abierto al hacer click en el widget de la barra de herramientas</system:String>
     <system:String x:Key="TaskbarVisualizerAudioPeakLevelTitle">Umbral Máximo del Audio</system:String>
     <system:String x:Key="TaskbarVisualizerAudioPeakLevelDescription">Como de alto debe de ser el volumen para que las barras alcancen su altura máxima</system:String>
+    <system:String x:Key="BackupRestoreSectionTitle">Copias de seguridad y restauración</system:String>
 </ResourceDictionary>
