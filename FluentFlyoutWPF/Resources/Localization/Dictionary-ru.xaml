@@ -202,4 +202,6 @@
     <system:String x:Key="TaskbarWidgetCloseableFlyoutDescription">Закрывает всплывающее окно, если оно уже открыто, при нажатии на виджет на панели задач</system:String>
     <system:String x:Key="BackupRestoreSectionTitle">Резервное копирование и восстановление</system:String>
     <system:String x:Key="ImportSettings">Импорт настроек</system:String>
+    <system:String x:Key="BackupRestoreCardTitle">Создание и восстановление резервной копию настроек</system:String>
+    <system:String x:Key="ExportSettings">Экспорт настроек</system:String>
 </ResourceDictionary>
