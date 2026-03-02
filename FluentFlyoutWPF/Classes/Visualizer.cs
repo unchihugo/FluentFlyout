@@ -299,7 +299,6 @@ namespace FluentFlyoutWPF.Classes
                             int barWidth = (ImageWidth - (BarCount - 1) * BarSpacing) / BarCount;
 
                             // get dominant color for bars
-                            // TODO: implement if no colors are available, fallback to accent color
                             SolidColorBrush brush;
                             if (BitmapHelper.SavedDominantColors.Count > 0)
                             {

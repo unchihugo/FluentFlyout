@@ -920,14 +920,12 @@ public partial class MainWindow : MicaWindow
                 BackgroundImageStyle3.Visibility = SettingsManager.Current.MediaFlyoutBackgroundBlur == 3 ? Visibility.Visible : Visibility.Collapsed;
 
                 // color play/pause button
-                // TODO: implement if no colors are available, fallback to accent color
-                Color c;
+                SolidColorBrush brush;
                 if (BitmapHelper.SavedDominantColors.Count > 0)
                 {
-                    c = BitmapHelper.SavedDominantColors[0];
+                    brush = BitmapHelper.SavedDominantColors[0];
+                    ControlPlayPause.Background = brush;
                 }
-
-                ControlPlayPause.Background = new SolidColorBrush(c);
 
                 // acrylic effect setting
                 if (SettingsManager.Current.MediaFlyoutAcrylicWindowEnabled != _acrylicEnabled

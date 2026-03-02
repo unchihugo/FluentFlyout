@@ -62,7 +62,11 @@ internal static class BitmapHelper
     {
         if (!SettingsManager.Current.UseAlbumArtAsAccentColor)
         {
-            _savedDominantColors = [(SolidColorBrush)Application.Current.Resources["MicaWPF.Brushes.SystemAccentColorTertiary"]];
+            var accent = (SolidColorBrush)Application.Current.TryFindResource("MicaWPF.Brushes.SystemAccentColorTertiary");
+            if (!accent.IsFrozen)
+                accent = accent.Clone();
+            accent.Freeze();
+            _savedDominantColors = [accent];
             return _savedDominantColors;
         }
 
@@ -260,14 +264,19 @@ internal static class BitmapHelper
         }
 
         // convert to brushes
-        var brushes = result.Select(c => new SolidColorBrush(c)).ToList();
+        var brushes = result.Select(c =>
+        {
+            var brush = new SolidColorBrush(c);
+            brush.Freeze(); // makes it immutable & thread-safe
+            return brush;
+        }).ToList();
+
         _savedDominantColors = brushes;
 
 #if DEBUG
         stopwatch.Stop();
         Logger.Debug($"Dominant color extraction took {stopwatch.Elapsed.TotalMilliseconds} ms");
 #endif
-
         return _savedDominantColors;
     }
 
