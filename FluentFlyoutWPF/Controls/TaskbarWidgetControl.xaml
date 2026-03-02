@@ -31,6 +31,22 @@
                         <ScaleTransform ScaleX="0.9" ScaleY="0.9" />
                     </Grid.RenderTransform>
                     <StackPanel Name="MainStackPanel" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Width="Auto" Margin="4,0,-100,0">
+                        <StackPanel Name="ControlsStackPanel" Orientation="Horizontal" VerticalAlignment="Center" Width="Auto" Margin="0,0,8,0">
+                            <StackPanel.Style>
+                                <Style TargetType="StackPanel">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding TaskbarWidgetControlsEnabled}" Value="True">
+                                            <Setter Property="Visibility" Value="Visible" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </StackPanel.Style>
+                            <ui:Button Name="PreviousButton" Appearance="Transparent" Icon="{ui:SymbolIcon Previous20, Filled=True}" Height="32" Width="32" Padding="0" BorderThickness="0" Margin="0,0,0,-1" Click="Previous_Click"/>
+                            <ui:Button Name="PlayPauseButton" Appearance="Transparent" Icon="{ui:SymbolIcon Pause16, Filled=True}" Height="32" Width="32" Padding="0" BorderThickness="0" Margin="0,0,0,-1" Click="PlayPause_Click"/>
+                            <ui:Button Name="NextButton" Appearance="Transparent" Icon="{ui:SymbolIcon Next20, Filled=True}" Height="32" Width="32" Padding="0" BorderThickness="0" Margin="0,0,0,-1" Click="Next_Click"/>
+                        </StackPanel>
+
                         <Border Name="SongImageBorder" CornerRadius="5" Margin="0,0,0,-2" ClipToBounds="True" Width="36" Height="36" Panel.ZIndex="2">
                             <Grid>
                                 <ui:SymbolIcon Name="SongImagePlaceholder" Symbol="MusicNote220" FontSize="24" Filled="True" Foreground="{DynamicResource MicaWPF.Brushes.SystemAccentColorTertiary}" />
@@ -47,22 +63,6 @@
                                     ToolTipService.VerticalOffset="-16">
                             <TextBlock Name="SongTitle" Text="" FontWeight="Normal" TextTrimming="CharacterEllipsis" Foreground="{ui:ThemeResource TextFillColorPrimaryBrush}" />
                             <TextBlock Name="SongArtist" Text="" FontWeight="Normal" Opacity="0.5" Margin="0,-1.5,0,0" TextTrimming="CharacterEllipsis" Foreground="{ui:ThemeResource TextFillColorPrimaryBrush}" />
-                        </StackPanel>
-
-                        <StackPanel Name="ControlsStackPanel" Orientation="Horizontal" VerticalAlignment="Center" Width="Auto" Margin="8,0,0,0">
-                            <StackPanel.Style>
-                                <Style TargetType="StackPanel">
-                                    <Setter Property="Visibility" Value="Collapsed" />
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding TaskbarWidgetControlsEnabled}" Value="True">
-                                            <Setter Property="Visibility" Value="Visible" />
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </StackPanel.Style>
-                            <ui:Button Name="PreviousButton" Appearance="Transparent" Icon="{ui:SymbolIcon Previous20, Filled=True}" Height="32" Width="32" Padding="0" BorderThickness="0" Margin="0,0,0,-1" Click="Previous_Click"/>
-                            <ui:Button Name="PlayPauseButton" Appearance="Transparent" Icon="{ui:SymbolIcon Pause16, Filled=True}" Height="32" Width="32" Padding="0" BorderThickness="0" Margin="0,0,0,-1" Click="PlayPause_Click"/>
-                            <ui:Button Name="NextButton" Appearance="Transparent" Icon="{ui:SymbolIcon Next20, Filled=True}" Height="32" Width="32" Padding="0" BorderThickness="0" Margin="0,0,0,-1" Click="Next_Click"/>
                         </StackPanel>
 
                     </StackPanel>

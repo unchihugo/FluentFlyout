@@ -43,6 +43,15 @@ public partial class TaskbarWidgetControl : UserControl
         // Set DataContext for bindings
         DataContext = SettingsManager.Current;
 
+        // Subscribe to position changes to reorder controls
+        SettingsManager.Current.PropertyChanged += (s, e) =>
+        {
+            if (e.PropertyName == nameof(SettingsManager.Current.TaskbarWidgetControlsPosition))
+            {
+                ReorderControls();
+            }
+        };
+
         MainBorder.SizeChanged += (s, e) =>
         {
             var rect = new RectangleGeometry(new Rect(0, 0, MainBorder.ActualWidth, MainBorder.ActualHeight), 6, 6);
@@ -57,6 +66,42 @@ public partial class TaskbarWidgetControl : UserControl
         }
 
         Background = new SolidColorBrush(Color.FromArgb(1, 0, 0, 0)); ;
+        
+        // Initialize control order
+        ReorderControls();
+    }
+
+    private void ReorderControls()
+    {
+        // Remove all children from MainStackPanel
+        var children = new List<UIElement>();
+        foreach (UIElement child in MainStackPanel.Children)
+        {
+            children.Add(child);
+        }
+        MainStackPanel.Children.Clear();
+
+        // Reorder based on position setting
+        if (SettingsManager.Current.TaskbarWidgetControlsPosition == 0)
+        {
+            // Left: Controls, Image, Info
+            MainStackPanel.Children.Add(ControlsStackPanel);
+            MainStackPanel.Children.Add(SongImageBorder);
+            MainStackPanel.Children.Add(SongInfoStackPanel);
+            
+            // Update margins
+            ControlsStackPanel.Margin = new Thickness(0, 0, 8, 0);
+        }
+        else
+        {
+            // Right: Image, Info, Controls
+            MainStackPanel.Children.Add(SongImageBorder);
+            MainStackPanel.Children.Add(SongInfoStackPanel);
+            MainStackPanel.Children.Add(ControlsStackPanel);
+            
+            // Update margins
+            ControlsStackPanel.Margin = new Thickness(8, 0, 0, 0);
+        }
     }
 
     public void SetMainWindow(MainWindow mainWindow)
