@@ -204,4 +204,6 @@
     <system:String x:Key="ImportSettings">Импорт настроек</system:String>
     <system:String x:Key="BackupRestoreCardTitle">Создание и восстановление резервной копию настроек</system:String>
     <system:String x:Key="ExportSettings">Экспорт настроек</system:String>
+    <system:String x:Key="ExportSuccessful">Экспорт выполнен успешно</system:String>
+    <system:String x:Key="ImportFailed">Ошибка импорта</system:String>
 </ResourceDictionary>
