@@ -135,17 +135,21 @@ public static class LocalizationManager
         //Calculate the Lock Key Flyout text's Max Lenght
         List<double> Lengths = new List<double>();
 
-        Lengths.Add(StringWidth.GetStringWidth(Application.Current.Resources["LockWindow_InsertPressed"].ToString()));
+        Lengths.Add(StringWidth.GetStringWidth(Application.Current.TryFindResource("LockWindow_InsertPressed").ToString()));
 
-        var On = Application.Current.Resources["LockWindow_LockOn"].ToString();
-        var Off = Application.Current.Resources["LockWindow_LockOff"].ToString();
+        var On = Application.Current.TryFindResource("LockWindow_LockOn")?.ToString() ?? string.Empty;
+        var Off = Application.Current.TryFindResource("LockWindow_LockOff")?.ToString() ?? string.Empty;
         var OnOffMax = On.Length >= Off.Length ? On + " " : Off + " ";
 
-        Lengths.Add(StringWidth.GetStringWidth(OnOffMax + Application.Current.Resources["LockWindow_CapsLock"].ToString()));
-        Lengths.Add(StringWidth.GetStringWidth(OnOffMax + Application.Current.Resources["LockWindow_NumLock"].ToString()));
-        Lengths.Add(StringWidth.GetStringWidth(OnOffMax + Application.Current.Resources["LockWindow_ScrollLock"].ToString()));
+        Lengths.Add(StringWidth.GetStringWidth(OnOffMax + Application.Current.TryFindResource("LockWindow_CapsLock").ToString()));
+        Lengths.Add(StringWidth.GetStringWidth(OnOffMax + Application.Current.TryFindResource("LockWindow_NumLock").ToString()));
+        Lengths.Add(StringWidth.GetStringWidth(OnOffMax + Application.Current.TryFindResource("LockWindow_ScrollLock").ToString()));
 
         maxLength = Lengths.Max();
+
+        // set minimum when sometimes the calculated length was too short for some reason
+        if (maxLength < 20)
+            maxLength = 115; // 160 (default width) - 45 (estimated padding)
     }
 
     private static void ApplyFlowDirection(string languageCode)
