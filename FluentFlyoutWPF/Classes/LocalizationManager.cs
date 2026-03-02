@@ -129,25 +129,25 @@ public static class LocalizationManager
             {
                 // do nothing and keep the default (en-US)
                 Logger.Warn("Localization file not found for language: " + culture);
-                return;
             }
         }
+
         //Calculate the Lock Key Flyout text's Max Lenght
         List<double> Lengths = new List<double>();
 
-        Lengths.Add(StringWidth.GetStringWidth(Application.Current.TryFindResource("LockWindow_InsertPressed").ToString()));
+        Lengths.Add(StringWidth.GetStringWidth(Application.Current.TryFindResource("LockWindow_InsertPressed").ToString() ?? string.Empty));
 
         var On = Application.Current.TryFindResource("LockWindow_LockOn")?.ToString() ?? string.Empty;
         var Off = Application.Current.TryFindResource("LockWindow_LockOff")?.ToString() ?? string.Empty;
         var OnOffMax = On.Length >= Off.Length ? On + " " : Off + " ";
 
-        Lengths.Add(StringWidth.GetStringWidth(OnOffMax + Application.Current.TryFindResource("LockWindow_CapsLock").ToString()));
-        Lengths.Add(StringWidth.GetStringWidth(OnOffMax + Application.Current.TryFindResource("LockWindow_NumLock").ToString()));
-        Lengths.Add(StringWidth.GetStringWidth(OnOffMax + Application.Current.TryFindResource("LockWindow_ScrollLock").ToString()));
+        Lengths.Add(StringWidth.GetStringWidth(OnOffMax + Application.Current.TryFindResource("LockWindow_CapsLock").ToString() ?? string.Empty));
+        Lengths.Add(StringWidth.GetStringWidth(OnOffMax + Application.Current.TryFindResource("LockWindow_NumLock").ToString() ?? string.Empty));
+        Lengths.Add(StringWidth.GetStringWidth(OnOffMax + Application.Current.TryFindResource("LockWindow_ScrollLock").ToString() ?? string.Empty));
 
         maxLength = Lengths.Max();
 
-        // set minimum when sometimes the calculated length was too short for some reason
+        // set minimum just in case if resources weren't loaded
         if (maxLength < 20)
             maxLength = 115; // 160 (default width) - 45 (estimated padding)
     }
