@@ -200,4 +200,17 @@ Puoi contribuire alla traduzione su</system:String>
     <system:String x:Key="TaskbarVisualizerOutputDeviceDescription">Cambia la sorgente del visualizzatore modificando il dispositivo di uscita di FluentFlyout.</system:String>
     <system:String x:Key="TaskbarWidgetCloseableFlyoutTitle">Chiudi Flyout al Secondo Clic</system:String>
     <system:String x:Key="TaskbarWidgetCloseableFlyoutDescription">Chiude il flyout se è già aperto quando si clicca il widget della barra delle applicazioni</system:String>
+    <system:String x:Key="BackupRestoreSectionTitle">Backup e Ripristino</system:String>
+    <system:String x:Key="BackupRestoreCardTitle">Salva e ripristina le tue impostazioni</system:String>
+    <system:String x:Key="ExportSettings">Esporta Impostazioni</system:String>
+    <system:String x:Key="ImportSettings">Importa Impostazioni</system:String>
+    <system:String x:Key="ExportSuccessful">Esportazione Riuscita</system:String>
+    <system:String x:Key="ExportFailed">Esportazione Fallita</system:String>
+    <system:String x:Key="ImportSuccessful">Importazione Riuscita</system:String>
+    <system:String x:Key="ImportFailed">Importazione Fallita</system:String>
+    <system:String x:Key="SettingsExportedSuccessfully">Impostazioni esportate con successo!</system:String>
+    <system:String x:Key="FailedToExportSettings">Esportazione delle impostazioni fallita. Controlla i log per dettagli.</system:String>
+    <system:String x:Key="SettingsImportedSuccessfully">Impostazioni importate con successo! L'applicazione si riavvierà per applicare i cambiamenti.</system:String>
+    <system:String x:Key="ImportSettingsWarning">Questo sostituirà tutte le impostazioni attuali. Continuare?</system:String>
+    <system:String x:Key="FailedToImportSettings">Importazione delle impostazioni fallita. Controlla i log per dettagli.</system:String>
 </ResourceDictionary>
