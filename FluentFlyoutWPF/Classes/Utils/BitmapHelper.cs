@@ -1,4 +1,7 @@
-﻿using FluentFlyout.Classes.Settings;
+﻿// Copyright © 2024-2026 The FluentFlyout Authors
+// SPDX-License-Identifier: GPL-3.0-or-later
+
+using FluentFlyout.Classes.Settings;
 using System.IO;
 using System.Windows;
 using System.Windows.Media;
@@ -21,7 +24,7 @@ internal static class BitmapHelper
         get => _savedDominantColors ??= [];
     }
 
-    internal static BitmapImage? GetThumbnail(IRandomAccessStreamReference Thumbnail, int maxThumbnailSize = _maxThumbnailSize)
+    internal static BitmapImage? GetThumbnail(IRandomAccessStreamReference? Thumbnail, int maxThumbnailSize = _maxThumbnailSize)
     {
         if (Thumbnail == null)
             return null;
@@ -42,7 +45,7 @@ internal static class BitmapHelper
         return image;
     }
 
-    internal static CroppedBitmap? CropToSquare(BitmapImage sourceImage)
+    internal static CroppedBitmap? CropToSquare(BitmapImage? sourceImage)
     {
         if (sourceImage == null)
             return null;

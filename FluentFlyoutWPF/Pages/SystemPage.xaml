@@ -54,7 +54,7 @@
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
                         <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{DynamicResource UseAlbumArtAccentColorTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
+                            <TextBlock Text="{DynamicResource UseAlbumArtAccentColorTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
                             <ui:InfoBadge Value=" NEW " FontWeight="Medium" FontSize="10" Margin="2,-2,0,-2" Severity="Success" />
                         </StackPanel>
                         <TextBlock Text="{DynamicResource UseAlbumArtAccentColorDescription}" FontSize="12" Opacity="0.5" />

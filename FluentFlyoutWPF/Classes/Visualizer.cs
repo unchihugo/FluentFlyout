@@ -301,7 +301,7 @@ namespace FluentFlyoutWPF.Classes
                             // get dominant color for bars
                             SolidColorBrush brush = BitmapHelper.SavedDominantColors.Count > 0 ?
                                 BitmapHelper.SavedDominantColors.Last()
-                                : (SolidColorBrush)Application.Current.Resources["SystemAccentColorBrush"];
+                                : (SolidColorBrush)Application.Current.TryFindResource("MicaWPF.Brushes.SystemAccentColorTertiary");
 
                             bool centeredBars = SettingsManager.Current.TaskbarVisualizerCenteredBars;
                             int barBaseline = SettingsManager.Current.TaskbarVisualizerBaseline ? 4 : 0;
