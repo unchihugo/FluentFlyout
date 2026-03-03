@@ -56,7 +56,7 @@
     <system:String x:Key="EnableNextUpDescription">Отображает, что будет дальше после окончания текущего медиа</system:String>
     <system:String x:Key="NextUpStayDurationTitle">Длительность отображения окна</system:String>
     <system:String x:Key="NextUpStayDurationDescription">(по умолчанию: 2000 мс)</system:String>
-    <system:String x:Key="LockKeysCustomizationTitle">Всплывающие клавиши-переключатели</system:String>
+    <system:String x:Key="LockKeysCustomizationTitle">Клавиши-переключатели</system:String>
     <system:String x:Key="LockKeysDescription" xml:space="preserve">Уведомление о смене состояния клавиш-переключателей. Появляется после нажатия Caps Lock, Num Lock или Scroll Lock. Удобно для ноутбуков и клавиатур без индикаторов клавиш-переключателей.</system:String>
     <system:String x:Key="EnableLockKeysTitle">Включить всплывающие клавиши-переключатели</system:String>
     <system:String x:Key="EnableLockKeysDescription">Отображает окно о состоянии нажатой клавиши-переключателе</system:String>
