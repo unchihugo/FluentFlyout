@@ -454,6 +454,9 @@ public partial class MainWindow : MicaWindow
 
     public void UpdateTaskbar()
     {
+        // Reorder controls if needed
+        taskbarWindow?.Widget?.ReorderControls();
+        
         if (!mediaManager.IsStarted || mediaManager.GetFocusedSession() == null)
         {
             taskbarWindow?.UpdateUi("-", "-", null, GlobalSystemMediaTransportControlsSessionPlaybackStatus.Closed);
