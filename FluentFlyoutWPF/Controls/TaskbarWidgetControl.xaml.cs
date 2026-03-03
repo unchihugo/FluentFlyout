@@ -43,15 +43,6 @@ public partial class TaskbarWidgetControl : UserControl
         // Set DataContext for bindings
         DataContext = SettingsManager.Current;
 
-        // Subscribe to position changes to reorder controls
-        SettingsManager.Current.PropertyChanged += (s, e) =>
-        {
-            if (e.PropertyName == nameof(SettingsManager.Current.TaskbarWidgetControlsPosition))
-            {
-                ReorderControls();
-            }
-        };
-
         MainBorder.SizeChanged += (s, e) =>
         {
             var rect = new RectangleGeometry(new Rect(0, 0, MainBorder.ActualWidth, MainBorder.ActualHeight), 6, 6);
@@ -71,35 +62,22 @@ public partial class TaskbarWidgetControl : UserControl
         ReorderControls();
     }
 
-    private void ReorderControls()
+    public void ReorderControls()
     {
-        // Remove all children from MainStackPanel
-        var children = new List<UIElement>();
-        foreach (UIElement child in MainStackPanel.Children)
-        {
-            children.Add(child);
-        }
-        MainStackPanel.Children.Clear();
+        // Remove ControlsStackPanel from MainStackPanel
+        MainStackPanel.Children.Remove(ControlsStackPanel);
 
         // Reorder based on position setting
         if (SettingsManager.Current.TaskbarWidgetControlsPosition == 0)
         {
             // Left: Controls, Image, Info
-            MainStackPanel.Children.Add(ControlsStackPanel);
-            MainStackPanel.Children.Add(SongImageBorder);
-            MainStackPanel.Children.Add(SongInfoStackPanel);
-            
-            // Update margins
-            ControlsStackPanel.Margin = new Thickness(0, 0, 8, 0);
+            MainStackPanel.Children.Insert(0, ControlsStackPanel);
+            ControlsStackPanel.Margin = new Thickness(2, 0, 6, 0); // for some reason margins are weird on left side
         }
         else
         {
             // Right: Image, Info, Controls
-            MainStackPanel.Children.Add(SongImageBorder);
-            MainStackPanel.Children.Add(SongInfoStackPanel);
             MainStackPanel.Children.Add(ControlsStackPanel);
-            
-            // Update margins
             ControlsStackPanel.Margin = new Thickness(8, 0, 0, 0);
         }
     }
