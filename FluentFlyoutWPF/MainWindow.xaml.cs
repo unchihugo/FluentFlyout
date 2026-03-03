@@ -571,7 +571,7 @@ public partial class MainWindow : MicaWindow
 
         var thumbnail = BitmapHelper.GetThumbnail(songInfo.Thumbnail);
         taskbarWindow?.UpdateUi(songInfo.Title, songInfo.Artist, thumbnail, playbackInfo.PlaybackStatus, playbackInfo.Controls);
-        BitmapHelper.GetDominantColors(thumbnail, 1);
+        BitmapHelper.GetDominantColors(1);
 
         pauseOtherMediaSessionsIfNeeded(mediaSession);
 
@@ -920,11 +920,10 @@ public partial class MainWindow : MicaWindow
                 BackgroundImageStyle3.Visibility = SettingsManager.Current.MediaFlyoutBackgroundBlur == 3 ? Visibility.Visible : Visibility.Collapsed;
 
                 // color play/pause button
-                SolidColorBrush brush;
                 if (BitmapHelper.SavedDominantColors.Count > 0)
                 {
-                    brush = BitmapHelper.SavedDominantColors[0];
-                    ControlPlayPause.Background = brush;
+                    SolidColorBrush brush = BitmapHelper.SavedDominantColors.First();
+                    ControlPlayPause.Background = brush; 
                 }
 
                 // acrylic effect setting
@@ -1423,6 +1422,7 @@ public partial class MainWindow : MicaWindow
             Logger.Error(ex, "Failed to initialize license");
         }
 
+        BitmapHelper.GetDominantColors(1);
         taskbarWindow = new TaskbarWindow();
         UpdateTaskbar();
     }

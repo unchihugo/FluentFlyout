@@ -14,6 +14,7 @@ internal static class BitmapHelper
     
     private const int _maxThumbnailSize = 256; // previously 512, reduced for application memory
     private static List<SolidColorBrush>? _savedDominantColors;
+    private static BitmapImage? _cachedImage;
 
     public static List<SolidColorBrush> SavedDominantColors
     {
@@ -36,6 +37,8 @@ internal static class BitmapHelper
             image.EndInit();
         }
         image.Freeze();
+
+        _cachedImage = image;
         return image;
     }
 
@@ -57,23 +60,31 @@ internal static class BitmapHelper
         return croppedBitmap;
     }
 
-    // K-means clustering for multiple colors, histogram peak for single color
-    public static List<SolidColorBrush> GetDominantColors(BitmapImage? bitmap, int colorCount, int maxIterations = 15)
+    /// <summary>
+    /// Gets dominant colors from last cached Bitmap from GetThumbnail method.
+    /// K-means clustering for multiple colors, histogram peak for single color.
+    /// </summary>
+    /// <param name="colorCount">Amount of colors needed</param>
+    /// <param name="maxIterations">Amount of k-means iterations (more = higher accuracy)</param>
+    /// <returns>List of dominant colors from cached Bitmap as SolidColorBrush</returns>
+    public static List<SolidColorBrush> GetDominantColors(int colorCount, int maxIterations = 15)
     {
-        if (!SettingsManager.Current.UseAlbumArtAsAccentColor)
+        if (!SettingsManager.Current.UseAlbumArtAsAccentColor || _cachedImage == null)
         {
-            var accent = (SolidColorBrush)Application.Current.TryFindResource("MicaWPF.Brushes.SystemAccentColorTertiary");
+            // control color (buttons, etc.)
+            var accent = (SolidColorBrush)Application.Current.TryFindResource("MicaWPF.Brushes.SystemAccentColorSecondary");
             if (!accent.IsFrozen)
                 accent = accent.Clone();
             accent.Freeze();
-            _savedDominantColors = [accent];
-            return _savedDominantColors;
-        }
 
-        if (bitmap == null)
-        {
-            _savedDominantColors = [];
-            return [];
+            // accent color (for non-control elements)
+            var accent2 = (SolidColorBrush)Application.Current.TryFindResource("MicaWPF.Brushes.SystemAccentColorTertiary");
+            if (!accent2.IsFrozen)
+                accent2 = accent2.Clone();
+            accent2.Freeze();
+
+            _savedDominantColors = [accent, accent2];
+            return _savedDominantColors;
         }
 
 #if DEBUG
@@ -84,7 +95,7 @@ internal static class BitmapHelper
         // convert BitmapImage to BGRA byte array
         var formattedBitmap = new FormatConvertedBitmap();
         formattedBitmap.BeginInit();
-        formattedBitmap.Source = bitmap;
+        formattedBitmap.Source = _cachedImage;
         formattedBitmap.DestinationFormat = PixelFormats.Bgra32;
         formattedBitmap.EndInit();
 
@@ -222,12 +233,9 @@ internal static class BitmapHelper
             result = [.. centroids.Select(c => Color.FromArgb(255, (byte)c[0], (byte)c[1], (byte)c[2]))];
         }
 
-        // lighten colors and add contrast when in dark mode
         if (ApplicationThemeManager.GetSystemTheme() == SystemTheme.Dark)
         {
-            double exposure = 0.55;
-            double contrast = 1.10;
-
+            // lighten colors and add contrast when in dark mode
             result = [.. result
                 .Select(c =>
                 {
@@ -235,32 +243,42 @@ internal static class BitmapHelper
                     double g = ToLinear(c.G);
                     double b = ToLinear(c.B);
 
-                    double originalL = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+                    double luminance = 0.2126 * r + 0.7152 * g + 0.0722 * b;
 
-                    // lift dark colors
-                    double liftedL = Math.Max(originalL, 0.08);
+                    // lift colors that are too dark for black backgrounds
+                    double targetL = Math.Max(luminance, 0.75);
+                    double scale = targetL / Math.Max(0.0001, luminance);
+                    r *= scale; g *= scale; b *= scale;
 
-                    // exposure + contrast applied to lifted luminance
-                    double targetL = (liftedL + exposure - 0.5) * contrast + 0.5;
-                    targetL = Math.Clamp(targetL, 0, 1);
-
-                    double scale = targetL / Math.Max(0.0001, originalL);
-
-                    // cap scale to prevent oversaturation on very dark colors
-                    scale = Math.Min(scale, 4.0);
-
-                    r *= scale;
-                    g *= scale;
-                    b *= scale;
-
-                    double scaleFactor = Math.Clamp((scale - 1.0) / 3.0, 0, 1);
+                    // desaturate
+                    double desaturation = 0.35;
                     double newL = 0.2126 * r + 0.7152 * g + 0.0722 * b;
-                    r = r + (newL - r) * scaleFactor * 0.35;
-                    g = g + (newL - g) * scaleFactor * 0.35;
-                    b = b + (newL - b) * scaleFactor * 0.35;
+                    r += (newL - r) * desaturation;
+                    g += (newL - g) * desaturation;
+                    b += (newL - b) * desaturation;
 
                     return Color.FromArgb(c.A, ToGamma(r), ToGamma(g), ToGamma(b));
                 })];
+
+        }
+        else
+        {
+            // just desaturate when in light mode
+            result = [.. result
+            .Select(c =>
+            {
+                double r = ToLinear(c.R);
+                double g = ToLinear(c.G);
+                double b = ToLinear(c.B);
+
+                double desaturation = 0.35;
+                double newL = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+                r += (newL - r) * desaturation;
+                g += (newL - g) * desaturation;
+                b += (newL - b) * desaturation;
+
+                return Color.FromArgb(c.A, ToGamma(r), ToGamma(g), ToGamma(b));
+            })];
         }
 
         // convert to brushes

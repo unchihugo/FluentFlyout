@@ -299,16 +299,9 @@ namespace FluentFlyoutWPF.Classes
                             int barWidth = (ImageWidth - (BarCount - 1) * BarSpacing) / BarCount;
 
                             // get dominant color for bars
-                            SolidColorBrush brush;
-                            if (BitmapHelper.SavedDominantColors.Count > 0)
-                            {
-                                brush = BitmapHelper.SavedDominantColors[0];
-                            } 
-                            else
-                            {
-                                // normally should never reach here
-                                brush = (SolidColorBrush)Application.Current.Resources["SystemAccentColorBrush"];
-                            }
+                            SolidColorBrush brush = BitmapHelper.SavedDominantColors.Count > 0 ?
+                                BitmapHelper.SavedDominantColors.Last()
+                                : (SolidColorBrush)Application.Current.Resources["SystemAccentColorBrush"];
 
                             bool centeredBars = SettingsManager.Current.TaskbarVisualizerCenteredBars;
                             int barBaseline = SettingsManager.Current.TaskbarVisualizerBaseline ? 4 : 0;

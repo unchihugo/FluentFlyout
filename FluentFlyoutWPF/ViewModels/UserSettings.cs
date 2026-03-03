@@ -6,6 +6,7 @@ using FluentFlyout.Classes;
 using FluentFlyout.Classes.Settings;
 using FluentFlyout.Controls;
 using FluentFlyoutWPF.Classes;
+using FluentFlyoutWPF.Classes.Utils;
 using FluentFlyoutWPF.Models;
 using System.Collections.ObjectModel;
 using System.Windows;
@@ -705,6 +706,6 @@ public partial class UserSettings : ObservableObject
     partial void OnUseAlbumArtAsAccentColorChanged(bool oldValue, bool newValue)
     {
         if (oldValue == newValue || _initializing) return;
-        // TODO: refresh colors
+        BitmapHelper.GetDominantColors(1);
     }
 }
