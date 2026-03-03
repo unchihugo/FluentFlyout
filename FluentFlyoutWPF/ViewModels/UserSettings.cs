@@ -677,7 +677,9 @@ public partial class UserSettings : ObservableObject
     partial void OnTaskbarWidgetControlsPositionChanged(int oldValue, int newValue)
     {
         if (oldValue == newValue || _initializing) return;
-        UpdateTaskbar();
+        
+        MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+        mainWindow.taskbarWindow?.Widget?.ReorderControls();
     }
 
     partial void OnTaskbarVisualizerPositionChanged(int oldValue, int newValue)
