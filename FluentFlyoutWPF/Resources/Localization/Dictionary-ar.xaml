@@ -5,7 +5,7 @@
     <system:String x:Key="TextBlockText1">تفعيل الوسائط المنبثقة</system:String>
     <system:String x:Key="TextBlockText3">عرض نافذة منبثقة عند الضغط على مفتاح الوسائط</system:String>
     <system:String x:Key="TextBlockText2">اختر من بين مجموعة مسبقة من أشكال الخلفية الحديثة</system:String>
-    <system:String x:Key="BackgroundBlurOption1" xml:space="preserve"> .بدون</system:String>
+    <system:String x:Key="BackgroundBlurOption1" xml:space="preserve"> بدون</system:String>
     <system:String x:Key="BackgroundBlurOption2" xml:space="preserve"> .النمط 1 (شكل متوهج)</system:String>
     <system:String x:Key="BackgroundBlurOption3" xml:space="preserve"> .النمط 2 (توهج متصاعد)</system:String>
     <system:String x:Key="BackgroundBlurOption4" xml:space="preserve"> . النمط 3 (ضبابي)</system:String>
@@ -180,7 +180,7 @@
     <system:String x:Key="TaskbarVisualizerCenteredBarsDescription">أعمدة تتمدد بشكل متناظر من المركز بدلاً من أن ترتفع من الأسفل</system:String>
     <system:String x:Key="TaskbarVisualizerBaselineDescription">إظهار خط رفيع عندما يكون مستوى الصوت صفر</system:String>
     <system:String x:Key="TaskbarVisualizerAudioSensitivityTitle">حساسية الصوت</system:String>
-    <system:String x:Key="TaskbarVisualizerAudioSensitivityDescription">مدى استجابة الأعمدة لشدة الصوت</system:String>
+    <system:String x:Key="TaskbarVisualizerAudioSensitivityDescription">ما الحد الأدنى لمستوى الصوت الذي يجب تجاوزه لكي تبدأ الأشرطة بالتحرك</system:String>
     <system:String x:Key="UnlockFullExperienceText">احصل على تجربة FluentFlyout الكاملة:</system:String>
     <system:String x:Key="AllFuturePremiumFeatures">جميع المميزات الخاصة المستقبلية</system:String>
     <system:String x:Key="TranslatorsTitle">المترجمون</system:String>
@@ -196,4 +196,21 @@
     <system:String x:Key="UpdatesSectionTitle">التحديثات</system:String>
     <system:String x:Key="TaskbarVisualizerOutputDeviceTitle">جهاز الإخراج</system:String>
     <system:String x:Key="TaskbarVisualizerOutputDeviceDescription">تغيير جهاز الإخراج الذي يستعمله FluentFlyout للمرئيات التفاعلية.</system:String>
+    <system:String x:Key="TaskbarWidgetCloseableFlyoutTitle">إغلاق القائمة المنبثقة عند الضعط مرتين</system:String>
+    <system:String x:Key="TaskbarWidgetCloseableFlyoutDescription">أغلق القائمة المنبثقة إذا كانت مفتوحة مسبقاً عند النقر على أداة شريط المهام</system:String>
+    <system:String x:Key="BackupRestoreSectionTitle">النسخ الاحتياطي والاستعادة</system:String>
+    <system:String x:Key="BackupRestoreCardTitle">نسخ إعداداتك احتياطياً واستعادتها</system:String>
+    <system:String x:Key="ExportSettings">تصدير الإعدادات</system:String>
+    <system:String x:Key="ImportSettings">استيراد الإعدادات</system:String>
+    <system:String x:Key="ExportSuccessful">تم التصدير بنجاح</system:String>
+    <system:String x:Key="ExportFailed">فشل التصدير</system:String>
+    <system:String x:Key="ImportSuccessful">تم الاستيراد بنجاح</system:String>
+    <system:String x:Key="ImportFailed">فشل الاستيراد</system:String>
+    <system:String x:Key="SettingsExportedSuccessfully">تم تصدير الإعدادات بنجاح!</system:String>
+    <system:String x:Key="FailedToExportSettings">فشل تصدير الإعدادات. تحقق من السجلات للمزيد من التفاصيل.</system:String>
+    <system:String x:Key="SettingsImportedSuccessfully">تم استيراد الإعدادات بنجاح! سيُعاد تشغيل التطبيق الآن لتطبيق التغييرات.</system:String>
+    <system:String x:Key="ImportSettingsWarning">سيؤدي هذا إلى استبدال جميع إعداداتك الحالية. هل تريد المتابعة؟</system:String>
+    <system:String x:Key="FailedToImportSettings">فشل استيراد الإعدادات. تحقق من السجلات للمزيد من التفاصيل.</system:String>
+    <system:String x:Key="TaskbarVisualizerAudioPeakLevelDescription">الحد الأدنى لشدة الصوت الذي تبلغ عنده الأشرطة ارتفاعها الأقصى</system:String>
+    <system:String x:Key="TaskbarVisualizerAudioPeakLevelTitle">حد ذروة الصوت</system:String>
 </ResourceDictionary>

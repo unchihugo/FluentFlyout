@@ -169,7 +169,7 @@ Nota: Como proyecto de código abierto, estas opciones también están disponibl
     <system:String x:Key="UpdateAvailableNotificationTitle">¡Actualización disponible!</system:String>
     <system:String x:Key="MediaFlyoutExcludeVolumeTitle">Excluir las Teclas de Volumen</system:String>
     <system:String x:Key="MediaFlyoutExcludeVolumeDescription">No mostrar el flyout cuando se presionen las teclas de volumen arriba/abajo/mudo</system:String>
-    <system:String x:Key="TaskbarVisualizerAudioSensitivityDescription">Con cuanta intensidad responden las barras al volumen</system:String>
+    <system:String x:Key="TaskbarVisualizerAudioSensitivityDescription">Como de alto debe ser el volumen antes de que las barras empiecen a moverse</system:String>
     <system:String x:Key="TaskbarVisualizerTitle">Visualizador de la Barra de Tareas</system:String>
     <system:String x:Key="TaskbarVisualizerDescription">Un visualizador de audio en tiempo real en tu barra de tareas. Diseñado para un impacto mínimo en el rendimiento de sistemas modernos.</system:String>
     <system:String x:Key="TaskbarVisualizerEnabledTitle">Activar Visualizador de la Barra de Tareas (Experimental)</system:String>
@@ -196,4 +196,21 @@ Nota: Como proyecto de código abierto, estas opciones también están disponibl
     <system:String x:Key="SponsorMeLink">Patrociname</system:String>
     <system:String x:Key="TaskbarVisualizerOutputDeviceDescription">Cambia lo que muestra el visualizador cambiando el dispositivo de salida de FluentFlyout.</system:String>
     <system:String x:Key="TaskbarVisualizerOutputDeviceTitle">Dispositivo de Salida</system:String>
+    <system:String x:Key="BackupRestoreCardTitle">Respalda y restaura tus ajustes</system:String>
+    <system:String x:Key="ExportSettings">Exportar Ajustes</system:String>
+    <system:String x:Key="ImportSettings">Importar Ajustes</system:String>
+    <system:String x:Key="ExportSuccessful">Exportado Correctamente</system:String>
+    <system:String x:Key="ExportFailed">Exportado Fallido</system:String>
+    <system:String x:Key="ImportSuccessful">Importado Correctamente</system:String>
+    <system:String x:Key="ImportFailed">Importado Fallido</system:String>
+    <system:String x:Key="SettingsExportedSuccessfully">¡Los ajustes se han exportado correctamente!</system:String>
+    <system:String x:Key="FailedToExportSettings">Fallo al exportar ajustes. Revisa los logs para obtener detalles.</system:String>
+    <system:String x:Key="SettingsImportedSuccessfully">¡Los ajustes se han importado correctamente! La aplicación se reiniciará para aplicar los cambios.</system:String>
+    <system:String x:Key="ImportSettingsWarning">Esto remplazará todos tus ajustes actuales. ¿Quieres continuar?</system:String>
+    <system:String x:Key="FailedToImportSettings">Fallo al importar ajustes. Revisa los logs para obtener detalles.</system:String>
+    <system:String x:Key="TaskbarWidgetCloseableFlyoutTitle">Cierra el Flyout con Dos Clicks</system:String>
+    <system:String x:Key="TaskbarWidgetCloseableFlyoutDescription">Cierra el flyout si esta abierto al hacer click en el widget de la barra de herramientas</system:String>
+    <system:String x:Key="TaskbarVisualizerAudioPeakLevelTitle">Umbral Máximo del Audio</system:String>
+    <system:String x:Key="TaskbarVisualizerAudioPeakLevelDescription">Como de alto debe de ser el volumen para que las barras alcancen su altura máxima</system:String>
+    <system:String x:Key="BackupRestoreSectionTitle">Copias de seguridad y restauración</system:String>
 </ResourceDictionary>
