@@ -196,4 +196,16 @@ Możesz pomóc w tworzeniu tłumaczeń na stronie</system:String>
     <system:String x:Key="ShowUpdateNotificationsTitle">Pokaż powiadomienia o aktualizacjach</system:String>
     <system:String x:Key="TaskbarVisualizerOutputDeviceTitle">Urządzenie wyjściowe</system:String>
     <system:String x:Key="TaskbarVisualizerOutputDeviceDescription">Zmień czego nasłuchuje wizualizer poprzez zmianę urządzenia wyjściowego dla FluentFlyout.</system:String>
+    <system:String x:Key="BackupRestoreCardTitle">Stwórz kopię zapasową i przywróć swoje ustawienia</system:String>
+    <system:String x:Key="ExportSettings">Eksportuj ustawienia</system:String>
+    <system:String x:Key="ImportSettings">Importuj ustawienia</system:String>
+    <system:String x:Key="ExportSuccessful">Eksportowanie zakończone pomyślnie</system:String>
+    <system:String x:Key="ExportFailed">Eksportowanie nieudane</system:String>
+    <system:String x:Key="ImportSuccessful">Importowanie zakończone pomyślnie</system:String>
+    <system:String x:Key="ImportFailed">Importowanie nieudane</system:String>
+    <system:String x:Key="SettingsExportedSuccessfully">Pomyślnie wyeksportowano ustawienia!</system:String>
+    <system:String x:Key="FailedToExportSettings">Nie udało się wyeksportować ustawień. Sprawdź dziennik zdarzeń, aby zobaczyć szczegóły.</system:String>
+    <system:String x:Key="SettingsImportedSuccessfully">Ustawienia wyeksportowano pomyślnie! Aplikacja zostanie teraz uruchomiona ponownie w celu zastosowania zmian.</system:String>
+    <system:String x:Key="ImportSettingsWarning">To podmieni wszystkie obecne ustawienia. Kontynuować?</system:String>
+    <system:String x:Key="FailedToImportSettings">Nie udało się zaimportować ustawień. Sprawdź dziennik zdarzeń, aby zobaczyć szczegóły.</system:String>
 </ResourceDictionary>
