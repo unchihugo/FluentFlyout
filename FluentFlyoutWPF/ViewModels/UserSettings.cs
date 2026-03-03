@@ -403,6 +403,12 @@ public partial class UserSettings : ObservableObject
     public partial bool TaskbarWidgetControlsEnabled { get; set; }
 
     /// <summary>
+    /// Position of the taskbar widget controls. 0: Left, 1: Right
+    /// </summary>
+    [ObservableProperty]
+    public partial int TaskbarWidgetControlsPosition { get; set; }
+
+    /// <summary>
     /// Gets or sets a value indicating whether the taskbar widget should play animations.
     /// </summary>
     [ObservableProperty]
@@ -559,6 +565,7 @@ public partial class UserSettings : ObservableObject
         TaskbarWidgetBackgroundBlur = false;
         TaskbarWidgetHideCompletely = false;
         TaskbarWidgetControlsEnabled = false;
+        TaskbarWidgetControlsPosition = 1;
         TaskbarWidgetAnimated = true;
         TaskbarVisualizerEnabled = false;
         TaskbarVisualizerPosition = 0;
@@ -665,6 +672,14 @@ public partial class UserSettings : ObservableObject
     {
         if (oldValue == newValue || _initializing) return;
         UpdateTaskbar();
+    }
+
+    partial void OnTaskbarWidgetControlsPositionChanged(int oldValue, int newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+        
+        MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+        mainWindow.taskbarWindow?.Widget?.ReorderControls();
     }
 
     partial void OnTaskbarVisualizerPositionChanged(int oldValue, int newValue)

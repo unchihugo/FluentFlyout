@@ -75,7 +75,7 @@ public partial class MainWindow : MicaWindow
     private LockWindow? lockWindow;
     private DateTime _lastSelfUpdateTimestamp = DateTime.MinValue;
 
-    private TaskbarWindow? taskbarWindow;
+    internal TaskbarWindow? taskbarWindow;
 
     internal static volatile bool ExplorerRestarting = false;
 

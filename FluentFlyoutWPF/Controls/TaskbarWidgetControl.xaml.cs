@@ -57,6 +57,29 @@ public partial class TaskbarWidgetControl : UserControl
         }
 
         Background = new SolidColorBrush(Color.FromArgb(1, 0, 0, 0)); ;
+        
+        // Initialize control order
+        ReorderControls();
+    }
+
+    public void ReorderControls()
+    {
+        // Remove ControlsStackPanel from MainStackPanel
+        MainStackPanel.Children.Remove(ControlsStackPanel);
+
+        // Reorder based on position setting
+        if (SettingsManager.Current.TaskbarWidgetControlsPosition == 0)
+        {
+            // Left: Controls, Image, Info
+            MainStackPanel.Children.Insert(0, ControlsStackPanel);
+            ControlsStackPanel.Margin = new Thickness(2, 0, 6, 0); // for some reason margins are weird on left side
+        }
+        else
+        {
+            // Right: Image, Info, Controls
+            MainStackPanel.Children.Add(ControlsStackPanel);
+            ControlsStackPanel.Margin = new Thickness(8, 0, 0, 0);
+        }
     }
 
     public void SetMainWindow(MainWindow mainWindow)
