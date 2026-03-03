@@ -202,11 +202,11 @@
     <system:String x:Key="BackupRestoreCardTitle">نسخ إعداداتك احتياطياً واستعادتها</system:String>
     <system:String x:Key="ExportSettings">تصدير الإعدادات</system:String>
     <system:String x:Key="ImportSettings">استيراد الإعدادات</system:String>
-    <system:String x:Key="ExportSuccessful">تم التحميل بنجاح</system:String>
-    <system:String x:Key="ExportFailed">فشل التحميل</system:String>
+    <system:String x:Key="ExportSuccessful">تم التصدير بنجاح</system:String>
+    <system:String x:Key="ExportFailed">فشل التصدير</system:String>
     <system:String x:Key="ImportSuccessful">تم الاستيراد بنجاح</system:String>
     <system:String x:Key="ImportFailed">فشل الاستيراد</system:String>
-    <system:String x:Key="SettingsExportedSuccessfully">تم تصدير الإعدادات بنجاح</system:String>
+    <system:String x:Key="SettingsExportedSuccessfully">تم تصدير الإعدادات بنجاح!</system:String>
     <system:String x:Key="FailedToExportSettings">فشل تصدير الإعدادات. تحقق من السجلات للمزيد من التفاصيل.</system:String>
     <system:String x:Key="SettingsImportedSuccessfully">تم استيراد الإعدادات بنجاح! سيُعاد تشغيل التطبيق الآن لتطبيق التغييرات.</system:String>
     <system:String x:Key="ImportSettingsWarning">سيؤدي هذا إلى استبدال جميع إعداداتك الحالية. هل تريد المتابعة؟</system:String>
