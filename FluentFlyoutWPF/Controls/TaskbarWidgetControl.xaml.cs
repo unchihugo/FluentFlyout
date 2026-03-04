@@ -91,6 +91,73 @@ public partial class TaskbarWidgetControl : UserControl
     {
         if (!SettingsManager.Current.TaskbarWidgetClickable || String.IsNullOrEmpty(SongTitle.Text + SongArtist.Text)) return;
 
+        ApplyHoverEffect();
+    }
+
+    private void Grid_MouseLeave(object sender, MouseEventArgs e)
+    {
+        if (!SettingsManager.Current.TaskbarWidgetClickable || String.IsNullOrEmpty(SongTitle.Text + SongArtist.Text)) return;
+
+        RemoveHoverEffect();
+    }
+
+    private void SongImage_MouseEnter(object sender, MouseEventArgs e)
+    {
+        if (String.IsNullOrEmpty(SongTitle.Text + SongArtist.Text)) return;
+
+        // If media controls are enabled, always show hover (opens flyout)
+        if (SettingsManager.Current.TaskbarWidgetControlsEnabled)
+        {
+            if (SettingsManager.Current.TaskbarWidgetClickable)
+            {
+                ApplyHoverEffect();
+            }
+            return;
+        }
+
+        // Media controls disabled - check cover click setting
+        // Always show hover if clickable is enabled (either for play/pause or flyout)
+        if (SettingsManager.Current.TaskbarWidgetClickable)
+        {
+            ApplyHoverEffect();
+        }
+    }
+
+    private void SongImage_MouseLeave(object sender, MouseEventArgs e)
+    {
+        if (String.IsNullOrEmpty(SongTitle.Text + SongArtist.Text)) return;
+
+        if (SettingsManager.Current.TaskbarWidgetControlsEnabled)
+        {
+            if (SettingsManager.Current.TaskbarWidgetClickable)
+            {
+                RemoveHoverEffect();
+            }
+            return;
+        }
+
+        if (SettingsManager.Current.TaskbarWidgetClickable)
+        {
+            RemoveHoverEffect();
+        }
+    }
+
+    private void SongInfo_MouseEnter(object sender, MouseEventArgs e)
+    {
+        if (!SettingsManager.Current.TaskbarWidgetClickable || String.IsNullOrEmpty(SongTitle.Text + SongArtist.Text)) return;
+
+        ApplyHoverEffect();
+    }
+
+    private void SongInfo_MouseLeave(object sender, MouseEventArgs e)
+    {
+        if (!SettingsManager.Current.TaskbarWidgetClickable || String.IsNullOrEmpty(SongTitle.Text + SongArtist.Text)) return;
+
+        RemoveHoverEffect();
+    }
+
+    private void ApplyHoverEffect()
+    {
         SolidColorBrush targetBackgroundBrush;
         // hover effects with animations, hard-coded colors because I can't find the resource brushes
         if (ApplicationThemeManager.GetSystemTheme() == SystemTheme.Dark)
@@ -130,10 +197,8 @@ public partial class TaskbarWidgetControl : UserControl
         MainBorder.Background.BeginAnimation(SolidColorBrush.OpacityProperty, backgroundOpacityAnimation);
     }
 
-    private void Grid_MouseLeave(object sender, MouseEventArgs e)
+    private void RemoveHoverEffect()
     {
-        if (!SettingsManager.Current.TaskbarWidgetClickable || String.IsNullOrEmpty(SongTitle.Text + SongArtist.Text)) return;
-
         // Animate back to transparent
         var backgroundAnimation = new ColorAnimation
         {
@@ -153,6 +218,59 @@ public partial class TaskbarWidgetControl : UserControl
         MainBorder.Background?.BeginAnimation(SolidColorBrush.OpacityProperty, backgroundOpacityAnimation);
 
         TopBorder.BorderBrush = System.Windows.Media.Brushes.Transparent;
+    }
+
+    private void SongImage_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+    {
+        if (_mainWindow == null) return;
+
+        // If media controls are enabled, the cover click setting doesn't apply - always open flyout
+        if (SettingsManager.Current.TaskbarWidgetControlsEnabled)
+        {
+            if (SettingsManager.Current.TaskbarWidgetClickable)
+            {
+                _mainWindow.ShowMediaFlyout(toggleMode: SettingsManager.Current.TaskbarWidgetCloseableFlyout);
+            }
+            return;
+        }
+
+        // Media controls are disabled - check cover click setting
+        // If cover click is disabled, open flyout (original behavior)
+        if (!SettingsManager.Current.TaskbarWidgetCoverClickable)
+        {
+            if (SettingsManager.Current.TaskbarWidgetClickable)
+            {
+                _mainWindow.ShowMediaFlyout(toggleMode: SettingsManager.Current.TaskbarWidgetCloseableFlyout);
+            }
+            return;
+        }
+
+        // Cover click is enabled and media controls are disabled - toggle play/pause
+        var mediaManager = _mainWindow.mediaManager;
+        if (mediaManager == null) return;
+
+        var focusedSession = mediaManager.GetFocusedSession();
+        if (focusedSession == null) return;
+
+        Task.Run(async () =>
+        {
+            if (_isPaused)
+            {
+                await focusedSession.ControlSession.TryPlayAsync();
+            }
+            else
+            {
+                await focusedSession.ControlSession.TryPauseAsync();
+            }
+        });
+    }
+
+    private void SongInfo_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+    {
+        if (!SettingsManager.Current.TaskbarWidgetClickable || _mainWindow == null) return;
+
+        // Open flyout when clicking on song info
+        _mainWindow.ShowMediaFlyout(toggleMode: SettingsManager.Current.TaskbarWidgetCloseableFlyout);
     }
 
     private void Grid_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
