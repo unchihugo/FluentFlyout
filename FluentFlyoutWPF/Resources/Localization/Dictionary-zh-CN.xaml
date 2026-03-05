@@ -203,4 +203,10 @@
     <system:String x:Key="PositionLeft">左侧</system:String>
     <system:String x:Key="PositionRight">右侧</system:String>
     <system:String x:Key="BackupRestoreSectionTitle">备份和恢复</system:String>
+    <system:String x:Key="ExportSettings">导出设置</system:String>
+    <system:String x:Key="ImportSettings">导入设置</system:String>
+    <system:String x:Key="ExportSuccessful">导出成功</system:String>
+    <system:String x:Key="ImportSuccessful">导入成功</system:String>
+    <system:String x:Key="ImportFailed">导入失败</system:String>
+    <system:String x:Key="SettingsExportedSuccessfully">设置导出成功</system:String>
 </ResourceDictionary>
