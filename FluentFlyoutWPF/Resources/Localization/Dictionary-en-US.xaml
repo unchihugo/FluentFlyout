@@ -121,6 +121,8 @@ Note: As an open-source project, these features are also available for free via 
     <System:String x:Key="LockKeysStayDurationDescription">(default: 2000 ms)</System:String>
     <System:String x:Key="LockKeysBoldUITitle">Bold Symbol and Font</System:String>
     <System:String x:Key="LockKeysBoldUIDescription">Emphasizes the flyout symbol and font</System:String>
+    <System:String x:Key="LockKeysCursorUITitle">Follow Cursor</System:String>
+    <System:String x:Key="LockKeysCursorUIDescription">If multiple monitors are in use, shows the flyout on the monitor with the cursor.</System:String>
     <System:String x:Key="EnableInsertKeyTitle">Enable Insert Key Popup</System:String>
     <System:String x:Key="EnableInsertKeyDescription">Determines whether pressing insert/overwrite will show the flyout</System:String>
     <System:String x:Key="SystemSettingsTitle">System</System:String>

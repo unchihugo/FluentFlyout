@@ -47,7 +47,7 @@ public static class NativeMethods
 
     #region Enums
 
-    public enum MonitorFromWindowFlags : int
+    public enum MonitorFromWindowFlags : uint
     {
         DEFAULTTONULL = 0,
         DEFAULTTOPRIMARY = 1,
@@ -278,6 +278,13 @@ public static class NativeMethods
 
     [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
     internal static extern IntPtr CallNextHookEx(IntPtr hhk, int nCode, IntPtr wParam, IntPtr lParam);
+
+    [DllImport("user32.dll")]
+    [return: MarshalAs(UnmanagedType.Struct)]
+    internal static extern POINT GetCursorPos(out POINT lpPoint);
+
+    [DllImport("user32.dll")]
+    internal static extern IntPtr MonitorFromPoint(POINT pt, MonitorFromWindowFlags dwFlags);
 
     #endregion
 

@@ -4,6 +4,7 @@
 using FluentFlyout.Classes;
 using FluentFlyout.Classes.Settings;
 using FluentFlyoutWPF.Classes;
+using FluentFlyoutWPF.Classes.Utils;
 using MicaWPF.Controls;
 using System.Windows;
 
@@ -18,6 +19,7 @@ public partial class LockWindow : MicaWindow
     private CancellationTokenSource cts;
     MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
     private bool _isHiding = true;
+    private MonitorUtil.MonitorInfo _openedMonitor;
 
     public LockWindow()
     {
@@ -91,7 +93,7 @@ public partial class LockWindow : MicaWindow
         if (_isHiding)
         {
             _isHiding = false;
-            mainWindow.OpenAnimation(this, true);
+            _openedMonitor = mainWindow.OpenAnimation(this, true, SettingsManager.Current.LockKeysCursorFollow);
         }
         cts.Cancel();
         cts = new CancellationTokenSource();
@@ -102,7 +104,7 @@ public partial class LockWindow : MicaWindow
             while (!token.IsCancellationRequested)
             {
                 await Task.Delay(SettingsManager.Current.LockKeysDuration, token);
-                mainWindow.CloseAnimation(this, true);
+                mainWindow.CloseAnimation(this, true, _openedMonitor);
                 _isHiding = true;
                 await Task.Delay(mainWindow.getDuration());
                 if (_isHiding == false) return;

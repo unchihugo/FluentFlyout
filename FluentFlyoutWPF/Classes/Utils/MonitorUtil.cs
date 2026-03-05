@@ -143,4 +143,17 @@ public static class MonitorUtil
         comboBox.SelectedIndex = selectedMonitor;
         setSelectedIndex(selectedMonitor);
     }
+
+    public static MonitorInfo getActiveCursorMonitor()
+    {
+        // Get current cursor position
+        GetCursorPos(out POINT cursorPos);
+
+        // Find monitor containing cursor position
+        IntPtr hMonitor = MonitorFromPoint(cursorPos, MonitorFromWindowFlags.DEFAULTTONEAREST);
+
+        // Return monitor info
+        return getMonitorInfoInternal(hMonitor);
+    }
+
 }
