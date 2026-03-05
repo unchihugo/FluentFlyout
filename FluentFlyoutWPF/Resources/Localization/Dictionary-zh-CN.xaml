@@ -200,4 +200,7 @@
     <system:String x:Key="TaskbarVisualizerAudioPeakLevelDescription">频谱柱达到最大高度时，对应的音频音量大小</system:String>
     <system:String x:Key="TaskbarWidgetCloseableFlyoutTitle">再次点击关闭浮窗</system:String>
     <system:String x:Key="TaskbarWidgetCloseableFlyoutDescription">已打开媒体浮窗时，再次点击任务栏小组件会关闭媒体浮窗</system:String>
+    <system:String x:Key="PositionLeft">左侧</system:String>
+    <system:String x:Key="PositionRight">右侧</system:String>
+    <system:String x:Key="BackupRestoreSectionTitle">备份和恢复</system:String>
 </ResourceDictionary>
