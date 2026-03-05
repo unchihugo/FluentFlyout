@@ -285,7 +285,9 @@ public static class NativeMethods
 
     [DllImport("user32.dll")]
     internal static extern IntPtr MonitorFromPoint(POINT pt, MonitorFromWindowFlags dwFlags);
-
+    
+    [DllImport("user32.dll")]
+    internal static extern IntPtr GetForegroundWindow();
     #endregion
 
     #region gdi32.dll

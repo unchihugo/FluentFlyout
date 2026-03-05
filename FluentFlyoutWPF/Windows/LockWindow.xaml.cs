@@ -7,6 +7,7 @@ using FluentFlyoutWPF.Classes;
 using FluentFlyoutWPF.Classes.Utils;
 using MicaWPF.Controls;
 using System.Windows;
+using static FluentFlyoutWPF.Classes.Utils.MonitorUtil;
 
 
 namespace FluentFlyoutWPF.Windows;
@@ -93,7 +94,8 @@ public partial class LockWindow : MicaWindow
         if (_isHiding)
         {
             _isHiding = false;
-            _openedMonitor = mainWindow.OpenAnimation(this, true, SettingsManager.Current.LockKeysCursorFollow);
+            _openedMonitor = selectLockPreferedMonitor();
+            mainWindow.OpenAnimation(this, true, _openedMonitor);
         }
         cts.Cancel();
         cts = new CancellationTokenSource();
@@ -118,4 +120,19 @@ public partial class LockWindow : MicaWindow
             // do nothing
         }
     }
+
+    private MonitorInfo selectLockPreferedMonitor()
+    {
+        switch (SettingsManager.Current.LockKeysPositionPreference)
+        {
+            case 0:
+            default:
+                return getSelectedMonitor(SettingsManager.Current.FlyoutSelectedMonitor);
+            case 1:
+                return getMonitorWithFocusedWindows();
+            case 2:
+                return getActiveCursorMonitor();
+        }
+    }
+
 }

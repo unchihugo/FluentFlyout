@@ -79,7 +79,11 @@
                         <TextBlock Text="{DynamicResource LockKeysCursorUIDescription}" FontSize="12" Opacity="0.5" />
                     </StackPanel>
                 </ui:CardControl.Header>
-                <controls:ToggleSwitch Name="LockKeysCursorFollowSwitch" IsChecked="{Binding LockKeysCursorFollow, Mode=TwoWay}" />
+                <ComboBox Name="BackgroundComboBox" SelectedIndex="{Binding LockKeysPositionPreference}">
+                    <ComboBoxItem Content="{DynamicResource DefaultLockLayoutPosition}" />
+                    <ComboBoxItem Content="{DynamicResource MonitorWithFocusedWindow}" />
+                    <ComboBoxItem Content="{DynamicResource MonitorWithCursor}" />
+                </ComboBox>
             </ui:CardControl>
             <ui:CardControl Grid.Row="6" Icon="{ui:SymbolIcon Info24}" Margin="0,0,0,76">
                 <ui:CardControl.Header>

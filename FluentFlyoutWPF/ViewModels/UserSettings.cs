@@ -249,7 +249,7 @@ public partial class UserSettings : ObservableObject
     /// </summary>
     [ObservableProperty]
     [XmlElement(ElementName = "LockKeysBoldUI")]
-    public partial bool LockKeysCursorFollow { get; set; }
+    public partial int LockKeysPositionPreference { get; set; }
     
     /// <summary>
     /// Determines if the user has updated to a new version

@@ -156,4 +156,15 @@ public static class MonitorUtil
         return getMonitorInfoInternal(hMonitor);
     }
 
+    public static MonitorInfo getMonitorWithFocusedWindows()
+    {
+        IntPtr foregroundWindow = GetForegroundWindow();
+        if (foregroundWindow != IntPtr.Zero)
+        {
+            return GetMonitor(foregroundWindow, MonitorFromWindowFlags.DEFAULTTONEAREST);
+        }
+
+        // Fallback to cursor monitor if no focused window
+        return getActiveCursorMonitor();
+    }
 }
