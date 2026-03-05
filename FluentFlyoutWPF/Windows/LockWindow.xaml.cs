@@ -94,7 +94,7 @@ public partial class LockWindow : MicaWindow
         if (_isHiding)
         {
             _isHiding = false;
-            _openedMonitor = selectLockPreferedMonitor();
+            _openedMonitor = getPreferedTargetDisplay();
             mainWindow.OpenAnimation(this, true, _openedMonitor);
         }
         cts.Cancel();
@@ -121,18 +121,14 @@ public partial class LockWindow : MicaWindow
         }
     }
 
-    private MonitorInfo selectLockPreferedMonitor()
+    private MonitorInfo getPreferedTargetDisplay()
     {
-        switch (SettingsManager.Current.LockKeysPositionPreference)
+        return SettingsManager.Current.LockKeysPositionPreference switch
         {
-            case 0:
-            default:
-                return getSelectedMonitor(SettingsManager.Current.FlyoutSelectedMonitor);
-            case 1:
-                return getMonitorWithFocusedWindows();
-            case 2:
-                return getActiveCursorMonitor();
-        }
+            1 => getMonitorWithFocusedWindow(),
+            2 => getMonitorWithCursor(),
+            _ => getSelectedMonitor(SettingsManager.Current.FlyoutSelectedMonitor),
+        };
     }
 
 }

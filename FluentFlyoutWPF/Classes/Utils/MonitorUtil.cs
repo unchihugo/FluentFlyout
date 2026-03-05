@@ -144,7 +144,7 @@ public static class MonitorUtil
         setSelectedIndex(selectedMonitor);
     }
 
-    public static MonitorInfo getActiveCursorMonitor()
+    public static MonitorInfo getMonitorWithCursor()
     {
         // Get current cursor position
         GetCursorPos(out POINT cursorPos);
@@ -156,7 +156,7 @@ public static class MonitorUtil
         return getMonitorInfoInternal(hMonitor);
     }
 
-    public static MonitorInfo getMonitorWithFocusedWindows()
+    public static MonitorInfo getMonitorWithFocusedWindow()
     {
         IntPtr foregroundWindow = GetForegroundWindow();
         if (foregroundWindow != IntPtr.Zero)
@@ -165,6 +165,6 @@ public static class MonitorUtil
         }
 
         // Fallback to cursor monitor if no focused window
-        return getActiveCursorMonitor();
+        return getMonitorWithCursor();
     }
 }

@@ -248,7 +248,7 @@ public partial class UserSettings : ObservableObject
     /// Use If multiple monitors are in use, shows the flyout on the monitor with the cursor.
     /// </summary>
     [ObservableProperty]
-    [XmlElement(ElementName = "LockKeysBoldUI")]
+    [XmlElement(ElementName = "LockKeysPositionPreference")]
     public partial int LockKeysPositionPreference { get; set; }
     
     /// <summary>
