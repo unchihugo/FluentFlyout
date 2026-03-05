@@ -212,4 +212,8 @@ Ghi chú: Vì đây là một project mã nguồn mở, những tính năng bả
     <system:String x:Key="FailedToExportSettings">Xuất cài đặt thất bại. Kiểm tra logs để xem chi tiết.</system:String>
     <system:String x:Key="ImportSettingsWarning">Điều này sẽ thay đổi cài đặt hiện tại. Có tiếp tục không?</system:String>
     <system:String x:Key="FailedToImportSettings">Nhập cài đặt thất bại. Kiểm tra logs để biết chi tiết.</system:String>
+    <system:String x:Key="TaskbarWidgetControlsPositionTitle">Vị trí điều khiển đa phương tiện</system:String>
+    <system:String x:Key="TaskbarWidgetControlsPositionDescription">Chọn vị trí hiển thị các nút điều khiển phương tiện</system:String>
+    <system:String x:Key="PositionLeft">Trái</system:String>
+    <system:String x:Key="PositionRight">Phải</system:String>
 </ResourceDictionary>
