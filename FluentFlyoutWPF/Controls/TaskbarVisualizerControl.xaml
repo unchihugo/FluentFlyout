@@ -5,7 +5,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
              xmlns:viewModels="clr-namespace:FluentFlyoutWPF.ViewModels"
-             xmlns:utils="clr-namespace:FluentFlyoutWPF.Classes.Utils"
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance viewModels:UserSettings}"
              Height="40" Width="84"
@@ -13,12 +12,8 @@
              FontFamily="Segoe UI Variable, Microsoft YaHei, Microsoft JhengHei, MS Gothic"
              FlowDirection="{Binding FlowDirection}" HorizontalAlignment="Center" VerticalAlignment="Center">
 
-    <UserControl.Resources>
-        <utils:BoolToVisibleCollapsedConverter x:Key="BoolToCollapsedVisibleConverter"/>
-    </UserControl.Resources>
-
-    <Grid Visibility="{Binding TaskbarVisualizerEnabled, Converter={StaticResource BoolToCollapsedVisibleConverter}}">
-        <Grid Visibility="{Binding TaskbarVisualizerHasContent, Converter={StaticResource BoolToCollapsedVisibleConverter}}">
+    <Grid Visibility="{Binding TaskbarVisualizerEnabled, Converter={StaticResource BoolToVisibleCollapsedConverter}}">
+        <Grid Visibility="{Binding TaskbarVisualizerHasContent, Converter={StaticResource BoolToVisibleCollapsedConverter}}">
             <Border Name="MainBorder" CornerRadius="6" ClipToBounds="True" MouseEnter="Grid_MouseEnter" MouseLeave="Grid_MouseLeave" MouseLeftButtonUp="Grid_MouseLeftButtonUp">
                 <Border Name="TopBorder" BorderThickness="0,1.25,0,0" CornerRadius="5" Margin="0,0,0,1.25">
                     <Image x:Name="VisualizerContainer" Margin="4,0"/>

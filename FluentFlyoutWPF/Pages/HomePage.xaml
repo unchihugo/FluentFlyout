@@ -5,18 +5,12 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
       xmlns:viewModels="clr-namespace:FluentFlyoutWPF.ViewModels"
-      xmlns:utils="clr-namespace:FluentFlyoutWPF.Classes.Utils"
       mc:Ignorable="d"
       d:DesignHeight="1200" d:DesignWidth="600"
       Title="HomePage"
       d:DataContext="{d:DesignInstance viewModels:UserSettings}"
       Foreground="{DynamicResource TextFillColorPrimaryBrush}"
       d:Background="White">
-
-    <Page.Resources>
-        <utils:BoolToEnabledDisabledConverter x:Key="BoolToEnabledDisabledConverter" />
-        <utils:BoolToVisibleCollapsedConverter x:Key="BoolToCollapsedVisibleConverter" TrueValue="Collapsed" FalseValue="Visible" />
-    </Page.Resources>
 
     <StackPanel MaxWidth="1000" Margin="16">
         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="12,0,0,0">
