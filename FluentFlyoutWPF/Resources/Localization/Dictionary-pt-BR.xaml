@@ -213,4 +213,8 @@ Nota: Como um projeto de código aberto, esses recursos também estão disponív
     <system:String x:Key="SettingsImportedSuccessfully">Configurações importadas com sucesso! O aplicativo será reiniciado agora para aplicar as alterações.</system:String>
     <system:String x:Key="ImportSettingsWarning">Isso substituirá todas as suas configurações atuais. Continuar?</system:String>
     <system:String x:Key="FailedToImportSettings">Falha ao importar as configurações. Verifique os logs para mais detalhes.</system:String>
+    <system:String x:Key="TaskbarWidgetControlsPositionTitle">Posição dos controles de mídia</system:String>
+    <system:String x:Key="TaskbarWidgetControlsPositionDescription">Escolha onde mostrar os botões de controle de mídia</system:String>
+    <system:String x:Key="PositionLeft">Esquerda</system:String>
+    <system:String x:Key="PositionRight">Direita</system:String>
 </ResourceDictionary>
