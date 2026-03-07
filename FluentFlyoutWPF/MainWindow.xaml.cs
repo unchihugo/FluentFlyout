@@ -30,6 +30,7 @@ using Windows.Media.Control;
 using Windows.Storage;
 using Windows.Storage.Streams;
 using static FluentFlyout.Classes.NativeMethods;
+using static FluentFlyoutWPF.Classes.Utils.MonitorUtil;
 using static WindowsMediaController.MediaManager;
 
 
@@ -283,14 +284,14 @@ public partial class MainWindow : MicaWindow
         return MonitorUtil.getSelectedMonitor(SettingsManager.Current.FlyoutSelectedMonitor);
     }
 
-    public void OpenAnimation(MicaWindow window, bool alwaysBottom = false)
+    public void OpenAnimation(MicaWindow window, bool alwaysBottom = false, MonitorInfo? selectedMonitor = null)
     {
         var eventTriggers = window.Triggers[0] as EventTrigger;
         var beginStoryboard = eventTriggers.Actions[0] as BeginStoryboard;
         var storyboard = beginStoryboard.Storyboard;
 
         DoubleAnimation moveAnimation = (DoubleAnimation)storyboard.Children[0];
-        var monitor = getSelectedMonitor();
+        var monitor = selectedMonitor != null ? selectedMonitor.Value : getSelectedMonitor();
         var workArea = monitor.workArea;
 
         // prevent flickering
@@ -394,14 +395,14 @@ public partial class MainWindow : MicaWindow
         WindowHelper.SetVisibility(window, true);
     }
 
-    public void CloseAnimation(MicaWindow window, bool alwaysBottom = false)
+    public void CloseAnimation(MicaWindow window, bool alwaysBottom = false, MonitorInfo? selectedMonitor = null)
     {
         var eventTriggers = window.Triggers[0] as EventTrigger;
         var beginStoryboard = eventTriggers.Actions[0] as BeginStoryboard;
         var storyboard = beginStoryboard.Storyboard;
 
         DoubleAnimation moveAnimation = (DoubleAnimation)storyboard.Children[0];
-        var monitor = getSelectedMonitor();
+        var monitor = selectedMonitor != null ? selectedMonitor.Value : getSelectedMonitor();
         var workArea = monitor.workArea;
         var windowRect = WindowHelper.GetPlacement(window);
 

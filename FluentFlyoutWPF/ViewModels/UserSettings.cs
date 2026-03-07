@@ -245,6 +245,12 @@ public partial class UserSettings : ObservableObject
     public partial bool LockKeysBoldUi { get; set; }
 
     /// <summary>
+    /// Use If multiple monitors are in use, shows the flyout on the monitor with the cursor.
+    /// </summary>
+    [ObservableProperty]
+    public partial int LockKeysMonitorPreference { get; set; }
+    
+    /// <summary>
     /// Determines if the user has updated to a new version
     /// </summary>
     [ObservableProperty]
@@ -544,6 +550,7 @@ public partial class UserSettings : ObservableObject
         NIconHide = false;
         DisableIfFullscreen = true;
         LockKeysBoldUi = false;
+        LockKeysMonitorPreference = 0;
         LastKnownVersion = "";
         SeekbarEnabled = false;
         PauseOtherSessionsEnabled = false;

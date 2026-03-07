@@ -47,7 +47,7 @@ public static partial class NativeMethods
 
     #region Enums
 
-    public enum MonitorFromWindowFlags : int
+    public enum MonitorFromWindowFlags : uint
     {
         DEFAULTTONULL = 0,
         DEFAULTTOPRIMARY = 1,
@@ -286,6 +286,15 @@ public static partial class NativeMethods
     [LibraryImport("user32.dll", SetLastError = true)]
     internal static partial IntPtr CallNextHookEx(IntPtr hhk, int nCode, IntPtr wParam, IntPtr lParam);
 
+    [DllImport("user32.dll")]
+    [return: MarshalAs(UnmanagedType.Struct)]
+    internal static extern POINT GetCursorPos(out POINT lpPoint);
+
+    [DllImport("user32.dll")]
+    internal static extern IntPtr MonitorFromPoint(POINT pt, MonitorFromWindowFlags dwFlags);
+    
+    [DllImport("user32.dll")]
+    internal static extern IntPtr GetForegroundWindow();
     #endregion
 
     #region gdi32.dll
