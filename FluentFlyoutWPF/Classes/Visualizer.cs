@@ -16,9 +16,9 @@ namespace FluentFlyoutWPF.Classes
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
         public static int BarCount = 10;
-        private readonly int ImageWidth = 76*3;
-        private readonly int ImageHeight = 32*3;
-        private readonly int BarSpacing = 2*3;
+        private readonly int ImageWidth = 76 * 3;
+        private readonly int ImageHeight = 32 * 3;
+        private readonly int BarSpacing = 2 * 3;
 
         private WasapiLoopbackCapture? _capture;
         private static float[]? _barValues;
@@ -184,24 +184,48 @@ namespace FluentFlyoutWPF.Classes
                 _fftBuffer[_fftPos].Y = 0;
                 _fftPos++;
 
-                // When buffer is full, perform FFT
-                if (_fftPos >= _fftLength)
+                // When buffer isn't full, return
+                if (_fftPos < _fftLength)
+                    continue;
+
+                // perform FFT
+                _fftPos = 0;
+                ProcessFftData();
+
+                // Update UI with frame rate limiting
+                DateTime now = DateTime.UtcNow;
+                double minFrameTime = 1000.0 / _targetFps;
+                double timeSinceLastUpdate = (now - _lastUpdateTime).TotalMilliseconds;
+
+                if (timeSinceLastUpdate < minFrameTime)
+                    return;
+
+                _lastUpdateTime = now;
+                SettingsManager.Current.TaskbarVisualizerHasContent = true;
+
+                if (SettingsManager.Current.TaskbarVisualizerBaseline)
                 {
-                    _fftPos = 0;
-                    ProcessFftData();
-                    
-                    // Update UI with frame rate limiting
-                    DateTime now = DateTime.UtcNow;
-                    double minFrameTime = 1000.0 / _targetFps;
-                    double timeSinceLastUpdate = (now - _lastUpdateTime).TotalMilliseconds;
-                    
-                    if (timeSinceLastUpdate >= minFrameTime)
+                    // if baseline is enabled, we want to keep showing the bars even when they are all zero
+                    UpdateBitmap();
+                    return;
+                }
+
+                // check if bars are all zero, if so set has content to false to disable hover effect
+                bool allZero = true;
+                for (int j = 0; j < BarCount; j++)
+                {
+                    if (_barValues[j] > 0.01f)
                     {
-                        _lastUpdateTime = now;
-                        SettingsManager.Current.TaskbarVisualizerHasContent = true;
-                        UpdateBitmap();
+                        allZero = false;
+                        break;
                     }
                 }
+
+                // update bars if they have content
+                if (!allZero)
+                    UpdateBitmap();
+                else
+                    SettingsManager.Current.TaskbarVisualizerHasContent = false;
             }
         }
 
@@ -315,7 +339,7 @@ namespace FluentFlyoutWPF.Classes
                                 float normalizedValue = Math.Clamp(_barValues[i], 0f, 1f);
                                 int barHeight = Math.Max((int)(normalizedValue * ImageHeight), barBaseline);
                                 int barX = i * (barWidth + BarSpacing);
-                                
+
                                 int barY, barEndY;
                                 if (centeredBars)
                                 {
@@ -374,7 +398,6 @@ namespace FluentFlyoutWPF.Classes
                                         }
                                     }
                                 }
-
                             }
                         }
 
