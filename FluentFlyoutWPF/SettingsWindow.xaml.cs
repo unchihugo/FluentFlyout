@@ -43,7 +43,7 @@ public partial class SettingsWindow : FluentWindow
         RootNavigation.SetCurrentValue(NavigationView.IsPaneOpenProperty, false);
     }
 
-    public static void ShowInstance()
+    public static void ShowInstance(string? navigationPage = null)
     {
         if (instance == null)
         {
@@ -59,6 +59,15 @@ public partial class SettingsWindow : FluentWindow
 
             instance.Activate();
             instance.Focus();
+        }
+
+        if (navigationPage != null)
+        {
+            var pageType = System.Reflection.Assembly
+                .GetExecutingAssembly()
+                .GetType($"FluentFlyoutWPF.Pages.{navigationPage}");
+            if (pageType != null)
+                instance?.RootNavigation.Navigate(pageType);
         }
     }
 

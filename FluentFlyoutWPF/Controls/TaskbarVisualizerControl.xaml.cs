@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 using FluentFlyout.Classes.Settings;
+using FluentFlyoutWPF;
 using FluentFlyoutWPF.Classes;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -145,13 +146,9 @@ public partial class TaskbarVisualizerControl : UserControl
 
     private void Grid_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
     {
-        // Early return for now because the click serves the same function as the taskbar media widget,
-        // we need to find a new function for clicking the visualizer if there's any (like expanding the visualizer or something)
-        return;
-
         if (!SettingsManager.Current.TaskbarVisualizerClickable || !SettingsManager.Current.TaskbarVisualizerHasContent) return;
 
-        // flyout main flyout when clicked
-        _mainWindow.ShowMediaFlyout();
+        // open settings when clicked
+        SettingsWindow.ShowInstance("TaskbarVisualizerPage");
     }
 }
