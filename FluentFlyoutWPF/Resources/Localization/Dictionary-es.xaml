@@ -216,4 +216,5 @@ Nota: Como proyecto de código abierto, estas opciones también están disponibl
     <system:String x:Key="PositionRight">Derecha</system:String>
     <system:String x:Key="TaskbarWidgetControlsPositionTitle">Posición de Controles Multimedia</system:String>
     <system:String x:Key="TaskbarWidgetControlsPositionDescription">Elige donde quieres mostrar los controles multimedia</system:String>
+    <system:String x:Key="PositionLeft">Izquierda</system:String>
 </ResourceDictionary>
