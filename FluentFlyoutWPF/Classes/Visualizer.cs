@@ -69,20 +69,26 @@ namespace FluentFlyoutWPF.Classes
 
         private void OnDefaultDeviceChanged(object? sender, DefaultDeviceChangedEventArgs e)
         {
-            if (e.DataFlow == DataFlow.Render && e.Role == Role.Multimedia)
-            {
-                Logger.Info("Default audio output device changed, restarting visualizer");
+            if (e.DataFlow != DataFlow.Render || e.Role != Role.Multimedia)
+                return;
 
-                if (_isRunning)
+            if (!_isRunning)
+                return;
+            Logger.Info("Default audio output device changed, restarting visualizer");
+
+            Task.Run(async () =>
+            {
+                Stop();
+
+                for (int attempt = 0; attempt < 5; attempt++)
                 {
-                    Task.Run(async () =>
-                    {
-                        Stop();
-                        await Task.Delay(100);
-                        Start();
-                    });
+                    await Task.Delay(500);
+                    Start();
+                    if (_isRunning)
+                        break;
+                    Logger.Warn($"Visualizer restart attempt {attempt + 1} failed, retrying...");
                 }
-            }
+            });
         }
 
         public static void ResizeBarList(int newBarCount)
