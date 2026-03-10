@@ -244,9 +244,8 @@ public partial class UserSettings : ObservableObject
     [XmlElement(ElementName = "LockKeysBoldUI")]
     public partial bool LockKeysBoldUi { get; set; }
 
-    /// <summary>
-    /// Use If multiple monitors are in use, shows the flyout on the monitor with the cursor.
-    /// </summary>
+    /// Selects which monitor to use for the lock keys flyout when multiple monitors are in use.
+    /// 0 = Default behavior, 1 = Monitor containing the focused window, 2 = Monitor containing the cursor.
     [ObservableProperty]
     public partial int LockKeysMonitorPreference { get; set; }
     

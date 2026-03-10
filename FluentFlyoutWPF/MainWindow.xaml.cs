@@ -281,7 +281,7 @@ public partial class MainWindow : MicaWindow
 
     private MonitorUtil.MonitorInfo getSelectedMonitor()
     {
-        return MonitorUtil.getSelectedMonitor(SettingsManager.Current.FlyoutSelectedMonitor);
+        return MonitorUtil.GetSelectedMonitor(SettingsManager.Current.FlyoutSelectedMonitor);
     }
 
     public void OpenAnimation(MicaWindow window, bool alwaysBottom = false, MonitorInfo? selectedMonitor = null)
