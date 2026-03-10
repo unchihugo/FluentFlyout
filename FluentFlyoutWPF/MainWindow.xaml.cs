@@ -7,6 +7,7 @@ using FluentFlyout.Classes.Utils;
 using FluentFlyout.Controls;
 using FluentFlyout.Windows;
 using FluentFlyoutWPF.Classes;
+using FluentFlyoutWPF.Classes.Services;
 using FluentFlyoutWPF.Classes.Utils;
 using FluentFlyoutWPF.ViewModels;
 using FluentFlyoutWPF.Windows;
@@ -74,6 +75,9 @@ public partial class MainWindow : MicaWindow
 
     private LockWindow? lockWindow;
     private DateTime _lastSelfUpdateTimestamp = DateTime.MinValue;
+
+    // Volume Change Event Distribution Service
+    private readonly VolumeMonitorService _volumeMonitorService = new();
 
     internal TaskbarWindow? taskbarWindow;
 
@@ -159,6 +163,7 @@ public partial class MainWindow : MicaWindow
 
         _hookProc = HookCallback;
         _hookId = SetHook(_hookProc);
+        _volumeMonitorService.VolumeChanged += OnVolumeChanged;
 
         WindowStartupLocation = WindowStartupLocation.Manual;
         Left = -Width - 20; // workaround for window appearing on the screen before the animation starts
@@ -665,6 +670,11 @@ public partial class MainWindow : MicaWindow
         }
     }
 
+    /// <summary>
+    /// Handles the <see cref="VolumeMonitorService.VolumeChanged"/> event, triggering the media flyout display.
+    /// </summary>
+    private void OnVolumeChanged(object? _, VolumeChangedEventArgs __) => ShowMediaFlyout();
+
     private static IntPtr SetHook(LowLevelKeyboardProc proc) // set the keyboard hook
     {
         using (Process curProcess = Process.GetCurrentProcess())
@@ -695,7 +705,10 @@ public partial class MainWindow : MicaWindow
 
                 _lastFlyoutTime = currentTime;
 
-                ShowMediaFlyout();
+                if (volumeKeysPressed)
+                    _volumeMonitorService.NotifyKeyboardVolumeKey();
+                else
+                    ShowMediaFlyout();
             }
 
             if (SettingsManager.Current.LockKeysEnabled && !FullscreenDetector.IsFullscreenApplicationRunning())
@@ -1235,6 +1248,7 @@ public partial class MainWindow : MicaWindow
             mediaManager.OnAnyPlaybackStateChanged -= CurrentSession_OnPlaybackStateChanged;
             mediaManager.OnAnyTimelinePropertyChanged -= MediaManager_OnAnyTimelinePropertyChanged;
             mediaManager.OnAnySessionClosed -= MediaManager_OnAnySessionClosed;
+            _volumeMonitorService.VolumeChanged -= OnVolumeChanged;
 
             // dispose managed resources
             _positionTimer?.Change(Timeout.Infinite, Timeout.Infinite);
