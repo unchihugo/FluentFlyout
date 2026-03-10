@@ -5,6 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
       xmlns:viewModels="clr-namespace:FluentFlyoutWPF.ViewModels"
+      xmlns:fluentflyoutcontrols="clr-namespace:FluentFlyout.Controls"
       mc:Ignorable="d"
       d:DesignHeight="1200" d:DesignWidth="600"
       Title="HomePage"
@@ -132,7 +133,7 @@
                 <StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <ui:TextBlock FontWeight="Medium" Text="{DynamicResource TaskbarWidgetCustomizationTitle}" />
-                        <ui:InfoBadge Value=" PREMIUM " FontSize="8" FontWeight="Medium" Margin="6,-2,0,-2" Severity="Attention" />
+                        <fluentflyoutcontrols:AccentBadge Margin="6,0,0,0" FontSize="8" />
                     </StackPanel>
                     <ui:TextBlock Appearance="Secondary" Text="{Binding TaskbarWidgetEnabled, Converter={StaticResource BoolToEnabledDisabledConverter}}">
                         <ui:TextBlock.Style>
@@ -198,7 +199,7 @@
                 <StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <ui:TextBlock FontWeight="Medium" Text="{DynamicResource TaskbarVisualizerTitle}" />
-                        <ui:InfoBadge Value=" PREMIUM " FontSize="8" FontWeight="Medium" Margin="6,-2,0,-2" Severity="Attention" />
+                        <fluentflyoutcontrols:AccentBadge Margin="6,0,0,0" FontSize="8" />
                     </StackPanel>
                     <ui:TextBlock Appearance="Secondary" Text="{Binding TaskbarVisualizerEnabled, Converter={StaticResource BoolToEnabledDisabledConverter}}">
                         <ui:TextBlock.Style>

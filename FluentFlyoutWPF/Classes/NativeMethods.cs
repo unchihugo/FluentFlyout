@@ -42,6 +42,7 @@ public static partial class NativeMethods
     internal const int WH_KEYBOARD_LL = 13;
     internal const int WM_KEYDOWN = 0x0100;
     internal const int WM_KEYUP = 0x0101;
+    internal const int WM_SETTINGCHANGE = 0x001A;
 
     #endregion
 
