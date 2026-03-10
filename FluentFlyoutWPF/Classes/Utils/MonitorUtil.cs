@@ -24,13 +24,13 @@ public static class MonitorUtil
     }
 
 
-    public static MonitorInfo getSelectedMonitor(int index = 0)
+    public static MonitorInfo GetSelectedMonitor(int index = 0)
     {
         var monitors = GetMonitors();
         return monitors[Math.Clamp(index, 0, monitors.Count - 1)];
     }
 
-    private static MonitorInfo getMonitorInfoInternal(IntPtr hMonitor)
+    private static MonitorInfo GetMonitorInfoInternal(IntPtr hMonitor)
     {
         var info = new NativeMethods.MONITORINFOEX();
         info.cbSize = Marshal.SizeOf<NativeMethods.MONITORINFOEX>();
@@ -67,7 +67,7 @@ public static class MonitorUtil
     public static MonitorInfo GetMonitor(IntPtr hwnd, MonitorFromWindowFlags flag = MonitorFromWindowFlags.DEFAULTTONEAREST)
     {
         var hMonitor = MonitorFromWindow(hwnd, (int)flag);
-        return getMonitorInfoInternal(hMonitor);
+        return GetMonitorInfoInternal(hMonitor);
     }
 
     public static MonitorInfo GetMonitor(Window window, MonitorFromWindowFlags flag = MonitorFromWindowFlags.DEFAULTTONEAREST)
@@ -82,7 +82,7 @@ public static class MonitorUtil
         EnumDisplayMonitors(IntPtr.Zero, IntPtr.Zero,
             (hMonitor, _, ref _, _) =>
             {
-                result.Add(getMonitorInfoInternal(hMonitor));
+                result.Add(GetMonitorInfoInternal(hMonitor));
                 return true;
             },
             IntPtr.Zero
@@ -142,5 +142,46 @@ public static class MonitorUtil
 
         comboBox.SelectedIndex = selectedMonitor;
         setSelectedIndex(selectedMonitor);
+    }
+
+    public static MonitorInfo GetMonitorWithCursor()
+    {
+        bool gotCursorPos = GetCursorPos(out POINT cursorPos);
+        if (gotCursorPos)
+        {
+            // Find monitor containing cursor position
+            IntPtr hMonitor = MonitorFromPoint(cursorPos, MonitorFromWindowFlags.DEFAULTTONEAREST);
+            // Return monitor info
+            return GetMonitorInfoInternal(hMonitor);
+        }
+
+        // Fallback: use primary monitor if available, otherwise first monitor
+        var monitors = GetMonitors();
+        if (monitors.Count > 0)
+        {
+            foreach (var monitor in monitors)
+            {
+                if (monitor.isPrimary)
+                {
+                    return monitor;
+                }
+            }
+            // No primary flagged; return first monitor
+            return monitors[0];
+        }
+        // As a last resort, return default monitor info
+        return default;
+    }
+
+    public static MonitorInfo GetMonitorWithFocusedWindow()
+    {
+        IntPtr foregroundWindow = GetForegroundWindow();
+        if (foregroundWindow != IntPtr.Zero)
+        {
+            return GetMonitor(foregroundWindow, MonitorFromWindowFlags.DEFAULTTONEAREST);
+        }
+
+        // Fallback to cursor monitor if no focused window
+        return GetMonitorWithCursor();
     }
 }

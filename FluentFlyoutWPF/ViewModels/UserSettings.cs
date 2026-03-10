@@ -244,6 +244,11 @@ public partial class UserSettings : ObservableObject
     [XmlElement(ElementName = "LockKeysBoldUI")]
     public partial bool LockKeysBoldUi { get; set; }
 
+    /// Selects which monitor to use for the lock keys flyout when multiple monitors are in use.
+    /// 0 = Default behavior, 1 = Monitor containing the focused window, 2 = Monitor containing the cursor.
+    [ObservableProperty]
+    public partial int LockKeysMonitorPreference { get; set; }
+    
     /// <summary>
     /// Determines if the user has updated to a new version
     /// </summary>
@@ -544,6 +549,7 @@ public partial class UserSettings : ObservableObject
         NIconHide = false;
         DisableIfFullscreen = true;
         LockKeysBoldUi = false;
+        LockKeysMonitorPreference = 0;
         LastKnownVersion = "";
         SeekbarEnabled = false;
         PauseOtherSessionsEnabled = false;
