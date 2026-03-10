@@ -294,26 +294,6 @@ public sealed partial class InputMonitorService : IDisposable
         MediaKeyPressed?.Invoke(this, new MediaKeyPressedEventArgs(InputMonitorTrigger.KEYBOARD_HOOK));
     }
 
-    private void OnDefaultRenderDeviceChanged(object? sender, DefaultDeviceChangedEventArgs e)
-    {
-        if (e.DataFlow != DataFlow.Render || e.Role != Role.Multimedia)
-        {
-            return;
-        }
-
-        lock (_syncRoot)
-        {
-            if (!_isStarted || SettingsManager.Current.MediaFlyoutInputSource != InputMonitorTrigger.N_AUDIO)
-            {
-                return;
-            }
-        }
-
-        lock (_nAudioSyncRoot)
-        {
-            BindNRenderDevice();
-        }
-    }
     
     private void ProcessDispatchQueue()
     {

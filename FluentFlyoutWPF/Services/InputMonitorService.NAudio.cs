@@ -12,8 +12,26 @@ public sealed partial class InputMonitorService
 {
     private readonly Lock _nAudioSyncRoot = new();
     private MMDevice? _nAudioRenderDevice;
+    private string? _nAudioRenderDeviceId;
     private bool _nAudioDeviceChangeSubscribed;
 
+    
+    private void OnDefaultRenderDeviceChanged(object? sender, DefaultDeviceChangedEventArgs e)
+    {
+        if (e.DataFlow != DataFlow.Render)
+        {
+            return;
+        }
+
+
+        if (!IsNAudioMonitoringActive())
+        {
+            return;
+        }
+
+        _ = Task.Run(BindNRenderDevice);
+    }
+    
     /// <summary>
     /// Starts NAudio-based monitoring by subscribing to default render device changes
     /// and binding volume notifications from the current default render device.
@@ -52,18 +70,27 @@ public sealed partial class InputMonitorService
     /// <summary>
     /// Rebinds the current default render device and subscribes to endpoint volume notifications.
     /// </summary>
-    private void BindNRenderDevice()
+    private bool BindNRenderDevice()
     {
-        UnbindNRenderDevice();
-
-        _nAudioRenderDevice = AudioDeviceMonitor.Instance.GetDefaultRenderDevice();
-        if (_nAudioRenderDevice == null)
+        MMDevice? nextDevice = AudioDeviceMonitor.Instance.GetDefaultRenderDevice();
+        if (nextDevice == null)
         {
-            Logger.Warn("InputMonitorService failed to acquire default render device for NAudio source");
-            return;
+            return false;
         }
 
+        string nextDeviceId = nextDevice.ID;
+        if (_nAudioRenderDevice != null && string.Equals(_nAudioRenderDeviceId, nextDeviceId, StringComparison.OrdinalIgnoreCase))
+        {
+            nextDevice.Dispose();
+            return true;
+        }
+
+        UnbindNRenderDevice();
+
+        _nAudioRenderDevice = nextDevice;
+        _nAudioRenderDeviceId = nextDeviceId;
         _nAudioRenderDevice.AudioEndpointVolume.OnVolumeNotification += OnNVolumeNotification;
+        return true;
     }
 
     /// <summary>
@@ -79,6 +106,7 @@ public sealed partial class InputMonitorService
         _nAudioRenderDevice.AudioEndpointVolume.OnVolumeNotification -= OnNVolumeNotification;
         _nAudioRenderDevice.Dispose();
         _nAudioRenderDevice = null;
+        _nAudioRenderDeviceId = null;
     }
 
     /// <summary>
@@ -112,4 +140,13 @@ public sealed partial class InputMonitorService
         DispatchEventAsync(() => VolumeChanged?.Invoke(this, new VolumeChangedEventArgs(InputMonitorTrigger.N_AUDIO)));
     }
 
+    private bool IsNAudioMonitoringActive()
+    {
+        lock (_syncRoot)
+        {
+            return _isStarted && SettingsManager.Current.MediaFlyoutInputSource == InputMonitorTrigger.N_AUDIO;
+        }
+    }
+
 }
+
