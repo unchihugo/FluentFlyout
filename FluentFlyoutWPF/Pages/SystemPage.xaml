@@ -6,6 +6,7 @@
       xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
       xmlns:controls="clr-namespace:MicaWPF.Controls;assembly=MicaWPF"
       xmlns:viewModels="clr-namespace:FluentFlyoutWPF.ViewModels"
+      xmlns:services="clr-namespace:FluentFlyoutWPF.Services"
       mc:Ignorable="d"
       d:DesignHeight="1600" d:DesignWidth="800"
       Title="SystemPage"
@@ -145,7 +146,18 @@
                 </ui:CardControl.Header>
                 <controls:ToggleSwitch Name="DisableIfFullscreenSwitch" IsChecked="{Binding DisableIfFullscreen, Mode=TwoWay}" />
             </ui:CardControl>
-
+            <ui:CardControl Icon="{ui:SymbolIcon PlugConnected24}" Margin="0,0,0,3">
+                <ui:CardControl.Header>
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="{DynamicResource MediaFlyoutInputSourceTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
+                        <TextBlock Text="{DynamicResource MediaFlyoutInputSourceDescription}" FontSize="12" Opacity="0.5" />
+                    </StackPanel>
+                </ui:CardControl.Header>
+                <ComboBox SelectedValuePath="Tag" SelectedValue="{Binding MediaFlyoutInputSource, Mode=TwoWay}">
+                    <ComboBoxItem Tag="{x:Static services:InputMonitorTrigger.N_AUDIO}" Content="{DynamicResource MediaFlyoutInputSourceOptionNAudio}" />
+                    <ComboBoxItem Tag="{x:Static services:InputMonitorTrigger.KEYBOARD_HOOK}" Content="{DynamicResource MediaFlyoutInputSourceOptionKeyboard}" />
+                </ComboBox>
+            </ui:CardControl>
             <!-- tray icon section -->
             <TextBlock Text="{DynamicResource TrayIconSectionTitle}" FontSize="14" FontWeight="SemiBold" Margin="0,12,0,6" />
             <ui:CardControl Icon="{ui:SymbolIcon CursorHover24}" Margin="0,0,0,3">

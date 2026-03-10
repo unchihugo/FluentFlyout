@@ -27,8 +27,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using Windows.ApplicationModel;
 using Windows.Media.Control;
-using Windows.Storage;
 using Windows.Storage.Streams;
+using FluentFlyoutWPF.Services;
+using FluentFlyoutWPF.Services.Args;
 using static FluentFlyout.Classes.NativeMethods;
 using static WindowsMediaController.MediaManager;
 
@@ -41,11 +42,7 @@ public partial class MainWindow : MicaWindow
 
     private int WM_TASKBARCREATED;
 
-    private IntPtr _hookId = IntPtr.Zero;
-    private LowLevelKeyboardProc _hookProc;
-
     private CancellationTokenSource cts; // to close the flyout after a certain time
-    private long _lastFlyoutTime = 0;
 
     public readonly WindowsMediaController.MediaManager mediaManager = new();
 
@@ -74,6 +71,9 @@ public partial class MainWindow : MicaWindow
 
     private LockWindow? lockWindow;
     private DateTime _lastSelfUpdateTimestamp = DateTime.MinValue;
+
+    // Global input monitor singleton. Keyboard hook is one source and can be extended with others later.
+    private readonly InputMonitorService _inputMonitorService = InputMonitorService.Instance;
 
     internal TaskbarWindow? taskbarWindow;
 
@@ -157,8 +157,10 @@ public partial class MainWindow : MicaWindow
 
         mediaManager.Start();
 
-        _hookProc = HookCallback;
-        _hookId = SetHook(_hookProc);
+        _inputMonitorService.Start();
+        _inputMonitorService.VolumeChanged += OnVolumeChanged;
+        _inputMonitorService.MediaKeyPressed += OnMediaKeyPressed;
+        _inputMonitorService.LockKeyPressed += OnLockKeyPressed;
 
         WindowStartupLocation = WindowStartupLocation.Manual;
         Left = -Width - 20; // workaround for window appearing on the screen before the animation starts
@@ -665,64 +667,54 @@ public partial class MainWindow : MicaWindow
         }
     }
 
-    private static IntPtr SetHook(LowLevelKeyboardProc proc) // set the keyboard hook
+    /// <summary>
+    /// Handles the <see cref="InputMonitorService.VolumeChanged"/> event, triggering the media flyout display.
+    /// </summary>
+    private void OnVolumeChanged(object? _, VolumeChangedEventArgs __)
     {
-        using (Process curProcess = Process.GetCurrentProcess())
-        using (ProcessModule curModule = curProcess.MainModule)
-        {
-            return SetWindowsHookEx(WH_KEYBOARD_LL, proc, GetModuleHandle(curModule.ModuleName), 0);
-        }
+        _ = Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => ShowMediaFlyout()));
     }
 
-    private IntPtr HookCallback(int nCode, IntPtr wParam, IntPtr lParam)
+    /// <summary>
+    /// Handles the <see cref="InputMonitorService.MediaKeyPressed"/> event, triggering the media flyout display.
+    /// </summary>
+    private void OnMediaKeyPressed(object? _, MediaKeyPressedEventArgs __)
     {
-        if (nCode >= 0 && (wParam == (IntPtr)WM_KEYDOWN || wParam == (IntPtr)WM_KEYUP))
+        _ = Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => ShowMediaFlyout()));
+    }
+
+    /// <summary>
+    /// Handles lock key input events from <see cref="InputMonitorService"/> and shows lock flyouts based on settings.
+    /// </summary>
+    private void OnLockKeyPressed(object? _, LockKeyPressedEventArgs e)
+    {
+        _ = Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
         {
-            int vkCode = Marshal.ReadInt32(lParam);
-
-            bool mediaKeysPressed = vkCode == 0xB3 || vkCode == 0xB0 || vkCode == 0xB1 || vkCode == 0xB2; // Play/Pause, next, previous, stop
-            bool volumeKeysPressed = vkCode == 0xAD || vkCode == 0xAE || vkCode == 0xAF; // Mute, Volume Down, Volume Up
-
-            if (mediaKeysPressed || (!SettingsManager.Current.MediaFlyoutVolumeKeysExcluded && volumeKeysPressed))
+            if (!SettingsManager.Current.LockKeysEnabled || FullscreenDetector.IsFullscreenApplicationRunning())
             {
-                long currentTime = Environment.TickCount64;
-
-                // debounce to prevent hangs with rapid key presses
-                if ((currentTime - _lastFlyoutTime) < 500) // 500ms debounce time
-                {
-                    return CallNextHookEx(_hookId, nCode, wParam, lParam);
-                }
-
-                _lastFlyoutTime = currentTime;
-
-                ShowMediaFlyout();
+                return;
             }
 
-            if (SettingsManager.Current.LockKeysEnabled && !FullscreenDetector.IsFullscreenApplicationRunning())
+            if (e.KeyType == LockKeyType.INSERT && !SettingsManager.Current.LockKeysInsertEnabled)
             {
-                if (vkCode == 0x14) // Caps Lock
-                {
-                    lockWindow ??= new LockWindow();
-                    lockWindow.ShowLockFlyout(FindResource("LockWindow_CapsLock").ToString(), Keyboard.IsKeyToggled(Key.CapsLock));
-                }
-                else if (vkCode == 0x90) // Num Lock
-                {
-                    lockWindow ??= new LockWindow();
-                    lockWindow.ShowLockFlyout(FindResource("LockWindow_NumLock").ToString(), Keyboard.IsKeyToggled(Key.NumLock));
-                }
-                else if (vkCode == 0x91) // Scroll Lock
-                {
-                    lockWindow ??= new LockWindow();
-                    lockWindow.ShowLockFlyout(FindResource("LockWindow_ScrollLock").ToString(), Keyboard.IsKeyToggled(Key.Scroll));
-                }
-                else if (vkCode == 0x2D && SettingsManager.Current.LockKeysInsertEnabled) // Insert
-                {
-                    lockWindow ??= new LockWindow();
-                    lockWindow.ShowLockFlyout("Insert", Keyboard.IsKeyToggled(Key.Insert));
-                }
+                return;
             }
-        }
-        return CallNextHookEx(_hookId, nCode, wParam, lParam);
+
+            lockWindow ??= new LockWindow();
+            string? keyLabel = e.KeyType switch
+            {
+                LockKeyType.CAPS_LOCK => FindResource("LockWindow_CapsLock").ToString(),
+                LockKeyType.NUM_LOCK => FindResource("LockWindow_NumLock").ToString(),
+                LockKeyType.SCROLL_LOCK => FindResource("LockWindow_ScrollLock").ToString(),
+                LockKeyType.INSERT => "Insert",
+                _ => null,
+            };
+
+            if (!string.IsNullOrWhiteSpace(keyLabel))
+            {
+                lockWindow.ShowLockFlyout(keyLabel, e.IsToggled);
+            }
+        }));
     }
 
     public async void ShowMediaFlyout(bool toggleMode = false)
@@ -1235,6 +1227,10 @@ public partial class MainWindow : MicaWindow
             mediaManager.OnAnyPlaybackStateChanged -= CurrentSession_OnPlaybackStateChanged;
             mediaManager.OnAnyTimelinePropertyChanged -= MediaManager_OnAnyTimelinePropertyChanged;
             mediaManager.OnAnySessionClosed -= MediaManager_OnAnySessionClosed;
+            _inputMonitorService.VolumeChanged -= OnVolumeChanged;
+            _inputMonitorService.MediaKeyPressed -= OnMediaKeyPressed;
+            _inputMonitorService.LockKeyPressed -= OnLockKeyPressed;
+            _inputMonitorService.Stop();
 
             // dispose managed resources
             _positionTimer?.Change(Timeout.Infinite, Timeout.Infinite);
@@ -1243,13 +1239,6 @@ public partial class MainWindow : MicaWindow
             cts?.Dispose();
 
             TaskbarVisualizerControl.DisposeVisualizer();
-
-            // unhook keyboard hook
-            if (_hookId != IntPtr.Zero)
-            {
-                UnhookWindowsHookEx(_hookId);
-                _hookId = IntPtr.Zero;
-            }
 
             // clean up other resources
             if (lockWindow?.IsLoaded == true)

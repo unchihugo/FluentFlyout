@@ -10,7 +10,7 @@ using FluentFlyoutWPF.Models;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Xml.Serialization;
-
+using FluentFlyoutWPF.Services;
 namespace FluentFlyoutWPF.ViewModels;
 
 /**
@@ -217,6 +217,12 @@ public partial class UserSettings : ObservableObject
     /// </summary>
     [ObservableProperty]
     public partial bool MediaFlyoutVolumeKeysExcluded { get; set; }
+
+    /// <summary>
+    /// Source used to trigger media flyout input events.
+    /// </summary>
+    [ObservableProperty]
+    public partial InputMonitorTrigger MediaFlyoutInputSource { get; set; }
 
     /// <summary>
     /// Use symbol-style tray icon
@@ -540,6 +546,7 @@ public partial class UserSettings : ObservableObject
         MediaFlyoutEnabled = true;
         MediaFlyoutAlwaysDisplay = false;
         MediaFlyoutVolumeKeysExcluded = false;
+        MediaFlyoutInputSource = InputMonitorTrigger.N_AUDIO;
         NIconSymbol = false;
         NIconHide = false;
         DisableIfFullscreen = true;
@@ -711,5 +718,11 @@ public partial class UserSettings : ObservableObject
     {
         if (oldValue == newValue || _initializing || newValue == false) return;
         TaskbarVisualizerHasContent = true;
+    }
+
+    partial void OnMediaFlyoutInputSourceChanged(InputMonitorTrigger oldValue, InputMonitorTrigger newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+        InputMonitorService.Instance.RefreshSourceConfiguration();
     }
 }
