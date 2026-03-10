@@ -21,7 +21,7 @@ public enum InputMonitorTrigger
     /// <summary>User pressed a keyboard key (media, volume, or lock key).</summary>
     KEYBOARD_HOOK,
 
-    /// <summary>Audio endpoint/session changed and was detected through NAudio.</summary>
+    /// <summary>Audio endpoint volume changed and was detected through NAudio (volume up/down/mute only, no playback impact).</summary>
     N_AUDIO,
 }
 
@@ -217,10 +217,17 @@ public sealed partial class InputMonitorService : IDisposable
         bool volumeKeyPressed = vkCode is VOLUME_KEY_MUTE or VOLUME_KEY_DOWN or VOLUME_KEY_UP;
 
         bool useKeyboardHookForFlyout = SettingsManager.Current.MediaFlyoutInputSource == InputMonitorTrigger.KEYBOARD_HOOK;
-        if (useKeyboardHookForFlyout && (mediaKeyPressed || (!SettingsManager.Current.MediaFlyoutVolumeKeysExcluded && volumeKeyPressed)))
+
+        // 1. If it is mediaKeyPressed, it will enter regardless of the mode.
+        // 2. If it is volumeKeyPressed, it can only enter when the Hook mode is enabled and volumeKeyPressed is not excluded.
+        bool shouldProcess = mediaKeyPressed || 
+                            (useKeyboardHookForFlyout && !SettingsManager.Current.MediaFlyoutVolumeKeysExcluded && volumeKeyPressed);
+
+        if (shouldProcess)
         {
             long currentTime = Environment.TickCount64;
             long lastFlyoutTime = Interlocked.Read(ref _lastFlyoutTime);
+            
             if ((currentTime - lastFlyoutTime) >= 500)
             {
                 Interlocked.Exchange(ref _lastFlyoutTime, currentTime);
@@ -229,7 +236,7 @@ public sealed partial class InputMonitorService : IDisposable
                 {
                     DispatchEventAsync(DispatchVolumeChanged);
                 }
-                else
+                else // 此时必然是 mediaKeyPressed 为 true
                 {
                     DispatchEventAsync(DispatchMediaKeyPressed);
                 }
