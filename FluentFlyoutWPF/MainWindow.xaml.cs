@@ -7,7 +7,6 @@ using FluentFlyout.Classes.Utils;
 using FluentFlyout.Controls;
 using FluentFlyout.Windows;
 using FluentFlyoutWPF.Classes;
-using FluentFlyoutWPF.Classes.Services;
 using FluentFlyoutWPF.Classes.Utils;
 using FluentFlyoutWPF.ViewModels;
 using FluentFlyoutWPF.Windows;
@@ -28,8 +27,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using Windows.ApplicationModel;
 using Windows.Media.Control;
-using Windows.Storage;
 using Windows.Storage.Streams;
+using FluentFlyoutWPF.Services;
+using FluentFlyoutWPF.Services.Args;
 using static FluentFlyout.Classes.NativeMethods;
 using static WindowsMediaController.MediaManager;
 
@@ -695,7 +695,7 @@ public partial class MainWindow : MicaWindow
                 return;
             }
 
-            if (e.KeyType == LockKeyType.Insert && !SettingsManager.Current.LockKeysInsertEnabled)
+            if (e.KeyType == LockKeyType.INSERT && !SettingsManager.Current.LockKeysInsertEnabled)
             {
                 return;
             }
@@ -703,10 +703,10 @@ public partial class MainWindow : MicaWindow
             lockWindow ??= new LockWindow();
             string? keyLabel = e.KeyType switch
             {
-                LockKeyType.CapsLock => FindResource("LockWindow_CapsLock").ToString(),
-                LockKeyType.NumLock => FindResource("LockWindow_NumLock").ToString(),
-                LockKeyType.ScrollLock => FindResource("LockWindow_ScrollLock").ToString(),
-                LockKeyType.Insert => "Insert",
+                LockKeyType.CAPS_LOCK => FindResource("LockWindow_CapsLock").ToString(),
+                LockKeyType.NUM_LOCK => FindResource("LockWindow_NumLock").ToString(),
+                LockKeyType.SCROLL_LOCK => FindResource("LockWindow_ScrollLock").ToString(),
+                LockKeyType.INSERT => "Insert",
                 _ => null,
             };
 
