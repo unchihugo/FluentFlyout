@@ -2,7 +2,9 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 using FluentFlyout.Classes.Settings;
+using System.Collections.Concurrent;
 using System.Diagnostics;
+using System.Threading;
 using System.Runtime.InteropServices;
 using System.Windows.Input;
 using static FluentFlyout.Classes.NativeMethods;
@@ -110,11 +112,29 @@ public sealed class InputMonitorService : IDisposable
     private static readonly Lazy<InputMonitorService> LazyInstance = new(() => new InputMonitorService());
 
     private readonly object _syncRoot = new();
+    private readonly ConcurrentQueue<Action> _dispatchQueue = new();
+    private readonly SemaphoreSlim _dispatchSignal = new(0);
+    private readonly CancellationTokenSource _dispatchCts = new();
+    private readonly Thread _dispatchThread;
 
     private IntPtr _hookId = IntPtr.Zero;
     private LowLevelKeyboardProc? _hookProc;
     private long _lastFlyoutTime;
+    private long _lastLockKeyEventTime;
     private bool _isStarted;
+
+    private const int MediaKeyPlayPause = 0xB3;
+    private const int MediaKeyNextTrack = 0xB0;
+    private const int MediaKeyPreviousTrack = 0xB1;
+    private const int MediaKeyStop = 0xB2;
+    private const int VolumeKeyMute = 0xAD;
+    private const int VolumeKeyDown = 0xAE;
+    private const int VolumeKeyUp = 0xAF;
+    private const int VkCapsLock = 0x14;
+    private const int VkNumLock = 0x90;
+    private const int VkScrollLock = 0x91;
+    private const int VkInsert = 0x2D;
+    private const int LockKeyThrottleMs = 120;
 
     /// <summary>
     /// Gets the global singleton instance.
@@ -132,6 +152,12 @@ public sealed class InputMonitorService : IDisposable
 
     private InputMonitorService()
     {
+        _dispatchThread = new Thread(ProcessDispatchQueue)
+        {
+            IsBackground = true,
+            Name = "InputMonitorService.Dispatcher"
+        };
+        _dispatchThread.Start();
     }
 
     /// <summary>
@@ -175,6 +201,12 @@ public sealed class InputMonitorService : IDisposable
                 _hookId = IntPtr.Zero;
             }
 
+            // Keep delegate alive until after the hook is removed.
+            if (_hookProc != null)
+            {
+                GC.KeepAlive(_hookProc);
+            }
+
             _hookProc = null;
             _isStarted = false;
         }
@@ -186,6 +218,10 @@ public sealed class InputMonitorService : IDisposable
     public void Dispose()
     {
         Stop();
+        _dispatchCts.Cancel();
+        _dispatchSignal.Release();
+        _dispatchSignal.Dispose();
+        _dispatchCts.Dispose();
     }
 
     private static IntPtr SetHook(LowLevelKeyboardProc proc)
@@ -204,32 +240,33 @@ public sealed class InputMonitorService : IDisposable
 
     private IntPtr HookCallback(int nCode, IntPtr wParam, IntPtr lParam)
     {
-        if (nCode < 0 || (wParam != (IntPtr)WM_KEYDOWN && wParam != (IntPtr)WM_KEYUP))
+        bool isKeyDown = wParam == (IntPtr)WM_KEYDOWN;
+        bool isKeyUp = wParam == (IntPtr)WM_KEYUP;
+        if (nCode < 0 || (!isKeyDown && !isKeyUp))
         {
             return CallNextHookEx(_hookId, nCode, wParam, lParam);
         }
 
         int vkCode = Marshal.ReadInt32(lParam);
 
-        bool mediaKeyPressed = vkCode == 0xB3 || vkCode == 0xB0 || vkCode == 0xB1 || vkCode == 0xB2;
-        bool volumeKeyPressed = vkCode == 0xAD || vkCode == 0xAE || vkCode == 0xAF;
+        bool mediaKeyPressed = vkCode == MediaKeyPlayPause || vkCode == MediaKeyNextTrack || vkCode == MediaKeyPreviousTrack || vkCode == MediaKeyStop;
+        bool volumeKeyPressed = vkCode == VolumeKeyMute || vkCode == VolumeKeyDown || vkCode == VolumeKeyUp;
 
         if (mediaKeyPressed || (!SettingsManager.Current.MediaFlyoutVolumeKeysExcluded && volumeKeyPressed))
         {
             long currentTime = Environment.TickCount64;
-            if ((currentTime - _lastFlyoutTime) >= 500)
+            long lastFlyoutTime = Interlocked.Read(ref _lastFlyoutTime);
+            if ((currentTime - lastFlyoutTime) >= 500)
             {
-                _lastFlyoutTime = currentTime;
+                Interlocked.Exchange(ref _lastFlyoutTime, currentTime);
 
                 if (volumeKeyPressed)
                 {
-                    Logger.Debug("Volume key detected via keyboard hook");
-                    VolumeChanged?.Invoke(this, new VolumeChangedEventArgs(InputTrigger.KeyboardHook));
+                    DispatchEventAsync(DispatchVolumeChanged);
                 }
                 else
                 {
-                    Logger.Debug("Media key detected via keyboard hook");
-                    MediaKeyPressed?.Invoke(this, new MediaKeyPressedEventArgs(InputTrigger.KeyboardHook));
+                    DispatchEventAsync(DispatchMediaKeyPressed);
                 }
             }
         }
@@ -237,20 +274,80 @@ public sealed class InputMonitorService : IDisposable
         // Emits lock key events separately so UI policies can be applied by subscribers.
         switch (vkCode)
         {
-            case 0x14:
-                LockKeyPressed?.Invoke(this, new LockKeyPressedEventArgs(InputTrigger.KeyboardHook, LockKeyType.CapsLock, Keyboard.IsKeyToggled(Key.CapsLock)));
+            case VkCapsLock:
+                RaiseLockKeyPressed(LockKeyType.CapsLock, Keyboard.IsKeyToggled(Key.CapsLock));
                 break;
-            case 0x90:
-                LockKeyPressed?.Invoke(this, new LockKeyPressedEventArgs(InputTrigger.KeyboardHook, LockKeyType.NumLock, Keyboard.IsKeyToggled(Key.NumLock)));
+            case VkNumLock:
+                RaiseLockKeyPressed(LockKeyType.NumLock, Keyboard.IsKeyToggled(Key.NumLock));
                 break;
-            case 0x91:
-                LockKeyPressed?.Invoke(this, new LockKeyPressedEventArgs(InputTrigger.KeyboardHook, LockKeyType.ScrollLock, Keyboard.IsKeyToggled(Key.Scroll)));
+            case VkScrollLock:
+                RaiseLockKeyPressed(LockKeyType.ScrollLock, Keyboard.IsKeyToggled(Key.Scroll));
                 break;
-            case 0x2D:
-                LockKeyPressed?.Invoke(this, new LockKeyPressedEventArgs(InputTrigger.KeyboardHook, LockKeyType.Insert, Keyboard.IsKeyToggled(Key.Insert)));
+            case VkInsert:
+                RaiseLockKeyPressed(LockKeyType.Insert, Keyboard.IsKeyToggled(Key.Insert));
                 break;
         }
 
         return CallNextHookEx(_hookId, nCode, wParam, lParam);
     }
+
+    private void RaiseLockKeyPressed(LockKeyType keyType, bool isToggled)
+    {
+        long currentTime = Environment.TickCount64;
+        long lastLockKeyEventTime = Interlocked.Read(ref _lastLockKeyEventTime);
+        if ((currentTime - lastLockKeyEventTime) < LockKeyThrottleMs)
+        {
+            return;
+        }
+
+        Interlocked.Exchange(ref _lastLockKeyEventTime, currentTime);
+        DispatchEventAsync(() => LockKeyPressed?.Invoke(this, new LockKeyPressedEventArgs(InputTrigger.KeyboardHook, keyType, isToggled)));
+    }
+
+    private void DispatchEventAsync(Action action)
+    {
+        _dispatchQueue.Enqueue(action);
+        _dispatchSignal.Release();
+    }
+
+    private void DispatchVolumeChanged()
+    {
+        Logger.Debug("Volume key detected via keyboard hook");
+        VolumeChanged?.Invoke(this, new VolumeChangedEventArgs(InputTrigger.KeyboardHook));
+    }
+
+    private void DispatchMediaKeyPressed()
+    {
+        Logger.Debug("Media key detected via keyboard hook");
+        MediaKeyPressed?.Invoke(this, new MediaKeyPressedEventArgs(InputTrigger.KeyboardHook));
+    }
+
+    private void ProcessDispatchQueue()
+    {
+        CancellationToken token = _dispatchCts.Token;
+        try
+        {
+            while (true)
+            {
+                _dispatchSignal.Wait(token);
+
+                while (_dispatchQueue.TryDequeue(out Action? action))
+                {
+                    try
+                    {
+                        action();
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.Error(ex, "InputMonitorService event dispatch failed");
+                    }
+                }
+            }
+        }
+        catch (OperationCanceledException)
+        {
+            // Normal shutdown path.
+        }
+    }
+
 }

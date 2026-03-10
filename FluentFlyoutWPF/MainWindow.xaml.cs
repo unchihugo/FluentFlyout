@@ -670,42 +670,51 @@ public partial class MainWindow : MicaWindow
     /// <summary>
     /// Handles the <see cref="InputMonitorService.VolumeChanged"/> event, triggering the media flyout display.
     /// </summary>
-    private void OnVolumeChanged(object? _, VolumeChangedEventArgs __) => ShowMediaFlyout();
+    private void OnVolumeChanged(object? _, VolumeChangedEventArgs __)
+    {
+        _ = Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => ShowMediaFlyout()));
+    }
 
     /// <summary>
     /// Handles the <see cref="InputMonitorService.MediaKeyPressed"/> event, triggering the media flyout display.
     /// </summary>
-    private void OnMediaKeyPressed(object? _, MediaKeyPressedEventArgs __) => ShowMediaFlyout();
+    private void OnMediaKeyPressed(object? _, MediaKeyPressedEventArgs __)
+    {
+        _ = Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => ShowMediaFlyout()));
+    }
 
     /// <summary>
     /// Handles lock key input events from <see cref="InputMonitorService"/> and shows lock flyouts based on settings.
     /// </summary>
     private void OnLockKeyPressed(object? _, LockKeyPressedEventArgs e)
     {
-        if (!SettingsManager.Current.LockKeysEnabled || FullscreenDetector.IsFullscreenApplicationRunning())
+        _ = Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
         {
-            return;
-        }
+            if (!SettingsManager.Current.LockKeysEnabled || FullscreenDetector.IsFullscreenApplicationRunning())
+            {
+                return;
+            }
 
-        if (e.KeyType == LockKeyType.Insert && !SettingsManager.Current.LockKeysInsertEnabled)
-        {
-            return;
-        }
+            if (e.KeyType == LockKeyType.Insert && !SettingsManager.Current.LockKeysInsertEnabled)
+            {
+                return;
+            }
 
-        lockWindow ??= new LockWindow();
-        string? keyLabel = e.KeyType switch
-        {
-            LockKeyType.CapsLock => FindResource("LockWindow_CapsLock").ToString(),
-            LockKeyType.NumLock => FindResource("LockWindow_NumLock").ToString(),
-            LockKeyType.ScrollLock => FindResource("LockWindow_ScrollLock").ToString(),
-            LockKeyType.Insert => "Insert",
-            _ => null,
-        };
+            lockWindow ??= new LockWindow();
+            string? keyLabel = e.KeyType switch
+            {
+                LockKeyType.CapsLock => FindResource("LockWindow_CapsLock").ToString(),
+                LockKeyType.NumLock => FindResource("LockWindow_NumLock").ToString(),
+                LockKeyType.ScrollLock => FindResource("LockWindow_ScrollLock").ToString(),
+                LockKeyType.Insert => "Insert",
+                _ => null,
+            };
 
-        if (!string.IsNullOrWhiteSpace(keyLabel))
-        {
-            lockWindow.ShowLockFlyout(keyLabel, e.IsToggled);
-        }
+            if (!string.IsNullOrWhiteSpace(keyLabel))
+            {
+                lockWindow.ShowLockFlyout(keyLabel, e.IsToggled);
+            }
+        }));
     }
 
     public async void ShowMediaFlyout(bool toggleMode = false)
