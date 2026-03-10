@@ -76,8 +76,8 @@ public partial class MainWindow : MicaWindow
     private LockWindow? lockWindow;
     private DateTime _lastSelfUpdateTimestamp = DateTime.MinValue;
 
-    // Volume Change Event Distribution Service
-    private readonly VolumeMonitorService _volumeMonitorService = new();
+    // Decouples keyboard hook detection from flyout trigger logic for both volume and media keys
+    private readonly MediaInputMonitorService _mediaInputMonitorService = new();
 
     internal TaskbarWindow? taskbarWindow;
 
@@ -163,7 +163,8 @@ public partial class MainWindow : MicaWindow
 
         _hookProc = HookCallback;
         _hookId = SetHook(_hookProc);
-        _volumeMonitorService.VolumeChanged += OnVolumeChanged;
+        _mediaInputMonitorService.VolumeChanged += OnVolumeChanged;
+        _mediaInputMonitorService.MediaKeyPressed += OnMediaKeyPressed;
 
         WindowStartupLocation = WindowStartupLocation.Manual;
         Left = -Width - 20; // workaround for window appearing on the screen before the animation starts
@@ -671,9 +672,14 @@ public partial class MainWindow : MicaWindow
     }
 
     /// <summary>
-    /// Handles the <see cref="VolumeMonitorService.VolumeChanged"/> event, triggering the media flyout display.
+    /// Handles the <see cref="MediaInputMonitorService.VolumeChanged"/> event, triggering the media flyout display.
     /// </summary>
     private void OnVolumeChanged(object? _, VolumeChangedEventArgs __) => ShowMediaFlyout();
+
+    /// <summary>
+    /// Handles the <see cref="MediaInputMonitorService.MediaKeyPressed"/> event, triggering the media flyout display.
+    /// </summary>
+    private void OnMediaKeyPressed(object? _, MediaKeyPressedEventArgs __) => ShowMediaFlyout();
 
     private static IntPtr SetHook(LowLevelKeyboardProc proc) // set the keyboard hook
     {
@@ -706,9 +712,9 @@ public partial class MainWindow : MicaWindow
                 _lastFlyoutTime = currentTime;
 
                 if (volumeKeysPressed)
-                    _volumeMonitorService.NotifyKeyboardVolumeKey();
+                    _mediaInputMonitorService.NotifyKeyboardVolumeKey();
                 else
-                    ShowMediaFlyout();
+                    _mediaInputMonitorService.NotifyKeyboardMediaKey();
             }
 
             if (SettingsManager.Current.LockKeysEnabled && !FullscreenDetector.IsFullscreenApplicationRunning())
@@ -1248,7 +1254,8 @@ public partial class MainWindow : MicaWindow
             mediaManager.OnAnyPlaybackStateChanged -= CurrentSession_OnPlaybackStateChanged;
             mediaManager.OnAnyTimelinePropertyChanged -= MediaManager_OnAnyTimelinePropertyChanged;
             mediaManager.OnAnySessionClosed -= MediaManager_OnAnySessionClosed;
-            _volumeMonitorService.VolumeChanged -= OnVolumeChanged;
+            _mediaInputMonitorService.VolumeChanged -= OnVolumeChanged;
+            _mediaInputMonitorService.MediaKeyPressed -= OnMediaKeyPressed;
 
             // dispose managed resources
             _positionTimer?.Change(Timeout.Infinite, Timeout.Infinite);
