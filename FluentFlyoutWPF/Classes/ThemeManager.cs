@@ -117,6 +117,7 @@ internal static class ThemeManager
             }
         });
     }
+
     /// <summary>
     /// Updates the taskbar widget theme to match the current Windows theme.
     /// </summary>

@@ -1401,19 +1401,16 @@ public partial class MainWindow : MicaWindow
             handled = true;
             return 0;
         }
-        else if (msg == 0x001A) // WM_SETTINGCHANGE - Windows theme or system settings changed
+        else if (msg == WM_SETTINGCHANGE) // Windows theme or system settings changed
         {  
-            Task.Run(() =>
+            try
             {
-                try
-                {
-                    ThemeManager.UpdateTaskbarWidget();
-                }
-                catch (Exception ex)
-                {
-                    Logger.Error(ex, "Failed to apply theme changes to taskbar widgets");
-                }
-            });
+                ThemeManager.UpdateTaskbarWidget();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "Failed to apply theme changes to taskbar widgets");
+            }
             return 0;
         }
 

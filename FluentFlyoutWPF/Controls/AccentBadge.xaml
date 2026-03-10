@@ -6,9 +6,9 @@
              xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
              mc:Ignorable="d"
              Height="16">
-    <Border CornerRadius="8" Background="{StaticResource AccentTextFillColorTertiaryBrush}" Padding="6,2">
+    <Border CornerRadius="8" Background="{DynamicResource AccentTextFillColorTertiaryBrush}" Padding="6,2">
         <ui:TextBlock x:Name="BadgeTextBlock" Text="PREMIUM"
-                      Foreground="{StaticResource TextFillColorInverseBrush}"
+                      Foreground="{DynamicResource TextFillColorInverseBrush}"
                       LineHeight="1" FontWeight="Medium" VerticalAlignment="Center" />
     </Border>
 </UserControl>
