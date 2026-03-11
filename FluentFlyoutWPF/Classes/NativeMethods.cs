@@ -42,7 +42,19 @@ public static partial class NativeMethods
     internal const int WH_KEYBOARD_LL = 13;
     internal const int WM_KEYDOWN = 0x0100;
     internal const int WM_KEYUP = 0x0101;
-
+    
+    internal const int MEDIA_KEY_PLAY_PAUSE = 0xB3;
+    internal const int MEDIA_KEY_NEXT_TRACK = 0xB0;
+    internal const int MEDIA_KEY_PREVIOUS_TRACK = 0xB1;
+    internal const int MEDIA_KEY_STOP = 0xB2;
+    internal const int VK_CAPS_LOCK = 0x14;
+    internal const int VK_NUM_LOCK = 0x90;
+    internal const int VK_SCROLL_LOCK = 0x91;
+    internal const int VK_INSERT = 0x2D;
+    internal const int VOLUME_KEY_MUTE = 0xAD;
+    internal const int VOLUME_KEY_DOWN = 0xAE;
+    internal const int VOLUME_KEY_UP = 0xAF;
+    
     #endregion
 
     #region Enums

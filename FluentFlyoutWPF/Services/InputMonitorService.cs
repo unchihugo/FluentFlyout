@@ -53,7 +53,7 @@ public enum LockKeyType
 public sealed partial class InputMonitorService : IDisposable
 {
     private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
-    private static readonly Lazy<InputMonitorService> LazyInstance = new(() => new FluentFlyoutWPF.Services.InputMonitorService());
+    private static readonly Lazy<InputMonitorService> LazyInstance = new(() => new InputMonitorService());
 
     private readonly Lock _syncRoot = new();
     private readonly ConcurrentQueue<Action> _dispatchQueue = new();
@@ -68,17 +68,6 @@ public sealed partial class InputMonitorService : IDisposable
 
     private bool _isStarted;
 
-    private const int MEDIA_KEY_PLAY_PAUSE = 0xB3;
-    private const int MEDIA_KEY_NEXT_TRACK = 0xB0;
-    private const int MEDIA_KEY_PREVIOUS_TRACK = 0xB1;
-    private const int MEDIA_KEY_STOP = 0xB2;
-    private const int VOLUME_KEY_MUTE = 0xAD;
-    private const int VOLUME_KEY_DOWN = 0xAE;
-    private const int VOLUME_KEY_UP = 0xAF;
-    private const int VK_CAPS_LOCK = 0x14;
-    private const int VK_NUM_LOCK = 0x90;
-    private const int VK_SCROLL_LOCK = 0x91;
-    private const int VK_INSERT = 0x2D;
     private const int LOCK_KEY_THROTTLE_MS = 120;
     /// <summary>
     /// Gets the global singleton instance.
