@@ -172,7 +172,7 @@
     <system:String x:Key="MediaFlyoutInputSourceTitle">输入监听源</system:String>
     <system:String x:Key="MediaFlyoutInputSourceDescription">选择 FluentFlyout 检测音量变化的方式</system:String>
     <system:String x:Key="MediaFlyoutInputSourceOptionNAudio">NAudio</system:String>
-    <system:String x:Key="MediaFlyoutInputSourceOptionKeyboard">键盘钩子</system:String>
+    <system:String x:Key="MediaFlyoutInputSourceOptionKeyboard">键盘 Hook（过时）</system:String>
     <system:String x:Key="TaskbarVisualizerTitle">任务栏频谱可视化</system:String>
     <system:String x:Key="TaskbarVisualizerDescription">在任务栏上显示当前实时播放音频的频谱可视化。专为现代系统设计，性能影响极低。</system:String>
     <system:String x:Key="TaskbarVisualizerEnabledTitle">启用任务栏频谱可视化（实验性）</system:String>

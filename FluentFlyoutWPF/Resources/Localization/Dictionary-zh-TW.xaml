@@ -172,7 +172,7 @@
     <system:String x:Key="MediaFlyoutInputSourceTitle">輸入監聽來源</system:String>
     <system:String x:Key="MediaFlyoutInputSourceDescription">選擇 FluentFlyout 偵測音量變化的方式</system:String>
     <system:String x:Key="MediaFlyoutInputSourceOptionNAudio">NAudio</system:String>
-    <system:String x:Key="MediaFlyoutInputSourceOptionKeyboard">鍵盤 Hook</system:String>
+    <system:String x:Key="MediaFlyoutInputSourceOptionKeyboard">鍵盤 Hook（過時）</system:String>
     <system:String x:Key="TaskbarVisualizerTitle">工作列視覺化工具</system:String>
     <system:String x:Key="TaskbarVisualizerDescription">在工作列上即時顯示的音訊視覺化效果，專為現代系統設計，將效能影響降到最低。</system:String>
     <system:String x:Key="TaskbarVisualizerEnabledTitle">啟用工作列視覺化工具（實驗性功能）</system:String>

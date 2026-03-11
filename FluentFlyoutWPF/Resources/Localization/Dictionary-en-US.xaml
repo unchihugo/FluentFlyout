@@ -12,7 +12,7 @@
     <System:String x:Key="MediaFlyoutInputSourceTitle">Input Monitor Source</System:String>
     <System:String x:Key="MediaFlyoutInputSourceDescription">Choose how FluentFlyout detects volume changes</System:String>
     <System:String x:Key="MediaFlyoutInputSourceOptionNAudio">NAudio</System:String>
-    <System:String x:Key="MediaFlyoutInputSourceOptionKeyboard">Keyboard Hook</System:String>
+    <System:String x:Key="MediaFlyoutInputSourceOptionKeyboard">Keyboard Hook (Legacy)</System:String>
     <System:String x:Key="TaskbarWidgetCloseableFlyoutTitle">Close Flyout on Second Click</System:String>
     <System:String x:Key="TaskbarWidgetCloseableFlyoutDescription">Close the flyout if it's already open when clicking the taskbar widget</System:String>
     <System:String x:Key="TextBlockText2">Choose from a preset of modern background blur styles</System:String>
