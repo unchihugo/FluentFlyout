@@ -1,6 +1,7 @@
 // Copyright © 2024-2026 The FluentFlyout Authors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+using System.Runtime.InteropServices;
 using FluentFlyout.Classes.Settings;
 using FluentFlyoutWPF.Classes;
 using FluentFlyoutWPF.Services.Args;
@@ -15,7 +16,10 @@ public sealed partial class InputMonitorService
     private string? _nAudioRenderDeviceId;
     private bool _nAudioDeviceChangeSubscribed;
 
-    
+
+    /// <summary>
+    /// Rebinds On Default Render Device Changed
+    /// </summary>
     private void OnDefaultRenderDeviceChanged(object? sender, DefaultDeviceChangedEventArgs e)
     {
         if (e.DataFlow != DataFlow.Render)
@@ -31,7 +35,7 @@ public sealed partial class InputMonitorService
 
         _ = Task.Run(BindNRenderDevice);
     }
-    
+
     /// <summary>
     /// Starts NAudio-based monitoring by subscribing to default render device changes
     /// and binding volume notifications from the current default render device.
@@ -79,7 +83,8 @@ public sealed partial class InputMonitorService
         }
 
         string nextDeviceId = nextDevice.ID;
-        if (_nAudioRenderDevice != null && string.Equals(_nAudioRenderDeviceId, nextDeviceId, StringComparison.OrdinalIgnoreCase))
+        if (_nAudioRenderDevice != null &&
+            string.Equals(_nAudioRenderDeviceId, nextDeviceId, StringComparison.OrdinalIgnoreCase))
         {
             nextDevice.Dispose();
             return true;
@@ -89,7 +94,17 @@ public sealed partial class InputMonitorService
 
         _nAudioRenderDevice = nextDevice;
         _nAudioRenderDeviceId = nextDeviceId;
-        _nAudioRenderDevice.AudioEndpointVolume.OnVolumeNotification += OnNVolumeNotification;
+        try
+        {
+            _nAudioRenderDevice.AudioEndpointVolume.OnVolumeNotification += OnNVolumeNotification;
+        }
+        catch (InvalidComObjectException)
+        {
+            // The audio device failed during the binding process.
+            Logger.Warn("Binding NAudio render device failed about COM: {}", nextDeviceId);
+            return false;
+        }
+
         return true;
     }
 
@@ -98,16 +113,44 @@ public sealed partial class InputMonitorService
     /// </summary>
     private void UnbindNRenderDevice()
     {
+        _nAudioRenderDevice = null;
+        _nAudioRenderDeviceId = null;
+
         if (_nAudioRenderDevice == null)
         {
             return;
         }
 
-        _nAudioRenderDevice.AudioEndpointVolume.OnVolumeNotification -= OnNVolumeNotification;
-        _nAudioRenderDevice.Dispose();
-        _nAudioRenderDevice = null;
-        _nAudioRenderDeviceId = null;
+        try
+        {
+            try
+            {
+                _nAudioRenderDevice.AudioEndpointVolume.OnVolumeNotification -= OnNVolumeNotification;
+            }
+            catch (InvalidComObjectException)
+            {
+                // ignore
+            }
+
+            try
+            {
+                _nAudioRenderDevice.Dispose();
+            }
+            catch (InvalidComObjectException)
+            {
+                // ignore
+            }
+        }
+        catch (Exception)
+        {
+            // ignore
+        }
+        finally
+        {
+            _nAudioRenderDevice = null;
+        }
     }
+
 
     /// <summary>
     /// Handles NAudio endpoint volume notifications and dispatches a volume change event
@@ -147,6 +190,4 @@ public sealed partial class InputMonitorService
             return _isStarted && SettingsManager.Current.MediaFlyoutInputSource == InputMonitorTrigger.N_AUDIO;
         }
     }
-
 }
-
