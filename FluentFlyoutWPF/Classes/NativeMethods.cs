@@ -297,7 +297,11 @@ public static partial class NativeMethods
 
     [LibraryImport("user32.dll", SetLastError = true)]
     internal static partial IntPtr CallNextHookEx(IntPtr hhk, int nCode, IntPtr wParam, IntPtr lParam);
+    
+    [LibraryImport("user32.dll", SetLastError = true)]
+    internal static partial short GetKeyState(int nVirtKey);
 
+    
     #endregion
 
     #region gdi32.dll

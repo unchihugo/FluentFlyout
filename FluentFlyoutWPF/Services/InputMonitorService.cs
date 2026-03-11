@@ -4,7 +4,6 @@
 using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
-using System.Windows.Input;
 using FluentFlyout.Classes.Settings;
 using FluentFlyoutWPF.Services.Args;
 using static FluentFlyout.Classes.NativeMethods;
@@ -62,11 +61,14 @@ public sealed partial class InputMonitorService : IDisposable
     private IntPtr _hookId = IntPtr.Zero;
     private LowLevelKeyboardProc? _hookProc;
     private long _lastFlyoutTime;
-    private long _lastLockKeyEventTime;
 
     private bool _isStarted;
-
-    private const int LOCK_KEY_THROTTLE_MS = 120;
+    
+    private bool _lastCapsState;
+    private bool _lastNumState;
+    private bool _lastScrollState;
+    private bool _lastInsertState;
+    
     /// <summary>
     /// Gets the global singleton instance.
     /// </summary>
@@ -234,33 +236,63 @@ public sealed partial class InputMonitorService : IDisposable
         switch (vkCode)
         {
             case VK_CAPS_LOCK:
-                RaiseLockKeyPressed(LockKeyType.CAPS_LOCK, Keyboard.IsKeyToggled(Key.CapsLock));
+                RaiseLockKeyPressed(LockKeyType.CAPS_LOCK, vkCode);
                 break;
             case VK_NUM_LOCK:
-                RaiseLockKeyPressed(LockKeyType.NUM_LOCK, Keyboard.IsKeyToggled(Key.NumLock));
+                RaiseLockKeyPressed(LockKeyType.NUM_LOCK, vkCode);
                 break;
             case VK_SCROLL_LOCK:
-                RaiseLockKeyPressed(LockKeyType.SCROLL_LOCK, Keyboard.IsKeyToggled(Key.Scroll));
+                RaiseLockKeyPressed(LockKeyType.SCROLL_LOCK, vkCode);
                 break;
             case VK_INSERT:
-                RaiseLockKeyPressed(LockKeyType.INSERT, Keyboard.IsKeyToggled(Key.Insert));
+                RaiseLockKeyPressed(LockKeyType.INSERT, vkCode);
                 break;
         }
 
         return CallNextHookEx(_hookId, nCode, wParam, lParam);
     }
-
-    private void RaiseLockKeyPressed(LockKeyType keyType, bool isToggled)
+    /// <summary>
+    /// Dispatches a normalized lock-key event (CapsLock / NumLock / ScrollLock / Insert)
+    /// using the current hardware toggle state retrieved via Win32 GetKeyState.
+    /// 
+    /// GetKeyState is thread-agnostic and returns the correct global toggle state at the
+    /// moment of invocation, making it safe and accurate to call from any thread.
+    /// 
+    /// To avoid duplicate notifications, the method compares the newly read toggle state
+    /// with the last cached state. Only when the state actually changes will an event be
+    /// raised to subscribers.
+    /// </summary>
+    private void RaiseLockKeyPressed(LockKeyType keyType, int vkCode)
     {
-        long currentTime = Environment.TickCount64;
-        long lastLockKeyEventTime = Interlocked.Read(ref _lastLockKeyEventTime);
-        if ((currentTime - lastLockKeyEventTime) < LOCK_KEY_THROTTLE_MS)
+        DispatchEventAsync(() =>
         {
-            return;
-        }
+            bool isToggled = (GetKeyState(vkCode) & 0x0001) != 0;
 
-        Interlocked.Exchange(ref _lastLockKeyEventTime, currentTime);
-        DispatchEventAsync(() => LockKeyPressed?.Invoke(this, new LockKeyPressedEventArgs(InputMonitorTrigger.KEYBOARD_HOOK, keyType, isToggled)));
+            bool lastState = keyType switch
+            {
+                LockKeyType.CAPS_LOCK => _lastCapsState,
+                LockKeyType.NUM_LOCK => _lastNumState,
+                LockKeyType.SCROLL_LOCK => _lastScrollState,
+                LockKeyType.INSERT => _lastInsertState,
+                _ => false
+            };
+
+            if (lastState == isToggled)
+                return;
+
+            switch (keyType)
+            {
+                case LockKeyType.CAPS_LOCK: _lastCapsState = isToggled; break;
+                case LockKeyType.NUM_LOCK: _lastNumState = isToggled; break;
+                case LockKeyType.SCROLL_LOCK: _lastScrollState = isToggled; break;
+                case LockKeyType.INSERT: _lastInsertState = isToggled; break;
+            }
+
+            LockKeyPressed?.Invoke(
+                this,
+                new LockKeyPressedEventArgs(InputMonitorTrigger.KEYBOARD_HOOK, keyType, isToggled)
+            );
+        });
     }
 
     private void DispatchEventAsync(Action action)
