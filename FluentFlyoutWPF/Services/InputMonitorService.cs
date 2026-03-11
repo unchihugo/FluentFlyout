@@ -6,9 +6,7 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Windows.Input;
 using FluentFlyout.Classes.Settings;
-using FluentFlyoutWPF.Classes;
 using FluentFlyoutWPF.Services.Args;
-using NAudio.CoreAudioApi;
 using static FluentFlyout.Classes.NativeMethods;
 
 namespace FluentFlyoutWPF.Services;
@@ -225,7 +223,7 @@ public sealed partial class InputMonitorService : IDisposable
                 {
                     DispatchEventAsync(DispatchVolumeChanged);
                 }
-                else // 此时必然是 mediaKeyPressed 为 true
+                else // mediaKeyPressed is true
                 {
                     DispatchEventAsync(DispatchMediaKeyPressed);
                 }
