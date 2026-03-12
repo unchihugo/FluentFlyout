@@ -217,4 +217,9 @@
     <system:String x:Key="TaskbarWidgetControlsPositionDescription">Выберите, где отображать медиакнопки</system:String>
     <system:String x:Key="PositionLeft">Слева</system:String>
     <system:String x:Key="PositionRight">Справа</system:String>
+    <system:String x:Key="LockKeysCursorUITitle">Предпочитаемый целевой дисплей</system:String>
+    <system:String x:Key="LockKeysCursorUIDescription" xml:space="preserve">Выберите, на каком мониторе отображать всплывающее окно.</system:String>
+    <system:String x:Key="DefaultLockLayoutPosition">По умолчанию (целевой дисплей всплывающего окна)</system:String>
+    <system:String x:Key="MonitorWithFocusedWindow">Монитор с активным окном</system:String>
+    <system:String x:Key="MonitorWithCursor">Монитор с курсором</system:String>
 </ResourceDictionary>
