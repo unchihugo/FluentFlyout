@@ -564,14 +564,13 @@ public partial class UserSettings : ObservableObject
         TaskbarWidgetControlsPosition = 1;
         TaskbarWidgetAnimated = true;
         TaskbarVisualizerEnabled = false;
-        TaskbarVisualizerPosition = 0;
+        TaskbarVisualizerPosition = 1;
         TaskbarVisualizerClickable = false;
         TaskbarVisualizerBarCount = 10;
         TaskbarVisualizerCenteredBars = false;
         TaskbarVisualizerBaseline = false;
         TaskbarVisualizerAudioSensitivity = 2;
         TaskbarVisualizerAudioPeakLevel = 2;
-        TaskbarVisualizerClickable = false;
         AcrylicBlurOpacity = 175;
         LastUpdateNotificationUnixSeconds = 0;
         ShowUpdateNotifications = true;

@@ -184,7 +184,7 @@ namespace FluentFlyoutWPF.Classes
                 _fftBuffer[_fftPos].Y = 0;
                 _fftPos++;
 
-                // When buffer isn't full, return
+                // When buffer isn't full, skip processing and continue filling
                 if (_fftPos < _fftLength)
                     continue;
 
@@ -198,7 +198,7 @@ namespace FluentFlyoutWPF.Classes
                 double timeSinceLastUpdate = (now - _lastUpdateTime).TotalMilliseconds;
 
                 if (timeSinceLastUpdate < minFrameTime)
-                    return;
+                    continue;
 
                 _lastUpdateTime = now;
                 SettingsManager.Current.TaskbarVisualizerHasContent = true;
@@ -207,7 +207,7 @@ namespace FluentFlyoutWPF.Classes
                 {
                     // if baseline is enabled, we want to keep showing the bars even when they are all zero
                     UpdateBitmap();
-                    return;
+                    break;
                 }
 
                 // check if bars are all zero, if so set has content to false to disable hover effect

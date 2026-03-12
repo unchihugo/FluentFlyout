@@ -18,7 +18,6 @@ namespace FluentFlyout.Controls;
 public partial class TaskbarVisualizerControl : UserControl
 {
     // reference to main window for flyout functions
-    private FluentFlyoutWPF.MainWindow? _mainWindow;
     private static readonly Visualizer visualizer = new();
 
     public TaskbarVisualizerControl()
@@ -43,11 +42,6 @@ public partial class TaskbarVisualizerControl : UserControl
         }
 
         Background = new SolidColorBrush(Color.FromArgb(1, 0, 0, 0));
-    }
-
-    public void SetMainWindow(FluentFlyoutWPF.MainWindow mainWindow)
-    {
-        _mainWindow = mainWindow;
     }
 
     public static void OnTaskbarVisualizerEnabledChanged(bool value)
@@ -146,6 +140,8 @@ public partial class TaskbarVisualizerControl : UserControl
 
     private void Grid_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
     {
+        // only continue when the visualizer is clickable and actually has content
+        // otherwise it would show an empty container to click on which is weird
         if (!SettingsManager.Current.TaskbarVisualizerClickable || !SettingsManager.Current.TaskbarVisualizerHasContent) return;
 
         // open settings when clicked

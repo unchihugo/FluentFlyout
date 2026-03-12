@@ -100,7 +100,6 @@ public partial class TaskbarWindow : Window
         SetupWindow();
         _mainWindow = (MainWindow)Application.Current.MainWindow;
         Widget.SetMainWindow(_mainWindow);
-        TaskbarVisualizer.SetMainWindow(_mainWindow);
     }
 
     private IntPtr GetSelectedTaskbarHandle(out bool isMainTaskbarSelected)
