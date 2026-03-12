@@ -433,12 +433,8 @@ public partial class UserSettings : ObservableObject
     public partial int TaskbarVisualizerPosition { get; set; }
 
     /// <summary>
-    /// Whether the visualizer is clickable to open the flyout
+    /// Whether the visualizer is clickable to open the visualizer settings page.
     /// </summary>
-    /// <remarks>
-    /// same setting as TaskbarWidgetClickable for now since the visualizer is part of the widget,
-    /// but separate in case we want to differentiate in the future
-    /// </remarks>
     [ObservableProperty]
     public partial bool TaskbarVisualizerClickable { get; set; }
 
@@ -574,7 +570,7 @@ public partial class UserSettings : ObservableObject
         TaskbarWidgetControlsPosition = 1;
         TaskbarWidgetAnimated = true;
         TaskbarVisualizerEnabled = false;
-        TaskbarVisualizerPosition = 0;
+        TaskbarVisualizerPosition = 1;
         TaskbarVisualizerClickable = false;
         TaskbarVisualizerBarCount = 10;
         TaskbarVisualizerCenteredBars = false;
