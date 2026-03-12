@@ -217,4 +217,9 @@
     <system:String x:Key="SettingsImportedSuccessfully">设置导入成功！本应用将重启以实施更改。</system:String>
     <system:String x:Key="ImportSettingsWarning">这将会替换现有的全部设置。是否继续？</system:String>
     <system:String x:Key="FailedToImportSettings">设置导入失败，请检查日志内容。</system:String>
+    <system:String x:Key="LockKeysCursorUITitle">首选目标显示器</system:String>
+    <system:String x:Key="LockKeysCursorUIDescription" xml:space="preserve">选择显示此浮窗的显示器。</system:String>
+    <system:String x:Key="DefaultLockLayoutPosition">默认（全局浮窗目标显示器）</system:String>
+    <system:String x:Key="MonitorWithFocusedWindow">具有焦点的窗口所在的显示器</system:String>
+    <system:String x:Key="MonitorWithCursor">鼠标 / 光标所在的显示器</system:String>
 </ResourceDictionary>
