@@ -222,4 +222,6 @@
     <system:String x:Key="DefaultLockLayoutPosition">По умолчанию (целевой дисплей всплывающего окна)</system:String>
     <system:String x:Key="MonitorWithFocusedWindow">Монитор с активным окном</system:String>
     <system:String x:Key="MonitorWithCursor">Монитор с курсором</system:String>
+    <system:String x:Key="TaskbarVisualizerClickableTitle">Открыть настройки</system:String>
+    <system:String x:Key="TaskbarVisualizerClickableDescription">Нажатие на визуализатор откроет страницу его настроек</system:String>
 </ResourceDictionary>
