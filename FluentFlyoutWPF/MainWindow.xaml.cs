@@ -462,6 +462,7 @@ public partial class MainWindow : MicaWindow
 
         var playbackInfo = focusedSession.ControlSession.GetPlaybackInfo();
         taskbarWindow?.UpdateUi(songInfo.Title, songInfo.Artist, BitmapHelper.GetThumbnail(songInfo.Thumbnail), playbackInfo.PlaybackStatus, playbackInfo.Controls);
+        BitmapHelper.GetDominantColors(1);
     }
 
     public void reportBug(object? sender, EventArgs e)
@@ -524,6 +525,7 @@ public partial class MainWindow : MicaWindow
             return;
 
         taskbarWindow?.UpdateUi(songInfo.Title, songInfo.Artist, BitmapHelper.GetThumbnail(songInfo.Thumbnail), playbackInfo?.PlaybackStatus, playbackInfo?.Controls);
+        BitmapHelper.GetDominantColors(1);
 
         if (IsVisible)
         {
@@ -660,6 +662,7 @@ public partial class MainWindow : MicaWindow
 
             var playbackInfo = focusedSession.ControlSession.GetPlaybackInfo();
             taskbarWindow?.UpdateUi(songInfo.Title, songInfo.Artist, BitmapHelper.GetThumbnail(songInfo.Thumbnail), playbackInfo.PlaybackStatus, playbackInfo.Controls);
+            BitmapHelper.GetDominantColors(1);
         }
     }
 
