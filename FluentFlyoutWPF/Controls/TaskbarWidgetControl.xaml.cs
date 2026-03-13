@@ -4,6 +4,8 @@
 using FluentFlyout.Classes.Settings;
 using FluentFlyout.Classes.Utils;
 using FluentFlyoutWPF;
+using MicaWPF.Core.Enums;
+using MicaWPF.Core.Helpers;
 using FluentFlyoutWPF.Classes.Utils;
 using System.Windows;
 using System.Windows.Controls;
@@ -12,7 +14,6 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using Windows.Media.Control;
-using Wpf.Ui.Appearance;
 using Wpf.Ui.Controls;
 
 namespace FluentFlyout.Controls;
@@ -41,6 +42,9 @@ public partial class TaskbarWidgetControl : UserControl
     {
         InitializeComponent();
 
+        // Apply Windows theme colors (independent of the app theme setting)
+        ApplyWindowsTheme();
+
         // Set DataContext for bindings
         DataContext = SettingsManager.Current;
 
@@ -58,11 +62,44 @@ public partial class TaskbarWidgetControl : UserControl
         }
 
         Background = new SolidColorBrush(Color.FromArgb(1, 0, 0, 0)); ;
+        
+        // Initialize control order
+        ReorderControls();
+    }
+
+    public void ReorderControls()
+    {
+        // Remove ControlsStackPanel from MainStackPanel
+        MainStackPanel.Children.Remove(ControlsStackPanel);
+
+        // Reorder based on position setting
+        if (SettingsManager.Current.TaskbarWidgetControlsPosition == 0)
+        {
+            // Left: Controls, Image, Info
+            MainStackPanel.Children.Insert(0, ControlsStackPanel);
+            ControlsStackPanel.Margin = new Thickness(2, 0, 6, 0); // for some reason margins are weird on left side
+        }
+        else
+        {
+            // Right: Image, Info, Controls
+            MainStackPanel.Children.Add(ControlsStackPanel);
+            ControlsStackPanel.Margin = new Thickness(8, 0, 0, 0);
+        }
     }
 
     public void SetMainWindow(MainWindow mainWindow)
     {
         _mainWindow = mainWindow;
+    }
+
+    public void ApplyWindowsTheme()
+    {
+        bool isDark = WindowsThemeHelper.GetCurrentWindowsTheme() == WindowsTheme.Dark;
+        var foreground = new SolidColorBrush(isDark
+            ? Color.FromArgb(0xFF, 0xFF, 0xFF, 0xFF)
+            : Color.FromArgb(0xE4, 0x1C, 0x1C, 0x1C));
+        SongTitle.Foreground = foreground;
+        SongArtist.Foreground = foreground;
     }
 
     private void Grid_MouseEnter(object sender, MouseEventArgs e)
@@ -71,7 +108,7 @@ public partial class TaskbarWidgetControl : UserControl
 
         SolidColorBrush targetBackgroundBrush;
         // hover effects with animations, hard-coded colors because I can't find the resource brushes
-        if (ApplicationThemeManager.GetSystemTheme() == SystemTheme.Dark)
+        if (WindowsThemeHelper.GetCurrentWindowsTheme() == WindowsTheme.Dark)
         { // dark mode
             targetBackgroundBrush = new SolidColorBrush(Color.FromArgb(197, 255, 255, 255)) { Opacity = 0.075 };
             TopBorder.BorderBrush = new SolidColorBrush(Color.FromArgb(93, 255, 255, 255)) { Opacity = 0.25 };

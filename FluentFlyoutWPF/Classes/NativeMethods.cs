@@ -9,7 +9,7 @@ namespace FluentFlyout.Classes;
 /// <summary>
 /// Centralized class for all P/Invoke declarations and unmanaged code imports.
 /// </summary>
-public static class NativeMethods
+public static partial class NativeMethods
 {
     #region Constants
 
@@ -42,12 +42,13 @@ public static class NativeMethods
     internal const int WH_KEYBOARD_LL = 13;
     internal const int WM_KEYDOWN = 0x0100;
     internal const int WM_KEYUP = 0x0101;
+    internal const int WM_SETTINGCHANGE = 0x001A;
 
     #endregion
 
     #region Enums
 
-    public enum MonitorFromWindowFlags : int
+    public enum MonitorFromWindowFlags : uint
     {
         DEFAULTTONULL = 0,
         DEFAULTTOPRIMARY = 1,
@@ -200,128 +201,145 @@ public static class NativeMethods
 
     #region user32.dll
 
-    [DllImport("user32.dll", SetLastError = true)]
-    internal static extern IntPtr FindWindow(string lpClassName, string? lpWindowName);
+    [LibraryImport("user32.dll", EntryPoint = "FindWindowW", SetLastError = true, StringMarshalling = StringMarshalling.Utf16)]
+    internal static partial IntPtr FindWindow(string lpClassName, string? lpWindowName);
 
-    [DllImport("user32.dll", SetLastError = true)]
-    internal static extern IntPtr FindWindowEx(IntPtr parentHandle, IntPtr childAfter, string? className, string? windowTitle);
+    [LibraryImport("user32.dll", EntryPoint = "FindWindowExW", SetLastError = true, StringMarshalling = StringMarshalling.Utf16)]
+    internal static partial IntPtr FindWindowEx(IntPtr parentHandle, IntPtr childAfter, string? className, string? windowTitle);
 
-    [DllImport("user32.dll", SetLastError = true)]
-    internal static extern bool EnumWindows(EnumWindowsProc enumProc, IntPtr lParam);
+    [LibraryImport("user32.dll", SetLastError = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static partial bool EnumWindows(EnumWindowsProc enumProc, IntPtr lParam);
 
-    [DllImport("user32.dll", SetLastError = true)]
-    internal static extern bool EnumThreadWindows(uint dwThreadId, EnumWindowsProc enumProc, IntPtr lParam);
+    [LibraryImport("user32.dll", SetLastError = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static partial bool EnumThreadWindows(uint dwThreadId, EnumWindowsProc enumProc, IntPtr lParam);
 
     [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
     internal static extern int GetClassName(IntPtr hWnd, StringBuilder lpClassName, int nMaxCount);
 
-    [DllImport("user32.dll", SetLastError = true)]
-    internal static extern IntPtr SetParent(IntPtr hWndChild, IntPtr hWndNewParent);
+    [LibraryImport("user32.dll", SetLastError = true)]
+    internal static partial IntPtr SetParent(IntPtr hWndChild, IntPtr hWndNewParent);
 
-    [DllImport("user32.dll", SetLastError = true)]
-    internal static extern IntPtr GetParent(IntPtr hWnd);
+    [LibraryImport("user32.dll", SetLastError = true)]
+    internal static partial IntPtr GetParent(IntPtr hWnd);
 
-    [DllImport("user32.dll", SetLastError = true)]
-    internal static extern bool GetWindowRect(IntPtr hWnd, out RECT lpRect);
+    [LibraryImport("user32.dll", SetLastError = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static partial bool GetWindowRect(IntPtr hWnd, out RECT lpRect);
 
-    [DllImport("user32.dll")]
-    internal static extern int SetWindowRgn(IntPtr hWnd, IntPtr hRgn, bool bRedraw);
+    [LibraryImport("user32.dll")]
+    internal static partial int SetWindowRgn(IntPtr hWnd, IntPtr hRgn, [MarshalAs(UnmanagedType.Bool)] bool bRedraw);
 
-    [DllImport("user32.dll", SetLastError = true)]
-    internal static extern uint GetWindowThreadProcessId(IntPtr hWnd, IntPtr lpdwProcessId);
+    [LibraryImport("user32.dll", SetLastError = true)]
+    internal static partial uint GetWindowThreadProcessId(IntPtr hWnd, IntPtr lpdwProcessId);
 
-    [DllImport("user32.dll")]
-    internal static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
+    [LibraryImport("user32.dll", EntryPoint = "SetWindowLongW")]
+    internal static partial int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
 
-    [DllImport("user32.dll", SetLastError = true)]
-    internal static extern int GetWindowLong(IntPtr hWnd, int nIndex);
+    [LibraryImport("user32.dll", EntryPoint = "GetWindowLongW", SetLastError = true)]
+    internal static partial int GetWindowLong(IntPtr hWnd, int nIndex);
 
-    [DllImport("user32.dll")]
-    internal static extern uint GetDpiForWindow(IntPtr hMonitor);
+    [LibraryImport("user32.dll")]
+    internal static partial uint GetDpiForWindow(IntPtr hMonitor);
 
-    [DllImport("user32.dll", SetLastError = true)]
-    internal static extern bool SetWindowPos(IntPtr hWnd, int hWndInsertAfter, int x, int y, int cx, int cy, uint uFlags);
+    [LibraryImport("user32.dll", SetLastError = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static partial bool SetWindowPos(IntPtr hWnd, int hWndInsertAfter, int x, int y, int cx, int cy, uint uFlags);
 
-    [DllImport("user32.dll")]
-    internal static extern bool ScreenToClient(IntPtr hWnd, ref POINT lpPoint);
+    [LibraryImport("user32.dll")]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static partial bool ScreenToClient(IntPtr hWnd, ref POINT lpPoint);
     
     [DllImport("user32.dll", CharSet = CharSet.Auto)]
     internal static extern bool EnumDisplayDevices(string? lpDevice, uint iDevNum, ref DISPLAY_DEVICE lpDisplayDevice, uint dwFlags);
 
-    [DllImport("user32.dll")]
-    internal static extern bool EnumDisplayMonitors(IntPtr hdc, IntPtr lprcClip, MonitorEnumProc lpfnEnum, IntPtr dwData);
+    [LibraryImport("user32.dll")]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static partial bool EnumDisplayMonitors(IntPtr hdc, IntPtr lprcClip, MonitorEnumProc lpfnEnum, IntPtr dwData);
 
     [DllImport("user32.dll", CharSet = CharSet.Auto)]
     internal static extern bool GetMonitorInfo(IntPtr hMonitor, ref MONITORINFOEX lpmi);
 
-    [DllImport("user32.dll")]
-    internal static extern IntPtr MonitorFromWindow(IntPtr hwnd, int dwFlags);
+    [LibraryImport("user32.dll")]
+    internal static partial IntPtr MonitorFromWindow(IntPtr hwnd, int dwFlags);
 
-    [DllImport("user32.dll")]
-    internal static extern bool GetWindowPlacement(IntPtr hWnd, ref WINDOWPLACEMENT lpwndpl);
-
-    [DllImport("user32.dll")]
-    internal static extern int SetWindowCompositionAttribute(IntPtr hwnd, ref WindowCompositionAttributeData data);
-
-    [DllImport("user32.dll")]
-    internal static extern void keybd_event(byte virtualKey, byte scanCode, uint flags, IntPtr extraInfo);
-
-    [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-    internal static extern int RegisterWindowMessage(string lpString);
-
-    [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-    internal static extern IntPtr SetWindowsHookEx(int idHook, LowLevelKeyboardProc lpfn, IntPtr hMod, uint dwThreadId);
-
-    [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+    [LibraryImport("user32.dll")]
     [return: MarshalAs(UnmanagedType.Bool)]
-    internal static extern bool UnhookWindowsHookEx(IntPtr hhk);
+    internal static partial bool GetWindowPlacement(IntPtr hWnd, ref WINDOWPLACEMENT lpwndpl);
 
-    [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-    internal static extern IntPtr CallNextHookEx(IntPtr hhk, int nCode, IntPtr wParam, IntPtr lParam);
+    [LibraryImport("user32.dll")]
+    internal static partial int SetWindowCompositionAttribute(IntPtr hwnd, ref WindowCompositionAttributeData data);
 
+    [LibraryImport("user32.dll")]
+    internal static partial void keybd_event(byte virtualKey, byte scanCode, uint flags, IntPtr extraInfo);
+
+    [LibraryImport("user32.dll", EntryPoint = "RegisterWindowMessageW", SetLastError = true, StringMarshalling = StringMarshalling.Utf16)]
+    internal static partial int RegisterWindowMessage(string lpString);
+
+    [LibraryImport("user32.dll", EntryPoint = "SetWindowsHookExW", SetLastError = true)]
+    internal static partial IntPtr SetWindowsHookEx(int idHook, LowLevelKeyboardProc lpfn, IntPtr hMod, uint dwThreadId);
+
+    [LibraryImport("user32.dll", SetLastError = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static partial bool UnhookWindowsHookEx(IntPtr hhk);
+
+    [LibraryImport("user32.dll", SetLastError = true)]
+    internal static partial IntPtr CallNextHookEx(IntPtr hhk, int nCode, IntPtr wParam, IntPtr lParam);
+
+    [LibraryImport("user32.dll", SetLastError = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static partial bool GetCursorPos(out POINT lpPoint);
+
+    [LibraryImport("user32.dll", SetLastError = true)]
+    internal static partial IntPtr MonitorFromPoint(POINT pt, MonitorFromWindowFlags dwFlags);
+    
+    [LibraryImport("user32.dll", SetLastError = true)]
+    internal static partial IntPtr GetForegroundWindow();
     #endregion
 
     #region gdi32.dll
 
-    [DllImport("gdi32.dll")]
-    internal static extern IntPtr CreateRectRgn(int left, int top, int right, int bottom);
+    [LibraryImport("gdi32.dll")]
+    internal static partial IntPtr CreateRectRgn(int left, int top, int right, int bottom);
 
-    [DllImport("gdi32.dll")]
-    internal static extern int CombineRgn(IntPtr dest, IntPtr src1, IntPtr src2, int mode);
+    [LibraryImport("gdi32.dll")]
+    internal static partial int CombineRgn(IntPtr dest, IntPtr src1, IntPtr src2, int mode);
 
-    [DllImport("gdi32.dll")]
-    internal static extern bool DeleteObject(IntPtr hObject);
+    [LibraryImport("gdi32.dll")]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static partial bool DeleteObject(IntPtr hObject);
 
     #endregion
 
     #region dwmapi.dll
 
-    [DllImport("dwmapi.dll")]
-    internal static extern int DwmExtendFrameIntoClientArea(IntPtr hwnd, ref MARGINS margins);
+    [LibraryImport("dwmapi.dll")]
+    internal static partial int DwmExtendFrameIntoClientArea(IntPtr hwnd, ref MARGINS margins);
 
-    [DllImport("dwmapi.dll")]
-    internal static extern int DwmGetWindowAttribute(IntPtr hwnd, int dwAttribute, out RECT pvAttribute, int cbAttribute);
+    [LibraryImport("dwmapi.dll")]
+    internal static partial int DwmGetWindowAttribute(IntPtr hwnd, int dwAttribute, out RECT pvAttribute, int cbAttribute);
 
     #endregion
 
     #region shcore.dll
 
-    [DllImport("shcore.dll")]
-    internal static extern int GetDpiForMonitor(IntPtr hMonitor, MonitorDpiType dpiType, out uint dpiX, out uint dpiY);
+    [LibraryImport("shcore.dll")]
+    internal static partial int GetDpiForMonitor(IntPtr hMonitor, MonitorDpiType dpiType, out uint dpiX, out uint dpiY);
 
     #endregion
 
     #region kernel32.dll
 
-    [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-    internal static extern IntPtr GetModuleHandle(string lpModuleName);
+    [LibraryImport("kernel32.dll", EntryPoint = "GetModuleHandleW", SetLastError = true, StringMarshalling = StringMarshalling.Utf16)]
+    internal static partial IntPtr GetModuleHandle(string lpModuleName);
 
     #endregion
 
     #region shell32.dll
 
-    [DllImport("shell32.dll")]
-    internal static extern int SHQueryUserNotificationState(out QUERY_USER_NOTIFICATION_STATE pquns);
+    [LibraryImport("shell32.dll")]
+    internal static partial int SHQueryUserNotificationState(out QUERY_USER_NOTIFICATION_STATE pquns);
 
     #endregion
 }

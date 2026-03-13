@@ -6,17 +6,12 @@
       xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
       xmlns:controls="clr-namespace:MicaWPF.Controls;assembly=MicaWPF"
       xmlns:viewModels="clr-namespace:FluentFlyoutWPF.ViewModels"
-      xmlns:utils="clr-namespace:FluentFlyoutWPF.Classes.Utils"
       mc:Ignorable="d"
       d:DesignHeight="800" d:DesignWidth="800"
       Title="AboutPage"
       d:DataContext="{d:DesignInstance viewModels:UserSettings}"
       Foreground="{DynamicResource TextFillColorPrimaryBrush}"
       d:Background="White">
-
-    <Page.Resources>
-        <utils:BoolToVisibleCollapsedConverter x:Key="BoolToCollapsedVisibleConverter" TrueValue="Collapsed" FalseValue="Visible" />
-    </Page.Resources>
 
     <StackPanel MaxWidth="1000" Margin="16">
         <TextBlock Text="{DynamicResource AboutContributorsTitle}" FontSize="20" FontWeight="SemiBold" FontFamily="Segoe UI Variable" Margin="0,0,0,0" />

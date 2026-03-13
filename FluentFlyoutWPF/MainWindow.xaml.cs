@@ -26,6 +26,7 @@ using System.Windows.Threading;
 using Windows.ApplicationModel;
 using Windows.Media.Control;
 using static FluentFlyout.Classes.NativeMethods;
+using static FluentFlyoutWPF.Classes.Utils.MonitorUtil;
 using static WindowsMediaController.MediaManager;
 
 
@@ -71,7 +72,7 @@ public partial class MainWindow : MicaWindow
     private LockWindow? lockWindow;
     private DateTime _lastSelfUpdateTimestamp = DateTime.MinValue;
 
-    private TaskbarWindow? taskbarWindow;
+    internal TaskbarWindow? taskbarWindow;
 
     internal static volatile bool ExplorerRestarting = false;
 
@@ -276,17 +277,17 @@ public partial class MainWindow : MicaWindow
 
     private MonitorUtil.MonitorInfo getSelectedMonitor()
     {
-        return MonitorUtil.getSelectedMonitor(SettingsManager.Current.FlyoutSelectedMonitor);
+        return MonitorUtil.GetSelectedMonitor(SettingsManager.Current.FlyoutSelectedMonitor);
     }
 
-    public void OpenAnimation(MicaWindow window, bool alwaysBottom = false)
+    public void OpenAnimation(MicaWindow window, bool alwaysBottom = false, MonitorInfo? selectedMonitor = null)
     {
         var eventTriggers = window.Triggers[0] as EventTrigger;
         var beginStoryboard = eventTriggers.Actions[0] as BeginStoryboard;
         var storyboard = beginStoryboard.Storyboard;
 
         DoubleAnimation moveAnimation = (DoubleAnimation)storyboard.Children[0];
-        var monitor = getSelectedMonitor();
+        var monitor = selectedMonitor != null ? selectedMonitor.Value : getSelectedMonitor();
         var workArea = monitor.workArea;
 
         // prevent flickering
@@ -390,14 +391,14 @@ public partial class MainWindow : MicaWindow
         WindowHelper.SetVisibility(window, true);
     }
 
-    public void CloseAnimation(MicaWindow window, bool alwaysBottom = false)
+    public void CloseAnimation(MicaWindow window, bool alwaysBottom = false, MonitorInfo? selectedMonitor = null)
     {
         var eventTriggers = window.Triggers[0] as EventTrigger;
         var beginStoryboard = eventTriggers.Actions[0] as BeginStoryboard;
         var storyboard = beginStoryboard.Storyboard;
 
         DoubleAnimation moveAnimation = (DoubleAnimation)storyboard.Children[0];
-        var monitor = getSelectedMonitor();
+        var monitor = selectedMonitor != null ? selectedMonitor.Value : getSelectedMonitor();
         var workArea = monitor.workArea;
         var windowRect = WindowHelper.GetPlacement(window);
 
@@ -1365,6 +1366,18 @@ public partial class MainWindow : MicaWindow
             }, DispatcherPriority.Background);
 
             handled = true;
+            return 0;
+        }
+        else if (msg == WM_SETTINGCHANGE) // Windows theme or system settings changed
+        {  
+            try
+            {
+                ThemeManager.UpdateTaskbarWidget();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "Failed to apply theme changes to taskbar widgets");
+            }
             return 0;
         }
 

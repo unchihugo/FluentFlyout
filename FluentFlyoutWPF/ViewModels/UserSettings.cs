@@ -245,6 +245,11 @@ public partial class UserSettings : ObservableObject
     [XmlElement(ElementName = "LockKeysBoldUI")]
     public partial bool LockKeysBoldUi { get; set; }
 
+    /// Selects which monitor to use for the lock keys flyout when multiple monitors are in use.
+    /// 0 = Default behavior, 1 = Monitor containing the focused window, 2 = Monitor containing the cursor.
+    [ObservableProperty]
+    public partial int LockKeysMonitorPreference { get; set; }
+    
     /// <summary>
     /// Determines if the user has updated to a new version
     /// </summary>
@@ -404,6 +409,12 @@ public partial class UserSettings : ObservableObject
     public partial bool TaskbarWidgetControlsEnabled { get; set; }
 
     /// <summary>
+    /// Position of the taskbar widget controls. 0: Left, 1: Right
+    /// </summary>
+    [ObservableProperty]
+    public partial int TaskbarWidgetControlsPosition { get; set; }
+
+    /// <summary>
     /// Gets or sets a value indicating whether the taskbar widget should play animations.
     /// </summary>
     [ObservableProperty]
@@ -423,12 +434,8 @@ public partial class UserSettings : ObservableObject
     public partial int TaskbarVisualizerPosition { get; set; }
 
     /// <summary>
-    /// Whether the visualizer is clickable to open the flyout
+    /// Whether the visualizer is clickable to open the visualizer settings page.
     /// </summary>
-    /// <remarks>
-    /// same setting as TaskbarWidgetClickable for now since the visualizer is part of the widget,
-    /// but separate in case we want to differentiate in the future
-    /// </remarks>
     [ObservableProperty]
     public partial bool TaskbarVisualizerClickable { get; set; }
 
@@ -542,6 +549,7 @@ public partial class UserSettings : ObservableObject
         NIconHide = false;
         DisableIfFullscreen = true;
         LockKeysBoldUi = false;
+        LockKeysMonitorPreference = 0;
         LastKnownVersion = "";
         SeekbarEnabled = false;
         PauseOtherSessionsEnabled = false;
@@ -563,9 +571,10 @@ public partial class UserSettings : ObservableObject
         TaskbarWidgetBackgroundBlur = false;
         TaskbarWidgetHideCompletely = false;
         TaskbarWidgetControlsEnabled = false;
+        TaskbarWidgetControlsPosition = 1;
         TaskbarWidgetAnimated = true;
         TaskbarVisualizerEnabled = false;
-        TaskbarVisualizerPosition = 0;
+        TaskbarVisualizerPosition = 1;
         TaskbarVisualizerClickable = false;
         TaskbarVisualizerBarCount = 10;
         TaskbarVisualizerCenteredBars = false;
@@ -670,6 +679,14 @@ public partial class UserSettings : ObservableObject
     {
         if (oldValue == newValue || _initializing) return;
         UpdateTaskbar();
+    }
+
+    partial void OnTaskbarWidgetControlsPositionChanged(int oldValue, int newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+        
+        MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+        mainWindow.taskbarWindow?.Widget?.ReorderControls();
     }
 
     partial void OnTaskbarVisualizerPositionChanged(int oldValue, int newValue)

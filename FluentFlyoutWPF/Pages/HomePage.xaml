@@ -5,18 +5,13 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
       xmlns:viewModels="clr-namespace:FluentFlyoutWPF.ViewModels"
-      xmlns:utils="clr-namespace:FluentFlyoutWPF.Classes.Utils"
+      xmlns:fluentflyoutcontrols="clr-namespace:FluentFlyout.Controls"
       mc:Ignorable="d"
       d:DesignHeight="1200" d:DesignWidth="600"
       Title="HomePage"
       d:DataContext="{d:DesignInstance viewModels:UserSettings}"
       Foreground="{DynamicResource TextFillColorPrimaryBrush}"
       d:Background="White">
-
-    <Page.Resources>
-        <utils:BoolToEnabledDisabledConverter x:Key="BoolToEnabledDisabledConverter" />
-        <utils:BoolToVisibleCollapsedConverter x:Key="BoolToCollapsedVisibleConverter" TrueValue="Collapsed" FalseValue="Visible" />
-    </Page.Resources>
 
     <StackPanel MaxWidth="1000" Margin="16">
         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="12,0,0,0">
@@ -109,16 +104,7 @@
         </StackPanel>
 
         <TextBlock Grid.Row="6" Text="{DynamicResource HomeDashboardTitle}" FontSize="14" FontWeight="SemiBold" Margin="0,0,0,6" />
-        <Grid Margin="-4">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
+        <Grid Margin="-4" RowDefinitions="Auto, Auto, Auto" ColumnDefinitions="*, *">
             <ui:CardAction Grid.Row="0" Grid.Column="0" Margin="4" Padding="12,20" IsChevronVisible="True" Click="MediaFlyout_Click">
                 <ui:CardAction.Icon>
                     <ui:SymbolIcon Symbol="VideoPlayPause24" FontSize="30" Filled="False" />
@@ -147,7 +133,7 @@
                 <StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <ui:TextBlock FontWeight="Medium" Text="{DynamicResource TaskbarWidgetCustomizationTitle}" />
-                        <ui:InfoBadge Value=" PREMIUM " FontSize="8" FontWeight="Medium" Margin="6,-2,0,-2" Severity="Attention" />
+                        <fluentflyoutcontrols:AccentBadge Margin="6,0,0,0" FontSize="8" />
                     </StackPanel>
                     <ui:TextBlock Appearance="Secondary" Text="{Binding TaskbarWidgetEnabled, Converter={StaticResource BoolToEnabledDisabledConverter}}">
                         <ui:TextBlock.Style>
@@ -213,7 +199,7 @@
                 <StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <ui:TextBlock FontWeight="Medium" Text="{DynamicResource TaskbarVisualizerTitle}" />
-                        <ui:InfoBadge Value=" PREMIUM " FontSize="8" FontWeight="Medium" Margin="6,-2,0,-2" Severity="Attention" />
+                        <fluentflyoutcontrols:AccentBadge Margin="6,0,0,0" FontSize="8" />
                     </StackPanel>
                     <ui:TextBlock Appearance="Secondary" Text="{Binding TaskbarVisualizerEnabled, Converter={StaticResource BoolToEnabledDisabledConverter}}">
                         <ui:TextBlock.Style>

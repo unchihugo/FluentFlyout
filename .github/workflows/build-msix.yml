@@ -2,15 +2,24 @@ name: Build and Package MSIX
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - master
+    paths:
+      - 'FluentFlyoutMSIX/Package.appxmanifest'
 
 jobs:
   build:
     runs-on: windows-latest
+    
+    strategy:
+      matrix:
+        configuration: ["GitHub Release", "Release"]
 
     env:
       SOLUTION_PATH: FluentFlyout.sln
       WAP_PROJECT_PATH: FluentFlyoutMSIX\FluentFlyoutMSIX.wapproj
-      CONFIGURATION: "GitHub Release"
+      CONFIGURATION: ${{ matrix.configuration }}
       PLATFORM: x64
 
     steps:
@@ -42,5 +51,5 @@ jobs:
       - name: Upload MSIX bundle as artifact
         uses: actions/upload-artifact@v4
         with:
-          name: MSIX-Package
-          path: AppxPackages\**\*.msixbundle
+          name: MSIX-${{ env.CONFIGURATION == 'GitHub Release' && 'GitHub_Release' || matrix.configuration }}-${{ env.PLATFORM }}
+          path: AppxPackages\*\
