@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 using FluentFlyout.Classes.Settings;
-using FluentFlyoutWPF.Classes.Utils;
+using FluentFlyout.Classes.Utils;
 using NAudio.CoreAudioApi;
 using NAudio.Dsp;
 using NAudio.Wave;

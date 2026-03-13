@@ -537,7 +537,7 @@ public partial class MainWindow : MicaWindow
 
     // for determining whether MediaPropertyChanged has no changes
     private string previousMediaProperty = "";
-    private string previousMediaPropertyThumbnail = "";
+    private int previousMediaPropertyThumbnail = 0;
     private void MediaManager_OnAnyMediaPropertyChanged(MediaSession mediaSession, GlobalSystemMediaTransportControlsSessionMediaProperties mediaProperties)
     {
         // sometimes mediaSession.ControlSession can be null
@@ -560,7 +560,7 @@ public partial class MainWindow : MicaWindow
         var playbackInfo = mediaSession.ControlSession.GetPlaybackInfo();
 
         string check = songInfo.Title + songInfo.Artist + playbackInfo.PlaybackStatus;
-        string checkThumbnail = songInfo.Thumbnail?.GetHashCode().ToString() ?? "Null";
+        int checkThumbnail = BitmapHelper.GetStableThumbnailHash(songInfo.Thumbnail);
         bool onlyThumbnailChanged = false;
         if (previousMediaProperty == check)
         {

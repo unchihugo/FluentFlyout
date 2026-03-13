@@ -4,9 +4,9 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using FluentFlyout.Classes;
 using FluentFlyout.Classes.Settings;
+using FluentFlyout.Classes.Utils;
 using FluentFlyout.Controls;
 using FluentFlyoutWPF.Classes;
-using FluentFlyoutWPF.Classes.Utils;
 using FluentFlyoutWPF.Models;
 using System.Collections.ObjectModel;
 using System.Windows;
