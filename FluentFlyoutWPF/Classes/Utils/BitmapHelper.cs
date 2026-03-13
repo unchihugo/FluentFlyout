@@ -9,7 +9,7 @@ using System.Windows.Media.Imaging;
 using Windows.Storage.Streams;
 using Wpf.Ui.Appearance;
 
-namespace FluentFlyoutWPF.Classes.Utils;
+namespace FluentFlyout.Classes.Utils;
 
 internal static class BitmapHelper
 {
