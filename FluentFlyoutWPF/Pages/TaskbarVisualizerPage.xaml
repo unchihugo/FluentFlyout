@@ -6,18 +6,13 @@
       xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
       xmlns:controls="clr-namespace:MicaWPF.Controls;assembly=MicaWPF"
       xmlns:viewModels="clr-namespace:FluentFlyoutWPF.ViewModels"
-      xmlns:utils="clr-namespace:FluentFlyoutWPF.Classes.Utils"
+      xmlns:fluentflyoutcontrols="clr-namespace:FluentFlyout.Controls"
       mc:Ignorable="d"
       d:DesignHeight="1000" d:DesignWidth="800"
       Title="TaskbarWidgetPage"
       d:DataContext="{d:DesignInstance viewModels:UserSettings}"
       Foreground="{DynamicResource TextFillColorPrimaryBrush}"
       d:Background="White">
-
-    <Page.Resources>
-        <utils:BoolToVisibleCollapsedConverter x:Key="BoolToCollapsedVisibleConverter" TrueValue="Collapsed" FalseValue="Visible" />
-        <utils:BoolToFullHalfOpacityConverter x:Key="BoolToFullHalfOpacityConverter" />
-    </Page.Resources>
 
     <StackPanel MaxWidth="1000" Margin="16">
         <TextBlock Text="{DynamicResource TaskbarVisualizerTitle}" FontSize="24" FontWeight="SemiBold" FontFamily="Segoe UI Variable" Margin="0,0,0,20" />
@@ -98,8 +93,9 @@
                     <StackPanel Orientation="Vertical">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="{DynamicResource TaskbarVisualizerEnabledTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
-                            <ui:InfoBadge Value=" PREMIUM " FontSize="10" FontWeight="Medium" Margin="6,-2,0,-2" Severity="Attention" />
-                            <ui:InfoBadge Value=" NEW " FontWeight="Medium" FontSize="10" Margin="2,-2,0,-2" Severity="Success" />                        </StackPanel>
+                            <fluentflyoutcontrols:AccentBadge Margin="6,0,0,0" />
+                            <ui:InfoBadge Value=" NEW " FontWeight="Medium" FontSize="10" Margin="2,-2,0,-2" Severity="Success" />
+                        </StackPanel>
                         <TextBlock Text="{DynamicResource TaskbarVisualizerEnabledDescription}" FontSize="12" Opacity="0.5" />
                     </StackPanel>
                 </ui:CardControl.Header>
@@ -184,7 +180,7 @@
                 </StackPanel>
             </ui:CardControl>
 
-            <ui:CardControl Icon="{ui:SymbolIcon Speaker224}" Margin="0,0,0,76">
+            <ui:CardControl Icon="{ui:SymbolIcon Speaker224}" Margin="0,0,0,12">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
                         <TextBlock FontSize="14" FontWeight="Regular" VerticalAlignment="Center">
@@ -197,7 +193,16 @@
                         <TextBlock Text="{DynamicResource TaskbarVisualizerOutputDeviceDescription}" FontSize="12" Opacity="0.5" />
                     </StackPanel>
                 </ui:CardControl.Header>
-                
+            </ui:CardControl>
+
+            <ui:CardControl Icon="{ui:SymbolIcon ExpandUpRight24}" Margin="0,0,0,76">
+                <ui:CardControl.Header>
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="{DynamicResource TaskbarVisualizerClickableTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
+                        <TextBlock Text="{DynamicResource TaskbarVisualizerClickableDescription}" FontSize="12" Opacity="0.5" />
+                    </StackPanel>
+                </ui:CardControl.Header>
+                <controls:ToggleSwitch IsChecked="{Binding TaskbarVisualizerClickable, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}" />
             </ui:CardControl>
         </StackPanel>
     </StackPanel>

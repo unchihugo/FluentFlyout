@@ -2,12 +2,14 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 using FluentFlyout.Classes.Settings;
+using FluentFlyoutWPF;
 using FluentFlyoutWPF.Classes;
+using MicaWPF.Core.Enums;
+using MicaWPF.Core.Helpers;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
-using Wpf.Ui.Appearance;
 
 namespace FluentFlyout.Controls;
 
@@ -17,7 +19,6 @@ namespace FluentFlyout.Controls;
 public partial class TaskbarVisualizerControl : UserControl
 {
     // reference to main window for flyout functions
-    private FluentFlyoutWPF.MainWindow? _mainWindow;
     private static readonly Visualizer visualizer = new();
 
     public TaskbarVisualizerControl()
@@ -42,11 +43,6 @@ public partial class TaskbarVisualizerControl : UserControl
         }
 
         Background = new SolidColorBrush(Color.FromArgb(1, 0, 0, 0));
-    }
-
-    public void SetMainWindow(FluentFlyoutWPF.MainWindow mainWindow)
-    {
-        _mainWindow = mainWindow;
     }
 
     public static void OnTaskbarVisualizerEnabledChanged(bool value)
@@ -81,7 +77,7 @@ public partial class TaskbarVisualizerControl : UserControl
 
         SolidColorBrush targetBackgroundBrush;
         // hover effects with animations, hard-coded colors because I can't find the resource brushes
-        if (ApplicationThemeManager.GetSystemTheme() == SystemTheme.Dark)
+        if (WindowsThemeHelper.GetCurrentWindowsTheme() == WindowsTheme.Dark)
         { // dark mode
             targetBackgroundBrush = new SolidColorBrush(Color.FromArgb(197, 255, 255, 255)) { Opacity = 0.075 };
             TopBorder.BorderBrush = new SolidColorBrush(Color.FromArgb(93, 255, 255, 255)) { Opacity = 0.25 };
@@ -145,13 +141,11 @@ public partial class TaskbarVisualizerControl : UserControl
 
     private void Grid_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
     {
-        // Early return for now because the click serves the same function as the taskbar media widget,
-        // we need to find a new function for clicking the visualizer if there's any (like expanding the visualizer or something)
-        return;
-
+        // only continue when the visualizer is clickable and actually has content
+        // otherwise it would show an empty container to click on which is weird
         if (!SettingsManager.Current.TaskbarVisualizerClickable || !SettingsManager.Current.TaskbarVisualizerHasContent) return;
 
-        // flyout main flyout when clicked
-        _mainWindow.ShowMediaFlyout();
+        // open settings when clicked
+        SettingsWindow.ShowInstance("TaskbarVisualizerPage");
     }
 }

@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 using FluentFlyout.Classes.Settings;
+using FluentFlyout.Classes.Utils;
 using NAudio.CoreAudioApi;
 using NAudio.Dsp;
 using NAudio.Wave;
@@ -16,9 +17,9 @@ namespace FluentFlyoutWPF.Classes
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
         public static int BarCount = 10;
-        private readonly int ImageWidth = 76*3;
-        private readonly int ImageHeight = 32*3;
-        private readonly int BarSpacing = 2*3;
+        private readonly int ImageWidth = 76 * 3;
+        private readonly int ImageHeight = 32 * 3;
+        private readonly int BarSpacing = 2 * 3;
 
         private WasapiLoopbackCapture? _capture;
         private static float[]? _barValues;
@@ -69,20 +70,26 @@ namespace FluentFlyoutWPF.Classes
 
         private void OnDefaultDeviceChanged(object? sender, DefaultDeviceChangedEventArgs e)
         {
-            if (e.DataFlow == DataFlow.Render && e.Role == Role.Multimedia)
-            {
-                Logger.Info("Default audio output device changed, restarting visualizer");
+            if (e.DataFlow != DataFlow.Render || e.Role != Role.Multimedia)
+                return;
 
-                if (_isRunning)
+            if (!_isRunning)
+                return;
+            Logger.Info("Default audio output device changed, restarting visualizer");
+
+            Task.Run(async () =>
+            {
+                Stop();
+
+                for (int attempt = 0; attempt < 5; attempt++)
                 {
-                    Task.Run(async () =>
-                    {
-                        Stop();
-                        await Task.Delay(100);
-                        Start();
-                    });
+                    await Task.Delay(500);
+                    Start();
+                    if (_isRunning)
+                        break;
+                    Logger.Warn($"Visualizer restart attempt {attempt + 1} failed, retrying...");
                 }
-            }
+            });
         }
 
         public static void ResizeBarList(int newBarCount)
@@ -178,24 +185,48 @@ namespace FluentFlyoutWPF.Classes
                 _fftBuffer[_fftPos].Y = 0;
                 _fftPos++;
 
-                // When buffer is full, perform FFT
-                if (_fftPos >= _fftLength)
+                // When buffer isn't full, skip processing and continue filling
+                if (_fftPos < _fftLength)
+                    continue;
+
+                // perform FFT
+                _fftPos = 0;
+                ProcessFftData();
+
+                // Update UI with frame rate limiting
+                DateTime now = DateTime.UtcNow;
+                double minFrameTime = 1000.0 / _targetFps;
+                double timeSinceLastUpdate = (now - _lastUpdateTime).TotalMilliseconds;
+
+                if (timeSinceLastUpdate < minFrameTime)
+                    continue;
+
+                _lastUpdateTime = now;
+                SettingsManager.Current.TaskbarVisualizerHasContent = true;
+
+                if (SettingsManager.Current.TaskbarVisualizerBaseline)
                 {
-                    _fftPos = 0;
-                    ProcessFftData();
-                    
-                    // Update UI with frame rate limiting
-                    DateTime now = DateTime.UtcNow;
-                    double minFrameTime = 1000.0 / _targetFps;
-                    double timeSinceLastUpdate = (now - _lastUpdateTime).TotalMilliseconds;
-                    
-                    if (timeSinceLastUpdate >= minFrameTime)
+                    // if baseline is enabled, we want to keep showing the bars even when they are all zero
+                    UpdateBitmap();
+                    break;
+                }
+
+                // check if bars are all zero, if so set has content to false to disable hover effect
+                bool allZero = true;
+                for (int j = 0; j < BarCount; j++)
+                {
+                    if (_barValues[j] > 0.01f)
                     {
-                        _lastUpdateTime = now;
-                        SettingsManager.Current.TaskbarVisualizerHasContent = true;
-                        UpdateBitmap();
+                        allZero = false;
+                        break;
                     }
                 }
+
+                // update bars if they have content
+                if (!allZero)
+                    UpdateBitmap();
+                else
+                    SettingsManager.Current.TaskbarVisualizerHasContent = false;
             }
         }
 
@@ -296,7 +327,11 @@ namespace FluentFlyoutWPF.Classes
 
                             // Draw bars
                             int barWidth = (ImageWidth - (BarCount - 1) * BarSpacing) / BarCount;
-                            var brush = (SolidColorBrush)Application.Current.Resources["MicaWPF.Brushes.SystemAccentColorTertiary"];
+
+                            // get dominant color for bars
+                            SolidColorBrush brush = BitmapHelper.SavedDominantColors.Count > 0 ?
+                                BitmapHelper.SavedDominantColors.Last()
+                                : (SolidColorBrush)Application.Current.TryFindResource("MicaWPF.Brushes.SystemAccentColorTertiary");
 
                             bool centeredBars = SettingsManager.Current.TaskbarVisualizerCenteredBars;
                             int barBaseline = SettingsManager.Current.TaskbarVisualizerBaseline ? 4 : 0;
@@ -309,7 +344,7 @@ namespace FluentFlyoutWPF.Classes
                                 float normalizedValue = Math.Clamp(_barValues[i], 0f, 1f);
                                 int barHeight = Math.Max((int)(normalizedValue * ImageHeight), barBaseline);
                                 int barX = i * (barWidth + BarSpacing);
-                                
+
                                 int barY, barEndY;
                                 if (centeredBars)
                                 {
@@ -368,7 +403,6 @@ namespace FluentFlyoutWPF.Classes
                                         }
                                     }
                                 }
-
                             }
                         }
 

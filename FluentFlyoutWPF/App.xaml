@@ -6,6 +6,7 @@
              StartupUri="MainWindow.xaml"
              xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
              xmlns:mica="clr-namespace:MicaWPF.Styles;assembly=MicaWPF"
+             xmlns:utils="clr-namespace:FluentFlyoutWPF.Classes.Utils"
              ShutdownMode="OnExplicitShutdown">
     <Application.Resources>
         <ResourceDictionary>
@@ -24,6 +25,12 @@
             <!-- override default background colors -->
             <SolidColorBrush x:Key="NavigationViewContentBackground" Color="Transparent" />
             <SolidColorBrush x:Key="NavigationViewContentGridBorderBrush" Color="Transparent" />
+            
+            <!-- XAML utility resources -->
+            <utils:BoolToVisibleCollapsedConverter x:Key="BoolToVisibleCollapsedConverter"/>
+            <utils:BoolToVisibleCollapsedConverter x:Key="BoolToCollapsedVisibleConverter" TrueValue="Collapsed" FalseValue="Visible" />
+            <utils:BoolToEnabledDisabledConverter x:Key="BoolToEnabledDisabledConverter" />
+            <utils:BoolToFullHalfOpacityConverter x:Key="BoolToFullHalfOpacityConverter" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

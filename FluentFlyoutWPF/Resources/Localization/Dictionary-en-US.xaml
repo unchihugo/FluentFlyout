@@ -93,6 +93,8 @@ hides repeat, shuffle and player info</System:String>
     <System:String x:Key="TaskbarVisualizerAudioPeakLevelDescription">How loud audio must be for the bars to reach their maximum height</System:String>
     <System:String x:Key="TaskbarVisualizerOutputDeviceTitle">Output Device</System:String>
     <System:String x:Key="TaskbarVisualizerOutputDeviceDescription">Change what the visualizer listens to by switching FluentFlyout's output device.</System:String>
+    <System:String x:Key="TaskbarVisualizerClickableTitle">Click to open Settings</System:String>
+    <System:String x:Key="TaskbarVisualizerClickableDescription">Clicking the visualizer will open its settings page</System:String>
     <System:String x:Key="PremiumFeatureTitle">Premium Feature</System:String>
     <System:String x:Key="PremiumFeatureDescription" xml:space="preserve">Your one-time contribution helps me keep FluentFlyout alive and updated. It instantly unlocks all premium customization features, forever.
         
@@ -123,6 +125,11 @@ Note: As an open-source project, these features are also available for free via 
     <System:String x:Key="LockKeysStayDurationDescription">(default: 2000 ms)</System:String>
     <System:String x:Key="LockKeysBoldUITitle">Bold Symbol and Font</System:String>
     <System:String x:Key="LockKeysBoldUIDescription">Emphasizes the flyout symbol and font</System:String>
+    <System:String x:Key="LockKeysCursorUITitle">Preferred Target Display</System:String>
+    <System:String x:Key="LockKeysCursorUIDescription" xml:space="preserve">Choose which monitor to display the flyout.</System:String>
+    <System:String x:Key="DefaultLockLayoutPosition">Default (Flyout Target Display)</System:String>
+    <System:String x:Key="MonitorWithFocusedWindow">Monitor with focused window</System:String>
+    <System:String x:Key="MonitorWithCursor">Monitor with cursor</System:String>
     <System:String x:Key="EnableInsertKeyTitle">Enable Insert Key Popup</System:String>
     <System:String x:Key="EnableInsertKeyDescription">Determines whether pressing insert/overwrite will show the flyout</System:String>
     <System:String x:Key="SystemSettingsTitle">System</System:String>
@@ -134,6 +141,8 @@ Note: As an open-source project, these features are also available for free via 
     <System:String x:Key="AppThemeDefault"> Windows Default</System:String>
     <System:String x:Key="AppThemeLight"> Light</System:String>
     <System:String x:Key="AppThemeDark"> Dark</System:String>
+    <System:String x:Key="UseAlbumArtAccentColorTitle">Use Album Art as Accent Color</System:String>
+    <System:String x:Key="UseAlbumArtAccentColorDescription">Some UI elements will use the album art color instead of the system theme</System:String>
     <System:String x:Key="TrayIconLeftClickBehaviorTitle">Tray Icon Left Click Behavior</System:String>
     <System:String x:Key="TrayIconLeftClickBehaviorDescription">Choose what happens when you left click the tray icon</System:String>
     <System:String x:Key="TrayIconLeftClickOption1"> Open Settings</System:String>
@@ -219,4 +228,7 @@ You can help contribute translations on</System:String>
     <System:String x:Key="SettingsImportedSuccessfully">Settings imported successfully! The application will now restart to apply changes.</System:String>
     <System:String x:Key="ImportSettingsWarning">This will replace all your current settings. Continue?</System:String>
     <System:String x:Key="FailedToImportSettings">Failed to import settings. Check the logs for details.</System:String>
+    <System:String x:Key="AdvancedSettingsTitle">Advanced Settings</System:String>
+    <System:String x:Key="LegacyTaskbarWidthTitle">Legacy Taskbar Width System</System:String>
+    <System:String x:Key="LegacyTaskbarWidthDescription">Use the legacy Taskbar width system for Taskbar Widgets</System:String>
 </ResourceDictionary>
