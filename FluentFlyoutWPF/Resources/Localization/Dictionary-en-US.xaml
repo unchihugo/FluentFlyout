@@ -62,6 +62,8 @@ hides repeat, shuffle and player info</System:String>
     <System:String x:Key="TaskbarWidgetManualPaddingDescription">Add extra padding (default: 0px)</System:String>
     <System:String x:Key="TaskbarWidgetClickableTitle">Click to open Media Flyout when media is Present</System:String>
     <System:String x:Key="TaskbarWidgetClickableDescription">If media flyout is enabled, it will open when you click the taskbar widget</System:String>
+    <System:String x:Key="TaskbarWidgetCoverClickableTitle">Enable pause/play when clicking on cover</System:String>
+    <System:String x:Key="TaskbarWidgetCoverClickableDescription">Works only when media controls are disabled</System:String>
     <System:String x:Key="TaskbarWidgetBackgroundBlurTitle">Background Blur</System:String>
     <System:String x:Key="TaskbarWidgetBackgroundBlurDescription">Add background blur effect to the taskbar widget</System:String>
     <System:String x:Key="TaskbarWidgetHideCompletelyTitle">Hide Completely When No Media Is Present</System:String>

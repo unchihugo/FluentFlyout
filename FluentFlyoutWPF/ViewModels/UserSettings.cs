@@ -385,6 +385,12 @@ public partial class UserSettings : ObservableObject
     public partial bool TaskbarWidgetClickable { get; set; }
 
     /// <summary>
+    /// Gets or sets a value indicating whether clicking the cover image in the taskbar widget performs an action (play/pause or open flyout)
+    /// </summary>
+    [ObservableProperty]
+    public partial bool TaskbarWidgetCoverClickable { get; set; }
+
+    /// <summary>
     /// Gets or sets a value indicating whether clicking the taskbar widget toggles the flyout (close if already open)
     /// </summary>
     [ObservableProperty]
@@ -573,6 +579,7 @@ public partial class UserSettings : ObservableObject
         TaskbarWidgetPadding = true;
         TaskbarWidgetManualPadding = 0;
         TaskbarWidgetClickable = true;
+        TaskbarWidgetCoverClickable = true;
         TaskbarWidgetCloseableFlyout = true;
         TaskbarWidgetBackgroundBlur = false;
         TaskbarWidgetHideCompletely = false;
@@ -665,6 +672,12 @@ public partial class UserSettings : ObservableObject
     }
 
     partial void OnTaskbarWidgetClickableChanged(bool oldValue, bool newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+        UpdateTaskbar();
+    }
+
+    partial void OnTaskbarWidgetCoverClickableChanged(bool oldValue, bool newValue)
     {
         if (oldValue == newValue || _initializing) return;
         UpdateTaskbar();
