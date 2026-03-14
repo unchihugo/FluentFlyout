@@ -67,8 +67,13 @@ public partial class SettingsWindow : FluentWindow
                 .GetExecutingAssembly()
                 .GetType($"FluentFlyoutWPF.Pages.{navigationPage}");
             if (pageType != null)
-                instance?.RootNavigation.Navigate(pageType);
+                NavigateToPage(pageType);
         }
+    }
+
+    public static void NavigateToPage(Type pageType)
+    {
+        instance?.RootNavigation.Navigate(pageType);
     }
 
     private async void SettingsWindow_Loaded(object sender, RoutedEventArgs e)

@@ -1,0 +1,82 @@
+﻿<Page x:Class="FluentFlyoutWPF.Pages.AdvancedPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+      xmlns:controls="clr-namespace:MicaWPF.Controls;assembly=MicaWPF"
+      xmlns:viewModels="clr-namespace:FluentFlyoutWPF.ViewModels"
+      xmlns:fluentflyoutcontrols="clr-namespace:FluentFlyout.Controls"
+      mc:Ignorable="d"
+      d:DesignHeight="400" d:DesignWidth="800"
+      Title="AdvancedPage"
+      d:DataContext="{d:DesignInstance viewModels:UserSettings}"
+      Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+      d:Background="White">
+
+    <StackPanel MaxWidth="1000" Margin="16">
+        <TextBlock Text="{DynamicResource AdvancedSettingsTitle}" FontSize="24" FontWeight="SemiBold" Margin="0,0,0,24" />
+        <StackPanel>
+            <TextBlock Text="{DynamicResource SystemSettingsTitle}" FontSize="14" FontWeight="SemiBold" Margin="0,0,0,6" />
+            <ui:CardExpander Icon="{ui:SymbolIcon Wrench24}" ContentPadding="6" Margin="0,0,0,3">
+                <ui:CardExpander.Header>
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="{DynamicResource AnimationSettingsTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
+                        <TextBlock Text="{DynamicResource AnimationSettingsDescription}" FontSize="12" Opacity="0.5" />
+                    </StackPanel>
+                </ui:CardExpander.Header>
+                <StackPanel>
+                    <ui:CardControl Icon="{ui:SymbolIcon TopSpeed24}" Margin="0,0,0,3">
+                        <ui:CardControl.Header>
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock Text="{DynamicResource AnimationDurationScaleTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
+                                <TextBlock Text="{DynamicResource AnimationDurationScaleDescription}" FontSize="12" Opacity="0.5" />
+                            </StackPanel>
+                        </ui:CardControl.Header>
+                        <StackPanel Orientation="Horizontal">
+                            <ComboBox Name="FlyoutAnimationSpeedComboBox" SelectedIndex="{Binding FlyoutAnimationSpeed, Mode=TwoWay}">
+                                <ComboBoxItem Content="{DynamicResource AnimationSpeedOff}" />
+                                <ComboBoxItem Content="0.5x" />
+                                <ComboBoxItem Content="1x" />
+                                <ComboBoxItem Content="1.5x" />
+                                <ComboBoxItem Content="2x" />
+                                <ComboBoxItem Content="3x" />
+                            </ComboBox>
+                        </StackPanel>
+                    </ui:CardControl>
+                    <ui:CardControl Icon="{ui:SymbolIcon BezierCurveSquare12}" Margin="0,0,0,3">
+                        <ui:CardControl.Header>
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock Text="{DynamicResource AnimationEasingStyleTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
+                                <TextBlock Text="{DynamicResource AnimationEasingStyleDescription}" FontSize="12" Opacity="0.5" />
+                            </StackPanel>
+                        </ui:CardControl.Header>
+                        <StackPanel Orientation="Horizontal">
+                            <ComboBox Name="AnimationEasingStylesComboBox" SelectedIndex="{Binding FlyoutAnimationEasingStyle, Mode=TwoWay}">
+                                <ComboBoxItem Content="{DynamicResource EasingLinear}" />
+                                <ComboBoxItem Content="{DynamicResource EasingSine}" />
+                                <ComboBoxItem Content="{DynamicResource EasingQuadratic}" />
+                                <ComboBoxItem Content="{DynamicResource EasingCubic}" />
+                            </ComboBox>
+                        </StackPanel>
+                    </ui:CardControl>
+                    <ui:InfoBar Title="{DynamicResource NativeExperienceInfo}" IsOpen="True" Severity="Informational" IsClosable="False" />
+                </StackPanel>
+            </ui:CardExpander>
+            <ui:CardControl Icon="{ui:SymbolIcon ArrowCounterclockwise24}" Margin="0,0,0,76">
+                <ui:CardControl.Header>
+                    <StackPanel Orientation="Vertical">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{DynamicResource LegacyTaskbarWidthTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
+                            <fluentflyoutcontrols:AccentBadge Margin="6,0,0,0" />
+                        </StackPanel>
+                        <TextBlock Text="{DynamicResource LegacyTaskbarWidthDescription}" FontSize="12" Opacity="0.5" />
+                    </StackPanel>
+                </ui:CardControl.Header>
+                <StackPanel Orientation="Horizontal" Opacity="{Binding IsPremiumUnlocked, Converter={StaticResource BoolToFullHalfOpacityConverter}}" >
+                    <controls:ToggleSwitch IsChecked="{Binding LegacyTaskbarWidthEnabled, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}" />
+                </StackPanel>
+            </ui:CardControl>
+        </StackPanel>
+    </StackPanel>
+</Page>

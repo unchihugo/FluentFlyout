@@ -226,4 +226,7 @@ You can help contribute translations on</System:String>
     <System:String x:Key="SettingsImportedSuccessfully">Settings imported successfully! The application will now restart to apply changes.</System:String>
     <System:String x:Key="ImportSettingsWarning">This will replace all your current settings. Continue?</System:String>
     <System:String x:Key="FailedToImportSettings">Failed to import settings. Check the logs for details.</System:String>
+    <System:String x:Key="AdvancedSettingsTitle">Advanced Settings</System:String>
+    <System:String x:Key="LegacyTaskbarWidthTitle">Legacy Taskbar Width System</System:String>
+    <System:String x:Key="LegacyTaskbarWidthDescription">Use the legacy Taskbar width system for Taskbar Widgets</System:String>
 </ResourceDictionary>
