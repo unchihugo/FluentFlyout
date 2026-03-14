@@ -224,4 +224,9 @@
     <system:String x:Key="MonitorWithCursor">Монитор с курсором</system:String>
     <system:String x:Key="TaskbarVisualizerClickableTitle">Открыть настройки</system:String>
     <system:String x:Key="TaskbarVisualizerClickableDescription">Нажатие на визуализатор откроет страницу его настроек</system:String>
+    <system:String x:Key="UseAlbumArtAccentColorTitle">Использовать обложку альбома как акцентный цвет</system:String>
+    <system:String x:Key="UseAlbumArtAccentColorDescription">Некоторые элементы интерфейса будут использовать цвет обложки альбома вместо системной темы</system:String>
+    <system:String x:Key="AdvancedSettingsTitle">Расширенные настройки</system:String>
+    <system:String x:Key="LegacyTaskbarWidthTitle">Классическая система ширины панели задач</system:String>
+    <system:String x:Key="LegacyTaskbarWidthDescription">Используйте классическую систему ширины панели задач для виджетов</system:String>
 </ResourceDictionary>
