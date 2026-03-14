@@ -9,6 +9,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
+using Wpf.Ui.Controls;
 using MessageBox = Wpf.Ui.Controls.MessageBox;
 
 namespace FluentFlyoutWPF.Pages;
@@ -196,5 +197,17 @@ public partial class SystemPage : Page
                 }
             }
         }
+    }
+
+    private void Advanced_Click(object sender, System.Windows.RoutedEventArgs e)
+    {
+        NavigateToPage(typeof(AdvancedPage));
+    }
+
+    private void NavigateToPage(Type pageType)
+    {
+        var window = System.Windows.Window.GetWindow(this) as SettingsWindow;
+        var navigationView = window?.FindName("RootNavigation") as NavigationView;
+        navigationView?.Navigate(pageType);
     }
 }

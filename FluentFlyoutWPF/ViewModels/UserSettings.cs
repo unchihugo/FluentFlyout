@@ -515,6 +515,12 @@ public partial class UserSettings : ObservableObject
     [ObservableProperty]
     public partial bool ShowUpdateNotifications { get; set; }
 
+    /// <summary>
+    /// Determines whether to use the legacy method for calculating taskbar width for widget positioning for compatibility with other taskbar mods
+    /// </summary>
+    [ObservableProperty]
+    public partial bool LegacyTaskbarWidthEnabled { get; set; }
+
     [XmlIgnore]
     private bool _initializing = true;
 
@@ -585,6 +591,7 @@ public partial class UserSettings : ObservableObject
         UseAlbumArtAsAccentColor = false;
         LastUpdateNotificationUnixSeconds = 0;
         ShowUpdateNotifications = true;
+        LegacyTaskbarWidthEnabled = false;
     }
 
     /// <summary>
@@ -690,6 +697,12 @@ public partial class UserSettings : ObservableObject
     }
 
     partial void OnTaskbarVisualizerPositionChanged(int oldValue, int newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+        UpdateTaskbar();
+    }
+
+    partial void OnLegacyTaskbarWidthEnabledChanged(bool oldValue, bool newValue)
     {
         if (oldValue == newValue || _initializing) return;
         UpdateTaskbar();
