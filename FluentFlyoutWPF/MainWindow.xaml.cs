@@ -14,7 +14,6 @@ using MicaWPF.Controls;
 using MicaWPF.Core.Extensions;
 using Microsoft.Win32;
 using System.Diagnostics;
-using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
@@ -23,12 +22,9 @@ using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
-using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using Windows.ApplicationModel;
 using Windows.Media.Control;
-using Windows.Storage;
-using Windows.Storage.Streams;
 using static FluentFlyout.Classes.NativeMethods;
 using static FluentFlyoutWPF.Classes.Utils.MonitorUtil;
 using static WindowsMediaController.MediaManager;
@@ -466,7 +462,9 @@ public partial class MainWindow : MicaWindow
             return;
 
         var playbackInfo = focusedSession.ControlSession.GetPlaybackInfo();
-        taskbarWindow?.UpdateUi(songInfo.Title, songInfo.Artist, Helper.GetThumbnail(songInfo.Thumbnail), playbackInfo.PlaybackStatus, playbackInfo.Controls);
+        var thumbnail = BitmapHelper.GetThumbnail(songInfo.Thumbnail);
+        BitmapHelper.GetDominantColors(1);
+        taskbarWindow?.UpdateUi(songInfo.Title, songInfo.Artist, thumbnail, playbackInfo.PlaybackStatus, playbackInfo.Controls);
     }
 
     public void reportBug(object? sender, EventArgs e)
@@ -528,7 +526,9 @@ public partial class MainWindow : MicaWindow
         if (songInfo == null)
             return;
 
-        taskbarWindow?.UpdateUi(songInfo.Title, songInfo.Artist, Helper.GetThumbnail(songInfo.Thumbnail), playbackInfo?.PlaybackStatus, playbackInfo?.Controls);
+        var thumbnail = BitmapHelper.GetThumbnail(songInfo.Thumbnail);
+        BitmapHelper.GetDominantColors(1);
+        taskbarWindow?.UpdateUi(songInfo.Title, songInfo.Artist, thumbnail, playbackInfo?.PlaybackStatus, playbackInfo?.Controls);
 
         if (IsVisible)
         {
@@ -539,7 +539,7 @@ public partial class MainWindow : MicaWindow
 
     // for determining whether MediaPropertyChanged has no changes
     private string previousMediaProperty = "";
-    private string previousMediaPropertyThumbnail = "";
+    private int previousMediaPropertyThumbnail = 0;
     private void MediaManager_OnAnyMediaPropertyChanged(MediaSession mediaSession, GlobalSystemMediaTransportControlsSessionMediaProperties mediaProperties)
     {
         // sometimes mediaSession.ControlSession can be null
@@ -562,7 +562,7 @@ public partial class MainWindow : MicaWindow
         var playbackInfo = mediaSession.ControlSession.GetPlaybackInfo();
 
         string check = songInfo.Title + songInfo.Artist + playbackInfo.PlaybackStatus;
-        string checkThumbnail = songInfo.Thumbnail?.GetHashCode().ToString() ?? "Null";
+        int checkThumbnail = BitmapHelper.GetStableThumbnailHash(songInfo.Thumbnail);
         bool onlyThumbnailChanged = false;
         if (previousMediaProperty == check)
         {
@@ -574,7 +574,9 @@ public partial class MainWindow : MicaWindow
         previousMediaProperty = check;
         previousMediaPropertyThumbnail = checkThumbnail;
 
-        taskbarWindow?.UpdateUi(songInfo.Title, songInfo.Artist, Helper.GetThumbnail(songInfo.Thumbnail), playbackInfo.PlaybackStatus, playbackInfo.Controls);
+        var thumbnail = BitmapHelper.GetThumbnail(songInfo.Thumbnail);
+        BitmapHelper.GetDominantColors(1);
+        taskbarWindow?.UpdateUi(songInfo.Title, songInfo.Artist, thumbnail, playbackInfo.PlaybackStatus, playbackInfo.Controls);
 
         pauseOtherMediaSessionsIfNeeded(mediaSession);
 
@@ -586,7 +588,7 @@ public partial class MainWindow : MicaWindow
                 {
                     if (nextUpWindow == null && playbackInfo.Controls.IsPauseEnabled) // double-check within the Dispatcher to prevent race conditions
                     {
-                        nextUpWindow = new NextUpWindow(songInfo.Title, songInfo.Artist, Helper.GetThumbnail(songInfo.Thumbnail));
+                        nextUpWindow = new NextUpWindow(songInfo.Title, songInfo.Artist, thumbnail);
                         currentTitle = songInfo.Title;
                         nextUpWindow.Closed += (s, e) => nextUpWindow = null; // set nextUpWindow to null when closed
                     }
@@ -613,7 +615,7 @@ public partial class MainWindow : MicaWindow
             {
                 Dispatcher.Invoke(() =>
                 {
-                    nextUpWindow?.UpdateThumbnail(Helper.GetThumbnail(songInfo.Thumbnail));
+                    nextUpWindow?.UpdateThumbnail(thumbnail);
                 });
             }
         }
@@ -662,7 +664,9 @@ public partial class MainWindow : MicaWindow
                 return;
 
             var playbackInfo = focusedSession.ControlSession.GetPlaybackInfo();
-            taskbarWindow?.UpdateUi(songInfo.Title, songInfo.Artist, Helper.GetThumbnail(songInfo.Thumbnail), playbackInfo.PlaybackStatus, playbackInfo.Controls);
+            var thumbnail = BitmapHelper.GetThumbnail(songInfo.Thumbnail);
+            BitmapHelper.GetDominantColors(1);
+            taskbarWindow?.UpdateUi(songInfo.Title, songInfo.Artist, thumbnail, playbackInfo.PlaybackStatus, playbackInfo.Controls);
         }
     }
 
@@ -922,6 +926,13 @@ public partial class MainWindow : MicaWindow
                 BackgroundImageStyle2.Visibility = SettingsManager.Current.MediaFlyoutBackgroundBlur == 2 ? Visibility.Visible : Visibility.Collapsed;
                 BackgroundImageStyle3.Visibility = SettingsManager.Current.MediaFlyoutBackgroundBlur == 3 ? Visibility.Visible : Visibility.Collapsed;
 
+                // color play/pause button
+                if (BitmapHelper.SavedDominantColors.Count > 0)
+                {
+                    SolidColorBrush brush = BitmapHelper.SavedDominantColors.First();
+                    ControlPlayPause.Background = brush; 
+                }
+
                 // acrylic effect setting
                 if (SettingsManager.Current.MediaFlyoutAcrylicWindowEnabled != _acrylicEnabled
                 || SettingsManager.Current.AppTheme != _themeOption) // if theme changes, reapply acrylic for updated background color
@@ -939,7 +950,7 @@ public partial class MainWindow : MicaWindow
             {
                 SongTitle.Text = songInfo.Title;
                 SongArtist.Text = songInfo.Artist;
-                var image = Helper.GetThumbnail(songInfo.Thumbnail);
+                var image = BitmapHelper.GetThumbnail(songInfo.Thumbnail);
                 SongImage.ImageSource = image;
 
                 // set tooltip
@@ -951,7 +962,7 @@ public partial class MainWindow : MicaWindow
                 if (SettingsManager.Current.MediaFlyoutBackgroundBlur != 0)
                 {
                     // make image 1:1 aspect ratio so gradient masks work for non-square images
-                    var croppedImage = Helper.CropToSquare(image);
+                    var croppedImage = BitmapHelper.CropToSquare(image);
 
                     switch (SettingsManager.Current.MediaFlyoutBackgroundBlur)
                     {
@@ -1286,48 +1297,6 @@ public partial class MainWindow : MicaWindow
         }
     }
 
-    internal static class Helper
-    {
-        private const int MaxThumbnailSize = 512;
-
-        internal static BitmapImage? GetThumbnail(IRandomAccessStreamReference Thumbnail, bool convertToPng = true)
-        {
-            if (Thumbnail == null)
-                return null;
-
-            BitmapImage image = new();
-            using (var imageStream = Thumbnail.OpenReadAsync().GetAwaiter().GetResult().AsStreamForRead())
-            {
-                // initialize the BitmapImage
-                image.BeginInit();
-                image.CacheOption = BitmapCacheOption.OnLoad;
-                image.DecodePixelWidth = MaxThumbnailSize;
-                image.StreamSource = imageStream;
-                image.EndInit();
-            }
-            image.Freeze();
-            return image;
-        }
-
-        internal static CroppedBitmap? CropToSquare(BitmapImage? sourceImage)
-        {
-            if (sourceImage == null)
-                return null;
-
-            int size = (int)Math.Min(sourceImage.PixelWidth, sourceImage.PixelHeight);
-            int x = (sourceImage.PixelWidth - size) / 2;
-            int y = (sourceImage.PixelHeight - size) / 2;
-
-            var rect = new Int32Rect(x, y, size, size);
-
-            // create a CroppedBitmap (this is a lightweight object)
-            var croppedBitmap = new CroppedBitmap(sourceImage, rect);
-
-            croppedBitmap.Freeze();
-            return croppedBitmap;
-        }
-    }
-
     private void MicaWindow_MouseEnter(object sender, MouseEventArgs e) // keep the flyout open when mouse is over
     {
         ShowMediaFlyout();
@@ -1472,6 +1441,7 @@ public partial class MainWindow : MicaWindow
             Logger.Error(ex, "Failed to initialize license");
         }
 
+        BitmapHelper.GetDominantColors(1);
         taskbarWindow = new TaskbarWindow();
         UpdateTaskbar();
     }

@@ -4,6 +4,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using FluentFlyout.Classes;
 using FluentFlyout.Classes.Settings;
+using FluentFlyout.Classes.Utils;
 using FluentFlyout.Controls;
 using FluentFlyoutWPF.Classes;
 using FluentFlyoutWPF.Models;
@@ -489,6 +490,9 @@ public partial class UserSettings : ObservableObject
     [ObservableProperty]
     public partial uint AcrylicBlurOpacity { get; set; }
 
+    [ObservableProperty]
+    public partial bool UseAlbumArtAsAccentColor { get; set; }
+
     /// <summary>
     /// Gets whether this is a Store version. Once false, always false (only if last known version was not null).
     /// </summary>
@@ -576,8 +580,9 @@ public partial class UserSettings : ObservableObject
         TaskbarVisualizerCenteredBars = false;
         TaskbarVisualizerBaseline = false;
         TaskbarVisualizerAudioSensitivity = 2;
-        TaskbarVisualizerAudioPeakLevel = 2;
+        TaskbarVisualizerAudioPeakLevel = 3;
         AcrylicBlurOpacity = 175;
+        UseAlbumArtAsAccentColor = false;
         LastUpdateNotificationUnixSeconds = 0;
         ShowUpdateNotifications = true;
     }
@@ -713,5 +718,11 @@ public partial class UserSettings : ObservableObject
     {
         if (oldValue == newValue || _initializing || newValue == false) return;
         TaskbarVisualizerHasContent = true;
+    }
+
+    partial void OnUseAlbumArtAsAccentColorChanged(bool oldValue, bool newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+        BitmapHelper.GetDominantColors(1);
     }
 }

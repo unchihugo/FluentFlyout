@@ -301,6 +301,12 @@ public partial class TaskbarWidgetControl : UserControl
                 PlayPauseButton.Icon = _isPaused ? new SymbolIcon(SymbolRegular.Play24, filled: true) : new SymbolIcon(SymbolRegular.Pause24, filled: true);
             }
 
+            // change color of icon
+            SolidColorBrush brush = BitmapHelper.SavedDominantColors.Count > 0 ?
+                BitmapHelper.SavedDominantColors.Last()
+                : (SolidColorBrush)Application.Current.TryFindResource("MicaWPF.Brushes.SystemAccentColorTertiary");
+            SongImagePlaceholder.Foreground = brush;
+
             if (icon != null)
             {
                 if (_isPaused)
