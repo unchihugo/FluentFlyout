@@ -462,8 +462,9 @@ public partial class MainWindow : MicaWindow
             return;
 
         var playbackInfo = focusedSession.ControlSession.GetPlaybackInfo();
-        taskbarWindow?.UpdateUi(songInfo.Title, songInfo.Artist, BitmapHelper.GetThumbnail(songInfo.Thumbnail), playbackInfo.PlaybackStatus, playbackInfo.Controls);
+        var thumbnail = BitmapHelper.GetThumbnail(songInfo.Thumbnail);
         BitmapHelper.GetDominantColors(1);
+        taskbarWindow?.UpdateUi(songInfo.Title, songInfo.Artist, thumbnail, playbackInfo.PlaybackStatus, playbackInfo.Controls);
     }
 
     public void reportBug(object? sender, EventArgs e)
@@ -525,8 +526,9 @@ public partial class MainWindow : MicaWindow
         if (songInfo == null)
             return;
 
-        taskbarWindow?.UpdateUi(songInfo.Title, songInfo.Artist, BitmapHelper.GetThumbnail(songInfo.Thumbnail), playbackInfo?.PlaybackStatus, playbackInfo?.Controls);
+        var thumbnail = BitmapHelper.GetThumbnail(songInfo.Thumbnail);
         BitmapHelper.GetDominantColors(1);
+        taskbarWindow?.UpdateUi(songInfo.Title, songInfo.Artist, thumbnail, playbackInfo?.PlaybackStatus, playbackInfo?.Controls);
 
         if (IsVisible)
         {
@@ -573,8 +575,8 @@ public partial class MainWindow : MicaWindow
         previousMediaPropertyThumbnail = checkThumbnail;
 
         var thumbnail = BitmapHelper.GetThumbnail(songInfo.Thumbnail);
-        taskbarWindow?.UpdateUi(songInfo.Title, songInfo.Artist, thumbnail, playbackInfo.PlaybackStatus, playbackInfo.Controls);
         BitmapHelper.GetDominantColors(1);
+        taskbarWindow?.UpdateUi(songInfo.Title, songInfo.Artist, thumbnail, playbackInfo.PlaybackStatus, playbackInfo.Controls);
 
         pauseOtherMediaSessionsIfNeeded(mediaSession);
 
@@ -662,8 +664,9 @@ public partial class MainWindow : MicaWindow
                 return;
 
             var playbackInfo = focusedSession.ControlSession.GetPlaybackInfo();
-            taskbarWindow?.UpdateUi(songInfo.Title, songInfo.Artist, BitmapHelper.GetThumbnail(songInfo.Thumbnail), playbackInfo.PlaybackStatus, playbackInfo.Controls);
+            var thumbnail = BitmapHelper.GetThumbnail(songInfo.Thumbnail);
             BitmapHelper.GetDominantColors(1);
+            taskbarWindow?.UpdateUi(songInfo.Title, songInfo.Artist, thumbnail, playbackInfo.PlaybackStatus, playbackInfo.Controls);
         }
     }
 

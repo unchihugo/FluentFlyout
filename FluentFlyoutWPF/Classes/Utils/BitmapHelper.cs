@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 using FluentFlyout.Classes.Settings;
-using Microsoft.Extensions.Caching.Memory;
 using System.Diagnostics;
 using System.IO;
 using System.Security.Cryptography;
@@ -17,22 +16,86 @@ namespace FluentFlyout.Classes.Utils;
 internal static class BitmapHelper
 {
     private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
-    
+
+    // LRU cache implementation for caching thumbnails and their dominant colors
+    private sealed class LruCache<TKey, TValue> where TKey : notnull
+    {
+        private readonly int _capacity;
+        private readonly Dictionary<TKey, LinkedListNode<CacheEntry>> _map;
+        private readonly LinkedList<CacheEntry> _lruList = [];
+        private readonly object _sync = new();
+
+        private sealed class CacheEntry(TKey key, TValue value)
+        {
+            public TKey Key { get; } = key;
+            public TValue Value { get; set; } = value;
+        }
+
+        public LruCache(int capacity)
+        {
+            ArgumentOutOfRangeException.ThrowIfNegativeOrZero(capacity);
+
+            _capacity = capacity;
+            _map = new Dictionary<TKey, LinkedListNode<CacheEntry>>(capacity);
+        }
+
+        public bool TryGetValue(TKey key, out TValue? value)
+        {
+            lock (_sync)
+            {
+                if (_map.TryGetValue(key, out var node))
+                {
+                    _lruList.Remove(node);
+                    _lruList.AddFirst(node);
+                    value = node.Value.Value;
+                    return true;
+                }
+            }
+
+            value = default;
+            return false;
+        }
+
+        public void Set(TKey key, TValue value)
+        {
+            lock (_sync)
+            {
+                if (_map.TryGetValue(key, out var existing))
+                {
+                    existing.Value.Value = value;
+                    _lruList.Remove(existing);
+                    _lruList.AddFirst(existing);
+                    return;
+                }
+
+                var node = new LinkedListNode<CacheEntry>(new CacheEntry(key, value));
+                _lruList.AddFirst(node);
+                _map[key] = node;
+
+                if (_map.Count <= _capacity)
+                    return;
+
+                var leastRecent = _lruList.Last;
+                if (leastRecent == null)
+                    return;
+
+                _lruList.RemoveLast();
+                _map.Remove(leastRecent.Value.Key);
+            }
+        }
+    }
+
     private const int _maxThumbnailSize = 256; // previously 512, reduced for application memory
+    private const int _cacheEntryLimit = 5;
 
     // cached thumbnails to prevent reprocessing
-    private static MemoryCache _thumbnailCache = new(new MemoryCacheOptions
-    {
-        SizeLimit = 5
-    });
+    private static readonly LruCache<int, BitmapImage> _thumbnailCache = new(_cacheEntryLimit);
 
     // cached bitmapImage hashes and their dominant colors
-    private static MemoryCache _dominantColorsCache = new(new MemoryCacheOptions
-    {
-        SizeLimit = 5
-    });
+    private static readonly LruCache<int, List<SolidColorBrush>> _dominantColorsCache = new(_cacheEntryLimit);
 
     private static int _currentHashCode = 0;
+    private static readonly AsyncLocal<int> _currentHashCodeContext = new();
 
     // current or latest dominant colors
     private static List<SolidColorBrush>? _currentDominantColors;
@@ -44,6 +107,9 @@ internal static class BitmapHelper
 
     public static int GetStableThumbnailHash(IRandomAccessStreamReference thumbnail)
     {
+        if (thumbnail == null)
+            return 0;
+
         try
         {
             using Stream stream = thumbnail.OpenReadAsync().GetAwaiter().GetResult().AsStreamForRead();
@@ -65,10 +131,14 @@ internal static class BitmapHelper
 
         int hashCode = GetStableThumbnailHash(thumbnail);
 
-        if (_thumbnailCache.TryGetValue(hashCode, out var cachedImage))
+        if (hashCode == 0)
+            return null;
+
+        if (_thumbnailCache.TryGetValue(hashCode, out var cachedImage) && cachedImage != null)
         {
             _currentHashCode = hashCode;
-            return cachedImage as BitmapImage;
+            _currentHashCodeContext.Value = hashCode;
+            return cachedImage;
         }
 
         BitmapImage image = new();
@@ -84,12 +154,10 @@ internal static class BitmapHelper
         image.Freeze();
 
         // add bitmap to thumbnail cache with empty brush
-        _thumbnailCache.Set(hashCode, image, new MemoryCacheEntryOptions
-        {
-            Size = 1
-        });
+        _thumbnailCache.Set(hashCode, image);
 
         _currentHashCode = hashCode;
+        _currentHashCodeContext.Value = hashCode;
         return image;
     }
 
@@ -120,7 +188,9 @@ internal static class BitmapHelper
     /// <returns>List of dominant colors from cached Bitmap as SolidColorBrush</returns>
     public static List<SolidColorBrush> GetDominantColors(int colorCount, int maxIterations = 15)
     {
-        if (!SettingsManager.Current.UseAlbumArtAsAccentColor || _currentHashCode == 0)
+        int hashCode = _currentHashCodeContext.Value != 0 ? _currentHashCodeContext.Value : _currentHashCode;
+
+        if (!SettingsManager.Current.UseAlbumArtAsAccentColor || hashCode == 0)
         {
             // control color (buttons, etc.)
             var accent = (SolidColorBrush)Application.Current.TryFindResource("MicaWPF.Brushes.SystemAccentColorSecondary");
@@ -147,14 +217,22 @@ internal static class BitmapHelper
         {
             // check if we've already calculated colors for this thumbnail by checking
             // the current hash with cache (dumb method because we're assuming it's always the latest)
-            _dominantColorsCache.TryGetValue(_currentHashCode, out var cachedColors);
-            if (cachedColors != null)
-                return cachedColors as List<SolidColorBrush> ?? [];
+            if (_dominantColorsCache.TryGetValue(hashCode, out var cachedColors) && cachedColors != null)
+            {
+                _currentDominantColors = cachedColors;
+                return _currentDominantColors;
+            }
 
             // convert BitmapImage to BGRA byte array
+            if (!_thumbnailCache.TryGetValue(hashCode, out var sourceBitmap) || sourceBitmap == null)
+            {
+                Logger.Warn($"Thumbnail cache miss while extracting dominant colors");
+                return _currentDominantColors ?? [];
+            }
+
             var formattedBitmap = new FormatConvertedBitmap();
             formattedBitmap.BeginInit();
-            formattedBitmap.Source = _thumbnailCache.Get(_currentHashCode) as BitmapImage;
+            formattedBitmap.Source = sourceBitmap;
             formattedBitmap.DestinationFormat = PixelFormats.Bgra32;
             formattedBitmap.EndInit();
 
@@ -318,7 +396,6 @@ internal static class BitmapHelper
 
                     return Color.FromArgb(c.A, ToGamma(r), ToGamma(g), ToGamma(b));
                 })];
-
             }
             else
             {
@@ -351,10 +428,7 @@ internal static class BitmapHelper
             _currentDominantColors = brushes;
 
             // save brushes to cache with current hash as key
-            _dominantColorsCache.Set(_currentHashCode, _currentDominantColors, new MemoryCacheEntryOptions
-            {
-                Size = 1
-            });
+            _dominantColorsCache.Set(hashCode, _currentDominantColors);
 
 #if DEBUG
         stopwatch.Stop();
@@ -369,9 +443,9 @@ internal static class BitmapHelper
         }
     }
 
-    static double ToLinear(byte v)
+    private static double ToLinear(byte v)
         => Math.Pow(v / 255.0, 2.2);
 
-    static byte ToGamma(double v)
+    private static byte ToGamma(double v)
         => (byte)Math.Clamp(Math.Pow(v, 1.0 / 2.2) * 255.0, 0, 255);
 }

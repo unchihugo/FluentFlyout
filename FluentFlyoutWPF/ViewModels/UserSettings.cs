@@ -580,7 +580,7 @@ public partial class UserSettings : ObservableObject
         TaskbarVisualizerCenteredBars = false;
         TaskbarVisualizerBaseline = false;
         TaskbarVisualizerAudioSensitivity = 2;
-        TaskbarVisualizerAudioPeakLevel = 2;
+        TaskbarVisualizerAudioPeakLevel = 3;
         AcrylicBlurOpacity = 175;
         UseAlbumArtAsAccentColor = false;
         LastUpdateNotificationUnixSeconds = 0;
