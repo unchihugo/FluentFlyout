@@ -208,4 +208,7 @@ Możesz pomóc w tworzeniu tłumaczeń na stronie</system:String>
     <system:String x:Key="SettingsImportedSuccessfully">Ustawienia wyeksportowano pomyślnie! Aplikacja zostanie teraz uruchomiona ponownie w celu zastosowania zmian.</system:String>
     <system:String x:Key="ImportSettingsWarning">To podmieni wszystkie obecne ustawienia. Kontynuować?</system:String>
     <system:String x:Key="FailedToImportSettings">Nie udało się zaimportować ustawień. Sprawdź dziennik zdarzeń, aby zobaczyć szczegóły.</system:String>
+    <system:String x:Key="TaskbarWidgetCloseableFlyoutTitle">Zamknij Flyout klikając dwa razy</system:String>
+    <system:String x:Key="TaskbarWidgetCloseableFlyoutDescription">Zamknij flyout jeżeli jest już otwarty po kliknięciu w widget na pasku zadań</system:String>
+    <system:String x:Key="TaskbarWidgetControlsPositionTitle">Pozycja Kontroli Mediów</system:String>
 </ResourceDictionary>

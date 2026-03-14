@@ -213,4 +213,8 @@
     <system:String x:Key="FailedToImportSettings">فشل استيراد الإعدادات. تحقق من السجلات للمزيد من التفاصيل.</system:String>
     <system:String x:Key="TaskbarVisualizerAudioPeakLevelDescription">الحد الأدنى لشدة الصوت الذي تبلغ عنده الأشرطة ارتفاعها الأقصى</system:String>
     <system:String x:Key="TaskbarVisualizerAudioPeakLevelTitle">حد ذروة الصوت</system:String>
+    <system:String x:Key="PositionLeft">اليسار</system:String>
+    <system:String x:Key="PositionRight">اليمين</system:String>
+    <system:String x:Key="TaskbarWidgetControlsPositionTitle">موقع أزرار التحكم بالوسائط</system:String>
+    <system:String x:Key="TaskbarWidgetControlsPositionDescription">اختر مكان عرض أزرار التحكم في الوسائط</system:String>
 </ResourceDictionary>

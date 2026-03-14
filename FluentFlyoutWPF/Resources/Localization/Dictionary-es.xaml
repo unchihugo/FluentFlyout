@@ -93,7 +93,7 @@ Puedes ayudar a contribuir con las traducciones en</system:String>
     <system:String x:Key="LockWindow_InsertPressed">Pulsado Insert</system:String>
     <system:String x:Key="LockWindow_LockOn">activado</system:String>
     <system:String x:Key="LockWindow_LockOff">desactivado</system:String>
-    <system:String x:Key="NextUpWindow_UpNextText">Próximamente:</system:String>
+    <system:String x:Key="NextUpWindow_UpNextText">Pista siguente:</system:String>
     <system:String x:Key="TrayIcon_SettingsOption">Ajustes</system:String>
     <system:String x:Key="TrayIcon_GitHubRepositoryOption">Repositorio</system:String>
     <system:String x:Key="TrayIcon_ReportBugOption">Reportar fallo</system:String>
@@ -213,4 +213,8 @@ Nota: Como proyecto de código abierto, estas opciones también están disponibl
     <system:String x:Key="TaskbarVisualizerAudioPeakLevelTitle">Umbral Máximo del Audio</system:String>
     <system:String x:Key="TaskbarVisualizerAudioPeakLevelDescription">Como de alto debe de ser el volumen para que las barras alcancen su altura máxima</system:String>
     <system:String x:Key="BackupRestoreSectionTitle">Copias de seguridad y restauración</system:String>
+    <system:String x:Key="PositionRight">Derecha</system:String>
+    <system:String x:Key="TaskbarWidgetControlsPositionTitle">Posición de Controles Multimedia</system:String>
+    <system:String x:Key="TaskbarWidgetControlsPositionDescription">Elige donde quieres mostrar los controles multimedia</system:String>
+    <system:String x:Key="PositionLeft">Izquierda</system:String>
 </ResourceDictionary>
