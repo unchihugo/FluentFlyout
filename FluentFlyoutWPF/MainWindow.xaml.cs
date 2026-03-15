@@ -14,7 +14,6 @@ using MicaWPF.Controls;
 using MicaWPF.Core.Extensions;
 using Microsoft.Win32;
 using System.Diagnostics;
-using System.Reflection.Metadata;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
@@ -693,17 +692,12 @@ public partial class MainWindow : MicaWindow
 
             if (mediaKeysPressed || (!SettingsManager.Current.MediaFlyoutVolumeKeysExcluded && volumeKeysPressed))
             {
-                long currentTime = Environment.TickCount64;
+                bool result = TryShowMediaFlyoutDebounced();
 
-                // debounce to prevent hangs with rapid key presses
-                if ((currentTime - _lastFlyoutTime) < 500) // 500ms debounce time
+                if (!result)
                 {
                     return CallNextHookEx(_hookId, nCode, wParam, lParam);
                 }
-
-                _lastFlyoutTime = currentTime;
-
-                ShowMediaFlyout();
             }
 
             if (SettingsManager.Current.LockKeysEnabled && !FullscreenDetector.IsFullscreenApplicationRunning())
@@ -731,6 +725,20 @@ public partial class MainWindow : MicaWindow
             }
         }
         return CallNextHookEx(_hookId, nCode, wParam, lParam);
+    }
+
+    // show the media flyout with debounce
+    private bool TryShowMediaFlyoutDebounced()
+    {
+        long currentTime = Environment.TickCount64;
+        // debounce to prevent hangs with rapid key presses
+        if ((currentTime - _lastFlyoutTime) < 500) // 500ms debounce time
+        {
+            return false;
+        }
+        _lastFlyoutTime = currentTime;
+        ShowMediaFlyout();
+        return true;
     }
 
     public async void ShowMediaFlyout(bool toggleMode = false)
@@ -1379,17 +1387,12 @@ public partial class MainWindow : MicaWindow
             if (!isKeyCommand)
                 return 0;
 
-            long currentTime = Environment.TickCount64;
+            bool result = TryShowMediaFlyoutDebounced();
 
-            // debounce to prevent hangs with rapid key presses
-            if ((currentTime - _lastFlyoutTime) < 500) // 500ms debounce time
+            if (!result)
             {
                 return 0;
             }
-
-            _lastFlyoutTime = currentTime;
-
-            ShowMediaFlyout();
 
             handled = true;
         }
