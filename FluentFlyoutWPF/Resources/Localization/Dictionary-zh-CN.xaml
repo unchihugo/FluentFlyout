@@ -222,4 +222,11 @@
     <system:String x:Key="DefaultLockLayoutPosition">默认（全局浮窗目标显示器）</system:String>
     <system:String x:Key="MonitorWithFocusedWindow">具有焦点的窗口所在的显示器</system:String>
     <system:String x:Key="MonitorWithCursor">鼠标 / 光标所在的显示器</system:String>
+    <system:String x:Key="TaskbarVisualizerClickableDescription">点击频谱可视化小组件会打开频谱可视化的设置页面</system:String>
+    <system:String x:Key="TaskbarVisualizerClickableTitle">点击小组件打开设置</system:String>
+    <system:String x:Key="UseAlbumArtAccentColorTitle">使用专辑封面颜色作为主题色</system:String>
+    <system:String x:Key="UseAlbumArtAccentColorDescription">部分界面元素将从专辑封面中取色，而不是使用系统主题色</system:String>
+    <system:String x:Key="AdvancedSettingsTitle">高级设置</system:String>
+    <system:String x:Key="LegacyTaskbarWidthDescription">任务栏小组件使用旧版任务栏宽度系统</system:String>
+    <system:String x:Key="LegacyTaskbarWidthTitle">旧版任务栏宽度系统</system:String>
 </ResourceDictionary>
