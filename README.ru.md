@@ -1,9 +1,14 @@
 <p align="center">
-  <img width="65%" src="https://github.com/user-attachments/assets/56e921ff-e463-4ab3-b687-92f248dc727e">
+	<picture>
+		<source width="65%" alt="fluentflyout-title" media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/daa2969f-8ad2-4832-8253-26133a50c921" />
+		<source width="65%" alt="fluentflyout-title" media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/3e75e514-b9a6-40e3-b170-af9d29a82bb4" />
+		<img width="65%" alt="fluentflyout-title" src="https://github.com/user-attachments/assets/daa2969f-8ad2-4832-8253-26133a50c921">
+	</picture>
 </p>
+
 <p align="center">
 	<img alt="GitHub Release" src="https://img.shields.io/github/v/release/unchihugo/FluentFlyout">
-	<img alt="Static Badge" src="https://img.shields.io/badge/downloads-71K%2B-blue?color=limegreen">
+	<img alt="Static Badge" src="https://img.shields.io/badge/downloads-130K%2B-blue?color=limegreen">
 	<a href="https://hosted.weblate.org/engage/fluentflyout/"><img src="https://hosted.weblate.org/widget/fluentflyout/svg-badge.svg" alt="Статус перевода"/></a>
 	<img alt="GitHub contributors" src="https://img.shields.io/github/contributors-anon/unchihugo/fluentflyout?labelColor=midnightblue&color=goldenrod">
 </p>
