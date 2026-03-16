@@ -217,4 +217,6 @@ Puoi contribuire alla traduzione su</system:String>
     <system:String x:Key="TaskbarWidgetControlsPositionDescription">Scegli dove mostrare i pulsanti di controllo multimediale</system:String>
     <system:String x:Key="PositionLeft">Sinistra</system:String>
     <system:String x:Key="PositionRight">Destra</system:String>
+    <system:String x:Key="TaskbarVisualizerClickableTitle">Clicca per Aprire le Impostazioni</system:String>
+    <system:String x:Key="TaskbarVisualizerClickableDescription">Cliccando il visualizzatore si aprirà la pagina delle impostazioni</system:String>
 </ResourceDictionary>
