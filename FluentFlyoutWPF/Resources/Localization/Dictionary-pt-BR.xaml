@@ -213,4 +213,20 @@ Nota: Como um projeto de código aberto, esses recursos também estão disponív
     <system:String x:Key="SettingsImportedSuccessfully">Configurações importadas com sucesso! O aplicativo será reiniciado agora para aplicar as alterações.</system:String>
     <system:String x:Key="ImportSettingsWarning">Isso substituirá todas as suas configurações atuais. Continuar?</system:String>
     <system:String x:Key="FailedToImportSettings">Falha ao importar as configurações. Verifique os logs para mais detalhes.</system:String>
+    <system:String x:Key="TaskbarWidgetControlsPositionTitle">Posição dos controles de mídia</system:String>
+    <system:String x:Key="TaskbarWidgetControlsPositionDescription">Escolha onde mostrar os botões de controle de mídia</system:String>
+    <system:String x:Key="PositionLeft">Esquerda</system:String>
+    <system:String x:Key="PositionRight">Direita</system:String>
+    <system:String x:Key="TaskbarVisualizerClickableTitle">Clique para abrir as configurações</system:String>
+    <system:String x:Key="TaskbarVisualizerClickableDescription">Clicar no visualizador abrirá a página de configurações dele</system:String>
+    <system:String x:Key="LockKeysCursorUITitle">Tela de destino preferida</system:String>
+    <system:String x:Key="LockKeysCursorUIDescription" xml:space="preserve">Escolha em qual monitor exibir o flyout.</system:String>
+    <system:String x:Key="DefaultLockLayoutPosition">Padrão (tela de destino do flyout)</system:String>
+    <system:String x:Key="MonitorWithFocusedWindow">Monitor com a janela em foco</system:String>
+    <system:String x:Key="MonitorWithCursor">Monitor com o cursor</system:String>
+    <system:String x:Key="UseAlbumArtAccentColorTitle">Usar capa do álbum como cor de destaque</system:String>
+    <system:String x:Key="UseAlbumArtAccentColorDescription">Alguns elementos da interface usarão a cor da capa do álbum em vez do tema do sistema</system:String>
+    <system:String x:Key="AdvancedSettingsTitle">Configurações avançadas</system:String>
+    <system:String x:Key="LegacyTaskbarWidthTitle">Sistema legado de largura da barra de tarefas</system:String>
+    <system:String x:Key="LegacyTaskbarWidthDescription">Usar o sistema legado de largura da barra de tarefas para widgets da barra de tarefas</system:String>
 </ResourceDictionary>

@@ -195,4 +195,12 @@ Vous pouvez contribuer aux traductions sur</system:String>
     <system:String x:Key="SponsorMeLink">Soutenez-moi</system:String>
     <system:String x:Key="BuyMeCoffeeLink">Offrez-moi un café</system:String>
     <system:String x:Key="TaskbarVisualizerOutputDeviceTitle">Périphérique de sortie</system:String>
+    <system:String x:Key="TaskbarWidgetCloseableFlyoutTitle">Fermer le menu déroulant au deuxième clique</system:String>
+    <system:String x:Key="TaskbarWidgetCloseableFlyoutDescription">Fermer le menu déroulant s'il est déjà ouvert lors du clique sur le widget dans la barre des tâches</system:String>
+    <system:String x:Key="TaskbarWidgetControlsPositionTitle">Contrôle de la position des médias</system:String>
+    <system:String x:Key="TaskbarWidgetControlsPositionDescription">Choisir où afficher le bouton de contrôle des médias</system:String>
+    <system:String x:Key="PositionLeft">Gauche</system:String>
+    <system:String x:Key="PositionRight">Droite</system:String>
+    <system:String x:Key="TaskbarVisualizerAudioPeakLevelTitle">Seuil du maximum audio</system:String>
+    <system:String x:Key="TaskbarVisualizerAudioPeakLevelDescription">L'intensité de l'audio pour que la barre atteigne la hauteur maximale</system:String>
 </ResourceDictionary>

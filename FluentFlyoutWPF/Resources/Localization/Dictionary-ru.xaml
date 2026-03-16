@@ -217,4 +217,16 @@
     <system:String x:Key="TaskbarWidgetControlsPositionDescription">Выберите, где отображать медиакнопки</system:String>
     <system:String x:Key="PositionLeft">Слева</system:String>
     <system:String x:Key="PositionRight">Справа</system:String>
+    <system:String x:Key="LockKeysCursorUITitle">Предпочитаемый целевой дисплей</system:String>
+    <system:String x:Key="LockKeysCursorUIDescription" xml:space="preserve">Выберите, на каком мониторе отображать всплывающее окно.</system:String>
+    <system:String x:Key="DefaultLockLayoutPosition">По умолчанию (целевой дисплей всплывающего окна)</system:String>
+    <system:String x:Key="MonitorWithFocusedWindow">Монитор с активным окном</system:String>
+    <system:String x:Key="MonitorWithCursor">Монитор с курсором</system:String>
+    <system:String x:Key="TaskbarVisualizerClickableTitle">Открыть настройки</system:String>
+    <system:String x:Key="TaskbarVisualizerClickableDescription">Нажатие на визуализатор откроет страницу его настроек</system:String>
+    <system:String x:Key="UseAlbumArtAccentColorTitle">Использовать обложку альбома как акцентный цвет</system:String>
+    <system:String x:Key="UseAlbumArtAccentColorDescription">Некоторые элементы интерфейса будут использовать цвет обложки альбома вместо системной темы</system:String>
+    <system:String x:Key="AdvancedSettingsTitle">Расширенные настройки</system:String>
+    <system:String x:Key="LegacyTaskbarWidthTitle">Классическая система ширины панели задач</system:String>
+    <system:String x:Key="LegacyTaskbarWidthDescription">Используйте классическую систему ширины панели задач для виджетов</system:String>
 </ResourceDictionary>

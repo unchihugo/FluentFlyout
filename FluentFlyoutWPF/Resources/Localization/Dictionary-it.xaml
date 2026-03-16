@@ -213,4 +213,10 @@ Puoi contribuire alla traduzione su</system:String>
     <system:String x:Key="SettingsImportedSuccessfully">Impostazioni importate con successo! L'applicazione si riavvierà per applicare i cambiamenti.</system:String>
     <system:String x:Key="ImportSettingsWarning">Questo sostituirà tutte le impostazioni attuali. Continuare?</system:String>
     <system:String x:Key="FailedToImportSettings">Importazione delle impostazioni fallita. Controlla i log per dettagli.</system:String>
+    <system:String x:Key="TaskbarWidgetControlsPositionTitle">Posizione Controlli Multimediali</system:String>
+    <system:String x:Key="TaskbarWidgetControlsPositionDescription">Scegli dove mostrare i pulsanti di controllo multimediale</system:String>
+    <system:String x:Key="PositionLeft">Sinistra</system:String>
+    <system:String x:Key="PositionRight">Destra</system:String>
+    <system:String x:Key="TaskbarVisualizerClickableTitle">Clicca per Aprire le Impostazioni</system:String>
+    <system:String x:Key="TaskbarVisualizerClickableDescription">Cliccando il visualizzatore si aprirà la pagina delle impostazioni</system:String>
 </ResourceDictionary>
