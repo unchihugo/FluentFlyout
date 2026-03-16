@@ -36,7 +36,7 @@ public partial class MainWindow : MicaWindow
 {
     private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
-    private int WM_TASKBARCREATED;
+    private int WM_TASKBARCREATED, WM_SHELLHOOK;
 
     private IntPtr _hookId = IntPtr.Zero;
     private LowLevelKeyboardProc _hookProc;
@@ -169,6 +169,8 @@ public partial class MainWindow : MicaWindow
         mediaManager.OnAnySessionClosed += MediaManager_OnAnySessionClosed;
 
         WM_TASKBARCREATED = RegisterWindowMessage("TaskbarCreated");
+        WM_SHELLHOOK = RegisterWindowMessage("SHELLHOOK");
+        RegisterShellHookWindow(new WindowInteropHelper(this).Handle);
 
         _positionTimer = new Timer(SeekbarUpdateUi, null, Timeout.Infinite, Timeout.Infinite);
         if (_seekBarEnabled && mediaManager.GetFocusedSession() is { } session)
@@ -690,17 +692,12 @@ public partial class MainWindow : MicaWindow
 
             if (mediaKeysPressed || (!SettingsManager.Current.MediaFlyoutVolumeKeysExcluded && volumeKeysPressed))
             {
-                long currentTime = Environment.TickCount64;
+                bool result = TryShowMediaFlyoutDebounced();
 
-                // debounce to prevent hangs with rapid key presses
-                if ((currentTime - _lastFlyoutTime) < 500) // 500ms debounce time
+                if (!result)
                 {
                     return CallNextHookEx(_hookId, nCode, wParam, lParam);
                 }
-
-                _lastFlyoutTime = currentTime;
-
-                ShowMediaFlyout();
             }
 
             if (SettingsManager.Current.LockKeysEnabled && !FullscreenDetector.IsFullscreenApplicationRunning())
@@ -728,6 +725,20 @@ public partial class MainWindow : MicaWindow
             }
         }
         return CallNextHookEx(_hookId, nCode, wParam, lParam);
+    }
+
+    // show the media flyout with debounce
+    private bool TryShowMediaFlyoutDebounced()
+    {
+        long currentTime = Environment.TickCount64;
+        // debounce to prevent hangs with rapid key presses
+        if ((currentTime - _lastFlyoutTime) < 500) // 500ms debounce time
+        {
+            return false;
+        }
+        _lastFlyoutTime = currentTime;
+        ShowMediaFlyout();
+        return true;
     }
 
     public async void ShowMediaFlyout(bool toggleMode = false)
@@ -1256,12 +1267,14 @@ public partial class MainWindow : MicaWindow
 
             TaskbarVisualizerControl.DisposeVisualizer();
 
-            // unhook keyboard hook
+            // unhook hooks
             if (_hookId != IntPtr.Zero)
             {
                 UnhookWindowsHookEx(_hookId);
                 _hookId = IntPtr.Zero;
             }
+
+            DeregisterShellHookWindow(new WindowInteropHelper(this).Handle);
 
             // clean up other resources
             if (lockWindow?.IsLoaded == true)
@@ -1337,7 +1350,53 @@ public partial class MainWindow : MicaWindow
 
     private nint WndProc(nint hwnd, int msg, nint wParam, nint lParam, ref bool handled)
     {
-        if (msg == WM_TASKBARCREATED)
+        // detect key presses from both keyboard hook and shell hook to show flyouts
+        if (msg == WM_SHELLHOOK && wParam == HSHELL_APPCOMMAND)
+        {
+            int highWord = (int)(lParam >> 16);
+            int cmd = highWord & 0x0FFF;
+            int device = highWord & 0xF000;
+
+            bool isMediaCommand = cmd switch
+            {
+                APPCOMMAND_MEDIA_PLAY_PAUSE => true,
+                APPCOMMAND_MEDIA_NEXTTRACK => true,
+                APPCOMMAND_MEDIA_PREVIOUSTRACK => true,
+                APPCOMMAND_MEDIA_STOP => true,
+                _ => false
+            };
+
+            bool isVolumeCommand = false;
+
+            if (!isMediaCommand && !SettingsManager.Current.MediaFlyoutVolumeKeysExcluded)
+            {
+                isVolumeCommand = cmd switch
+                {
+                    APPCOMMAND_VOLUME_MUTE => true,
+                    APPCOMMAND_VOLUME_DOWN => true,
+                    APPCOMMAND_VOLUME_UP => true,
+                    _ => false
+                };
+            }
+
+            if (!isMediaCommand && !isVolumeCommand)
+                return 0;
+
+            bool isKeyCommand = device == FAPPCOMMAND_KEY;
+
+            if (!isKeyCommand)
+                return 0;
+
+            bool result = TryShowMediaFlyoutDebounced();
+
+            if (!result)
+            {
+                return 0;
+            }
+
+            handled = true;
+        }
+        else if (msg == WM_TASKBARCREATED)
         {
             Logger.Warn("Explorer restart detected (TaskbarCreated)");
 
