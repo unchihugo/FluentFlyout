@@ -14,10 +14,9 @@
       d:Background="White">
 
     <StackPanel MaxWidth="1000" Margin="16">
-        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="12,0,0,0">
-            <Image Source="/Resources/FluentFlyout2.ico" Width="44" Height="44" />
-            <TextBlock Text="{DynamicResource TitleText}" FontSize="24" FontWeight="Medium" Margin="12,0,0,0" VerticalAlignment="Center" />
-            <TextBlock x:Name="VersionTextBlock" FontSize="14" FontWeight="Regular" VerticalAlignment="Bottom" Margin="10" Opacity="0.5" />
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+            <TextBlock Text="{DynamicResource TitleText}" FontSize="24" FontWeight="Medium" VerticalAlignment="Center" />
+            <TextBlock x:Name="VersionTextBlock" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" Margin="10,6,0,0" Opacity="0.5" />
         </StackPanel>
 
         <TextBlock Text="{DynamicResource HomeTitle}" FontSize="24" FontWeight="SemiBold" Margin="0,36,0,12" />
@@ -26,7 +25,7 @@
                 <StackPanel Orientation="Horizontal">
                     <Border CornerRadius="8" ClipToBounds="True" Width="200" Height="98" Margin="0,0,16,0">
                         <Border.Background>
-                            <ImageBrush ImageSource="/Resources/FluentFlyoutTaskbar-NoTitle-Zoomed.png" Stretch="UniformToFill" />
+                            <ImageBrush ImageSource="/Resources/logo-change.png" Stretch="UniformToFill" />
                         </Border.Background>
                     </Border>
                     <StackPanel Orientation="Vertical" VerticalAlignment="Center">
