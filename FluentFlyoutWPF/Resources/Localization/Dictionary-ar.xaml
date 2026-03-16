@@ -217,4 +217,16 @@
     <system:String x:Key="PositionRight">اليمين</system:String>
     <system:String x:Key="TaskbarWidgetControlsPositionTitle">موقع أزرار التحكم بالوسائط</system:String>
     <system:String x:Key="TaskbarWidgetControlsPositionDescription">اختر مكان عرض أزرار التحكم في الوسائط</system:String>
+    <system:String x:Key="TaskbarVisualizerClickableTitle">إضغط لفتح الإعدادات</system:String>
+    <system:String x:Key="TaskbarVisualizerClickableDescription">إضغط على المرئيات لفتح الإعدادات الخاصة بها</system:String>
+    <system:String x:Key="LockKeysCursorUITitle">الشاشة المفضلة للعرض</system:String>
+    <system:String x:Key="LockKeysCursorUIDescription" xml:space="preserve">إختر الشاشة التي ستعرض القائمة المنبثقة.</system:String>
+    <system:String x:Key="DefaultLockLayoutPosition">الإفتراضي (شاشة عرض القائمة المنبثقة)</system:String>
+    <system:String x:Key="MonitorWithFocusedWindow">الشاشة مع نافذة فعالة</system:String>
+    <system:String x:Key="MonitorWithCursor">الشاشة التي تحتوي المؤشر</system:String>
+    <system:String x:Key="UseAlbumArtAccentColorTitle">إستعمل صورة الألبوم كألوان تكميلية</system:String>
+    <system:String x:Key="UseAlbumArtAccentColorDescription">ستستخدم بعض عناصر الواجهة لون صورة الألبوم بدلاً من سمة النظام</system:String>
+    <system:String x:Key="AdvancedSettingsTitle">الإعدادات المتقدمة</system:String>
+    <system:String x:Key="LegacyTaskbarWidthTitle">نظام عرض شريط المهام القديم</system:String>
+    <system:String x:Key="LegacyTaskbarWidthDescription">استخدم نظام عرض شريط المهام القديم لتطبيقات شريط المهام المصغرة</system:String>
 </ResourceDictionary>
