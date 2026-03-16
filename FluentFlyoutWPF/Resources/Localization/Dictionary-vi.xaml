@@ -112,7 +112,7 @@ Bạn có thể hỗ trợ dịch tại</system:String>
     <system:String x:Key="TaskbarWidgetControlsDescription">Thêm các nút phát, chuyển sang nội dung mới và về nội dung cũ</system:String>
     <system:String x:Key="TaskbarWidgetAnimatedTitle">Hiệu ứng chuyển tiếp</system:String>
     <system:String x:Key="TaskbarWidgetAnimatedDescription">Xuất hiện hiệu ứng khi chuyển tiếp nội dung</system:String>
-    <system:String x:Key="PremiumFeatureTitle">Tính năng premium</system:String>
+    <system:String x:Key="PremiumFeatureTitle">Tính năng trả phí</system:String>
     <system:String x:Key="PremiumFeatureDescription" xml:space="preserve">Sự đóng góp của bạn giúp cho FluentFlyout tiếp tục phát triển và nâng cấp. Nó sẽ ngay lập tức mở khoá các chức năng bản quyền vĩnh viễn.
         
 Ghi chú: Vì đây là một project mã nguồn mở, những tính năng bản quyền cũng có thể miễn phí nếu cài đặt từ Github. Điểm yếu duy nhất là bạn phải tự thân cập nhật và cài đặt thủ công.</system:String>
@@ -180,9 +180,9 @@ Ghi chú: Vì đây là một project mã nguồn mở, những tính năng bả
     <system:String x:Key="TaskbarVisualizerBaselineTitle">Hiển thị cả khi ngắt tiếng, lắng tiếng</system:String>
     <system:String x:Key="TaskbarVisualizerBaselineDescription">Hiển thị cả khi ngắt tiếng, lắng tiếng</system:String>
     <system:String x:Key="TaskbarVisualizerAudioSensitivityTitle">Tỷ lệ biểu thị</system:String>
-    <system:String x:Key="TaskbarVisualizerAudioSensitivityDescription">Ngưỡng âm lượng để kích hoạt chuyển động của các thanh.</system:String>
+    <system:String x:Key="TaskbarVisualizerAudioSensitivityDescription">Ngưỡng âm lượng để kích hoạt chuyển động của các thanh</system:String>
     <system:String x:Key="UnlockFullExperienceText">Trải nghiệm trọn gói FluentFlyout:</system:String>
-    <system:String x:Key="AllFuturePremiumFeatures">Và thêm nữa trong tương lai...</system:String>
+    <system:String x:Key="AllFuturePremiumFeatures">Và những tính năng trả phí trong tương lai</system:String>
     <system:String x:Key="DevelopersTitle">Lập trình viên</system:String>
     <system:String x:Key="TranslatorsTitle">Dịch giả</system:String>
     <system:String x:Key="SponsorMeLink">Tài trợ cho tác giả</system:String>
@@ -216,4 +216,10 @@ Ghi chú: Vì đây là một project mã nguồn mở, những tính năng bả
     <system:String x:Key="TaskbarWidgetControlsPositionDescription">Chọn vị trí hiển thị các nút điều khiển phương tiện</system:String>
     <system:String x:Key="PositionLeft">Trái</system:String>
     <system:String x:Key="PositionRight">Phải</system:String>
+    <system:String x:Key="TaskbarVisualizerClickableDescription">Nhấp vào trình hiển thị sẽ mở trang cài đặt của nó</system:String>
+    <system:String x:Key="LockKeysCursorUITitle">Hiển thị mục tiêu ưa thích</system:String>
+    <system:String x:Key="UseAlbumArtAccentColorTitle">Sử dụng ảnh bìa album làm màu nhấn</system:String>
+    <system:String x:Key="UseAlbumArtAccentColorDescription">Một số thành phần giao diện người dùng sẽ sử dụng màu bìa album thay vì chủ đề hệ thống</system:String>
+    <system:String x:Key="MonitorWithFocusedWindow">Màn hình với cửa sổ tập trung</system:String>
+    <system:String x:Key="LockKeysCursorUIDescription" xml:space="preserve">Chọn màn hình để hiển thị hộp thả xuống.</system:String>
 </ResourceDictionary>
