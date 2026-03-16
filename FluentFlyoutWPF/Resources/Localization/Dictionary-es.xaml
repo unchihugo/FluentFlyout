@@ -217,4 +217,16 @@ Nota: Como proyecto de código abierto, estas opciones también están disponibl
     <system:String x:Key="TaskbarWidgetControlsPositionTitle">Posición de Controles Multimedia</system:String>
     <system:String x:Key="TaskbarWidgetControlsPositionDescription">Elige donde quieres mostrar los controles multimedia</system:String>
     <system:String x:Key="PositionLeft">Izquierda</system:String>
+    <system:String x:Key="LegacyTaskbarWidthDescription">Usa el sistema antiguo del ancho del Widget de la barra de Tareas</system:String>
+    <system:String x:Key="TaskbarVisualizerClickableTitle">Click para abrir Ajustes</system:String>
+    <system:String x:Key="TaskbarVisualizerClickableDescription">Hacer click en el visualizador abre su página de ajustes</system:String>
+    <system:String x:Key="LockKeysCursorUITitle">Pantalla preferida</system:String>
+    <system:String x:Key="LockKeysCursorUIDescription" xml:space="preserve">Elige en que monitor se mostrará el flyout.</system:String>
+    <system:String x:Key="DefaultLockLayoutPosition">Por Defecto (Pantalla objetivo del Flyout)</system:String>
+    <system:String x:Key="MonitorWithFocusedWindow">Monitor con la ventana activa</system:String>
+    <system:String x:Key="MonitorWithCursor">Monitor con el cursor</system:String>
+    <system:String x:Key="UseAlbumArtAccentColorTitle">Usar el Color de Acento de la Caratula del Álbum</system:String>
+    <system:String x:Key="UseAlbumArtAccentColorDescription">Algunos elementos de IU usaran el color de la portada en vez de el del sistema</system:String>
+    <system:String x:Key="AdvancedSettingsTitle">Ajustes Avanzados</system:String>
+    <system:String x:Key="LegacyTaskbarWidthTitle">Sistema Antiguo del Ancho del Widget de la Barra de Tareas</system:String>
 </ResourceDictionary>
