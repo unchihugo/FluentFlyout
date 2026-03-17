@@ -222,4 +222,11 @@
     <system:String x:Key="SettingsImportedSuccessfully">설정 가져오기에 성공했습니다! 변경사항 반영을 위해 앱이 재시작됩니다.</system:String>
     <system:String x:Key="ImportSettingsWarning">이 작업은 현재 설정을 덮어씁니다. 계속하시겠습니까?</system:String>
     <system:String x:Key="FailedToImportSettings">설정 가져오기에 실패하였습니다. 자세한 내용은 로그를 확인하세요.</system:String>
+    <system:String x:Key="TaskbarVisualizerClickableTitle">클릭하여 설정 열기</system:String>
+    <system:String x:Key="TaskbarVisualizerClickableDescription">시각화를 클릭하여 설정 페이지 열기</system:String>
+    <system:String x:Key="UseAlbumArtAccentColorTitle">앨범 아트를 강조 색상으로 사용</system:String>
+    <system:String x:Key="UseAlbumArtAccentColorDescription">시스템 테마 대신 앨범 아트의 색상을 UI 요소에 적용</system:String>
+    <system:String x:Key="AdvancedSettingsTitle">추가 설정</system:String>
+    <system:String x:Key="LegacyTaskbarWidthTitle">기존 방식의 작업 표시줄 너비</system:String>
+    <system:String x:Key="LegacyTaskbarWidthDescription">작업 표시줄 위젯에 기존 너비 방식 적용</system:String>
 </ResourceDictionary>
