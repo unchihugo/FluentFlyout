@@ -38,6 +38,9 @@ public partial class TaskbarWindow : Window
     private int _lastSelectedMonitor = -1;
     private bool _positionUpdateInProgress;
     private readonly Dictionary<string, Task> _pendingAutomationTasks = [];
+    
+    private GlobalSystemMediaTransportControlsSessionPlaybackStatus? _lastPlaybackStatus;
+    private DispatcherTimer? _autoHideTimer;
 
     public TaskbarWindow()
     {
@@ -592,6 +595,51 @@ public partial class TaskbarWindow : Window
                 Visibility = Visibility.Collapsed;
             });
             return;
+        }
+        
+        if (!Dispatcher.CheckAccess())
+        {
+            Dispatcher.Invoke(() => UpdateUi(title, artist, icon, playbackStatus, playbackControls));
+            return;
+        }
+
+        
+        // Autohide - Widget hides when playback is paused
+        _lastPlaybackStatus = playbackStatus;
+        
+        if ((SettingsManager.Current.TaskbarWidgetAutoHide))
+        {
+            if (playbackStatus == GlobalSystemMediaTransportControlsSessionPlaybackStatus.Playing)
+            {
+                _autoHideTimer?.Stop();
+                _autoHideTimer = null;
+                
+                Visibility = Visibility.Visible;
+            }
+            else
+            {
+                // Start delayed hide
+                if (_autoHideTimer == null)
+                {
+                    _autoHideTimer = new DispatcherTimer
+                    {
+                        Interval = TimeSpan.FromMilliseconds(750)
+                    };
+
+                    _autoHideTimer.Tick += (s, e) =>
+                    {
+                        _autoHideTimer.Stop();
+                        _autoHideTimer = null;
+
+                        if (_lastPlaybackStatus != GlobalSystemMediaTransportControlsSessionPlaybackStatus.Playing)
+                        {
+                            Visibility = Visibility.Collapsed;
+                        }
+                    };
+
+                    _autoHideTimer.Start();
+                }
+            }
         }
 
         if (!_timer.IsEnabled)
