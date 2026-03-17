@@ -69,6 +69,7 @@
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="{DynamicResource LegacyTaskbarWidthTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
                             <fluentflyoutcontrols:AccentBadge Margin="6,0,0,0" />
+                            <ui:InfoBadge Value=" NEW " FontWeight="Medium" FontSize="10" Margin="2,-2,0,-2" Severity="Success" />
                         </StackPanel>
                         <TextBlock Text="{DynamicResource LegacyTaskbarWidthDescription}" FontSize="12" Opacity="0.5" />
                     </StackPanel>
