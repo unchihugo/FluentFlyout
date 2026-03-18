@@ -391,7 +391,7 @@ public partial class MainWindow : MicaWindow
 
         storyboard.Begin(window);
         WindowHelper.SetVisibility(window, true);
-        WindowHelper.SetTopmost(this);
+        WindowHelper.SetTopmost(window);
     }
 
     public void CloseAnimation(MicaWindow window, bool alwaysBottom = false, MonitorInfo? selectedMonitor = null)
