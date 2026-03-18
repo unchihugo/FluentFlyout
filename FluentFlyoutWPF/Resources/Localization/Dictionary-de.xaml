@@ -213,4 +213,6 @@ Du kannst helfen, die App zu übersetzen auf</system:String>
     <system:String x:Key="SettingsImportedSuccessfully">Einstellungen erfolgreich importiert! Die Anwendung wird nun neu gestartet, um die Änderungen zu übernehmen.</system:String>
     <system:String x:Key="ImportSettingsWarning">Dadurch werden alle aktuellen Einstellungen ersetzt. Möchtest Du fortfahren?</system:String>
     <system:String x:Key="FailedToImportSettings">Einstellungen konnten nicht importiert werden. Prüfe die Logs für Details.</system:String>
+    <system:String x:Key="PositionLeft">Links</system:String>
+    <system:String x:Key="PositionRight">Rechts</system:String>
 </ResourceDictionary>
