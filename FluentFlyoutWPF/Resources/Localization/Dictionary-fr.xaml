@@ -203,4 +203,5 @@ Vous pouvez contribuer aux traductions sur</system:String>
     <system:String x:Key="PositionRight">Droite</system:String>
     <system:String x:Key="TaskbarVisualizerAudioPeakLevelTitle">Seuil du maximum audio</system:String>
     <system:String x:Key="TaskbarVisualizerAudioPeakLevelDescription">L'intensité de l'audio pour que la barre atteigne la hauteur maximale</system:String>
+    <system:String x:Key="BackupRestoreSectionTitle">Sauvegarde et restauration</system:String>
 </ResourceDictionary>
