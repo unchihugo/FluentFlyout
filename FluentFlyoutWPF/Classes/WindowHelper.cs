@@ -28,7 +28,7 @@ public static class WindowHelper
     public static void SetTopmost(Window window) // workaround to set window even more topmost
     {
         var handle = new WindowInteropHelper(window).Handle;
-        SetWindowPos(handle, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_SHOWWINDOW);
+        SetWindowPos(handle, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
     }
 
     public static void SetVisibility(Window window, bool visible) // workaround to set window even more topmost
