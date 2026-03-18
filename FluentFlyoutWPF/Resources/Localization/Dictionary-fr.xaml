@@ -203,7 +203,7 @@ Vous pouvez contribuer aux traductions sur</system:String>
     <system:String x:Key="PositionRight">Droite</system:String>
     <system:String x:Key="TaskbarVisualizerAudioPeakLevelTitle">Seuil du maximum audio</system:String>
     <system:String x:Key="TaskbarVisualizerAudioPeakLevelDescription">L'intensité de l'audio pour que la barre atteigne la hauteur maximale</system:String>
-    <system:String x:Key="BackupRestoreSectionTitle">Sauvegarde et restauration</system:String>
+    <system:String x:Key="BackupRestoreSectionTitle">Sauvegarde &amp; restauration</system:String>
     <system:String x:Key="TaskbarVisualizerClickableTitle">Cliquer pour ouvrir les Paramètres</system:String>
     <system:String x:Key="LockKeysCursorUIDescription" xml:space="preserve">Choisir quel écran affichera le volet.</system:String>
     <system:String x:Key="MonitorWithCursor">Ecran avec la souris</system:String>
@@ -219,4 +219,11 @@ Vous pouvez contribuer aux traductions sur</system:String>
     <system:String x:Key="SettingsImportedSuccessfully">Réglages importés! L'application va désormais redémarrer afin d'effectuer les changements.</system:String>
     <system:String x:Key="ImportSettingsWarning">Ceci remplacera tous vos réglages actuelles. Continuer?</system:String>
     <system:String x:Key="AdvancedSettingsTitle">Réglages avancés</system:String>
+    <system:String x:Key="TaskbarVisualizerOutputDeviceDescription">Changer le dispositif de sortie pour changer ce que le visualisateur de FluentFlyout entend.</system:String>
+    <system:String x:Key="TaskbarVisualizerClickableDescription">Cliquer le visualisateur ouvrira sa page de paramètrage</system:String>
+    <system:String x:Key="LockKeysCursorUITitle">Écran d'affichage préféré</system:String>
+    <system:String x:Key="DefaultLockLayoutPosition">Par défaut (Affichage de Cible du Volet)</system:String>
+    <system:String x:Key="MonitorWithFocusedWindow">Écran avec une fênetre active</system:String>
+    <system:String x:Key="UseAlbumArtAccentColorDescription">Quelques éléments de l'UI utilisera les couleurs de l'image de l'album au lieu d'utiliser le thème du système</system:String>
+    <system:String x:Key="FailedToExportSettings">Échec lors de l'exportation des paramètres. Vérifiez les journaux pour plus de détails.</system:String>
 </ResourceDictionary>
