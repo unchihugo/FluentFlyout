@@ -48,7 +48,7 @@ hides repeat, shuffle and player info</System:String>
     <System:String x:Key="PauseOtherMediaTitle">Pause Other Media Automatically</System:String>
     <System:String x:Key="PauseOtherMediaDescription">When you play or focus on new media, other active sessions are automatically paused</System:String>
     <System:String x:Key="TaskbarWidgetCustomizationTitle">Taskbar Widget</System:String>
-    <System:String x:Key="TaskbarWidgetDescription">A compact, built-in widget that lives right on your Windows Taskbar for instant access to your media. Click the widget to expand the full Media Flyout (when enabled).</System:String>
+    <System:String x:Key="TaskbarWidgetDescription">A compact, built-in widget that lives right on your Windows Taskbar for instant access to your media. Click the widget to expand the full Media Flyout.</System:String>
     <System:String x:Key="TaskbarWidgetEnabledTitle">Enable Taskbar Widget</System:String>
     <System:String x:Key="TaskbarWidgetEnabledDescription">Show a compact media widget on the taskbar</System:String>
     <System:String x:Key="TaskbarWidgetVisualIssuesWarning">Configure the options below if you experience visual issues.</System:String>
