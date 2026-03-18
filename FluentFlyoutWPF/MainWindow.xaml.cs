@@ -78,7 +78,6 @@ public partial class MainWindow : MicaWindow
 
     public MainWindow()
     {
-        DataContext = SettingsManager.Current;
         WindowHelper.SetNoActivate(this); // prevents some fullscreen apps from minimizing
         InitializeComponent();
         WindowHelper.SetTopmost(this); // more prevention of fullscreen apps minimizing
@@ -136,6 +135,9 @@ public partial class MainWindow : MicaWindow
             MessageBox.Show($"Failed to restore settings: {ex.Message}");
             Logger.Error(ex, "Failed to restore settings");
         }
+
+        // Set DataContext AFTER restoring settings to ensure it's bound to the correct instance
+        DataContext = SettingsManager.Current;
 
         if (SettingsManager.Current.Startup == true) // add to startup programs if enabled, needs improvement
         {
