@@ -83,4 +83,8 @@
     <system:String x:Key="TaskbarWidgetControlsTitle">Керування медіа</system:String>
     <system:String x:Key="AppThemeDark"> Темна</system:String>
     <system:String x:Key="TrayIconLeftClickOption1"> Відкрити Налаштування</system:String>
+    <system:String x:Key="TaskbarVisualizerOutputDeviceTitle">Пристрій виведення</system:String>
+    <system:String x:Key="NextUpCustomizationTitle">Далі в черзі</system:String>
+    <system:String x:Key="AnimationSettingsTitle">Налаштування анімації</system:String>
+    <system:String x:Key="NextUpStayDurationDescription">(за замовчуванням: 3000 мс)</system:String>
 </ResourceDictionary>
