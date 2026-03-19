@@ -398,7 +398,7 @@ public partial class TaskbarWindow : Window
                      SWP_NOZORDER | SWP_NOACTIVATE | SWP_ASYNCWINDOWPOS | SWP_SHOWWINDOW);
 
             var wRect = PositionWidget(taskbarHandle, taskbarRect, dpiScale, isMainTaskbarSelected, isVertical);
-            var vRect = PositionVisualizer(taskbarHandle, taskbarRect, dpiScale, isMainTaskbarSelected);
+            var vRect = PositionVisualizer(taskbarHandle, taskbarRect, dpiScale, isMainTaskbarSelected, isVertical);
 
             UpdateWindowRegion(taskbarWindowHandle, wRect, vRect);
 
@@ -667,15 +667,39 @@ public partial class TaskbarWindow : Window
         return new Rect(Canvas.GetLeft(Widget) * dpiScale, Canvas.GetTop(Widget) * dpiScale, Widget.Width * dpiScale, Widget.Height * dpiScale);
     }
 
-    private Rect PositionVisualizer(IntPtr taskbarHandle, RECT taskbarRect, double dpiScale, bool isMainTaskbarSelected)
+    private Rect PositionVisualizer(IntPtr taskbarHandle, RECT taskbarRect, double dpiScale, bool isMainTaskbarSelected, bool isVertical)
     {
         if (!SettingsManager.Current.TaskbarVisualizerEnabled)
             return Rect.Empty;
 
         int taskbarHeight = taskbarRect.Bottom - taskbarRect.Top;
+        int taskbarWidth = taskbarRect.Right - taskbarRect.Left;
         int visualizerTop = (taskbarHeight - (int)(TaskbarVisualizer.Height * dpiScale)) / 2 - 1; // -1 to align because Windows taskbar positions native elements slightly above the exact center
 
         int visualizerLeft = 0;
+
+        if (isVertical)
+        {
+            // center horizontally in the slim taskbar
+            visualizerLeft = (taskbarWidth - (int)(TaskbarVisualizer.Width * dpiScale)) / 2;
+
+            switch (SettingsManager.Current.TaskbarVisualizerPosition)
+            {
+                case 0: // above the widget
+                    visualizerTop = (int)(Canvas.GetTop(Widget) * dpiScale) - (int)(TaskbarVisualizer.Height * dpiScale);
+                    break;
+
+                case 1: // below the widget
+                    visualizerTop = (int)(Canvas.GetTop(Widget) * dpiScale) + (int)(Widget.Height * dpiScale);
+                    break;
+            }
+
+            Canvas.SetLeft(TaskbarVisualizer, visualizerLeft / dpiScale);
+            Canvas.SetTop(TaskbarVisualizer, visualizerTop / dpiScale);
+
+            return new Rect(Canvas.GetLeft(TaskbarVisualizer) * dpiScale, Canvas.GetTop(TaskbarVisualizer) * dpiScale, TaskbarVisualizer.Width * dpiScale, TaskbarVisualizer.Height * dpiScale);
+        }
+
         switch (SettingsManager.Current.TaskbarVisualizerPosition)
         {
             case 0: // left aligned next to widget
