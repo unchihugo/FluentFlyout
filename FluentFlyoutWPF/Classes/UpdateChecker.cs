@@ -121,7 +121,7 @@ public static class UpdateChecker
             foreach (var asset in assets.EnumerateArray())
             {
                 var name = asset.GetProperty("name").GetString() ?? string.Empty;
-                if (name.EndsWith(".msixbundle", StringComparison.OrdinalIgnoreCase))
+                if (name.EndsWith(".zip", StringComparison.OrdinalIgnoreCase))
                 {
                     var downloadUrl = asset.GetProperty("browser_download_url").GetString() ?? string.Empty;
 
@@ -142,7 +142,7 @@ public static class UpdateChecker
                 }
             }
 
-            Logger.Warn("No .msixbundle asset found in latest GitHub release");
+            Logger.Warn("No .zip installer asset found in latest GitHub release");
             return null;
         }
         catch (Exception ex)

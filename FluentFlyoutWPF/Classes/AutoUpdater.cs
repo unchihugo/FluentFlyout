@@ -8,6 +8,7 @@ using FluentFlyoutWPF.ViewModels;
 using NLog;
 using System.Diagnostics;
 using System.IO;
+using System.IO.Compression;
 using System.Net.Http;
 
 namespace FluentFlyout.Classes;
@@ -22,22 +23,25 @@ public static class AutoUpdater
     private static readonly HttpClient HttpClient = new() { Timeout = TimeSpan.FromMinutes(10) };
 
     /// <summary>
-    /// The expected MSIX publisher identity. Packages signed by a different publisher will be rejected.
+    /// The expected certificate thumbprint for the MSIX signing certificate.
+    /// Using thumbprint (SHA-1 hash of the certificate) rather than subject CN because the
+    /// certificate is self-signed — anyone could create a cert with the same CN, but the
+    /// thumbprint uniquely identifies the actual certificate used by the project maintainer.
     /// </summary>
-    private const string ExpectedPublisher = "CN=unchihugo";
+    private const string ExpectedThumbprint = "EB5DAEE797E40F20D5AFB6C60EA6A510AE519183";
 
     private static readonly object _lock = new();
     private static bool _isRunning;
 
     /// <summary>
-    /// Downloads the .msixbundle from the given URL to a temp directory with progress reporting.
+    /// Downloads the installer ZIP from the given URL, extracts the .msixbundle, and returns its path.
     /// </summary>
     /// <param name="downloadUrl">The HTTPS URL to download from (must be HTTPS)</param>
     /// <param name="expectedSize">Expected file size in bytes from the GitHub API</param>
     /// <param name="fileName">The asset filename from the GitHub API</param>
     /// <param name="progress">Optional progress reporter (0-100)</param>
     /// <param name="cancellationToken">Cancellation token</param>
-    /// <returns>The local file path of the downloaded bundle, or null on failure</returns>
+    /// <returns>The local file path of the extracted .msixbundle, or null on failure</returns>
     public static async Task<string?> DownloadUpdateAsync(
         string downloadUrl,
         long expectedSize,
@@ -71,8 +75,8 @@ public static class AutoUpdater
                 return null;
             }
 
-            // Security: only accept .msixbundle files
-            if (!safeName.EndsWith(".msixbundle", StringComparison.OrdinalIgnoreCase))
+            // Security: only accept .zip files (the release bundles the .msixbundle inside a ZIP)
+            if (!safeName.EndsWith(".zip", StringComparison.OrdinalIgnoreCase))
             {
                 Logger.Error("Unexpected file extension: {Name}", safeName);
                 UpdateState.Current.UpdateError = "Unexpected file type";
@@ -83,11 +87,11 @@ public static class AutoUpdater
             var updateDir = Path.Combine(Path.GetTempPath(), "FluentFlyout_Update");
             Directory.CreateDirectory(updateDir);
 
-            var filePath = Path.Combine(updateDir, safeName);
+            var zipPath = Path.Combine(updateDir, safeName);
 
             // Clean up any previous download
-            if (File.Exists(filePath))
-                File.Delete(filePath);
+            if (File.Exists(zipPath))
+                File.Delete(zipPath);
 
             UpdateState.Current.IsDownloading = true;
             UpdateState.Current.DownloadProgress = 0;
@@ -100,7 +104,7 @@ public static class AutoUpdater
             var totalBytes = response.Content.Headers.ContentLength ?? expectedSize;
 
             await using var contentStream = await response.Content.ReadAsStreamAsync(cancellationToken);
-            await using var fileStream = new FileStream(filePath, FileMode.Create,
+            await using var fileStream = new FileStream(zipPath, FileMode.Create,
                 FileAccess.Write, FileShare.None, 81920, useAsync: true);
 
             var buffer = new byte[81920];
@@ -125,13 +129,30 @@ public static class AutoUpdater
             {
                 Logger.Error("File size mismatch: expected {Expected}, got {Actual}", expectedSize, bytesWritten);
                 UpdateState.Current.UpdateError = "Downloaded file size does not match expected size";
-                try { File.Delete(filePath); } catch { }
+                try { File.Delete(zipPath); } catch { }
                 return null;
             }
 
-            Logger.Info("Update downloaded successfully: {Path} ({Bytes} bytes)", filePath, bytesWritten);
-            UpdateState.Current.DownloadedBundlePath = filePath;
-            return filePath;
+            // Close the file stream before extracting
+            await fileStream.DisposeAsync();
+
+            Logger.Info("ZIP downloaded successfully: {Path} ({Bytes} bytes)", zipPath, bytesWritten);
+
+            // Extract the .msixbundle from the ZIP
+            var bundlePath = await Task.Run(() => ExtractMsixBundleFromZip(zipPath, updateDir), cancellationToken);
+
+            // Clean up the ZIP after extraction
+            try { File.Delete(zipPath); } catch { }
+
+            if (bundlePath == null)
+            {
+                UpdateState.Current.UpdateError = "Could not find .msixbundle in downloaded package";
+                return null;
+            }
+
+            Logger.Info("Extracted .msixbundle: {Path}", bundlePath);
+            UpdateState.Current.DownloadedBundlePath = bundlePath;
+            return bundlePath;
         }
         catch (OperationCanceledException)
         {
@@ -149,6 +170,55 @@ public static class AutoUpdater
         {
             UpdateState.Current.IsDownloading = false;
             lock (_lock) { _isRunning = false; }
+        }
+    }
+
+    /// <summary>
+    /// Extracts the first .msixbundle file found inside the ZIP to the target directory.
+    /// </summary>
+    private static string? ExtractMsixBundleFromZip(string zipPath, string targetDir)
+    {
+        try
+        {
+            using var archive = ZipFile.OpenRead(zipPath);
+
+            var bundleEntry = archive.Entries.FirstOrDefault(
+                e => e.FullName.EndsWith(".msixbundle", StringComparison.OrdinalIgnoreCase)
+                     && !string.IsNullOrEmpty(e.Name));
+
+            if (bundleEntry == null)
+            {
+                Logger.Error("No .msixbundle found inside ZIP");
+                return null;
+            }
+
+            // Security: sanitize the extracted filename
+            var extractedName = Path.GetFileName(bundleEntry.Name);
+            if (string.IsNullOrEmpty(extractedName) || extractedName.Contains("..") ||
+                extractedName.IndexOfAny(Path.GetInvalidFileNameChars()) >= 0)
+            {
+                Logger.Error("Invalid .msixbundle filename inside ZIP: {Name}", bundleEntry.Name);
+                return null;
+            }
+
+            var extractedPath = Path.Combine(targetDir, extractedName);
+
+            if (File.Exists(extractedPath))
+                File.Delete(extractedPath);
+
+            bundleEntry.ExtractToFile(extractedPath);
+
+            return extractedPath;
+        }
+        catch (InvalidDataException ex)
+        {
+            Logger.Error(ex, "ZIP file is corrupted");
+            return null;
+        }
+        catch (Exception ex)
+        {
+            Logger.Error(ex, "Failed to extract .msixbundle from ZIP");
+            return null;
         }
     }
 
@@ -180,10 +250,11 @@ public static class AutoUpdater
                 }
 
                 // Use PowerShell Get-AuthenticodeSignature for robust Authenticode verification
+                var escapedPath = fullPath.Replace("'", "''");
                 var psi = new ProcessStartInfo
                 {
                     FileName = "powershell.exe",
-                    Arguments = $"-NoProfile -Command \"(Get-AuthenticodeSignature -LiteralPath '{fullPath.Replace("'", "''")}').SignerCertificate.Subject\"",
+                    Arguments = $"-NoProfile -Command \"$sig = Get-AuthenticodeSignature -LiteralPath '{escapedPath}'; Write-Output $sig.Status; Write-Output $sig.SignerCertificate.Thumbprint\"",
                     UseShellExecute = false,
                     RedirectStandardOutput = true,
                     RedirectStandardError = true,
@@ -198,7 +269,7 @@ public static class AutoUpdater
                 }
 
                 // Read stdout and stderr fully before WaitForExit to avoid deadlocks
-                var subject = process.StandardOutput.ReadToEnd().Trim();
+                var output = process.StandardOutput.ReadToEnd().Trim();
                 var stderr = process.StandardError.ReadToEnd();
                 process.WaitForExit(30000); // 30 second timeout
 
@@ -207,21 +278,32 @@ public static class AutoUpdater
                     Logger.Warn("Signature verification stderr: {Error}", stderr);
                 }
 
-                if (string.IsNullOrEmpty(subject))
+                var lines = output.Split(['\r', '\n'], StringSplitOptions.RemoveEmptyEntries);
+                if (lines.Length < 2)
                 {
                     Logger.Error("No digital signature found on package");
                     return false;
                 }
 
-                // Verify the publisher matches expected value
-                if (!subject.Equals(ExpectedPublisher, StringComparison.OrdinalIgnoreCase))
+                var status = lines[0].Trim();
+                var thumbprint = lines[1].Trim();
+
+                // Verify the signature status is Valid
+                if (!status.Equals("Valid", StringComparison.OrdinalIgnoreCase))
                 {
-                    Logger.Error("Package publisher mismatch: expected '{Expected}', got '{Actual}'",
-                        ExpectedPublisher, subject);
+                    Logger.Error("Package signature status is not valid: {Status}", status);
                     return false;
                 }
 
-                Logger.Info("Package signature verified: publisher={Publisher}", subject);
+                // Verify the certificate thumbprint matches the expected value
+                if (!thumbprint.Equals(ExpectedThumbprint, StringComparison.OrdinalIgnoreCase))
+                {
+                    Logger.Error("Certificate thumbprint mismatch: expected '{Expected}', got '{Actual}'",
+                        ExpectedThumbprint, thumbprint);
+                    return false;
+                }
+
+                Logger.Info("Package signature verified: thumbprint={Thumbprint}", thumbprint);
                 return true;
             });
         }
