@@ -15,7 +15,7 @@
     <system:String x:Key="CompactLayoutTitle">Компактне розташування</system:String>
     <system:String x:Key="CompactLayoutDescription" xml:space="preserve">Більш компактний і менш нав'язливий макет
 приховує повторення, перетасовку та інформацію про програвач</system:String>
-    <system:String x:Key="SelectedMonitorTitle">Цільове вікно спливаючого меню</system:String>
+    <system:String x:Key="SelectedMonitorTitle">Цільовий деплей спливаючого меню</system:String>
     <system:String x:Key="FlyoutPositionTitle">Розташування спливаючого вікна</system:String>
     <system:String x:Key="PositionBottomLeft" xml:space="preserve"> Знизу ліворуч</system:String>
     <system:String x:Key="PositionBottomCenter" xml:space="preserve"> Знизу по центру</system:String>
@@ -44,7 +44,7 @@
     <system:String x:Key="HomeTitle">Домашня сторінка</system:String>
     <system:String x:Key="MediaFlyoutAlwaysDisplayDescription">Спливаюче меню залишається відкритим, поки ви не натиснете кнопку закриття</system:String>
     <system:String x:Key="TaskbarWidgetCustomizationTitle">Віджет панелі завдань</system:String>
-    <system:String x:Key="TaskbarWidgetDescription">Компактний вбудований віджет, який розміщується прямо на панелі завдань Windows для миттєвого доступу до ваших медіафайлів. Клацніть на віджет, щоб розгорнути повне спливаюче медіа (якщо воно ввімкнене).</system:String>
+    <system:String x:Key="TaskbarWidgetDescription">Компактний вбудований віджет, який розміщується на панелі завдань Windows для миттєвого доступу до ваших медіафайлів. Натисніть на віджет, щоб розгорнути повне спливаюче меню (якщо воно ввімкнене).</system:String>
     <system:String x:Key="TaskbarWidgetEnabledTitle">Увімкнути віджет панелі завдань</system:String>
     <system:String x:Key="TaskbarWidgetEnabledDescription">Показати компактний медіа-віджет на панелі завдань</system:String>
     <system:String x:Key="TaskbarWidgetVisualIssuesWarning">Якщо у вас виникли проблеми із відображенням, налаштуйте параметри нижче.</system:String>
@@ -64,11 +64,11 @@
     <system:String x:Key="LockWindow_NumLock">Num Lock</system:String>
     <system:String x:Key="LockWindow_ScrollLock">Scroll Lock</system:String>
     <system:String x:Key="LockWindow_InsertPressed">Insert натиснуто</system:String>
-    <system:String x:Key="LockWindow_LockOn">вмк</system:String>
+    <system:String x:Key="LockWindow_LockOn">увімк.</system:String>
     <system:String x:Key="MediaFlyoutExcludeVolumeTitle">Виключити клавіші гучності</system:String>
     <system:String x:Key="MediaFlyoutExcludeVolumeDescription">Не відображати спливаюче вікно при натисканні кнопки збільшення/зменшення гучності/вимкнення звуку</system:String>
     <system:String x:Key="TaskbarWidgetClickableTitle">Натисніть, щоб відкрити спливаюче меню медіа, коли медіа присутнє</system:String>
-    <system:String x:Key="TaskbarWidgetClickableDescription">Якщо ввімкнено спливаюче меню медіа, воно відкриється при натисканні на віджет панелі завдань</system:String>
+    <system:String x:Key="TaskbarWidgetClickableDescription">Натискання віджета на панелі завдань відркиватиме плеєр</system:String>
     <system:String x:Key="LockWindow_LockOff">вимк</system:String>
     <system:String x:Key="TaskbarWidgetBackgroundBlurTitle">Розмиття фону</system:String>
     <system:String x:Key="PremiumFeatureTitle">Преміум-функції</system:String>
@@ -86,8 +86,8 @@
     <system:String x:Key="TaskbarVisualizerOutputDeviceTitle">Пристрій виведення</system:String>
     <system:String x:Key="NextUpCustomizationTitle">Далі в черзі</system:String>
     <system:String x:Key="AnimationSettingsTitle">Налаштування анімації</system:String>
-    <system:String x:Key="NextUpStayDurationDescription">(за замовчуванням: 3000 мс)</system:String>
-    <system:String x:Key="LockKeysStayDurationDescription">(за замовчуванням: 3000 мс)</system:String>
+    <system:String x:Key="NextUpStayDurationDescription">(за замовчуванням: 2000 мс)</system:String>
+    <system:String x:Key="LockKeysStayDurationDescription">(за замовчуванням: 2000 мс)</system:String>
     <system:String x:Key="SystemSettingsTitle">Система</system:String>
     <system:String x:Key="HomeDashboardTitle">Інформаційна панель</system:String>
     <system:String x:Key="AppearanceBehaviorSectionTitle">Зовнішній вигляд і поведінка</system:String>
@@ -107,5 +107,124 @@
     <system:String x:Key="UpdateAvailableNotificationTitle">Доступне оновлення!</system:String>
     <system:String x:Key="BackupRestoreSectionTitle">Резервне копіювання та відновлення</system:String>
     <system:String x:Key="ImportSettings">Імпортувати налаштування</system:String>
-    <system:String x:Key="ExportSuccessful">Успішно експортовано</system:String>
+    <system:String x:Key="ExportSuccessful">Експортовано успішно</system:String>
+    <system:String x:Key="TaskbarWidgetCloseableFlyoutTitle">Закривати впливаючі вікна подвійним натисканням</system:String>
+    <system:String x:Key="TaskbarWidgetCloseableFlyoutDescription">Закриваи вспливаюче вікно, якщо воно вже відкрите, натисканням на панель завдань</system:String>
+    <system:String x:Key="TaskbarWidgetControlsDescription">Показувати кнопки керування на віджеті</system:String>
+    <system:String x:Key="TaskbarWidgetControlsPositionTitle">Позиція кнопок керування</system:String>
+    <system:String x:Key="TaskbarWidgetControlsPositionDescription">Де розташувати кнопки керування</system:String>
+    <system:String x:Key="PositionLeft">Зліва</system:String>
+    <system:String x:Key="PositionRight">Справа</system:String>
+    <system:String x:Key="TaskbarWidgetAnimatedTitle">Анімації віджету</system:String>
+    <system:String x:Key="TaskbarWidgetAnimatedDescription">Вмикає деякі ненав'язливі анімації віджету</system:String>
+    <system:String x:Key="TaskbarVisualizerTitle">Візуалізатор на панелі завдань</system:String>
+    <system:String x:Key="TaskbarVisualizerDescription">Візуалізатор звуку в реальному часі на панелі завдань. Створений з мінімальним впливом на продуктивність сучасних систем.</system:String>
+    <system:String x:Key="TaskbarVisualizerEnabledTitle">Ввімкнути візуалізатор на панелі завдань (Експериментальна функція)</system:String>
+    <system:String x:Key="TaskbarVisualizerEnabledDescription">Експериментальна функція: Ця функція працюватиме тільки при ввімкненому віджеті на панелі завдань</system:String>
+    <system:String x:Key="TaskbarVisualizerPositionTitle">Розташування візуалізатора відносно до віджету на панелі завдань</system:String>
+    <system:String x:Key="TaskbarVisualizerBarCountTitle">Кількість смуг</system:String>
+    <system:String x:Key="TaskbarVisualizerBarCountDescription">Кількість смуг візуалізатора</system:String>
+    <system:String x:Key="TaskbarVisualizerCenteredBarsTitle">Центрування смуг</system:String>
+    <system:String x:Key="TaskbarVisualizerCenteredBarsDescription">Смуги, що симетрично збільшуються з центру замість того, щоб рости знизу</system:String>
+    <system:String x:Key="TaskbarVisualizerBaselineDescription">Показує тонку лінію, коли рівень звуку дорівнює нулю</system:String>
+    <system:String x:Key="TaskbarVisualizerAudioSensitivityTitle">Чутливість звуку</system:String>
+    <system:String x:Key="TaskbarVisualizerAudioSensitivityDescription">Гучність звуку, при якій смуги починають рухатися</system:String>
+    <system:String x:Key="TaskbarVisualizerAudioPeakLevelTitle">Поріг максимальної гучності</system:String>
+    <system:String x:Key="TaskbarVisualizerAudioPeakLevelDescription">Потрібний рівень гучності, при якому смуги досягають максимальної висоти</system:String>
+    <system:String x:Key="TaskbarVisualizerOutputDeviceDescription">Змініть джерело звуку візуалізатора, обравши інший вихідний пристрій у FluentFlyout.</system:String>
+    <system:String x:Key="TaskbarVisualizerClickableTitle">Відкрити налаштування</system:String>
+    <system:String x:Key="TaskbarVisualizerClickableDescription">Натискання на візуалізатор вікдриває його сторінку його налаштувань</system:String>
+    <system:String x:Key="PremiumFeatureDescription" xml:space="preserve">Ваш разовий внесок допоможе мені підтримувати та оновлювати FluentFlyout. Він миттєво надає вам пожиттєвий доступ до усіх преміальних функцій.
+
+Примітка: Цей проєкт має відкритий код, тому ці фукції також доступні безкоштовно через ручну установку з GitHub. Єдина нюанс - оновлення та встановлення програми доведеться робити самостійно.</system:String>
+    <system:String x:Key="PremiumLockedMessage">Ця функція є преміальною</system:String>
+    <system:String x:Key="PremiumUnlockedMessage">Преміальні функції розблоковані. Дякую за вашу підтримку!</system:String>
+    <system:String x:Key="PremiumGitHubMessage">Преміальні функції розблоковані для версій з GitHub або зібраних самостійно</system:String>
+    <system:String x:Key="UnlockFullExperienceText">Відкрийте для себе повні можливості FluentFlyout:</system:String>
+    <system:String x:Key="AcrylicBlurOpacityPerk">Непрозорість акрилу</system:String>
+    <system:String x:Key="HideTrayIconPerk">Сховати іконку в треї</system:String>
+    <system:String x:Key="AllFuturePremiumFeatures">Всі майбутні Преміальні функції</system:String>
+    <system:String x:Key="NextUpDescription" xml:space="preserve">Спливаюче вікно, що буде показувати наступне медіа після завершення поточного. З'являється тільки при автоматичному переході, тобто не з'явиться якщо натиснути "Далі" або "Назад".</system:String>
+    <system:String x:Key="EnableNextUpTitle">Увімкнути спливаюче вікно "Далі" (Експериментальна функція)</system:String>
+    <system:String x:Key="DefaultLockLayoutPosition">За замовчуванням (Цільовий дисплей спливаючого вікна)</system:String>
+    <system:String x:Key="LaunchOnStartupTitle">Запускати разом з Windows</system:String>
+    <system:String x:Key="EasingLinear" xml:space="preserve"> Лінійний</system:String>
+    <system:String x:Key="EasingSine" xml:space="preserve"> Синусоїдальний</system:String>
+    <system:String x:Key="EasingQuadratic" xml:space="preserve"> Квадратичний</system:String>
+    <system:String x:Key="EasingCubic" xml:space="preserve"> Кубічний</system:String>
+    <system:String x:Key="TrayIcon_QuitOption">Закрити FluentFlyout</system:String>
+    <system:String x:Key="PixelsUnit">пікс.</system:String>
+    <system:String x:Key="UpdateAvailable">Доступне оновлення</system:String>
+    <system:String x:Key="UpToDate">Актуальна версія</system:String>
+    <system:String x:Key="LastChecked">Остання перевірка: {0}</system:String>
+    <system:String x:Key="CheckingForUpdates">Йде перевірка...</system:String>
+    <system:String x:Key="UpdateAvailableNotificationMessage">Нова ({0}) версія доступна.</system:String>
+    <system:String x:Key="UpdateAvailableNotificationButton">Встановити оновлення</system:String>
+    <system:String x:Key="ExportSettings">Експортувати налаштування</system:String>
+    <system:String x:Key="ExportFailed">Не вдалося експортувати</system:String>
+    <system:String x:Key="ImportSuccessful">Імпортувано успішно</system:String>
+    <system:String x:Key="ImportFailed">Не вдалося імпортувати</system:String>
+    <system:String x:Key="SettingsExportedSuccessfully">Налаштування успішно експортовані!</system:String>
+    <system:String x:Key="EnableNextUpDescription">Показує наступне медіа після закінчення поточного</system:String>
+    <system:String x:Key="NextUpStayDurationTitle">Тривалість спливаючого вікна</system:String>
+    <system:String x:Key="LockKeysDescription" xml:space="preserve">Швидкий перегляд стану клавіш фіксації. З'являється після натискання Caps Lock, Num Lock або Scroll Lock. Зручне рішення для ноутбуків та клавіатур без світлових індикаторів.</system:String>
+    <system:String x:Key="EnableLockKeysTitle">Увімкнути спливаючі вікна для клавіш фіксації</system:String>
+    <system:String x:Key="LockKeysCustomizationTitle">Клавіші фіксації</system:String>
+    <system:String x:Key="EnableLockKeysDescription">Відображає стан вибраної клавіші фіксації</system:String>
+    <system:String x:Key="LockKeysStayDurationTitle">Тривалість відображення</system:String>
+    <system:String x:Key="LockKeysBoldUITitle">Напівжирні шрифт та символи</system:String>
+    <system:String x:Key="LockKeysBoldUIDescription">Виділяє символи та шрифт в спливаючому вікні</system:String>
+    <system:String x:Key="LockKeysCursorUITitle">Бажаний цільовий дисплей</system:String>
+    <system:String x:Key="LockKeysCursorUIDescription" xml:space="preserve">Оберіть, на якому моніторі відображати спливаюче вікно.</system:String>
+    <system:String x:Key="MonitorWithFocusedWindow">Монітор з активним вікном</system:String>
+    <system:String x:Key="MonitorWithCursor">Монітор з курсором</system:String>
+    <system:String x:Key="EnableInsertKeyTitle">Увімкнути сповіщення для клавіші Insert</system:String>
+    <system:String x:Key="EnableInsertKeyDescription">Визначає, чи з'являтиметься вспливаюче вікно під час натискання клавіші Insert (вставлення/заміна)</system:String>
+    <system:String x:Key="LaunchOnStartupDescription">Запускати згорнутим у трей при вході в Windows</system:String>
+    <system:String x:Key="StartupAppsHyperlinkText">Програми, які автоматично запускаються під час входу</system:String>
+    <system:String x:Key="StartupAppsSettingsInfo">Якщо це налаштування не працює належним чином, перевірте</system:String>
+    <system:String x:Key="UseAlbumArtAccentColorTitle">Використовувати Обкладинку Альбому як акцентуючий колір</system:String>
+    <system:String x:Key="UseAlbumArtAccentColorDescription">Деякі елемнти інтерфейсу будуть використовувати колір обкладинки альбому замість системної теми</system:String>
+    <system:String x:Key="TrayIconLeftClickBehaviorTitle">Дія при натисканні лівою кнопкою на піктограму в треї</system:String>
+    <system:String x:Key="TrayIconLeftClickBehaviorDescription">Оберіть, що буде відбуваьтся при тнатисканні лівою кнопкою миші на піктограму в треї</system:String>
+    <system:String x:Key="Win11TrayIconTitle">Стиль піктограми Windows 11</system:String>
+    <system:String x:Key="Win11TrayIconDescription">Використовувати піктограму в треї в стилі Windows 11 (Перемкніть для оновлення)</system:String>
+    <system:String x:Key="HideTrayIconTitle">Повністю сховати піктограму в треї</system:String>
+    <system:String x:Key="HideTrayIconDescription">Для доступу до налаштувань відкрийте програму знову</system:String>
+    <system:String x:Key="AnimationSettingsDescription">Налаштуйте анімації на свій смак</system:String>
+    <system:String x:Key="AnimationDurationScaleTitle">Множник тривалості анімацій</system:String>
+    <system:String x:Key="AnimationDurationScaleDescription">Пришвидшення чи сповільнення анімації спливаючих вікон (за замовчуванням: 1х)</system:String>
+    <system:String x:Key="AnimationSpeedOff">Вимк.</system:String>
+    <system:String x:Key="AnimationEasingStyleTitle">Стиль плавності анімації</system:String>
+    <system:String x:Key="AnimationEasingStyleDescription">(за замовчуванням: Квадратичний)</system:String>
+    <system:String x:Key="NativeExperienceInfo">Для відповідності стилю Windows 11 рекомендуємо залишити ці налаштування за замовчуванням.</system:String>
+    <system:String x:Key="DisableOnFullscreenTitle">Вимкнути спливаючі вікна, якщо виявлено повноекранну програму DirectX</system:String>
+    <system:String x:Key="DisableOnFullscreenDescription">Запобігає згортанню ігор DirectX в режимі ексклюзивногов ікна, якщо з'являється спливаюче вікно</system:String>
+    <system:String x:Key="AcrylicBlurOpacityDescription">Налаштування ефекту прозорості на акрилових спливаючих вікнах (за замовчуванням: 175)</system:String>
+    <system:String x:Key="AcrylicBlurOpacityTitle">Непрозорість акрилового розмиття</system:String>
+    <system:String x:Key="HomeUpdateDescription">Що нового</system:String>
+    <system:String x:Key="TrayIconSectionTitle">Піктограма в треї</system:String>
+    <system:String x:Key="SystemConfigure">Налаштувати</system:String>
+    <system:String x:Key="AboutTitle">Про застосунок</system:String>
+    <system:String x:Key="AboutContributorsTitle">❤️ Познайомтеся з нашими авторами</system:String>
+    <system:String x:Key="AboutContributorsDescription">Величезна подяка всім дивовижним людям, які зробили свій внесок у розробку та успіх FluentFlyout!</system:String>
+    <system:String x:Key="AboutPremiumTitle">Про преміум</system:String>
+    <system:String x:Key="AboutOpenSourceLicensesTitle">Ліцензії з відкритим вихідним кодом</system:String>
+    <system:String x:Key="AboutOpenSourceLicensesDescription">FluentFlyout зібрано з таких пакетів з відкритим кодом:</system:String>
+    <system:String x:Key="EnjoyingAppText" xml:space="preserve">Подобається застосунок? Поставте йому зірку на GitHub,
+або залиште відгук в Microsoft Store!</system:String>
+    <system:String x:Key="AppLanguageDescription" xml:space="preserve">Якщо вашої мови немає у списку або вона не є повною, за замовчуванням буде використано англійську.
+Ви можете допомогти з перекладом на</system:String>
+    <system:String x:Key="UpdateToastTitle">FluentFlyout оновлено!</system:String>
+    <system:String x:Key="UpdateToastMessage">Поточна версія {0}.</system:String>
+    <system:String x:Key="UpdateToastButton">Перегянути оновлення</system:String>
+    <system:String x:Key="ShowUpdateNotificationsTitle">Сповіщати про нові оновлення</system:String>
+    <system:String x:Key="BackupRestoreCardTitle">Резервне копіювання та відновлення налаштувань</system:String>
+    <system:String x:Key="FailedToExportSettings">Не вдалося експортувати налаштування.Для детальної інформації перегляньте журнали.</system:String>
+    <system:String x:Key="SettingsImportedSuccessfully">Налаштування успішно імпортовані! Застосунок перезавантажиться, щоб застосувати зміни.</system:String>
+    <system:String x:Key="ImportSettingsWarning">Це замінить усі ваші поточні налаштування. Продовжити?</system:String>
+    <system:String x:Key="FailedToImportSettings">Не вдалося імпортувати налаштування. Для детальної інформації перевірте журнали.</system:String>
+    <system:String x:Key="LegacyTaskbarWidthTitle">Застаріла система ширини панелі завдань</system:String>
+    <system:String x:Key="LegacyTaskbarWidthDescription">Використовувати застарілу систему ширини панелі завдань для віджетів</system:String>
+    <system:String x:Key="TrayIconLeftClickOption2"> Показати спливаюче меню медіа</system:String>
 </ResourceDictionary>
