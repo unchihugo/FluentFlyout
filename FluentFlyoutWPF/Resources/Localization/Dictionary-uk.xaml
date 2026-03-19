@@ -88,4 +88,24 @@
     <system:String x:Key="AnimationSettingsTitle">Налаштування анімації</system:String>
     <system:String x:Key="NextUpStayDurationDescription">(за замовчуванням: 3000 мс)</system:String>
     <system:String x:Key="LockKeysStayDurationDescription">(за замовчуванням: 3000 мс)</system:String>
+    <system:String x:Key="SystemSettingsTitle">Система</system:String>
+    <system:String x:Key="HomeDashboardTitle">Інформаційна панель</system:String>
+    <system:String x:Key="AppearanceBehaviorSectionTitle">Зовнішній вигляд і поведінка</system:String>
+    <system:String x:Key="UpdatesSectionTitle">Оновлення</system:String>
+    <system:String x:Key="DevelopersTitle">Розробники</system:String>
+    <system:String x:Key="TranslatorsTitle">Перекладачі</system:String>
+    <system:String x:Key="GitHubRepoLink">GitHub Репозиторій</system:String>
+    <system:String x:Key="SponsorMeLink">Підтримати мене</system:String>
+    <system:String x:Key="BuyMeCoffeeLink">Пригостити мене кавою</system:String>
+    <system:String x:Key="CloseButton">Закрити</system:String>
+    <system:String x:Key="AppLanguageTitle">Мова застосунку</system:String>
+    <system:String x:Key="AppLanguageDescriptionLink">Weblate</system:String>
+    <system:String x:Key="TrayIcon_SettingsOption">Налаштування</system:String>
+    <system:String x:Key="TrayIcon_GitHubRepositoryOption">Репозиторій</system:String>
+    <system:String x:Key="TrayIcon_ViewLogsOption">Переглянути журнали</system:String>
+    <system:String x:Key="TrayIcon_ReportBugOption">Повідомити про помилку</system:String>
+    <system:String x:Key="UpdateAvailableNotificationTitle">Доступне оновлення!</system:String>
+    <system:String x:Key="BackupRestoreSectionTitle">Резервне копіювання та відновлення</system:String>
+    <system:String x:Key="ImportSettings">Імпортувати налаштування</system:String>
+    <system:String x:Key="ExportSuccessful">Успішно експортовано</system:String>
 </ResourceDictionary>
