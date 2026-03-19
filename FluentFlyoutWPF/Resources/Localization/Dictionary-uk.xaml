@@ -87,4 +87,5 @@
     <system:String x:Key="NextUpCustomizationTitle">Далі в черзі</system:String>
     <system:String x:Key="AnimationSettingsTitle">Налаштування анімації</system:String>
     <system:String x:Key="NextUpStayDurationDescription">(за замовчуванням: 3000 мс)</system:String>
+    <system:String x:Key="LockKeysStayDurationDescription">(за замовчуванням: 3000 мс)</system:String>
 </ResourceDictionary>
