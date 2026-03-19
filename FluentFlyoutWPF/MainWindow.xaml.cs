@@ -223,6 +223,30 @@ public partial class MainWindow : MicaWindow
                 if (result.IsUpdateAvailable)
                 {
                     Notifications.ShowUpdateAvailableNotification(result.NewestVersion, result.UpdateUrl);
+
+#if GITHUB_RELEASE
+                    // Auto-download update in background if enabled
+                    if (SettingsManager.Current.AutoUpdateEnabled)
+                    {
+                        _ = Task.Run(async () =>
+                        {
+                            try
+                            {
+                                var asset = await UpdateChecker.GetGitHubReleaseAssetAsync();
+                                if (asset != null)
+                                {
+                                    await AutoUpdater.DownloadUpdateAsync(
+                                        asset.DownloadUrl, asset.Size, asset.Name);
+                                    Logger.Info("Auto-update downloaded in background, ready to install");
+                                }
+                            }
+                            catch (Exception bgEx)
+                            {
+                                Logger.Error(bgEx, "Background auto-update download failed");
+                            }
+                        });
+                    }
+#endif
                 }
             }
         }
@@ -1301,6 +1325,21 @@ public partial class MainWindow : MicaWindow
 
             // dispose mutex
             singleton?.Dispose();
+
+#if GITHUB_RELEASE
+            // Clean up downloaded update files if not actively installing
+            try
+            {
+                if (!FluentFlyoutWPF.ViewModels.UpdateState.Current.IsInstalling)
+                {
+                    AutoUpdater.CleanupDownloadedFiles();
+                }
+            }
+            catch (Exception cleanupEx)
+            {
+                Logger.Warn(cleanupEx, "Failed to cleanup update files on exit");
+            }
+#endif
 
             // flush and close NLog
             NLog.LogManager.Shutdown();

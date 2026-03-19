@@ -71,8 +71,12 @@ public partial class HomePage : Page
 
         if (UpdateState.Current.IsUpdateAvailable)
         {
+#if GITHUB_RELEASE
+            await StartAutoUpdateAsync();
+#else
             string url = !string.IsNullOrEmpty(UpdateState.Current.UpdateUrl) ? UpdateState.Current.UpdateUrl : "https://fluentflyout.com/changelog/";
             UpdateChecker.OpenUpdateUrl(url);
+#endif
         }
         else
         {
@@ -208,5 +212,118 @@ public partial class HomePage : Page
         {
             Logger.Error(ex, "Failed to open bug report page");
         }
+    }
+
+#if GITHUB_RELEASE
+    private CancellationTokenSource? _downloadCts;
+
+    private async Task StartAutoUpdateAsync()
+    {
+        if (UpdateState.Current.IsDownloading || UpdateState.Current.IsInstalling)
+            return;
+
+        // If already downloaded, show install panel
+        if (!string.IsNullOrEmpty(UpdateState.Current.DownloadedBundlePath)
+            && File.Exists(UpdateState.Current.DownloadedBundlePath))
+        {
+            ShowInstallPanel();
+            return;
+        }
+
+        try
+        {
+            AutoUpdatePanel.Visibility = Visibility.Visible;
+            DownloadProgressPanel.Visibility = Visibility.Visible;
+            InstallPanel.Visibility = Visibility.Collapsed;
+            InstallingPanel.Visibility = Visibility.Collapsed;
+            UpdateErrorBar.IsOpen = false;
+
+            // Fetch the GitHub release asset info
+            DownloadStatusText.Text = Application.Current.FindResource("CheckingForUpdates")?.ToString() ?? "Checking...";
+            var asset = await UpdateChecker.GetGitHubReleaseAssetAsync();
+            if (asset == null)
+            {
+                ShowUpdateError("Could not find update package on GitHub.");
+                return;
+            }
+
+            DownloadStatusText.Text = Application.Current.FindResource("AutoUpdateDownloading")?.ToString() ?? "Downloading...";
+            _downloadCts = new CancellationTokenSource();
+
+            var progress = new Progress<double>(pct =>
+            {
+                DownloadProgressBar.Value = pct;
+                DownloadStatusText.Text = $"{Application.Current.FindResource("AutoUpdateDownloading")?.ToString() ?? "Downloading..."} {pct:F0}%";
+            });
+
+            var filePath = await AutoUpdater.DownloadUpdateAsync(
+                asset.DownloadUrl, asset.Size, asset.Name, progress, _downloadCts.Token);
+
+            if (filePath != null)
+            {
+                DownloadProgressPanel.Visibility = Visibility.Collapsed;
+                ShowInstallPanel();
+            }
+            else
+            {
+                ShowUpdateError(UpdateState.Current.UpdateError);
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger.Error(ex, "Auto-update failed");
+            ShowUpdateError($"Update failed: {ex.Message}");
+        }
+    }
+
+    private void ShowInstallPanel()
+    {
+        AutoUpdatePanel.Visibility = Visibility.Visible;
+        DownloadProgressPanel.Visibility = Visibility.Collapsed;
+        InstallPanel.Visibility = Visibility.Visible;
+        InstallingPanel.Visibility = Visibility.Collapsed;
+    }
+
+    private void ShowUpdateError(string message)
+    {
+        AutoUpdatePanel.Visibility = Visibility.Visible;
+        UpdateErrorBar.Title = message;
+        UpdateErrorBar.IsOpen = true;
+        DownloadProgressPanel.Visibility = Visibility.Collapsed;
+        InstallPanel.Visibility = Visibility.Collapsed;
+        InstallingPanel.Visibility = Visibility.Collapsed;
+    }
+
+#endif
+
+    // Event handler must exist unconditionally since XAML references it.
+    // The auto-update logic is only compiled for GitHub Release builds.
+    private async void InstallUpdate_Click(object sender, RoutedEventArgs e)
+    {
+#if GITHUB_RELEASE
+        var path = UpdateState.Current.DownloadedBundlePath;
+        if (string.IsNullOrEmpty(path) || !File.Exists(path))
+        {
+            ShowUpdateError("Update file not found. Please try again.");
+            UpdateState.Current.DownloadedBundlePath = string.Empty;
+            InstallPanel.Visibility = Visibility.Collapsed;
+            return;
+        }
+
+        InstallPanel.Visibility = Visibility.Collapsed;
+        InstallingPanel.Visibility = Visibility.Visible;
+        UpdateErrorBar.IsOpen = false;
+
+        var success = await AutoUpdater.InstallUpdateAsync(path);
+
+        if (!success)
+        {
+            InstallingPanel.Visibility = Visibility.Collapsed;
+            ShowUpdateError(UpdateState.Current.UpdateError);
+        }
+        // If successful, the app will be shut down by -ForceApplicationShutdown
+#else
+        await Task.CompletedTask;
+#endif
     }
 }
