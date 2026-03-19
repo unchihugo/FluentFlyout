@@ -125,10 +125,11 @@ public static class UpdateChecker
                 {
                     var downloadUrl = asset.GetProperty("browser_download_url").GetString() ?? string.Empty;
 
-                    // Security: enforce HTTPS
-                    if (!downloadUrl.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
+                    // Security: enforce download originates from the pinned GitHub repository
+                    const string allowedPrefix = "https://github.com/unchihugo/FluentFlyout/releases/download/";
+                    if (!downloadUrl.StartsWith(allowedPrefix, StringComparison.OrdinalIgnoreCase))
                     {
-                        Logger.Warn("Rejected non-HTTPS download URL: {Url}", downloadUrl);
+                        Logger.Warn("Rejected download URL outside pinned repository: {Url}", downloadUrl);
                         return null;
                     }
 

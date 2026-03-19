@@ -10,17 +10,40 @@ using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Net.Http;
+using System.Security.Cryptography.X509Certificates;
 
 namespace FluentFlyout.Classes;
 
 /// <summary>
 /// Handles downloading and installing MSIX updates from GitHub Releases.
 /// Only compiled for GitHub Release builds.
+///
+/// Trust model (defense in depth, each layer independent):
+///   1. Source pinning — downloads only accepted from the pinned GitHub repository URL
+///      prefix (GitHub HTTPS/TLS provides source authenticity).
+///   2. Authenticode verification — package must carry a valid Authenticode signature;
+///      HashMismatch and NotSigned statuses are rejected outright.
+///   3. Publisher identity — signer certificate subject must equal the expected CN.
+///   4. Certificate cross-verification — before installing the .cer from the ZIP, its
+///      thumbprint is compared against the .msixbundle's signer thumbprint. This breaks
+///      circular trust: an attacker who injects a different .cer into the ZIP cannot get
+///      it installed because it won't match the bundle's embedded signer.
+///   5. User consent — certificate installation triggers a UAC elevation prompt.
+///   6. OS enforcement — Windows Add-AppxPackage rejects updates whose publisher
+///      doesn't match the currently installed package.
 /// </summary>
 public static class AutoUpdater
 {
     private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
     private static readonly HttpClient HttpClient = new() { Timeout = TimeSpan.FromMinutes(10) };
+
+    /// <summary>
+    /// Pinned download URL prefix. Only downloads from this GitHub repository are accepted.
+    /// This is the first trust layer — it ensures the artifact originates from the
+    /// authenticated GitHub Release infrastructure for this specific repository.
+    /// </summary>
+    private const string AllowedDownloadUrlPrefix =
+        "https://github.com/unchihugo/FluentFlyout/releases/download/";
 
     /// <summary>
     /// The expected MSIX publisher identity (CN from the signing certificate subject).
@@ -32,9 +55,21 @@ public static class AutoUpdater
     private static bool _isRunning;
 
     /// <summary>
+    /// Internal result from Authenticode signature verification.
+    /// Carries the signer thumbprint for cross-verification against the .cer file.
+    /// </summary>
+    private class SignatureVerificationResult
+    {
+        public bool IsValid { get; init; }
+        public string SignerThumbprint { get; init; } = string.Empty;
+        public string Status { get; init; } = string.Empty;
+        public string Subject { get; init; } = string.Empty;
+    }
+
+    /// <summary>
     /// Downloads the installer ZIP from the given URL, extracts the .msixbundle and .cer, and returns the bundle path.
     /// </summary>
-    /// <param name="downloadUrl">The HTTPS URL to download from (must be HTTPS)</param>
+    /// <param name="downloadUrl">The HTTPS URL to download from (must match pinned GitHub repository prefix)</param>
     /// <param name="expectedSize">Expected file size in bytes from the GitHub API</param>
     /// <param name="fileName">The asset filename from the GitHub API</param>
     /// <param name="progress">Optional progress reporter (0-100)</param>
@@ -55,11 +90,11 @@ public static class AutoUpdater
 
         try
         {
-            // Security: enforce HTTPS
-            if (!downloadUrl.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
+            // Trust layer 1: verify download originates from the pinned GitHub repository
+            if (!downloadUrl.StartsWith(AllowedDownloadUrlPrefix, StringComparison.OrdinalIgnoreCase))
             {
-                Logger.Error("Rejected non-HTTPS download URL");
-                UpdateState.Current.UpdateError = "Download URL must use HTTPS";
+                Logger.Error("Download URL does not match pinned repository: {Url}", downloadUrl);
+                UpdateState.Current.UpdateError = "Download rejected: URL does not match expected source";
                 return null;
             }
 
@@ -161,6 +196,18 @@ public static class AutoUpdater
             UpdateState.Current.UpdateError = "Download cancelled";
             return null;
         }
+        catch (HttpRequestException ex)
+        {
+            Logger.Error(ex, "Network error downloading update");
+            UpdateState.Current.UpdateError = "Download failed due to a network error. Please check your internet connection and try again.";
+            return null;
+        }
+        catch (InvalidDataException ex)
+        {
+            Logger.Error(ex, "Downloaded file is corrupted");
+            UpdateState.Current.UpdateError = "Downloaded file is corrupted. Please try again.";
+            return null;
+        }
         catch (Exception ex)
         {
             Logger.Error(ex, "Failed to download update");
@@ -236,13 +283,28 @@ public static class AutoUpdater
 
     /// <summary>
     /// Verifies that the downloaded MSIX bundle is signed by the expected publisher.
-    /// Checks that the package is signed, the signature is not tampered with, and the
-    /// publisher CN matches the expected value.
+    /// Public convenience method — returns true/false only.
     /// </summary>
-    /// <param name="filePath">Path to the .msixbundle file</param>
-    /// <returns>True if the signature is valid and matches the expected publisher</returns>
     public static async Task<bool> VerifyPackageSignatureAsync(string filePath)
     {
+        var result = await VerifySignatureAsync(filePath);
+        return result.IsValid;
+    }
+
+    /// <summary>
+    /// Verifies the Authenticode signature on the MSIX bundle and returns detailed results
+    /// including the signer thumbprint (needed for cross-verification with the .cer file).
+    ///
+    /// Trust layers applied:
+    ///   - Rejects HashMismatch (tampered) and NotSigned (unsigned) statuses.
+    ///   - Accepts Valid (cert trusted) and UnknownError (cert not yet in trust store,
+    ///     normal for new releases before certificate installation).
+    ///   - Verifies the signer certificate subject matches the expected publisher CN.
+    /// </summary>
+    private static async Task<SignatureVerificationResult> VerifySignatureAsync(string filePath)
+    {
+        var fail = new SignatureVerificationResult { IsValid = false };
+
         try
         {
             return await Task.Run(() =>
@@ -254,26 +316,20 @@ public static class AutoUpdater
                     && !fullPath.Equals(expectedDir, StringComparison.OrdinalIgnoreCase))
                 {
                     Logger.Error("File path outside expected directory: {Path}", fullPath);
-                    return false;
+                    return fail;
                 }
 
                 if (!File.Exists(fullPath))
                 {
                     Logger.Error("File not found for signature verification: {Path}", fullPath);
-                    return false;
+                    return fail;
                 }
 
-                // Use PowerShell Get-AuthenticodeSignature to verify the package signature.
-                // We check Status and SignerCertificate.Subject (publisher CN).
-                // Status can be "Valid" (cert is trusted) or "UnknownError" (cert not yet in
-                // trusted store, which is normal before cert installation). Both are acceptable
-                // as long as the publisher CN matches. "HashMismatch" or "NotSigned" indicate
-                // tampering or missing signature and are always rejected.
                 var escapedPath = fullPath.Replace("'", "''");
                 var psi = new ProcessStartInfo
                 {
                     FileName = "powershell.exe",
-                    Arguments = $"-NoProfile -Command \"$sig = Get-AuthenticodeSignature -LiteralPath '{escapedPath}'; Write-Output $sig.Status; Write-Output $sig.SignerCertificate.Subject\"",
+                    Arguments = $"-NoProfile -Command \"$sig = Get-AuthenticodeSignature -LiteralPath '{escapedPath}'; Write-Output $sig.Status; Write-Output $sig.SignerCertificate.Subject; Write-Output $sig.SignerCertificate.Thumbprint\"",
                     UseShellExecute = false,
                     RedirectStandardOutput = true,
                     RedirectStandardError = true,
@@ -284,13 +340,12 @@ public static class AutoUpdater
                 if (process == null)
                 {
                     Logger.Error("Failed to start PowerShell for signature verification");
-                    return false;
+                    return fail;
                 }
 
-                // Read stdout and stderr fully before WaitForExit to avoid deadlocks
                 var output = process.StandardOutput.ReadToEnd().Trim();
                 var stderr = process.StandardError.ReadToEnd();
-                process.WaitForExit(30000); // 30 second timeout
+                process.WaitForExit(30000);
 
                 if (!string.IsNullOrEmpty(stderr))
                 {
@@ -298,46 +353,88 @@ public static class AutoUpdater
                 }
 
                 var lines = output.Split(['\r', '\n'], StringSplitOptions.RemoveEmptyEntries);
-                if (lines.Length < 2)
+                if (lines.Length < 3)
                 {
-                    Logger.Error("No digital signature found on package");
-                    return false;
+                    Logger.Error("Incomplete signature data from package (got {Count} fields, expected 3)", lines.Length);
+                    return fail;
                 }
 
                 var status = lines[0].Trim();
                 var subject = lines[1].Trim();
+                var thumbprint = lines[2].Trim();
 
-                // Reject signatures that indicate tampering or missing signature
+                // Trust layer 2: reject signatures indicating tampering or absence
                 if (status.Equals("HashMismatch", StringComparison.OrdinalIgnoreCase) ||
                     status.Equals("NotSigned", StringComparison.OrdinalIgnoreCase))
                 {
                     Logger.Error("Package signature indicates tampering or is missing: {Status}", status);
-                    return false;
+                    return fail;
                 }
 
-                // Accept "Valid" (cert trusted) or "UnknownError" (cert not yet installed, normal for new releases)
+                // Accept "Valid" (cert trusted) or "UnknownError" (cert not yet installed)
                 if (!status.Equals("Valid", StringComparison.OrdinalIgnoreCase) &&
                     !status.Equals("UnknownError", StringComparison.OrdinalIgnoreCase))
                 {
                     Logger.Error("Unexpected package signature status: {Status}", status);
-                    return false;
+                    return fail;
                 }
 
-                // Verify the publisher CN matches the expected value
+                // Trust layer 3: verify the publisher identity
                 if (!subject.Equals(ExpectedPublisher, StringComparison.OrdinalIgnoreCase))
                 {
                     Logger.Error("Package publisher mismatch: expected '{Expected}', got '{Actual}'",
                         ExpectedPublisher, subject);
-                    return false;
+                    return fail;
                 }
 
-                Logger.Info("Package signature verified: status={Status}, publisher={Publisher}", status, subject);
-                return true;
+                Logger.Info("Package signature verified: status={Status}, publisher={Publisher}, thumbprint={Thumbprint}",
+                    status, subject, thumbprint);
+
+                return new SignatureVerificationResult
+                {
+                    IsValid = true,
+                    SignerThumbprint = thumbprint,
+                    Status = status,
+                    Subject = subject
+                };
             });
         }
         catch (Exception ex)
         {
             Logger.Error(ex, "Failed to verify package signature");
+            return fail;
+        }
+    }
+
+    /// <summary>
+    /// Trust layer 4: cross-verifies that the .cer file's thumbprint matches the .msixbundle's
+    /// signer thumbprint. This prevents an attacker from injecting a different certificate into
+    /// the ZIP — even if the attacker's cert has the same CN, its thumbprint will not match the
+    /// one embedded in the bundle's Authenticode signature.
+    /// </summary>
+    /// <param name="certPath">Path to the .cer file extracted from the ZIP</param>
+    /// <param name="signerThumbprint">Thumbprint from the .msixbundle's Authenticode signer</param>
+    /// <returns>True if the .cer matches the bundle signer</returns>
+    private static bool VerifyCertMatchesSigner(string certPath, string signerThumbprint)
+    {
+        try
+        {
+            using var cert = new X509Certificate2(certPath);
+
+            if (cert.Thumbprint.Equals(signerThumbprint, StringComparison.OrdinalIgnoreCase))
+            {
+                Logger.Info("Certificate cross-verification passed: .cer thumbprint matches bundle signer");
+                return true;
+            }
+
+            Logger.Error(
+                "Certificate cross-verification FAILED: .cer thumbprint {CertThumbprint} does not match bundle signer {SignerThumbprint}",
+                cert.Thumbprint, signerThumbprint);
+            return false;
+        }
+        catch (Exception ex)
+        {
+            Logger.Error(ex, "Failed to read certificate for cross-verification");
             return false;
         }
     }
@@ -346,8 +443,6 @@ public static class AutoUpdater
     /// Installs the signing certificate to the TrustedPeople store using certutil.
     /// This requires elevation (UAC prompt will appear).
     /// </summary>
-    /// <param name="certPath">Path to the .cer file</param>
-    /// <returns>True if the certificate was installed successfully</returns>
     private static async Task<bool> InstallCertificateAsync(string certPath)
     {
         try
@@ -399,11 +494,16 @@ public static class AutoUpdater
 
     /// <summary>
     /// Installs the downloaded .msixbundle using Add-AppxPackage.
-    /// If a .cer file exists alongside the bundle, it will be installed first (triggers UAC).
-    /// This will close the running app via -ForceApplicationShutdown.
+    /// Applies the full trust verification chain before installation:
+    ///   1. Authenticode signature check (status + publisher CN)
+    ///   2. Cross-verify .cer against bundle signer (if .cer present)
+    ///   3. Install certificate with UAC elevation (if .cer present)
+    ///   4. Save settings before app shutdown
+    ///   5. Add-AppxPackage -ForceApplicationShutdown
+    ///
+    /// On any failure, sets UpdateState.Current.UpdateError with an actionable message
+    /// and returns false. The app remains in a usable state and the user can retry.
     /// </summary>
-    /// <param name="filePath">Path to the .msixbundle file</param>
-    /// <returns>True if the installation was started successfully</returns>
     public static async Task<bool> InstallUpdateAsync(string filePath)
     {
         try
@@ -422,28 +522,39 @@ public static class AutoUpdater
             if (!File.Exists(fullPath))
             {
                 Logger.Error("File not found for installation: {Path}", fullPath);
-                UpdateState.Current.UpdateError = "Update file not found";
+                UpdateState.Current.UpdateError = "Update file not found. Please try downloading the update again.";
                 return false;
             }
 
-            // Verify signature before installing
-            if (!await VerifyPackageSignatureAsync(fullPath))
+            // Trust layers 2-3: verify Authenticode signature and publisher identity
+            var sigResult = await VerifySignatureAsync(fullPath);
+            if (!sigResult.IsValid)
             {
-                UpdateState.Current.UpdateError = "Package signature verification failed. The update will not be installed.";
+                UpdateState.Current.UpdateError = "Package signature verification failed. The update may be corrupted or tampered with.";
                 return false;
             }
 
             UpdateState.Current.IsInstalling = true;
             UpdateState.Current.UpdateError = string.Empty;
 
-            // Install the signing certificate if present (triggers UAC prompt).
-            // The certificate changes each release, so the new one must be trusted before Add-AppxPackage.
+            // Install the signing certificate if present
             var certPath = Directory.GetFiles(expectedDir, "*.cer").FirstOrDefault();
             if (certPath != null)
             {
+                // Trust layer 4: cross-verify .cer matches the bundle's signer
+                if (!VerifyCertMatchesSigner(certPath, sigResult.SignerThumbprint))
+                {
+                    UpdateState.Current.UpdateError = "Certificate does not match the package signer. The update will not be installed.";
+                    return false;
+                }
+
+                // Trust layer 5: install cert (UAC prompt gives user the final say)
                 if (!await InstallCertificateAsync(certPath))
                 {
-                    UpdateState.Current.UpdateError = "Failed to install signing certificate. The update requires administrator approval.";
+                    UpdateState.Current.UpdateError =
+                        "Certificate installation was denied or failed. " +
+                        "Administrator approval is required to install the update. " +
+                        "Please click Install Update and accept the prompt to continue.";
                     return false;
                 }
             }
@@ -460,12 +571,11 @@ public static class AutoUpdater
             }
             catch (Exception ex)
             {
-                Logger.Warn(ex, "Failed to save settings before update installation");
+                Logger.Warn(ex, "Failed to save settings before update — settings may need to be reconfigured");
             }
 
             Logger.Info("Starting MSIX installation: {Path}", fullPath);
 
-            // Escape the path for PowerShell single-quoted string
             var escapedPath = fullPath.Replace("'", "''");
 
             var psi = new ProcessStartInfo
@@ -482,7 +592,7 @@ public static class AutoUpdater
             if (process == null)
             {
                 Logger.Error("Failed to start PowerShell process for installation");
-                UpdateState.Current.UpdateError = "Failed to start installer";
+                UpdateState.Current.UpdateError = "Failed to start installer. Please try again.";
                 return false;
             }
 
@@ -499,7 +609,8 @@ public static class AutoUpdater
             {
                 Logger.Error("MSIX installation failed (exit code {Code}): {Error}",
                     process.ExitCode, stderr);
-                UpdateState.Current.UpdateError = $"Installation failed: {stderr}";
+                UpdateState.Current.UpdateError =
+                    "Installation failed. You can retry, or download the update manually from the GitHub Releases page.";
                 return false;
             }
 
