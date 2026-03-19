@@ -256,9 +256,10 @@ public static partial class NativeMethods
     [LibraryImport("user32.dll")]
     internal static partial uint GetDpiForWindow(IntPtr hMonitor);
 
-    [LibraryImport("user32.dll", SetLastError = true)]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    internal static partial bool SetWindowPos(IntPtr hWnd, int hWndInsertAfter, int x, int y, int cx, int cy, uint uFlags);
+    // DllImport instead of LibraryImport for SetWindowPos because for some reason it functions differently when using LibraryImport,
+    // causing windows to not be topmost and it to be hidden unless you focus on the taskbar.
+    [DllImport("user32.dll", SetLastError = true)]
+    internal static extern bool SetWindowPos(IntPtr hWnd, int hWndInsertAfter, int x, int y, int cx, int cy, uint uFlags);
 
     [LibraryImport("user32.dll")]
     [return: MarshalAs(UnmanagedType.Bool)]
