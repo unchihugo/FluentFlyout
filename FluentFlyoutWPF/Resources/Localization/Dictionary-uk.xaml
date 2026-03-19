@@ -227,4 +227,6 @@
     <system:String x:Key="LegacyTaskbarWidthTitle">Застаріла система ширини панелі завдань</system:String>
     <system:String x:Key="LegacyTaskbarWidthDescription">Використовувати застарілу систему ширини панелі завдань для віджетів</system:String>
     <system:String x:Key="TrayIconLeftClickOption2"> Показати спливаюче меню медіа</system:String>
+    <system:String x:Key="AdvancedSettingsTitle">Розширені налаштування</system:String>
+    <system:String x:Key="NextUpWindow_UpNextText">Далі:</system:String>
 </ResourceDictionary>
