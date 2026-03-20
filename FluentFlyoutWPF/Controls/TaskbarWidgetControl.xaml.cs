@@ -86,6 +86,20 @@ public partial class TaskbarWidgetControl : UserControl
         }
     }
 
+    public void SetVerticalMode(bool isVertical)
+    {
+        var counterRotate = isVertical ? new RotateTransform(-90) : null;
+
+        SongImageBorder.RenderTransformOrigin = new System.Windows.Point(0.5, 0.5);
+        SongImageBorder.RenderTransform = (Transform?)counterRotate ?? Transform.Identity;
+
+        foreach (var button in new Wpf.Ui.Controls.Button[] { PreviousButton, PlayPauseButton, NextButton })
+        {
+            button.RenderTransformOrigin = new System.Windows.Point(0.5, 0.5);
+            button.RenderTransform = (Transform?)counterRotate ?? Transform.Identity;
+        }
+    }
+
     public void SetMainWindow(MainWindow mainWindow)
     {
         _mainWindow = mainWindow;

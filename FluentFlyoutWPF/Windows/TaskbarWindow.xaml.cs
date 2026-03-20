@@ -433,6 +433,7 @@ public partial class TaskbarWindow : Window
             // Rotate widget 90 degrees for vertical taskbar
             Widget.LayoutTransform = new System.Windows.Media.RotateTransform(90);
             Widget.RenderTransform = System.Windows.Media.Transform.Identity;
+            Widget.SetVerticalMode(true);
 
             widgetLeft = (taskbarWidth - physicalHeight) / 2;
 
@@ -503,6 +504,7 @@ public partial class TaskbarWindow : Window
         }
         // Reset rotation for horizontal taskbar
         Widget.LayoutTransform = null;
+        Widget.SetVerticalMode(false);
         switch (SettingsManager.Current.TaskbarWidgetPosition)
         {
             case 0: // left aligned with some padding (like native widgets)
