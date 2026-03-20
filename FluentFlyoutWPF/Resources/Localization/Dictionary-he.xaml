@@ -218,4 +218,15 @@
     <system:String x:Key="LegacyTaskbarWidthTitle">רוחב שורת המשימות הקלאסי (Legacy)</system:String>
     <system:String x:Key="LegacyTaskbarWidthDescription">השתמש ברוחב שורת המשימות הקלאסי (Legacy) עבור ווידג'טים בשורת המשימות</system:String>
     <system:String x:Key="TaskbarWidgetCustomizationPerk">ווידג'ט שורת המשימות וויזואליזר</system:String>
+    <system:String x:Key="TaskbarVisualizerBaselineTitle">הצג קו ייחוס</system:String>
+    <system:String x:Key="AcrylicBlurOpacityPerk">אטימות טשטוש אקרילית</system:String>
+    <system:String x:Key="UpdatesSectionTitle">עדכונים</system:String>
+    <system:String x:Key="DevelopersTitle">מפתחים</system:String>
+    <system:String x:Key="TranslatorsTitle">מתרגמים</system:String>
+    <system:String x:Key="BackupRestoreSectionTitle">גיבוי ושחזור</system:String>
+    <system:String x:Key="ExportSettings">ייצא הגדרות</system:String>
+    <system:String x:Key="ExportSuccessful">הייצוא הצליח</system:String>
+    <system:String x:Key="ExportFailed">הייצוא נכשל</system:String>
+    <system:String x:Key="ImportSuccessful">הייבוא הצליח</system:String>
+    <system:String x:Key="AdvancedSettingsTitle">הגדרות מתקדמות</system:String>
 </ResourceDictionary>
