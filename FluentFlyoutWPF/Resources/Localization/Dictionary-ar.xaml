@@ -121,7 +121,7 @@
     <system:String x:Key="TaskbarWidgetManualPaddingTitle">تباعد مخصص</system:String>
     <system:String x:Key="TaskbarWidgetManualPaddingDescription">أضف تباعد زائد (الإفتراضي: 0 بيكسل)</system:String>
     <system:String x:Key="TaskbarWidgetClickableTitle">إضغط لفتح أداة التحكم عند وجود وسائط</system:String>
-    <system:String x:Key="TaskbarWidgetClickableDescription">إن كانت أداة التحكم مفعلة، ستظهر عند الضغط على علامة شريط المهام</system:String>
+    <system:String x:Key="TaskbarWidgetClickableDescription">الضغط على أداة شريط المهام سيفتح نافذة الوسائط</system:String>
     <system:String x:Key="TaskbarWidgetBackgroundBlurTitle">ضباب خلفية</system:String>
     <system:String x:Key="TaskbarWidgetBackgroundBlurDescription">أضف تأثير ضباب لخلفية أداة شريط المهام</system:String>
     <system:String x:Key="TaskbarWidgetHideCompletelyTitle">إخفِ بشكل تام عند عدم وجود وسائط</system:String>
