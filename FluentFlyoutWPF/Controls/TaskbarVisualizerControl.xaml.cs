@@ -1,11 +1,11 @@
-// Copyright © 2024-2026 The FluentFlyout Authors
+// Copyright ï¿½ 2024-2026 The FluentFlyout Authors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 using FluentFlyout.Classes.Settings;
 using FluentFlyoutWPF;
 using FluentFlyoutWPF.Classes;
 using MicaWPF.Core.Enums;
-using MicaWPF.Core.Helpers;
+using MicaWPF.Core.Services;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -77,7 +77,7 @@ public partial class TaskbarVisualizerControl : UserControl
 
         SolidColorBrush targetBackgroundBrush;
         // hover effects with animations, hard-coded colors because I can't find the resource brushes
-        if (WindowsThemeHelper.GetCurrentWindowsTheme() == WindowsTheme.Dark)
+        if (MicaWPFServiceUtility.ThemeService.CurrentTheme == WindowsTheme.Dark)
         { // dark mode
             targetBackgroundBrush = new SolidColorBrush(Color.FromArgb(197, 255, 255, 255)) { Opacity = 0.075 };
             TopBorder.BorderBrush = new SolidColorBrush(Color.FromArgb(93, 255, 255, 255)) { Opacity = 0.25 };
