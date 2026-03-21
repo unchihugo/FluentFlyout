@@ -182,5 +182,12 @@
     <system:String x:Key="PositionRight">靠右</system:String>
     <system:String x:Key="TaskbarVisualizerBaselineTitle">顯示基線值</system:String>
     <system:String x:Key="TaskbarVisualizerOutputDeviceTitle">輸出裝置</system:String>
-    <system:String x:Key="TaskbarWidgetCustomizationPerk">工作列小工具</system:String>
+    <system:String x:Key="TaskbarWidgetCustomizationPerk">工作列小工具與視覺化工具</system:String>
+    <system:String x:Key="TaskbarVisualizerEnabledDescription">實驗性功能：此功能只會生效當工作列小工具已啟用</system:String>
+    <system:String x:Key="TaskbarVisualizerBarCountDescription">視覺化長條數量</system:String>
+    <system:String x:Key="TaskbarVisualizerCenteredBarsTitle">視覺化長條居中</system:String>
+    <system:String x:Key="TaskbarVisualizerCenteredBarsDescription">視覺化長條從中心水平對稱擴大，而非從底部上升</system:String>
+    <system:String x:Key="TaskbarVisualizerClickableTitle">點擊開啟設定</system:String>
+    <system:String x:Key="TaskbarVisualizerClickableDescription">點擊視覺化工具以開啟設定</system:String>
+    <system:String x:Key="UnlockFullExperienceText">解鎖完整 FluentFlyout 體驗：</system:String>
 </ResourceDictionary>
