@@ -117,7 +117,7 @@ public partial class TaskbarWidgetControl : UserControl
 
     private void Grid_MouseEnter(object sender, MouseEventArgs e)
     {
-        if (!SettingsManager.Current.TaskbarWidgetClickable || String.IsNullOrEmpty(SongTitle.Text + SongArtist.Text)) return;
+        if (string.IsNullOrEmpty(SongTitle.Text + SongArtist.Text)) return;
 
         SolidColorBrush targetBackgroundBrush;
         // hover effects with animations, hard-coded colors because I can't find the resource brushes
@@ -160,7 +160,7 @@ public partial class TaskbarWidgetControl : UserControl
 
     private void Grid_MouseLeave(object sender, MouseEventArgs e)
     {
-        if (!SettingsManager.Current.TaskbarWidgetClickable || String.IsNullOrEmpty(SongTitle.Text + SongArtist.Text)) return;
+        if (string.IsNullOrEmpty(SongTitle.Text + SongArtist.Text)) return;
 
         // Animate back to transparent
         var backgroundAnimation = new ColorAnimation
@@ -185,10 +185,10 @@ public partial class TaskbarWidgetControl : UserControl
 
     private void Grid_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
     {
-        if (!SettingsManager.Current.TaskbarWidgetClickable || _mainWindow == null) return;
+        if (_mainWindow == null) return;
 
-        // toggle main flyout when clicked if toggle mode is enabled, otherwise just open
-        _mainWindow.ShowMediaFlyout(toggleMode: SettingsManager.Current.TaskbarWidgetCloseableFlyout, forceShow: true);
+        // toggle main flyout when clicked
+        _mainWindow.ShowMediaFlyout(toggleMode: true, forceShow: true);
     }
 
     public (double logicalWidth, double logicalHeight) CalculateSize(double dpiScale)
@@ -302,13 +302,13 @@ public partial class TaskbarWidgetControl : UserControl
                 }
             }
 
-            SongTitle.Text = !String.IsNullOrEmpty(title) ? title : "-";
-            SongArtist.Text = !String.IsNullOrEmpty(artist) ? artist : "-";
+            SongTitle.Text = !string.IsNullOrEmpty(title) ? title : "-";
+            SongArtist.Text = !string.IsNullOrEmpty(artist) ? artist : "-";
 
             // Update tooltip with song info
             SongInfoStackPanel.ToolTip = string.Empty;
-            SongInfoStackPanel.ToolTip += !String.IsNullOrEmpty(title) ? title : string.Empty;
-            SongInfoStackPanel.ToolTip += !String.IsNullOrEmpty(artist) ? "\n\n" + artist : string.Empty;
+            SongInfoStackPanel.ToolTip += !string.IsNullOrEmpty(title) ? title : string.Empty;
+            SongInfoStackPanel.ToolTip += !string.IsNullOrEmpty(artist) ? "\n\n" + artist : string.Empty;
 
             if (SettingsManager.Current.TaskbarWidgetControlsEnabled)
             {
@@ -347,7 +347,7 @@ public partial class TaskbarWidgetControl : UserControl
             }
 
             SongTitle.Visibility = Visibility.Visible;
-            SongArtist.Visibility = !String.IsNullOrEmpty(artist) ? Visibility.Visible : Visibility.Collapsed; // hide artist if it's not available
+            SongArtist.Visibility = !string.IsNullOrEmpty(artist) ? Visibility.Visible : Visibility.Collapsed; // hide artist if it's not available
             SongInfoStackPanel.Visibility = Visibility.Visible;
             BackgroundImage.Visibility = SettingsManager.Current.TaskbarWidgetBackgroundBlur ? Visibility.Visible : Visibility.Collapsed;
 
