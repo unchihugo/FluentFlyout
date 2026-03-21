@@ -5,7 +5,7 @@ using FluentFlyout.Classes.Settings;
 using FluentFlyout.Classes.Utils;
 using FluentFlyoutWPF;
 using MicaWPF.Core.Enums;
-using MicaWPF.Core.Helpers;
+using MicaWPF.Core.Services;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -93,10 +93,11 @@ public partial class TaskbarWidgetControl : UserControl
 
     public void ApplyWindowsTheme()
     {
-        bool isDark = WindowsThemeHelper.GetCurrentWindowsTheme() == WindowsTheme.Dark;
+        bool isDark = MicaWPFServiceUtility.ThemeService.CurrentTheme == WindowsTheme.Dark;
         var foreground = new SolidColorBrush(isDark
             ? Color.FromArgb(0xFF, 0xFF, 0xFF, 0xFF)
             : Color.FromArgb(0xE4, 0x1C, 0x1C, 0x1C));
+
         SongTitle.Foreground = foreground;
         SongArtist.Foreground = foreground;
     }
@@ -107,7 +108,7 @@ public partial class TaskbarWidgetControl : UserControl
 
         SolidColorBrush targetBackgroundBrush;
         // hover effects with animations, hard-coded colors because I can't find the resource brushes
-        if (WindowsThemeHelper.GetCurrentWindowsTheme() == WindowsTheme.Dark)
+        if (MicaWPFServiceUtility.ThemeService.CurrentTheme == WindowsTheme.Dark)
         { // dark mode
             targetBackgroundBrush = new SolidColorBrush(Color.FromArgb(197, 255, 255, 255)) { Opacity = 0.075 };
             TopBorder.BorderBrush = new SolidColorBrush(Color.FromArgb(93, 255, 255, 255)) { Opacity = 0.25 };
