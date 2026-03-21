@@ -1,4 +1,4 @@
-﻿// Copyright © 2024-2026 The FluentFlyout Authors
+// Copyright © 2024-2026 The FluentFlyout Authors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 using FluentFlyout.Classes.Settings;
@@ -6,6 +6,8 @@ using FluentFlyout.Classes.Utils;
 using NAudio.CoreAudioApi;
 using NAudio.Dsp;
 using NAudio.Wave;
+using Microsoft.Win32;
+using System.Threading;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -22,6 +24,7 @@ namespace FluentFlyoutWPF.Classes
         private readonly int BarSpacing = 2 * 3;
 
         private WasapiLoopbackCapture? _capture;
+        private MMDevice? _renderDevice;
         private static float[]? _barValues;
         private WriteableBitmap? _bitmap;
         private bool _isRunning;
@@ -35,6 +38,8 @@ namespace FluentFlyoutWPF.Classes
         private DateTime _lastUpdateTime = DateTime.MinValue;
 
         private System.Timers.Timer? _captureWatchdog;
+        private DateTime _lastDataAvailableUtc = DateTime.MinValue;
+        private int _restartInProgress; // 0=false, 1=true (Interlocked)
 
         public WriteableBitmap? Bitmap
         {
@@ -55,6 +60,58 @@ namespace FluentFlyoutWPF.Classes
 
             ResizeBarList(SettingsManager.Current.TaskbarVisualizerBarCount);
             AudioDeviceMonitor.Instance.DefaultDeviceChanged += OnDefaultDeviceChanged;
+            TryRegisterSystemEvents();
+        }
+
+        private void TryRegisterSystemEvents()
+        {
+            try
+            {
+                SystemEvents.SessionSwitch += OnSessionSwitch;
+                SystemEvents.PowerModeChanged += OnPowerModeChanged;
+            }
+            catch (Exception ex)
+            {
+                // On some environments (e.g. non-interactive sessions), SystemEvents may not be available.
+                Logger.Warn(ex, "Failed to register SystemEvents handlers for visualizer auto-restart");
+            }
+        }
+
+        private void TryUnregisterSystemEvents()
+        {
+            try
+            {
+                SystemEvents.SessionSwitch -= OnSessionSwitch;
+                SystemEvents.PowerModeChanged -= OnPowerModeChanged;
+            }
+            catch (Exception ex)
+            {
+                Logger.Warn(ex, "Failed to unregister SystemEvents handlers for visualizer auto-restart");
+            }
+        }
+
+        private void OnSessionSwitch(object sender, SessionSwitchEventArgs e)
+        {
+            if (!SettingsManager.Current.TaskbarVisualizerEnabled)
+                return;
+
+            // When unlocking after device disconnect (e.g. Bluetooth earbuds), WASAPI loopback can get stuck.
+            // Restart capture on unlock / logon to recover without user action.
+            if (e.Reason == SessionSwitchReason.SessionUnlock || e.Reason == SessionSwitchReason.SessionLogon)
+            {
+                RequestRestart($"session switch: {e.Reason}");
+            }
+        }
+
+        private void OnPowerModeChanged(object sender, PowerModeChangedEventArgs e)
+        {
+            if (!SettingsManager.Current.TaskbarVisualizerEnabled)
+                return;
+
+            if (e.Mode == PowerModes.Resume)
+            {
+                RequestRestart("power resume");
+            }
         }
 
         private void InitializeBitmap()
@@ -73,21 +130,45 @@ namespace FluentFlyoutWPF.Classes
             if (e.DataFlow != DataFlow.Render || e.Role != Role.Multimedia)
                 return;
 
-            if (!_isRunning)
+            // Even if capture isn't currently running (e.g. restart attempt failed while the device was reconfiguring),
+            // we still want to try restarting as soon as Windows reports a usable default endpoint again.
+            if (!SettingsManager.Current.TaskbarVisualizerEnabled)
                 return;
-            Logger.Info("Default audio output device changed, restarting visualizer");
+            RequestRestart("default audio output device changed");
+        }
+
+        private void RequestRestart(string reason)
+        {
+            if (!SettingsManager.Current.TaskbarVisualizerEnabled)
+                return;
+
+            if (Interlocked.Exchange(ref _restartInProgress, 1) == 1)
+                return;
+
+            Logger.Info($"Restarting visualizer ({reason})");
 
             Task.Run(async () =>
             {
-                Stop();
-
-                for (int attempt = 0; attempt < 5; attempt++)
+                try
                 {
-                    await Task.Delay(500);
-                    Start();
-                    if (_isRunning)
-                        break;
-                    Logger.Warn($"Visualizer restart attempt {attempt + 1} failed, retrying...");
+                    Stop();
+
+                    for (int attempt = 0; attempt < 5; attempt++)
+                    {
+                        await Task.Delay(500);
+                        Start();
+                        if (_isRunning)
+                            return;
+                        Logger.Warn($"Visualizer restart attempt {attempt + 1} failed, retrying...");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Logger.Error(ex, "Visualizer restart failed");
+                }
+                finally
+                {
+                    Interlocked.Exchange(ref _restartInProgress, 0);
                 }
             });
         }
@@ -108,11 +189,23 @@ namespace FluentFlyoutWPF.Classes
 
             try
             {
-                _capture = new WasapiLoopbackCapture();
+                // Explicitly bind to the current default render endpoint.
+                // Using the parameterless capture can throw transient COM errors when the default endpoint is
+                // reconfiguring (e.g. Bluetooth earbuds disconnect/reconnect around lock/unlock).
+                _renderDevice?.Dispose();
+                _renderDevice = AudioDeviceMonitor.Instance.GetDefaultRenderDevice();
+
+                if (_renderDevice == null)
+                {
+                    return;
+                }
+
+                _capture = new WasapiLoopbackCapture(_renderDevice);
                 _capture.DataAvailable += OnDataAvailable;
                 _capture.RecordingStopped += OnRecordingStopped;
                 _capture.StartRecording();
                 _isRunning = true;
+                _lastDataAvailableUtc = DateTime.UtcNow;
 
                 // automatic update timer in case audio data is not updated
                 _captureWatchdog = new(500)
@@ -131,6 +224,14 @@ namespace FluentFlyoutWPF.Classes
 
                         if (!SettingsManager.Current.TaskbarVisualizerBaseline) // if baseline is enabled, don't switch the setting
                             SettingsManager.Current.TaskbarVisualizerHasContent = false;
+
+                        // If we stop receiving loopback callbacks entirely (common after lock/unlock + device changes),
+                        // the timer fires once and then never again. Use it as a recovery trigger.
+                        var silenceFor = DateTime.UtcNow - _lastDataAvailableUtc;
+                        if (silenceFor > TimeSpan.FromSeconds(2))
+                        {
+                            RequestRestart($"no audio callbacks for {silenceFor.TotalSeconds:0.0}s");
+                        }
                     }
                 };
             }
@@ -153,6 +254,9 @@ namespace FluentFlyoutWPF.Classes
             _capture?.Dispose();
             _capture = null;
 
+            _renderDevice?.Dispose();
+            _renderDevice = null;
+
             _captureWatchdog?.Stop();
             _captureWatchdog?.Dispose();
             _captureWatchdog = null;
@@ -162,6 +266,8 @@ namespace FluentFlyoutWPF.Classes
         {
             if (!_isRunning || e.BytesRecorded == 0)
                 return;
+
+            _lastDataAvailableUtc = DateTime.UtcNow;
 
             _captureWatchdog.Stop();
             _captureWatchdog.Start();
@@ -429,6 +535,7 @@ namespace FluentFlyoutWPF.Classes
             Stop();
 
             AudioDeviceMonitor.Instance.DefaultDeviceChanged -= OnDefaultDeviceChanged;
+            TryUnregisterSystemEvents();
 
             if (_capture != null)
             {

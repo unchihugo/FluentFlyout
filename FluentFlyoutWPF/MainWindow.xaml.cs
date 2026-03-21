@@ -391,6 +391,7 @@ public partial class MainWindow : MicaWindow
 
         storyboard.Begin(window);
         WindowHelper.SetVisibility(window, true);
+        WindowHelper.SetTopmost(window);
     }
 
     public void CloseAnimation(MicaWindow window, bool alwaysBottom = false, MonitorInfo? selectedMonitor = null)
@@ -741,10 +742,10 @@ public partial class MainWindow : MicaWindow
         return true;
     }
 
-    public async void ShowMediaFlyout(bool toggleMode = false)
+    public async void ShowMediaFlyout(bool toggleMode = false, bool forceShow = false)
     {
         if (mediaManager.GetFocusedSession() == null ||
-            !SettingsManager.Current.MediaFlyoutEnabled ||
+            (!forceShow && !SettingsManager.Current.MediaFlyoutEnabled) ||
             FullscreenDetector.IsFullscreenApplicationRunning())
             return;
 
@@ -783,6 +784,7 @@ public partial class MainWindow : MicaWindow
         cts = new CancellationTokenSource();
         var token = cts.Token;
         Visibility = Visibility.Visible;
+        WindowHelper.SetTopmost(this);
 
         try
         {
