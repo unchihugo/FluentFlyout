@@ -189,27 +189,6 @@
                 </StackPanel>
             </ui:CardExpander>
 
-            <ui:CardControl Grid.Row="7" Icon="{ui:SymbolIcon ExpandUpRight24}" Margin="0,0,0,3">
-                <ui:CardControl.Header>
-                    <StackPanel Orientation="Vertical">
-                        <TextBlock Text="{DynamicResource TaskbarWidgetClickableTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
-                        <TextBlock Text="{DynamicResource TaskbarWidgetClickableDescription}" FontSize="12" Opacity="0.5" />
-                    </StackPanel>
-                </ui:CardControl.Header>
-                <controls:ToggleSwitch IsChecked="{Binding TaskbarWidgetClickable, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}" />
-            </ui:CardControl>
-            <ui:CardControl Grid.Row="8" Icon="{ui:SymbolIcon ArrowSwap24}" Margin="0,0,0,12">
-                <ui:CardControl.Header>
-                    <StackPanel Orientation="Vertical">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{DynamicResource TaskbarWidgetCloseableFlyoutTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
-                            <ui:InfoBadge Value=" NEW " FontWeight="Medium" FontSize="10" Margin="6,-2,0,-2" Severity="Success" />
-                        </StackPanel>
-                        <TextBlock Text="{DynamicResource TaskbarWidgetCloseableFlyoutDescription}" FontSize="12" Opacity="0.5" />
-                    </StackPanel>
-                </ui:CardControl.Header>
-                <controls:ToggleSwitch Name="TaskbarWidgetCloseableFlyoutSwitch" IsChecked="{Binding TaskbarWidgetCloseableFlyout, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}" />
-            </ui:CardControl>
             <ui:CardControl Grid.Row="9" Icon="{ui:SymbolIcon ColorBackground24}" Margin="0,0,0,3">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
