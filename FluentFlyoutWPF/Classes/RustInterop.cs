@@ -25,6 +25,14 @@ namespace FluentFlyoutWPF.Classes
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
         public static extern bool media_previous(bool exclusive);
 
+        [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern bool is_fullscreen_app_running();
+        
+        public static bool IsFullscreenAppRunning()
+        {
+            return is_fullscreen_app_running();
+        }
+
         public static string GetMediaTitle(bool exclusive)
         {
             IntPtr ptr = get_media_title(exclusive);

@@ -1,6 +1,7 @@
 use std::ffi::{c_char, CString};
 use std::sync::OnceLock;
 use windows::Media::Control::*;
+use windows::Win32::UI::Shell::{SHQueryUserNotificationState, QUERY_USER_NOTIFICATION_STATE, QUNS_RUNNING_D3D_FULL_SCREEN};
 
 static MANAGER: OnceLock<GlobalSystemMediaTransportControlsSessionManager> = OnceLock::new();
 
@@ -75,4 +76,14 @@ pub extern "C" fn media_next(exclusive: bool) -> bool {
 pub extern "C" fn media_previous(exclusive: bool) -> bool {
     let Some(session) = get_media_session(exclusive) else { return false };
     session.TrySkipPreviousAsync().and_then(|op| op.get()).is_ok()
+}
+
+#[unsafe(no_mangle)]
+pub extern "C" fn is_fullscreen_app_running() -> bool {
+    unsafe {
+        if let Ok(state) = SHQueryUserNotificationState() {
+            return state == QUNS_RUNNING_D3D_FULL_SCREEN;
+        }
+    }
+    false
 }

@@ -1,8 +1,7 @@
-﻿// Copyright © 2024-2026 The FluentFlyout Authors
+// Copyright © 2024-2026 The FluentFlyout Authors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 using FluentFlyout.Classes.Settings;
-using static FluentFlyout.Classes.NativeMethods;
 
 namespace FluentFlyoutWPF.Classes;
 
@@ -22,19 +21,11 @@ internal class FullscreenDetector
         if (!SettingsManager.Current.DisableIfFullscreen) return false;
         try
         {
-            QUERY_USER_NOTIFICATION_STATE state;
-            int result = SHQueryUserNotificationState(out state);
-
-            if (result != 0) // 0 means SUCCESS
-            {
-                throw new Exception($"SHQueryUserNotificationState failed with error code: {result}");
-            }
-
-            return state == QUERY_USER_NOTIFICATION_STATE.QUNS_RUNNING_D3D_FULL_SCREEN;
+            return RustInterop.IsFullscreenAppRunning();
         }
         catch (Exception ex)
         {
-            Logger.Error(ex, "Error detecting fullscreen state");
+            Logger.Error(ex, "Error detecting fullscreen state from Rust interop");
             return false;
         }
     }
