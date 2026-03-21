@@ -3,11 +3,10 @@
 
 using FluentFlyout.Classes.Settings;
 using FluentFlyout.Classes.Utils;
+using Microsoft.Win32;
 using NAudio.CoreAudioApi;
 using NAudio.Dsp;
 using NAudio.Wave;
-using Microsoft.Win32;
-using System.Threading;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -465,7 +464,7 @@ namespace FluentFlyoutWPF.Classes
 
         private unsafe void DrawBars(int stride, Span<byte> buffer)
         {
-            // Resolve brush once (avoid repeated lookups)
+            // Resolve brush once 
             SolidColorBrush brush = BitmapHelper.SavedDominantColors.Count > 0
                 ? BitmapHelper.SavedDominantColors.Last()
                 : (SolidColorBrush)Application.Current.TryFindResource("MicaWPF.Brushes.SystemAccentColorTertiary");
@@ -479,117 +478,67 @@ namespace FluentFlyoutWPF.Classes
 
             int centerY = ImageHeight / 2;
 
-            // Layout calculation (float-based to avoid spacing drift) 
-            float totalSpacing = (BarCount - 1) * BarSpacing;
-            float exactBarWidth = (ImageWidth - totalSpacing) / (float)BarCount;
-            float totalBarsWidth = BarCount * exactBarWidth + totalSpacing;
-            float offsetX = (ImageWidth - totalBarsWidth) * 0.5f;
+            // Horizontal layout 
+            ComputeLayout(ImageWidth, BarCount, BarSpacing,
+                out int barWidth,
+                out int offsetX);
+
+            // Radius 
+            float baseRadius = GetCornerRadius();
+
+            // AA constants 
+            const float aa = 1.25f;
+            float invAA = 1f / aa;
 
             for (int i = 0; i < BarCount; i++)
             {
-                // Normalize and scale height
-                float normalizedValue = Math.Clamp(_barValues[i], 0f, 1f);
-                int barHeight = Math.Max((int)(normalizedValue * ImageHeight), barBaseline);
+                int barX = offsetX + i * (barWidth + BarSpacing);
 
-                // Compute precise X bounds (prevents cumulative rounding errors)
-                ComputeBarBounds(i, exactBarWidth, offsetX, out int barX, out int barWidth);
+                int barHeight = GetBarHeight(_barValues[i], barBaseline);
 
-                if (barWidth <= 0)
+                if (barHeight <= 0)
                     continue;
 
-                // Compute vertical bounds
-                ComputeBarVertical(centeredBars, centerY, barHeight, out int barY, out int barEndY);
+                ComputeVertical(centeredBars, centerY, barHeight, out int barY, out int barEndY);
 
-                // Precompute geometry
-                float radius = MathF.Min(barWidth, barHeight) * 0.5f;
-
-                var geom = new BarGeometry(barX, barWidth, barY, barEndY, radius);
-
-                // Precompute SDF constants
-                float aa = 1.25f;
-                float invAA = 1f / aa;
+                // Clamp radius per bar
+                float radius = ClampRadius(baseRadius, barWidth, barHeight);
                 float radiusSq = radius * radius;
 
-                // Rasterize
-                RasterizeBar(buffer, stride, geom, centeredBars, b, g, r, invAA, radiusSq);
+                RasterizeBar(
+                    buffer, stride,
+                    barX, barWidth,
+                    barY, barEndY,
+                    centeredBars,
+                    radius, radiusSq, invAA,
+                    b, g, r);
             }
         }
 
-        private unsafe void RasterizeBar(
-            Span<byte> buffer,
-            int stride,
-            BarGeometry g,
-            bool centeredBars,
-            byte b, byte gr, byte r,
-            float invAA,
-            float radiusSq)
+        private static void ComputeLayout(
+            int imageWidth,
+            int barCount,
+            int spacing,
+            out int barWidth,
+            out int offsetX)
         {
-            for (int y = (int)g.Top; y < g.Bottom && y < ImageHeight && y >= 0; y++)
-            {
-                int row = y * stride;
+            int totalSpacing = (barCount - 1) * spacing;
 
-                for (int x = (int)g.Left; x < g.Right && x < ImageWidth; x++)
-                {
-                    int index = row + x * 4;
-                    if (index + 3 >= buffer.Length)
-                        continue;
+            int availableWidth = imageWidth - totalSpacing - 1;
 
-                    // Fast path: center rectangle 
-                    if (x >= g.InnerLeft && x <= g.InnerRight)
-                    {
-                        WritePixel(buffer, index, b, gr, r, 255);
-                        continue;
-                    }
+            barWidth = availableWidth / barCount;
 
-                    // Fast path: vertical sides (no AA) 
-                    if (y >= g.InnerTop && y <= g.InnerBottom)
-                    {
-                        WritePixel(buffer, index, b, gr, r, 255);
-                        continue;
-                    }
+            int usedWidth = barWidth * barCount + totalSpacing;
 
-                    // Flat bottom if not centered 
-                    if (!centeredBars && y >= g.InnerBottom)
-                    {
-                        WritePixel(buffer, index, b, gr, r, 255);
-                        continue;
-                    }
-
-                    // Rounded caps only 
-                    float cx = x < g.InnerLeft ? g.InnerLeft : (x > g.InnerRight ? g.InnerRight : x);
-                    float cy = y < g.InnerTop ? g.InnerTop : (y > g.InnerBottom ? g.InnerBottom : y);
-
-                    float dx = x - cx;
-                    float dy = y - cy;
-
-                    float distSq = dx * dx + dy * dy;
-                    float sdf = (distSq - radiusSq) / (2f * MathF.Sqrt(radiusSq)); // radius = sqrt(radiusSq)
-
-                    float alpha = Math.Clamp(0.5f - sdf * invAA, 0f, 1f);
-
-                    if (alpha <= 0f)
-                        continue;
-
-                    WritePixel(buffer, index, b, gr, r, (byte)(255 * alpha));
-                }
-            }
+            // Center safely
+            offsetX = (imageWidth - usedWidth) >> 1;
         }
 
-        private void ComputeBarBounds(int i, float width, float offsetX, out int x, out int barWidth)
-        {
-            float fx = offsetX + i * (width + BarSpacing);
-            float fxNext = fx + width;
-
-            x = (int)MathF.Round(fx);
-            int right = (int)MathF.Round(fxNext);
-            barWidth = right - x;
-        }
-
-        private void ComputeBarVertical(bool centered, int centerY, int height, out int y, out int endY)
+        private void ComputeVertical(bool centered, int centerY, int height, out int y, out int endY)
         {
             if (centered)
             {
-                int half = height / 2;
+                int half = height >> 1; // faster than /2
                 y = centerY - half;
                 endY = centerY + half;
             }
@@ -597,6 +546,97 @@ namespace FluentFlyoutWPF.Classes
             {
                 y = ImageHeight - height;
                 endY = ImageHeight;
+            }
+        }
+
+        private int GetBarHeight(float value, int baseline)
+        {
+            return Math.Max((int)(Math.Clamp(value, 0f, 1f) * ImageHeight), baseline);
+        }
+        private static float GetCornerRadius()
+        {
+            return 6f / MathF.Max(1f, SettingsManager.Current.TaskbarVisualizerBarCount / 10f);
+        }
+
+        private static float ClampRadius(float r, int width, int height)
+        {
+            float max = MathF.Min(width, height) * 0.5f;
+            return r > max ? max : r;
+        }
+
+        private unsafe void RasterizeBar(
+            Span<byte> buffer,
+            int stride,
+            int barX,
+            int barWidth,
+            int barY,
+            int barEndY,
+            bool centeredBars,
+            float radius,
+            float radiusSq,
+            float invAA,
+            byte b, byte g, byte r)
+        {
+            float left = barX;
+            float right = barX + barWidth;
+            float top = barY;
+            float bottom = barEndY;
+
+            float innerLeft = left + radius;
+            float innerRight = right - radius;
+            float innerTop = top + radius;
+            float innerBottom = bottom - radius;
+
+            for (int y = barY; y < barEndY && y < ImageHeight && y >= 0; y++)
+            {
+                int row = y * stride;
+
+                for (int x = barX; x < barX + barWidth && x < ImageWidth; x++)
+                {
+                    int index = row + (x << 2); // x * 4 (bitshift faster)
+                    if (index + 3 >= buffer.Length)
+                        continue;
+
+                    // CENTER
+                    if (x >= innerLeft && x <= innerRight)
+                    {
+                        WritePixel(buffer, index, b, g, r, 255);
+                        continue;
+                    }
+
+                    // SIDES
+                    if (y >= innerTop && y <= innerBottom)
+                    {
+                        WritePixel(buffer, index, b, g, r, 255);
+                        continue;
+                    }
+
+                    // FLAT BOTTOM
+                    if (!centeredBars && y >= innerBottom)
+                    {
+                        WritePixel(buffer, index, b, g, r, 255);
+                        continue;
+                    }
+
+                    // CORNERS
+                    float cx = x < innerLeft ? innerLeft : (x > innerRight ? innerRight : x);
+                    float cy = y < innerTop ? innerTop : (y > innerBottom ? innerBottom : y);
+
+                    float dx = x - cx;
+                    float dy = y - cy;
+
+                    float distSq = dx * dx + dy * dy;
+                    float sdf = (distSq - radiusSq) / (2f * radius);
+
+                    float alpha = 0.5f - sdf * invAA;
+
+                    if (alpha <= 0f)
+                        continue;
+
+                    if (alpha > 1f) alpha = 1f;
+
+                    WritePixel(buffer, index, b, g, r, (byte)(255 * alpha));
+                }
             }
         }
 
