@@ -173,7 +173,7 @@ public partial class MainWindow : MicaWindow
         RegisterShellHookWindow(new WindowInteropHelper(this).Handle);
 
         _positionTimer = new Timer(SeekbarUpdateUi, null, Timeout.Infinite, Timeout.Infinite);
-        if (_seekBarEnabled && mediaManager.GetFocusedSession() is { } session)
+        if (_seekBarEnabled && GetTidalSession() is { } session)
         {
             UpdateSeekbarCurrentDuration(session.ControlSession.GetTimelineProperties().Position);
         }
@@ -243,6 +243,11 @@ public partial class MainWindow : MicaWindow
             Logger.Error(ex, "Failed to retrieve data from the player");
             return null;
         }
+    }
+
+    public MediaSession? GetTidalSession()
+    {
+        return mediaManager.CurrentMediaSessions.Values.FirstOrDefault(s => s.Id.Contains("TIDAL", StringComparison.OrdinalIgnoreCase));
     }
 
     private void openSettings(object? sender, EventArgs e)
@@ -454,12 +459,12 @@ public partial class MainWindow : MicaWindow
 
     public void UpdateTaskbar()
     {
-        if (!mediaManager.IsStarted || mediaManager.GetFocusedSession() == null)
+        if (!mediaManager.IsStarted || GetTidalSession() == null)
         {
             taskbarWindow?.UpdateUi("-", "-", null, GlobalSystemMediaTransportControlsSessionPlaybackStatus.Closed);
             return;
         }
-        var focusedSession = mediaManager.GetFocusedSession();
+        var focusedSession = GetTidalSession();
         var songInfo = TryGetMediaProperties(focusedSession.ControlSession);
         if (songInfo == null)
             return;
@@ -513,12 +518,14 @@ public partial class MainWindow : MicaWindow
 
     private void CurrentSession_OnPlaybackStateChanged(MediaSession mediaSession, GlobalSystemMediaTransportControlsSessionPlaybackInfo? playbackInfo = null)
     {
+        if (!mediaSession.Id.Contains("TIDAL", StringComparison.OrdinalIgnoreCase)) return;
+
 #if DEBUG
         Logger.Debug("Playback state changed: " + mediaSession.Id + " " + mediaSession.ControlSession.GetPlaybackInfo().PlaybackStatus);
 #endif     
         pauseOtherMediaSessionsIfNeeded(mediaSession);
 
-        var focusedSession = mediaManager.GetFocusedSession();
+        var focusedSession = GetTidalSession();
         if (focusedSession == null)
         {
             taskbarWindow?.UpdateUi("-", "-", null, GlobalSystemMediaTransportControlsSessionPlaybackStatus.Closed);
@@ -545,6 +552,8 @@ public partial class MainWindow : MicaWindow
     private int previousMediaPropertyThumbnail = 0;
     private void MediaManager_OnAnyMediaPropertyChanged(MediaSession mediaSession, GlobalSystemMediaTransportControlsSessionMediaProperties mediaProperties)
     {
+        if (!mediaSession.Id.Contains("TIDAL", StringComparison.OrdinalIgnoreCase)) return;
+
         // sometimes mediaSession.ControlSession can be null
         if (mediaSession.ControlSession == null)
             return;
@@ -552,7 +561,7 @@ public partial class MainWindow : MicaWindow
 #if DEBUG
         Logger.Debug("Media property changed: " + mediaProperties.Title + " " + mediaSession.ControlSession.GetPlaybackInfo().PlaybackStatus);
 #endif
-        if (mediaManager.GetFocusedSession() == null)
+        if (GetTidalSession() == null)
         {
             taskbarWindow?.UpdateUi("-", "-", null, GlobalSystemMediaTransportControlsSessionPlaybackStatus.Closed);
             return;
@@ -625,7 +634,7 @@ public partial class MainWindow : MicaWindow
 
         if (IsVisible)
         {
-            var focusedSession = mediaManager.GetFocusedSession();
+            var focusedSession = GetTidalSession();
             HandlePlayBackState(focusedSession.ControlSession.GetPlaybackInfo().PlaybackStatus);
             UpdateUI(focusedSession);
         }
@@ -633,9 +642,11 @@ public partial class MainWindow : MicaWindow
 
     private void MediaManager_OnAnyTimelinePropertyChanged(MediaSession mediaSession, GlobalSystemMediaTransportControlsSessionTimelineProperties timelineProperties)
     {
+        if (!mediaSession.Id.Contains("TIDAL", StringComparison.OrdinalIgnoreCase)) return;
+
         _lastSelfUpdateTimestamp = DateTime.Now;
 
-        if (mediaManager.GetFocusedSession() is not { } session) return;
+        if (GetTidalSession() is not { } session) return;
 
         if (_seekBarEnabled)
         {
@@ -651,10 +662,12 @@ public partial class MainWindow : MicaWindow
 
     private void MediaManager_OnAnySessionClosed(MediaSession mediaSession)
     {
+        if (!mediaSession.Id.Contains("TIDAL", StringComparison.OrdinalIgnoreCase)) return;
+
 #if DEBUG
         Logger.Debug("Session closed: " + (mediaSession.Id).ToString());
 #endif
-        var focusedSession = mediaManager.GetFocusedSession();
+        var focusedSession = GetTidalSession();
 
         if (focusedSession == null)
         {
@@ -744,7 +757,7 @@ public partial class MainWindow : MicaWindow
 
     public async void ShowMediaFlyout(bool toggleMode = false, bool forceShow = false)
     {
-        if (mediaManager.GetFocusedSession() == null ||
+        if (GetTidalSession() == null ||
             (!forceShow && !SettingsManager.Current.MediaFlyoutEnabled) ||
             FullscreenDetector.IsFullscreenApplicationRunning())
             return;
@@ -765,9 +778,9 @@ public partial class MainWindow : MicaWindow
             return;
         }
 
-        UpdateUI(mediaManager.GetFocusedSession());
+        UpdateUI(GetTidalSession());
         if (_seekBarEnabled)
-            HandlePlayBackState(mediaManager.GetFocusedSession().ControlSession.GetPlaybackInfo().PlaybackStatus);
+            HandlePlayBackState(GetTidalSession().ControlSession.GetPlaybackInfo().PlaybackStatus);
 
         if (nextUpWindow != null) // close NextUpWindow if it's open
         {
@@ -1092,28 +1105,29 @@ public partial class MainWindow : MicaWindow
 
     private async void Back_Click(object sender, RoutedEventArgs e)
     {
-        if (mediaManager.GetFocusedSession() == null)
+        if (GetTidalSession() == null)
             return;
 
-        await mediaManager.GetFocusedSession().ControlSession.TrySkipPreviousAsync();
+        await GetTidalSession().ControlSession.TrySkipPreviousAsync();
     }
 
-    private void PlayPause_Click(object sender, RoutedEventArgs e)
+    private async void PlayPause_Click(object sender, RoutedEventArgs e)
     {
-        keybd_event(0xB3, 0, 0, IntPtr.Zero);
-
-        if (mediaManager.GetFocusedSession() == null)
+        if (GetTidalSession() == null)
             return;
 
-        //var controlsInfo = mediaManager.GetFocusedSession().ControlSession.GetPlaybackInfo().Controls;
+        var controlsInfo = GetTidalSession().ControlSession.GetPlaybackInfo().Controls;
 
-        //if (controlsInfo.IsPauseEnabled == true)
-        //{
-        //    await mediaManager.GetFocusedSession().ControlSession.TryPauseAsync();
-        //}
-        //else if (controlsInfo.IsPlayEnabled == true)
-        //    await mediaManager.GetFocusedSession().ControlSession.TryPlayAsync();
-        if (mediaManager.GetFocusedSession().ControlSession.GetPlaybackInfo().Controls.IsPauseEnabled)
+        if (controlsInfo.IsPauseEnabled == true)
+        {
+            await GetTidalSession().ControlSession.TryPauseAsync();
+        }
+        else if (controlsInfo.IsPlayEnabled == true)
+        {
+            await GetTidalSession().ControlSession.TryPlayAsync();
+        }
+
+        if (GetTidalSession().ControlSession.GetPlaybackInfo().Controls.IsPauseEnabled)
             SymbolPlayPause.Dispatcher.Invoke(() => SymbolPlayPause.Symbol = Wpf.Ui.Controls.SymbolRegular.Pause16);
         else
             SymbolPlayPause.Dispatcher.Invoke(() => SymbolPlayPause.Symbol = Wpf.Ui.Controls.SymbolRegular.Play16);
@@ -1121,48 +1135,48 @@ public partial class MainWindow : MicaWindow
 
     private async void Forward_Click(object sender, RoutedEventArgs e)
     {
-        if (mediaManager.GetFocusedSession() == null)
+        if (GetTidalSession() == null)
             return;
 
-        await mediaManager.GetFocusedSession().ControlSession.TrySkipNextAsync();
+        await GetTidalSession().ControlSession.TrySkipNextAsync();
     }
 
     private async void Repeat_Click(object sender, RoutedEventArgs e)
     {
-        if (mediaManager.GetFocusedSession() == null)
+        if (GetTidalSession() == null)
             return;
 
-        if (mediaManager.GetFocusedSession().ControlSession.GetPlaybackInfo().AutoRepeatMode == global::Windows.Media.MediaPlaybackAutoRepeatMode.None)
+        if (GetTidalSession().ControlSession.GetPlaybackInfo().AutoRepeatMode == global::Windows.Media.MediaPlaybackAutoRepeatMode.None)
         {
             SymbolRepeat.Dispatcher.Invoke(() => SymbolRepeat.Symbol = Wpf.Ui.Controls.SymbolRegular.ArrowRepeatAll24);
-            await mediaManager.GetFocusedSession().ControlSession.TryChangeAutoRepeatModeAsync(global::Windows.Media.MediaPlaybackAutoRepeatMode.List);
+            await GetTidalSession().ControlSession.TryChangeAutoRepeatModeAsync(global::Windows.Media.MediaPlaybackAutoRepeatMode.List);
         }
-        else if (mediaManager.GetFocusedSession().ControlSession.GetPlaybackInfo().AutoRepeatMode == global::Windows.Media.MediaPlaybackAutoRepeatMode.List)
+        else if (GetTidalSession().ControlSession.GetPlaybackInfo().AutoRepeatMode == global::Windows.Media.MediaPlaybackAutoRepeatMode.List)
         {
             SymbolRepeat.Dispatcher.Invoke(() => SymbolRepeat.Symbol = Wpf.Ui.Controls.SymbolRegular.ArrowRepeat124);
-            await mediaManager.GetFocusedSession().ControlSession.TryChangeAutoRepeatModeAsync(global::Windows.Media.MediaPlaybackAutoRepeatMode.Track);
+            await GetTidalSession().ControlSession.TryChangeAutoRepeatModeAsync(global::Windows.Media.MediaPlaybackAutoRepeatMode.Track);
         }
-        else if (mediaManager.GetFocusedSession().ControlSession.GetPlaybackInfo().AutoRepeatMode == global::Windows.Media.MediaPlaybackAutoRepeatMode.Track)
+        else if (GetTidalSession().ControlSession.GetPlaybackInfo().AutoRepeatMode == global::Windows.Media.MediaPlaybackAutoRepeatMode.Track)
         {
             SymbolRepeat.Dispatcher.Invoke(() => SymbolRepeat.Symbol = Wpf.Ui.Controls.SymbolRegular.ArrowRepeatAllOff24);
-            await mediaManager.GetFocusedSession().ControlSession.TryChangeAutoRepeatModeAsync(global::Windows.Media.MediaPlaybackAutoRepeatMode.None);
+            await GetTidalSession().ControlSession.TryChangeAutoRepeatModeAsync(global::Windows.Media.MediaPlaybackAutoRepeatMode.None);
         }
     }
 
     private async void Shuffle_Click(object sender, RoutedEventArgs e)
     {
-        if (mediaManager.GetFocusedSession() == null)
+        if (GetTidalSession() == null)
             return;
 
-        if (mediaManager.GetFocusedSession().ControlSession.GetPlaybackInfo().IsShuffleActive == true)
+        if (GetTidalSession().ControlSession.GetPlaybackInfo().IsShuffleActive == true)
         {
             SymbolShuffle.Dispatcher.Invoke(() => SymbolShuffle.Symbol = Wpf.Ui.Controls.SymbolRegular.ArrowShuffleOff24);
-            await mediaManager.GetFocusedSession().ControlSession.TryChangeShuffleActiveAsync(false);
+            await GetTidalSession().ControlSession.TryChangeShuffleActiveAsync(false);
         }
         else
         {
             SymbolShuffle.Dispatcher.Invoke(() => SymbolShuffle.Symbol = Wpf.Ui.Controls.SymbolRegular.ArrowShuffle24);
-            await mediaManager.GetFocusedSession().ControlSession.TryChangeShuffleActiveAsync(true);
+            await GetTidalSession().ControlSession.TryChangeShuffleActiveAsync(true);
         }
     }
 
@@ -1187,7 +1201,7 @@ public partial class MainWindow : MicaWindow
 
     private async void Seekbar_OnPreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
     {
-        if (mediaManager.GetFocusedSession() is { } session)
+        if (GetTidalSession() is { } session)
         {
             var seekPosition = TimeSpan.FromSeconds(Seekbar.Value);
             if (seekPosition == TimeSpan.Zero) seekPosition = TimeSpan.FromSeconds(1);
@@ -1211,7 +1225,7 @@ public partial class MainWindow : MicaWindow
         if (DateTime.Now.Subtract(_lastSelfUpdateTimestamp).TotalSeconds < 1) return;
 
         if (!_seekBarEnabled || Visibility != Visibility.Visible || _isDragging) return;
-        if (mediaManager.GetFocusedSession() is not { } session) return;
+        if (GetTidalSession() is not { } session) return;
 
         var timeline = session.ControlSession.GetTimelineProperties();
         var pos = timeline.Position + (DateTime.Now - timeline.LastUpdatedTime.DateTime);
