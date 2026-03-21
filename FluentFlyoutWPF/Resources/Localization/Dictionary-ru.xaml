@@ -52,7 +52,7 @@
     <system:String x:Key="PauseOtherMediaDescription">При начале воспроизведения из другого плеера активный плеер будет автоматически приостановлен</system:String>
     <system:String x:Key="NextUpCustomizationTitle">Окно «Далее»</system:String>
     <system:String x:Key="NextUpDescription" xml:space="preserve">Этот всплывающий элемент отображает, что будет воспроизводиться после окончания текущего медиа. Появляется, только если следующий медиафайл воспроизводится автоматически. Не появляется при ручном нажатии на «следующий»/«предыдущий».</system:String>
-    <system:String x:Key="EnableNextUpTitle">Включить всплывающее окно «Далее» (экспериментальная функция)</system:String>
+    <system:String x:Key="EnableNextUpTitle">Включить всплывающее окно «Далее»</system:String>
     <system:String x:Key="EnableNextUpDescription">Отображает, что будет дальше после окончания текущего медиа</system:String>
     <system:String x:Key="NextUpStayDurationTitle">Длительность отображения окна</system:String>
     <system:String x:Key="NextUpStayDurationDescription">(по умолчанию: 2000 мс)</system:String>
