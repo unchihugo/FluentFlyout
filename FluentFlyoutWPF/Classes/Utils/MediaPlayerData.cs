@@ -1,4 +1,4 @@
-﻿// Copyright © 2024-2026 The FluentFlyout Authors
+// Copyright © 2024-2026 The FluentFlyout Authors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 using System.Diagnostics;
@@ -32,7 +32,8 @@ public static class MediaPlayerData
         ImageSource? mediaIcon = null;
         
         // get sanitized media title name
-        string[] mediaSessionIdVariants = mediaPlayerId.Split('.');
+        // Many browsers use underscores or spaces (e.g., ZenBrowser_v8f..., F0DC299D 809B9700)
+        string[] mediaSessionIdVariants = mediaPlayerId.Split(new char[] { '.', '_', ' ' });
 
         // remove common non-informative substrings
         var variants = mediaSessionIdVariants.Select(variant =>
@@ -41,6 +42,15 @@ public static class MediaPlayerData
                    .Replace("exe", "", StringComparison.OrdinalIgnoreCase)
                    .Trim()
         ).Where(variant => !string.IsNullOrWhiteSpace(variant)).ToList();
+
+        // Manual mapping for known browsers/apps that might have unique IDs
+        // Zen Browser often uses a hex ID starting with F0DC299D
+        if (mediaPlayerId.Contains("ZenBrowser", StringComparison.OrdinalIgnoreCase) || 
+            mediaPlayerId.StartsWith("F0DC299D", StringComparison.OrdinalIgnoreCase))
+        {
+            variants.Add("zen"); // zen.exe
+            variants.Add("Zen Browser"); // Window Title
+        }
 
         // add original id to the end of the array to ensure at least one variant
         variants.Add(mediaPlayerId);
@@ -71,7 +81,8 @@ public static class MediaPlayerData
 
                     string path = mainModule.FileName;
 
-                    if (variants.Any(v => path.Contains(v, StringComparison.OrdinalIgnoreCase)))
+                    if (variants.Any(v => path.Contains(v, StringComparison.OrdinalIgnoreCase)) ||
+                        variants.Any(v => p.MainWindowTitle.Contains(v, StringComparison.OrdinalIgnoreCase)))
                     {
                         // prioritize the FileDescription for a user-friendly name
                         // fall back to MainWindowTitle if the description is empty

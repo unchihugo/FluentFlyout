@@ -997,18 +997,9 @@ public partial class MainWindow : MicaWindow
 
             if (songInfo != null)
             {
-                // Use Rust for media info
-                bool exclusive = SettingsManager.Current.ExclusiveTidalMode;
-                if (!exclusive || mediaSession.Id.ToUpper().Contains("TIDAL"))
-                {
-                    SongTitle.Text = RustInterop.GetMediaTitle(exclusive);
-                    SongArtist.Text = RustInterop.GetMediaArtist(exclusive);
-                }
-                else
-                {
-                    SongTitle.Text = songInfo.Title;
-                    SongArtist.Text = songInfo.Artist;
-                }
+                // Use C# MediaProperties for accurate session-based labels (prevents mismatch with tooltip)
+                SongTitle.Text = songInfo.Title;
+                SongArtist.Text = songInfo.Artist;
             }
             if (songInfo != null)
             {
@@ -1141,41 +1132,17 @@ public partial class MainWindow : MicaWindow
 
     private void Back_Click(object sender, RoutedEventArgs e)
     {
-        bool exclusive = SettingsManager.Current.ExclusiveTidalMode;
-        if (!exclusive || GetTidalSession()?.Id.ToUpper().Contains("TIDAL") == true)
-        {
-            RustInterop.media_previous(exclusive);
-        }
-        else
-        {
-            GetTidalSession()?.ControlSession.TrySkipPreviousAsync();
-        }
+        GetTidalSession()?.ControlSession.TrySkipPreviousAsync();
     }
 
     private void PlayPause_Click(object sender, RoutedEventArgs e)
     {
-        bool exclusive = SettingsManager.Current.ExclusiveTidalMode;
-        if (!exclusive || GetTidalSession()?.Id.ToUpper().Contains("TIDAL") == true)
-        {
-            RustInterop.media_play_pause(exclusive);
-        }
-        else
-        {
-            GetTidalSession()?.ControlSession.TryTogglePlayPauseAsync();
-        }
+        GetTidalSession()?.ControlSession.TryTogglePlayPauseAsync();
     }
 
     private void Forward_Click(object sender, RoutedEventArgs e)
     {
-        bool exclusive = SettingsManager.Current.ExclusiveTidalMode;
-        if (!exclusive || GetTidalSession()?.Id.ToUpper().Contains("TIDAL") == true)
-        {
-            RustInterop.media_next(exclusive);
-        }
-        else
-        {
-            GetTidalSession()?.ControlSession.TrySkipNextAsync();
-        }
+        GetTidalSession()?.ControlSession.TrySkipNextAsync();
     }
 
     private async void Repeat_Click(object sender, RoutedEventArgs e)
