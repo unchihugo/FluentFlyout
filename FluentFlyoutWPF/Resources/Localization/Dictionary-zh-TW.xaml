@@ -180,4 +180,7 @@
     <system:String x:Key="TaskbarWidgetControlsPositionDescription">選擇媒體控制鈕的顯示位置</system:String>
     <system:String x:Key="PositionLeft">靠左</system:String>
     <system:String x:Key="PositionRight">靠右</system:String>
+    <system:String x:Key="TaskbarVisualizerBaselineTitle">顯示基線值</system:String>
+    <system:String x:Key="TaskbarVisualizerOutputDeviceTitle">輸出裝置</system:String>
+    <system:String x:Key="TaskbarWidgetCustomizationPerk">工作列小工具</system:String>
 </ResourceDictionary>
