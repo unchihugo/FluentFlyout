@@ -190,4 +190,5 @@
     <system:String x:Key="TaskbarVisualizerClickableTitle">點擊開啟設定</system:String>
     <system:String x:Key="TaskbarVisualizerClickableDescription">點擊視覺化工具以開啟設定</system:String>
     <system:String x:Key="UnlockFullExperienceText">解鎖完整 FluentFlyout 體驗：</system:String>
+    <system:String x:Key="AcrylicBlurOpacityPerk">壓克力模糊效果的不透明度</system:String>
 </ResourceDictionary>
