@@ -251,10 +251,16 @@ public partial class UserSettings : ObservableObject
     public partial int LockKeysMonitorPreference { get; set; }
     
     /// <summary>
-    /// Determines if the user has updated to a new version
+    /// Last known version of the app
     /// </summary>
     [ObservableProperty]
     public partial string LastKnownVersion { get; set; }
+
+    /// <summary>
+    /// Only recognize and control Tidal media
+    /// </summary>
+    [ObservableProperty]
+    public partial bool ExclusiveTidalMode { get; set; }
 
     /// <summary>
     /// Show seekbar if the player supports it
@@ -592,6 +598,7 @@ public partial class UserSettings : ObservableObject
         LastUpdateNotificationUnixSeconds = 0;
         ShowUpdateNotifications = true;
         LegacyTaskbarWidthEnabled = false;
+        ExclusiveTidalMode = true;
     }
 
     /// <summary>

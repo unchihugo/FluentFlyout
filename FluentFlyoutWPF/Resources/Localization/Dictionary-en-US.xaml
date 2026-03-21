@@ -229,4 +229,6 @@ You can help contribute translations on</System:String>
     <System:String x:Key="AdvancedSettingsTitle">Advanced Settings</System:String>
     <System:String x:Key="LegacyTaskbarWidthTitle">Legacy Taskbar Width System</System:String>
     <System:String x:Key="LegacyTaskbarWidthDescription">Use the legacy Taskbar width system for Taskbar Widgets</System:String>
+    <System:String x:Key="ExclusiveTidalModeTitle">Exclusive Tidal Mode</System:String>
+    <System:String x:Key="ExclusiveTidalModeDescription">Focus on Tidal app's media info and control. When disabled, control universal media sessions.</System:String>
 </ResourceDictionary>

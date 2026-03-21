@@ -22,6 +22,7 @@ using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
+using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using Windows.ApplicationModel;
 using Windows.Media.Control;
@@ -71,6 +72,7 @@ public partial class MainWindow : MicaWindow
 
     private LockWindow? lockWindow;
     private DateTime _lastSelfUpdateTimestamp = DateTime.MinValue;
+    private string _lastActiveSessionId = string.Empty;
 
     internal TaskbarWindow? taskbarWindow;
 
@@ -247,7 +249,26 @@ public partial class MainWindow : MicaWindow
 
     public MediaSession? GetTidalSession()
     {
-        return mediaManager.CurrentMediaSessions.Values.FirstOrDefault(s => s.Id.Contains("TIDAL", StringComparison.OrdinalIgnoreCase));
+        if (SettingsManager.Current.ExclusiveTidalMode)
+        {
+            return mediaManager.CurrentMediaSessions.Values.FirstOrDefault(s => s.Id.Contains("TIDAL", StringComparison.OrdinalIgnoreCase));
+        }
+        
+        // Return last explicitly active session
+        if (!string.IsNullOrEmpty(_lastActiveSessionId) && mediaManager.CurrentMediaSessions.TryGetValue(_lastActiveSessionId, out var active))
+        {
+            return active;
+        }
+
+        // Return any currently playing session
+        var playing = mediaManager.CurrentMediaSessions.Values.FirstOrDefault(s => s.ControlSession?.GetPlaybackInfo()?.PlaybackStatus == GlobalSystemMediaTransportControlsSessionPlaybackStatus.Playing);
+        if (playing != null)
+        {
+            return playing;
+        }
+
+        // Fallback to any available session
+        return mediaManager.CurrentMediaSessions.Values.FirstOrDefault();
     }
 
     private void openSettings(object? sender, EventArgs e)
@@ -518,7 +539,8 @@ public partial class MainWindow : MicaWindow
 
     private void CurrentSession_OnPlaybackStateChanged(MediaSession mediaSession, GlobalSystemMediaTransportControlsSessionPlaybackInfo? playbackInfo = null)
     {
-        if (!mediaSession.Id.Contains("TIDAL", StringComparison.OrdinalIgnoreCase)) return;
+        if (SettingsManager.Current.ExclusiveTidalMode && !mediaSession.Id.Contains("TIDAL", StringComparison.OrdinalIgnoreCase)) return;
+        _lastActiveSessionId = mediaSession.Id;
 
 #if DEBUG
         Logger.Debug("Playback state changed: " + mediaSession.Id + " " + mediaSession.ControlSession.GetPlaybackInfo().PlaybackStatus);
@@ -552,7 +574,8 @@ public partial class MainWindow : MicaWindow
     private int previousMediaPropertyThumbnail = 0;
     private void MediaManager_OnAnyMediaPropertyChanged(MediaSession mediaSession, GlobalSystemMediaTransportControlsSessionMediaProperties mediaProperties)
     {
-        if (!mediaSession.Id.Contains("TIDAL", StringComparison.OrdinalIgnoreCase)) return;
+        if (SettingsManager.Current.ExclusiveTidalMode && !mediaSession.Id.Contains("TIDAL", StringComparison.OrdinalIgnoreCase)) return;
+        _lastActiveSessionId = mediaSession.Id;
 
         // sometimes mediaSession.ControlSession can be null
         if (mediaSession.ControlSession == null)
@@ -642,7 +665,8 @@ public partial class MainWindow : MicaWindow
 
     private void MediaManager_OnAnyTimelinePropertyChanged(MediaSession mediaSession, GlobalSystemMediaTransportControlsSessionTimelineProperties timelineProperties)
     {
-        if (!mediaSession.Id.Contains("TIDAL", StringComparison.OrdinalIgnoreCase)) return;
+        if (SettingsManager.Current.ExclusiveTidalMode && !mediaSession.Id.Contains("TIDAL", StringComparison.OrdinalIgnoreCase)) return;
+        _lastActiveSessionId = mediaSession.Id;
 
         _lastSelfUpdateTimestamp = DateTime.Now;
 
@@ -662,7 +686,7 @@ public partial class MainWindow : MicaWindow
 
     private void MediaManager_OnAnySessionClosed(MediaSession mediaSession)
     {
-        if (!mediaSession.Id.Contains("TIDAL", StringComparison.OrdinalIgnoreCase)) return;
+        if (SettingsManager.Current.ExclusiveTidalMode && !mediaSession.Id.Contains("TIDAL", StringComparison.OrdinalIgnoreCase)) return;
 
 #if DEBUG
         Logger.Debug("Session closed: " + (mediaSession.Id).ToString());
@@ -969,32 +993,36 @@ public partial class MainWindow : MicaWindow
             }
 
             var songInfo = TryGetMediaProperties(controlSession);
-            if (songInfo == null)
-                return;
+            BitmapImage? image = null;
 
             if (songInfo != null)
             {
-                // Use Rust for Tidal info
-                if (mediaSession.Id.ToUpper().Contains("TIDAL"))
+                // Use Rust for media info
+                bool exclusive = SettingsManager.Current.ExclusiveTidalMode;
+                if (!exclusive || mediaSession.Id.ToUpper().Contains("TIDAL"))
                 {
-                    SongTitle.Text = RustInterop.GetTidalTitle();
-                    SongArtist.Text = RustInterop.GetTidalArtist();
+                    SongTitle.Text = RustInterop.GetMediaTitle(exclusive);
+                    SongArtist.Text = RustInterop.GetMediaArtist(exclusive);
                 }
                 else
                 {
                     SongTitle.Text = songInfo.Title;
                     SongArtist.Text = songInfo.Artist;
                 }
-                var image = BitmapHelper.GetThumbnail(songInfo.Thumbnail);
+            }
+            if (songInfo != null)
+            {
+                image = BitmapHelper.GetThumbnail(songInfo.Thumbnail);
                 SongImage.ImageSource = image;
 
                 // set tooltip
                 SongInfoStackPanel.ToolTip = string.Empty;
                 SongInfoStackPanel.ToolTip += !String.IsNullOrEmpty(songInfo.Title) ? songInfo.Title : string.Empty;
                 SongInfoStackPanel.ToolTip += !String.IsNullOrEmpty(songInfo.Artist) ? "\n\n" + songInfo.Artist : string.Empty;
+            }
 
                 // background blurred image
-                if (SettingsManager.Current.MediaFlyoutBackgroundBlur != 0)
+                if (SettingsManager.Current.MediaFlyoutBackgroundBlur != 0 && image != null)
                 {
                     // make image 1:1 aspect ratio so gradient masks work for non-square images
                     var croppedImage = BitmapHelper.CropToSquare(image);
@@ -1038,7 +1066,6 @@ public partial class MainWindow : MicaWindow
                         SeekbarMaxDuration.Text = timeline.MaxSeekTime.ToString(timeline.MaxSeekTime.Hours > 0 ? @"hh\:mm\:ss" : @"mm\:ss");
                     }
                 }
-            }
         });
     }
 
@@ -1114,9 +1141,10 @@ public partial class MainWindow : MicaWindow
 
     private void Back_Click(object sender, RoutedEventArgs e)
     {
-        if (GetTidalSession()?.Id.ToUpper().Contains("TIDAL") == true)
+        bool exclusive = SettingsManager.Current.ExclusiveTidalMode;
+        if (!exclusive || GetTidalSession()?.Id.ToUpper().Contains("TIDAL") == true)
         {
-            RustInterop.tidal_previous();
+            RustInterop.media_previous(exclusive);
         }
         else
         {
@@ -1126,9 +1154,10 @@ public partial class MainWindow : MicaWindow
 
     private void PlayPause_Click(object sender, RoutedEventArgs e)
     {
-        if (GetTidalSession()?.Id.ToUpper().Contains("TIDAL") == true)
+        bool exclusive = SettingsManager.Current.ExclusiveTidalMode;
+        if (!exclusive || GetTidalSession()?.Id.ToUpper().Contains("TIDAL") == true)
         {
-            RustInterop.tidal_play_pause();
+            RustInterop.media_play_pause(exclusive);
         }
         else
         {
@@ -1138,9 +1167,10 @@ public partial class MainWindow : MicaWindow
 
     private void Forward_Click(object sender, RoutedEventArgs e)
     {
-        if (GetTidalSession()?.Id.ToUpper().Contains("TIDAL") == true)
+        bool exclusive = SettingsManager.Current.ExclusiveTidalMode;
+        if (!exclusive || GetTidalSession()?.Id.ToUpper().Contains("TIDAL") == true)
         {
-            RustInterop.tidal_next();
+            RustInterop.media_next(exclusive);
         }
         else
         {

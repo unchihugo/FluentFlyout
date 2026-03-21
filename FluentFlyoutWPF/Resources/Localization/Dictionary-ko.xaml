@@ -222,4 +222,6 @@
     <system:String x:Key="SettingsImportedSuccessfully">설정 가져오기에 성공했습니다! 변경사항 반영을 위해 앱이 재시작됩니다.</system:String>
     <system:String x:Key="ImportSettingsWarning">이 작업은 현재 설정을 덮어씁니다. 계속하시겠습니까?</system:String>
     <system:String x:Key="FailedToImportSettings">설정 가져오기에 실패하였습니다. 자세한 내용은 로그를 확인하세요.</system:String>
+    <system:String x:Key="ExclusiveTidalModeTitle">타이달 전용 모드 (Exclusive Tidal Mode)</system:String>
+    <system:String x:Key="ExclusiveTidalModeDescription">타이달(Tidal) 앱의 미디어 정보와 제어에 집중합니다. 비활성화 시 일반 미디어 세션을 제어합니다.</system:String>
 </ResourceDictionary>
