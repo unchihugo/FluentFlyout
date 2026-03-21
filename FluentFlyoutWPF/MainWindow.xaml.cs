@@ -974,8 +974,17 @@ public partial class MainWindow : MicaWindow
 
             if (songInfo != null)
             {
-                SongTitle.Text = songInfo.Title;
-                SongArtist.Text = songInfo.Artist;
+                // Use Rust for Tidal info
+                if (mediaSession.Id.ToUpper().Contains("TIDAL"))
+                {
+                    SongTitle.Text = RustInterop.GetTidalTitle();
+                    SongArtist.Text = RustInterop.GetTidalArtist();
+                }
+                else
+                {
+                    SongTitle.Text = songInfo.Title;
+                    SongArtist.Text = songInfo.Artist;
+                }
                 var image = BitmapHelper.GetThumbnail(songInfo.Thumbnail);
                 SongImage.ImageSource = image;
 
@@ -1103,42 +1112,40 @@ public partial class MainWindow : MicaWindow
         _alwaysDisplay = SettingsManager.Current.MediaFlyoutAlwaysDisplay;
     }
 
-    private async void Back_Click(object sender, RoutedEventArgs e)
+    private void Back_Click(object sender, RoutedEventArgs e)
     {
-        if (GetTidalSession() == null)
-            return;
-
-        await GetTidalSession().ControlSession.TrySkipPreviousAsync();
-    }
-
-    private async void PlayPause_Click(object sender, RoutedEventArgs e)
-    {
-        if (GetTidalSession() == null)
-            return;
-
-        var controlsInfo = GetTidalSession().ControlSession.GetPlaybackInfo().Controls;
-
-        if (controlsInfo.IsPauseEnabled == true)
+        if (GetTidalSession()?.Id.ToUpper().Contains("TIDAL") == true)
         {
-            await GetTidalSession().ControlSession.TryPauseAsync();
+            RustInterop.tidal_previous();
         }
-        else if (controlsInfo.IsPlayEnabled == true)
-        {
-            await GetTidalSession().ControlSession.TryPlayAsync();
-        }
-
-        if (GetTidalSession().ControlSession.GetPlaybackInfo().Controls.IsPauseEnabled)
-            SymbolPlayPause.Dispatcher.Invoke(() => SymbolPlayPause.Symbol = Wpf.Ui.Controls.SymbolRegular.Pause16);
         else
-            SymbolPlayPause.Dispatcher.Invoke(() => SymbolPlayPause.Symbol = Wpf.Ui.Controls.SymbolRegular.Play16);
+        {
+            GetTidalSession()?.ControlSession.TrySkipPreviousAsync();
+        }
     }
 
-    private async void Forward_Click(object sender, RoutedEventArgs e)
+    private void PlayPause_Click(object sender, RoutedEventArgs e)
     {
-        if (GetTidalSession() == null)
-            return;
+        if (GetTidalSession()?.Id.ToUpper().Contains("TIDAL") == true)
+        {
+            RustInterop.tidal_play_pause();
+        }
+        else
+        {
+            GetTidalSession()?.ControlSession.TryTogglePlayPauseAsync();
+        }
+    }
 
-        await GetTidalSession().ControlSession.TrySkipNextAsync();
+    private void Forward_Click(object sender, RoutedEventArgs e)
+    {
+        if (GetTidalSession()?.Id.ToUpper().Contains("TIDAL") == true)
+        {
+            RustInterop.tidal_next();
+        }
+        else
+        {
+            GetTidalSession()?.ControlSession.TrySkipNextAsync();
+        }
     }
 
     private async void Repeat_Click(object sender, RoutedEventArgs e)
