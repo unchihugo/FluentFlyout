@@ -441,27 +441,24 @@ public static class AutoUpdater
 
     /// <summary>
     /// Installs the signing certificate to the TrustedPeople store using certutil.
-    /// This requires elevation (UAC prompt will appear).
+    /// This requires elevation — Verb = "runas" triggers the UAC prompt directly.
     /// </summary>
     private static async Task<bool> InstallCertificateAsync(string certPath)
     {
         try
         {
             var fullPath = Path.GetFullPath(certPath);
-            var escapedPath = fullPath.Replace("'", "''");
 
             Logger.Info("Installing signing certificate: {Path}", fullPath);
 
-            // Use certutil via an elevated PowerShell process
-            // Start-Process with -Verb RunAs triggers the UAC prompt
+            // Run certutil directly with UAC elevation (no PowerShell wrapper needed).
+            // UseShellExecute = true is required for Verb = "runas".
             var psi = new ProcessStartInfo
             {
-                FileName = "powershell.exe",
-                Arguments = $"-NoProfile -Command \"Start-Process -FilePath 'certutil.exe' -ArgumentList '-addstore','TrustedPeople','{escapedPath}' -Verb RunAs -Wait -PassThru | ForEach-Object {{ exit $_.ExitCode }}\"",
-                UseShellExecute = false,
-                RedirectStandardOutput = true,
-                RedirectStandardError = true,
-                CreateNoWindow = true
+                FileName = "certutil.exe",
+                Arguments = $"-addstore TrustedPeople \"{fullPath}\"",
+                UseShellExecute = true,
+                Verb = "runas"
             };
 
             using var process = Process.Start(psi);
@@ -471,19 +468,22 @@ public static class AutoUpdater
                 return false;
             }
 
-            var stdout = await process.StandardOutput.ReadToEndAsync();
-            var stderr = await process.StandardError.ReadToEndAsync();
             await process.WaitForExitAsync();
 
             if (process.ExitCode != 0)
             {
-                Logger.Error("Certificate installation failed (exit code {Code}): {Stdout} {Stderr}",
-                    process.ExitCode, stdout, stderr);
+                Logger.Error("Certificate installation failed (exit code {Code})", process.ExitCode);
                 return false;
             }
 
             Logger.Info("Certificate installed successfully");
             return true;
+        }
+        catch (System.ComponentModel.Win32Exception ex) when (ex.NativeErrorCode == 1223)
+        {
+            // ERROR_CANCELLED — user declined the UAC prompt
+            Logger.Warn("User declined UAC prompt for certificate installation");
+            return false;
         }
         catch (Exception ex)
         {
