@@ -40,7 +40,7 @@
     <system:String x:Key="PauseOtherMediaDescription">当你播放或者聚焦于新的媒体时，其他正在播放的内容会被自动暂停</system:String>
     <system:String x:Key="NextUpCustomizationTitle">“接下来” 浮窗</system:String>
     <system:String x:Key="NextUpDescription" xml:space="preserve">一个会显示当前播放的歌曲 / 视频结束后下一个项目的浮窗。只有在下一个项目自动播放时才会出现，如果手动按下 “下一个” / “上一个” 按钮，则会显示主要浮窗。</system:String>
-    <system:String x:Key="EnableNextUpTitle">启用 “接下来” 浮窗（实验性）</system:String>
+    <system:String x:Key="EnableNextUpTitle">启用 “接下来” 浮窗</system:String>
     <system:String x:Key="EnableNextUpDescription">显示当前歌曲 / 视频结束后的下一项内容</system:String>
     <system:String x:Key="NextUpStayDurationTitle">“接下来” 浮窗停留时间</system:String>
     <system:String x:Key="NextUpStayDurationDescription">（默认：2000 毫秒）</system:String>
