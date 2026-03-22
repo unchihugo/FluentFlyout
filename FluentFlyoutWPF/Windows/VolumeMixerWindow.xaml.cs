@@ -38,6 +38,10 @@ public partial class VolumeMixerWindow : MicaWindow
     private readonly double _normalWidth;
     private bool _isHiding = true;
 
+    private long _lastFlyoutTime = 0;
+    private readonly TimeSpan _flyoutCooldown = TimeSpan.FromMilliseconds(500);
+    private int _count = 0;
+
     public VolumeMixerWindow()
     {
         DataContext = this;
@@ -56,6 +60,18 @@ public partial class VolumeMixerWindow : MicaWindow
     // one day we might want to convert these to an interface
     public async void ShowFlyout()
     {
+        long currentTime = Environment.TickCount64;
+
+        if (currentTime - _lastFlyoutTime < _flyoutCooldown.TotalMilliseconds)
+        {
+            return;
+        }
+
+        _lastFlyoutTime = currentTime;
+
+        _count++;
+        Logger.Debug("volume flyout showed {Count} times", _count);
+
         if (_isHiding)
         {
             if (_nativeOsdElement == IntPtr.Zero)
@@ -88,7 +104,7 @@ public partial class VolumeMixerWindow : MicaWindow
             if (aboveMedia)
                 _mainWindow.OpenAnimation(this, aboveReference: _mainWindow);
             else
-                _mainWindow.OpenAnimation(this, true);
+                _mainWindow.OpenAnimation(this, alwaysBottom: true);
 
             Show();
             //WindowHelper.SetNoActivate(this);
@@ -127,15 +143,6 @@ public partial class VolumeMixerWindow : MicaWindow
         {
             // do nothing
         }
-    }
-
-    private void MicaWindow_Loaded(object sender, RoutedEventArgs e)
-    {
-        WindowHelper.SetTopmost(this);
-        if (SettingsManager.Current.VolumeControlAboveMediaFlyout)
-            _mainWindow.OpenAnimation(this, aboveReference: _mainWindow);
-        else
-            _mainWindow.OpenAnimation(this, true);
     }
 
     private void OnViewModelPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)

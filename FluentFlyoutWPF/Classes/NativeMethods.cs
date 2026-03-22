@@ -277,9 +277,6 @@ public static partial class NativeMethods
     [DllImport("user32.dll", CharSet = CharSet.Auto)]
     internal static extern bool EnumDisplayDevices(string? lpDevice, uint iDevNum, ref DISPLAY_DEVICE lpDisplayDevice, uint dwFlags);
 
-    [DllImport("user32.dll")]
-    internal static extern bool GetCursorPos(out POINT lpPoint);
-
     [LibraryImport("user32.dll")]
     [return: MarshalAs(UnmanagedType.Bool)]
     internal static partial bool EnumDisplayMonitors(IntPtr hdc, IntPtr lprcClip, MonitorEnumProc lpfnEnum, IntPtr dwData);

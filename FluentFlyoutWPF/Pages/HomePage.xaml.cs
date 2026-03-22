@@ -137,7 +137,7 @@ public partial class HomePage : Page
 
     private void VolumeFlyout_Click(object sender, System.Windows.RoutedEventArgs e)
     {
-        NavigateToPage(typeof(VolumeMixerPage));
+        SettingsWindow.NavigateToPage(typeof(VolumeMixerPage));
     }
 
     private void TaskbarWidget_Click(object sender, System.Windows.RoutedEventArgs e)

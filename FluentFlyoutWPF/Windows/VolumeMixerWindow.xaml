@@ -16,7 +16,7 @@
       TextOptions.TextRenderingMode="ClearType" TextOptions.TextFormattingMode="Ideal"
       FontFamily="{Binding UserSettings.FontFamily}"
       FlowDirection="{Binding UserSettings.FlowDirection}"
-      d:DataContext="{d:DesignInstance viewModels:UserSettings}" Loaded="MicaWindow_Loaded">
+      d:DataContext="{d:DesignInstance viewModels:UserSettings}">
     
     <Window.Triggers>
         <EventTrigger RoutedEvent="Window.Loaded">

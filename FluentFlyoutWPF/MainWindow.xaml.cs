@@ -716,7 +716,12 @@ public partial class MainWindow : MicaWindow
                 if (SettingsManager.Current.VolumeControlEnabled)
                     volumeMixerWindow?.ViewModel.SyncMasterFromDevice();
 
-                bool result = TryShowMediaFlyoutDebounced();
+                if (SettingsManager.Current.VolumeControlEnabled)
+                    volumeMixerWindow?.ShowFlyout();
+
+                bool result = false;
+                if (!SettingsManager.Current.MediaFlyoutVolumeKeysExcluded && volumeKeysPressed)
+                    result = TryShowMediaFlyoutDebounced();
 
                 if (!result)
                 {
