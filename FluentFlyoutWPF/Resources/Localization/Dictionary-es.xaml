@@ -174,7 +174,7 @@ Nota: Como proyecto de código abierto, estas opciones también están disponibl
     <system:String x:Key="TaskbarVisualizerDescription">Un visualizador de audio en tiempo real en tu barra de tareas. Diseñado para un impacto mínimo en el rendimiento de sistemas modernos.</system:String>
     <system:String x:Key="TaskbarVisualizerEnabledTitle">Activar Visualizador de la Barra de Tareas (Experimental)</system:String>
     <system:String x:Key="TaskbarVisualizerEnabledDescription">Experimental: Esta funcionalidad solo funciona si el Widget de la Barra de Tareas esta activado</system:String>
-    <system:String x:Key="TaskbarVisualizerPositionTitle">Posición del Visualizador Realitiva al Widget de la Barra de Tareas</system:String>
+    <system:String x:Key="TaskbarVisualizerPositionTitle">Posición del Visualizador Relativa al Widget de la Barra de Tareas</system:String>
     <system:String x:Key="TaskbarVisualizerBarCountTitle">Número de Barras</system:String>
     <system:String x:Key="TaskbarVisualizerBarCountDescription">La cantidad de barras del visualizador</system:String>
     <system:String x:Key="TaskbarVisualizerCenteredBarsTitle">Barras Centradas</system:String>
