@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 using FluentFlyout.Classes.Settings;
+using FluentFlyoutWPF;
 using MicaWPF.Core.Enums;
 using MicaWPF.Core.Helpers;
 using MicaWPF.Core.Services;
@@ -25,6 +26,7 @@ internal static class ThemeManager
     {
         ApplyTheme(SettingsManager.Current.AppTheme);
         UpdateTrayIcon();
+        UpdateTaskbarWidget();
     }
 
     /// <summary>
@@ -38,6 +40,7 @@ internal static class ThemeManager
         SettingsManager.SaveSettings();
 
         if (SettingsManager.Current.MediaFlyoutAcrylicWindowEnabled) { WindowBlurHelper.EnableBlur(Application.Current.MainWindow); }
+        UpdateTaskbarWidget();
     }
 
     /// <summary>
@@ -112,6 +115,20 @@ internal static class ThemeManager
                     nIcon.Icon = new BitmapImage(iconUi);
                 }
             }
+        });
+    }
+
+    /// <summary>
+    /// Updates the taskbar widget theme to match the current Windows theme.
+    /// </summary>
+    public static void UpdateTaskbarWidget()
+    {
+        Application.Current.Dispatcher.Invoke(() =>
+        {
+            if (Application.Current.MainWindow is not MainWindow mainWindow)
+                return;
+
+            mainWindow.taskbarWindow?.Widget?.ApplyWindowsTheme();
         });
     }
 }

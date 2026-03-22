@@ -100,7 +100,6 @@ public partial class TaskbarWindow : Window
         SetupWindow();
         _mainWindow = (MainWindow)Application.Current.MainWindow;
         Widget.SetMainWindow(_mainWindow);
-        TaskbarVisualizer.SetMainWindow(_mainWindow);
     }
 
     private IntPtr GetSelectedTaskbarHandle(out bool isMainTaskbarSelected)
@@ -350,22 +349,31 @@ public partial class TaskbarWindow : Window
 
             // Get Taskbar dimensions
             RECT taskbarRect;
-            // first, try to find the Taskbar.TaskbarFrame element in the XAML
-            // this should give us the actual bounds of the taskbar, excluding invisible margins on some Windows configurations
-            (bool success, Rect result) = GetTaskbarFrameRect(taskbarHandle);
-            if (success)
+
+            if (!SettingsManager.Current.LegacyTaskbarWidthEnabled)
             {
-                taskbarRect = new RECT
+                // first, try to find the Taskbar.TaskbarFrame element in the XAML
+                // this should give us the actual bounds of the taskbar, excluding invisible margins on some Windows configurations
+                (bool success, Rect result) = GetTaskbarFrameRect(taskbarHandle);
+                if (success)
                 {
-                    Left = (int)result.Left,
-                    Top = (int)result.Top,
-                    Right = (int)result.Right,
-                    Bottom = (int)result.Bottom
-                };
+                    taskbarRect = new RECT
+                    {
+                        Left = (int)result.Left,
+                        Top = (int)result.Top,
+                        Right = (int)result.Right,
+                        Bottom = (int)result.Bottom
+                    };
+                }
+                else
+                {
+                    // fallback to GetWindowRect if we fail to get the frame bounds for some reason
+                    GetWindowRect(taskbarHandle, out taskbarRect);
+                }
             }
             else
             {
-                // fallback to GetWindowRect if we fail to get the frame bounds for some reason
+                // legacy method - GetWindowRect on the entire taskbar, which includes invisible margins on some Windows configurations
                 GetWindowRect(taskbarHandle, out taskbarRect);
             }
 

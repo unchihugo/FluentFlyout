@@ -23,6 +23,7 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <StackPanel Orientation="Horizontal" Margin="0,0,0,24">
                 <Border CornerRadius="10" ClipToBounds="True" Width="164" Height="98">
@@ -62,7 +63,7 @@
                     <TextBlock Text="{DynamicResource MillisecondsUnit}" FontSize="14" FontWeight="Regular" Margin="10,0,0,0" VerticalAlignment="Center" />
                 </StackPanel>
             </ui:CardControl>
-            <ui:CardControl Grid.Row="4" Icon="{ui:SymbolIcon TextBold24}" Margin="0,0,0,12">
+            <ui:CardControl Grid.Row="4" Icon="{ui:SymbolIcon TextBold24}" Margin="0,0,0,3">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
                         <TextBlock Text="{DynamicResource LockKeysBoldUITitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
@@ -71,7 +72,23 @@
                 </ui:CardControl.Header>
                 <controls:ToggleSwitch Name="LockKeysBoldUISwitch" IsChecked="{Binding LockKeysBoldUi, Mode=TwoWay}" />
             </ui:CardControl>
-            <ui:CardControl Grid.Row="5" Icon="{ui:SymbolIcon Info24}" Margin="0,0,0,76">
+            <ui:CardControl Grid.Row="5" Icon="{ui:SymbolIcon ProjectionScreen24}" Margin="0,0,0,3">
+                <ui:CardControl.Header>
+                    <StackPanel Orientation="Vertical">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{DynamicResource LockKeysCursorUITitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
+                            <ui:InfoBadge Value=" NEW " FontWeight="Medium" FontSize="10" Margin="6,-2,0,-2" Severity="Success" />
+                        </StackPanel>
+                        <TextBlock Text="{DynamicResource LockKeysCursorUIDescription}" FontSize="12" Opacity="0.5" />
+                    </StackPanel>
+                </ui:CardControl.Header>
+                <ComboBox Name="LockKeysMonitorPreferenceComboBox" SelectedIndex="{Binding LockKeysMonitorPreference}">
+                    <ComboBoxItem Content="{DynamicResource DefaultLockLayoutPosition}" />
+                    <ComboBoxItem Content="{DynamicResource MonitorWithFocusedWindow}" />
+                    <ComboBoxItem Content="{DynamicResource MonitorWithCursor}" />
+                </ComboBox>
+            </ui:CardControl>
+            <ui:CardControl Grid.Row="6" Icon="{ui:SymbolIcon Info24}" Margin="0,0,0,76">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
                         <TextBlock Text="{DynamicResource EnableInsertKeyTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />

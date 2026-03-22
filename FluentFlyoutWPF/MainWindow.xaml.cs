@@ -14,7 +14,6 @@ using MicaWPF.Controls;
 using MicaWPF.Core.Extensions;
 using Microsoft.Win32;
 using System.Diagnostics;
-using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
@@ -23,13 +22,11 @@ using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
-using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using Windows.ApplicationModel;
 using Windows.Media.Control;
-using Windows.Storage;
-using Windows.Storage.Streams;
 using static FluentFlyout.Classes.NativeMethods;
+using static FluentFlyoutWPF.Classes.Utils.MonitorUtil;
 using static WindowsMediaController.MediaManager;
 
 
@@ -39,7 +36,7 @@ public partial class MainWindow : MicaWindow
 {
     private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
-    private int WM_TASKBARCREATED;
+    private int WM_TASKBARCREATED, WM_SHELLHOOK;
 
     private IntPtr _hookId = IntPtr.Zero;
     private LowLevelKeyboardProc _hookProc;
@@ -75,7 +72,7 @@ public partial class MainWindow : MicaWindow
     private LockWindow? lockWindow;
     private DateTime _lastSelfUpdateTimestamp = DateTime.MinValue;
 
-    private TaskbarWindow? taskbarWindow;
+    internal TaskbarWindow? taskbarWindow;
 
     private VolumeMixerWindow? volumeMixerWindow;
 
@@ -174,6 +171,8 @@ public partial class MainWindow : MicaWindow
         mediaManager.OnAnySessionClosed += MediaManager_OnAnySessionClosed;
 
         WM_TASKBARCREATED = RegisterWindowMessage("TaskbarCreated");
+        WM_SHELLHOOK = RegisterWindowMessage("SHELLHOOK");
+        RegisterShellHookWindow(new WindowInteropHelper(this).Handle);
 
         _positionTimer = new Timer(SeekbarUpdateUi, null, Timeout.Infinite, Timeout.Infinite);
         if (_seekBarEnabled && mediaManager.GetFocusedSession() is { } session)
@@ -282,7 +281,7 @@ public partial class MainWindow : MicaWindow
 
     private MonitorUtil.MonitorInfo getSelectedMonitor()
     {
-        return MonitorUtil.getSelectedMonitor(SettingsManager.Current.FlyoutSelectedMonitor);
+        return MonitorUtil.GetSelectedMonitor(SettingsManager.Current.FlyoutSelectedMonitor);
     }
 
     /// <summary>
@@ -307,14 +306,14 @@ public partial class MainWindow : MicaWindow
         return (left, top);
     }
 
-    public void OpenAnimation(MicaWindow window, bool alwaysBottom = false, MicaWindow? aboveReference = null)
+    public void OpenAnimation(MicaWindow window, bool alwaysBottom = false, MonitorInfo? selectedMonitor = null, MicaWindow? aboveReference = null)
     {
         var eventTriggers = window.Triggers[0] as EventTrigger;
         var beginStoryboard = eventTriggers.Actions[0] as BeginStoryboard;
         var storyboard = beginStoryboard.Storyboard;
 
         DoubleAnimation moveAnimation = (DoubleAnimation)storyboard.Children[0];
-        var monitor = getSelectedMonitor();
+        var monitor = selectedMonitor != null ? selectedMonitor.Value : getSelectedMonitor();
         var workArea = monitor.workArea;
 
         // prevent flickering
@@ -431,16 +430,17 @@ public partial class MainWindow : MicaWindow
 
         storyboard.Begin(window);
         WindowHelper.SetVisibility(window, true);
+        WindowHelper.SetTopmost(window);
     }
 
-    public void CloseAnimation(MicaWindow window)
+    public void CloseAnimation(MicaWindow window, MonitorInfo? selectedMonitor = null)
     {
         var eventTriggers = window.Triggers[0] as EventTrigger;
         var beginStoryboard = eventTriggers.Actions[0] as BeginStoryboard;
         var storyboard = beginStoryboard.Storyboard;
 
         DoubleAnimation moveAnimation = (DoubleAnimation)storyboard.Children[0];
-        var monitor = getSelectedMonitor();
+        var monitor = selectedMonitor != null ? selectedMonitor.Value : getSelectedMonitor();
         var workArea = monitor.workArea;
         var windowRect = WindowHelper.GetPlacement(window);
 
@@ -485,7 +485,9 @@ public partial class MainWindow : MicaWindow
             return;
 
         var playbackInfo = focusedSession.ControlSession.GetPlaybackInfo();
-        taskbarWindow?.UpdateUi(songInfo.Title, songInfo.Artist, Helper.GetThumbnail(songInfo.Thumbnail), playbackInfo.PlaybackStatus, playbackInfo.Controls);
+        var thumbnail = BitmapHelper.GetThumbnail(songInfo.Thumbnail);
+        BitmapHelper.GetDominantColors(1);
+        taskbarWindow?.UpdateUi(songInfo.Title, songInfo.Artist, thumbnail, playbackInfo.PlaybackStatus, playbackInfo.Controls);
     }
 
     public void reportBug(object? sender, EventArgs e)
@@ -547,7 +549,9 @@ public partial class MainWindow : MicaWindow
         if (songInfo == null)
             return;
 
-        taskbarWindow?.UpdateUi(songInfo.Title, songInfo.Artist, Helper.GetThumbnail(songInfo.Thumbnail), playbackInfo?.PlaybackStatus, playbackInfo?.Controls);
+        var thumbnail = BitmapHelper.GetThumbnail(songInfo.Thumbnail);
+        BitmapHelper.GetDominantColors(1);
+        taskbarWindow?.UpdateUi(songInfo.Title, songInfo.Artist, thumbnail, playbackInfo?.PlaybackStatus, playbackInfo?.Controls);
 
         if (IsVisible)
         {
@@ -558,7 +562,7 @@ public partial class MainWindow : MicaWindow
 
     // for determining whether MediaPropertyChanged has no changes
     private string previousMediaProperty = "";
-    private string previousMediaPropertyThumbnail = "";
+    private int previousMediaPropertyThumbnail = 0;
     private void MediaManager_OnAnyMediaPropertyChanged(MediaSession mediaSession, GlobalSystemMediaTransportControlsSessionMediaProperties mediaProperties)
     {
         // sometimes mediaSession.ControlSession can be null
@@ -581,7 +585,7 @@ public partial class MainWindow : MicaWindow
         var playbackInfo = mediaSession.ControlSession.GetPlaybackInfo();
 
         string check = songInfo.Title + songInfo.Artist + playbackInfo.PlaybackStatus;
-        string checkThumbnail = songInfo.Thumbnail?.GetHashCode().ToString() ?? "Null";
+        int checkThumbnail = BitmapHelper.GetStableThumbnailHash(songInfo.Thumbnail);
         bool onlyThumbnailChanged = false;
         if (previousMediaProperty == check)
         {
@@ -593,7 +597,9 @@ public partial class MainWindow : MicaWindow
         previousMediaProperty = check;
         previousMediaPropertyThumbnail = checkThumbnail;
 
-        taskbarWindow?.UpdateUi(songInfo.Title, songInfo.Artist, Helper.GetThumbnail(songInfo.Thumbnail), playbackInfo.PlaybackStatus, playbackInfo.Controls);
+        var thumbnail = BitmapHelper.GetThumbnail(songInfo.Thumbnail);
+        BitmapHelper.GetDominantColors(1);
+        taskbarWindow?.UpdateUi(songInfo.Title, songInfo.Artist, thumbnail, playbackInfo.PlaybackStatus, playbackInfo.Controls);
 
         pauseOtherMediaSessionsIfNeeded(mediaSession);
 
@@ -605,7 +611,7 @@ public partial class MainWindow : MicaWindow
                 {
                     if (nextUpWindow == null && playbackInfo.Controls.IsPauseEnabled) // double-check within the Dispatcher to prevent race conditions
                     {
-                        nextUpWindow = new NextUpWindow(songInfo.Title, songInfo.Artist, Helper.GetThumbnail(songInfo.Thumbnail));
+                        nextUpWindow = new NextUpWindow(songInfo.Title, songInfo.Artist, thumbnail);
                         currentTitle = songInfo.Title;
                         nextUpWindow.Closed += (s, e) => nextUpWindow = null; // set nextUpWindow to null when closed
                     }
@@ -632,7 +638,7 @@ public partial class MainWindow : MicaWindow
             {
                 Dispatcher.Invoke(() =>
                 {
-                    nextUpWindow?.UpdateThumbnail(Helper.GetThumbnail(songInfo.Thumbnail));
+                    nextUpWindow?.UpdateThumbnail(thumbnail);
                 });
             }
         }
@@ -681,7 +687,9 @@ public partial class MainWindow : MicaWindow
                 return;
 
             var playbackInfo = focusedSession.ControlSession.GetPlaybackInfo();
-            taskbarWindow?.UpdateUi(songInfo.Title, songInfo.Artist, Helper.GetThumbnail(songInfo.Thumbnail), playbackInfo.PlaybackStatus, playbackInfo.Controls);
+            var thumbnail = BitmapHelper.GetThumbnail(songInfo.Thumbnail);
+            BitmapHelper.GetDominantColors(1);
+            taskbarWindow?.UpdateUi(songInfo.Title, songInfo.Artist, thumbnail, playbackInfo.PlaybackStatus, playbackInfo.Controls);
         }
     }
 
@@ -708,21 +716,12 @@ public partial class MainWindow : MicaWindow
                 if (SettingsManager.Current.VolumeControlEnabled)
                     volumeMixerWindow?.ViewModel.SyncMasterFromDevice();
 
-                long currentTime = Environment.TickCount64;
+                bool result = TryShowMediaFlyoutDebounced();
 
-                // debounce to prevent hangs with rapid key presses
-                if ((currentTime - _lastFlyoutTime) < 500) // 500ms debounce time
+                if (!result)
                 {
                     return CallNextHookEx(_hookId, nCode, wParam, lParam);
                 }
-
-                _lastFlyoutTime = currentTime;
-
-                if (SettingsManager.Current.VolumeControlEnabled)
-                    volumeMixerWindow?.ShowFlyout();
-
-                if (!SettingsManager.Current.MediaFlyoutVolumeKeysExcluded && volumeKeysPressed)
-                    ShowMediaFlyout();
             }
 
             if (SettingsManager.Current.LockKeysEnabled && !FullscreenDetector.IsFullscreenApplicationRunning())
@@ -752,10 +751,24 @@ public partial class MainWindow : MicaWindow
         return CallNextHookEx(_hookId, nCode, wParam, lParam);
     }
 
-    public async void ShowMediaFlyout(bool toggleMode = false)
+    // show the media flyout with debounce
+    private bool TryShowMediaFlyoutDebounced()
+    {
+        long currentTime = Environment.TickCount64;
+        // debounce to prevent hangs with rapid key presses
+        if ((currentTime - _lastFlyoutTime) < 500) // 500ms debounce time
+        {
+            return false;
+        }
+        _lastFlyoutTime = currentTime;
+        ShowMediaFlyout();
+        return true;
+    }
+
+    public async void ShowMediaFlyout(bool toggleMode = false, bool forceShow = false)
     {
         if (mediaManager.GetFocusedSession() == null ||
-            !SettingsManager.Current.MediaFlyoutEnabled ||
+            (!forceShow && !SettingsManager.Current.MediaFlyoutEnabled) ||
             FullscreenDetector.IsFullscreenApplicationRunning())
             return;
 
@@ -794,6 +807,7 @@ public partial class MainWindow : MicaWindow
         cts = new CancellationTokenSource();
         var token = cts.Token;
         Visibility = Visibility.Visible;
+        WindowHelper.SetTopmost(this);
 
         try
         {
@@ -948,6 +962,13 @@ public partial class MainWindow : MicaWindow
                 BackgroundImageStyle2.Visibility = SettingsManager.Current.MediaFlyoutBackgroundBlur == 2 ? Visibility.Visible : Visibility.Collapsed;
                 BackgroundImageStyle3.Visibility = SettingsManager.Current.MediaFlyoutBackgroundBlur == 3 ? Visibility.Visible : Visibility.Collapsed;
 
+                // color play/pause button
+                if (BitmapHelper.SavedDominantColors.Count > 0)
+                {
+                    SolidColorBrush brush = BitmapHelper.SavedDominantColors.First();
+                    ControlPlayPause.Background = brush; 
+                }
+
                 // acrylic effect setting
                 if (SettingsManager.Current.MediaFlyoutAcrylicWindowEnabled != _acrylicEnabled
                 || SettingsManager.Current.AppTheme != _themeOption) // if theme changes, reapply acrylic for updated background color
@@ -965,7 +986,7 @@ public partial class MainWindow : MicaWindow
             {
                 SongTitle.Text = songInfo.Title;
                 SongArtist.Text = songInfo.Artist;
-                var image = Helper.GetThumbnail(songInfo.Thumbnail);
+                var image = BitmapHelper.GetThumbnail(songInfo.Thumbnail);
                 SongImage.ImageSource = image;
 
                 // set tooltip
@@ -977,7 +998,7 @@ public partial class MainWindow : MicaWindow
                 if (SettingsManager.Current.MediaFlyoutBackgroundBlur != 0)
                 {
                     // make image 1:1 aspect ratio so gradient masks work for non-square images
-                    var croppedImage = Helper.CropToSquare(image);
+                    var croppedImage = BitmapHelper.CropToSquare(image);
 
                     switch (SettingsManager.Current.MediaFlyoutBackgroundBlur)
                     {
@@ -1254,6 +1275,17 @@ public partial class MainWindow : MicaWindow
 
     private void CleanupResources()
     {
+        // try saving settings before exiting if window is still open
+        try
+        {
+            SettingsManager.SaveSettings();
+            Logger.Info("Settings saved successfully on cleanup");
+        }
+        catch (Exception ex)
+        {
+            Logger.Error(ex, "Error while saving settings on cleanup");
+        }
+
         // should be handled automatically on app exit but just in case
         try
         {
@@ -1271,12 +1303,14 @@ public partial class MainWindow : MicaWindow
 
             TaskbarVisualizerControl.DisposeVisualizer();
 
-            // unhook keyboard hook
+            // unhook hooks
             if (_hookId != IntPtr.Zero)
             {
                 UnhookWindowsHookEx(_hookId);
                 _hookId = IntPtr.Zero;
             }
+
+            DeregisterShellHookWindow(new WindowInteropHelper(this).Handle);
 
             // clean up other resources
             if (lockWindow?.IsLoaded == true)
@@ -1315,48 +1349,6 @@ public partial class MainWindow : MicaWindow
         finally
         {
             base.OnClosed(e);
-        }
-    }
-
-    internal static class Helper
-    {
-        private const int MaxThumbnailSize = 512;
-
-        internal static BitmapImage? GetThumbnail(IRandomAccessStreamReference Thumbnail, bool convertToPng = true)
-        {
-            if (Thumbnail == null)
-                return null;
-
-            BitmapImage image = new();
-            using (var imageStream = Thumbnail.OpenReadAsync().GetAwaiter().GetResult().AsStreamForRead())
-            {
-                // initialize the BitmapImage
-                image.BeginInit();
-                image.CacheOption = BitmapCacheOption.OnLoad;
-                image.DecodePixelWidth = MaxThumbnailSize;
-                image.StreamSource = imageStream;
-                image.EndInit();
-            }
-            image.Freeze();
-            return image;
-        }
-
-        internal static CroppedBitmap? CropToSquare(BitmapImage? sourceImage)
-        {
-            if (sourceImage == null)
-                return null;
-
-            int size = (int)Math.Min(sourceImage.PixelWidth, sourceImage.PixelHeight);
-            int x = (sourceImage.PixelWidth - size) / 2;
-            int y = (sourceImage.PixelHeight - size) / 2;
-
-            var rect = new Int32Rect(x, y, size, size);
-
-            // create a CroppedBitmap (this is a lightweight object)
-            var croppedBitmap = new CroppedBitmap(sourceImage, rect);
-
-            croppedBitmap.Freeze();
-            return croppedBitmap;
         }
     }
 
@@ -1400,7 +1392,53 @@ public partial class MainWindow : MicaWindow
 
     private nint WndProc(nint hwnd, int msg, nint wParam, nint lParam, ref bool handled)
     {
-        if (msg == WM_TASKBARCREATED)
+        // detect key presses from both keyboard hook and shell hook to show flyouts
+        if (msg == WM_SHELLHOOK && wParam == HSHELL_APPCOMMAND)
+        {
+            int highWord = (int)(lParam >> 16);
+            int cmd = highWord & 0x0FFF;
+            int device = highWord & 0xF000;
+
+            bool isMediaCommand = cmd switch
+            {
+                APPCOMMAND_MEDIA_PLAY_PAUSE => true,
+                APPCOMMAND_MEDIA_NEXTTRACK => true,
+                APPCOMMAND_MEDIA_PREVIOUSTRACK => true,
+                APPCOMMAND_MEDIA_STOP => true,
+                _ => false
+            };
+
+            bool isVolumeCommand = false;
+
+            if (!isMediaCommand && !SettingsManager.Current.MediaFlyoutVolumeKeysExcluded)
+            {
+                isVolumeCommand = cmd switch
+                {
+                    APPCOMMAND_VOLUME_MUTE => true,
+                    APPCOMMAND_VOLUME_DOWN => true,
+                    APPCOMMAND_VOLUME_UP => true,
+                    _ => false
+                };
+            }
+
+            if (!isMediaCommand && !isVolumeCommand)
+                return 0;
+
+            bool isKeyCommand = device == FAPPCOMMAND_KEY;
+
+            if (!isKeyCommand)
+                return 0;
+
+            bool result = TryShowMediaFlyoutDebounced();
+
+            if (!result)
+            {
+                return 0;
+            }
+
+            handled = true;
+        }
+        else if (msg == WM_TASKBARCREATED)
         {
             Logger.Warn("Explorer restart detected (TaskbarCreated)");
 
@@ -1432,6 +1470,18 @@ public partial class MainWindow : MicaWindow
             }, DispatcherPriority.Background);
 
             handled = true;
+            return 0;
+        }
+        else if (msg == WM_SETTINGCHANGE) // Windows theme or system settings changed
+        {  
+            try
+            {
+                ThemeManager.UpdateTaskbarWidget();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "Failed to apply theme changes to taskbar widgets");
+            }
             return 0;
         }
 
@@ -1492,6 +1542,7 @@ public partial class MainWindow : MicaWindow
             Logger.Error(ex, "Failed to initialize license");
         }
 
+        BitmapHelper.GetDominantColors(1);
         taskbarWindow = new TaskbarWindow();
         UpdateTaskbar();
         volumeMixerWindow = new VolumeMixerWindow();

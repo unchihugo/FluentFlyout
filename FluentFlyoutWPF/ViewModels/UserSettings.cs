@@ -4,6 +4,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using FluentFlyout.Classes;
 using FluentFlyout.Classes.Settings;
+using FluentFlyout.Classes.Utils;
 using FluentFlyout.Controls;
 using FluentFlyoutWPF.Classes;
 using FluentFlyoutWPF.Models;
@@ -245,6 +246,11 @@ public partial class UserSettings : ObservableObject
     [XmlElement(ElementName = "LockKeysBoldUI")]
     public partial bool LockKeysBoldUi { get; set; }
 
+    /// Selects which monitor to use for the lock keys flyout when multiple monitors are in use.
+    /// 0 = Default behavior, 1 = Monitor containing the focused window, 2 = Monitor containing the cursor.
+    [ObservableProperty]
+    public partial int LockKeysMonitorPreference { get; set; }
+    
     /// <summary>
     /// Determines if the user has updated to a new version
     /// </summary>
@@ -377,18 +383,6 @@ public partial class UserSettings : ObservableObject
     }
 
     /// <summary>
-    /// Gets or sets a value indicating whether the taskbar widget is clickable
-    /// </summary>
-    [ObservableProperty]
-    public partial bool TaskbarWidgetClickable { get; set; }
-
-    /// <summary>
-    /// Gets or sets a value indicating whether clicking the taskbar widget toggles the flyout (close if already open)
-    /// </summary>
-    [ObservableProperty]
-    public partial bool TaskbarWidgetCloseableFlyout { get; set; }
-
-    /// <summary>
     /// Gets or sets a value indication whether the taskbar widget background should have a blur effect
     /// </summary>
     [ObservableProperty]
@@ -405,6 +399,12 @@ public partial class UserSettings : ObservableObject
     /// </summary>
     [ObservableProperty]
     public partial bool TaskbarWidgetControlsEnabled { get; set; }
+
+    /// <summary>
+    /// Position of the taskbar widget controls. 0: Left, 1: Right
+    /// </summary>
+    [ObservableProperty]
+    public partial int TaskbarWidgetControlsPosition { get; set; }
 
     /// <summary>
     /// Gets or sets a value indicating whether the taskbar widget should play animations.
@@ -426,12 +426,8 @@ public partial class UserSettings : ObservableObject
     public partial int TaskbarVisualizerPosition { get; set; }
 
     /// <summary>
-    /// Whether the visualizer is clickable to open the flyout
+    /// Whether the visualizer is clickable to open the visualizer settings page.
     /// </summary>
-    /// <remarks>
-    /// same setting as TaskbarWidgetClickable for now since the visualizer is part of the widget,
-    /// but separate in case we want to differentiate in the future
-    /// </remarks>
     [ObservableProperty]
     public partial bool TaskbarVisualizerClickable { get; set; }
 
@@ -526,6 +522,9 @@ public partial class UserSettings : ObservableObject
     [ObservableProperty]
     public partial uint AcrylicBlurOpacity { get; set; }
 
+    [ObservableProperty]
+    public partial bool UseAlbumArtAsAccentColor { get; set; }
+
     /// <summary>
     /// Gets whether this is a Store version. Once false, always false (only if last known version was not null).
     /// </summary>
@@ -547,6 +546,12 @@ public partial class UserSettings : ObservableObject
     /// </summary>
     [ObservableProperty]
     public partial bool ShowUpdateNotifications { get; set; }
+
+    /// <summary>
+    /// Determines whether to use the legacy method for calculating taskbar width for widget positioning for compatibility with other taskbar mods
+    /// </summary>
+    [ObservableProperty]
+    public partial bool LegacyTaskbarWidthEnabled { get; set; }
 
     [XmlIgnore]
     private bool _initializing = true;
@@ -582,6 +587,7 @@ public partial class UserSettings : ObservableObject
         NIconHide = false;
         DisableIfFullscreen = true;
         LockKeysBoldUi = false;
+        LockKeysMonitorPreference = 0;
         LastKnownVersion = "";
         SeekbarEnabled = false;
         PauseOtherSessionsEnabled = false;
@@ -599,28 +605,29 @@ public partial class UserSettings : ObservableObject
         TaskbarWidgetPosition = 0;
         TaskbarWidgetPadding = true;
         TaskbarWidgetManualPadding = 0;
-        TaskbarWidgetClickable = true;
-        TaskbarWidgetCloseableFlyout = true;
         TaskbarWidgetBackgroundBlur = false;
         TaskbarWidgetHideCompletely = false;
         TaskbarWidgetControlsEnabled = false;
+        TaskbarWidgetControlsPosition = 1;
         TaskbarWidgetAnimated = true;
         TaskbarVisualizerEnabled = false;
-        TaskbarVisualizerPosition = 0;
+        TaskbarVisualizerPosition = 1;
         TaskbarVisualizerClickable = false;
         TaskbarVisualizerBarCount = 10;
         TaskbarVisualizerCenteredBars = false;
         TaskbarVisualizerBaseline = false;
         TaskbarVisualizerAudioSensitivity = 2;
-        TaskbarVisualizerAudioPeakLevel = 2;
+        TaskbarVisualizerAudioPeakLevel = 3;
         VolumeControlEnabled = false;
         VolumeControlAboveMediaFlyout = false;
         VolumeControlDuration = 3000;
         VolumeMixerEnabled = true;
         VolumeMixerHighlightActiveApps = true;
         AcrylicBlurOpacity = 175;
+        UseAlbumArtAsAccentColor = false;
         LastUpdateNotificationUnixSeconds = 0;
         ShowUpdateNotifications = true;
+        LegacyTaskbarWidthEnabled = false;
     }
 
     /// <summary>
@@ -693,12 +700,6 @@ public partial class UserSettings : ObservableObject
         UpdateTaskbar();
     }
 
-    partial void OnTaskbarWidgetClickableChanged(bool oldValue, bool newValue)
-    {
-        if (oldValue == newValue || _initializing) return;
-        UpdateTaskbar();
-    }
-
     partial void OnTaskbarWidgetBackgroundBlurChanged(bool oldValue, bool newValue)
     {
         if (oldValue == newValue || _initializing) return;
@@ -717,7 +718,21 @@ public partial class UserSettings : ObservableObject
         UpdateTaskbar();
     }
 
+    partial void OnTaskbarWidgetControlsPositionChanged(int oldValue, int newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+        
+        MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+        mainWindow.taskbarWindow?.Widget?.ReorderControls();
+    }
+
     partial void OnTaskbarVisualizerPositionChanged(int oldValue, int newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+        UpdateTaskbar();
+    }
+
+    partial void OnLegacyTaskbarWidthEnabledChanged(bool oldValue, bool newValue)
     {
         if (oldValue == newValue || _initializing) return;
         UpdateTaskbar();
@@ -746,6 +761,12 @@ public partial class UserSettings : ObservableObject
     {
         if (oldValue == newValue || _initializing || newValue == false) return;
         TaskbarVisualizerHasContent = true;
+    }
+
+    partial void OnUseAlbumArtAsAccentColorChanged(bool oldValue, bool newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+        BitmapHelper.GetDominantColors(1);
     }
 
     partial void OnVolumeControlEnabledChanged(bool oldValue, bool newValue)

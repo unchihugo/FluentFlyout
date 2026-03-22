@@ -11,6 +11,8 @@ namespace FluentFlyoutWPF.Classes;
 
 public static class WindowHelper
 {
+    private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+
     [StructLayout(LayoutKind.Sequential)]
     public struct RECT
     {
@@ -28,7 +30,7 @@ public static class WindowHelper
     public static void SetTopmost(Window window) // workaround to set window even more topmost
     {
         var handle = new WindowInteropHelper(window).Handle;
-        SetWindowPos(handle, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_SHOWWINDOW);
+        SetWindowPos(handle, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
     }
 
     public static void SetVisibility(Window window, bool visible) // workaround to set window even more topmost
@@ -52,7 +54,14 @@ public static class WindowHelper
     public static void SetPosition(Window window, double x, double y, bool async = false) // set the position of the window, ignoring WPF
     {
         var handle = new WindowInteropHelper(window).Handle;
-        SetWindowPos(handle, 0, (int)x, (int)y, 0, 0, SWP_NOSIZE | SWP_NOZORDER | (async ? SWP_ASYNCWINDOWPOS : (uint)0));
+        uint flags = SWP_NOSIZE | SWP_NOZORDER | (async ? SWP_ASYNCWINDOWPOS : (uint)0);
+        bool result = SetWindowPos(handle, 0, (int)x, (int)y, 0, 0, flags);
+
+        if (!result)
+        {
+            int error = Marshal.GetLastWin32Error();
+            Logger.Warn($"SetPosition failed for '{window.GetType().Name}' (HWND=0x{handle.ToInt64():X}, X={x}, Y={y}, Flags=0x{flags:X}), Win32Error={error}");
+        }
 
         return;
     }

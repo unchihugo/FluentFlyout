@@ -56,7 +56,7 @@
     <system:String x:Key="EnableNextUpDescription">Отображает, что будет дальше после окончания текущего медиа</system:String>
     <system:String x:Key="NextUpStayDurationTitle">Длительность отображения окна</system:String>
     <system:String x:Key="NextUpStayDurationDescription">(по умолчанию: 2000 мс)</system:String>
-    <system:String x:Key="LockKeysCustomizationTitle">Всплывающие клавиши-переключатели</system:String>
+    <system:String x:Key="LockKeysCustomizationTitle">Клавиши-переключатели</system:String>
     <system:String x:Key="LockKeysDescription" xml:space="preserve">Уведомление о смене состояния клавиш-переключателей. Появляется после нажатия Caps Lock, Num Lock или Scroll Lock. Удобно для ноутбуков и клавиатур без индикаторов клавиш-переключателей.</system:String>
     <system:String x:Key="EnableLockKeysTitle">Включить всплывающие клавиши-переключатели</system:String>
     <system:String x:Key="EnableLockKeysDescription">Отображает окно о состоянии нажатой клавиши-переключателе</system:String>
@@ -157,7 +157,7 @@
     <system:String x:Key="AboutContributorsDescription">Огромное спасибо всем замечательным людям, которые внесли свой вклад в разработку и успех FluentFlyout!</system:String>
     <system:String x:Key="AboutOpenSourceLicensesTitle">Лицензии с открытым исходным кодом</system:String>
     <system:String x:Key="AboutOpenSourceLicensesDescription">FluentFlyout скомпилирован с использованием следующих пакетов с открытым исходным кодом:</system:String>
-    <system:String x:Key="TrayIcon_ViewLogsOption">Просмотреть логи</system:String>
+    <system:String x:Key="TrayIcon_ViewLogsOption">Посмотреть журнал</system:String>
     <system:String x:Key="PixelsUnit">пикс.</system:String>
     <system:String x:Key="UpdateToastTitle">Приложение FluentFlyout обновлено!</system:String>
     <system:String x:Key="UpdateToastMessage">Ваша текущая версия: {0}.</system:String>
@@ -198,4 +198,35 @@
     <system:String x:Key="TaskbarVisualizerOutputDeviceDescription">Измените источник звука для визуализатора, переключив устройство вывода в FluentFlyout.</system:String>
     <system:String x:Key="TaskbarVisualizerAudioPeakLevelTitle">Пиковый уровень звука</system:String>
     <system:String x:Key="TaskbarVisualizerAudioPeakLevelDescription">Насколько громким должен быть звук, чтобы полосы достигли максимальной высоты</system:String>
+    <system:String x:Key="TaskbarWidgetCloseableFlyoutTitle">Закрывать всплывающее окно при повторном нажатии</system:String>
+    <system:String x:Key="TaskbarWidgetCloseableFlyoutDescription">Закрывает всплывающее окно, если оно уже открыто, при нажатии на виджет на панели задач</system:String>
+    <system:String x:Key="BackupRestoreSectionTitle">Резервное копирование и восстановление</system:String>
+    <system:String x:Key="ImportSettings">Импорт настроек</system:String>
+    <system:String x:Key="BackupRestoreCardTitle">Создание и восстановление резервной копию настроек</system:String>
+    <system:String x:Key="ExportSettings">Экспорт настроек</system:String>
+    <system:String x:Key="ExportSuccessful">Экспорт выполнен успешно</system:String>
+    <system:String x:Key="ImportFailed">Ошибка импорта</system:String>
+    <system:String x:Key="ExportFailed">Ошибка экспорта</system:String>
+    <system:String x:Key="ImportSuccessful">Импорт выполнен успешно</system:String>
+    <system:String x:Key="SettingsExportedSuccessfully">Настройки успешно экспортированы!</system:String>
+    <system:String x:Key="FailedToExportSettings">Не удалось экспортировать настройки. Подробнее в журнале.</system:String>
+    <system:String x:Key="SettingsImportedSuccessfully">Настройки успешно импортированы! Приложение перезапустится для применения изменений.</system:String>
+    <system:String x:Key="ImportSettingsWarning">Это заменит все ваши текущие настройки. Продолжить?</system:String>
+    <system:String x:Key="FailedToImportSettings">Не удалось импортировать настройки. Подробнее в журнале.</system:String>
+    <system:String x:Key="TaskbarWidgetControlsPositionTitle">Позиция медиакнопок</system:String>
+    <system:String x:Key="TaskbarWidgetControlsPositionDescription">Выберите, где отображать медиакнопки</system:String>
+    <system:String x:Key="PositionLeft">Слева</system:String>
+    <system:String x:Key="PositionRight">Справа</system:String>
+    <system:String x:Key="LockKeysCursorUITitle">Предпочитаемый целевой дисплей</system:String>
+    <system:String x:Key="LockKeysCursorUIDescription" xml:space="preserve">Выберите, на каком мониторе отображать всплывающее окно.</system:String>
+    <system:String x:Key="DefaultLockLayoutPosition">По умолчанию (целевой дисплей всплывающего окна)</system:String>
+    <system:String x:Key="MonitorWithFocusedWindow">Монитор с активным окном</system:String>
+    <system:String x:Key="MonitorWithCursor">Монитор с курсором</system:String>
+    <system:String x:Key="TaskbarVisualizerClickableTitle">Открыть настройки</system:String>
+    <system:String x:Key="TaskbarVisualizerClickableDescription">Нажатие на визуализатор откроет страницу его настроек</system:String>
+    <system:String x:Key="UseAlbumArtAccentColorTitle">Использовать обложку альбома как акцентный цвет</system:String>
+    <system:String x:Key="UseAlbumArtAccentColorDescription">Некоторые элементы интерфейса будут использовать цвет обложки альбома вместо системной темы</system:String>
+    <system:String x:Key="AdvancedSettingsTitle">Расширенные настройки</system:String>
+    <system:String x:Key="LegacyTaskbarWidthTitle">Классическая система ширины панели задач</system:String>
+    <system:String x:Key="LegacyTaskbarWidthDescription">Используйте классическую систему ширины панели задач для виджетов</system:String>
 </ResourceDictionary>

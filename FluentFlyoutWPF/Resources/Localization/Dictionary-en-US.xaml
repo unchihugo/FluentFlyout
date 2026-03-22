@@ -9,8 +9,6 @@
     <System:String x:Key="TextBlockText3">Display a flyout when you press a media key</System:String>
     <System:String x:Key="MediaFlyoutExcludeVolumeTitle">Exclude Volume Keys</System:String>
     <System:String x:Key="MediaFlyoutExcludeVolumeDescription">Do not display the flyout when pressing volume up/down/mute</System:String>
-    <System:String x:Key="TaskbarWidgetCloseableFlyoutTitle">Close Flyout on Second Click</System:String>
-    <System:String x:Key="TaskbarWidgetCloseableFlyoutDescription">Close the flyout if it's already open when clicking the taskbar widget</System:String>
     <System:String x:Key="TextBlockText2">Choose from a preset of modern background blur styles</System:String>
     <System:String x:Key="BackgroundBlurOption1" xml:space="preserve"> None</System:String>
     <System:String x:Key="BackgroundBlurOption2" xml:space="preserve"> Style 1 (Cover Glow)</System:String>
@@ -48,7 +46,7 @@ hides repeat, shuffle and player info</System:String>
     <System:String x:Key="PauseOtherMediaTitle">Pause Other Media Automatically</System:String>
     <System:String x:Key="PauseOtherMediaDescription">When you play or focus on new media, other active sessions are automatically paused</System:String>
     <System:String x:Key="TaskbarWidgetCustomizationTitle">Taskbar Widget</System:String>
-    <System:String x:Key="TaskbarWidgetDescription">A compact, built-in widget that lives right on your Windows Taskbar for instant access to your media. Click the widget to expand the full Media Flyout (when enabled).</System:String>
+    <System:String x:Key="TaskbarWidgetDescription">A compact, built-in widget that lives right on your Windows Taskbar for instant access to your media. Click the widget to expand the full Media Flyout.</System:String>
     <System:String x:Key="TaskbarWidgetEnabledTitle">Enable Taskbar Widget</System:String>
     <System:String x:Key="TaskbarWidgetEnabledDescription">Show a compact media widget on the taskbar</System:String>
     <System:String x:Key="TaskbarWidgetVisualIssuesWarning">Configure the options below if you experience visual issues.</System:String>
@@ -60,14 +58,16 @@ hides repeat, shuffle and player info</System:String>
     <System:String x:Key="TaskbarWidgetPaddingDescription">Turn this feature on if you have Windows Widgets enabled</System:String>
     <System:String x:Key="TaskbarWidgetManualPaddingTitle">Custom Padding</System:String>
     <System:String x:Key="TaskbarWidgetManualPaddingDescription">Add extra padding (default: 0px)</System:String>
-    <System:String x:Key="TaskbarWidgetClickableTitle">Click to open Media Flyout when media is Present</System:String>
-    <System:String x:Key="TaskbarWidgetClickableDescription">If media flyout is enabled, it will open when you click the taskbar widget</System:String>
     <System:String x:Key="TaskbarWidgetBackgroundBlurTitle">Background Blur</System:String>
     <System:String x:Key="TaskbarWidgetBackgroundBlurDescription">Add background blur effect to the taskbar widget</System:String>
     <System:String x:Key="TaskbarWidgetHideCompletelyTitle">Hide Completely When No Media Is Present</System:String>
     <System:String x:Key="TaskbarWidgetHideCompletelyDescription">Hides the entire widget when no media is available, instead of displaying a media icon</System:String>
     <System:String x:Key="TaskbarWidgetControlsTitle">Widget Media Controls</System:String>
     <System:String x:Key="TaskbarWidgetControlsDescription">Show media control buttons on the widget</System:String>
+    <System:String x:Key="TaskbarWidgetControlsPositionTitle">Media Controls Position</System:String>
+    <System:String x:Key="TaskbarWidgetControlsPositionDescription">Choose where to display the media control buttons</System:String>
+    <System:String x:Key="PositionLeft">Left</System:String>
+    <System:String x:Key="PositionRight">Right</System:String>
     <System:String x:Key="TaskbarWidgetAnimatedTitle">Widget Animations</System:String>
     <System:String x:Key="TaskbarWidgetAnimatedDescription">Enable subtle animations for the widget</System:String>
     <System:String x:Key="TaskbarVisualizerTitle">Taskbar Visualizer</System:String>
@@ -87,6 +87,8 @@ hides repeat, shuffle and player info</System:String>
     <System:String x:Key="TaskbarVisualizerAudioPeakLevelDescription">How loud audio must be for the bars to reach their maximum height</System:String>
     <System:String x:Key="TaskbarVisualizerOutputDeviceTitle">Output Device</System:String>
     <System:String x:Key="TaskbarVisualizerOutputDeviceDescription">Change what the visualizer listens to by switching FluentFlyout's output device.</System:String>
+    <System:String x:Key="TaskbarVisualizerClickableTitle">Click to open Settings</System:String>
+    <System:String x:Key="TaskbarVisualizerClickableDescription">Clicking the visualizer will open its settings page</System:String>
     <System:String x:Key="PremiumFeatureTitle">Premium Feature</System:String>
     <System:String x:Key="PremiumFeatureDescription" xml:space="preserve">Your one-time contribution helps me keep FluentFlyout alive and updated. It instantly unlocks all premium customization features, forever.
         
@@ -105,7 +107,7 @@ Note: As an open-source project, these features are also available for free via 
     <System:String x:Key="AllFuturePremiumFeatures">All future Premium features</System:String>
     <System:String x:Key="NextUpCustomizationTitle">Next Up Flyout</System:String>
     <System:String x:Key="NextUpDescription" xml:space="preserve">A flyout shows what's next when a song/video ends. Only appears if the next item plays automatically, if next/previous is pressed manually, the main flyout appears instead.</System:String>
-    <System:String x:Key="EnableNextUpTitle">Enable Next Up Flyout (Experimental)</System:String>
+    <System:String x:Key="EnableNextUpTitle">Enable Next Up Flyout</System:String>
     <System:String x:Key="EnableNextUpDescription">Shows what's next when a song/video ends</System:String>
     <System:String x:Key="NextUpStayDurationTitle">Next Up Stay Duration</System:String>
     <System:String x:Key="NextUpStayDurationDescription">(default: 2000 ms)</System:String>
@@ -117,6 +119,11 @@ Note: As an open-source project, these features are also available for free via 
     <System:String x:Key="LockKeysStayDurationDescription">(default: 2000 ms)</System:String>
     <System:String x:Key="LockKeysBoldUITitle">Bold Symbol and Font</System:String>
     <System:String x:Key="LockKeysBoldUIDescription">Emphasizes the flyout symbol and font</System:String>
+    <System:String x:Key="LockKeysCursorUITitle">Preferred Target Display</System:String>
+    <System:String x:Key="LockKeysCursorUIDescription" xml:space="preserve">Choose which monitor to display the flyout.</System:String>
+    <System:String x:Key="DefaultLockLayoutPosition">Default (Flyout Target Display)</System:String>
+    <System:String x:Key="MonitorWithFocusedWindow">Monitor with focused window</System:String>
+    <System:String x:Key="MonitorWithCursor">Monitor with cursor</System:String>
     <System:String x:Key="EnableInsertKeyTitle">Enable Insert Key Popup</System:String>
     <System:String x:Key="EnableInsertKeyDescription">Determines whether pressing insert/overwrite will show the flyout</System:String>
     <System:String x:Key="SystemSettingsTitle">System</System:String>
@@ -128,6 +135,8 @@ Note: As an open-source project, these features are also available for free via 
     <System:String x:Key="AppThemeDefault"> Windows Default</System:String>
     <System:String x:Key="AppThemeLight"> Light</System:String>
     <System:String x:Key="AppThemeDark"> Dark</System:String>
+    <System:String x:Key="UseAlbumArtAccentColorTitle">Use Album Art as Accent Color</System:String>
+    <System:String x:Key="UseAlbumArtAccentColorDescription">Some UI elements will use the album art color instead of the system theme</System:String>
     <System:String x:Key="TrayIconLeftClickBehaviorTitle">Tray Icon Left Click Behavior</System:String>
     <System:String x:Key="TrayIconLeftClickBehaviorDescription">Choose what happens when you left click the tray icon</System:String>
     <System:String x:Key="TrayIconLeftClickOption1"> Open Settings</System:String>
@@ -200,6 +209,22 @@ You can help contribute translations on</System:String>
     <System:String x:Key="UpdateAvailableNotificationMessage">A new version ({0}) is available.</System:String>
     <System:String x:Key="UpdateAvailableNotificationButton">Download Update</System:String>
     <System:String x:Key="ShowUpdateNotificationsTitle">Show notifications for new updates</System:String>
+    <System:String x:Key="BackupRestoreSectionTitle">Back up &amp; restore</System:String>
+    <System:String x:Key="BackupRestoreCardTitle">Back up and restore your settings</System:String>
+    <System:String x:Key="ExportSettings">Export Settings</System:String>
+    <System:String x:Key="ImportSettings">Import Settings</System:String>
+    <System:String x:Key="ExportSuccessful">Export Successful</System:String>
+    <System:String x:Key="ExportFailed">Export Failed</System:String>
+    <System:String x:Key="ImportSuccessful">Import Successful</System:String>
+    <System:String x:Key="ImportFailed">Import Failed</System:String>
+    <System:String x:Key="SettingsExportedSuccessfully">Settings exported successfully!</System:String>
+    <System:String x:Key="FailedToExportSettings">Failed to export settings. Check the logs for details.</System:String>
+    <System:String x:Key="SettingsImportedSuccessfully">Settings imported successfully! The application will now restart to apply changes.</System:String>
+    <System:String x:Key="ImportSettingsWarning">This will replace all your current settings. Continue?</System:String>
+    <System:String x:Key="FailedToImportSettings">Failed to import settings. Check the logs for details.</System:String>
+    <System:String x:Key="AdvancedSettingsTitle">Advanced Settings</System:String>
+    <System:String x:Key="LegacyTaskbarWidthTitle">Legacy Taskbar Width System</System:String>
+    <System:String x:Key="LegacyTaskbarWidthDescription">Use the legacy Taskbar width system for Taskbar Widgets</System:String>
     <System:String x:Key="VolumeFlyoutTitle">Volume Flyout</System:String>
     <System:String x:Key="VolumeFlyoutDescription">A standalone volume control flyout that expands into a volume mixer, replacing the default Windows volume interface.</System:String>
     <System:String x:Key="EnableVolumeFlyoutTitle">Enable Volume Flyout</System:String>

@@ -6,7 +6,7 @@
       xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
       xmlns:controls="clr-namespace:MicaWPF.Controls;assembly=MicaWPF"
       xmlns:viewModels="clr-namespace:FluentFlyoutWPF.ViewModels"
-      xmlns:utils="clr-namespace:FluentFlyoutWPF.Classes.Utils"
+      xmlns:fluentflyoutcontrols="clr-namespace:FluentFlyout.Controls"
       mc:Ignorable="d"
       d:DesignHeight="1600" d:DesignWidth="800"
       Title="TaskbarWidgetPage"
@@ -14,15 +14,11 @@
       Foreground="{DynamicResource TextFillColorPrimaryBrush}"
       d:Background="White">
 
-    <Page.Resources>
-        <utils:BoolToVisibleCollapsedConverter x:Key="BoolToCollapsedVisibleConverter" TrueValue="Collapsed" FalseValue="Visible" />
-        <utils:BoolToFullHalfOpacityConverter x:Key="BoolToFullHalfOpacityConverter" />
-    </Page.Resources>
-
     <StackPanel MaxWidth="1000" Margin="16">
         <TextBlock Text="{DynamicResource TaskbarWidgetCustomizationTitle}" FontSize="24" FontWeight="SemiBold" Margin="0,0,0,20" />
         <Grid>
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -107,14 +103,14 @@
                     <StackPanel Orientation="Vertical">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="{DynamicResource TaskbarWidgetEnabledTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
-                            <ui:InfoBadge Value=" PREMIUM " FontWeight="Medium" FontSize="10" Margin="6,-2,0,-2" Severity="Attention" />
+                            <fluentflyoutcontrols:AccentBadge Margin="6,0,0,0" />
                         </StackPanel>
                         <TextBlock Text="{DynamicResource TaskbarWidgetEnabledDescription}" FontSize="12" Opacity="0.5" />
                     </StackPanel>
                 </ui:CardControl.Header>
                 <controls:ToggleSwitch IsChecked="{Binding TaskbarWidgetEnabled, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}" />
             </ui:CardControl>
-            <ui:InfoBar Grid.Row="3" Title="{DynamicResource TaskbarWidgetVisualIssuesWarning}" IsOpen="True" Severity="Warning" IsClosable="False" Margin="0,0,0,3" />
+            <ui:InfoBar Grid.Row="3" Title="{DynamicResource TaskbarWidgetVisualIssuesWarning}" IsOpen="True" Severity="Informational" IsClosable="False" Margin="0,0,0,3" />
 
             <ui:CardControl Grid.Row="4" Icon="{ui:SymbolIcon ArrowMove24}" Margin="0,0,0,3">
                 <ui:CardControl.Header>
@@ -131,10 +127,7 @@
             <ui:CardControl Grid.Row="5" Icon="{ui:SymbolIcon ProjectionScreen24}" Margin="0,0,0,3">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{DynamicResource TaskbarWidgetSelectedMonitorTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
-                            <ui:InfoBadge Value=" NEW " FontWeight="Medium" FontSize="10" Margin="6,-2,0,-2" Severity="Success" />
-                        </StackPanel>
+                        <TextBlock Text="{DynamicResource TaskbarWidgetSelectedMonitorTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
                     </StackPanel>
                 </ui:CardControl.Header>
                 <ComboBox x:Name="TaskbarWidgetSelectedMonitorComboBox" SelectedIndex="{Binding TaskbarWidgetSelectedMonitor, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}">
@@ -196,27 +189,6 @@
                 </StackPanel>
             </ui:CardExpander>
 
-            <ui:CardControl Grid.Row="7" Icon="{ui:SymbolIcon ExpandUpRight24}" Margin="0,0,0,3">
-                <ui:CardControl.Header>
-                    <StackPanel Orientation="Vertical">
-                        <TextBlock Text="{DynamicResource TaskbarWidgetClickableTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
-                        <TextBlock Text="{DynamicResource TaskbarWidgetClickableDescription}" FontSize="12" Opacity="0.5" />
-                    </StackPanel>
-                </ui:CardControl.Header>
-                <controls:ToggleSwitch IsChecked="{Binding TaskbarWidgetClickable, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}" />
-            </ui:CardControl>
-            <ui:CardControl Grid.Row="8" Icon="{ui:SymbolIcon ArrowSwap24}" Margin="0,0,0,12">
-                <ui:CardControl.Header>
-                    <StackPanel Orientation="Vertical">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{DynamicResource TaskbarWidgetCloseableFlyoutTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
-                            <ui:InfoBadge Value=" NEW " FontWeight="Medium" FontSize="10" Margin="6,-2,0,-2" Severity="Success" />
-                        </StackPanel>
-                        <TextBlock Text="{DynamicResource TaskbarWidgetCloseableFlyoutDescription}" FontSize="12" Opacity="0.5" />
-                    </StackPanel>
-                </ui:CardControl.Header>
-                <controls:ToggleSwitch Name="TaskbarWidgetCloseableFlyoutSwitch" IsChecked="{Binding TaskbarWidgetCloseableFlyout, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}" />
-            </ui:CardControl>
             <ui:CardControl Grid.Row="9" Icon="{ui:SymbolIcon ColorBackground24}" Margin="0,0,0,3">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
@@ -244,7 +216,19 @@
                 </ui:CardControl.Header>
                 <controls:ToggleSwitch IsChecked="{Binding TaskbarWidgetControlsEnabled, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}" />
             </ui:CardControl>
-            <ui:CardControl Grid.Row="12" Icon="{ui:SymbolIcon Wand24}" Margin="0,0,0,76">
+            <ui:CardControl Grid.Row="12" Icon="{ui:SymbolIcon ArrowMove24}" Margin="0,0,0,12">
+                <ui:CardControl.Header>
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="{DynamicResource TaskbarWidgetControlsPositionTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
+                        <TextBlock Text="{DynamicResource TaskbarWidgetControlsPositionDescription}" FontSize="12" Opacity="0.5" />
+                    </StackPanel>
+                </ui:CardControl.Header>
+                <ComboBox SelectedIndex="{Binding TaskbarWidgetControlsPosition}" IsEnabled="{Binding IsPremiumUnlocked}">
+                    <ComboBoxItem Content="{DynamicResource PositionLeft}" />
+                    <ComboBoxItem Content="{DynamicResource PositionRight}" />
+                </ComboBox>
+            </ui:CardControl>
+            <ui:CardControl Grid.Row="13" Icon="{ui:SymbolIcon Wand24}" Margin="0,0,0,76">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
                         <TextBlock Text="{DynamicResource TaskbarWidgetAnimatedTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />

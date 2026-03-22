@@ -181,7 +181,7 @@ Możesz pomóc w tworzeniu tłumaczeń na stronie</system:String>
     <system:String x:Key="TaskbarVisualizerBaselineTitle">Pokaż podstawę</system:String>
     <system:String x:Key="TaskbarVisualizerBaselineDescription">Pokazuje cienką linię gdy poziomy audio są wyzerowane</system:String>
     <system:String x:Key="TaskbarVisualizerAudioSensitivityTitle">Czułość na dźwięk</system:String>
-    <system:String x:Key="TaskbarVisualizerAudioSensitivityDescription">Jak bardzo kolumny reagują na głośność audio</system:String>
+    <system:String x:Key="TaskbarVisualizerAudioSensitivityDescription">Jak głośny musi być dźwięk aby kolumny zaczęły się poruszać</system:String>
     <system:String x:Key="UnlockFullExperienceText">Odblokuj pelne doświadczenia z FluentFlyout:</system:String>
     <system:String x:Key="TaskbarWidgetCustomizationPerk">Widżet Paska Zadań i Wizualizer</system:String>
     <system:String x:Key="AcrylicBlurOpacityPerk">Przezroczystość rozmycia akrylowego</system:String>
@@ -196,4 +196,37 @@ Możesz pomóc w tworzeniu tłumaczeń na stronie</system:String>
     <system:String x:Key="ShowUpdateNotificationsTitle">Pokaż powiadomienia o aktualizacjach</system:String>
     <system:String x:Key="TaskbarVisualizerOutputDeviceTitle">Urządzenie wyjściowe</system:String>
     <system:String x:Key="TaskbarVisualizerOutputDeviceDescription">Zmień czego nasłuchuje wizualizer poprzez zmianę urządzenia wyjściowego dla FluentFlyout.</system:String>
+    <system:String x:Key="BackupRestoreCardTitle">Stwórz kopię zapasową i przywróć swoje ustawienia</system:String>
+    <system:String x:Key="ExportSettings">Eksportuj ustawienia</system:String>
+    <system:String x:Key="ImportSettings">Importuj ustawienia</system:String>
+    <system:String x:Key="ExportSuccessful">Eksportowanie zakończone pomyślnie</system:String>
+    <system:String x:Key="ExportFailed">Eksportowanie nieudane</system:String>
+    <system:String x:Key="ImportSuccessful">Importowanie zakończone pomyślnie</system:String>
+    <system:String x:Key="ImportFailed">Importowanie nieudane</system:String>
+    <system:String x:Key="SettingsExportedSuccessfully">Pomyślnie wyeksportowano ustawienia!</system:String>
+    <system:String x:Key="FailedToExportSettings">Nie udało się wyeksportować ustawień. Sprawdź dziennik zdarzeń, aby zobaczyć szczegóły.</system:String>
+    <system:String x:Key="SettingsImportedSuccessfully">Ustawienia wyeksportowano pomyślnie! Aplikacja zostanie teraz uruchomiona ponownie w celu zastosowania zmian.</system:String>
+    <system:String x:Key="ImportSettingsWarning">To podmieni wszystkie obecne ustawienia. Kontynuować?</system:String>
+    <system:String x:Key="FailedToImportSettings">Nie udało się zaimportować ustawień. Sprawdź dziennik zdarzeń, aby zobaczyć szczegóły.</system:String>
+    <system:String x:Key="TaskbarWidgetCloseableFlyoutTitle">Zamknij Flyout klikając dwa razy</system:String>
+    <system:String x:Key="TaskbarWidgetCloseableFlyoutDescription">Zamknij flyout jeżeli jest już otwarty po kliknięciu w widget na pasku zadań</system:String>
+    <system:String x:Key="TaskbarWidgetControlsPositionTitle">Pozycja Kontroli Mediów</system:String>
+    <system:String x:Key="TaskbarWidgetControlsPositionDescription">Wybierz gdzie wyświetlać przyciski kontroli mediów</system:String>
+    <system:String x:Key="PositionLeft">Lewo</system:String>
+    <system:String x:Key="PositionRight">Prawo</system:String>
+    <system:String x:Key="TaskbarVisualizerAudioPeakLevelTitle">Górny próg dźwięku</system:String>
+    <system:String x:Key="TaskbarVisualizerAudioPeakLevelDescription">Jak głośny musi być dźwięk, aby kolumny osiągnęły maksymalną wysokość</system:String>
+    <system:String x:Key="TaskbarVisualizerClickableTitle">Kliknij aby otworzyć ustawienia</system:String>
+    <system:String x:Key="TaskbarVisualizerClickableDescription">Po kliknięciu w wizualizer otworzy się strona z ustawieniami</system:String>
+    <system:String x:Key="LockKeysCursorUITitle">Preferowany wyświetlacz docelowy</system:String>
+    <system:String x:Key="LockKeysCursorUIDescription" xml:space="preserve">Wybierz który monitor ma wyświetlać panel.</system:String>
+    <system:String x:Key="DefaultLockLayoutPosition">Domyślny (Wyświetlacz docelowy dla paneli)</system:String>
+    <system:String x:Key="MonitorWithFocusedWindow">Monitor z aktywnym oknem</system:String>
+    <system:String x:Key="MonitorWithCursor">Monitor z kursorem</system:String>
+    <system:String x:Key="UseAlbumArtAccentColorTitle">Użyj okładki albumu jako koloru akcentu</system:String>
+    <system:String x:Key="UseAlbumArtAccentColorDescription">Niektóre elementy interfejsu będą używać okładki albumu jako kolor zamiast motywu systemowego</system:String>
+    <system:String x:Key="BackupRestoreSectionTitle">Kopia zapasowa i przywracanie</system:String>
+    <system:String x:Key="AdvancedSettingsTitle">Ustawienia zaawansowane</system:String>
+    <system:String x:Key="LegacyTaskbarWidthTitle">Starszy system szerokości paska zadań</system:String>
+    <system:String x:Key="LegacyTaskbarWidthDescription">Użyj starszego systemu szerokości paska zadań dla widżetów paska zadań</system:String>
 </ResourceDictionary>

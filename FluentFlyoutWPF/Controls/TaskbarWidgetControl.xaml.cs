@@ -4,6 +4,8 @@
 using FluentFlyout.Classes.Settings;
 using FluentFlyout.Classes.Utils;
 using FluentFlyoutWPF;
+using MicaWPF.Core.Enums;
+using MicaWPF.Core.Helpers;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -11,7 +13,6 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using Windows.Media.Control;
-using Wpf.Ui.Appearance;
 using Wpf.Ui.Controls;
 
 namespace FluentFlyout.Controls;
@@ -40,6 +41,9 @@ public partial class TaskbarWidgetControl : UserControl
     {
         InitializeComponent();
 
+        // Apply Windows theme colors (independent of the app theme setting)
+        ApplyWindowsTheme();
+
         // Set DataContext for bindings
         DataContext = SettingsManager.Current;
 
@@ -57,6 +61,29 @@ public partial class TaskbarWidgetControl : UserControl
         }
 
         Background = new SolidColorBrush(Color.FromArgb(1, 0, 0, 0)); ;
+        
+        // Initialize control order
+        ReorderControls();
+    }
+
+    public void ReorderControls()
+    {
+        // Remove ControlsStackPanel from MainStackPanel
+        MainStackPanel.Children.Remove(ControlsStackPanel);
+
+        // Reorder based on position setting
+        if (SettingsManager.Current.TaskbarWidgetControlsPosition == 0)
+        {
+            // Left: Controls, Image, Info
+            MainStackPanel.Children.Insert(0, ControlsStackPanel);
+            ControlsStackPanel.Margin = new Thickness(2, 0, 6, 0); // for some reason margins are weird on left side
+        }
+        else
+        {
+            // Right: Image, Info, Controls
+            MainStackPanel.Children.Add(ControlsStackPanel);
+            ControlsStackPanel.Margin = new Thickness(8, 0, 0, 0);
+        }
     }
 
     public void SetMainWindow(MainWindow mainWindow)
@@ -64,13 +91,23 @@ public partial class TaskbarWidgetControl : UserControl
         _mainWindow = mainWindow;
     }
 
+    public void ApplyWindowsTheme()
+    {
+        bool isDark = WindowsThemeHelper.GetCurrentWindowsTheme() == WindowsTheme.Dark;
+        var foreground = new SolidColorBrush(isDark
+            ? Color.FromArgb(0xFF, 0xFF, 0xFF, 0xFF)
+            : Color.FromArgb(0xE4, 0x1C, 0x1C, 0x1C));
+        SongTitle.Foreground = foreground;
+        SongArtist.Foreground = foreground;
+    }
+
     private void Grid_MouseEnter(object sender, MouseEventArgs e)
     {
-        if (!SettingsManager.Current.TaskbarWidgetClickable || String.IsNullOrEmpty(SongTitle.Text + SongArtist.Text)) return;
+        if (string.IsNullOrEmpty(SongTitle.Text + SongArtist.Text)) return;
 
         SolidColorBrush targetBackgroundBrush;
         // hover effects with animations, hard-coded colors because I can't find the resource brushes
-        if (ApplicationThemeManager.GetSystemTheme() == SystemTheme.Dark)
+        if (WindowsThemeHelper.GetCurrentWindowsTheme() == WindowsTheme.Dark)
         { // dark mode
             targetBackgroundBrush = new SolidColorBrush(Color.FromArgb(197, 255, 255, 255)) { Opacity = 0.075 };
             TopBorder.BorderBrush = new SolidColorBrush(Color.FromArgb(93, 255, 255, 255)) { Opacity = 0.25 };
@@ -109,7 +146,7 @@ public partial class TaskbarWidgetControl : UserControl
 
     private void Grid_MouseLeave(object sender, MouseEventArgs e)
     {
-        if (!SettingsManager.Current.TaskbarWidgetClickable || String.IsNullOrEmpty(SongTitle.Text + SongArtist.Text)) return;
+        if (string.IsNullOrEmpty(SongTitle.Text + SongArtist.Text)) return;
 
         // Animate back to transparent
         var backgroundAnimation = new ColorAnimation
@@ -134,10 +171,10 @@ public partial class TaskbarWidgetControl : UserControl
 
     private void Grid_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
     {
-        if (!SettingsManager.Current.TaskbarWidgetClickable || _mainWindow == null) return;
+        if (_mainWindow == null) return;
 
-        // toggle main flyout when clicked if toggle mode is enabled, otherwise just open
-        _mainWindow.ShowMediaFlyout(toggleMode: SettingsManager.Current.TaskbarWidgetCloseableFlyout);
+        // toggle main flyout when clicked
+        _mainWindow.ShowMediaFlyout(toggleMode: true, forceShow: true);
     }
 
     public (double logicalWidth, double logicalHeight) CalculateSize(double dpiScale)
@@ -251,18 +288,24 @@ public partial class TaskbarWidgetControl : UserControl
                 }
             }
 
-            SongTitle.Text = !String.IsNullOrEmpty(title) ? title : "-";
-            SongArtist.Text = !String.IsNullOrEmpty(artist) ? artist : "-";
+            SongTitle.Text = !string.IsNullOrEmpty(title) ? title : "-";
+            SongArtist.Text = !string.IsNullOrEmpty(artist) ? artist : "-";
 
             // Update tooltip with song info
             SongInfoStackPanel.ToolTip = string.Empty;
-            SongInfoStackPanel.ToolTip += !String.IsNullOrEmpty(title) ? title : string.Empty;
-            SongInfoStackPanel.ToolTip += !String.IsNullOrEmpty(artist) ? "\n\n" + artist : string.Empty;
+            SongInfoStackPanel.ToolTip += !string.IsNullOrEmpty(title) ? title : string.Empty;
+            SongInfoStackPanel.ToolTip += !string.IsNullOrEmpty(artist) ? "\n\n" + artist : string.Empty;
 
             if (SettingsManager.Current.TaskbarWidgetControlsEnabled)
             {
                 PlayPauseButton.Icon = _isPaused ? new SymbolIcon(SymbolRegular.Play24, filled: true) : new SymbolIcon(SymbolRegular.Pause24, filled: true);
             }
+
+            // change color of icon
+            SolidColorBrush brush = BitmapHelper.SavedDominantColors.Count > 0 ?
+                BitmapHelper.SavedDominantColors.Last()
+                : (SolidColorBrush)Application.Current.TryFindResource("MicaWPF.Brushes.SystemAccentColorTertiary");
+            SongImagePlaceholder.Foreground = brush;
 
             if (icon != null)
             {
@@ -290,7 +333,7 @@ public partial class TaskbarWidgetControl : UserControl
             }
 
             SongTitle.Visibility = Visibility.Visible;
-            SongArtist.Visibility = !String.IsNullOrEmpty(artist) ? Visibility.Visible : Visibility.Collapsed; // hide artist if it's not available
+            SongArtist.Visibility = !string.IsNullOrEmpty(artist) ? Visibility.Visible : Visibility.Collapsed; // hide artist if it's not available
             SongInfoStackPanel.Visibility = Visibility.Visible;
             BackgroundImage.Visibility = SettingsManager.Current.TaskbarWidgetBackgroundBlur ? Visibility.Visible : Visibility.Collapsed;
 

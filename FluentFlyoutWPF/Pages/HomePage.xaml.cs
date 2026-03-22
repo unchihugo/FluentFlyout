@@ -12,6 +12,7 @@ using System.Windows;
 using System.Windows.Controls;
 using Windows.ApplicationModel;
 using Wpf.Ui.Controls;
+using MessageBox = Wpf.Ui.Controls.MessageBox;
 
 namespace FluentFlyoutWPF.Pages;
 
@@ -42,7 +43,7 @@ public partial class HomePage : Page
         if (UpdateState.Current.LastUpdateCheck != default)
         {
             LastCheckedText.Text = string.Format(
-                Application.Current.FindResource("LastChecked")?.ToString() ?? "Last checked: {0}",
+                Application.Current.FindResource("LastChecked")?.ToString(),
                 UpdateState.Current.LastCheckedText);
         }
         else
@@ -83,7 +84,7 @@ public partial class HomePage : Page
     {
         try
         {
-            UpdateStatusText.Text = Application.Current.FindResource("CheckingForUpdates")?.ToString() ?? "Checking...";
+            UpdateStatusText.Text = Application.Current.FindResource("CheckingForUpdates")?.ToString();
 
             var result = await UpdateChecker.CheckForUpdatesAsync(SettingsManager.Current.LastKnownVersion);
 
@@ -131,7 +132,7 @@ public partial class HomePage : Page
 
     private void MediaFlyout_Click(object sender, System.Windows.RoutedEventArgs e)
     {
-        NavigateToPage(typeof(MediaFlyoutPage));
+        SettingsWindow.NavigateToPage(typeof(MediaFlyoutPage));
     }
 
     private void VolumeFlyout_Click(object sender, System.Windows.RoutedEventArgs e)
@@ -141,34 +142,27 @@ public partial class HomePage : Page
 
     private void TaskbarWidget_Click(object sender, System.Windows.RoutedEventArgs e)
     {
-        NavigateToPage(typeof(TaskbarWidgetPage));
+        SettingsWindow.NavigateToPage(typeof(TaskbarWidgetPage));
     }
 
     private void NextUp_Click(object sender, System.Windows.RoutedEventArgs e)
     {
-        NavigateToPage(typeof(NextUpPage));
+        SettingsWindow.NavigateToPage(typeof(NextUpPage));
     }
 
     private void LockKeys_Click(object sender, System.Windows.RoutedEventArgs e)
     {
-        NavigateToPage(typeof(LockKeysPage));
+        SettingsWindow.NavigateToPage(typeof(LockKeysPage));
     }
 
     private void TaskbarVisualizer_Click(object sender, System.Windows.RoutedEventArgs e)
     {
-        NavigateToPage(typeof(TaskbarVisualizerPage));
+        SettingsWindow.NavigateToPage(typeof(TaskbarVisualizerPage));
     }
 
     private void System_Click(object sender, System.Windows.RoutedEventArgs e)
     {
-        NavigateToPage(typeof(SystemPage));
-    }
-
-    private void NavigateToPage(Type pageType)
-    {
-        var window = System.Windows.Window.GetWindow(this) as SettingsWindow;
-        var navigationView = window?.FindName("RootNavigation") as NavigationView;
-        navigationView?.Navigate(pageType);
+        SettingsWindow.NavigateToPage(typeof(SystemPage));
     }
 
     // same as in AboutPage.xaml.cs
