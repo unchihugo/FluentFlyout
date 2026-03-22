@@ -24,4 +24,25 @@
 रिपीट, शफल और प्लेयर की जानकारी छुपाता है</system:String>
     <system:String x:Key="SelectedMonitorTitle">फ़्लाईआउट लक्ष्य मॉनिटर</system:String>
     <system:String x:Key="FlyoutPositionTitle">फ्लाईआउट स्थिति</system:String>
+    <system:String x:Key="PositionBottomCenter" xml:space="preserve"> निचला मध्य</system:String>
+    <system:String x:Key="PositionBottomRight" xml:space="preserve"> नीचे दाईं ओर</system:String>
+    <system:String x:Key="PositionTopLeft" xml:space="preserve"> ऊपरी बायाँ</system:String>
+    <system:String x:Key="PositionTopCenter" xml:space="preserve"> ऊपरी केंद्र</system:String>
+    <system:String x:Key="PositionTopRight" xml:space="preserve"> ऊपर दाईं ओर</system:String>
+    <system:String x:Key="FlyoutStayDurationTitle">फ्लायआउट रहने की अवधि</system:String>
+    <system:String x:Key="FlyoutStayDurationDescription">(डिफ़ॉल्ट: 3000 मिलीसेकंड)</system:String>
+    <system:String x:Key="MillisecondsUnit">मिलीसेकंड</system:String>
+    <system:String x:Key="MediaFlyoutAlwaysDisplay">हमेशा प्रदर्शित करें</system:String>
+    <system:String x:Key="MediaFlyoutAlwaysDisplayDescription">फ़्लायआउट तब तक खुला रहता है जब तक आप क्लोज़ बटन पर क्लिक नहीं करते</system:String>
+    <system:String x:Key="CenterTitleArtistTitle">केंद्र शीर्षक और कलाकार</system:String>
+    <system:String x:Key="CenterTitleArtistDescription">टेक्स्ट को बाईं ओर की बजाय बीच में संरेखित करें</system:String>
+    <system:String x:Key="PositionBottomLeft" xml:space="preserve"> निचला बायाँ</system:String>
+    <system:String x:Key="ShowMediaPlayerNameTitle">मीडिया प्लेयर का नाम दिखाएँ</system:String>
+    <system:String x:Key="RepeatButtonTitle">रीपीट(दोहराएँ) बटन*</system:String>
+    <system:String x:Key="RepeatButtonDescription">सभी को दोहराने या केवल एक को दोहराने का विकल्प चुनें, इससे फ्लाईआउट की चौड़ाई बढ़ जाती है</system:String>
+    <system:String x:Key="ShuffleButtonTitle">शफल बटन*</system:String>
+    <system:String x:Key="ShuffleButtonDescription">फ्लाईआउट की चौड़ाई बढ़ाता है</system:String>
+    <system:String x:Key="ShowSeekbarTitle">सीकबार दिखाएँ*</system:String>
+    <system:String x:Key="ShowSeekbarDescription">यदि प्लेयर इसे सपोर्ट करता है तो एक इंटरैक्टेबल सीकबार अपने आप प्रदर्शित हो जाएगी</system:String>
+    <system:String x:Key="UnsupportedControlsWarning">*कुछ ब्राउज़र/प्लेयर रिपीट, शफल और सीकबार कंट्रोल को सपोर्ट नहीं करते हैं।</system:String>
 </ResourceDictionary>
