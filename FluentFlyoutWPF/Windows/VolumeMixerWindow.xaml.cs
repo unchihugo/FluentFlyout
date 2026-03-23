@@ -40,7 +40,6 @@ public partial class VolumeMixerWindow : MicaWindow
 
     private long _lastFlyoutTime = 0;
     private readonly TimeSpan _flyoutCooldown = TimeSpan.FromMilliseconds(500);
-    private int _count = 0;
 
     public VolumeMixerWindow()
     {
@@ -68,9 +67,6 @@ public partial class VolumeMixerWindow : MicaWindow
         }
 
         _lastFlyoutTime = currentTime;
-
-        _count++;
-        Logger.Debug("volume flyout showed {Count} times", _count);
 
         if (_isHiding)
         {
@@ -238,7 +234,7 @@ public partial class VolumeMixerWindow : MicaWindow
 
         // measure desired size
         SessionsExpanded.Measure(new Size(ActualWidth, double.PositiveInfinity));
-        expandedHeight = _collapsedHeight + SessionsExpanded.DesiredSize.Height;
+        expandedHeight = _collapsedHeight + Math.Min(SessionsExpanded.DesiredSize.Height, 220);
 
         double targetHeight = expand ? expandedHeight : _collapsedHeight;
         double currentHeight = ActualHeight;
