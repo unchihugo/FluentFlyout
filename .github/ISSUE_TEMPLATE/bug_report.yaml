@@ -3,15 +3,24 @@ description: Create a report to help us improve
 title: "[BUG] Add Title Here"
 labels: ["bug"]
 body:
-  - type: checkboxes
-    id: checklist
+  - type: markdown
     attributes:
-      label: "Confirm that you have done the following:"
-      options:
-        - label: "I have searched that there is no existing issue regarding my bug"
-          required: true
-        - label: "I have read the [FAQ](https://fluentflyout.com/faq/) and there is no answer to my issue"
-          required: true
+      value: |
+        <p align="center">
+        	<picture>
+        		<source width="50%" alt="fluentflyout-title" media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/daa2969f-8ad2-4832-8253-26133a50c921" />
+        		<source width="50%" alt="fluentflyout-title" media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/3e75e514-b9a6-40e3-b170-af9d29a82bb4" />
+        		<img width="50%" alt="fluentflyout-title" src="https://github.com/user-attachments/assets/daa2969f-8ad2-4832-8253-26133a50c921">
+        	</picture>
+        </p>
+
+        # FluentFlyout Bug Report Form
+
+        Before continuing, confirm that you have done the following:
+
+        * I have searched that there is no [existing bug report](https://github.com/unchihugo/FluentFlyout/issues?q=is%3Aissue%20state%3Aopen%20label%3Abug) regarding my issue
+        * I have read the [FAQ page](https://fluentflyout.com/faq/) and there is no answer to my issue
+        
   - type: textarea
     id: description
     attributes:
@@ -25,7 +34,7 @@ body:
       label: "To Reproduce"
       description: "Steps to reproduce the behavior:"
       value: |
-        1.
+        1. Add Steps Here
         2.
         3.
         ...
@@ -36,12 +45,40 @@ body:
     id: additional-context
     attributes:
       label: "Logs, screenshots & additional context"
-      description: "Attach your logs here. If applicable, add screenshots and any other context about the problem."
-  - type: textarea
-    id: desktop-info
+      description: "Attach your logs here (drag & drop). If applicable, add screenshots and any other context about the problem."
+    validations:
+      required: true
+  - type: input
+    id: info-fluentflyout-version
     attributes:
-      label: Desktop
-      value: |
-        - OS: [e.g. Windows 11]
-        - FluentFlyout version: [e.g. v1.2.2]
-
+      label: FluentFlyout Version
+      placeholder: "v1.2.3"
+    validations:
+      required: true
+  - type: input
+    id: info-windows-version
+    attributes:
+      label: Windows Version
+      placeholder: "Windows 11 25H2"
+    validations:
+      required: true
+  - type: dropdown
+    id: info-architecture
+    attributes:
+      label: Architecture
+      options:
+        - x64
+        - ARM64
+      default: 0
+    validations:
+      required: true
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: "Checklist"
+      description: "Confirm that you have done the following:"
+      options:
+        - label: "I have searched that there is no existing bug report regarding my issue"
+          required: true
+        - label: "I have read the FAQ and there is no answer to my issue"
+          required: true
