@@ -37,7 +37,7 @@ oculta los botones de repetir y aleatorio y la información del reproductor</sys
     <system:String x:Key="PauseOtherMediaDescription">Cuando reproduces o seleccionas nuevo contenido, otras sesiones activas se pausan automáticamente</system:String>
     <system:String x:Key="NextUpCustomizationTitle">Flyout de Siguiente</system:String>
     <system:String x:Key="NextUpDescription" xml:space="preserve">Un flyout que muestra la siguiente canción/video cuando acaba el actual. Solo aparece si el siguiente se reproduce automáticamente, si se presiona siguiente/anterior manualmente, aparecerá el flyout principal.</system:String>
-    <system:String x:Key="EnableNextUpTitle">Activar Flyout de Siguiente (Experimental)</system:String>
+    <system:String x:Key="EnableNextUpTitle">Activar Flyout de Siguiente</system:String>
     <system:String x:Key="EnableNextUpDescription">Muestra lo que viene cuando acaba una canción/video</system:String>
     <system:String x:Key="NextUpStayDurationTitle">Duración de Siguiente</system:String>
     <system:String x:Key="NextUpStayDurationDescription">(por defecto: 2000 ms)</system:String>
