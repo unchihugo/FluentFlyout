@@ -68,4 +68,19 @@ verbergt herhalen, shuffle en spelerinfo</system:String>
     <system:String x:Key="TaskbarVisualizerEnabledTitle">Taakbalkvisualizer inschakelen (experimenteel)</system:String>
     <system:String x:Key="TaskbarVisualizerEnabledDescription">Experimenteel: Deze functie werkt alleen als de taakbalkwidget is ingeschakeld</system:String>
     <system:String x:Key="TaskbarVisualizerPositionTitle">Positie van visualizer ten opzichte van de taakbalkwidget</system:String>
+    <system:String x:Key="Disabled">Uitgeschakeld</system:String>
+    <system:String x:Key="BackupRestoreSectionTitle">Back-up &amp; herstel</system:String>
+    <system:String x:Key="BackupRestoreCardTitle">Back-up en herstel je instellingen</system:String>
+    <system:String x:Key="TrayIcon_QuitOption">Sluit FluentFlyout af</system:String>
+    <system:String x:Key="PixelsUnit">px</system:String>
+    <system:String x:Key="UpdateToastTitle">FluentFlyout is bijgewerkt!</system:String>
+    <system:String x:Key="UpdateToastMessage">Je zit nu op {0}.</system:String>
+    <system:String x:Key="UpdateToastButton">Bekijk Updates</system:String>
+    <system:String x:Key="HideTrayIconPerk">Verberg Tray icoon</system:String>
+    <system:String x:Key="HideTrayIconTitle">Verberg Tray icoon volledig</system:String>
+    <system:String x:Key="HideTrayIconDescription">Open de instellingen door het programma twee keer te starten</system:String>
+    <system:String x:Key="AnimationSettingsTitle">Animatie-instellingen</system:String>
+    <system:String x:Key="Enabled">Ingeschakeld</system:String>
+    <system:String x:Key="MediaFlyoutExcludeVolumeTitle">VolumeknoppenUitsluiten</system:String>
+    <system:String x:Key="MediaFlyoutExcludeVolumeDescription">Het flyoutmenu niet tonenwanneer je op de volumeknoppen omhoog/omlaag/dempen drukt</system:String>
 </ResourceDictionary>
