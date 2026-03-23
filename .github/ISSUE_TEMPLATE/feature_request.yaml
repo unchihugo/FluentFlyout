@@ -38,7 +38,7 @@ body:
     attributes:
       label: "Confirm that you have done the following:"
       options:
-      - label: "I have searched that there is no existing issue regarding my feature request"
-        required: true
-      - label: "I have read the [FAQ](https://fluentflyout.com/faq/) and there is no answer to my feature request"
-        required: true
+        - label: "I have searched that there is no existing issue regarding my feature request"
+          required: true
+        - label: "I have read the [FAQ](https://fluentflyout.com/faq/) and there is no answer to my feature request"
+          required: true

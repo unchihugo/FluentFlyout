@@ -45,7 +45,7 @@ body:
     id: additional-context
     attributes:
       label: "Logs, screenshots & additional context"
-      description: "Attach your logs here (drag & drop). If applicable, add screenshots and any other context about the problem."
+      description: "Attach your logs here (drag & drop). You can also add screenshots and any other context about the problem."
     validations:
       required: true
   - type: input
