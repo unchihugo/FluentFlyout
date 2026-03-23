@@ -443,7 +443,7 @@ public partial class TaskbarWindow : Window
                     widgetTop = 20;
 
                     if (SettingsManager.Current.TaskbarVisualizerEnabled && SettingsManager.Current.TaskbarVisualizerPosition == 0)
-                        widgetTop += (int)(TaskbarVisualizer.Height * dpiScale) + 4;
+                        widgetTop += (int)(TaskbarVisualizer.Width * dpiScale) + 4;
 
                     if (!SettingsManager.Current.TaskbarWidgetPadding)
                         break;
@@ -469,26 +469,50 @@ public partial class TaskbarWindow : Window
 
                     if (SettingsManager.Current.TaskbarVisualizerEnabled)
                         if (SettingsManager.Current.TaskbarVisualizerPosition == 0)
-                            widgetTop += (int)(TaskbarVisualizer.Height * dpiScale) / 2 + 4;
+                            widgetTop += (int)(TaskbarVisualizer.Width * dpiScale) / 2 + 4;
                         else
-                            widgetTop -= (int)(TaskbarVisualizer.Height * dpiScale) / 2 - 4;
+                            widgetTop -= (int)(TaskbarVisualizer.Width * dpiScale) / 2 - 4;
 
                     break;
 
                 case 2: // bottom aligned next to system tray
-                    if (_trayHandle == IntPtr.Zero || _lastSelectedMonitor != SettingsManager.Current.TaskbarWidgetSelectedMonitor)
+                    try
                     {
-                        _trayHandle = FindWindowEx(taskbarHandle, IntPtr.Zero, "TrayNotifyWnd", null);
-                    }
+                        if (SettingsManager.Current.TaskbarVisualizerEnabled && SettingsManager.Current.TaskbarVisualizerPosition == 1)
+                            widgetTop -= (int)(TaskbarVisualizer.Width * dpiScale) - 4;
 
-                    if (_trayHandle != IntPtr.Zero)
-                    {
-                        GetWindowRect(_trayHandle, out RECT trayRect);
-                        int trayTop = trayRect.Top - taskbarRect.Top;
-                        widgetTop = trayTop - physicalWidth - 2;
+                        // Try automation-based tray detection first (more reliable on ExplorerPatcher vertical taskbar)
+                        (bool trayFound, Rect trayAutomationRect) = GetSystemTrayRect(taskbarHandle);
+                        if (trayFound && trayAutomationRect.Top >= taskbarRect.Top)
+                        {
+                            widgetTop = (int)(trayAutomationRect.Top - taskbarRect.Top) - physicalWidth - 2;
+                            break;
+                        }
+
+                        // Fall back to TrayNotifyWnd window handle
+                        if (_trayHandle == IntPtr.Zero || _lastSelectedMonitor != SettingsManager.Current.TaskbarWidgetSelectedMonitor)
+                        {
+                            _trayHandle = FindWindowEx(taskbarHandle, IntPtr.Zero, "TrayNotifyWnd", null);
+                        }
+
+                        if (_trayHandle != IntPtr.Zero)
+                        {
+                            GetWindowRect(_trayHandle, out RECT trayRect);
+                            int trayTop = trayRect.Top - taskbarRect.Top;
+                            // Validate: tray should be in the lower half of the taskbar
+                            if (trayTop > taskbarHeight / 2)
+                            {
+                                widgetTop = trayTop - physicalWidth - 2;
+                                break;
+                            }
+                        }
+
+                        // Final fallback: place near the bottom
+                        widgetTop = taskbarHeight - physicalWidth - 20;
                     }
-                    else
+                    catch (Exception ex)
                     {
+                        Logger.Warn(ex, "Failed to get System Tray position for vertical taskbar.");
                         widgetTop = taskbarHeight - physicalWidth - 20;
                     }
                     break;
@@ -645,25 +669,36 @@ public partial class TaskbarWindow : Window
 
         if (isVertical)
         {
-            // center horizontally in the slim taskbar
-            visualizerLeft = (taskbarWidth - (int)(TaskbarVisualizer.Width * dpiScale)) / 2;
+            // Rotate visualizer 90° so it fits in the slim vertical taskbar
+            TaskbarVisualizer.LayoutTransform = new System.Windows.Media.RotateTransform(90);
+
+            // After 90° rotation: visual width = Height (40), visual height = Width (84)
+            // Center horizontally using the rotated (visual) width
+            visualizerLeft = (taskbarWidth - (int)(TaskbarVisualizer.Height * dpiScale)) / 2;
 
             switch (SettingsManager.Current.TaskbarVisualizerPosition)
             {
                 case 0: // above the widget
-                    visualizerTop = (int)(Canvas.GetTop(Widget) * dpiScale) - (int)(TaskbarVisualizer.Height * dpiScale);
+                    // After widget rotation its visual height = Widget.Width * dpiScale = physicalWidth
+                    // After visualizer rotation its visual height = TaskbarVisualizer.Width * dpiScale
+                    visualizerTop = (int)(Canvas.GetTop(Widget) * dpiScale) - (int)(TaskbarVisualizer.Width * dpiScale);
                     break;
 
                 case 1: // below the widget
-                    visualizerTop = (int)(Canvas.GetTop(Widget) * dpiScale) + (int)(Widget.Height * dpiScale);
+                    // Widget's visual bottom = widgetTop + physicalWidth (widget visual height after rotation)
+                    visualizerTop = (int)(Canvas.GetTop(Widget) * dpiScale) + (int)(Widget.Width * dpiScale);
                     break;
             }
 
             Canvas.SetLeft(TaskbarVisualizer, visualizerLeft / dpiScale);
             Canvas.SetTop(TaskbarVisualizer, visualizerTop / dpiScale);
 
-            return new Rect(Canvas.GetLeft(TaskbarVisualizer) * dpiScale, Canvas.GetTop(TaskbarVisualizer) * dpiScale, TaskbarVisualizer.Width * dpiScale, TaskbarVisualizer.Height * dpiScale);
+            // Swap Width/Height in Rect because LayoutTransform swaps the visual dimensions
+            return new Rect(Canvas.GetLeft(TaskbarVisualizer) * dpiScale, Canvas.GetTop(TaskbarVisualizer) * dpiScale, TaskbarVisualizer.Height * dpiScale, TaskbarVisualizer.Width * dpiScale);
         }
+
+        // Reset rotation for horizontal taskbar
+        TaskbarVisualizer.LayoutTransform = null;
 
         switch (SettingsManager.Current.TaskbarVisualizerPosition)
         {
