@@ -3,11 +3,10 @@
 
 using FluentFlyout.Classes.Settings;
 using FluentFlyout.Classes.Utils;
+using Microsoft.Win32;
 using NAudio.CoreAudioApi;
 using NAudio.Dsp;
 using NAudio.Wave;
-using Microsoft.Win32;
-using System.Threading;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -40,6 +39,25 @@ namespace FluentFlyoutWPF.Classes
         private System.Timers.Timer? _captureWatchdog;
         private DateTime _lastDataAvailableUtc = DateTime.MinValue;
         private int _restartInProgress; // 0=false, 1=true (Interlocked)
+
+        private readonly struct BarGeometry
+        {
+            public readonly float Left, Right, Top, Bottom;
+            public readonly float InnerLeft, InnerRight, InnerTop, InnerBottom;
+
+            public BarGeometry(int x, int width, int y, int endY, float radius)
+            {
+                Left = x;
+                Right = x + width;
+                Top = y;
+                Bottom = endY;
+
+                InnerLeft = Left + radius;
+                InnerRight = Right - radius;
+                InnerTop = Top + radius;
+                InnerBottom = Bottom - radius;
+            }
+        }
 
         public WriteableBitmap? Bitmap
         {
@@ -431,85 +449,7 @@ namespace FluentFlyoutWPF.Classes
 
                             buffer.Clear();
 
-                            // Draw bars
-                            int barWidth = (ImageWidth - (BarCount - 1) * BarSpacing) / BarCount;
-
-                            // get dominant color for bars
-                            SolidColorBrush brush = BitmapHelper.SavedDominantColors.Count > 0 ?
-                                BitmapHelper.SavedDominantColors.Last()
-                                : (SolidColorBrush)Application.Current.TryFindResource("MicaWPF.Brushes.SystemAccentColorTertiary");
-
-                            bool centeredBars = SettingsManager.Current.TaskbarVisualizerCenteredBars;
-                            int barBaseline = SettingsManager.Current.TaskbarVisualizerBaseline ? 4 : 0;
-
-                            int centerY = ImageHeight / 2;
-                            float cornerRadius = 6f / MathF.Max(1f, SettingsManager.Current.TaskbarVisualizerBarCount / 10f);
-
-                            for (int i = 0; i < BarCount; i++)
-                            {
-                                float normalizedValue = Math.Clamp(_barValues[i], 0f, 1f);
-                                int barHeight = Math.Max((int)(normalizedValue * ImageHeight), barBaseline);
-                                int barX = i * (barWidth + BarSpacing);
-
-                                int barY, barEndY;
-                                if (centeredBars)
-                                {
-                                    // Center the bars - expand up and down from middle
-                                    int halfHeight = barHeight / 2;
-                                    barY = centerY - halfHeight;
-                                    barEndY = centerY + halfHeight;
-                                }
-                                else
-                                {
-                                    // Original behavior - bars rise from bottom
-                                    barY = ImageHeight - barHeight;
-                                    barEndY = ImageHeight;
-                                }
-
-                                for (int y = barY; y < barEndY && y < ImageHeight && y >= 0; y++)
-                                {
-                                    for (int x = barX; x < barX + barWidth && x < ImageWidth; x++)
-                                    {
-                                        float alpha = 1f;
-
-                                        // Calculate relative position within the bar
-                                        int relativeY = y - barY;
-
-                                        // Check corners
-                                        bool inTopLeftCorner = (relativeY < cornerRadius) && (x - barX < cornerRadius);
-                                        bool inTopRightCorner = (relativeY < cornerRadius) && (barX + barWidth - x <= cornerRadius);
-                                        bool inBottomLeftCorner = centeredBars && (barEndY - y <= cornerRadius) && (x - barX < cornerRadius);
-                                        bool inBottomRightCorner = centeredBars && (barEndY - y <= cornerRadius) && (barX + barWidth - x <= cornerRadius);
-
-                                        if (inTopLeftCorner || inTopRightCorner || inBottomLeftCorner || inBottomRightCorner)
-                                        {
-                                            float dx = (inTopLeftCorner || inBottomLeftCorner) ?
-                                                (cornerRadius - 0.5f - (x - barX)) :
-                                                (cornerRadius - 0.5f - (barX + barWidth - x));
-                                            float dy = (inTopLeftCorner || inTopRightCorner) ?
-                                                (cornerRadius - 0.5f - relativeY) :
-                                                (cornerRadius - 0.5f - (barEndY - y));
-                                            float distance = MathF.Sqrt(dx * dx + dy * dy);
-
-                                            if (distance > cornerRadius)
-                                                continue; // Outside corner
-
-                                            // Anti-aliasing: fade at edge
-                                            if (distance > cornerRadius - 1f)
-                                                alpha = cornerRadius - distance;
-                                        }
-
-                                        int index = y * stride + x * 4;
-                                        if (index + 3 < buffer.Length)
-                                        {
-                                            buffer[index] = brush.Color.B;
-                                            buffer[index + 1] = brush.Color.G;
-                                            buffer[index + 2] = brush.Color.R;
-                                            buffer[index + 3] = (byte)(255 * alpha);
-                                        }
-                                    }
-                                }
-                            }
+                            DrawBars(stride, buffer);
                         }
 
                         _bitmap.AddDirtyRect(new Int32Rect(0, 0, ImageWidth, ImageHeight));
@@ -520,6 +460,192 @@ namespace FluentFlyoutWPF.Classes
                     }
                 }
             }, System.Windows.Threading.DispatcherPriority.Render);
+        }
+
+        private unsafe void DrawBars(int stride, Span<byte> buffer)
+        {
+            // Resolve brush once 
+            SolidColorBrush brush = BitmapHelper.SavedDominantColors.Count > 0
+                ? BitmapHelper.SavedDominantColors.Last()
+                : (SolidColorBrush)Application.Current.TryFindResource("MicaWPF.Brushes.SystemAccentColorTertiary");
+
+            byte b = brush.Color.B;
+            byte g = brush.Color.G;
+            byte r = brush.Color.R;
+
+            bool centeredBars = SettingsManager.Current.TaskbarVisualizerCenteredBars;
+            int barBaseline = SettingsManager.Current.TaskbarVisualizerBaseline ? 4 : 0;
+
+            int centerY = ImageHeight / 2;
+
+            // Horizontal layout 
+            ComputeLayout(ImageWidth, BarCount, BarSpacing,
+                out int barWidth,
+                out int offsetX);
+
+            // Radius 
+            float baseRadius = GetCornerRadius();
+
+            // AA constants 
+            const float aa = 1.25f;
+            float invAA = 1f / aa;
+
+            for (int i = 0; i < BarCount; i++)
+            {
+                int barX = offsetX + i * (barWidth + BarSpacing);
+
+                int barHeight = GetBarHeight(_barValues[i], barBaseline);
+
+                if (barHeight <= 0)
+                    continue;
+
+                ComputeVertical(centeredBars, centerY, barHeight, out int barY, out int barEndY);
+
+                // Clamp radius per bar
+                float radius = ClampRadius(baseRadius, barWidth, barHeight);
+                float radiusSq = radius * radius;
+
+                RasterizeBar(
+                    buffer, stride,
+                    barX, barWidth,
+                    barY, barEndY,
+                    centeredBars,
+                    radius, radiusSq, invAA,
+                    b, g, r);
+            }
+        }
+
+        private static void ComputeLayout(
+            int imageWidth,
+            int barCount,
+            int spacing,
+            out int barWidth,
+            out int offsetX)
+        {
+            int totalSpacing = (barCount - 1) * spacing;
+
+            int availableWidth = imageWidth - totalSpacing - 1;
+
+            barWidth = availableWidth / barCount;
+
+            int usedWidth = barWidth * barCount + totalSpacing;
+
+            // Center safely
+            offsetX = (imageWidth - usedWidth) >> 1;
+        }
+
+        private void ComputeVertical(bool centered, int centerY, int height, out int y, out int endY)
+        {
+            if (centered)
+            {
+                int half = height >> 1; // faster than /2
+                y = centerY - half;
+                endY = centerY + half;
+            }
+            else
+            {
+                y = ImageHeight - height;
+                endY = ImageHeight;
+            }
+        }
+
+        private int GetBarHeight(float value, int baseline)
+        {
+            return Math.Max((int)(Math.Clamp(value, 0f, 1f) * ImageHeight), baseline);
+        }
+        private static float GetCornerRadius()
+        {
+            return 6f / MathF.Max(1f, SettingsManager.Current.TaskbarVisualizerBarCount / 10f);
+        }
+
+        private static float ClampRadius(float r, int width, int height)
+        {
+            float max = MathF.Min(width, height) * 0.5f;
+            return r > max ? max : r;
+        }
+
+        private unsafe void RasterizeBar(
+            Span<byte> buffer,
+            int stride,
+            int barX,
+            int barWidth,
+            int barY,
+            int barEndY,
+            bool centeredBars,
+            float radius,
+            float radiusSq,
+            float invAA,
+            byte b, byte g, byte r)
+        {
+            float left = barX;
+            float right = barX + barWidth;
+            float top = barY;
+            float bottom = barEndY;
+
+            float innerLeft = left + radius;
+            float innerRight = right - radius;
+            float innerTop = top + radius;
+            float innerBottom = bottom - radius;
+
+            for (int y = barY; y < barEndY && y < ImageHeight && y >= 0; y++)
+            {
+                int row = y * stride;
+
+                for (int x = barX; x < barX + barWidth && x < ImageWidth; x++)
+                {
+                    int index = row + (x << 2); // x * 4 (bitshift faster)
+                    if (index + 3 >= buffer.Length)
+                        continue;
+
+                    // CENTER
+                    if (x >= innerLeft && x <= innerRight)
+                    {
+                        WritePixel(buffer, index, b, g, r, 255);
+                        continue;
+                    }
+
+                    // SIDES
+                    if (y >= innerTop && y <= innerBottom)
+                    {
+                        WritePixel(buffer, index, b, g, r, 255);
+                        continue;
+                    }
+
+                    // FLAT BOTTOM
+                    if (!centeredBars && y >= innerBottom)
+                    {
+                        WritePixel(buffer, index, b, g, r, 255);
+                        continue;
+                    }
+
+                    // CORNERS
+                    float cx = x < innerLeft ? innerLeft : (x > innerRight ? innerRight : x);
+                    float cy = y < innerTop ? innerTop : (y > innerBottom ? innerBottom : y);
+
+                    float dx = x - cx;
+                    float dy = y - cy;
+
+                    float distSq = dx * dx + dy * dy;
+                    float sdf = (distSq - radiusSq) / (2f * radius);
+
+                    float alpha = 0.5f - sdf * invAA;
+
+                    if (alpha <= 0f)
+                        continue;
+
+                    if (alpha > 1f) alpha = 1f;
+
+                    WritePixel(buffer, index, b, g, r, (byte)(255 * alpha));
+                }
+            }
+        }
+
+        private static void WritePixel(Span<byte> buffer, int index, byte b, byte g, byte r, byte a)
+        {
+            buffer[index] = b;
+            buffer[index + 1] = g;
+            buffer[index + 2] = r;
+            buffer[index + 3] = a;
         }
 
         private void OnRecordingStopped(object? sender, StoppedEventArgs e)
