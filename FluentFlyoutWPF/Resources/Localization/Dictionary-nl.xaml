@@ -83,4 +83,10 @@ verbergt herhalen, shuffle en spelerinfo</system:String>
     <system:String x:Key="Enabled">Ingeschakeld</system:String>
     <system:String x:Key="MediaFlyoutExcludeVolumeTitle">VolumeknoppenUitsluiten</system:String>
     <system:String x:Key="MediaFlyoutExcludeVolumeDescription">Het flyoutmenu niet tonenwanneer je op de volumeknoppen omhoog/omlaag/dempen drukt</system:String>
+    <system:String x:Key="HomeTitle">Home</system:String>
+    <system:String x:Key="MillisecondsUnit">ms</system:String>
+    <system:String x:Key="TaskbarWidgetPaddingTitle">Automatische opvulling voor de knop van Windows-widgets</system:String>
+    <system:String x:Key="TaskbarWidgetPaddingDescription">Schakel deze functie in als je Windows-widgets hebt ingeschakeld</system:String>
+    <system:String x:Key="EnableNextUpDescription">Toont wat er hierna komt wanneer een nummer of video eindigt</system:String>
+    <system:String x:Key="NextUpStayDurationTitle">Weergaveduur van ‘Volgende’</system:String>
 </ResourceDictionary>
