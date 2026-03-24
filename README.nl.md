@@ -22,6 +22,8 @@ De app mengt zich in bij Windows 10/11, waardoor u een ononderbroken en "native"
 
 FluentFlyout biedt het mediabediening en informatie in een mooie en moderne pop-upflyout. Daarnaast heeft het vloeiende animaties, past zich aan de kleurenthema's van uw systeem aan, bevat meerdere lay-outposities en een reeks personalisatie-instellingen.
 
+> Deze fork van [Apolake](https://github.com/Apolake) voegt ondersteuning voor MusicBee toe, zodat FluentFlyout MusicBee-afspelen kan tonen en bedienen.
+
 <a href="https://apps.microsoft.com/detail/9N45NSM4TNBP?mode=direct">
 	<img src="https://get.microsoft.com/images/en-us%20dark.svg" width="200"/>
 </a>
@@ -110,6 +112,7 @@ Voel u vrij om op welke manier dan ook bij te dragen! Bekijk [CONTRIBUTING.md](h
 - [AksharDP](https://github.com/AksharDP) - Code Bijdrager
 - [Hykerisme](https://github.com/Hykerisme) - CN vertaling
 - [nopeless](https://github.com/nopeless) - Code Bijdrager
+- [Apolake](https://github.com/Apolake) - Code Bijdrager (MusicBee-ondersteuningsfork)
 
 ### Dank aan
 - [Dubya.WindowsMediaController](https://github.com/DubyaDude/WindowsMediaController)

@@ -14,6 +14,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using Windows.Media.Control;
 using Wpf.Ui.Controls;
+using static FluentFlyout.Classes.NativeMethods;
 
 namespace FluentFlyout.Controls;
 
@@ -265,6 +266,16 @@ public partial class TaskbarWidgetControl : UserControl
                 PlayPauseButton.Opacity = (playbackControls.IsPauseEnabled || playbackControls.IsPlayEnabled) ? 1 : 0.5;
                 NextButton.Opacity = playbackControls.IsNextEnabled ? 1 : 0.5;
             }
+            else if (SettingsManager.Current.TaskbarWidgetControlsEnabled && playbackStatus != GlobalSystemMediaTransportControlsSessionPlaybackStatus.Closed)
+            {
+                PreviousButton.IsHitTestVisible = true;
+                PlayPauseButton.IsHitTestVisible = true;
+                NextButton.IsHitTestVisible = true;
+
+                PreviousButton.Opacity = 1;
+                NextButton.Opacity = 1;
+                PlayPauseButton.Opacity = 1;
+            }
             else
             {
                 PreviousButton.IsHitTestVisible = false;
@@ -399,7 +410,11 @@ public partial class TaskbarWidgetControl : UserControl
         if (mediaManager == null) return;
 
         var focusedSession = mediaManager.GetFocusedSession();
-        if (focusedSession == null) return;
+        if (focusedSession == null)
+        {
+            keybd_event(0xB1, 0, 0, IntPtr.Zero);
+            return;
+        }
 
         await focusedSession.ControlSession.TrySkipPreviousAsync();
     }
@@ -412,7 +427,11 @@ public partial class TaskbarWidgetControl : UserControl
         if (mediaManager == null) return;
 
         var focusedSession = mediaManager.GetFocusedSession();
-        if (focusedSession == null) return;
+        if (focusedSession == null)
+        {
+            keybd_event(0xB3, 0, 0, IntPtr.Zero);
+            return;
+        }
 
         if (_isPaused) // paused
         {
@@ -432,7 +451,11 @@ public partial class TaskbarWidgetControl : UserControl
         if (mediaManager == null) return;
 
         var focusedSession = mediaManager.GetFocusedSession();
-        if (focusedSession == null) return;
+        if (focusedSession == null)
+        {
+            keybd_event(0xB0, 0, 0, IntPtr.Zero);
+            return;
+        }
 
         await focusedSession.ControlSession.TrySkipNextAsync();
     }

@@ -23,6 +23,8 @@ Arayüzü Windows 11 ile doğal bir şekilde bütünleşir; medya kontrolleriniz
 
 FluentFlyout; akıcı animasyonlar sunar, sisteminizin renk temalarıyla uyum sağlar ve medya kontrolleri, bilgiler ve daha fazlasını şık ve modern görünümlü açılır flyout’lar içinde sunarken kapsamlı kişiselleştirme ayarları içerir.
 
+> Bu fork, [Apolake](https://github.com/Apolake) tarafından MusicBee desteği eklenerek FluentFlyout'un MusicBee oynatımını göstermesini ve kontrol etmesini sağlar.
+
 <a href="https://apps.microsoft.com/detail/9n45nsm4tnbp?referrer=appbadge&cid=GitHub_README&mode=direct">
 	<img src="https://get.microsoft.com/images/en-us%20dark.svg" width="200"/>
 </a>
@@ -130,6 +132,7 @@ Desteğiniz ve anlayışınız için teşekkürler!
 - [AksharDP](https://github.com/AksharDP) – Kod Katkıcısı (medya arama çubuğu & süre)
 - [Hykerisme](https://github.com/Hykerisme) – CN Çevirisi
 - [nopeless](https://github.com/nopeless) – Kod Katkıcısı (Yaşam Kalitesi özellikleri)
+- [Apolake](https://github.com/Apolake) – Kod Katkıcısı (MusicBee destekli fork)
 
 ### Bağımlılıklar
 - [Dubya.WindowsMediaController](https://github.com/DubyaDude/WindowsMediaController)

@@ -21,6 +21,8 @@ FluentFlyout 是一个简单且现代的 Windows 音量控制弹窗，基于 Flu
 
 FluentFlyout 能够在一个雅观的现代化的弹窗中显示媒体控制和信息，同时与系统的颜色主题相融合，具有流畅的动画效果，还提供多种布局位置和更多个性化设置。
 
+> 此分支由 [Apolake](https://github.com/Apolake) 维护，新增了 MusicBee 支持，使 FluentFlyout 可以显示并控制 MusicBee 的播放。
+
 <a href="https://apps.microsoft.com/detail/9N45NSM4TNBP?mode=direct">
 	<img src="https://get.microsoft.com/images/en-us%20dark.svg" width="200"/>
 </a>
@@ -116,6 +118,7 @@ https://github.com/user-attachments/assets/bfc7666f-1d59-4cbf-8d15-3855671cb147
 - [AksharDP](https://github.com/AksharDP) - 贡献者
 - [Hykerisme](https://github.com/Hykerisme) - 中文翻译
 - [nopeless](https://github.com/nopeless) - 贡献者
+- [Apolake](https://github.com/Apolake) - 代码贡献者（MusicBee 支持分支）
 ### 依赖
 - [Dubya.WindowsMediaController](https://github.com/DubyaDude/WindowsMediaController)
 - [MicaWPF](https://github.com/Simnico99/MicaWPF)

@@ -22,6 +22,8 @@ FluentFlyout — современное приложение для всплыв
 
 FluentFlyout предлагает плавные анимации, адаптируется к цветовой теме системы и включает широкие возможности персонализации, отображая управление медиа и информацию в красивых современных всплывающих окнах.
 
+> Этот форк от [Apolake](https://github.com/Apolake) добавляет поддержку MusicBee, позволяя FluentFlyout отображать и управлять воспроизведением MusicBee.
+
 <a href="https://apps.microsoft.com/detail/9n45nsm4tnbp?referrer=appbadge&cid=GitHub_README&mode=direct">
 	<img src="https://get.microsoft.com/images/en-us%20dark.svg" width="200"/>
 </a>
@@ -129,6 +131,7 @@ FluentFlyout всегда был и будет бесплатным и с отк
 - [AksharDP](https://github.com/AksharDP) — Участник (индикатор времени и длительность медиа)
 - [Hykerisme](https://github.com/Hykerisme) — Перевод CN
 - [nopeless](https://github.com/nopeless) — Участник (улучшения качества жизни)
+- [Apolake](https://github.com/Apolake) — Участник кода (форк с поддержкой MusicBee)
 
 ### Зависимости
 - [Dubya.WindowsMediaController](https://github.com/DubyaDude/WindowsMediaController)

@@ -65,6 +65,8 @@ public partial class MainWindow : MicaWindow
 
     private readonly int _seekbarUpdateInterval = 300;
     private readonly Timer _positionTimer;
+    private readonly DispatcherTimer _musicBeeFallbackTimer;
+    private string _lastMusicBeeFallbackState = string.Empty;
     private bool _isActive;
     private bool _isDragging;
     private bool _isHiding = true;
@@ -173,6 +175,10 @@ public partial class MainWindow : MicaWindow
         RegisterShellHookWindow(new WindowInteropHelper(this).Handle);
 
         _positionTimer = new Timer(SeekbarUpdateUi, null, Timeout.Infinite, Timeout.Infinite);
+        _musicBeeFallbackTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(1) };
+        _musicBeeFallbackTimer.Tick += MusicBeeFallbackTimer_Tick;
+        _musicBeeFallbackTimer.Start();
+
         if (_seekBarEnabled && mediaManager.GetFocusedSession() is { } session)
         {
             UpdateSeekbarCurrentDuration(session.ControlSession.GetTimelineProperties().Position);
@@ -456,6 +462,9 @@ public partial class MainWindow : MicaWindow
     {
         if (!mediaManager.IsStarted || mediaManager.GetFocusedSession() == null)
         {
+            if (TryUpdateTaskbarFromMusicBeeFallback())
+                return;
+
             taskbarWindow?.UpdateUi("-", "-", null, GlobalSystemMediaTransportControlsSessionPlaybackStatus.Closed);
             return;
         }
@@ -468,6 +477,70 @@ public partial class MainWindow : MicaWindow
         var thumbnail = BitmapHelper.GetThumbnail(songInfo.Thumbnail);
         BitmapHelper.GetDominantColors(1);
         taskbarWindow?.UpdateUi(songInfo.Title, songInfo.Artist, thumbnail, playbackInfo.PlaybackStatus, playbackInfo.Controls);
+    }
+
+    private void MusicBeeFallbackTimer_Tick(object? sender, EventArgs e)
+    {
+        if (mediaManager.GetFocusedSession() != null)
+        {
+            _lastMusicBeeFallbackState = string.Empty;
+            return;
+        }
+
+        if (!MusicBeeFallbackProvider.TryGetCurrentSession(out var fallbackSession) || fallbackSession == null)
+        {
+            if (_lastMusicBeeFallbackState != string.Empty)
+            {
+                _lastMusicBeeFallbackState = string.Empty;
+                taskbarWindow?.UpdateUi("-", "-", null, GlobalSystemMediaTransportControlsSessionPlaybackStatus.Closed);
+
+                if (IsVisible && !SettingsManager.Current.MediaFlyoutAlwaysDisplay)
+                {
+                    CloseAnimation(this);
+                    _isHiding = true;
+                    Hide();
+                }
+            }
+            return;
+        }
+
+        string stateKey = $"{fallbackSession.Title}|{fallbackSession.Artist}|{fallbackSession.PlaybackStatus}";
+        if (_lastMusicBeeFallbackState == stateKey)
+        {
+            if (IsVisible)
+            {
+                UpdateUIFromMusicBeeFallback(fallbackSession);
+                HandlePlayBackState(fallbackSession.PlaybackStatus);
+            }
+            return;
+        }
+
+        _lastMusicBeeFallbackState = stateKey;
+        UpdateTaskbarFromMusicBeeFallback(fallbackSession);
+
+        if (IsVisible)
+        {
+            UpdateUIFromMusicBeeFallback(fallbackSession);
+            HandlePlayBackState(fallbackSession.PlaybackStatus);
+        }
+    }
+
+    private bool TryUpdateTaskbarFromMusicBeeFallback()
+    {
+        if (!MusicBeeFallbackProvider.TryGetCurrentSession(out var fallbackSession) || fallbackSession == null)
+            return false;
+
+        UpdateTaskbarFromMusicBeeFallback(fallbackSession);
+        return true;
+    }
+
+    private void UpdateTaskbarFromMusicBeeFallback(MusicBeeFallbackSession fallbackSession)
+    {
+        var thumbnail = BitmapHelper.GetThumbnail(fallbackSession.Thumbnail);
+        if (thumbnail != null)
+            BitmapHelper.GetDominantColors(1);
+
+        taskbarWindow?.UpdateUi(fallbackSession.Title, fallbackSession.Artist, thumbnail, fallbackSession.PlaybackStatus, null);
     }
 
     public void reportBug(object? sender, EventArgs e)
@@ -744,7 +817,10 @@ public partial class MainWindow : MicaWindow
 
     public async void ShowMediaFlyout(bool toggleMode = false, bool forceShow = false)
     {
-        if (mediaManager.GetFocusedSession() == null ||
+        var focusedSession = mediaManager.GetFocusedSession();
+        bool hasFallbackSession = MusicBeeFallbackProvider.TryGetCurrentSession(out var fallbackSession) && fallbackSession != null;
+
+        if ((focusedSession == null && !hasFallbackSession) ||
             (!forceShow && !SettingsManager.Current.MediaFlyoutEnabled) ||
             FullscreenDetector.IsFullscreenApplicationRunning())
             return;
@@ -765,9 +841,18 @@ public partial class MainWindow : MicaWindow
             return;
         }
 
-        UpdateUI(mediaManager.GetFocusedSession());
-        if (_seekBarEnabled)
-            HandlePlayBackState(mediaManager.GetFocusedSession().ControlSession.GetPlaybackInfo().PlaybackStatus);
+        if (focusedSession != null)
+        {
+            UpdateUI(focusedSession);
+            if (_seekBarEnabled)
+                HandlePlayBackState(focusedSession.ControlSession.GetPlaybackInfo().PlaybackStatus);
+        }
+        else if (fallbackSession != null)
+        {
+            UpdateUIFromMusicBeeFallback(fallbackSession);
+            if (_seekBarEnabled)
+                HandlePlayBackState(fallbackSession.PlaybackStatus);
+        }
 
         if (nextUpWindow != null) // close NextUpWindow if it's open
         {
@@ -1020,6 +1105,113 @@ public partial class MainWindow : MicaWindow
         });
     }
 
+    private void UpdateUIFromMusicBeeFallback(MusicBeeFallbackSession fallbackSession)
+    {
+        if (_layout != SettingsManager.Current.CompactLayout ||
+            _shuffleEnabled != SettingsManager.Current.ShuffleEnabled ||
+            _repeatEnabled != SettingsManager.Current.RepeatEnabled ||
+            _playerInfoEnabled != SettingsManager.Current.PlayerInfoEnabled ||
+            _centerTitleArtist != SettingsManager.Current.CenterTitleArtist ||
+            _seekBarEnabled != SettingsManager.Current.SeekbarEnabled ||
+            _alwaysDisplay != SettingsManager.Current.MediaFlyoutAlwaysDisplay)
+            UpdateUILayout();
+
+        if (_mediaSessionSupportsSeekbar)
+        {
+            _mediaSessionSupportsSeekbar = false;
+            UpdateUILayout();
+        }
+
+        Dispatcher.Invoke(() =>
+        {
+            UpdateMediaFlyoutCloseButtonVisibility();
+            this.EnableBackdrop();
+
+            SongTitle.Text = fallbackSession.Title;
+            SongArtist.Text = fallbackSession.Artist;
+
+            var image = BitmapHelper.GetThumbnail(fallbackSession.Thumbnail);
+            if (image != null)
+            {
+                SongImage.ImageSource = image;
+                SongImagePlaceholder.Visibility = Visibility.Collapsed;
+
+                if (SettingsManager.Current.MediaFlyoutBackgroundBlur != 0)
+                {
+                    var croppedImage = BitmapHelper.CropToSquare(image);
+                    switch (SettingsManager.Current.MediaFlyoutBackgroundBlur)
+                    {
+                        case 1:
+                            BackgroundImageStyle1.Source = croppedImage;
+                            break;
+                        case 2:
+                            BackgroundImageStyle2.Source = croppedImage;
+                            break;
+                        case 3:
+                            BackgroundImageStyle3.Source = croppedImage;
+                            break;
+                    }
+                }
+
+                BitmapHelper.GetDominantColors(1);
+                if (BitmapHelper.SavedDominantColors.Count > 0)
+                {
+                    SolidColorBrush brush = BitmapHelper.SavedDominantColors.First();
+                    ControlPlayPause.Background = brush;
+                }
+            }
+            else
+            {
+                SongImage.ImageSource = null;
+                SongImagePlaceholder.Visibility = Visibility.Visible;
+                SongImagePlaceholder.Symbol = Wpf.Ui.Controls.SymbolRegular.MusicNote220;
+                BackgroundImageStyle1.Source = null;
+                BackgroundImageStyle2.Source = null;
+                BackgroundImageStyle3.Source = null;
+            }
+
+            SongInfoStackPanel.ToolTip = string.Empty;
+            SongInfoStackPanel.ToolTip += !string.IsNullOrEmpty(fallbackSession.Title) ? fallbackSession.Title : string.Empty;
+            SongInfoStackPanel.ToolTip += !string.IsNullOrEmpty(fallbackSession.Artist) ? "\n\n" + fallbackSession.Artist : string.Empty;
+
+            ControlPlayPause.IsEnabled = true;
+            ControlPlayPause.Opacity = 1;
+            SymbolPlayPause.Symbol = fallbackSession.PlaybackStatus == GlobalSystemMediaTransportControlsSessionPlaybackStatus.Playing
+                ? Wpf.Ui.Controls.SymbolRegular.Pause16
+                : Wpf.Ui.Controls.SymbolRegular.Play16;
+
+            ControlBack.IsEnabled = true;
+            ControlForward.IsEnabled = true;
+            ControlBack.Opacity = 1;
+            ControlForward.Opacity = 1;
+
+            ControlRepeat.Visibility = Visibility.Collapsed;
+            ControlShuffle.Visibility = Visibility.Collapsed;
+
+            if (SettingsManager.Current.PlayerInfoEnabled && !SettingsManager.Current.CompactLayout)
+            {
+                MediaIdStackPanel.Visibility = Visibility.Visible;
+                (string title, ImageSource? icon) = MediaPlayerData.getMediaPlayerData("MusicBee.exe");
+                MediaId.Text = string.IsNullOrWhiteSpace(title) ? "MusicBee" : title;
+                if (icon != null)
+                {
+                    MediaIdIcon.Source = icon;
+                    MediaIdIcon.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    MediaIdIcon.Visibility = Visibility.Collapsed;
+                }
+            }
+            else
+            {
+                MediaIdStackPanel.Visibility = Visibility.Collapsed;
+            }
+
+            HandlePlayBackState(fallbackSession.PlaybackStatus);
+        });
+    }
+
     private void UpdateUILayout() // update the layout based on the settings
     {
         Dispatcher.Invoke(() =>
@@ -1093,7 +1285,10 @@ public partial class MainWindow : MicaWindow
     private async void Back_Click(object sender, RoutedEventArgs e)
     {
         if (mediaManager.GetFocusedSession() == null)
+        {
+            keybd_event(0xB1, 0, 0, IntPtr.Zero);
             return;
+        }
 
         await mediaManager.GetFocusedSession().ControlSession.TrySkipPreviousAsync();
     }
@@ -1122,7 +1317,10 @@ public partial class MainWindow : MicaWindow
     private async void Forward_Click(object sender, RoutedEventArgs e)
     {
         if (mediaManager.GetFocusedSession() == null)
+        {
+            keybd_event(0xB0, 0, 0, IntPtr.Zero);
             return;
+        }
 
         await mediaManager.GetFocusedSession().ControlSession.TrySkipNextAsync();
     }
@@ -1275,6 +1473,8 @@ public partial class MainWindow : MicaWindow
             // dispose managed resources
             _positionTimer?.Change(Timeout.Infinite, Timeout.Infinite);
             _positionTimer?.Dispose();
+            _musicBeeFallbackTimer.Stop();
+            _musicBeeFallbackTimer.Tick -= MusicBeeFallbackTimer_Tick;
             cts?.Cancel();
             cts?.Dispose();
 

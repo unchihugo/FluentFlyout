@@ -22,6 +22,8 @@ The UI seemingly blends in with Windows 11, providing you an uninterrupted, clea
 
 FluentFlyout features smooth animations, blends with your system's color themes and includes a suite of personalization settings while providing media controls, information and more in nice and modern looking popup flyouts.
 
+> This fork by [Apolake](https://github.com/Apolake) adds MusicBee support, allowing FluentFlyout to show and control MusicBee playback.
+
 <a href="https://apps.microsoft.com/detail/9n45nsm4tnbp?referrer=appbadge&cid=GitHub_README&mode=direct">
 	<img src="https://get.microsoft.com/images/en-us%20dark.svg" width="200"/>
 </a>
@@ -128,6 +130,7 @@ Thank you for your support and understanding!
 - [AksharDP](https://github.com/AksharDP) - Code Contributor (media seekbar & duration)
 - [Hykerisme](https://github.com/Hykerisme) - CN Translation
 - [nopeless](https://github.com/nopeless) - Code Contributor (QoL features)
+- [Apolake](https://github.com/Apolake) - Code Contributor (MusicBee support fork)
 
 ### Dependencies
 - [Dubya.WindowsMediaController](https://github.com/DubyaDude/WindowsMediaController)
