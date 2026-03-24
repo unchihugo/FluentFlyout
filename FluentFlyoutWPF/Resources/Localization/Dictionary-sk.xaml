@@ -59,4 +59,5 @@ skrýva informácie o opakovaní, náhodnom prehrávaní a prehrávači</system:
     <system:String x:Key="TaskbarWidgetManualPaddingTitle">Vlastné odsadenie</system:String>
     <system:String x:Key="TaskbarWidgetManualPaddingDescription">Pridá odsadenie navyše (predvolené: 0px)</system:String>
     <system:String x:Key="TaskbarWidgetBackgroundBlurTitle">Rozmazanie pozadia</system:String>
+    <system:String x:Key="TaskbarWidgetBackgroundBlurDescription">Pridá efekt rozmazaného pozadia pre widget na paneli úloh</system:String>
 </ResourceDictionary>
