@@ -227,4 +227,6 @@ Puoi contribuire alla traduzione su</system:String>
     <system:String x:Key="UseAlbumArtAccentColorTitle">Colore Accento dalla Copertina Album</system:String>
     <system:String x:Key="UseAlbumArtAccentColorDescription">Alcuni elementi dell’interfaccia useranno il colore della copertina invece del tema di sistema</system:String>
     <system:String x:Key="AdvancedSettingsTitle">Impostazioni Avanzate</system:String>
+    <system:String x:Key="LegacyTaskbarWidthTitle">Sistema Legacy Larghezza della Barra delle Applicazioni</system:String>
+    <system:String x:Key="LegacyTaskbarWidthDescription">Usa il sistema originale per la larghezza nei Widget Barra delle Applicazioni</system:String>
 </ResourceDictionary>
