@@ -40,7 +40,7 @@
     <system:String x:Key="NextUpCustomizationTitle">다음 곡 Flyout</system:String>
     <system:String x:Key="MediaFlyoutAlwaysDisplay">항상 표시</system:String>
     <system:String x:Key="NextUpDescription" xml:space="preserve">노래/영상이 끝날 때 Flyout에 다음으로 재생될 항목이 표시됩니다. 이 Flyout은 다음 항목이 자동으로 재생될 경우에만 나타납니다. 만약 다음/이전 버튼을 수동으로 누르면 기본 Flyout이 대신 나타납니다.</system:String>
-    <system:String x:Key="EnableNextUpTitle">다음 곡 Flyout 활성화 (실험적 기능)</system:String>
+    <system:String x:Key="EnableNextUpTitle">다음 곡 Flyout 활성화</system:String>
     <system:String x:Key="EnableNextUpDescription">음악/영상이 끝날 때 다음에 재생될 항목을 표시</system:String>
     <system:String x:Key="NextUpStayDurationTitle">다음 곡 표시 지속 시간</system:String>
     <system:String x:Key="NextUpStayDurationDescription">(기본값: 2000 ms)</system:String>
