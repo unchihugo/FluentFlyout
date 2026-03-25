@@ -60,4 +60,49 @@ skrýva informácie o opakovaní, náhodnom prehrávaní a prehrávači</system:
     <system:String x:Key="TaskbarWidgetManualPaddingDescription">Pridá odsadenie navyše (predvolené: 0px)</system:String>
     <system:String x:Key="TaskbarWidgetBackgroundBlurTitle">Rozmazanie pozadia</system:String>
     <system:String x:Key="TaskbarWidgetBackgroundBlurDescription">Pridá efekt rozmazaného pozadia pre widget na paneli úloh</system:String>
+    <system:String x:Key="TaskbarWidgetHideCompletelyTitle">Úplne skryť, keď nie sú prítomné žiadne médiá</system:String>
+    <system:String x:Key="TaskbarWidgetHideCompletelyDescription">Skryje celý widget, keď nie sú k dispozícii žiadne médiá, namiesto zobrazenia ikony média</system:String>
+    <system:String x:Key="TaskbarWidgetControlsDescription">Zobraziť tlačidlá ovládania médií na widgete</system:String>
+    <system:String x:Key="TaskbarWidgetControlsTitle">Widget ovládania médií</system:String>
+    <system:String x:Key="TaskbarWidgetControlsPositionDescription">Vyberte kde zobraziť tlačidlá ovládania médií</system:String>
+    <system:String x:Key="PositionLeft">Vľavo</system:String>
+    <system:String x:Key="PositionRight">Vpravo</system:String>
+    <system:String x:Key="TaskbarWidgetAnimatedTitle">Animácie widgetu</system:String>
+    <system:String x:Key="TaskbarWidgetAnimatedDescription">Povoliť jemné animácie pre widget</system:String>
+    <system:String x:Key="TaskbarVisualizerTitle">Vizualizér na hlavnom paneli</system:String>
+    <system:String x:Key="TaskbarVisualizerDescription">Vizualizér zvuku v reálnom čase na vašom paneli úloh. Navrhnutý tak, aby mal minimálny vplyv na výkon moderných systémov.</system:String>
+    <system:String x:Key="TaskbarVisualizerEnabledTitle">Povoliť vizualizér na paneli úloh (Experimentálne)</system:String>
+    <system:String x:Key="TaskbarVisualizerEnabledDescription">Experimentálne: Táto funkcia bude fungovať iba ak je povolený widget na paneli úloh</system:String>
+    <system:String x:Key="TaskbarVisualizerPositionTitle">Pozícia vizualizéra vzhľadom na widget na paneli úloh</system:String>
+    <system:String x:Key="TaskbarVisualizerBarCountTitle">Počet stĺpcov</system:String>
+    <system:String x:Key="TaskbarVisualizerBarCountDescription">Počet stĺpcov vizualizéra</system:String>
+    <system:String x:Key="TaskbarVisualizerCenteredBarsTitle">Vycentrované stĺpce</system:String>
+    <system:String x:Key="TaskbarVisualizerCenteredBarsDescription">Stĺpce, ktoré sa symetricky rozširujú od stredu namiesto toho, aby stúpali odspodu</system:String>
+    <system:String x:Key="TaskbarVisualizerBaselineDescription">Zobrazuje tenkú čiaru, keď sú úrovne zvuku nulové</system:String>
+    <system:String x:Key="TaskbarVisualizerBaselineTitle">Zobraziť základovú čiaru</system:String>
+    <system:String x:Key="TaskbarVisualizerAudioSensitivityTitle">Citlivosť zvuku</system:String>
+    <system:String x:Key="TaskbarVisualizerAudioSensitivityDescription">Aký hlasný musí byť zvuk, aby sa stĺpce začali pohybovať</system:String>
+    <system:String x:Key="TaskbarVisualizerAudioPeakLevelTitle">Prahová hodnota zvukového vrcholu</system:String>
+    <system:String x:Key="TaskbarVisualizerAudioPeakLevelDescription">Aký hlasný musí byť zvuk, aby stĺpce dosiahli svoju maximálnu výšku</system:String>
+    <system:String x:Key="TaskbarVisualizerOutputDeviceTitle">Výstupné zariadenie</system:String>
+    <system:String x:Key="TaskbarVisualizerOutputDeviceDescription">Zmeňte, čo vizualizér počúva, prepnutím výstupného zariadenia FluentFlyout.</system:String>
+    <system:String x:Key="TaskbarWidgetControlsPositionTitle">Pozícia ovládania médií</system:String>
+    <system:String x:Key="TaskbarVisualizerClickableTitle">Kliknutím otvoríte Nastavenia</system:String>
+    <system:String x:Key="TaskbarVisualizerClickableDescription">Kliknutím na vizualizér sa otvorí jeho stránka s nastaveniami</system:String>
+    <system:String x:Key="PremiumFeatureTitle">Prémiová funkcia</system:String>
+    <system:String x:Key="PremiumFeatureDescription" xml:space="preserve">Váš jednorazový príspevok mi pomôže udržiavať FluentFlyout aktívny a aktualizovaný. Okamžite odomkne všetky prémiové funkcie prispôsobenia, navždy.
+        
+Poznámka: Keďže ide o open-source projekt, tieto funkcie sú k dispozícii aj bezplatne prostredníctvom manuálneho inštalátora na GitHub. Jedinou nevýhodou je, že aktualizácie a inštaláciu je potrebné vykonať manuálne.</system:String>
+    <system:String x:Key="PremiumLockedMessage">Táto funkcia je súčasťou prémiového balíka</system:String>
+    <system:String x:Key="PremiumUnlockedMessage">Prémiové funkcie odomknuté. Ďakujem za vašu podporu!</system:String>
+    <system:String x:Key="PremiumGitHubMessage">Prémiové funkcie sú odomknuté pre GitHub/samo-kompilované verzie</system:String>
+    <system:String x:Key="UnlockPremiumButton">Odomknúť Premium</system:String>
+    <system:String x:Key="PremiumPurchaseSuccess">Premium úspešne odomknuté!</system:String>
+    <system:String x:Key="PremiumPurchaseFailed">Nákup zlyhal. Skúste to znova.</system:String>
+    <system:String x:Key="PremiumPurchaseCancelled">Nákup zrušený.</system:String>
+    <system:String x:Key="UnlockFullExperienceText">Odomknite si plný zážitok z FluentFlyout:</system:String>
+    <system:String x:Key="TaskbarWidgetCustomizationPerk">Widget a vizualizér na paneli úloh</system:String>
+    <system:String x:Key="AcrylicBlurOpacityPerk">Nepriehľadnosť akrylového rozmazania</system:String>
+    <system:String x:Key="HideTrayIconPerk">Skryť ikonu v systémovej oblasti</system:String>
+    <system:String x:Key="AllFuturePremiumFeatures">Všetky budúce prémiové funkcie</system:String>
 </ResourceDictionary>
