@@ -22,10 +22,10 @@
 skrýva informácie o opakovaní, náhodnom prehrávaní a prehrávači</system:String>
     <system:String x:Key="SelectedMonitorTitle">Cieľový monitor plávajúceho okna</system:String>
     <system:String x:Key="FlyoutPositionTitle">Pozícia plávajúceho okna</system:String>
-    <system:String x:Key="PositionBottomLeft" xml:space="preserve"> Vľavo dole</system:String>
+    <system:String x:Key="PositionBottomLeft" xml:space="preserve"> Dole vľavo</system:String>
     <system:String x:Key="PositionBottomCenter" xml:space="preserve"> V strede dole</system:String>
     <system:String x:Key="PositionBottomRight" xml:space="preserve"> Vpravo dole</system:String>
-    <system:String x:Key="PositionTopLeft" xml:space="preserve"> Vľavo hore</system:String>
+    <system:String x:Key="PositionTopLeft" xml:space="preserve"> Hore vľavo</system:String>
     <system:String x:Key="PositionTopCenter" xml:space="preserve"> V strede hore</system:String>
     <system:String x:Key="PositionTopRight" xml:space="preserve"> Vpravo hore</system:String>
     <system:String x:Key="FlyoutStayDurationTitle">Doba zotrvania plávajúceho okna</system:String>
