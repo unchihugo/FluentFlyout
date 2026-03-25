@@ -597,13 +597,6 @@ public partial class TaskbarWindow : Window
             return;
         }
         
-        if (!Dispatcher.CheckAccess())
-        {
-            Dispatcher.Invoke(() => UpdateUi(title, artist, icon, playbackStatus, playbackControls));
-            return;
-        }
-
-        
         // Autohide - Widget hides when playback is paused
         _lastPlaybackStatus = playbackStatus;
         
@@ -613,8 +606,11 @@ public partial class TaskbarWindow : Window
             {
                 _autoHideTimer?.Stop();
                 _autoHideTimer = null;
-                
-                Visibility = Visibility.Visible;
+
+                Dispatcher.Invoke(() => 
+                {
+                    Visibility = Visibility.Visible;
+                });
             }
             else
             {
@@ -633,7 +629,10 @@ public partial class TaskbarWindow : Window
 
                         if (_lastPlaybackStatus != GlobalSystemMediaTransportControlsSessionPlaybackStatus.Playing)
                         {
-                            Visibility = Visibility.Collapsed;
+                            Dispatcher.Invoke(() =>
+                            {
+                                Visibility = Visibility.Collapsed;
+                            });
                         }
                     };
 
