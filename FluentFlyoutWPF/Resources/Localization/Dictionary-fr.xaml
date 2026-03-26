@@ -226,4 +226,5 @@ Vous pouvez contribuer aux traductions sur</system:String>
     <system:String x:Key="MonitorWithFocusedWindow">Écran avec une fênetre active</system:String>
     <system:String x:Key="UseAlbumArtAccentColorDescription">Quelques éléments de l'UI utilisera les couleurs de l'image de l'album au lieu d'utiliser le thème du système</system:String>
     <system:String x:Key="FailedToExportSettings">Échec lors de l'exportation des paramètres. Vérifiez les journaux pour plus de détails.</system:String>
+    <system:String x:Key="FailedToImportSettings">Échec lors de l'importation des paramètres. Vérifiez les journaux pour plus de détails.</system:String>
 </ResourceDictionary>
