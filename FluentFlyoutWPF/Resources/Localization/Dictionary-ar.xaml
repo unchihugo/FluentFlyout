@@ -40,7 +40,7 @@
     <system:String x:Key="PauseOtherMediaDescription">عند تشغيل الوسائط الجديدة أو التركيز عليها، يتم إيقاف الجلسات النشطة الأخرى تلقائيًا</system:String>
     <system:String x:Key="NextUpCustomizationTitle">إشعار الوسائط التالية</system:String>
     <system:String x:Key="NextUpDescription" xml:space="preserve">تُظهر نافذة منبثقة ما يلي عند انتهاء أغنية/فيديو. تظهر فقط عند تشغيل العنصر التالي تلقائيًا، أما عند الضغط على التالي/السابق يدويًا، فتظهر النافذة الرئيسية.</system:String>
-    <system:String x:Key="EnableNextUpTitle">تمكين القائمة المنبثقة التالية (تجريبي)</system:String>
+    <system:String x:Key="EnableNextUpTitle">تمكين القائمة المنبثقة التالية</system:String>
     <system:String x:Key="EnableNextUpDescription">يُظهر ما التالي بعد انتهاء الأغنية/الفيديو</system:String>
     <system:String x:Key="NextUpStayDurationTitle">مدة ظهور إشعار الوسائط التالية</system:String>
     <system:String x:Key="NextUpStayDurationDescription">(الافتراضي: 2000 مللي ثانية)</system:String>
@@ -108,7 +108,7 @@
     <system:String x:Key="SelectedMonitorTitle">شاشة عرض أداة التحكم</system:String>
     <system:String x:Key="MediaFlyoutAlwaysDisplayDescription">تبقى اداة التحكم ظاهرة حتى الضغط على زر الإغلاق</system:String>
     <system:String x:Key="TaskbarWidgetCustomizationTitle">أداة شريط المهام</system:String>
-    <system:String x:Key="TaskbarWidgetDescription">أداة صغيرة الحجم تظهر مباشرةً على شريط مهام ويندوز للوصول السريع للوسائط. انقر على الأداة لعرض قائمة الوسائط الكاملة (عند التفعيل).</system:String>
+    <system:String x:Key="TaskbarWidgetDescription">أداة صغيرة الحجم تظهر مباشرةً على شريط مهام ويندوز للوصول السريع للوسائط. انقر على الأداة لعرض قائمة الوسائط الكاملة.</system:String>
     <system:String x:Key="TaskbarWidgetEnabledTitle">تشغيل اداة شريط المهام</system:String>
     <system:String x:Key="TaskbarWidgetEnabledDescription">إظهار اداة تحكم مصغرة على شريط المهام</system:String>
     <system:String x:Key="TaskbarWidgetVisualIssuesWarning">خصص الإعدادات ادناه عند مواجهة مشاكل بصرية.</system:String>
