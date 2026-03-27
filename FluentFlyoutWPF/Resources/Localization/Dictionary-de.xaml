@@ -122,6 +122,7 @@ Du kannst helfen, die App zu übersetzen auf</system:String>
     <system:String x:Key="TaskbarWidgetClickableTitle">Klicken, um das Medien-Flyout bei vorhandenen Medien zu öffnen</system:String>
     <system:String x:Key="TaskbarWidgetClickableDescription">Wenn das Medien-Flyout aktiviert ist, wird es beim Klicken auf das Taskleisten-Widget geöffnet</system:String>
     <system:String x:Key="TaskbarWidgetHideCompletelyDescription">Versteckt das Widget vollständig, wenn keine Medien verfügbar sind</system:String>
+    <system:String x:Key="TaskbarWidgetAutoHideDescription">Versteckt das Widget automatisch, sobald Medien pausiert sind</system:String>
     <system:String x:Key="NextUpCustomizationTitle">„Nächster Titel“-Flyout</system:String>
     <system:String x:Key="NextUpDescription" xml:space="preserve">Ein Flyout zeigt an, was als Nächstes abgespielt wird, wenn ein Song/Video endet. Es erscheint nur, wenn der nächste Titel automatisch abgespielt wird. Wird „Weiter“ oder „Zurück“ manuell gedrückt, erscheint stattdessen das Haupt-Flyout.</system:String>
     <system:String x:Key="LockKeysCustomizationTitle">"Sperrtasten"-Flyout</system:String>
