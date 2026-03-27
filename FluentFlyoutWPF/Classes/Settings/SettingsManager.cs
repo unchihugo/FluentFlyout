@@ -57,7 +57,7 @@ public class SettingsManager
     /// Restores the settings `SettingsManager.Current` from the settings file.
     /// </summary>
     /// <returns>The restored settings.</returns>
-    public static UserSettings RestoreSettings(string filePath = null)
+    public static UserSettings RestoreSettings(string? filePath = null)
     {
         filePath ??= SettingsFilePath;
         string backupPath = filePath + ".bak";
@@ -90,7 +90,7 @@ public class SettingsManager
                 _current = backupSettings;
                 _current.CompleteInitialization();
 
-                Logger.Warn("Primary settings file is invalid, restored settings from backup");
+                Logger.Warn("Could not restore primary settings file, restored settings from backup");
                 return _current;
             }
         }
@@ -109,9 +109,11 @@ public class SettingsManager
     /// <summary>
     /// Saves the app settings to the settings file.
     /// </summary>
-    public static void SaveSettings(string filePath = null)
+    public static void SaveSettings(string? filePath = null)
     {
         filePath ??= SettingsFilePath;
+        string tempPath = filePath + ".tmp";
+        string backupPath = filePath + ".bak";
 
         try
         {
@@ -124,8 +126,6 @@ public class SettingsManager
                 }
 
                 _current ??= new UserSettings();
-                string tempPath = filePath + ".tmp";
-                string backupPath = filePath + ".bak";
 
                 using (var writer = new StreamWriter(tempPath, false))
                 {
@@ -152,6 +152,21 @@ public class SettingsManager
         {
             // if the settings file cannot be saved
             Logger.Error(ex, "Error saving settings");
+        }
+        finally
+        {
+            // delete temp file if it still exists
+            if (File.Exists(tempPath))
+            {
+                try
+                {
+                    File.Delete(tempPath);
+                }
+                catch (Exception ex)
+                {
+                    Logger.Error(ex, "Error deleting temporary settings file");
+                }
+            }
         }
     }
 }
