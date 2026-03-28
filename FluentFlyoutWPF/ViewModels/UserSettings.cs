@@ -333,6 +333,12 @@ public partial class UserSettings : ObservableObject
     /// </summary>
     [ObservableProperty]
     public partial int TaskbarWidgetSelectedMonitor { get; set; }
+    
+    /// <summary>
+    /// Autohide Widget after a few milliseconds after pause 
+    /// </summary>
+    [ObservableProperty]
+    public partial bool TaskbarWidgetAutoHide { get; set; }
 
     /// <summary>
     /// Gets or sets the position of the taskbar widget, represented as an integer value.

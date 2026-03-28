@@ -126,10 +126,9 @@ public partial class MainWindow : MicaWindow
             }
         });
 
-        SettingsManager settingsManager = new();
         try
         {
-            settingsManager.RestoreSettings();
+            SettingsManager.RestoreSettings();
         }
         catch (Exception ex)
         {
