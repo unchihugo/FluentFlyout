@@ -191,4 +191,6 @@
     <system:String x:Key="TaskbarVisualizerClickableDescription">點擊視覺化工具以開啟設定</system:String>
     <system:String x:Key="UnlockFullExperienceText">解鎖完整 FluentFlyout 體驗：</system:String>
     <system:String x:Key="AcrylicBlurOpacityPerk">壓克力模糊效果的不透明度</system:String>
+    <system:String x:Key="TaskbarWidgetAutoHideTitle">自動隱藏小工具</system:String>
+    <system:String x:Key="TaskbarWidgetAutoHideDescription">當媒體暫停播放時，自動隱藏小工具</system:String>
 </ResourceDictionary>
