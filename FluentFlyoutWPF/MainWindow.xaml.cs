@@ -819,10 +819,26 @@ public partial class MainWindow : MicaWindow
             while (!token.IsCancellationRequested)
             {
                 await Task.Delay(100, token); // check if mouse is over every 100ms
-                if (!IsMouseOver && !SettingsManager.Current.MediaFlyoutAlwaysDisplay)
+
+                bool mouseOverMedia = WindowHelper.IsMouseOverWindow(this);
+                bool mouseOverVolume = SettingsManager.Current.VolumeControlAboveMediaFlyout
+                    && SettingsManager.Current.VolumeControlEnabled
+                    && volumeMixerWindow != null
+                    && volumeMixerWindow.IsVisible
+                    && WindowHelper.IsMouseOverWindow(volumeMixerWindow); // sync with VolumeMixerWindow
+
+                if (!mouseOverMedia && !mouseOverVolume && !SettingsManager.Current.MediaFlyoutAlwaysDisplay)
                 {
                     await Task.Delay(SettingsManager.Current.Duration, token);
-                    if (!IsMouseOver)
+
+                    mouseOverMedia = WindowHelper.IsMouseOverWindow(this);
+                    mouseOverVolume = SettingsManager.Current.VolumeControlAboveMediaFlyout
+                        && SettingsManager.Current.VolumeControlEnabled
+                        && volumeMixerWindow != null
+                        && volumeMixerWindow.IsVisible
+                        && WindowHelper.IsMouseOverWindow(volumeMixerWindow);
+
+                    if (!mouseOverMedia && !mouseOverVolume)
                     {
                         CloseAnimation(this);
                         _isHiding = true;

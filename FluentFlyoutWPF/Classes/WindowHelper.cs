@@ -74,4 +74,19 @@ public static class WindowHelper
             SetWindowLong(helper.Handle, GWL_EXSTYLE, GetWindowLong(helper.Handle, GWL_EXSTYLE) | WS_EX_NOACTIVATE);
         };
     }
+
+    // Check if the mouse cursor is currently over the specified window
+    // More reliable than WPF's IsMouseOver, it sometimes doesn't detect mouse over the background
+    public static bool IsMouseOverWindow(Window window)
+    {
+        if (!GetCursorPos(out POINT cursor))
+            return false;
+
+        var hwnd = new WindowInteropHelper(window).Handle;
+        if (!GetWindowRect(hwnd, out NativeMethods.RECT rect))
+            return false;
+
+        return cursor.X >= rect.Left && cursor.X <= rect.Right &&
+               cursor.Y >= rect.Top && cursor.Y <= rect.Bottom;
+    }
 }

@@ -622,7 +622,7 @@ public partial class UserSettings : ObservableObject
         VolumeControlAboveMediaFlyout = false;
         VolumeControlDuration = 3000;
         VolumeMixerEnabled = true;
-        VolumeMixerHighlightActiveApps = true;
+        VolumeMixerHighlightActiveApps = false;
         AcrylicBlurOpacity = 175;
         UseAlbumArtAsAccentColor = false;
         LastUpdateNotificationUnixSeconds = 0;
@@ -767,6 +767,18 @@ public partial class UserSettings : ObservableObject
     {
         if (oldValue == newValue || _initializing) return;
         BitmapHelper.GetDominantColors(1);
+    }
+
+    partial void OnVolumeMixerHighlightActiveAppsChanged(bool oldValue, bool newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+
+        // Check premium status before allowing highlight to be enabled
+        if (newValue && !SettingsManager.Current.IsPremiumUnlocked)
+        {
+            VolumeMixerHighlightActiveApps = false;
+            return;
+        }
     }
 
     partial void OnVolumeControlEnabledChanged(bool oldValue, bool newValue)

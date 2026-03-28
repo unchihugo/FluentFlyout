@@ -118,10 +118,22 @@ public partial class VolumeMixerWindow : MicaWindow
                 await Task.Delay(100, token); // check if mouse is over every 100ms
                 // update master volume again because it can be slow to update when coming from a hardware key press
                 ViewModel.SyncMasterFromDevice();
-                if (!IsMouseOverWindow())
+
+                bool mouseOverThis = WindowHelper.IsMouseOverWindow(this);
+                bool mouseOverMedia = SettingsManager.Current.VolumeControlAboveMediaFlyout
+                    && _mainWindow.Visibility == Visibility.Visible
+                    && WindowHelper.IsMouseOverWindow(_mainWindow); // sync with media flyout
+
+                if (!mouseOverThis && !mouseOverMedia)
                 {
                     await Task.Delay(SettingsManager.Current.VolumeControlDuration, token);
-                    if (!IsMouseOverWindow())
+
+                    mouseOverThis = WindowHelper.IsMouseOverWindow(this);
+                    mouseOverMedia = SettingsManager.Current.VolumeControlAboveMediaFlyout
+                        && _mainWindow.Visibility == Visibility.Visible
+                        && WindowHelper.IsMouseOverWindow(_mainWindow);
+
+                    if (!mouseOverThis && !mouseOverMedia)
                     {
                         _mainWindow.CloseAnimation(this);
                         _isHiding = true;
@@ -280,19 +292,5 @@ public partial class VolumeMixerWindow : MicaWindow
             BeginAnimation(TopProperty, topAnimation);
             BeginAnimation(HeightProperty, heightAnimation);
         });
-    }
-
-    // TODO: other windows should use this too instead of IsMouseOver, consider moving to a helper class
-    private bool IsMouseOverWindow()
-    {
-        if (!GetCursorPos(out POINT cursor))
-            return false;
-
-        var hwnd = new WindowInteropHelper(this).Handle;
-        if (!GetWindowRect(hwnd, out RECT rect))
-            return false;
-
-        return cursor.X >= rect.Left && cursor.X <= rect.Right &&
-               cursor.Y >= rect.Top && cursor.Y <= rect.Bottom;
     }
 }

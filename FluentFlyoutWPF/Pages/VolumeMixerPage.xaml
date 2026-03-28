@@ -7,6 +7,7 @@
       xmlns:controls="clr-namespace:MicaWPF.Controls;assembly=MicaWPF"
       xmlns:viewModels="clr-namespace:FluentFlyoutWPF.ViewModels"
       xmlns:utils="clr-namespace:FluentFlyoutWPF.Classes.Utils"
+      xmlns:fluentflyoutcontrols="clr-namespace:FluentFlyout.Controls"
       mc:Ignorable="d"
       d:DesignHeight="800" d:DesignWidth="800"
       Title="TaskbarWidgetPage"
@@ -93,11 +94,14 @@
                 </ui:CardControl.Header>
                 <controls:ToggleSwitch IsChecked="{Binding VolumeMixerEnabled, Mode=TwoWay}" />
             </ui:CardControl>
-
-            <ui:CardControl Icon="{ui:SymbolIcon Highlight24}" Margin="0,0,0,76">
+            
+            <ui:CardControl Icon="{ui:SymbolIcon Highlight24}" Margin="0,0,0,76" Opacity="{Binding IsPremiumUnlocked, Converter={StaticResource BoolToFullHalfOpacityConverter}}">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
-                        <TextBlock Text="{DynamicResource VolumeMixerHighlightTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{DynamicResource VolumeMixerHighlightTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
+                            <fluentflyoutcontrols:AccentBadge Margin="6,0,0,0" />
+                        </StackPanel>
                         <TextBlock Text="{DynamicResource VolumeMixerHighlightDescription}" FontSize="12" Opacity="0.5" />
                     </StackPanel>
                 </ui:CardControl.Header>
