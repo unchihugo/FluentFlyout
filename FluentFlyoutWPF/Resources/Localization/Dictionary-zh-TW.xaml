@@ -57,7 +57,7 @@
     <system:String x:Key="LaunchOnStartupTitle">開機時啟動</system:String>
     <system:String x:Key="LaunchOnStartupDescription">登入 Windows 時最小化到系統匣</system:String>
     <system:String x:Key="StartupAppsSettingsInfo">如果此設定無法正常運作，請檢查</system:String>
-    <system:String x:Key="AppThemeTitle">應用程式佈景主題</system:String>
+    <system:String x:Key="AppThemeTitle">應用主題</system:String>
     <system:String x:Key="AppThemeDefault"> Windows 預設</system:String>
     <system:String x:Key="AppThemeLight"> 淺色</system:String>
     <system:String x:Key="AppThemeDark"> 深色</system:String>
@@ -195,4 +195,5 @@
     <system:String x:Key="TaskbarWidgetAutoHideDescription">當媒體暫停播放時，自動隱藏小工具</system:String>
     <system:String x:Key="TaskbarVisualizerAudioSensitivityTitle">音訊靈敏度</system:String>
     <system:String x:Key="HideTrayIconPerk">隱藏系統匣圖示</system:String>
+    <system:String x:Key="DefaultLockLayoutPosition">彈出視窗顯示器</system:String>
 </ResourceDictionary>
