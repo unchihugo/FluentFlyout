@@ -6,7 +6,6 @@ using FluentFlyout.Classes.Settings;
 using FluentFlyoutWPF.Classes;
 using MicaWPF.Controls;
 using System.Windows;
-using System.Windows.Media;
 using System.Windows.Media.Animation;
 using static FluentFlyoutWPF.Classes.Utils.MonitorUtil;
 
