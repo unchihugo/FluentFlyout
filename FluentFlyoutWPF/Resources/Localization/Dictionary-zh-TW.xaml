@@ -98,8 +98,8 @@
     <system:String x:Key="EasingCubic" xml:space="preserve"> 立方體</system:String>
     <system:String x:Key="EnableInsertKeyTitle">啟用插入鍵彈出視窗</system:String>
     <system:String x:Key="StartupAppsHyperlinkText">啟動應用程式</system:String>
-    <system:String x:Key="TrayIconLeftClickBehaviorTitle">托盤圖示左鍵單擊行為</system:String>
-    <system:String x:Key="TrayIconLeftClickBehaviorDescription">選擇單擊托盤圖示時發生的情況</system:String>
+    <system:String x:Key="TrayIconLeftClickBehaviorTitle">系統匣圖示左鍵單擊行為</system:String>
+    <system:String x:Key="TrayIconLeftClickBehaviorDescription">選擇單擊系統匣圖示時發生的情況</system:String>
     <system:String x:Key="TrayIconLeftClickOption1"> 開啟設定</system:String>
     <system:String x:Key="AnimationEasingStyleTitle">動畫緩動風格</system:String>
     <system:String x:Key="TaskbarWidgetBackgroundBlurTitle">背景模糊</system:String>
@@ -193,4 +193,6 @@
     <system:String x:Key="AcrylicBlurOpacityPerk">壓克力模糊效果的不透明度</system:String>
     <system:String x:Key="TaskbarWidgetAutoHideTitle">自動隱藏小工具</system:String>
     <system:String x:Key="TaskbarWidgetAutoHideDescription">當媒體暫停播放時，自動隱藏小工具</system:String>
+    <system:String x:Key="TaskbarVisualizerAudioSensitivityTitle">音訊靈敏度</system:String>
+    <system:String x:Key="HideTrayIconPerk">隱藏系統匣圖示</system:String>
 </ResourceDictionary>
