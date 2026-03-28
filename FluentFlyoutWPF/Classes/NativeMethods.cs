@@ -289,6 +289,9 @@ public static partial class NativeMethods
     internal static partial void keybd_event(byte virtualKey, byte scanCode, uint flags, IntPtr extraInfo);
 
     [LibraryImport("user32.dll")]
+    internal static partial short GetKeyState(int nVirtKey);
+
+    [LibraryImport("user32.dll")]
     [return: MarshalAs(UnmanagedType.Bool)]
     internal static partial bool RegisterShellHookWindow(IntPtr hWnd);
 
