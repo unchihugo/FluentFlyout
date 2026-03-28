@@ -229,4 +229,6 @@
     <system:String x:Key="AdvancedSettingsTitle">Расширенные настройки</system:String>
     <system:String x:Key="LegacyTaskbarWidthTitle">Классическая система ширины панели задач</system:String>
     <system:String x:Key="LegacyTaskbarWidthDescription">Используйте классическую систему ширины панели задач для виджетов</system:String>
+    <system:String x:Key="TaskbarWidgetAutoHideDescription">Автоматически скрывает виджет при остановке медиа</system:String>
+    <system:String x:Key="TaskbarWidgetAutoHideTitle">Автоскрытие виджета</system:String>
 </ResourceDictionary>
