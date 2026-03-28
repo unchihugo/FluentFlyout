@@ -95,7 +95,7 @@ public partial class LockWindow : MicaWindow
         {
             _isHiding = false;
             _openedMonitor = GetPreferredTargetDisplay();
-            mainWindow.OpenAnimation(this, true, _openedMonitor);
+            mainWindow.OpenAnimation(window: this, alwaysBottom: true, selectedMonitor: _openedMonitor);
         }
         cts.Cancel();
         cts = new CancellationTokenSource();
@@ -106,7 +106,7 @@ public partial class LockWindow : MicaWindow
             while (!token.IsCancellationRequested)
             {
                 await Task.Delay(SettingsManager.Current.LockKeysDuration, token);
-                mainWindow.CloseAnimation(this, true, _openedMonitor);
+                mainWindow.CloseAnimation(window: this, selectedMonitor: _openedMonitor);
                 _isHiding = true;
                 await Task.Delay(mainWindow.getDuration());
                 if (_isHiding == false) return;
