@@ -350,7 +350,7 @@ public partial class TaskbarWidgetControl : UserControl
     {
         try
         {
-            int msDuration = _mainWindow != null ? _mainWindow.getDuration() : 300;
+            int msDuration = MainWindow.getDuration();
 
             // opacity and left to right animation for SongInfoStackPanel
             DoubleAnimation opacityAnimation = new()

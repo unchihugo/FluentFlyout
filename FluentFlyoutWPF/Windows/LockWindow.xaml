@@ -38,7 +38,7 @@
         </EventTrigger>
     </Window.Triggers>
 
-    <Grid Margin="12,6,12,6">
+    <Grid Margin="14,6,12,6">
         <ui:SymbolIcon Name="LockSymbol" HorizontalAlignment="Left" Symbol="LockClosed24" Filled="false" Width="22" Height="22" FontSize="22" VerticalAlignment="Center" Margin="0,0,2,1"/>
         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="20,0,0,4">
             <TextBlock Name="LockTextBlock" Text="Loading..." FontSize="14" FontWeight="Medium" TextTrimming="CharacterEllipsis"/>
