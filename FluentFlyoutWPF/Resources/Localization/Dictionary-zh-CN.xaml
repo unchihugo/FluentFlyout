@@ -229,4 +229,6 @@
     <system:String x:Key="AdvancedSettingsTitle">高级设置</system:String>
     <system:String x:Key="LegacyTaskbarWidthDescription">任务栏小组件使用旧版任务栏宽度系统</system:String>
     <system:String x:Key="LegacyTaskbarWidthTitle">旧版任务栏宽度系统</system:String>
+    <system:String x:Key="TaskbarWidgetAutoHideTitle">自动隐藏小组件</system:String>
+    <system:String x:Key="TaskbarWidgetAutoHideDescription">当媒体暂停播放时，自动将小组件隐藏</system:String>
 </ResourceDictionary>
