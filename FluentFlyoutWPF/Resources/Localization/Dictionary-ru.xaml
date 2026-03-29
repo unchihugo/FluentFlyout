@@ -231,4 +231,6 @@
     <system:String x:Key="LegacyTaskbarWidthDescription">Используйте классическую систему ширины панели задач для виджетов</system:String>
     <system:String x:Key="TaskbarWidgetAutoHideDescription">Автоматически скрывает виджет при остановке медиа</system:String>
     <system:String x:Key="TaskbarWidgetAutoHideTitle">Автоскрытие виджета</system:String>
+    <system:String x:Key="LockKeysAnimatedTitle">Анимация индикаторов</system:String>
+    <system:String x:Key="LockKeysAnimatedDescription">Включает ненавязчивую анимацию для индикатора клавиш-переключателей</system:String>
 </ResourceDictionary>
