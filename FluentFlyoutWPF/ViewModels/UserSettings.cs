@@ -516,6 +516,12 @@ public partial class UserSettings : ObservableObject
     public partial bool ShowUpdateNotifications { get; set; }
 
     /// <summary>
+    /// Determines whether the app should automatically download and install updates (GitHub Release builds only).
+    /// </summary>
+    [ObservableProperty]
+    public partial bool AutoUpdateEnabled { get; set; }
+
+    /// <summary>
     /// Determines whether to use the legacy method for calculating taskbar width for widget positioning for compatibility with other taskbar mods
     /// </summary>
     [ObservableProperty]
@@ -590,6 +596,7 @@ public partial class UserSettings : ObservableObject
         UseAlbumArtAsAccentColor = false;
         LastUpdateNotificationUnixSeconds = 0;
         ShowUpdateNotifications = true;
+        AutoUpdateEnabled = true;
         LegacyTaskbarWidthEnabled = false;
     }
 
