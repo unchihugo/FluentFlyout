@@ -114,9 +114,9 @@ veya Microsoft Store'da yorum bırakın!</system:String>
     <system:String x:Key="TaskbarWidgetBackgroundBlurDescription">Görev çubuğu widgetine arka plan bulanıklaştırma efekti ekleyin</system:String>
     <system:String x:Key="TaskbarWidgetHideCompletelyTitle">Hiçbir Medya Mevcut Değilken Tamamen Gizle</system:String>
     <system:String x:Key="TaskbarWidgetHideCompletelyDescription">Hiçbir medya mevcut olmadığında, bir medya simgesi görüntülemek yerine tüm widget'ı gizler</system:String>
-    <system:String x:Key="PremiumFeatureDescription" xml:space="preserve">FluentFlyoutTek seferlik katkınız, FluentFlyout'u canlı tutmam ve güncel tutmam için bana yardımcı olur. Tüm premium özelleştirme özelliklerini anında ve sonsuza kadar açar.
-        
-Not: Açık kaynaklı bir proje olarak, bu özellikler GitHub'daki manuel yükleyici aracılığıyla da ücretsiz olarak kullanılabilir. Tek dezavantajı, güncellemelerin ve yüklemenin manuel olarak yapılması gerekmektedir.</system:String>
+    <system:String x:Key="PremiumFeatureDescription" xml:space="preserve">FluentFlyoutTek seferlik katkınız, FluentFlyout'u canlı tutmam ve güncel tutmam için bana yardımcı olur. Tüm premium özelleştirme özelliklerini anında ve sonsuza kadar açar. 
+
+Not: Açık kaynaklı bir proje olduğundan, bu özellikler GitHub'daki manuel yükleyici aracılığıyla da ücretsiz olarak kullanılabilir. Tek dezavantajı, güncellemelerin ve yüklemenin manuel olarak yapılması gerekmesidir.</system:String>
     <system:String x:Key="PremiumLockedMessage">Bu özellik premium paketin bir parçasıdır</system:String>
     <system:String x:Key="PremiumUnlockedMessage">Premium özellikler açıldı. Desteğiniz için teşekkür ederiz!</system:String>
     <system:String x:Key="PremiumGitHubMessage">Premium özellikler GitHub/kendi derlediğiniz sürümler için açıktır</system:String>
@@ -178,4 +178,25 @@ Not: Açık kaynaklı bir proje olarak, bu özellikler GitHub'daki manuel yükle
     <system:String x:Key="TaskbarVisualizerPositionTitle">Görselleştirici Pozisyonu Görev Çubuğuna Göre  Widget</system:String>
     <system:String x:Key="TaskbarVisualizerBarCountTitle">Bar Sayısı</system:String>
     <system:String x:Key="TaskbarVisualizerBarCountDescription">Görselleştirici çubuklarının miktarı</system:String>
+    <system:String x:Key="TaskbarWidgetControlsPositionDescription">Medya kontrol tuşlarının nerede gösterileceğini seçin</system:String>
+    <system:String x:Key="PositionLeft">Sol</system:String>
+    <system:String x:Key="PositionRight">Sağ</system:String>
+    <system:String x:Key="TaskbarVisualizerBaselineTitle">Referans Noktasını Göster</system:String>
+    <system:String x:Key="TaskbarVisualizerBaselineDescription">Ses düzeyleri sıfır olduğunda ince bir çizgi gösterir</system:String>
+    <system:String x:Key="TaskbarVisualizerAudioSensitivityTitle">Ses Hassasiyeti</system:String>
+    <system:String x:Key="TaskbarVisualizerOutputDeviceTitle">Çıkış Cihazı</system:String>
+    <system:String x:Key="TaskbarVisualizerOutputDeviceDescription">FluentFlyout'un çıkış cihazı ile görselleştiricinin neyi dinlediğini değiştirin</system:String>
+    <system:String x:Key="TaskbarVisualizerClickableTitle">Ayarları açmak için tıklayın</system:String>
+    <system:String x:Key="TaskbarVisualizerClickableDescription">Görselleştiriye tıklamak onun ayar sayfasını açar</system:String>
+    <system:String x:Key="TranslatorsTitle">Çevirenler</system:String>
+    <system:String x:Key="AdvancedSettingsTitle">Gelişmiş Ayarlar</system:String>
+    <system:String x:Key="ImportFailed">İçe aktarma başarısız</system:String>
+    <system:String x:Key="SettingsExportedSuccessfully">Ayarlar başarıyla dışarı aktarıldı!</system:String>
+    <system:String x:Key="FailedToExportSettings">Ayarların dışarı aktarılması başarısız.Detaylar için kayıtları kontrol edin.</system:String>
+    <system:String x:Key="SettingsImportedSuccessfully">Ayarlar başarıyla içe aktarıldı! Şimdi değişiklikleri uygulamak için uygulama kendini yeniden başlatacak.</system:String>
+    <system:String x:Key="ImportSettingsWarning">Bu bütün ayarlarınızı değiştirecek.Devam etmek istiyor musunuz?</system:String>
+    <system:String x:Key="FailedToImportSettings">Ayarların içe aktarılması başarısız.Detaylar için kayıtları kontrol edin.</system:String>
+    <system:String x:Key="AllFuturePremiumFeatures">Bütün gelecek Premium özellikler</system:String>
+    <system:String x:Key="TaskbarWidgetCustomizationPerk">Görev Çubuğu Widget ve Görselleştiricisi</system:String>
+    <system:String x:Key="HideTrayIconPerk">Sistem tepsisini gizle</system:String>
 </ResourceDictionary>

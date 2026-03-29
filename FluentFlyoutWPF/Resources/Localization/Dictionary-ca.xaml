@@ -4,9 +4,33 @@
     <system:String x:Key="Enabled">Activat</system:String>
     <system:String x:Key="Disabled">Desactivat</system:String>
     <system:String x:Key="MediaFlyoutTitle">Flyout Multimèdia</system:String>
-    <system:String x:Key="MediaFlyoutDescription">Flyout Principal. En escoltar multimèdia, premeu qualsevol tecla de volum o relacionada amb multimèdia (reproduir/aturar, apujar/abaixar volum, etc.) al teclat per mostrar el flyout. Mostra informació multimèdia, juntament amb controls de reproducció i més.</system:String>
+    <system:String x:Key="MediaFlyoutDescription">En escoltar multimèdia, premeu qualsevol tecla de volum o relacionada amb multimèdia (reproduir/aturar, apujar/abaixar volum, etc.) al teclat per mostrar el flyout. Mostra informació multimèdia, juntament amb controls de reproducció i més.</system:String>
     <system:String x:Key="TextBlockText1">Habilitar Flyout Multimèdia</system:String>
     <system:String x:Key="TextBlockText3">Es mostra un flyout quan es prem una tecla multimèdia</system:String>
     <system:String x:Key="TextBlockText2">Tria des d'un conjunt predeterminat d'estils de desenfocament moderns</system:String>
     <system:String x:Key="BackgroundBlurOption1" xml:space="preserve"> Cap</system:String>
+    <system:String x:Key="MediaFlyoutExcludeVolumeTitle">Exclou Tecles de Volum</system:String>
+    <system:String x:Key="MediaFlyoutExcludeVolumeDescription">No mostrar el flyout quan es premi volum amunt/avall/silenci</system:String>
+    <system:String x:Key="AcrylicWindowTitle">Finestra acrilica</system:String>
+    <system:String x:Key="MillisecondsUnit">ms</system:String>
+    <system:String x:Key="FlyoutStayDurationDescription">(per defecte: 3000 ms)</system:String>
+    <system:String x:Key="MediaFlyoutAlwaysDisplay">Mostra Sempre</system:String>
+    <system:String x:Key="CenterTitleArtistTitle">Centrar títol i artista</system:String>
+    <system:String x:Key="CenterTitleArtistDescription">Alinear el texte al centre en comptes de l'esquerra</system:String>
+    <system:String x:Key="ShowMediaPlayerNameTitle">Mostrar nom del reproductor de media</system:String>
+    <system:String x:Key="RepeatButtonTitle">Botó de repetició*</system:String>
+    <system:String x:Key="RepeatButtonDescription">Tria entre repetir tot o repetir un, augmenta l'amplada del flyout</system:String>
+    <system:String x:Key="ShuffleButtonTitle">Botó de barreja*</system:String>
+    <system:String x:Key="ShuffleButtonDescription">Augmenta l'amplada del flyout</system:String>
+    <system:String x:Key="PauseOtherMediaTitle">Pausa altres continguts multimèdia automàticament</system:String>
+    <system:String x:Key="PauseOtherMediaDescription">Quan reprodueixes o et centres en nous continguts multimèdia, altres sessions actives es posen en pausa automàticament</system:String>
+    <system:String x:Key="TaskbarWidgetCustomizationTitle">Widget de la barra de tasques</system:String>
+    <system:String x:Key="TaskbarWidgetEnabledTitle">Activa el widget de la barra de tasques</system:String>
+    <system:String x:Key="TaskbarWidgetVisualIssuesWarning">Configura les opcions següents si teniu problemes visuals.</system:String>
+    <system:String x:Key="TaskbarWidgetPosition">Posició del widget</system:String>
+    <system:String x:Key="TaskbarWidgetPaddingDescription">Activa aquesta funció si tens els widgets de Windows habilitats</system:String>
+    <system:String x:Key="TaskbarWidgetBackgroundBlurTitle">Desenfocament del fons</system:String>
+    <system:String x:Key="TaskbarWidgetBackgroundBlurDescription">Afegeix un efecte de desenfocament de fons al widget de la barra de tasques</system:String>
+    <system:String x:Key="TaskbarWidgetHideCompletelyTitle">Amaga completament quan no hi ha cap media present</system:String>
+    <system:String x:Key="TaskbarWidgetHideCompletelyDescription">Amaga tot el widget quan no hi ha contingut multimèdia disponible, en comptes de mostrar una icona multimèdia</system:String>
 </ResourceDictionary>
