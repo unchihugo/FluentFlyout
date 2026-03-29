@@ -28,7 +28,7 @@ elrejti az ismétlés, keverés és lejátszó információkat</System:String>
     <System:String x:Key="PositionTopLeft" xml:space="preserve"> Bal felső</System:String>
     <System:String x:Key="PositionTopCenter" xml:space="preserve"> Felső közép</System:String>
     <System:String x:Key="PositionTopRight" xml:space="preserve"> Felső jobb</System:String>
-    <System:String x:Key="FlyoutStayDurationTitle">Flyout ablak időtartama</System:String>
+    <System:String x:Key="FlyoutStayDurationTitle">Flyout ablak megjelenítési ideje</System:String>
     <System:String x:Key="FlyoutStayDurationDescription">(alapértelmezett: 3000 ms)</System:String>
     <System:String x:Key="MillisecondsUnit">ms</System:String>
     <System:String x:Key="MediaFlyoutAlwaysDisplay">Mindig megjelenít</System:String>
@@ -36,16 +36,15 @@ elrejti az ismétlés, keverés és lejátszó információkat</System:String>
     <System:String x:Key="CenterTitleArtistTitle">Cím és előadó középre igazítása</System:String>
     <System:String x:Key="CenterTitleArtistDescription">A szöveg középre igazítása a bal helyett</System:String>
     <System:String x:Key="ShowMediaPlayerNameTitle">Jelenítse meg a médialejátszó nevét</System:String>
-    <System:String x:Key="AppOpenerTitle">Alkalmazás megnyitása az albumkép kattintásakor</System:String>
     <System:String x:Key="RepeatButtonTitle">Ismétlés gomb*</System:String>
     <System:String x:Key="RepeatButtonDescription">Válasszon az összes ismétlése vagy egy ismétlése között, növeli a flyout szélességét</System:String>
     <System:String x:Key="ShuffleButtonTitle">Keverés gomb*</System:String>
     <System:String x:Key="ShuffleButtonDescription">Növeli a flyout szélességét</System:String>
-    <System:String x:Key="ShowSeekbarTitle">Mutassa a keresőmezőt</System:String>
-    <System:String x:Key="ShowSeekbarDescription">Ha a lejátszó támogatja, egy interaktív keresőmező automatikusan megjelenik</System:String>
-    <System:String x:Key="UnsupportedControlsWarning">*Néhány böngésző/lejátszó nem támogatja az ismétlés, keverés és keresőmező vezérlést.</System:String>
+    <System:String x:Key="ShowSeekbarTitle">Mutassa az idősávot</System:String>
+    <System:String x:Key="ShowSeekbarDescription">Ha a lejátszó támogatja, egy interaktív idősáv automatikusan megjelenik</System:String>
+    <System:String x:Key="UnsupportedControlsWarning">*Néhány böngésző/lejátszó nem támogatja az ismétlés, keverés és idősáv vezérlést.</System:String>
     <System:String x:Key="PauseOtherMediaTitle">Más média automatikus szüneteltetése</System:String>
-    <System:String x:Key="PauseOtherMediaDescription">Amikor új médiát játszik le vagy fókuszál, a többi aktív munkamenet automatikusan szünetel</System:String>
+    <System:String x:Key="PauseOtherMediaDescription">Amikor új média lejátszása indul, vagy az fókuszba kerül, a többi aktív munkamenet automatikusan szünetel</System:String>
     <System:String x:Key="TaskbarWidgetCustomizationTitle">Tálca Widget</System:String>
     <System:String x:Key="TaskbarWidgetDescription">Egy kompakt, beépített widget, amely közvetlenül a Windows tálcán található, azonnali hozzáférést biztosítva a médiához. Kattintson a widgetre a teljes Media Flyout kibővítéséhez.</System:String>
     <System:String x:Key="TaskbarWidgetEnabledTitle">Tálca Widget engedélyezése</System:String>
@@ -95,137 +94,137 @@ elrejti az ismétlés, keverés és lejátszó információkat</System:String>
     <System:String x:Key="PremiumFeatureTitle">Prémium Funkció</System:String>
     <System:String x:Key="PremiumFeatureDescription" xml:space="preserve">Az egyszeri hozzájárulása segít abban, hogy a FluentFlyout életben maradjon és frissüljön. Azonnal feloldja az összes prémium testreszabási funkciót, örökre.
         
-Note: As an open-source project, these features are also available for free via the manual installer on GitHub. The only trade-off is that updates and installation must be done manually.</System:String>
-    <System:String x:Key="PremiumLockedMessage">This feature is part of the premium package</System:String>
-    <System:String x:Key="PremiumUnlockedMessage">Premium features unlocked. Thank you for your support!</System:String>
-    <System:String x:Key="PremiumGitHubMessage">Premium features are unlocked for GitHub/self-compiled versions</System:String>
-    <System:String x:Key="UnlockPremiumButton">Unlock Premium</System:String>
-    <System:String x:Key="PremiumPurchaseSuccess">Premium unlocked successfully!</System:String>
-    <System:String x:Key="PremiumPurchaseFailed">Purchase failed. Please try again.</System:String>
-    <System:String x:Key="PremiumPurchaseCancelled">Purchase cancelled.</System:String>
-    <System:String x:Key="UnlockFullExperienceText">Unlock the full FluentFlyout experience:</System:String>
-    <System:String x:Key="TaskbarWidgetCustomizationPerk">Taskbar Widget and Visualizer</System:String>
-    <System:String x:Key="AcrylicBlurOpacityPerk">Acrylic Blur Opacity</System:String>
-    <System:String x:Key="HideTrayIconPerk">Hide Tray Icon</System:String>
-    <System:String x:Key="AllFuturePremiumFeatures">All future Premium features</System:String>
-    <System:String x:Key="NextUpCustomizationTitle">Next Up Flyout</System:String>
-    <System:String x:Key="NextUpDescription" xml:space="preserve">A flyout shows what's next when a song/video ends. Only appears if the next item plays automatically, if next/previous is pressed manually, the main flyout appears instead.</System:String>
-    <System:String x:Key="EnableNextUpTitle">Enable Next Up Flyout</System:String>
-    <System:String x:Key="EnableNextUpDescription">Shows what's next when a song/video ends</System:String>
-    <System:String x:Key="NextUpStayDurationTitle">Next Up Stay Duration</System:String>
-    <System:String x:Key="NextUpStayDurationDescription">(default: 2000 ms)</System:String>
-    <System:String x:Key="LockKeysCustomizationTitle">Lock Keys Flyout</System:String>
-    <System:String x:Key="LockKeysDescription" xml:space="preserve">Check your lock key status at a glance. Appears after pressing Caps Lock, Num Lock or Scroll Lock. Convenient for laptops/keyboards without lock key indicators.</System:String>
-    <System:String x:Key="EnableLockKeysTitle">Enable Lock Keys Flyout</System:String>
-    <System:String x:Key="EnableLockKeysDescription">Displays whether the specified lock key is on or off</System:String>
-    <System:String x:Key="LockKeysStayDurationTitle">Lock Keys Stay Duration</System:String>
-    <System:String x:Key="LockKeysStayDurationDescription">(default: 2000 ms)</System:String>
-    <System:String x:Key="LockKeysBoldUITitle">Bold Symbol and Font</System:String>
-    <System:String x:Key="LockKeysBoldUIDescription">Emphasizes the flyout symbol and font</System:String>
-    <System:String x:Key="LockKeysCursorUITitle">Preferred Target Display</System:String>
-    <System:String x:Key="LockKeysCursorUIDescription" xml:space="preserve">Choose which monitor to display the flyout.</System:String>
-    <System:String x:Key="DefaultLockLayoutPosition">Default (Flyout Target Display)</System:String>
-    <System:String x:Key="MonitorWithFocusedWindow">Monitor with focused window</System:String>
-    <System:String x:Key="MonitorWithCursor">Monitor with cursor</System:String>
-    <System:String x:Key="EnableInsertKeyTitle">Enable Insert Key Popup</System:String>
-    <System:String x:Key="EnableInsertKeyDescription">Determines whether pressing insert/overwrite will show the flyout</System:String>
-    <System:String x:Key="SystemSettingsTitle">System</System:String>
-    <System:String x:Key="LaunchOnStartupTitle">Launch on Startup</System:String>
-    <System:String x:Key="LaunchOnStartupDescription">Start minimized to tray when you log in to Windows</System:String>
-    <System:String x:Key="StartupAppsHyperlinkText">Startup Apps</System:String>
-    <System:String x:Key="StartupAppsSettingsInfo">If this setting does not work as expected, check</System:String>
-    <System:String x:Key="AppThemeTitle">App Theme</System:String>
-    <System:String x:Key="AppThemeDefault">Windows Default</System:String>
-    <System:String x:Key="AppThemeLight">Light</System:String>
-    <System:String x:Key="AppThemeDark">Dark</System:String>
-    <System:String x:Key="UseAlbumArtAccentColorTitle">Use Album Art as Accent Color</System:String>
-    <System:String x:Key="UseAlbumArtAccentColorDescription">Some UI elements will use the album art color instead of the system theme</System:String>
-    <System:String x:Key="TrayIconLeftClickBehaviorTitle">Tray Icon Left Click Behavior</System:String>
-    <System:String x:Key="TrayIconLeftClickBehaviorDescription">Choose what happens when you left click the tray icon</System:String>
-    <System:String x:Key="TrayIconLeftClickOption1">Open Settings</System:String>
-    <System:String x:Key="TrayIconLeftClickOption2">Show Media Flyout</System:String>
-    <System:String x:Key="Win11TrayIconTitle">Windows 11-like Tray Icon</System:String>
-    <System:String x:Key="Win11TrayIconDescription">Use a tray icon that matches Windows 11 (toggle to refresh theme)</System:String>
-    <System:String x:Key="HideTrayIconTitle">Hide Tray Icon Completely</System:String>
-    <System:String x:Key="HideTrayIconDescription">Access settings from launching the program twice</System:String>
-    <System:String x:Key="AnimationSettingsTitle">Animation Settings</System:String>
-    <System:String x:Key="AnimationSettingsDescription">Tweak the animations to your liking</System:String>
-    <System:String x:Key="AnimationDurationScaleTitle">Animation Duration Scale</System:String>
-    <System:String x:Key="AnimationDurationScaleDescription">Faster or slower flyout animation speed (default: 1x)</System:String>
-    <System:String x:Key="AnimationSpeedOff">Off</System:String>
-    <System:String x:Key="AnimationEasingStyleTitle">Animation Easing Style</System:String>
-    <System:String x:Key="AnimationEasingStyleDescription">(default: Quadratic)</System:String>
-    <System:String x:Key="EasingLinear" xml:space="preserve"> Linear</System:String>
-    <System:String x:Key="EasingSine" xml:space="preserve"> Sine</System:String>
-    <System:String x:Key="EasingQuadratic" xml:space="preserve"> Quadratic</System:String>
-    <System:String x:Key="EasingCubic" xml:space="preserve"> Cubic</System:String>
-    <System:String x:Key="NativeExperienceInfo">For the native Windows 11 experience, the settings should be kept at default.</System:String>
-    <System:String x:Key="DisableOnFullscreenTitle">Disable Flyouts if DirectX fullscreen program is detected</System:String>
-    <System:String x:Key="DisableOnFullscreenDescription">Prevents DirectX games in exclusive fullscreen from minimizing if a flyout pops up</System:String>
-    <System:String x:Key="AcrylicBlurOpacityTitle">Acrylic Blur Opacity</System:String>
-    <System:String x:Key="AcrylicBlurOpacityDescription">Adjust the see-through effect on Acrylic flyouts (default: 175)</System:String>
-    <System:String x:Key="HomeUpdateDescription">Learn what's new</System:String>
-    <System:String x:Key="HomeDashboardTitle">Dashboard</System:String>
-    <System:String x:Key="AppearanceBehaviorSectionTitle">Appearance &amp; behavior</System:String>
-    <System:String x:Key="TrayIconSectionTitle">Tray Icon</System:String>
-    <System:String x:Key="UpdatesSectionTitle">Updates</System:String>
-    <System:String x:Key="SystemConfigure">Configure</System:String>
-    <System:String x:Key="AboutTitle">About</System:String>
-    <System:String x:Key="AboutContributorsTitle">❤️ Meet Our Contributors</System:String>
-    <System:String x:Key="AboutContributorsDescription">A big thank you to all the amazing people who have contributed to FluentFlyout's development and success!</System:String>
-    <System:String x:Key="DevelopersTitle">Developers</System:String>
-    <System:String x:Key="TranslatorsTitle">Translators</System:String>
-    <System:String x:Key="AboutPremiumTitle">About Premium</System:String>
-    <System:String x:Key="AboutOpenSourceLicensesTitle">Open Source Licenses</System:String>
-    <System:String x:Key="AboutOpenSourceLicensesDescription">FluentFlyout is built with the following open source packages:</System:String>
-    <System:String x:Key="EnjoyingAppText" xml:space="preserve">Enjoying the app? Star it on GitHub,
-or leave a review on Microsoft Store!</System:String>
-    <System:String x:Key="GitHubRepoLink">GitHub Repository</System:String>
-    <System:String x:Key="SponsorMeLink">Sponsor me</System:String>
-    <System:String x:Key="BuyMeCoffeeLink">Buy me a coffee</System:String>
-    <System:String x:Key="CloseButton">Close</System:String>
-    <System:String x:Key="AppLanguageTitle">App Language</System:String>
-    <System:String x:Key="AppLanguageDescription" xml:space="preserve">If your language is not listed or incomplete, it will default to English.
-You can help contribute translations on</System:String>
+Megjegyzés: Mivel ez egy nyílt forráskódú projekt, ezek a funkciók ingyenesen is elérhetők a GitHubon található manuális telepítővel. Az egyetlen kompromisszum, hogy a frissítéseket és a telepítést kézzel kell elvégezni.</System:String>
+    <System:String x:Key="PremiumLockedMessage">Ez a funkció a prémium csomag része</System:String>
+    <System:String x:Key="PremiumUnlockedMessage">Prémium funkciók feloldva. Köszönjük a támogatást!</System:String>
+    <System:String x:Key="PremiumGitHubMessage">A prémium funkciók fel vannak oldva a GitHub/self-compiled verziókhoz</System:String>
+    <System:String x:Key="UnlockPremiumButton">Prémium feloldása</System:String>
+    <System:String x:Key="PremiumPurchaseSuccess">Prémium sikeresen feloldva!</System:String>
+    <System:String x:Key="PremiumPurchaseFailed">A vásárlás sikertelen. Kérjük, próbálja újra.</System:String>
+    <System:String x:Key="PremiumPurchaseCancelled">A vásárlás megszakítva.</System:String>
+    <System:String x:Key="UnlockFullExperienceText">Oldja fel a teljes FluentFlyout élményt:</System:String>
+    <System:String x:Key="TaskbarWidgetCustomizationPerk">Tálca Widget és Vizualizáló</System:String>
+    <System:String x:Key="AcrylicBlurOpacityPerk">Akril Blur Átlátszóság</System:String>
+    <System:String x:Key="HideTrayIconPerk">Tálca ikon elrejtése</System:String>
+    <System:String x:Key="AllFuturePremiumFeatures">Minden jövőbeli prémium funkció</System:String>
+    <System:String x:Key="NextUpCustomizationTitle">Következő Flyout</System:String>
+    <System:String x:Key="NextUpDescription" xml:space="preserve">A flyout megmutatja, mi következik, amikor egy dal/videó véget ér. Csak akkor jelenik meg, ha a következő elem automatikusan lejátszódik, ha a következő/előző gombot manuálisan nyomják meg, a fő flyout jelenik meg helyette.</System:String>
+    <System:String x:Key="EnableNextUpTitle">Következő Flyout engedélyezése</System:String>
+    <System:String x:Key="EnableNextUpDescription">Megmutatja, mi következik, amikor egy dal/videó véget ér</System:String>
+    <System:String x:Key="NextUpStayDurationTitle">Következő Flyout ablak megjelenítési ideje</System:String>
+    <System:String x:Key="NextUpStayDurationDescription">(alapértelmezett: 2000 ms)</System:String>
+    <System:String x:Key="LockKeysCustomizationTitle">Billentyűzet-zárak Flyout</System:String>
+    <System:String x:Key="LockKeysDescription" xml:space="preserve">Ellenőrizze a billentyűzet-zárak állapotát egy pillantással. A Caps Lock, Num Lock vagy Scroll Lock megnyomása után jelenik meg. Kényelmes laptopokhoz/billentyűzetekhez, amelyek nem rendelkeznek zárjelzőkkel.</System:String>
+    <System:String x:Key="EnableLockKeysTitle">Billentyűzet-zárak Flyout engedélyezése</System:String>
+    <System:String x:Key="EnableLockKeysDescription">Megjeleníti, hogy a megadott zárbillentyű be van-e kapcsolva vagy ki van-e kapcsolva</System:String>
+    <System:String x:Key="LockKeysStayDurationTitle">Billentyűzet-zárak Flyout megjelenítési ideje</System:String>
+    <System:String x:Key="LockKeysStayDurationDescription">(alapértelmezett: 2000 ms)</System:String>
+    <System:String x:Key="LockKeysBoldUITitle">Félkövér szimbólum és betűtípus</System:String>
+    <System:String x:Key="LockKeysBoldUIDescription">Kiemeli a flyout szimbólumát és betűtípusát</System:String>
+    <System:String x:Key="LockKeysCursorUITitle">Megjelenítés helye</System:String>
+    <System:String x:Key="LockKeysCursorUIDescription" xml:space="preserve">Válassza ki, melyik monitoron jelenjen meg a flyout.</System:String>
+    <System:String x:Key="DefaultLockLayoutPosition">Alapértelmezett (Flyout képernyője)</System:String>
+    <System:String x:Key="MonitorWithFocusedWindow">Fókuszált ablak képernyője</System:String>
+    <System:String x:Key="MonitorWithCursor">Kurzor képernyője</System:String>
+    <System:String x:Key="EnableInsertKeyTitle">Insert billentyű felugró ablak engedélyezése</System:String>
+    <System:String x:Key="EnableInsertKeyDescription">Meghatározza, hogy az insert/overwrite billentyű megnyomásakor megjelenjen-e a flyout</System:String>
+    <System:String x:Key="SystemSettingsTitle">Rendszer</System:String>
+    <System:String x:Key="LaunchOnStartupTitle">Indítás a rendszerrel</System:String>
+    <System:String x:Key="LaunchOnStartupDescription">Minimalizált állapotban indítja a tálcán, amikor bejelentkezik a Windowsba</System:String>
+    <System:String x:Key="StartupAppsHyperlinkText">Indítási alkalmazások</System:String>
+    <System:String x:Key="StartupAppsSettingsInfo">Ha ez a beállítás nem működik a várt módon, ellenőrizze</System:String>
+    <System:String x:Key="AppThemeTitle">Alkalmazás téma</System:String>
+    <System:String x:Key="AppThemeDefault">Windows alapértelmezett</System:String>
+    <System:String x:Key="AppThemeLight">Világos</System:String>
+    <System:String x:Key="AppThemeDark">Sötét</System:String>
+    <System:String x:Key="UseAlbumArtAccentColorTitle">Használja az album borítójának színét kiemelő színként</System:String>
+    <System:String x:Key="UseAlbumArtAccentColorDescription">Néhány felhasználói felület elem az album borítójának színét használja a rendszer téma helyett</System:String>
+    <System:String x:Key="TrayIconLeftClickBehaviorTitle">Tálca ikon bal kattintás viselkedése</System:String>
+    <System:String x:Key="TrayIconLeftClickBehaviorDescription">Válassza ki, mi történjen, amikor bal kattint a tálca ikonra</System:String>
+    <System:String x:Key="TrayIconLeftClickOption1">Beállítások megnyitása</System:String>
+    <System:String x:Key="TrayIconLeftClickOption2">Média Flyout megjelenítése</System:String>
+    <System:String x:Key="Win11TrayIconTitle">Windows 11 szerű Tálca ikon</System:String>
+    <System:String x:Key="Win11TrayIconDescription">Használjon egy tálca ikont, amely megfelel a Windows 11-nek (váltson a téma frissítéséhez)</System:String>
+    <System:String x:Key="HideTrayIconTitle">Tálca ikon teljes elrejtése</System:String>
+    <System:String x:Key="HideTrayIconDescription">A beállítások eléréséhez indítsa el a programot kétszer</System:String>
+    <System:String x:Key="AnimationSettingsTitle">Animáció beállítások</System:String>
+    <System:String x:Key="AnimationSettingsDescription">Finomhangolja az animációkat az igényeinek megfelelően</System:String>
+    <System:String x:Key="AnimationDurationScaleTitle">Animáció időtartam skála</System:String>
+    <System:String x:Key="AnimationDurationScaleDescription">Gyorsabb vagy lassabb flyout animáció sebesség (alapértelmezett: 1x)</System:String>
+    <System:String x:Key="AnimationSpeedOff">Ki</System:String>
+    <System:String x:Key="AnimationEasingStyleTitle">Animáció típusa</System:String>
+    <System:String x:Key="AnimationEasingStyleDescription">(alapértelmezett: Kvadratikus)</System:String>
+    <System:String x:Key="EasingLinear" xml:space="preserve"> Lineáris</System:String>
+    <System:String x:Key="EasingSine" xml:space="preserve"> Színusz</System:String>
+    <System:String x:Key="EasingQuadratic" xml:space="preserve"> Négyzetes</System:String>
+    <System:String x:Key="EasingCubic" xml:space="preserve"> Köbös</System:String>
+    <System:String x:Key="NativeExperienceInfo">A natív Windows 11 élményhez a beállításokat alapértelmezett értéken kell tartani.</System:String>
+    <System:String x:Key="DisableOnFullscreenTitle">Flyoutok letiltása, ha DirectX teljes képernyős programot észlel</System:String>
+    <System:String x:Key="DisableOnFullscreenDescription">Megakadályozza, hogy a DirectX játékok exkluzív teljes képernyőn minimalizálódjanak, ha egy flyout megjelenik</System:String>
+    <System:String x:Key="AcrylicBlurOpacityTitle">Akril elmosódás átlátszósága</System:String>
+    <System:String x:Key="AcrylicBlurOpacityDescription">Állítsa be az átlátszósági hatást az Akril flyoutokon (alapértelmezett: 175)</System:String>
+    <System:String x:Key="HomeUpdateDescription">Ismerje meg az újdonságokat</System:String>
+    <System:String x:Key="HomeDashboardTitle">Irányítópult</System:String>
+    <System:String x:Key="AppearanceBehaviorSectionTitle">Megjelenés és viselkedés</System:String>
+    <System:String x:Key="TrayIconSectionTitle">Tálca ikon</System:String>
+    <System:String x:Key="UpdatesSectionTitle">Frissítések</System:String>
+    <System:String x:Key="SystemConfigure">Beállítások</System:String>
+    <System:String x:Key="AboutTitle">Névjegy</System:String>
+    <System:String x:Key="AboutContributorsTitle">❤️ Ismerje meg a közreműködőinket</System:String>
+    <System:String x:Key="AboutContributorsDescription">Nagy köszönet mindazoknak a csodálatos embereknek, akik hozzájárultak a FluentFlyout fejlesztéséhez és sikeréhez!</System:String>
+    <System:String x:Key="DevelopersTitle">Fejlesztők</System:String>
+    <System:String x:Key="TranslatorsTitle">Fordítók</System:String>
+    <System:String x:Key="AboutPremiumTitle">A Prémiumról</System:String>
+    <System:String x:Key="AboutOpenSourceLicensesTitle">Nyílt forráskódú licencek</System:String>
+    <System:String x:Key="AboutOpenSourceLicensesDescription">A FluentFlyout a következő nyílt forráskódú csomagokkal készült:</System:String>
+    <System:String x:Key="EnjoyingAppText" xml:space="preserve">Tetszik az alkalmazás? Csillagozd a GitHubon,
+vagy hagyj egy értékelést a Microsoft Store-ban!</System:String>
+    <System:String x:Key="GitHubRepoLink">Git tárhely</System:String>
+    <System:String x:Key="SponsorMeLink">Támogass</System:String>
+    <System:String x:Key="BuyMeCoffeeLink">Vegyél nekem egy kávét</System:String>
+    <System:String x:Key="CloseButton">Bezárás</System:String>
+    <System:String x:Key="AppLanguageTitle">Alkalmazás nyelve</System:String>
+    <System:String x:Key="AppLanguageDescription" xml:space="preserve">Ha a nyelved nincs felsorolva vagy hiányos, az alapértelmezett angol lesz.
+Segíts te is a fordításban a(z)</System:String>
     <System:String x:Key="AppLanguageDescriptionLink">Weblate</System:String>
     <System:String x:Key="LockWindow_CapsLock">Caps Lock</System:String>
     <System:String x:Key="LockWindow_NumLock">Num Lock</System:String>
     <System:String x:Key="LockWindow_ScrollLock">Scroll Lock</System:String>
-    <System:String x:Key="LockWindow_InsertPressed">Insert Pressed</System:String>
-    <System:String x:Key="LockWindow_LockOn">on</System:String>
-    <System:String x:Key="LockWindow_LockOff">off</System:String>
-    <System:String x:Key="NextUpWindow_UpNextText">Up next:</System:String>
-    <System:String x:Key="TrayIcon_SettingsOption">Settings</System:String>
-    <System:String x:Key="TrayIcon_GitHubRepositoryOption">Repository</System:String>
-    <System:String x:Key="TrayIcon_ViewLogsOption">View logs</System:String>
-    <System:String x:Key="TrayIcon_ReportBugOption">Report bug</System:String>
-    <System:String x:Key="TrayIcon_QuitOption">Quit FluentFlyout</System:String>
+    <System:String x:Key="LockWindow_InsertPressed">Insert Megnyomva</System:String>
+    <System:String x:Key="LockWindow_LockOn">be</System:String>
+    <System:String x:Key="LockWindow_LockOff">ki</System:String>
+    <System:String x:Key="NextUpWindow_UpNextText">Következő:</System:String>
+    <System:String x:Key="TrayIcon_SettingsOption">Beállítások</System:String>
+    <System:String x:Key="TrayIcon_GitHubRepositoryOption">Tárhely</System:String>
+    <System:String x:Key="TrayIcon_ViewLogsOption">Naplók megtekintése</System:String>
+    <System:String x:Key="TrayIcon_ReportBugOption">Hiba jelentése</System:String>
+    <System:String x:Key="TrayIcon_QuitOption">Kilépés a FluentFlyout-ból</System:String>
     <System:String x:Key="PixelsUnit">px</System:String>
-    <System:String x:Key="UpdateToastTitle">FluentFlyout has been updated!</System:String>
-    <System:String x:Key="UpdateToastMessage">You are now on {0}.</System:String>
-    <System:String x:Key="UpdateToastButton">View Updates</System:String>
-    <System:String x:Key="UpdateAvailable">Update available</System:String>
-    <System:String x:Key="UpToDate">Up to date</System:String>
-    <System:String x:Key="LastChecked">Last checked: {0}</System:String>
-    <System:String x:Key="CheckingForUpdates">Checking...</System:String>
-    <System:String x:Key="UpdateAvailableNotificationTitle">Update Available!</System:String>
-    <System:String x:Key="UpdateAvailableNotificationMessage">A new version ({0}) is available.</System:String>
-    <System:String x:Key="UpdateAvailableNotificationButton">Download Update</System:String>
-    <System:String x:Key="ShowUpdateNotificationsTitle">Show notifications for new updates</System:String>
-    <System:String x:Key="BackupRestoreSectionTitle">Back up &amp; restore</System:String>
-    <System:String x:Key="BackupRestoreCardTitle">Back up and restore your settings</System:String>
-    <System:String x:Key="ExportSettings">Export Settings</System:String>
-    <System:String x:Key="ImportSettings">Import Settings</System:String>
-    <System:String x:Key="ExportSuccessful">Export Successful</System:String>
-    <System:String x:Key="ExportFailed">Export Failed</System:String>
-    <System:String x:Key="ImportSuccessful">Import Successful</System:String>
-    <System:String x:Key="ImportFailed">Import Failed</System:String>
-    <System:String x:Key="SettingsExportedSuccessfully">Settings exported successfully!</System:String>
-    <System:String x:Key="FailedToExportSettings">Failed to export settings. Check the logs for details.</System:String>
-    <System:String x:Key="SettingsImportedSuccessfully">Settings imported successfully! The application will now restart to apply changes.</System:String>
-    <System:String x:Key="ImportSettingsWarning">This will replace all your current settings. Continue?</System:String>
-    <System:String x:Key="FailedToImportSettings">Failed to import settings. Check the logs for details.</System:String>
-    <System:String x:Key="AdvancedSettingsTitle">Advanced Settings</System:String>
-    <System:String x:Key="LegacyTaskbarWidthTitle">Legacy Taskbar Width System</System:String>
-    <System:String x:Key="LegacyTaskbarWidthDescription">Use the legacy Taskbar width system for Taskbar Widgets</System:String>
+    <System:String x:Key="UpdateToastTitle">A FluentFlyout frissítve lett!</System:String>
+    <System:String x:Key="UpdateToastMessage">Most a {0} verzión vagy.</System:String>
+    <System:String x:Key="UpdateToastButton">Frissítések megtekintése</System:String>
+    <System:String x:Key="UpdateAvailable">Frissítés elérhető</System:String>
+    <System:String x:Key="UpToDate">Naprakész</System:String>
+    <System:String x:Key="LastChecked">Utolsó frissítés keresése: {0}</System:String>
+    <System:String x:Key="CheckingForUpdates">Frissítések keresése...</System:String>
+    <System:String x:Key="UpdateAvailableNotificationTitle">Frissítés elérhető!</System:String>
+    <System:String x:Key="UpdateAvailableNotificationMessage">Új verzió ({0}) érhető el.</System:String>
+    <System:String x:Key="UpdateAvailableNotificationButton">Frissítés letöltése</System:String>
+    <System:String x:Key="ShowUpdateNotificationsTitle">Értesítések megjelenítése új frissítésekről</System:String>
+    <System:String x:Key="BackupRestoreSectionTitle">Biztonsági mentés &amp; visszaállítás</System:String>
+    <System:String x:Key="BackupRestoreCardTitle">Beállítások biztonsági mentése és visszaállítása</System:String>
+    <System:String x:Key="ExportSettings">Beállítások exportálása</System:String>
+    <System:String x:Key="ImportSettings">Beállítások importálása</System:String>
+    <System:String x:Key="ExportSuccessful">Exportálás sikeres</System:String>
+    <System:String x:Key="ExportFailed">Exportálás sikertelen</System:String>
+    <System:String x:Key="ImportSuccessful">Importálás sikeres</System:String>
+    <System:String x:Key="ImportFailed">Importálás sikertelen</System:String>
+    <System:String x:Key="SettingsExportedSuccessfully">Beállítások sikeresen exportálva!</System:String>
+    <System:String x:Key="FailedToExportSettings">A beállítások exportálása sikertelen. Ellenőrizze a naplókat a részletekért.</System:String>
+    <System:String x:Key="SettingsImportedSuccessfully">Beállítások sikeresen importálva! Az alkalmazás újraindul a változtatások alkalmazásához.</System:String>
+    <System:String x:Key="ImportSettingsWarning">Ez felülírja az összes jelenlegi beállítását. Folytatja?</System:String>
+    <System:String x:Key="FailedToImportSettings">A beállítások importálása sikertelen. Ellenőrizze a naplókat a részletekért.</System:String>
+    <System:String x:Key="AdvancedSettingsTitle">Speciális beállítások</System:String>
+    <System:String x:Key="LegacyTaskbarWidthTitle">Régi tálca szélesség rendszere</System:String>
+    <System:String x:Key="LegacyTaskbarWidthDescription">Használja a régi tálca szélesség rendszerét a Tálca widgetekhez</System:String>
 </ResourceDictionary>

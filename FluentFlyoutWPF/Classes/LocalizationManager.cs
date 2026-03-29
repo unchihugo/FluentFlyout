@@ -34,6 +34,7 @@ public static class LocalizationManager
         { "français", "fr" },
         { "Deutsch", "de" },
         { "עברית", "he" },
+        { "Magyar", "hu" },
         { "Bahasa Indonesia", "id" },
         { "Italiano", "it" },
         { "日本語", "ja" },
