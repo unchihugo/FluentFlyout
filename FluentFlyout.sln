@@ -1,4 +1,4 @@
-
+﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 18
 VisualStudioVersion = 18.3.11222.16
@@ -6,6 +6,10 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FluentFlyout", "FluentFlyoutWPF\FluentFlyout.csproj", "{A3576152-7AF6-4136-992A-1B3C1091652A}"
 EndProject
 Project("{C7167F0D-BC9F-4E6E-AFE1-012C56B48DB5}") = "FluentFlyoutMSIX", "FluentFlyoutMSIX\FluentFlyoutMSIX.wapproj", "{7C7CB0B2-26B9-4B8B-B5E8-30ABF5E2B331}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentFlyout.Tests", "FluentFlyout.Tests\FluentFlyout.Tests.csproj", "{91F40558-2B0A-407E-9A69-36FA8F480C71}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FluentFlyoutWPF", "FluentFlyoutWPF", "{FE38FAB5-BC3B-EEC1-EE36-AD14F9097A86}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -101,6 +105,36 @@ Global
 		{7C7CB0B2-26B9-4B8B-B5E8-30ABF5E2B331}.Release|x86.ActiveCfg = Release|x86
 		{7C7CB0B2-26B9-4B8B-B5E8-30ABF5E2B331}.Release|x86.Build.0 = Release|x86
 		{7C7CB0B2-26B9-4B8B-B5E8-30ABF5E2B331}.Release|x86.Deploy.0 = Release|x86
+		{91F40558-2B0A-407E-9A69-36FA8F480C71}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91F40558-2B0A-407E-9A69-36FA8F480C71}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91F40558-2B0A-407E-9A69-36FA8F480C71}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{91F40558-2B0A-407E-9A69-36FA8F480C71}.Debug|ARM.Build.0 = Debug|Any CPU
+		{91F40558-2B0A-407E-9A69-36FA8F480C71}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{91F40558-2B0A-407E-9A69-36FA8F480C71}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{91F40558-2B0A-407E-9A69-36FA8F480C71}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{91F40558-2B0A-407E-9A69-36FA8F480C71}.Debug|x64.Build.0 = Debug|Any CPU
+		{91F40558-2B0A-407E-9A69-36FA8F480C71}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{91F40558-2B0A-407E-9A69-36FA8F480C71}.Debug|x86.Build.0 = Debug|Any CPU
+		{91F40558-2B0A-407E-9A69-36FA8F480C71}.GitHub Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{91F40558-2B0A-407E-9A69-36FA8F480C71}.GitHub Release|Any CPU.Build.0 = Debug|Any CPU
+		{91F40558-2B0A-407E-9A69-36FA8F480C71}.GitHub Release|ARM.ActiveCfg = Debug|Any CPU
+		{91F40558-2B0A-407E-9A69-36FA8F480C71}.GitHub Release|ARM.Build.0 = Debug|Any CPU
+		{91F40558-2B0A-407E-9A69-36FA8F480C71}.GitHub Release|ARM64.ActiveCfg = Debug|Any CPU
+		{91F40558-2B0A-407E-9A69-36FA8F480C71}.GitHub Release|ARM64.Build.0 = Debug|Any CPU
+		{91F40558-2B0A-407E-9A69-36FA8F480C71}.GitHub Release|x64.ActiveCfg = Debug|Any CPU
+		{91F40558-2B0A-407E-9A69-36FA8F480C71}.GitHub Release|x64.Build.0 = Debug|Any CPU
+		{91F40558-2B0A-407E-9A69-36FA8F480C71}.GitHub Release|x86.ActiveCfg = Debug|Any CPU
+		{91F40558-2B0A-407E-9A69-36FA8F480C71}.GitHub Release|x86.Build.0 = Debug|Any CPU
+		{91F40558-2B0A-407E-9A69-36FA8F480C71}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91F40558-2B0A-407E-9A69-36FA8F480C71}.Release|Any CPU.Build.0 = Release|Any CPU
+		{91F40558-2B0A-407E-9A69-36FA8F480C71}.Release|ARM.ActiveCfg = Release|Any CPU
+		{91F40558-2B0A-407E-9A69-36FA8F480C71}.Release|ARM.Build.0 = Release|Any CPU
+		{91F40558-2B0A-407E-9A69-36FA8F480C71}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{91F40558-2B0A-407E-9A69-36FA8F480C71}.Release|ARM64.Build.0 = Release|Any CPU
+		{91F40558-2B0A-407E-9A69-36FA8F480C71}.Release|x64.ActiveCfg = Release|Any CPU
+		{91F40558-2B0A-407E-9A69-36FA8F480C71}.Release|x64.Build.0 = Release|Any CPU
+		{91F40558-2B0A-407E-9A69-36FA8F480C71}.Release|x86.ActiveCfg = Release|Any CPU
+		{91F40558-2B0A-407E-9A69-36FA8F480C71}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -109,4 +143,3 @@ Global
 		SolutionGuid = {41AF4B16-B9E8-4F06-BB36-6F2C3183CBD0}
 	EndGlobalSection
 EndGlobal
-
