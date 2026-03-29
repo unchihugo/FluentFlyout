@@ -231,4 +231,6 @@
     <system:String x:Key="LegacyTaskbarWidthTitle">旧版任务栏宽度系统</system:String>
     <system:String x:Key="TaskbarWidgetAutoHideTitle">自动隐藏小组件</system:String>
     <system:String x:Key="TaskbarWidgetAutoHideDescription">当媒体暂停播放时，自动将小组件隐藏</system:String>
+    <system:String x:Key="LockKeysAnimatedTitle">指示器动画</system:String>
+    <system:String x:Key="LockKeysAnimatedDescription">为键盘锁定键指示器启用微小的动画效果</system:String>
 </ResourceDictionary>
