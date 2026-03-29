@@ -37,7 +37,7 @@ oculta los botones de repetir y aleatorio y la información del reproductor</sys
     <system:String x:Key="PauseOtherMediaDescription">Cuando reproduces o seleccionas nuevo contenido, otras sesiones activas se pausan automáticamente</system:String>
     <system:String x:Key="NextUpCustomizationTitle">Flyout de Siguiente</system:String>
     <system:String x:Key="NextUpDescription" xml:space="preserve">Un flyout que muestra la siguiente canción/video cuando acaba el actual. Solo aparece si el siguiente se reproduce automáticamente, si se presiona siguiente/anterior manualmente, aparecerá el flyout principal.</system:String>
-    <system:String x:Key="EnableNextUpTitle">Activar Flyout de Siguiente (Experimental)</system:String>
+    <system:String x:Key="EnableNextUpTitle">Activar Flyout de Siguiente</system:String>
     <system:String x:Key="EnableNextUpDescription">Muestra lo que viene cuando acaba una canción/video</system:String>
     <system:String x:Key="NextUpStayDurationTitle">Duración de Siguiente</system:String>
     <system:String x:Key="NextUpStayDurationDescription">(por defecto: 2000 ms)</system:String>
@@ -174,7 +174,7 @@ Nota: Como proyecto de código abierto, estas opciones también están disponibl
     <system:String x:Key="TaskbarVisualizerDescription">Un visualizador de audio en tiempo real en tu barra de tareas. Diseñado para un impacto mínimo en el rendimiento de sistemas modernos.</system:String>
     <system:String x:Key="TaskbarVisualizerEnabledTitle">Activar Visualizador de la Barra de Tareas (Experimental)</system:String>
     <system:String x:Key="TaskbarVisualizerEnabledDescription">Experimental: Esta funcionalidad solo funciona si el Widget de la Barra de Tareas esta activado</system:String>
-    <system:String x:Key="TaskbarVisualizerPositionTitle">Posición del Visualizador Realitiva al Widget de la Barra de Tareas</system:String>
+    <system:String x:Key="TaskbarVisualizerPositionTitle">Posición del Visualizador Relativa al Widget de la Barra de Tareas</system:String>
     <system:String x:Key="TaskbarVisualizerBarCountTitle">Número de Barras</system:String>
     <system:String x:Key="TaskbarVisualizerBarCountDescription">La cantidad de barras del visualizador</system:String>
     <system:String x:Key="TaskbarVisualizerCenteredBarsTitle">Barras Centradas</system:String>
@@ -229,4 +229,8 @@ Nota: Como proyecto de código abierto, estas opciones también están disponibl
     <system:String x:Key="UseAlbumArtAccentColorDescription">Algunos elementos de IU usaran el color de la portada en vez de el del sistema</system:String>
     <system:String x:Key="AdvancedSettingsTitle">Ajustes Avanzados</system:String>
     <system:String x:Key="LegacyTaskbarWidthTitle">Sistema Antiguo del Ancho del Widget de la Barra de Tareas</system:String>
+    <system:String x:Key="TaskbarWidgetAutoHideTitle">Ocultar Widget Automáticamente</system:String>
+    <system:String x:Key="TaskbarWidgetAutoHideDescription">Ocultar el widget automáticamente cuando la reproducción se encuentre pausada</system:String>
+    <system:String x:Key="LockKeysAnimatedTitle">Indicador de Animaciones</system:String>
+    <system:String x:Key="LockKeysAnimatedDescription">Habilidad animaciones sutiles para el indicador de la llave de bloqueo</system:String>
 </ResourceDictionary>
