@@ -163,7 +163,7 @@ Ghi chú: Vì đây là một project mã nguồn mở, những tính năng bả
     <system:String x:Key="UpToDate">Đang ở bản mới nhất</system:String>
     <system:String x:Key="LastChecked">Xác nhận lần cuối: {0}</system:String>
     <system:String x:Key="CheckingForUpdates">Đang xác định cập nhật mới...</system:String>
-    <system:String x:Key="UpdateAvailableNotificationTitle">Có cập nhật mới</system:String>
+    <system:String x:Key="UpdateAvailableNotificationTitle">Có cập nhật mới!</system:String>
     <system:String x:Key="UpdateAvailableNotificationMessage">Bạn có thể cập nhật lên {0}.</system:String>
     <system:String x:Key="UpdateAvailableNotificationButton">Cập nhật</system:String>
     <system:String x:Key="MediaFlyoutExcludeVolumeTitle">Không bắt các phím tăng, giảm và tắt tiếng</system:String>
@@ -222,4 +222,10 @@ Ghi chú: Vì đây là một project mã nguồn mở, những tính năng bả
     <system:String x:Key="UseAlbumArtAccentColorDescription">Một số thành phần giao diện người dùng sẽ sử dụng màu bìa album thay vì chủ đề hệ thống</system:String>
     <system:String x:Key="MonitorWithFocusedWindow">Màn hình với cửa sổ tập trung</system:String>
     <system:String x:Key="LockKeysCursorUIDescription" xml:space="preserve">Chọn màn hình để hiển thị hộp thả xuống.</system:String>
+    <system:String x:Key="TaskbarVisualizerClickableTitle">Nhấn để mở cài đặt</system:String>
+    <system:String x:Key="DefaultLockLayoutPosition">Vị trị cửa sổ mặc định</system:String>
+    <system:String x:Key="MonitorWithCursor">Quản lí với con trỏ chuột</system:String>
+    <system:String x:Key="LegacyTaskbarWidthTitle">Chiều rộng trên thanh tác vụ cũ</system:String>
+    <system:String x:Key="LegacyTaskbarWidthDescription">Sử dụng chiều rộng của thanh tác vụ cũ đối với tiện ích trên thanh tác vụ</system:String>
+    <system:String x:Key="AdvancedSettingsTitle">Tùy chọn Nâng cao</system:String>
 </ResourceDictionary>
