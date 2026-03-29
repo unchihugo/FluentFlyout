@@ -229,4 +229,8 @@ Nota: Como proyecto de código abierto, estas opciones también están disponibl
     <system:String x:Key="UseAlbumArtAccentColorDescription">Algunos elementos de IU usaran el color de la portada en vez de el del sistema</system:String>
     <system:String x:Key="AdvancedSettingsTitle">Ajustes Avanzados</system:String>
     <system:String x:Key="LegacyTaskbarWidthTitle">Sistema Antiguo del Ancho del Widget de la Barra de Tareas</system:String>
+    <system:String x:Key="TaskbarWidgetAutoHideTitle">Ocultar Widget Automáticamente</system:String>
+    <system:String x:Key="TaskbarWidgetAutoHideDescription">Ocultar el widget automáticamente cuando la reproducción se encuentre pausada</system:String>
+    <system:String x:Key="LockKeysAnimatedTitle">Indicador de Animaciones</system:String>
+    <system:String x:Key="LockKeysAnimatedDescription">Habilidad animaciones sutiles para el indicador de la llave de bloqueo</system:String>
 </ResourceDictionary>
