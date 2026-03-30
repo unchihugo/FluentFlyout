@@ -217,4 +217,14 @@ Anda dapat membantu berkontribusi dalam menerjemahkan di</system:String>
     <system:String x:Key="SettingsImportedSuccessfully">Pengauran berhasil diimpor! Aplikasi akan memulai ulang sekarang untuk menerapkan perubahan.</system:String>
     <system:String x:Key="ImportSettingsWarning">Ini akan menimpa semua pengaturan anda saat ini. Lanjutkan?</system:String>
     <system:String x:Key="FailedToImportSettings">Gagal mengimpor pengaturan. Periksa log untuk selengkapnya.</system:String>
+    <system:String x:Key="TaskbarVisualizerClickableTitle">Tekan untuk membuka Pengaturan</system:String>
+    <system:String x:Key="TaskbarVisualizerClickableDescription">Menekan visualizer akan membuka halaman pengaturan</system:String>
+    <system:String x:Key="LockKeysCursorUITitle">Target Layar yang Diinginkan</system:String>
+    <system:String x:Key="LockKeysCursorUIDescription" xml:space="preserve">Pilih monitor mana yang akan digunakan untuk menunjukan flyout.</system:String>
+    <system:String x:Key="DefaultLockLayoutPosition">Target Layar Flyout</system:String>
+    <system:String x:Key="MonitorWithFocusedWindow">Monitor dengan jendela yang difokuskan</system:String>
+    <system:String x:Key="MonitorWithCursor">Monitor dengan kursor</system:String>
+    <system:String x:Key="UseAlbumArtAccentColorTitle">Gunakan gambar album sebagai warna aksen</system:String>
+    <system:String x:Key="UseAlbumArtAccentColorDescription">Beberapa elemen UI akan menggunakan warna pada gambar album dari pada tema sistem</system:String>
+    <system:String x:Key="AdvancedSettingsTitle">Pengaturan Lanjutan</system:String>
 </ResourceDictionary>

@@ -1,0 +1,228 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib">
+    <system:String x:Key="TitleText">Nastavenia FluentFlyout</system:String>
+    <system:String x:Key="HomeTitle">Domov</system:String>
+    <system:String x:Key="Enabled">Povolené</system:String>
+    <system:String x:Key="Disabled">Vypnuté</system:String>
+    <system:String x:Key="MediaFlyoutTitle">Plávajúce okno Prehrávača</system:String>
+    <system:String x:Key="MediaFlyoutDescription">Pri počúvaní médií, stlačte ľubovoľnú klávesu pre ovládanie médií alebo hlasitosti (prehrať/pozastaviť, zvýšenie/zníženie hlasitosti atď.) na vašej klávesnici pre zobrazenie plávajúceho okna. Zobrazuje informácie o médiách, spolu s ovládacími prvkami prehrávania a ďalšími funkciami.</system:String>
+    <system:String x:Key="TextBlockText1">Povoliť Plávajúce okno Prehrávača</system:String>
+    <system:String x:Key="TextBlockText3">Zobraziť plávajúce okno keď stačíte klávesu pre ovládanie médií</system:String>
+    <system:String x:Key="MediaFlyoutExcludeVolumeTitle">Vylúčiť klávesy hlasitosti</system:String>
+    <system:String x:Key="MediaFlyoutExcludeVolumeDescription">Nezobrazovať plávajúce okno pri stlačení tlačidla na zvýšenie/zníženie hlasitosti/stlmenie zvuku</system:String>
+    <system:String x:Key="TextBlockText2">Vyberte si z prednastavených moderných štýlov rozmazania pozadia</system:String>
+    <system:String x:Key="BackgroundBlurOption1" xml:space="preserve"> Žiadne</system:String>
+    <system:String x:Key="BackgroundBlurOption2" xml:space="preserve"> Štýl 1 (Cover Glow)</system:String>
+    <system:String x:Key="BackgroundBlurOption3" xml:space="preserve"> Štýl 2 (Rising Glow)</system:String>
+    <system:String x:Key="BackgroundBlurOption4" xml:space="preserve"> Štýl 3 (Blur)</system:String>
+    <system:String x:Key="BackgroundBlurTitle">Rozmazanie pozadia</system:String>
+    <system:String x:Key="AcrylicWindowTitle">Akrylové okno</system:String>
+    <system:String x:Key="AcrylicWindowDescription">Použiť priehľadný akrylový efekt rozmazania pre plávajúce okno (vypnuté použije Mica)</system:String>
+    <system:String x:Key="CompactLayoutTitle">Kompaktné rozloženie</system:String>
+    <system:String x:Key="CompactLayoutDescription" xml:space="preserve">Štíhlejšie a menej rušivé rozloženie
+skrýva informácie o opakovaní, náhodnom prehrávaní a prehrávači</system:String>
+    <system:String x:Key="SelectedMonitorTitle">Cieľový monitor Plávajúceho okna</system:String>
+    <system:String x:Key="FlyoutPositionTitle">Pozícia Plávajúceho okna</system:String>
+    <system:String x:Key="PositionBottomLeft" xml:space="preserve"> Vľavo dole</system:String>
+    <system:String x:Key="PositionBottomCenter" xml:space="preserve"> Stred dole</system:String>
+    <system:String x:Key="PositionBottomRight" xml:space="preserve"> Vpravo dole</system:String>
+    <system:String x:Key="PositionTopLeft" xml:space="preserve"> Vľavo hore</system:String>
+    <system:String x:Key="PositionTopCenter" xml:space="preserve"> Stred hore</system:String>
+    <system:String x:Key="PositionTopRight" xml:space="preserve"> Vpravo hore</system:String>
+    <system:String x:Key="FlyoutStayDurationTitle">Doba zotrvania Plávajúceho okna</system:String>
+    <system:String x:Key="FlyoutStayDurationDescription">(predvolené: 3000ms)</system:String>
+    <system:String x:Key="MillisecondsUnit">ms</system:String>
+    <system:String x:Key="MediaFlyoutAlwaysDisplay">Vždy zobraziť</system:String>
+    <system:String x:Key="MediaFlyoutAlwaysDisplayDescription">Plávajúce okno zostane otvorené, kým nekliknete na tlačidlo zavrieť</system:String>
+    <system:String x:Key="CenterTitleArtistTitle">Vycentrovať názov pesničky a autora</system:String>
+    <system:String x:Key="CenterTitleArtistDescription">Zarovnať text do stredu namiesto doľava</system:String>
+    <system:String x:Key="ShowMediaPlayerNameTitle">Zobraziť názov prehrávača médií</system:String>
+    <system:String x:Key="RepeatButtonTitle">Tlačidlo opakovania*</system:String>
+    <system:String x:Key="RepeatButtonDescription">Vyberte medzi opakovaním všetkých alebo jednej pesničky, zväčšuje šírku plávajúceho okna</system:String>
+    <system:String x:Key="ShuffleButtonTitle">Tlačidlo náhodného prehrávania*</system:String>
+    <system:String x:Key="ShuffleButtonDescription">Zväčšuje šírku plávajúceho okna</system:String>
+    <system:String x:Key="ShowSeekbarTitle">Zobraziť časovú os*</system:String>
+    <system:String x:Key="ShowSeekbarDescription">Interaktívna časová os sa automaticky zobrazí, ak ju prehrávač podporuje</system:String>
+    <system:String x:Key="UnsupportedControlsWarning">*Niektoré prehliadače/prehrávače nepodporujú ovládanie opakovania, náhodného prehrávania a časovej osi.</system:String>
+    <system:String x:Key="PauseOtherMediaTitle">Automatické pozastavenie iných médií</system:String>
+    <system:String x:Key="PauseOtherMediaDescription">Keď prehrávate alebo sa sústredíte na nové médiá, ostatné aktívne relácie sa automaticky pozastavia</system:String>
+    <system:String x:Key="TaskbarWidgetCustomizationTitle">Widget na paneli úloh</system:String>
+    <system:String x:Key="TaskbarWidgetDescription">Kompaktný vstavaný widget, ktorý sa nachádza priamo na paneli úloh systému Windows a poskytuje okamžitý prístup k médiám. Kliknutím na widget rozbalíte celé Plávajúce okno Prehrávača.</system:String>
+    <system:String x:Key="TaskbarWidgetEnabledTitle">Povoliť widget na paneli úloh</system:String>
+    <system:String x:Key="TaskbarWidgetEnabledDescription">Zobraziť kompaktný média widget na paneli úloh</system:String>
+    <system:String x:Key="TaskbarWidgetVisualIssuesWarning">Ak máte problémy so zobrazením, upravte možnosti nižšie.</system:String>
+    <system:String x:Key="TaskbarWidgetSelectedMonitorTitle">Cieľový monitor widgetu</system:String>
+    <system:String x:Key="TaskbarWidgetPosition">Pozícia widgetu</system:String>
+    <system:String x:Key="TaskbarWidgetPaddingSettingsTitle">Nastavenie odsadenia widgetu</system:String>
+    <system:String x:Key="TaskbarWidgetPaddingSettingsDescription">Upravte odsadenie okolo widgetu tak, aby zodpovedalo štýlu vášho panela úloh</system:String>
+    <system:String x:Key="TaskbarWidgetPaddingTitle">Tlačidlo Automatické odsadenie pre widgety systému Windows</system:String>
+    <system:String x:Key="TaskbarWidgetPaddingDescription">Zapnite túto funkciu, ak máte povolené widgety systému Windows</system:String>
+    <system:String x:Key="TaskbarWidgetManualPaddingTitle">Vlastné odsadenie</system:String>
+    <system:String x:Key="TaskbarWidgetManualPaddingDescription">Pridá odsadenie navyše (predvolené: 0px)</system:String>
+    <system:String x:Key="TaskbarWidgetBackgroundBlurTitle">Rozmazanie pozadia</system:String>
+    <system:String x:Key="TaskbarWidgetBackgroundBlurDescription">Pridá efekt rozmazaného pozadia pre widget na paneli úloh</system:String>
+    <system:String x:Key="TaskbarWidgetHideCompletelyTitle">Úplne skryť, keď nie sú prítomné žiadne médiá</system:String>
+    <system:String x:Key="TaskbarWidgetHideCompletelyDescription">Skryje celý widget, keď nie sú k dispozícii žiadne médiá, namiesto zobrazenia ikony média</system:String>
+    <system:String x:Key="TaskbarWidgetControlsDescription">Zobraziť tlačidlá ovládania médií na widgete</system:String>
+    <system:String x:Key="TaskbarWidgetControlsTitle">Widget ovládania médií</system:String>
+    <system:String x:Key="TaskbarWidgetControlsPositionDescription">Vyberte kde zobraziť tlačidlá ovládania médií</system:String>
+    <system:String x:Key="PositionLeft">Vľavo</system:String>
+    <system:String x:Key="PositionRight">Vpravo</system:String>
+    <system:String x:Key="TaskbarWidgetAnimatedTitle">Animácie widgetu</system:String>
+    <system:String x:Key="TaskbarWidgetAnimatedDescription">Povoliť jemné animácie pre widget</system:String>
+    <system:String x:Key="TaskbarVisualizerTitle">Vizualizér na hlavnom paneli</system:String>
+    <system:String x:Key="TaskbarVisualizerDescription">Vizualizér zvuku v reálnom čase na vašom paneli úloh. Navrhnutý tak, aby mal minimálny vplyv na výkon moderných systémov.</system:String>
+    <system:String x:Key="TaskbarVisualizerEnabledTitle">Povoliť vizualizér na paneli úloh (Experimentálne)</system:String>
+    <system:String x:Key="TaskbarVisualizerEnabledDescription">Experimentálne: Táto funkcia bude fungovať iba ak je povolený widget na paneli úloh</system:String>
+    <system:String x:Key="TaskbarVisualizerPositionTitle">Pozícia vizualizéra vzhľadom na widget na paneli úloh</system:String>
+    <system:String x:Key="TaskbarVisualizerBarCountTitle">Počet stĺpcov</system:String>
+    <system:String x:Key="TaskbarVisualizerBarCountDescription">Počet stĺpcov vizualizéra</system:String>
+    <system:String x:Key="TaskbarVisualizerCenteredBarsTitle">Vycentrované stĺpce</system:String>
+    <system:String x:Key="TaskbarVisualizerCenteredBarsDescription">Stĺpce, ktoré sa symetricky rozširujú od stredu namiesto toho, aby stúpali odspodu</system:String>
+    <system:String x:Key="TaskbarVisualizerBaselineDescription">Zobrazuje tenkú čiaru, keď sú úrovne zvuku nulové</system:String>
+    <system:String x:Key="TaskbarVisualizerBaselineTitle">Zobraziť základovú čiaru</system:String>
+    <system:String x:Key="TaskbarVisualizerAudioSensitivityTitle">Citlivosť zvuku</system:String>
+    <system:String x:Key="TaskbarVisualizerAudioSensitivityDescription">Aký hlasný musí byť zvuk, aby sa stĺpce začali pohybovať</system:String>
+    <system:String x:Key="TaskbarVisualizerAudioPeakLevelTitle">Prahová hodnota zvukového vrcholu</system:String>
+    <system:String x:Key="TaskbarVisualizerAudioPeakLevelDescription">Aký hlasný musí byť zvuk, aby stĺpce dosiahli svoju maximálnu výšku</system:String>
+    <system:String x:Key="TaskbarVisualizerOutputDeviceTitle">Výstupné zariadenie</system:String>
+    <system:String x:Key="TaskbarVisualizerOutputDeviceDescription">Zmeňte, čo vizualizér počúva, prepnutím výstupného zariadenia FluentFlyout.</system:String>
+    <system:String x:Key="TaskbarWidgetControlsPositionTitle">Pozícia ovládania médií</system:String>
+    <system:String x:Key="TaskbarVisualizerClickableTitle">Kliknutím otvoríte Nastavenia</system:String>
+    <system:String x:Key="TaskbarVisualizerClickableDescription">Kliknutím na vizualizér sa otvorí jeho stránka s nastaveniami</system:String>
+    <system:String x:Key="PremiumFeatureTitle">Prémiová funkcia</system:String>
+    <system:String x:Key="PremiumFeatureDescription" xml:space="preserve">Váš jednorazový príspevok mi pomôže udržiavať FluentFlyout aktívny a aktualizovaný. Okamžite odomkne všetky prémiové funkcie prispôsobenia, navždy.
+        
+Poznámka: Keďže ide o open-source projekt, tieto funkcie sú k dispozícii aj bezplatne prostredníctvom manuálneho inštalátora na GitHub. Jedinou nevýhodou je, že aktualizácie a inštaláciu je potrebné vykonať manuálne.</system:String>
+    <system:String x:Key="PremiumLockedMessage">Táto funkcia je súčasťou prémiového balíka</system:String>
+    <system:String x:Key="PremiumUnlockedMessage">Prémiové funkcie odomknuté. Ďakujem za vašu podporu!</system:String>
+    <system:String x:Key="PremiumGitHubMessage">Prémiové funkcie sú odomknuté pre GitHub/samo-kompilované verzie</system:String>
+    <system:String x:Key="UnlockPremiumButton">Odomknúť Premium</system:String>
+    <system:String x:Key="PremiumPurchaseSuccess">Premium úspešne odomknuté!</system:String>
+    <system:String x:Key="PremiumPurchaseFailed">Nákup zlyhal. Skúste to znova.</system:String>
+    <system:String x:Key="PremiumPurchaseCancelled">Nákup zrušený.</system:String>
+    <system:String x:Key="UnlockFullExperienceText">Odomknite si plný zážitok z FluentFlyout:</system:String>
+    <system:String x:Key="TaskbarWidgetCustomizationPerk">Widget a vizualizér na paneli úloh</system:String>
+    <system:String x:Key="AcrylicBlurOpacityPerk">Nepriehľadnosť akrylového rozmazania</system:String>
+    <system:String x:Key="HideTrayIconPerk">Skryť ikonu v systémovej lište</system:String>
+    <system:String x:Key="AllFuturePremiumFeatures">Všetky budúce prémiové funkcie</system:String>
+    <system:String x:Key="NextUpCustomizationTitle">Plávajúce okno Ďalšia skladba</system:String>
+    <system:String x:Key="NextUpDescription" xml:space="preserve">Plávajúce okno zobrazuje, čo nasleduje po skončení skladby/videa. Zobrazí sa iba vtedy, ak sa automaticky prehrá ďalšia položka. Ak sa Ďalej/Predchádzajúce stlačí manuálne, zobrazí sa hlavné plávajúce okno.</system:String>
+    <system:String x:Key="EnableNextUpTitle">Povoliť Plávajúce okno Ďalšia skladba</system:String>
+    <system:String x:Key="EnableNextUpDescription">Zobrazuje, čo nasleduje po skončení skladby/videa</system:String>
+    <system:String x:Key="NextUpStayDurationTitle">Doba zotrvania Ďalšia skladba</system:String>
+    <system:String x:Key="NextUpStayDurationDescription">(predvolené: 2000 ms)</system:String>
+    <system:String x:Key="LockKeysCustomizationTitle">Plávajúce okno Lock klávesy</system:String>
+    <system:String x:Key="LockKeysDescription" xml:space="preserve">Skontrolujte si stav Lock kláves jedným pohľadom. Zobrazí sa po stlačení klávesy Caps Lock, Num Lock alebo Scroll Lock. Vhodné pre notebooky/klávesnice bez indikátorov Lock kláves.</system:String>
+    <system:String x:Key="EnableLockKeysTitle">Povoliť Plávajúce okno Lock klávesy</system:String>
+    <system:String x:Key="DefaultLockLayoutPosition">Predvolené (Cieľový monitor Plávajúceho okna)</system:String>
+    <system:String x:Key="LockKeysCursorUITitle">Preferovaný cieľový monitor</system:String>
+    <system:String x:Key="EnableLockKeysDescription">Zobrazuje, či je daná Lock klávesa zapnutá alebo vypnutá</system:String>
+    <system:String x:Key="LockKeysStayDurationTitle">Doba zotrvania Lock klávesy</system:String>
+    <system:String x:Key="LockKeysStayDurationDescription">(predvolené: 2000 ms)</system:String>
+    <system:String x:Key="LockKeysBoldUITitle">Tučný symbol a písmo</system:String>
+    <system:String x:Key="LockKeysBoldUIDescription">Zvýrazní symbol a písmo plávajúceho okna</system:String>
+    <system:String x:Key="LockKeysCursorUIDescription" xml:space="preserve">Vyberte, na ktorom monitore sa má zobraziť plávajúce okno.</system:String>
+    <system:String x:Key="MonitorWithFocusedWindow">Monitor s aktívnym oknom</system:String>
+    <system:String x:Key="MonitorWithCursor">Monitor s kurzorom</system:String>
+    <system:String x:Key="EnableInsertKeyTitle">Povoliť vyskakovacie okno klávesy Insert</system:String>
+    <system:String x:Key="EnableInsertKeyDescription">Určuje, či stlačenie klávesy vložiť/prepísať zobrazí plávajúce okno</system:String>
+    <system:String x:Key="SystemSettingsTitle">Systém</system:String>
+    <system:String x:Key="LaunchOnStartupTitle">Spustiť pri štarte počítača</system:String>
+    <system:String x:Key="LaunchOnStartupDescription">Minimalizovať do systémovej lišty po prihlásení do Windowsu</system:String>
+    <system:String x:Key="StartupAppsHyperlinkText">Aplikácie pri spustení</system:String>
+    <system:String x:Key="StartupAppsSettingsInfo">Ak toto nastavenie nefunguje podľa očakávania, skontrolujte</system:String>
+    <system:String x:Key="AppThemeTitle">Vzhľad aplikácie</system:String>
+    <system:String x:Key="AppThemeDefault"> Windows Predvolené</system:String>
+    <system:String x:Key="AppThemeLight"> Svetlý</system:String>
+    <system:String x:Key="AppThemeDark"> Tmavý</system:String>
+    <system:String x:Key="UseAlbumArtAccentColorTitle">Použiť obal albumu ako farbu pozadia</system:String>
+    <system:String x:Key="UseAlbumArtAccentColorDescription">Niektoré prvky používateľského rozhrania budú používať farbu obrázka albumu namiesto systémovej témy</system:String>
+    <system:String x:Key="TrayIconLeftClickBehaviorTitle">Chovanie ikony v systémovej lište pri ľavom kliknutí</system:String>
+    <system:String x:Key="TrayIconLeftClickBehaviorDescription">Vyberte, čo sa stane po kliknutí ľavým tlačidlom na ikonu v systémovej lište</system:String>
+    <system:String x:Key="TrayIconLeftClickOption1"> Otvoriť nastavenia</system:String>
+    <system:String x:Key="TrayIconLeftClickOption2"> Zobraziť Plávajúce okno Prehrávača</system:String>
+    <system:String x:Key="Win11TrayIconTitle">Windows 11 štýl ikony v systémovej lište</system:String>
+    <system:String x:Key="Win11TrayIconDescription">Použite ikonu v systémovej lište, ktorá sa zhoduje s Windows 11 (prepnutím zmeníte vzhľad)</system:String>
+    <system:String x:Key="HideTrayIconTitle">Úplne skryť ikonu v systémovej lište</system:String>
+    <system:String x:Key="HideTrayIconDescription">Do nastavení sa dostanete druhým spustením programu</system:String>
+    <system:String x:Key="AnimationSettingsTitle">Nastavenia animácií</system:String>
+    <system:String x:Key="AnimationSettingsDescription">Upravte animácie podľa svojich predstáv</system:String>
+    <system:String x:Key="AnimationDurationScaleTitle">Mierka trvania animácie</system:String>
+    <system:String x:Key="AnimationDurationScaleDescription">Rýchlejšia alebo pomalšia rýchlosť animácie plávajúceho okna (predvolené: 1x)</system:String>
+    <system:String x:Key="AnimationSpeedOff">Vypnuté</system:String>
+    <system:String x:Key="AnimationEasingStyleTitle">Štýl priebehu animácie</system:String>
+    <system:String x:Key="AnimationEasingStyleDescription">(predvolené: Kvadratický)</system:String>
+    <system:String x:Key="EasingLinear" xml:space="preserve"> Lineárny</system:String>
+    <system:String x:Key="EasingSine" xml:space="preserve"> Sínusový</system:String>
+    <system:String x:Key="EasingQuadratic" xml:space="preserve"> Kvadratický</system:String>
+    <system:String x:Key="EasingCubic" xml:space="preserve"> Kubický</system:String>
+    <system:String x:Key="NativeExperienceInfo">Pre natívny Windows 11 zážitok, by mali byť nastavenia ponechané na predvolených hodnotách.</system:String>
+    <system:String x:Key="DisableOnFullscreenTitle">Vypnúť Plávajúce okná, ak je detegovaný program DirectX na celú obrazovku</system:String>
+    <system:String x:Key="DisableOnFullscreenDescription">Zabraňuje DirectX hrám v exkluzívnom režime celej obrazovky aby sa minimalizovali, ak sa zobrazí plávajúce okno</system:String>
+    <system:String x:Key="AcrylicBlurOpacityTitle">Nepriehľadnosť akrylového rozmazania</system:String>
+    <system:String x:Key="AcrylicBlurOpacityDescription">Upravte efekt priehľadnosti na Akrylových plávajúcich oknách (predvolené: 175)</system:String>
+    <system:String x:Key="HomeUpdateDescription">Zistite, čo je nové</system:String>
+    <system:String x:Key="HomeDashboardTitle">Ovládací panel</system:String>
+    <system:String x:Key="TrayIconSectionTitle">Ikona v systémovej lište</system:String>
+    <system:String x:Key="UpdatesSectionTitle">Aktualizácie</system:String>
+    <system:String x:Key="SystemConfigure">Konfigurovať</system:String>
+    <system:String x:Key="AboutTitle">O programe</system:String>
+    <system:String x:Key="AboutContributorsTitle">❤️ Zoznámte sa s našimi prispievateľmi</system:String>
+    <system:String x:Key="AppearanceBehaviorSectionTitle">Vzhľad a fungovanie</system:String>
+    <system:String x:Key="AboutContributorsDescription">Veľká vďaka všetkým úžasným ľuďom, ktorí prispeli k vývoju a úspechu FluentFlyout!</system:String>
+    <system:String x:Key="DevelopersTitle">Vývojári</system:String>
+    <system:String x:Key="TranslatorsTitle">Prekladatelia</system:String>
+    <system:String x:Key="AboutPremiumTitle">O Premium</system:String>
+    <system:String x:Key="AboutOpenSourceLicensesTitle">Open Source Licencie</system:String>
+    <system:String x:Key="AboutOpenSourceLicensesDescription">FluentFlyout je zostavený s nasledujúcimi open source balíkmi:</system:String>
+    <system:String x:Key="EnjoyingAppText" xml:space="preserve">Páči sa vám aplikácia? Označte ju hviezdičkou na GitHub,
+alebo zanechajte recenziu v obchode Microsoft Store!</system:String>
+    <system:String x:Key="GitHubRepoLink">GitHub Repozitár</system:String>
+    <system:String x:Key="SponsorMeLink">Podporte ma</system:String>
+    <system:String x:Key="BuyMeCoffeeLink">Kúpte mi kávu</system:String>
+    <system:String x:Key="CloseButton">Zavrieť</system:String>
+    <system:String x:Key="AppLanguageTitle">Jazyk aplikácie</system:String>
+    <system:String x:Key="AppLanguageDescription" xml:space="preserve">Ak váš jazyk nie je uvedený alebo je neúplný, predvolene sa nastaví angličtina.
+Môžete pomôcť s prekladmi na</system:String>
+    <system:String x:Key="AppLanguageDescriptionLink">Weblate</system:String>
+    <system:String x:Key="LockWindow_CapsLock">Caps Lock</system:String>
+    <system:String x:Key="LockWindow_NumLock">Num Lock</system:String>
+    <system:String x:Key="LockWindow_ScrollLock">Scroll Lock</system:String>
+    <system:String x:Key="LockWindow_InsertPressed">Insert Stlačený</system:String>
+    <system:String x:Key="LockWindow_LockOn">zapnuté</system:String>
+    <system:String x:Key="LockWindow_LockOff">vypnuté</system:String>
+    <system:String x:Key="NextUpWindow_UpNextText">Ďalšie:</system:String>
+    <system:String x:Key="TrayIcon_SettingsOption">Nastavenia</system:String>
+    <system:String x:Key="TrayIcon_GitHubRepositoryOption">Repozitár</system:String>
+    <system:String x:Key="TrayIcon_ViewLogsOption">Zobraziť logy</system:String>
+    <system:String x:Key="TrayIcon_ReportBugOption">Nahlásiť chybu</system:String>
+    <system:String x:Key="TrayIcon_QuitOption">Ukončiť FluentFlyout</system:String>
+    <system:String x:Key="PixelsUnit">px</system:String>
+    <system:String x:Key="UpdateToastTitle">FluentFlyout bol aktualizovaný!</system:String>
+    <system:String x:Key="UpdateToastMessage">Teraz ste na {0}.</system:String>
+    <system:String x:Key="UpdateToastButton">Zobraziť aktualizácie</system:String>
+    <system:String x:Key="UpdateAvailable">K dispozícii je aktualizácia</system:String>
+    <system:String x:Key="UpToDate">Verzia je aktuálna</system:String>
+    <system:String x:Key="LastChecked">Naposledy skontrolované: {0}</system:String>
+    <system:String x:Key="CheckingForUpdates">Prebieha kontrola...</system:String>
+    <system:String x:Key="UpdateAvailableNotificationTitle">K dispozícii je aktualizácia!</system:String>
+    <system:String x:Key="UpdateAvailableNotificationMessage">Nová verzia ({0}) je k dispozícii.</system:String>
+    <system:String x:Key="UpdateAvailableNotificationButton">Stiahnuť aktualizáciu</system:String>
+    <system:String x:Key="ShowUpdateNotificationsTitle">Zobraziť upozornenia na nové aktualizácie</system:String>
+    <system:String x:Key="BackupRestoreSectionTitle">Zálohovať a obnoviť</system:String>
+    <system:String x:Key="BackupRestoreCardTitle">Zálohujte a obnovte svoje nastavenia</system:String>
+    <system:String x:Key="ExportSettings">Exportovať nastavenia</system:String>
+    <system:String x:Key="ImportSettings">Importovať nastavenia</system:String>
+    <system:String x:Key="ExportSuccessful">Export úspešný</system:String>
+    <system:String x:Key="ExportFailed">Export zlyhal</system:String>
+    <system:String x:Key="ImportSuccessful">Import úspešný</system:String>
+    <system:String x:Key="ImportFailed">Import zlyhal</system:String>
+    <system:String x:Key="SettingsExportedSuccessfully">Nastavenia úspešne exportované!</system:String>
+    <system:String x:Key="FailedToExportSettings">Nepodarilo sa exportovať nastavenia. Podrobnosti nájdete v logoch.</system:String>
+    <system:String x:Key="SettingsImportedSuccessfully">Nastavenia úspešne importované! Aplikácia sa teraz reštartuje, aby sa prejavili zmeny.</system:String>
+    <system:String x:Key="ImportSettingsWarning">Toto nahradí všetky vaše aktuálne nastavenia. Pokračovať?</system:String>
+    <system:String x:Key="FailedToImportSettings">Nepodarilo sa importovať nastavenia. Podrobnosti nájdete v logoch.</system:String>
+    <system:String x:Key="AdvancedSettingsTitle">Rozšírené nastavenia</system:String>
+    <system:String x:Key="LegacyTaskbarWidthTitle">Systém šírky klasického panela úloh</system:String>
+    <system:String x:Key="LegacyTaskbarWidthDescription">Použiť klasický systém šírky panela úloh pre jeho widgety</system:String>
+</ResourceDictionary>
