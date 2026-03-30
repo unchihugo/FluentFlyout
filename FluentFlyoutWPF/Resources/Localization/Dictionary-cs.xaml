@@ -136,7 +136,7 @@ Můžete pomoct s překlady na</system:String>
     <system:String x:Key="TaskbarVisualizerDescription">Vizualizér zvuku v reálném čase na hlavním panelu. Navržen tak, aby měl minimální dopad na výkon moderních systémů.</system:String>
     <system:String x:Key="TaskbarVisualizerEnabledTitle">Povolit Vizualizér na hlavním panelu (Experimentální)</system:String>
     <system:String x:Key="TaskbarVisualizerEnabledDescription">Experiment: Tato funkce bude fungovat pouze pokud je povolený Widget na hlavním panelu</system:String>
-    <system:String x:Key="TaskbarVisualizerPositionTitle">Relativní pozice Vizualizéru orpoti Widgetu na hlavním panelu</system:String>
+    <system:String x:Key="TaskbarVisualizerPositionTitle">Relativní pozice Vizualizéru oproti Widgetu na hlavním panelu</system:String>
     <system:String x:Key="TaskbarVisualizerBarCountTitle">Počet sloupečků</system:String>
     <system:String x:Key="TaskbarVisualizerBarCountDescription">Počet vyobrazovaných sloupečků vizualizéru</system:String>
     <system:String x:Key="TaskbarVisualizerCenteredBarsTitle">Vystředit sloupečky</system:String>
@@ -194,4 +194,29 @@ Poznámka: Jelikož se jedná o open-source projekt, jsou tyto funkce k dispozic
     <system:String x:Key="CheckingForUpdates">Probíhá kontrola...</system:String>
     <system:String x:Key="UpdateAvailableNotificationTitle">Dostupná aktualizace!</system:String>
     <system:String x:Key="UpdateAvailableNotificationButton">Stáhnout aktualizaci</system:String>
+    <system:String x:Key="TaskbarVisualizerClickableTitle">Zmáčknout pro otevření nastavení</system:String>
+    <system:String x:Key="TaskbarVisualizerClickableDescription">Kliknutím na vizualizér otevře stránku nastavení</system:String>
+    <system:String x:Key="PositionLeft">Vlevo</system:String>
+    <system:String x:Key="PositionRight">Vpravo</system:String>
+    <system:String x:Key="TaskbarVisualizerOutputDeviceTitle">Výstupní zařízení</system:String>
+    <system:String x:Key="TaskbarWidgetAutoHideTitle">Autoskrytí widgetu</system:String>
+    <system:String x:Key="TaskbarWidgetControlsPositionTitle">Pozice média tlačítek</system:String>
+    <system:String x:Key="TaskbarWidgetControlsPositionDescription">Vybrat, kde zobrazovat média tlačítka</system:String>
+    <system:String x:Key="LockKeysCursorUIDescription" xml:space="preserve">Vybrat monitor na kterém se bude zobrazovat flyout.</system:String>
+    <system:String x:Key="DefaultLockLayoutPosition">Defaultní (Cílový Flyout displej)</system:String>
+    <system:String x:Key="MonitorWithCursor">Monitor s kurzorem</system:String>
+    <system:String x:Key="LockKeysAnimatedTitle">Indikátor animací</system:String>
+    <system:String x:Key="LockKeysAnimatedDescription">Zapnout jemné animace pro indikátor zámku</system:String>
+    <system:String x:Key="UseAlbumArtAccentColorTitle">Použít obrázek alba jako akcentovou barvu</system:String>
+    <system:String x:Key="UseAlbumArtAccentColorDescription">Některé UI elementy použijí barvu z obrázku alba místo systémové barvy</system:String>
+    <system:String x:Key="BackupRestoreSectionTitle">Zálohovat &amp; obnovit</system:String>
+    <system:String x:Key="BackupRestoreCardTitle">Zálohovat a obnovit vaše nastavení</system:String>
+    <system:String x:Key="ExportSettings">Export nastavení</system:String>
+    <system:String x:Key="ImportSettings">Importovat nastavení</system:String>
+    <system:String x:Key="ExportSuccessful">Export úspěšný</system:String>
+    <system:String x:Key="ExportFailed">Export neúspěšný</system:String>
+    <system:String x:Key="ImportSuccessful">Import úspěšný</system:String>
+    <system:String x:Key="ImportFailed">Import selhal</system:String>
+    <system:String x:Key="SettingsExportedSuccessfully">Nastavení vyeexportované úspěšně</system:String>
+    <system:String x:Key="FailedToExportSettings">Export nastavení neproběhl vpořádku. Podívejte se logů pro více informací.</system:String>
 </ResourceDictionary>
