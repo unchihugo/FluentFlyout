@@ -228,4 +228,8 @@ Ghi chú: Vì đây là một project mã nguồn mở, những tính năng bả
     <system:String x:Key="LegacyTaskbarWidthTitle">Chiều rộng trên thanh tác vụ cũ</system:String>
     <system:String x:Key="LegacyTaskbarWidthDescription">Sử dụng chiều rộng của thanh tác vụ cũ đối với tiện ích trên thanh tác vụ</system:String>
     <system:String x:Key="AdvancedSettingsTitle">Tùy chọn Nâng cao</system:String>
+    <system:String x:Key="LockKeysAnimatedDescription">Bật hoạt ảnh động cho chỉ báo phím khóa</system:String>
+    <system:String x:Key="LockKeysAnimatedTitle">Hoạt ảnh chỉ báo</system:String>
+    <system:String x:Key="TaskbarWidgetAutoHideDescription">Tự động ẩn khi media tạm dừng</system:String>
+    <system:String x:Key="TaskbarWidgetAutoHideTitle">Tự động ẩn tiện ích</system:String>
 </ResourceDictionary>
