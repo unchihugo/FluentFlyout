@@ -206,9 +206,9 @@ Puoi contribuire alla traduzione su</system:String>
     <system:String x:Key="ImportSettings">Importa impostazioni</system:String>
     <system:String x:Key="ExportSuccessful">Esportazione riuscita</system:String>
     <system:String x:Key="ExportFailed">Esportazione non riuscita</system:String>
-    <system:String x:Key="ImportSuccessful">Importazione Riuscita</system:String>
+    <system:String x:Key="ImportSuccessful">Importazione riuscita</system:String>
     <system:String x:Key="ImportFailed">Importazione fallita</system:String>
-    <system:String x:Key="SettingsExportedSuccessfully">Impostazioni esportate correttamente</system:String>
+    <system:String x:Key="SettingsExportedSuccessfully">Impostazioni esportate correttamente!</system:String>
     <system:String x:Key="FailedToExportSettings">Esportazione delle impostazioni fallita. Controlla i log per dettagli.</system:String>
     <system:String x:Key="SettingsImportedSuccessfully">Impostazioni importate con successo! L'applicazione si riavvierà per applicare i cambiamenti.</system:String>
     <system:String x:Key="ImportSettingsWarning">Questo sostituirà tutte le impostazioni attuali. Continuare?</system:String>
