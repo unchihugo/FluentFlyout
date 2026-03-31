@@ -30,7 +30,7 @@
     <system:String x:Key="PauseOtherMediaDescription">Tự động tạm dừng các nội dung khác ngoài nội dung đang phát</system:String>
     <system:String x:Key="NextUpCustomizationTitle">Thông báo nội dung tiếp theo</system:String>
     <system:String x:Key="NextUpDescription" xml:space="preserve">Giao diện này cho phép bạn theo dõi nội dung tiếp theo, và chỉ hiện lên khi đang phát tự động.</system:String>
-    <system:String x:Key="EnableNextUpTitle">Bật giao diện (beta)</system:String>
+    <system:String x:Key="EnableNextUpTitle">Bật giao diện</system:String>
     <system:String x:Key="EnableNextUpDescription">Cho phép hiển thị giao diện</system:String>
     <system:String x:Key="NextUpStayDurationTitle">Thời gian hiển thị</system:String>
     <system:String x:Key="NextUpStayDurationDescription">(mặc định: 2000 ms)</system:String>
