@@ -669,6 +669,11 @@ public partial class MainWindow : MicaWindow
 #if DEBUG
         Logger.Debug("Session closed: " + (mediaSession.Id).ToString());
 #endif
+        if (wasPlayingSession != null && wasPlayingSession.Id != mediaSession.Id)
+        {
+            PlaySession(wasPlayingSession);
+        }
+
         var focusedSession = mediaManager.GetFocusedSession();
 
         if (focusedSession == null)
