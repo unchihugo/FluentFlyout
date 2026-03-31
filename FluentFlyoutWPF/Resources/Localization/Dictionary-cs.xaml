@@ -224,4 +224,5 @@ Poznámka: Jelikož se jedná o open-source projekt, jsou tyto funkce k dispozic
     <system:String x:Key="FailedToImportSettings">Import nastavení neproběhl úspěšně. Pro více detailů si zobrazte logy.</system:String>
     <system:String x:Key="AdvancedSettingsTitle">Pokročilé nastavení</system:String>
     <system:String x:Key="LockKeysCursorUITitle">Preferovaný onen displej</system:String>
+    <system:String x:Key="TaskbarWidgetAutoHideDescription">Automaticky schová widget, jakmile je médium zastaveno</system:String>
 </ResourceDictionary>
