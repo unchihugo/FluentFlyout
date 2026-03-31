@@ -204,8 +204,8 @@ Puoi contribuire alla traduzione su</system:String>
     <system:String x:Key="BackupRestoreCardTitle">Salva e ripristina le tue impostazioni</system:String>
     <system:String x:Key="ExportSettings">Esporta Impostazioni</system:String>
     <system:String x:Key="ImportSettings">Importa Impostazioni</system:String>
-    <system:String x:Key="ExportSuccessful">Esportazione Riuscita</system:String>
-    <system:String x:Key="ExportFailed">Esportazione Fallita</system:String>
+    <system:String x:Key="ExportSuccessful">Esportazione riuscita</system:String>
+    <system:String x:Key="ExportFailed">Esportazione fallita</system:String>
     <system:String x:Key="ImportSuccessful">Importazione Riuscita</system:String>
     <system:String x:Key="ImportFailed">Importazione Fallita</system:String>
     <system:String x:Key="SettingsExportedSuccessfully">Impostazioni esportate con successo!</system:String>
@@ -229,4 +229,8 @@ Puoi contribuire alla traduzione su</system:String>
     <system:String x:Key="AdvancedSettingsTitle">Impostazioni Avanzate</system:String>
     <system:String x:Key="LegacyTaskbarWidthTitle">Sistema Legacy Larghezza della Barra delle Applicazioni</system:String>
     <system:String x:Key="LegacyTaskbarWidthDescription">Usa il sistema originale per la larghezza nei Widget Barra delle Applicazioni</system:String>
+    <system:String x:Key="TaskbarWidgetAutoHideTitle">Nascondi automaticamente il Widget</system:String>
+    <system:String x:Key="TaskbarWidgetAutoHideDescription">Nasconde automaticamente il widget quando il media è in pausa</system:String>
+    <system:String x:Key="LockKeysAnimatedTitle">Animazione dell'indicatore</system:String>
+    <system:String x:Key="LockKeysAnimatedDescription">Abilita piccole animazioni per il lucchetto nell'idicatore del pulsante di blocco</system:String>
 </ResourceDictionary>
