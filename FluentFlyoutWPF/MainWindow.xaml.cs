@@ -249,7 +249,7 @@ public partial class MainWindow : MicaWindow
         SettingsWindow.ShowInstance();
     }
 
-    public int getDuration() // get the duration of the animation based on the speed setting
+    public static int getDuration() // get the duration of the animation based on the speed setting
     {
         int msDuration = SettingsManager.Current.FlyoutAnimationSpeed switch
         {
@@ -683,7 +683,7 @@ public partial class MainWindow : MicaWindow
 
     private IntPtr HookCallback(int nCode, IntPtr wParam, IntPtr lParam)
     {
-        if (nCode >= 0 && (wParam == (IntPtr)WM_KEYDOWN || wParam == (IntPtr)WM_KEYUP))
+        if (nCode >= 0 && (wParam == WM_KEYDOWN || wParam == WM_KEYUP))
         {
             int vkCode = Marshal.ReadInt32(lParam);
 
@@ -700,7 +700,9 @@ public partial class MainWindow : MicaWindow
                 }
             }
 
-            if (SettingsManager.Current.LockKeysEnabled && !FullscreenDetector.IsFullscreenApplicationRunning())
+            if (SettingsManager.Current.LockKeysEnabled
+                && !FullscreenDetector.IsFullscreenApplicationRunning()
+                && wParam == WM_KEYUP)
             {
                 if (vkCode == 0x14) // Caps Lock
                 {

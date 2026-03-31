@@ -76,7 +76,8 @@ public partial class AboutViewModel : ObservableObject
         "manuelitou",
         "aic-6301",
         "mak7im01",
-        "D4N_A"
+        "D4N_A",
+        "Haeil"
     ];
 
 
