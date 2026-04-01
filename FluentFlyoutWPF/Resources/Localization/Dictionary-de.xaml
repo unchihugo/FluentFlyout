@@ -34,7 +34,7 @@ verbirgt autom. Wiederholung, Shuffle und Player-Information</system:String>
     <system:String x:Key="PauseOtherMediaTitle">Pausiere andere Medien automatisch</system:String>
     <system:String x:Key="PauseOtherMediaDescription">Wenn Du neue Medien abspielst oder fokussierst, werden andere aktive Mediensitzungen automatisch pausiert</system:String>
     <system:String x:Key="TaskbarWidgetCustomizationTitle">Taskleisten-Widget</system:String>
-    <system:String x:Key="TaskbarWidgetDescription">Ein kompaktes, eingebautes Widget, das sich direkt in deiner Windows-Taskleiste befindet und sofortigen Zugriff auf deine Medien ermöglicht. Klicke auf das Widget, um (falls aktiviert) das vollständige Medien-Flyout anzuzeigen.</system:String>
+    <system:String x:Key="TaskbarWidgetDescription">Ein kompaktes, eingebautes Widget, das sich direkt in deiner Windows-Taskleiste befindet und sofortigen Zugriff auf deine Medien ermöglicht. Klicke auf das Widget, um das vollständige Medien-Flyout anzuzeigen.</system:String>
     <system:String x:Key="TaskbarWidgetEnabledTitle">Taskleisten-Widget aktivieren</system:String>
     <system:String x:Key="TaskbarWidgetEnabledDescription">Ein kompaktes Medien-Widget auf der Taskleiste anzeigen</system:String>
     <system:String x:Key="TaskbarWidgetVisualIssuesWarning">Passe die folgenden Optionen an, falls visuelle Probleme auftreten.</system:String>
@@ -71,7 +71,7 @@ Anmerkung: Als Open-Source-Projekt sind diese Funktionen auch kostenlos verfügb
     <system:String x:Key="PremiumPurchaseSuccess">Premium Funktionen erfolgreich freigeschaltet!</system:String>
     <system:String x:Key="PremiumPurchaseFailed">Kauf fehlgeschlagen. Bitte versuche es erneut.</system:String>
     <system:String x:Key="PremiumPurchaseCancelled">Kauf abgebrochen.</system:String>
-    <system:String x:Key="EnableNextUpTitle">Flyout „Als nächstes“ aktivieren (experimentell)</system:String>
+    <system:String x:Key="EnableNextUpTitle">Flyout „Als nächstes“ aktivieren</system:String>
     <system:String x:Key="EnableNextUpDescription">Zeigt, welcher Song/Video als nächste abgespielt wird, wenn ein Song/Video endet</system:String>
     <system:String x:Key="NextUpStayDurationTitle">"Als nächstes" Anzeigedauer</system:String>
     <system:String x:Key="NextUpStayDurationDescription">(Standard: 2000ms)</system:String>
@@ -122,6 +122,7 @@ Du kannst helfen, die App zu übersetzen auf</system:String>
     <system:String x:Key="TaskbarWidgetClickableTitle">Klicken, um das Medien-Flyout bei vorhandenen Medien zu öffnen</system:String>
     <system:String x:Key="TaskbarWidgetClickableDescription">Wenn das Medien-Flyout aktiviert ist, wird es beim Klicken auf das Taskleisten-Widget geöffnet</system:String>
     <system:String x:Key="TaskbarWidgetHideCompletelyDescription">Versteckt das Widget vollständig, wenn keine Medien verfügbar sind</system:String>
+    <system:String x:Key="TaskbarWidgetAutoHideDescription">Versteckt das Widget automatisch, sobald Medien pausiert sind</system:String>
     <system:String x:Key="NextUpCustomizationTitle">„Nächster Titel“-Flyout</system:String>
     <system:String x:Key="NextUpDescription" xml:space="preserve">Ein Flyout zeigt an, was als Nächstes abgespielt wird, wenn ein Song/Video endet. Es erscheint nur, wenn der nächste Titel automatisch abgespielt wird. Wird „Weiter“ oder „Zurück“ manuell gedrückt, erscheint stattdessen das Haupt-Flyout.</system:String>
     <system:String x:Key="LockKeysCustomizationTitle">"Sperrtasten"-Flyout</system:String>
@@ -213,4 +214,9 @@ Du kannst helfen, die App zu übersetzen auf</system:String>
     <system:String x:Key="SettingsImportedSuccessfully">Einstellungen erfolgreich importiert! Die Anwendung wird nun neu gestartet, um die Änderungen zu übernehmen.</system:String>
     <system:String x:Key="ImportSettingsWarning">Dadurch werden alle aktuellen Einstellungen ersetzt. Möchtest Du fortfahren?</system:String>
     <system:String x:Key="FailedToImportSettings">Einstellungen konnten nicht importiert werden. Prüfe die Logs für Details.</system:String>
+    <system:String x:Key="PositionLeft">Links</system:String>
+    <system:String x:Key="PositionRight">Rechts</system:String>
+    <system:String x:Key="TaskbarWidgetControlsPositionTitle">Position der Mediensteuerungsknöpfe</system:String>
+    <system:String x:Key="TaskbarWidgetControlsPositionDescription">Wähle die Position, wo die Mediensteuerungsknöpfe angezeigt werden sollen</system:String>
+    <system:String x:Key="TaskbarVisualizerClickableDescription">Beim Anklicken des Visualizers werden die Einstellungen geöffnet</system:String>
 </ResourceDictionary>

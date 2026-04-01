@@ -269,6 +269,12 @@ public partial class UserSettings : ObservableObject
     public partial bool PauseOtherSessionsEnabled { get; set; }
 
     /// <summary>
+    /// Enable subtle animations for the lock keys flyout indicator
+    /// </summary>
+    [ObservableProperty]
+    public partial bool LockKeysAnimated { get; set; }
+
+    /// <summary>
     /// Show LockKeys flyout when the Insert key is pressed
     /// </summary>
     [ObservableProperty]
@@ -333,6 +339,12 @@ public partial class UserSettings : ObservableObject
     /// </summary>
     [ObservableProperty]
     public partial int TaskbarWidgetSelectedMonitor { get; set; }
+    
+    /// <summary>
+    /// Autohide Widget after a few milliseconds after pause 
+    /// </summary>
+    [ObservableProperty]
+    public partial bool TaskbarWidgetAutoHide { get; set; }
 
     /// <summary>
     /// Gets or sets the position of the taskbar widget, represented as an integer value.
@@ -377,18 +389,6 @@ public partial class UserSettings : ObservableObject
             OnPropertyChanged();
         }
     }
-
-    /// <summary>
-    /// Gets or sets a value indicating whether the taskbar widget is clickable
-    /// </summary>
-    [ObservableProperty]
-    public partial bool TaskbarWidgetClickable { get; set; }
-
-    /// <summary>
-    /// Gets or sets a value indicating whether clicking the taskbar widget toggles the flyout (close if already open)
-    /// </summary>
-    [ObservableProperty]
-    public partial bool TaskbarWidgetCloseableFlyout { get; set; }
 
     /// <summary>
     /// Gets or sets a value indication whether the taskbar widget background should have a blur effect
@@ -559,6 +559,7 @@ public partial class UserSettings : ObservableObject
         LastKnownVersion = "";
         SeekbarEnabled = false;
         PauseOtherSessionsEnabled = false;
+        LockKeysAnimated = true;
         LockKeysInsertEnabled = true;
         MediaFlyoutBackgroundBlur = 0;
         MediaFlyoutAcrylicWindowEnabled = true;
@@ -572,8 +573,6 @@ public partial class UserSettings : ObservableObject
         TaskbarWidgetPosition = 0;
         TaskbarWidgetPadding = true;
         TaskbarWidgetManualPadding = 0;
-        TaskbarWidgetClickable = true;
-        TaskbarWidgetCloseableFlyout = true;
         TaskbarWidgetBackgroundBlur = false;
         TaskbarWidgetHideCompletely = false;
         TaskbarWidgetControlsEnabled = false;
@@ -659,12 +658,6 @@ public partial class UserSettings : ObservableObject
     }
 
     partial void OnTaskbarWidgetManualPaddingChanged(int oldValue, int newValue)
-    {
-        if (oldValue == newValue || _initializing) return;
-        UpdateTaskbar();
-    }
-
-    partial void OnTaskbarWidgetClickableChanged(bool oldValue, bool newValue)
     {
         if (oldValue == newValue || _initializing) return;
         UpdateTaskbar();

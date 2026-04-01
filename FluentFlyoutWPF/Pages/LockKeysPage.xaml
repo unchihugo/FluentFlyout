@@ -24,6 +24,7 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <StackPanel Orientation="Horizontal" Margin="0,0,0,24">
                 <Border CornerRadius="10" ClipToBounds="True" Width="164" Height="98">
@@ -72,7 +73,16 @@
                 </ui:CardControl.Header>
                 <controls:ToggleSwitch Name="LockKeysBoldUISwitch" IsChecked="{Binding LockKeysBoldUi, Mode=TwoWay}" />
             </ui:CardControl>
-            <ui:CardControl Grid.Row="5" Icon="{ui:SymbolIcon ProjectionScreen24}" Margin="0,0,0,3">
+            <ui:CardControl Grid.Row="5" Icon="{ui:SymbolIcon Wand24}" Margin="0,0,0,3">
+                <ui:CardControl.Header>
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="{DynamicResource LockKeysAnimatedTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
+                        <TextBlock Text="{DynamicResource LockKeysAnimatedDescription}" FontSize="12" Opacity="0.5" />
+                    </StackPanel>
+                </ui:CardControl.Header>
+                <controls:ToggleSwitch Name="LockKeysAnimatedSwitch" IsChecked="{Binding LockKeysAnimated, Mode=TwoWay}" />
+            </ui:CardControl>
+            <ui:CardControl Grid.Row="6" Icon="{ui:SymbolIcon ProjectionScreen24}" Margin="0,0,0,3">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
                         <StackPanel Orientation="Horizontal">
@@ -88,7 +98,7 @@
                     <ComboBoxItem Content="{DynamicResource MonitorWithCursor}" />
                 </ComboBox>
             </ui:CardControl>
-            <ui:CardControl Grid.Row="6" Icon="{ui:SymbolIcon Info24}" Margin="0,0,0,76">
+            <ui:CardControl Grid.Row="7" Icon="{ui:SymbolIcon Info24}" Margin="0,0,0,76">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
                         <TextBlock Text="{DynamicResource EnableInsertKeyTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />

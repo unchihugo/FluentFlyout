@@ -56,7 +56,7 @@ public partial class NextUpWindow : MicaWindow
         {
             await Task.Delay(SettingsManager.Current.NextUpDuration);
             mainWindow.CloseAnimation(this);
-            await Task.Delay(mainWindow.getDuration());
+            await Task.Delay(MainWindow.getDuration());
             Close();
         }
 

@@ -11,7 +11,7 @@
   <Identity
     Name="unchihugo.FluentFlyout"
     Publisher="CN=unchihugo"
-    Version="2.9.2.0" />
+    Version="2.10.0.0" />
 
   <Properties>
     <DisplayName>FluentFlyout</DisplayName>
@@ -27,6 +27,7 @@
   <Resources>
       <Resource Language="en-US"/>
 	  <Resource Language="ar"/>
+	  <Resource Language="ca"/>
 	  <Resource Language="zh-CN"/>
 	  <Resource Language="zh-TW"/>
 	  <Resource Language="hr"/>
@@ -36,6 +37,7 @@
 	  <Resource Language="fr"/>
 	  <Resource Language="de"/>
 	  <Resource Language="he"/>
+	  <Resource Language="hi"/>
 	  <Resource Language="id"/>
 	  <Resource Language="it"/>
 	  <Resource Language="ja"/>
@@ -43,6 +45,7 @@
 	  <Resource Language="pl"/>
 	  <Resource Language="pt-BR"/>
 	  <Resource Language="ru"/>
+	  <Resource Language="sk"/>
 	  <Resource Language="es"/>
 	  <Resource Language="tr"/>
 	  <Resource Language="uk"/>
