@@ -210,12 +210,12 @@ Vous pouvez contribuer aux traductions sur</system:String>
     <system:String x:Key="UseAlbumArtAccentColorTitle">Utiliser la couverture de l'album comme couleur</system:String>
     <system:String x:Key="BackupRestoreCardTitle">Enregistrer et restaurer vos paramètres</system:String>
     <system:String x:Key="ExportSettings">Exporter vos réglages</system:String>
-    <system:String x:Key="ImportSettings">importer des réglages</system:String>
-    <system:String x:Key="ExportSuccessful">Export effectué</system:String>
+    <system:String x:Key="ImportSettings">Importer des Réglages</system:String>
+    <system:String x:Key="ExportSuccessful">Exportation réussie</system:String>
     <system:String x:Key="ExportFailed">Échec de l'exportation</system:String>
     <system:String x:Key="ImportSuccessful">Importation réussie</system:String>
     <system:String x:Key="ImportFailed">Échec de l'importation</system:String>
-    <system:String x:Key="SettingsExportedSuccessfully">Réglages exportés !</system:String>
+    <system:String x:Key="SettingsExportedSuccessfully">Exportation des réglages réussie !</system:String>
     <system:String x:Key="SettingsImportedSuccessfully">Réglages importés ! L'application va désormais redémarrer afin d'effectuer les changements.</system:String>
     <system:String x:Key="ImportSettingsWarning">Ceci remplacera tous vos réglages actuelles. Continuer ?</system:String>
     <system:String x:Key="AdvancedSettingsTitle">Paramètres avancés</system:String>
