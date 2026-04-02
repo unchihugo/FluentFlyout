@@ -1254,15 +1254,16 @@ public partial class MainWindow : MicaWindow
     private void CleanupResources()
     {
         // try saving settings before exiting if window is still open
-        try
-        {
-            SettingsManager.SaveSettings();
-            Logger.Info("Settings saved successfully on cleanup");
-        }
-        catch (Exception ex)
-        {
-            Logger.Error(ex, "Error while saving settings on cleanup");
-        }
+        // disabled because it caused too many issues (race conditions, shutdown exceptions), could look into another time
+        //try
+        //{
+        //    SettingsManager.SaveSettings();
+        //    Logger.Info("Settings saved successfully on cleanup");
+        //}
+        //catch (Exception ex)
+        //{
+        //    Logger.Error(ex, "Error while saving settings on cleanup");
+        //}
 
         // should be handled automatically on app exit but just in case
         try
