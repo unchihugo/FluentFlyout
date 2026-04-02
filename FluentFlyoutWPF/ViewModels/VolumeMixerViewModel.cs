@@ -155,7 +155,7 @@ public partial class VolumeMixerViewModel : ObservableObject, IDisposable
 
                 if (name == "FluentFlyout") continue;
 
-                var icon = MediaPlayerData.GetProcessIcon(pid, name);
+                var icon = MediaPlayerData.GetAndCacheProcessIcon(pid, name);
                 Sessions.Add(new AudioSessionModel(session, name, pid, sessionState, icon));
             }
         }
@@ -176,9 +176,20 @@ public partial class VolumeMixerViewModel : ObservableObject, IDisposable
             if (pid != 0)
             {
                 var process = Process.GetProcessById((int)pid);
-                return process.MainWindowTitle is { Length: > 0 } title
+                var mainModule = process.MainModule;
+
+                if (mainModule != null)
+                {
+                    return !string.IsNullOrWhiteSpace(mainModule.FileVersionInfo.FileDescription)
+                    ? mainModule.FileVersionInfo.FileDescription
+                    : process.MainWindowTitle;
+                }
+                else
+                {
+                    return process.MainWindowTitle is { Length: > 0 } title
                     ? title
                     : process.ProcessName;
+                }
             }
         }
         catch

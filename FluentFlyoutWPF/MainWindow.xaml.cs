@@ -964,7 +964,7 @@ public partial class MainWindow : MicaWindow
                 if (SettingsManager.Current.PlayerInfoEnabled && !SettingsManager.Current.CompactLayout)
                 {
                     MediaIdStackPanel.Visibility = Visibility.Visible;
-                    (string title, ImageSource? Icon) = MediaPlayerData.getMediaPlayerData(mediaSession.Id);
+                    (string title, ImageSource? Icon) = MediaPlayerData.GetAndCacheMediaPlayerData(mediaSession.Id);
                     MediaId.Text = title;
                     if (Icon != null)
                     {

@@ -16,15 +16,20 @@ public static class MediaPlayerData
         public int ProcessId { get; set; }
     }
     // cache for media player info to avoid redundant process lookups
-    private static readonly Dictionary<string, CachedMediaPlayerInfo> mediaPlayerCache = new();
+    private static readonly Dictionary<string, CachedMediaPlayerInfo> mediaPlayerCache = [];
+
+    // id variants of media players where the key is the mediaPlayerId and the value is the mediaPlayerCache key
+    private static readonly Dictionary<string, string> mediaPlayerIdVariants = [];
 
     private static Process[] cachedProcesses = null;
     private static DateTime lastCacheTime = DateTime.MinValue;
     private const int CACHE_DURATION_SECONDS = 5;
 
-    public static (string, ImageSource?) getMediaPlayerData(string mediaPlayerId)
+    public static (string, ImageSource?) GetAndCacheMediaPlayerData(string mediaPlayerId)
     {
-        if (mediaPlayerCache.TryGetValue(mediaPlayerId, out var cachedInfo))
+        if (mediaPlayerCache.TryGetValue(mediaPlayerId, out var cachedInfo)
+            || mediaPlayerIdVariants.TryGetValue(mediaPlayerId, out var variantKey)
+            && mediaPlayerCache.TryGetValue(variantKey, out cachedInfo))
         {
             return (cachedInfo.Title, cachedInfo.Icon);
         }
@@ -98,6 +103,8 @@ public static class MediaPlayerData
         // check cache again because we have the sanitized title
         if (mediaPlayerCache.TryGetValue(mediaTitle, out cachedInfo))
         {
+            // map the original id to the sanitized title for future lookups
+            mediaPlayerIdVariants[mediaPlayerId] = mediaTitle;
             return (cachedInfo.Title, cachedInfo.Icon);
         }
 
@@ -116,7 +123,7 @@ public static class MediaPlayerData
     /// <summary>
     /// Extracts the associated icon for a given process ID. Returns null if the process is inaccessible.
     /// </summary>
-    public static ImageSource? GetProcessIcon(int processId, string title)
+    public static ImageSource? GetAndCacheProcessIcon(int processId, string title)
     {
         try
         {
