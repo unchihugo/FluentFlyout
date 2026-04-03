@@ -28,6 +28,7 @@ public partial class LockWindow : MicaWindow
         WindowHelper.SetNoActivate(this);
         InitializeComponent();
         WindowHelper.SetTopmost(this);
+        CustomWindowChrome.CaptionHeight = 0;
 
         WindowStartupLocation = WindowStartupLocation.Manual;
         Top = -9999; // start off-screen

@@ -27,8 +27,7 @@ public partial class NextUpWindow : MicaWindow
         InitializeComponent();
         WindowHelper.SetTopmost(this);
         CustomWindowChrome.CaptionHeight = 0;
-        CustomWindowChrome.UseAeroCaptionButtons = false;
-        CustomWindowChrome.GlassFrameThickness = new Thickness(0);
+
         if (SettingsManager.Current.NextUpAcrylicWindowEnabled)
         {
             WindowBlurHelper.EnableBlur(this);
