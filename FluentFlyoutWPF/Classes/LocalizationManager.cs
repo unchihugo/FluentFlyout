@@ -96,7 +96,7 @@ public static class LocalizationManager
             }
         }
 
-        Logger.Debug("Applying localization for language: " + culture);
+        Logger.Info("Applying localization for language: " + culture);
 
         // change flow direction of all windows
         ApplyFlowDirection(languageCode);
@@ -161,7 +161,7 @@ public static class LocalizationManager
             ? FlowDirection.RightToLeft
             : FlowDirection.LeftToRight;
 
-        Logger.Debug("Applied flow direction: " + SettingsManager.Current.FlowDirection);
+        Logger.Info("Applied flow direction: " + SettingsManager.Current.FlowDirection);
     }
 
     private static void ApplyFontFamily(string culture)
