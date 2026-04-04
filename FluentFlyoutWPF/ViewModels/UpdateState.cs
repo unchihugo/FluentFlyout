@@ -31,6 +31,36 @@ public partial class UpdateState : ObservableObject
     public partial string UpdateUrl { get; set; } = string.Empty;
 
     /// <summary>
+    /// Whether a download is currently in progress
+    /// </summary>
+    [ObservableProperty]
+    public partial bool IsDownloading { get; set; }
+
+    /// <summary>
+    /// Download progress percentage (0-100)
+    /// </summary>
+    [ObservableProperty]
+    public partial double DownloadProgress { get; set; }
+
+    /// <summary>
+    /// Whether an installation is currently in progress
+    /// </summary>
+    [ObservableProperty]
+    public partial bool IsInstalling { get; set; }
+
+    /// <summary>
+    /// Error message from the last update attempt (empty if no error)
+    /// </summary>
+    [ObservableProperty]
+    public partial string UpdateError { get; set; } = string.Empty;
+
+    /// <summary>
+    /// The local file path of the downloaded .msixbundle (for install step)
+    /// </summary>
+    [ObservableProperty]
+    public partial string DownloadedBundlePath { get; set; } = string.Empty;
+
+    /// <summary>
     /// Timestamp of the last update check
     /// </summary>
     [ObservableProperty]

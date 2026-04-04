@@ -86,6 +86,74 @@ public static class UpdateChecker
         }
     }
 
+#if GITHUB_RELEASE
+    /// <summary>
+    /// Information about a GitHub Release asset
+    /// </summary>
+    public class GitHubReleaseAsset
+    {
+        public string DownloadUrl { get; set; } = string.Empty;
+        public long Size { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public string TagName { get; set; } = string.Empty;
+    }
+
+    private const string GitHubApiEndpoint = "https://api.github.com/repos/unchihugo/FluentFlyout/releases/latest";
+
+    /// <summary>
+    /// Fetches the latest .msixbundle asset from GitHub Releases
+    /// </summary>
+    public static async Task<GitHubReleaseAsset?> GetGitHubReleaseAssetAsync()
+    {
+        try
+        {
+            using var request = new HttpRequestMessage(HttpMethod.Get, GitHubApiEndpoint);
+            request.Headers.Add("User-Agent", "FluentFlyout-AutoUpdater");
+            request.Headers.Add("Accept", "application/vnd.github.v3+json");
+
+            using var response = await HttpClient.SendAsync(request);
+            response.EnsureSuccessStatusCode();
+
+            using var json = JsonDocument.Parse(await response.Content.ReadAsStringAsync());
+            var tagName = json.RootElement.GetProperty("tag_name").GetString() ?? string.Empty;
+            var assets = json.RootElement.GetProperty("assets");
+
+            foreach (var asset in assets.EnumerateArray())
+            {
+                var name = asset.GetProperty("name").GetString() ?? string.Empty;
+                if (name.EndsWith(".zip", StringComparison.OrdinalIgnoreCase))
+                {
+                    var downloadUrl = asset.GetProperty("browser_download_url").GetString() ?? string.Empty;
+
+                    // Security: enforce download originates from the pinned GitHub repository
+                    const string allowedPrefix = "https://github.com/unchihugo/FluentFlyout/releases/download/";
+                    if (!downloadUrl.StartsWith(allowedPrefix, StringComparison.OrdinalIgnoreCase))
+                    {
+                        Logger.Warn("Rejected download URL outside pinned repository: {Url}", downloadUrl);
+                        return null;
+                    }
+
+                    return new GitHubReleaseAsset
+                    {
+                        DownloadUrl = downloadUrl,
+                        Size = asset.GetProperty("size").GetInt64(),
+                        Name = name,
+                        TagName = tagName
+                    };
+                }
+            }
+
+            Logger.Warn("No .zip installer asset found in latest GitHub release");
+            return null;
+        }
+        catch (Exception ex)
+        {
+            Logger.Error(ex, "Failed to fetch GitHub release asset");
+            return null;
+        }
+    }
+#endif
+
     private static bool IsNewerVersion(string currentVersion, string newestVersion)
     {
         try
