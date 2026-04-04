@@ -408,14 +408,7 @@ public partial class TaskbarWidgetControl : UserControl
         var focusedSession = _mainWindow.GetActiveMediaSession();
         if (focusedSession == null) return;
 
-        if (_isPaused) // paused
-        {
-            await focusedSession.ControlSession.TryPlayAsync();
-        }
-        else // playing
-        {
-            await focusedSession.ControlSession.TryPauseAsync();
-        }
+        await focusedSession.ControlSession.TryTogglePlayPauseAsync();
     }
 
     private async void Next_Click(object sender, RoutedEventArgs e)

@@ -665,7 +665,7 @@ public partial class MainWindow : MicaWindow
             {
                 Dispatcher.Invoke(() =>
                 {
-                    if (nextUpWindow == null && playbackInfo.Controls.IsPauseEnabled) // double-check within the Dispatcher to prevent race conditions
+                    if (nextUpWindow == null && playbackInfo.PlaybackStatus == GlobalSystemMediaTransportControlsSessionPlaybackStatus.Playing) // double-check within the Dispatcher to prevent race conditions
                     {
                         nextUpWindow = new NextUpWindow(songInfo.Title, songInfo.Artist, thumbnail);
                         currentTitle = songInfo.Title;
@@ -925,18 +925,24 @@ public partial class MainWindow : MicaWindow
             var mediaProperties = controlSession.GetPlaybackInfo();
             if (mediaProperties != null)
             {
-                if (mediaProperties.Controls.IsPauseEnabled)
+                if (mediaProperties.PlaybackStatus == GlobalSystemMediaTransportControlsSessionPlaybackStatus.Playing)
                 {
-                    ControlPlayPause.IsEnabled = true;
-                    ControlPlayPause.Opacity = 1;
                     SymbolPlayPause.Symbol = Wpf.Ui.Controls.SymbolRegular.Pause16;
                 }
                 else
                 {
-                    ControlPlayPause.IsEnabled = true;
-                    ControlPlayPause.Opacity = 1;
                     SymbolPlayPause.Symbol = Wpf.Ui.Controls.SymbolRegular.Play16;
                 }
+
+                ControlPlayPause.IsEnabled = mediaProperties.Controls.IsPlayEnabled || mediaProperties.Controls.IsPauseEnabled;
+
+                if (ControlPlayPause.IsEnabled) {
+                    ControlPlayPause.Opacity = 1;
+                }
+                else {
+                    ControlPlayPause.Opacity = 0.35;
+                }
+
                 ControlBack.IsEnabled = ControlForward.IsEnabled = mediaProperties.Controls.IsNextEnabled;
                 ControlBack.Opacity = ControlForward.Opacity = mediaProperties.Controls.IsNextEnabled ? 1 : 0.35;
 
@@ -1164,18 +1170,12 @@ public partial class MainWindow : MicaWindow
         await activeSession.ControlSession.TrySkipPreviousAsync();
     }
 
-    private void PlayPause_Click(object sender, RoutedEventArgs e)
+    private async void PlayPause_Click(object sender, RoutedEventArgs e)
     {
-        keybd_event(0xB3, 0, 0, IntPtr.Zero);
-
         var activeSession = GetActiveMediaSession();
         if (activeSession == null) return;
 
-        if (activeSession.ControlSession.GetPlaybackInfo().Controls.IsPauseEnabled) {
-            SymbolPlayPause.Dispatcher.Invoke(() => SymbolPlayPause.Symbol = Wpf.Ui.Controls.SymbolRegular.Pause16);
-        } else { 
-            SymbolPlayPause.Dispatcher.Invoke(() => SymbolPlayPause.Symbol = Wpf.Ui.Controls.SymbolRegular.Play16);
-        }
+        await activeSession.ControlSession.TryTogglePlayPauseAsync();
     }
 
     private async void Forward_Click(object sender, RoutedEventArgs e)
