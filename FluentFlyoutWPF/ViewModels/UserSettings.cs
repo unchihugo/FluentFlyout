@@ -750,4 +750,12 @@ public partial class UserSettings : ObservableObject
         if (oldValue == newValue || _initializing) return;
         BitmapHelper.GetDominantColors(1);
     }
+
+    partial void OnAppFilteringEnabledChanged(bool oldValue, bool newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+
+        MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+        mainWindow?.RefreshFilteredMedia();
+    }
 }

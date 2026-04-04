@@ -8,11 +8,20 @@ using System.Windows.Controls;
 
 namespace FluentFlyoutWPF.Pages;
 
-public partial class AppFilteringPage : Page {
+public partial class AppFilteringPage : Page 
+{
     public AppFilteringPage() 
     {
         InitializeComponent();
         DataContext = SettingsManager.Current;
+    }
+
+    private void SaveAndRefreshMedia()
+    {
+        SettingsManager.SaveSettings();
+        var mainWindow = (MainWindow)Application.Current.MainWindow;
+
+        mainWindow?.RefreshFilteredMedia();
     }
 
     private void PopulateComboBox(ComboBox comboBox) 
@@ -68,7 +77,7 @@ public partial class AppFilteringPage : Page {
             SettingsManager.Current.AllowedApps.Add(app);
             AllowComboBox.SelectedIndex = -1;
 
-            SettingsManager.SaveSettings();
+            SaveAndRefreshMedia();
         }
     }
 
@@ -81,7 +90,7 @@ public partial class AppFilteringPage : Page {
             SettingsManager.Current.AllowedApps.Add(app);
             AllowTextBox.Text = string.Empty;
 
-            SettingsManager.SaveSettings();
+            SaveAndRefreshMedia();
         }
     }
 
@@ -90,7 +99,7 @@ public partial class AppFilteringPage : Page {
         if (sender is Button btn && btn.Tag is string app) 
         {
             SettingsManager.Current.AllowedApps.Remove(app);
-            SettingsManager.SaveSettings();
+            SaveAndRefreshMedia();
         }
     }
 
@@ -103,7 +112,7 @@ public partial class AppFilteringPage : Page {
             SettingsManager.Current.BlockedApps.Add(app);
             BlockComboBox.SelectedIndex = -1;
 
-            SettingsManager.SaveSettings();
+            SaveAndRefreshMedia();
         }
     }
 
@@ -116,7 +125,7 @@ public partial class AppFilteringPage : Page {
             SettingsManager.Current.BlockedApps.Add(app);
             BlockTextBox.Text = string.Empty;
 
-            SettingsManager.SaveSettings();
+            SaveAndRefreshMedia();
         }
     }
 
@@ -126,7 +135,7 @@ public partial class AppFilteringPage : Page {
         {
             SettingsManager.Current.BlockedApps.Remove(app);
 
-            SettingsManager.SaveSettings();
+            SaveAndRefreshMedia();
         }
     }
 }

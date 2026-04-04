@@ -262,6 +262,28 @@ public partial class MainWindow : MicaWindow
         return validSessions.FirstOrDefault();
     }
 
+    public void RefreshFilteredMedia()
+    {
+        UpdateTaskbar();
+
+        if (IsVisible)
+        {
+            var activeSession = GetActiveMediaSession();
+
+            // UpdateUI handles a null value internally so we haven't checked for null here.
+            UpdateUI(activeSession!);
+
+            if (activeSession != null)
+            {
+                HandlePlayBackState(activeSession.ControlSession.GetPlaybackInfo()?.PlaybackStatus);
+            }
+            else
+            {
+                HandlePlayBackState(GlobalSystemMediaTransportControlsSessionPlaybackStatus.Closed);
+            }
+        }
+    }
+
     private static GlobalSystemMediaTransportControlsSessionMediaProperties? TryGetMediaProperties(GlobalSystemMediaTransportControlsSession controlSession)
     {
         try
