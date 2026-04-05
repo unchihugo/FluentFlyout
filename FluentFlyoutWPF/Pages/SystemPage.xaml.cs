@@ -198,6 +198,11 @@ public partial class SystemPage : Page
         }
     }
 
+    private void AppFiltering_Click(object sender, System.Windows.RoutedEventArgs e)
+    {
+        SettingsWindow.NavigateToPage(typeof(AppFilteringPage));
+    }
+
     private void Advanced_Click(object sender, System.Windows.RoutedEventArgs e)
     {
         SettingsWindow.NavigateToPage(typeof(AdvancedPage));

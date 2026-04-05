@@ -35,7 +35,6 @@
 			<ui:NavigationView.MenuItems>
 				<ui:NavigationViewItem Content="{DynamicResource HomeTitle}" Icon="{ui:SymbolIcon Home24}" TargetPageType="{x:Type pages:HomePage}" />
 				<ui:NavigationViewItem Content="{DynamicResource MediaFlyoutTitle}" Icon="{ui:SymbolIcon VideoPlayPause24}" TargetPageType="{x:Type pages:MediaFlyoutPage}" />
-				<ui:NavigationViewItem Content="{DynamicResource AppFilteringTitle}" Icon="{ui:SymbolIcon AppsList24}" TargetPageType="{x:Type pages:AppFilteringPage}" />
 				<ui:NavigationViewItem Content="{DynamicResource TaskbarWidgetCustomizationTitle}" Icon="{ui:SymbolIcon TextboxAlignBottom24}" TargetPageType="{x:Type pages:TaskbarWidgetPage}" />
 				<ui:NavigationViewItem Content="{DynamicResource NextUpCustomizationTitle}" Icon="{ui:SymbolIcon MusicNote2Play20}" TargetPageType="{x:Type pages:NextUpPage}" />
 				<ui:NavigationViewItem Content="{DynamicResource LockKeysCustomizationTitle}" Icon="{ui:SymbolIcon LockMultiple24}" TargetPageType="{x:Type pages:LockKeysPage}" />

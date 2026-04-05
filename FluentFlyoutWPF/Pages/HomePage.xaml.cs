@@ -155,11 +155,6 @@ public partial class HomePage : Page
         SettingsWindow.NavigateToPage(typeof(TaskbarVisualizerPage));
     }
 
-    private void AppFiltering_Click(object sender, System.Windows.RoutedEventArgs e)
-    {
-        SettingsWindow.NavigateToPage(typeof(AppFilteringPage));
-    }
-
     private void System_Click(object sender, System.Windows.RoutedEventArgs e)
     {
         SettingsWindow.NavigateToPage(typeof(SystemPage));
