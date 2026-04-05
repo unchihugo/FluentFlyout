@@ -229,4 +229,8 @@
     <system:String x:Key="TrayIconLeftClickOption2"> Показати спливаюче меню медіа</system:String>
     <system:String x:Key="AdvancedSettingsTitle">Розширені налаштування</system:String>
     <system:String x:Key="NextUpWindow_UpNextText">Далі:</system:String>
+    <system:String x:Key="TaskbarWidgetAutoHideTitle">Приховувати віджет</system:String>
+    <system:String x:Key="TaskbarWidgetAutoHideDescription">Приховувати віджет автоматично, коли медіа на паузі</system:String>
+    <system:String x:Key="LockKeysAnimatedTitle">Анімації індикатора</system:String>
+    <system:String x:Key="LockKeysAnimatedDescription">Увімкнути ледь помітну анімацію для індикатора клавіш блокування</system:String>
 </ResourceDictionary>
