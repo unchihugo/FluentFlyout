@@ -235,11 +235,12 @@ public partial class MainWindow : MicaWindow
         if (!SettingsManager.Current.AppFilteringEnabled) return true;
 
         string appId = session.Id ?? string.Empty;
+        string appName = MediaPlayerData.getMediaPlayerData(appId).Item1 ?? appId;
 
-        if (SettingsManager.Current.BlockedApps != null && SettingsManager.Current.BlockedApps.Any(b => appId.Contains(b, StringComparison.OrdinalIgnoreCase)))
+        if (SettingsManager.Current.BlockedApps != null && SettingsManager.Current.BlockedApps.Any(b => appName.Contains(b, StringComparison.OrdinalIgnoreCase) || appId.Contains(b, StringComparison.OrdinalIgnoreCase)))
             return false;
 
-        if (SettingsManager.Current.AllowedApps != null && SettingsManager.Current.AllowedApps.Count > 0 && !SettingsManager.Current.AllowedApps.Any(a => appId.Contains(a, StringComparison.OrdinalIgnoreCase)))
+        if (SettingsManager.Current.AllowedApps != null && SettingsManager.Current.AllowedApps.Count > 0 && !SettingsManager.Current.AllowedApps.Any(a => appName.Contains(a, StringComparison.OrdinalIgnoreCase) || appId.Contains(a, StringComparison.OrdinalIgnoreCase)))
             return false;
 
         return true;
@@ -571,26 +572,22 @@ public partial class MainWindow : MicaWindow
 #endif     
         pauseOtherMediaSessionsIfNeeded(mediaSession);
 
-        var taskbarSession = GetActiveMediaSession();
-        if (taskbarSession == null)
+        var focusedSession = GetActiveMediaSession();
+        if (focusedSession == null)
         {
             taskbarWindow?.UpdateUi("-", "-", null, GlobalSystemMediaTransportControlsSessionPlaybackStatus.Closed);
+            return;
         }
-        else
+
+        var tbSongInfo = TryGetMediaProperties(focusedSession.ControlSession);
+        if (tbSongInfo != null)
         {
-            var tbSongInfo = TryGetMediaProperties(taskbarSession.ControlSession);
-            if (tbSongInfo != null)
-            {
-                var tbThumbnail = BitmapHelper.GetThumbnail(tbSongInfo.Thumbnail);
-                BitmapHelper.GetDominantColors(1);
-                var tbPlayback = taskbarSession.ControlSession.GetPlaybackInfo();
+            var tbThumbnail = BitmapHelper.GetThumbnail(tbSongInfo.Thumbnail);
+            BitmapHelper.GetDominantColors(1);
+            var tbPlayback = focusedSession.ControlSession.GetPlaybackInfo();
 
-                taskbarWindow?.UpdateUi(tbSongInfo.Title, tbSongInfo.Artist, tbThumbnail, tbPlayback?.PlaybackStatus, tbPlayback?.Controls);
-            }
+            taskbarWindow?.UpdateUi(tbSongInfo.Title, tbSongInfo.Artist, tbThumbnail, tbPlayback?.PlaybackStatus, tbPlayback?.Controls);
         }
-
-        var focusedSession = GetActiveMediaSession();
-        if (focusedSession == null) return;
 
         if (IsVisible)
         {
@@ -639,23 +636,8 @@ public partial class MainWindow : MicaWindow
 
         var thumbnail = BitmapHelper.GetThumbnail(songInfo.Thumbnail);
         BitmapHelper.GetDominantColors(1);
-        
-        var taskbarSession = GetActiveMediaSession();
-        if (taskbarSession != null)
-        {
-            var tbSongInfo = TryGetMediaProperties(taskbarSession.ControlSession);
-            if (tbSongInfo != null)
-            {
-                var tbThumbnail = BitmapHelper.GetThumbnail(tbSongInfo.Thumbnail);
-                var tbPlayback = taskbarSession.ControlSession.GetPlaybackInfo();
 
-                taskbarWindow?.UpdateUi(tbSongInfo.Title, tbSongInfo.Artist, tbThumbnail, tbPlayback?.PlaybackStatus, tbPlayback?.Controls);
-            }
-        }
-        else
-        {
-            taskbarWindow?.UpdateUi("-", "-", null, GlobalSystemMediaTransportControlsSessionPlaybackStatus.Closed);
-        }
+        taskbarWindow?.UpdateUi(songInfo.Title, songInfo.Artist, thumbnail, playbackInfo.PlaybackStatus, playbackInfo.Controls);
 
         pauseOtherMediaSessionsIfNeeded(mediaSession);
 
