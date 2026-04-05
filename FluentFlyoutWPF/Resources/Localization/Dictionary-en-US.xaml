@@ -128,6 +128,8 @@ Note: As an open-source project, these features are also available for free via 
     <System:String x:Key="MonitorWithCursor">Monitor with cursor</System:String>
     <System:String x:Key="EnableInsertKeyTitle">Enable Insert Key Popup</System:String>
     <System:String x:Key="EnableInsertKeyDescription">Determines whether pressing insert/overwrite will show the flyout</System:String>
+    <System:String x:Key="LockKeysAnimatedTitle">Indicator Animations</System:String>
+    <System:String x:Key="LockKeysAnimatedDescription">Enable subtle animations for the lock key indicator</System:String>
     <System:String x:Key="SystemSettingsTitle">System</System:String>
     <System:String x:Key="LaunchOnStartupTitle">Launch on Startup</System:String>
     <System:String x:Key="LaunchOnStartupDescription">Start minimized to tray when you log in to Windows</System:String>

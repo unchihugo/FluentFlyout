@@ -4,9 +4,9 @@
 using FluentFlyout.Classes;
 using FluentFlyout.Classes.Settings;
 using FluentFlyoutWPF.Classes;
-using FluentFlyoutWPF.Classes.Utils;
 using MicaWPF.Controls;
 using System.Windows;
+using System.Windows.Media.Animation;
 using static FluentFlyoutWPF.Classes.Utils.MonitorUtil;
 
 
@@ -18,9 +18,9 @@ namespace FluentFlyoutWPF.Windows;
 public partial class LockWindow : MicaWindow
 {
     private CancellationTokenSource cts;
-    MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+    private MainWindow _mainWindow = (MainWindow)Application.Current.MainWindow;
     private bool _isHiding = true;
-    private MonitorUtil.MonitorInfo _openedMonitor;
+    private MonitorInfo _openedMonitor;
 
     public LockWindow()
     {
@@ -51,17 +51,49 @@ public partial class LockWindow : MicaWindow
 
             LockTextBlock.FontWeight = SettingsManager.Current.LockKeysBoldUi ? FontWeights.Medium : FontWeights.Normal;
 
+            double targetOpacity = isOn ? 1.0 : 0.2;
+            double targetWidth = isOn ? 60.0 : 36.0;
+
             if (isOn)
             {
-                LockIndicatorRectangle.Opacity = 1;
                 if (SettingsManager.Current.LockKeysBoldUi) LockSymbol.Symbol = Wpf.Ui.Controls.SymbolRegular.LockClosed24;
                 else LockSymbol.Symbol = Wpf.Ui.Controls.SymbolRegular.LockClosed20;
             }
             else
             {
-                LockIndicatorRectangle.Opacity = 0.2;
                 if (SettingsManager.Current.LockKeysBoldUi) LockSymbol.Symbol = Wpf.Ui.Controls.SymbolRegular.LockOpen24;
                 else LockSymbol.Symbol = Wpf.Ui.Controls.SymbolRegular.LockOpen20;
+            }
+
+            int msDuration = (int)(MainWindow.getDuration() / 1.5);
+
+            if (SettingsManager.Current.LockKeysAnimated)
+            {
+                // animate indicator opacity
+                var opacityAnim = new DoubleAnimation
+                {
+                    To = targetOpacity,
+                    Duration = TimeSpan.FromMilliseconds(msDuration),
+                    EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseOut }
+                };
+                LockIndicatorRectangle.BeginAnimation(OpacityProperty, opacityAnim);
+
+                // animate indicator width
+                var widthAnim = new DoubleAnimation
+                {
+                    To = targetWidth,
+                    Duration = TimeSpan.FromMilliseconds(msDuration),
+                    EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseOut }
+                };
+                LockIndicatorRectangle.BeginAnimation(WidthProperty, widthAnim);
+            }
+            else
+            {
+                LockIndicatorRectangle.BeginAnimation(OpacityProperty, null);
+                LockIndicatorRectangle.BeginAnimation(WidthProperty, null);
+
+                LockIndicatorRectangle.Opacity = targetOpacity;
+                LockIndicatorRectangle.Width = targetWidth;
             }
         });
     }
@@ -82,7 +114,7 @@ public partial class LockWindow : MicaWindow
         // lengthen the window width to fit longer translated texts
         if (LocalizationManager.LanguageCode != "en")
         {
-            Width = LocalizationManager.maxLength + 45.0; //Max length of the text + extra space for the icon and padding
+            Width = LocalizationManager.maxLength + 56.0; //Max length of the text + extra space for the icon and padding
         }
         else
         {
@@ -95,7 +127,7 @@ public partial class LockWindow : MicaWindow
         {
             _isHiding = false;
             _openedMonitor = GetPreferredTargetDisplay();
-            mainWindow.OpenAnimation(this, true, _openedMonitor);
+            _mainWindow.OpenAnimation(this, true, _openedMonitor);
         }
         cts.Cancel();
         cts = new CancellationTokenSource();
@@ -106,9 +138,9 @@ public partial class LockWindow : MicaWindow
             while (!token.IsCancellationRequested)
             {
                 await Task.Delay(SettingsManager.Current.LockKeysDuration, token);
-                mainWindow.CloseAnimation(this, true, _openedMonitor);
+                _mainWindow.CloseAnimation(this, true, _openedMonitor);
                 _isHiding = true;
-                await Task.Delay(mainWindow.getDuration());
+                await Task.Delay(MainWindow.getDuration());
                 if (_isHiding == false) return;
 
                 WindowHelper.SetVisibility(this, false);
