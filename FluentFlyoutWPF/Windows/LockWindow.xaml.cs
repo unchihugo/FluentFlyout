@@ -28,6 +28,7 @@ public partial class LockWindow : MicaWindow
         WindowHelper.SetNoActivate(this);
         InitializeComponent();
         WindowHelper.SetTopmost(this);
+        CustomWindowChrome.CaptionHeight = 0;
 
         WindowStartupLocation = WindowStartupLocation.Manual;
         Top = -9999; // start off-screen
@@ -54,16 +55,8 @@ public partial class LockWindow : MicaWindow
             double targetOpacity = isOn ? 1.0 : 0.2;
             double targetWidth = isOn ? 60.0 : 36.0;
 
-            if (isOn)
-            {
-                if (SettingsManager.Current.LockKeysBoldUi) LockSymbol.Symbol = Wpf.Ui.Controls.SymbolRegular.LockClosed24;
-                else LockSymbol.Symbol = Wpf.Ui.Controls.SymbolRegular.LockClosed20;
-            }
-            else
-            {
-                if (SettingsManager.Current.LockKeysBoldUi) LockSymbol.Symbol = Wpf.Ui.Controls.SymbolRegular.LockOpen24;
-                else LockSymbol.Symbol = Wpf.Ui.Controls.SymbolRegular.LockOpen20;
-            }
+            double targetShackleAngle = isOn ? 0.0 : 25.0;
+            double targetShackleBounceY = 0.0;
 
             int msDuration = (int)(MainWindow.getDuration() / 1.5);
 
@@ -86,14 +79,39 @@ public partial class LockWindow : MicaWindow
                     EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseOut }
                 };
                 LockIndicatorRectangle.BeginAnimation(WidthProperty, widthAnim);
+
+                // animate shackle rotation (open/close)
+                var rotationAnim = new DoubleAnimation
+                {
+                    To = targetShackleAngle,
+                    Duration = TimeSpan.FromMilliseconds(msDuration),
+                    EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut }
+                };
+                ShackleRotation.BeginAnimation(System.Windows.Media.RotateTransform.AngleProperty, rotationAnim);
+
+                // animate shackle bounce
+                var bounceAnim = new DoubleAnimationUsingKeyFrames
+                {
+                    Duration = TimeSpan.FromMilliseconds(msDuration)
+                };
+                bounceAnim.KeyFrames.Add(new EasingDoubleKeyFrame(1, KeyTime.FromPercent(0.1),
+                    new CubicEase { EasingMode = EasingMode.EaseOut }));
+                bounceAnim.KeyFrames.Add(new EasingDoubleKeyFrame(targetShackleBounceY, KeyTime.FromPercent(1.0),
+                    new CubicEase { EasingMode = EasingMode.EaseInOut }));
+                ShackleBounce.BeginAnimation(System.Windows.Media.TranslateTransform.YProperty, bounceAnim);
+
             }
             else
             {
                 LockIndicatorRectangle.BeginAnimation(OpacityProperty, null);
                 LockIndicatorRectangle.BeginAnimation(WidthProperty, null);
+                ShackleRotation.BeginAnimation(System.Windows.Media.RotateTransform.AngleProperty, null);
+                ShackleBounce.BeginAnimation(System.Windows.Media.TranslateTransform.YProperty, null);
 
                 LockIndicatorRectangle.Opacity = targetOpacity;
                 LockIndicatorRectangle.Width = targetWidth;
+                ShackleRotation.Angle = targetShackleAngle;
+                ShackleBounce.Y = targetShackleBounceY;
             }
         });
     }
