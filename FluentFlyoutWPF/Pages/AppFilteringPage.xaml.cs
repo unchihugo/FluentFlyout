@@ -50,11 +50,30 @@ public partial class AppFilteringPage : Page
         PopulateComboBox(BlockComboBox);
     }
 
+    private static string NormalizeAppName(string app)
+    {
+        if (app.EndsWith(".exe", System.StringComparison.OrdinalIgnoreCase))
+        {
+            app = app[..^4];
+        }
+
+        var mainWindow = Application.Current.MainWindow as MainWindow;
+        if (mainWindow?.mediaManager == null) return app;
+
+        var match = mainWindow.mediaManager.CurrentMediaSessions.Values
+            .Select(s => MediaPlayerData.getMediaPlayerData(s.Id).Item1)
+            .FirstOrDefault(name => name.Equals(app, System.StringComparison.OrdinalIgnoreCase) || 
+                                    name.Contains(app, System.StringComparison.OrdinalIgnoreCase) || 
+                                    app.Contains(name, System.StringComparison.OrdinalIgnoreCase));
+
+        return match ?? app;
+    }
+
     private void AddAllow_Click(object sender, RoutedEventArgs e) 
     {
         var app = AllowComboBox.SelectedItem?.ToString()?.Trim();
 
-        if (string.IsNullOrEmpty(app) || SettingsManager.Current.AllowedApps.Contains(app)) return;
+        if (string.IsNullOrEmpty(app) || SettingsManager.Current.AllowedApps.Any(a => a.Equals(app, System.StringComparison.OrdinalIgnoreCase))) return;
 
         SettingsManager.Current.AllowedApps.Add(app);
         AllowComboBox.SelectedIndex = -1;
@@ -68,10 +87,7 @@ public partial class AppFilteringPage : Page
 
         if (string.IsNullOrEmpty(app)) return;
 
-        if (app.EndsWith(".exe", System.StringComparison.OrdinalIgnoreCase))
-        {
-            app = app[..^4];
-        }
+        app = NormalizeAppName(app);
 
         if (SettingsManager.Current.AllowedApps.Any(a => a.Equals(app, System.StringComparison.OrdinalIgnoreCase))) return;
 
@@ -93,7 +109,7 @@ public partial class AppFilteringPage : Page
     {
         var app = BlockComboBox.SelectedItem?.ToString()?.Trim();
 
-        if (string.IsNullOrEmpty(app) || SettingsManager.Current.BlockedApps.Contains(app)) return;
+        if (string.IsNullOrEmpty(app) || SettingsManager.Current.BlockedApps.Any(b => b.Equals(app, System.StringComparison.OrdinalIgnoreCase))) return;
 
         SettingsManager.Current.BlockedApps.Add(app);
         BlockComboBox.SelectedIndex = -1;
@@ -107,10 +123,7 @@ public partial class AppFilteringPage : Page
 
         if (string.IsNullOrEmpty(app)) return;
 
-        if (app.EndsWith(".exe", System.StringComparison.OrdinalIgnoreCase))
-        {
-            app = app[..^4];
-        }
+        app = NormalizeAppName(app);
 
         if (SettingsManager.Current.BlockedApps.Any(b => b.Equals(app, System.StringComparison.OrdinalIgnoreCase))) return;
 
