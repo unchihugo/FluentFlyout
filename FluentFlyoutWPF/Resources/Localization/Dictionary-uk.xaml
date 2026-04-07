@@ -114,7 +114,7 @@
     <system:String x:Key="TaskbarWidgetControlsPositionTitle">Позиція кнопок керування</system:String>
     <system:String x:Key="TaskbarWidgetControlsPositionDescription">Де розташувати кнопки керування</system:String>
     <system:String x:Key="PositionLeft">Зліва</system:String>
-    <system:String x:Key="PositionRight">Справа</system:String>
+    <system:String x:Key="PositionRight">Праворуч</system:String>
     <system:String x:Key="TaskbarWidgetAnimatedTitle">Анімації віджету</system:String>
     <system:String x:Key="TaskbarWidgetAnimatedDescription">Вмикає деякі ненав'язливі анімації віджету</system:String>
     <system:String x:Key="TaskbarVisualizerTitle">Візуалізатор на панелі завдань</system:String>
