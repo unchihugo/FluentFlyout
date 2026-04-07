@@ -146,7 +146,7 @@
     <system:String x:Key="AllFuturePremiumFeatures">Всі майбутні Преміальні функції</system:String>
     <system:String x:Key="NextUpDescription" xml:space="preserve">Спливаюче вікно, що буде показувати наступне медіа після завершення поточного. З'являється тільки при автоматичному переході, тобто не з'явиться якщо натиснути "Далі" або "Назад".</system:String>
     <system:String x:Key="EnableNextUpTitle">Увімкнути спливаюче вікно "Далі"</system:String>
-    <system:String x:Key="DefaultLockLayoutPosition">За замовчуванням (Цільовий дисплей спливаючого вікна)</system:String>
+    <system:String x:Key="DefaultLockLayoutPosition">За замовчуванням (Цільовий дисплей спливаючого меню)</system:String>
     <system:String x:Key="LaunchOnStartupTitle">Запускати разом з Windows</system:String>
     <system:String x:Key="EasingLinear" xml:space="preserve"> Лінійний</system:String>
     <system:String x:Key="EasingSine" xml:space="preserve"> Синусоїдальний</system:String>
@@ -203,7 +203,7 @@
     <system:String x:Key="AcrylicBlurOpacityDescription">Налаштування ефекту прозорості на акрилових спливаючих вікнах (за замовчуванням: 175)</system:String>
     <system:String x:Key="AcrylicBlurOpacityTitle">Непрозорість акрилового розмиття</system:String>
     <system:String x:Key="HomeUpdateDescription">Що нового</system:String>
-    <system:String x:Key="TrayIconSectionTitle">Піктограма в треї</system:String>
+    <system:String x:Key="TrayIconSectionTitle">Піктограма в лотку</system:String>
     <system:String x:Key="SystemConfigure">Налаштувати</system:String>
     <system:String x:Key="AboutTitle">Про застосунок</system:String>
     <system:String x:Key="AboutContributorsTitle">❤️ Познайомтеся з нашими авторами</system:String>
