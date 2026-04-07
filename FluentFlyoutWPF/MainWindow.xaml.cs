@@ -229,7 +229,7 @@ public partial class MainWindow : MicaWindow
         }
     }
 
-    public bool IsSessionAllowed(MediaSession? session)
+    public bool IsSessionAllowed(MediaSession? session) 
     {
         if (session == null) return false;
         if (!SettingsManager.Current.AppFilteringEnabled) return true;
@@ -237,13 +237,24 @@ public partial class MainWindow : MicaWindow
         string appId = session.Id ?? string.Empty;
         string appName = MediaPlayerData.getMediaPlayerData(appId).Item1 ?? appId;
 
-        if (SettingsManager.Current.BlockedApps != null && SettingsManager.Current.BlockedApps.Any(b => appName.Contains(b, StringComparison.OrdinalIgnoreCase) || appId.Contains(b, StringComparison.OrdinalIgnoreCase)))
-            return false;
+        if (SettingsManager.Current.AppFilteringMode == 0) // Blacklist mode
+        {
+            if (SettingsManager.Current.BlockedApps != null && SettingsManager.Current.BlockedApps.Any(b =>
+                    appName.Contains(b, StringComparison.OrdinalIgnoreCase) ||
+                    appId.Contains(b, StringComparison.OrdinalIgnoreCase)))
+                return false;
 
-        if (SettingsManager.Current.AllowedApps != null && SettingsManager.Current.AllowedApps.Count > 0 && !SettingsManager.Current.AllowedApps.Any(a => appName.Contains(a, StringComparison.OrdinalIgnoreCase) || appId.Contains(a, StringComparison.OrdinalIgnoreCase)))
-            return false;
+            return true;
+        }
+        else // Whitelist mode
+        {
+            if (SettingsManager.Current.AllowedApps != null && SettingsManager.Current.AllowedApps.Any(a =>
+                    appName.Contains(a, StringComparison.OrdinalIgnoreCase) ||
+                    appId.Contains(a, StringComparison.OrdinalIgnoreCase)))
+                return true;
 
-        return true;
+            return false;
+        }
     }
 
     public MediaSession? GetActiveMediaSession()

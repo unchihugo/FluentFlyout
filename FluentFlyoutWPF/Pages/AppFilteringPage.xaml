@@ -6,12 +6,17 @@
       xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
       xmlns:controls="clr-namespace:MicaWPF.Controls;assembly=MicaWPF"
       xmlns:viewModels="clr-namespace:FluentFlyoutWPF.ViewModels"
+      xmlns:converters="clr-namespace:FluentFlyoutWPF.Classes.Converters"
       mc:Ignorable="d"
       d:DesignHeight="800" d:DesignWidth="600"
       Title="AppFilteringPage"
       d:DataContext="{d:DesignInstance viewModels:UserSettings}"
       Foreground="{DynamicResource TextFillColorPrimaryBrush}"
       d:Background="White">
+
+    <Page.Resources>
+        <converters:AppNameIconConverter x:Key="AppNameIconConverter" />
+    </Page.Resources>
 
     <StackPanel MaxWidth="1000" Margin="16">
         <TextBlock Text="{DynamicResource AppFilteringRulesTitle}" FontSize="24" FontWeight="SemiBold" Margin="0,0,0,20" />
@@ -24,6 +29,30 @@
                 </StackPanel>
             </ui:CardControl.Header>
             <controls:ToggleSwitch IsChecked="{Binding AppFilteringEnabled, Mode=TwoWay}" />
+        </ui:CardControl>
+
+        <ui:CardControl Icon="{ui:SymbolIcon AppsList24}" Margin="0,0,0,24">
+            <ui:CardControl.Style>
+                <Style TargetType="ui:CardControl">
+                    <Setter Property="Opacity" Value="1"/>
+                    <Setter Property="IsEnabled" Value="True"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding AppFilteringEnabled}" Value="False">
+                            <Setter Property="Opacity" Value="0.4"/>
+                            <Setter Property="IsEnabled" Value="False"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </ui:CardControl.Style>
+            <ui:CardControl.Header>
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Text="{DynamicResource AppFilteringModeTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
+                </StackPanel>
+            </ui:CardControl.Header>
+            <ComboBox SelectedIndex="{Binding AppFilteringMode, Mode=TwoWay}" MinWidth="250" MinHeight="36" Padding="16,8,16,8">
+                <ComboBoxItem Content="{DynamicResource AppFilteringModeBlacklist}" Padding="16,8,16,8" />
+                <ComboBoxItem Content="{DynamicResource AppFilteringModeWhitelist}" Padding="16,8,16,8" />
+            </ComboBox>
         </ui:CardControl>
 
         <Grid IsEnabled="{Binding AppFilteringEnabled}">
@@ -43,7 +72,17 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <Border Grid.Column="0" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1" CornerRadius="8" Padding="16" VerticalAlignment="Top">
+            <Border Grid.Column="0" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1" CornerRadius="8" Padding="16" VerticalAlignment="Top" Grid.ColumnSpan="3">
+                <Border.Style>
+                    <Style TargetType="Border">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding AppFilteringMode}" Value="1">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
@@ -65,20 +104,33 @@
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
-                        <ComboBox Grid.Column="0" IsEditable="False" x:Name="AllowComboBox" HorizontalAlignment="Stretch" DropDownOpened="AllowComboBox_DropDownOpened" Margin="0,0,8,0" />
+                        <ComboBox Grid.Column="0" IsEditable="False" x:Name="AllowComboBox" HorizontalAlignment="Stretch" DropDownOpened="AllowComboBox_DropDownOpened" Margin="0,0,8,0" MinHeight="36" Padding="16,8,16,8">
+                            <ComboBox.ItemContainerStyle>
+                                <Style TargetType="ComboBoxItem" BasedOn="{StaticResource {x:Type ComboBoxItem}}">
+                                    <Setter Property="Padding" Value="16,8,16,8" />
+                                </Style>
+                            </ComboBox.ItemContainerStyle>
+                        </ComboBox>
                         <ui:Button Grid.Column="1" Content="{DynamicResource AddButton}" Click="AddAllow_Click" Appearance="Primary" />
                     </Grid>
 
                     <ListBox Grid.Row="2" ItemsSource="{Binding AllowedApps}" MinHeight="150" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch">
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="ListBoxItem" BasedOn="{StaticResource {x:Type ListBoxItem}}">
+                                <Setter Property="Focusable" Value="False" />
+                            </Style>
+                        </ListBox.ItemContainerStyle>
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <Grid HorizontalAlignment="Stretch">
                                     <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
-                                    <TextBlock Text="{Binding}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
-                                    <ui:Button Grid.Column="1" Content="{DynamicResource RemoveButton}" Click="RemoveAllow_Click" Tag="{Binding}" Margin="8,0,0,0" Padding="8,4" />
+                                    <Image Source="{Binding Converter={StaticResource AppNameIconConverter}}" Width="16" Height="16" Margin="4,0,12,0" VerticalAlignment="Center"/>
+                                    <TextBlock Grid.Column="1" Text="{Binding}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
+                                    <ui:Button Grid.Column="2" Content="{DynamicResource RemoveButton}" Click="RemoveAllow_Click" Tag="{Binding}" Margin="8,0,0,0" Padding="8,4" />
                                 </Grid>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
@@ -99,7 +151,17 @@
                 </Grid>
             </Border>
 
-            <Border Grid.Column="2" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1" CornerRadius="8" Padding="16" VerticalAlignment="Top">
+            <Border Grid.Column="0" Grid.ColumnSpan="3" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1" CornerRadius="8" Padding="16" VerticalAlignment="Top">
+                <Border.Style>
+                    <Style TargetType="Border">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding AppFilteringMode}" Value="0">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
@@ -121,20 +183,33 @@
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
-                        <ComboBox Grid.Column="0" IsEditable="False" x:Name="BlockComboBox" HorizontalAlignment="Stretch" DropDownOpened="BlockComboBox_DropDownOpened" Margin="0,0,8,0" />
+                        <ComboBox Grid.Column="0" IsEditable="False" x:Name="BlockComboBox" HorizontalAlignment="Stretch" DropDownOpened="BlockComboBox_DropDownOpened" Margin="0,0,8,0" MinHeight="36" Padding="16,8,16,8">
+                            <ComboBox.ItemContainerStyle>
+                                <Style TargetType="ComboBoxItem" BasedOn="{StaticResource {x:Type ComboBoxItem}}">
+                                    <Setter Property="Padding" Value="16,8,16,8" />
+                                </Style>
+                            </ComboBox.ItemContainerStyle>
+                        </ComboBox>
                         <ui:Button Grid.Column="1" Content="{DynamicResource AddButton}" Click="AddBlock_Click" Appearance="Primary" />
                     </Grid>
 
                     <ListBox Grid.Row="2" ItemsSource="{Binding BlockedApps}" MinHeight="150" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch">
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="ListBoxItem" BasedOn="{StaticResource {x:Type ListBoxItem}}">
+                                <Setter Property="Focusable" Value="False" />
+                            </Style>
+                        </ListBox.ItemContainerStyle>
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <Grid HorizontalAlignment="Stretch">
                                     <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
-                                    <TextBlock Text="{Binding}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
-                                    <ui:Button Grid.Column="1" Content="{DynamicResource RemoveButton}" Click="RemoveBlock_Click" Tag="{Binding}" Margin="8,0,0,0" Padding="8,4" />
+                                    <Image Source="{Binding Converter={StaticResource AppNameIconConverter}}" Width="16" Height="16" Margin="4,0,12,0" VerticalAlignment="Center"/>
+                                    <TextBlock Grid.Column="1" Text="{Binding}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
+                                    <ui:Button Grid.Column="2" Content="{DynamicResource RemoveButton}" Click="RemoveBlock_Click" Tag="{Binding}" Margin="8,0,0,0" Padding="8,4" />
                                 </Grid>
                             </DataTemplate>
                         </ListBox.ItemTemplate>

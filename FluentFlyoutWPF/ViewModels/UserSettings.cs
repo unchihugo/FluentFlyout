@@ -434,6 +434,12 @@ public partial class UserSettings : ObservableObject
     public partial bool AppFilteringEnabled { get; set; }
 
     /// <summary>
+    /// Returns the active filtering mode. 0 for Blacklist, 1 for Whitelist.
+    /// </summary>
+    [ObservableProperty]
+    public partial int AppFilteringMode { get; set; }
+
+    /// <summary>
     /// Returns a list of apps that are allowed to display media/update the taskbar.
     /// </summary>
     [ObservableProperty]
@@ -598,6 +604,7 @@ public partial class UserSettings : ObservableObject
         TaskbarWidgetAnimated = true;
         TaskbarVisualizerEnabled = false;
         AppFilteringEnabled = false;
+        AppFilteringMode = 0;
         TaskbarVisualizerPosition = 1;
         TaskbarVisualizerClickable = false;
         TaskbarVisualizerBarCount = 10;
@@ -752,6 +759,14 @@ public partial class UserSettings : ObservableObject
     }
 
     partial void OnAppFilteringEnabledChanged(bool oldValue, bool newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+
+        MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+        mainWindow?.RefreshFilteredMedia();
+    }
+
+    partial void OnAppFilteringModeChanged(int oldValue, int newValue)
     {
         if (oldValue == newValue || _initializing) return;
 
