@@ -50,9 +50,8 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
                         <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
-                    
+
                     <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,16">
                         <ui:SymbolIcon Symbol="CheckmarkCircle24" FontSize="28" Margin="0,0,12,0" Foreground="{DynamicResource SystemFillColorSuccessBrush}"/>
                         <StackPanel VerticalAlignment="Center" Margin="0,1,0,0">
@@ -60,7 +59,7 @@
                             <TextBlock Text="{DynamicResource AllowedAppsDescription}" FontSize="12" Opacity="0.6" TextWrapping="Wrap" Margin="0,2,0,0" />
                         </StackPanel>
                     </StackPanel>
-                    
+
                     <Grid Grid.Row="1" Margin="0,0,0,12">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
@@ -85,15 +84,18 @@
                         </ListBox.ItemTemplate>
                     </ListBox>
 
-                    <TextBlock Grid.Row="3" Text="{DynamicResource AddAppManuallyText}" FontSize="12" Opacity="0.6" Margin="0,16,0,8" />
-                    <Grid Grid.Row="4" Margin="0,0,0,0">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
-                        <ui:TextBox Grid.Column="0" x:Name="AllowTextBox" PlaceholderText="{DynamicResource AppFilteringPlaceholderSpotify}" HorizontalAlignment="Stretch" Margin="0,0,8,0" ClearButtonEnabled="False" />
-                        <ui:Button Grid.Column="1" Content="{DynamicResource AddButton}" Click="AddAllowManual_Click" />
-                    </Grid>
+                    <StackPanel Grid.Row="3" Margin="0,16,0,0">
+                        <Border Height="1" Background="{DynamicResource CardStrokeColorDefaultBrush}" Margin="0,0,0,12" />
+                        <TextBlock Text="{DynamicResource AddAppManuallyText}" FontSize="12" Opacity="0.65" Margin="0,0,0,8" />
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <ui:TextBox Grid.Column="0" x:Name="AllowTextBox" PlaceholderText="{DynamicResource AppFilteringPlaceholderSpotify}" HorizontalAlignment="Stretch" Margin="0,0,8,0" ClearButtonEnabled="False" />
+                            <ui:Button Grid.Column="1" Content="{DynamicResource AddButton}" Click="AddAllowManual_Click" Appearance="Secondary" />
+                        </Grid>
+                    </StackPanel>
                 </Grid>
             </Border>
 
@@ -104,9 +106,8 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
                         <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
-                    
+
                     <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,16">
                         <ui:SymbolIcon Symbol="Prohibited24" FontSize="28" Margin="0,0,12,0" Foreground="{DynamicResource SystemFillColorCriticalBrush}"/>
                         <StackPanel VerticalAlignment="Center" Margin="0,1,0,0">
@@ -114,7 +115,7 @@
                             <TextBlock Text="{DynamicResource BlockedAppsDescription}" FontSize="12" Opacity="0.6" TextWrapping="Wrap" Margin="0,2,0,0" />
                         </StackPanel>
                     </StackPanel>
-                    
+
                     <Grid Grid.Row="1" Margin="0,0,0,12">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
@@ -139,15 +140,18 @@
                         </ListBox.ItemTemplate>
                     </ListBox>
 
-                    <TextBlock Grid.Row="3" Text="{DynamicResource AddAppManuallyText}" FontSize="12" Opacity="0.6" Margin="0,16,0,8" />
-                    <Grid Grid.Row="4" Margin="0,0,0,0">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
-                        <ui:TextBox Grid.Column="0" x:Name="BlockTextBox" PlaceholderText="{DynamicResource AppFilteringPlaceholderChrome}" HorizontalAlignment="Stretch" Margin="0,0,8,0" ClearButtonEnabled="False" />
-                        <ui:Button Grid.Column="1" Content="{DynamicResource AddButton}" Click="AddBlockManual_Click" />
-                    </Grid>
+                    <StackPanel Grid.Row="3" Margin="0,16,0,0">
+                        <Border Height="1" Background="{DynamicResource CardStrokeColorDefaultBrush}" Margin="0,0,0,12" />
+                        <TextBlock Text="{DynamicResource AddAppManuallyText}" FontSize="12" Opacity="0.65" Margin="0,0,0,8" />
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <ui:TextBox Grid.Column="0" x:Name="BlockTextBox" PlaceholderText="{DynamicResource AppFilteringPlaceholderChrome}" HorizontalAlignment="Stretch" Margin="0,0,8,0" ClearButtonEnabled="False" />
+                            <ui:Button Grid.Column="1" Content="{DynamicResource AddButton}" Click="AddBlockManual_Click" Appearance="Secondary" />
+                        </Grid>
+                    </StackPanel>
                 </Grid>
             </Border>
         </Grid>
