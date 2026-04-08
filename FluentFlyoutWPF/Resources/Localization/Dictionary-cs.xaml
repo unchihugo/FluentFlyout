@@ -217,7 +217,7 @@ Poznámka: Jelikož se jedná o open-source projekt, jsou tyto funkce k dispozic
     <system:String x:Key="ExportFailed">Export neúspěšný</system:String>
     <system:String x:Key="ImportSuccessful">Import úspěšný</system:String>
     <system:String x:Key="ImportFailed">Import selhal</system:String>
-    <system:String x:Key="SettingsExportedSuccessfully">Nastavení vyeexportované úspěšně</system:String>
+    <system:String x:Key="SettingsExportedSuccessfully">Nastavení úspěšně exportované!</system:String>
     <system:String x:Key="FailedToExportSettings">Export nastavení neproběhl vpořádku. Podívejte se logů pro více informací.</system:String>
     <system:String x:Key="SettingsImportedSuccessfully">Importování nastavení proběhlo úspěšně! Aplikace se nyní restartuje.</system:String>
     <system:String x:Key="ImportSettingsWarning">Toto přepíše vaše stávajicí nastavení. Pokračovat?</system:String>
