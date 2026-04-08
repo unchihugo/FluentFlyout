@@ -6,17 +6,12 @@
       xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
       xmlns:controls="clr-namespace:MicaWPF.Controls;assembly=MicaWPF"
       xmlns:viewModels="clr-namespace:FluentFlyoutWPF.ViewModels"
-      xmlns:converters="clr-namespace:FluentFlyoutWPF.Classes.Converters"
       mc:Ignorable="d"
       d:DesignHeight="800" d:DesignWidth="600"
       Title="AppFilteringPage"
       d:DataContext="{d:DesignInstance viewModels:UserSettings}"
       Foreground="{DynamicResource TextFillColorPrimaryBrush}"
       d:Background="White">
-
-    <Page.Resources>
-        <converters:AppNameIconConverter x:Key="AppNameIconConverter" />
-    </Page.Resources>
 
     <StackPanel MaxWidth="1000" Margin="16">
         <TextBlock Text="{DynamicResource AppFilteringRulesTitle}" FontSize="24" FontWeight="SemiBold" Margin="0,0,0,20" />
@@ -124,13 +119,11 @@
                             <DataTemplate>
                                 <Grid HorizontalAlignment="Stretch">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
-                                    <Image Source="{Binding Converter={StaticResource AppNameIconConverter}}" Width="16" Height="16" Margin="4,0,12,0" VerticalAlignment="Center"/>
-                                    <TextBlock Grid.Column="1" Text="{Binding}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
-                                    <ui:Button Grid.Column="2" Content="{DynamicResource RemoveButton}" Click="RemoveAllow_Click" Tag="{Binding}" Margin="8,0,0,0" Padding="8,4" />
+                                    <TextBlock Grid.Column="0" Text="{Binding}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
+                                    <ui:Button Grid.Column="1" Content="{DynamicResource RemoveButton}" Click="RemoveAllow_Click" Tag="{Binding}" Margin="8,0,0,0" Padding="8,4" />
                                 </Grid>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
@@ -203,13 +196,11 @@
                             <DataTemplate>
                                 <Grid HorizontalAlignment="Stretch">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
-                                    <Image Source="{Binding Converter={StaticResource AppNameIconConverter}}" Width="16" Height="16" Margin="4,0,12,0" VerticalAlignment="Center"/>
-                                    <TextBlock Grid.Column="1" Text="{Binding}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
-                                    <ui:Button Grid.Column="2" Content="{DynamicResource RemoveButton}" Click="RemoveBlock_Click" Tag="{Binding}" Margin="8,0,0,0" Padding="8,4" />
+                                    <TextBlock Grid.Column="0" Text="{Binding}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
+                                    <ui:Button Grid.Column="1" Content="{DynamicResource RemoveButton}" Click="RemoveBlock_Click" Tag="{Binding}" Margin="8,0,0,0" Padding="8,4" />
                                 </Grid>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
