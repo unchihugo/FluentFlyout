@@ -403,6 +403,12 @@ public partial class UserSettings : ObservableObject
     public partial bool TaskbarWidgetHideCompletely { get; set; }
 
     /// <summary>
+    /// Gets or sets a value indicating whether the pause icon overlay should be completely hidden from view.
+    /// </summary>
+    [ObservableProperty]
+    public partial bool TaskbarWidgetHidePauseOverlay { get; set; }
+
+    /// <summary>
     /// Whether taskbar widget controls (pause, previous, next) are enabled.
     /// </summary>
     [ObservableProperty]
@@ -575,6 +581,7 @@ public partial class UserSettings : ObservableObject
         TaskbarWidgetManualPadding = 0;
         TaskbarWidgetBackgroundBlur = false;
         TaskbarWidgetHideCompletely = false;
+        TaskbarWidgetHidePauseOverlay = false;
         TaskbarWidgetControlsEnabled = false;
         TaskbarWidgetControlsPosition = 1;
         TaskbarWidgetAnimated = true;
@@ -670,6 +677,12 @@ public partial class UserSettings : ObservableObject
     }
 
     partial void OnTaskbarWidgetHideCompletelyChanged(bool oldValue, bool newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+        UpdateTaskbar();
+    }
+
+    partial void OnTaskbarWidgetHidePauseOverlayChanged(bool oldValue, bool newValue)
     {
         if (oldValue == newValue || _initializing) return;
         UpdateTaskbar();
