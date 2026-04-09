@@ -245,4 +245,11 @@ You can help contribute translations on</System:String>
     <System:String x:Key="AdvancedSettingsTitle">Advanced Settings</System:String>
     <System:String x:Key="LegacyTaskbarWidthTitle">Legacy Taskbar Width System</System:String>
     <System:String x:Key="LegacyTaskbarWidthDescription">Use the legacy Taskbar width system for Taskbar Widgets</System:String>
+    <System:String x:Key="TaskbarWidgetScrollingTextTitle">Scroll Text</System:String>
+    <System:String x:Key="TaskbarWidgetScrollingTextDescription">Automatically scroll long text that doesn't fit in the widget</System:String>
+    <System:String x:Key="TaskbarWidgetScrollingTextLoopForeverTitle">Continuous Scrolling</System:String>
+    <System:String x:Key="TaskbarWidgetScrollingTextLoopForeverDescription">Infinitely loop the text in one direction instead of scrolling back and forth.</System:String>
+    <System:String x:Key="TaskbarWidgetScrollingTextSpeedTitle">Scroll Speed</System:String>
+    <System:String x:Key="TaskbarWidgetScrollingTextSpeedDescription">Speed at which the text scrolls (pixels/second). Default is 20.</System:String>
+    <System:String x:Key="TaskbarWidgetScrollingTextEnableTitle">Enable Scrolling</System:String>
 </ResourceDictionary>

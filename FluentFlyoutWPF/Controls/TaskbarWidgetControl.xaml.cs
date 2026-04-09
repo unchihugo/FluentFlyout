@@ -32,6 +32,12 @@ public partial class TaskbarWidgetControl : UserControl
     private string _cachedArtistText = string.Empty;
     private double _cachedTitleWidth = 0;
     private double _cachedArtistWidth = 0;
+    private double _cachedTitleContainerWidth = -1;
+    private double _cachedArtistContainerWidth = -1;
+    private bool _lastScrollingSetting = false;
+
+    private int _lastScrollingSpeed = 20;
+    private bool _lastScrollingLoop = true;
 
     // reference to main window for flyout functions
     private MainWindow? _mainWindow;
@@ -183,23 +189,55 @@ public partial class TaskbarWidgetControl : UserControl
         string currentTitle = SongTitle.Text;
         string currentArtist = SongArtist.Text;
 
+        bool textChanged = false;
+
         if (!string.Equals(currentTitle, _cachedTitleText, StringComparison.Ordinal))
         {
             _cachedTitleWidth = StringWidth.GetStringWidth(currentTitle, 400);
             _cachedTitleText = currentTitle;
+            textChanged = true;
         }
         if (!string.Equals(currentArtist, _cachedArtistText, StringComparison.Ordinal))
         {
             _cachedArtistWidth = StringWidth.GetStringWidth(currentArtist, 400);
             _cachedArtistText = currentArtist;
+            textChanged = true;
         }
 
         double logicalWidth = Math.Max(_cachedTitleWidth, _cachedArtistWidth) + 55; // add margin for cover image
         // maximum width limit, same as Windows native widget
         logicalWidth = Math.Min(logicalWidth, _nativeWidgetsPadding / _scale);
 
-        SongTitle.Width = Math.Max(logicalWidth - 58, 0);
-        SongArtist.Width = Math.Max(logicalWidth - 58, 0);
+        double newTitleContainerWidth = Math.Max(logicalWidth - 58, 0);
+        double newArtistContainerWidth = Math.Max(logicalWidth - 58, 0);
+
+        bool scrollingSetting = SettingsManager.Current.TaskbarWidgetScrollingText;
+        int scrollingSpeed = SettingsManager.Current.TaskbarWidgetScrollingTextSpeed;
+        bool scrollingLoop = SettingsManager.Current.TaskbarWidgetScrollingTextLoopForever;
+
+        bool settingsChanged = _lastScrollingSetting != scrollingSetting || 
+                               _lastScrollingSpeed != scrollingSpeed || 
+                               _lastScrollingLoop != scrollingLoop;
+
+        if (textChanged || _cachedTitleContainerWidth != newTitleContainerWidth || settingsChanged)
+        {
+            SongTitleContainer.Width = newTitleContainerWidth;
+            _cachedTitleContainerWidth = newTitleContainerWidth;
+
+            UpdateMarquee(SongTitle, SongTitleContainer, _cachedTitleWidth, scrollingSetting, scrollingSpeed, scrollingLoop);
+        }
+
+        if (textChanged || _cachedArtistContainerWidth != newArtistContainerWidth || settingsChanged)
+        {
+            SongArtistContainer.Width = newArtistContainerWidth;
+            _cachedArtistContainerWidth = newArtistContainerWidth;
+
+            UpdateMarquee(SongArtist, SongArtistContainer, _cachedArtistWidth, scrollingSetting, scrollingSpeed, scrollingLoop);
+        }
+
+        _lastScrollingSetting = scrollingSetting;
+        _lastScrollingSpeed = scrollingSpeed;
+        _lastScrollingLoop = scrollingLoop;
 
         // add space for playback controls if enabled and visible
         if (SettingsManager.Current.TaskbarWidgetControlsEnabled && ControlsStackPanel.Visibility == Visibility.Visible)
@@ -211,6 +249,55 @@ public partial class TaskbarWidgetControl : UserControl
         double logicalHeight = 40; // default height
 
         return (logicalWidth, logicalHeight);
+    }
+
+    private void UpdateMarquee(System.Windows.Controls.TextBlock textBlock, Canvas container, double textWidth, bool isEnabled, int speed, bool loopForever)
+    {
+        var transform = textBlock.RenderTransform as TranslateTransform;
+        if (transform == null) return;
+
+        double containerWidth = container.Width;
+
+        if (isEnabled && textWidth > containerWidth + 2 && containerWidth > 0 && !double.IsNaN(containerWidth))
+        {
+            var animation = new DoubleAnimationUsingKeyFrames
+            {
+                RepeatBehavior = RepeatBehavior.Forever
+            };
+
+            if (loopForever)
+            {
+                // continuous scrolling (text scrolls forever & repeats)
+                double durationToScrollOut = (textWidth + 10) / speed;
+                double durationToScrollIn = containerWidth / speed;
+
+                animation.KeyFrames.Add(new DiscreteDoubleKeyFrame(0, KeyTime.FromTimeSpan(TimeSpan.Zero)));
+                animation.KeyFrames.Add(new LinearDoubleKeyFrame(0, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(2))));
+                animation.KeyFrames.Add(new LinearDoubleKeyFrame(-(textWidth + 10), KeyTime.FromTimeSpan(TimeSpan.FromSeconds(2 + durationToScrollOut))));
+                animation.KeyFrames.Add(new DiscreteDoubleKeyFrame(containerWidth + 10, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(2 + durationToScrollOut))));
+                animation.KeyFrames.Add(new LinearDoubleKeyFrame(0, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(2 + durationToScrollOut + durationToScrollIn))));
+            }
+            else
+            {
+                // default style (back and forth)
+                double scrollDistance = textWidth - containerWidth + 10;
+                double durationSeconds = scrollDistance / speed;
+
+                animation.KeyFrames.Add(new DiscreteDoubleKeyFrame(0, KeyTime.FromTimeSpan(TimeSpan.Zero)));
+                animation.KeyFrames.Add(new LinearDoubleKeyFrame(0, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(2))));
+                animation.KeyFrames.Add(new LinearDoubleKeyFrame(-scrollDistance, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(2 + durationSeconds))));
+                animation.KeyFrames.Add(new LinearDoubleKeyFrame(-scrollDistance, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(4 + durationSeconds))));
+                animation.KeyFrames.Add(new LinearDoubleKeyFrame(0, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(4 + durationSeconds * 2))));
+                animation.KeyFrames.Add(new LinearDoubleKeyFrame(0, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(6 + durationSeconds * 2))));
+            }
+
+            transform.BeginAnimation(TranslateTransform.XProperty, animation);
+        }
+        else
+        {
+            transform.BeginAnimation(TranslateTransform.XProperty, null);
+            transform.X = 0;
+        }
     }
 
     public void UpdateUi(string title, string artist, BitmapImage? icon, GlobalSystemMediaTransportControlsSessionPlaybackStatus? playbackStatus, GlobalSystemMediaTransportControlsSessionPlaybackControls? playbackControls = null)

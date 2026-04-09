@@ -421,6 +421,49 @@ public partial class UserSettings : ObservableObject
     public partial bool TaskbarWidgetAnimated { get; set; }
 
     /// <summary>
+    /// Gets or sets a value indicating whether the taskbar widget scrolling text (marquee) is enabled for long texts.
+    /// </summary>
+    [ObservableProperty]
+    public partial bool TaskbarWidgetScrollingText { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the taskbar widget scrolling text should loop forever.
+    /// </summary>
+    [ObservableProperty]
+    public partial bool TaskbarWidgetScrollingTextLoopForever { get; set; }
+
+    /// <summary>
+    /// Gets or sets the speed of the taskbar widget scrolling text.
+    /// </summary>
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(TaskbarWidgetScrollingTextSpeedText))]
+    public partial int TaskbarWidgetScrollingTextSpeed { get; set; }
+
+    [XmlIgnore]
+    public string TaskbarWidgetScrollingTextSpeedText
+    {
+        get => TaskbarWidgetScrollingTextSpeed.ToString();
+        set
+        {
+            if (int.TryParse(value, out var result))
+            {
+                TaskbarWidgetScrollingTextSpeed = result switch
+                {
+                    > 100 => 100,
+                    < 1 => 1,
+                    _ => result
+                };
+            }
+            else
+            {
+                TaskbarWidgetScrollingTextSpeed = 20;
+            }
+
+            OnPropertyChanged();
+        }
+    }
+
+    /// <summary>
     /// Gets or sets a value indicating whether the taskbar visualizer is enabled.
     /// </summary>
     /// <remarks>For now, this requires Premium and Taskbar Widget to be enabled.</remarks>
@@ -602,6 +645,9 @@ public partial class UserSettings : ObservableObject
         TaskbarWidgetControlsEnabled = false;
         TaskbarWidgetControlsPosition = 1;
         TaskbarWidgetAnimated = true;
+        TaskbarWidgetScrollingText = true;
+        TaskbarWidgetScrollingTextSpeed = 20;
+        TaskbarWidgetScrollingTextLoopForever = false;
         TaskbarVisualizerEnabled = false;
         AppFilteringEnabled = false;
         AppFilteringMode = 0;
