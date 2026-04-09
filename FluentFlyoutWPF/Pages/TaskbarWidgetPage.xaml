@@ -259,10 +259,18 @@
                     <ui:CardControl Margin="0,0,0,3">
                         <ui:CardControl.Header>
                             <StackPanel Orientation="Vertical">
-                                <TextBlock Text="{DynamicResource TaskbarWidgetScrollingTextEnableTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
+                                <TextBlock Text="{DynamicResource TaskbarWidgetScrollingTitleTextEnableTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
                             </StackPanel>
                         </ui:CardControl.Header>
-                        <controls:ToggleSwitch IsChecked="{Binding TaskbarWidgetScrollingText, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}" />
+                        <controls:ToggleSwitch IsChecked="{Binding TaskbarWidgetScrollingTitleText, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}" />
+                    </ui:CardControl>
+                    <ui:CardControl Margin="0,0,0,3">
+                        <ui:CardControl.Header>
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock Text="{DynamicResource TaskbarWidgetScrollingArtistTextEnableTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </ui:CardControl.Header>
+                        <controls:ToggleSwitch IsChecked="{Binding TaskbarWidgetScrollingArtistText, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}" />
                     </ui:CardControl>
                     <ui:CardControl Margin="0,0,0,3">
                         <ui:CardControl.Header>

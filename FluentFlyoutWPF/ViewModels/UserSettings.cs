@@ -421,10 +421,16 @@ public partial class UserSettings : ObservableObject
     public partial bool TaskbarWidgetAnimated { get; set; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether the taskbar widget scrolling text (marquee) is enabled for long texts.
+    /// Gets or sets a value indicating whether the taskbar widget scrolling text (marquee) is enabled for long titles.
     /// </summary>
     [ObservableProperty]
-    public partial bool TaskbarWidgetScrollingText { get; set; }
+    public partial bool TaskbarWidgetScrollingTitleText { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the taskbar widget scrolling text (marquee) is enabled for long artist names.
+    /// </summary>
+    [ObservableProperty]
+    public partial bool TaskbarWidgetScrollingArtistText { get; set; }
 
     /// <summary>
     /// Gets or sets a value indicating whether the taskbar widget scrolling text should loop forever.
@@ -645,7 +651,8 @@ public partial class UserSettings : ObservableObject
         TaskbarWidgetControlsEnabled = false;
         TaskbarWidgetControlsPosition = 1;
         TaskbarWidgetAnimated = true;
-        TaskbarWidgetScrollingText = true;
+        TaskbarWidgetScrollingTitleText = true;
+        TaskbarWidgetScrollingArtistText = true;
         TaskbarWidgetScrollingTextSpeed = 20;
         TaskbarWidgetScrollingTextLoopForever = false;
         TaskbarVisualizerEnabled = false;

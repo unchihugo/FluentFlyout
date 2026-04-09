@@ -251,5 +251,6 @@ You can help contribute translations on</System:String>
     <System:String x:Key="TaskbarWidgetScrollingTextLoopForeverDescription">Infinitely loop the text in one direction instead of scrolling back and forth.</System:String>
     <System:String x:Key="TaskbarWidgetScrollingTextSpeedTitle">Scroll Speed</System:String>
     <System:String x:Key="TaskbarWidgetScrollingTextSpeedDescription">Speed at which the text scrolls (pixels/second). Default is 20.</System:String>
-    <System:String x:Key="TaskbarWidgetScrollingTextEnableTitle">Enable Scrolling</System:String>
+    <System:String x:Key="TaskbarWidgetScrollingTitleTextEnableTitle">Enable Title Scrolling</System:String>
+    <System:String x:Key="TaskbarWidgetScrollingArtistTextEnableTitle">Enable Artist Scrolling</System:String>
 </ResourceDictionary>
