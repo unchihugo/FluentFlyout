@@ -34,7 +34,8 @@ public partial class TaskbarWidgetControl : UserControl
     private double _cachedArtistWidth = 0;
     private double _cachedTitleContainerWidth = -1;
     private double _cachedArtistContainerWidth = -1;
-    private bool _lastScrollingSetting = false;
+    private bool _lastScrollingTitleSetting = false;
+    private bool _lastScrollingArtistSetting = false;
 
     private int _lastScrollingSpeed = 20;
     private bool _lastScrollingLoop = true;
@@ -204,38 +205,44 @@ public partial class TaskbarWidgetControl : UserControl
             textChanged = true;
         }
 
-        double logicalWidth = Math.Max(_cachedTitleWidth, _cachedArtistWidth) + 55; // add margin for cover image
+        double logicalWidth = Math.Max(_cachedTitleWidth, _cachedArtistWidth) + 58; // add margin for cover image
         // maximum width limit, same as Windows native widget
         logicalWidth = Math.Min(logicalWidth, _nativeWidgetsPadding / _scale);
 
         double newTitleContainerWidth = Math.Max(logicalWidth - 58, 0);
         double newArtistContainerWidth = Math.Max(logicalWidth - 58, 0);
 
-        bool scrollingSetting = SettingsManager.Current.TaskbarWidgetScrollingText;
+        bool scrollingTitleSetting = SettingsManager.Current.TaskbarWidgetScrollingTitleText;
+        bool scrollingArtistSetting = SettingsManager.Current.TaskbarWidgetScrollingArtistText;
         int scrollingSpeed = SettingsManager.Current.TaskbarWidgetScrollingTextSpeed;
         bool scrollingLoop = SettingsManager.Current.TaskbarWidgetScrollingTextLoopForever;
 
-        bool settingsChanged = _lastScrollingSetting != scrollingSetting || 
+        bool titleSettingsChanged = _lastScrollingTitleSetting != scrollingTitleSetting || 
                                _lastScrollingSpeed != scrollingSpeed || 
                                _lastScrollingLoop != scrollingLoop;
 
-        if (textChanged || _cachedTitleContainerWidth != newTitleContainerWidth || settingsChanged)
+        if (textChanged || _cachedTitleContainerWidth != newTitleContainerWidth || titleSettingsChanged)
         {
             SongTitleContainer.Width = newTitleContainerWidth;
             _cachedTitleContainerWidth = newTitleContainerWidth;
 
-            UpdateMarquee(SongTitle, SongTitleContainer, _cachedTitleWidth, scrollingSetting, scrollingSpeed, scrollingLoop);
+            UpdateMarquee(SongTitle, SongTitleContainer, _cachedTitleWidth, scrollingTitleSetting, scrollingSpeed, scrollingLoop);
         }
 
-        if (textChanged || _cachedArtistContainerWidth != newArtistContainerWidth || settingsChanged)
+        bool artistSettingsChanged = _lastScrollingArtistSetting != scrollingArtistSetting || 
+                                     _lastScrollingSpeed != scrollingSpeed || 
+                                     _lastScrollingLoop != scrollingLoop;
+
+        if (textChanged || _cachedArtistContainerWidth != newArtistContainerWidth || artistSettingsChanged)
         {
             SongArtistContainer.Width = newArtistContainerWidth;
             _cachedArtistContainerWidth = newArtistContainerWidth;
 
-            UpdateMarquee(SongArtist, SongArtistContainer, _cachedArtistWidth, scrollingSetting, scrollingSpeed, scrollingLoop);
+            UpdateMarquee(SongArtist, SongArtistContainer, _cachedArtistWidth, scrollingArtistSetting, scrollingSpeed, scrollingLoop);
         }
 
-        _lastScrollingSetting = scrollingSetting;
+        _lastScrollingTitleSetting = scrollingTitleSetting;
+        _lastScrollingArtistSetting = scrollingArtistSetting;
         _lastScrollingSpeed = scrollingSpeed;
         _lastScrollingLoop = scrollingLoop;
 
@@ -260,6 +267,9 @@ public partial class TaskbarWidgetControl : UserControl
 
         if (isEnabled && textWidth > containerWidth + 2 && containerWidth > 0 && !double.IsNaN(containerWidth))
         {
+            textBlock.Width = double.NaN;
+            textBlock.TextTrimming = TextTrimming.None;
+
             var animation = new DoubleAnimationUsingKeyFrames
             {
                 RepeatBehavior = RepeatBehavior.Forever
@@ -297,6 +307,8 @@ public partial class TaskbarWidgetControl : UserControl
         {
             transform.BeginAnimation(TranslateTransform.XProperty, null);
             transform.X = 0;
+            textBlock.Width = containerWidth;
+            textBlock.TextTrimming = TextTrimming.CharacterEllipsis;
         }
     }
 
