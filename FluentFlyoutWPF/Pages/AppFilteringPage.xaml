@@ -14,7 +14,7 @@
       d:Background="White">
 
     <StackPanel MaxWidth="1000" Margin="16">
-        <TextBlock Text="{DynamicResource AppFilteringRulesTitle}" FontSize="24" FontWeight="SemiBold" Margin="0,0,0,20" />
+        <TextBlock Text="{DynamicResource AppFilteringTitle}" FontSize="24" FontWeight="SemiBold" Margin="0,0,0,20" />
         
         <ui:CardControl Icon="{ui:SymbolIcon Filter24}" Margin="0,0,0,24">
             <ui:CardControl.Header>

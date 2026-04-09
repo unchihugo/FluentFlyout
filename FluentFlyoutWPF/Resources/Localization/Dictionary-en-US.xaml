@@ -171,8 +171,7 @@ Note: As an open-source project, these features are also available for free via 
     <System:String x:Key="TrayIconSectionTitle">Tray Icon</System:String>
     <System:String x:Key="UpdatesSectionTitle">Updates</System:String>
     <System:String x:Key="SystemConfigure">Configure</System:String>
-    <System:String x:Key="AppFilteringTitle">App Filtering</System:String>
-    <System:String x:Key="AppFilteringRulesTitle">App Filtering</System:String>
+    <System:String x:Key="AppFilteringTitle">Whitelist &amp; Blacklist</System:String>
     <System:String x:Key="AppFilteringRulesDescription">Control which applications are allowed or blocked from displaying their media.</System:String>
     <System:String x:Key="EnableAppFilteringTitle">Enable Filtering</System:String>
     <System:String x:Key="AppFilteringModeTitle">Mode</System:String>
