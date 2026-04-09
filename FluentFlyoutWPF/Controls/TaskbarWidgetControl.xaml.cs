@@ -410,20 +410,23 @@ public partial class TaskbarWidgetControl : UserControl
 
         Dispatcher.Invoke(() =>
         {
-            if (_actualTitle != title || _actualArtist != artist)
+            string newTitle = !string.IsNullOrEmpty(title) ? title : "-";
+            string newArtist = !string.IsNullOrEmpty(artist) ? artist : "-";
+
+            if (_actualTitle != newTitle || _actualArtist != newArtist)
             {
                 // changed info
                 if (SettingsManager.Current.TaskbarWidgetAnimated)
                 {
                     AnimateEntrance();
                 }
+
+                _actualTitle = newTitle;
+                _actualArtist = newArtist;
+
+                SongTitle.Text = _actualTitle;
+                SongArtist.Text = _actualArtist;
             }
-
-            _actualTitle = !string.IsNullOrEmpty(title) ? title : "-";
-            _actualArtist = !string.IsNullOrEmpty(artist) ? artist : "-";
-
-            SongTitle.Text = _actualTitle;
-            SongArtist.Text = _actualArtist;
 
             // Update tooltip with song info
             SongInfoStackPanel.ToolTip = string.Empty;
