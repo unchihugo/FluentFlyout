@@ -24,10 +24,10 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Setup MSBuild
-        uses: microsoft/setup-msbuild@v2
+        uses: microsoft/setup-msbuild@v3
 
       - name: Decode signing certificate
         run: |
@@ -37,6 +37,13 @@ jobs:
       - name: Restore NuGet packages
         run: nuget restore $env:SOLUTION_PATH
 
+      - name: Extract app version
+        run: |
+          [xml]$manifest = Get-Content 'FluentFlyoutMSIX\Package.appxmanifest'
+          $fullVersion = $manifest.Package.Identity.Version
+          $version = ($fullVersion -split '\.')[0..2] -join '.'
+          echo "APP_VERSION=$version" >> $env:GITHUB_ENV
+
       - name: Build & Package (MSIX)
         run: |
           msbuild $env:WAP_PROJECT_PATH `
@@ -44,12 +51,20 @@ jobs:
             /p:Platform=$env:PLATFORM `
             /p:UapAppxPackageBuildMode=StoreUpload `
             /p:AppxPackageDir="$env:GITHUB_WORKSPACE\AppxPackages\\" `
-            /p:AppxPackageSigningEnabled=true `
-            /p:PackageCertificateKeyFile="$env:RUNNER_TEMP\cert.pfx" `
-            /p:PackageCertificatePassword="${{ secrets.MSIX_CERT_PASSWORD }}"
+            /p:AppxPackageSigningEnabled=false `
 
-      - name: Upload MSIX bundle as artifact
-        uses: actions/upload-artifact@v4
+      - name: Prepare installer structure
+        run: |
+          $outDir = "$env:GITHUB_WORKSPACE\InstallerOutput"
+          New-Item -ItemType Directory -Path $outDir | Out-Null
+          $testFolder = Get-ChildItem "$env:GITHUB_WORKSPACE\AppxPackages" -Directory |
+            Where-Object { $_.Name -like '*_Test' } | Select-Object -First 1
+          Move-Item $testFolder.FullName "$outDir\SystemFiles"
+          Copy-Item ".github\build-files\FluentFlyout_Installer.bat" "$outDir\"
+          Copy-Item ".github\build-files\README.txt" "$outDir\"
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v7
         with:
-          name: MSIX-${{ env.CONFIGURATION == 'GitHub Release' && 'GitHub_Release' || matrix.configuration }}-${{ env.PLATFORM }}
-          path: AppxPackages\*\
+          name: FluentFlyout_${{ env.APP_VERSION }}_${{ env.PLATFORM }}_${{ matrix.configuration == 'GitHub Release' && 'Installer' || 'Release' }}
+          path: InstallerOutput\

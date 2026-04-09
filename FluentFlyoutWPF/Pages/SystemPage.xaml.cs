@@ -169,8 +169,7 @@ public partial class SystemPage : Page
             {
                 try
                 {
-                    SettingsManager settingsManager = new();
-                    settingsManager.RestoreSettings(openFileDialog.FileName);
+                    SettingsManager.RestoreSettings(openFileDialog.FileName);
                     SettingsManager.SaveSettings();
 
                     Wpf.Ui.Controls.MessageBox messageBox = new()

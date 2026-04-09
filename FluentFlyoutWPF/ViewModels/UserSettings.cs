@@ -269,6 +269,12 @@ public partial class UserSettings : ObservableObject
     public partial bool PauseOtherSessionsEnabled { get; set; }
 
     /// <summary>
+    /// Enable subtle animations for the lock keys flyout indicator
+    /// </summary>
+    [ObservableProperty]
+    public partial bool LockKeysAnimated { get; set; }
+
+    /// <summary>
     /// Show LockKeys flyout when the Insert key is pressed
     /// </summary>
     [ObservableProperty]
@@ -333,6 +339,12 @@ public partial class UserSettings : ObservableObject
     /// </summary>
     [ObservableProperty]
     public partial int TaskbarWidgetSelectedMonitor { get; set; }
+    
+    /// <summary>
+    /// Autohide Widget after a few milliseconds after pause 
+    /// </summary>
+    [ObservableProperty]
+    public partial bool TaskbarWidgetAutoHide { get; set; }
 
     /// <summary>
     /// Gets or sets the position of the taskbar widget, represented as an integer value.
@@ -553,6 +565,7 @@ public partial class UserSettings : ObservableObject
         LastKnownVersion = "";
         SeekbarEnabled = false;
         PauseOtherSessionsEnabled = false;
+        LockKeysAnimated = true;
         LockKeysInsertEnabled = true;
         MediaFlyoutBackgroundBlur = 0;
         MediaFlyoutAcrylicWindowEnabled = true;
