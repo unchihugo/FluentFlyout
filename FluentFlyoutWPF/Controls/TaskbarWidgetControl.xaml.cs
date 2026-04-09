@@ -40,6 +40,9 @@ public partial class TaskbarWidgetControl : UserControl
     private int _lastScrollingSpeed = 20;
     private bool _lastScrollingLoop = true;
 
+    private string _actualTitle = string.Empty;
+    private string _actualArtist = string.Empty;
+
     // reference to main window for flyout functions
     private MainWindow? _mainWindow;
     private bool _isPaused;
@@ -187,8 +190,8 @@ public partial class TaskbarWidgetControl : UserControl
     public (double logicalWidth, double logicalHeight) CalculateSize(double dpiScale)
     {
         // calculate widget width - use cached values if text hasn't changed
-        string currentTitle = SongTitle.Text;
-        string currentArtist = SongArtist.Text;
+        string currentTitle = _actualTitle;
+        string currentArtist = _actualArtist;
 
         bool textChanged = false;
 
@@ -270,6 +273,24 @@ public partial class TaskbarWidgetControl : UserControl
             textBlock.Width = double.NaN;
             textBlock.TextTrimming = TextTrimming.None;
 
+            string origText = textBlock == SongTitle ? _actualTitle : _actualArtist;
+            string spaceStr = "     ";
+            double spaceWidth = StringWidth.GetStringWidth(spaceStr, 400);
+
+            var opacityMask = new LinearGradientBrush();
+            opacityMask.StartPoint = new Point(0, 0);
+            opacityMask.EndPoint = new Point(containerWidth, 0);
+            opacityMask.MappingMode = BrushMappingMode.Absolute;
+
+            double fadeFraction = 12.0 / containerWidth;
+            if (fadeFraction > 0.5) fadeFraction = 0.5;
+
+            opacityMask.GradientStops.Add(new GradientStop(Color.FromArgb(0, 255, 255, 255), 0.0));
+            opacityMask.GradientStops.Add(new GradientStop(Color.FromArgb(255, 255, 255, 255), fadeFraction));
+            opacityMask.GradientStops.Add(new GradientStop(Color.FromArgb(255, 255, 255, 255), 1.0 - fadeFraction));
+            opacityMask.GradientStops.Add(new GradientStop(Color.FromArgb(0, 255, 255, 255), 1.0));
+            container.OpacityMask = opacityMask;
+
             var animation = new DoubleAnimationUsingKeyFrames
             {
                 RepeatBehavior = RepeatBehavior.Forever
@@ -277,18 +298,27 @@ public partial class TaskbarWidgetControl : UserControl
 
             if (loopForever)
             {
+                textBlock.Text = origText + spaceStr + origText;
+                textBlock.Measure(new Size(Double.PositiveInfinity, Double.PositiveInfinity));
+                double totalTextWidth = textBlock.DesiredSize.Width;
+
+                textBlock.Text = origText;
+                textBlock.Measure(new Size(Double.PositiveInfinity, Double.PositiveInfinity));
+                double singleTextWidth = textBlock.DesiredSize.Width;
+
+                double distanceToShift = totalTextWidth - singleTextWidth;
+
+                textBlock.Text = origText + spaceStr + origText;
+
                 // continuous scrolling (text scrolls forever & repeats)
-                double durationToScrollOut = (textWidth + 10) / speed;
-                double durationToScrollIn = containerWidth / speed;
+                double durationToScroll = distanceToShift / speed;
 
                 animation.KeyFrames.Add(new DiscreteDoubleKeyFrame(0, KeyTime.FromTimeSpan(TimeSpan.Zero)));
-                animation.KeyFrames.Add(new LinearDoubleKeyFrame(0, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(2))));
-                animation.KeyFrames.Add(new LinearDoubleKeyFrame(-(textWidth + 10), KeyTime.FromTimeSpan(TimeSpan.FromSeconds(2 + durationToScrollOut))));
-                animation.KeyFrames.Add(new DiscreteDoubleKeyFrame(containerWidth + 10, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(2 + durationToScrollOut))));
-                animation.KeyFrames.Add(new LinearDoubleKeyFrame(0, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(2 + durationToScrollOut + durationToScrollIn))));
+                animation.KeyFrames.Add(new LinearDoubleKeyFrame(-distanceToShift, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(durationToScroll))));
             }
             else
             {
+                textBlock.Text = origText;
                 // default style (back and forth)
                 double scrollDistance = textWidth - containerWidth + 10;
                 double durationSeconds = scrollDistance / speed;
@@ -307,8 +337,10 @@ public partial class TaskbarWidgetControl : UserControl
         {
             transform.BeginAnimation(TranslateTransform.XProperty, null);
             transform.X = 0;
+            textBlock.Text = textBlock == SongTitle ? _actualTitle : _actualArtist;
             textBlock.Width = containerWidth;
             textBlock.TextTrimming = TextTrimming.CharacterEllipsis;
+            container.OpacityMask = null;
         }
     }
 
@@ -378,7 +410,7 @@ public partial class TaskbarWidgetControl : UserControl
 
         Dispatcher.Invoke(() =>
         {
-            if (SongTitle.Text != title && SongArtist.Text != artist)
+            if (_actualTitle != title || _actualArtist != artist)
             {
                 // changed info
                 if (SettingsManager.Current.TaskbarWidgetAnimated)
@@ -387,8 +419,11 @@ public partial class TaskbarWidgetControl : UserControl
                 }
             }
 
-            SongTitle.Text = !string.IsNullOrEmpty(title) ? title : "-";
-            SongArtist.Text = !string.IsNullOrEmpty(artist) ? artist : "-";
+            _actualTitle = !string.IsNullOrEmpty(title) ? title : "-";
+            _actualArtist = !string.IsNullOrEmpty(artist) ? artist : "-";
+
+            SongTitle.Text = _actualTitle;
+            SongArtist.Text = _actualArtist;
 
             // Update tooltip with song info
             SongInfoStackPanel.ToolTip = string.Empty;
