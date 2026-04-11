@@ -175,7 +175,17 @@
                 </ui:CardControl.Header>
                 <controls:ToggleSwitch IsChecked="{Binding ShowUpdateNotifications, Mode=TwoWay}" />
             </ui:CardControl>
-            
+
+            <!-- app filtering -->
+            <ui:CardAction Margin="0,0,0,4" IsChevronVisible="True" Click="AppFiltering_Click">
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <ui:TextBlock Text="{DynamicResource AppFilteringTitle}" />
+                        <ui:InfoBadge Value=" NEW " FontWeight="Medium" FontSize="10" Margin="6,-2,0,-2" Severity="Success" />
+                    </StackPanel>
+                </StackPanel>
+            </ui:CardAction>
+
             <!-- advanced -->
             <ui:CardAction Margin="0,0,0,76" IsChevronVisible="True" Click="Advanced_Click">
                 <StackPanel>
