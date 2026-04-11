@@ -1444,10 +1444,14 @@ public partial class MainWindow : MicaWindow
             return 0;
         }
         else if (msg == WM_SETTINGCHANGE) // Windows theme or system settings changed
-        {  
+        {
             try
             {
                 ThemeManager.UpdateTaskbarWidget();
+                if (SettingsManager.Current.MediaFlyoutAcrylicWindowEnabled)
+                {
+                    WindowBlurHelper.EnableBlur(this);
+                }
             }
             catch (Exception ex)
             {
