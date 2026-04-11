@@ -219,4 +219,18 @@ Du kannst helfen, die App zu übersetzen auf</system:String>
     <system:String x:Key="TaskbarWidgetControlsPositionTitle">Position der Mediensteuerungsknöpfe</system:String>
     <system:String x:Key="TaskbarWidgetControlsPositionDescription">Wähle die Position, wo die Mediensteuerungsknöpfe angezeigt werden sollen</system:String>
     <system:String x:Key="TaskbarVisualizerClickableDescription">Beim Anklicken des Visualizers werden die Einstellungen geöffnet</system:String>
+    <system:String x:Key="TaskbarWidgetAutoHideTitle">Versteckt das Widget Automatisch</system:String>
+    <system:String x:Key="TaskbarVisualizerClickableTitle">Klicken, um Einstellungen zu öffnen</system:String>
+    <system:String x:Key="LockKeysCursorUITitle">Bevorzugte Zielanzeige</system:String>
+    <system:String x:Key="LockKeysCursorUIDescription" xml:space="preserve">Wählen Sie den Monitor aus, auf dem das Flyout angezeigt werden soll.</system:String>
+    <system:String x:Key="DefaultLockLayoutPosition">Standard (Flyout-Zielanzeige)</system:String>
+    <system:String x:Key="MonitorWithFocusedWindow">Monitor mit fokussiertem Fenster</system:String>
+    <system:String x:Key="MonitorWithCursor">Monitor mit Mauszeiger</system:String>
+    <system:String x:Key="LockKeysAnimatedTitle">Indikator-Animationen</system:String>
+    <system:String x:Key="LockKeysAnimatedDescription">Aktiviere subtile Animationen für die Sperrtasten-Anzeige</system:String>
+    <system:String x:Key="UseAlbumArtAccentColorTitle">Verwenden Sie das Albumcover als Akzentfarbe</system:String>
+    <system:String x:Key="UseAlbumArtAccentColorDescription">Einige UI-Elemente verwenden die Farbe des Albumcovers anstelle des Systemdesigns.</system:String>
+    <system:String x:Key="AdvancedSettingsTitle">Erweiterte Einstellungen</system:String>
+    <system:String x:Key="LegacyTaskbarWidthTitle">Legacy-Taskleistenbreitensystem</system:String>
+    <system:String x:Key="LegacyTaskbarWidthDescription">Verwenden Sie das alte Taskleistenbreitensystem für Taskleisten-Widgets.</system:String>
 </ResourceDictionary>

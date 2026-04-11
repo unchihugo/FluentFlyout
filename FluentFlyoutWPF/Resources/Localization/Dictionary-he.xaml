@@ -3,7 +3,7 @@
     <system:String x:Key="BackgroundBlurOption1" xml:space="preserve"> ללא</system:String>
     <system:String x:Key="CompactLayoutTitle">פריסה קומפקטית</system:String>
     <system:String x:Key="NextUpDescription" xml:space="preserve">חלון נשלף מציג אתה הבא כאשר שיר או סרטון מסתיים. מופיע רק אם הפריט הבא מתנגן אוטומטית, אם ילחץ ידנית הבא או הקודם, יופיע במקום זאת התפריט הנשלף הראשי.</system:String>
-    <system:String x:Key="EnableNextUpTitle">הפעלת חלון נשלף של "הבא בתור" (ניסיוני)</system:String>
+    <system:String x:Key="EnableNextUpTitle">הפעלת חלון נשלף של "הבא בתור"</system:String>
     <system:String x:Key="EnableNextUpDescription">מציג את הבא כששיר או סרטון מסתיים</system:String>
     <system:String x:Key="SystemSettingsTitle">מערכת</system:String>
     <system:String x:Key="LaunchOnStartupTitle">הפעל אוטומטית בעת ההפעלה</system:String>
@@ -229,4 +229,8 @@
     <system:String x:Key="ExportFailed">הייצוא נכשל</system:String>
     <system:String x:Key="ImportSuccessful">הייבוא הצליח</system:String>
     <system:String x:Key="AdvancedSettingsTitle">הגדרות מתקדמות</system:String>
+    <system:String x:Key="TaskbarWidgetAutoHideTitle">ישומון הסתרה-אוטומטית</system:String>
+    <system:String x:Key="TaskbarWidgetAutoHideDescription">מסתיר את הישומון אוטומטית כשהמדיה נעצרת</system:String>
+    <system:String x:Key="LockKeysAnimatedTitle">מחוון אנימציות</system:String>
+    <system:String x:Key="LockKeysAnimatedDescription">הפעל אנימציות עדינות עבור מחוון מקש הנעילה</system:String>
 </ResourceDictionary>
