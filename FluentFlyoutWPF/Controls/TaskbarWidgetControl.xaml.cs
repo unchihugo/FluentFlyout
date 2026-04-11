@@ -103,7 +103,7 @@ public partial class TaskbarWidgetControl : UserControl
 
     private void Grid_MouseEnter(object sender, MouseEventArgs e)
     {
-        if (string.IsNullOrEmpty(SongTitle.Text + SongArtist.Text)) return;
+        if (!SettingsManager.Current.TaskbarWidgetClickable || (string.IsNullOrEmpty(SongTitle.Text) && string.IsNullOrEmpty(SongArtist.Text))) return;
 
         SolidColorBrush targetBackgroundBrush;
         // hover effects with animations, hard-coded colors because I can't find the resource brushes
@@ -146,7 +146,7 @@ public partial class TaskbarWidgetControl : UserControl
 
     private void Grid_MouseLeave(object sender, MouseEventArgs e)
     {
-        if (string.IsNullOrEmpty(SongTitle.Text + SongArtist.Text)) return;
+        if (!SettingsManager.Current.TaskbarWidgetClickable || (string.IsNullOrEmpty(SongTitle.Text) && string.IsNullOrEmpty(SongArtist.Text))) return;
 
         // Animate back to transparent
         var backgroundAnimation = new ColorAnimation
@@ -171,7 +171,7 @@ public partial class TaskbarWidgetControl : UserControl
 
     private void Grid_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
     {
-        if (_mainWindow == null) return;
+        if (!SettingsManager.Current.TaskbarWidgetClickable || _mainWindow == null) return;
 
         // toggle main flyout when clicked
         _mainWindow.ShowMediaFlyout(toggleMode: true, forceShow: true);
