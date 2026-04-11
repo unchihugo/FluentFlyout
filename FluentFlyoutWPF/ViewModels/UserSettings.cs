@@ -421,11 +421,84 @@ public partial class UserSettings : ObservableObject
     public partial bool TaskbarWidgetAnimated { get; set; }
 
     /// <summary>
+    /// Gets or sets a value indicating whether the taskbar widget scrolling text (marquee) is enabled for long titles.
+    /// </summary>
+    [ObservableProperty]
+    public partial bool TaskbarWidgetScrollingTitleText { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the taskbar widget scrolling text (marquee) is enabled for long artist names.
+    /// </summary>
+    [ObservableProperty]
+    public partial bool TaskbarWidgetScrollingArtistText { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the taskbar widget scrolling text should loop forever.
+    /// </summary>
+    [ObservableProperty]
+    public partial bool TaskbarWidgetScrollingTextLoopForever { get; set; }
+
+    /// <summary>
+    /// Gets or sets the speed of the taskbar widget scrolling text.
+    /// </summary>
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(TaskbarWidgetScrollingTextSpeedText))]
+    public partial int TaskbarWidgetScrollingTextSpeed { get; set; }
+
+    [XmlIgnore]
+    public string TaskbarWidgetScrollingTextSpeedText
+    {
+        get => TaskbarWidgetScrollingTextSpeed.ToString();
+        set
+        {
+            if (int.TryParse(value, out var result))
+            {
+                TaskbarWidgetScrollingTextSpeed = result switch
+                {
+                    > 100 => 100,
+                    < 1 => 1,
+                    _ => result
+                };
+            }
+            else
+            {
+                TaskbarWidgetScrollingTextSpeed = 20;
+            }
+
+            OnPropertyChanged();
+        }
+    }
+
+    /// <summary>
     /// Gets or sets a value indicating whether the taskbar visualizer is enabled.
     /// </summary>
     /// <remarks>For now, this requires Premium and Taskbar Widget to be enabled.</remarks>
     [ObservableProperty]
     public partial bool TaskbarVisualizerEnabled { get; set; }
+
+    /// <summary>
+    /// Returns whether app filtering is enabled or disabled.
+    /// </summary>
+    [ObservableProperty]
+    public partial bool AppFilteringEnabled { get; set; }
+
+    /// <summary>
+    /// Returns the active filtering mode. 0 for Blacklist, 1 for Whitelist.
+    /// </summary>
+    [ObservableProperty]
+    public partial int AppFilteringMode { get; set; }
+
+    /// <summary>
+    /// Returns a list of apps that are allowed to display media/update the taskbar.
+    /// </summary>
+    [ObservableProperty]
+    public partial ObservableCollection<string> AllowedApps { get; set; } = new();
+
+    /// <summary>
+    /// Returns a list of apps that are NOT allowed to display media/update the taskbar.
+    /// </summary>
+    [ObservableProperty]
+    public partial ObservableCollection<string> BlockedApps { get; set; } = new();
 
     /// <summary>
     /// Position of the visualizer, where 0 and 1 are to the left or right of the widget.
@@ -578,7 +651,13 @@ public partial class UserSettings : ObservableObject
         TaskbarWidgetControlsEnabled = false;
         TaskbarWidgetControlsPosition = 1;
         TaskbarWidgetAnimated = true;
+        TaskbarWidgetScrollingTitleText = true;
+        TaskbarWidgetScrollingArtistText = true;
+        TaskbarWidgetScrollingTextSpeed = 20;
+        TaskbarWidgetScrollingTextLoopForever = false;
         TaskbarVisualizerEnabled = false;
+        AppFilteringEnabled = false;
+        AppFilteringMode = 0;
         TaskbarVisualizerPosition = 1;
         TaskbarVisualizerClickable = false;
         TaskbarVisualizerBarCount = 10;
@@ -730,5 +809,21 @@ public partial class UserSettings : ObservableObject
     {
         if (oldValue == newValue || _initializing) return;
         BitmapHelper.GetDominantColors(1);
+    }
+
+    partial void OnAppFilteringEnabledChanged(bool oldValue, bool newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+
+        MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+        mainWindow?.RefreshFilteredMedia();
+    }
+
+    partial void OnAppFilteringModeChanged(int oldValue, int newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+
+        MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+        mainWindow?.RefreshFilteredMedia();
     }
 }

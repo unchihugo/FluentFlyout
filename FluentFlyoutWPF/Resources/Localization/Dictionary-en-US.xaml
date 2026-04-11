@@ -171,6 +171,22 @@ Note: As an open-source project, these features are also available for free via 
     <System:String x:Key="TrayIconSectionTitle">Tray Icon</System:String>
     <System:String x:Key="UpdatesSectionTitle">Updates</System:String>
     <System:String x:Key="SystemConfigure">Configure</System:String>
+    <System:String x:Key="AppFilteringTitle">App Filtering</System:String>
+    <System:String x:Key="AppFilteringRulesTitle">App Filtering</System:String>
+    <System:String x:Key="AppFilteringRulesDescription">Control which applications are allowed or blocked from displaying their media.</System:String>
+    <System:String x:Key="EnableAppFilteringTitle">Enable Filtering</System:String>
+    <System:String x:Key="AppFilteringModeTitle">Mode</System:String>
+    <System:String x:Key="AppFilteringModeBlacklist">Blacklist (Allow all except blocked apps)</System:String>
+    <System:String x:Key="AppFilteringModeWhitelist">Whitelist (Only allow selected apps)</System:String>
+    <System:String x:Key="AllowedAppsTitle">Allowed Apps</System:String>
+    <System:String x:Key="AllowedAppsDescription">If any applications are listed here, only their media will be shown.</System:String>
+    <System:String x:Key="BlockedAppsTitle">Blacklist</System:String>
+    <System:String x:Key="BlockedAppsDescription">Applications listed here will never have their media shown.</System:String>
+    <System:String x:Key="AddAppManuallyText">Can't find your app? Type it below:</System:String>
+    <System:String x:Key="AppFilteringPlaceholderSpotify">e.g. Spotify.exe</System:String>
+    <System:String x:Key="AppFilteringPlaceholderChrome">e.g. Chrome.exe</System:String>
+    <System:String x:Key="AddButton">Add</System:String>
+    <System:String x:Key="RemoveButton">Remove</System:String>
     <System:String x:Key="AboutTitle">About</System:String>
     <System:String x:Key="AboutContributorsTitle">❤️ Meet Our Contributors</System:String>
     <System:String x:Key="AboutContributorsDescription">A big thank you to all the amazing people who have contributed to FluentFlyout's development and success!</System:String>
@@ -229,4 +245,12 @@ You can help contribute translations on</System:String>
     <System:String x:Key="AdvancedSettingsTitle">Advanced Settings</System:String>
     <System:String x:Key="LegacyTaskbarWidthTitle">Legacy Taskbar Width System</System:String>
     <System:String x:Key="LegacyTaskbarWidthDescription">Use the legacy Taskbar width system for Taskbar Widgets</System:String>
+    <System:String x:Key="TaskbarWidgetScrollingTextTitle">Scroll Text</System:String>
+    <System:String x:Key="TaskbarWidgetScrollingTextDescription">Automatically scroll long text that doesn't fit in the widget</System:String>
+    <System:String x:Key="TaskbarWidgetScrollingTextLoopForeverTitle">Continuous Scrolling</System:String>
+    <System:String x:Key="TaskbarWidgetScrollingTextLoopForeverDescription">Infinitely loop the text in one direction instead of scrolling back and forth.</System:String>
+    <System:String x:Key="TaskbarWidgetScrollingTextSpeedTitle">Scroll Speed</System:String>
+    <System:String x:Key="TaskbarWidgetScrollingTextSpeedDescription">Speed at which the text scrolls (pixels/second). Default is 20.</System:String>
+    <System:String x:Key="TaskbarWidgetScrollingTitleTextEnableTitle">Enable Title Scrolling</System:String>
+    <System:String x:Key="TaskbarWidgetScrollingArtistTextEnableTitle">Enable Artist Scrolling</System:String>
 </ResourceDictionary>

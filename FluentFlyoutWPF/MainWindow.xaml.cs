@@ -170,7 +170,7 @@ public partial class MainWindow : MicaWindow
         RegisterShellHookWindow(new WindowInteropHelper(this).Handle);
 
         _positionTimer = new Timer(SeekbarUpdateUi, null, Timeout.Infinite, Timeout.Infinite);
-        if (_seekBarEnabled && mediaManager.GetFocusedSession() is { } session)
+        if (_seekBarEnabled && GetActiveMediaSession() is { } session)
         {
             UpdateSeekbarCurrentDuration(session.ControlSession.GetTimelineProperties().Position);
         }
@@ -226,6 +226,73 @@ public partial class MainWindow : MicaWindow
         catch (Exception ex)
         {
             Logger.Error(ex, "Failed to check for updates on startup");
+        }
+    }
+
+    public bool IsSessionAllowed(MediaSession? session) 
+    {
+        if (session == null) return false;
+        if (!SettingsManager.Current.AppFilteringEnabled) return true;
+
+        string appId = session.Id ?? string.Empty;
+        string appName = MediaPlayerData.getMediaPlayerData(appId).Item1 ?? appId;
+
+        if (SettingsManager.Current.AppFilteringMode == 0) // Blacklist mode
+        {
+            if (SettingsManager.Current.BlockedApps != null && SettingsManager.Current.BlockedApps.Any(b =>
+                    appName.Contains(b, StringComparison.OrdinalIgnoreCase) ||
+                    appId.Contains(b, StringComparison.OrdinalIgnoreCase)))
+                return false;
+
+            return true;
+        }
+        else // Whitelist mode
+        {
+            if (SettingsManager.Current.AllowedApps != null && SettingsManager.Current.AllowedApps.Any(a =>
+                    appName.Contains(a, StringComparison.OrdinalIgnoreCase) ||
+                    appId.Contains(a, StringComparison.OrdinalIgnoreCase)))
+                return true;
+
+            return false;
+        }
+    }
+
+    public MediaSession? GetActiveMediaSession()
+    {
+        var validSessions = mediaManager.CurrentMediaSessions.Values.Where(IsSessionAllowed).ToList();
+
+        if (validSessions.Count == 0) return null;
+
+        var focused = mediaManager.GetFocusedSession();
+        if (focused != null && validSessions.Any(s => s.Id == focused.Id))
+            return focused;
+
+        var playing = validSessions.FirstOrDefault(s => s.ControlSession.GetPlaybackInfo()?.PlaybackStatus == GlobalSystemMediaTransportControlsSessionPlaybackStatus.Playing);
+        if (playing != null)
+            return playing;
+
+        return validSessions.FirstOrDefault();
+    }
+
+    public void RefreshFilteredMedia()
+    {
+        UpdateTaskbar();
+
+        if (IsVisible)
+        {
+            var activeSession = GetActiveMediaSession();
+
+            // UpdateUI handles a null value internally so we haven't checked for null here.
+            UpdateUI(activeSession!);
+
+            if (activeSession != null)
+            {
+                HandlePlayBackState(activeSession.ControlSession.GetPlaybackInfo()?.PlaybackStatus);
+            }
+            else
+            {
+                HandlePlayBackState(GlobalSystemMediaTransportControlsSessionPlaybackStatus.Closed);
+            }
         }
     }
 
@@ -451,17 +518,18 @@ public partial class MainWindow : MicaWindow
 
     public void UpdateTaskbar()
     {
-        if (!mediaManager.IsStarted || mediaManager.GetFocusedSession() == null)
+        var activeSession = GetActiveMediaSession();
+        if (!mediaManager.IsStarted || activeSession == null)
         {
             taskbarWindow?.UpdateUi("-", "-", null, GlobalSystemMediaTransportControlsSessionPlaybackStatus.Closed);
             return;
         }
-        var focusedSession = mediaManager.GetFocusedSession();
-        var songInfo = TryGetMediaProperties(focusedSession.ControlSession);
+
+        var songInfo = TryGetMediaProperties(activeSession.ControlSession);
         if (songInfo == null)
             return;
 
-        var playbackInfo = focusedSession.ControlSession.GetPlaybackInfo();
+        var playbackInfo = activeSession.ControlSession.GetPlaybackInfo();
         var thumbnail = BitmapHelper.GetThumbnail(songInfo.Thumbnail);
         BitmapHelper.GetDominantColors(1);
         taskbarWindow?.UpdateUi(songInfo.Title, songInfo.Artist, thumbnail, playbackInfo.PlaybackStatus, playbackInfo.Controls);
@@ -515,20 +583,22 @@ public partial class MainWindow : MicaWindow
 #endif     
         pauseOtherMediaSessionsIfNeeded(mediaSession);
 
-        var focusedSession = mediaManager.GetFocusedSession();
+        var focusedSession = GetActiveMediaSession();
         if (focusedSession == null)
         {
             taskbarWindow?.UpdateUi("-", "-", null, GlobalSystemMediaTransportControlsSessionPlaybackStatus.Closed);
             return;
         }
 
-        var songInfo = TryGetMediaProperties(focusedSession.ControlSession);
-        if (songInfo == null)
-            return;
+        var tbSongInfo = TryGetMediaProperties(focusedSession.ControlSession);
+        if (tbSongInfo != null)
+        {
+            var tbThumbnail = BitmapHelper.GetThumbnail(tbSongInfo.Thumbnail);
+            BitmapHelper.GetDominantColors(1);
+            var tbPlayback = focusedSession.ControlSession.GetPlaybackInfo();
 
-        var thumbnail = BitmapHelper.GetThumbnail(songInfo.Thumbnail);
-        BitmapHelper.GetDominantColors(1);
-        taskbarWindow?.UpdateUi(songInfo.Title, songInfo.Artist, thumbnail, playbackInfo?.PlaybackStatus, playbackInfo?.Controls);
+            taskbarWindow?.UpdateUi(tbSongInfo.Title, tbSongInfo.Artist, tbThumbnail, tbPlayback?.PlaybackStatus, tbPlayback?.Controls);
+        }
 
         if (IsVisible)
         {
@@ -549,17 +619,18 @@ public partial class MainWindow : MicaWindow
 #if DEBUG
         Logger.Debug("Media property changed: " + mediaProperties.Title + " " + mediaSession.ControlSession.GetPlaybackInfo().PlaybackStatus);
 #endif
-        if (mediaManager.GetFocusedSession() == null)
+        var currentActiveSession = GetActiveMediaSession();
+        if (currentActiveSession == null)
         {
             taskbarWindow?.UpdateUi("-", "-", null, GlobalSystemMediaTransportControlsSessionPlaybackStatus.Closed);
             return;
         }
 
-        var songInfo = TryGetMediaProperties(mediaSession.ControlSession);
+        var songInfo = TryGetMediaProperties(currentActiveSession.ControlSession);
         if (songInfo == null)
             return;
 
-        var playbackInfo = mediaSession.ControlSession.GetPlaybackInfo();
+        var playbackInfo = currentActiveSession.ControlSession.GetPlaybackInfo();
 
         string check = songInfo.Title + songInfo.Artist + playbackInfo.PlaybackStatus;
         int checkThumbnail = BitmapHelper.GetStableThumbnailHash(songInfo.Thumbnail);
@@ -576,6 +647,7 @@ public partial class MainWindow : MicaWindow
 
         var thumbnail = BitmapHelper.GetThumbnail(songInfo.Thumbnail);
         BitmapHelper.GetDominantColors(1);
+
         taskbarWindow?.UpdateUi(songInfo.Title, songInfo.Artist, thumbnail, playbackInfo.PlaybackStatus, playbackInfo.Controls);
 
         pauseOtherMediaSessionsIfNeeded(mediaSession);
@@ -586,7 +658,7 @@ public partial class MainWindow : MicaWindow
             {
                 Dispatcher.Invoke(() =>
                 {
-                    if (nextUpWindow == null && playbackInfo.Controls.IsPauseEnabled) // double-check within the Dispatcher to prevent race conditions
+                    if (nextUpWindow == null && playbackInfo.PlaybackStatus == GlobalSystemMediaTransportControlsSessionPlaybackStatus.Playing) // double-check within the Dispatcher to prevent race conditions
                     {
                         nextUpWindow = new NextUpWindow(songInfo.Title, songInfo.Artist, thumbnail);
                         currentTitle = songInfo.Title;
@@ -622,9 +694,12 @@ public partial class MainWindow : MicaWindow
 
         if (IsVisible)
         {
-            var focusedSession = mediaManager.GetFocusedSession();
-            HandlePlayBackState(focusedSession.ControlSession.GetPlaybackInfo().PlaybackStatus);
-            UpdateUI(focusedSession);
+            var focusedSession = GetActiveMediaSession();
+            if (focusedSession != null) 
+            {
+                HandlePlayBackState(focusedSession.ControlSession.GetPlaybackInfo()?.PlaybackStatus);
+                UpdateUI(focusedSession);
+            }
         }
     }
 
@@ -632,7 +707,7 @@ public partial class MainWindow : MicaWindow
     {
         _lastSelfUpdateTimestamp = DateTime.Now;
 
-        if (mediaManager.GetFocusedSession() is not { } session) return;
+        if (GetActiveMediaSession() is not { } session || session.Id != mediaSession.Id) return;
 
         if (_seekBarEnabled)
         {
@@ -651,23 +726,7 @@ public partial class MainWindow : MicaWindow
 #if DEBUG
         Logger.Debug("Session closed: " + (mediaSession.Id).ToString());
 #endif
-        var focusedSession = mediaManager.GetFocusedSession();
-
-        if (focusedSession == null)
-        {
-            taskbarWindow?.UpdateUi("-", "-", null, GlobalSystemMediaTransportControlsSessionPlaybackStatus.Closed);
-        }
-        else
-        {
-            var songInfo = TryGetMediaProperties(focusedSession.ControlSession);
-            if (songInfo == null)
-                return;
-
-            var playbackInfo = focusedSession.ControlSession.GetPlaybackInfo();
-            var thumbnail = BitmapHelper.GetThumbnail(songInfo.Thumbnail);
-            BitmapHelper.GetDominantColors(1);
-            taskbarWindow?.UpdateUi(songInfo.Title, songInfo.Artist, thumbnail, playbackInfo.PlaybackStatus, playbackInfo.Controls);
-        }
+        UpdateTaskbar();
     }
 
     private static IntPtr SetHook(LowLevelKeyboardProc proc) // set the keyboard hook
@@ -743,7 +802,8 @@ public partial class MainWindow : MicaWindow
 
     public async void ShowMediaFlyout(bool toggleMode = false, bool forceShow = false)
     {
-        if (mediaManager.GetFocusedSession() == null ||
+        var activeSession = GetActiveMediaSession();
+        if (activeSession == null ||
             (!forceShow && !SettingsManager.Current.MediaFlyoutEnabled) ||
             FullscreenDetector.IsFullscreenApplicationRunning())
             return;
@@ -764,9 +824,9 @@ public partial class MainWindow : MicaWindow
             return;
         }
 
-        UpdateUI(mediaManager.GetFocusedSession());
+        UpdateUI(activeSession);
         if (_seekBarEnabled)
-            HandlePlayBackState(mediaManager.GetFocusedSession().ControlSession.GetPlaybackInfo().PlaybackStatus);
+            HandlePlayBackState(activeSession.ControlSession.GetPlaybackInfo().PlaybackStatus);
 
         if (nextUpWindow != null) // close NextUpWindow if it's open
         {
@@ -858,18 +918,24 @@ public partial class MainWindow : MicaWindow
             var mediaProperties = controlSession.GetPlaybackInfo();
             if (mediaProperties != null)
             {
-                if (mediaProperties.Controls.IsPauseEnabled)
+                if (mediaProperties.PlaybackStatus == GlobalSystemMediaTransportControlsSessionPlaybackStatus.Playing)
                 {
-                    ControlPlayPause.IsEnabled = true;
-                    ControlPlayPause.Opacity = 1;
                     SymbolPlayPause.Symbol = Wpf.Ui.Controls.SymbolRegular.Pause16;
                 }
                 else
                 {
-                    ControlPlayPause.IsEnabled = true;
-                    ControlPlayPause.Opacity = 1;
                     SymbolPlayPause.Symbol = Wpf.Ui.Controls.SymbolRegular.Play16;
                 }
+
+                ControlPlayPause.IsEnabled = mediaProperties.Controls.IsPlayEnabled || mediaProperties.Controls.IsPauseEnabled;
+
+                if (ControlPlayPause.IsEnabled) {
+                    ControlPlayPause.Opacity = 1;
+                }
+                else {
+                    ControlPlayPause.Opacity = 0.35;
+                }
+
                 ControlBack.IsEnabled = ControlForward.IsEnabled = mediaProperties.Controls.IsNextEnabled;
                 ControlBack.Opacity = ControlForward.Opacity = mediaProperties.Controls.IsNextEnabled ? 1 : 0.35;
 
@@ -1091,77 +1157,64 @@ public partial class MainWindow : MicaWindow
 
     private async void Back_Click(object sender, RoutedEventArgs e)
     {
-        if (mediaManager.GetFocusedSession() == null)
-            return;
+        var activeSession = GetActiveMediaSession();
+        if (activeSession == null) return;
 
-        await mediaManager.GetFocusedSession().ControlSession.TrySkipPreviousAsync();
+        await activeSession.ControlSession.TrySkipPreviousAsync();
     }
 
-    private void PlayPause_Click(object sender, RoutedEventArgs e)
+    private async void PlayPause_Click(object sender, RoutedEventArgs e)
     {
-        keybd_event(0xB3, 0, 0, IntPtr.Zero);
+        var activeSession = GetActiveMediaSession();
+        if (activeSession == null) return;
 
-        if (mediaManager.GetFocusedSession() == null)
-            return;
-
-        //var controlsInfo = mediaManager.GetFocusedSession().ControlSession.GetPlaybackInfo().Controls;
-
-        //if (controlsInfo.IsPauseEnabled == true)
-        //{
-        //    await mediaManager.GetFocusedSession().ControlSession.TryPauseAsync();
-        //}
-        //else if (controlsInfo.IsPlayEnabled == true)
-        //    await mediaManager.GetFocusedSession().ControlSession.TryPlayAsync();
-        if (mediaManager.GetFocusedSession().ControlSession.GetPlaybackInfo().Controls.IsPauseEnabled)
-            SymbolPlayPause.Dispatcher.Invoke(() => SymbolPlayPause.Symbol = Wpf.Ui.Controls.SymbolRegular.Pause16);
-        else
-            SymbolPlayPause.Dispatcher.Invoke(() => SymbolPlayPause.Symbol = Wpf.Ui.Controls.SymbolRegular.Play16);
+        await activeSession.ControlSession.TryTogglePlayPauseAsync();
     }
 
     private async void Forward_Click(object sender, RoutedEventArgs e)
     {
-        if (mediaManager.GetFocusedSession() == null)
-            return;
+        var activeSession = GetActiveMediaSession();
+        if (activeSession == null) return;
 
-        await mediaManager.GetFocusedSession().ControlSession.TrySkipNextAsync();
+        await activeSession.ControlSession.TrySkipNextAsync();
     }
 
     private async void Repeat_Click(object sender, RoutedEventArgs e)
     {
-        if (mediaManager.GetFocusedSession() == null)
-            return;
+        var activeSession = GetActiveMediaSession();
+        if (activeSession == null) return;
 
-        if (mediaManager.GetFocusedSession().ControlSession.GetPlaybackInfo().AutoRepeatMode == global::Windows.Media.MediaPlaybackAutoRepeatMode.None)
+        if (activeSession.ControlSession.GetPlaybackInfo().AutoRepeatMode == global::Windows.Media.MediaPlaybackAutoRepeatMode.None)
         {
             SymbolRepeat.Dispatcher.Invoke(() => SymbolRepeat.Symbol = Wpf.Ui.Controls.SymbolRegular.ArrowRepeatAll24);
-            await mediaManager.GetFocusedSession().ControlSession.TryChangeAutoRepeatModeAsync(global::Windows.Media.MediaPlaybackAutoRepeatMode.List);
+            await activeSession.ControlSession.TryChangeAutoRepeatModeAsync(global::Windows.Media.MediaPlaybackAutoRepeatMode.List);
         }
-        else if (mediaManager.GetFocusedSession().ControlSession.GetPlaybackInfo().AutoRepeatMode == global::Windows.Media.MediaPlaybackAutoRepeatMode.List)
+        else if (activeSession.ControlSession.GetPlaybackInfo().AutoRepeatMode == global::Windows.Media.MediaPlaybackAutoRepeatMode.List)
         {
             SymbolRepeat.Dispatcher.Invoke(() => SymbolRepeat.Symbol = Wpf.Ui.Controls.SymbolRegular.ArrowRepeat124);
-            await mediaManager.GetFocusedSession().ControlSession.TryChangeAutoRepeatModeAsync(global::Windows.Media.MediaPlaybackAutoRepeatMode.Track);
+            await activeSession.ControlSession.TryChangeAutoRepeatModeAsync(global::Windows.Media.MediaPlaybackAutoRepeatMode.Track);
         }
-        else if (mediaManager.GetFocusedSession().ControlSession.GetPlaybackInfo().AutoRepeatMode == global::Windows.Media.MediaPlaybackAutoRepeatMode.Track)
+        else if (activeSession.ControlSession.GetPlaybackInfo().AutoRepeatMode == global::Windows.Media.MediaPlaybackAutoRepeatMode.Track)
         {
             SymbolRepeat.Dispatcher.Invoke(() => SymbolRepeat.Symbol = Wpf.Ui.Controls.SymbolRegular.ArrowRepeatAllOff24);
-            await mediaManager.GetFocusedSession().ControlSession.TryChangeAutoRepeatModeAsync(global::Windows.Media.MediaPlaybackAutoRepeatMode.None);
+            await activeSession.ControlSession.TryChangeAutoRepeatModeAsync(global::Windows.Media.MediaPlaybackAutoRepeatMode.None);
         }
     }
 
     private async void Shuffle_Click(object sender, RoutedEventArgs e)
     {
-        if (mediaManager.GetFocusedSession() == null)
-            return;
+        var activeSession = GetActiveMediaSession();
+        if (activeSession == null) return;
 
-        if (mediaManager.GetFocusedSession().ControlSession.GetPlaybackInfo().IsShuffleActive == true)
+        if (activeSession.ControlSession.GetPlaybackInfo().IsShuffleActive == true)
         {
             SymbolShuffle.Dispatcher.Invoke(() => SymbolShuffle.Symbol = Wpf.Ui.Controls.SymbolRegular.ArrowShuffleOff24);
-            await mediaManager.GetFocusedSession().ControlSession.TryChangeShuffleActiveAsync(false);
+            await activeSession.ControlSession.TryChangeShuffleActiveAsync(false);
         }
         else
         {
             SymbolShuffle.Dispatcher.Invoke(() => SymbolShuffle.Symbol = Wpf.Ui.Controls.SymbolRegular.ArrowShuffle24);
-            await mediaManager.GetFocusedSession().ControlSession.TryChangeShuffleActiveAsync(true);
+            await activeSession.ControlSession.TryChangeShuffleActiveAsync(true);
         }
     }
 
@@ -1186,7 +1239,7 @@ public partial class MainWindow : MicaWindow
 
     private async void Seekbar_OnPreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
     {
-        if (mediaManager.GetFocusedSession() is { } session)
+        if (GetActiveMediaSession() is { } session)
         {
             var seekPosition = TimeSpan.FromSeconds(Seekbar.Value);
             if (seekPosition == TimeSpan.Zero) seekPosition = TimeSpan.FromSeconds(1);
@@ -1210,7 +1263,7 @@ public partial class MainWindow : MicaWindow
         if (DateTime.Now.Subtract(_lastSelfUpdateTimestamp).TotalSeconds < 1) return;
 
         if (!_seekBarEnabled || Visibility != Visibility.Visible || _isDragging) return;
-        if (mediaManager.GetFocusedSession() is not { } session) return;
+        if (GetActiveMediaSession() is not { } session) return;
 
         var timeline = session.ControlSession.GetTimelineProperties();
         var pos = timeline.Position + (DateTime.Now - timeline.LastUpdatedTime.DateTime);

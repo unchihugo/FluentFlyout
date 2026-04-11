@@ -32,6 +32,16 @@ public partial class TaskbarWidgetControl : UserControl
     private string _cachedArtistText = string.Empty;
     private double _cachedTitleWidth = 0;
     private double _cachedArtistWidth = 0;
+    private double _cachedTitleContainerWidth = -1;
+    private double _cachedArtistContainerWidth = -1;
+    private bool _lastScrollingTitleSetting = false;
+    private bool _lastScrollingArtistSetting = false;
+
+    private int _lastScrollingSpeed = 20;
+    private bool _lastScrollingLoop = true;
+
+    private string _actualTitle = string.Empty;
+    private string _actualArtist = string.Empty;
 
     // reference to main window for flyout functions
     private MainWindow? _mainWindow;
@@ -180,26 +190,64 @@ public partial class TaskbarWidgetControl : UserControl
     public (double logicalWidth, double logicalHeight) CalculateSize(double dpiScale)
     {
         // calculate widget width - use cached values if text hasn't changed
-        string currentTitle = SongTitle.Text;
-        string currentArtist = SongArtist.Text;
+        string currentTitle = _actualTitle;
+        string currentArtist = _actualArtist;
+
+        bool textChanged = false;
 
         if (!string.Equals(currentTitle, _cachedTitleText, StringComparison.Ordinal))
         {
             _cachedTitleWidth = StringWidth.GetStringWidth(currentTitle, 400);
             _cachedTitleText = currentTitle;
+            textChanged = true;
         }
         if (!string.Equals(currentArtist, _cachedArtistText, StringComparison.Ordinal))
         {
             _cachedArtistWidth = StringWidth.GetStringWidth(currentArtist, 400);
             _cachedArtistText = currentArtist;
+            textChanged = true;
         }
 
-        double logicalWidth = Math.Max(_cachedTitleWidth, _cachedArtistWidth) + 55; // add margin for cover image
+        double logicalWidth = Math.Max(_cachedTitleWidth, _cachedArtistWidth) + 58; // add margin for cover image
         // maximum width limit, same as Windows native widget
         logicalWidth = Math.Min(logicalWidth, _nativeWidgetsPadding / _scale);
 
-        SongTitle.Width = Math.Max(logicalWidth - 58, 0);
-        SongArtist.Width = Math.Max(logicalWidth - 58, 0);
+        double newTitleContainerWidth = Math.Max(logicalWidth - 58, 0);
+        double newArtistContainerWidth = Math.Max(logicalWidth - 58, 0);
+
+        bool scrollingTitleSetting = SettingsManager.Current.TaskbarWidgetScrollingTitleText;
+        bool scrollingArtistSetting = SettingsManager.Current.TaskbarWidgetScrollingArtistText;
+        int scrollingSpeed = SettingsManager.Current.TaskbarWidgetScrollingTextSpeed;
+        bool scrollingLoop = SettingsManager.Current.TaskbarWidgetScrollingTextLoopForever;
+
+        bool titleSettingsChanged = _lastScrollingTitleSetting != scrollingTitleSetting || 
+                               _lastScrollingSpeed != scrollingSpeed || 
+                               _lastScrollingLoop != scrollingLoop;
+
+        if (textChanged || _cachedTitleContainerWidth != newTitleContainerWidth || titleSettingsChanged)
+        {
+            SongTitleContainer.Width = newTitleContainerWidth;
+            _cachedTitleContainerWidth = newTitleContainerWidth;
+
+            UpdateMarquee(SongTitle, SongTitleContainer, _cachedTitleWidth, scrollingTitleSetting, scrollingSpeed, scrollingLoop);
+        }
+
+        bool artistSettingsChanged = _lastScrollingArtistSetting != scrollingArtistSetting || 
+                                     _lastScrollingSpeed != scrollingSpeed || 
+                                     _lastScrollingLoop != scrollingLoop;
+
+        if (textChanged || _cachedArtistContainerWidth != newArtistContainerWidth || artistSettingsChanged)
+        {
+            SongArtistContainer.Width = newArtistContainerWidth;
+            _cachedArtistContainerWidth = newArtistContainerWidth;
+
+            UpdateMarquee(SongArtist, SongArtistContainer, _cachedArtistWidth, scrollingArtistSetting, scrollingSpeed, scrollingLoop);
+        }
+
+        _lastScrollingTitleSetting = scrollingTitleSetting;
+        _lastScrollingArtistSetting = scrollingArtistSetting;
+        _lastScrollingSpeed = scrollingSpeed;
+        _lastScrollingLoop = scrollingLoop;
 
         // add space for playback controls if enabled and visible
         if (SettingsManager.Current.TaskbarWidgetControlsEnabled && ControlsStackPanel.Visibility == Visibility.Visible)
@@ -211,6 +259,89 @@ public partial class TaskbarWidgetControl : UserControl
         double logicalHeight = 40; // default height
 
         return (logicalWidth, logicalHeight);
+    }
+
+    private void UpdateMarquee(System.Windows.Controls.TextBlock textBlock, Canvas container, double textWidth, bool isEnabled, int speed, bool loopForever)
+    {
+        var transform = textBlock.RenderTransform as TranslateTransform;
+        if (transform == null) return;
+
+        double containerWidth = container.Width;
+
+        if (isEnabled && textWidth > containerWidth + 2 && containerWidth > 0 && !double.IsNaN(containerWidth))
+        {
+            textBlock.Width = double.NaN;
+            textBlock.TextTrimming = TextTrimming.None;
+
+            string origText = textBlock == SongTitle ? _actualTitle : _actualArtist;
+            string spaceStr = "     ";
+            double spaceWidth = StringWidth.GetStringWidth(spaceStr, 400);
+
+            var opacityMask = new LinearGradientBrush();
+            opacityMask.StartPoint = new Point(0, 0);
+            opacityMask.EndPoint = new Point(containerWidth, 0);
+            opacityMask.MappingMode = BrushMappingMode.Absolute;
+
+            double fadeFraction = 12.0 / containerWidth;
+            if (fadeFraction > 0.5) fadeFraction = 0.5;
+
+            opacityMask.GradientStops.Add(new GradientStop(Color.FromArgb(0, 255, 255, 255), 0.0));
+            opacityMask.GradientStops.Add(new GradientStop(Color.FromArgb(255, 255, 255, 255), fadeFraction));
+            opacityMask.GradientStops.Add(new GradientStop(Color.FromArgb(255, 255, 255, 255), 1.0 - fadeFraction));
+            opacityMask.GradientStops.Add(new GradientStop(Color.FromArgb(0, 255, 255, 255), 1.0));
+            container.OpacityMask = opacityMask;
+
+            var animation = new DoubleAnimationUsingKeyFrames
+            {
+                RepeatBehavior = RepeatBehavior.Forever
+            };
+
+            if (loopForever)
+            {
+                textBlock.Text = origText + spaceStr + origText;
+                textBlock.Measure(new Size(Double.PositiveInfinity, Double.PositiveInfinity));
+                double totalTextWidth = textBlock.DesiredSize.Width;
+
+                textBlock.Text = origText;
+                textBlock.Measure(new Size(Double.PositiveInfinity, Double.PositiveInfinity));
+                double singleTextWidth = textBlock.DesiredSize.Width;
+
+                double distanceToShift = totalTextWidth - singleTextWidth;
+
+                textBlock.Text = origText + spaceStr + origText;
+
+                // continuous scrolling (text scrolls forever & repeats)
+                double durationToScroll = distanceToShift / speed;
+
+                animation.KeyFrames.Add(new DiscreteDoubleKeyFrame(0, KeyTime.FromTimeSpan(TimeSpan.Zero)));
+                animation.KeyFrames.Add(new LinearDoubleKeyFrame(-distanceToShift, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(durationToScroll))));
+            }
+            else
+            {
+                textBlock.Text = origText;
+                // default style (back and forth)
+                double scrollDistance = textWidth - containerWidth + 10;
+                double durationSeconds = scrollDistance / speed;
+
+                animation.KeyFrames.Add(new DiscreteDoubleKeyFrame(0, KeyTime.FromTimeSpan(TimeSpan.Zero)));
+                animation.KeyFrames.Add(new LinearDoubleKeyFrame(0, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(2))));
+                animation.KeyFrames.Add(new LinearDoubleKeyFrame(-scrollDistance, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(2 + durationSeconds))));
+                animation.KeyFrames.Add(new LinearDoubleKeyFrame(-scrollDistance, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(4 + durationSeconds))));
+                animation.KeyFrames.Add(new LinearDoubleKeyFrame(0, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(4 + durationSeconds * 2))));
+                animation.KeyFrames.Add(new LinearDoubleKeyFrame(0, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(6 + durationSeconds * 2))));
+            }
+
+            transform.BeginAnimation(TranslateTransform.XProperty, animation);
+        }
+        else
+        {
+            transform.BeginAnimation(TranslateTransform.XProperty, null);
+            transform.X = 0;
+            textBlock.Text = textBlock == SongTitle ? _actualTitle : _actualArtist;
+            textBlock.Width = containerWidth;
+            textBlock.TextTrimming = TextTrimming.CharacterEllipsis;
+            container.OpacityMask = null;
+        }
     }
 
     public void UpdateUi(string title, string artist, BitmapImage? icon, GlobalSystemMediaTransportControlsSessionPlaybackStatus? playbackStatus, GlobalSystemMediaTransportControlsSessionPlaybackControls? playbackControls = null)
@@ -279,17 +410,23 @@ public partial class TaskbarWidgetControl : UserControl
 
         Dispatcher.Invoke(() =>
         {
-            if (SongTitle.Text != title && SongArtist.Text != artist)
+            string newTitle = !string.IsNullOrEmpty(title) ? title : "-";
+            string newArtist = !string.IsNullOrEmpty(artist) ? artist : "-";
+
+            if (_actualTitle != newTitle || _actualArtist != newArtist)
             {
                 // changed info
                 if (SettingsManager.Current.TaskbarWidgetAnimated)
                 {
                     AnimateEntrance();
                 }
-            }
 
-            SongTitle.Text = !string.IsNullOrEmpty(title) ? title : "-";
-            SongArtist.Text = !string.IsNullOrEmpty(artist) ? artist : "-";
+                _actualTitle = newTitle;
+                _actualArtist = newArtist;
+
+                SongTitle.Text = _actualTitle;
+                SongArtist.Text = _actualArtist;
+            }
 
             // Update tooltip with song info
             SongInfoStackPanel.ToolTip = string.Empty;
@@ -395,10 +532,7 @@ public partial class TaskbarWidgetControl : UserControl
     {
         if (_mainWindow == null) return;
 
-        var mediaManager = _mainWindow.mediaManager;
-        if (mediaManager == null) return;
-
-        var focusedSession = mediaManager.GetFocusedSession();
+        var focusedSession = _mainWindow.GetActiveMediaSession();
         if (focusedSession == null) return;
 
         await focusedSession.ControlSession.TrySkipPreviousAsync();
@@ -408,30 +542,17 @@ public partial class TaskbarWidgetControl : UserControl
     {
         if (_mainWindow == null) return;
 
-        var mediaManager = _mainWindow.mediaManager;
-        if (mediaManager == null) return;
-
-        var focusedSession = mediaManager.GetFocusedSession();
+        var focusedSession = _mainWindow.GetActiveMediaSession();
         if (focusedSession == null) return;
 
-        if (_isPaused) // paused
-        {
-            await focusedSession.ControlSession.TryPlayAsync();
-        }
-        else // playing
-        {
-            await focusedSession.ControlSession.TryPauseAsync();
-        }
+        await focusedSession.ControlSession.TryTogglePlayPauseAsync();
     }
 
     private async void Next_Click(object sender, RoutedEventArgs e)
     {
         if (_mainWindow == null) return;
 
-        var mediaManager = _mainWindow.mediaManager;
-        if (mediaManager == null) return;
-
-        var focusedSession = mediaManager.GetFocusedSession();
+        var focusedSession = _mainWindow.GetActiveMediaSession();
         if (focusedSession == null) return;
 
         await focusedSession.ControlSession.TrySkipNextAsync();

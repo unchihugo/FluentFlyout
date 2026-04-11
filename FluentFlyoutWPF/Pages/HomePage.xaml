@@ -103,7 +103,17 @@
         </StackPanel>
 
         <TextBlock Grid.Row="6" Text="{DynamicResource HomeDashboardTitle}" FontSize="14" FontWeight="SemiBold" Margin="0,0,0,6" />
-        <Grid Margin="-4" RowDefinitions="Auto, Auto, Auto" ColumnDefinitions="*, *">
+        <Grid Margin="-4">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
             <ui:CardAction Grid.Row="0" Grid.Column="0" Margin="4" Padding="12,20" IsChevronVisible="True" Click="MediaFlyout_Click">
                 <ui:CardAction.Icon>
                     <ui:SymbolIcon Symbol="VideoPlayPause24" FontSize="30" Filled="False" />
