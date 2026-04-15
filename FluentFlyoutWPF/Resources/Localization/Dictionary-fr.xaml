@@ -40,7 +40,7 @@ masque les options de répétition, de lecture aléatoire et les informations du
     <system:String x:Key="AcrylicWindowDescription">Appliquer un effet transparent acrylique floué au volet (reviendra à Mica si désactivé)</system:String>
     <system:String x:Key="PauseOtherMediaDescription">Lorsque vous reproduisez ou sélectionnez de nouveau média, les autres sessions actives seront mises en pause automatiquement</system:String>
     <system:String x:Key="TaskbarWidgetCustomizationTitle">Widget de la barre des tâches</system:String>
-    <system:String x:Key="TaskbarWidgetDescription">Un widget compact et intégré sur la barre de tâches de Windows pour un accès instant à votre média. Cliquez sur le widget pour étendre le volet de média complet</system:String>
+    <system:String x:Key="TaskbarWidgetDescription">Un widget compact et intégré sur la barre de tâches de Windows pour un accès instantané à votre média. Cliquez sur le widget pour étendre le volet de média complet.</system:String>
     <system:String x:Key="BackgroundBlurOption2" xml:space="preserve"> Style 1 (Couverture Glow)</system:String>
     <system:String x:Key="BackgroundBlurOption3" xml:space="preserve"> Style 2 (Lueur montante)</system:String>
     <system:String x:Key="TaskbarWidgetEnabledTitle">Activer le Widget Barre des tâches</system:String>
@@ -164,7 +164,7 @@ Vous pouvez contribuer aux traductions sur</system:String>
     <system:String x:Key="UpToDate">À jour</system:String>
     <system:String x:Key="LastChecked">Dernière vérification : {0}</system:String>
     <system:String x:Key="CheckingForUpdates">Vérification...</system:String>
-    <system:String x:Key="UpdateAvailableNotificationTitle">Une mise à jour est disponible!</system:String>
+    <system:String x:Key="UpdateAvailableNotificationTitle">Une mise à jour est disponible !</system:String>
     <system:String x:Key="UpdateAvailableNotificationMessage">Une nouvelle version ({0}) est disponible.</system:String>
     <system:String x:Key="UpdateAvailableNotificationButton">Télécharger la mise à jour</system:String>
     <system:String x:Key="MediaFlyoutExcludeVolumeTitle">Exclure les Touches de Volume</system:String>
@@ -210,15 +210,15 @@ Vous pouvez contribuer aux traductions sur</system:String>
     <system:String x:Key="UseAlbumArtAccentColorTitle">Utiliser la couverture de l'album comme couleur</system:String>
     <system:String x:Key="BackupRestoreCardTitle">Enregistrer et restaurer vos paramètres</system:String>
     <system:String x:Key="ExportSettings">Exporter vos réglages</system:String>
-    <system:String x:Key="ImportSettings">importer des réglages</system:String>
-    <system:String x:Key="ExportSuccessful">Export effectué</system:String>
-    <system:String x:Key="ExportFailed">Export non effectué</system:String>
-    <system:String x:Key="ImportSuccessful">Import effectué</system:String>
-    <system:String x:Key="ImportFailed">Import non effectué</system:String>
-    <system:String x:Key="SettingsExportedSuccessfully">Réglages exportés !</system:String>
-    <system:String x:Key="SettingsImportedSuccessfully">Réglages importés! L'application va désormais redémarrer afin d'effectuer les changements.</system:String>
-    <system:String x:Key="ImportSettingsWarning">Ceci remplacera tous vos réglages actuelles. Continuer?</system:String>
-    <system:String x:Key="AdvancedSettingsTitle">Réglages avancés</system:String>
+    <system:String x:Key="ImportSettings">Importer des Réglages</system:String>
+    <system:String x:Key="ExportSuccessful">Exportation réussie</system:String>
+    <system:String x:Key="ExportFailed">Échec de l'exportation</system:String>
+    <system:String x:Key="ImportSuccessful">Importation réussie</system:String>
+    <system:String x:Key="ImportFailed">Échec de l'importation</system:String>
+    <system:String x:Key="SettingsExportedSuccessfully">Exportation des réglages réussie !</system:String>
+    <system:String x:Key="SettingsImportedSuccessfully">Réglages importés ! L'application va désormais redémarrer afin d'effectuer les changements.</system:String>
+    <system:String x:Key="ImportSettingsWarning">Ceci remplacera tous vos réglages actuelles. Continuer ?</system:String>
+    <system:String x:Key="AdvancedSettingsTitle">Paramètres avancés</system:String>
     <system:String x:Key="TaskbarVisualizerOutputDeviceDescription">Changer le dispositif de sortie pour changer ce que le visualisateur de FluentFlyout entend.</system:String>
     <system:String x:Key="TaskbarVisualizerClickableDescription">Cliquer le visualisateur ouvrira sa page de paramètrage</system:String>
     <system:String x:Key="LockKeysCursorUITitle">Écran d'affichage préféré</system:String>
@@ -230,7 +230,7 @@ Vous pouvez contribuer aux traductions sur</system:String>
     <system:String x:Key="LegacyTaskbarWidthDescription">Utiliser la largeur d’origine de la barre des tâches pour les widgets</system:String>
     <system:String x:Key="LegacyTaskbarWidthTitle">Largeur d'origine du système de la barre des tâches</system:String>
     <system:String x:Key="TaskbarWidgetAutoHideTitle">Cacher Automatiquement le Widget</system:String>
-    <system:String x:Key="TaskbarWidgetAutoHideDescription">Masque automatiquement le widget lorsque le média est en pause.</system:String>
+    <system:String x:Key="TaskbarWidgetAutoHideDescription">Masque automatiquement le widget lorsque le média est en pause</system:String>
     <system:String x:Key="LockKeysAnimatedTitle">Animation d'indicateur</system:String>
     <system:String x:Key="LockKeysAnimatedDescription">Activer des animations discrètes pour l’indicateur des touches de verrouillage</system:String>
 </ResourceDictionary>

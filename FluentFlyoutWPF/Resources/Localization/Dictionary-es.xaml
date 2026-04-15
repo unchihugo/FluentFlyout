@@ -93,7 +93,7 @@ Puedes ayudar a contribuir con las traducciones en</system:String>
     <system:String x:Key="LockWindow_InsertPressed">Pulsado Insert</system:String>
     <system:String x:Key="LockWindow_LockOn">activado</system:String>
     <system:String x:Key="LockWindow_LockOff">desactivado</system:String>
-    <system:String x:Key="NextUpWindow_UpNextText">Pista siguente:</system:String>
+    <system:String x:Key="NextUpWindow_UpNextText">Siguente:</system:String>
     <system:String x:Key="TrayIcon_SettingsOption">Ajustes</system:String>
     <system:String x:Key="TrayIcon_GitHubRepositoryOption">Repositorio</system:String>
     <system:String x:Key="TrayIcon_ReportBugOption">Reportar fallo</system:String>
@@ -230,7 +230,7 @@ Nota: Como proyecto de código abierto, estas opciones también están disponibl
     <system:String x:Key="AdvancedSettingsTitle">Ajustes Avanzados</system:String>
     <system:String x:Key="LegacyTaskbarWidthTitle">Sistema Antiguo del Ancho del Widget de la Barra de Tareas</system:String>
     <system:String x:Key="TaskbarWidgetAutoHideTitle">Ocultar Widget Automáticamente</system:String>
-    <system:String x:Key="TaskbarWidgetAutoHideDescription">Ocultar el widget automáticamente cuando la reproducción se encuentre pausada</system:String>
-    <system:String x:Key="LockKeysAnimatedTitle">Indicador de Animaciones</system:String>
-    <system:String x:Key="LockKeysAnimatedDescription">Habilidad animaciones sutiles para el indicador de la llave de bloqueo</system:String>
+    <system:String x:Key="TaskbarWidgetAutoHideDescription">Oculta automáticamente el widget cuando la reproducción se pausa</system:String>
+    <system:String x:Key="LockKeysAnimatedTitle">Animaciones de Indicador</system:String>
+    <system:String x:Key="LockKeysAnimatedDescription">Activa animaciones sutiles para el indicador de las teclas de bloqueo</system:String>
 </ResourceDictionary>
