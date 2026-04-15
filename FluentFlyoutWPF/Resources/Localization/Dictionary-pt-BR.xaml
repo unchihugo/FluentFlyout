@@ -229,4 +229,8 @@ Nota: Como um projeto de código aberto, esses recursos também estão disponív
     <system:String x:Key="AdvancedSettingsTitle">Configurações avançadas</system:String>
     <system:String x:Key="LegacyTaskbarWidthTitle">Sistema legado de largura da barra de tarefas</system:String>
     <system:String x:Key="LegacyTaskbarWidthDescription">Usar o sistema legado de largura da barra de tarefas para widgets da barra de tarefas</system:String>
+    <system:String x:Key="TaskbarWidgetAutoHideTitle">Ocultar widget automaticamente</system:String>
+    <system:String x:Key="TaskbarWidgetAutoHideDescription">Oculta o widget automaticamente quando a mídia está pausada</system:String>
+    <system:String x:Key="LockKeysAnimatedTitle">Animações do indicador</system:String>
+    <system:String x:Key="LockKeysAnimatedDescription">Ativar animações sutis para o indicador de teclas de bloqueio</system:String>
 </ResourceDictionary>

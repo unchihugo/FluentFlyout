@@ -196,4 +196,6 @@
     <system:String x:Key="TaskbarVisualizerAudioSensitivityTitle">音訊靈敏度</system:String>
     <system:String x:Key="HideTrayIconPerk">隱藏系統匣圖示</system:String>
     <system:String x:Key="DefaultLockLayoutPosition">彈出視窗顯示器</system:String>
+    <system:String x:Key="TaskbarVisualizerBaselineDescription">當音量為 0 時，顯示一條直線</system:String>
+    <system:String x:Key="TaskbarVisualizerAudioSensitivityDescription">觸發視覺化長條動畫的音量大小</system:String>
 </ResourceDictionary>
