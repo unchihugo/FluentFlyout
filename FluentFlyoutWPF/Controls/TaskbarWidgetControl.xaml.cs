@@ -351,6 +351,9 @@ public partial class TaskbarWidgetControl : UserControl
             // no media playing, hide UI
             Dispatcher.Invoke(() =>
             {
+                _actualTitle = string.Empty;
+                _actualArtist = string.Empty;
+
                 if (SettingsManager.Current.TaskbarWidgetHideCompletely)
                 {
                     Visibility = Visibility.Collapsed;
