@@ -225,4 +225,8 @@ Môžete pomôcť s prekladmi na</system:String>
     <system:String x:Key="AdvancedSettingsTitle">Rozšírené nastavenia</system:String>
     <system:String x:Key="LegacyTaskbarWidthTitle">Systém šírky klasického panela úloh</system:String>
     <system:String x:Key="LegacyTaskbarWidthDescription">Použiť klasický systém šírky panela úloh pre jeho widgety</system:String>
+    <system:String x:Key="TaskbarWidgetAutoHideTitle">Automaticky Skryť Widget</system:String>
+    <system:String x:Key="TaskbarWidgetAutoHideDescription">Automaticky skryje widget keď sú médiá pozastavené</system:String>
+    <system:String x:Key="LockKeysAnimatedTitle">Animácie Indikátorov</system:String>
+    <system:String x:Key="LockKeysAnimatedDescription">Povolí jemné animácie pre indikátory lock kláves</system:String>
 </ResourceDictionary>

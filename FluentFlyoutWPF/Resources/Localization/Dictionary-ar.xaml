@@ -229,4 +229,8 @@
     <system:String x:Key="AdvancedSettingsTitle">الإعدادات المتقدمة</system:String>
     <system:String x:Key="LegacyTaskbarWidthTitle">نظام عرض شريط المهام القديم</system:String>
     <system:String x:Key="LegacyTaskbarWidthDescription">استخدم نظام عرض شريط المهام القديم لتطبيقات شريط المهام المصغرة</system:String>
+    <system:String x:Key="TaskbarWidgetAutoHideTitle">إخفاء تلقائي للتطبيق المصغر</system:String>
+    <system:String x:Key="TaskbarWidgetAutoHideDescription">إخفاء التطبيق المصغر تلقائيًا عند إيقاف الوسائط مؤقتًا</system:String>
+    <system:String x:Key="LockKeysAnimatedTitle">رسوم متحركة للمؤشر</system:String>
+    <system:String x:Key="LockKeysAnimatedDescription">تمكين رسوم متحركة بسيطة لمؤشر مفتاح القفل</system:String>
 </ResourceDictionary>

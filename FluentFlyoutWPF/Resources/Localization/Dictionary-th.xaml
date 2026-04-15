@@ -20,4 +20,14 @@
     <system:String x:Key="CompactLayoutTitle">เลย์เอาต์แบบแน่น</system:String>
     <system:String x:Key="CompactLayoutDescription" xml:space="preserve">รูปแบบที่เรียบง่ายและไม่เกะกะ
 ซ่อนข้อมูลการเล่นซ้ำ การสุ่ม และตัวเล่น</system:String>
+    <system:String x:Key="PositionBottomLeft" xml:space="preserve"> มุมล่างด้านซ้าย</system:String>
+    <system:String x:Key="PositionBottomCenter" xml:space="preserve"> มุมล่างตรงกลาง</system:String>
+    <system:String x:Key="PositionBottomRight" xml:space="preserve"> มุมล่างด้านขวา</system:String>
+    <system:String x:Key="PositionTopLeft" xml:space="preserve"> มุมบนด้านซ้าย</system:String>
+    <system:String x:Key="PositionTopCenter" xml:space="preserve"> มุมบนตรงกลาง</system:String>
+    <system:String x:Key="PositionTopRight" xml:space="preserve"> มุมบนด้านขวา</system:String>
+    <system:String x:Key="FlyoutStayDurationDescription">(ค่าเริ่มต้น: 3000 ms)</system:String>
+    <system:String x:Key="MillisecondsUnit">ms</system:String>
+    <system:String x:Key="MediaFlyoutAlwaysDisplay">แสดงผลไว้เสมอ</system:String>
+    <system:String x:Key="ShowMediaPlayerNameTitle">แสดงชื่อของสื่อที่เล่นอยู่</system:String>
 </ResourceDictionary>
