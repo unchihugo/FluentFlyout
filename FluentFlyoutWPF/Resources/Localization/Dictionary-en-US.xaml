@@ -66,6 +66,8 @@ hides repeat, shuffle and player info</System:String>
     <System:String x:Key="TaskbarWidgetAutoHideDescription">Hides the widget automatically when media is paused</System:String>
     <System:String x:Key="TaskbarWidgetControlsTitle">Widget Media Controls</System:String>
     <System:String x:Key="TaskbarWidgetControlsDescription">Show media control buttons on the widget</System:String>
+    <System:String x:Key="TaskbarWidgetSongInfoTitle">Widget Media Song Info</System:String>
+    <System:String x:Key="TaskbarWidgetSongInfoDescription">Show song info on the widget, as opposed to just the icon</System:String>
     <System:String x:Key="TaskbarWidgetControlsPositionTitle">Media Controls Position</System:String>
     <System:String x:Key="TaskbarWidgetControlsPositionDescription">Choose where to display the media control buttons</System:String>
     <System:String x:Key="PositionLeft">Left</System:String>
