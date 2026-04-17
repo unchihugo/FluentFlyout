@@ -198,4 +198,11 @@
     <system:String x:Key="DefaultLockLayoutPosition">彈出視窗顯示器</system:String>
     <system:String x:Key="TaskbarVisualizerBaselineDescription">當音量為 0 時，顯示一條直線</system:String>
     <system:String x:Key="TaskbarVisualizerAudioSensitivityDescription">觸發視覺化長條動畫的音量大小</system:String>
+    <system:String x:Key="TaskbarVisualizerAudioPeakLevelTitle">音訊峰值觸發點</system:String>
+    <system:String x:Key="TaskbarVisualizerAudioPeakLevelDescription">音量達到多少時，頻譜柱會顯示為最高</system:String>
+    <system:String x:Key="TaskbarVisualizerOutputDeviceDescription">切換 FluentFlyout 的輸出裝置，變更視覺化器的收音來源。</system:String>
+    <system:String x:Key="AllFuturePremiumFeatures">所有即將推出的進階功能</system:String>
+    <system:String x:Key="LockKeysCursorUITitle">偏好的目標顯示器</system:String>
+    <system:String x:Key="LockKeysCursorUIDescription" xml:space="preserve">選擇要顯示 flyout 的螢幕。</system:String>
+    <system:String x:Key="MonitorWithFocusedWindow">目前焦點視窗所在的螢幕</system:String>
 </ResourceDictionary>
