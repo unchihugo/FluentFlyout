@@ -249,7 +249,7 @@ public partial class UserSettings : ObservableObject
     /// 0 = Default behavior, 1 = Monitor containing the focused window, 2 = Monitor containing the cursor.
     [ObservableProperty]
     public partial int LockKeysMonitorPreference { get; set; }
-    
+
     /// <summary>
     /// Determines if the user has updated to a new version
     /// </summary>
@@ -339,7 +339,7 @@ public partial class UserSettings : ObservableObject
     /// </summary>
     [ObservableProperty]
     public partial int TaskbarWidgetSelectedMonitor { get; set; }
-    
+
     /// <summary>
     /// Autohide Widget after a few milliseconds after pause 
     /// </summary>
@@ -413,6 +413,12 @@ public partial class UserSettings : ObservableObject
     /// </summary>
     [ObservableProperty]
     public partial int TaskbarWidgetControlsPosition { get; set; }
+
+    /// <summary>
+    /// Whether or not to show the song info in the taskbar widget
+    /// </summary>
+    [ObservableProperty]
+    public partial bool TaskbarSongInfoEnabled { get; set; }
 
     /// <summary>
     /// Gets or sets a value indicating whether the taskbar widget should play animations.
@@ -577,6 +583,7 @@ public partial class UserSettings : ObservableObject
         TaskbarWidgetHideCompletely = false;
         TaskbarWidgetControlsEnabled = false;
         TaskbarWidgetControlsPosition = 1;
+        TaskbarSongInfoEnabled = true;
         TaskbarWidgetAnimated = true;
         TaskbarVisualizerEnabled = false;
         TaskbarVisualizerPosition = 1;
@@ -684,9 +691,15 @@ public partial class UserSettings : ObservableObject
     partial void OnTaskbarWidgetControlsPositionChanged(int oldValue, int newValue)
     {
         if (oldValue == newValue || _initializing) return;
-        
+
         MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
         mainWindow.taskbarWindow?.Widget?.ReorderControls();
+    }
+
+    partial void OnTaskbarSongInfoEnabledChanged(bool oldValue, bool newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+        UpdateTaskbar();
     }
 
     partial void OnTaskbarVisualizerPositionChanged(int oldValue, int newValue)

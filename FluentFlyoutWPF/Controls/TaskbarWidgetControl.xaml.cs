@@ -61,7 +61,7 @@ public partial class TaskbarWidgetControl : UserControl
         }
 
         Background = new SolidColorBrush(Color.FromArgb(1, 0, 0, 0)); ;
-        
+
         // Initialize control order
         ReorderControls();
     }
@@ -179,27 +179,34 @@ public partial class TaskbarWidgetControl : UserControl
 
     public (double logicalWidth, double logicalHeight) CalculateSize(double dpiScale)
     {
-        // calculate widget width - use cached values if text hasn't changed
-        string currentTitle = SongTitle.Text;
-        string currentArtist = SongArtist.Text;
 
-        if (!string.Equals(currentTitle, _cachedTitleText, StringComparison.Ordinal))
+        double logicalWidth = 45;
+
+        if (SettingsManager.Current.TaskbarSongInfoEnabled && SongInfoStackPanel.Visibility == Visibility.Visible)
         {
-            _cachedTitleWidth = StringWidth.GetStringWidth(currentTitle, 400);
-            _cachedTitleText = currentTitle;
-        }
-        if (!string.Equals(currentArtist, _cachedArtistText, StringComparison.Ordinal))
-        {
-            _cachedArtistWidth = StringWidth.GetStringWidth(currentArtist, 400);
-            _cachedArtistText = currentArtist;
-        }
 
-        double logicalWidth = Math.Max(_cachedTitleWidth, _cachedArtistWidth) + 55; // add margin for cover image
-        // maximum width limit, same as Windows native widget
-        logicalWidth = Math.Min(logicalWidth, _nativeWidgetsPadding / _scale);
+            // calculate widget width - use cached values if text hasn't changed
+            string currentTitle = SongTitle.Text;
+            string currentArtist = SongArtist.Text;
 
-        SongTitle.Width = Math.Max(logicalWidth - 58, 0);
-        SongArtist.Width = Math.Max(logicalWidth - 58, 0);
+            if (!string.Equals(currentTitle, _cachedTitleText, StringComparison.Ordinal))
+            {
+                _cachedTitleWidth = StringWidth.GetStringWidth(currentTitle, 400);
+                _cachedTitleText = currentTitle;
+            }
+            if (!string.Equals(currentArtist, _cachedArtistText, StringComparison.Ordinal))
+            {
+                _cachedArtistWidth = StringWidth.GetStringWidth(currentArtist, 400);
+                _cachedArtistText = currentArtist;
+            }
+
+            logicalWidth = Math.Max(_cachedTitleWidth, _cachedArtistWidth) + 55; // add margin for cover image
+                                                                                // maximum width limit, same as Windows native widget
+            logicalWidth = Math.Min(logicalWidth, _nativeWidgetsPadding / _scale);
+
+            SongTitle.Width = Math.Max(logicalWidth - 58, 0);
+            SongArtist.Width = Math.Max(logicalWidth - 58, 0);
+        }
 
         // add space for playback controls if enabled and visible
         if (SettingsManager.Current.TaskbarWidgetControlsEnabled && ControlsStackPanel.Visibility == Visibility.Visible)
@@ -251,6 +258,19 @@ public partial class TaskbarWidgetControl : UserControl
         {
             _isPaused = true;
         }
+
+        // adjust UI based on available controls
+        Dispatcher.Invoke(() =>
+        {
+            if (!SettingsManager.Current.TaskbarSongInfoEnabled)
+            {
+                SongInfoStackPanel.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                SongInfoStackPanel.Visibility = Visibility.Visible;
+            }
+        });
 
         // adjust UI based on available controls
         Dispatcher.Invoke(() =>
@@ -341,6 +361,9 @@ public partial class TaskbarWidgetControl : UserControl
             ControlsStackPanel.Visibility = SettingsManager.Current.TaskbarWidgetControlsEnabled
                 ? Visibility.Visible
                 : Visibility.Collapsed;
+            SongInfoStackPanel.Visibility = SettingsManager.Current.TaskbarSongInfoEnabled
+                ? Visibility.Visible
+                : Visibility.Collapsed;
 
             Visibility = Visibility.Visible;
         });
@@ -369,11 +392,15 @@ public partial class TaskbarWidgetControl : UserControl
                 EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseOut }
             };
 
-            // Apply animations
-            SongInfoStackPanel.BeginAnimation(OpacityProperty, opacityAnimation);
-            TranslateTransform translateTransform = new();
-            SongInfoStackPanel.RenderTransform = translateTransform;
-            translateTransform.BeginAnimation(TranslateTransform.XProperty, translateAnimation);
+            // don't play SongInfoStackPanel animation if it's not enabled
+            if (SettingsManager.Current.TaskbarSongInfoEnabled)
+            {
+                // Apply animations
+                SongInfoStackPanel.BeginAnimation(OpacityProperty, opacityAnimation);
+                TranslateTransform translateTransform = new();
+                SongInfoStackPanel.RenderTransform = translateTransform;
+                translateTransform.BeginAnimation(TranslateTransform.XProperty, translateAnimation);
+            }
 
             // don't play ControlsStackPanel animation if it's not enabled
             if (!SettingsManager.Current.TaskbarWidgetControlsEnabled)
