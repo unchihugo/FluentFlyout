@@ -309,7 +309,7 @@ public partial class TaskbarWidgetControl : UserControl
 
             if (icon != null)
             {
-                if (_isPaused)
+                if (_isPaused && SettingsManager.Current.TaskbarWidgetShowPauseOverlay && !SettingsManager.Current.TaskbarWidgetControlsEnabled)
                 { // show pause icon overlay
                     SongImagePlaceholder.Symbol = SymbolRegular.Pause24;
                     SongImagePlaceholder.Visibility = Visibility.Visible;
