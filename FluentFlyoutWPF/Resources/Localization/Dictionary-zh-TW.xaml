@@ -40,7 +40,7 @@
     <system:String x:Key="PauseOtherMediaDescription">當你播放或專注於新的媒體時，其他播放中的媒體會自動暫停</system:String>
     <system:String x:Key="NextUpCustomizationTitle">下一首彈出視窗</system:String>
     <system:String x:Key="NextUpDescription" xml:space="preserve">當歌曲/影片結束時，彈出視窗會顯示下一首。僅會在下一項目自動播放時顯示。如果手動按下下一首或上一首按鈕，則主要彈出視窗會出現。</system:String>
-    <system:String x:Key="EnableNextUpTitle">啟用下一首彈出視窗（實驗性功能）</system:String>
+    <system:String x:Key="EnableNextUpTitle">啟用下一首彈出視窗</system:String>
     <system:String x:Key="EnableNextUpDescription">當歌曲/影片結束時顯示下一首</system:String>
     <system:String x:Key="NextUpStayDurationTitle">下一首停留時間</system:String>
     <system:String x:Key="NextUpStayDurationDescription">(預設 : 2000 毫秒）</system:String>
@@ -86,10 +86,10 @@
     <system:String x:Key="LockWindow_CapsLock">Caps Lock</system:String>
     <system:String x:Key="LockWindow_NumLock">Num Lock</system:String>
     <system:String x:Key="LockWindow_ScrollLock">Scroll Lock</system:String>
-    <system:String x:Key="LockWindow_InsertPressed">Insert Pressed</system:String>
+    <system:String x:Key="LockWindow_InsertPressed">已按下 Insert 鍵</system:String>
     <system:String x:Key="LockWindow_LockOn">開啟</system:String>
     <system:String x:Key="LockWindow_LockOff">關閉</system:String>
-    <system:String x:Key="NextUpWindow_UpNextText">下一首:</system:String>
+    <system:String x:Key="NextUpWindow_UpNextText">下一首：</system:String>
     <system:String x:Key="TrayIcon_SettingsOption">設定</system:String>
     <system:String x:Key="TrayIcon_GitHubRepositoryOption">儲存庫</system:String>
     <system:String x:Key="TrayIcon_ReportBugOption">回報錯誤</system:String>
@@ -195,7 +195,7 @@
     <system:String x:Key="TaskbarWidgetAutoHideDescription">當媒體暫停播放時，自動隱藏小工具</system:String>
     <system:String x:Key="TaskbarVisualizerAudioSensitivityTitle">音訊靈敏度</system:String>
     <system:String x:Key="HideTrayIconPerk">隱藏系統匣圖示</system:String>
-    <system:String x:Key="DefaultLockLayoutPosition">彈出視窗顯示器</system:String>
+    <system:String x:Key="DefaultLockLayoutPosition">預設（彈出視窗顯示器）</system:String>
     <system:String x:Key="TaskbarVisualizerBaselineDescription">當音量為 0 時，顯示一條直線</system:String>
     <system:String x:Key="TaskbarVisualizerAudioSensitivityDescription">觸發視覺化長條動畫的音量大小</system:String>
     <system:String x:Key="TaskbarVisualizerAudioPeakLevelTitle">音訊峰值觸發點</system:String>
@@ -205,4 +205,34 @@
     <system:String x:Key="LockKeysCursorUITitle">偏好的目標顯示器</system:String>
     <system:String x:Key="LockKeysCursorUIDescription" xml:space="preserve">選擇要顯示 flyout 的螢幕。</system:String>
     <system:String x:Key="MonitorWithFocusedWindow">目前焦點視窗所在的螢幕</system:String>
+    <system:String x:Key="UseAlbumArtAccentColorTitle">將專輯封面作為主題色</system:String>
+    <system:String x:Key="UseAlbumArtAccentColorDescription">部分使用者介面元素將使用專輯封面顏色，而不是系統主題顏色</system:String>
+    <system:String x:Key="AppearanceBehaviorSectionTitle">外觀與行為</system:String>
+    <system:String x:Key="UpdatesSectionTitle">更新</system:String>
+    <system:String x:Key="DevelopersTitle">開發者</system:String>
+    <system:String x:Key="TranslatorsTitle">翻譯者</system:String>
+    <system:String x:Key="SponsorMeLink">贊助我</system:String>
+    <system:String x:Key="BuyMeCoffeeLink">請我喝杯咖啡</system:String>
+    <system:String x:Key="ShowUpdateNotificationsTitle">有更新時顯示通知</system:String>
+    <system:String x:Key="BackupRestoreSectionTitle">備份與還原</system:String>
+    <system:String x:Key="BackupRestoreCardTitle">將您的設置備份與還原</system:String>
+    <system:String x:Key="ExportSettings">匯出設定</system:String>
+    <system:String x:Key="ImportSettings">匯入設定</system:String>
+    <system:String x:Key="ExportSuccessful">匯出成功</system:String>
+    <system:String x:Key="ExportFailed">匯出失敗</system:String>
+    <system:String x:Key="ImportSuccessful">匯入成功</system:String>
+    <system:String x:Key="ImportFailed">匯入失敗</system:String>
+    <system:String x:Key="SettingsExportedSuccessfully">設定匯出成功！</system:String>
+    <system:String x:Key="FailedToExportSettings">設定匯出失敗。請查看日誌以了解詳情。</system:String>
+    <system:String x:Key="SettingsImportedSuccessfully">設定匯入成功！應用程式將重新啟動以套用更改。</system:String>
+    <system:String x:Key="ImportSettingsWarning">這將替換您當前的所有設定。是否繼續？</system:String>
+    <system:String x:Key="FailedToImportSettings">設定匯入失敗。請查看日誌以了解詳情。</system:String>
+    <system:String x:Key="AdvancedSettingsTitle">進階設定</system:String>
+    <system:String x:Key="TaskbarWidgetShowPauseOverlayTitle">顯示暫停圖示疊加層</system:String>
+    <system:String x:Key="TaskbarWidgetShowPauseOverlayDescription">當媒體暫停播放時，在專輯封面上顯示暫停圖示</system:String>
+    <system:String x:Key="MonitorWithCursor">游標所在的顯示器</system:String>
+    <system:String x:Key="LockKeysAnimatedTitle">指示器動畫</system:String>
+    <system:String x:Key="LockKeysAnimatedDescription">為鎖定鍵啟用微小的動畫效果</system:String>
+    <system:String x:Key="LegacyTaskbarWidthTitle">舊版工作列寬度</system:String>
+    <system:String x:Key="LegacyTaskbarWidthDescription">對工作列小工具使用舊版工作列寬度</system:String>
 </ResourceDictionary>
