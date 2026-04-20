@@ -233,4 +233,5 @@ Vous pouvez contribuer aux traductions sur</system:String>
     <system:String x:Key="TaskbarWidgetAutoHideDescription">Masque automatiquement le widget lorsque le média est en pause</system:String>
     <system:String x:Key="LockKeysAnimatedTitle">Animation d'indicateur</system:String>
     <system:String x:Key="LockKeysAnimatedDescription">Activer des animations discrètes pour l’indicateur des touches de verrouillage</system:String>
+    <system:String x:Key="TaskbarWidgetShowPauseOverlayTitle">Afficher l'icône de pause</system:String>
 </ResourceDictionary>
