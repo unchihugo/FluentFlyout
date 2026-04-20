@@ -233,4 +233,6 @@ Puoi contribuire alla traduzione su</system:String>
     <system:String x:Key="TaskbarWidgetAutoHideDescription">Nasconde automaticamente il widget quando il media è in pausa</system:String>
     <system:String x:Key="LockKeysAnimatedTitle">Animazione dell'indicatore</system:String>
     <system:String x:Key="LockKeysAnimatedDescription">Abilita piccole animazioni per il lucchetto nell'idicatore del pulsante di blocco</system:String>
+    <system:String x:Key="TaskbarWidgetShowPauseOverlayTitle">Mostra icona di pausa nell'overlay</system:String>
+    <system:String x:Key="TaskbarWidgetShowPauseOverlayDescription">Quando il media è in pausa, mostra un'icona di pausa sulla copertina dell'album</system:String>
 </ResourceDictionary>
