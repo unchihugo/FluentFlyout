@@ -234,4 +234,5 @@ Vous pouvez contribuer aux traductions sur</system:String>
     <system:String x:Key="LockKeysAnimatedTitle">Animation d'indicateur</system:String>
     <system:String x:Key="LockKeysAnimatedDescription">Activer des animations discrètes pour l’indicateur des touches de verrouillage</system:String>
     <system:String x:Key="TaskbarWidgetShowPauseOverlayTitle">Afficher l'icône de pause</system:String>
+    <system:String x:Key="TaskbarWidgetShowPauseOverlayDescription">Lorsque le média est en pause, affiche une icône de pause sur la couverture de l'album</system:String>
 </ResourceDictionary>
