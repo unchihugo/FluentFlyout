@@ -9,6 +9,7 @@ using FluentFlyout.Controls;
 using FluentFlyoutWPF.Classes;
 using FluentFlyoutWPF.Models;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Windows;
 using System.Xml.Serialization;
 
@@ -528,6 +529,15 @@ public partial class UserSettings : ObservableObject
     public partial bool LegacyTaskbarWidthEnabled { get; set; }
 
     [XmlIgnore]
+    private static readonly Dictionary<string, bool> PersistedPropertyLookup = typeof(UserSettings)
+        .GetProperties()
+        .ToDictionary(
+            static property => property.Name,
+            static property => !Attribute.IsDefined(property, typeof(XmlIgnoreAttribute)),
+            StringComparer.Ordinal
+        );
+
+    [XmlIgnore]
     private bool _initializing = true;
 
     public UserSettings()
@@ -606,6 +616,23 @@ public partial class UserSettings : ObservableObject
     internal void CompleteInitialization()
     {
         _initializing = false;
+    }
+
+    protected override void OnPropertyChanged(PropertyChangedEventArgs e)
+    {
+        base.OnPropertyChanged(e);
+
+        if (_initializing || !SettingsManager.IsCurrentSettings(this) || string.IsNullOrWhiteSpace(e.PropertyName))
+        {
+            return;
+        }
+
+        if (!PersistedPropertyLookup.TryGetValue(e.PropertyName, out bool shouldPersist) || !shouldPersist)
+        {
+            return;
+        }
+
+        SettingsManager.SaveSettings();
     }
 
     partial void OnAppLanguageChanged(string oldValue, string newValue)

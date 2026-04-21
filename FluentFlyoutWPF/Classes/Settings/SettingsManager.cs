@@ -53,6 +53,11 @@ public class SettingsManager
         set => _current = value;
     }
 
+    internal static bool IsCurrentSettings(UserSettings settings)
+    {
+        return ReferenceEquals(_current, settings);
+    }
+
     /// <summary>
     /// Restores the settings `SettingsManager.Current` from the settings file.
     /// </summary>
