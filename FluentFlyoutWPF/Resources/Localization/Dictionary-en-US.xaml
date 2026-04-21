@@ -231,4 +231,10 @@ You can help contribute translations on</System:String>
     <System:String x:Key="AdvancedSettingsTitle">Advanced Settings</System:String>
     <System:String x:Key="LegacyTaskbarWidthTitle">Legacy Taskbar Width System</System:String>
     <System:String x:Key="LegacyTaskbarWidthDescription">Use the legacy Taskbar width system for Taskbar Widgets</System:String>
+    <System:String x:Key="AutoUpdateTitle">Automatically download updates</System:String>
+    <System:String x:Key="AutoUpdateDescription">When an update is available, it will be downloaded in the background and ready to install</System:String>
+    <System:String x:Key="AutoUpdateDownloading">Downloading...</System:String>
+    <System:String x:Key="AutoUpdateInstallButton">Install Update</System:String>
+    <System:String x:Key="AutoUpdateInstalling">Installing...</System:String>
+    <System:String x:Key="AutoUpdateDownloaded">Ready to install</System:String>
 </ResourceDictionary>
