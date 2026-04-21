@@ -1,0 +1,33 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib">
+    <system:String x:Key="TitleText">การตั้งค่า FluentFlyout</system:String>
+    <system:String x:Key="HomeTitle">หน้าหลัก</system:String>
+    <system:String x:Key="Enabled">เปิดใช้งานแล้ว</system:String>
+    <system:String x:Key="Disabled">ปิดใช้งานอยู่</system:String>
+    <system:String x:Key="MediaFlyoutTitle">Flyout สื่อ</system:String>
+    <system:String x:Key="MediaFlyoutDescription">ขณะฟังสื่อ ให้กดปุ่มควบคุมสื่อหรือปุ่มปรับระดับเสียง (เล่น/หยุดชั่วคราว, เพิ่ม/ลดเสียง ฯลฯ) บนแป้นพิมพ์เพื่อแสดงเมนูย่อย ซึ่งจะแสดงข้อมูลสื่อ พร้อมด้วยปุ่มควบคุมการเล่นและอื่นๆ</system:String>
+    <system:String x:Key="TextBlockText1">เปิดใช้งาน Flyout สื่อ</system:String>
+    <system:String x:Key="TextBlockText3">แสดง flyout เมื่อกดปุ่มควบคุมสื่อ</system:String>
+    <system:String x:Key="MediaFlyoutExcludeVolumeTitle">ยกเว้นปุ่มปรับระดับเสียง</system:String>
+    <system:String x:Key="MediaFlyoutExcludeVolumeDescription">ไม่แสดง flyout เมื่อกดปุ่มเพิ่ม/ลดเสียง</system:String>
+    <system:String x:Key="TextBlockText2">เลือกจากรูปแบบการเบลอพื้นหลังแบบทันสมัยที่มีให้เลือก</system:String>
+    <system:String x:Key="BackgroundBlurOption1" xml:space="preserve"> ไม่มี</system:String>
+    <system:String x:Key="BackgroundBlurOption2" xml:space="preserve"> สไตล์ที่ 1 (Cover Glow)</system:String>
+    <system:String x:Key="BackgroundBlurOption3" xml:space="preserve"> สไตล์ที่ 2 (Rising Glow)</system:String>
+    <system:String x:Key="BackgroundBlurOption4" xml:space="preserve"> สไตล์ที่ 3 (เบลอ)</system:String>
+    <system:String x:Key="BackgroundBlurTitle">พื้นหลังเบลอ</system:String>
+    <system:String x:Key="AcrylicWindowTitle">หน้าต่างอะคริลิก</system:String>
+    <system:String x:Key="AcrylicWindowDescription">ใช้เอฟเฟ็กต์เบลอแบบอะคริลิกโปร่งใสกับส่วนที่เลื่อนออกมา (ปิดใช้งานจะกลับไปเป็น Mica)</system:String>
+    <system:String x:Key="CompactLayoutTitle">เลย์เอาต์แบบแน่น</system:String>
+    <system:String x:Key="CompactLayoutDescription" xml:space="preserve">รูปแบบที่เรียบง่ายและไม่เกะกะ
+ซ่อนข้อมูลการเล่นซ้ำ การสุ่ม และตัวเล่น</system:String>
+    <system:String x:Key="PositionBottomLeft" xml:space="preserve"> มุมล่างด้านซ้าย</system:String>
+    <system:String x:Key="PositionBottomCenter" xml:space="preserve"> มุมล่างตรงกลาง</system:String>
+    <system:String x:Key="PositionBottomRight" xml:space="preserve"> มุมล่างด้านขวา</system:String>
+    <system:String x:Key="PositionTopLeft" xml:space="preserve"> มุมบนด้านซ้าย</system:String>
+    <system:String x:Key="PositionTopCenter" xml:space="preserve"> มุมบนตรงกลาง</system:String>
+    <system:String x:Key="PositionTopRight" xml:space="preserve"> มุมบนด้านขวา</system:String>
+    <system:String x:Key="FlyoutStayDurationDescription">(ค่าเริ่มต้น: 3000 ms)</system:String>
+    <system:String x:Key="MillisecondsUnit">ms</system:String>
+    <system:String x:Key="MediaFlyoutAlwaysDisplay">แสดงผลไว้เสมอ</system:String>
+    <system:String x:Key="ShowMediaPlayerNameTitle">แสดงชื่อของสื่อที่เล่นอยู่</system:String>
+</ResourceDictionary>

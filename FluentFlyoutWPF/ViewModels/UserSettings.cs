@@ -270,6 +270,12 @@ public partial class UserSettings : ObservableObject
     public partial bool PauseOtherSessionsEnabled { get; set; }
 
     /// <summary>
+    /// Enable subtle animations for the lock keys flyout indicator
+    /// </summary>
+    [ObservableProperty]
+    public partial bool LockKeysAnimated { get; set; }
+
+    /// <summary>
     /// Show LockKeys flyout when the Insert key is pressed
     /// </summary>
     [ObservableProperty]
@@ -337,6 +343,12 @@ public partial class UserSettings : ObservableObject
     /// </summary>
     [ObservableProperty]
     public partial int TaskbarWidgetSelectedMonitor { get; set; }
+    
+    /// <summary>
+    /// Autohide Widget after a few milliseconds after pause 
+    /// </summary>
+    [ObservableProperty]
+    public partial bool TaskbarWidgetAutoHide { get; set; }
 
     /// <summary>
     /// Gets or sets the position of the taskbar widget, represented as an integer value.
@@ -393,6 +405,12 @@ public partial class UserSettings : ObservableObject
     /// </summary>
     [ObservableProperty]
     public partial bool TaskbarWidgetHideCompletely { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the pause icon overlay should be completely hidden from view.
+    /// </summary>
+    [ObservableProperty]
+    public partial bool TaskbarWidgetShowPauseOverlay { get; set; }
 
     /// <summary>
     /// Whether taskbar widget controls (pause, previous, next) are enabled.
@@ -591,6 +609,7 @@ public partial class UserSettings : ObservableObject
         LastKnownVersion = "";
         SeekbarEnabled = false;
         PauseOtherSessionsEnabled = false;
+        LockKeysAnimated = true;
         LockKeysInsertEnabled = true;
         MediaFlyoutBackgroundBlur = 0;
         AppLanguage = "system";
@@ -607,6 +626,7 @@ public partial class UserSettings : ObservableObject
         TaskbarWidgetManualPadding = 0;
         TaskbarWidgetBackgroundBlur = false;
         TaskbarWidgetHideCompletely = false;
+        TaskbarWidgetShowPauseOverlay = true;
         TaskbarWidgetControlsEnabled = false;
         TaskbarWidgetControlsPosition = 1;
         TaskbarWidgetAnimated = true;
@@ -707,6 +727,12 @@ public partial class UserSettings : ObservableObject
     }
 
     partial void OnTaskbarWidgetHideCompletelyChanged(bool oldValue, bool newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+        UpdateTaskbar();
+    }
+
+    partial void OnTaskbarWidgetShowPauseOverlayChanged(bool oldValue, bool newValue)
     {
         if (oldValue == newValue || _initializing) return;
         UpdateTaskbar();

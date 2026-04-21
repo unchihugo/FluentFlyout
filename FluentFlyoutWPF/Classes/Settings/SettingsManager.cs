@@ -1,7 +1,6 @@
 ﻿// Copyright © 2024-2026 The FluentFlyout Authors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-using FluentFlyoutWPF.Classes.Utils;
 using FluentFlyoutWPF.ViewModels;
 using System.IO;
 using System.Xml.Serialization;
@@ -14,14 +13,28 @@ namespace FluentFlyout.Classes.Settings;
 public class SettingsManager
 {
     private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+    private static readonly Lock SettingsFileLock = new();
 
     private static string SettingsFilePath => Path.Combine(
         Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
         "FluentFlyout",
         "settings.xml"
     );
-    string logFilePath = Path.Combine(FileSystemHelper.GetLogsPath(), "FluentFlyout", "log.txt");
+
     private static UserSettings _current;
+
+    private static bool DeserializeSettings(string filePath, out UserSettings? settings)
+    {
+        settings = null;
+
+        if (!File.Exists(filePath))
+            return false;
+
+        using StreamReader reader = new(filePath);
+        XmlSerializer xmlSerializer = new(typeof(UserSettings));
+        settings = (UserSettings?)xmlSerializer.Deserialize(reader);
+        return settings != null;
+    }
 
     /// <summary>
     /// The current user settings stored in the app.
@@ -41,62 +54,53 @@ public class SettingsManager
     }
 
     /// <summary>
-    /// Checks whether the app has updated, and restores the settings from the previous version if necessary. Only updates in release mode.
-    /// </summary>
-    //public static void CheckAndUpdateSettings()
-    //{
-    //    try // gets the version of the app, works only in release mode
-    //    {
-    //        var version = Package.Current.Id.Version;
-    //        string versionString = $"{version.Major}.{version.Minor}.{version.Build}";
-    //        // if local settings file's version number is different from the current version, update the settings
-    //        if (!File.Exists(SettingsFilePath)) return;
-    //        if (Settings.Default.LastKnownVersion != versionString)
-    //        {
-    //            RestoreSettings();
-    //        }
-    //    }
-    //    catch
-    //    {
-    //        // don't update settings if version is not available
-    //        return;
-    //    }
-    //}
-
-    /// <summary>
     /// Restores the settings `SettingsManager.Current` from the settings file.
     /// </summary>
     /// <returns>The restored settings.</returns>
-    public UserSettings RestoreSettings(string filePath = null)
+    public static UserSettings RestoreSettings(string? filePath = null)
     {
         filePath ??= SettingsFilePath;
+        string backupPath = filePath + ".bak";
 
         try
         {
-            if (File.Exists(filePath))
+            if (DeserializeSettings(filePath, out var loadedSettings) && loadedSettings != null)
             {
-                using (StreamReader reader = new StreamReader(filePath))
-                {
-                    XmlSerializer xmlSerializer = new XmlSerializer(typeof(UserSettings));
-                    _current = (UserSettings)xmlSerializer.Deserialize(reader);
-                    _current.CompleteInitialization();
+                _current = loadedSettings;
+                _current.CompleteInitialization();
 
-                    Logger.Info("Settings successfully restored");
-                    return _current;
-                }
+                Logger.Info("Settings successfully restored");
+                return _current;
             }
         }
         catch (UnauthorizedAccessException ex)
         {
-            Logger.Error(ex, "No permission to write in settings file");
+            Logger.Error(ex, "No permission to read in settings file");
         }
         catch (Exception ex)
         {
             Logger.Error(ex, "Error restoring settings");
         }
 
-        // if the settings file not found or cannot be read
-        Logger.Warn("Settings file not found or cannot be read, loading default settings");
+        // try restoring backup (version before the last save)
+        try
+        {
+            if (DeserializeSettings(backupPath, out var backupSettings) && backupSettings != null)
+            {
+                _current = backupSettings;
+                _current.CompleteInitialization();
+
+                Logger.Warn("Could not restore primary settings file, restored settings from backup");
+                return _current;
+            }
+        }
+        catch (Exception backupEx)
+        {
+            Logger.Error(backupEx, "Error restoring settings from backup file");
+        }
+
+        // if the settings/backup file not found or cannot be read
+        Logger.Warn("Settings & backup file not found or cannot be read, loading default settings");
         _current = new UserSettings();
         _current.CompleteInitialization();
         return _current;
@@ -105,22 +109,38 @@ public class SettingsManager
     /// <summary>
     /// Saves the app settings to the settings file.
     /// </summary>
-    public static void SaveSettings(string filePath = null)
+    public static void SaveSettings(string? filePath = null)
     {
         filePath ??= SettingsFilePath;
+        string tempPath = filePath + ".tmp";
+        string backupPath = filePath + ".bak";
 
         try
         {
-            string directory = Path.GetDirectoryName(filePath);
-            if (directory != null && !Directory.Exists(directory))
+            lock (SettingsFileLock)
             {
-                Directory.CreateDirectory(directory);
-            }
+                string directory = Path.GetDirectoryName(filePath);
+                if (directory != null && !Directory.Exists(directory))
+                {
+                    Directory.CreateDirectory(directory);
+                }
 
-            using (StreamWriter writer = new StreamWriter(filePath))
-            {
-                XmlSerializer xmlSerializer = new XmlSerializer(typeof(UserSettings));
-                xmlSerializer.Serialize(writer, _current);
+                _current ??= new UserSettings();
+
+                using (var writer = new StreamWriter(tempPath, false))
+                {
+                    XmlSerializer xmlSerializer = new(typeof(UserSettings));
+                    xmlSerializer.Serialize(writer, _current);
+                }
+
+                if (File.Exists(filePath))
+                {
+                    File.Replace(tempPath, filePath, backupPath, true);
+                }
+                else
+                {
+                    File.Move(tempPath, filePath, true);
+                }
             }
         }
         catch (UnauthorizedAccessException ex)
@@ -132,6 +152,21 @@ public class SettingsManager
         {
             // if the settings file cannot be saved
             Logger.Error(ex, "Error saving settings");
+        }
+        finally
+        {
+            // delete temp file if it still exists
+            if (File.Exists(tempPath))
+            {
+                try
+                {
+                    File.Delete(tempPath);
+                }
+                catch (Exception ex)
+                {
+                    Logger.Error(ex, "Error deleting temporary settings file");
+                }
+            }
         }
     }
 }

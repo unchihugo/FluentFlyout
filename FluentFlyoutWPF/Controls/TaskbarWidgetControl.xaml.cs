@@ -309,7 +309,7 @@ public partial class TaskbarWidgetControl : UserControl
 
             if (icon != null)
             {
-                if (_isPaused)
+                if (_isPaused && SettingsManager.Current.TaskbarWidgetShowPauseOverlay && !SettingsManager.Current.TaskbarWidgetControlsEnabled)
                 { // show pause icon overlay
                     SongImagePlaceholder.Symbol = SymbolRegular.Pause24;
                     SongImagePlaceholder.Visibility = Visibility.Visible;
@@ -350,7 +350,7 @@ public partial class TaskbarWidgetControl : UserControl
     {
         try
         {
-            int msDuration = _mainWindow != null ? _mainWindow.getDuration() : 300;
+            int msDuration = MainWindow.getDuration();
 
             // opacity and left to right animation for SongInfoStackPanel
             DoubleAnimation opacityAnimation = new()

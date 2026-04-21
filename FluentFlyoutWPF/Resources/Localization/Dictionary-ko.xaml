@@ -4,11 +4,11 @@
     <system:String x:Key="MediaFlyoutDescription">미디어를 재생할 때 키보드의 미디어 또는 볼륨 키 (재생/일시정지, 볼륨 높이기/낮추기 등)를 눌러 Flyout을 표시합니다. 재생 제어 기능과 함께 미디어 정보를 표시합니다.</system:String>
     <system:String x:Key="TextBlockText1">미디어 Flyout 활성화</system:String>
     <system:String x:Key="TextBlockText3">미디어 키를 누를 때 Flyout 표시</system:String>
-    <system:String x:Key="TextBlockText2">세련된 배경 블러 스타일 프리셋을 목록에서 선택</system:String>
+    <system:String x:Key="TextBlockText2">배경 흐림 스타일을 목록에서 선택</system:String>
     <system:String x:Key="BackgroundBlurOption1" xml:space="preserve"> 없음</system:String>
-    <system:String x:Key="BackgroundBlurOption2" xml:space="preserve"> 스타일 1 (엘범아트 광원)</system:String>
-    <system:String x:Key="BackgroundBlurOption3" xml:space="preserve"> 스타일 2 (상승 광원)</system:String>
-    <system:String x:Key="BackgroundBlurOption4" xml:space="preserve"> 스타일 3 (블러)</system:String>
+    <system:String x:Key="BackgroundBlurOption2" xml:space="preserve"> 스타일 1 (앨범아트 글로우)</system:String>
+    <system:String x:Key="BackgroundBlurOption3" xml:space="preserve"> 스타일 2 (상승 글로우)</system:String>
+    <system:String x:Key="BackgroundBlurOption4" xml:space="preserve"> 스타일 3 (흐림 효과)</system:String>
     <system:String x:Key="BackgroundBlurTitle">배경 블러</system:String>
     <system:String x:Key="AcrylicWindowTitle">아크릴 효과</system:String>
     <system:String x:Key="AcrylicWindowDescription">Flyout에 투명한 아크릴 블러 효과를 적용합니다. (이 기능을 끄면 Mica 효과로 되돌아갑니다.)</system:String>
@@ -29,7 +29,7 @@
     <system:String x:Key="CenterTitleArtistDescription">텍스트를 왼쪽 대신 가운데로 정렬</system:String>
     <system:String x:Key="ShowMediaPlayerNameTitle">미디어 플레이어 이름 표시</system:String>
     <system:String x:Key="RepeatButtonTitle">반복 버튼*</system:String>
-    <system:String x:Key="RepeatButtonDescription">모두 반복 또는 하나 반복 선택, 적용 시 Flyout 너비 증가</system:String>
+    <system:String x:Key="RepeatButtonDescription">모두 반복 또는 한 곡 반복 선택, 적용 시 Flyout 너비 증가</system:String>
     <system:String x:Key="ShuffleButtonTitle">셔플 버튼*</system:String>
     <system:String x:Key="ShuffleButtonDescription">적용 시 Flyout 너비 증가</system:String>
     <system:String x:Key="ShowSeekbarTitle">진행 바 표시*</system:String>
@@ -37,12 +37,12 @@
     <system:String x:Key="UnsupportedControlsWarning">*일부 브라우저/플레이어는 반복, 셔플 및 진행 바 제어를 지원하지 않습니다.</system:String>
     <system:String x:Key="PauseOtherMediaTitle">다른 미디어 자동 일시 정지</system:String>
     <system:String x:Key="PauseOtherMediaDescription">새로운 미디어를 재생하거나 포커싱을 변경하면, 다른 활성 세션들은 자동으로 일시 정지됨</system:String>
-    <system:String x:Key="NextUpCustomizationTitle">다음 곡 Flyout</system:String>
+    <system:String x:Key="NextUpCustomizationTitle">현재 재생 정보 Flyout</system:String>
     <system:String x:Key="MediaFlyoutAlwaysDisplay">항상 표시</system:String>
-    <system:String x:Key="NextUpDescription" xml:space="preserve">노래/영상이 끝날 때 Flyout에 다음 재생 목록이 표시됩니다. 이 Flyout은 다음 항목이 자동으로 재생될 경우에만 나타납니다. 만약 다음/이전 버튼을 수동으로 누르면 기본 Flyout이 대신 나타납니다.</system:String>
-    <system:String x:Key="EnableNextUpTitle">다음 곡 Flyout 활성화 (실험적 기능)</system:String>
-    <system:String x:Key="EnableNextUpDescription">음악/영상이 끝날 때 다음에 재생될 항목을 표시</system:String>
-    <system:String x:Key="NextUpStayDurationTitle">다음 곡 표시 지속 시간</system:String>
+    <system:String x:Key="NextUpDescription" xml:space="preserve">노래/영상이 끝날 때 Flyout에 새로 재생되는 미디어 정보가 표시됩니다. 이 Flyout은 미디어가 자동으로 재생될 경우에만 나타납니다. 만약 다음/이전 버튼을 수동으로 누르면 기본 Flyout이 대신 나타납니다.</system:String>
+    <system:String x:Key="EnableNextUpTitle">현재 재생 정보 Flyout 활성화</system:String>
+    <system:String x:Key="EnableNextUpDescription">음악/영상이 끝날 때 현재 미디어 정보를 표시</system:String>
+    <system:String x:Key="NextUpStayDurationTitle">현재 재생 정보 표시 지속 시간</system:String>
     <system:String x:Key="NextUpStayDurationDescription">(기본값: 2000 ms)</system:String>
     <system:String x:Key="LockKeysCustomizationTitle">토글 키 Flyout</system:String>
     <system:String x:Key="LockKeysDescription" xml:space="preserve">토글 키 상태를 한눈에 확인하세요. Caps Lock, Num Lock 또는 Scroll Lock을 누르면 나타납니다. 토글 키 표시등이 없는 노트북/키보드에 편리합니다.</system:String>
@@ -56,7 +56,7 @@
     <system:String x:Key="EnableInsertKeyDescription">Insert/Overwrite 키를 누를 때 Flyout 표시 여부 설정</system:String>
     <system:String x:Key="LaunchOnStartupDescription">Windows 로그인 시 트레이로 최소화하여 시작</system:String>
     <system:String x:Key="StartupAppsHyperlinkText">시작 프로그램</system:String>
-    <system:String x:Key="StartupAppsSettingsInfo">설정이 작동하지 않을 경우 설정을 확인하세요:</system:String>
+    <system:String x:Key="StartupAppsSettingsInfo">이 설정이 올바르게 작동하지 않을 경우 윈도우 설정을 확인하세요:</system:String>
     <system:String x:Key="AppThemeTitle">앱 테마</system:String>
     <system:String x:Key="AppThemeDefault"> Windows 기본 설정</system:String>
     <system:String x:Key="AppThemeDark"> 다크</system:String>
@@ -106,55 +106,55 @@
     <system:String x:Key="Enabled">사용 중</system:String>
     <system:String x:Key="Disabled">사용 안함</system:String>
     <system:String x:Key="MediaFlyoutExcludeVolumeTitle">볼륨 키 입력 무시</system:String>
-    <system:String x:Key="MediaFlyoutExcludeVolumeDescription">볼륨 높이기/줄이기/음소거를 누를 때 플라이아웃을 표시하지 않기</system:String>
+    <system:String x:Key="MediaFlyoutExcludeVolumeDescription">볼륨 높이기/줄이기/음소거를 누를 때 Flyout을 표시하지 않기</system:String>
     <system:String x:Key="SelectedMonitorTitle">Flyout 표시 디스플레이</system:String>
-    <system:String x:Key="MediaFlyoutAlwaysDisplayDescription">Flyout 닫기 버튼을 누를 때까지 계속 표시</system:String>
-    <system:String x:Key="TaskbarWidgetCustomizationTitle">작업표시줄 위젯</system:String>
-    <system:String x:Key="TaskbarWidgetDescription">Windows 작업 표시줄에 내장되어 미디어에 바로 접근할 수 있는 컴팩트한 위젯입니다. 위젯을 클릭하면 미디어 Flyout을 확장하여 확인할 수 있습니다 (활성화 시).</system:String>
-    <system:String x:Key="TaskbarWidgetEnabledTitle">작업표시줄 위젯 활성화</system:String>
-    <system:String x:Key="TaskbarWidgetEnabledDescription">작업표시줄에 컴팩트 미디어 위젯을 표시</system:String>
+    <system:String x:Key="MediaFlyoutAlwaysDisplayDescription">Flyout이 닫기 버튼을 누를 때까지 계속 표시됨</system:String>
+    <system:String x:Key="TaskbarWidgetCustomizationTitle">작업 표시줄 위젯</system:String>
+    <system:String x:Key="TaskbarWidgetDescription">Windows 작업 표시줄에 내장되어 미디어에 바로 접근할 수 있는 컴팩트한 위젯입니다. 위젯을 클릭하면 미디어 Flyout을 확장하여 확인할 수 있습니다.</system:String>
+    <system:String x:Key="TaskbarWidgetEnabledTitle">작업 표시줄 위젯 활성화</system:String>
+    <system:String x:Key="TaskbarWidgetEnabledDescription">작업 표시줄에 컴팩트 미디어 위젯을 표시</system:String>
     <system:String x:Key="TaskbarWidgetVisualIssuesWarning">표시 문제가 있을 경우 아래의 옵션을 설정해주세요.</system:String>
     <system:String x:Key="TaskbarWidgetSelectedMonitorTitle">위젯 표시 디스플레이</system:String>
     <system:String x:Key="TaskbarWidgetPosition">위젯 위치</system:String>
     <system:String x:Key="TaskbarWidgetPaddingSettingsTitle">위젯 여백 설정</system:String>
-    <system:String x:Key="TaskbarWidgetPaddingSettingsDescription">작업표시줄 스타일에 맞게 위젯의 여백을 조정</system:String>
+    <system:String x:Key="TaskbarWidgetPaddingSettingsDescription">작업 표시줄 스타일에 맞게 위젯의 여백을 조정</system:String>
     <system:String x:Key="TaskbarWidgetPaddingTitle">Windows 위젯 버튼용 자동 여백</system:String>
-    <system:String x:Key="TaskbarWidgetPaddingDescription">Windows 위젯 활성화했을 때 이 기능 켜기</system:String>
+    <system:String x:Key="TaskbarWidgetPaddingDescription">Windows 위젯을 활성화했을 때 이 기능 켜기</system:String>
     <system:String x:Key="TaskbarWidgetManualPaddingTitle">여백 사용자 정의</system:String>
     <system:String x:Key="TaskbarWidgetManualPaddingDescription">더 많은 여백 추가 (기본: 0px)</system:String>
     <system:String x:Key="TaskbarWidgetClickableTitle">미디어가 재생 중일 때 클릭하여 미디어 Flyout을 표시</system:String>
-    <system:String x:Key="TaskbarWidgetClickableDescription">미디어 Flyout 기능을 사용 중일 때, 작업표시줄 위젯을 클릭하면 Flyout 표시</system:String>
+    <system:String x:Key="TaskbarWidgetClickableDescription">작업 표시줄 위젯을 클릭하면 Flyout이 표시됩니다</system:String>
     <system:String x:Key="TaskbarWidgetBackgroundBlurTitle">배경 블러 효과</system:String>
-    <system:String x:Key="TaskbarWidgetBackgroundBlurDescription">작업표시줄 위젯에 배경 블러 효과를 적용</system:String>
-    <system:String x:Key="TaskbarWidgetHideCompletelyTitle">재생 중인 미디어가 없을 때 완전히 숨김</system:String>
+    <system:String x:Key="TaskbarWidgetBackgroundBlurDescription">작업 표시줄 위젯에 배경 블러 효과를 적용</system:String>
+    <system:String x:Key="TaskbarWidgetHideCompletelyTitle">재생 중인 미디어가 없을 때 완전히 숨기기</system:String>
     <system:String x:Key="TaskbarWidgetHideCompletelyDescription">재생 중인 미디어가 없을 때, 미디어 아이콘을 표시하는 대신 위젯을 숨김</system:String>
     <system:String x:Key="TaskbarWidgetControlsTitle">위젯 미디어 컨트롤</system:String>
     <system:String x:Key="TaskbarWidgetControlsDescription">위젯에 미디어 컨트롤 버튼을 표시</system:String>
     <system:String x:Key="TaskbarWidgetAnimatedTitle">위젯 애니메이션</system:String>
     <system:String x:Key="TaskbarWidgetAnimatedDescription">위젯에 자연스러운 애니메이션 효과 적용</system:String>
-    <system:String x:Key="TaskbarVisualizerTitle">작업표시줄 미디어 시각화</system:String>
-    <system:String x:Key="TaskbarVisualizerDescription">작업표시줄에 실시간 오디오 시각화를 표시합니다. 최신 시스템에서 성능에 최소한의 영향만 주도록 설계되었습니다.</system:String>
-    <system:String x:Key="TaskbarVisualizerEnabledTitle">작업표시줄 시각화 활성화 (실험적 기능)</system:String>
-    <system:String x:Key="TaskbarVisualizerEnabledDescription">실험중인 기능: 이 기능은 작업표시줄 위젯이 켜져있을 때만 작동</system:String>
-    <system:String x:Key="TaskbarVisualizerPositionTitle">작업표시줄 위젯에서 시각화를 표시할 위치</system:String>
+    <system:String x:Key="TaskbarVisualizerTitle">작업 표시줄 비주얼라이저</system:String>
+    <system:String x:Key="TaskbarVisualizerDescription">작업 표시줄에 실시간 오디오 비주얼라이저를 표시합니다. 최신 시스템에서 성능에 최소한의 영향만 주도록 설계되었습니다.</system:String>
+    <system:String x:Key="TaskbarVisualizerEnabledTitle">작업 표시줄 비주얼라이저 활성화 (실험적 기능)</system:String>
+    <system:String x:Key="TaskbarVisualizerEnabledDescription">실험중인 기능: 이 기능은 작업 표시줄 위젯이 켜져있을 때만 작동</system:String>
+    <system:String x:Key="TaskbarVisualizerPositionTitle">작업 표시줄 위젯에서 비주얼라이저를 표시할 위치</system:String>
     <system:String x:Key="TaskbarVisualizerBarCountTitle">바 개수</system:String>
-    <system:String x:Key="TaskbarVisualizerBarCountDescription">시각화에 표시되는 바의 개수 설정</system:String>
+    <system:String x:Key="TaskbarVisualizerBarCountDescription">비주얼라이저에 표시되는 바의 개수 설정</system:String>
     <system:String x:Key="TaskbarWidgetCloseableFlyoutTitle">두 번 클릭하여 Flyout 닫기</system:String>
-    <system:String x:Key="TaskbarWidgetCloseableFlyoutDescription">Flyout이 열려 있을 때 작업표시줄 위젯을 클릭하여 닫기</system:String>
+    <system:String x:Key="TaskbarWidgetCloseableFlyoutDescription">Flyout이 열려 있을 때 작업 표시줄 위젯을 클릭하여 닫기</system:String>
     <system:String x:Key="TaskbarWidgetControlsPositionTitle">미디어 컨트롤 위치</system:String>
     <system:String x:Key="TaskbarWidgetControlsPositionDescription">미디어 컨트롤 버튼을 표시할 위치를 선택</system:String>
     <system:String x:Key="PositionLeft">왼쪽</system:String>
     <system:String x:Key="PositionRight">오른쪽</system:String>
-    <system:String x:Key="TaskbarVisualizerCenteredBarsTitle">중앙 대칭형 바</system:String>
-    <system:String x:Key="TaskbarVisualizerCenteredBarsDescription">바가 바닥에서 솟아오르는 대신 중앙에서 대칭을 이루며 확장</system:String>
+    <system:String x:Key="TaskbarVisualizerCenteredBarsTitle">바 중앙에 정렬</system:String>
+    <system:String x:Key="TaskbarVisualizerCenteredBarsDescription">바가 아래에서 올라오는 대신 중앙을 중심으로 확장됨</system:String>
     <system:String x:Key="TaskbarVisualizerBaselineTitle">기준선 표시</system:String>
     <system:String x:Key="TaskbarVisualizerBaselineDescription">오디오 출력이 0일 때 얇은 선 표시</system:String>
     <system:String x:Key="TaskbarVisualizerAudioSensitivityTitle">오디오 민감도</system:String>
-    <system:String x:Key="TaskbarVisualizerAudioSensitivityDescription">바가 움직이기 시작하는 최소 오디오 크기</system:String>
+    <system:String x:Key="TaskbarVisualizerAudioSensitivityDescription">바가 움직이기 시작하는 최소 음량</system:String>
     <system:String x:Key="TaskbarVisualizerAudioPeakLevelTitle">오디오 피크 임계값</system:String>
-    <system:String x:Key="TaskbarVisualizerAudioPeakLevelDescription">바가 최대 높이에 도달하기 위한 오디오 크기 설정</system:String>
+    <system:String x:Key="TaskbarVisualizerAudioPeakLevelDescription">바가 최대 높이에 도달하기 위한 음량</system:String>
     <system:String x:Key="TaskbarVisualizerOutputDeviceTitle">출력 장치</system:String>
-    <system:String x:Key="TaskbarVisualizerOutputDeviceDescription">FluentFlyout이 시각화를 출력할 오디오 장치를 변경합니다.</system:String>
+    <system:String x:Key="TaskbarVisualizerOutputDeviceDescription">FluentFlyout의 오디오 출력 장치를 변경해 비주얼라이저가 표시하는 오디오 장치를 변경합니다.</system:String>
     <system:String x:Key="PremiumFeatureTitle">프리미엄 기능</system:String>
     <system:String x:Key="PremiumFeatureDescription" xml:space="preserve">후원은 FluentFlyout의 지속적인 개발과 업데이트에 큰 힘이 됩니다. 후원 즉시 모든 프리미엄 커스텀 기능을 영구적으로 이용하실 수 있습니다.
         
@@ -164,30 +164,30 @@
     <system:String x:Key="PremiumGitHubMessage">GitHub/직접 빌드 버전에서는 프리미엄 기능이 활성화되어 있습니다</system:String>
     <system:String x:Key="UnlockPremiumButton">프리미엄 기능 활성화</system:String>
     <system:String x:Key="PremiumPurchaseSuccess">프리미엄 기능이 활성화되었습니다!</system:String>
-    <system:String x:Key="PremiumPurchaseFailed">구매 실패하였습니다. 다시 시도해주세요.</system:String>
+    <system:String x:Key="PremiumPurchaseFailed">구매에 실패하였습니다. 다시 시도해주세요.</system:String>
     <system:String x:Key="PremiumPurchaseCancelled">구매가 취소되었습니다.</system:String>
-    <system:String x:Key="UnlockFullExperienceText">FluentFlyout의 모든 기능을 완벽하게 경험해 보세요:</system:String>
-    <system:String x:Key="TaskbarWidgetCustomizationPerk">작업표시줄 위젯과 미디어 시각화</system:String>
+    <system:String x:Key="UnlockFullExperienceText">FluentFlyout의 모든 기능을 경험해 보세요:</system:String>
+    <system:String x:Key="TaskbarWidgetCustomizationPerk">작업표시줄 위젯과 음악 비주얼라이저</system:String>
     <system:String x:Key="AcrylicBlurOpacityPerk">아크릴 블러 불투명도</system:String>
     <system:String x:Key="HideTrayIconPerk">트레이 아이콘 숨기기</system:String>
     <system:String x:Key="AllFuturePremiumFeatures">향후 추가될 모든 프리미엄 기능</system:String>
-    <system:String x:Key="LockKeysCursorUITitle">표시 대상 디스플레이</system:String>
+    <system:String x:Key="LockKeysCursorUITitle">표시 디스플레이</system:String>
     <system:String x:Key="LockKeysCursorUIDescription" xml:space="preserve">Flyout을 표시할 디스플레이를 선택합니다.</system:String>
-    <system:String x:Key="DefaultLockLayoutPosition">기본값 (Flyout 표시 대상 디스플레이)</system:String>
+    <system:String x:Key="DefaultLockLayoutPosition">기본값 (Flyout 표시 디스플레이)</system:String>
     <system:String x:Key="MonitorWithFocusedWindow">현재 사용 중인 모니터</system:String>
     <system:String x:Key="MonitorWithCursor">마우스 커서가 있는 모니터</system:String>
-    <system:String x:Key="HideTrayIconTitle">트레이 아이콘 완벽히 숨기기</system:String>
+    <system:String x:Key="HideTrayIconTitle">트레이 아이콘 숨기기</system:String>
     <system:String x:Key="HideTrayIconDescription">프로그램을 두 번 실행하여 설정 표시</system:String>
     <system:String x:Key="AcrylicBlurOpacityTitle">아크릴 블러 불투명도</system:String>
     <system:String x:Key="AcrylicBlurOpacityDescription">Flyout의 아크릴 블러 효과 투명도를 조정합니다 (기본값 : 175)</system:String>
     <system:String x:Key="HomeUpdateDescription">변경사항 확인하기</system:String>
     <system:String x:Key="HomeDashboardTitle">대시보드</system:String>
-    <system:String x:Key="AppearanceBehaviorSectionTitle">외형 &amp; 동작</system:String>
+    <system:String x:Key="AppearanceBehaviorSectionTitle">외형 및 동작</system:String>
     <system:String x:Key="TrayIconSectionTitle">트레이 아이콘</system:String>
     <system:String x:Key="UpdatesSectionTitle">업데이트</system:String>
     <system:String x:Key="SystemConfigure">설정 및 구성</system:String>
     <system:String x:Key="AboutTitle">정보</system:String>
-    <system:String x:Key="AboutContributorsTitle">❤️ 제작에 도움을 주신 분들을 소개합니다</system:String>
+    <system:String x:Key="AboutContributorsTitle">❤️ 제작에 도움을 주신 분들</system:String>
     <system:String x:Key="AboutContributorsDescription">FluentFlyout의 개발과 성공에 기여해 주신 모든 멋진 분들께 진심으로 감사의 인사를 전합니다!</system:String>
     <system:String x:Key="DevelopersTitle">개발</system:String>
     <system:String x:Key="TranslatorsTitle">번역</system:String>
@@ -198,7 +198,7 @@
     <system:String x:Key="BuyMeCoffeeLink">커피 한 잔 사주기</system:String>
     <system:String x:Key="TrayIcon_ViewLogsOption">로그 보기</system:String>
     <system:String x:Key="PixelsUnit">px</system:String>
-    <system:String x:Key="UpdateToastTitle">FluentFlyout가 업데이트되었습니다!</system:String>
+    <system:String x:Key="UpdateToastTitle">FluentFlyout이 업데이트되었습니다!</system:String>
     <system:String x:Key="UpdateToastMessage">현재 버전은 {0} 입니다.</system:String>
     <system:String x:Key="UpdateToastButton">업데이트 보기</system:String>
     <system:String x:Key="UpdateAvailable">업데이트 가능</system:String>
@@ -209,7 +209,7 @@
     <system:String x:Key="UpdateAvailableNotificationMessage">새로운 버전 {0}을 이용 가능합니다.</system:String>
     <system:String x:Key="UpdateAvailableNotificationButton">업데이트 다운로드</system:String>
     <system:String x:Key="ShowUpdateNotificationsTitle">새 업데이트가 있을 시 알림 표시</system:String>
-    <system:String x:Key="BackupRestoreSectionTitle">백업 &amp; 복원</system:String>
+    <system:String x:Key="BackupRestoreSectionTitle">백업 및 복원</system:String>
     <system:String x:Key="BackupRestoreCardTitle">설정을 백업하거나 복원</system:String>
     <system:String x:Key="ExportSettings">내보내기</system:String>
     <system:String x:Key="ImportSettings">가져오기</system:String>
@@ -222,4 +222,15 @@
     <system:String x:Key="SettingsImportedSuccessfully">설정 가져오기에 성공했습니다! 변경사항 반영을 위해 앱이 재시작됩니다.</system:String>
     <system:String x:Key="ImportSettingsWarning">이 작업은 현재 설정을 덮어씁니다. 계속하시겠습니까?</system:String>
     <system:String x:Key="FailedToImportSettings">설정 가져오기에 실패하였습니다. 자세한 내용은 로그를 확인하세요.</system:String>
+    <system:String x:Key="TaskbarVisualizerClickableTitle">클릭하여 설정 열기</system:String>
+    <system:String x:Key="TaskbarVisualizerClickableDescription">비주얼라이저를 클릭하여 설정 페이지 열기</system:String>
+    <system:String x:Key="UseAlbumArtAccentColorTitle">앨범 아트를 강조 색상으로 사용</system:String>
+    <system:String x:Key="UseAlbumArtAccentColorDescription">시스템 테마 대신 앨범 아트의 색상을 UI 요소에 적용</system:String>
+    <system:String x:Key="AdvancedSettingsTitle">고급 설정</system:String>
+    <system:String x:Key="LegacyTaskbarWidthTitle">레거시 작업 표시줄 너비</system:String>
+    <system:String x:Key="LegacyTaskbarWidthDescription">작업 표시줄 위젯의 너비 계산에 기존 방식 사용</system:String>
+    <system:String x:Key="TaskbarWidgetAutoHideTitle">위젯 자동 숨기기</system:String>
+    <system:String x:Key="TaskbarWidgetAutoHideDescription">미디어가 중지되면 자동으로 위젯 숨기기</system:String>
+    <system:String x:Key="LockKeysAnimatedTitle">팝업 애니메이션</system:String>
+    <system:String x:Key="LockKeysAnimatedDescription">토글 키 팝업에 부드러운 애니메이션 활성화</system:String>
 </ResourceDictionary>

@@ -37,7 +37,7 @@ Ukrywa informacje o odtwarzaczu, odtwarzanie losowe i zapętlenie</system:String
     <system:String x:Key="PauseOtherMediaTitle">Automatycznie wstrzymaj inne media﻿</system:String>
     <system:String x:Key="PauseOtherMediaDescription">Gdy odtwarzasz lub skupiasz się na nowych mediach, inne aktywne sesje są automatycznie wstrzymywane﻿</system:String>
     <system:String x:Key="TaskbarWidgetCustomizationTitle">Widżet na pasku zadań</system:String>
-    <system:String x:Key="TaskbarWidgetDescription">Kompaktowy, wbudowany widżet znajdujący się bezpośrednio na pasku zadań Windows, zapewniający szybki dostęp do twoich mediów. Kliknij widżet, aby rozwinąć pełne panel mediów (gdy jest włączony)﻿.</system:String>
+    <system:String x:Key="TaskbarWidgetDescription">Kompaktowy, wbudowany widżet znajdujący się bezpośrednio na pasku zadań Windows, zapewniający szybki dostęp do twoich mediów. Kliknij widżet, aby rozwinąć pełny panel mediów.</system:String>
     <system:String x:Key="TaskbarWidgetEnabledTitle">Włącz widżet paska zadań</system:String>
     <system:String x:Key="TaskbarWidgetEnabledDescription">Pokaż kompaktowy widżet mediów na pasku zadań</system:String>
     <system:String x:Key="TaskbarWidgetVisualIssuesWarning">Skonfiguruj poniższe opcje, jeśli występują problemy z wyświetlaniem.</system:String>
@@ -59,7 +59,7 @@ Uwaga: Jako projekt open-source, te funkcje są również dostępne za darmo pop
     <system:String x:Key="PremiumPurchaseFailed">Zakup nie powiódł się. Proszę spróbować ponownie.</system:String>
     <system:String x:Key="PremiumPurchaseCancelled">Zakup anulowany.</system:String>
     <system:String x:Key="NextUpDescription" xml:space="preserve">Panel pokazuje, co jest następne, gdy utwór lub wideo się zakończy. Pojawia się tylko wtedy, gdy kolejny element odtwarza się automatycznie. Jeśli przycisk następny/poprzedni zostanie naciśnięty ręcznie, wyświetlany jest główny panel.</system:String>
-    <system:String x:Key="EnableNextUpTitle">Włącz panel "Następne w kolejce" (eksperymentalny)</system:String>
+    <system:String x:Key="EnableNextUpTitle">Włącz panel "Następne w kolejce"</system:String>
     <system:String x:Key="NextUpCustomizationTitle">Panel "Następne w kolejce"</system:String>
     <system:String x:Key="EnableNextUpDescription">Pokazuje co następne, gdy utwór lub wideo się zakończy</system:String>
     <system:String x:Key="NextUpStayDurationTitle">Czas wyświetlania panelu "Następne w kolejce"</system:String>
@@ -205,7 +205,7 @@ Możesz pomóc w tworzeniu tłumaczeń na stronie</system:String>
     <system:String x:Key="ImportFailed">Importowanie nieudane</system:String>
     <system:String x:Key="SettingsExportedSuccessfully">Pomyślnie wyeksportowano ustawienia!</system:String>
     <system:String x:Key="FailedToExportSettings">Nie udało się wyeksportować ustawień. Sprawdź dziennik zdarzeń, aby zobaczyć szczegóły.</system:String>
-    <system:String x:Key="SettingsImportedSuccessfully">Ustawienia wyeksportowano pomyślnie! Aplikacja zostanie teraz uruchomiona ponownie w celu zastosowania zmian.</system:String>
+    <system:String x:Key="SettingsImportedSuccessfully">Ustawienia zaimportowano pomyślnie! Aplikacja zostanie teraz uruchomiona ponownie w celu zastosowania zmian.</system:String>
     <system:String x:Key="ImportSettingsWarning">To podmieni wszystkie obecne ustawienia. Kontynuować?</system:String>
     <system:String x:Key="FailedToImportSettings">Nie udało się zaimportować ustawień. Sprawdź dziennik zdarzeń, aby zobaczyć szczegóły.</system:String>
     <system:String x:Key="TaskbarWidgetCloseableFlyoutTitle">Zamknij Flyout klikając dwa razy</system:String>
@@ -229,4 +229,8 @@ Możesz pomóc w tworzeniu tłumaczeń na stronie</system:String>
     <system:String x:Key="AdvancedSettingsTitle">Ustawienia zaawansowane</system:String>
     <system:String x:Key="LegacyTaskbarWidthTitle">Starszy system szerokości paska zadań</system:String>
     <system:String x:Key="LegacyTaskbarWidthDescription">Użyj starszego systemu szerokości paska zadań dla widżetów paska zadań</system:String>
+    <system:String x:Key="TaskbarWidgetAutoHideTitle">Autoukrywanie widżetu</system:String>
+    <system:String x:Key="TaskbarWidgetAutoHideDescription">Widżet zostaje ukryty automatycznie podczas pauzy mediów</system:String>
+    <system:String x:Key="LockKeysAnimatedTitle">Animacje ikon</system:String>
+    <system:String x:Key="LockKeysAnimatedDescription">Włącza subtelne animacje ikony klawisza blokady</system:String>
 </ResourceDictionary>

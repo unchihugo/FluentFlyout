@@ -17,7 +17,7 @@
     <system:String x:Key="ShowSeekbarTitle">Mostrar barra de reprodução*</system:String>
     <system:String x:Key="PauseOtherMediaTitle">Pausar Outra Mídia Automaticamente</system:String>
     <system:String x:Key="NextUpCustomizationTitle">Personalização do flyout A seguir</system:String>
-    <system:String x:Key="EnableNextUpTitle">Ativar flyout A seguir (experimental)</system:String>
+    <system:String x:Key="EnableNextUpTitle">Ativar flyout A seguir</system:String>
     <system:String x:Key="NextUpStayDurationTitle">Duração do "Próximo"</system:String>
     <system:String x:Key="NextUpStayDurationDescription">(padrão: 2000 ms)</system:String>
     <system:String x:Key="BackgroundBlurOption1" xml:space="preserve"> Nenhum</system:String>
@@ -114,7 +114,7 @@ ou avalie na Microsoft Store!</system:String>
     <system:String x:Key="Enabled">Habilitado</system:String>
     <system:String x:Key="SelectedMonitorTitle">Monitor do Submenu</system:String>
     <system:String x:Key="MediaFlyoutAlwaysDisplayDescription">O painel permanece aberto até você clicar no botão Fechar</system:String>
-    <system:String x:Key="TaskbarWidgetDescription">Um widget compacto e integrado que fica na barra de tarefas do Windows para acesso rápido à sua mídia. Clique no widget para expandir o Painel de Mídia completo (quando ativado).</system:String>
+    <system:String x:Key="TaskbarWidgetDescription">Um widget compacto integrado que fica diretamente na barra de tarefas do Windows para acesso rápido à sua mídia. Clique no widget para expandir o flyout de mídia completo.</system:String>
     <system:String x:Key="TaskbarWidgetSelectedMonitorTitle">Tela de destino do widget</system:String>
     <system:String x:Key="TaskbarWidgetPaddingSettingsTitle">Ajustes de espaçamento do widget</system:String>
     <system:String x:Key="TaskbarWidgetPaddingSettingsDescription">Ajuste o espaçamento ao redor do widget para combinar com o estilo da sua barra de tarefas</system:String>
@@ -229,4 +229,10 @@ Nota: Como um projeto de código aberto, esses recursos também estão disponív
     <system:String x:Key="AdvancedSettingsTitle">Configurações avançadas</system:String>
     <system:String x:Key="LegacyTaskbarWidthTitle">Sistema legado de largura da barra de tarefas</system:String>
     <system:String x:Key="LegacyTaskbarWidthDescription">Usar o sistema legado de largura da barra de tarefas para widgets da barra de tarefas</system:String>
+    <system:String x:Key="TaskbarWidgetAutoHideTitle">Ocultar widget automaticamente</system:String>
+    <system:String x:Key="TaskbarWidgetAutoHideDescription">Oculta o widget automaticamente quando a mídia está pausada</system:String>
+    <system:String x:Key="LockKeysAnimatedTitle">Animações do indicador</system:String>
+    <system:String x:Key="LockKeysAnimatedDescription">Ativar animações sutis para o indicador de teclas de bloqueio</system:String>
+    <system:String x:Key="TaskbarWidgetShowPauseOverlayTitle">Mostrar sobreposição do ícone de pausa</system:String>
+    <system:String x:Key="TaskbarWidgetShowPauseOverlayDescription">Quando a mídia estiver pausada, exibir um ícone de pausa sobre a capa do álbum</system:String>
 </ResourceDictionary>

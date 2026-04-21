@@ -25,6 +25,7 @@ public static class LocalizationManager
         { "System", "system" },
         { "English", "en-US" },
         { "العربية", "ar" },
+        { "català", "ca" },
         { "中文（简体）", "zh-CN" },
         { "中文（繁體）", "zh-TW" },
         { "hrvatski jezik", "hr" },
@@ -34,6 +35,7 @@ public static class LocalizationManager
         { "français", "fr" },
         { "Deutsch", "de" },
         { "עברית", "he" },
+        { "हिन्दी", "hi" },
         { "Bahasa Indonesia", "id" },
         { "Italiano", "it" },
         { "日本語", "ja" },
@@ -41,6 +43,7 @@ public static class LocalizationManager
         { "polski", "pl" },
         { "Português (Brasil)", "pt-BR" },
         { "Русский", "ru" },
+        { "slovenčina", "sk" },
         { "Español", "es" },
         { "Türkçe", "tr" },
         { "Українська", "uk" },
@@ -93,7 +96,7 @@ public static class LocalizationManager
             }
         }
 
-        Logger.Debug("Applying localization for language: " + culture);
+        Logger.Info("Applying localization for language: " + culture);
 
         // change flow direction of all windows
         ApplyFlowDirection(languageCode);
@@ -158,7 +161,7 @@ public static class LocalizationManager
             ? FlowDirection.RightToLeft
             : FlowDirection.LeftToRight;
 
-        Logger.Debug("Applied flow direction: " + SettingsManager.Current.FlowDirection);
+        Logger.Info("Applied flow direction: " + SettingsManager.Current.FlowDirection);
     }
 
     private static void ApplyFontFamily(string culture)

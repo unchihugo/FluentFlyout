@@ -40,7 +40,7 @@
     <system:String x:Key="PauseOtherMediaDescription">当你播放或者聚焦于新的媒体时，其他正在播放的内容会被自动暂停</system:String>
     <system:String x:Key="NextUpCustomizationTitle">“接下来” 浮窗</system:String>
     <system:String x:Key="NextUpDescription" xml:space="preserve">一个会显示当前播放的歌曲 / 视频结束后下一个项目的浮窗。只有在下一个项目自动播放时才会出现，如果手动按下 “下一个” / “上一个” 按钮，则会显示主要浮窗。</system:String>
-    <system:String x:Key="EnableNextUpTitle">启用 “接下来” 浮窗（实验性）</system:String>
+    <system:String x:Key="EnableNextUpTitle">启用 “接下来” 浮窗</system:String>
     <system:String x:Key="EnableNextUpDescription">显示当前歌曲 / 视频结束后的下一项内容</system:String>
     <system:String x:Key="NextUpStayDurationTitle">“接下来” 浮窗停留时间</system:String>
     <system:String x:Key="NextUpStayDurationDescription">（默认：2000 毫秒）</system:String>
@@ -103,7 +103,7 @@
     <system:String x:Key="TrayIcon_ReportBugOption">报告错误</system:String>
     <system:String x:Key="TrayIcon_QuitOption">退出 FluentFlyout</system:String>
     <system:String x:Key="TaskbarWidgetCustomizationTitle">任务栏小组件</system:String>
-    <system:String x:Key="TaskbarWidgetDescription">用一个简洁、紧密集成于 Windows 任务栏的小组件来快速访问你的媒体。（当启用时）点击它来展开完整的媒体控制浮窗。</system:String>
+    <system:String x:Key="TaskbarWidgetDescription">用一个简洁、紧密集成于 Windows 任务栏的小组件来快速访问你的媒体。点击它会展开完整的媒体控制浮窗。</system:String>
     <system:String x:Key="TaskbarWidgetEnabledTitle">启用任务栏小组件</system:String>
     <system:String x:Key="TaskbarWidgetEnabledDescription">在任务栏上显示一个简洁的媒体小组件</system:String>
     <system:String x:Key="TaskbarWidgetVisualIssuesWarning">如果碰到显示问题，请调整下面的选项。</system:String>
@@ -111,7 +111,7 @@
     <system:String x:Key="TaskbarWidgetPaddingTitle">自动为 Windows 小组件按钮添加间距</system:String>
     <system:String x:Key="TaskbarWidgetPaddingDescription">如果你启用了 Windows 小组件，请启用此选项</system:String>
     <system:String x:Key="TaskbarWidgetClickableTitle">有播放中的媒体时点击打开媒体浮窗</system:String>
-    <system:String x:Key="TaskbarWidgetClickableDescription">如果启用了媒体浮窗，点击小组件时它将会被打开</system:String>
+    <system:String x:Key="TaskbarWidgetClickableDescription">点击小组件时会打开媒体浮窗</system:String>
     <system:String x:Key="TaskbarWidgetBackgroundBlurDescription">为任务栏小组件添加背景模糊效果</system:String>
     <system:String x:Key="TaskbarWidgetHideCompletelyTitle">当没有播放中的媒体时完全隐藏</system:String>
     <system:String x:Key="TaskbarWidgetHideCompletelyDescription">当没有可用媒体时完全隐藏小组件，而不是显示一个媒体图标</system:String>
@@ -229,4 +229,10 @@
     <system:String x:Key="AdvancedSettingsTitle">高级设置</system:String>
     <system:String x:Key="LegacyTaskbarWidthDescription">任务栏小组件使用旧版任务栏宽度系统</system:String>
     <system:String x:Key="LegacyTaskbarWidthTitle">旧版任务栏宽度系统</system:String>
+    <system:String x:Key="TaskbarWidgetAutoHideTitle">自动隐藏小组件</system:String>
+    <system:String x:Key="TaskbarWidgetAutoHideDescription">当媒体暂停播放时，自动将小组件隐藏</system:String>
+    <system:String x:Key="LockKeysAnimatedTitle">指示器动画</system:String>
+    <system:String x:Key="LockKeysAnimatedDescription">为键盘锁定键指示器启用微小的动画效果</system:String>
+    <system:String x:Key="TaskbarWidgetShowPauseOverlayTitle">显示暂停图标叠加层</system:String>
+    <system:String x:Key="TaskbarWidgetShowPauseOverlayDescription">当媒体暂停播放时，在专辑封面上显示暂停图标</system:String>
 </ResourceDictionary>
