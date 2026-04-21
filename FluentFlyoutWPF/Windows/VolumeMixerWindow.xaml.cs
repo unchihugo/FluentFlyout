@@ -137,7 +137,7 @@ public partial class VolumeMixerWindow : MicaWindow
                     {
                         _mainWindow.CloseAnimation(this);
                         _isHiding = true;
-                        await Task.Delay(_mainWindow.getDuration());
+                        await Task.Delay(MainWindow.getDuration());
                         if (_isHiding == false) return;
 
                         WindowHelper.SetVisibility(this, false);
@@ -233,7 +233,7 @@ public partial class VolumeMixerWindow : MicaWindow
 
     private void AnimateExpandCollapse(bool expand)
     {
-        int msDuration = _mainWindow.getDuration();
+        int msDuration = MainWindow.getDuration();
         var easing = msDuration > 0 ? _mainWindow.getEasingStyle(true) : null;
         var duration = new Duration(TimeSpan.FromMilliseconds(msDuration > 0 ? msDuration / 1.4 : 1));
 
