@@ -233,4 +233,6 @@
     <system:String x:Key="TaskbarWidgetAutoHideDescription">إخفاء التطبيق المصغر تلقائيًا عند إيقاف الوسائط مؤقتًا</system:String>
     <system:String x:Key="LockKeysAnimatedTitle">رسوم متحركة للمؤشر</system:String>
     <system:String x:Key="LockKeysAnimatedDescription">تمكين رسوم متحركة بسيطة لمؤشر مفتاح القفل</system:String>
+    <system:String x:Key="TaskbarWidgetShowPauseOverlayTitle">إظهار علامة توقف مؤقت</system:String>
+    <system:String x:Key="TaskbarWidgetShowPauseOverlayDescription">عند التوقف مؤقتًا، سيُعرض رمز الإيقاف المؤقت فوق صورة الألبوم</system:String>
 </ResourceDictionary>
