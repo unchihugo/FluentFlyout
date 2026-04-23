@@ -142,7 +142,6 @@ FluentFlyout은 언제나 무료이며 오픈 소스로 유지됩니다. 제한 
 - [AksharDP](https://github.com/AksharDP) - 코드 기여자 (미디어 탐색 바 및 재생 시간)
 - [Hykerisme](https://github.com/Hykerisme) - 중국어(CN) 번역
 - [nopeless](https://github.com/nopeless) - 코드 기여자 (편의성(QoL) 기능)
-- [D4N_A](https://github.com/D4NA-DANA) - 한국어(KR) 번역
 
 ### 사용된 라이브러리 (Dependencies)
 - [Dubya.WindowsMediaController](https://github.com/DubyaDude/WindowsMediaController)
