@@ -1,14 +1,19 @@
 <p align="center">
-  <img width="65%" src="https://github.com/user-attachments/assets/56e921ff-e463-4ab3-b687-92f248dc727e">
+	<picture>
+		<source width="65%" alt="fluentflyout-title" media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/daa2969f-8ad2-4832-8253-26133a50c921" />
+		<source width="65%" alt="fluentflyout-title" media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/3e75e514-b9a6-40e3-b170-af9d29a82bb4" />
+		<img width="65%" alt="fluentflyout-title" src="https://github.com/user-attachments/assets/daa2969f-8ad2-4832-8253-26133a50c921">
+	</picture>
 </p>
+
 <p align="center">
 	<img alt="GitHub Release" src="https://img.shields.io/github/v/release/unchihugo/FluentFlyout">
-	<img alt="Static Badge" src="https://img.shields.io/badge/downloads-71K%2B-blue?color=limegreen">
+	<img alt="Static Badge" src="https://img.shields.io/badge/downloads-130K%2B-blue?color=limegreen">
 	<a href="https://hosted.weblate.org/engage/fluentflyout/"><img src="https://hosted.weblate.org/widget/fluentflyout/svg-badge.svg" alt="Translation status"/></a>
 	<img alt="GitHub contributors" src="https://img.shields.io/github/contributors-anon/unchihugo/fluentflyout?labelColor=midnightblue&color=goldenrod">
 </p>
 <p align="center">
-  <a href="https://github.com/unchihugo/FluentFlyout/blob/master/README.md">English</a> | <a href="https://github.com/unchihugo/FluentFlyout/blob/master/README.zh.md">简体中文</a> | <a href="https://github.com/unchihugo/FluentFlyout/blob/master/README.nl.md">Nederlands</a> | <a href="https://github.com/unchihugo/FluentFlyout/blob/master/README.tr.md">Türkçe</a> | <a href="https://github.com/unchihugo/FluentFlyout/blob/master/README.kr.md">한국어</a>
+  <a href="https://github.com/unchihugo/FluentFlyout/blob/master/README.md">English</a> | <a href="https://github.com/unchihugo/FluentFlyout/blob/master/README.zh.md">简体中文</a> | <a href="https://github.com/unchihugo/FluentFlyout/blob/master/README.nl.md">Nederlands</a> | <a href="https://github.com/unchihugo/FluentFlyout/blob/master/README.tr.md">Türkçe</a> | <a href="https://github.com/unchihugo/FluentFlyout/blob/master/README.ru.md">Русский</a> | <a href="https://github.com/unchihugo/FluentFlyout/blob/master/README.kr.md">한국어</a>
 </p>
 
 ---
@@ -19,7 +24,7 @@ UI가 Windows 11과 자연스럽게 어우러져 미디어, 잠금 키 등을 �
 FluentFlyout은 부드러운 애니메이션을 지원하고, 시스템의 색상 테마와 조화를 이룹니다. 멋지고 현대적인 팝업 플라이아웃을 통해 미디어 컨트롤, 정보 등을 제공하는 동시에 다양한 개인 설정 기능을 포함하고 있습니다.
 
 <a href="https://apps.microsoft.com/detail/9n45nsm4tnbp?referrer=appbadge&cid=GitHub_README&mode=direct">
-	<img src="https://get.microsoft.com/images/ko-kr%20dark.svg" width="200"/>
+	<img src="https://get.microsoft.com/images/en-us%20dark.svg" width="200"/>
 </a>
 
 <img alt="FluentFlyoutHero-Cinemascope" src="https://github.com/user-attachments/assets/a7c7e2db-e21b-4435-9acc-0b2c5f38eb7d" />
@@ -92,7 +97,7 @@ https://github.com/user-attachments/assets/bfc7666f-1d59-4cbf-8d15-3855671cb147
 
 ### Microsoft Store 사용
 <a href="https://apps.microsoft.com/detail/9n45nsm4tnbp?referrer=appbadge&cid=GitHub_README_2&mode=direct">
-	<img src="https://get.microsoft.com/images/ko-kr%20dark.svg" width="300"/>
+	<img src="https://get.microsoft.com/images/en-us%20dark.svg" width="300"/>
 </a>
 
 > FluentFlyout 설정을 찾고 계신가요? 시스템 트레이 아이콘을 클릭하여 설정에 액세스할 수 있습니다.
