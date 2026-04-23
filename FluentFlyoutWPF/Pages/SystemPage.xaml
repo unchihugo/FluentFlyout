@@ -44,6 +44,18 @@
                     <ui:TextBlock Text="{Binding AcrylicBlurOpacity}" Width="24" TextAlignment="Center" Margin="12,0,0,0" />
                 </StackPanel>
             </ui:CardControl>
+            <ui:CardControl Icon="{ui:SymbolIcon EyeDropper24}" Margin="0,0,0,12">
+                <ui:CardControl.Header>
+                    <StackPanel Orientation="Vertical">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{DynamicResource UseAlbumArtAccentColorTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
+                            <ui:InfoBadge Value=" NEW " FontWeight="Medium" FontSize="10" Margin="6,-2,0,-2" Severity="Success" />
+                        </StackPanel>
+                        <TextBlock Text="{DynamicResource UseAlbumArtAccentColorDescription}" FontSize="12" Opacity="0.5" />
+                    </StackPanel>
+                </ui:CardControl.Header>
+                <controls:ToggleSwitch IsChecked="{Binding UseAlbumArtAsAccentColor, Mode=TwoWay}" />
+            </ui:CardControl>
             <ui:CardControl Icon="{ui:SymbolIcon Globe24}" Margin="0,0,0,3">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
@@ -92,51 +104,6 @@
                 </ui:CardControl.Header>
                 <controls:ToggleSwitch x:Name="StartupSwitch" Click="StartupSwitch_Click" IsChecked="{Binding Startup, Mode=TwoWay}" />
             </ui:CardControl>
-            <ui:CardExpander Icon="{ui:SymbolIcon Wrench24}" ContentPadding="6" Margin="0,0,0,3">
-                <ui:CardExpander.Header>
-                    <StackPanel Orientation="Vertical">
-                        <TextBlock Text="{DynamicResource AnimationSettingsTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
-                        <TextBlock Text="{DynamicResource AnimationSettingsDescription}" FontSize="12" Opacity="0.5" />
-                    </StackPanel>
-                </ui:CardExpander.Header>
-                <StackPanel>
-                    <ui:CardControl Icon="{ui:SymbolIcon TopSpeed24}" Margin="0,0,0,3">
-                        <ui:CardControl.Header>
-                            <StackPanel Orientation="Vertical">
-                                <TextBlock Text="{DynamicResource AnimationDurationScaleTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
-                                <TextBlock Text="{DynamicResource AnimationDurationScaleDescription}" FontSize="12" Opacity="0.5" />
-                            </StackPanel>
-                        </ui:CardControl.Header>
-                        <StackPanel Orientation="Horizontal">
-                            <ComboBox Name="FlyoutAnimationSpeedComboBox" SelectedIndex="{Binding FlyoutAnimationSpeed, Mode=TwoWay}">
-                                <ComboBoxItem Content="{DynamicResource AnimationSpeedOff}" />
-                                <ComboBoxItem Content="0.5x" />
-                                <ComboBoxItem Content="1x" />
-                                <ComboBoxItem Content="1.5x" />
-                                <ComboBoxItem Content="2x" />
-                                <ComboBoxItem Content="3x" />
-                            </ComboBox>
-                        </StackPanel>
-                    </ui:CardControl>
-                    <ui:CardControl Icon="{ui:SymbolIcon BezierCurveSquare12}" Margin="0,0,0,3">
-                        <ui:CardControl.Header>
-                            <StackPanel Orientation="Vertical">
-                                <TextBlock Text="{DynamicResource AnimationEasingStyleTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
-                                <TextBlock Text="{DynamicResource AnimationEasingStyleDescription}" FontSize="12" Opacity="0.5" />
-                            </StackPanel>
-                        </ui:CardControl.Header>
-                        <StackPanel Orientation="Horizontal">
-                            <ComboBox Name="AnimationEasingStylesComboBox" SelectedIndex="{Binding FlyoutAnimationEasingStyle, Mode=TwoWay}">
-                                <ComboBoxItem Content="{DynamicResource EasingLinear}" />
-                                <ComboBoxItem Content="{DynamicResource EasingSine}" />
-                                <ComboBoxItem Content="{DynamicResource EasingQuadratic}" />
-                                <ComboBoxItem Content="{DynamicResource EasingCubic}" />
-                            </ComboBox>
-                        </StackPanel>
-                    </ui:CardControl>
-                    <ui:InfoBar Title="{DynamicResource NativeExperienceInfo}" IsOpen="True" Severity="Informational" IsClosable="False" />
-                </StackPanel>
-            </ui:CardExpander>
             <ui:CardControl Icon="{ui:SymbolIcon ArrowMinimize24}" Margin="0,0,0,3">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
@@ -202,12 +169,22 @@
 
             <!-- update section -->
             <TextBlock Text="{DynamicResource UpdatesSectionTitle}" FontSize="14" FontWeight="SemiBold" Margin="0,12,0,6" />
-            <ui:CardControl Margin="0,0,0,76" >
+            <ui:CardControl Margin="0,0,0,36" >
                 <ui:CardControl.Header>
                     <TextBlock Text="{DynamicResource ShowUpdateNotificationsTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
                 </ui:CardControl.Header>
                 <controls:ToggleSwitch IsChecked="{Binding ShowUpdateNotifications, Mode=TwoWay}" />
             </ui:CardControl>
+            
+            <!-- advanced -->
+            <ui:CardAction Margin="0,0,0,76" IsChevronVisible="True" Click="Advanced_Click">
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <ui:TextBlock Text="{DynamicResource AdvancedSettingsTitle}" />
+                        <ui:InfoBadge Value=" NEW " FontWeight="Medium" FontSize="10" Margin="6,-2,0,-2" Severity="Success" />
+                    </StackPanel>
+                </StackPanel>
+            </ui:CardAction>
         </StackPanel>
     </StackPanel>
 </Page>

@@ -34,6 +34,7 @@
     <None Remove="Resources\FluentFlyoutHero-NoTitle.png" />
     <None Remove="Resources\FluentFlyoutTaskbar-NoTitle-Zoomed.png" />
     <None Remove="Resources\FluentFlyoutWhite.png" />
+    <None Remove="Resources\logo-change.png" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Dubya.WindowsMediaController" Version="2.5.6" />
@@ -49,6 +50,9 @@
     <Content Include="NLog.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\FluentFlyout2.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\FluentFlyoutDemo9.1.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -56,6 +60,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\FluentFlyoutTaskbar-NoTitle-Zoomed.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\logo-change.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\TrayIcons\FluentFlyoutBlack.png">
@@ -72,9 +79,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\FluentFlyout2.ico">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="Resources\TrayIcons\FluentFlyoutWhite.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

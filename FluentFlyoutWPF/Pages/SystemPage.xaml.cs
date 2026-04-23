@@ -9,6 +9,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
+using Wpf.Ui.Controls;
 using MessageBox = Wpf.Ui.Controls.MessageBox;
 
 namespace FluentFlyoutWPF.Pages;
@@ -164,8 +165,7 @@ public partial class SystemPage : Page
             {
                 try
                 {
-                    SettingsManager settingsManager = new();
-                    settingsManager.RestoreSettings(openFileDialog.FileName);
+                    SettingsManager.RestoreSettings(openFileDialog.FileName);
                     SettingsManager.SaveSettings();
 
                     Wpf.Ui.Controls.MessageBox messageBox = new()
@@ -196,5 +196,10 @@ public partial class SystemPage : Page
                 }
             }
         }
+    }
+
+    private void Advanced_Click(object sender, System.Windows.RoutedEventArgs e)
+    {
+        SettingsWindow.NavigateToPage(typeof(AdvancedPage));
     }
 }

@@ -40,7 +40,7 @@
     <system:String x:Key="PauseOtherMediaDescription">عند تشغيل الوسائط الجديدة أو التركيز عليها، يتم إيقاف الجلسات النشطة الأخرى تلقائيًا</system:String>
     <system:String x:Key="NextUpCustomizationTitle">إشعار الوسائط التالية</system:String>
     <system:String x:Key="NextUpDescription" xml:space="preserve">تُظهر نافذة منبثقة ما يلي عند انتهاء أغنية/فيديو. تظهر فقط عند تشغيل العنصر التالي تلقائيًا، أما عند الضغط على التالي/السابق يدويًا، فتظهر النافذة الرئيسية.</system:String>
-    <system:String x:Key="EnableNextUpTitle">تمكين القائمة المنبثقة التالية (تجريبي)</system:String>
+    <system:String x:Key="EnableNextUpTitle">تمكين القائمة المنبثقة التالية</system:String>
     <system:String x:Key="EnableNextUpDescription">يُظهر ما التالي بعد انتهاء الأغنية/الفيديو</system:String>
     <system:String x:Key="NextUpStayDurationTitle">مدة ظهور إشعار الوسائط التالية</system:String>
     <system:String x:Key="NextUpStayDurationDescription">(الافتراضي: 2000 مللي ثانية)</system:String>
@@ -108,7 +108,7 @@
     <system:String x:Key="SelectedMonitorTitle">شاشة عرض أداة التحكم</system:String>
     <system:String x:Key="MediaFlyoutAlwaysDisplayDescription">تبقى اداة التحكم ظاهرة حتى الضغط على زر الإغلاق</system:String>
     <system:String x:Key="TaskbarWidgetCustomizationTitle">أداة شريط المهام</system:String>
-    <system:String x:Key="TaskbarWidgetDescription">أداة صغيرة الحجم تظهر مباشرةً على شريط مهام ويندوز للوصول السريع للوسائط. انقر على الأداة لعرض قائمة الوسائط الكاملة (عند التفعيل).</system:String>
+    <system:String x:Key="TaskbarWidgetDescription">أداة صغيرة الحجم تظهر مباشرةً على شريط مهام ويندوز للوصول السريع للوسائط. انقر على الأداة لعرض قائمة الوسائط الكاملة.</system:String>
     <system:String x:Key="TaskbarWidgetEnabledTitle">تشغيل اداة شريط المهام</system:String>
     <system:String x:Key="TaskbarWidgetEnabledDescription">إظهار اداة تحكم مصغرة على شريط المهام</system:String>
     <system:String x:Key="TaskbarWidgetVisualIssuesWarning">خصص الإعدادات ادناه عند مواجهة مشاكل بصرية.</system:String>
@@ -121,7 +121,7 @@
     <system:String x:Key="TaskbarWidgetManualPaddingTitle">تباعد مخصص</system:String>
     <system:String x:Key="TaskbarWidgetManualPaddingDescription">أضف تباعد زائد (الإفتراضي: 0 بيكسل)</system:String>
     <system:String x:Key="TaskbarWidgetClickableTitle">إضغط لفتح أداة التحكم عند وجود وسائط</system:String>
-    <system:String x:Key="TaskbarWidgetClickableDescription">إن كانت أداة التحكم مفعلة، ستظهر عند الضغط على علامة شريط المهام</system:String>
+    <system:String x:Key="TaskbarWidgetClickableDescription">الضغط على أداة شريط المهام سيفتح نافذة الوسائط</system:String>
     <system:String x:Key="TaskbarWidgetBackgroundBlurTitle">ضباب خلفية</system:String>
     <system:String x:Key="TaskbarWidgetBackgroundBlurDescription">أضف تأثير ضباب لخلفية أداة شريط المهام</system:String>
     <system:String x:Key="TaskbarWidgetHideCompletelyTitle">إخفِ بشكل تام عند عدم وجود وسائط</system:String>
@@ -213,4 +213,26 @@
     <system:String x:Key="FailedToImportSettings">فشل استيراد الإعدادات. تحقق من السجلات للمزيد من التفاصيل.</system:String>
     <system:String x:Key="TaskbarVisualizerAudioPeakLevelDescription">الحد الأدنى لشدة الصوت الذي تبلغ عنده الأشرطة ارتفاعها الأقصى</system:String>
     <system:String x:Key="TaskbarVisualizerAudioPeakLevelTitle">حد ذروة الصوت</system:String>
+    <system:String x:Key="PositionLeft">اليسار</system:String>
+    <system:String x:Key="PositionRight">اليمين</system:String>
+    <system:String x:Key="TaskbarWidgetControlsPositionTitle">موقع أزرار التحكم بالوسائط</system:String>
+    <system:String x:Key="TaskbarWidgetControlsPositionDescription">اختر مكان عرض أزرار التحكم في الوسائط</system:String>
+    <system:String x:Key="TaskbarVisualizerClickableTitle">إضغط لفتح الإعدادات</system:String>
+    <system:String x:Key="TaskbarVisualizerClickableDescription">إضغط على المرئيات لفتح الإعدادات الخاصة بها</system:String>
+    <system:String x:Key="LockKeysCursorUITitle">الشاشة المفضلة للعرض</system:String>
+    <system:String x:Key="LockKeysCursorUIDescription" xml:space="preserve">إختر الشاشة التي ستعرض القائمة المنبثقة.</system:String>
+    <system:String x:Key="DefaultLockLayoutPosition">الإفتراضي (شاشة عرض القائمة المنبثقة)</system:String>
+    <system:String x:Key="MonitorWithFocusedWindow">الشاشة مع نافذة فعالة</system:String>
+    <system:String x:Key="MonitorWithCursor">الشاشة التي تحتوي المؤشر</system:String>
+    <system:String x:Key="UseAlbumArtAccentColorTitle">إستعمل صورة الألبوم كألوان تكميلية</system:String>
+    <system:String x:Key="UseAlbumArtAccentColorDescription">ستستخدم بعض عناصر الواجهة لون صورة الألبوم بدلاً من سمة النظام</system:String>
+    <system:String x:Key="AdvancedSettingsTitle">الإعدادات المتقدمة</system:String>
+    <system:String x:Key="LegacyTaskbarWidthTitle">نظام عرض شريط المهام القديم</system:String>
+    <system:String x:Key="LegacyTaskbarWidthDescription">استخدم نظام عرض شريط المهام القديم لتطبيقات شريط المهام المصغرة</system:String>
+    <system:String x:Key="TaskbarWidgetAutoHideTitle">إخفاء تلقائي للتطبيق المصغر</system:String>
+    <system:String x:Key="TaskbarWidgetAutoHideDescription">إخفاء التطبيق المصغر تلقائيًا عند إيقاف الوسائط مؤقتًا</system:String>
+    <system:String x:Key="LockKeysAnimatedTitle">رسوم متحركة للمؤشر</system:String>
+    <system:String x:Key="LockKeysAnimatedDescription">تمكين رسوم متحركة بسيطة لمؤشر مفتاح القفل</system:String>
+    <system:String x:Key="TaskbarWidgetShowPauseOverlayTitle">إظهار علامة توقف مؤقت</system:String>
+    <system:String x:Key="TaskbarWidgetShowPauseOverlayDescription">عند التوقف مؤقتًا، سيُعرض رمز الإيقاف المؤقت فوق صورة الألبوم</system:String>
 </ResourceDictionary>

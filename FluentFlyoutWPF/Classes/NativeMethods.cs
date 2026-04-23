@@ -44,6 +44,19 @@ public static partial class NativeMethods
     internal const int WM_KEYUP = 0x0101;
     internal const int WM_SETTINGCHANGE = 0x001A;
 
+    // Shell Hook Messages
+    internal const int HSHELL_APPCOMMAND = 12;
+
+    // App Command Messages
+    internal const int APPCOMMAND_VOLUME_MUTE = 8;
+    internal const int APPCOMMAND_VOLUME_DOWN = 9;
+    internal const int APPCOMMAND_VOLUME_UP = 10;
+    internal const int APPCOMMAND_MEDIA_NEXTTRACK = 11;
+    internal const int APPCOMMAND_MEDIA_PREVIOUSTRACK = 12;
+    internal const int APPCOMMAND_MEDIA_STOP = 13;
+    internal const int APPCOMMAND_MEDIA_PLAY_PAUSE = 14;
+    internal const int FAPPCOMMAND_KEY = 0x0000;
+
     #endregion
 
     #region Enums
@@ -243,9 +256,10 @@ public static partial class NativeMethods
     [LibraryImport("user32.dll")]
     internal static partial uint GetDpiForWindow(IntPtr hMonitor);
 
-    [LibraryImport("user32.dll", SetLastError = true)]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    internal static partial bool SetWindowPos(IntPtr hWnd, int hWndInsertAfter, int x, int y, int cx, int cy, uint uFlags);
+    // DllImport instead of LibraryImport for SetWindowPos because for some reason it functions differently when using LibraryImport,
+    // causing windows to not be topmost and it to be hidden unless you focus on the taskbar.
+    [DllImport("user32.dll", SetLastError = true)]
+    internal static extern bool SetWindowPos(IntPtr hWnd, int hWndInsertAfter, int x, int y, int cx, int cy, uint uFlags);
 
     [LibraryImport("user32.dll")]
     [return: MarshalAs(UnmanagedType.Bool)]
@@ -273,6 +287,14 @@ public static partial class NativeMethods
 
     [LibraryImport("user32.dll")]
     internal static partial void keybd_event(byte virtualKey, byte scanCode, uint flags, IntPtr extraInfo);
+
+    [LibraryImport("user32.dll")]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static partial bool RegisterShellHookWindow(IntPtr hWnd);
+
+    [LibraryImport("user32.dll")]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static partial bool DeregisterShellHookWindow(IntPtr hWnd);
 
     [LibraryImport("user32.dll", EntryPoint = "RegisterWindowMessageW", SetLastError = true, StringMarshalling = StringMarshalling.Utf16)]
     internal static partial int RegisterWindowMessage(string lpString);

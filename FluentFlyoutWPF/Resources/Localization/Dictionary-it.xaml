@@ -45,7 +45,7 @@ nasconde ripeti, riproduzione casuale e le informazioni del player</system:Strin
     <system:String x:Key="PauseOtherMediaTitle">Pausa Altri Media Autonomamente</system:String>
     <system:String x:Key="PauseOtherMediaDescription">Quando riproduci o metti in primo piano un nuovo contenuto multimediale, le altre sessioni attive vengono messe in pausa automaticamente</system:String>
     <system:String x:Key="TaskbarWidgetCustomizationTitle">Widget Barra delle Applicazioni</system:String>
-    <system:String x:Key="TaskbarWidgetDescription">Un widget compatto e integrato nella barra delle applicazioni di Windows per un accesso istantaneo ai tuoi contenuti multimediali. Clicca per aprire il Media Flyout completo (se abilitato).</system:String>
+    <system:String x:Key="TaskbarWidgetDescription">Un widget compatto e integrato nella barra delle applicazioni di Windows per un accesso istantaneo ai tuoi contenuti multimediali. Clicca per aprire il Media Flyout completo.</system:String>
     <system:String x:Key="TaskbarWidgetEnabledTitle">Attiva Widget Barra delle Applicazioni</system:String>
     <system:String x:Key="TaskbarWidgetEnabledDescription">Mostra un widget multimediale compatto sulla barra delle applicazioni</system:String>
     <system:String x:Key="TaskbarWidgetVisualIssuesWarning">Configura le opzioni seguenti se riscontri problemi visivi.</system:String>
@@ -71,7 +71,7 @@ Nota: essendo un progetto open-source, queste funzionalità sono comunque dispon
     <system:String x:Key="PremiumPurchaseCancelled">Acquisto cancellato.</system:String>
     <system:String x:Key="NextUpCustomizationTitle">Flyout Prossimo Elemento</system:String>
     <system:String x:Key="NextUpDescription" xml:space="preserve">Un flyout mostra cosa verrà riprodotto dopo la fine di una canzone o video. Compare solo se l’elemento successivo parte automaticamente; premendo manualmente “successivo” o “precedente”, viene mostrato invece il flyout principale.</system:String>
-    <system:String x:Key="EnableNextUpTitle">Attiva Flyout Prossimo Elemento (Sperimentale)</system:String>
+    <system:String x:Key="EnableNextUpTitle">Attiva Flyout Prossimo Elemento</system:String>
     <system:String x:Key="EnableNextUpDescription">Mostra cosa verrà riprodotto dopo la fine di una canzone o di un video</system:String>
     <system:String x:Key="NextUpStayDurationTitle">Durata Prossimo Elemento</system:String>
     <system:String x:Key="NextUpStayDurationDescription">(predefinito: 2000 ms)</system:String>
@@ -200,17 +200,39 @@ Puoi contribuire alla traduzione su</system:String>
     <system:String x:Key="TaskbarVisualizerOutputDeviceDescription">Cambia la sorgente del visualizzatore modificando il dispositivo di uscita di FluentFlyout.</system:String>
     <system:String x:Key="TaskbarWidgetCloseableFlyoutTitle">Chiudi Flyout al Secondo Clic</system:String>
     <system:String x:Key="TaskbarWidgetCloseableFlyoutDescription">Chiude il flyout se è già aperto quando si clicca il widget della barra delle applicazioni</system:String>
-    <system:String x:Key="BackupRestoreSectionTitle">Backup e Ripristino</system:String>
+    <system:String x:Key="BackupRestoreSectionTitle">Backup e ripristino</system:String>
     <system:String x:Key="BackupRestoreCardTitle">Salva e ripristina le tue impostazioni</system:String>
-    <system:String x:Key="ExportSettings">Esporta Impostazioni</system:String>
-    <system:String x:Key="ImportSettings">Importa Impostazioni</system:String>
-    <system:String x:Key="ExportSuccessful">Esportazione Riuscita</system:String>
-    <system:String x:Key="ExportFailed">Esportazione Fallita</system:String>
-    <system:String x:Key="ImportSuccessful">Importazione Riuscita</system:String>
-    <system:String x:Key="ImportFailed">Importazione Fallita</system:String>
-    <system:String x:Key="SettingsExportedSuccessfully">Impostazioni esportate con successo!</system:String>
+    <system:String x:Key="ExportSettings">Esporta impostazioni</system:String>
+    <system:String x:Key="ImportSettings">Importa impostazioni</system:String>
+    <system:String x:Key="ExportSuccessful">Esportazione riuscita</system:String>
+    <system:String x:Key="ExportFailed">Esportazione non riuscita</system:String>
+    <system:String x:Key="ImportSuccessful">Importazione riuscita</system:String>
+    <system:String x:Key="ImportFailed">Importazione fallita</system:String>
+    <system:String x:Key="SettingsExportedSuccessfully">Impostazioni esportate correttamente!</system:String>
     <system:String x:Key="FailedToExportSettings">Esportazione delle impostazioni fallita. Controlla i log per dettagli.</system:String>
     <system:String x:Key="SettingsImportedSuccessfully">Impostazioni importate con successo! L'applicazione si riavvierà per applicare i cambiamenti.</system:String>
     <system:String x:Key="ImportSettingsWarning">Questo sostituirà tutte le impostazioni attuali. Continuare?</system:String>
     <system:String x:Key="FailedToImportSettings">Importazione delle impostazioni fallita. Controlla i log per dettagli.</system:String>
+    <system:String x:Key="TaskbarWidgetControlsPositionTitle">Posizione Controlli Multimediali</system:String>
+    <system:String x:Key="TaskbarWidgetControlsPositionDescription">Scegli dove mostrare i pulsanti di controllo multimediale</system:String>
+    <system:String x:Key="PositionLeft">A sinistra</system:String>
+    <system:String x:Key="PositionRight">Destra</system:String>
+    <system:String x:Key="TaskbarVisualizerClickableTitle">Clicca per Aprire le Impostazioni</system:String>
+    <system:String x:Key="TaskbarVisualizerClickableDescription">Cliccando il visualizzatore si aprirà la pagina delle impostazioni</system:String>
+    <system:String x:Key="LockKeysCursorUITitle">Schermo Preferito</system:String>
+    <system:String x:Key="LockKeysCursorUIDescription" xml:space="preserve">Scegli su quale monitor mostrare il flyout.</system:String>
+    <system:String x:Key="DefaultLockLayoutPosition">Predefinito (Schermo del Flyout)</system:String>
+    <system:String x:Key="MonitorWithFocusedWindow">Schermo con finestra attiva</system:String>
+    <system:String x:Key="MonitorWithCursor">Schermo con cursore</system:String>
+    <system:String x:Key="UseAlbumArtAccentColorTitle">Colore Accento dalla Copertina Album</system:String>
+    <system:String x:Key="UseAlbumArtAccentColorDescription">Alcuni elementi dell’interfaccia useranno il colore della copertina invece del tema di sistema</system:String>
+    <system:String x:Key="AdvancedSettingsTitle">Impostazioni avanzate</system:String>
+    <system:String x:Key="LegacyTaskbarWidthTitle">Sistema Legacy Larghezza della Barra delle Applicazioni</system:String>
+    <system:String x:Key="LegacyTaskbarWidthDescription">Usa il sistema originale per la larghezza nei Widget Barra delle Applicazioni</system:String>
+    <system:String x:Key="TaskbarWidgetAutoHideTitle">Nascondi automaticamente il Widget</system:String>
+    <system:String x:Key="TaskbarWidgetAutoHideDescription">Nasconde automaticamente il widget quando il media è in pausa</system:String>
+    <system:String x:Key="LockKeysAnimatedTitle">Animazione dell'indicatore</system:String>
+    <system:String x:Key="LockKeysAnimatedDescription">Abilita piccole animazioni per il lucchetto nell'idicatore del pulsante di blocco</system:String>
+    <system:String x:Key="TaskbarWidgetShowPauseOverlayTitle">Mostra icona di pausa nell'overlay</system:String>
+    <system:String x:Key="TaskbarWidgetShowPauseOverlayDescription">Quando il media è in pausa, mostra un'icona di pausa sulla copertina dell'album</system:String>
 </ResourceDictionary>

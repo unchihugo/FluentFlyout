@@ -40,7 +40,7 @@
     <system:String x:Key="PauseOtherMediaDescription">当你播放或者聚焦于新的媒体时，其他正在播放的内容会被自动暂停</system:String>
     <system:String x:Key="NextUpCustomizationTitle">“接下来” 浮窗</system:String>
     <system:String x:Key="NextUpDescription" xml:space="preserve">一个会显示当前播放的歌曲 / 视频结束后下一个项目的浮窗。只有在下一个项目自动播放时才会出现，如果手动按下 “下一个” / “上一个” 按钮，则会显示主要浮窗。</system:String>
-    <system:String x:Key="EnableNextUpTitle">启用 “接下来” 浮窗（实验性）</system:String>
+    <system:String x:Key="EnableNextUpTitle">启用 “接下来” 浮窗</system:String>
     <system:String x:Key="EnableNextUpDescription">显示当前歌曲 / 视频结束后的下一项内容</system:String>
     <system:String x:Key="NextUpStayDurationTitle">“接下来” 浮窗停留时间</system:String>
     <system:String x:Key="NextUpStayDurationDescription">（默认：2000 毫秒）</system:String>
@@ -103,7 +103,7 @@
     <system:String x:Key="TrayIcon_ReportBugOption">报告错误</system:String>
     <system:String x:Key="TrayIcon_QuitOption">退出 FluentFlyout</system:String>
     <system:String x:Key="TaskbarWidgetCustomizationTitle">任务栏小组件</system:String>
-    <system:String x:Key="TaskbarWidgetDescription">用一个简洁、紧密集成于 Windows 任务栏的小组件来快速访问你的媒体。（当启用时）点击它来展开完整的媒体控制浮窗。</system:String>
+    <system:String x:Key="TaskbarWidgetDescription">用一个简洁、紧密集成于 Windows 任务栏的小组件来快速访问你的媒体。点击它会展开完整的媒体控制浮窗。</system:String>
     <system:String x:Key="TaskbarWidgetEnabledTitle">启用任务栏小组件</system:String>
     <system:String x:Key="TaskbarWidgetEnabledDescription">在任务栏上显示一个简洁的媒体小组件</system:String>
     <system:String x:Key="TaskbarWidgetVisualIssuesWarning">如果碰到显示问题，请调整下面的选项。</system:String>
@@ -111,7 +111,7 @@
     <system:String x:Key="TaskbarWidgetPaddingTitle">自动为 Windows 小组件按钮添加间距</system:String>
     <system:String x:Key="TaskbarWidgetPaddingDescription">如果你启用了 Windows 小组件，请启用此选项</system:String>
     <system:String x:Key="TaskbarWidgetClickableTitle">有播放中的媒体时点击打开媒体浮窗</system:String>
-    <system:String x:Key="TaskbarWidgetClickableDescription">如果启用了媒体浮窗，点击小组件时它将会被打开</system:String>
+    <system:String x:Key="TaskbarWidgetClickableDescription">点击小组件时会打开媒体浮窗</system:String>
     <system:String x:Key="TaskbarWidgetBackgroundBlurDescription">为任务栏小组件添加背景模糊效果</system:String>
     <system:String x:Key="TaskbarWidgetHideCompletelyTitle">当没有播放中的媒体时完全隐藏</system:String>
     <system:String x:Key="TaskbarWidgetHideCompletelyDescription">当没有可用媒体时完全隐藏小组件，而不是显示一个媒体图标</system:String>
@@ -119,7 +119,7 @@
     <system:String x:Key="UnlockPremiumButton">解锁 Premium</system:String>
     <system:String x:Key="PremiumPurchaseSuccess">Premium 功能已成功解锁！</system:String>
     <system:String x:Key="PremiumPurchaseFailed">购买失败，请再试一次。</system:String>
-    <system:String x:Key="PremiumFeatureDescription" xml:space="preserve">您的一次性捐赠可以帮助我维持 FluentFlyout 的维护和更新。它也会立即永久解锁所有包含在 Premium 中的自定义功能。
+    <system:String x:Key="PremiumFeatureDescription" xml:space="preserve">你的一次性捐赠可以帮助我维持 FluentFlyout 的维护和更新。它也会立即永久解锁所有包含在 Premium 中的自定义功能。
 
 注：作为一个开源项目，这些功能也可以通过 GitHub 上的手动安装包免费获取。唯一的区别是，软件更新和安装需要手动完成。</system:String>
     <system:String x:Key="PremiumLockedMessage">此功能是 Premium 的一部分</system:String>
@@ -148,7 +148,7 @@
     <system:String x:Key="UpdateToastButton">查看更新内容</system:String>
     <system:String x:Key="Enabled">已启用</system:String>
     <system:String x:Key="Disabled">已禁用</system:String>
-    <system:String x:Key="MediaFlyoutAlwaysDisplayDescription">浮窗不会消失，除非您手动点击关闭按钮</system:String>
+    <system:String x:Key="MediaFlyoutAlwaysDisplayDescription">浮窗不会消失，除非你手动点击关闭按钮</system:String>
     <system:String x:Key="HomeTitle">首页</system:String>
     <system:String x:Key="AboutOpenSourceLicensesTitle">开源许可</system:String>
     <system:String x:Key="AboutOpenSourceLicensesDescription">FluentFlyout 使用了以下开源软件包：</system:String>
@@ -200,4 +200,39 @@
     <system:String x:Key="TaskbarVisualizerAudioPeakLevelDescription">频谱柱达到最大高度时，对应的音频音量大小</system:String>
     <system:String x:Key="TaskbarWidgetCloseableFlyoutTitle">再次点击关闭浮窗</system:String>
     <system:String x:Key="TaskbarWidgetCloseableFlyoutDescription">已打开媒体浮窗时，再次点击任务栏小组件会关闭媒体浮窗</system:String>
+    <system:String x:Key="PositionLeft">左侧</system:String>
+    <system:String x:Key="PositionRight">右侧</system:String>
+    <system:String x:Key="BackupRestoreSectionTitle">备份与恢复</system:String>
+    <system:String x:Key="ExportSettings">导出设置</system:String>
+    <system:String x:Key="ImportSettings">导入设置</system:String>
+    <system:String x:Key="ExportSuccessful">导出成功</system:String>
+    <system:String x:Key="ImportSuccessful">导入成功</system:String>
+    <system:String x:Key="ImportFailed">导入失败</system:String>
+    <system:String x:Key="SettingsExportedSuccessfully">设置导出成功！</system:String>
+    <system:String x:Key="TaskbarWidgetControlsPositionTitle">媒体控制按键位置</system:String>
+    <system:String x:Key="TaskbarWidgetControlsPositionDescription">选择媒体控制按钮在小组件内的显示位置</system:String>
+    <system:String x:Key="BackupRestoreCardTitle">将你的设置进行备份和恢复</system:String>
+    <system:String x:Key="ExportFailed">导出失败</system:String>
+    <system:String x:Key="FailedToExportSettings">设置导出失败，请检查日志内容。</system:String>
+    <system:String x:Key="SettingsImportedSuccessfully">设置导入成功！本应用将重启以实施更改。</system:String>
+    <system:String x:Key="ImportSettingsWarning">这将会替换现有的全部设置。是否继续？</system:String>
+    <system:String x:Key="FailedToImportSettings">设置导入失败，请检查日志内容。</system:String>
+    <system:String x:Key="LockKeysCursorUITitle">首选目标显示器</system:String>
+    <system:String x:Key="LockKeysCursorUIDescription" xml:space="preserve">选择显示此浮窗的显示器。</system:String>
+    <system:String x:Key="DefaultLockLayoutPosition">默认（全局浮窗目标显示器）</system:String>
+    <system:String x:Key="MonitorWithFocusedWindow">具有焦点的窗口所在的显示器</system:String>
+    <system:String x:Key="MonitorWithCursor">鼠标 / 光标所在的显示器</system:String>
+    <system:String x:Key="TaskbarVisualizerClickableDescription">点击频谱可视化小组件会打开频谱可视化的设置页面</system:String>
+    <system:String x:Key="TaskbarVisualizerClickableTitle">点击小组件打开设置</system:String>
+    <system:String x:Key="UseAlbumArtAccentColorTitle">使用专辑封面颜色作为主题色</system:String>
+    <system:String x:Key="UseAlbumArtAccentColorDescription">部分界面元素将从专辑封面中取色，而不是使用系统主题色</system:String>
+    <system:String x:Key="AdvancedSettingsTitle">高级设置</system:String>
+    <system:String x:Key="LegacyTaskbarWidthDescription">任务栏小组件使用旧版任务栏宽度系统</system:String>
+    <system:String x:Key="LegacyTaskbarWidthTitle">旧版任务栏宽度系统</system:String>
+    <system:String x:Key="TaskbarWidgetAutoHideTitle">自动隐藏小组件</system:String>
+    <system:String x:Key="TaskbarWidgetAutoHideDescription">当媒体暂停播放时，自动将小组件隐藏</system:String>
+    <system:String x:Key="LockKeysAnimatedTitle">指示器动画</system:String>
+    <system:String x:Key="LockKeysAnimatedDescription">为键盘锁定键指示器启用微小的动画效果</system:String>
+    <system:String x:Key="TaskbarWidgetShowPauseOverlayTitle">显示暂停图标叠加层</system:String>
+    <system:String x:Key="TaskbarWidgetShowPauseOverlayDescription">当媒体暂停播放时，在专辑封面上显示暂停图标</system:String>
 </ResourceDictionary>

@@ -20,7 +20,9 @@ public partial class AboutViewModel : ObservableObject
         "nopeless",
         "xsm2",
         "Simnico99",
-        "neegool"
+        "neegool",
+        "mak7im01",
+        "Hikaru11747"
      ];
 
     public ObservableCollection<string> Translators { get; } =
@@ -72,13 +74,16 @@ public partial class AboutViewModel : ObservableObject
         "havrlisan",
         "Self4215",
         "manuelitou",
-        "aic-6301"
+        "aic-6301",
+        "mak7im01",
+        "D4N_A",
+        "Haeil"
     ];
 
 
     public string DevelopersText => string.Join(", ", Developers);
 
-    public string TranslatorsText => string.Join(", ", Translators);
+    public string TranslatorsText => string.Join(", ", Translators.Order());
 
     public class LicenseInfo
     {

@@ -38,6 +38,9 @@ public partial class TaskbarWindow : Window
     private int _lastSelectedMonitor = -1;
     private bool _positionUpdateInProgress;
     private readonly Dictionary<string, Task> _pendingAutomationTasks = [];
+    
+    private GlobalSystemMediaTransportControlsSessionPlaybackStatus? _lastPlaybackStatus;
+    private DispatcherTimer? _autoHideTimer;
 
     public TaskbarWindow()
     {
@@ -100,7 +103,6 @@ public partial class TaskbarWindow : Window
         SetupWindow();
         _mainWindow = (MainWindow)Application.Current.MainWindow;
         Widget.SetMainWindow(_mainWindow);
-        TaskbarVisualizer.SetMainWindow(_mainWindow);
     }
 
     private IntPtr GetSelectedTaskbarHandle(out bool isMainTaskbarSelected)
@@ -350,22 +352,31 @@ public partial class TaskbarWindow : Window
 
             // Get Taskbar dimensions
             RECT taskbarRect;
-            // first, try to find the Taskbar.TaskbarFrame element in the XAML
-            // this should give us the actual bounds of the taskbar, excluding invisible margins on some Windows configurations
-            (bool success, Rect result) = GetTaskbarFrameRect(taskbarHandle);
-            if (success)
+
+            if (!SettingsManager.Current.LegacyTaskbarWidthEnabled)
             {
-                taskbarRect = new RECT
+                // first, try to find the Taskbar.TaskbarFrame element in the XAML
+                // this should give us the actual bounds of the taskbar, excluding invisible margins on some Windows configurations
+                (bool success, Rect result) = GetTaskbarFrameRect(taskbarHandle);
+                if (success)
                 {
-                    Left = (int)result.Left,
-                    Top = (int)result.Top,
-                    Right = (int)result.Right,
-                    Bottom = (int)result.Bottom
-                };
+                    taskbarRect = new RECT
+                    {
+                        Left = (int)result.Left,
+                        Top = (int)result.Top,
+                        Right = (int)result.Right,
+                        Bottom = (int)result.Bottom
+                    };
+                }
+                else
+                {
+                    // fallback to GetWindowRect if we fail to get the frame bounds for some reason
+                    GetWindowRect(taskbarHandle, out taskbarRect);
+                }
             }
             else
             {
-                // fallback to GetWindowRect if we fail to get the frame bounds for some reason
+                // legacy method - GetWindowRect on the entire taskbar, which includes invisible margins on some Windows configurations
                 GetWindowRect(taskbarHandle, out taskbarRect);
             }
 
@@ -584,6 +595,50 @@ public partial class TaskbarWindow : Window
                 Visibility = Visibility.Collapsed;
             });
             return;
+        }
+        
+        // Autohide - Widget hides when playback is paused
+        _lastPlaybackStatus = playbackStatus;
+        
+        if ((SettingsManager.Current.TaskbarWidgetAutoHide))
+        {
+            if (playbackStatus == GlobalSystemMediaTransportControlsSessionPlaybackStatus.Playing)
+            {
+                _autoHideTimer?.Stop();
+                _autoHideTimer = null;
+
+                Dispatcher.Invoke(() => 
+                {
+                    Visibility = Visibility.Visible;
+                });
+            }
+            else
+            {
+                // Start delayed hide
+                if (_autoHideTimer == null)
+                {
+                    _autoHideTimer = new DispatcherTimer
+                    {
+                        Interval = TimeSpan.FromMilliseconds(750)
+                    };
+
+                    _autoHideTimer.Tick += (s, e) =>
+                    {
+                        _autoHideTimer.Stop();
+                        _autoHideTimer = null;
+
+                        if (_lastPlaybackStatus != GlobalSystemMediaTransportControlsSessionPlaybackStatus.Playing)
+                        {
+                            Dispatcher.Invoke(() =>
+                            {
+                                Visibility = Visibility.Collapsed;
+                            });
+                        }
+                    };
+
+                    _autoHideTimer.Start();
+                }
+            }
         }
 
         if (!_timer.IsEnabled)

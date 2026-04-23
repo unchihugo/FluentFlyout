@@ -27,8 +27,7 @@ public partial class NextUpWindow : MicaWindow
         InitializeComponent();
         WindowHelper.SetTopmost(this);
         CustomWindowChrome.CaptionHeight = 0;
-        CustomWindowChrome.UseAeroCaptionButtons = false;
-        CustomWindowChrome.GlassFrameThickness = new Thickness(0);
+
         if (SettingsManager.Current.NextUpAcrylicWindowEnabled)
         {
             WindowBlurHelper.EnableBlur(this);
@@ -56,7 +55,7 @@ public partial class NextUpWindow : MicaWindow
         {
             await Task.Delay(SettingsManager.Current.NextUpDuration);
             mainWindow.CloseAnimation(this);
-            await Task.Delay(mainWindow.getDuration());
+            await Task.Delay(MainWindow.getDuration());
             Close();
         }
 

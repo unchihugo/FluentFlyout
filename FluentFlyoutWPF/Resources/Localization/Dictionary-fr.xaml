@@ -34,13 +34,13 @@
 masque les options de répétition, de lecture aléatoire et les informations du lecteur</system:String>
     <system:String x:Key="NextUpCustomizationTitle">Volet "À suivre"</system:String>
     <system:String x:Key="NextUpDescription" xml:space="preserve">Ce volet affiche ce qui sera lu ensuite lorsque la piste/vidéo en cours se termine. Il n’apparaît que si la lecture suivante se lance automatiquement. Si vous changez de piste manuellement (Suivant/Précédent), le volet principal est affiché à la place.</system:String>
-    <system:String x:Key="EnableNextUpTitle">Activer le volet “À suivre” (Expérimentale)</system:String>
+    <system:String x:Key="EnableNextUpTitle">Activer le volet “À suivre”</system:String>
     <system:String x:Key="TextBlockText2">Choisir un flou d'arrière-plan moderne à partir d'un préréglée</system:String>
     <system:String x:Key="BackgroundBlurOption4" xml:space="preserve"> Style 3 (Flou)</system:String>
     <system:String x:Key="AcrylicWindowDescription">Appliquer un effet transparent acrylique floué au volet (reviendra à Mica si désactivé)</system:String>
     <system:String x:Key="PauseOtherMediaDescription">Lorsque vous reproduisez ou sélectionnez de nouveau média, les autres sessions actives seront mises en pause automatiquement</system:String>
     <system:String x:Key="TaskbarWidgetCustomizationTitle">Widget de la barre des tâches</system:String>
-    <system:String x:Key="TaskbarWidgetDescription">Un widget compact et intégré sur la barre de tâches de Windows pour un accès instant à votre média. Cliquez le widget pour étendre le volet de média complet (lorsqu'elle est activé).</system:String>
+    <system:String x:Key="TaskbarWidgetDescription">Un widget compact et intégré sur la barre de tâches de Windows pour un accès instantané à votre média. Cliquez sur le widget pour étendre le volet de média complet.</system:String>
     <system:String x:Key="BackgroundBlurOption2" xml:space="preserve"> Style 1 (Couverture Glow)</system:String>
     <system:String x:Key="BackgroundBlurOption3" xml:space="preserve"> Style 2 (Lueur montante)</system:String>
     <system:String x:Key="TaskbarWidgetEnabledTitle">Activer le Widget Barre des tâches</system:String>
@@ -50,7 +50,7 @@ masque les options de répétition, de lecture aléatoire et les informations du
     <system:String x:Key="TaskbarWidgetPaddingTitle">Ajouter un bouton de remplissage pour les Widgets Windows</system:String>
     <system:String x:Key="TaskbarWidgetPaddingDescription">Activez cette fonctionnalité si vous avez activé les Widgets Windows</system:String>
     <system:String x:Key="TaskbarWidgetClickableTitle">Cliquez pour ouvrir le menu déroulant Média si des médias sont présents</system:String>
-    <system:String x:Key="TaskbarWidgetClickableDescription">Si le menu déroulant multimédia est activé, il s'ouvrira lors du clic sur le widget de la barre des tâches</system:String>
+    <system:String x:Key="TaskbarWidgetClickableDescription">Cliquer sur le widget dans la barre des tâches ouvrira le volet du media</system:String>
     <system:String x:Key="TaskbarWidgetBackgroundBlurTitle">Flou d'arrière-plan</system:String>
     <system:String x:Key="TaskbarWidgetBackgroundBlurDescription">Ajouter un effet de flou d'arrière-plan au widget de la barre des tâches</system:String>
     <system:String x:Key="TaskbarWidgetHideCompletelyTitle">Masquer complètement en l'absence de médias</system:String>
@@ -185,7 +185,7 @@ Vous pouvez contribuer aux traductions sur</system:String>
     <system:String x:Key="TaskbarVisualizerBarCountTitle">Nombre de Barres</system:String>
     <system:String x:Key="UnlockFullExperienceText">Débloquez l'expérience compléte de FluentFlyout :</system:String>
     <system:String x:Key="HideTrayIconPerk">Cacher l'icône de la barre d'état</system:String>
-    <system:String x:Key="TaskbarVisualizerAudioSensitivityDescription">L'intensité avec laquelle les barres audio réagissent à l'intensité sonore</system:String>
+    <system:String x:Key="TaskbarVisualizerAudioSensitivityDescription">L'intensité nécessaire afin que les barres audio réagissent à l'intensité sonore</system:String>
     <system:String x:Key="ShowUpdateNotificationsTitle">Montrer des notifications pour les nouvelles mises à jour</system:String>
     <system:String x:Key="AllFuturePremiumFeatures">Toutes les fonctionnalités premium</system:String>
     <system:String x:Key="AppearanceBehaviorSectionTitle">Apparence et comportement</system:String>
@@ -195,4 +195,44 @@ Vous pouvez contribuer aux traductions sur</system:String>
     <system:String x:Key="SponsorMeLink">Soutenez-moi</system:String>
     <system:String x:Key="BuyMeCoffeeLink">Offrez-moi un café</system:String>
     <system:String x:Key="TaskbarVisualizerOutputDeviceTitle">Périphérique de sortie</system:String>
+    <system:String x:Key="TaskbarWidgetCloseableFlyoutTitle">Fermer le menu déroulant au deuxième clique</system:String>
+    <system:String x:Key="TaskbarWidgetCloseableFlyoutDescription">Fermer le menu déroulant s'il est déjà ouvert lors du clique sur le widget dans la barre des tâches</system:String>
+    <system:String x:Key="TaskbarWidgetControlsPositionTitle">Contrôle de la position des médias</system:String>
+    <system:String x:Key="TaskbarWidgetControlsPositionDescription">Choisir où afficher le bouton de contrôle des médias</system:String>
+    <system:String x:Key="PositionLeft">Gauche</system:String>
+    <system:String x:Key="PositionRight">Droite</system:String>
+    <system:String x:Key="TaskbarVisualizerAudioPeakLevelTitle">Seuil du maximum audio</system:String>
+    <system:String x:Key="TaskbarVisualizerAudioPeakLevelDescription">L'intensité de l'audio pour que la barre atteigne la hauteur maximale</system:String>
+    <system:String x:Key="BackupRestoreSectionTitle">Sauvegarde &amp; restauration</system:String>
+    <system:String x:Key="TaskbarVisualizerClickableTitle">Cliquer pour ouvrir les Paramètres</system:String>
+    <system:String x:Key="LockKeysCursorUIDescription" xml:space="preserve">Choisir quel écran affichera le volet.</system:String>
+    <system:String x:Key="MonitorWithCursor">Ecran avec la souris</system:String>
+    <system:String x:Key="UseAlbumArtAccentColorTitle">Utiliser la couverture de l'album comme couleur</system:String>
+    <system:String x:Key="BackupRestoreCardTitle">Enregistrer et restaurer vos paramètres</system:String>
+    <system:String x:Key="ExportSettings">Exporter vos réglages</system:String>
+    <system:String x:Key="ImportSettings">Importer des Réglages</system:String>
+    <system:String x:Key="ExportSuccessful">Exportation réussie</system:String>
+    <system:String x:Key="ExportFailed">Échec de l'exportation</system:String>
+    <system:String x:Key="ImportSuccessful">Importation réussie</system:String>
+    <system:String x:Key="ImportFailed">Échec de l'importation</system:String>
+    <system:String x:Key="SettingsExportedSuccessfully">Exportation des réglages réussie !</system:String>
+    <system:String x:Key="SettingsImportedSuccessfully">Réglages importés ! L'application va désormais redémarrer afin d'effectuer les changements.</system:String>
+    <system:String x:Key="ImportSettingsWarning">Ceci remplacera tous vos réglages actuelles. Continuer ?</system:String>
+    <system:String x:Key="AdvancedSettingsTitle">Paramètres avancés</system:String>
+    <system:String x:Key="TaskbarVisualizerOutputDeviceDescription">Changer le dispositif de sortie pour changer ce que le visualisateur de FluentFlyout entend.</system:String>
+    <system:String x:Key="TaskbarVisualizerClickableDescription">Cliquer le visualisateur ouvrira sa page de paramètrage</system:String>
+    <system:String x:Key="LockKeysCursorUITitle">Écran d'affichage préféré</system:String>
+    <system:String x:Key="DefaultLockLayoutPosition">Par défaut (Affichage de Cible du Volet)</system:String>
+    <system:String x:Key="MonitorWithFocusedWindow">Écran avec une fênetre active</system:String>
+    <system:String x:Key="UseAlbumArtAccentColorDescription">Quelques éléments de l'UI utilisera les couleurs de l'image de l'album au lieu d'utiliser le thème du système</system:String>
+    <system:String x:Key="FailedToExportSettings">Échec lors de l'exportation des paramètres. Vérifiez les journaux pour plus de détails.</system:String>
+    <system:String x:Key="FailedToImportSettings">Échec lors de l'importation des paramètres. Vérifiez les journaux pour plus de détails.</system:String>
+    <system:String x:Key="LegacyTaskbarWidthDescription">Utiliser la largeur d’origine de la barre des tâches pour les widgets</system:String>
+    <system:String x:Key="LegacyTaskbarWidthTitle">Largeur d'origine du système de la barre des tâches</system:String>
+    <system:String x:Key="TaskbarWidgetAutoHideTitle">Cacher Automatiquement le Widget</system:String>
+    <system:String x:Key="TaskbarWidgetAutoHideDescription">Masque automatiquement le widget lorsque le média est en pause</system:String>
+    <system:String x:Key="LockKeysAnimatedTitle">Animation d'indicateur</system:String>
+    <system:String x:Key="LockKeysAnimatedDescription">Activer des animations discrètes pour l’indicateur des touches de verrouillage</system:String>
+    <system:String x:Key="TaskbarWidgetShowPauseOverlayTitle">Afficher l'icône de pause</system:String>
+    <system:String x:Key="TaskbarWidgetShowPauseOverlayDescription">Lorsque le média est en pause, affiche une icône de pause sur la couverture de l'album</system:String>
 </ResourceDictionary>

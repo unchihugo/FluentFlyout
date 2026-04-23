@@ -1,5 +1,5 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib">
-    <system:String x:Key="TitleText">फ्लाईआउट सेटिंग्स</system:String>
+    <system:String x:Key="TitleText">FluentFlyout सेटिंग्स</system:String>
     <system:String x:Key="MediaFlyoutTitle">मीडिया फ्लाईआउट</system:String>
     <system:String x:Key="MediaFlyoutDescription">मुख्य फ्लाईआउट । मीडिया को सुनते समय, फ्लाईआउट प्रदर्शित करने के लिए अपने कीबोर्ड पर किसी भी मीडिया या वॉल्यूम कुंजी (प्ले / पॉज़, वॉल्यूम अप / डाउन, आदि) को दबाएं। प्लेबैक नियंत्रण के साथ मीडिया जानकारी प्रदर्शित करता है।</system:String>
     <system:String x:Key="TextBlockText1">मीडिया फ्लाईआउट सक्षम करें</system:String>
@@ -17,11 +17,214 @@
     <system:String x:Key="BackgroundBlurOption3" xml:space="preserve"> उज्ज्वल चमक</system:String>
     <system:String x:Key="BackgroundBlurOption4" xml:space="preserve"> धुंधला</system:String>
     <system:String x:Key="BackgroundBlurTitle">दृश्य धुंधला</system:String>
-    <system:String x:Key="AcrylicWindowTitle">एक्रिलिक इंटरफ़ेस</system:String>
+    <system:String x:Key="AcrylicWindowTitle">ऐक्रेलिक विंडो</system:String>
     <system:String x:Key="AcrylicWindowDescription">फ्लाईआउट पर पारदर्शी ऐक्रेलिक ब्लर इफ़ेक्ट लागू करें (बंद करने पर माइका इफ़ेक्ट में बदल जाता है)</system:String>
     <system:String x:Key="CompactLayoutTitle">तंग लेआउट</system:String>
     <system:String x:Key="CompactLayoutDescription" xml:space="preserve">सरल और कम दखल देने वाला लेआउट
 रिपीट, शफल और प्लेयर की जानकारी छुपाता है</system:String>
     <system:String x:Key="SelectedMonitorTitle">फ़्लाईआउट लक्ष्य मॉनिटर</system:String>
     <system:String x:Key="FlyoutPositionTitle">फ्लाईआउट स्थिति</system:String>
+    <system:String x:Key="PositionBottomCenter" xml:space="preserve"> निचला मध्य</system:String>
+    <system:String x:Key="PositionBottomRight" xml:space="preserve"> नीचे दाईं ओर</system:String>
+    <system:String x:Key="PositionTopLeft" xml:space="preserve"> ऊपरी बायाँ</system:String>
+    <system:String x:Key="PositionTopCenter" xml:space="preserve"> ऊपरी केंद्र</system:String>
+    <system:String x:Key="PositionTopRight" xml:space="preserve"> ऊपर दाईं ओर</system:String>
+    <system:String x:Key="FlyoutStayDurationTitle">फ्लायआउट रहने की अवधि</system:String>
+    <system:String x:Key="FlyoutStayDurationDescription">(डिफ़ॉल्ट: 3000 मिलीसेकंड)</system:String>
+    <system:String x:Key="MillisecondsUnit">मिलीसेकंड</system:String>
+    <system:String x:Key="MediaFlyoutAlwaysDisplay">हमेशा प्रदर्शित करें</system:String>
+    <system:String x:Key="MediaFlyoutAlwaysDisplayDescription">फ़्लायआउट तब तक खुला रहता है जब तक आप क्लोज़ बटन पर क्लिक नहीं करते</system:String>
+    <system:String x:Key="CenterTitleArtistTitle">केंद्र शीर्षक और कलाकार</system:String>
+    <system:String x:Key="CenterTitleArtistDescription">टेक्स्ट को बाईं ओर की बजाय बीच में संरेखित करें</system:String>
+    <system:String x:Key="PositionBottomLeft" xml:space="preserve"> निचला बायाँ</system:String>
+    <system:String x:Key="ShowMediaPlayerNameTitle">मीडिया प्लेयर का नाम दिखाएँ</system:String>
+    <system:String x:Key="RepeatButtonTitle">रीपीट(दोहराएँ) बटन*</system:String>
+    <system:String x:Key="RepeatButtonDescription">सभी को दोहराने या केवल एक को दोहराने का विकल्प चुनें, इससे फ्लाईआउट की चौड़ाई बढ़ जाती है</system:String>
+    <system:String x:Key="ShuffleButtonTitle">शफल बटन*</system:String>
+    <system:String x:Key="ShuffleButtonDescription">फ्लाईआउट की चौड़ाई बढ़ाता है</system:String>
+    <system:String x:Key="ShowSeekbarTitle">सीकबार दिखाएँ*</system:String>
+    <system:String x:Key="ShowSeekbarDescription">यदि प्लेयर इसे सपोर्ट करता है तो एक इंटरैक्टेबल सीकबार अपने आप प्रदर्शित हो जाएगी</system:String>
+    <system:String x:Key="UnsupportedControlsWarning">*कुछ ब्राउज़र/प्लेयर रिपीट, शफल और सीकबार कंट्रोल को सपोर्ट नहीं करते हैं।</system:String>
+    <system:String x:Key="PauseOtherMediaTitle">अन्य मीडिया को स्वचालित रूप से रोकें</system:String>
+    <system:String x:Key="PauseOtherMediaDescription">जब आप खेलते हैं या नए मीडिया पर ध्यान केंद्रित करते हैं, तो अन्य सक्रिय सत्र स्वचालित रूप से रुक जाते हैं</system:String>
+    <system:String x:Key="NextUpCustomizationTitle">नेक्स्ट अप फ्लाईआउट</system:String>
+    <system:String x:Key="NextUpDescription" xml:space="preserve">जब कोई गीत/वीडियो समाप्त होता है तो फ़्लाईआउट दिखाता है कि आगे क्या है। केवल तभी दिखाई देता है जब अगला आइटम स्वचालित रूप से चलता है, यदि अगला/पिछला मैन्युअल रूप से दबाया जाता है, तो इसके बजाय मुख्य फ्लाईआउट दिखाई देता है।</system:String>
+    <system:String x:Key="EnableNextUpTitle">नेक्स्ट अप फ्लाईआउट सक्षम करें</system:String>
+    <system:String x:Key="EnableNextUpDescription">जब कोई गीत/वीडियो समाप्त होता है तो दिखाता है कि आगे क्या है</system:String>
+    <system:String x:Key="NextUpStayDurationTitle">अगले ऊपर रहने की अवधि</system:String>
+    <system:String x:Key="NextUpStayDurationDescription">(डिफ़ॉल्ट: 2000 एमएस)</system:String>
+    <system:String x:Key="LockKeysCustomizationTitle">लॉक कीज़ फ़्लाईआउट</system:String>
+    <system:String x:Key="LockKeysDescription" xml:space="preserve">एक नज़र में अपने ताले की कुंजी की स्थिति जांचें। कैप्स लॉक, न्यूम लॉक या स्क्रॉल लॉक दबाने के बाद दिखाई देता है। बिना लॉक कुंजी संकेतक वाले लैपटॉप/कीबोर्ड के लिए सुविधाजनक।</system:String>
+    <system:String x:Key="EnableLockKeysTitle">लॉक कुंजी फ़्लाईआउट सक्षम करें</system:String>
+    <system:String x:Key="EnableLockKeysDescription">प्रदर्शित करता है कि निर्दिष्ट लॉक कुंजी चालू है या बंद है</system:String>
+    <system:String x:Key="LockKeysStayDurationTitle">ताले की चाबियाँ रहने की अवधि</system:String>
+    <system:String x:Key="LockKeysBoldUITitle">बोल्ड प्रतीक और फ़ॉन्ट</system:String>
+    <system:String x:Key="LockKeysBoldUIDescription">फ़्लाईआउट प्रतीक और फ़ॉन्ट पर ज़ोर देता है</system:String>
+    <system:String x:Key="EnableInsertKeyTitle">कुंजी पॉपअप सम्मिलित करें सक्षम करें</system:String>
+    <system:String x:Key="EnableInsertKeyDescription">यह निर्धारित करता है कि इन्सर्ट/ओवरराइट दबाने पर फ़्लाईआउट दिखाई देगा या नहीं</system:String>
+    <system:String x:Key="SystemSettingsTitle">प्रणाली</system:String>
+    <system:String x:Key="LaunchOnStartupTitle">स्टार्टअप पर लॉन्च करें</system:String>
+    <system:String x:Key="LaunchOnStartupDescription">जब आप विंडोज़ में लॉग इन करते हैं तो ट्रे को छोटा करना प्रारंभ करें</system:String>
+    <system:String x:Key="StartupAppsHyperlinkText">स्टार्टअप ऐप्स</system:String>
+    <system:String x:Key="StartupAppsSettingsInfo">यदि यह सेटिंग अपेक्षा के अनुरूप काम नहीं करती है, तो जांचें</system:String>
+    <system:String x:Key="AppThemeTitle">ऐप थीम</system:String>
+    <system:String x:Key="AppThemeDefault"> विंडोज़ डिफ़ॉल्ट</system:String>
+    <system:String x:Key="AppThemeLight"> रोशनी</system:String>
+    <system:String x:Key="AppThemeDark"> अँधेरा</system:String>
+    <system:String x:Key="TrayIconLeftClickBehaviorTitle">ट्रे चिह्न बायाँ क्लिक व्यवहार</system:String>
+    <system:String x:Key="TrayIconLeftClickBehaviorDescription">चुनें कि जब आप ट्रे आइकन पर बाईं ओर क्लिक करते हैं तो क्या होता है</system:String>
+    <system:String x:Key="TrayIconLeftClickOption1"> खुली सेटिंग</system:String>
+    <system:String x:Key="TrayIconLeftClickOption2"> मीडिया फ़्लाईआउट दिखाएँ</system:String>
+    <system:String x:Key="Win11TrayIconTitle">विंडोज़ 11 जैसा ट्रे आइकन</system:String>
+    <system:String x:Key="Win11TrayIconDescription">एक ट्रे आइकन का उपयोग करें जो विंडोज 11 से मेल खाता हो (थीम को रीफ्रेश करने के लिए टॉगल करें)</system:String>
+    <system:String x:Key="AnimationSettingsTitle">एनिमेशन सेटिंग्स</system:String>
+    <system:String x:Key="AnimationSettingsDescription">अपनी पसंद के अनुसार एनिमेशन में बदलाव करें</system:String>
+    <system:String x:Key="AnimationDurationScaleTitle">एनिमेशन अवधि स्केल</system:String>
+    <system:String x:Key="AnimationDurationScaleDescription">तेज़ या धीमी फ़्लाईआउट एनीमेशन गति (डिफ़ॉल्ट: 1x)</system:String>
+    <system:String x:Key="AnimationSpeedOff">बंद</system:String>
+    <system:String x:Key="AnimationEasingStyleTitle">एनिमेशन आसान शैली</system:String>
+    <system:String x:Key="AnimationEasingStyleDescription">(डिफ़ॉल्ट: द्विघात)</system:String>
+    <system:String x:Key="EasingLinear" xml:space="preserve"> रेखीय</system:String>
+    <system:String x:Key="EasingSine" xml:space="preserve"> ज्या</system:String>
+    <system:String x:Key="EasingQuadratic" xml:space="preserve"> द्विघात</system:String>
+    <system:String x:Key="EasingCubic" xml:space="preserve"> घन</system:String>
+    <system:String x:Key="NativeExperienceInfo">मूल Windows 11 अनुभव के लिए, सेटिंग्स को डिफ़ॉल्ट पर रखा जाना चाहिए।</system:String>
+    <system:String x:Key="DisableOnFullscreenTitle">यदि डायरेक्टएक्स फुलस्क्रीन प्रोग्राम का पता चलता है तो फ्लाईआउट्स को अक्षम करें</system:String>
+    <system:String x:Key="DisableOnFullscreenDescription">यदि कोई फ़्लाईआउट पॉप अप होता है तो डायरेक्टएक्स गेम्स को एक्सक्लूसिव फ़ुलस्क्रीन में छोटा होने से रोकता है</system:String>
+    <system:String x:Key="EnjoyingAppText" xml:space="preserve">ऐप का आनंद ले रहे हैं? इसे GitHub पर तारांकित करें,
+या Microsoft Store पर एक समीक्षा छोड़ें!</system:String>
+    <system:String x:Key="GitHubRepoLink">गिटहब रिपॉजिटरी</system:String>
+    <system:String x:Key="CloseButton">बंद करना</system:String>
+    <system:String x:Key="AppLanguageTitle">ऐप भाषा</system:String>
+    <system:String x:Key="AppLanguageDescription" xml:space="preserve">यदि आपकी भाषा सूचीबद्ध नहीं है या अधूरी है, तो यह डिफ़ॉल्ट रूप से अंग्रेजी होगी।
+आप अनुवाद में योगदान देने में मदद कर सकते हैं</system:String>
+    <system:String x:Key="AppLanguageDescriptionLink">वेबलेट</system:String>
+    <system:String x:Key="LockWindow_CapsLock">कैप्स लॉक</system:String>
+    <system:String x:Key="LockWindow_NumLock">न्यूमेरिकल लॉक</system:String>
+    <system:String x:Key="LockWindow_ScrollLock">ऊपर नीचे करना बंद</system:String>
+    <system:String x:Key="LockWindow_InsertPressed">दबाया हुआ सम्मिलित करें</system:String>
+    <system:String x:Key="LockWindow_LockOn">पर</system:String>
+    <system:String x:Key="LockWindow_LockOff">बंद</system:String>
+    <system:String x:Key="NextUpWindow_UpNextText">अगला:</system:String>
+    <system:String x:Key="TrayIcon_SettingsOption">सेटिंग्स</system:String>
+    <system:String x:Key="TrayIcon_GitHubRepositoryOption">कोष</system:String>
+    <system:String x:Key="TrayIcon_ReportBugOption">रिपोर्ट बग</system:String>
+    <system:String x:Key="TrayIcon_QuitOption">फ्लुएंटफ्लाईआउट छोड़ें</system:String>
+    <system:String x:Key="TaskbarWidgetCustomizationTitle">टास्कबार विजेट</system:String>
+    <system:String x:Key="TaskbarWidgetDescription">एक कॉम्पैक्ट, अंतर्निर्मित विजेट जो आपके मीडिया तक त्वरित पहुंच के लिए सीधे आपके विंडोज टास्कबार पर रहता है। संपूर्ण मीडिया फ़्लाईआउट का विस्तार करने के लिए विजेट पर क्लिक करें।</system:String>
+    <system:String x:Key="TaskbarWidgetEnabledTitle">टास्कबार विजेट सक्षम करें</system:String>
+    <system:String x:Key="TaskbarWidgetEnabledDescription">टास्कबार पर एक कॉम्पैक्ट मीडिया विजेट दिखाएं</system:String>
+    <system:String x:Key="TaskbarWidgetVisualIssuesWarning">यदि आप दृश्य समस्याओं का अनुभव करते हैं तो नीचे दिए गए विकल्पों को कॉन्फ़िगर करें।</system:String>
+    <system:String x:Key="TaskbarWidgetPaddingTitle">विंडोज़ विजेट बटन के लिए स्वचालित पैडिंग</system:String>
+    <system:String x:Key="TaskbarWidgetPaddingDescription">यदि आपके पास Windows विजेट सक्षम है तो इस सुविधा को चालू करें</system:String>
+    <system:String x:Key="PremiumFeatureTitle">प्रीमियम सुविधा</system:String>
+    <system:String x:Key="PremiumFeatureDescription" xml:space="preserve">आपका एकमुश्त योगदान मुझे फ़्लुएंटफ्लाईआउट को जीवित और अद्यतन रखने में मदद करता है। यह तुरंत सभी प्रीमियम अनुकूलन सुविधाओं को हमेशा के लिए अनलॉक कर देता है।
+        
+नोट: एक ओपन-सोर्स प्रोजेक्ट के रूप में, ये सुविधाएं GitHub पर मैन्युअल इंस्टॉलर के माध्यम से मुफ्त में भी उपलब्ध हैं। एकमात्र समझौता यह है कि अपडेट और इंस्टॉलेशन मैन्युअल रूप से किया जाना चाहिए।</system:String>
+    <system:String x:Key="PremiumLockedMessage">यह सुविधा प्रीमियम पैकेज का हिस्सा है</system:String>
+    <system:String x:Key="PremiumUnlockedMessage">प्रीमियम सुविधाएँ अनलॉक की गईं। आपके समर्थन के लिए धन्यवाद!</system:String>
+    <system:String x:Key="PremiumGitHubMessage">GitHub/स्व-संकलित संस्करणों के लिए प्रीमियम सुविधाएँ अनलॉक की गई हैं</system:String>
+    <system:String x:Key="UnlockPremiumButton">प्रीमियम अनलॉक करें</system:String>
+    <system:String x:Key="PremiumPurchaseSuccess">प्रीमियम सफलतापूर्वक अनलॉक हो गया!</system:String>
+    <system:String x:Key="PremiumPurchaseFailed">खरीदारी विफल. कृपया पुन: प्रयास करें।</system:String>
+    <system:String x:Key="PremiumPurchaseCancelled">खरीदारी रद्द कर दी गई।</system:String>
+    <system:String x:Key="TaskbarWidgetBackgroundBlurTitle">पृष्ठभूमि धुंधला</system:String>
+    <system:String x:Key="TaskbarWidgetBackgroundBlurDescription">टास्कबार विजेट में बैकग्राउंड ब्लर इफ़ेक्ट जोड़ें</system:String>
+    <system:String x:Key="TaskbarWidgetHideCompletelyTitle">जब कोई मीडिया मौजूद न हो तो पूरी तरह छुप जाएं</system:String>
+    <system:String x:Key="TaskbarWidgetHideCompletelyDescription">जब कोई मीडिया उपलब्ध न हो तो मीडिया आइकन प्रदर्शित करने के बजाय संपूर्ण विजेट को छुपा देता है</system:String>
+    <system:String x:Key="TrayIconSectionTitle">ट्रे चिह्न</system:String>
+    <system:String x:Key="HideTrayIconTitle">ट्रे आइकन को पूरी तरह छुपाएं</system:String>
+    <system:String x:Key="HideTrayIconDescription">प्रोग्राम को दो बार लॉन्च करने से सेटिंग्स तक पहुंचें</system:String>
+    <system:String x:Key="AboutPremiumTitle">प्रीमियम के बारे में</system:String>
+    <system:String x:Key="TaskbarWidgetPosition">विजेट स्थिति</system:String>
+    <system:String x:Key="TaskbarWidgetControlsTitle">विजेट मीडिया नियंत्रण</system:String>
+    <system:String x:Key="TaskbarWidgetControlsDescription">विजेट पर मीडिया नियंत्रण बटन दिखाएं</system:String>
+    <system:String x:Key="TaskbarWidgetAnimatedTitle">विजेट एनिमेशन</system:String>
+    <system:String x:Key="TaskbarWidgetAnimatedDescription">विजेट के लिए सूक्ष्म एनिमेशन सक्षम करें</system:String>
+    <system:String x:Key="TrayIcon_ViewLogsOption">लॉग देखें</system:String>
+    <system:String x:Key="TaskbarWidgetSelectedMonitorTitle">विजेट लक्ष्य प्रदर्शन</system:String>
+    <system:String x:Key="TaskbarWidgetPaddingSettingsTitle">विजेट पैडिंग सेटिंग्स</system:String>
+    <system:String x:Key="TaskbarWidgetPaddingSettingsDescription">अपनी टास्कबार शैली में फिट होने के लिए विजेट के चारों ओर पैडिंग समायोजित करें</system:String>
+    <system:String x:Key="TaskbarWidgetManualPaddingTitle">कस्टम पैडिंग</system:String>
+    <system:String x:Key="TaskbarWidgetManualPaddingDescription">अतिरिक्त पैडिंग जोड़ें (डिफ़ॉल्ट: 0px)</system:String>
+    <system:String x:Key="PixelsUnit">पिक्सल</system:String>
+    <system:String x:Key="UpdateToastTitle">फ्लुएंटफ्लाईआउट अपडेट कर दिया गया है!</system:String>
+    <system:String x:Key="UpdateToastMessage">अब आप {0} पर हैं।</system:String>
+    <system:String x:Key="UpdateToastButton">अद्यतन देखें</system:String>
+    <system:String x:Key="AcrylicBlurOpacityTitle">ऐक्रेलिक धुंधला अपारदर्शिता</system:String>
+    <system:String x:Key="AcrylicBlurOpacityDescription">ऐक्रेलिक फ्लाईआउट्स पर पारदर्शी प्रभाव को समायोजित करें (डिफ़ॉल्ट: 175)</system:String>
+    <system:String x:Key="HomeUpdateDescription">जानें नया क्या है</system:String>
+    <system:String x:Key="HomeDashboardTitle">डैशबोर्ड</system:String>
+    <system:String x:Key="SystemConfigure">कॉन्फ़िगर</system:String>
+    <system:String x:Key="AboutTitle">के बारे में</system:String>
+    <system:String x:Key="AboutContributorsTitle">❤️ हमारे योगदानकर्ताओं से मिलें</system:String>
+    <system:String x:Key="AboutContributorsDescription">फ़्लुएंटफ्लाईआउट के विकास और सफलता में योगदान देने वाले सभी अद्भुत लोगों को बहुत-बहुत धन्यवाद!</system:String>
+    <system:String x:Key="AboutOpenSourceLicensesTitle">ओपन सोर्स लाइसेंस</system:String>
+    <system:String x:Key="AboutOpenSourceLicensesDescription">फ्लुएंटफ्लाईआउट निम्नलिखित ओपन सोर्स पैकेज के साथ बनाया गया है:</system:String>
+    <system:String x:Key="UpdateAvailable">उपलब्ध अद्यतन</system:String>
+    <system:String x:Key="UpToDate">अप टू डेट</system:String>
+    <system:String x:Key="LastChecked">अंतिम बार जाँच की गई: {0}</system:String>
+    <system:String x:Key="CheckingForUpdates">जाँच हो रही है..।</system:String>
+    <system:String x:Key="UpdateAvailableNotificationTitle">उपलब्ध अद्यतन!</system:String>
+    <system:String x:Key="UpdateAvailableNotificationMessage">एक नया संस्करण ({0}) उपलब्ध है।</system:String>
+    <system:String x:Key="UpdateAvailableNotificationButton">अपडेट डाउनलोड करें</system:String>
+    <system:String x:Key="TaskbarVisualizerTitle">टास्कबार विज़ुअलाइज़र</system:String>
+    <system:String x:Key="TaskbarVisualizerDescription">आपके टास्कबार पर एक वास्तविक समय ऑडियो विज़ुअलाइज़र। आधुनिक प्रणालियों पर न्यूनतम प्रदर्शन प्रभाव डालने के लिए डिज़ाइन किया गया।</system:String>
+    <system:String x:Key="TaskbarVisualizerEnabledTitle">टास्कबार विज़ुअलाइज़र सक्षम करें (प्रायोगिक)</system:String>
+    <system:String x:Key="TaskbarVisualizerEnabledDescription">प्रायोगिक: यह सुविधा केवल तभी काम करेगी जब टास्कबार विजेट सक्षम हो</system:String>
+    <system:String x:Key="TaskbarVisualizerPositionTitle">टास्कबार विजेट से संबंधित विज़ुअलाइज़र स्थिति</system:String>
+    <system:String x:Key="TaskbarVisualizerBarCountTitle">बार गिनती</system:String>
+    <system:String x:Key="TaskbarVisualizerBarCountDescription">विज़ुअलाइज़र बार की मात्रा</system:String>
+    <system:String x:Key="TaskbarVisualizerCenteredBarsTitle">केन्द्रित बार्स</system:String>
+    <system:String x:Key="TaskbarVisualizerCenteredBarsDescription">बार्स जो नीचे से ऊपर उठने के बजाय केंद्र से सममित रूप से विस्तारित होते हैं</system:String>
+    <system:String x:Key="TaskbarVisualizerBaselineTitle">बेसलाइन दिखाएँ</system:String>
+    <system:String x:Key="TaskbarVisualizerBaselineDescription">जब ऑडियो स्तर शून्य पर हो तो एक पतली रेखा प्रदर्शित करता है</system:String>
+    <system:String x:Key="TaskbarVisualizerAudioSensitivityTitle">ऑडियो संवेदनशीलता</system:String>
+    <system:String x:Key="TaskbarVisualizerAudioSensitivityDescription">बार हिलना शुरू होने से पहले ऑडियो कितना तेज़ होना चाहिए</system:String>
+    <system:String x:Key="UnlockFullExperienceText">पूर्ण फ्लुएंटफ्लाईआउट अनुभव अनलॉक करें:</system:String>
+    <system:String x:Key="AllFuturePremiumFeatures">भविष्य की सभी प्रीमियम सुविधाएँ</system:String>
+    <system:String x:Key="DevelopersTitle">डेवलपर्स</system:String>
+    <system:String x:Key="TranslatorsTitle">अनुवादकों</system:String>
+    <system:String x:Key="SponsorMeLink">मुझे आर्थिक संरक्षण दो</system:String>
+    <system:String x:Key="BuyMeCoffeeLink">मेरे लिए एक कॉफ़ी खरीदो</system:String>
+    <system:String x:Key="TaskbarWidgetCustomizationPerk">टास्कबार विजेट और विज़ुअलाइज़र</system:String>
+    <system:String x:Key="HideTrayIconPerk">ट्रे आइकन को छिपाएं</system:String>
+    <system:String x:Key="AppearanceBehaviorSectionTitle">रूप और व्यवहार</system:String>
+    <system:String x:Key="UpdatesSectionTitle">अपडेट</system:String>
+    <system:String x:Key="ShowUpdateNotificationsTitle">नए अपडेट के लिए सूचनाएं दिखाएं</system:String>
+    <system:String x:Key="TaskbarVisualizerOutputDeviceTitle">आउटपुट डिवाइस</system:String>
+    <system:String x:Key="TaskbarVisualizerOutputDeviceDescription">फ़्लुएंटफ्लाईआउट के आउटपुट डिवाइस को स्विच करके विज़ुअलाइज़र जो सुनता है उसे बदलें।</system:String>
+    <system:String x:Key="TaskbarVisualizerAudioPeakLevelTitle">ऑडियो पीक थ्रेशोल्ड</system:String>
+    <system:String x:Key="TaskbarVisualizerAudioPeakLevelDescription">बार को अपनी अधिकतम ऊंचाई तक पहुंचने के लिए ऑडियो कितना तेज़ होना चाहिए</system:String>
+    <system:String x:Key="ExportSettings">निर्यात सेटिंग्स</system:String>
+    <system:String x:Key="ImportSettings">सेटिंग आयात करना</system:String>
+    <system:String x:Key="ExportSuccessful">निर्यात सफल</system:String>
+    <system:String x:Key="ExportFailed">निर्यात विफल</system:String>
+    <system:String x:Key="ImportSuccessful">आयात सफल</system:String>
+    <system:String x:Key="ImportFailed">आयात विफल</system:String>
+    <system:String x:Key="SettingsExportedSuccessfully">सेटिंग्स सफलतापूर्वक निर्यात की गईं!</system:String>
+    <system:String x:Key="FailedToExportSettings">सेटिंग्स निर्यात करने में विफल. विवरण के लिए लॉग जांचें।</system:String>
+    <system:String x:Key="SettingsImportedSuccessfully">सेटिंग्स सफलतापूर्वक आयात की गईं! परिवर्तन लागू करने के लिए एप्लिकेशन अब पुनः प्रारंभ होगा।</system:String>
+    <system:String x:Key="ImportSettingsWarning">यह आपकी सभी मौजूदा सेटिंग्स को बदल देगा. जारी रखना?</system:String>
+    <system:String x:Key="FailedToImportSettings">सेटिंग्स आयात करने में विफल. विवरण के लिए लॉग जांचें।</system:String>
+    <system:String x:Key="BackupRestoreSectionTitle">बैकअप लें और पुनर्स्थापित करें</system:String>
+    <system:String x:Key="BackupRestoreCardTitle">बैकअप लें और अपनी सेटिंग्स पुनर्स्थापित करें</system:String>
+    <system:String x:Key="TaskbarWidgetControlsPositionTitle">मीडिया नियंत्रण स्थिति</system:String>
+    <system:String x:Key="TaskbarWidgetControlsPositionDescription">चुनें कि मीडिया नियंत्रण बटन कहाँ प्रदर्शित करना है</system:String>
+    <system:String x:Key="PositionLeft">बाएं</system:String>
+    <system:String x:Key="PositionRight">सही</system:String>
+    <system:String x:Key="LockKeysCursorUITitle">पसंदीदा लक्ष्य प्रदर्शन</system:String>
+    <system:String x:Key="LockKeysCursorUIDescription" xml:space="preserve">फ्लाईआउट प्रदर्शित करने के लिए कौन सा मॉनिटर चुनें।</system:String>
+    <system:String x:Key="DefaultLockLayoutPosition">डिफ़ॉल्ट (फ्लाईआउट लक्ष्य प्रदर्शन)</system:String>
+    <system:String x:Key="MonitorWithFocusedWindow">फोकस्ड विंडो के साथ मॉनिटर करें</system:String>
+    <system:String x:Key="MonitorWithCursor">कर्सर से मॉनिटर करें</system:String>
+    <system:String x:Key="TaskbarVisualizerClickableTitle">सेटिंग्स खोलने के लिए क्लिक करें</system:String>
+    <system:String x:Key="TaskbarVisualizerClickableDescription">विज़ुअलाइज़र पर क्लिक करने से इसका सेटिंग पृष्ठ खुल जाएगा</system:String>
+    <system:String x:Key="UseAlbumArtAccentColorTitle">एल्बम आर्ट को एक्सेंट कलर के रूप में उपयोग करें</system:String>
+    <system:String x:Key="UseAlbumArtAccentColorDescription">कुछ यूआई तत्व सिस्टम थीम के बजाय एल्बम कला रंग का उपयोग करेंगे</system:String>
+    <system:String x:Key="AdvancedSettingsTitle">एडवांस सेटिंग</system:String>
+    <system:String x:Key="LegacyTaskbarWidthTitle">लीगेसी टास्कबार चौड़ाई प्रणाली</system:String>
+    <system:String x:Key="LegacyTaskbarWidthDescription">टास्कबार विजेट्स के लिए लीगेसी टास्कबार चौड़ाई प्रणाली का उपयोग करें</system:String>
+    <system:String x:Key="AcrylicBlurOpacityPerk">ऐक्रेलिक ब्लर अपारदर्शिता</system:String>
+    <system:String x:Key="LockKeysStayDurationDescription">(डिफ़ॉल्ट: 2000 मिलीसेकंड)</system:String>
 </ResourceDictionary>
