@@ -35,7 +35,7 @@
     <system:String x:Key="CompactLayoutDescription" xml:space="preserve">Более простой и менее навязчивый макет
 скрывает кнопки повтора, случайного порядка и название плеера</system:String>
     <system:String x:Key="FlyoutPositionTitle">Расположение всплывающего плеера</system:String>
-    <system:String x:Key="FlyoutStayDurationTitle">Продолжительность показа всплывающего окна</system:String>
+    <system:String x:Key="FlyoutStayDurationTitle">Время отображения панели</system:String>
     <system:String x:Key="FlyoutStayDurationDescription">(по умолчанию: 3000 мс)</system:String>
     <system:String x:Key="MediaFlyoutAlwaysDisplay">Всегда отображать</system:String>
     <system:String x:Key="CenterTitleArtistTitle">Центрировать название трека и имя исполнителя</system:String>
@@ -188,7 +188,7 @@
     <system:String x:Key="DevelopersTitle">Разработчики</system:String>
     <system:String x:Key="TranslatorsTitle">Переводчики</system:String>
     <system:String x:Key="SponsorMeLink">Поддержите меня</system:String>
-    <system:String x:Key="TaskbarWidgetCustomizationPerk">Виджет и Визуализатор на панели задач</system:String>
+    <system:String x:Key="TaskbarWidgetCustomizationPerk">Включить Виджет и Визуализатор на панели задач</system:String>
     <system:String x:Key="AcrylicBlurOpacityPerk">Настроить эффект размытия «Акрил»</system:String>
     <system:String x:Key="HideTrayIconPerk">Скрыть иконку в трее</system:String>
     <system:String x:Key="AppearanceBehaviorSectionTitle">Внешний вид и режим</system:String>
@@ -235,4 +235,16 @@
     <system:String x:Key="LockKeysAnimatedDescription">Включает ненавязчивую анимацию для индикатора клавиш-переключателей</system:String>
     <system:String x:Key="TaskbarWidgetShowPauseOverlayTitle">Показывать значок паузы (наложение)</system:String>
     <system:String x:Key="TaskbarWidgetShowPauseOverlayDescription">Когда воспроизведение приостановлено, отображать значок паузы поверх обложки альбома</system:String>
+    <system:String x:Key="VolumeFlyoutTitle">Громкость</system:String>
+    <system:String x:Key="VolumeFlyoutDescription">Отдельное окно управления громкостью с функцией микшера, заменяющее стандартный интерфейс Windows.</system:String>
+    <system:String x:Key="EnableVolumeFlyoutTitle">Включить панель громкости</system:String>
+    <system:String x:Key="EnableVolumeFlyoutDescription">Заменяет стандартную панель громкости Windows</system:String>
+    <system:String x:Key="VolumeAboveMediaFlyoutTitle">Располагать панель громкости над панелью мультимедиа</system:String>
+    <system:String x:Key="VolumeFlyoutStayDurationTitle">Время отображения панели громкости</system:String>
+    <system:String x:Key="VolumeMixerSectionTitle">Микшер громкости</system:String>
+    <system:String x:Key="EnableVolumeMixerTitle">Включить микшер громкости</system:String>
+    <system:String x:Key="EnableVolumeMixerDescription">Тонкая настройка громкости отдельных приложений</system:String>
+    <system:String x:Key="VolumeMixerHighlightTitle">Выделять приложения, воспроизводящие звук</system:String>
+    <system:String x:Key="VolumeMixerHighlightDescription">Просмотр приложений, воспроизводящих звук в данный момент</system:String>
+    <system:String x:Key="VolumeMixerHighlightPerk">Выделять активные приложения в микшере громкости</system:String>
 </ResourceDictionary>
