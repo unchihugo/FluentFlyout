@@ -10,7 +10,7 @@
       xmlns:fluentflyoutcontrols="clr-namespace:FluentFlyout.Controls"
       mc:Ignorable="d"
       d:DesignHeight="800" d:DesignWidth="800"
-      Title="TaskbarWidgetPage"
+      Title="VolumeFlyoutPage"
       d:DataContext="{d:DesignInstance viewModels:UserSettings}"
       Foreground="{DynamicResource TextFillColorPrimaryBrush}"
       d:Background="White">
@@ -79,7 +79,7 @@
                     </StackPanel>
                 </ui:CardControl.Header>
                 <StackPanel Orientation="Horizontal">
-                    <ui:TextBox Name="NextUpDurationTextBox" Width="60" ClearButtonEnabled="False" Text="{Binding VolumeControlDurationText, Mode=TwoWay}" />
+                    <ui:TextBox Width="60" ClearButtonEnabled="False" Text="{Binding VolumeControlDurationText, Mode=TwoWay}" />
                     <TextBlock Text="{DynamicResource MillisecondsUnit}" FontSize="14" FontWeight="Regular" Margin="10,0,0,0" VerticalAlignment="Center" />
                 </StackPanel>
             </ui:CardControl>

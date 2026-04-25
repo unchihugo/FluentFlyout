@@ -15,7 +15,6 @@ using FluentFlyoutWPF.ViewModels;
 using MicaWPF.Controls;
 using NLog;
 using System.Windows;
-using System.Windows.Interop;
 using System.Windows.Media.Animation;
 using static FluentFlyout.Classes.NativeMethods;
 
@@ -246,7 +245,7 @@ public partial class VolumeMixerWindow : MicaWindow
 
         // measure desired size
         SessionsExpanded.Measure(new Size(ActualWidth, double.PositiveInfinity));
-        expandedHeight = _collapsedHeight + Math.Min(SessionsExpanded.DesiredSize.Height, 220);
+        expandedHeight = _collapsedHeight + Math.Min(SessionsExpanded.DesiredSize.Height + 16, 220); // 16 for padding
 
         double targetHeight = expand ? expandedHeight : _collapsedHeight;
         double currentHeight = ActualHeight;

@@ -708,16 +708,17 @@ public partial class MainWindow : MicaWindow
             bool mediaKeysPressed = vkCode == 0xB3 || vkCode == 0xB0 || vkCode == 0xB1 || vkCode == 0xB2; // Play/Pause, next, previous, stop
             bool volumeKeysPressed = vkCode == 0xAD || vkCode == 0xAE || vkCode == 0xAF; // Mute, Volume Down, Volume Up
 
+            // MainWindow.WndProc() also handles media and volume keys
             if (mediaKeysPressed || volumeKeysPressed)
             {
                 if (SettingsManager.Current.VolumeControlEnabled)
+                {
                     volumeMixerWindow?.ViewModel.SyncMasterFromDevice();
-
-                if (SettingsManager.Current.VolumeControlEnabled)
                     volumeMixerWindow?.ShowFlyout();
+                }
 
                 bool result = false;
-                if (!SettingsManager.Current.MediaFlyoutVolumeKeysExcluded && volumeKeysPressed)
+                if (mediaKeysPressed || (!SettingsManager.Current.MediaFlyoutVolumeKeysExcluded && volumeKeysPressed))
                     result = TryShowMediaFlyoutDebounced();
 
                 if (!result)

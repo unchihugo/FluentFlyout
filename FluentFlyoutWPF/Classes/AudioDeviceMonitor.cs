@@ -2,12 +2,13 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 using NAudio.CoreAudioApi;
-using NAudio.CoreAudioApi.Interfaces;
 
 namespace FluentFlyoutWPF.Classes
 {
     public class AudioDeviceMonitor : IDisposable
     {
+       // TODO: implement OnDefaultDeviceChanged event - currently gets handled by Visualizer and VolumeMixerViewModel
+
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
         private static AudioDeviceMonitor? _instance;
         private static readonly object _instanceLock = new();
@@ -41,18 +42,12 @@ namespace FluentFlyoutWPF.Classes
             try
             {
                 _deviceEnumerator = new MMDeviceEnumerator();
-                
                 Logger.Info("Audio device monitoring initialized");
             }
             catch (Exception ex)
             {
                 Logger.Error(ex, "Failed to initialize audio device monitoring");
             }
-        }
-
-        private void OnDefaultDeviceChanged(object? sender, DefaultDeviceChangedEventArgs e)
-        {
-            DefaultDeviceChanged?.Invoke(this, e);
         }
 
         public MMDevice? GetDefaultRenderDevice()
@@ -70,6 +65,7 @@ namespace FluentFlyoutWPF.Classes
 
         public void Dispose()
         {
+            _deviceEnumerator?.Dispose();
             GC.SuppressFinalize(this);
         }
     }
