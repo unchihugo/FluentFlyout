@@ -103,7 +103,7 @@
         </StackPanel>
 
         <TextBlock Grid.Row="6" Text="{DynamicResource HomeDashboardTitle}" FontSize="14" FontWeight="SemiBold" Margin="0,0,0,6" />
-        <Grid Margin="-4" RowDefinitions="Auto, Auto, Auto" ColumnDefinitions="*, *">
+        <Grid Margin="-4" RowDefinitions="Auto, Auto, Auto, Auto" ColumnDefinitions="*, *">
             <ui:CardAction Grid.Row="0" Grid.Column="0" Margin="4" Padding="12,20" IsChevronVisible="True" Click="MediaFlyout_Click">
                 <ui:CardAction.Icon>
                     <ui:SymbolIcon Symbol="VideoPlayPause24" FontSize="30" Filled="False" />
@@ -116,6 +116,27 @@
                                 <Setter Property="Opacity" Value="1" />
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding MediaFlyoutEnabled}" Value="False">
+                                        <Setter Property="Opacity" Value="0.5" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ui:TextBlock.Style>
+                    </ui:TextBlock>
+                </StackPanel>
+            </ui:CardAction>
+
+            <ui:CardAction Grid.Row="1" Grid.Column="0" Margin="4" Padding="12,20" IsChevronVisible="True" Click="VolumeFlyout_Click">
+                <ui:CardAction.Icon>
+                    <ui:SymbolIcon Symbol="Speaker224" FontSize="30" Filled="False" />
+                </ui:CardAction.Icon>
+                <StackPanel>
+                    <ui:TextBlock FontWeight="Medium" Text="{DynamicResource VolumeFlyoutTitle}" />
+                    <ui:TextBlock Appearance="Secondary" Text="{Binding VolumeControlEnabled, Converter={StaticResource BoolToEnabledDisabledConverter}}">
+                        <ui:TextBlock.Style>
+                            <Style TargetType="ui:TextBlock">
+                                <Setter Property="Opacity" Value="1" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding VolumeControlEnabled}" Value="False">
                                         <Setter Property="Opacity" Value="0.5" />
                                     </DataTrigger>
                                 </Style.Triggers>
@@ -149,7 +170,7 @@
                 </StackPanel>
             </ui:CardAction>
 
-            <ui:CardAction Grid.Row="1" Grid.Column="0" Margin="4" Padding="12,20" IsChevronVisible="True" Click="NextUp_Click">
+            <ui:CardAction Grid.Row="2" Grid.Column="0" Margin="4" Padding="12,20" IsChevronVisible="True" Click="NextUp_Click">
                 <ui:CardAction.Icon>
                     <ui:SymbolIcon Symbol="MusicNote2Play20" FontSize="30" Filled="False" />
                 </ui:CardAction.Icon>
@@ -170,7 +191,7 @@
                 </StackPanel>
             </ui:CardAction>
 
-            <ui:CardAction Grid.Row="1" Grid.Column="1" Margin="4" Padding="12,20" IsChevronVisible="True" Click="LockKeys_Click">
+            <ui:CardAction Grid.Row="2" Grid.Column="1" Margin="4" Padding="12,20" IsChevronVisible="True" Click="LockKeys_Click">
                 <ui:CardAction.Icon>
                     <ui:SymbolIcon Symbol="LockMultiple24" FontSize="30" Filled="False" />
                 </ui:CardAction.Icon>
@@ -191,7 +212,7 @@
                 </StackPanel>
             </ui:CardAction>
 
-            <ui:CardAction Grid.Row="2" Grid.Column="0" Margin="4" Padding="12,20" IsChevronVisible="True" Click="TaskbarVisualizer_Click">
+            <ui:CardAction Grid.Row="1" Grid.Column="1" Margin="4" Padding="12,20" IsChevronVisible="True" Click="TaskbarVisualizer_Click">
                 <ui:CardAction.Icon>
                     <ui:SymbolIcon Symbol="SoundWaveCircle24" FontSize="30" Filled="False" />
                 </ui:CardAction.Icon>
@@ -215,7 +236,7 @@
                 </StackPanel>
             </ui:CardAction>
 
-            <ui:CardAction Grid.Row="2" Grid.Column="1" Margin="4" Padding="12,20" IsChevronVisible="True" Click="System_Click">
+            <ui:CardAction Grid.Row="3" Grid.Column="0" Margin="4" Padding="12,20" IsChevronVisible="True" Click="System_Click">
                 <ui:CardAction.Icon>
                     <ui:SymbolIcon Symbol="Settings24" FontSize="30" Filled="False" />
                 </ui:CardAction.Icon>
@@ -276,6 +297,8 @@
                                   Text="{Binding Source={StaticResource AcrylicBlurOpacityPerk}, StringFormat='•  {0}'}" />
                             <ui:TextBlock FontSize="14" Margin="12,0,12,4" Opacity="0.75" TextWrapping="WrapWithOverflow"
                                   Text="{Binding Source={StaticResource HideTrayIconPerk}, StringFormat='•  {0}'}" />
+                            <ui:TextBlock FontSize="14" Margin="12,0,12,4" Opacity="0.75" TextWrapping="WrapWithOverflow"
+                                  Text="{Binding Source={StaticResource VolumeMixerHighlightPerk}, StringFormat='•  {0}'}" />
                             <ui:TextBlock FontSize="14" Margin="12,0,12,0" Opacity="0.75" TextWrapping="WrapWithOverflow"
                                   Text="{Binding Source={StaticResource AllFuturePremiumFeatures}, StringFormat='•  {0}'}" />
                         </StackPanel>

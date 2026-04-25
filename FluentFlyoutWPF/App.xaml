@@ -31,6 +31,7 @@
             <utils:BoolToVisibleCollapsedConverter x:Key="BoolToCollapsedVisibleConverter" TrueValue="Collapsed" FalseValue="Visible" />
             <utils:BoolToEnabledDisabledConverter x:Key="BoolToEnabledDisabledConverter" />
             <utils:BoolToFullHalfOpacityConverter x:Key="BoolToFullHalfOpacityConverter" />
+            <utils:BoolToFullHalfOpacityConverter x:Key="BoolToHalfFullOpacityConverter" TrueValue="0.5" FalseValue="1" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>
