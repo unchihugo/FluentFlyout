@@ -247,4 +247,5 @@
     <system:String x:Key="VolumeMixerHighlightTitle">Выделять приложения, воспроизводящие звук</system:String>
     <system:String x:Key="VolumeMixerHighlightDescription">Просмотр приложений, воспроизводящих звук в данный момент</system:String>
     <system:String x:Key="VolumeMixerHighlightPerk">Выделять активные приложения в микшере громкости</system:String>
+    <system:String x:Key="MasterVolumeText">Общая громкость</system:String>
 </ResourceDictionary>
