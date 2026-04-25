@@ -194,7 +194,7 @@
                 </ui:CardControl.Header>
             </ui:CardControl>
 
-            <ui:CardControl Icon="{ui:SymbolIcon ExpandUpRight24}" Margin="0,0,0,76">
+            <ui:CardControl Icon="{ui:SymbolIcon ExpandUpRight24}" Margin="0,0,0,3">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
                         <StackPanel Orientation="Horizontal">
@@ -205,6 +205,16 @@
                     </StackPanel>
                 </ui:CardControl.Header>
                 <controls:ToggleSwitch IsChecked="{Binding TaskbarVisualizerClickable, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}" />
+            </ui:CardControl>
+
+            <ui:CardControl Icon="{ui:SymbolIcon Speaker224}" Margin="0,0,0,76">
+                <ui:CardControl.Header>
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="{DynamicResource TaskbarVisualizerScrollVolumeTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
+                        <TextBlock Text="{DynamicResource TaskbarVisualizerScrollVolumeDescription}" FontSize="12" Opacity="0.5" />
+                    </StackPanel>
+                </ui:CardControl.Header>
+                <controls:ToggleSwitch IsChecked="{Binding TaskbarVisualizerScrollVolume, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}" />
             </ui:CardControl>
         </StackPanel>
     </StackPanel>

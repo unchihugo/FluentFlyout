@@ -44,6 +44,12 @@ public static partial class NativeMethods
     internal const int WM_KEYUP = 0x0101;
     internal const int WM_SETTINGCHANGE = 0x001A;
 
+    // keybd_event flags and helpers
+    internal const uint KEYEVENTF_KEYUP = 0x0002;
+    // Passed as dwExtraInfo when injecting a volume key for OSD; HookCallback checks this
+    // to suppress the media flyout for synthetic key presses originating from this app.
+    internal const int VolumeOsdExtraInfo = 0x464C5657; // "FLVW" – FluentFlyout Volume Wheel
+
     // Shell Hook Messages
     internal const int HSHELL_APPCOMMAND = 12;
 

@@ -1,6 +1,7 @@
-// Copyright © 2024-2026 The FluentFlyout Authors
+// Copyright ù 2024-2026 The FluentFlyout Authors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+using FluentFlyout.Classes;
 using FluentFlyout.Classes.Settings;
 using FluentFlyoutWPF;
 using FluentFlyoutWPF.Classes;
@@ -20,6 +21,13 @@ public partial class TaskbarVisualizerControl : UserControl
 {
     // reference to main window for flyout functions
     private static readonly Visualizer visualizer = new();
+
+    // scroll-to-volume state
+    private float _pendingVolumeChange = 0f;
+    private const float VolumeChangeThreshold = 0.005f; // minimum batched change before writing to Core Audio
+    private const float MouseVolumeStep    = 0.02f;     // flat 2% per mouse notch
+    private const float OsVolumeStep       = 0.02f;     // Windows multimedia key step (used for OSD pre-offset)
+    private const float TouchpadVolumeScale = 0.10f;    // quadratic velocity curve scale for touchpad
 
     public TaskbarVisualizerControl()
     {
@@ -147,5 +155,82 @@ public partial class TaskbarVisualizerControl : UserControl
 
         // open settings when clicked
         SettingsWindow.ShowInstance("TaskbarVisualizerPage");
+    }
+
+    private void Grid_MouseWheel(object sender, MouseWheelEventArgs e)
+    {
+        if (!SettingsManager.Current.TaskbarVisualizerEnabled || !SettingsManager.Current.TaskbarVisualizerHasContent || !SettingsManager.Current.TaskbarVisualizerScrollVolume)
+            return;
+
+        if (e.Delta == 0) return;
+
+        // Touchpad sends fractional deltas (not multiples of 120); mouse always sends exact multiples.
+        bool isTouchpad = e.Delta % 120 != 0;
+        float increment;
+
+        if (isTouchpad)
+        {
+            // Velocity curve: slow scroll = fine control, fast swipe = larger step.
+            // Uses a signed quadratic on the delta normalised to one mouse notch (120 units).
+            // At delta=30 this gives ~0.006 per event; at delta=80 it gives ~0.044 per event.
+            float normalized = e.Delta / 120f;
+            increment = -(normalized * Math.Abs(normalized) * TouchpadVolumeScale);
+        }
+        else
+        {
+            // Mouse: flat 2% per notch regardless of how fast the wheel spins.
+            increment = (e.Delta / 120) * MouseVolumeStep;
+        }
+
+        _pendingVolumeChange += increment;
+
+        if (Math.Abs(_pendingVolumeChange) < VolumeChangeThreshold)
+            return;
+
+        using var device = AudioDeviceMonitor.Instance.GetDefaultRenderDevice();
+        if (device == null)
+        {
+            _pendingVolumeChange = 0f;
+            return;
+        }
+
+        float current = device.AudioEndpointVolume.MasterVolumeLevelScalar;
+        float target = Math.Clamp(current + _pendingVolumeChange, 0f, 1f);
+        float magnitude = Math.Abs(_pendingVolumeChange); // capture before reset
+        _pendingVolumeChange = 0f;
+
+        if (Math.Abs(target - current) <= float.Epsilon)
+            return;
+
+        bool goingUp = target > current;
+
+        if (magnitude >= OsVolumeStep)
+        {
+            // Pre-offset trick: set to (target minus one OS step) so the async keybd_event
+            // key press lands the volume exactly on target while showing the Windows OSD.
+            // Pre-offset direction is only correct when magnitude >= OsVolumeStep, ensuring
+            // preVolume always moves in the same direction as the intended scroll.
+            float preVolume = goingUp
+                ? Math.Clamp(target - OsVolumeStep, 0f, 1f)
+                : Math.Clamp(target + OsVolumeStep, 0f, 1f);
+
+            device.AudioEndpointVolume.MasterVolumeLevelScalar = preVolume;
+
+            // Inject the volume key with our sentinel extra-info so HookCallback can
+            // suppress the media flyout for this synthetic key press.
+            byte vk = goingUp ? (byte)0xAF : (byte)0xAE; // VK_VOLUME_UP : VK_VOLUME_DOWN
+            var sentinel = new IntPtr(NativeMethods.VolumeOsdExtraInfo);
+            NativeMethods.keybd_event(vk, 0, 0, sentinel);
+            NativeMethods.keybd_event(vk, 0, NativeMethods.KEYEVENTF_KEYUP, sentinel);
+        }
+        else
+        {
+            // Fine-grained touchpad adjustment (< 2% change): set directly without OSD.
+            // Skipping the key press here avoids a wrong-direction pre-offset artifact
+            // that would otherwise briefly push the volume the wrong way.
+            device.AudioEndpointVolume.MasterVolumeLevelScalar = target;
+        }
+
+        e.Handled = true;
     }
 }

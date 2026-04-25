@@ -93,6 +93,8 @@ hides repeat, shuffle and player info</System:String>
     <System:String x:Key="TaskbarVisualizerOutputDeviceDescription">Change what the visualizer listens to by switching FluentFlyout's output device.</System:String>
     <System:String x:Key="TaskbarVisualizerClickableTitle">Click to open Settings</System:String>
     <System:String x:Key="TaskbarVisualizerClickableDescription">Clicking the visualizer will open its settings page</System:String>
+    <System:String x:Key="TaskbarVisualizerScrollVolumeTitle">Scroll to Change Volume</System:String>
+    <System:String x:Key="TaskbarVisualizerScrollVolumeDescription">Scroll up or down on the visualizer to adjust system volume</System:String>
     <System:String x:Key="PremiumFeatureTitle">Premium Feature</System:String>
     <System:String x:Key="PremiumFeatureDescription" xml:space="preserve">Your one-time contribution helps me keep FluentFlyout alive and updated. It instantly unlocks all premium customization features, forever.
         
