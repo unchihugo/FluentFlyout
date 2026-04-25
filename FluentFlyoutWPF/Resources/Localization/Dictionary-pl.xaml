@@ -229,4 +229,8 @@ Możesz pomóc w tworzeniu tłumaczeń na stronie</system:String>
     <system:String x:Key="AdvancedSettingsTitle">Ustawienia zaawansowane</system:String>
     <system:String x:Key="LegacyTaskbarWidthTitle">Starszy system szerokości paska zadań</system:String>
     <system:String x:Key="LegacyTaskbarWidthDescription">Użyj starszego systemu szerokości paska zadań dla widżetów paska zadań</system:String>
+    <system:String x:Key="TaskbarWidgetAutoHideTitle">Autoukrywanie widżetu</system:String>
+    <system:String x:Key="TaskbarWidgetAutoHideDescription">Widżet zostaje ukryty automatycznie podczas pauzy mediów</system:String>
+    <system:String x:Key="LockKeysAnimatedTitle">Animacje ikon</system:String>
+    <system:String x:Key="LockKeysAnimatedDescription">Włącza subtelne animacje ikony klawisza blokady</system:String>
 </ResourceDictionary>

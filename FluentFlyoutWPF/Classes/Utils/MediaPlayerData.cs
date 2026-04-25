@@ -13,17 +13,23 @@ public static class MediaPlayerData
     {
         public string Title { get; set; }
         public ImageSource? Icon { get; set; }
+        public int ProcessId { get; set; }
     }
     // cache for media player info to avoid redundant process lookups
-    private static readonly Dictionary<string, CachedMediaPlayerInfo> mediaPlayerCache = new();
+    private static readonly Dictionary<string, CachedMediaPlayerInfo> mediaPlayerCache = [];
+
+    // id variants of media players where the key is the mediaPlayerId and the value is the mediaPlayerCache key
+    private static readonly Dictionary<string, string> mediaPlayerIdVariants = [];
 
     private static Process[] cachedProcesses = null;
     private static DateTime lastCacheTime = DateTime.MinValue;
     private const int CACHE_DURATION_SECONDS = 5;
 
-    public static (string, ImageSource) getMediaPlayerData(string mediaPlayerId)
+    public static (string, ImageSource?) GetAndCacheMediaPlayerData(string mediaPlayerId)
     {
-        if (mediaPlayerCache.TryGetValue(mediaPlayerId, out var cachedInfo))
+        if (mediaPlayerCache.TryGetValue(mediaPlayerId, out var cachedInfo)
+            || mediaPlayerIdVariants.TryGetValue(mediaPlayerId, out var variantKey)
+            && mediaPlayerCache.TryGetValue(variantKey, out cachedInfo))
         {
             return (cachedInfo.Title, cachedInfo.Icon);
         }
@@ -79,7 +85,7 @@ public static class MediaPlayerData
                                         ? mainModule.FileVersionInfo.FileDescription
                                         : p.MainWindowTitle;
 
-                        return new { Title = title, Path = path };
+                        return new { Title = title, Path = path, ProcessId = p.Id };
                     }
                 }
                 catch (System.ComponentModel.Win32Exception)
@@ -90,37 +96,91 @@ public static class MediaPlayerData
             })
             .FirstOrDefault(data => data != null); // use first result
 
-        if (processData != null)
+        if (processData == null) return (mediaTitle, mediaIcon);
+
+        mediaTitle = !string.IsNullOrWhiteSpace(processData.Title) ? processData.Title : mediaPlayerId;
+
+        // check cache again because we have the sanitized title
+        if (mediaPlayerCache.TryGetValue(mediaTitle, out cachedInfo))
         {
-            mediaTitle = !string.IsNullOrWhiteSpace(processData.Title) ? processData.Title : mediaPlayerId;
-
-            try
-            {
-                using (var icon = System.Drawing.Icon.ExtractAssociatedIcon(processData.Path))
-                {
-                    if (icon != null)
-                    {
-                        mediaIcon = System.Windows.Interop.Imaging.CreateBitmapSourceFromHIcon(
-                            icon.Handle,
-                            Int32Rect.Empty,
-                            BitmapSizeOptions.FromEmptyOptions());
-
-                        mediaIcon.Freeze();
-                    }
-                }
-            }
-            catch
-            {
-                mediaIcon = null;
-            }
+            // map the original id to the sanitized title for future lookups
+            mediaPlayerIdVariants[mediaPlayerId] = mediaTitle;
+            return (cachedInfo.Title, cachedInfo.Icon);
         }
+
+        mediaIcon = GetIconFromPath(processData.Path);
 
         mediaPlayerCache[mediaPlayerId] = new CachedMediaPlayerInfo
         {
             Title = mediaTitle,
-            Icon = mediaIcon
+            Icon = mediaIcon,
+            ProcessId = processData.ProcessId
         };
 
         return (mediaTitle, mediaIcon);
+    }
+
+    /// <summary>
+    /// Extracts the associated icon for a given process ID. Returns null if the process is inaccessible.
+    /// </summary>
+    public static ImageSource? GetAndCacheProcessIcon(int processId, string title)
+    {
+        try
+        {
+            if (title == "System sounds") return null;
+
+            // search in cache
+            foreach (var item in mediaPlayerCache.Values)
+            {
+                if (item.ProcessId == processId)
+                {
+                    return item.Icon;
+                }
+            }
+
+            var process = Process.GetProcessById(processId);
+            var path = process.MainModule?.FileName;
+            if (path == null) return null;
+
+            // store in cache for future lookups
+            var icon = GetIconFromPath(path);
+            if (icon != null)
+            {
+                mediaPlayerCache[title] = new CachedMediaPlayerInfo
+                {
+                    Title = title,
+                    Icon = icon,
+                    ProcessId = processId
+                };
+            }
+
+            return icon;
+        }
+        catch
+        {
+            return null;
+        }
+    }
+
+    private static ImageSource? GetIconFromPath(string exePath)
+    {
+        try
+        {
+            using var icon = System.Drawing.Icon.ExtractAssociatedIcon(exePath);
+            if (icon == null) return null;
+
+            var source = System.Windows.Interop.Imaging.CreateBitmapSourceFromHIcon(
+                icon.Handle,
+                Int32Rect.Empty,
+                BitmapSizeOptions.FromEmptyOptions());
+
+            source.Freeze();
+
+            return source;
+        }
+        catch
+        {
+            return null;
+        }
     }
 }

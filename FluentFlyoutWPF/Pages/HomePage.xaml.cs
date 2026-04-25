@@ -135,6 +135,11 @@ public partial class HomePage : Page
         SettingsWindow.NavigateToPage(typeof(MediaFlyoutPage));
     }
 
+    private void VolumeFlyout_Click(object sender, System.Windows.RoutedEventArgs e)
+    {
+        SettingsWindow.NavigateToPage(typeof(VolumeMixerPage));
+    }
+
     private void TaskbarWidget_Click(object sender, System.Windows.RoutedEventArgs e)
     {
         SettingsWindow.NavigateToPage(typeof(TaskbarWidgetPage));
