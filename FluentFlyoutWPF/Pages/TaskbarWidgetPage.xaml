@@ -174,6 +174,30 @@
                             </controls:ToggleSwitch.Style>
                         </controls:ToggleSwitch>
                     </ui:CardControl>
+                    <ui:CardControl Icon="{ui:SymbolIcon ArrowFit20}" Margin="0,0,0,3">
+                        <ui:CardControl.Header>
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock Text="{DynamicResource TaskbarWidgetPreventStartOverlapTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
+                                <TextBlock Text="{DynamicResource TaskbarWidgetPreventStartOverlapDescription}" FontSize="12" Opacity="0.5" />
+                            </StackPanel>
+                        </ui:CardControl.Header>
+                        <controls:ToggleSwitch IsChecked="{Binding TaskbarWidgetPreventStartOverlap, Mode=TwoWay}">
+                            <controls:ToggleSwitch.Style>
+                                <Style TargetType="controls:ToggleSwitch" BasedOn="{StaticResource {x:Type controls:ToggleSwitch}}">
+                                    <Setter Property="IsEnabled" Value="False" />
+                                    <Style.Triggers>
+                                        <MultiDataTrigger>
+                                            <MultiDataTrigger.Conditions>
+                                                <Condition Binding="{Binding IsPremiumUnlocked}" Value="True" />
+                                                <Condition Binding="{Binding TaskbarWidgetPosition}" Value="0" />
+                                            </MultiDataTrigger.Conditions>
+                                            <Setter Property="IsEnabled" Value="True" />
+                                        </MultiDataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </controls:ToggleSwitch.Style>
+                        </controls:ToggleSwitch>
+                    </ui:CardControl>
                     <ui:CardControl Icon="{ui:SymbolIcon ArrowFit20}" Margin="0,0,0,0">
                         <ui:CardControl.Header>
                             <StackPanel Orientation="Vertical">

@@ -56,6 +56,8 @@ hides repeat, shuffle and player info</System:String>
     <System:String x:Key="TaskbarWidgetPaddingSettingsDescription">Adjust the padding around the widget to fit your taskbar style</System:String>
     <System:String x:Key="TaskbarWidgetPaddingTitle">Automatic Padding for Windows Widgets button</System:String>
     <System:String x:Key="TaskbarWidgetPaddingDescription">Turn this feature on if you have Windows Widgets enabled</System:String>
+    <System:String x:Key="TaskbarWidgetPreventStartOverlapTitle">Prevent overlap with Start button</System:String>
+    <System:String x:Key="TaskbarWidgetPreventStartOverlapDescription">For left alignment, shrink widget width if space before Start is limited</System:String>
     <System:String x:Key="TaskbarWidgetManualPaddingTitle">Custom Padding</System:String>
     <System:String x:Key="TaskbarWidgetManualPaddingDescription">Add extra padding (default: 0px)</System:String>
     <System:String x:Key="TaskbarWidgetBackgroundBlurTitle">Background Blur</System:String>

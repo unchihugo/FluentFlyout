@@ -364,6 +364,13 @@ public partial class UserSettings : ObservableObject
     public partial bool TaskbarWidgetPadding { get; set; }
 
     /// <summary>
+    /// Prevent overlap with the Start button by shrinking the taskbar widget width when there is not enough space.
+    /// Applies only when the widget position is set to left.
+    /// </summary>
+    [ObservableProperty]
+    public partial bool TaskbarWidgetPreventStartOverlap { get; set; }
+
+    /// <summary>
     /// Manual padding value in pixels applied to the taskbar widget
     /// </summary>
     [ObservableProperty]
@@ -623,6 +630,7 @@ public partial class UserSettings : ObservableObject
         TaskbarWidgetSelectedMonitor = 0;
         TaskbarWidgetPosition = 0;
         TaskbarWidgetPadding = true;
+        TaskbarWidgetPreventStartOverlap = false;
         TaskbarWidgetManualPadding = 0;
         TaskbarWidgetBackgroundBlur = false;
         TaskbarWidgetHideCompletely = false;
@@ -715,6 +723,12 @@ public partial class UserSettings : ObservableObject
     }
 
     partial void OnTaskbarWidgetManualPaddingChanged(int oldValue, int newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+        UpdateTaskbar();
+    }
+
+    partial void OnTaskbarWidgetPreventStartOverlapChanged(bool oldValue, bool newValue)
     {
         if (oldValue == newValue || _initializing) return;
         UpdateTaskbar();
