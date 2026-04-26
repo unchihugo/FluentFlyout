@@ -323,7 +323,7 @@ public partial class MainWindow : MicaWindow
         double window_left = 0;
 
         // Here we work with raw monitor coordinates, without taking DPI into account.
-        if (aboveReference != null)
+        if (aboveReference != null && aboveReference.IsVisible)
         {
             double refWidth = aboveReference.Width * monitor.dpiX / 96.0;
             double refHeight = aboveReference.Height * monitor.dpiY / 96.0;
@@ -711,15 +711,15 @@ public partial class MainWindow : MicaWindow
             // MainWindow.WndProc() also handles media and volume keys
             if (mediaKeysPressed || volumeKeysPressed)
             {
+                bool result = false;
+                if (mediaKeysPressed || (!SettingsManager.Current.MediaFlyoutVolumeKeysExcluded && volumeKeysPressed))
+                    result = TryShowMediaFlyoutDebounced();
+
                 if (SettingsManager.Current.VolumeControlEnabled)
                 {
                     volumeMixerWindow?.ViewModel.SyncMasterFromDevice();
                     volumeMixerWindow?.ShowFlyout();
                 }
-
-                bool result = false;
-                if (mediaKeysPressed || (!SettingsManager.Current.MediaFlyoutVolumeKeysExcluded && volumeKeysPressed))
-                    result = TryShowMediaFlyoutDebounced();
 
                 if (!result)
                 {
