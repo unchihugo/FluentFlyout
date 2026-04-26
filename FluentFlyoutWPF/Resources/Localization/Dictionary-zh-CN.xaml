@@ -247,4 +247,5 @@
     <system:String x:Key="VolumeMixerHighlightDescription">查看当前有哪些应用正在输出音频</system:String>
     <system:String x:Key="VolumeMixerHighlightPerk">在音量合成器中高亮活跃应用</system:String>
     <system:String x:Key="VolumeFlyoutDescription">一个独立的音量控制浮窗，可展开为音量合成器，取代 Windows 默认的音量界面。</system:String>
+    <system:String x:Key="MasterVolumeText">主音量</system:String>
 </ResourceDictionary>
