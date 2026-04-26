@@ -236,4 +236,5 @@
     <system:String x:Key="TaskbarWidgetShowPauseOverlayTitle">显示暂停图标叠加层</system:String>
     <system:String x:Key="TaskbarWidgetShowPauseOverlayDescription">当媒体暂停播放时，在专辑封面上显示暂停图标</system:String>
     <system:String x:Key="VolumeFlyoutStayDurationTitle">浮窗停留时间</system:String>
+    <system:String x:Key="VolumeMixerSectionTitle">音量混合器</system:String>
 </ResourceDictionary>
