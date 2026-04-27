@@ -188,8 +188,8 @@
     <system:String x:Key="TaskbarVisualizerBaselineTitle">إظهار خط الأساس</system:String>
     <system:String x:Key="DevelopersTitle">المطوِّرون</system:String>
     <system:String x:Key="BuyMeCoffeeLink">اشترِ لي قهوة</system:String>
-    <system:String x:Key="TaskbarWidgetCustomizationPerk">أداة شريط المهام والمرئيات التفاعلية</system:String>
-    <system:String x:Key="AcrylicBlurOpacityPerk">مستوى شفافية تمويه الاكرليك</system:String>
+    <system:String x:Key="TaskbarWidgetCustomizationPerk">تفعيل أداة شريط المهام والمرئيات التفاعلية</system:String>
+    <system:String x:Key="AcrylicBlurOpacityPerk">تحكم بمستوى تأثير تمويه الإكرليك</system:String>
     <system:String x:Key="HideTrayIconPerk">إخفاء أيقونة شريط المهام</system:String>
     <system:String x:Key="AppearanceBehaviorSectionTitle">المظهر والتفاعل</system:String>
     <system:String x:Key="ShowUpdateNotificationsTitle">إظهار إشعارات للتحديثات الجديدة</system:String>
@@ -235,4 +235,16 @@
     <system:String x:Key="LockKeysAnimatedDescription">تمكين رسوم متحركة بسيطة لمؤشر مفتاح القفل</system:String>
     <system:String x:Key="TaskbarWidgetShowPauseOverlayTitle">إظهار علامة توقف مؤقت</system:String>
     <system:String x:Key="TaskbarWidgetShowPauseOverlayDescription">عند التوقف مؤقتًا، سيُعرض رمز الإيقاف المؤقت فوق صورة الألبوم</system:String>
+    <system:String x:Key="VolumeMixerHighlightPerk">قم بتمييز التطبيقات النشطة في موزع الأصوات</system:String>
+    <system:String x:Key="VolumeFlyoutTitle">قائمة الصوت المنبثقة</system:String>
+    <system:String x:Key="VolumeFlyoutDescription">قائمة منبثقة مستقلة للتحكم في مستوى الصوت. تتوسع إلى وحدة مزج الصوت وتحل محل واجهة مستوى الصوت الافتراضية في Windows.</system:String>
+    <system:String x:Key="EnableVolumeFlyoutTitle">تفعيل قائمة الصوت المنبثقة</system:String>
+    <system:String x:Key="EnableVolumeFlyoutDescription">استبدل قائمة وحدة تخزين Windows المنبثقة الإفتراضية</system:String>
+    <system:String x:Key="VolumeAboveMediaFlyoutTitle">ضع قائمة الصوت المنبثقة فوق قائمة الوسائط المنبثقة</system:String>
+    <system:String x:Key="VolumeFlyoutStayDurationTitle">مدة بقاء قائمة الصوت المنبثقة</system:String>
+    <system:String x:Key="VolumeMixerSectionTitle">موزع الأصوات</system:String>
+    <system:String x:Key="EnableVolumeMixerTitle">تفعيل موزع الأصوات</system:String>
+    <system:String x:Key="EnableVolumeMixerDescription">تحكم دقيق في أصوات التطبيقات الفردية</system:String>
+    <system:String x:Key="VolumeMixerHighlightTitle">تمييز التطبيقات التي تقوم بتشغيل الصوت</system:String>
+    <system:String x:Key="VolumeMixerHighlightDescription">إظهار التطبيقات التي تقوم بتشغيل صوت</system:String>
 </ResourceDictionary>
