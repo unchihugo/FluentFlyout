@@ -43,7 +43,9 @@ public partial class VolumeMixerWindow : MicaWindow
     public VolumeMixerWindow()
     {
         DataContext = this;
+        WindowHelper.SetNoActivate(this);
         InitializeComponent();
+        WindowHelper.SetTopmost(this);
         CustomWindowChrome.CaptionHeight = 0;
         CustomWindowChrome.UseAeroCaptionButtons = false;
         CustomWindowChrome.GlassFrameThickness = new Thickness(0);
