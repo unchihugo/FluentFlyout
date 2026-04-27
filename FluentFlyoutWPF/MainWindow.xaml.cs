@@ -332,11 +332,21 @@ public partial class MainWindow : MicaWindow
 
             window_left = refLeft + refWidth / 2 - windowRect.Width / 2;
             double aboveTop = refTop - windowRect.Height - 8;
+            bool isTop = SettingsManager.Current.Position switch
+            {
+                3 or 4 or 5 => true,
+                _ => false
+            };
+
+            // If the reference window is too close to the top edge, we place the flyout below it instead of above to prevent it from going off-screen.
+            if (isTop)
+                aboveTop = refTop + refHeight + 8;
+
             moveAnimation.To = aboveTop;
             if (SettingsManager.Current.FlyoutAnimationSpeed == 0)
                 moveAnimation.From = moveAnimation.To;
             else
-                moveAnimation.From = aboveTop + 20;
+                moveAnimation.From = isTop ? aboveTop - 20 : aboveTop + 20;
         }
         else if (alwaysBottom == false)
         {
