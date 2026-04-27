@@ -183,8 +183,8 @@ Puoi contribuire alla traduzione su</system:String>
     <system:String x:Key="TaskbarVisualizerAudioSensitivityTitle">Sensibilità Audio</system:String>
     <system:String x:Key="TaskbarVisualizerAudioSensitivityDescription">Quanto deve essere forte il volume prima che le barre inizino a muoversi</system:String>
     <system:String x:Key="UnlockFullExperienceText">Sblocca l'esperienza FluentFlyout completa:</system:String>
-    <system:String x:Key="TaskbarWidgetCustomizationPerk">Widget Barra delle Applicazioni e Visualizzatore</system:String>
-    <system:String x:Key="HideTrayIconPerk">Nascondi Icona Area di Notifica</system:String>
+    <system:String x:Key="TaskbarWidgetCustomizationPerk">Attiva il Widget della Barra delle Applicazioni e Visualizzatore</system:String>
+    <system:String x:Key="HideTrayIconPerk">Nascondi l'Icona nel'Area di Notifica</system:String>
     <system:String x:Key="AllFuturePremiumFeatures">Tutte le funzionalità premium future</system:String>
     <system:String x:Key="AppearanceBehaviorSectionTitle">Aspetto e Comportamento</system:String>
     <system:String x:Key="UpdatesSectionTitle">Aggiornamenti</system:String>
@@ -193,7 +193,7 @@ Puoi contribuire alla traduzione su</system:String>
     <system:String x:Key="SponsorMeLink">Supportami</system:String>
     <system:String x:Key="BuyMeCoffeeLink">Offrimi un caffè</system:String>
     <system:String x:Key="ShowUpdateNotificationsTitle">Mostra Notifiche per Nuovi Aggiornamenti</system:String>
-    <system:String x:Key="AcrylicBlurOpacityPerk">Opacità Sfocatura Acrilica</system:String>
+    <system:String x:Key="AcrylicBlurOpacityPerk">Aggiusta l'effetto di sfocatura acrilica</system:String>
     <system:String x:Key="TaskbarVisualizerOutputDeviceTitle">Dispositivo di Uscita</system:String>
     <system:String x:Key="TaskbarVisualizerAudioPeakLevelTitle">Soglia del Picco Audio</system:String>
     <system:String x:Key="TaskbarVisualizerAudioPeakLevelDescription">Quanto deve essere forte l'audio affinché le barre raggiungano l'altezza massima</system:String>
@@ -235,4 +235,15 @@ Puoi contribuire alla traduzione su</system:String>
     <system:String x:Key="LockKeysAnimatedDescription">Abilita piccole animazioni per il lucchetto nell'idicatore del pulsante di blocco</system:String>
     <system:String x:Key="TaskbarWidgetShowPauseOverlayTitle">Mostra icona di pausa nell'overlay</system:String>
     <system:String x:Key="TaskbarWidgetShowPauseOverlayDescription">Quando il media è in pausa, mostra un'icona di pausa sulla copertina dell'album</system:String>
+    <system:String x:Key="VolumeMixerHighlightPerk">Avidenzia le app attive nel mixer del volume</system:String>
+    <system:String x:Key="VolumeFlyoutTitle">Flyout del Volume</system:String>
+    <system:String x:Key="VolumeFlyoutDescription">Un pannello di controllo del volume indipendente che si espande in un mixer del volume, sostituendo l'interfaccia predefinita di Windows per il controllo del volume.</system:String>
+    <system:String x:Key="EnableVolumeFlyoutTitle">Attiva il Flyout del Volume</system:String>
+    <system:String x:Key="EnableVolumeFlyoutDescription">Rimpiazza il Flyout di default di Windows</system:String>
+    <system:String x:Key="VolumeAboveMediaFlyoutTitle">Posiziona il Flyout del volume sopra il Flyout dei Media</system:String>
+    <system:String x:Key="VolumeMixerSectionTitle">Mixer del Volume</system:String>
+    <system:String x:Key="EnableVolumeMixerTitle">Abilita il Mixer del Volume</system:String>
+    <system:String x:Key="EnableVolumeMixerDescription">Controllo preciso dei volumi delle singole app</system:String>
+    <system:String x:Key="VolumeMixerHighlightTitle">Evidenzia le app che riproducono audio</system:String>
+    <system:String x:Key="VolumeMixerHighlightDescription">Scopri quali app stanno attualmente riproducendo audio</system:String>
 </ResourceDictionary>
