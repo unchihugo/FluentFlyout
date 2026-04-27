@@ -247,4 +247,5 @@
     <system:String x:Key="EnableVolumeMixerDescription">تحكم دقيق في أصوات التطبيقات الفردية</system:String>
     <system:String x:Key="VolumeMixerHighlightTitle">تمييز التطبيقات التي تقوم بتشغيل الصوت</system:String>
     <system:String x:Key="VolumeMixerHighlightDescription">إظهار التطبيقات التي تقوم بتشغيل صوت</system:String>
+    <system:String x:Key="MasterVolumeText">مستوى الصوت الرئيسي</system:String>
 </ResourceDictionary>
