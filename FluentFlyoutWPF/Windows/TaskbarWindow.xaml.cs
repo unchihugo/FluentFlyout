@@ -33,10 +33,13 @@ public partial class TaskbarWindow : Window
     private AutomationElement? _widgetElement;
     private AutomationElement? _trayElement;
     private AutomationElement? _taskbarFrameElement;
+    private AutomationElement? _startButtonElement;
+    private AutomationElement? _startButtonByNameElement;
     // reference to main window for flyout functions
     private MainWindow? _mainWindow;
     private int _lastSelectedMonitor = -1;
     private bool _positionUpdateInProgress;
+    private bool _startButtonLookupWarningLogged;
     private readonly Dictionary<string, Task> _pendingAutomationTasks = [];
     
     private GlobalSystemMediaTransportControlsSessionPlaybackStatus? _lastPlaybackStatus;
@@ -546,10 +549,44 @@ public partial class TaskbarWindow : Window
 
         widgetLeft += SettingsManager.Current.TaskbarWidgetManualPadding;
 
+        int finalPhysicalWidth = physicalWidth;
+        if (SettingsManager.Current.TaskbarWidgetPosition == 0 && SettingsManager.Current.TaskbarWidgetPreventStartOverlap)
+        {
+            const int startButtonGap = 2;
+            (bool foundStartButton, Rect startButtonRect) = GetStartButtonRect(taskbarHandle);
+            bool hasValidStartBounds = foundStartButton &&
+                startButtonRect.Width > 0 &&
+                startButtonRect.Left > taskbarRect.Left &&
+                startButtonRect.Left < taskbarRect.Right &&
+                startButtonRect.Left < (taskbarRect.Left + taskbarRect.Right) / 2.0;
+
+            if (hasValidStartBounds)
+            {
+                _startButtonLookupWarningLogged = false;
+
+                int startLeftInTaskbar = (int)(startButtonRect.Left - taskbarRect.Left);
+                int noOverlapRightBoundary = startLeftInTaskbar - startButtonGap;
+
+                if (widgetLeft >= noOverlapRightBoundary)
+                    widgetLeft = Math.Max(0, noOverlapRightBoundary - 1);
+
+                int maxWidthToFitGap = noOverlapRightBoundary - widgetLeft;
+                if (maxWidthToFitGap < finalPhysicalWidth)
+                {
+                    finalPhysicalWidth = Math.Max(1, maxWidthToFitGap);
+                }
+            }
+            else if (!_startButtonLookupWarningLogged)
+            {
+                Logger.Warn("Failed to resolve Start button bounds for taskbar overlap prevention. Using existing widget width.");
+                _startButtonLookupWarningLogged = true;
+            }
+        }
+
         // Set widget position within canvas
         Canvas.SetLeft(Widget, widgetLeft / dpiScale);
         Canvas.SetTop(Widget, widgetTop / dpiScale);
-        Widget.Width = physicalWidth / dpiScale;
+        Widget.Width = finalPhysicalWidth / dpiScale;
         Widget.Height = physicalHeight / dpiScale;
 
         return new Rect(Canvas.GetLeft(Widget) * dpiScale, Canvas.GetTop(Widget) * dpiScale, Widget.Width * dpiScale, Widget.Height * dpiScale);
@@ -656,10 +693,13 @@ public partial class TaskbarWindow : Window
         });
     }
 
-    private (bool, Rect) GetTaskbarXamlElementRect(IntPtr taskbarHandle, ref AutomationElement? elementCache, string elementName)
+    private (bool, Rect) GetTaskbarXamlElementRect(IntPtr taskbarHandle, ref AutomationElement? elementCache, string elementName, AutomationProperty? property = null)
     {
         if (taskbarHandle == IntPtr.Zero)
             return (false, Rect.Empty);
+
+        AutomationProperty lookupProperty = property ?? AutomationElement.AutomationIdProperty;
+        string pendingTaskKey = $"{lookupProperty.ProgrammaticName}:{elementName}";
 
         try
         {
@@ -670,7 +710,7 @@ public partial class TaskbarWindow : Window
             // find widget in XAML
             if (elementCache == null)
             {
-                if (_pendingAutomationTasks.TryGetValue(elementName, out var pendingTask) && !pendingTask.IsCompleted)
+                if (_pendingAutomationTasks.TryGetValue(pendingTaskKey, out var pendingTask) && !pendingTask.IsCompleted)
                     return (false, Rect.Empty);
 
                 AutomationElement? found = null;
@@ -678,9 +718,9 @@ public partial class TaskbarWindow : Window
                 {
                     var root = AutomationElement.FromHandle(taskbarHandle);
                     found = root.FindFirst(TreeScope.Descendants,
-                        new PropertyCondition(AutomationElement.AutomationIdProperty, elementName));
+                        new PropertyCondition(lookupProperty, elementName));
                 });
-                _pendingAutomationTasks[elementName] = findTask;
+                _pendingAutomationTasks[pendingTaskKey] = findTask;
 
                 if (!findTask.Wait(1000))
                 {
@@ -698,7 +738,7 @@ public partial class TaskbarWindow : Window
 
             try
             {
-                if (_pendingAutomationTasks.TryGetValue(elementName, out var pendingTask) && !pendingTask.IsCompleted)
+                if (_pendingAutomationTasks.TryGetValue(pendingTaskKey, out var pendingTask) && !pendingTask.IsCompleted)
                 {
                     elementCache = null;
                     return (false, Rect.Empty);
@@ -706,7 +746,7 @@ public partial class TaskbarWindow : Window
 
                 var cachedElement = elementCache;
                 var boundsTask = Task.Run(() => cachedElement.Current.BoundingRectangle);
-                _pendingAutomationTasks[elementName] = boundsTask;
+                _pendingAutomationTasks[pendingTaskKey] = boundsTask;
 
                 if (!boundsTask.Wait(500))
                 {
@@ -772,5 +812,14 @@ public partial class TaskbarWindow : Window
     private (bool, Rect) GetTaskbarFrameRect(IntPtr taskbarHandle)
     {
         return GetTaskbarXamlElementRect(taskbarHandle, ref _taskbarFrameElement, "TaskbarFrame");
+    }
+
+    private (bool, Rect) GetStartButtonRect(IntPtr taskbarHandle)
+    {
+        (bool foundById, Rect startRect) = GetTaskbarXamlElementRect(taskbarHandle, ref _startButtonElement, "StartButton");
+        if (foundById)
+            return (true, startRect);
+
+        return GetTaskbarXamlElementRect(taskbarHandle, ref _startButtonByNameElement, "Start", AutomationElement.NameProperty);
     }
 }
