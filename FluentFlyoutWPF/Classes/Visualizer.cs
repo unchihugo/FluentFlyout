@@ -33,7 +33,7 @@ namespace FluentFlyoutWPF.Classes
         private int _fftPos = 0;
         private readonly Complex[] _fftBuffer;
 
-        private readonly int _targetFps = 30;
+        private static int _targetFps = 30;
         private DateTime _lastUpdateTime = DateTime.MinValue;
 
         private System.Timers.Timer? _captureWatchdog;
@@ -77,6 +77,7 @@ namespace FluentFlyoutWPF.Classes
             _fftBuffer = new Complex[_fftLength];
 
             ResizeBarList(SettingsManager.Current.TaskbarVisualizerBarCount);
+            _targetFps = SettingsManager.Current.TaskbarVisualizerFrameRate;
             AudioDeviceMonitor.Instance.DefaultDeviceChanged += OnDefaultDeviceChanged;
             TryRegisterSystemEvents();
         }
@@ -195,6 +196,11 @@ namespace FluentFlyoutWPF.Classes
         {
             BarCount = newBarCount;
             _barValues = new float[BarCount];
+        }
+
+        public static void UpdateTargetFps(int fps)
+        {
+            _targetFps = fps;
         }
 
         public void Start()

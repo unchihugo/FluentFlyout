@@ -89,6 +89,11 @@ hides repeat, shuffle and player info</System:String>
     <System:String x:Key="TaskbarVisualizerAudioSensitivityDescription">How loud audio must be before the bars start moving</System:String>
     <System:String x:Key="TaskbarVisualizerAudioPeakLevelTitle">Audio Peak Threshold</System:String>
     <System:String x:Key="TaskbarVisualizerAudioPeakLevelDescription">How loud audio must be for the bars to reach their maximum height</System:String>
+    <System:String x:Key="TaskbarVisualizerFrameRateTitle">Frame Rate</System:String>
+    <System:String x:Key="TaskbarVisualizerFrameRateSubtitle">Higher frame rates may increase CPU and battery usage</System:String>
+    <System:String x:Key="FrameRate30">30 FPS (Default)</System:String>
+    <System:String x:Key="FrameRate60">60 FPS</System:String>
+    <System:String x:Key="FrameRate120">120 FPS</System:String>
     <System:String x:Key="TaskbarVisualizerOutputDeviceTitle">Output Device</System:String>
     <System:String x:Key="TaskbarVisualizerOutputDeviceDescription">Change what the visualizer listens to by switching FluentFlyout's output device.</System:String>
     <System:String x:Key="TaskbarVisualizerClickableTitle">Click to open Settings</System:String>

@@ -528,6 +528,20 @@ public partial class UserSettings : ObservableObject
     public partial int TaskbarVisualizerAudioPeakLevel { get; set; }
 
     /// <summary>
+    /// The target frame rate for the taskbar visualizer. Accepted values: 30, 60, 120.
+    /// </summary>
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(TaskbarVisualizerFrameRateIndex))]
+    public partial int TaskbarVisualizerFrameRate { get; set; }
+
+    [XmlIgnore]
+    public int TaskbarVisualizerFrameRateIndex
+    {
+        get => TaskbarVisualizerFrameRate switch { 60 => 1, 120 => 2, _ => 0 };
+        set => TaskbarVisualizerFrameRate = value switch { 1 => 60, 2 => 120, _ => 30 };
+    }
+
+    /// <summary>
     /// Gets whether premium features are unlocked (runtime only, not persisted)
     /// </summary>
     [XmlIgnore]
@@ -638,6 +652,7 @@ public partial class UserSettings : ObservableObject
         TaskbarVisualizerBaseline = false;
         TaskbarVisualizerAudioSensitivity = 2;
         TaskbarVisualizerAudioPeakLevel = 3;
+        TaskbarVisualizerFrameRate = 30;
         VolumeControlEnabled = false;
         VolumeControlAboveMediaFlyout = false;
         VolumeControlDuration = 3000;
@@ -781,6 +796,12 @@ public partial class UserSettings : ObservableObject
     {
         if (oldValue == newValue || _initializing) return;
         Visualizer.ResizeBarList(newValue);
+    }
+
+    partial void OnTaskbarVisualizerFrameRateChanged(int oldValue, int newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+        Visualizer.UpdateTargetFps(newValue);
     }
 
     partial void OnTaskbarVisualizerBaselineChanged(bool oldValue, bool newValue)

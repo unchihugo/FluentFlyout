@@ -179,6 +179,20 @@
                 </StackPanel>
             </ui:CardControl>
 
+            <ui:CardControl Icon="{ui:SymbolIcon Timer24}" Margin="0,0,0,3">
+                <ui:CardControl.Header>
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="{DynamicResource TaskbarVisualizerFrameRateTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
+                        <TextBlock Text="{DynamicResource TaskbarVisualizerFrameRateSubtitle}" FontSize="12" Opacity="0.5" />
+                    </StackPanel>
+                </ui:CardControl.Header>
+                <ComboBox SelectedIndex="{Binding TaskbarVisualizerFrameRateIndex, Mode=TwoWay}">
+                    <ComboBoxItem Content="{DynamicResource FrameRate30}" />
+                    <ComboBoxItem Content="{DynamicResource FrameRate60}" />
+                    <ComboBoxItem Content="{DynamicResource FrameRate120}" />
+                </ComboBox>
+            </ui:CardControl>
+
             <ui:CardControl Icon="{ui:SymbolIcon Speaker224}" Margin="0,0,0,12">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
