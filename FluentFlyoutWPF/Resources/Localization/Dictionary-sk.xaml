@@ -101,9 +101,9 @@ Poznámka: Keďže ide o open-source projekt, tieto funkcie sú k dispozícii aj
     <system:String x:Key="PremiumPurchaseFailed">Nákup zlyhal. Skúste to znova.</system:String>
     <system:String x:Key="PremiumPurchaseCancelled">Nákup zrušený.</system:String>
     <system:String x:Key="UnlockFullExperienceText">Odomknite si plný zážitok z FluentFlyout:</system:String>
-    <system:String x:Key="TaskbarWidgetCustomizationPerk">Widget a Vizualizér na Paneli úloh</system:String>
-    <system:String x:Key="AcrylicBlurOpacityPerk">Nepriehľadnosť Akrylového Rozmazania</system:String>
-    <system:String x:Key="HideTrayIconPerk">Skryť Ikonu v Systémovej lište</system:String>
+    <system:String x:Key="TaskbarWidgetCustomizationPerk">Povoliť Widget a Vizualizér na Paneli úloh</system:String>
+    <system:String x:Key="AcrylicBlurOpacityPerk">Upravte Akrylový efekt rozmazania</system:String>
+    <system:String x:Key="HideTrayIconPerk">Skryť ikonu v systémovej lište</system:String>
     <system:String x:Key="AllFuturePremiumFeatures">Všetky budúce Prémiové funkcie</system:String>
     <system:String x:Key="NextUpCustomizationTitle">Plávajúce okno Ďalšia skladba</system:String>
     <system:String x:Key="NextUpDescription" xml:space="preserve">Plávajúce okno zobrazuje, čo nasleduje po skončení skladby/videa. Zobrazí sa iba vtedy, ak sa automaticky prehrá ďalšia položka. Ak sa Ďalej/Predchádzajúce stlačí manuálne, zobrazí sa hlavné plávajúce okno.</system:String>
@@ -231,4 +231,17 @@ Môžete pomôcť s prekladmi na</system:String>
     <system:String x:Key="LockKeysAnimatedDescription">Povolí jemné animácie pre indikátory lock kláves</system:String>
     <system:String x:Key="TaskbarWidgetShowPauseOverlayDescription">Keď sú médiá pozastavené, zobrazí ikonu pozastavenia cez obrázok albumu</system:String>
     <system:String x:Key="TaskbarWidgetShowPauseOverlayTitle">Zobraziť Prekrytie Ikonou Pozastavenia</system:String>
+    <system:String x:Key="VolumeMixerHighlightTitle">Zvýrazniť aplikácie prehrávajúce zvuk</system:String>
+    <system:String x:Key="VolumeMixerHighlightDescription">Ukázať, ktoré aplikácie momentálne prehrávajú zvuk</system:String>
+    <system:String x:Key="VolumeMixerHighlightPerk">Zvýrazniť aktívne aplikácie v Zmiešavači Hlasitosti</system:String>
+    <system:String x:Key="VolumeFlyoutTitle">Plávajúce okno Hlasitosti</system:String>
+    <system:String x:Key="VolumeFlyoutDescription">Samostatné plávajúce okno s ovládaním hlasitosti, ktoré sa rozšíri do zmiešavača hlasitosti a nahradí predvolené Windows rozhranie hlasitosti.</system:String>
+    <system:String x:Key="EnableVolumeFlyoutTitle">Povoliť Plávajúce okno Hlasitosti</system:String>
+    <system:String x:Key="EnableVolumeFlyoutDescription">Nahradí predvolené Windows plávajúce okno hlasitosti</system:String>
+    <system:String x:Key="VolumeAboveMediaFlyoutTitle">Umiestniť Plávajúce okno Hlasitosti nad Plávajúce okno Prehrávača</system:String>
+    <system:String x:Key="VolumeFlyoutStayDurationTitle">Doba Zotrvania Plávajúceho okna Hlasitosti</system:String>
+    <system:String x:Key="VolumeMixerSectionTitle">Zmiešavač Hlasitosti</system:String>
+    <system:String x:Key="EnableVolumeMixerTitle">Povoliť Zmiešavač Hlasitosti</system:String>
+    <system:String x:Key="EnableVolumeMixerDescription">Presné ovládanie hlasitostí jednotlivých aplikácií</system:String>
+    <system:String x:Key="MasterVolumeText">Celková hlasitosť</system:String>
 </ResourceDictionary>
