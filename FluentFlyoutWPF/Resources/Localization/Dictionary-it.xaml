@@ -246,4 +246,6 @@ Puoi contribuire alla traduzione su</system:String>
     <system:String x:Key="EnableVolumeMixerDescription">Controllo preciso dei volumi delle singole app</system:String>
     <system:String x:Key="VolumeMixerHighlightTitle">Evidenzia le app che riproducono audio</system:String>
     <system:String x:Key="VolumeMixerHighlightDescription">Scopri quali app stanno attualmente riproducendo audio</system:String>
+    <system:String x:Key="VolumeFlyoutStayDurationTitle">Durata del Flyout</system:String>
+    <system:String x:Key="MasterVolumeText">Volume principale</system:String>
 </ResourceDictionary>
