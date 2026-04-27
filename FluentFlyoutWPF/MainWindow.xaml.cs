@@ -323,7 +323,7 @@ public partial class MainWindow : MicaWindow
         double window_left = 0;
 
         // Here we work with raw monitor coordinates, without taking DPI into account.
-        if (aboveReference != null)
+        if (aboveReference != null && aboveReference.IsVisible)
         {
             double refWidth = aboveReference.Width * monitor.dpiX / 96.0;
             double refHeight = aboveReference.Height * monitor.dpiY / 96.0;
@@ -715,15 +715,15 @@ public partial class MainWindow : MicaWindow
 
             if (!isVisualizerOsdKey && (mediaKeysPressed || (!SettingsManager.Current.MediaFlyoutVolumeKeysExcluded && volumeKeysPressed)))
             {
+                bool result = false;
+                if (mediaKeysPressed || (!SettingsManager.Current.MediaFlyoutVolumeKeysExcluded && volumeKeysPressed))
+                    result = TryShowMediaFlyoutDebounced();
+
                 if (SettingsManager.Current.VolumeControlEnabled)
                 {
                     volumeMixerWindow?.ViewModel.SyncMasterFromDevice();
                     volumeMixerWindow?.ShowFlyout();
                 }
-
-                bool result = false;
-                if (mediaKeysPressed || (!SettingsManager.Current.MediaFlyoutVolumeKeysExcluded && volumeKeysPressed))
-                    result = TryShowMediaFlyoutDebounced();
 
                 if (!result)
                 {
@@ -1498,15 +1498,28 @@ public partial class MainWindow : MicaWindow
             handled = true;
             return 0;
         }
-        else if (msg == WM_SETTINGCHANGE) // Windows theme or system settings changed
-        {  
+        else if (msg == WM_SETTINGCHANGE) // system settings changed
+        {
+            if (lParam == IntPtr.Zero)
+                return 0;
+
+            // check if the changed setting is related to theme or accent color
+            string? changedSetting = Marshal.PtrToStringUni(lParam);
+            if (changedSetting != "ImmersiveColorSet" && changedSetting != "WindowsThemeElement")
+                return 0;
+
+            Logger.Info($"System setting changed: {changedSetting}, from {msg}");
+
             try
             {
+                // update theme for taskbar widget since it's independent from the main app theme
                 ThemeManager.UpdateTaskbarWidget();
+                // update Acrylic windows background colors
+                WindowBlurHelper.AdjustBlurOpacityForAllWindows(SettingsManager.Current.AcrylicBlurOpacity);
             }
             catch (Exception ex)
             {
-                Logger.Error(ex, "Failed to apply theme changes to taskbar widgets");
+                Logger.Error(ex, "Failed to apply theme changes to taskbar widgets or Acrylic windows");
             }
             return 0;
         }
