@@ -233,4 +233,6 @@ Du kannst helfen, die App zu übersetzen auf</system:String>
     <system:String x:Key="AdvancedSettingsTitle">Erweiterte Einstellungen</system:String>
     <system:String x:Key="LegacyTaskbarWidthTitle">Legacy-Taskleistenbreitensystem</system:String>
     <system:String x:Key="LegacyTaskbarWidthDescription">Verwenden Sie das alte Taskleistenbreitensystem für Taskleisten-Widgets.</system:String>
+    <system:String x:Key="TaskbarWidgetShowPauseOverlayTitle">Zeige Pause Symbol</system:String>
+    <system:String x:Key="TaskbarWidgetShowPauseOverlayDescription">Zeige ein Pause symbol über dem Cover wenn Audio pausiert ist</system:String>
 </ResourceDictionary>
