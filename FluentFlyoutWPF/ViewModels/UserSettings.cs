@@ -203,6 +203,55 @@ public partial class UserSettings : ObservableObject
     }
 
     /// <summary>
+    /// Enable language switcher flyout
+    /// </summary>
+    [ObservableProperty]
+    public partial bool LanguageFlyoutEnabled { get; set; }
+
+    /// <summary>
+    /// Show region/country in parentheses in language flyout
+    /// </summary>
+    [ObservableProperty]
+    public partial bool LanguageFlyoutShowRegion { get; set; }
+
+    /// <summary>
+    /// Color mode for language flyout (0: Auto, 1: System, 2: Unique)
+    /// </summary>
+    [ObservableProperty]
+    public partial int LanguageFlyoutColorMode { get; set; }
+
+    /// <summary>
+    /// Language flyout display duration (milliseconds)
+    /// </summary>
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(LanguageFlyoutDurationText))]
+    public partial int LanguageFlyoutDuration { get; set; }
+
+    [XmlIgnore]
+    public string LanguageFlyoutDurationText
+    {
+        get => LanguageFlyoutDuration.ToString();
+        set
+        {
+            if (int.TryParse(value, out var result))
+            {
+                LanguageFlyoutDuration = result switch
+                {
+                    > 10000 => 10000,
+                    < 0 => 0,
+                    _ => result
+                };
+            }
+            else
+            {
+                LanguageFlyoutDuration = 2000;
+            }
+
+            OnPropertyChanged();
+        }
+    }
+
+    /// <summary>
     /// App theme. 0 for default, 1 for light, 2 for dark.
     /// </summary>
     [ObservableProperty]
@@ -597,6 +646,8 @@ public partial class UserSettings : ObservableObject
         FlyoutAnimationEasingStyle = 2;
         LockKeysEnabled = true;
         LockKeysDuration = 2000;
+        LanguageFlyoutEnabled = true;
+        LanguageFlyoutDuration = 2000;
         AppTheme = 0;
         MediaFlyoutEnabled = true;
         MediaFlyoutAlwaysDisplay = false;

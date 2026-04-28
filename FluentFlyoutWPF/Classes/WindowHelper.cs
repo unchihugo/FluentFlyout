@@ -39,16 +39,16 @@ public static class WindowHelper
         SetWindowPos(handle, 0, 0, 0, 0, 0, (uint)(SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | (visible ? SWP_SHOWWINDOW : SWP_HIDEWINDOW)));
     }
 
-    public static Rect GetPlacement(Window window) // get the window position, ignoring WPF
+    public static Rect GetPlacement(Window window) // get the window position in screen coordinates, ignoring WPF
     {
-        var wp = new NativeMethods.WINDOWPLACEMENT { length = Marshal.SizeOf<NativeMethods.WINDOWPLACEMENT>() };
-
         var handle = new WindowInteropHelper(window).Handle;
-        GetWindowPlacement(handle, ref wp);
-
-        return new Rect(wp.rcNormalPosition.Left, wp.rcNormalPosition.Top, 
-            wp.rcNormalPosition.Right - wp.rcNormalPosition.Left, 
-            wp.rcNormalPosition.Bottom - wp.rcNormalPosition.Top);
+        if (GetWindowRect(handle, out NativeMethods.RECT rect))
+        {
+            return new Rect(rect.Left, rect.Top, rect.Right - rect.Left, rect.Bottom - rect.Top);
+        }
+        
+        // Fallback (should not happen for valid windows)
+        return new Rect(window.Left, window.Top, window.Width, window.Height);
     }
 
     public static void SetPosition(Window window, double x, double y, bool async = false) // set the position of the window, ignoring WPF
@@ -61,6 +61,21 @@ public static class WindowHelper
         {
             int error = Marshal.GetLastWin32Error();
             Logger.Warn($"SetPosition failed for '{window.GetType().Name}' (HWND=0x{handle.ToInt64():X}, X={x}, Y={y}, Flags=0x{flags:X}), Win32Error={error}");
+        }
+
+        return;
+    }
+
+    public static void SetPositionAndSize(Window window, double x, double y, double width, double height, bool async = false) // set the position and size of the window, ignoring WPF
+    {
+        var handle = new WindowInteropHelper(window).Handle;
+        uint flags = SWP_NOZORDER | (async ? SWP_ASYNCWINDOWPOS : (uint)0);
+        bool result = SetWindowPos(handle, 0, (int)x, (int)y, (int)width, (int)height, flags);
+
+        if (!result)
+        {
+            int error = Marshal.GetLastWin32Error();
+            Logger.Warn($"SetPositionAndSize failed for '{window.GetType().Name}' (HWND=0x{handle.ToInt64():X}, X={x}, Y={y}, W={width}, H={height}, Flags=0x{flags:X}), Win32Error={error}");
         }
 
         return;

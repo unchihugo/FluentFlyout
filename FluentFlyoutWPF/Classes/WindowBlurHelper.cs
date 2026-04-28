@@ -1,4 +1,4 @@
-// Copyright © 2024-2026 The FluentFlyout Authors
+// Copyright ï¿½ 2024-2026 The FluentFlyout Authors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 using FluentFlyout.Classes.Settings;
@@ -141,6 +141,7 @@ public static class WindowBlurHelper
             "NextUpWindow" => SettingsManager.Current.NextUpAcrylicWindowEnabled,
             "LockWindow" => SettingsManager.Current.LockKeysAcrylicWindowEnabled,
             "VolumeMixerWindow" => SettingsManager.Current.VolumeMixerAcrylicWindowEnabled,
+            "LanguageWindow" => SettingsManager.Current.LockKeysAcrylicWindowEnabled,
             _ => false
         };
     }

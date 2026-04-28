@@ -70,6 +70,9 @@ public partial class MainWindow : MicaWindow
     private bool _isHiding = true;
 
     private LockWindow? lockWindow;
+    private LanguageWindow? languageWindow;
+    private IntPtr _lastLanguageLayout = IntPtr.Zero;
+    private DispatcherTimer? _languagePollingTimer;
     private DateTime _lastSelfUpdateTimestamp = DateTime.MinValue;
 
     internal TaskbarWindow? taskbarWindow;
@@ -172,6 +175,14 @@ public partial class MainWindow : MicaWindow
         RegisterShellHookWindow(new WindowInteropHelper(this).Handle);
 
         _positionTimer = new Timer(SeekbarUpdateUi, null, Timeout.Infinite, Timeout.Infinite);
+        
+        _languagePollingTimer = new DispatcherTimer
+        {
+            Interval = TimeSpan.FromMilliseconds(75)
+        };
+        _languagePollingTimer.Tick += LanguagePollingTimer_Tick;
+        _languagePollingTimer.Start();
+
         if (_seekBarEnabled && mediaManager.GetFocusedSession() is { } session)
         {
             UpdateSeekbarCurrentDuration(session.ControlSession.GetTimelineProperties().Position);
@@ -314,11 +325,18 @@ public partial class MainWindow : MicaWindow
         var workArea = monitor.workArea;
 
         // prevent flickering
-        WindowHelper.SetVisibility(window, false); // window.Visibility = Visibility.Hidden works with some delay
+        bool alreadyVisible = window.IsVisible;
+        if (!alreadyVisible) WindowHelper.SetVisibility(window, false); 
 
-        // Update the DPI by moving the window to the target workArea, ignoring WPF scaling
-        WindowHelper.SetPosition(window, workArea.Left, workArea.Top);
-        var windowRect = WindowHelper.GetPlacement(window); // here we take the updated window size in raw coordinates.
+        window.UpdateLayout(); // Ensure layout is computed before querying size
+
+        // Calculate the window size in raw pixels manually to avoid the "jump to top-left".
+        // We use the monitor's DPI directly to scale WPF units.
+        double currentWidth = double.IsNaN(window.Width) ? window.ActualWidth : window.Width;
+        double currentHeight = double.IsNaN(window.Height) ? window.ActualHeight : window.Height;
+        double rawWidth = Math.Ceiling(currentWidth * monitor.dpiX / 96.0);
+        double rawHeight = Math.Ceiling(currentHeight * monitor.dpiY / 96.0);
+        var windowRect = new Rect(0, 0, rawWidth, rawHeight);
 
         double window_left = 0;
 
@@ -417,7 +435,8 @@ public partial class MainWindow : MicaWindow
         }
 
         // Set the initial position in raw coordinates.
-        WindowHelper.SetPosition(window, window_left, moveAnimation.From!.Value);
+        if (moveAnimation.From != null)
+            WindowHelper.SetPosition(window, window_left, moveAnimation.From.Value);
 
         // Next coordinates will be used to set Window.Top, which takes DPI into account,
         // so we need to convert the coordinates to DPI scale.
@@ -761,6 +780,13 @@ public partial class MainWindow : MicaWindow
                     lockWindow ??= new LockWindow();
                     lockWindow.ShowLockFlyout("Insert", Keyboard.IsKeyToggled(Key.Insert));
                 }
+            }
+
+            // Trigger Language Flyout on Win + Space instantly
+            if (vkCode == 0x20 && (Keyboard.Modifiers & ModifierKeys.Windows) != 0 && wParam == WM_KEYDOWN)
+            {
+                languageWindow ??= new LanguageWindow();
+                languageWindow.ShowLanguageFlyout();
             }
         }
         return CallNextHookEx(_hookId, nCode, wParam, lParam);
@@ -1398,6 +1424,30 @@ public partial class MainWindow : MicaWindow
         finally
         {
             Application.Current.Shutdown();
+        }
+    }
+
+    private void LanguagePollingTimer_Tick(object? sender, EventArgs e)
+    {
+        if (!SettingsManager.Current.LanguageFlyoutEnabled) return;
+
+        IntPtr foregroundWindow = NativeMethods.GetForegroundWindow();
+        if (foregroundWindow == IntPtr.Zero) return;
+
+        uint threadId = NativeMethods.GetWindowThreadProcessId(foregroundWindow, IntPtr.Zero);
+        IntPtr hkl = NativeMethods.GetKeyboardLayout(threadId);
+
+        if (_lastLanguageLayout == IntPtr.Zero)
+        {
+            _lastLanguageLayout = hkl;
+            return;
+        }
+
+        if (hkl != _lastLanguageLayout)
+        {
+            _lastLanguageLayout = hkl;
+            languageWindow ??= new LanguageWindow();
+            languageWindow.ShowLanguageFlyout();
         }
     }
 

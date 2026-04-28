@@ -25,8 +25,14 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <StackPanel Orientation="Horizontal" Margin="0,0,0,24">
+            <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,24">
                 <Border CornerRadius="10" ClipToBounds="True" Width="164" Height="98">
                     <Border.Background>
                         <ImageBrush ImageSource="/Resources/FluentFlyoutDemo5.1.png" Stretch="UniformToFill" />
@@ -98,7 +104,7 @@
                     <ComboBoxItem Content="{DynamicResource MonitorWithCursor}" />
                 </ComboBox>
             </ui:CardControl>
-            <ui:CardControl Grid.Row="7" Icon="{ui:SymbolIcon Info24}" Margin="0,0,0,76">
+            <ui:CardControl Grid.Row="7" Icon="{ui:SymbolIcon Info24}" Margin="0,0,0,3">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
                         <TextBlock Text="{DynamicResource EnableInsertKeyTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
@@ -106,6 +112,53 @@
                     </StackPanel>
                 </ui:CardControl.Header>
                 <controls:ToggleSwitch Name="LockKeysEnableInsertSwitch" IsChecked="{Binding LockKeysInsertEnabled, Mode=TwoWay}" />
+            </ui:CardControl>
+
+            <ui:CardControl Grid.Row="8" Icon="{ui:SymbolIcon LocalLanguage24}" Margin="0,24,0,3">
+                <ui:CardControl.Header>
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="{DynamicResource LanguageFlyoutTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
+                        <TextBlock Text="{DynamicResource LanguageFlyoutDescription}" FontSize="12" Opacity="0.5" />
+                    </StackPanel>
+                </ui:CardControl.Header>
+                <controls:ToggleSwitch Name="LanguageFlyoutSwitch" IsChecked="{Binding LanguageFlyoutEnabled, Mode=TwoWay}" />
+            </ui:CardControl>
+
+            <ui:CardControl Grid.Row="9" Icon="{ui:SymbolIcon Info24}" Margin="0,0,0,3">
+                <ui:CardControl.Header>
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="{DynamicResource LanguageFlyoutShowRegionTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
+                        <TextBlock Text="{DynamicResource LanguageFlyoutShowRegionDescription}" FontSize="12" Opacity="0.5" />
+                    </StackPanel>
+                </ui:CardControl.Header>
+                <controls:ToggleSwitch Name="LanguageFlyoutShowRegionSwitch" IsChecked="{Binding LanguageFlyoutShowRegion, Mode=TwoWay}" />
+            </ui:CardControl>
+
+            <ui:CardControl Grid.Row="10" Icon="{ui:SymbolIcon Color24}" Margin="0,0,0,3">
+                <ui:CardControl.Header>
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="{DynamicResource LanguageFlyoutColorModeTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
+                        <TextBlock Text="{DynamicResource LanguageFlyoutColorModeDescription}" FontSize="12" Opacity="0.5" />
+                    </StackPanel>
+                </ui:CardControl.Header>
+                <ComboBox SelectedIndex="{Binding LanguageFlyoutColorMode, Mode=TwoWay}" Width="150">
+                    <ComboBoxItem Content="{DynamicResource LanguageColorModeOption1}" />
+                    <ComboBoxItem Content="{DynamicResource LanguageColorModeOption2}" />
+                    <ComboBoxItem Content="{DynamicResource LanguageColorModeOption3}" />
+                </ComboBox>
+            </ui:CardControl>
+
+            <ui:CardControl Grid.Row="11" Icon="{ui:SymbolIcon Timer24}" Margin="0,0,0,76">
+                <ui:CardControl.Header>
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="{DynamicResource LanguageFlyoutDurationTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
+                        <TextBlock Text="{DynamicResource LanguageFlyoutDurationDescription}" FontSize="12" Opacity="0.5" />
+                    </StackPanel>
+                </ui:CardControl.Header>
+                <StackPanel Orientation="Horizontal">
+                    <ui:TextBox Width="60" ClearButtonEnabled="False" Text="{Binding LanguageFlyoutDurationText, Mode=TwoWay}" />
+                    <TextBlock Text="{DynamicResource MillisecondsUnit}" FontSize="14" FontWeight="Regular" Margin="10,0,0,0" VerticalAlignment="Center" />
+                </StackPanel>
             </ui:CardControl>
         </Grid>
     </StackPanel>
