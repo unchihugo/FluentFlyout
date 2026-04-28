@@ -43,7 +43,9 @@ public partial class VolumeMixerWindow : MicaWindow
     public VolumeMixerWindow()
     {
         DataContext = this;
+        WindowHelper.SetNoActivate(this);
         InitializeComponent();
+        WindowHelper.SetTopmost(this);
         CustomWindowChrome.CaptionHeight = 0;
         CustomWindowChrome.UseAeroCaptionButtons = false;
         CustomWindowChrome.GlassFrameThickness = new Thickness(0);
@@ -236,6 +238,12 @@ public partial class VolumeMixerWindow : MicaWindow
         var easing = msDuration > 0 ? _mainWindow.getEasingStyle(true) : null;
         var duration = new Duration(TimeSpan.FromMilliseconds(msDuration > 0 ? msDuration / 1.4 : 1));
 
+        bool isTop = SettingsManager.Current.Position switch
+        {
+            3 or 4 or 5 => true,
+            _ => false
+        };
+
         double expandedHeight;
         if (expand)
         {
@@ -251,9 +259,11 @@ public partial class VolumeMixerWindow : MicaWindow
         double currentHeight = ActualHeight;
         double heightDelta = targetHeight - currentHeight;
 
+        // When at the top, chevron points down (0°) when collapsed and up (180°) when expanded.
+        // When at the bottom, chevron points up (180°) when expanded and down (0°) when collapsed.
         var chevronAnimation = new DoubleAnimation
         {
-            To = expand ? 180 : 0,
+            To = isTop ? (expand ? 0 : 180) : (expand ? 180 : 0),
             Duration = duration,
             EasingFunction = easing
         };
@@ -270,10 +280,12 @@ public partial class VolumeMixerWindow : MicaWindow
             EasingFunction = easing
         };
 
+        // When at the top, the window grows downward so Top stays fixed.
+        // When at the bottom, the window grows upward so Top shifts up by heightDelta.
         var topAnimation = new DoubleAnimation
         {
             From = Top,
-            To = Top - heightDelta,
+            To = isTop ? Top : Top - heightDelta,
             Duration = duration,
             EasingFunction = easing
         };

@@ -171,8 +171,8 @@ Vous pouvez contribuer aux traductions sur</system:String>
     <system:String x:Key="MediaFlyoutExcludeVolumeDescription">Ne pas montrer le volet quand la touche d'augmentation/diminution/muet de volume est appuyé</system:String>
     <system:String x:Key="TaskbarVisualizerTitle">Visualisateur de la barre de tâches</system:String>
     <system:String x:Key="TaskbarVisualizerDescription">Un visualisateur d'audio en temps réel sur votre barre de tâches. Conçu pour avoir un impact minimal sur la performance sur des systèmes modernes.</system:String>
-    <system:String x:Key="TaskbarWidgetCustomizationPerk">Widget de la barre des tâches et visualisateur</system:String>
-    <system:String x:Key="AcrylicBlurOpacityPerk">Opacité flou acrylique</system:String>
+    <system:String x:Key="TaskbarWidgetCustomizationPerk">Active le Widget de la barre des tâches et le visualisateur</system:String>
+    <system:String x:Key="AcrylicBlurOpacityPerk">Ajuste l'effet de flou acrylique</system:String>
     <system:String x:Key="TaskbarVisualizerEnabledTitle">Activer le visualisateur de la barre de tâches (Expérimental)</system:String>
     <system:String x:Key="TaskbarVisualizerEnabledDescription">Expérimental : Cette fonction ne fonctione que si le Widget de la Barre de Tâches est activé</system:String>
     <system:String x:Key="TaskbarVisualizerBarCountDescription">La quantité de barres visualisatrices</system:String>
@@ -184,7 +184,7 @@ Vous pouvez contribuer aux traductions sur</system:String>
     <system:String x:Key="TaskbarVisualizerPositionTitle">Position Relative du Visualisateur par rapport au Widget de la Barre de Tâches</system:String>
     <system:String x:Key="TaskbarVisualizerBarCountTitle">Nombre de Barres</system:String>
     <system:String x:Key="UnlockFullExperienceText">Débloquez l'expérience compléte de FluentFlyout :</system:String>
-    <system:String x:Key="HideTrayIconPerk">Cacher l'icône de la barre d'état</system:String>
+    <system:String x:Key="HideTrayIconPerk">Masquer l'icône de la barre d'état</system:String>
     <system:String x:Key="TaskbarVisualizerAudioSensitivityDescription">L'intensité nécessaire afin que les barres audio réagissent à l'intensité sonore</system:String>
     <system:String x:Key="ShowUpdateNotificationsTitle">Montrer des notifications pour les nouvelles mises à jour</system:String>
     <system:String x:Key="AllFuturePremiumFeatures">Toutes les fonctionnalités premium</system:String>
@@ -235,4 +235,17 @@ Vous pouvez contribuer aux traductions sur</system:String>
     <system:String x:Key="LockKeysAnimatedDescription">Activer des animations discrètes pour l’indicateur des touches de verrouillage</system:String>
     <system:String x:Key="TaskbarWidgetShowPauseOverlayTitle">Afficher l'icône de pause</system:String>
     <system:String x:Key="TaskbarWidgetShowPauseOverlayDescription">Lorsque le média est en pause, affiche une icône de pause sur la couverture de l'album</system:String>
+    <system:String x:Key="VolumeMixerHighlightPerk">Mets en évidence les applications actives dans le Mélangeur de Volume</system:String>
+    <system:String x:Key="VolumeFlyoutTitle">Menu déroulant du volume</system:String>
+    <system:String x:Key="VolumeFlyoutDescription">Un menu contextuel autonome de contrôle du volume qui s'agrandit pour former un mélangeur de volume, remplaçant ainsi l'interface de volume par défaut de Windows.</system:String>
+    <system:String x:Key="EnableVolumeFlyoutTitle">Activer le menu déroulant du volume</system:String>
+    <system:String x:Key="EnableVolumeFlyoutDescription">Remplacer le menu déroulant par défaut des volumes de Windows</system:String>
+    <system:String x:Key="VolumeAboveMediaFlyoutTitle">Placer le menu déroulant Volume au-dessus du menu déroulant Médias</system:String>
+    <system:String x:Key="VolumeFlyoutStayDurationTitle">Durée d'affichage du menu déroulant du Volume</system:String>
+    <system:String x:Key="VolumeMixerSectionTitle">Mélangeur de Volume</system:String>
+    <system:String x:Key="EnableVolumeMixerTitle">Activer le Mélangeur de Volume</system:String>
+    <system:String x:Key="EnableVolumeMixerDescription">Contrôle précis du volume de chaque application</system:String>
+    <system:String x:Key="VolumeMixerHighlightTitle">Mettre en évidence les applications qui joue du son</system:String>
+    <system:String x:Key="VolumeMixerHighlightDescription">Voir quelles applications jouent actuellement du son</system:String>
+    <system:String x:Key="MasterVolumeText">Volume principal</system:String>
 </ResourceDictionary>

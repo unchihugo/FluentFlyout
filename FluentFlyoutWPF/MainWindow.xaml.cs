@@ -323,7 +323,7 @@ public partial class MainWindow : MicaWindow
         double window_left = 0;
 
         // Here we work with raw monitor coordinates, without taking DPI into account.
-        if (aboveReference != null)
+        if (aboveReference != null && aboveReference.IsVisible)
         {
             double refWidth = aboveReference.Width * monitor.dpiX / 96.0;
             double refHeight = aboveReference.Height * monitor.dpiY / 96.0;
@@ -332,11 +332,21 @@ public partial class MainWindow : MicaWindow
 
             window_left = refLeft + refWidth / 2 - windowRect.Width / 2;
             double aboveTop = refTop - windowRect.Height - 8;
+            bool isTop = SettingsManager.Current.Position switch
+            {
+                3 or 4 or 5 => true,
+                _ => false
+            };
+
+            // If the reference window is too close to the top edge, we place the flyout below it instead of above to prevent it from going off-screen.
+            if (isTop)
+                aboveTop = refTop + refHeight + 8;
+
             moveAnimation.To = aboveTop;
             if (SettingsManager.Current.FlyoutAnimationSpeed == 0)
                 moveAnimation.From = moveAnimation.To;
             else
-                moveAnimation.From = aboveTop + 20;
+                moveAnimation.From = isTop ? aboveTop - 20 : aboveTop + 20;
         }
         else if (alwaysBottom == false)
         {
@@ -711,15 +721,15 @@ public partial class MainWindow : MicaWindow
             // MainWindow.WndProc() also handles media and volume keys
             if (mediaKeysPressed || volumeKeysPressed)
             {
+                bool result = false;
+                if (mediaKeysPressed || (!SettingsManager.Current.MediaFlyoutVolumeKeysExcluded && volumeKeysPressed))
+                    result = TryShowMediaFlyoutDebounced();
+
                 if (SettingsManager.Current.VolumeControlEnabled)
                 {
                     volumeMixerWindow?.ViewModel.SyncMasterFromDevice();
                     volumeMixerWindow?.ShowFlyout();
                 }
-
-                bool result = false;
-                if (mediaKeysPressed || (!SettingsManager.Current.MediaFlyoutVolumeKeysExcluded && volumeKeysPressed))
-                    result = TryShowMediaFlyoutDebounced();
 
                 if (!result)
                 {
@@ -1494,15 +1504,28 @@ public partial class MainWindow : MicaWindow
             handled = true;
             return 0;
         }
-        else if (msg == WM_SETTINGCHANGE) // Windows theme or system settings changed
-        {  
+        else if (msg == WM_SETTINGCHANGE) // system settings changed
+        {
+            if (lParam == IntPtr.Zero)
+                return 0;
+
+            // check if the changed setting is related to theme or accent color
+            string? changedSetting = Marshal.PtrToStringUni(lParam);
+            if (changedSetting != "ImmersiveColorSet" && changedSetting != "WindowsThemeElement")
+                return 0;
+
+            Logger.Info($"System setting changed: {changedSetting}, from {msg}");
+
             try
             {
+                // update theme for taskbar widget since it's independent from the main app theme
                 ThemeManager.UpdateTaskbarWidget();
+                // update Acrylic windows background colors
+                WindowBlurHelper.AdjustBlurOpacityForAllWindows(SettingsManager.Current.AcrylicBlurOpacity);
             }
             catch (Exception ex)
             {
-                Logger.Error(ex, "Failed to apply theme changes to taskbar widgets");
+                Logger.Error(ex, "Failed to apply theme changes to taskbar widgets or Acrylic windows");
             }
             return 0;
         }
