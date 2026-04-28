@@ -515,6 +515,36 @@ public partial class UserSettings : ObservableObject
     }
 
     [ObservableProperty]
+    public partial bool VolumeVoicemeeterEnabled { get; set; }
+    
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(VolumeVoicemeeterStripText))]
+    public partial int VolumeVoicemeeterStrip { get; set; }
+
+    [XmlIgnore]
+    public string VolumeVoicemeeterStripText
+    {
+        get => VolumeVoicemeeterStrip.ToString();
+        set
+        {
+            if (int.TryParse(value, out var result))
+            {
+                VolumeVoicemeeterStrip = result switch
+                {
+                    < 0 => 0,
+                    _ => result
+                };
+            }
+            else
+            {
+                VolumeVoicemeeterStrip = 0;
+            }
+
+            OnPropertyChanged();
+        }
+    }
+    
+    [ObservableProperty]
     public partial bool VolumeMixerEnabled { get; set; }
 
     [ObservableProperty]
@@ -641,6 +671,8 @@ public partial class UserSettings : ObservableObject
         VolumeControlEnabled = false;
         VolumeControlAboveMediaFlyout = false;
         VolumeControlDuration = 3000;
+        VolumeVoicemeeterEnabled = false;
+        VolumeVoicemeeterStrip = 0;
         VolumeMixerEnabled = true;
         VolumeMixerHighlightActiveApps = false;
         AcrylicBlurOpacity = 175;

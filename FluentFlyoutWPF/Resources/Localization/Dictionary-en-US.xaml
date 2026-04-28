@@ -238,6 +238,14 @@ You can help contribute translations on</System:String>
     <System:String x:Key="EnableVolumeFlyoutDescription">Replace the default Windows volume flyout</System:String>
     <System:String x:Key="VolumeAboveMediaFlyoutTitle">Position Volume Flyout above Media Flyout</System:String>
     <System:String x:Key="VolumeFlyoutStayDurationTitle">Volume Flyout Stay Duration</System:String>
+    
+    <System:String x:Key="VolumeVoicemeeterSectionTitle">Voicemeeter Integration</System:String>
+    <System:String x:Key="VolumeVoicemeeterIntegrationTitle">Enable Voicemeeter Integration</System:String>
+    <System:String x:Key="VolumeVoicemeeterIntegrationDescription">Control the volume of a Voicemeeter Strip instead of a Windows device</System:String>
+    <System:String x:Key="VolumeVoicemeeterStripIndex">Strip Index</System:String>
+    <System:String x:Key="VolumeVoicemeeterStripIndexDescription">Which Voicemeeter Strip should the value of be read</System:String>
+    
+    
     <System:String x:Key="VolumeMixerSectionTitle">Volume Mixer</System:String>
     <System:String x:Key="EnableVolumeMixerTitle">Enable Volume Mixer</System:String>
     <System:String x:Key="EnableVolumeMixerDescription">Fine control over individual app volumes</System:String>

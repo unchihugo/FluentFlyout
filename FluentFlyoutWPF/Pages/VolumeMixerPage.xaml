@@ -84,6 +84,7 @@
                 </StackPanel>
             </ui:CardControl>
 
+            
             <StackPanel Visibility="Visible">
                 <TextBlock Text="{DynamicResource VolumeVoicemeeterSectionTitle}" FontSize="14" FontWeight="SemiBold" Margin="0,12,0,6" />
                 <ui:CardControl>
@@ -93,9 +94,20 @@
                             <TextBlock Text="{DynamicResource VolumeVoicemeeterIntegrationDescription}" FontSize="12" Opacity="0.5" />
                         </StackPanel>
                     </ui:CardControl.Header>
-                    <controls:ToggleSwitch></controls:ToggleSwitch>
+                    <controls:ToggleSwitch IsChecked="{Binding VolumeVoicemeeterEnabled, Mode=TwoWay}"></controls:ToggleSwitch>
+                </ui:CardControl>
+                
+                <ui:CardControl>
+                    <ui:CardControl.Header>
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock Text="{DynamicResource VolumeVoicemeeterStripIndex}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
+                            <TextBlock Text="{DynamicResource VolumeVoicemeeterStripIndexDescription}" FontSize="12" Opacity="0.5" />
+                        </StackPanel>
+                    </ui:CardControl.Header>
+                    <ui:TextBox Width="60" ClearButtonEnabled="False" Text="{Binding VolumeVoicemeeterStripText, Mode=TwoWay}" />
                 </ui:CardControl>
             </StackPanel>
+            
             
             <TextBlock Text="{DynamicResource VolumeMixerSectionTitle}" FontSize="14" FontWeight="SemiBold" Margin="0,12,0,6" />
             <ui:CardControl Icon="{ui:SymbolIcon SpeakerSettings24}" Margin="0,0,0,3">
