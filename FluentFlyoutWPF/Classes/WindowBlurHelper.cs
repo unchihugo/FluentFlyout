@@ -89,8 +89,7 @@ public static class WindowBlurHelper
     /// <param name="newBlurOpacity">New opacity value (0-255)</param>
     public static void AdjustBlurOpacityForAllWindows(uint newBlurOpacity)
     {
-        if (!SettingsManager.Current.IsPremiumUnlocked) return;
-        newBlurOpacity = Math.Clamp(newBlurOpacity, 0, 255);
+        newBlurOpacity = SettingsManager.Current.IsPremiumUnlocked ? Math.Clamp(newBlurOpacity, 0, 255) : 175;
 
         foreach (Window window in Application.Current.Windows)
         {
@@ -141,6 +140,7 @@ public static class WindowBlurHelper
             "MainWindow" => SettingsManager.Current.MediaFlyoutAcrylicWindowEnabled,
             "NextUpWindow" => SettingsManager.Current.NextUpAcrylicWindowEnabled,
             "LockWindow" => SettingsManager.Current.LockKeysAcrylicWindowEnabled,
+            "VolumeMixerWindow" => SettingsManager.Current.VolumeMixerAcrylicWindowEnabled,
             _ => false
         };
     }
