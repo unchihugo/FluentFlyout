@@ -181,10 +181,10 @@ Not: Açık kaynaklı bir proje olduğundan, bu özellikler GitHub'daki manuel y
     <system:String x:Key="TaskbarWidgetControlsPositionDescription">Medya kontrol tuşlarının nerede gösterileceğini seçin</system:String>
     <system:String x:Key="PositionLeft">Sol</system:String>
     <system:String x:Key="PositionRight">Sağ</system:String>
-    <system:String x:Key="TaskbarVisualizerBaselineTitle">Referans Noktasını Göster</system:String>
+    <system:String x:Key="TaskbarVisualizerBaselineTitle">Referans senaryo göster</system:String>
     <system:String x:Key="TaskbarVisualizerBaselineDescription">Ses düzeyleri sıfır olduğunda ince bir çizgi gösterir</system:String>
     <system:String x:Key="TaskbarVisualizerAudioSensitivityTitle">Ses Hassasiyeti</system:String>
-    <system:String x:Key="TaskbarVisualizerOutputDeviceTitle">Çıkış Cihazı</system:String>
+    <system:String x:Key="TaskbarVisualizerOutputDeviceTitle">Çıkış Aygıtı</system:String>
     <system:String x:Key="TaskbarVisualizerOutputDeviceDescription">FluentFlyout'un çıkış cihazı ile görselleştiricinin neyi dinlediğini değiştirin</system:String>
     <system:String x:Key="TaskbarVisualizerClickableTitle">Ayarları açmak için tıklayın</system:String>
     <system:String x:Key="TaskbarVisualizerClickableDescription">Görselleştiriye tıklamak onun ayar sayfasını açar</system:String>
