@@ -141,6 +141,7 @@ public static class WindowBlurHelper
             "NextUpWindow" => SettingsManager.Current.NextUpAcrylicWindowEnabled,
             "LockWindow" => SettingsManager.Current.LockKeysAcrylicWindowEnabled,
             "VolumeMixerWindow" => SettingsManager.Current.VolumeMixerAcrylicWindowEnabled,
+            "LanguageWindow" => SettingsManager.Current.LockKeysAcrylicWindowEnabled,
             _ => false
         };
     }
