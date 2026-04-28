@@ -4,6 +4,8 @@
 using FluentFlyout.Classes;
 using Microsoft.Toolkit.Uwp.Notifications;
 using System.Windows;
+using FluentFlyoutWPF.Classes;
+using FluentFlyoutWPF.Classes.Utils;
 
 namespace FluentFlyoutWPF;
 
@@ -27,6 +29,10 @@ public partial class App : Application
         // Apply localization before any windows are created
         LocalizationManager.ApplyLocalization();
         
+        // Try to load Voicemeeter
+        VoicemeeterHelper.Initialize();
+
+        Console.WriteLine($"Strip 7 gain: {VoicemeeterHelper.GetStripGain(7)}");
         base.OnStartup(e);
     }
 }

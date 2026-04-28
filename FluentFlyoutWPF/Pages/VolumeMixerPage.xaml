@@ -84,6 +84,19 @@
                 </StackPanel>
             </ui:CardControl>
 
+            <StackPanel Visibility="Visible">
+                <TextBlock Text="{DynamicResource VolumeVoicemeeterSectionTitle}" FontSize="14" FontWeight="SemiBold" Margin="0,12,0,6" />
+                <ui:CardControl>
+                    <ui:CardControl.Header>
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock Text="{DynamicResource VolumeVoicemeeterIntegrationTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
+                            <TextBlock Text="{DynamicResource VolumeVoicemeeterIntegrationDescription}" FontSize="12" Opacity="0.5" />
+                        </StackPanel>
+                    </ui:CardControl.Header>
+                    <controls:ToggleSwitch></controls:ToggleSwitch>
+                </ui:CardControl>
+            </StackPanel>
+            
             <TextBlock Text="{DynamicResource VolumeMixerSectionTitle}" FontSize="14" FontWeight="SemiBold" Margin="0,12,0,6" />
             <ui:CardControl Icon="{ui:SymbolIcon SpeakerSettings24}" Margin="0,0,0,3">
                 <ui:CardControl.Header>
