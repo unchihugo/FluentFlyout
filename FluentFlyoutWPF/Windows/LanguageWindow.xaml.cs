@@ -35,7 +35,8 @@ public partial class LanguageWindow : MicaWindow
 
         WindowStartupLocation = WindowStartupLocation.Manual;
         Top = -9999; // start off-screen
-        Left = SystemParameters.WorkArea.Width / 2 - Width / 2;
+        Width = 160;
+        Left = (SystemParameters.WorkArea.Width - Width) / 2;
     }
 
     private Color GetShiftedColor(Color baseColor, string languageCode, string seedText)
@@ -97,95 +98,96 @@ public partial class LanguageWindow : MicaWindow
     {
         if (!SettingsManager.Current.LanguageFlyoutEnabled) return;
 
-        if (SettingsManager.Current.LockKeysAcrylicWindowEnabled)
+        await Dispatcher.InvokeAsync(() =>
         {
-            WindowBlurHelper.EnableBlur(this);
-        }
-        else
-        {
-            WindowBlurHelper.DisableBlur(this);
-        }
-
-        // Get current keyboard layout
-        IntPtr foregroundWindow = NativeMethods.GetForegroundWindow();
-        if (foregroundWindow == IntPtr.Zero) foregroundWindow = NativeMethods.FindWindow("Shell_TrayWnd", null);
-        uint threadId = NativeMethods.GetWindowThreadProcessId(foregroundWindow, IntPtr.Zero);
-        IntPtr hkl = NativeMethods.GetKeyboardLayout(threadId);
-        if (hkl == IntPtr.Zero) hkl = NativeMethods.GetKeyboardLayout(0);
-
-        int lcid = (int)((long)hkl & 0xFFFF);
-        
-        try
-        {
-            CultureInfo culture = new CultureInfo(lcid);
-            string langCode = culture.TwoLetterISOLanguageName;
-            LangShortText.Text = langCode.ToUpper();
-            
-            string name = culture.NativeName;
-            if (!SettingsManager.Current.LanguageFlyoutShowRegion)
+            if (SettingsManager.Current.LockKeysAcrylicWindowEnabled)
             {
-                int parenIndex = name.IndexOf('(');
-                if (parenIndex > 0) name = name.Substring(0, parenIndex).Trim();
-            }
-            if (!string.IsNullOrEmpty(name)) name = char.ToUpper(name[0]) + name.Substring(1);
-            LangFullText.Text = name;
-
-            // Apply color
-            object colorObj = Application.Current.TryFindResource("MicaWPF.Colors.AccentFillColorDefault");
-            Color systemColor = colorObj is Color c ? c : ((SolidColorBrush)Application.Current.TryFindResource("MicaWPF.Brushes.AccentFillColorDefault")).Color;
-            AccentIndicator.Fill = new SolidColorBrush(GetShiftedColor(systemColor, langCode, name));
-
-            // Measure new content size
-            LangFullText.UpdateLayout();
-            double targetWidth = Math.Max(160, LangFullText.ActualWidth + 100);
-
-            if (_isHiding)
-            {
-                _isHiding = false;
-                Width = targetWidth; // set width before opening
-                _openedMonitor = GetSelectedMonitor(SettingsManager.Current.FlyoutSelectedMonitor);
-                _mainWindow.OpenAnimation(window: this, alwaysBottom: true, selectedMonitor: _openedMonitor);
+                WindowBlurHelper.EnableBlur(this);
             }
             else
             {
-                // BEAUTIFUL TRANSITION: Animate width and center position together
+                WindowBlurHelper.DisableBlur(this);
+            }
+
+            // Get current keyboard layout
+            IntPtr foregroundWindow = NativeMethods.GetForegroundWindow();
+            if (foregroundWindow == IntPtr.Zero) foregroundWindow = NativeMethods.FindWindow("Shell_TrayWnd", null);
+            uint threadId = NativeMethods.GetWindowThreadProcessId(foregroundWindow, IntPtr.Zero);
+            IntPtr hkl = NativeMethods.GetKeyboardLayout(threadId);
+            if (hkl == IntPtr.Zero) hkl = NativeMethods.GetKeyboardLayout(0);
+
+            int lcid = (int)((long)hkl & 0xFFFF);
+            
+            try
+            {
+                CultureInfo culture = new CultureInfo(lcid);
+                string langCode = culture.TwoLetterISOLanguageName;
+                LangShortText.Text = langCode.ToUpper();
+                
+                string name = culture.NativeName;
+                if (!SettingsManager.Current.LanguageFlyoutShowRegion)
+                {
+                    int parenIndex = name.IndexOf('(');
+                    if (parenIndex > 0) name = name.Substring(0, parenIndex).Trim();
+                }
+                if (!string.IsNullOrEmpty(name)) name = char.ToUpper(name[0]) + name.Substring(1);
+                LangFullText.Text = name;
+
+                // Apply color
+                object colorObj = Application.Current.TryFindResource("MicaWPF.Colors.AccentFillColorDefault");
+                Color systemColor = colorObj is Color c ? c : ((SolidColorBrush)Application.Current.TryFindResource("MicaWPF.Brushes.AccentFillColorDefault")).Color;
+                AccentIndicator.Fill = new SolidColorBrush(GetShiftedColor(systemColor, langCode, name));
+
+                // Force measurement of the content to get the required width before rendering
+                ContentStack.Measure(new Size(double.PositiveInfinity, 50));
+                double targetWidth = Math.Max(160, ContentStack.DesiredSize.Width + 60);
+
                 var monitor = GetSelectedMonitor(SettingsManager.Current.FlyoutSelectedMonitor);
                 double newRawWidth = Math.Ceiling(targetWidth * monitor.dpiX / 96.0);
                 double newLeft = Math.Ceiling(monitor.workArea.Left + (monitor.workArea.Width / 2) - (newRawWidth / 2));
-                var currentPlacement = WindowHelper.GetPlacement(this);
 
-                // Animate WPF Width property
-                DoubleAnimation widthAnim = new DoubleAnimation
+                if (_isHiding)
                 {
-                    To = targetWidth,
-                    Duration = TimeSpan.FromMilliseconds(200),
-                    EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut }
-                };
-
-                // Recalculate and animate Left position to keep it centered
-                DoubleAnimation leftAnim = new DoubleAnimation
+                    _isHiding = false;
+                    Width = targetWidth;
+                    Left = newLeft * 96.0 / monitor.dpiX;
+                    _openedMonitor = monitor;
+                    _mainWindow.OpenAnimation(window: this, alwaysBottom: true, selectedMonitor: _openedMonitor);
+                }
+                else
                 {
-                    To = newLeft * 96.0 / monitor.dpiX,
-                    Duration = TimeSpan.FromMilliseconds(200),
-                    EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut }
-                };
+                    // BEAUTIFUL TRANSITION: Animate width and center position together
+                    DoubleAnimation widthAnim = new DoubleAnimation
+                    {
+                        To = targetWidth,
+                        Duration = TimeSpan.FromMilliseconds(75),
+                        EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut }
+                    };
 
-                this.BeginAnimation(Window.WidthProperty, widthAnim);
-                this.BeginAnimation(Window.LeftProperty, leftAnim);
+                    DoubleAnimation leftAnim = new DoubleAnimation
+                    {
+                        To = newLeft * 96.0 / monitor.dpiX,
+                        Duration = TimeSpan.FromMilliseconds(75),
+                        EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut }
+                    };
+
+                    this.BeginAnimation(Window.WidthProperty, widthAnim);
+                    this.BeginAnimation(Window.LeftProperty, leftAnim);
+                }
             }
-        }
-        catch
-        {
-            LangShortText.Text = "??";
-            LangFullText.Text = "Language";
-            if (_isHiding)
+            catch
             {
-                _isHiding = false;
-                Width = 160;
-                _openedMonitor = GetSelectedMonitor(SettingsManager.Current.FlyoutSelectedMonitor);
-                _mainWindow.OpenAnimation(window: this, alwaysBottom: true, selectedMonitor: _openedMonitor);
+                LangShortText.Text = "??";
+                LangFullText.Text = "Language";
+                if (_isHiding)
+                {
+                    _isHiding = false;
+                    Width = 160;
+                    _openedMonitor = GetSelectedMonitor(SettingsManager.Current.FlyoutSelectedMonitor);
+                    _mainWindow.OpenAnimation(window: this, alwaysBottom: true, selectedMonitor: _openedMonitor);
+                }
             }
-        }
+        });
 
         cts.Cancel();
         cts = new CancellationTokenSource();
