@@ -243,4 +243,7 @@
     <system:String x:Key="VolumeMixerHighlightTitle">音声を再生しているアプリをハイライト表示します</system:String>
     <system:String x:Key="VolumeMixerHighlightDescription">現在音声を出力しているアプリを確認する</system:String>
     <system:String x:Key="VolumeMixerHighlightPerk">音量ミキサーでアクティブなアプリをハイライト表示する</system:String>
+    <system:String x:Key="VolumeFlyoutStayDurationTitle">ポップアップの表示時間</system:String>
+    <system:String x:Key="VolumeMixerSectionTitle">音量ミキサー</system:String>
+    <system:String x:Key="MasterVolumeText">全体音量</system:String>
 </ResourceDictionary>
