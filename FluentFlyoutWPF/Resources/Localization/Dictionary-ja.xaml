@@ -196,4 +196,6 @@
     <system:String x:Key="BuyMeCoffeeLink">Buy me a coffee</system:String>
     <system:String x:Key="PositionRight">右</system:String>
     <system:String x:Key="TaskbarVisualizerAudioPeakLevelTitle">ピークの閾値:</system:String>
+    <system:String x:Key="TaskbarVisualizerOutputDeviceTitle">出力デバイス</system:String>
+    <system:String x:Key="DefaultLockLayoutPosition">ポップアップを表示すすディスプレイ</system:String>
 </ResourceDictionary>
