@@ -198,4 +198,7 @@
     <system:String x:Key="TaskbarVisualizerAudioPeakLevelTitle">ピークの閾値:</system:String>
     <system:String x:Key="TaskbarVisualizerOutputDeviceTitle">出力デバイス</system:String>
     <system:String x:Key="DefaultLockLayoutPosition">ポップアップを表示すすディスプレイ</system:String>
+    <system:String x:Key="ImportSuccessful">インポート成功</system:String>
+    <system:String x:Key="ImportFailed">インポート失敗</system:String>
+    <system:String x:Key="SettingsExportedSuccessfully">設定は正常にエクスポートされました</system:String>
 </ResourceDictionary>
