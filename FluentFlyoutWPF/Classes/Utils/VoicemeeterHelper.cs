@@ -4,9 +4,7 @@ namespace FluentFlyoutWPF.Classes.Utils;
 
 public class VoicemeeterHelper : IDisposable {
     private bool _isLoggedIn;
-
-    public bool IsAvailable => VoicemeeterLoader.IsInstalled && _isLoggedIn;
-
+    
     public const float MIN_GAIN = -60.0f;
     public const float MAX_GAIN = 12.0f;
 
@@ -32,7 +30,6 @@ public class VoicemeeterHelper : IDisposable {
     private void LogOut() {
         VoicemeeterRemote.VBVMR_Logout();
         _isLoggedIn = false;
-        SettingsManager.Current.IsVoicemeeterLoaded = _isLoggedIn;
         
         System.Diagnostics.Debug.WriteLine("Logged out of Voicemeeter");
     }
@@ -50,7 +47,7 @@ public class VoicemeeterHelper : IDisposable {
     #endregion
 
     private void EnsureReady() {
-        if (!IsAvailable) {
+        if (!_isLoggedIn) {
             throw new InvalidOperationException("Voicemeeter is not available");
         } 
         

@@ -12,8 +12,6 @@ public class VoicemeeterLoader {
 
     public static bool IsLoaded { get; set; }
     public static string? LoadedPath { get; private set; }
-    
-    public static bool IsInstalled { get; private set; }
 
     public static bool Load() {
         if (IsLoaded) return true;
@@ -23,11 +21,8 @@ public class VoicemeeterLoader {
         if (path == null) {
             System.Diagnostics.Debug.WriteLine("Voicemeeter DLL not found");
             IsLoaded = false;
-            IsInstalled = false;
             return false;
         }
-
-        IsInstalled = true;
         
         IntPtr handle = LoadLibrary(path);
 

@@ -527,9 +527,7 @@ public partial class UserSettings : ObservableObject
     [XmlIgnore]
     public int VolumeVoicemeeterComponentInt {
         get =>  VoicemeeterComponentExtension.GetVoicemeeterComponentInt(VolumeVoicemeeterComponent);
-        set {
-            VolumeVoicemeeterComponent = VoicemeeterComponentExtension.GetVoicemeeterComponentFromInt(value);
-        }
+        set => VolumeVoicemeeterComponent = VoicemeeterComponentExtension.GetVoicemeeterComponentFromInt(value);
     }
     
     [ObservableProperty]
