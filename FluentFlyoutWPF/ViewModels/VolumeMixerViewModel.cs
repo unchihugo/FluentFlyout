@@ -107,7 +107,7 @@ public partial class VolumeMixerViewModel : ObservableObject, IDisposable
 
         // If voicemeeter integration is on, only alter the strip's volume and not the windows' device volume
         if (currentSettings.VolumeVoicemeeterEnabled) {
-            VoicemeeterHelper.SetComponentGain(currentSettings.VolumeVoicemeeterComponentIndex, currentSettings.VolumeVoicemeeterComponent, value * VoicemeeterHelper.AMPLITUDE + VoicemeeterHelper.MIN_GAIN);
+            VoicemeeterHelper.Instance!.SetComponentGain(currentSettings.VolumeVoicemeeterComponentIndex, currentSettings.VolumeVoicemeeterComponent, value * VoicemeeterHelper.AMPLITUDE + VoicemeeterHelper.MIN_GAIN);
         } else {
             if (_device == null) return;
             _device.AudioEndpointVolume.MasterVolumeLevelScalar = Math.Clamp(value, 0f, 1f);
@@ -124,7 +124,7 @@ public partial class VolumeMixerViewModel : ObservableObject, IDisposable
         UserSettings currentSettings = SettingsManager.Current;
         
         if (currentSettings.VolumeVoicemeeterEnabled) {
-            VoicemeeterHelper.SetComponentMute(currentSettings.VolumeVoicemeeterComponentIndex,currentSettings.VolumeVoicemeeterComponent, value);
+            VoicemeeterHelper.Instance!.SetComponentMute(currentSettings.VolumeVoicemeeterComponentIndex,currentSettings.VolumeVoicemeeterComponent, value);
         } else {
             if (_device == null) return;
             _device.AudioEndpointVolume.Mute = value;
@@ -138,7 +138,7 @@ public partial class VolumeMixerViewModel : ObservableObject, IDisposable
         // Check if Voicemeeter integration is on
         if (currentSettings.VolumeVoicemeeterEnabled) {
             // If it IS on, get the value from the strip instead of the device
-            float gain = VoicemeeterHelper.GetComponentGain(currentSettings.VolumeVoicemeeterComponentIndex, currentSettings.VolumeVoicemeeterComponent);
+            float gain = VoicemeeterHelper.Instance!.GetComponentGain(currentSettings.VolumeVoicemeeterComponentIndex, currentSettings.VolumeVoicemeeterComponent);
             
             // Gain is in db instead of percentage. Convert to percentage first
             // Add the current gain to the absolute of MIN_GAIN
@@ -150,7 +150,7 @@ public partial class VolumeMixerViewModel : ObservableObject, IDisposable
             if (MathF.Abs(MasterVolume - volPercentage) > 0.01f)
                 MasterVolume = volPercentage;
             
-            bool mute = VoicemeeterHelper.GetComponentMute(currentSettings.VolumeVoicemeeterComponentIndex, currentSettings.VolumeVoicemeeterComponent);
+            bool mute = VoicemeeterHelper.Instance!.GetComponentMute(currentSettings.VolumeVoicemeeterComponentIndex, currentSettings.VolumeVoicemeeterComponent);
             
             if (IsMasterMuted != mute)
                 IsMasterMuted = mute;

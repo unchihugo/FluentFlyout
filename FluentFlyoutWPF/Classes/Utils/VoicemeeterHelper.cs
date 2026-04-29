@@ -3,42 +3,67 @@
 namespace FluentFlyoutWPF.Classes.Utils;
 
 public class VoicemeeterHelper : IDisposable {
-    public static bool IsLoggedIn { get; private set; }
+    private bool _isLoggedIn;
+
+    public bool IsAvailable => VoicemeeterLoader.IsInstalled && _isLoggedIn;
 
     public const float MIN_GAIN = -60.0f;
     public const float MAX_GAIN = 12.0f;
 
     public const float AMPLITUDE = MAX_GAIN - MIN_GAIN;
+
+    public static VoicemeeterHelper? Instance = null;
     
-    public static bool Initialize() {
+    #region Initialization
+    public void Initialize() {
         // Ensure dll import
         bool success = VoicemeeterLoader.Load();
 
         if (!success) {
-            IsLoggedIn = false;
-            return false;
+            _isLoggedIn = false;
+            throw new Exception("Failed to load Voicemeeter");
         }
         
         int result = VoicemeeterRemote.VBVMR_Login();
 
-        IsLoggedIn = (result == 0);
+        _isLoggedIn = (result == 0);
 
-        SettingsManager.Current.IsVoicemeeterLoaded = IsLoggedIn;
+        SettingsManager.Current.IsVoicemeeterLoaded = _isLoggedIn;
         
-        return IsLoggedIn;
+        AppDomain.CurrentDomain.ProcessExit += OnProcessExit;
     }
     
-    private static void LogOut() {
+    private void LogOut() {
         VoicemeeterRemote.VBVMR_Logout();
-        IsLoggedIn = false;
-        SettingsManager.Current.IsVoicemeeterLoaded = IsLoggedIn;
+        _isLoggedIn = false;
+        SettingsManager.Current.IsVoicemeeterLoaded = _isLoggedIn;
         
-        Console.WriteLine("Logged out of Voicemeeter");
+        System.Diagnostics.Debug.WriteLine("Logged out of Voicemeeter");
+    }
+
+    private void OnProcessExit(object? sender, EventArgs e) {
+        Dispose();
     }
     
-    public static float GetComponentGain(int index, VoicemeeterComponent component) {
+    public void Dispose() {
+        LogOut();
+        
+        GC.SuppressFinalize(this);
+    }
+    
+    #endregion
+
+    private void EnsureReady() {
+        if (!IsAvailable) {
+            throw new InvalidOperationException("Voicemeeter is not available");
+        } 
+        
         // Ensure values are up-to-date
         int _ = VoicemeeterRemote.VBVMR_IsParametersDirty();
+    }
+    
+    public float GetComponentGain(int index, VoicemeeterComponent component) {
+        EnsureReady();
         
         float gain = 0;
         
@@ -52,13 +77,14 @@ public class VoicemeeterHelper : IDisposable {
         return gain;
     }
 
-    public static void SetComponentGain(int index, VoicemeeterComponent component, float gain) {
+    public void SetComponentGain(int index, VoicemeeterComponent component, float gain) {
+        EnsureReady();
+        
         VoicemeeterRemote.VBVMR_SetParameterFloat($"{VoicemeeterComponentExtension.GetVoicemeeterComponentString(component)}[{index}].Gain", gain);
     }
 
-    public static bool GetComponentMute(int index, VoicemeeterComponent component) {
-        // Ensure values are up-to-date
-        int _ = VoicemeeterRemote.VBVMR_IsParametersDirty();
+    public bool GetComponentMute(int index, VoicemeeterComponent component) {
+        EnsureReady();
 
         float val = 0;
         
@@ -71,11 +97,9 @@ public class VoicemeeterHelper : IDisposable {
         return val > 0.0f;
     }
 
-    public static void SetComponentMute(int index, VoicemeeterComponent component, bool mute) {
+    public void SetComponentMute(int index, VoicemeeterComponent component, bool mute) {
+        EnsureReady();
+        
         VoicemeeterRemote.VBVMR_SetParameterFloat($"{VoicemeeterComponentExtension.GetVoicemeeterComponentString(component)}[{index}].Mute", mute ? 1.0f : 0.0f);
-    }
-    
-    public void Dispose() {
-        LogOut();
     }
 }

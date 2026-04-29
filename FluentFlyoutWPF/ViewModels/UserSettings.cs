@@ -704,7 +704,7 @@ public partial class UserSettings : ObservableObject
     internal void CompleteInitialization()
     {
         _initializing = false;
-        IsVoicemeeterLoaded = VoicemeeterHelper.IsLoggedIn;
+        IsVoicemeeterLoaded = VoicemeeterLoader.IsLoaded;
         
         // If voicemeeter isn't loaded, disable voicemeeter volume
         if (!IsVoicemeeterLoaded) {
@@ -847,6 +847,18 @@ public partial class UserSettings : ObservableObject
     {
         if (oldValue == newValue || _initializing) return;
         BitmapHelper.GetDominantColors(1);
+    }
+
+    partial void OnVolumeVoicemeeterEnabledChanged(bool oldValue, bool newValue) {
+        if (newValue) {
+            VoicemeeterHelper.Instance = new VoicemeeterHelper();
+            VoicemeeterHelper.Instance.Initialize();
+        } else {
+            if (VoicemeeterHelper.Instance == null) return;
+            
+            VoicemeeterHelper.Instance.Dispose();
+            VoicemeeterHelper.Instance = null;
+        }
     }
 
     partial void OnVolumeMixerHighlightActiveAppsChanged(bool oldValue, bool newValue)

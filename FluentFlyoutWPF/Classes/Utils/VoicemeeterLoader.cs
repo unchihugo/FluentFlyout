@@ -10,8 +10,10 @@ public class VoicemeeterLoader {
 
     private const string DefaultPath = @"C:\Program Files (x86)\VB\Voicemeeter\VoicemeeterRemote64.dll";
 
-    private static bool IsLoaded { get; set; }
+    public static bool IsLoaded { get; set; }
     public static string? LoadedPath { get; private set; }
+    
+    public static bool IsInstalled { get; private set; }
 
     public static bool Load() {
         if (IsLoaded) return true;
@@ -20,9 +22,12 @@ public class VoicemeeterLoader {
 
         if (path == null) {
             IsLoaded = false;
+            IsInstalled = false;
             return false;
         }
 
+        IsInstalled = true;
+        
         IntPtr handle = LoadLibrary(path);
 
         if (handle == IntPtr.Zero) {

@@ -30,8 +30,17 @@ public partial class App : Application
         LocalizationManager.ApplyLocalization();
         
         // Try to load Voicemeeter
-        VoicemeeterHelper.Initialize();
+        VoicemeeterLoader.Load();
         
         base.OnStartup(e);
+    }
+
+    protected override void OnExit(ExitEventArgs e) {
+        if (VoicemeeterHelper.Instance != null) {
+            VoicemeeterHelper.Instance.Dispose();
+            VoicemeeterHelper.Instance = null;
+        }
+        
+        base.OnExit(e);
     }
 }
