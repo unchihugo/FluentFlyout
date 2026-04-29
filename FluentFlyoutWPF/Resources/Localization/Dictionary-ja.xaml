@@ -194,4 +194,6 @@
     <system:String x:Key="AboutOpenSourceLicensesDescription">FluentFlyout は、次のオープンソース パッケージを使用してビルドされています:</system:String>
     <system:String x:Key="SponsorMeLink">スポンサーになりませんか</system:String>
     <system:String x:Key="BuyMeCoffeeLink">Buy me a coffee</system:String>
+    <system:String x:Key="PositionRight">右</system:String>
+    <system:String x:Key="TaskbarVisualizerAudioPeakLevelTitle">ピークの閾値:</system:String>
 </ResourceDictionary>
