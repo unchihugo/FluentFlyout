@@ -727,7 +727,7 @@ public partial class MainWindow : MicaWindow
 
                 if (SettingsManager.Current.VolumeControlEnabled)
                 {
-                    volumeMixerWindow?.ViewModel.SyncMasterFromDevice();
+                    volumeMixerWindow?.ViewModel.SyncMasterVolume();
                     volumeMixerWindow?.ShowFlyout();
                 }
 
