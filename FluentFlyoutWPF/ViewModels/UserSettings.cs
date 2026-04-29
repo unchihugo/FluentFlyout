@@ -852,7 +852,7 @@ public partial class UserSettings : ObservableObject
     partial void OnVolumeVoicemeeterEnabledChanged(bool oldValue, bool newValue) {
         if (newValue) {
             VoicemeeterHelper.Instance = new VoicemeeterHelper();
-            VoicemeeterHelper.Instance.Initialize();
+            VoicemeeterHelper.Instance.Login();
         } else {
             if (VoicemeeterHelper.Instance == null) return;
             

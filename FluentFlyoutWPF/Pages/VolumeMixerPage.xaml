@@ -85,7 +85,7 @@
             </ui:CardControl>
 
             
-            <StackPanel Visibility="Visible" Grid.Row="4">
+            <StackPanel Visibility="{Binding IsVoicemeeterLoaded, Converter={StaticResource BoolToCollapsedVisibleConverter}}" Grid.Row="4">
                 <TextBlock Text="{DynamicResource VolumeVoicemeeterSectionTitle}" FontSize="14" FontWeight="SemiBold" Margin="0,12,0,6" />
                 <ui:CardControl>
                     <ui:CardControl.Header>

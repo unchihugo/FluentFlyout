@@ -21,6 +21,7 @@ public class VoicemeeterLoader {
         string? path = FindDll();
 
         if (path == null) {
+            System.Diagnostics.Debug.WriteLine("Voicemeeter DLL not found");
             IsLoaded = false;
             IsInstalled = false;
             return false;

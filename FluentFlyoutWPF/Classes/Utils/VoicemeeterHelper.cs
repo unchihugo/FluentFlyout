@@ -15,22 +15,18 @@ public class VoicemeeterHelper : IDisposable {
     public static VoicemeeterHelper? Instance = null;
     
     #region Initialization
-    public void Initialize() {
-        // Ensure dll import
-        bool success = VoicemeeterLoader.Load();
-
-        if (!success) {
-            _isLoggedIn = false;
-            throw new Exception("Failed to load Voicemeeter");
-        }
-        
+    public void Login() {
         int result = VoicemeeterRemote.VBVMR_Login();
 
         _isLoggedIn = (result == 0);
 
-        SettingsManager.Current.IsVoicemeeterLoaded = _isLoggedIn;
-        
-        AppDomain.CurrentDomain.ProcessExit += OnProcessExit;
+        if (_isLoggedIn) {
+            AppDomain.CurrentDomain.ProcessExit += OnProcessExit;
+            System.Diagnostics.Debug.WriteLine("Logged In into Voicemeeter");
+        } else {
+            System.Diagnostics.Debug.WriteLine($"Failed to log in to Voicemeeter, error code: {result}");
+        }
+            
     }
     
     private void LogOut() {
