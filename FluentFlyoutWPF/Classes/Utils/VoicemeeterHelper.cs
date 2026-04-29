@@ -36,43 +36,43 @@ public class VoicemeeterHelper : IDisposable {
         Console.WriteLine("Logged out of Voicemeeter");
     }
     
-    public static float GetStripGain(int stripIndex) {
+    public static float GetComponentGain(int index, VoicemeeterComponent component) {
         // Ensure values are up-to-date
         int _ = VoicemeeterRemote.VBVMR_IsParametersDirty();
         
         float gain = 0;
         
-        int result = VoicemeeterRemote.VBVMR_GetParameterFloat($"Strip[{stripIndex}].Gain", ref gain);
+        int result = VoicemeeterRemote.VBVMR_GetParameterFloat($"{VoicemeeterComponentExtension.GetVoicemeeterComponentString(component)}[{index}].Gain", ref gain);
         
         // If the result was positive, return the value
         if (result == 0) return gain;
         
-        System.Diagnostics.Debug.WriteLine($"Failed to get gain for strip {stripIndex}, error code: {result}");
+        System.Diagnostics.Debug.WriteLine($"Failed to get gain for strip {index}, error code: {result}");
 
         return gain;
     }
 
-    public static void setStripGain(int stripIndex, float gain) {
-        VoicemeeterRemote.VBVMR_SetParameterFloat($"Strip[{stripIndex}].Gain", gain);
+    public static void SetComponentGain(int index, VoicemeeterComponent component, float gain) {
+        VoicemeeterRemote.VBVMR_SetParameterFloat($"{VoicemeeterComponentExtension.GetVoicemeeterComponentString(component)}[{index}].Gain", gain);
     }
 
-    public static bool GetStripMute(int stripIndex) {
+    public static bool GetComponentMute(int index, VoicemeeterComponent component) {
         // Ensure values are up-to-date
         int _ = VoicemeeterRemote.VBVMR_IsParametersDirty();
 
         float val = 0;
         
-        int result = VoicemeeterRemote.VBVMR_GetParameterFloat($"Strip[{stripIndex}].Mute", ref val);
+        int result = VoicemeeterRemote.VBVMR_GetParameterFloat($"{VoicemeeterComponentExtension.GetVoicemeeterComponentString(component)}[{index}].Mute", ref val);
         
         if (result == 0) return val > 0.0f;
         
-        System.Diagnostics.Debug.WriteLine($"Failed to get gain for strip {stripIndex}, error code: {result}");
+        System.Diagnostics.Debug.WriteLine($"Failed to get gain for strip {index}, error code: {result}");
         
         return val > 0.0f;
     }
 
-    public static void SetStripMute(int stripIndex, bool mute) {
-        VoicemeeterRemote.VBVMR_SetParameterFloat($"Strip[{stripIndex}].Mute", mute ? 1.0f : 0.0f);
+    public static void SetComponentMute(int index, VoicemeeterComponent component, bool mute) {
+        VoicemeeterRemote.VBVMR_SetParameterFloat($"{VoicemeeterComponentExtension.GetVoicemeeterComponentString(component)}[{index}].Mute", mute ? 1.0f : 0.0f);
     }
     
     public void Dispose() {

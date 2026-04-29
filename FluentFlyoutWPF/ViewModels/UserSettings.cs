@@ -522,18 +522,29 @@ public partial class UserSettings : ObservableObject
     public partial bool VolumeVoicemeeterEnabled { get; set; }
     
     [ObservableProperty]
-    [NotifyPropertyChangedFor(nameof(VolumeVoicemeeterStripText))]
-    public partial int VolumeVoicemeeterStrip { get; set; }
+    public partial VoicemeeterComponent VolumeVoicemeeterComponent { get; set; }
 
     [XmlIgnore]
-    public string VolumeVoicemeeterStripText
+    public int VolumeVoicemeeterComponentInt {
+        get =>  VoicemeeterComponentExtension.GetVoicemeeterComponentInt(VolumeVoicemeeterComponent);
+        set {
+            VolumeVoicemeeterComponent = VoicemeeterComponentExtension.GetVoicemeeterComponentFromInt(value);
+        }
+    }
+    
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(VolumeVoicemeeterComponentIndexText))]
+    public partial int VolumeVoicemeeterComponentIndex { get; set; }
+
+    [XmlIgnore]
+    public string VolumeVoicemeeterComponentIndexText
     {
-        get => VolumeVoicemeeterStrip.ToString();
+        get => VolumeVoicemeeterComponentIndex.ToString();
         set
         {
             if (int.TryParse(value, out var result))
             {
-                VolumeVoicemeeterStrip = result switch
+                VolumeVoicemeeterComponentIndex = result switch
                 {
                     < 0 => 0,
                     _ => result
@@ -541,7 +552,7 @@ public partial class UserSettings : ObservableObject
             }
             else
             {
-                VolumeVoicemeeterStrip = 0;
+                VolumeVoicemeeterComponentIndex = 0;
             }
 
             OnPropertyChanged();
@@ -676,7 +687,8 @@ public partial class UserSettings : ObservableObject
         VolumeControlAboveMediaFlyout = false;
         VolumeControlDuration = 3000;
         VolumeVoicemeeterEnabled = false;
-        VolumeVoicemeeterStrip = 0;
+        VolumeVoicemeeterComponent = VoicemeeterComponent.STRIP;
+        VolumeVoicemeeterComponentIndex = 0;
         VolumeMixerEnabled = true;
         VolumeMixerHighlightActiveApps = false;
         AcrylicBlurOpacity = 175;

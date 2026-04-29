@@ -85,7 +85,7 @@
             </ui:CardControl>
 
             
-            <StackPanel Visibility="{Binding IsVoicemeeterLoaded, Converter={StaticResource BoolToCollapsedVisibleConverter}}" Grid.Row="4">
+            <StackPanel Visibility="Visible" Grid.Row="4">
                 <TextBlock Text="{DynamicResource VolumeVoicemeeterSectionTitle}" FontSize="14" FontWeight="SemiBold" Margin="0,12,0,6" />
                 <ui:CardControl>
                     <ui:CardControl.Header>
@@ -100,11 +100,24 @@
                 <ui:CardControl>
                     <ui:CardControl.Header>
                         <StackPanel Orientation="Vertical">
-                            <TextBlock Text="{DynamicResource VolumeVoicemeeterStripIndex}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
-                            <TextBlock Text="{DynamicResource VolumeVoicemeeterStripIndexDescription}" FontSize="12" Opacity="0.5" />
+                            <TextBlock Text="{DynamicResource VolumeVoicemeeterComponentTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
+                            <TextBlock Text="{DynamicResource VolumeVoicemeeterComponentDescription}" FontSize="12" Opacity="0.5" />
                         </StackPanel>
                     </ui:CardControl.Header>
-                    <ui:TextBox Width="45" ClearButtonEnabled="False" Text="{Binding VolumeVoicemeeterStripText, Mode=TwoWay}" />
+                    <ComboBox SelectedIndex="{Binding VolumeVoicemeeterComponentInt}">
+                        <ComboBoxItem Content="Strip" />
+                        <ComboBoxItem Content="Bus" />
+                    </ComboBox>
+                </ui:CardControl>
+                
+                <ui:CardControl>
+                    <ui:CardControl.Header>
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock Text="{DynamicResource VolumeVoicemeeterComponentIndex}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
+                            <TextBlock Text="{DynamicResource VolumeVoicemeeterComponentIndexDescription}" FontSize="12" Opacity="0.5" />
+                        </StackPanel>
+                    </ui:CardControl.Header>
+                    <ui:TextBox Width="45" ClearButtonEnabled="False" Text="{Binding VolumeVoicemeeterComponentIndexText, Mode=TwoWay}" />
                 </ui:CardControl>
             </StackPanel>
             
