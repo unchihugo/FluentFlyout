@@ -17,4 +17,7 @@ public class VoicemeeterRemote {
     
     [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
     public static extern int VBVMR_GetParameterFloat([MarshalAs(UnmanagedType.LPStr)] string name, ref float value);
+    
+    [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
+    public static extern int VBVMR_SetParameterFloat([MarshalAs(UnmanagedType.LPStr)] string name, float value);
 }
