@@ -16,7 +16,7 @@
       d:Background="White">
 
     <Page.Resources>
-        <utils:BoolToVisibleCollapsedConverter x:Key="BoolToCollapsedVisibleConverter" TrueValue="Collapsed" FalseValue="Visible" />
+        <utils:BoolToVisibleCollapsedConverter x:Key="BoolToCollapsedVisibleConverter" TrueValue="Visible" FalseValue="Collapsed" />
         <utils:BoolToFullHalfOpacityConverter x:Key="BoolToFullHalfOpacityConverter" />
     </Page.Resources>
 
@@ -85,7 +85,7 @@
             </ui:CardControl>
 
             
-            <StackPanel Visibility="Visible">
+            <StackPanel Visibility="{Binding IsVoicemeeterLoaded, Converter={StaticResource BoolToCollapsedVisibleConverter}}" Grid.Row="4">
                 <TextBlock Text="{DynamicResource VolumeVoicemeeterSectionTitle}" FontSize="14" FontWeight="SemiBold" Margin="0,12,0,6" />
                 <ui:CardControl>
                     <ui:CardControl.Header>
@@ -104,7 +104,7 @@
                             <TextBlock Text="{DynamicResource VolumeVoicemeeterStripIndexDescription}" FontSize="12" Opacity="0.5" />
                         </StackPanel>
                     </ui:CardControl.Header>
-                    <ui:TextBox Width="60" ClearButtonEnabled="False" Text="{Binding VolumeVoicemeeterStripText, Mode=TwoWay}" />
+                    <ui:TextBox Width="45" ClearButtonEnabled="False" Text="{Binding VolumeVoicemeeterStripText, Mode=TwoWay}" />
                 </ui:CardControl>
             </StackPanel>
             
@@ -130,7 +130,7 @@
                         <TextBlock Text="{DynamicResource VolumeMixerHighlightDescription}" FontSize="12" Opacity="0.5" />
                     </StackPanel>
                 </ui:CardControl.Header>
-                <controls:ToggleSwitch IsChecked="{Binding VolumeMixerHighlightActiveApps, Mode=TwoWay}" />
+                <controls:ToggleSwitch IsChecked="{Binding VolumeMixerHighlightActiveApps, Mode=TwoWay}"/>
             </ui:CardControl>
         </StackPanel>
     </StackPanel>

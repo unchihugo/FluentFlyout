@@ -12,6 +12,7 @@ using FluentFlyoutWPF.Windows;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Xml.Serialization;
+using FluentFlyoutWPF.Classes.Utils;
 
 namespace FluentFlyoutWPF.ViewModels;
 
@@ -515,6 +516,9 @@ public partial class UserSettings : ObservableObject
     }
 
     [ObservableProperty]
+    public partial bool IsVoicemeeterLoaded { get; set; }
+    
+    [ObservableProperty]
     public partial bool VolumeVoicemeeterEnabled { get; set; }
     
     [ObservableProperty]
@@ -688,6 +692,12 @@ public partial class UserSettings : ObservableObject
     internal void CompleteInitialization()
     {
         _initializing = false;
+        IsVoicemeeterLoaded = VoicemeeterHelper.IsLoggedIn;
+        
+        // If voicemeeter isn't loaded, disable voicemeeter volume
+        if (!IsVoicemeeterLoaded) {
+            VolumeVoicemeeterEnabled = false;
+        }
     }
 
     partial void OnAppLanguageChanged(string oldValue, string newValue)
