@@ -31,8 +31,7 @@ public partial class App : Application
         
         // Try to load Voicemeeter
         VoicemeeterHelper.Initialize();
-
-        Console.WriteLine($"Strip 7 gain: {VoicemeeterHelper.GetStripGain(7)}");
+        
         base.OnStartup(e);
     }
 }
