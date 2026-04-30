@@ -138,10 +138,10 @@ FluentFlyout은 언제나 무료이며 오픈 소스로 유지됩니다. 제한 
 
 ## 크레딧 🙌
 - [Hugo Li](https://unchihugo.github.io) - 원 개발자, Microsoft Store 퍼블리셔, 중국어(CN) 및 네덜란드어(NL) 번역
-- [LiAuTraver](https://github.com/LiAuTraver) - 코드 기여자 (앱 테마 스위치 기능)
-- [AksharDP](https://github.com/AksharDP) - 코드 기여자 (미디어 탐색 바 및 재생 시간)
+- [LiAuTraver](https://github.com/LiAuTraver) - 코드 기여자 (앱 테마 변경 기능)
+- [AksharDP](https://github.com/AksharDP) - 코드 기여자 (미디어 탐색 바 및 재생 시간 표시 기능)
 - [Hykerisme](https://github.com/Hykerisme) - 중국어(CN) 번역
-- [nopeless](https://github.com/nopeless) - 코드 기여자 (편의성(QoL) 기능)
+- [nopeless](https://github.com/nopeless) - 코드 기여자 (편의성 기능)
 
 ### 사용된 라이브러리 (Dependencies)
 - [Dubya.WindowsMediaController](https://github.com/DubyaDude/WindowsMediaController)
