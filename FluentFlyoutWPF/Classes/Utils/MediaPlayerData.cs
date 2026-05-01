@@ -21,7 +21,7 @@ public static class MediaPlayerData
     // id variants of media players where the key is the mediaPlayerId and the value is the mediaPlayerCache key
     private static readonly Dictionary<string, string> mediaPlayerIdVariants = [];
 
-    private static Process[] cachedProcesses = null;
+    private static Process[]? cachedProcesses = null;
     private static DateTime lastCacheTime = DateTime.MinValue;
     private const int CACHE_DURATION_SECONDS = 5;
 

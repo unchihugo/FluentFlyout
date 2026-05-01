@@ -140,9 +140,10 @@ public partial class MainWindow : MicaWindow
 
         if (SettingsManager.Current.Startup == true) // add to startup programs if enabled, needs improvement
         {
-            RegistryKey key = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
-            string executablePath = Environment.ProcessPath;
-            key?.SetValue("FluentFlyout", executablePath);
+            RegistryKey? key = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+            string? executablePath = Environment.ProcessPath;
+            if (key != null && executablePath != null)
+                key.SetValue("FluentFlyout", executablePath);
         }
 
         // display tray icon if enabled
@@ -702,11 +703,9 @@ public partial class MainWindow : MicaWindow
 
     private static IntPtr SetHook(LowLevelKeyboardProc proc) // set the keyboard hook
     {
-        using (Process curProcess = Process.GetCurrentProcess())
-        using (ProcessModule curModule = curProcess.MainModule)
-        {
-            return SetWindowsHookEx(WH_KEYBOARD_LL, proc, GetModuleHandle(curModule.ModuleName), 0);
-        }
+        using Process curProcess = Process.GetCurrentProcess();
+        using ProcessModule? curModule = curProcess.MainModule;
+        return curModule == null ? IntPtr.Zero : SetWindowsHookEx(WH_KEYBOARD_LL, proc, GetModuleHandle(curModule.ModuleName), 0);
     }
 
     private IntPtr HookCallback(int nCode, IntPtr wParam, IntPtr lParam)
@@ -1560,7 +1559,7 @@ public partial class MainWindow : MicaWindow
         // add tray icon hook when taskbar resets
         try
         {
-            HwndSource source = PresentationSource.FromVisual(this) as HwndSource;
+            HwndSource? source = PresentationSource.FromVisual(this) as HwndSource;
             if (source != null)
             {
                 source.AddHook(WndProc);
