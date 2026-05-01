@@ -1079,7 +1079,9 @@ public partial class MainWindow : MicaWindow
         {
             int extraWidth = SettingsManager.Current.RepeatEnabled ? 36 : 0;
             extraWidth += SettingsManager.Current.ShuffleEnabled ? 36 : 0;
-            extraWidth += SettingsManager.Current.PlayerInfoEnabled ? 72 : 72; // disabled player info should temporarily keep the widget the same width as no one seems to like the small version
+            extraWidth += SettingsManager.Current.PlayerInfoEnabled ? 72 : 0;
+            // keep minimum width at 72 even if all extra features are disabled to prevent the widget from being too small
+            extraWidth = Math.Max(extraWidth, 72);
 
             int extraHeight = SettingsManager.Current.SeekbarEnabled && _mediaSessionSupportsSeekbar ? 36 : 0;
 

@@ -24,9 +24,6 @@ public partial class App : Application
         // Register AUMID for toast notifications
         ToastNotificationManagerCompat.OnActivated += Notifications.HandleNotificationActivation;
 
-        // Apply localization before any windows are created
-        LocalizationManager.ApplyLocalization();
-
         base.OnStartup(e);
     }
 }
