@@ -1,4 +1,4 @@
-// Copyright © 2024-2026 The FluentFlyout Authors
+// Copyright (c) 2024-2026 The FluentFlyout Authors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 using NAudio.CoreAudioApi;
@@ -7,7 +7,7 @@ namespace FluentFlyoutWPF.Classes
 {
     public class AudioDeviceMonitor : IDisposable
     {
-       // TODO: implement OnDefaultDeviceChanged event - currently gets handled by Visualizer and VolumeMixerViewModel
+        // TODO: implement OnDefaultDeviceChanged event - currently gets handled by Visualizer and VolumeMixerViewModel
 
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
         private static AudioDeviceMonitor? _instance;

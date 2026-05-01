@@ -1,4 +1,4 @@
-﻿// Copyright © 2024-2026 The FluentFlyout Authors
+﻿// Copyright (c) 2024-2026 The FluentFlyout Authors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 using FluentFlyout.Classes;
@@ -46,8 +46,8 @@ public static class WindowHelper
         var handle = new WindowInteropHelper(window).Handle;
         GetWindowPlacement(handle, ref wp);
 
-        return new Rect(wp.rcNormalPosition.Left, wp.rcNormalPosition.Top, 
-            wp.rcNormalPosition.Right - wp.rcNormalPosition.Left, 
+        return new Rect(wp.rcNormalPosition.Left, wp.rcNormalPosition.Top,
+            wp.rcNormalPosition.Right - wp.rcNormalPosition.Left,
             wp.rcNormalPosition.Bottom - wp.rcNormalPosition.Top);
     }
 
