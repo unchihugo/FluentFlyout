@@ -15,6 +15,7 @@
     <Configurations>Debug;Release;GitHub Release</Configurations>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+	<EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'GitHub Release'">
     <DefineConstants>GITHUB_RELEASE</DefineConstants>
