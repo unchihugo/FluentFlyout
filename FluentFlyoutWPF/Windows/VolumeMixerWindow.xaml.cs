@@ -1,12 +1,11 @@
-﻿// Copyright © 2024-2026 The FluentFlyout Authors
-//
+﻿// Copyright (c) 2024-2026 The FluentFlyout Authors
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 // Portions of this code are derived from:
 // - gpkgpk/HideVolumeOSD: https://github.com/gpkgpk/HideVolumeOSD
 //
-// Copyright © 2022 gpkgpk
-// Modifications copyright © 2026 The FluentFlyout Authors
-//
-// SPDX-License-Identifier: GPL-3.0-or-later
+// Copyright (c) 2022 gpkgpk
+// Modifications copyright (c) 2026 The FluentFlyout Authors
 
 using FluentFlyout.Classes;
 using FluentFlyout.Classes.Settings;

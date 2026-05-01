@@ -1,4 +1,4 @@
-﻿// Copyright © 2024-2026 The FluentFlyout Authors
+﻿// Copyright (c) 2024-2026 The FluentFlyout Authors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 using System.Diagnostics;
@@ -11,7 +11,7 @@ public static class MediaPlayerData
 {
     private class CachedMediaPlayerInfo
     {
-        public string Title { get; set; }
+        public required string Title { get; set; }
         public ImageSource? Icon { get; set; }
         public int ProcessId { get; set; }
     }
@@ -36,7 +36,7 @@ public static class MediaPlayerData
 
         string mediaTitle = mediaPlayerId;
         ImageSource? mediaIcon = null;
-        
+
         // get sanitized media title name
         string[] mediaSessionIdVariants = mediaPlayerId.Split('.');
 

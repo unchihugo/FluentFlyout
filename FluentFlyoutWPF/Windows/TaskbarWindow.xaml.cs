@@ -1,4 +1,4 @@
-// Copyright © 2024-2026 The FluentFlyout Authors
+// Copyright (c) 2024-2026 The FluentFlyout Authors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 using FluentFlyout.Classes.Settings;
@@ -38,7 +38,7 @@ public partial class TaskbarWindow : Window
     private int _lastSelectedMonitor = -1;
     private bool _positionUpdateInProgress;
     private readonly Dictionary<string, Task> _pendingAutomationTasks = [];
-    
+
     private GlobalSystemMediaTransportControlsSessionPlaybackStatus? _lastPlaybackStatus;
     private DispatcherTimer? _autoHideTimer;
 
@@ -262,9 +262,9 @@ public partial class TaskbarWindow : Window
 
         return;
 
-    on_error:
+on_error:
 
-        // All regions that were not sent without errors to SetWindowRgn must be destroyed manually
+// All regions that were not sent without errors to SetWindowRgn must be destroyed manually
         DeleteObject(rgn);
         if (SetWindowRgn(windowHandle, IntPtr.Zero, true) == 0)
             Logger.Error("Taskbar Widget error during window region reset.");
@@ -419,11 +419,11 @@ public partial class TaskbarWindow : Window
         // Calculate widget size
         var (logicalWidth, logicalHeight) = Widget.CalculateSize(dpiScale);
 
-        int physicalWidth  = (int)(logicalWidth  * dpiScale * _scale);
+        int physicalWidth = (int)(logicalWidth * dpiScale * _scale);
         int physicalHeight = (int)(logicalHeight * dpiScale);
 
         int taskbarHeight = taskbarRect.Bottom - taskbarRect.Top;
-        int taskbarWidth  = taskbarRect.Right  - taskbarRect.Left;
+        int taskbarWidth = taskbarRect.Right - taskbarRect.Left;
 
         // Apply orientation transform
         Widget.LayoutTransform = isVertical ? new System.Windows.Media.RotateTransform(90) : null;
@@ -436,7 +436,7 @@ public partial class TaskbarWindow : Window
         //   physicalWidth  = visual extent along primary axis (logical width = visual height after rotation)
         //   physicalHeight = visual extent along cross axis   (logical height = visual width after rotation)
         int primarySize = isVertical ? taskbarHeight : taskbarWidth;
-        int crossSize   = isVertical ? taskbarWidth  : taskbarHeight;
+        int crossSize = isVertical ? taskbarWidth : taskbarHeight;
 
         // Center on the cross axis; both orientations use physicalHeight for the cross dimension
         int crossPos = (crossSize - physicalHeight) / 2;
@@ -463,15 +463,15 @@ public partial class TaskbarWindow : Window
 
                     // Accept only if the native Widgets button is in the start half of the taskbar
                     bool inStartHalf = isVertical
-                        ? nativeWidgetRect.Bottom < (taskbarRect.Top  + taskbarRect.Bottom) / 2.0
-                        : nativeWidgetRect.Right  < (taskbarRect.Left + taskbarRect.Right)  / 2.0;
+                        ? nativeWidgetRect.Bottom < (taskbarRect.Top + taskbarRect.Bottom) / 2.0
+                        : nativeWidgetRect.Right < (taskbarRect.Left + taskbarRect.Right) / 2.0;
 
                     if (found && inStartHalf)
                     {
                         // Convert absolute screen position to relative position within taskbar
                         primaryPos = isVertical
-                            ? (int)(nativeWidgetRect.Bottom - taskbarRect.Top)  + 2
-                            : (int)(nativeWidgetRect.Right  - taskbarRect.Left) + 2;
+                            ? (int)(nativeWidgetRect.Bottom - taskbarRect.Top) + 2
+                            : (int)(nativeWidgetRect.Right - taskbarRect.Left) + 2;
                     }
                 }
                 catch (Exception ex)
@@ -530,7 +530,7 @@ public partial class TaskbarWindow : Window
                         {
                             // Convert absolute screen position to relative position within taskbar
                             double trayOffset = isVertical
-                                ? trayRect.Top  - taskbarRect.Top
+                                ? trayRect.Top - taskbarRect.Top
                                 : trayRect.Left - taskbarRect.Left;
                             primaryPos += (int)trayOffset - physicalWidth - (isVertical ? 2 : 1);
                             break;
@@ -558,7 +558,7 @@ public partial class TaskbarWindow : Window
                             GetWindowRect(_trayHandle, out RECT trayWndRect);
                             // Convert absolute screen position to relative position within taskbar
                             double trayOffset = isVertical
-                                ? trayWndRect.Top  - taskbarRect.Top
+                                ? trayWndRect.Top - taskbarRect.Top
                                 : trayWndRect.Left - taskbarRect.Left;
 
                             // For vertical: validate the tray is in the lower half of the taskbar
@@ -594,13 +594,13 @@ public partial class TaskbarWindow : Window
         // Set widget position within canvas
         // primaryPos → left (horizontal) or top (vertical); crossPos → top (horizontal) or left (vertical)
         Canvas.SetLeft(Widget, (isVertical ? crossPos : primaryPos) / dpiScale);
-        Canvas.SetTop (Widget, (isVertical ? primaryPos : crossPos) / dpiScale);
-        Widget.Width  = physicalWidth  / dpiScale;
+        Canvas.SetTop(Widget, (isVertical ? primaryPos : crossPos) / dpiScale);
+        Widget.Width = physicalWidth / dpiScale;
         Widget.Height = physicalHeight / dpiScale;
 
         // After 90° LayoutTransform the visual bounding rect has swapped dimensions
         double rectW = isVertical ? physicalHeight : physicalWidth;
-        double rectH = isVertical ? physicalWidth  : physicalHeight;
+        double rectH = isVertical ? physicalWidth : physicalHeight;
         return new Rect(Canvas.GetLeft(Widget) * dpiScale, Canvas.GetTop(Widget) * dpiScale, rectW, rectH);
     }
 
@@ -613,14 +613,14 @@ public partial class TaskbarWindow : Window
         TaskbarVisualizer.LayoutTransform = isVertical ? new System.Windows.Media.RotateTransform(90) : null;
 
         int taskbarHeight = taskbarRect.Bottom - taskbarRect.Top;
-        int taskbarWidth  = taskbarRect.Right  - taskbarRect.Left;
+        int taskbarWidth = taskbarRect.Right - taskbarRect.Left;
 
         // TaskbarVisualizer.Height (40) is the cross-axis extent for both orientations:
         //   horizontal: actual height = 40, centered vertically (-1 to match native element alignment)
         //   vertical:   visual width after rotation = 40, centered horizontally
-        int crossSize   = isVertical ? taskbarWidth : taskbarHeight;
+        int crossSize = isVertical ? taskbarWidth : taskbarHeight;
         int crossOffset = isVertical ? 0 : -1; // -1 aligns with native taskbar elements on horizontal
-        int crossPos    = (crossSize - (int)(TaskbarVisualizer.Height * dpiScale)) / 2 + crossOffset;
+        int crossPos = (crossSize - (int)(TaskbarVisualizer.Height * dpiScale)) / 2 + crossOffset;
 
         // TaskbarVisualizer.Width (84) is the primary-axis extent for both orientations:
         //   horizontal: actual width = 84
@@ -648,11 +648,11 @@ public partial class TaskbarWindow : Window
         // Set visualizer position within canvas
         // primaryPos → left (horizontal) or top (vertical); crossPos → top (horizontal) or left (vertical)
         Canvas.SetLeft(TaskbarVisualizer, (isVertical ? crossPos : primaryPos) / dpiScale);
-        Canvas.SetTop (TaskbarVisualizer, (isVertical ? primaryPos : crossPos) / dpiScale);
+        Canvas.SetTop(TaskbarVisualizer, (isVertical ? primaryPos : crossPos) / dpiScale);
 
         // After 90° LayoutTransform the visual bounding rect has swapped dimensions
-        double rectW = isVertical ? TaskbarVisualizer.Height * dpiScale : TaskbarVisualizer.Width  * dpiScale;
-        double rectH = isVertical ? TaskbarVisualizer.Width  * dpiScale : TaskbarVisualizer.Height * dpiScale;
+        double rectW = isVertical ? TaskbarVisualizer.Height * dpiScale : TaskbarVisualizer.Width * dpiScale;
+        double rectH = isVertical ? TaskbarVisualizer.Width * dpiScale : TaskbarVisualizer.Height * dpiScale;
         return new Rect(Canvas.GetLeft(TaskbarVisualizer) * dpiScale, Canvas.GetTop(TaskbarVisualizer) * dpiScale, rectW, rectH);
     }
 
@@ -670,10 +670,10 @@ public partial class TaskbarWindow : Window
             });
             return;
         }
-        
+
         // Autohide - Widget hides when playback is paused
         _lastPlaybackStatus = playbackStatus;
-        
+
         if ((SettingsManager.Current.TaskbarWidgetAutoHide))
         {
             if (playbackStatus == GlobalSystemMediaTransportControlsSessionPlaybackStatus.Playing)
@@ -681,7 +681,7 @@ public partial class TaskbarWindow : Window
                 _autoHideTimer?.Stop();
                 _autoHideTimer = null;
 
-                Dispatcher.Invoke(() => 
+                Dispatcher.Invoke(() =>
                 {
                     Visibility = Visibility.Visible;
                 });

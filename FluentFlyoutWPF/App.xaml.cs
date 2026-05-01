@@ -1,4 +1,4 @@
-﻿// Copyright © 2024-2026 The FluentFlyout Authors
+﻿// Copyright (c) 2024-2026 The FluentFlyout Authors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 using FluentFlyout.Classes;
@@ -23,10 +23,10 @@ public partial class App : Application
 
         // Register AUMID for toast notifications
         ToastNotificationManagerCompat.OnActivated += Notifications.HandleNotificationActivation;
-        
+
         // Apply localization before any windows are created
         LocalizationManager.ApplyLocalization();
-        
+
         base.OnStartup(e);
     }
 }
