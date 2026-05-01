@@ -40,7 +40,7 @@ masque les options de répétition, de lecture aléatoire et les informations du
     <system:String x:Key="AcrylicWindowDescription">Appliquer un effet transparent acrylique floué au volet (reviendra à Mica si désactivé)</system:String>
     <system:String x:Key="PauseOtherMediaDescription">Lorsque vous reproduisez ou sélectionnez de nouveau média, les autres sessions actives seront mises en pause automatiquement</system:String>
     <system:String x:Key="TaskbarWidgetCustomizationTitle">Widget de la barre des tâches</system:String>
-    <system:String x:Key="TaskbarWidgetDescription">Un widget compact et intégré sur la barre de tâches de Windows pour un accès instant à votre média. Cliquez sur le widget pour étendre le volet de média complet</system:String>
+    <system:String x:Key="TaskbarWidgetDescription">Un widget compact et intégré sur la barre de tâches de Windows pour un accès instantané à votre média. Cliquez sur le widget pour étendre le volet de média complet.</system:String>
     <system:String x:Key="BackgroundBlurOption2" xml:space="preserve"> Style 1 (Couverture Glow)</system:String>
     <system:String x:Key="BackgroundBlurOption3" xml:space="preserve"> Style 2 (Lueur montante)</system:String>
     <system:String x:Key="TaskbarWidgetEnabledTitle">Activer le Widget Barre des tâches</system:String>
@@ -164,15 +164,15 @@ Vous pouvez contribuer aux traductions sur</system:String>
     <system:String x:Key="UpToDate">À jour</system:String>
     <system:String x:Key="LastChecked">Dernière vérification : {0}</system:String>
     <system:String x:Key="CheckingForUpdates">Vérification...</system:String>
-    <system:String x:Key="UpdateAvailableNotificationTitle">Une mise à jour est disponible!</system:String>
+    <system:String x:Key="UpdateAvailableNotificationTitle">Une mise à jour est disponible !</system:String>
     <system:String x:Key="UpdateAvailableNotificationMessage">Une nouvelle version ({0}) est disponible.</system:String>
     <system:String x:Key="UpdateAvailableNotificationButton">Télécharger la mise à jour</system:String>
     <system:String x:Key="MediaFlyoutExcludeVolumeTitle">Exclure les Touches de Volume</system:String>
     <system:String x:Key="MediaFlyoutExcludeVolumeDescription">Ne pas montrer le volet quand la touche d'augmentation/diminution/muet de volume est appuyé</system:String>
     <system:String x:Key="TaskbarVisualizerTitle">Visualisateur de la barre de tâches</system:String>
     <system:String x:Key="TaskbarVisualizerDescription">Un visualisateur d'audio en temps réel sur votre barre de tâches. Conçu pour avoir un impact minimal sur la performance sur des systèmes modernes.</system:String>
-    <system:String x:Key="TaskbarWidgetCustomizationPerk">Widget de la barre des tâches et visualisateur</system:String>
-    <system:String x:Key="AcrylicBlurOpacityPerk">Opacité flou acrylique</system:String>
+    <system:String x:Key="TaskbarWidgetCustomizationPerk">Active le Widget de la barre des tâches et le visualisateur</system:String>
+    <system:String x:Key="AcrylicBlurOpacityPerk">Ajuste l'effet de flou acrylique</system:String>
     <system:String x:Key="TaskbarVisualizerEnabledTitle">Activer le visualisateur de la barre de tâches (Expérimental)</system:String>
     <system:String x:Key="TaskbarVisualizerEnabledDescription">Expérimental : Cette fonction ne fonctione que si le Widget de la Barre de Tâches est activé</system:String>
     <system:String x:Key="TaskbarVisualizerBarCountDescription">La quantité de barres visualisatrices</system:String>
@@ -184,7 +184,7 @@ Vous pouvez contribuer aux traductions sur</system:String>
     <system:String x:Key="TaskbarVisualizerPositionTitle">Position Relative du Visualisateur par rapport au Widget de la Barre de Tâches</system:String>
     <system:String x:Key="TaskbarVisualizerBarCountTitle">Nombre de Barres</system:String>
     <system:String x:Key="UnlockFullExperienceText">Débloquez l'expérience compléte de FluentFlyout :</system:String>
-    <system:String x:Key="HideTrayIconPerk">Cacher l'icône de la barre d'état</system:String>
+    <system:String x:Key="HideTrayIconPerk">Masquer l'icône de la barre d'état</system:String>
     <system:String x:Key="TaskbarVisualizerAudioSensitivityDescription">L'intensité nécessaire afin que les barres audio réagissent à l'intensité sonore</system:String>
     <system:String x:Key="ShowUpdateNotificationsTitle">Montrer des notifications pour les nouvelles mises à jour</system:String>
     <system:String x:Key="AllFuturePremiumFeatures">Toutes les fonctionnalités premium</system:String>
@@ -210,15 +210,15 @@ Vous pouvez contribuer aux traductions sur</system:String>
     <system:String x:Key="UseAlbumArtAccentColorTitle">Utiliser la couverture de l'album comme couleur</system:String>
     <system:String x:Key="BackupRestoreCardTitle">Enregistrer et restaurer vos paramètres</system:String>
     <system:String x:Key="ExportSettings">Exporter vos réglages</system:String>
-    <system:String x:Key="ImportSettings">importer des réglages</system:String>
-    <system:String x:Key="ExportSuccessful">Export effectué</system:String>
-    <system:String x:Key="ExportFailed">Export non effectué</system:String>
-    <system:String x:Key="ImportSuccessful">Import effectué</system:String>
-    <system:String x:Key="ImportFailed">Import non effectué</system:String>
-    <system:String x:Key="SettingsExportedSuccessfully">Réglages exportés !</system:String>
-    <system:String x:Key="SettingsImportedSuccessfully">Réglages importés! L'application va désormais redémarrer afin d'effectuer les changements.</system:String>
-    <system:String x:Key="ImportSettingsWarning">Ceci remplacera tous vos réglages actuelles. Continuer?</system:String>
-    <system:String x:Key="AdvancedSettingsTitle">Réglages avancés</system:String>
+    <system:String x:Key="ImportSettings">Importer des Réglages</system:String>
+    <system:String x:Key="ExportSuccessful">Exportation réussie</system:String>
+    <system:String x:Key="ExportFailed">Échec de l'exportation</system:String>
+    <system:String x:Key="ImportSuccessful">Importation réussie</system:String>
+    <system:String x:Key="ImportFailed">Échec de l'importation</system:String>
+    <system:String x:Key="SettingsExportedSuccessfully">Exportation des réglages réussie !</system:String>
+    <system:String x:Key="SettingsImportedSuccessfully">Réglages importés ! L'application va désormais redémarrer afin d'effectuer les changements.</system:String>
+    <system:String x:Key="ImportSettingsWarning">Ceci remplacera tous vos réglages actuelles. Continuer ?</system:String>
+    <system:String x:Key="AdvancedSettingsTitle">Paramètres avancés</system:String>
     <system:String x:Key="TaskbarVisualizerOutputDeviceDescription">Changer le dispositif de sortie pour changer ce que le visualisateur de FluentFlyout entend.</system:String>
     <system:String x:Key="TaskbarVisualizerClickableDescription">Cliquer le visualisateur ouvrira sa page de paramètrage</system:String>
     <system:String x:Key="LockKeysCursorUITitle">Écran d'affichage préféré</system:String>
@@ -230,7 +230,22 @@ Vous pouvez contribuer aux traductions sur</system:String>
     <system:String x:Key="LegacyTaskbarWidthDescription">Utiliser la largeur d’origine de la barre des tâches pour les widgets</system:String>
     <system:String x:Key="LegacyTaskbarWidthTitle">Largeur d'origine du système de la barre des tâches</system:String>
     <system:String x:Key="TaskbarWidgetAutoHideTitle">Cacher Automatiquement le Widget</system:String>
-    <system:String x:Key="TaskbarWidgetAutoHideDescription">Masque automatiquement le widget lorsque le média est en pause.</system:String>
+    <system:String x:Key="TaskbarWidgetAutoHideDescription">Masque automatiquement le widget lorsque le média est en pause</system:String>
     <system:String x:Key="LockKeysAnimatedTitle">Animation d'indicateur</system:String>
     <system:String x:Key="LockKeysAnimatedDescription">Activer des animations discrètes pour l’indicateur des touches de verrouillage</system:String>
+    <system:String x:Key="TaskbarWidgetShowPauseOverlayTitle">Afficher l'icône de pause</system:String>
+    <system:String x:Key="TaskbarWidgetShowPauseOverlayDescription">Lorsque le média est en pause, affiche une icône de pause sur la couverture de l'album</system:String>
+    <system:String x:Key="VolumeMixerHighlightPerk">Mets en évidence les applications actives dans le Mélangeur de Volume</system:String>
+    <system:String x:Key="VolumeFlyoutTitle">Menu déroulant du volume</system:String>
+    <system:String x:Key="VolumeFlyoutDescription">Un menu contextuel autonome de contrôle du volume qui s'agrandit pour former un mélangeur de volume, remplaçant ainsi l'interface de volume par défaut de Windows.</system:String>
+    <system:String x:Key="EnableVolumeFlyoutTitle">Activer le menu déroulant du volume</system:String>
+    <system:String x:Key="EnableVolumeFlyoutDescription">Remplacer le menu déroulant par défaut des volumes de Windows</system:String>
+    <system:String x:Key="VolumeAboveMediaFlyoutTitle">Placer le menu déroulant Volume au-dessus du menu déroulant Médias</system:String>
+    <system:String x:Key="VolumeFlyoutStayDurationTitle">Durée d'affichage du menu déroulant du Volume</system:String>
+    <system:String x:Key="VolumeMixerSectionTitle">Mélangeur de Volume</system:String>
+    <system:String x:Key="EnableVolumeMixerTitle">Activer le Mélangeur de Volume</system:String>
+    <system:String x:Key="EnableVolumeMixerDescription">Contrôle précis du volume de chaque application</system:String>
+    <system:String x:Key="VolumeMixerHighlightTitle">Mettre en évidence les applications qui joue du son</system:String>
+    <system:String x:Key="VolumeMixerHighlightDescription">Voir quelles applications jouent actuellement du son</system:String>
+    <system:String x:Key="MasterVolumeText">Volume principal</system:String>
 </ResourceDictionary>

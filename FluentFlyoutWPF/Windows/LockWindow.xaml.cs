@@ -28,6 +28,7 @@ public partial class LockWindow : MicaWindow
         WindowHelper.SetNoActivate(this);
         InitializeComponent();
         WindowHelper.SetTopmost(this);
+        CustomWindowChrome.CaptionHeight = 0;
 
         WindowStartupLocation = WindowStartupLocation.Manual;
         Top = -9999; // start off-screen
@@ -144,7 +145,7 @@ public partial class LockWindow : MicaWindow
         {
             _isHiding = false;
             _openedMonitor = GetPreferredTargetDisplay();
-            _mainWindow.OpenAnimation(this, true, _openedMonitor);
+            _mainWindow.OpenAnimation(window: this, alwaysBottom: true, selectedMonitor: _openedMonitor);
         }
         cts.Cancel();
         cts = new CancellationTokenSource();
@@ -155,7 +156,7 @@ public partial class LockWindow : MicaWindow
             while (!token.IsCancellationRequested)
             {
                 await Task.Delay(SettingsManager.Current.LockKeysDuration, token);
-                _mainWindow.CloseAnimation(this, true, _openedMonitor);
+                _mainWindow.CloseAnimation(window: this, selectedMonitor: _openedMonitor);
                 _isHiding = true;
                 await Task.Delay(MainWindow.getDuration());
                 if (_isHiding == false) return;

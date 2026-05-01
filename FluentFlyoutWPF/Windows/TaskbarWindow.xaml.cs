@@ -383,6 +383,8 @@ public partial class TaskbarWindow : Window
             int taskbarHeight = taskbarRect.Bottom - taskbarRect.Top;
             int taskbarWidth = taskbarRect.Right - taskbarRect.Left;
 
+            // Vertical taskbar support: rotate and reposition widget when taskbar is taller than wide
+            bool isVertical = taskbarHeight > taskbarWidth;
             int containerWidth = taskbarWidth;
             int containerHeight = taskbarHeight;
 
@@ -396,9 +398,8 @@ public partial class TaskbarWindow : Window
                      containerPos.X, containerPos.Y,
                      containerWidth, containerHeight,
                      SWP_NOZORDER | SWP_NOACTIVATE | SWP_ASYNCWINDOWPOS | SWP_SHOWWINDOW);
-
-            var wRect = PositionWidget(taskbarHandle, taskbarRect, dpiScale, isMainTaskbarSelected);
-            var vRect = PositionVisualizer(taskbarHandle, taskbarRect, dpiScale, isMainTaskbarSelected);
+            var wRect = PositionWidget(taskbarHandle, taskbarRect, dpiScale, isMainTaskbarSelected, isVertical);
+            var vRect = PositionVisualizer(taskbarHandle, taskbarRect, dpiScale, isMainTaskbarSelected, isVertical);
 
             UpdateWindowRegion(taskbarWindowHandle, wRect, vRect);
 
@@ -410,7 +411,7 @@ public partial class TaskbarWindow : Window
         }
     }
 
-    private Rect PositionWidget(IntPtr taskbarHandle, RECT taskbarRect, double dpiScale, bool isMainTaskbarSelected)
+    private Rect PositionWidget(IntPtr taskbarHandle, RECT taskbarRect, double dpiScale, bool isMainTaskbarSelected, bool isVertical)
     {
         if (!SettingsManager.Current.TaskbarWidgetEnabled)
             return Rect.Empty;
@@ -418,79 +419,99 @@ public partial class TaskbarWindow : Window
         // Calculate widget size
         var (logicalWidth, logicalHeight) = Widget.CalculateSize(dpiScale);
 
-        int physicalWidth = (int)(logicalWidth * dpiScale * _scale);
+        int physicalWidth  = (int)(logicalWidth  * dpiScale * _scale);
         int physicalHeight = (int)(logicalHeight * dpiScale);
 
         int taskbarHeight = taskbarRect.Bottom - taskbarRect.Top;
+        int taskbarWidth  = taskbarRect.Right  - taskbarRect.Left;
 
-        // Calculate vertical position (centered in taskbar)
-        int widgetTop = (taskbarHeight - physicalHeight) / 2;
+        // Apply orientation transform
+        Widget.LayoutTransform = isVertical ? new System.Windows.Media.RotateTransform(90) : null;
+        Widget.RenderTransform = System.Windows.Media.Transform.Identity;
+        Widget.SetVerticalMode(isVertical);
 
-        // Calculate horizontal position based on alignment setting
-        int widgetLeft = 0;
+        // On a vertical taskbar the widget is rotated 90°, so the axes flip:
+        //   primarySize = taskbarHeight, positioning runs along Y
+        //   crossSize   = taskbarWidth,  widget is centered along X
+        //   physicalWidth  = visual extent along primary axis (logical width = visual height after rotation)
+        //   physicalHeight = visual extent along cross axis   (logical height = visual width after rotation)
+        int primarySize = isVertical ? taskbarHeight : taskbarWidth;
+        int crossSize   = isVertical ? taskbarWidth  : taskbarHeight;
+
+        // Center on the cross axis; both orientations use physicalHeight for the cross dimension
+        int crossPos = (crossSize - physicalHeight) / 2;
+
+        // Primary axis position (calculated per-case below)
+        int primaryPos = 0;
+
         switch (SettingsManager.Current.TaskbarWidgetPosition)
         {
-            case 0: // left aligned with some padding (like native widgets)
-                widgetLeft = 20;
+            case 0: // near start (left for horizontal, top for vertical)
+                primaryPos = 20;
 
                 if (SettingsManager.Current.TaskbarVisualizerEnabled && SettingsManager.Current.TaskbarVisualizerPosition == 0)
-                    widgetLeft += (int)(TaskbarVisualizer.Width * dpiScale) + 4;
+                    primaryPos += (int)(TaskbarVisualizer.Width * dpiScale) + 4;
 
                 if (!SettingsManager.Current.TaskbarWidgetPadding)
                     break;
 
-                // automatic widget padding to the left
+                // automatic widget padding to the start
                 try
                 {
                     // find widget button in XAML
-                    (bool found, Rect widgetRect) = GetTaskbarWidgetRect(taskbarHandle);
+                    (bool found, Rect nativeWidgetRect) = GetTaskbarWidgetRect(taskbarHandle);
 
-                    // make sure it's on the left side, otherwise ignore (widget might be to the right)
-                    if (found && widgetRect.Right < (taskbarRect.Left + taskbarRect.Right) / 2)
+                    // Accept only if the native Widgets button is in the start half of the taskbar
+                    bool inStartHalf = isVertical
+                        ? nativeWidgetRect.Bottom < (taskbarRect.Top  + taskbarRect.Bottom) / 2.0
+                        : nativeWidgetRect.Right  < (taskbarRect.Left + taskbarRect.Right)  / 2.0;
+
+                    if (found && inStartHalf)
                     {
                         // Convert absolute screen position to relative position within taskbar
-                        widgetLeft = (int)(widgetRect.Right - taskbarRect.Left) + 2;
+                        primaryPos = isVertical
+                            ? (int)(nativeWidgetRect.Bottom - taskbarRect.Top)  + 2
+                            : (int)(nativeWidgetRect.Right  - taskbarRect.Left) + 2;
                     }
                 }
                 catch (Exception ex)
                 {
                     // fallback to default padding
                     Logger.Warn(ex, "Failed to get Widgets button position.");
-                    widgetLeft += _nativeWidgetsPadding + 2;
+                    primaryPos += _nativeWidgetsPadding + 2;
                 }
                 break;
 
             case 1: // center of the taskbar
-                widgetLeft = (taskbarRect.Right - taskbarRect.Left - physicalWidth) / 2;
+                primaryPos = (primarySize - physicalWidth) / 2;
 
                 if (SettingsManager.Current.TaskbarVisualizerEnabled)
                     if (SettingsManager.Current.TaskbarVisualizerPosition == 0)
-                        widgetLeft += (int)(TaskbarVisualizer.Width * dpiScale) / 2 + 4;
+                        primaryPos += (int)(TaskbarVisualizer.Width * dpiScale) / 2 + 4;
                     else
-                        widgetLeft -= (int)(TaskbarVisualizer.Width * dpiScale) / 2 - 4;
-
+                        primaryPos -= (int)(TaskbarVisualizer.Width * dpiScale) / 2 - 4;
                 break;
 
-            case 2: // right aligned next to system tray with tiny bit of padding
+            case 2: // near end (right for horizontal, bottom for vertical)
                 try
                 {
                     if (SettingsManager.Current.TaskbarVisualizerEnabled && SettingsManager.Current.TaskbarVisualizerPosition == 1)
-                        widgetLeft -= (int)(TaskbarVisualizer.Width * dpiScale) - 4;
+                        primaryPos -= (int)(TaskbarVisualizer.Width * dpiScale) - 4;
 
-                    // try to position next to widgets button if enabled
-                    if (SettingsManager.Current.TaskbarWidgetPadding)
+                    // Horizontal only: try to position next to native Widgets button on the end side
+                    if (!isVertical && SettingsManager.Current.TaskbarWidgetPadding)
                     {
                         try
                         {
                             // find widget button in XAML
-                            (bool found, Rect widgetRect) = GetTaskbarWidgetRect(taskbarHandle);
+                            (bool found, Rect nativeWidgetRect) = GetTaskbarWidgetRect(taskbarHandle);
 
                             // make sure it's on the right side, otherwise ignore (widget might be to the left)
-                            if (found && widgetRect.Left > (taskbarRect.Left + taskbarRect.Right) / 2)
+                            if (found && nativeWidgetRect.Left > (taskbarRect.Left + taskbarRect.Right) / 2.0)
                             {
                                 // Convert absolute screen position to relative position within taskbar
-                                widgetLeft += (int)(widgetRect.Left - taskbarRect.Left) - 1 - physicalWidth;
-                                break; // early exit so we don't move it back next to tray below
+                                primaryPos += (int)(nativeWidgetRect.Left - taskbarRect.Left) - 1 - physicalWidth;
+                                break;
                             }
                         }
                         catch (Exception ex) // catch exception when getting widget position
@@ -503,83 +524,136 @@ public partial class TaskbarWindow : Window
                     if (!isMainTaskbarSelected)
                     {
                         // find secondary tray with automation
-                        (bool found, Rect secondaryTrayRect) = GetSystemTrayRect(taskbarHandle);
+                        (bool found, Rect trayRect) = GetSystemTrayRect(taskbarHandle);
 
                         if (found)
                         {
                             // Convert absolute screen position to relative position within taskbar
-                            widgetLeft += (int)(secondaryTrayRect.Left - taskbarRect.Left) - physicalWidth - 1;
+                            double trayOffset = isVertical
+                                ? trayRect.Top  - taskbarRect.Top
+                                : trayRect.Left - taskbarRect.Left;
+                            primaryPos += (int)trayOffset - physicalWidth - (isVertical ? 2 : 1);
                             break;
                         }
                     }
-                    else if (_trayHandle == IntPtr.Zero || _lastSelectedMonitor != SettingsManager.Current.TaskbarWidgetSelectedMonitor)
+                    else
                     {
-                        if (isMainTaskbarSelected)
+                        // Primary taskbar: for vertical, try automation first (more reliable on ExplorerPatcher)
+                        if (isVertical)
                         {
-                            // find primary tray handle
+                            (bool trayFound, Rect trayAutomationRect) = GetSystemTrayRect(taskbarHandle);
+                            if (trayFound && trayAutomationRect.Top >= taskbarRect.Top)
+                            {
+                                primaryPos += (int)(trayAutomationRect.Top - taskbarRect.Top) - physicalWidth - 2;
+                                break;
+                            }
+                        }
+
+                        // Primary taskbar: TrayNotifyWnd (original approach for horizontal, fallback for vertical)
+                        if (_trayHandle == IntPtr.Zero || _lastSelectedMonitor != SettingsManager.Current.TaskbarWidgetSelectedMonitor)
                             _trayHandle = FindWindowEx(taskbarHandle, IntPtr.Zero, "TrayNotifyWnd", null);
+
+                        if (_trayHandle != IntPtr.Zero)
+                        {
+                            GetWindowRect(_trayHandle, out RECT trayWndRect);
+                            // Convert absolute screen position to relative position within taskbar
+                            double trayOffset = isVertical
+                                ? trayWndRect.Top  - taskbarRect.Top
+                                : trayWndRect.Left - taskbarRect.Left;
+
+                            // For vertical: validate the tray is in the lower half of the taskbar
+                            if (!isVertical || trayOffset > taskbarHeight / 2)
+                            {
+                                primaryPos += (int)trayOffset - physicalWidth - (isVertical ? 2 : 1);
+                                break;
+                            }
+                        }
+                        else if (!isVertical)
+                        {
+                            // TrayNotifyWnd not found on horizontal: fallback to right alignment,
+                            // since we are aligning to the right side and know the size of the taskbar.
+                            primaryPos += taskbarWidth - physicalWidth - 20;
+                            break;
                         }
                     }
 
-                    // the code reaches here because:
-                    // primary taskbar monitor is selected and auto widget padding setting is off
-
-                    // if the tray handle is zero, fallback to right alignment,
-                    // since we are aligning to the right side and know the size of the taskbar.
-                    if (_trayHandle == IntPtr.Zero)
-                    {
-                        widgetLeft += taskbarRect.Right - taskbarRect.Left - physicalWidth - 20;
-                        break;
-                    }
-                    GetWindowRect(_trayHandle, out RECT trayRect);
-                    // Convert absolute screen position to relative position within taskbar
-                    widgetLeft += trayRect.Left - taskbarRect.Left - physicalWidth - 1;
+                    // Final fallback: place near the end of the taskbar
+                    primaryPos += primarySize - physicalWidth - 20;
                 }
                 catch (Exception ex)
                 {
                     // Fallback to left alignment
                     Logger.Warn(ex, "Failed to get System Tray position.");
-                    widgetLeft = 20;
+                    primaryPos = isVertical ? primarySize - physicalWidth - 20 : 20;
                 }
                 break;
         }
 
-        widgetLeft += SettingsManager.Current.TaskbarWidgetManualPadding;
+        primaryPos += SettingsManager.Current.TaskbarWidgetManualPadding;
 
         // Set widget position within canvas
-        Canvas.SetLeft(Widget, widgetLeft / dpiScale);
-        Canvas.SetTop(Widget, widgetTop / dpiScale);
-        Widget.Width = physicalWidth / dpiScale;
+        // primaryPos → left (horizontal) or top (vertical); crossPos → top (horizontal) or left (vertical)
+        Canvas.SetLeft(Widget, (isVertical ? crossPos : primaryPos) / dpiScale);
+        Canvas.SetTop (Widget, (isVertical ? primaryPos : crossPos) / dpiScale);
+        Widget.Width  = physicalWidth  / dpiScale;
         Widget.Height = physicalHeight / dpiScale;
 
-        return new Rect(Canvas.GetLeft(Widget) * dpiScale, Canvas.GetTop(Widget) * dpiScale, Widget.Width * dpiScale, Widget.Height * dpiScale);
+        // After 90° LayoutTransform the visual bounding rect has swapped dimensions
+        double rectW = isVertical ? physicalHeight : physicalWidth;
+        double rectH = isVertical ? physicalWidth  : physicalHeight;
+        return new Rect(Canvas.GetLeft(Widget) * dpiScale, Canvas.GetTop(Widget) * dpiScale, rectW, rectH);
     }
 
-    private Rect PositionVisualizer(IntPtr taskbarHandle, RECT taskbarRect, double dpiScale, bool isMainTaskbarSelected)
+    private Rect PositionVisualizer(IntPtr taskbarHandle, RECT taskbarRect, double dpiScale, bool isMainTaskbarSelected, bool isVertical)
     {
         if (!SettingsManager.Current.TaskbarVisualizerEnabled)
             return Rect.Empty;
 
-        int taskbarHeight = taskbarRect.Bottom - taskbarRect.Top;
-        int visualizerTop = (taskbarHeight - (int)(TaskbarVisualizer.Height * dpiScale)) / 2 - 1; // -1 to align because Windows taskbar positions native elements slightly above the exact center
+        // Rotate visualizer 90° on vertical taskbar so it fits the slim width
+        TaskbarVisualizer.LayoutTransform = isVertical ? new System.Windows.Media.RotateTransform(90) : null;
 
-        int visualizerLeft = 0;
+        int taskbarHeight = taskbarRect.Bottom - taskbarRect.Top;
+        int taskbarWidth  = taskbarRect.Right  - taskbarRect.Left;
+
+        // TaskbarVisualizer.Height (40) is the cross-axis extent for both orientations:
+        //   horizontal: actual height = 40, centered vertically (-1 to match native element alignment)
+        //   vertical:   visual width after rotation = 40, centered horizontally
+        int crossSize   = isVertical ? taskbarWidth : taskbarHeight;
+        int crossOffset = isVertical ? 0 : -1; // -1 aligns with native taskbar elements on horizontal
+        int crossPos    = (crossSize - (int)(TaskbarVisualizer.Height * dpiScale)) / 2 + crossOffset;
+
+        // TaskbarVisualizer.Width (84) is the primary-axis extent for both orientations:
+        //   horizontal: actual width = 84
+        //   vertical:   visual height after rotation = 84
+        // Position adjacent to the widget along the primary axis
+        double widgetPrimaryStart = isVertical ? Canvas.GetTop(Widget) : Canvas.GetLeft(Widget);
+        int primaryPos;
+
         switch (SettingsManager.Current.TaskbarVisualizerPosition)
         {
-            case 0: // left aligned next to widget
-                visualizerLeft = (int)(Canvas.GetLeft(Widget) * dpiScale) - (int)(TaskbarVisualizer.Width * dpiScale);
+            case 0: // before widget (left for horizontal, above for vertical)
+                primaryPos = (int)(widgetPrimaryStart * dpiScale) - (int)(TaskbarVisualizer.Width * dpiScale);
                 break;
 
-            case 1: // right aligned next to widget
-                visualizerLeft = (int)(Canvas.GetLeft(Widget) * dpiScale) + (int)(Widget.Width * dpiScale);
+            case 1: // after widget (right for horizontal, below for vertical)
+                // Widget.Width holds the logical width; after 90° rotation its visual height = Widget.Width * dpiScale
+                primaryPos = (int)(widgetPrimaryStart * dpiScale) + (int)(Widget.Width * dpiScale);
+                break;
+
+            default:
+                primaryPos = 0;
                 break;
         }
 
         // Set visualizer position within canvas
-        Canvas.SetLeft(TaskbarVisualizer, visualizerLeft / dpiScale);
-        Canvas.SetTop(TaskbarVisualizer, visualizerTop / dpiScale);
+        // primaryPos → left (horizontal) or top (vertical); crossPos → top (horizontal) or left (vertical)
+        Canvas.SetLeft(TaskbarVisualizer, (isVertical ? crossPos : primaryPos) / dpiScale);
+        Canvas.SetTop (TaskbarVisualizer, (isVertical ? primaryPos : crossPos) / dpiScale);
 
-        return new Rect(Canvas.GetLeft(TaskbarVisualizer) * dpiScale, Canvas.GetTop(TaskbarVisualizer) * dpiScale, TaskbarVisualizer.Width * dpiScale, TaskbarVisualizer.Height * dpiScale);
+        // After 90° LayoutTransform the visual bounding rect has swapped dimensions
+        double rectW = isVertical ? TaskbarVisualizer.Height * dpiScale : TaskbarVisualizer.Width  * dpiScale;
+        double rectH = isVertical ? TaskbarVisualizer.Width  * dpiScale : TaskbarVisualizer.Height * dpiScale;
+        return new Rect(Canvas.GetLeft(TaskbarVisualizer) * dpiScale, Canvas.GetTop(TaskbarVisualizer) * dpiScale, rectW, rectH);
     }
 
     public void UpdateUi(string title, string artist, BitmapImage? icon, GlobalSystemMediaTransportControlsSessionPlaybackStatus? playbackStatus, GlobalSystemMediaTransportControlsSessionPlaybackControls? playbackControls = null)

@@ -19,6 +19,8 @@ public static partial class NativeMethods
     internal const int WS_CHILD = 0x40000000;
     internal const int WS_POPUP = unchecked((int)0x80000000);
     internal const int WS_EX_NOACTIVATE = 0x08000000;
+    internal const int WS_EX_LAYERED = 0x00080000;
+    internal const int WS_EX_TRANSPARENT = 0x00000020;
 
     // SetWindowPos Flags
     internal const int HWND_TOPMOST = -1;
@@ -29,6 +31,10 @@ public static partial class NativeMethods
     internal const uint SWP_HIDEWINDOW = 0x0080;
     internal const uint SWP_ASYNCWINDOWPOS = 0x4000;
     internal const uint SWP_NOACTIVATE = 0x0010;
+
+    // ShowWindow Commands
+    internal const int SW_MINIMIZE = 6;
+    internal const int SW_RESTORE = 9;
 
     // Monitor Flags
     internal const int MONITOR_DEFAULTTONEAREST = 2;
@@ -260,6 +266,9 @@ public static partial class NativeMethods
     // causing windows to not be topmost and it to be hidden unless you focus on the taskbar.
     [DllImport("user32.dll", SetLastError = true)]
     internal static extern bool SetWindowPos(IntPtr hWnd, int hWndInsertAfter, int x, int y, int cx, int cy, uint uFlags);
+
+    [DllImport("user32.dll")]
+    internal static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
 
     [LibraryImport("user32.dll")]
     [return: MarshalAs(UnmanagedType.Bool)]

@@ -1,52 +1,52 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib">
     <system:String x:Key="TitleText">FluentFlyout - Ustawienia</system:String>
-    <system:String x:Key="MediaFlyoutTitle">Media Flyout</system:String>
+    <system:String x:Key="MediaFlyoutTitle">Panel Mediów</system:String>
     <system:String x:Key="MediaFlyoutDescription">Podczas odtwarzania multimediów naciśnij dowolny klawisz multimedialny lub głośności (odtwarzanie/pauza, zwiększanie/zmniejszanie głośności, itp.) na klawiaturze, aby wyświetlić panel. Wyświetla informacje o multimediach, elementy sterujące odtwarzaniem i wiele innych.</system:String>
-    <system:String x:Key="TextBlockText1">Włącz Media Flyout</system:String>
+    <system:String x:Key="TextBlockText1">Włącz Panel Mediów</system:String>
     <system:String x:Key="TextBlockText3">Wyświetla panel po naciśnięciu klawisza multimediów</system:String>
     <system:String x:Key="TextBlockText2">Wybierz jeden z predefiniowanych stylów rozmycia tła</system:String>
     <system:String x:Key="BackgroundBlurOption1" xml:space="preserve"> Brak</system:String>
-    <system:String x:Key="BackgroundBlurOption2" xml:space="preserve"> Styl 1 (blask okładki)</system:String>
-    <system:String x:Key="BackgroundBlurOption3" xml:space="preserve"> Styl 2 (wschodzący blask)</system:String>
-    <system:String x:Key="BackgroundBlurOption4" xml:space="preserve"> Styl 3 (rozmycie)</system:String>
-    <system:String x:Key="BackgroundBlurTitle">Rozmycie tła</system:String>
-    <system:String x:Key="AcrylicWindowTitle">Okno akrylowe</system:String>
+    <system:String x:Key="BackgroundBlurOption2" xml:space="preserve"> Styl 1 (Blask Okładki)</system:String>
+    <system:String x:Key="BackgroundBlurOption3" xml:space="preserve"> Styl 2 (Wschodzący Blask)</system:String>
+    <system:String x:Key="BackgroundBlurOption4" xml:space="preserve"> Styl 3 (Rozmycie)</system:String>
+    <system:String x:Key="BackgroundBlurTitle">Rozmycie Tła</system:String>
+    <system:String x:Key="AcrylicWindowTitle">Okno Akrylowe</system:String>
     <system:String x:Key="AcrylicWindowDescription">Zastosuj przezroczysty efekt rozmycia akrylowego do panelu (wyłączenie powoduje powrót do stylu Mica)</system:String>
-    <system:String x:Key="CompactLayoutTitle">Układ kompaktowy</system:String>
-    <system:String x:Key="CompactLayoutDescription" xml:space="preserve">Smuklejszy i mniej agresywny układ:
-Ukrywa informacje o odtwarzaczu, odtwarzanie losowe i zapętlenie</system:String>
-    <system:String x:Key="FlyoutPositionTitle">Pozycja panelu</system:String>
-    <system:String x:Key="PositionBottomLeft" xml:space="preserve"> Lewy dolny róg</system:String>
-    <system:String x:Key="PositionBottomRight" xml:space="preserve"> Dolny prawy róg</system:String>
-    <system:String x:Key="PositionTopLeft" xml:space="preserve"> Górny lewy róg</system:String>
-    <system:String x:Key="PositionTopRight" xml:space="preserve"> Prawy górny róg</system:String>
-    <system:String x:Key="FlyoutStayDurationTitle">Czas wyświetlania panelu</system:String>
+    <system:String x:Key="CompactLayoutTitle">Układ Kompaktowy</system:String>
+    <system:String x:Key="CompactLayoutDescription" xml:space="preserve">Smuklejszy i mniej inwazyjny układ:
+ukrywa powtarzanie, odtwarzanie losowe oraz informacje o odtwarzaczu</system:String>
+    <system:String x:Key="FlyoutPositionTitle">Pozycja Panelu</system:String>
+    <system:String x:Key="PositionBottomLeft" xml:space="preserve"> Lewy Dolny Róg</system:String>
+    <system:String x:Key="PositionBottomRight" xml:space="preserve"> Dolny Prawy Róg</system:String>
+    <system:String x:Key="PositionTopLeft" xml:space="preserve"> Górny Lewy Róg</system:String>
+    <system:String x:Key="PositionTopRight" xml:space="preserve"> Prawy Górny Róg</system:String>
+    <system:String x:Key="FlyoutStayDurationTitle">Czas Wyświetlania Panelu</system:String>
     <system:String x:Key="FlyoutStayDurationDescription">(domyślnie: 3000 ms)</system:String>
     <system:String x:Key="MillisecondsUnit">ms</system:String>
-    <system:String x:Key="MediaFlyoutAlwaysDisplay">Wyświetlaj zawsze</system:String>
-    <system:String x:Key="CenterTitleArtistTitle">Wyśrodkuj tytuł oraz artystę</system:String>
+    <system:String x:Key="MediaFlyoutAlwaysDisplay">Wyświetlaj Zawsze</system:String>
+    <system:String x:Key="CenterTitleArtistTitle">Wyśrodkuj Tytuł oraz Artystę</system:String>
     <system:String x:Key="CenterTitleArtistDescription">Wyrównaj tekst do środka zamiast do lewej﻿</system:String>
-    <system:String x:Key="RepeatButtonTitle">Przycisk powtarzania*</system:String>
-    <system:String x:Key="ShuffleButtonTitle">Przycisk odtwarzania losowego*</system:String>
+    <system:String x:Key="RepeatButtonTitle">Przycisk Powtarzania*</system:String>
+    <system:String x:Key="ShuffleButtonTitle">Przycisk Odtwarzania Losowego*</system:String>
     <system:String x:Key="RepeatButtonDescription">Wybierz między powtarzaniem wszystkiego lub jednego, zwiększa szerokość panelu</system:String>
-    <system:String x:Key="ShowMediaPlayerNameTitle">Pokaż nazwę odtwarzacza</system:String>
+    <system:String x:Key="ShowMediaPlayerNameTitle">Pokaż nazwę Odtwarzacza</system:String>
     <system:String x:Key="ShuffleButtonDescription">Zwiększa szerokość panelu</system:String>
-    <system:String x:Key="ShowSeekbarTitle">Pokaż pasek przewijania*</system:String>
+    <system:String x:Key="ShowSeekbarTitle">Pokaż Pasek Przewijania*</system:String>
     <system:String x:Key="ShowSeekbarDescription">Interaktywny pasek przewijania wyświetli się automatycznie, jeśli odtwarzacz go obsługuje﻿</system:String>
     <system:String x:Key="UnsupportedControlsWarning">*Niektóre przeglądarki/odtwarzacze nie obsługują funkcji powtarzania, losowego odtwarzania i sterowania paskiem przewijania.</system:String>
-    <system:String x:Key="PauseOtherMediaTitle">Automatycznie wstrzymaj inne media﻿</system:String>
+    <system:String x:Key="PauseOtherMediaTitle">Automatycznie Wstrzymaj Inne Media﻿</system:String>
     <system:String x:Key="PauseOtherMediaDescription">Gdy odtwarzasz lub skupiasz się na nowych mediach, inne aktywne sesje są automatycznie wstrzymywane﻿</system:String>
-    <system:String x:Key="TaskbarWidgetCustomizationTitle">Widżet na pasku zadań</system:String>
+    <system:String x:Key="TaskbarWidgetCustomizationTitle">Widżet na Pasku Zadań</system:String>
     <system:String x:Key="TaskbarWidgetDescription">Kompaktowy, wbudowany widżet znajdujący się bezpośrednio na pasku zadań Windows, zapewniający szybki dostęp do twoich mediów. Kliknij widżet, aby rozwinąć pełny panel mediów.</system:String>
-    <system:String x:Key="TaskbarWidgetEnabledTitle">Włącz widżet paska zadań</system:String>
+    <system:String x:Key="TaskbarWidgetEnabledTitle">Włącz Widżet Paska Zadań</system:String>
     <system:String x:Key="TaskbarWidgetEnabledDescription">Pokaż kompaktowy widżet mediów na pasku zadań</system:String>
     <system:String x:Key="TaskbarWidgetVisualIssuesWarning">Skonfiguruj poniższe opcje, jeśli występują problemy z wyświetlaniem.</system:String>
-    <system:String x:Key="TaskbarWidgetPaddingTitle">Automatyczny odstęp dla przycisku widżetów Windows</system:String>
-    <system:String x:Key="TaskbarWidgetPaddingDescription">Włącz tę funkcję, jeśli masz włączone widżety Windows</system:String>
+    <system:String x:Key="TaskbarWidgetPaddingTitle">Automatyczny Odstęp dla przycisku Widżetów Windows</system:String>
+    <system:String x:Key="TaskbarWidgetPaddingDescription">Włącz tę funkcję, jeśli masz włączone Widżety Windows</system:String>
     <system:String x:Key="TaskbarWidgetClickableTitle">Kliknij, aby otworzyć wysuwany panel mediów, gdy media są dostępne</system:String>
     <system:String x:Key="TaskbarWidgetClickableDescription">Jeśli wysuwany panel mediów jest włączony, otworzy się po kliknięciu widżetu na pasku zadań﻿</system:String>
     <system:String x:Key="TaskbarWidgetBackgroundBlurDescription">Dodaj efekt rozmycia tła do widżetu paska zadań﻿</system:String>
-    <system:String x:Key="TaskbarWidgetHideCompletelyTitle">Ukryj całkowicie, gdy brak mediów</system:String>
+    <system:String x:Key="TaskbarWidgetHideCompletelyTitle">Ukryj Całkowicie, gdy Brak Mediów</system:String>
     <system:String x:Key="TaskbarWidgetHideCompletelyDescription">Ukrywa cały widżet, gdy brak dostępnych mediów, zamiast wyświetlać ikonę mediów</system:String>
     <system:String x:Key="PremiumFeatureDescription" xml:space="preserve">Twoja jednorazowa wpłata pomaga mi utrzymać FluentFlyout i stale rozwijać tę aplikację. Natychmiast odblokowuje wszystkie funkcje personalizacji Premium, na zawsze.
         
@@ -54,8 +54,8 @@ Uwaga: Jako projekt open-source, te funkcje są również dostępne za darmo pop
     <system:String x:Key="PremiumLockedMessage">Ta funkcja jest częścią pakietu premium</system:String>
     <system:String x:Key="PremiumUnlockedMessage">Odblokowano funkcje premium. Dziękujemy za wsparcie!</system:String>
     <system:String x:Key="PremiumGitHubMessage">Funkcje premium są odblokowane dla wersji z GitHub lub skompilowanych samodzielnie</system:String>
-    <system:String x:Key="UnlockPremiumButton">Odblokuj premium</system:String>
-    <system:String x:Key="PremiumPurchaseSuccess">Premium odblokowany pomyślnie!</system:String>
+    <system:String x:Key="UnlockPremiumButton">Odblokuj Premium</system:String>
+    <system:String x:Key="PremiumPurchaseSuccess">Premium odblokowane pomyślnie!</system:String>
     <system:String x:Key="PremiumPurchaseFailed">Zakup nie powiódł się. Proszę spróbować ponownie.</system:String>
     <system:String x:Key="PremiumPurchaseCancelled">Zakup anulowany.</system:String>
     <system:String x:Key="NextUpDescription" xml:space="preserve">Panel pokazuje, co jest następne, gdy utwór lub wideo się zakończy. Pojawia się tylko wtedy, gdy kolejny element odtwarza się automatycznie. Jeśli przycisk następny/poprzedni zostanie naciśnięty ręcznie, wyświetlany jest główny panel.</system:String>
@@ -67,52 +67,52 @@ Uwaga: Jako projekt open-source, te funkcje są również dostępne za darmo pop
     <system:String x:Key="SystemSettingsTitle">Ustawienia systemowe</system:String>
     <system:String x:Key="LaunchOnStartupTitle">Uruchom przy starcie systemu</system:String>
     <system:String x:Key="LaunchOnStartupDescription">Uruchom zminimalizowany do zasobnika systemowego po zalogowaniu do Windows</system:String>
-    <system:String x:Key="PositionBottomCenter" xml:space="preserve"> Pośrodku na dole</system:String>
-    <system:String x:Key="PositionTopCenter" xml:space="preserve"> U góry pośrodku</system:String>
-    <system:String x:Key="TaskbarWidgetBackgroundBlurTitle">Rozmycie tła</system:String>
-    <system:String x:Key="PremiumFeatureTitle">Funkcja premium</system:String>
+    <system:String x:Key="PositionBottomCenter" xml:space="preserve"> Pośrodku Na Dole</system:String>
+    <system:String x:Key="PositionTopCenter" xml:space="preserve"> U Góry Pośrodku</system:String>
+    <system:String x:Key="TaskbarWidgetBackgroundBlurTitle">Rozmycie Tła</system:String>
+    <system:String x:Key="PremiumFeatureTitle">Funkcja Premium</system:String>
     <system:String x:Key="AppThemeDark"> Ciemny</system:String>
-    <system:String x:Key="TrayIconLeftClickOption1"> Otwórz ustawienia</system:String>
+    <system:String x:Key="TrayIconLeftClickOption1"> Otwórz Ustawienia</system:String>
     <system:String x:Key="AnimationSpeedOff">Wyłączone</system:String>
     <system:String x:Key="EasingLinear" xml:space="preserve"> Liniowy</system:String>
     <system:String x:Key="EasingSine" xml:space="preserve"> Sinusoidalny</system:String>
     <system:String x:Key="EasingQuadratic" xml:space="preserve"> Kwadratowy</system:String>
     <system:String x:Key="EasingCubic" xml:space="preserve"> Sześcienny</system:String>
     <system:String x:Key="GitHubRepoLink">Repozytorium GitHub</system:String>
-    <system:String x:Key="AppThemeTitle">Motyw aplikacji</system:String>
+    <system:String x:Key="AppThemeTitle">Motyw Aplikacji</system:String>
     <system:String x:Key="LockKeysDescription" xml:space="preserve">Sprawdź stan przycisków blokady jednym spojrzeniem. Wyświetla się po naciśnięciu klawisza Caps Lock, Num Lock lub Scroll Lock. Wygodne rozwiązanie dla laptopów/klawiatur bez wskaźników statusu blokady.</system:String>
     <system:String x:Key="LockKeysCustomizationTitle">Panel "Klawisze blokady"</system:String>
-    <system:String x:Key="EnableLockKeysTitle">Włącz wyświetlanie panelu blokady klawiszy</system:String>
+    <system:String x:Key="EnableLockKeysTitle">Włącz wyświetlanie Panelu Klawiszy Blokady</system:String>
     <system:String x:Key="EnableLockKeysDescription">Wyświetla informację, czy dany klawisz blokady jest włączony lub wyłączony</system:String>
-    <system:String x:Key="LockKeysStayDurationTitle">Czas trwania wyświetlania panelu blokady klawiszy</system:String>
+    <system:String x:Key="LockKeysStayDurationTitle">Czas trwania wyświetlania Panelu Klawisy Blokady</system:String>
     <system:String x:Key="LockKeysStayDurationDescription">(domyślnie: 2000 ms)</system:String>
-    <system:String x:Key="LockKeysBoldUITitle">Pogrubione symbole i fonty</system:String>
+    <system:String x:Key="LockKeysBoldUITitle">Pogrubione Symbole i Czcionki</system:String>
     <system:String x:Key="LockKeysBoldUIDescription">Akcentuje symbol panelu oraz tekst</system:String>
     <system:String x:Key="EnableInsertKeyTitle">Włącz panel dla klawisza Insert</system:String>
-    <system:String x:Key="EnableInsertKeyDescription">Określa, czy naciśnięcie klawisza Insert spowoduje wyświetlenie wyskakującego okienka</system:String>
-    <system:String x:Key="StartupAppsHyperlinkText">Aplikacje autostartu</system:String>
+    <system:String x:Key="EnableInsertKeyDescription">Określa, czy naciśnięcie klawisza Insert spowoduje wyświetlenie panelu</system:String>
+    <system:String x:Key="StartupAppsHyperlinkText">Aplikacje Autostartu</system:String>
     <system:String x:Key="StartupAppsSettingsInfo">Jeśli to ustawienie nie działa poprawnie, sprawdź</system:String>
     <system:String x:Key="AppThemeDefault"> Domyślny dla systemu Windows</system:String>
     <system:String x:Key="AppThemeLight"> Jasny</system:String>
-    <system:String x:Key="TrayIconLeftClickBehaviorTitle">Zachowanie podczas kliknięcia w ikonę w zasobniku systemowym</system:String>
+    <system:String x:Key="TrayIconLeftClickBehaviorTitle">Działanie Lewego Przycisku Myszy na Ikonie Zasobnika</system:String>
     <system:String x:Key="TrayIconLeftClickBehaviorDescription">Wybierz, co ma się stać po kliknięciu lewym przyciskiem myszy ikony w zasobniku systemowym</system:String>
-    <system:String x:Key="TrayIconLeftClickOption2"> Wyświetl panel główny</system:String>
-    <system:String x:Key="Win11TrayIconTitle">Ikona zasobnika w stylu Windows 11</system:String>
+    <system:String x:Key="TrayIconLeftClickOption2"> Wyświetl Panel Mediów</system:String>
+    <system:String x:Key="Win11TrayIconTitle">Ikona Zasobnika w stylu Windows 11</system:String>
     <system:String x:Key="Win11TrayIconDescription">Używaj w zasobniku systemowym ikony pasującej do systemu Windows 11 (przełącz, aby odświeżyć motyw)</system:String>
-    <system:String x:Key="TrayIconSectionTitle">Ikona zasobnika systemowego</system:String>
-    <system:String x:Key="HideTrayIconTitle">Całkowicie ukryj ikonę</system:String>
+    <system:String x:Key="TrayIconSectionTitle">Ikona Zasobnika Systemowego</system:String>
+    <system:String x:Key="HideTrayIconTitle">Całkowicie Ukryj Ikonę</system:String>
     <system:String x:Key="HideTrayIconDescription">Wyłącza wyświetlanie ikony w zasobniku systemowym; aby przejść do ustawień uruchom dwukrotnie program</system:String>
-    <system:String x:Key="AnimationSettingsTitle">Ustawienia animacji</system:String>
+    <system:String x:Key="AnimationSettingsTitle">Ustawienia Animacji</system:String>
     <system:String x:Key="AnimationSettingsDescription">Dostosuj animacje według własnego uznania</system:String>
-    <system:String x:Key="AnimationDurationScaleTitle">Skala czasu trwania animacji</system:String>
+    <system:String x:Key="AnimationDurationScaleTitle">Czas Trwania Animacji</system:String>
     <system:String x:Key="AnimationDurationScaleDescription">Prędkość animacji wysuwania (domyślnie: 1x)</system:String>
-    <system:String x:Key="AnimationEasingStyleTitle">Styl łagodzenia animacji</system:String>
+    <system:String x:Key="AnimationEasingStyleTitle">Styl Łagodzenia Animacji</system:String>
     <system:String x:Key="AnimationEasingStyleDescription">(domyślnie: Kwadratowy)</system:String>
     <system:String x:Key="NativeExperienceInfo">Aby zapewnić działanie zgodne z systemem Windows 11, te ustawienia powinny pozostać domyślne.</system:String>
     <system:String x:Key="DisableOnFullscreenTitle">Wyłącz wyświetlanie paneli, jeśli zostanie wykryty program lub gra DirectX działający w trybie pełnoekranowym</system:String>
     <system:String x:Key="DisableOnFullscreenDescription">Zapobiega minimalizowaniu gier DirectX w trybie pełnoekranowym, jeśli pojawi się wyskakujące okienko</system:String>
     <system:String x:Key="AboutPremiumTitle">O wersji Premium</system:String>
-    <system:String x:Key="EnjoyingAppText" xml:space="preserve">Podoba Ci się ta aplikacja? Oceń ją na GitHub
+    <system:String x:Key="EnjoyingAppText" xml:space="preserve">Podoba Ci się ta aplikacja? Dodaj gwiazdkę na GitHub
 lub zrecenzuj w Microsoft Store!</system:String>
     <system:String x:Key="AppLanguageDescription" xml:space="preserve">Jeśli Twój język nie znajduje się na liście lub jest niekompletny, domyślnym językiem będzie angielski.
 Możesz pomóc w tworzeniu tłumaczeń na stronie</system:String>
@@ -122,7 +122,7 @@ Możesz pomóc w tworzeniu tłumaczeń na stronie</system:String>
     <system:String x:Key="NextUpWindow_UpNextText">Następnie:</system:String>
     <system:String x:Key="TrayIcon_QuitOption">Zakończ FluentFlyout</system:String>
     <system:String x:Key="CloseButton">Zamknij</system:String>
-    <system:String x:Key="AppLanguageTitle">Język aplikacji</system:String>
+    <system:String x:Key="AppLanguageTitle">Język Aplikacji</system:String>
     <system:String x:Key="AppLanguageDescriptionLink">Weblate</system:String>
     <system:String x:Key="LockWindow_CapsLock">Caps Lock</system:String>
     <system:String x:Key="LockWindow_NumLock">Num Lock</system:String>
@@ -130,22 +130,22 @@ Możesz pomóc w tworzeniu tłumaczeń na stronie</system:String>
     <system:String x:Key="TrayIcon_SettingsOption">Ustawienia</system:String>
     <system:String x:Key="TrayIcon_GitHubRepositoryOption">Repozytorium</system:String>
     <system:String x:Key="TrayIcon_ReportBugOption">Zgłoś błąd</system:String>
-    <system:String x:Key="TaskbarWidgetPosition">Pozycja widgetu</system:String>
-    <system:String x:Key="TaskbarWidgetControlsTitle">Kontrola mediów na widgecie</system:String>
-    <system:String x:Key="TaskbarWidgetControlsDescription">Pokaż przyciski kontroli mediów na widgecie</system:String>
-    <system:String x:Key="TaskbarWidgetAnimatedTitle">Animacje widgetu</system:String>
-    <system:String x:Key="TaskbarWidgetAnimatedDescription">Włącz subtelne animacje dla widgetu</system:String>
-    <system:String x:Key="SelectedMonitorTitle">Wyświetlacz docelowy dla paneli</system:String>
-    <system:String x:Key="TaskbarWidgetSelectedMonitorTitle">Wyświetlacz docelowy dla widgetu</system:String>
-    <system:String x:Key="TaskbarWidgetPaddingSettingsTitle">Ustawienia odstępu dla widgetu</system:String>
-    <system:String x:Key="TaskbarWidgetPaddingSettingsDescription">Dostosuj odstęp wokół widgetu do stylu paska zadań</system:String>
-    <system:String x:Key="TaskbarWidgetManualPaddingTitle">Niestandardowe odstępy</system:String>
-    <system:String x:Key="TaskbarWidgetManualPaddingDescription">Dodaj dodatkowy odstęp (domyślnie: 1px)</system:String>
+    <system:String x:Key="TaskbarWidgetPosition">Pozycja Widżetu</system:String>
+    <system:String x:Key="TaskbarWidgetControlsTitle">Kontrola Mediów na Widżecie</system:String>
+    <system:String x:Key="TaskbarWidgetControlsDescription">Pokaż przyciski kontroli mediów na widżecie</system:String>
+    <system:String x:Key="TaskbarWidgetAnimatedTitle">Animacje Widżetu</system:String>
+    <system:String x:Key="TaskbarWidgetAnimatedDescription">Włącz subtelne animacje dla widżetu</system:String>
+    <system:String x:Key="SelectedMonitorTitle">Wyświetlacz Docelowy dla Paneli</system:String>
+    <system:String x:Key="TaskbarWidgetSelectedMonitorTitle">Wyświetlacz Docelowy dla Widżetu</system:String>
+    <system:String x:Key="TaskbarWidgetPaddingSettingsTitle">Ustawienia Odstępu dla Widżetu</system:String>
+    <system:String x:Key="TaskbarWidgetPaddingSettingsDescription">Dostosuj odstęp wokół widżetu do stylu paska zadań</system:String>
+    <system:String x:Key="TaskbarWidgetManualPaddingTitle">Niestandardowe Odstępy</system:String>
+    <system:String x:Key="TaskbarWidgetManualPaddingDescription">Dodaj dodatkowy odstęp (domyślnie: 0px)</system:String>
     <system:String x:Key="TrayIcon_ViewLogsOption">Sprawdź dziennik zdarzeń</system:String>
     <system:String x:Key="PixelsUnit">px</system:String>
     <system:String x:Key="UpdateToastTitle">FluentFlyout zostało zatkualizowane!</system:String>
     <system:String x:Key="UpdateToastMessage">Jesteś na {0}.</system:String>
-    <system:String x:Key="UpdateToastButton">Pokaż aktualizacje</system:String>
+    <system:String x:Key="UpdateToastButton">Pokaż Aktualizacje</system:String>
     <system:String x:Key="AboutOpenSourceLicensesDescription">FluentFlyout zbudowano z następującymi pakietami otwartoźródłowymi:</system:String>
     <system:String x:Key="HomeTitle">Strona główna</system:String>
     <system:String x:Key="Enabled">Włączone</system:String>
@@ -154,37 +154,37 @@ Możesz pomóc w tworzeniu tłumaczeń na stronie</system:String>
     <system:String x:Key="AcrylicBlurOpacityTitle">Przezroczystość Rozmycia Akrylowego</system:String>
     <system:String x:Key="AcrylicBlurOpacityDescription">Dostosuj efekt przezroczystości na Akrylowych panelach (domyślnie: 175)</system:String>
     <system:String x:Key="HomeUpdateDescription">Zobacz co nowego</system:String>
-    <system:String x:Key="HomeDashboardTitle">Pulpit nawigacyjny</system:String>
+    <system:String x:Key="HomeDashboardTitle">Pulpit Nawigacyjny</system:String>
     <system:String x:Key="SystemConfigure">Konfiguruj</system:String>
     <system:String x:Key="AboutTitle">O Aplikacji</system:String>
-    <system:String x:Key="AboutContributorsTitle">❤️ Poznaj naszych współtwórców</system:String>
+    <system:String x:Key="AboutContributorsTitle">❤️ Poznaj Naszych Współtwórców</system:String>
     <system:String x:Key="AboutContributorsDescription">Wielkie podziękowania dla wszystkich wspaniałych osób które pomogły w rozwoju i sukcesie FluentFlyout!</system:String>
-    <system:String x:Key="AboutOpenSourceLicensesTitle">Licencje otwartoźródłowe</system:String>
+    <system:String x:Key="AboutOpenSourceLicensesTitle">Licencje Otwartoźródłowe</system:String>
     <system:String x:Key="UpdateAvailable">Dostępna aktualizacja</system:String>
     <system:String x:Key="UpToDate">Aktualne</system:String>
     <system:String x:Key="LastChecked">Ostatnio sprawdzone: {0}</system:String>
     <system:String x:Key="CheckingForUpdates">Sprawdzanie...</system:String>
-    <system:String x:Key="UpdateAvailableNotificationTitle">Aktualizacja dostępna!</system:String>
+    <system:String x:Key="UpdateAvailableNotificationTitle">Aktualizacja Dostępna!</system:String>
     <system:String x:Key="UpdateAvailableNotificationMessage">Nowa wersja ({0}) jest dostępna.</system:String>
-    <system:String x:Key="UpdateAvailableNotificationButton">Pobierz aktualizację</system:String>
+    <system:String x:Key="UpdateAvailableNotificationButton">Pobierz Aktualizację</system:String>
     <system:String x:Key="MediaFlyoutExcludeVolumeTitle">Wyklucz klawisze głośności</system:String>
-    <system:String x:Key="MediaFlyoutExcludeVolumeDescription">Nie wyświetlaj panelu gdy wciśnięty jest przycisk zwiększenie/zmniejszenia/wyciszenia głośności dźwięku</system:String>
-    <system:String x:Key="TaskbarVisualizerTitle">Wizualizer na pasku zadań</system:String>
+    <system:String x:Key="MediaFlyoutExcludeVolumeDescription">Nie wyświetlaj panelu gdy wciśnięty jest przycisk zwiększenia/zmniejszenia/wyciszenia głośności dźwięku</system:String>
+    <system:String x:Key="TaskbarVisualizerTitle">Wizualizer Paska Zadań</system:String>
     <system:String x:Key="TaskbarVisualizerDescription">Wizualizer audio w czasie rzeczywistym na twoim pasku zadań. Zaprojektowany z myślą o minimalnym wpływie na wydajność na nowoczesnych systemach.</system:String>
-    <system:String x:Key="TaskbarVisualizerEnabledTitle">Włącz wizualizer na pasku zadań (eksperymentalne)</system:String>
-    <system:String x:Key="TaskbarVisualizerEnabledDescription">Eksperymentalne: Ta funkcja będzie działać tylko gdy Widżet na Pasku Zadań jest włączony</system:String>
-    <system:String x:Key="TaskbarVisualizerPositionTitle">Pozycja wizualizera w stosunku do Widżetu na Pasku Zadań</system:String>
-    <system:String x:Key="TaskbarVisualizerBarCountTitle">Ilość kolumn</system:String>
+    <system:String x:Key="TaskbarVisualizerEnabledTitle">Włącz Wizualizer Paska Zadań (Eksperymentalne)</system:String>
+    <system:String x:Key="TaskbarVisualizerEnabledDescription">Eksperymentalne: Ta funkcja będzie działać tylko gdy Widżet Paska Zadań jest włączony</system:String>
+    <system:String x:Key="TaskbarVisualizerPositionTitle">Pozycja wizualizera w stosunku do Widżetu Paska Zadań</system:String>
+    <system:String x:Key="TaskbarVisualizerBarCountTitle">Ilość Kolumn</system:String>
     <system:String x:Key="TaskbarVisualizerBarCountDescription">Ilość kolumn wizualizera</system:String>
-    <system:String x:Key="TaskbarVisualizerCenteredBarsTitle">Wyśrodkowane kolumny</system:String>
-    <system:String x:Key="TaskbarVisualizerCenteredBarsDescription">Kolumny które rozszerzają się symetrycznie od środka zamiast pojawiać się od spodu</system:String>
-    <system:String x:Key="TaskbarVisualizerBaselineTitle">Pokaż podstawę</system:String>
+    <system:String x:Key="TaskbarVisualizerCenteredBarsTitle">Wyśrodkowane Kolumny</system:String>
+    <system:String x:Key="TaskbarVisualizerCenteredBarsDescription">Kolumny które wyrastają symetrycznie od środka zamiast wyrastać od spodu</system:String>
+    <system:String x:Key="TaskbarVisualizerBaselineTitle">Pokaż Podstawę</system:String>
     <system:String x:Key="TaskbarVisualizerBaselineDescription">Pokazuje cienką linię gdy poziomy audio są wyzerowane</system:String>
-    <system:String x:Key="TaskbarVisualizerAudioSensitivityTitle">Czułość na dźwięk</system:String>
+    <system:String x:Key="TaskbarVisualizerAudioSensitivityTitle">Czułość na Dźwięk</system:String>
     <system:String x:Key="TaskbarVisualizerAudioSensitivityDescription">Jak głośny musi być dźwięk aby kolumny zaczęły się poruszać</system:String>
     <system:String x:Key="UnlockFullExperienceText">Odblokuj pelne doświadczenia z FluentFlyout:</system:String>
-    <system:String x:Key="TaskbarWidgetCustomizationPerk">Widżet Paska Zadań i Wizualizer</system:String>
-    <system:String x:Key="AcrylicBlurOpacityPerk">Przezroczystość rozmycia akrylowego</system:String>
+    <system:String x:Key="TaskbarWidgetCustomizationPerk">Włącz Widżet Paska Zadań i Wizualizer</system:String>
+    <system:String x:Key="AcrylicBlurOpacityPerk">Dostosuj efekt rozmycia akrylowego</system:String>
     <system:String x:Key="HideTrayIconPerk">Ukryj ikonę zasobnika</system:String>
     <system:String x:Key="AllFuturePremiumFeatures">Wszystkie przyszłe funkcje Premium</system:String>
     <system:String x:Key="AppearanceBehaviorSectionTitle">Wygląd i zachowanie</system:String>
@@ -194,15 +194,15 @@ Możesz pomóc w tworzeniu tłumaczeń na stronie</system:String>
     <system:String x:Key="SponsorMeLink">Wesprzyj mnie</system:String>
     <system:String x:Key="BuyMeCoffeeLink">Kup mi kawę</system:String>
     <system:String x:Key="ShowUpdateNotificationsTitle">Pokaż powiadomienia o aktualizacjach</system:String>
-    <system:String x:Key="TaskbarVisualizerOutputDeviceTitle">Urządzenie wyjściowe</system:String>
+    <system:String x:Key="TaskbarVisualizerOutputDeviceTitle">Urządzenie Wyjściowe</system:String>
     <system:String x:Key="TaskbarVisualizerOutputDeviceDescription">Zmień czego nasłuchuje wizualizer poprzez zmianę urządzenia wyjściowego dla FluentFlyout.</system:String>
     <system:String x:Key="BackupRestoreCardTitle">Stwórz kopię zapasową i przywróć swoje ustawienia</system:String>
-    <system:String x:Key="ExportSettings">Eksportuj ustawienia</system:String>
-    <system:String x:Key="ImportSettings">Importuj ustawienia</system:String>
-    <system:String x:Key="ExportSuccessful">Eksportowanie zakończone pomyślnie</system:String>
-    <system:String x:Key="ExportFailed">Eksportowanie nieudane</system:String>
-    <system:String x:Key="ImportSuccessful">Importowanie zakończone pomyślnie</system:String>
-    <system:String x:Key="ImportFailed">Importowanie nieudane</system:String>
+    <system:String x:Key="ExportSettings">Eksportuj Ustawienia</system:String>
+    <system:String x:Key="ImportSettings">Importuj Ustawienia</system:String>
+    <system:String x:Key="ExportSuccessful">Eksportowanie Pomyślne</system:String>
+    <system:String x:Key="ExportFailed">Eksportowanie Nieudane</system:String>
+    <system:String x:Key="ImportSuccessful">Importowanie Pomyślne</system:String>
+    <system:String x:Key="ImportFailed">Importowanie Nieudane</system:String>
     <system:String x:Key="SettingsExportedSuccessfully">Pomyślnie wyeksportowano ustawienia!</system:String>
     <system:String x:Key="FailedToExportSettings">Nie udało się wyeksportować ustawień. Sprawdź dziennik zdarzeń, aby zobaczyć szczegóły.</system:String>
     <system:String x:Key="SettingsImportedSuccessfully">Ustawienia zaimportowano pomyślnie! Aplikacja zostanie teraz uruchomiona ponownie w celu zastosowania zmian.</system:String>
@@ -214,19 +214,38 @@ Możesz pomóc w tworzeniu tłumaczeń na stronie</system:String>
     <system:String x:Key="TaskbarWidgetControlsPositionDescription">Wybierz gdzie wyświetlać przyciski kontroli mediów</system:String>
     <system:String x:Key="PositionLeft">Lewo</system:String>
     <system:String x:Key="PositionRight">Prawo</system:String>
-    <system:String x:Key="TaskbarVisualizerAudioPeakLevelTitle">Górny próg dźwięku</system:String>
+    <system:String x:Key="TaskbarVisualizerAudioPeakLevelTitle">Górny Próg Dźwięku</system:String>
     <system:String x:Key="TaskbarVisualizerAudioPeakLevelDescription">Jak głośny musi być dźwięk, aby kolumny osiągnęły maksymalną wysokość</system:String>
-    <system:String x:Key="TaskbarVisualizerClickableTitle">Kliknij aby otworzyć ustawienia</system:String>
+    <system:String x:Key="TaskbarVisualizerClickableTitle">Kliknij aby otworzyć Ustawienia</system:String>
     <system:String x:Key="TaskbarVisualizerClickableDescription">Po kliknięciu w wizualizer otworzy się strona z ustawieniami</system:String>
-    <system:String x:Key="LockKeysCursorUITitle">Preferowany wyświetlacz docelowy</system:String>
+    <system:String x:Key="LockKeysCursorUITitle">Preferowany Wyświetlacz Docelowy</system:String>
     <system:String x:Key="LockKeysCursorUIDescription" xml:space="preserve">Wybierz który monitor ma wyświetlać panel.</system:String>
-    <system:String x:Key="DefaultLockLayoutPosition">Domyślny (Wyświetlacz docelowy dla paneli)</system:String>
+    <system:String x:Key="DefaultLockLayoutPosition">Domyślny (Wyświetlacz Docelowy dla Paneli)</system:String>
     <system:String x:Key="MonitorWithFocusedWindow">Monitor z aktywnym oknem</system:String>
     <system:String x:Key="MonitorWithCursor">Monitor z kursorem</system:String>
-    <system:String x:Key="UseAlbumArtAccentColorTitle">Użyj okładki albumu jako koloru akcentu</system:String>
+    <system:String x:Key="UseAlbumArtAccentColorTitle">Użyj okładki albumu jako Koloru Akcentu</system:String>
     <system:String x:Key="UseAlbumArtAccentColorDescription">Niektóre elementy interfejsu będą używać okładki albumu jako kolor zamiast motywu systemowego</system:String>
     <system:String x:Key="BackupRestoreSectionTitle">Kopia zapasowa i przywracanie</system:String>
-    <system:String x:Key="AdvancedSettingsTitle">Ustawienia zaawansowane</system:String>
-    <system:String x:Key="LegacyTaskbarWidthTitle">Starszy system szerokości paska zadań</system:String>
-    <system:String x:Key="LegacyTaskbarWidthDescription">Użyj starszego systemu szerokości paska zadań dla widżetów paska zadań</system:String>
+    <system:String x:Key="AdvancedSettingsTitle">Ustawienia Zaawansowane</system:String>
+    <system:String x:Key="LegacyTaskbarWidthTitle">Starszy System Szerokości Paska Zadań</system:String>
+    <system:String x:Key="LegacyTaskbarWidthDescription">Użyj starszego systemu szerokości Paska Zadań dla Widżetów Paska Zadań</system:String>
+    <system:String x:Key="TaskbarWidgetAutoHideTitle">Autoukrywanie Widżetu</system:String>
+    <system:String x:Key="TaskbarWidgetAutoHideDescription">Widżet zostaje ukryty automatycznie podczas pauzy mediów</system:String>
+    <system:String x:Key="LockKeysAnimatedTitle">Animacje Ikon</system:String>
+    <system:String x:Key="LockKeysAnimatedDescription">Włącza subtelne animacje ikony klawiszy blokady</system:String>
+    <system:String x:Key="TaskbarWidgetShowPauseOverlayTitle">Pokaż Nakładkę Ikony Pauzy</system:String>
+    <system:String x:Key="TaskbarWidgetShowPauseOverlayDescription">Gdy media jest wstrzymane, wyświetl ikonę pauzy nad okładką albumu</system:String>
+    <system:String x:Key="VolumeMixerHighlightPerk">Podświetl aktywne aplikacje w Mikserze Głośności</system:String>
+    <system:String x:Key="VolumeFlyoutTitle">Panel Głośności</system:String>
+    <system:String x:Key="VolumeFlyoutDescription">Samodzielny panel do regulacji głośności, które po rozwinięciu przekształca się w mikser głośności, zastępując domyślny interfejs głośności systemu Windows.</system:String>
+    <system:String x:Key="EnableVolumeFlyoutTitle">Włącz Panel Głośności</system:String>
+    <system:String x:Key="EnableVolumeFlyoutDescription">Podmień domyślny panel głośności systemu Windows</system:String>
+    <system:String x:Key="VolumeAboveMediaFlyoutTitle">Pokaż Panel Głośności nad Panelem Mediów</system:String>
+    <system:String x:Key="VolumeFlyoutStayDurationTitle">Czas wyświetlania Panelu Głośności</system:String>
+    <system:String x:Key="VolumeMixerSectionTitle">Mikser Głośności</system:String>
+    <system:String x:Key="EnableVolumeMixerTitle">Włącz Mikser Głośności</system:String>
+    <system:String x:Key="EnableVolumeMixerDescription">Kontrola nad poszczególnymi głośnościami aplikacji</system:String>
+    <system:String x:Key="VolumeMixerHighlightTitle">Podświetlaj aplikacje odtwarzające dźwięk</system:String>
+    <system:String x:Key="VolumeMixerHighlightDescription">Zobacz które aplikacje odtwarzają dźwięk</system:String>
+    <system:String x:Key="MasterVolumeText">Głośność całkowita</system:String>
 </ResourceDictionary>
