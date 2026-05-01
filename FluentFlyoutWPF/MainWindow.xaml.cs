@@ -705,7 +705,12 @@ public partial class MainWindow : MicaWindow
     {
         using Process curProcess = Process.GetCurrentProcess();
         using ProcessModule? curModule = curProcess.MainModule;
-        return curModule == null ? IntPtr.Zero : SetWindowsHookEx(WH_KEYBOARD_LL, proc, GetModuleHandle(curModule.ModuleName), 0);
+        if (curModule == null)
+        {
+            Logger.Warn("Failed to set keyboard hook - FluentFlyout will now rely on WndProc only");
+            return IntPtr.Zero;
+        }
+        return SetWindowsHookEx(WH_KEYBOARD_LL, proc, GetModuleHandle(curModule.ModuleName), 0);
     }
 
     private IntPtr HookCallback(int nCode, IntPtr wParam, IntPtr lParam)
