@@ -216,20 +216,35 @@ Vì đây là dự án mã nguồn mở, những tính năng premium cũng có t
     <system:String x:Key="TaskbarWidgetControlsPositionDescription">Chỉnh vị trí cho các nút điều khiển nội dung</system:String>
     <system:String x:Key="PositionLeft">Trái</system:String>
     <system:String x:Key="PositionRight">Phải</system:String>
-    <system:String x:Key="TaskbarVisualizerClickableDescription">Nhấp vào trình hiển thị sẽ mở trang cài đặt của nó</system:String>
-    <system:String x:Key="LockKeysCursorUITitle">Hiển thị mục tiêu ưa thích</system:String>
-    <system:String x:Key="UseAlbumArtAccentColorTitle">Sử dụng ảnh bìa album làm màu nhấn</system:String>
-    <system:String x:Key="UseAlbumArtAccentColorDescription">Một số thành phần giao diện người dùng sẽ sử dụng màu bìa album thay vì chủ đề hệ thống</system:String>
-    <system:String x:Key="MonitorWithFocusedWindow">Màn hình với cửa sổ tập trung</system:String>
-    <system:String x:Key="LockKeysCursorUIDescription" xml:space="preserve">Chọn màn hình để hiển thị hộp thả xuống.</system:String>
+    <system:String x:Key="TaskbarVisualizerClickableDescription">Khi bật, nhấn vào sóng âm sẽ hiển thị trang cấu hình của nó</system:String>
+    <system:String x:Key="LockKeysCursorUITitle">Màn hình hiển thị</system:String>
+    <system:String x:Key="UseAlbumArtAccentColorTitle">Lấy màu chủ đạo từ ảnh bìa</system:String>
+    <system:String x:Key="UseAlbumArtAccentColorDescription">Khi tắt, giao diện sẽ sử dụng màu hệ thống</system:String>
+    <system:String x:Key="MonitorWithFocusedWindow">Màn hình có cửa sổ hiện hành</system:String>
+    <system:String x:Key="LockKeysCursorUIDescription" xml:space="preserve">Chọn màn hình để hiển thị giao diện</system:String>
     <system:String x:Key="TaskbarVisualizerClickableTitle">Nhấn để mở màn hình cấu hình</system:String>
     <system:String x:Key="DefaultLockLayoutPosition">Vị trị cửa sổ mặc định</system:String>
-    <system:String x:Key="MonitorWithCursor">Quản lí với con trỏ chuột</system:String>
-    <system:String x:Key="LegacyTaskbarWidthTitle">Chiều rộng trên thanh tác vụ cũ</system:String>
-    <system:String x:Key="LegacyTaskbarWidthDescription">Sử dụng chiều rộng của thanh tác vụ cũ đối với tiện ích trên thanh tác vụ</system:String>
+    <system:String x:Key="MonitorWithCursor">Màn hình có con trỏ</system:String>
+    <system:String x:Key="LegacyTaskbarWidthTitle">Xác định vị trí bằng GetWindowRect</system:String>
+    <system:String x:Key="LegacyTaskbarWidthDescription">Xác định vị trí của thẻ nội dung bằng GetWindowRect</system:String>
     <system:String x:Key="AdvancedSettingsTitle">Tùy chọn Nâng cao</system:String>
-    <system:String x:Key="LockKeysAnimatedDescription">Bật hoạt ảnh động cho chỉ báo phím khóa</system:String>
+    <system:String x:Key="LockKeysAnimatedDescription">Bật hoạt ảnh chỉ báo trạng thái phím lock</system:String>
     <system:String x:Key="LockKeysAnimatedTitle">Hoạt ảnh chỉ báo</system:String>
-    <system:String x:Key="TaskbarWidgetAutoHideDescription">Tự động ẩn khi media tạm dừng</system:String>
-    <system:String x:Key="TaskbarWidgetAutoHideTitle">Tự động ẩn tiện ích</system:String>
+    <system:String x:Key="TaskbarWidgetAutoHideDescription">Tự động ẩn khi tạm dừng nội dung</system:String>
+    <system:String x:Key="TaskbarWidgetAutoHideTitle">Tự động ẩn</system:String>
+    <system:String x:Key="TaskbarWidgetShowPauseOverlayTitle">In đè biểu tượng tạm dừng lên ảnh bìa</system:String>
+    <system:String x:Key="TaskbarWidgetShowPauseOverlayDescription">Mỗi khi tạm dừng, in đè biểu tượng này lên ảnh bìa</system:String>
+    <system:String x:Key="VolumeMixerHighlightPerk">Tô sáng các ứng dụng đang phát</system:String>
+    <system:String x:Key="VolumeFlyoutTitle">Điều chỉnh âm lượng</system:String>
+    <system:String x:Key="VolumeFlyoutDescription">Giao diện này bao gồm cả việc điều chỉnh âm lượng cho toàn hệ thống và cho từng ứng dụng riêng lẻ, thay thế giao diện chính thức của Windows</system:String>
+    <system:String x:Key="EnableVolumeFlyoutTitle">Hiển thị giao diện</system:String>
+    <system:String x:Key="EnableVolumeFlyoutDescription">Thay thế giao diện chính thức của Windows</system:String>
+    <system:String x:Key="VolumeAboveMediaFlyoutTitle">Hiển thị đè lên giao diện điều khiển phát lại</system:String>
+    <system:String x:Key="VolumeFlyoutStayDurationTitle">Thời gian hiển thị</system:String>
+    <system:String x:Key="VolumeMixerSectionTitle">Thanh âm lượng cho từng ứng dụng</system:String>
+    <system:String x:Key="EnableVolumeMixerDescription">Thanh âm lượng cho từng ứng dụng</system:String>
+    <system:String x:Key="EnableVolumeMixerTitle">Thanh âm lượng cho từng ứng dụng</system:String>
+    <system:String x:Key="VolumeMixerHighlightTitle">Tô sáng các ứng dụng đang phát</system:String>
+    <system:String x:Key="VolumeMixerHighlightDescription">Tô sáng các ứng dụng đang phát</system:String>
+    <system:String x:Key="MasterVolumeText">Âm lượng toàn hệ thống</system:String>
 </ResourceDictionary>
