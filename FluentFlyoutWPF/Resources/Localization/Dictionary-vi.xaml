@@ -113,7 +113,7 @@ Bạn có thể hỗ trợ dịch tại</system:String>
     <system:String x:Key="TaskbarWidgetAnimatedTitle">Hiệu ứng chuyển tiếp</system:String>
     <system:String x:Key="TaskbarWidgetAnimatedDescription">Xuất hiện hiệu ứng khi chuyển tiếp nội dung</system:String>
     <system:String x:Key="PremiumFeatureTitle">Tính năng trả phí</system:String>
-    <system:String x:Key="PremiumFeatureDescription" xml:space="preserve">Nếu cài đặt từ Microsoft Store, bạn có thể mở khóa premium qua giao dịch trong ứng dụng. Số tiền nho nhỏ từ bạn góp phần tạo động lực để tác giả phát triển dự án này.   
+    <system:String x:Key="PremiumFeatureDescription" xml:space="preserve">Nếu cài đặt FluentFlyout từ Microsoft Store, bạn có thể mở khóa premium qua giao dịch trong ứng dụng. Số tiền nho nhỏ từ bạn góp phần tạo động lực để tác giả phát triển dự án này.   
 
 Vì đây là dự án mã nguồn mở, những tính năng premium cũng có thể mở khóa miễn phí khi cài đặt từ GitHub, hoặc tự xây dựng từ mã nguồn. Đổi lại, bạn phải cập nhật thủ công.</system:String>
     <system:String x:Key="PremiumLockedMessage">Tính năng này đã bị khóa</system:String>
