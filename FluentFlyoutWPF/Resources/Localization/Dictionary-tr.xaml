@@ -187,7 +187,7 @@ Not: Açık kaynaklı bir proje olduğundan, bu özellikler GitHub'daki manuel y
     <system:String x:Key="TaskbarVisualizerOutputDeviceTitle">Çıkış Aygıtı</system:String>
     <system:String x:Key="TaskbarVisualizerOutputDeviceDescription">FluentFlyout'un çıkış cihazı ile görselleştiricinin neyi dinlediğini değiştirin</system:String>
     <system:String x:Key="TaskbarVisualizerClickableTitle">Ayarları açmak için tıklayın</system:String>
-    <system:String x:Key="TaskbarVisualizerClickableDescription">Görselleştiriye tıklamak onun ayar sayfasını açar</system:String>
+    <system:String x:Key="TaskbarVisualizerClickableDescription">Ses barına tıklamak ayarlar sayfasını açar.</system:String>
     <system:String x:Key="TranslatorsTitle">Çevirenler</system:String>
     <system:String x:Key="AdvancedSettingsTitle">Gelişmiş Ayarlar</system:String>
     <system:String x:Key="ImportFailed">İçe aktarma başarısız</system:String>
