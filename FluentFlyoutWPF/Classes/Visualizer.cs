@@ -39,7 +39,7 @@ namespace FluentFlyoutWPF.Classes
         private System.Timers.Timer? _captureWatchdog;
         private DateTime _lastDataAvailableUtc = DateTime.MinValue;
         private int _restartInProgress; // 0=false, 1=true (Interlocked)
-        private string _deviceId; // track current device ID for restart logic
+        private string? _deviceId; // track current device ID for restart logic
 
         private readonly struct BarGeometry
         {
