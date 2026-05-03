@@ -1,19 +1,19 @@
-// Copyright © 2024-2026 The FluentFlyout Authors
+// Copyright (c) 2024-2026 The FluentFlyout Authors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 using NAudio.CoreAudioApi;
-using NAudio.CoreAudioApi.Interfaces;
 
 namespace FluentFlyoutWPF.Classes
 {
     public class AudioDeviceMonitor : IDisposable
     {
+        // TODO: implement OnDefaultDeviceChanged event - currently gets handled by Visualizer and VolumeMixerViewModel
+
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
         private static AudioDeviceMonitor? _instance;
         private static readonly object _instanceLock = new();
 
         private MMDeviceEnumerator? _deviceEnumerator;
-        private AudioDeviceNotificationClient? _notificationClient;
 
         public event EventHandler<DefaultDeviceChangedEventArgs>? DefaultDeviceChanged;
 
@@ -42,21 +42,12 @@ namespace FluentFlyoutWPF.Classes
             try
             {
                 _deviceEnumerator = new MMDeviceEnumerator();
-                _notificationClient = new AudioDeviceNotificationClient();
-                _notificationClient.DefaultDeviceChanged += OnDefaultDeviceChanged;
-                _deviceEnumerator.RegisterEndpointNotificationCallback(_notificationClient);
-                
                 Logger.Info("Audio device monitoring initialized");
             }
             catch (Exception ex)
             {
                 Logger.Error(ex, "Failed to initialize audio device monitoring");
             }
-        }
-
-        private void OnDefaultDeviceChanged(object? sender, DefaultDeviceChangedEventArgs e)
-        {
-            DefaultDeviceChanged?.Invoke(this, e);
         }
 
         public MMDevice? GetDefaultRenderDevice()
@@ -74,55 +65,8 @@ namespace FluentFlyoutWPF.Classes
 
         public void Dispose()
         {
-            if (_notificationClient != null)
-            {
-                _notificationClient.DefaultDeviceChanged -= OnDefaultDeviceChanged;
-            }
-
-            if (_deviceEnumerator != null && _notificationClient != null)
-            {
-                try
-                {
-                    _deviceEnumerator.UnregisterEndpointNotificationCallback(_notificationClient);
-                }
-                catch (Exception ex)
-                {
-                    Logger.Error(ex, "Failed to unregister device notification callback");
-                }
-                _deviceEnumerator.Dispose();
-                _deviceEnumerator = null;
-            }
-
-            _notificationClient = null;
-
+            _deviceEnumerator?.Dispose();
             GC.SuppressFinalize(this);
-        }
-    }
-
-    // classes to handle audio device notifications
-    public class AudioDeviceNotificationClient : IMMNotificationClient
-    {
-        public event EventHandler<DefaultDeviceChangedEventArgs>? DefaultDeviceChanged;
-
-        public void OnDeviceStateChanged(string deviceId, DeviceState newState)
-        {
-        }
-
-        public void OnDeviceAdded(string pwstrDeviceId)
-        {
-        }
-
-        public void OnDeviceRemoved(string deviceId)
-        {
-        }
-
-        public void OnDefaultDeviceChanged(DataFlow flow, Role role, string defaultDeviceId)
-        {
-            DefaultDeviceChanged?.Invoke(this, new DefaultDeviceChangedEventArgs(flow, role, defaultDeviceId));
-        }
-
-        public void OnPropertyValueChanged(string pwstrDeviceId, PropertyKey key)
-        {
         }
     }
 

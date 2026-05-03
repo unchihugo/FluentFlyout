@@ -1,4 +1,4 @@
-// Copyright © 2024-2026 The FluentFlyout Authors
+// Copyright (c) 2024-2026 The FluentFlyout Authors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 using FluentFlyout.Classes.Settings;
@@ -61,7 +61,7 @@ public partial class TaskbarWidgetControl : UserControl
         }
 
         Background = new SolidColorBrush(Color.FromArgb(1, 0, 0, 0)); ;
-        
+
         // Initialize control order
         ReorderControls();
     }
@@ -83,6 +83,20 @@ public partial class TaskbarWidgetControl : UserControl
             // Right: Image, Info, Controls
             MainStackPanel.Children.Add(ControlsStackPanel);
             ControlsStackPanel.Margin = new Thickness(8, 0, 0, 0);
+        }
+    }
+
+    public void SetVerticalMode(bool isVertical)
+    {
+        var counterRotate = isVertical ? new RotateTransform(-90) : null;
+
+        SongImageBorder.RenderTransformOrigin = new System.Windows.Point(0.5, 0.5);
+        SongImageBorder.RenderTransform = (Transform?)counterRotate ?? Transform.Identity;
+
+        foreach (var button in new Wpf.Ui.Controls.Button[] { PreviousButton, PlayPauseButton, NextButton })
+        {
+            button.RenderTransformOrigin = new System.Windows.Point(0.5, 0.5);
+            button.RenderTransform = (Transform?)counterRotate ?? Transform.Identity;
         }
     }
 
@@ -309,7 +323,7 @@ public partial class TaskbarWidgetControl : UserControl
 
             if (icon != null)
             {
-                if (_isPaused)
+                if (_isPaused && SettingsManager.Current.TaskbarWidgetShowPauseOverlay && !SettingsManager.Current.TaskbarWidgetControlsEnabled)
                 { // show pause icon overlay
                     SongImagePlaceholder.Symbol = SymbolRegular.Pause24;
                     SongImagePlaceholder.Visibility = Visibility.Visible;

@@ -1,4 +1,4 @@
-// Copyright © 2024-2026 The FluentFlyout Authors
+// Copyright (c) 2024-2026 The FluentFlyout Authors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 using System.Runtime.InteropServices;
@@ -19,6 +19,8 @@ public static partial class NativeMethods
     internal const int WS_CHILD = 0x40000000;
     internal const int WS_POPUP = unchecked((int)0x80000000);
     internal const int WS_EX_NOACTIVATE = 0x08000000;
+    internal const int WS_EX_LAYERED = 0x00080000;
+    internal const int WS_EX_TRANSPARENT = 0x00000020;
 
     // SetWindowPos Flags
     internal const int HWND_TOPMOST = -1;
@@ -29,6 +31,10 @@ public static partial class NativeMethods
     internal const uint SWP_HIDEWINDOW = 0x0080;
     internal const uint SWP_ASYNCWINDOWPOS = 0x4000;
     internal const uint SWP_NOACTIVATE = 0x0010;
+
+    // ShowWindow Commands
+    internal const int SW_MINIMIZE = 6;
+    internal const int SW_RESTORE = 9;
 
     // Monitor Flags
     internal const int MONITOR_DEFAULTTONEAREST = 2;
@@ -261,10 +267,13 @@ public static partial class NativeMethods
     [DllImport("user32.dll", SetLastError = true)]
     internal static extern bool SetWindowPos(IntPtr hWnd, int hWndInsertAfter, int x, int y, int cx, int cy, uint uFlags);
 
+    [DllImport("user32.dll")]
+    internal static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+
     [LibraryImport("user32.dll")]
     [return: MarshalAs(UnmanagedType.Bool)]
     internal static partial bool ScreenToClient(IntPtr hWnd, ref POINT lpPoint);
-    
+
     [DllImport("user32.dll", CharSet = CharSet.Auto)]
     internal static extern bool EnumDisplayDevices(string? lpDevice, uint iDevNum, ref DISPLAY_DEVICE lpDisplayDevice, uint dwFlags);
 
@@ -315,7 +324,7 @@ public static partial class NativeMethods
 
     [LibraryImport("user32.dll", SetLastError = true)]
     internal static partial IntPtr MonitorFromPoint(POINT pt, MonitorFromWindowFlags dwFlags);
-    
+
     [LibraryImport("user32.dll", SetLastError = true)]
     internal static partial IntPtr GetForegroundWindow();
     #endregion

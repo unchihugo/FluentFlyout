@@ -8,6 +8,9 @@ on:
     paths:
       - 'FluentFlyoutMSIX/Package.appxmanifest'
 
+permissions:
+  contents: read
+
 jobs:
   build:
     runs-on: windows-latest

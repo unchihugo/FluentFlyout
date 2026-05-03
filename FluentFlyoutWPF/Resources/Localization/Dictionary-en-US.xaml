@@ -64,6 +64,8 @@ hides repeat, shuffle and player info</System:String>
     <System:String x:Key="TaskbarWidgetHideCompletelyDescription">Hides the entire widget when no media is available, instead of displaying a media icon</System:String>
     <System:String x:Key="TaskbarWidgetAutoHideTitle">Autohide Widget</System:String>
     <System:String x:Key="TaskbarWidgetAutoHideDescription">Hides the widget automatically when media is paused</System:String>
+    <System:String x:Key="TaskbarWidgetShowPauseOverlayTitle">Show Pause Icon Overlay</System:String>
+    <System:String x:Key="TaskbarWidgetShowPauseOverlayDescription">When media is paused, display a pause icon over the album art</System:String>
     <System:String x:Key="TaskbarWidgetControlsTitle">Widget Media Controls</System:String>
     <System:String x:Key="TaskbarWidgetControlsDescription">Show media control buttons on the widget</System:String>
     <System:String x:Key="TaskbarWidgetControlsPositionTitle">Media Controls Position</System:String>
@@ -103,9 +105,10 @@ Note: As an open-source project, these features are also available for free via 
     <System:String x:Key="PremiumPurchaseFailed">Purchase failed. Please try again.</System:String>
     <System:String x:Key="PremiumPurchaseCancelled">Purchase cancelled.</System:String>
     <System:String x:Key="UnlockFullExperienceText">Unlock the full FluentFlyout experience:</System:String>
-    <System:String x:Key="TaskbarWidgetCustomizationPerk">Taskbar Widget and Visualizer</System:String>
-    <System:String x:Key="AcrylicBlurOpacityPerk">Acrylic Blur Opacity</System:String>
-    <System:String x:Key="HideTrayIconPerk">Hide Tray Icon</System:String>
+    <System:String x:Key="TaskbarWidgetCustomizationPerk">Enable the Taskbar Widget and Visualizer</System:String>
+    <System:String x:Key="AcrylicBlurOpacityPerk">Adjust the Acrylic blur effect</System:String>
+    <System:String x:Key="HideTrayIconPerk">Hide the tray icon</System:String>
+    <System:String x:Key="VolumeMixerHighlightPerk">Highlight active apps in the Volume Mixer</System:String>
     <System:String x:Key="AllFuturePremiumFeatures">All future Premium features</System:String>
     <System:String x:Key="NextUpCustomizationTitle">Next Up Flyout</System:String>
     <System:String x:Key="NextUpDescription" xml:space="preserve">A flyout shows what's next when a song/video ends. Only appears if the next item plays automatically, if next/previous is pressed manually, the main flyout appears instead.</System:String>
@@ -244,4 +247,16 @@ You can help contribute translations on</System:String>
     <System:String x:Key="AdvancedSettingsTitle">Advanced Settings</System:String>
     <System:String x:Key="LegacyTaskbarWidthTitle">Legacy Taskbar Width System</System:String>
     <System:String x:Key="LegacyTaskbarWidthDescription">Use the legacy Taskbar width system for Taskbar Widgets</System:String>
+    <System:String x:Key="VolumeFlyoutTitle">Volume Flyout</System:String>
+    <System:String x:Key="VolumeFlyoutDescription">A standalone volume control flyout that expands into a volume mixer, replacing the default Windows volume interface.</System:String>
+    <System:String x:Key="EnableVolumeFlyoutTitle">Enable Volume Flyout</System:String>
+    <System:String x:Key="EnableVolumeFlyoutDescription">Replace the default Windows volume flyout</System:String>
+    <System:String x:Key="VolumeAboveMediaFlyoutTitle">Position Volume Flyout above Media Flyout</System:String>
+    <System:String x:Key="VolumeFlyoutStayDurationTitle">Volume Flyout Stay Duration</System:String>
+    <System:String x:Key="VolumeMixerSectionTitle">Volume Mixer</System:String>
+    <System:String x:Key="EnableVolumeMixerTitle">Enable Volume Mixer</System:String>
+    <System:String x:Key="EnableVolumeMixerDescription">Fine control over individual app volumes</System:String>
+    <System:String x:Key="VolumeMixerHighlightTitle">Highlight apps playing audio</System:String>
+    <System:String x:Key="VolumeMixerHighlightDescription">See which apps are currently outputting audio</System:String>
+    <System:String x:Key="MasterVolumeText">Master volume</System:String>
 </ResourceDictionary>
