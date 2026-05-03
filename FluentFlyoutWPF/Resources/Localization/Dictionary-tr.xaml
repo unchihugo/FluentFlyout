@@ -197,7 +197,7 @@ Not: Açık kaynaklı bir proje olduğundan, bu özellikler GitHub'daki manuel y
     <system:String x:Key="ImportSettingsWarning">Bu bütün ayarlarınızı değiştirecek.Devam etmek istiyor musunuz?</system:String>
     <system:String x:Key="FailedToImportSettings">Ayarların içe aktarılması başarısız.Detaylar için kayıtları kontrol edin.</system:String>
     <system:String x:Key="AllFuturePremiumFeatures">Bütün gelecek Premium özellikler</system:String>
-    <system:String x:Key="TaskbarWidgetCustomizationPerk">Görev Çubuğu Widget ve Görselleştiricisi</system:String>
+    <system:String x:Key="TaskbarWidgetCustomizationPerk">Görev Çubuğu Widget</system:String>
     <system:String x:Key="HideTrayIconPerk">Sistem tepsisini gizle</system:String>
     <system:String x:Key="TaskbarWidgetAutoHideTitle">Widget'ı otomatik gizle</system:String>
     <system:String x:Key="TaskbarWidgetAutoHideDescription">Medya duraklatıldığında widget'ı otomatik gizler</system:String>
@@ -225,7 +225,7 @@ Not: Açık kaynaklı bir proje olduğundan, bu özellikler GitHub'daki manuel y
     <system:String x:Key="UpdatesSectionTitle">Güncellemeler</system:String>
     <system:String x:Key="DevelopersTitle">Geliştiriciler</system:String>
     <system:String x:Key="SponsorMeLink">Bana sponsor olun</system:String>
-    <system:String x:Key="BuyMeCoffeeLink">Bana bir kahve ısmarlayın</system:String>
+    <system:String x:Key="BuyMeCoffeeLink">Bana bir kahve ısmarla</system:String>
     <system:String x:Key="ShowUpdateNotificationsTitle">Yeni güncellemeler için bildirim göster</system:String>
     <system:String x:Key="BackupRestoreSectionTitle">Yedekleme &amp; geri yükleme</system:String>
     <system:String x:Key="BackupRestoreCardTitle">Ayarlarını Yedekleme ve geri yükle</system:String>
