@@ -1,7 +1,7 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib">
     <system:String x:Key="TitleText">FluentFlyout Ayarları</system:String>
     <system:String x:Key="MediaFlyoutTitle">Medya Açılır Penceresi</system:String>
-    <system:String x:Key="MediaFlyoutDescription">Ana açılır pencere. Medya dinlerken, klavyenizdeki herhangi bir medya veya ses tuşuna (oynat/duraklat, ses arttırma/azaltma vb.) basarak açılır pencereyi görüntüleyebilirsiniz. Medya bilgilerini, oynatma kontrollerini ve daha fazlasını gösterir.</system:String>
+    <system:String x:Key="MediaFlyoutDescription">Medya dinlerken, klavyenizdeki herhangi bir medya veya ses tuşuna (oynat/duraklat, ses arttırma/azaltma vb.) basarak açılır pencereyi görüntüleyebilirsiniz. Medya bilgilerini, oynatma kontrollerini ve daha fazlasını gösterir.</system:String>
     <system:String x:Key="TextBlockText1">Medya Açılır Penceresini Etkinleştir</system:String>
     <system:String x:Key="TextBlockText3">Bir medya tuşuna bastığınızda açılır pencereyi görüntüleyin</system:String>
     <system:String x:Key="TextBlockText2">Önceden ayarlanmış modern arka plan bulanıklığı stilleri arasından seçim yapın</system:String>
@@ -39,7 +39,7 @@ tekrar, karıştırma ve oynatıcı bilgilerini gizler</system:String>
     <system:String x:Key="PauseOtherMediaDescription">Yeni medyayı oynatırken veya ona odaklanırken, diğer aktif oturumlar otomatik olarak duraklatılır</system:String>
     <system:String x:Key="NextUpCustomizationTitle">Sıradaki Açılır Penceresi</system:String>
     <system:String x:Key="NextUpDescription" xml:space="preserve">Şarkı/videonun bitiminde bir açılır pencere, sıradakini gösterir. Sadece otomatik olarak sıradaki öge çalınıyorsa görünür; eğer kullanıcı manuel olarak "sonraki/önceki"ye basarsa, ana açılır pencere görünür.</system:String>
-    <system:String x:Key="EnableNextUpTitle">Sıradaki Açılır Pencere'sini Etkinleştir (Deneysel)</system:String>
+    <system:String x:Key="EnableNextUpTitle">Sıradaki Açılır Pencere'sini Etkinleştir</system:String>
     <system:String x:Key="EnableNextUpDescription">Bir şarkı/video bittiğinde sırada ne olduğunu gösterir</system:String>
     <system:String x:Key="NextUpStayDurationTitle">Sıradaki Kalış Süresi</system:String>
     <system:String x:Key="NextUpStayDurationDescription">(varsayılan: 2000 ms)</system:String>
@@ -103,7 +103,7 @@ veya Microsoft Store'da yorum bırakın!</system:String>
     <system:String x:Key="TrayIcon_GitHubRepositoryOption">Depo</system:String>
     <system:String x:Key="TrayIcon_ReportBugOption">Hata bildir</system:String>
     <system:String x:Key="TaskbarWidgetCustomizationTitle">Görev Çubuğu Widget</system:String>
-    <system:String x:Key="TaskbarWidgetDescription">Medyanıza anında erişim için Windows Görev Çubuğunuzda bulunan kompakt ve yerleşik bir widget. Etkin olduğunda, Medya Açılır Penceresini genişletmek için widget'a tıklayın.</system:String>
+    <system:String x:Key="TaskbarWidgetDescription">Medyanıza anında erişim için Windows Görev Çubuğunuzda bulunan kompakt ve yerleşik bir widget. Medya Açılır Penceresini genişletmek için widget'a tıklayın.</system:String>
     <system:String x:Key="TaskbarWidgetEnabledTitle">Görev Çubuğu Widget'ını Etkinleştir</system:String>
     <system:String x:Key="TaskbarWidgetEnabledDescription">Görev çubuğunda kompakt bir medya bileşeni göster</system:String>
     <system:String x:Key="TaskbarWidgetVisualIssuesWarning">Görsel sorunlar yaşıyorsanız aşağıdaki seçenekleri yapılandırın.</system:String>
@@ -192,8 +192,8 @@ Not: Açık kaynaklı bir proje olduğundan, bu özellikler GitHub'daki manuel y
     <system:String x:Key="AdvancedSettingsTitle">Gelişmiş Ayarlar</system:String>
     <system:String x:Key="ImportFailed">İçe aktarma başarısız</system:String>
     <system:String x:Key="SettingsExportedSuccessfully">Ayarlar başarıyla dışarı aktarıldı!</system:String>
-    <system:String x:Key="FailedToExportSettings">Ayarların dışarı aktarılması başarısız.Detaylar için kayıtları kontrol edin.</system:String>
-    <system:String x:Key="SettingsImportedSuccessfully">Ayarlar başarıyla içe aktarıldı! Şimdi değişiklikleri uygulamak için uygulama kendini yeniden başlatacak.</system:String>
+    <system:String x:Key="FailedToExportSettings">Ayarların dışarı aktarılması başarısız. Detaylar için logları kontrol edin.</system:String>
+    <system:String x:Key="SettingsImportedSuccessfully">Ayarlar başarıyla aktarıldı! Şimdi değişiklikleri uygulamak için uygulama kendini yeniden başlatacak.</system:String>
     <system:String x:Key="ImportSettingsWarning">Bu bütün ayarlarınızı değiştirecek.Devam etmek istiyor musunuz?</system:String>
     <system:String x:Key="FailedToImportSettings">Ayarların içe aktarılması başarısız.Detaylar için kayıtları kontrol edin.</system:String>
     <system:String x:Key="AllFuturePremiumFeatures">Bütün gelecek Premium özellikler</system:String>
@@ -226,9 +226,9 @@ Not: Açık kaynaklı bir proje olduğundan, bu özellikler GitHub'daki manuel y
     <system:String x:Key="DevelopersTitle">Geliştiriciler</system:String>
     <system:String x:Key="SponsorMeLink">Bana sponsor olun</system:String>
     <system:String x:Key="BuyMeCoffeeLink">Bana bir kahve ısmarlayın</system:String>
-    <system:String x:Key="ShowUpdateNotificationsTitle">Yeni güncellemeler için bildirimleri göster</system:String>
+    <system:String x:Key="ShowUpdateNotificationsTitle">Yeni güncellemeler için bildirim göster</system:String>
     <system:String x:Key="BackupRestoreSectionTitle">Yedekleme &amp; geri yükleme</system:String>
-    <system:String x:Key="BackupRestoreCardTitle">Yedekleme ve geri yükleme</system:String>
+    <system:String x:Key="BackupRestoreCardTitle">Ayarlarını Yedekleme ve geri yükle</system:String>
     <system:String x:Key="ExportSettings">Ayarları Dışa Aktar</system:String>
     <system:String x:Key="ImportSettings">Ayarları İçe Aktar</system:String>
     <system:String x:Key="ExportSuccessful">Dışa aktarma başarılı</system:String>
@@ -242,8 +242,8 @@ Not: Açık kaynaklı bir proje olduğundan, bu özellikler GitHub'daki manuel y
     <system:String x:Key="EnableVolumeFlyoutDescription">Varsayılan Windows ses açılır penceresini değiştir</system:String>
     <system:String x:Key="VolumeAboveMediaFlyoutTitle">Ses Açılır Penceresini Medya Açılır Penceresinin üzerine konumlandır</system:String>
     <system:String x:Key="VolumeFlyoutStayDurationTitle">Ses Açılır Penceresi Kalma Süresi</system:String>
-    <system:String x:Key="VolumeMixerSectionTitle">Ses Karıştırıcısı</system:String>
-    <system:String x:Key="EnableVolumeMixerTitle">Ses Karıştırıcısını etkinleştir</system:String>
+    <system:String x:Key="VolumeMixerSectionTitle">Ses Düzeyi Karıştırıcısı</system:String>
+    <system:String x:Key="EnableVolumeMixerTitle">Ses Düzeyi Karıştırıcısını etkinleştir</system:String>
     <system:String x:Key="EnableVolumeMixerDescription">Bireysel uygulama ses düzeyleri üzerinde hassas kontrol</system:String>
     <system:String x:Key="VolumeMixerHighlightTitle">Ses çalan uygulamaları vurgula</system:String>
     <system:String x:Key="VolumeMixerHighlightDescription">Şu anda hangi uygulamaların ses çıkışı verdiğini görün.</system:String>
