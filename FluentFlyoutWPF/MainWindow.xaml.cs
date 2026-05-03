@@ -232,13 +232,13 @@ public partial class MainWindow : MicaWindow
         }
     }
 
-    public bool IsSessionAllowed(MediaSession? session) 
+    public bool IsSessionAllowed(MediaSession? session)
     {
         if (session == null) return false;
         if (!SettingsManager.Current.AppFilteringEnabled) return true;
 
         string appId = session.Id ?? string.Empty;
-        string appName = MediaPlayerData.getMediaPlayerData(appId).Item1 ?? appId;
+        string appName = MediaPlayerData.GetAndCacheMediaPlayerData(appId).Item1 ?? appId;
 
         if (SettingsManager.Current.AppFilteringMode == 0) // Blacklist mode
         {
@@ -726,7 +726,7 @@ public partial class MainWindow : MicaWindow
         if (IsVisible)
         {
             var focusedSession = GetActiveMediaSession();
-            if (focusedSession != null) 
+            if (focusedSession != null)
             {
                 HandlePlayBackState(focusedSession.ControlSession.GetPlaybackInfo()?.PlaybackStatus);
                 UpdateUI(focusedSession);
@@ -988,10 +988,12 @@ public partial class MainWindow : MicaWindow
 
                 ControlPlayPause.IsEnabled = mediaProperties.Controls.IsPlayEnabled || mediaProperties.Controls.IsPauseEnabled;
 
-                if (ControlPlayPause.IsEnabled) {
+                if (ControlPlayPause.IsEnabled)
+                {
                     ControlPlayPause.Opacity = 1;
                 }
-                else {
+                else
+                {
                     ControlPlayPause.Opacity = 0.35;
                 }
 

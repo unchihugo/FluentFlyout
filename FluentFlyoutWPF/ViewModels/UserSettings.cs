@@ -836,7 +836,7 @@ public partial class UserSettings : ObservableObject
         MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
         mainWindow?.RefreshFilteredMedia();
     }
-        
+
     partial void OnVolumeMixerHighlightActiveAppsChanged(bool oldValue, bool newValue)
     {
         if (oldValue == newValue || _initializing) return;
