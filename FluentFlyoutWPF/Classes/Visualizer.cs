@@ -39,6 +39,7 @@ namespace FluentFlyoutWPF.Classes
         private System.Timers.Timer? _captureWatchdog;
         private DateTime _lastDataAvailableUtc = DateTime.MinValue;
         private int _restartInProgress; // 0=false, 1=true (Interlocked)
+        private string _deviceId; // track current device ID for restart logic
 
         private readonly struct BarGeometry
         {
@@ -145,8 +146,7 @@ namespace FluentFlyoutWPF.Classes
 
         private void OnDefaultDeviceChanged(object? sender, DefaultDeviceChangedEventArgs e)
         {
-            if (e.DataFlow != DataFlow.Render || e.Role != Role.Multimedia)
-                return;
+            _deviceId = e.DeviceId;
 
             // Even if capture isn't currently running (e.g. restart attempt failed while the device was reconfiguring),
             // we still want to try restarting as soon as Windows reports a usable default endpoint again.
@@ -211,7 +211,7 @@ namespace FluentFlyoutWPF.Classes
                 // Using the parameterless capture can throw transient COM errors when the default endpoint is
                 // reconfiguring (e.g. Bluetooth earbuds disconnect/reconnect around lock/unlock).
                 _renderDevice?.Dispose();
-                _renderDevice = AudioDeviceMonitor.Instance.GetDefaultRenderDevice();
+                _renderDevice = AudioDeviceMonitor.Instance.GetDeviceById(_deviceId) ?? AudioDeviceMonitor.Instance.GetDefaultRenderDevice();
 
                 if (_renderDevice == null)
                 {
