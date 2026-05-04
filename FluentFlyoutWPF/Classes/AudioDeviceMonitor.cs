@@ -56,7 +56,7 @@ public class AudioDeviceMonitor : IDisposable
 
     private void OnDefaultDeviceChanged(object? sender, DefaultDeviceChangedEventArgs e)
     {
-        // Render devices are output devices
+        // Render devices are output devices, no e.Role check because roles are quite often randomly assigned
         if (e.DataFlow != DataFlow.Render)
             return;
 
@@ -90,6 +90,7 @@ public class AudioDeviceMonitor : IDisposable
         catch (Exception ex)
         {
             Logger.Error(ex, "Failed to get device by id {0}", deviceId);
+            // TODO: we could investigate if returning GetDefaultRenderDevice() works as a fallback for returning null
             return null;
         }
     }
@@ -108,7 +109,22 @@ public class AudioDeviceMonitor : IDisposable
             {
                 Logger.Error(ex, "Failed to unregister device notification callback");
             }
-            _deviceEnumerator = null;
+        }
+
+        if (_deviceEnumerator != null)
+        {
+            try
+            {
+                _deviceEnumerator.Dispose();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "Failed to dispose device enumerator");
+            }
+            finally
+            {
+                _deviceEnumerator = null;
+            }
         }
 
         _notificationClient = null;

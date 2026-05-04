@@ -211,7 +211,9 @@ namespace FluentFlyoutWPF.Classes
                 // Using the parameterless capture can throw transient COM errors when the default endpoint is
                 // reconfiguring (e.g. Bluetooth earbuds disconnect/reconnect around lock/unlock).
                 _renderDevice?.Dispose();
-                _renderDevice = AudioDeviceMonitor.Instance.GetDeviceById(_deviceId) ?? AudioDeviceMonitor.Instance.GetDefaultRenderDevice();
+                _renderDevice = string.IsNullOrWhiteSpace(_deviceId)
+                     ? AudioDeviceMonitor.Instance.GetDefaultRenderDevice()
+                     : AudioDeviceMonitor.Instance.GetDeviceById(_deviceId) ?? AudioDeviceMonitor.Instance.GetDefaultRenderDevice();
 
                 if (_renderDevice == null)
                 {
