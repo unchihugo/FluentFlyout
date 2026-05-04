@@ -97,7 +97,7 @@
     <system:String x:Key="LockWindow_NumLock">Num Lock</system:String>
     <system:String x:Key="LockWindow_ScrollLock">Scroll Lock</system:String>
     <system:String x:Key="LockWindow_InsertPressed">Insert 키 누름</system:String>
-    <system:String x:Key="NextUpWindow_UpNextText">다음 곡:</system:String>
+    <system:String x:Key="NextUpWindow_UpNextText">이번 미디어:</system:String>
     <system:String x:Key="TrayIcon_SettingsOption">설정</system:String>
     <system:String x:Key="TrayIcon_GitHubRepositoryOption">저장소</system:String>
     <system:String x:Key="TrayIcon_ReportBugOption">오류 보고</system:String>
@@ -168,7 +168,7 @@
     <system:String x:Key="PremiumPurchaseCancelled">구매가 취소되었습니다.</system:String>
     <system:String x:Key="UnlockFullExperienceText">FluentFlyout의 모든 기능을 경험해 보세요:</system:String>
     <system:String x:Key="TaskbarWidgetCustomizationPerk">작업표시줄 위젯과 음악 비주얼라이저</system:String>
-    <system:String x:Key="AcrylicBlurOpacityPerk">아크릴 블러 불투명도</system:String>
+    <system:String x:Key="AcrylicBlurOpacityPerk">아크릴 블러 효과 조정</system:String>
     <system:String x:Key="HideTrayIconPerk">트레이 아이콘 숨기기</system:String>
     <system:String x:Key="AllFuturePremiumFeatures">향후 추가될 모든 프리미엄 기능</system:String>
     <system:String x:Key="LockKeysCursorUITitle">표시 디스플레이</system:String>
@@ -233,4 +233,19 @@
     <system:String x:Key="TaskbarWidgetAutoHideDescription">미디어가 중지되면 자동으로 위젯 숨기기</system:String>
     <system:String x:Key="LockKeysAnimatedTitle">팝업 애니메이션</system:String>
     <system:String x:Key="LockKeysAnimatedDescription">토글 키 팝업에 부드러운 애니메이션 활성화</system:String>
+    <system:String x:Key="TaskbarWidgetShowPauseOverlayTitle">일시정지 아이콘 오버레이</system:String>
+    <system:String x:Key="TaskbarWidgetShowPauseOverlayDescription">미디어가 일시정지 되었을 때, 앨범아트 위에 일시정지 아이콘 표시</system:String>
+    <system:String x:Key="VolumeMixerHighlightPerk">볼륨 믹서에서 실행 중인 앱을 강조</system:String>
+    <system:String x:Key="VolumeFlyoutTitle">볼륨 Flyout</system:String>
+    <system:String x:Key="VolumeFlyoutDescription">Windows 기본 볼륨 인터페이스를 대체하는, 볼륨 믹서로 확장 가능한 독립형 볼륨 제어 flyout입니다.</system:String>
+    <system:String x:Key="EnableVolumeFlyoutTitle">볼륨 Flyout 활성화</system:String>
+    <system:String x:Key="EnableVolumeFlyoutDescription">Windows 기본 볼륨 flyout을 대체</system:String>
+    <system:String x:Key="VolumeAboveMediaFlyoutTitle">미디어 Flyout 위에 볼륨 Flyout 표시</system:String>
+    <system:String x:Key="VolumeFlyoutStayDurationTitle">볼륨 Flyout 표시 지속 시간</system:String>
+    <system:String x:Key="VolumeMixerSectionTitle">볼륨 믹서</system:String>
+    <system:String x:Key="EnableVolumeMixerTitle">볼륨 믹서 활성화</system:String>
+    <system:String x:Key="EnableVolumeMixerDescription">개별 앱 볼륨 상세 조절</system:String>
+    <system:String x:Key="VolumeMixerHighlightTitle">오디오 재생 중인 앱 강조</system:String>
+    <system:String x:Key="VolumeMixerHighlightDescription">현재 오디오를 출력 중인 앱을 확인</system:String>
+    <system:String x:Key="MasterVolumeText">마스터 볼륨</system:String>
 </ResourceDictionary>

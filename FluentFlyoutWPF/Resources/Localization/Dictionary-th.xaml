@@ -30,4 +30,6 @@
     <system:String x:Key="MillisecondsUnit">ms</system:String>
     <system:String x:Key="MediaFlyoutAlwaysDisplay">แสดงผลไว้เสมอ</system:String>
     <system:String x:Key="ShowMediaPlayerNameTitle">แสดงชื่อของสื่อที่เล่นอยู่</system:String>
+    <system:String x:Key="FlyoutPositionTitle">ตำแหน่ง Flyout</system:String>
+    <system:String x:Key="MediaFlyoutAlwaysDisplayDescription">หน้าต่างป๊อปอัพจะเปิดค้างอยู่จนกว่าคุณจะคลิกปุ่มปิด</system:String>
 </ResourceDictionary>
