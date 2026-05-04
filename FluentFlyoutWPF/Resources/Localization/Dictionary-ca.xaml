@@ -103,8 +103,8 @@ Nota: Com a projecte de codi obert, aquestes opcions també estan disponibles de
     <system:String x:Key="PremiumPurchaseFailed">Compra fallida. Si us plau intenta-ho de nou.</system:String>
     <system:String x:Key="PremiumPurchaseCancelled">Compra cancel·lada.</system:String>
     <system:String x:Key="UnlockFullExperienceText">Desbloqueja l'experiència completa de FluentFlyout:</system:String>
-    <system:String x:Key="TaskbarWidgetCustomizationPerk">Widget de la Barra de Tasques i Visualitzador</system:String>
-    <system:String x:Key="AcrylicBlurOpacityPerk">Opacitat del difuminat Acrylic</system:String>
+    <system:String x:Key="TaskbarWidgetCustomizationPerk">Activa el Widget de la Barra de Tasques i Visualitzador</system:String>
+    <system:String x:Key="AcrylicBlurOpacityPerk">Ajusta l'efecte de desenfocament Acrílic</system:String>
     <system:String x:Key="HideTrayIconPerk">Amagar Icona de la Safata</system:String>
     <system:String x:Key="AllFuturePremiumFeatures">Totes les funcions premium</system:String>
     <system:String x:Key="NextUpCustomizationTitle">Flyout de Següent</system:String>
@@ -229,4 +229,19 @@ Pots ajudar a contribuir amb les traduccions a</system:String>
     <system:String x:Key="AdvancedSettingsTitle">Configuració Avançada</system:String>
     <system:String x:Key="LegacyTaskbarWidthTitle">Sistema Antic de l'Ample del Widget de la Barra de Tasques</system:String>
     <system:String x:Key="LegacyTaskbarWidthDescription">Fes servir el sistema antic de l'amplada del widget de la barra de tasques</system:String>
+    <system:String x:Key="TaskbarWidgetShowPauseOverlayTitle">Mostra l'Icona de Pausa</system:String>
+    <system:String x:Key="TaskbarWidgetShowPauseOverlayDescription">Quan el contingut multimèdia està en pausa, mostra una icona de pausa sobre la portada de l'àlbum</system:String>
+    <system:String x:Key="VolumeMixerHighlightPerk">Ressaltar les aplicacions actives al mesclador de volum</system:String>
+    <system:String x:Key="VolumeFlyoutTitle">Flyout de volum</system:String>
+    <system:String x:Key="VolumeFlyoutDescription">Un flyout independent de control de volum que s'expandeix a un mesclador de volum, reemplaçant la interfície de volum predeterminada del Windows.</system:String>
+    <system:String x:Key="EnableVolumeFlyoutTitle">Habilitar Flyout de Volum</system:String>
+    <system:String x:Key="EnableVolumeFlyoutDescription">Reemplaça el flyout de volum predeterminat de Windows</system:String>
+    <system:String x:Key="VolumeAboveMediaFlyoutTitle">Posicionar el Flyout de Volum sobre el Flyout de Multimèdia</system:String>
+    <system:String x:Key="VolumeFlyoutStayDurationTitle">Durada del Flyout de Volum</system:String>
+    <system:String x:Key="VolumeMixerSectionTitle">Mesclador de Volum</system:String>
+    <system:String x:Key="EnableVolumeMixerTitle">Activa el Mesclador de Volum</system:String>
+    <system:String x:Key="EnableVolumeMixerDescription">Control precís dels volums de les aplicacions individuals</system:String>
+    <system:String x:Key="VolumeMixerHighlightTitle">Ressaltar aplicacions que reprodueixen àudio</system:String>
+    <system:String x:Key="VolumeMixerHighlightDescription">Veure quines aplicacions estan emetent àudio actualment</system:String>
+    <system:String x:Key="MasterVolumeText">Volum principal</system:String>
 </ResourceDictionary>
