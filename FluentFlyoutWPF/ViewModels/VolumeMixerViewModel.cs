@@ -1,4 +1,4 @@
-// Copyright © 2024-2026 The FluentFlyout Authors
+// Copyright (c) 2024-2026 The FluentFlyout Authors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -80,14 +80,11 @@ public partial class VolumeMixerViewModel : ObservableObject, IDisposable
 
     private void OnDefaultDeviceChanged(object? sender, DefaultDeviceChangedEventArgs e)
     {
-        if (e.DataFlow != DataFlow.Render || e.Role != Role.Multimedia)
-            return;
-
         Logger.Info("Default render device changed, reattaching volume mixer");
 
         System.Windows.Application.Current.Dispatcher.InvokeAsync(() =>
         {
-            AttachDevice(AudioDeviceMonitor.Instance.GetDefaultRenderDevice());
+            AttachDevice(AudioDeviceMonitor.Instance.GetDeviceById(e.DeviceId));
         });
     }
 

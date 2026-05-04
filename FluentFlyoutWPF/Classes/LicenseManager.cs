@@ -1,4 +1,4 @@
-// Copyright © 2024-2026 The FluentFlyout Authors
+// Copyright (c) 2024-2026 The FluentFlyout Authors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 using FluentFlyout.Classes.Settings;
@@ -15,20 +15,20 @@ namespace FluentFlyout.Classes;
 public class LicenseManager
 {
     private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
-    
+
     private static LicenseManager? _instance;
     private static readonly object _lock = new();
-    
+
     private StoreContext? _storeContext;
     private StoreAppLicense? _appLicense;
     private StoreProduct? _productResult;
-    
+
     private const string PremiumAddOnId = "9N3XXQFPGFW5";
-    
+
     private bool _isInitialized;
     private bool _isPremiumUnlocked;
     private bool _isStoreVersion;
-    
+
     /// <summary>
     /// Gets the singleton instance of the LicenseManager
     /// </summary>
@@ -46,23 +46,23 @@ public class LicenseManager
             return _instance;
         }
     }
-    
+
     /// <summary>
     /// Gets whether the app is a Store version (has Store Product ID)
     /// </summary>
     public bool IsStoreVersion => _isStoreVersion;
-    
+
     /// <summary>
     /// Gets whether premium features are unlocked
     /// </summary>
     public bool IsPremiumUnlocked => _isPremiumUnlocked;
-    
+
     private LicenseManager()
     {
         _isInitialized = false;
         _isPremiumUnlocked = false;
     }
-    
+
     /// <summary>
     /// Initializes the license manager and checks license status
     /// </summary>
@@ -70,7 +70,7 @@ public class LicenseManager
     {
         if (_isInitialized)
             return;
-            
+
         try
         {
             Logger.Info("LicenseManager: Initializing");
@@ -117,7 +117,7 @@ public class LicenseManager
                 Logger.Info("Store version detected (SKU: {Sku})", _appLicense?.SkuStoreId);
                 await CheckPremiumStatusAsync();
             }
-            
+
             _isInitialized = true;
         }
         catch (Exception ex)
@@ -206,19 +206,19 @@ public class LicenseManager
                 Logger.Warn("Store context not initialized");
                 return (false, "Store context not initialized");
             }
-            
+
             if (!_isStoreVersion)
             {
                 Logger.Warn("Cannot purchase - not a Store version");
                 return (false, "Cannot purchase - not a Store version");
             }
-            
+
             if (_isPremiumUnlocked)
             {
                 Logger.Debug("Premium already unlocked");
                 return (true, string.Empty);
             }
-            
+
             // Get the add-on
             var addOnResult = await _storeContext.GetStoreProductsAsync(new[] { "Durable" }, new[] { PremiumAddOnId });
 
@@ -227,7 +227,7 @@ public class LicenseManager
                 Logger.Error("Error getting add-ons - {Message}", addOnResult.ExtendedError.Message);
                 return (false, "Error getting add-ons - " + addOnResult.ExtendedError.Message);
             }
-            
+
             if (!addOnResult.Products.TryGetValue(PremiumAddOnId, out _productResult))
             {
                 Logger.Warn("Premium add-on not found in store - {AddOnId}", PremiumAddOnId);
@@ -236,15 +236,15 @@ public class LicenseManager
 
             // Request purchase
             var purchaseResult = await _storeContext.RequestPurchaseAsync(PremiumAddOnId);
-            
+
             if (purchaseResult.ExtendedError != null)
             {
                 Logger.Error("Error during purchase - {Message}", purchaseResult.ExtendedError.Message);
                 return (false, "Purchase error - " + purchaseResult.ExtendedError.Message);
             }
-            
+
             var status = purchaseResult.Status;
-            
+
             if (status == StorePurchaseStatus.Succeeded)
             {
                 _isPremiumUnlocked = true;
@@ -269,7 +269,7 @@ public class LicenseManager
             return (false, "Error during purchase - " + ex.Message);
         }
     }
-    
+
     /// <summary>
     /// Refreshes the license status (checks for changes)
     /// </summary>
@@ -277,10 +277,10 @@ public class LicenseManager
     {
         if (!_isStoreVersion)
             return;
-            
+
         await CheckPremiumStatusAsync();
     }
-    
+
     /// <summary>
     /// Gets premium product information for display
     /// </summary>
@@ -301,7 +301,7 @@ public class LicenseManager
 
                 return price;
             }
-                
+
             var addOnResult = await _storeContext.GetStoreProductsAsync(new[] { "Durable" }, new[] { PremiumAddOnId });
 
             if (addOnResult.ExtendedError != null)

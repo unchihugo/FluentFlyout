@@ -1,4 +1,4 @@
-// Copyright ù 2024-2026 The FluentFlyout Authors
+// Copyright ÔøΩ 2024-2026 The FluentFlyout Authors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 using FluentFlyout.Classes;
@@ -125,7 +125,7 @@ public partial class TaskbarVisualizerControl : UserControl
     private void Grid_MouseLeave(object sender, MouseEventArgs e)
     {
         if (!SettingsManager.Current.TaskbarVisualizerClickable || !SettingsManager.Current.TaskbarVisualizerHasContent) return;
-        
+
         // Animate back to transparent
         var backgroundAnimation = new ColorAnimation
         {

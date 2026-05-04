@@ -191,9 +191,9 @@
     <system:String x:Key="AppearanceBehaviorSectionTitle">外观与行为</system:String>
     <system:String x:Key="UpdatesSectionTitle">软件更新</system:String>
     <system:String x:Key="ShowUpdateNotificationsTitle">有更新时显示通知</system:String>
-    <system:String x:Key="TaskbarWidgetCustomizationPerk">任务栏小组件与频谱可视化</system:String>
+    <system:String x:Key="TaskbarWidgetCustomizationPerk">启用任务栏小组件与频谱可视化</system:String>
     <system:String x:Key="HideTrayIconPerk">隐藏托盘图标</system:String>
-    <system:String x:Key="AcrylicBlurOpacityPerk">亚克力模糊效果的不透明度</system:String>
+    <system:String x:Key="AcrylicBlurOpacityPerk">调整亚克力模糊效果</system:String>
     <system:String x:Key="TaskbarVisualizerOutputDeviceTitle">输出设备</system:String>
     <system:String x:Key="TaskbarVisualizerOutputDeviceDescription">切换 FluentFlyout 的输出设备来更改可视化监听的输出设备。</system:String>
     <system:String x:Key="TaskbarVisualizerAudioPeakLevelTitle">音频峰值阈值</system:String>
@@ -235,4 +235,17 @@
     <system:String x:Key="LockKeysAnimatedDescription">为键盘锁定键指示器启用微小的动画效果</system:String>
     <system:String x:Key="TaskbarWidgetShowPauseOverlayTitle">显示暂停图标叠加层</system:String>
     <system:String x:Key="TaskbarWidgetShowPauseOverlayDescription">当媒体暂停播放时，在专辑封面上显示暂停图标</system:String>
+    <system:String x:Key="VolumeFlyoutStayDurationTitle">音量浮窗停留时间</system:String>
+    <system:String x:Key="VolumeMixerSectionTitle">音量合成器</system:String>
+    <system:String x:Key="VolumeFlyoutTitle">音量浮窗</system:String>
+    <system:String x:Key="EnableVolumeFlyoutTitle">启用音量浮窗</system:String>
+    <system:String x:Key="EnableVolumeFlyoutDescription">替换 Windows 默认的音量浮窗</system:String>
+    <system:String x:Key="VolumeAboveMediaFlyoutTitle">音量浮窗展示在媒体浮窗上方</system:String>
+    <system:String x:Key="EnableVolumeMixerTitle">启用音量合成器</system:String>
+    <system:String x:Key="EnableVolumeMixerDescription">精细控制每个应用的音量</system:String>
+    <system:String x:Key="VolumeMixerHighlightTitle">高亮正在播放音频的应用</system:String>
+    <system:String x:Key="VolumeMixerHighlightDescription">查看当前有哪些应用正在输出音频</system:String>
+    <system:String x:Key="VolumeMixerHighlightPerk">在音量合成器中高亮活跃应用</system:String>
+    <system:String x:Key="VolumeFlyoutDescription">一个独立的音量控制浮窗，可展开为音量合成器，取代 Windows 默认的音量界面。</system:String>
+    <system:String x:Key="MasterVolumeText">主音量</system:String>
 </ResourceDictionary>
