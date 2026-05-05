@@ -60,7 +60,7 @@
                                    Visibility="{Binding ViewModel.IsMasterMuted, Converter={StaticResource BoolToVisibleCollapsedConverter}}" />
                 </Grid>
             </ui:Button>
-            <Slider Grid.Column="1" Value="{Binding ViewModel.MasterVolume, Mode=TwoWay}" Minimum="0" Maximum="1" TickFrequency="0.01" VerticalAlignment="Center" />
+            <Slider Grid.Column="1" Value="{Binding ViewModel.MasterVolume, Mode=TwoWay}" Minimum="0" Maximum="1" TickFrequency="0.01" SmallChange="0.01" LargeChange="0.01" VerticalAlignment="Center" />
             <TextBlock Grid.Column="2" Text="{Binding ViewModel.MasterVolume, Converter={StaticResource DecimalPercentage}}" FontSize="14" VerticalAlignment="Center" Margin="8,-2,8,0" Width="24" TextAlignment="Center" />
             <ui:Button Name="OpenVolumeMixerButton" Grid.Column="3" VerticalAlignment="Center" Padding="4" Margin="0,0,4,0"
                        Command="{Binding ViewModel.OpenVolumeMixerCommand}" Focusable="False"
@@ -96,7 +96,7 @@
                                                    Visibility="{Binding IsMuted, Converter={StaticResource BoolToVisibleCollapsedConverter}}" />
                                         </Grid>
                                     </ui:Button>
-                                    <Slider Grid.Column="1" Value="{Binding Volume, Mode=TwoWay}" Minimum="0" Maximum="1" TickFrequency="0.01" VerticalAlignment="Center" />
+                                    <Slider Grid.Column="1" Value="{Binding Volume, Mode=TwoWay}" Minimum="0" Maximum="1" TickFrequency="0.01" SmallChange="0.01" LargeChange="0.01" VerticalAlignment="Center" />
                                     <TextBlock Grid.Column="2" Text="{Binding Volume, Converter={StaticResource DecimalPercentage}}" FontSize="12" VerticalAlignment="Center" Margin="8,0" Width="24" TextAlignment="Center" />
                                 </Grid>
                             </Border>
