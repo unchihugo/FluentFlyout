@@ -72,7 +72,7 @@
                 </ui:SymbolIcon>
             </ui:Button>
         </Grid>
-        <Border BorderThickness="0 1 0 0" BorderBrush="{DynamicResource TextFillColorDisabledBrush}" Opacity="0.5" Margin="8,6" />
+        <Border x:Name="SessionsSeparator" BorderThickness="0 1 0 0" BorderBrush="{DynamicResource TextFillColorDisabledBrush}" Opacity="0.5" Margin="8,6" Visibility="Collapsed" />
         <ui:PassiveScrollViewer VerticalScrollBarVisibility="Auto" MaxHeight="220" Margin="0" Padding="8,0,8,16" >
             <StackPanel x:Name="SessionsExpanded" Visibility="Collapsed" >
                 <TextBlock Text="{DynamicResource VolumeMixerSectionTitle}" FontWeight="Medium" Margin="8" />

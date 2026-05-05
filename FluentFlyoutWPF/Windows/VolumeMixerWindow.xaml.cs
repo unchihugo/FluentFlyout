@@ -247,6 +247,7 @@ public partial class VolumeMixerWindow : MicaWindow
         if (expand)
         {
             SessionsExpanded.Visibility = Visibility.Visible;
+            SessionsSeparator.Visibility = Visibility.Visible;
             SessionsPanel.UpdateLayout();
         }
 
@@ -294,6 +295,7 @@ public partial class VolumeMixerWindow : MicaWindow
             heightAnimation.Completed += (s, e) =>
             {
                 SessionsExpanded.Visibility = Visibility.Collapsed;
+                SessionsSeparator.Visibility = Visibility.Collapsed;
             };
         }
 
