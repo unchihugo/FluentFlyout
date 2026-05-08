@@ -59,6 +59,9 @@ public partial class VolumeMixerWindow : MicaWindow
     // one day we might want to convert these to an interface
     public async void ShowFlyout()
     {
+        if (FullscreenDetector.IsFullscreenApplicationRunning())
+            return;
+
         long currentTime = Environment.TickCount64;
 
         if (currentTime - _lastFlyoutTime < _flyoutCooldown.TotalMilliseconds)
