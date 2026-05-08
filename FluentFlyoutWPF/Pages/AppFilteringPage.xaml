@@ -15,7 +15,7 @@
 
     <StackPanel MaxWidth="1000" Margin="16">
         <TextBlock Text="{DynamicResource AppFilteringTitle}" FontSize="24" FontWeight="SemiBold" Margin="0,0,0,20" />
-        
+
         <ui:CardControl Icon="{ui:SymbolIcon Filter24}" Margin="0,0,0,24">
             <ui:CardControl.Header>
                 <StackPanel Orientation="Vertical">
@@ -61,13 +61,9 @@
                     </Style.Triggers>
                 </Style>
             </Grid.Style>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="16" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
 
-            <Border Grid.Column="0" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1" CornerRadius="8" Padding="16" VerticalAlignment="Top" Grid.ColumnSpan="3">
+            <!-- Allowed apps (whitelist) -->
+            <Border Margin="0,0,0,24" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1" CornerRadius="8">
                 <Border.Style>
                     <Style TargetType="Border">
                         <Setter Property="Visibility" Value="Collapsed"/>
@@ -78,73 +74,75 @@
                         </Style.Triggers>
                     </Style>
                 </Border.Style>
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-
-                    <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,16">
-                        <ui:SymbolIcon Symbol="CheckmarkCircle24" FontSize="28" Margin="0,0,12,0" Foreground="{DynamicResource SystemFillColorSuccessBrush}"/>
-                        <StackPanel VerticalAlignment="Center" Margin="0,1,0,0">
-                            <TextBlock Text="{DynamicResource AllowedAppsTitle}" FontSize="16" FontWeight="SemiBold" />
-                            <TextBlock Text="{DynamicResource AllowedAppsDescription}" FontSize="12" Opacity="0.6" TextWrapping="Wrap" Margin="0,2,0,0" />
-                        </StackPanel>
-                    </StackPanel>
-
-                    <Grid Grid.Row="1" Margin="0,0,0,12">
+                <StackPanel>
+                    <Grid Margin="16">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        <ComboBox Grid.Column="0" IsEditable="False" x:Name="AllowComboBox" HorizontalAlignment="Stretch" DropDownOpened="AllowComboBox_DropDownOpened" Margin="0,0,8,0" MinHeight="36" Padding="16,8,16,8">
-                            <ComboBox.ItemContainerStyle>
-                                <Style TargetType="ComboBoxItem" BasedOn="{StaticResource {x:Type ComboBoxItem}}">
-                                    <Setter Property="Padding" Value="16,8,16,8" />
-                                </Style>
-                            </ComboBox.ItemContainerStyle>
-                        </ComboBox>
-                        <ui:Button Grid.Column="1" Content="{DynamicResource AddButton}" Click="AddAllow_Click" Appearance="Primary" />
+                        <ui:SymbolIcon Symbol="CheckmarkCircle24" FontSize="20" Margin="0,0,16,0" VerticalAlignment="Center" />
+                        <StackPanel Grid.Column="1" Orientation="Vertical" VerticalAlignment="Center">
+                            <TextBlock Text="{DynamicResource AllowedAppsTitle}" FontSize="14" FontWeight="Regular" />
+                            <TextBlock Text="{DynamicResource AllowedAppsDescription}" FontSize="12" Opacity="0.5" TextWrapping="Wrap" Margin="0,2,0,0" />
+                        </StackPanel>
                     </Grid>
 
-                    <ListBox Grid.Row="2" ItemsSource="{Binding AllowedApps}" MinHeight="150" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch">
-                        <ListBox.ItemContainerStyle>
-                            <Style TargetType="ListBoxItem" BasedOn="{StaticResource {x:Type ListBoxItem}}">
-                                <Setter Property="Focusable" Value="False" />
-                            </Style>
-                        </ListBox.ItemContainerStyle>
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <Grid HorizontalAlignment="Stretch">
+                    <Border Background="{DynamicResource CardBackgroundFillColorSecondaryBrush}" Padding="16" CornerRadius="0,0,8,8" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="0,1,0,0">
+                        <StackPanel>
+                            <Grid Margin="0,0,0,12">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <ComboBox Grid.Column="0" IsEditable="False" x:Name="AllowComboBox" HorizontalAlignment="Stretch" DropDownOpened="AllowComboBox_DropDownOpened" Margin="0,0,8,0" MinHeight="36" Padding="16,8,16,8">
+                                    <ComboBox.ItemContainerStyle>
+                                        <Style TargetType="ComboBoxItem" BasedOn="{StaticResource {x:Type ComboBoxItem}}">
+                                            <Setter Property="Padding" Value="16,8,16,8" />
+                                        </Style>
+                                    </ComboBox.ItemContainerStyle>
+                                </ComboBox>
+                                <ui:Button Grid.Column="1" Content="{DynamicResource AddButton}" Click="AddAllow_Click" Appearance="Primary" />
+                            </Grid>
+
+                            <ListBox ItemsSource="{Binding AllowedApps}" MinHeight="150" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch">
+                                <ListBox.ItemContainerStyle>
+                                    <Style TargetType="ListBoxItem" BasedOn="{StaticResource {x:Type ListBoxItem}}">
+                                        <Setter Property="Focusable" Value="False" />
+                                    </Style>
+                                </ListBox.ItemContainerStyle>
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid HorizontalAlignment="Stretch">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Grid.Column="0" Text="{Binding}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
+                                            <ui:Button Grid.Column="1" Content="{DynamicResource RemoveButton}" Click="RemoveAllow_Click" Tag="{Binding}" Margin="8,0,0,0" Padding="8,4" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+
+                            <StackPanel Margin="0,16,0,0">
+                                <Border Height="1" Background="{DynamicResource CardStrokeColorDefaultBrush}" Margin="0,0,0,12" />
+                                <TextBlock Text="{DynamicResource AddAppManuallyText}" FontSize="12" Opacity="0.65" Margin="0,0,0,8" />
+                                <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
-                                    <TextBlock Grid.Column="0" Text="{Binding}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
-                                    <ui:Button Grid.Column="1" Content="{DynamicResource RemoveButton}" Click="RemoveAllow_Click" Tag="{Binding}" Margin="8,0,0,0" Padding="8,4" />
+                                    <ui:TextBox Grid.Column="0" x:Name="AllowTextBox" PlaceholderText="{DynamicResource AppFilteringPlaceholderSpotify}" HorizontalAlignment="Stretch" Margin="0,0,8,0" ClearButtonEnabled="False" />
+                                    <ui:Button Grid.Column="1" Content="{DynamicResource AddButton}" Click="AddAllowManual_Click" Appearance="Secondary" />
                                 </Grid>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
-
-                    <StackPanel Grid.Row="3" Margin="0,16,0,0">
-                        <Border Height="1" Background="{DynamicResource CardStrokeColorDefaultBrush}" Margin="0,0,0,12" />
-                        <TextBlock Text="{DynamicResource AddAppManuallyText}" FontSize="12" Opacity="0.65" Margin="0,0,0,8" />
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-                            <ui:TextBox Grid.Column="0" x:Name="AllowTextBox" PlaceholderText="{DynamicResource AppFilteringPlaceholderSpotify}" HorizontalAlignment="Stretch" Margin="0,0,8,0" ClearButtonEnabled="False" />
-                            <ui:Button Grid.Column="1" Content="{DynamicResource AddButton}" Click="AddAllowManual_Click" Appearance="Secondary" />
-                        </Grid>
-                    </StackPanel>
-                </Grid>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
             </Border>
 
-            <Border Grid.Column="0" Grid.ColumnSpan="3" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1" CornerRadius="8" Padding="16" VerticalAlignment="Top">
+            <!-- Blocked apps (blacklist) -->
+            <Border Background="{DynamicResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1" CornerRadius="8">
                 <Border.Style>
                     <Style TargetType="Border">
                         <Setter Property="Visibility" Value="Collapsed"/>
@@ -155,70 +153,71 @@
                         </Style.Triggers>
                     </Style>
                 </Border.Style>
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-
-                    <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,16">
-                        <ui:SymbolIcon Symbol="Prohibited24" FontSize="28" Margin="0,0,12,0" Foreground="{DynamicResource SystemFillColorCriticalBrush}"/>
-                        <StackPanel VerticalAlignment="Center" Margin="0,1,0,0">
-                            <TextBlock Text="{DynamicResource BlockedAppsTitle}" FontSize="16" FontWeight="SemiBold" />
-                            <TextBlock Text="{DynamicResource BlockedAppsDescription}" FontSize="12" Opacity="0.6" TextWrapping="Wrap" Margin="0,2,0,0" />
-                        </StackPanel>
-                    </StackPanel>
-
-                    <Grid Grid.Row="1" Margin="0,0,0,12">
+                <StackPanel>
+                    <Grid Margin="16">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        <ComboBox Grid.Column="0" IsEditable="False" x:Name="BlockComboBox" HorizontalAlignment="Stretch" DropDownOpened="BlockComboBox_DropDownOpened" Margin="0,0,8,0" MinHeight="36" Padding="16,8,16,8">
-                            <ComboBox.ItemContainerStyle>
-                                <Style TargetType="ComboBoxItem" BasedOn="{StaticResource {x:Type ComboBoxItem}}">
-                                    <Setter Property="Padding" Value="16,8,16,8" />
-                                </Style>
-                            </ComboBox.ItemContainerStyle>
-                        </ComboBox>
-                        <ui:Button Grid.Column="1" Content="{DynamicResource AddButton}" Click="AddBlock_Click" Appearance="Primary" />
+                        <ui:SymbolIcon Symbol="Prohibited24" FontSize="20" Margin="0,0,16,0" VerticalAlignment="Center" />
+                        <StackPanel Grid.Column="1" Orientation="Vertical" VerticalAlignment="Center">
+                            <TextBlock Text="{DynamicResource BlockedAppsTitle}" FontSize="14" FontWeight="Regular" />
+                            <TextBlock Text="{DynamicResource BlockedAppsDescription}" FontSize="12" Opacity="0.5" TextWrapping="Wrap" Margin="0,2,0,0" />
+                        </StackPanel>
                     </Grid>
 
-                    <ListBox Grid.Row="2" ItemsSource="{Binding BlockedApps}" MinHeight="150" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch">
-                        <ListBox.ItemContainerStyle>
-                            <Style TargetType="ListBoxItem" BasedOn="{StaticResource {x:Type ListBoxItem}}">
-                                <Setter Property="Focusable" Value="False" />
-                            </Style>
-                        </ListBox.ItemContainerStyle>
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <Grid HorizontalAlignment="Stretch">
+                    <Border Background="{DynamicResource CardBackgroundFillColorSecondaryBrush}" Padding="16" CornerRadius="0,0,8,8" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="0,1,0,0">
+                        <StackPanel>
+                            <Grid Margin="0,0,0,12">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <ComboBox Grid.Column="0" IsEditable="False" x:Name="BlockComboBox" HorizontalAlignment="Stretch" DropDownOpened="BlockComboBox_DropDownOpened" Margin="0,0,8,0" MinHeight="36" Padding="16,8,16,8">
+                                    <ComboBox.ItemContainerStyle>
+                                        <Style TargetType="ComboBoxItem" BasedOn="{StaticResource {x:Type ComboBoxItem}}">
+                                            <Setter Property="Padding" Value="16,8,16,8" />
+                                        </Style>
+                                    </ComboBox.ItemContainerStyle>
+                                </ComboBox>
+                                <ui:Button Grid.Column="1" Content="{DynamicResource AddButton}" Click="AddBlock_Click" Appearance="Primary" />
+                            </Grid>
+
+                            <ListBox ItemsSource="{Binding BlockedApps}" MinHeight="150" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch">
+                                <ListBox.ItemContainerStyle>
+                                    <Style TargetType="ListBoxItem" BasedOn="{StaticResource {x:Type ListBoxItem}}">
+                                        <Setter Property="Focusable" Value="False" />
+                                    </Style>
+                                </ListBox.ItemContainerStyle>
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid HorizontalAlignment="Stretch">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Grid.Column="0" Text="{Binding}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
+                                            <ui:Button Grid.Column="1" Content="{DynamicResource RemoveButton}" Click="RemoveBlock_Click" Tag="{Binding}" Margin="8,0,0,0" Padding="8,4" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+
+                            <StackPanel Margin="0,16,0,0">
+                                <Border Height="1" Background="{DynamicResource CardStrokeColorDefaultBrush}" Margin="0,0,0,12" />
+                                <TextBlock Text="{DynamicResource AddAppManuallyText}" FontSize="12" Opacity="0.65" Margin="0,0,0,8" />
+                                <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
-                                    <TextBlock Grid.Column="0" Text="{Binding}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
-                                    <ui:Button Grid.Column="1" Content="{DynamicResource RemoveButton}" Click="RemoveBlock_Click" Tag="{Binding}" Margin="8,0,0,0" Padding="8,4" />
+                                    <ui:TextBox Grid.Column="0" x:Name="BlockTextBox" PlaceholderText="{DynamicResource AppFilteringPlaceholderChrome}" HorizontalAlignment="Stretch" Margin="0,0,8,0" ClearButtonEnabled="False" />
+                                    <ui:Button Grid.Column="1" Content="{DynamicResource AddButton}" Click="AddBlockManual_Click" Appearance="Secondary" />
                                 </Grid>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
-
-                    <StackPanel Grid.Row="3" Margin="0,16,0,0">
-                        <Border Height="1" Background="{DynamicResource CardStrokeColorDefaultBrush}" Margin="0,0,0,12" />
-                        <TextBlock Text="{DynamicResource AddAppManuallyText}" FontSize="12" Opacity="0.65" Margin="0,0,0,8" />
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-                            <ui:TextBox Grid.Column="0" x:Name="BlockTextBox" PlaceholderText="{DynamicResource AppFilteringPlaceholderChrome}" HorizontalAlignment="Stretch" Margin="0,0,8,0" ClearButtonEnabled="False" />
-                            <ui:Button Grid.Column="1" Content="{DynamicResource AddButton}" Click="AddBlockManual_Click" Appearance="Secondary" />
-                        </Grid>
-                    </StackPanel>
-                </Grid>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
             </Border>
         </Grid>
     </StackPanel>
