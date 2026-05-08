@@ -66,11 +66,8 @@ public static class MediaPlayerData
             {
                 try
                 {
-                    // pre-filter processes without a main window handle
-                    if (p.MainWindowHandle == IntPtr.Zero)
-                    {
-                        return null;
-                    }
+                    // we no longer filter processes without main window handle, 
+                    // as background media processes may not have one.
 
                     var mainModule = p.MainModule;
                     if (mainModule == null) return null;
