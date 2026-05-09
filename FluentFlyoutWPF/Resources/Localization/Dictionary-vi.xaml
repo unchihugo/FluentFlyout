@@ -3,7 +3,7 @@
     <system:String x:Key="MediaFlyoutTitle">Điều khiển phát lại</system:String>
     <system:String x:Key="MediaFlyoutDescription">Giao diện này hiện lên mỗi khi nhấn phím phát, ngừng phát, tăng, giảm, tắt tiếng, v.v. cho phép bạn theo dõi và điều khiển nội dung đang phát.</system:String>
     <system:String x:Key="TextBlockText1">Hiển thị giao diện</system:String>
-    <system:String x:Key="TextBlockText3">Hiển thị trình đơn khi bạn điều khiển trình phát</system:String>
+    <system:String x:Key="TextBlockText3">Cho phép hiển thị giao diện</system:String>
     <system:String x:Key="CompactLayoutTitle">Giao diện nhỏ gọn</system:String>
     <system:String x:Key="CompactLayoutDescription" xml:space="preserve">Ẩn tên ứng dụng đang phát, các nút lặp lại và xáo bài</system:String>
     <system:String x:Key="FlyoutPositionTitle">Vị trí giao diện</system:String>
@@ -26,7 +26,7 @@
     <system:String x:Key="ShowSeekbarTitle">Thanh phát lại</system:String>
     <system:String x:Key="ShowSeekbarDescription">Tua đi tua lại nội dung</system:String>
     <system:String x:Key="UnsupportedControlsWarning">*Một số ứng dụng không hỗ trợ chức năng lặp lại, trộn bài hoặc thanh phát lại.</system:String>
-    <system:String x:Key="PauseOtherMediaTitle">Tự động tạm dừng các nội dung Khác</system:String>
+    <system:String x:Key="PauseOtherMediaTitle">Tự động tạm dừng các nội dung khác</system:String>
     <system:String x:Key="PauseOtherMediaDescription">Tự động tạm dừng các nội dung khác ngoài nội dung đang phát</system:String>
     <system:String x:Key="NextUpCustomizationTitle">Thông báo nội dung tiếp theo</system:String>
     <system:String x:Key="NextUpDescription" xml:space="preserve">Giao diện này cho phép bạn theo dõi nội dung tiếp theo, và chỉ hiện lên khi đang phát tự động.</system:String>
