@@ -648,6 +648,33 @@ public partial class UserSettings : ObservableObject
         LastUpdateNotificationUnixSeconds = 0;
         ShowUpdateNotifications = true;
         LegacyTaskbarWidthEnabled = false;
+
+        PropertyChanged += OnPropertyChangedSaveSettings;
+    }
+
+    [XmlIgnore]
+    private System.Threading.CancellationTokenSource? _saveSettingsCts;
+
+    private async void OnPropertyChangedSaveSettings(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+    {
+        if (_initializing) return;
+
+        _saveSettingsCts?.Cancel();
+        _saveSettingsCts = new System.Threading.CancellationTokenSource();
+        var token = _saveSettingsCts.Token;
+
+        try
+        {
+            await System.Threading.Tasks.Task.Delay(500, token);
+            if (!token.IsCancellationRequested)
+            {
+                SettingsManager.SaveSettings();
+            }
+        }
+        catch (System.Threading.Tasks.TaskCanceledException)
+        {
+            // Ignored
+        }
     }
 
     /// <summary>
