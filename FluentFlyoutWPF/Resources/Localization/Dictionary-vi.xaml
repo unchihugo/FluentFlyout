@@ -84,7 +84,7 @@ hoặc để lại một bình luận trên Microsoft Store!</system:String>
     <system:String x:Key="BackgroundBlurOption2" xml:space="preserve"> Kiểu 1 (Mờ bên trái)</system:String>
     <system:String x:Key="BackgroundBlurOption3" xml:space="preserve"> Kiểu 2 (Mờ bên dưới)</system:String>
     <system:String x:Key="BackgroundBlurOption4" xml:space="preserve"> Kiểu 3 (Mờ toàn phần)</system:String>
-    <system:String x:Key="TextBlockText2">In mờ ảnh bìa của nội dung trên nền</system:String>
+    <system:String x:Key="TextBlockText2">Chọn phương án in mờ</system:String>
     <system:String x:Key="StartupAppsHyperlinkText">Ứng dụng Khởi động (Startup Apps)</system:String>
     <system:String x:Key="AppLanguageDescription" xml:space="preserve">Các phần không được biên dịch sẽ tự động trả về tiếng Anh.
 Bạn có thể hỗ trợ dịch tại</system:String>
@@ -105,10 +105,10 @@ Bạn có thể hỗ trợ dịch tại</system:String>
     <system:String x:Key="TaskbarWidgetClickableTitle">Mở giao diện điều khiển phát lại khi nhấn vào</system:String>
     <system:String x:Key="TaskbarWidgetClickableDescription">Giao diện trên chỉ mở lên khi được cho phép hiển thị</system:String>
     <system:String x:Key="TaskbarWidgetBackgroundBlurTitle">In mờ ảnh bìa trên nền</system:String>
-    <system:String x:Key="TaskbarWidgetBackgroundBlurDescription">In mờ ảnh bìa của nội dung trên nền</system:String>
-    <system:String x:Key="TaskbarWidgetHideCompletelyTitle">Ẩn khi không phát</system:String>
-    <system:String x:Key="TaskbarWidgetHideCompletelyDescription">Không hiển thị biểu tượng mặc định khi không phát</system:String>
-    <system:String x:Key="TaskbarWidgetControlsTitle">Nút điều khiển nội dung</system:String>
+    <system:String x:Key="TaskbarWidgetBackgroundBlurDescription">Chọn phương án in mờ</system:String>
+    <system:String x:Key="TaskbarWidgetHideCompletelyTitle">Ẩn khi không có nội dung đang phát</system:String>
+    <system:String x:Key="TaskbarWidgetHideCompletelyDescription">Ẩn khi không có nội dung đang phát</system:String>
+    <system:String x:Key="TaskbarWidgetControlsTitle">Các nút điều khiển nội dung</system:String>
     <system:String x:Key="TaskbarWidgetControlsDescription">Thêm các nút phát, chuyển sang nội dung mới và về nội dung cũ</system:String>
     <system:String x:Key="TaskbarWidgetAnimatedTitle">Hiệu ứng chuyển tiếp</system:String>
     <system:String x:Key="TaskbarWidgetAnimatedDescription">Xuất hiện hiệu ứng khi chuyển tiếp nội dung</system:String>
@@ -212,7 +212,7 @@ Vì đây là dự án mã nguồn mở, những tính năng premium cũng có t
     <system:String x:Key="FailedToExportSettings">Xuất cấu hình không thành công. Kiểm tra nhật trình để xem chi tiết.</system:String>
     <system:String x:Key="ImportSettingsWarning">Điều này sẽ thay đổi cấu hình hiện tại. Có tiếp tục không?</system:String>
     <system:String x:Key="FailedToImportSettings">Nhập cấu hình không thành công. Kiểm tra nhật trình để xem chi tiết.</system:String>
-    <system:String x:Key="TaskbarWidgetControlsPositionTitle">Vị trí nút điều khiển nội dung</system:String>
+    <system:String x:Key="TaskbarWidgetControlsPositionTitle">Vị trí các nút điều khiển nội dung</system:String>
     <system:String x:Key="TaskbarWidgetControlsPositionDescription">Chỉnh vị trí cho các nút điều khiển nội dung</system:String>
     <system:String x:Key="PositionLeft">Trái</system:String>
     <system:String x:Key="PositionRight">Phải</system:String>
@@ -228,10 +228,10 @@ Vì đây là dự án mã nguồn mở, những tính năng premium cũng có t
     <system:String x:Key="LegacyTaskbarWidthTitle">Xác định vị trí bằng GetWindowRect</system:String>
     <system:String x:Key="LegacyTaskbarWidthDescription">Xác định vị trí của thẻ nội dung bằng GetWindowRect</system:String>
     <system:String x:Key="AdvancedSettingsTitle">Tùy chọn nâng cao</system:String>
-    <system:String x:Key="LockKeysAnimatedDescription">Bật hoạt ảnh chỉ báo trạng thái phím lock</system:String>
-    <system:String x:Key="LockKeysAnimatedTitle">Hoạt ảnh chỉ báo</system:String>
-    <system:String x:Key="TaskbarWidgetAutoHideDescription">Tự động ẩn khi tạm dừng nội dung</system:String>
-    <system:String x:Key="TaskbarWidgetAutoHideTitle">Tự động ẩn</system:String>
+    <system:String x:Key="LockKeysAnimatedDescription">Khi tắt, biểu tượng sẽ bất động</system:String>
+    <system:String x:Key="LockKeysAnimatedTitle">Hoạt họa chỉ báo</system:String>
+    <system:String x:Key="TaskbarWidgetAutoHideDescription">Ẩn khi tạm dừng</system:String>
+    <system:String x:Key="TaskbarWidgetAutoHideTitle">Ẩn khi tạm dừng</system:String>
     <system:String x:Key="TaskbarWidgetShowPauseOverlayTitle">In đè biểu tượng tạm dừng lên ảnh bìa</system:String>
     <system:String x:Key="TaskbarWidgetShowPauseOverlayDescription">Mỗi khi tạm dừng, in đè biểu tượng này lên ảnh bìa</system:String>
     <system:String x:Key="VolumeMixerHighlightPerk">Tô sáng các ứng dụng đang phát</system:String>
