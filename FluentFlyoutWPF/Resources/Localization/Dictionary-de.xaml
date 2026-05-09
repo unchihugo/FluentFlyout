@@ -245,4 +245,7 @@ Du kannst helfen, die App zu übersetzen auf</system:String>
     <system:String x:Key="EnableVolumeMixerTitle">Aktiviere Lautstärke Mixer</system:String>
     <system:String x:Key="VolumeMixerHighlightTitle">Hebe Audio abspielende Apps hervor</system:String>
     <system:String x:Key="VolumeMixerHighlightDescription">Zeige alle aktuell Audio ausgebenden Apps</system:String>
+    <system:String x:Key="VolumeFlyoutDescription">Ein alleinstehendes Lautstärkeregler-Flyout, welches zu einem Lautstärke Mixer expandiert und das standart Windows Lautstärke Bedienfeld ersetzt.</system:String>
+    <system:String x:Key="EnableVolumeMixerDescription">Feine Kontrolle über die Lautstärke einzelner Apps</system:String>
+    <system:String x:Key="MasterVolumeText">Hauptlautstärke</system:String>
 </ResourceDictionary>
