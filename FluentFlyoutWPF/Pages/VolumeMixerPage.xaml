@@ -87,7 +87,7 @@
             
             <StackPanel Visibility="{Binding IsVoicemeeterLoaded, Converter={StaticResource BoolToCollapsedVisibleConverter}}" Grid.Row="4">
                 <TextBlock Text="{DynamicResource VolumeVoicemeeterSectionTitle}" FontSize="14" FontWeight="SemiBold" Margin="0,12,0,6" />
-                <ui:CardControl>
+                <ui:CardControl Icon="{ui:SymbolIcon SoundWaveCircle24}" Margin="0,0,0,3">
                     <ui:CardControl.Header>
                         <StackPanel Orientation="Vertical">
                             <TextBlock Text="{DynamicResource VolumeVoicemeeterIntegrationTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
@@ -97,7 +97,7 @@
                     <controls:ToggleSwitch IsChecked="{Binding VolumeVoicemeeterEnabled, Mode=TwoWay}"></controls:ToggleSwitch>
                 </ui:CardControl>
                 
-                <ui:CardControl>
+                <ui:CardControl Icon="{ui:SymbolIcon List24}" Margin="0,0,0,3">
                     <ui:CardControl.Header>
                         <StackPanel Orientation="Vertical">
                             <TextBlock Text="{DynamicResource VolumeVoicemeeterComponentTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
@@ -110,7 +110,7 @@
                     </ComboBox>
                 </ui:CardControl>
                 
-                <ui:CardControl>
+                <ui:CardControl Icon="{ui:SymbolIcon NumberSymbol24}" Margin="0,0,0,12">
                     <ui:CardControl.Header>
                         <StackPanel Orientation="Vertical">
                             <TextBlock Text="{DynamicResource VolumeVoicemeeterComponentIndex}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
