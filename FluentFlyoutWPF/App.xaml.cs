@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 using FluentFlyout.Classes;
+using FluentFlyoutWPF.Classes.Utils;
 using Microsoft.Toolkit.Uwp.Notifications;
 using System.Windows;
-using FluentFlyoutWPF.Classes.Utils;
 
 namespace FluentFlyoutWPF;
 
@@ -27,16 +27,18 @@ public partial class App : Application
 
         // Try to load Voicemeeter
         VoicemeeterLoader.Load();
-        
+
         base.OnStartup(e);
     }
 
-    protected override void OnExit(ExitEventArgs e) {
-        if (VoicemeeterHelper.Instance != null) {
+    protected override void OnExit(ExitEventArgs e)
+    {
+        if (VoicemeeterHelper.Instance != null)
+        {
             VoicemeeterHelper.Instance.Dispose();
             VoicemeeterHelper.Instance = null;
         }
-        
+
         base.OnExit(e);
     }
 }

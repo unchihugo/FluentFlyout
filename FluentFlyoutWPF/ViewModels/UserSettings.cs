@@ -7,12 +7,12 @@ using FluentFlyout.Classes.Settings;
 using FluentFlyout.Classes.Utils;
 using FluentFlyout.Controls;
 using FluentFlyoutWPF.Classes;
+using FluentFlyoutWPF.Classes.Utils;
 using FluentFlyoutWPF.Models;
 using FluentFlyoutWPF.Windows;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Xml.Serialization;
-using FluentFlyoutWPF.Classes.Utils;
 
 namespace FluentFlyoutWPF.ViewModels;
 
@@ -517,19 +517,20 @@ public partial class UserSettings : ObservableObject
 
     [ObservableProperty]
     public partial bool IsVoicemeeterLoaded { get; set; }
-    
+
     [ObservableProperty]
     public partial bool VolumeVoicemeeterEnabled { get; set; }
-    
+
     [ObservableProperty]
     public partial VoicemeeterComponent VolumeVoicemeeterComponent { get; set; }
 
     [XmlIgnore]
-    public int VolumeVoicemeeterComponentInt {
-        get =>  VoicemeeterComponentExtension.GetVoicemeeterComponentInt(VolumeVoicemeeterComponent);
+    public int VolumeVoicemeeterComponentInt
+    {
+        get => VoicemeeterComponentExtension.GetVoicemeeterComponentInt(VolumeVoicemeeterComponent);
         set => VolumeVoicemeeterComponent = VoicemeeterComponentExtension.GetVoicemeeterComponentFromInt(value);
     }
-    
+
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(VolumeVoicemeeterComponentIndexText))]
     public partial int VolumeVoicemeeterComponentIndex { get; set; }
@@ -556,7 +557,7 @@ public partial class UserSettings : ObservableObject
             OnPropertyChanged();
         }
     }
-    
+
     [ObservableProperty]
     public partial bool VolumeMixerEnabled { get; set; }
 
@@ -703,9 +704,10 @@ public partial class UserSettings : ObservableObject
     {
         _initializing = false;
         IsVoicemeeterLoaded = VoicemeeterLoader.IsLoaded;
-        
+
         // If voicemeeter isn't loaded, disable voicemeeter volume
-        if (!IsVoicemeeterLoaded) {
+        if (!IsVoicemeeterLoaded)
+        {
             VolumeVoicemeeterEnabled = false;
         }
     }
@@ -847,13 +849,17 @@ public partial class UserSettings : ObservableObject
         BitmapHelper.GetDominantColors(1);
     }
 
-    partial void OnVolumeVoicemeeterEnabledChanged(bool oldValue, bool newValue) {
-        if (newValue) {
+    partial void OnVolumeVoicemeeterEnabledChanged(bool oldValue, bool newValue)
+    {
+        if (newValue)
+        {
             VoicemeeterHelper.Instance = new VoicemeeterHelper();
             VoicemeeterHelper.Instance.Login();
-        } else {
+        }
+        else
+        {
             if (VoicemeeterHelper.Instance == null) return;
-            
+
             VoicemeeterHelper.Instance.Dispose();
             VoicemeeterHelper.Instance = null;
         }

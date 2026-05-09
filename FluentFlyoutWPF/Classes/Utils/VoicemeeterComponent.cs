@@ -1,13 +1,17 @@
 ﻿namespace FluentFlyoutWPF.Classes.Utils;
 
-public enum VoicemeeterComponent {
+public enum VoicemeeterComponent
+{
     STRIP,
     BUS
 }
 
-public static class VoicemeeterComponentExtension {
-    public static string GetVoicemeeterComponentString(VoicemeeterComponent component) {
-        switch (component) {
+public static class VoicemeeterComponentExtension
+{
+    public static string GetVoicemeeterComponentString(VoicemeeterComponent component)
+    {
+        switch (component)
+        {
             case VoicemeeterComponent.STRIP:
                 return "Strip";
             case VoicemeeterComponent.BUS:
@@ -16,9 +20,11 @@ public static class VoicemeeterComponentExtension {
                 throw new ArgumentOutOfRangeException(nameof(component), component, null);
         }
     }
-    
-    public static int GetVoicemeeterComponentInt(VoicemeeterComponent component) {
-        switch (component) {
+
+    public static int GetVoicemeeterComponentInt(VoicemeeterComponent component)
+    {
+        switch (component)
+        {
             case VoicemeeterComponent.STRIP:
                 return 0;
             case VoicemeeterComponent.BUS:
@@ -27,9 +33,11 @@ public static class VoicemeeterComponentExtension {
                 throw new ArgumentOutOfRangeException(nameof(component), component, null);
         }
     }
-    
-    public static VoicemeeterComponent GetVoicemeeterComponentFromString(string component) {
-        switch (component) {
+
+    public static VoicemeeterComponent GetVoicemeeterComponentFromString(string component)
+    {
+        switch (component)
+        {
             case "Strip":
                 return VoicemeeterComponent.STRIP;
             case "Bus":
@@ -38,9 +46,11 @@ public static class VoicemeeterComponentExtension {
                 throw new ArgumentOutOfRangeException(nameof(component), component, null);
         }
     }
-    
-    public static VoicemeeterComponent GetVoicemeeterComponentFromInt(int component) {
-        switch (component) {
+
+    public static VoicemeeterComponent GetVoicemeeterComponentFromInt(int component)
+    {
+        switch (component)
+        {
             case 0:
                 return VoicemeeterComponent.STRIP;
             case 1:
