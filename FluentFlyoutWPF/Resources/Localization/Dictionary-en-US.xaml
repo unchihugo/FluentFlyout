@@ -245,7 +245,7 @@ You can help contribute translations on</System:String>
     <System:String x:Key="VolumeVoicemeeterComponentTitle">Component</System:String>
     <System:String x:Key="VolumeVoicemeeterComponentDescription">What type of Component is the below Index refering to</System:String>
     <System:String x:Key="VolumeVoicemeeterComponentIndex">Component Index</System:String>
-    <System:String x:Key="VolumeVoicemeeterComponentIndexDescription">Which Voicemeeter Strip should the value of be read</System:String>
+    <System:String x:Key="VolumeVoicemeeterComponentIndexDescription">Which Voicemeeter Component should the value of be read</System:String>
     
     
     <System:String x:Key="VolumeMixerSectionTitle">Volume Mixer</System:String>
