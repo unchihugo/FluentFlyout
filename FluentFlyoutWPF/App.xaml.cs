@@ -1,10 +1,9 @@
-﻿// Copyright © 2024-2026 The FluentFlyout Authors
+﻿// Copyright (c) 2024-2026 The FluentFlyout Authors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 using FluentFlyout.Classes;
 using Microsoft.Toolkit.Uwp.Notifications;
 using System.Windows;
-using FluentFlyoutWPF.Classes;
 using FluentFlyoutWPF.Classes.Utils;
 
 namespace FluentFlyoutWPF;
@@ -25,10 +24,7 @@ public partial class App : Application
 
         // Register AUMID for toast notifications
         ToastNotificationManagerCompat.OnActivated += Notifications.HandleNotificationActivation;
-        
-        // Apply localization before any windows are created
-        LocalizationManager.ApplyLocalization();
-        
+
         // Try to load Voicemeeter
         VoicemeeterLoader.Load();
         

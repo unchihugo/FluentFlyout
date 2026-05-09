@@ -1,4 +1,4 @@
-// Copyright © 2024-2026 The FluentFlyout Authors
+// Copyright (c) 2024-2026 The FluentFlyout Authors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -251,7 +251,7 @@ public partial class UserSettings : ObservableObject
     /// 0 = Default behavior, 1 = Monitor containing the focused window, 2 = Monitor containing the cursor.
     [ObservableProperty]
     public partial int LockKeysMonitorPreference { get; set; }
-    
+
     /// <summary>
     /// Determines if the user has updated to a new version
     /// </summary>
@@ -344,7 +344,7 @@ public partial class UserSettings : ObservableObject
     /// </summary>
     [ObservableProperty]
     public partial int TaskbarWidgetSelectedMonitor { get; set; }
-    
+
     /// <summary>
     /// Autohide Widget after a few milliseconds after pause 
     /// </summary>
@@ -799,7 +799,7 @@ public partial class UserSettings : ObservableObject
     partial void OnTaskbarWidgetControlsPositionChanged(int oldValue, int newValue)
     {
         if (oldValue == newValue || _initializing) return;
-        
+
         MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
         mainWindow.taskbarWindow?.Widget?.ReorderControls();
     }

@@ -15,6 +15,7 @@
     <Configurations>Debug;Release;GitHub Release</Configurations>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+	<EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'GitHub Release'">
     <DefineConstants>GITHUB_RELEASE</DefineConstants>
@@ -35,7 +36,6 @@
     <None Remove="Resources\FluentFlyoutTaskbar-NoTitle-Zoomed.png" />
     <None Remove="Resources\FluentFlyoutVolumeDemo.png" />
     <None Remove="Resources\FluentFlyoutWhite.png" />
-    <None Remove="Resources\logo-change.png" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Dubya.WindowsMediaController" Version="2.5.6" />
@@ -61,9 +61,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\FluentFlyoutTaskbar-NoTitle-Zoomed.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\logo-change.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\FluentFlyoutVolumeDemo.png">

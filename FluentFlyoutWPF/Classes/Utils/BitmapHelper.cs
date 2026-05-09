@@ -1,4 +1,4 @@
-﻿// Copyright © 2024-2026 The FluentFlyout Authors
+﻿// Copyright (c) 2024-2026 The FluentFlyout Authors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 using FluentFlyout.Classes.Settings;
@@ -431,8 +431,8 @@ internal static class BitmapHelper
             _dominantColorsCache.Set(hashCode, _currentDominantColors);
 
 #if DEBUG
-        stopwatch.Stop();
-        Logger.Debug($"Dominant color extraction took {stopwatch.Elapsed.TotalMilliseconds} ms");
+            stopwatch.Stop();
+            Logger.Debug($"Dominant color extraction took {stopwatch.Elapsed.TotalMilliseconds} ms");
 #endif
             return _currentDominantColors;
         }

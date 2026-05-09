@@ -1,4 +1,4 @@
-// Copyright © 2024-2026 The FluentFlyout Authors
+// Copyright (c) 2024-2026 The FluentFlyout Authors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 using FluentFlyout.Classes;
@@ -140,9 +140,10 @@ public partial class MainWindow : MicaWindow
 
         if (SettingsManager.Current.Startup == true) // add to startup programs if enabled, needs improvement
         {
-            RegistryKey key = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
-            string executablePath = Environment.ProcessPath;
-            key?.SetValue("FluentFlyout", executablePath);
+            RegistryKey? key = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+            string? executablePath = Environment.ProcessPath;
+            if (key != null && executablePath != null)
+                key.SetValue("FluentFlyout", executablePath);
         }
 
         // display tray icon if enabled
@@ -702,11 +703,14 @@ public partial class MainWindow : MicaWindow
 
     private static IntPtr SetHook(LowLevelKeyboardProc proc) // set the keyboard hook
     {
-        using (Process curProcess = Process.GetCurrentProcess())
-        using (ProcessModule curModule = curProcess.MainModule)
+        using Process curProcess = Process.GetCurrentProcess();
+        using ProcessModule? curModule = curProcess.MainModule;
+        if (curModule == null)
         {
-            return SetWindowsHookEx(WH_KEYBOARD_LL, proc, GetModuleHandle(curModule.ModuleName), 0);
+            Logger.Warn("Failed to set keyboard hook - FluentFlyout will now rely on WndProc only");
+            return IntPtr.Zero;
         }
+        return SetWindowsHookEx(WH_KEYBOARD_LL, proc, GetModuleHandle(curModule.ModuleName), 0);
     }
 
     private IntPtr HookCallback(int nCode, IntPtr wParam, IntPtr lParam)
@@ -997,7 +1001,7 @@ public partial class MainWindow : MicaWindow
                 if (BitmapHelper.SavedDominantColors.Count > 0)
                 {
                     SolidColorBrush brush = BitmapHelper.SavedDominantColors.First();
-                    ControlPlayPause.Background = brush; 
+                    ControlPlayPause.Background = brush;
                 }
 
                 // acrylic effect setting
@@ -1080,7 +1084,9 @@ public partial class MainWindow : MicaWindow
         {
             int extraWidth = SettingsManager.Current.RepeatEnabled ? 36 : 0;
             extraWidth += SettingsManager.Current.ShuffleEnabled ? 36 : 0;
-            extraWidth += SettingsManager.Current.PlayerInfoEnabled ? 72 : 72; // disabled player info should temporarily keep the widget the same width as no one seems to like the small version
+            extraWidth += SettingsManager.Current.PlayerInfoEnabled ? 72 : 0;
+            // keep minimum width at 72 even if all extra features are disabled to prevent the widget from being too small
+            extraWidth = Math.Max(extraWidth, 72);
 
             int extraHeight = SettingsManager.Current.SeekbarEnabled && _mediaSessionSupportsSeekbar ? 36 : 0;
 
@@ -1560,7 +1566,7 @@ public partial class MainWindow : MicaWindow
         // add tray icon hook when taskbar resets
         try
         {
-            HwndSource source = PresentationSource.FromVisual(this) as HwndSource;
+            HwndSource? source = PresentationSource.FromVisual(this) as HwndSource;
             if (source != null)
             {
                 source.AddHook(WndProc);

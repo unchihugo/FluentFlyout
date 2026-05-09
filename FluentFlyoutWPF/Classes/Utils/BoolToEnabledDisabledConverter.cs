@@ -1,4 +1,4 @@
-// Copyright © 2024-2026 The FluentFlyout Authors
+// Copyright (c) 2024-2026 The FluentFlyout Authors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 using System.Globalization;
@@ -15,17 +15,17 @@ public class BoolToEnabledDisabledConverter : IValueConverter
         {
             var enabledKey = "Enabled";
             var disabledKey = "Disabled";
-            
+
             var resourceKey = boolValue ? enabledKey : disabledKey;
-            
+
             if (Application.Current.TryFindResource(resourceKey) is string localizedString)
             {
                 return localizedString;
             }
-            
+
             return boolValue ? "Enabled" : "Disabled";
         }
-        
+
         return "Disabled";
     }
 
