@@ -40,8 +40,8 @@
     <system:String x:Key="EnableLockKeysDescription">Hiển thị chỉ báo</system:String>
     <system:String x:Key="LockKeysStayDurationTitle">Thời gian hiển thị</system:String>
     <system:String x:Key="LockKeysStayDurationDescription">(mặc định: 2000 ms)</system:String>
-    <system:String x:Key="LockKeysBoldUITitle">Phông chữ đậm</system:String>
-    <system:String x:Key="LockKeysBoldUIDescription">Phông chữ đậm</system:String>
+    <system:String x:Key="LockKeysBoldUITitle">In đậm phông chữ</system:String>
+    <system:String x:Key="LockKeysBoldUIDescription">In đậm phông chữ</system:String>
     <system:String x:Key="EnableInsertKeyTitle">Hiện chỉ báo mỗi khi nhấn phím Insert</system:String>
     <system:String x:Key="EnableInsertKeyDescription">Hiện chỉ báo mỗi khi nhấn phím Insert</system:String>
     <system:String x:Key="SystemSettingsTitle">Tùy chọn chung</system:String>
@@ -229,7 +229,7 @@ Vì đây là dự án mã nguồn mở, những tính năng premium cũng có t
     <system:String x:Key="LegacyTaskbarWidthDescription">Xác định vị trí của thẻ nội dung bằng GetWindowRect</system:String>
     <system:String x:Key="AdvancedSettingsTitle">Tùy chọn nâng cao</system:String>
     <system:String x:Key="LockKeysAnimatedDescription">Khi tắt, biểu tượng sẽ bất động</system:String>
-    <system:String x:Key="LockKeysAnimatedTitle">Biểu tượng hoạt họa</system:String>
+    <system:String x:Key="LockKeysAnimatedTitle">Biểu tượng chuyển động</system:String>
     <system:String x:Key="TaskbarWidgetAutoHideDescription">Ẩn khi tạm dừng</system:String>
     <system:String x:Key="TaskbarWidgetAutoHideTitle">Ẩn khi tạm dừng</system:String>
     <system:String x:Key="TaskbarWidgetShowPauseOverlayTitle">In đè biểu tượng tạm dừng lên ảnh bìa</system:String>
