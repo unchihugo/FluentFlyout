@@ -10,6 +10,8 @@ using FluentFlyoutWPF.Classes;
 using FluentFlyoutWPF.Models;
 using FluentFlyoutWPF.Windows;
 using System.Collections.ObjectModel;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Xml.Serialization;
 
@@ -653,27 +655,36 @@ public partial class UserSettings : ObservableObject
     }
 
     [XmlIgnore]
-    private System.Threading.CancellationTokenSource? _saveSettingsCts;
+    private CancellationTokenSource? _saveSettingsCts;
 
     private async void OnPropertyChangedSaveSettings(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
     {
         if (_initializing) return;
 
-        _saveSettingsCts?.Cancel();
-        _saveSettingsCts = new System.Threading.CancellationTokenSource();
-        var token = _saveSettingsCts.Token;
+        var newCts = new CancellationTokenSource();
+        var oldCts = Interlocked.Exchange(ref _saveSettingsCts, newCts);
+        oldCts?.Cancel();
+        oldCts?.Dispose();
 
         try
         {
-            await System.Threading.Tasks.Task.Delay(500, token);
-            if (!token.IsCancellationRequested)
+            await Task.Delay(500, newCts.Token);
+
+            if (ReferenceEquals(_saveSettingsCts, newCts))
             {
                 SettingsManager.SaveSettings();
             }
         }
-        catch (System.Threading.Tasks.TaskCanceledException)
+        catch (OperationCanceledException)
         {
-            // Ignored
+            // Expected when replaced by a new property change
+        }
+        finally
+        {
+            if (Interlocked.CompareExchange(ref _saveSettingsCts, null, newCts) == newCts)
+            {
+                newCts.Dispose();
+            }
         }
     }
 
