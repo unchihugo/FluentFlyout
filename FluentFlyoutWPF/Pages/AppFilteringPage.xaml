@@ -112,13 +112,27 @@
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
-                                <ComboBox Grid.Column="0" IsEditable="False" x:Name="AllowComboBox" HorizontalAlignment="Stretch" DropDownOpened="AllowComboBox_DropDownOpened" Margin="0,0,8,0" MinHeight="36" Padding="16,8,16,8">
-                                    <ComboBox.ItemContainerStyle>
-                                        <Style TargetType="ComboBoxItem" BasedOn="{StaticResource {x:Type ComboBoxItem}}">
-                                            <Setter Property="Padding" Value="16,8,16,8" />
-                                        </Style>
-                                    </ComboBox.ItemContainerStyle>
-                                </ComboBox>
+                                <Grid Grid.Column="0" Margin="0,0,8,0">
+                                    <ComboBox IsEditable="False" x:Name="AllowComboBox" HorizontalAlignment="Stretch" DropDownOpened="AllowComboBox_DropDownOpened" MinHeight="36" Padding="16,8,16,8">
+                                        <ComboBox.ItemContainerStyle>
+                                            <Style TargetType="ComboBoxItem" BasedOn="{StaticResource {x:Type ComboBoxItem}}">
+                                                <Setter Property="Padding" Value="16,8,16,8" />
+                                            </Style>
+                                        </ComboBox.ItemContainerStyle>
+                                    </ComboBox>
+                                    <TextBlock Text="{DynamicResource AppFilteringComboBoxHint}" Margin="16,0,32,0" VerticalAlignment="Center" IsHitTestVisible="False" Opacity="0.5">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding SelectedItem, ElementName=AllowComboBox}" Value="{x:Null}">
+                                                        <Setter Property="Visibility" Value="Visible"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+                                </Grid>
                                 <ui:Button Grid.Column="1" Content="{DynamicResource AddButton}" Click="AddAllow_Click" Appearance="Primary" />
                             </Grid>
 
@@ -191,13 +205,27 @@
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
-                                <ComboBox Grid.Column="0" IsEditable="False" x:Name="BlockComboBox" HorizontalAlignment="Stretch" DropDownOpened="BlockComboBox_DropDownOpened" Margin="0,0,8,0" MinHeight="36" Padding="16,8,16,8">
-                                    <ComboBox.ItemContainerStyle>
-                                        <Style TargetType="ComboBoxItem" BasedOn="{StaticResource {x:Type ComboBoxItem}}">
-                                            <Setter Property="Padding" Value="16,8,16,8" />
-                                        </Style>
-                                    </ComboBox.ItemContainerStyle>
-                                </ComboBox>
+                                <Grid Grid.Column="0" Margin="0,0,8,0">
+                                    <ComboBox IsEditable="False" x:Name="BlockComboBox" HorizontalAlignment="Stretch" DropDownOpened="BlockComboBox_DropDownOpened" MinHeight="36" Padding="16,8,16,8">
+                                        <ComboBox.ItemContainerStyle>
+                                            <Style TargetType="ComboBoxItem" BasedOn="{StaticResource {x:Type ComboBoxItem}}">
+                                                <Setter Property="Padding" Value="16,8,16,8" />
+                                            </Style>
+                                        </ComboBox.ItemContainerStyle>
+                                    </ComboBox>
+                                    <TextBlock Text="{DynamicResource AppFilteringComboBoxHint}" Margin="16,0,32,0" VerticalAlignment="Center" IsHitTestVisible="False" Opacity="0.5">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding SelectedItem, ElementName=BlockComboBox}" Value="{x:Null}">
+                                                        <Setter Property="Visibility" Value="Visible"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+                                </Grid>
                                 <ui:Button Grid.Column="1" Content="{DynamicResource AddButton}" Click="AddBlock_Click" Appearance="Primary" />
                             </Grid>
 

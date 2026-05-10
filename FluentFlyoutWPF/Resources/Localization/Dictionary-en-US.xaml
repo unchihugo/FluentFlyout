@@ -187,6 +187,7 @@ Note: As an open-source project, these features are also available for free via 
     <System:String x:Key="AddAppManuallyText">Can't find your app? Type it below:</System:String>
     <System:String x:Key="AppFilteringPlaceholderSpotify">e.g. Spotify.exe</System:String>
     <System:String x:Key="AppFilteringPlaceholderChrome">e.g. Chrome.exe</System:String>
+    <System:String x:Key="AppFilteringComboBoxHint">Select a currently playing app to add</System:String>
     <System:String x:Key="AddButton">Add</System:String>
     <System:String x:Key="RemoveButton">Remove</System:String>
     <System:String x:Key="AboutTitle">About</System:String>
