@@ -116,6 +116,9 @@ public partial class TaskbarWidgetControl : UserControl
 
         SongTitle.Foreground = foreground;
         SongArtist.Foreground = foreground;
+        PreviousButton.Foreground = foreground;
+        PlayPauseButton.Foreground = foreground;
+        NextButton.Foreground = foreground;
     }
 
     private void Grid_MouseEnter(object sender, MouseEventArgs e)
