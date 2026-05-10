@@ -203,6 +203,44 @@ public partial class UserSettings : ObservableObject
     }
 
     /// <summary>
+    /// Enable clipboard flyout
+    /// </summary>
+    [ObservableProperty]
+    public partial bool ClipboardFlyoutEnabled { get; set; }
+
+    /// <summary>
+    /// Clipboard flyout display duration (milliseconds)
+    /// </summary>
+
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(ClipboardFlyoutDurationText))]
+    public partial int ClipboardFlyoutDuration { get; set; }
+
+    [XmlIgnore]
+    public string ClipboardFlyoutDurationText
+    {
+        get => ClipboardFlyoutDuration.ToString();
+        set
+        {
+            if (int.TryParse(value, out var result))
+            {
+                ClipboardFlyoutDuration = result switch
+                {
+                    > 10000 => 10000,
+                    < 0 => 0,
+                    _ => result
+                };
+            }
+            else
+            {
+                ClipboardFlyoutDuration = 2000;
+            }
+
+            OnPropertyChanged();
+        }
+    }
+
+    /// <summary>
     /// App theme. 0 for default, 1 for light, 2 for dark.
     /// </summary>
     [ObservableProperty]
@@ -304,6 +342,12 @@ public partial class UserSettings : ObservableObject
     /// </summary>
     [ObservableProperty]
     public partial bool LockKeysAcrylicWindowEnabled { get; set; }
+
+    /// <summary>
+    /// Enable acrylic blur effect on the Clipboard window
+    /// </summary>
+    [ObservableProperty]
+    public partial bool ClipboardFlyoutAcrylicWindowEnabled { get; set; }
 
     [ObservableProperty]
     public partial bool VolumeMixerAcrylicWindowEnabled { get; set; }
@@ -597,6 +641,8 @@ public partial class UserSettings : ObservableObject
         FlyoutAnimationEasingStyle = 2;
         LockKeysEnabled = true;
         LockKeysDuration = 2000;
+        ClipboardFlyoutEnabled = true;
+        ClipboardFlyoutDuration = 2000;
         AppTheme = 0;
         MediaFlyoutEnabled = true;
         MediaFlyoutAlwaysDisplay = false;
@@ -618,6 +664,7 @@ public partial class UserSettings : ObservableObject
         MediaFlyoutAcrylicWindowEnabled = true;
         NextUpAcrylicWindowEnabled = true;
         LockKeysAcrylicWindowEnabled = true;
+        ClipboardFlyoutAcrylicWindowEnabled = true;
         VolumeMixerAcrylicWindowEnabled = true;
         TaskbarWidgetEnabled = false;
         TaskbarWidgetSelectedMonitor = 0;

@@ -63,6 +63,9 @@ public static partial class NativeMethods
     internal const int APPCOMMAND_MEDIA_PLAY_PAUSE = 14;
     internal const int FAPPCOMMAND_KEY = 0x0000;
 
+    // Clipboard
+    internal const int WM_CLIPBOARDUPDATE = 0x031D;
+
     #endregion
 
     #region Enums
@@ -327,6 +330,14 @@ public static partial class NativeMethods
 
     [LibraryImport("user32.dll", SetLastError = true)]
     internal static partial IntPtr GetForegroundWindow();
+
+    [LibraryImport("user32.dll", SetLastError = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static partial bool AddClipboardFormatListener(IntPtr hwnd);
+
+    [LibraryImport("user32.dll", SetLastError = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static partial bool RemoveClipboardFormatListener(IntPtr hwnd);
     #endregion
 
     #region gdi32.dll

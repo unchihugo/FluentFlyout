@@ -1,0 +1,62 @@
+<controls:MicaWindow x:Class="FluentFlyoutWPF.Windows.ClipboardWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:local="clr-namespace:FluentFlyoutWPF"
+    xmlns:controls="clr-namespace:MicaWPF.Controls;assembly=MicaWPF"
+    xmlns:viewModels="clr-namespace:FluentFlyoutWPF.ViewModels"
+    mc:Ignorable="d" 
+    Height="50" Width="200" 
+    ResizeMode="NoResize"
+    WindowStyle="None" ShowInTaskbar="False"
+    ChangeTitleColorWhenInactive="False" Visibility="Visible"
+    TextOptions.TextRenderingMode="ClearType" TextOptions.TextFormattingMode="Ideal"
+    FontFamily="{Binding FontFamily}"
+    FlowDirection="{Binding FlowDirection}"
+    d:DataContext="{d:DesignInstance viewModels:UserSettings}"
+    Background="Transparent"
+    >
+    <Window.Triggers>
+        <EventTrigger RoutedEvent="Window.Loaded">
+            <EventTrigger.Actions>
+                <BeginStoryboard>
+                    <Storyboard>
+                        <DoubleAnimation Storyboard.TargetProperty="(Window.Top)">
+                            <DoubleAnimation.EasingFunction>
+                                <CubicEase EasingMode="EaseOut"/>
+                            </DoubleAnimation.EasingFunction>
+                        </DoubleAnimation>
+                        <DoubleAnimation Storyboard.TargetProperty="(Window.Opacity)">
+                            <DoubleAnimation.EasingFunction>
+                                <CubicEase EasingMode="EaseOut"/>
+                            </DoubleAnimation.EasingFunction>
+                        </DoubleAnimation>
+                    </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger.Actions>
+        </EventTrigger>
+    </Window.Triggers>
+
+    <Grid Margin="14,6,12,6">
+        <Viewbox Name="ClipboardSymbol" HorizontalAlignment="Left" Width="22" Height="22" VerticalAlignment="Center" Margin="0,0,0,-2">
+            <Canvas Width="24" Height="24" ClipToBounds="False">
+                <Path Data="M18,3H15.82C15.4,1.84 14.3,1 13,1C11.7,1 10.6,1.84 10.18,3H8C6.9,3 6,3.9 6,5V19C6,20.1 6.9,21 8,21H18C19.1,21 20,20.1 20,19V5C20,3.9 19.1,3 18,3M13,3C13.55,3 14,3.45 14,4C14,4.55 13.55,5 13,5C12.45,5 12,4.55 12,4C12,3.45 12.45,3 13,3M18,19H8V5H10V7H16V5H18V19Z"
+                      Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"/>
+                <Path Name="ClipboardCheck"
+                      Data="M10,17L6,13L7.41,11.59L10,14.17L16.59,7.58L18,9L10,17Z"
+                      Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type Window}}}">
+                    <Path.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform x:Name="CheckScale" ScaleX="0" ScaleY="0" CenterX="12" CenterY="12"/>
+                        </TransformGroup>
+                    </Path.RenderTransform>
+                </Path>
+            </Canvas>
+        </Viewbox>
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="20,0,0,4">
+            <TextBlock Name="ClipboardTextBlock" Text="Copied to clipboard" FontSize="14" FontWeight="Medium" TextTrimming="CharacterEllipsis"/>
+        </StackPanel>
+        <Rectangle Name="ClipboardIndicatorRectangle" Fill="{DynamicResource MicaWPF.Brushes.AccentFillColorDefault}" Height="4" RadiusX="2" RadiusY="2" Width="60" VerticalAlignment="Bottom"/>
+    </Grid>
+</controls:MicaWindow>

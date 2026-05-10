@@ -70,6 +70,7 @@ public partial class MainWindow : MicaWindow
     private bool _isHiding = true;
 
     private LockWindow? lockWindow;
+    private ClipboardWindow? clipboardWindow;
     private DateTime _lastSelfUpdateTimestamp = DateTime.MinValue;
 
     internal TaskbarWindow? taskbarWindow;
@@ -1349,10 +1350,14 @@ public partial class MainWindow : MicaWindow
             }
 
             DeregisterShellHookWindow(new WindowInteropHelper(this).Handle);
+            RemoveClipboardFormatListener(new WindowInteropHelper(this).Handle);
 
             // clean up other resources
             if (lockWindow?.IsLoaded == true)
                 lockWindow.Close();
+
+            if (clipboardWindow?.IsLoaded == true)
+                clipboardWindow.Close();
 
             if (nextUpWindow?.IsLoaded == true)
                 nextUpWindow.Close();
@@ -1535,6 +1540,15 @@ public partial class MainWindow : MicaWindow
             }
             return 0;
         }
+        else if (msg == WM_CLIPBOARDUPDATE)
+        {
+            if (SettingsManager.Current.ClipboardFlyoutEnabled && !FullscreenDetector.IsFullscreenApplicationRunning())
+            {
+                clipboardWindow ??= new ClipboardWindow();
+                clipboardWindow.ShowClipboardFlyout();
+            }
+            return 0;
+        }
 
         return 0;
     }
@@ -1570,6 +1584,7 @@ public partial class MainWindow : MicaWindow
             if (source != null)
             {
                 source.AddHook(WndProc);
+                AddClipboardFormatListener(new WindowInteropHelper(this).Handle);
             }
         }
         catch (Exception ex)
