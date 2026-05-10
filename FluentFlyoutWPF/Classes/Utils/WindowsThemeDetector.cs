@@ -37,9 +37,9 @@ public class WindowsThemeDetector
     {
         try
         {
-            using (RegistryKey key = Registry.CurrentUser.OpenSubKey(RegistryKeyPath))
+            using (RegistryKey? key = Registry.CurrentUser.OpenSubKey(RegistryKeyPath))
             {
-                object registryValue = key?.GetValue(valueName);
+                object? registryValue = key?.GetValue(valueName);
 
                 if (registryValue == null)
                     // On error, default to light
