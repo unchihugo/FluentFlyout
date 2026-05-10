@@ -113,7 +113,6 @@
             </ui:CardControl>
 
             <TextBlock Grid.Row="8" Text="Clipboard Flyout" FontSize="18" FontWeight="SemiBold" Margin="0,10,0,20" />
-            
             <ui:CardControl Grid.Row="9" Icon="{ui:SymbolIcon Clipboard24}" Margin="0,0,0,3">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
