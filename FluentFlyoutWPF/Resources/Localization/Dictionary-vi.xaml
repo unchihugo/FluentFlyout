@@ -5,14 +5,14 @@
     <system:String x:Key="TextBlockText1">Hiển thị giao diện</system:String>
     <system:String x:Key="TextBlockText3">Hiển thị giao diện</system:String>
     <system:String x:Key="CompactLayoutTitle">Giao diện nhỏ gọn</system:String>
-    <system:String x:Key="CompactLayoutDescription" xml:space="preserve">Ẩn tên ứng dụng đang phát, nút lặp lại và nút xáo bài</system:String>
+    <system:String x:Key="CompactLayoutDescription" xml:space="preserve">Ẩn tên ứng dụng đang phát, nút lặp lại và nút xáo trộn</system:String>
     <system:String x:Key="FlyoutPositionTitle">Vị trí giao diện</system:String>
-    <system:String x:Key="PositionBottomLeft" xml:space="preserve"> Góc dưới bên trái</system:String>
-    <system:String x:Key="PositionBottomCenter" xml:space="preserve"> Chính giữa bên dưới</system:String>
-    <system:String x:Key="PositionBottomRight" xml:space="preserve"> Góc dưới bên phải</system:String>
-    <system:String x:Key="PositionTopLeft" xml:space="preserve"> Góc trên bên trái</system:String>
-    <system:String x:Key="PositionTopCenter" xml:space="preserve"> Chính giữa bên trên</system:String>
-    <system:String x:Key="PositionTopRight" xml:space="preserve"> Góc trên bên phải</system:String>
+    <system:String x:Key="PositionBottomLeft" xml:space="preserve"> Dưới cùng bên trái</system:String>
+    <system:String x:Key="PositionBottomCenter" xml:space="preserve"> Dưới cùng chính giữa</system:String>
+    <system:String x:Key="PositionBottomRight" xml:space="preserve"> Dưới cùng bên phải</system:String>
+    <system:String x:Key="PositionTopLeft" xml:space="preserve"> Trên cùng bên trái</system:String>
+    <system:String x:Key="PositionTopCenter" xml:space="preserve"> Trên cùng chính giữa</system:String>
+    <system:String x:Key="PositionTopRight" xml:space="preserve"> Trên cùng bên phải</system:String>
     <system:String x:Key="FlyoutStayDurationTitle">Thời gian hiển thị</system:String>
     <system:String x:Key="FlyoutStayDurationDescription">(mặc định: 3000 ms)</system:String>
     <system:String x:Key="MillisecondsUnit">ms</system:String>
@@ -21,11 +21,11 @@
     <system:String x:Key="ShowMediaPlayerNameTitle">Tên ứng dụng đang phát</system:String>
     <system:String x:Key="RepeatButtonTitle">Nút lặp lại*</system:String>
     <system:String x:Key="RepeatButtonDescription">Lặp lại nội dung một lần hoặc liên tục</system:String>
-    <system:String x:Key="ShuffleButtonTitle">Nút xáo bài*</system:String>
+    <system:String x:Key="ShuffleButtonTitle">Nút xáo trộn*</system:String>
     <system:String x:Key="ShuffleButtonDescription">Xáo trộn danh sách phát</system:String>
-    <system:String x:Key="ShowSeekbarTitle">Thanh phát lại</system:String>
+    <system:String x:Key="ShowSeekbarTitle">Thanh thời gian</system:String>
     <system:String x:Key="ShowSeekbarDescription">Tua đi tua lại nội dung</system:String>
-    <system:String x:Key="UnsupportedControlsWarning">*Một số ứng dụng không hỗ trợ chức năng lặp lại, xáo bài hoặc thanh phát lại.</system:String>
+    <system:String x:Key="UnsupportedControlsWarning">*Một số ứng dụng không hỗ trợ chức năng lặp lại, xáo trộn danh sách phát hoặc thanh thời gian.</system:String>
     <system:String x:Key="PauseOtherMediaTitle">Tự động tạm dừng các nội dung khác</system:String>
     <system:String x:Key="PauseOtherMediaDescription">Tự động tạm dừng các nội dung khác ngoài nội dung đang phát</system:String>
     <system:String x:Key="NextUpCustomizationTitle">Thông báo nội dung tiếp theo</system:String>
@@ -34,16 +34,16 @@
     <system:String x:Key="EnableNextUpDescription">Hiển thị thông báo</system:String>
     <system:String x:Key="NextUpStayDurationTitle">Thời gian hiển thị</system:String>
     <system:String x:Key="NextUpStayDurationDescription">(mặc định: 2000 ms)</system:String>
-    <system:String x:Key="LockKeysCustomizationTitle">Thông báo phím lock</system:String>
+    <system:String x:Key="LockKeysCustomizationTitle">Chỉ báo phím lock</system:String>
     <system:String x:Key="LockKeysDescription" xml:space="preserve">Giao diện này cho biết trạng thái bật, tắt mỗi khi bạn nhấn phím Caps Lock, Num Lock và Scroll Lock. Ngoài ra còn có thể thiết lập thêm cho phím Insert.</system:String>
-    <system:String x:Key="EnableLockKeysTitle">Hiển thị thông báo</system:String>
-    <system:String x:Key="EnableLockKeysDescription">Hiển thị thông báo</system:String>
+    <system:String x:Key="EnableLockKeysTitle">Hiển thị chỉ báo</system:String>
+    <system:String x:Key="EnableLockKeysDescription">Hiển thị chỉ báo</system:String>
     <system:String x:Key="LockKeysStayDurationTitle">Thời gian hiển thị</system:String>
     <system:String x:Key="LockKeysStayDurationDescription">(mặc định: 2000 ms)</system:String>
-    <system:String x:Key="LockKeysBoldUITitle">Tô đậm chữ và nét biểu tượng</system:String>
-    <system:String x:Key="LockKeysBoldUIDescription">Tô đậm chữ và nét biểu tượng</system:String>
-    <system:String x:Key="EnableInsertKeyTitle">Mở giao diện mỗi khi nhấn phím Insert</system:String>
-    <system:String x:Key="EnableInsertKeyDescription">Mở giao diện mỗi khi nhấn phím Insert</system:String>
+    <system:String x:Key="LockKeysBoldUITitle">Phông chữ đậm</system:String>
+    <system:String x:Key="LockKeysBoldUIDescription">Phông chữ đậm</system:String>
+    <system:String x:Key="EnableInsertKeyTitle">Hiện chỉ báo mỗi khi nhấn phím Insert</system:String>
+    <system:String x:Key="EnableInsertKeyDescription">Hiện chỉ báo mỗi khi nhấn phím Insert</system:String>
     <system:String x:Key="SystemSettingsTitle">Tùy chọn chung</system:String>
     <system:String x:Key="LaunchOnStartupTitle">Khởi động cùng Windows</system:String>
     <system:String x:Key="LaunchOnStartupDescription">Cửa sổ cấu hình sẽ không hiển thị</system:String>
@@ -169,10 +169,10 @@ Vì đây là dự án mã nguồn mở, những tính năng premium cũng có t
     <system:String x:Key="MediaFlyoutExcludeVolumeTitle">Không bắt các phím tăng, giảm và tắt tiếng</system:String>
     <system:String x:Key="MediaFlyoutExcludeVolumeDescription">Không mở giao diện trong các trường hợp trên</system:String>
     <system:String x:Key="TaskbarVisualizerTitle">Biểu đồ sóng âm</system:String>
-    <system:String x:Key="TaskbarVisualizerDescription">Sóng âm cập nhật liên tục trên thanh tác vụ. Ít ảnh hưởng đến hiệu năng máy tính bạn.</system:String>
+    <system:String x:Key="TaskbarVisualizerDescription">Biểu đồ cập nhật liên tục trên thanh tác vụ. Ít ảnh hưởng đến hiệu năng máy tính bạn.</system:String>
     <system:String x:Key="TaskbarVisualizerEnabledTitle">Hiển thị biểu đồ (beta)</system:String>
-    <system:String x:Key="TaskbarVisualizerEnabledDescription">Lưu ý: biểu đồ chỉ hiện lên khi có thẻ theo dõi nội dung</system:String>
-    <system:String x:Key="TaskbarVisualizerPositionTitle">Vị trí biểu đồ (so với thẻ theo dõi nội dung)</system:String>
+    <system:String x:Key="TaskbarVisualizerEnabledDescription">Lưu ý: Biểu đồ chỉ hiện lên sau khi bật khung theo dõi nội dung</system:String>
+    <system:String x:Key="TaskbarVisualizerPositionTitle">Vị trí biểu đồ (so với khung theo dõi nội dung)</system:String>
     <system:String x:Key="TaskbarVisualizerBarCountTitle">Số cột biểu thị</system:String>
     <system:String x:Key="TaskbarVisualizerBarCountDescription">Số cột biểu thị</system:String>
     <system:String x:Key="TaskbarVisualizerCenteredBarsTitle">Tỏa ra từ giữa</system:String>
@@ -229,7 +229,7 @@ Vì đây là dự án mã nguồn mở, những tính năng premium cũng có t
     <system:String x:Key="LegacyTaskbarWidthDescription">Xác định vị trí của thẻ nội dung bằng GetWindowRect</system:String>
     <system:String x:Key="AdvancedSettingsTitle">Tùy chọn nâng cao</system:String>
     <system:String x:Key="LockKeysAnimatedDescription">Khi tắt, biểu tượng sẽ bất động</system:String>
-    <system:String x:Key="LockKeysAnimatedTitle">Hoạt họa chỉ báo</system:String>
+    <system:String x:Key="LockKeysAnimatedTitle">Biểu tượng hoạt họa</system:String>
     <system:String x:Key="TaskbarWidgetAutoHideDescription">Ẩn khi tạm dừng</system:String>
     <system:String x:Key="TaskbarWidgetAutoHideTitle">Ẩn khi tạm dừng</system:String>
     <system:String x:Key="TaskbarWidgetShowPauseOverlayTitle">In đè biểu tượng tạm dừng lên ảnh bìa</system:String>
