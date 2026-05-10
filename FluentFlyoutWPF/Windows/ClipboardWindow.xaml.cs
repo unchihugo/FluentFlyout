@@ -233,7 +233,7 @@ public partial class ClipboardWindow : MicaWindow
 
         if (LocalizationManager.LanguageCode != "en")
         {
-            Width = LocalizationManager.maxLength + 56.0; 
+            Width = LocalizationManager.maxLength + 56.0;
         }
         else
         {
