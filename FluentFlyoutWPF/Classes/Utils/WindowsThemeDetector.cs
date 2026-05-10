@@ -1,5 +1,5 @@
-using System;
 using Microsoft.Win32;
+using System;
 
 // Custom Theme detector from checking the Windows Registry.
 // WindowsThemeHelper.GetCurrentWindowsTheme and MicaWPFServiceUtility.ThemeService.CurrentTheme will return the wrong value
