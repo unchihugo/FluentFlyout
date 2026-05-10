@@ -45,17 +45,25 @@
                 </StackPanel>
             </ui:CardControl.Header>
             <ComboBox SelectedIndex="{Binding AppFilteringMode, Mode=TwoWay}" MinWidth="250" MinHeight="36" Padding="16,8,16,8" HorizontalContentAlignment="Stretch">
-                <ComboBoxItem Padding="16,8,16,8" HorizontalContentAlignment="Left">
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                        <ui:SymbolIcon Symbol="Prohibited24" Margin="0,0,8,0" VerticalAlignment="Center" />
-                        <TextBlock Text="{DynamicResource AppFilteringModeBlacklist}" VerticalAlignment="Center" />
-                    </StackPanel>
+                <ComboBoxItem Padding="16,8,16,8" HorizontalContentAlignment="Stretch">
+                    <Grid Background="Transparent">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <ui:SymbolIcon Grid.Column="0" Symbol="Prohibited24" Margin="0,0,8,0" VerticalAlignment="Center" />
+                        <TextBlock Grid.Column="1" Text="{DynamicResource AppFilteringModeBlacklist}" VerticalAlignment="Center" HorizontalAlignment="Left" />
+                    </Grid>
                 </ComboBoxItem>
-                <ComboBoxItem Padding="16,8,16,8" HorizontalContentAlignment="Left">
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                        <ui:SymbolIcon Symbol="CheckmarkCircle24" Margin="0,0,8,0" VerticalAlignment="Center" />
-                        <TextBlock Text="{DynamicResource AppFilteringModeWhitelist}" VerticalAlignment="Center" />
-                    </StackPanel>
+                <ComboBoxItem Padding="16,8,16,8" HorizontalContentAlignment="Stretch">
+                    <Grid Background="Transparent">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <ui:SymbolIcon Grid.Column="0" Symbol="CheckmarkCircle24" Margin="0,0,8,0" VerticalAlignment="Center" />
+                        <TextBlock Grid.Column="1" Text="{DynamicResource AppFilteringModeWhitelist}" VerticalAlignment="Center" HorizontalAlignment="Left" />
+                    </Grid>
                 </ComboBoxItem>
             </ComboBox>
         </ui:CardControl>
@@ -128,7 +136,7 @@
                                                 <ColumnDefinition Width="Auto" />
                                             </Grid.ColumnDefinitions>
                                             <TextBlock Grid.Column="0" Text="{Binding}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
-                                            <ui:Button Grid.Column="1" Content="{DynamicResource RemoveButton}" Click="RemoveAllow_Click" Tag="{Binding}" Margin="8,0,0,0" Padding="8,4" />
+                                            <ui:Button Grid.Column="1" Content="{DynamicResource RemoveButton}" Click="RemoveAllow_Click" Tag="{Binding}" Margin="8,0,0,0" Padding="8,4" Background="Transparent" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
                                         </Grid>
                                     </DataTemplate>
                                 </ListBox.ItemTemplate>
@@ -207,7 +215,7 @@
                                                 <ColumnDefinition Width="Auto" />
                                             </Grid.ColumnDefinitions>
                                             <TextBlock Grid.Column="0" Text="{Binding}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
-                                            <ui:Button Grid.Column="1" Content="{DynamicResource RemoveButton}" Click="RemoveBlock_Click" Tag="{Binding}" Margin="8,0,0,0" Padding="8,4" />
+                                            <ui:Button Grid.Column="1" Content="{DynamicResource RemoveButton}" Click="RemoveBlock_Click" Tag="{Binding}" Margin="8,0,0,0" Padding="8,4" Background="Transparent" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
                                         </Grid>
                                     </DataTemplate>
                                 </ListBox.ItemTemplate>
