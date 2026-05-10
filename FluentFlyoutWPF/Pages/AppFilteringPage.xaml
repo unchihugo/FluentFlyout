@@ -44,9 +44,19 @@
                     <TextBlock Text="{DynamicResource AppFilteringModeTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
                 </StackPanel>
             </ui:CardControl.Header>
-            <ComboBox SelectedIndex="{Binding AppFilteringMode, Mode=TwoWay}" MinWidth="250" MinHeight="36" Padding="16,8,16,8">
-                <ComboBoxItem Content="{DynamicResource AppFilteringModeBlacklist}" Padding="16,8,16,8" />
-                <ComboBoxItem Content="{DynamicResource AppFilteringModeWhitelist}" Padding="16,8,16,8" />
+            <ComboBox SelectedIndex="{Binding AppFilteringMode, Mode=TwoWay}" MinWidth="250" MinHeight="36" Padding="16,8,16,8" HorizontalContentAlignment="Stretch">
+                <ComboBoxItem Padding="16,8,16,8" HorizontalContentAlignment="Left">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                        <ui:SymbolIcon Symbol="Prohibited24" Margin="0,0,8,0" VerticalAlignment="Center" />
+                        <TextBlock Text="{DynamicResource AppFilteringModeBlacklist}" VerticalAlignment="Center" />
+                    </StackPanel>
+                </ComboBoxItem>
+                <ComboBoxItem Padding="16,8,16,8" HorizontalContentAlignment="Left">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                        <ui:SymbolIcon Symbol="CheckmarkCircle24" Margin="0,0,8,0" VerticalAlignment="Center" />
+                        <TextBlock Text="{DynamicResource AppFilteringModeWhitelist}" VerticalAlignment="Center" />
+                    </StackPanel>
+                </ComboBoxItem>
             </ComboBox>
         </ui:CardControl>
 
