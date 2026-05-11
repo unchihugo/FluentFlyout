@@ -13,8 +13,9 @@
       Foreground="{DynamicResource TextFillColorPrimaryBrush}"
       d:Background="White">
 
-    <StackPanel MaxWidth="1000" Margin="16">
-        <TextBlock Text="{DynamicResource AppFilteringTitle}" FontSize="24" FontWeight="SemiBold" Margin="0,0,0,20" />
+    <Grid>
+        <StackPanel MaxWidth="1000" Margin="16">
+            <TextBlock Text="{DynamicResource AppFilteringTitle}" FontSize="24" FontWeight="SemiBold" Margin="0,0,0,20" />
 
         <ui:CardControl Icon="{ui:SymbolIcon Filter24}" Margin="0,0,0,24">
             <ui:CardControl.Header>
@@ -26,9 +27,9 @@
             <controls:ToggleSwitch IsChecked="{Binding AppFilteringEnabled, Mode=TwoWay}" />
         </ui:CardControl>
 
-        <ui:CardControl Icon="{ui:SymbolIcon AppsList24}" Margin="0,0,0,24">
+        <ui:CardControl Icon="{ui:SymbolIcon Wrench24}" Margin="0,0,0,24">
             <ui:CardControl.Style>
-                <Style TargetType="ui:CardControl">
+                <Style TargetType="ui:CardControl" BasedOn="{StaticResource {x:Type ui:CardControl}}">
                     <Setter Property="Opacity" Value="1"/>
                     <Setter Property="IsEnabled" Value="True"/>
                     <Style.Triggers>
@@ -39,49 +40,34 @@
                     </Style.Triggers>
                 </Style>
             </ui:CardControl.Style>
-            <ui:CardControl.Header>
-                <StackPanel Orientation="Vertical">
-                    <TextBlock Text="{DynamicResource AppFilteringModeTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
+                <ui:CardControl.Header>
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="{DynamicResource AppFilteringModeTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
+                        <TextBlock Text="{DynamicResource AppFilteringModeDescription}" FontSize="12" Opacity="0.5" />
+                    </StackPanel>
+                </ui:CardControl.Header>
+                <StackPanel Orientation="Horizontal">
+                    <ComboBox SelectedIndex="{Binding AppFilteringMode, Mode=TwoWay}">
+                        <ComboBoxItem Content="{DynamicResource AppFilteringModeBlacklist}" />
+                        <ComboBoxItem Content="{DynamicResource AppFilteringModeWhitelist}" />
+                    </ComboBox>
                 </StackPanel>
-            </ui:CardControl.Header>
-            <ComboBox SelectedIndex="{Binding AppFilteringMode, Mode=TwoWay}" MinWidth="250" MinHeight="36" Padding="16,8,16,8" HorizontalContentAlignment="Stretch">
-                <ComboBoxItem Padding="16,8,16,8" HorizontalContentAlignment="Stretch">
-                    <Grid Background="Transparent">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <ui:SymbolIcon Grid.Column="0" Symbol="Prohibited24" Margin="0,0,8,0" VerticalAlignment="Center" />
-                        <TextBlock Grid.Column="1" Text="{DynamicResource AppFilteringModeBlacklist}" VerticalAlignment="Center" HorizontalAlignment="Left" />
-                    </Grid>
-                </ComboBoxItem>
-                <ComboBoxItem Padding="16,8,16,8" HorizontalContentAlignment="Stretch">
-                    <Grid Background="Transparent">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <ui:SymbolIcon Grid.Column="0" Symbol="CheckmarkCircle24" Margin="0,0,8,0" VerticalAlignment="Center" />
-                        <TextBlock Grid.Column="1" Text="{DynamicResource AppFilteringModeWhitelist}" VerticalAlignment="Center" HorizontalAlignment="Left" />
-                    </Grid>
-                </ComboBoxItem>
-            </ComboBox>
-        </ui:CardControl>
+            </ui:CardControl>
 
-        <Grid IsEnabled="{Binding AppFilteringEnabled}">
-            <Grid.Style>
-                <Style TargetType="Grid">
-                    <Setter Property="Opacity" Value="1"/>
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding AppFilteringEnabled}" Value="False">
-                            <Setter Property="Opacity" Value="0.4"/>
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </Grid.Style>
+            <Grid IsEnabled="{Binding AppFilteringEnabled}">
+                <Grid.Style>
+                    <Style TargetType="Grid">
+                        <Setter Property="Opacity" Value="1"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding AppFilteringEnabled}" Value="False">
+                                <Setter Property="Opacity" Value="0.4"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Grid.Style>
 
-            <!-- Allowed apps (whitelist) -->
-            <Border Margin="0,0,0,24" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1" CornerRadius="8">
+                <!-- Allowed apps (whitelist) -->
+                <Border Margin="0,0,0,24" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1" CornerRadius="8">
                 <Border.Style>
                     <Style TargetType="Border">
                         <Setter Property="Visibility" Value="Collapsed"/>
@@ -265,6 +251,7 @@
                     </Border>
                 </StackPanel>
             </Border>
-        </Grid>
-    </StackPanel>
+            </Grid>
+        </StackPanel>
+    </Grid>
 </Page>

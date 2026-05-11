@@ -177,9 +177,10 @@ Note: As an open-source project, these features are also available for free via 
     <System:String x:Key="AppFilteringTitle">App Filtering</System:String>
     <System:String x:Key="AppFilteringRulesDescription">Control which applications are allowed or blocked from displaying their media.</System:String>
     <System:String x:Key="EnableAppFilteringTitle">Enable Filtering</System:String>
-    <System:String x:Key="AppFilteringModeTitle">Mode</System:String>
-    <System:String x:Key="AppFilteringModeBlacklist">Blacklist (Allow all except blocked apps)</System:String>
-    <System:String x:Key="AppFilteringModeWhitelist">Whitelist (Only allow selected apps)</System:String>
+    <System:String x:Key="AppFilteringModeTitle">Execution Mode</System:String>
+    <System:String x:Key="AppFilteringModeDescription">Determine which configuration list to use</System:String>
+    <System:String x:Key="AppFilteringModeBlacklist">Blacklist</System:String>
+    <System:String x:Key="AppFilteringModeWhitelist">Whitelist</System:String>
     <System:String x:Key="AllowedAppsTitle">Allowed apps</System:String>
     <System:String x:Key="AllowedAppsDescription">If any applications are listed here, only their media will be shown.</System:String>
     <System:String x:Key="BlockedAppsTitle">Excluded apps</System:String>
