@@ -40,19 +40,17 @@
                     </Style.Triggers>
                 </Style>
             </ui:CardControl.Style>
-                <ui:CardControl.Header>
-                    <StackPanel Orientation="Vertical">
-                        <TextBlock Text="{DynamicResource AppFilteringModeTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
-                        <TextBlock Text="{DynamicResource AppFilteringModeDescription}" FontSize="12" Opacity="0.5" />
-                    </StackPanel>
-                </ui:CardControl.Header>
-                <StackPanel Orientation="Horizontal">
-                    <ComboBox SelectedIndex="{Binding AppFilteringMode, Mode=TwoWay}">
-                        <ComboBoxItem Content="{DynamicResource AppFilteringModeBlacklist}" />
-                        <ComboBoxItem Content="{DynamicResource AppFilteringModeWhitelist}" />
-                    </ComboBox>
+            <ui:CardControl.Header>
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Text="{DynamicResource AppFilteringModeTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
+                    <TextBlock Text="{DynamicResource AppFilteringModeDescription}" FontSize="12" Opacity="0.5" />
                 </StackPanel>
-            </ui:CardControl>
+            </ui:CardControl.Header>
+            <ComboBox SelectedIndex="{Binding AppFilteringMode, Mode=TwoWay}">
+                <ComboBoxItem Content="{DynamicResource AppFilteringModeBlacklist}" />
+                <ComboBoxItem Content="{DynamicResource AppFilteringModeWhitelist}" />
+            </ComboBox>
+        </ui:CardControl>
 
             <Grid IsEnabled="{Binding AppFilteringEnabled}">
                 <Grid.Style>
@@ -67,7 +65,7 @@
                 </Grid.Style>
 
                 <!-- Allowed apps (whitelist) -->
-                <Border Margin="0,0,0,24" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1" CornerRadius="8">
+                <Border Margin="0,0,0,24" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1" CornerRadius="4">
                 <Border.Style>
                     <Style TargetType="Border">
                         <Setter Property="Visibility" Value="Collapsed"/>
@@ -91,7 +89,7 @@
                         </StackPanel>
                     </Grid>
 
-                    <Border Background="{DynamicResource CardBackgroundFillColorSecondaryBrush}" Padding="16" CornerRadius="0,0,8,8" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="0,1,0,0">
+                    <Border Background="{DynamicResource CardBackgroundFillColorSecondaryBrush}" Padding="16" CornerRadius="0,0,4,4" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="0,1,0,0">
                         <StackPanel>
                             <Grid Margin="0,0,0,12">
                                 <Grid.ColumnDefinitions>
@@ -160,7 +158,7 @@
             </Border>
 
             <!-- Blocked apps (blacklist) -->
-            <Border Background="{DynamicResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1" CornerRadius="8">
+            <Border Background="{DynamicResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1" CornerRadius="4">
                 <Border.Style>
                     <Style TargetType="Border">
                         <Setter Property="Visibility" Value="Collapsed"/>
@@ -184,7 +182,7 @@
                         </StackPanel>
                     </Grid>
 
-                    <Border Background="{DynamicResource CardBackgroundFillColorSecondaryBrush}" Padding="16" CornerRadius="0,0,8,8" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="0,1,0,0">
+                    <Border Background="{DynamicResource CardBackgroundFillColorSecondaryBrush}" Padding="16" CornerRadius="0,0,4,4" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="0,1,0,0">
                         <StackPanel>
                             <Grid Margin="0,0,0,12">
                                 <Grid.ColumnDefinitions>
