@@ -59,6 +59,9 @@ public partial class VolumeMixerWindow : MicaWindow
     // one day we might want to convert these to an interface
     public async void ShowFlyout()
     {
+        if (FullscreenDetector.IsFullscreenApplicationRunning())
+            return;
+
         long currentTime = Environment.TickCount64;
 
         if (currentTime - _lastFlyoutTime < _flyoutCooldown.TotalMilliseconds)
@@ -247,12 +250,13 @@ public partial class VolumeMixerWindow : MicaWindow
         if (expand)
         {
             SessionsExpanded.Visibility = Visibility.Visible;
+            SessionsSeparator.Visibility = Visibility.Visible;
             SessionsPanel.UpdateLayout();
         }
 
         // measure desired size
         SessionsExpanded.Measure(new Size(ActualWidth, double.PositiveInfinity));
-        expandedHeight = _collapsedHeight + Math.Min(SessionsExpanded.DesiredSize.Height + 16, 220); // 16 for padding
+        expandedHeight = _collapsedHeight + Math.Min(SessionsExpanded.DesiredSize.Height, 220);
 
         double targetHeight = expand ? expandedHeight : _collapsedHeight;
         double currentHeight = ActualHeight;
@@ -294,6 +298,7 @@ public partial class VolumeMixerWindow : MicaWindow
             heightAnimation.Completed += (s, e) =>
             {
                 SessionsExpanded.Visibility = Visibility.Collapsed;
+                SessionsSeparator.Visibility = Visibility.Collapsed;
             };
         }
 

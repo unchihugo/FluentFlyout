@@ -173,8 +173,8 @@ Du kannst helfen, die App zu übersetzen auf</system:String>
     <system:String x:Key="TaskbarVisualizerAudioSensitivityTitle">Audio-Empfindlichkeit</system:String>
     <system:String x:Key="TaskbarVisualizerAudioSensitivityDescription">Legt fest, wie laut der Ton sein muss, bevor sich die Balken bewegen</system:String>
     <system:String x:Key="UnlockFullExperienceText">Schalte das volle FluentFlyout-Erlebnis frei:</system:String>
-    <system:String x:Key="TaskbarWidgetCustomizationPerk">Taskleisten-Widget und -Visualizer</system:String>
-    <system:String x:Key="AcrylicBlurOpacityPerk">Deckkraft der Acryl-Unschärfe</system:String>
+    <system:String x:Key="TaskbarWidgetCustomizationPerk">Taskleisten-Widget und -Visualizer anzeigen</system:String>
+    <system:String x:Key="AcrylicBlurOpacityPerk">Deckkraft der Acryl-Unschärfe anpassen</system:String>
     <system:String x:Key="HideTrayIconPerk">Symbol im Infobereich ausblenden</system:String>
     <system:String x:Key="AllFuturePremiumFeatures">Alle zukünftigen Premium-Funktionen</system:String>
     <system:String x:Key="AcrylicBlurOpacityTitle">Deckkraft der Acryl-Unschärfe</system:String>
@@ -235,4 +235,14 @@ Du kannst helfen, die App zu übersetzen auf</system:String>
     <system:String x:Key="LegacyTaskbarWidthDescription">Verwenden Sie das alte Taskleistenbreitensystem für Taskleisten-Widgets.</system:String>
     <system:String x:Key="TaskbarWidgetShowPauseOverlayTitle">Zeige Pause Symbol</system:String>
     <system:String x:Key="TaskbarWidgetShowPauseOverlayDescription">Zeige ein Pause symbol über dem Cover wenn Audio pausiert ist</system:String>
+    <system:String x:Key="VolumeMixerHighlightPerk">Aktive Apps im Lautstärke Mixer hervorheben</system:String>
+    <system:String x:Key="VolumeFlyoutTitle">Lautstärke Flyout</system:String>
+    <system:String x:Key="EnableVolumeFlyoutTitle">Aktiviere Lautstärke-Flyout</system:String>
+    <system:String x:Key="EnableVolumeFlyoutDescription">Ersetze das standart Windows Lautstärke-Flyout</system:String>
+    <system:String x:Key="VolumeAboveMediaFlyoutTitle">Positioniere Lautstärke-Flyout über Medien-Flyout</system:String>
+    <system:String x:Key="VolumeFlyoutStayDurationTitle">Lautstärke-Flyout Anzeigedauer</system:String>
+    <system:String x:Key="VolumeMixerSectionTitle">Lautstärke Mixer</system:String>
+    <system:String x:Key="EnableVolumeMixerTitle">Aktiviere Lautstärke Mixer</system:String>
+    <system:String x:Key="VolumeMixerHighlightTitle">Hebe Audio abspielende Apps hervor</system:String>
+    <system:String x:Key="VolumeMixerHighlightDescription">Zeige alle aktuell Audio ausgebenden Apps</system:String>
 </ResourceDictionary>
