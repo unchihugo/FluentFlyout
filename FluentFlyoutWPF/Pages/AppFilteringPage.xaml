@@ -65,9 +65,9 @@
                 </Grid.Style>
 
                 <!-- Allowed apps (whitelist) -->
-                <Border Margin="0,0,0,24" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1" CornerRadius="4">
-                <Border.Style>
-                    <Style TargetType="Border">
+                <ui:CardExpander IsExpanded="True" Margin="0,0,0,24">
+                <ui:CardExpander.Style>
+                    <Style TargetType="ui:CardExpander" BasedOn="{StaticResource {x:Type ui:CardExpander}}">
                         <Setter Property="Visibility" Value="Collapsed"/>
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding AppFilteringMode}" Value="0">
@@ -75,9 +75,9 @@
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>
-                </Border.Style>
-                <StackPanel>
-                    <Grid Margin="16">
+                </ui:CardExpander.Style>
+                <ui:CardExpander.Header>
+                    <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="*" />
@@ -88,9 +88,9 @@
                             <TextBlock Text="{DynamicResource AllowedAppsDescription}" FontSize="12" Opacity="0.5" TextWrapping="Wrap" Margin="0,2,0,0" />
                         </StackPanel>
                     </Grid>
+                </ui:CardExpander.Header>
 
-                    <Border Background="{DynamicResource CardBackgroundFillColorSecondaryBrush}" Padding="16" CornerRadius="0,0,4,4" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="0,1,0,0">
-                        <StackPanel>
+                <StackPanel Margin="0">
                             <Grid Margin="0,0,0,12">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
@@ -152,15 +152,13 @@
                                     <ui:Button Grid.Column="1" Content="{DynamicResource AddButton}" Click="AddAllowManual_Click" Appearance="Secondary" />
                                 </Grid>
                             </StackPanel>
-                        </StackPanel>
-                    </Border>
                 </StackPanel>
-            </Border>
+                </ui:CardExpander>
 
             <!-- Blocked apps (blacklist) -->
-            <Border Background="{DynamicResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1" CornerRadius="4">
-                <Border.Style>
-                    <Style TargetType="Border">
+            <ui:CardExpander IsExpanded="True">
+                <ui:CardExpander.Style>
+                    <Style TargetType="ui:CardExpander" BasedOn="{StaticResource {x:Type ui:CardExpander}}">
                         <Setter Property="Visibility" Value="Collapsed"/>
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding AppFilteringMode}" Value="1">
@@ -168,9 +166,9 @@
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>
-                </Border.Style>
-                <StackPanel>
-                    <Grid Margin="16">
+                </ui:CardExpander.Style>
+                <ui:CardExpander.Header>
+                    <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="*" />
@@ -181,9 +179,9 @@
                             <TextBlock Text="{DynamicResource BlockedAppsDescription}" FontSize="12" Opacity="0.5" TextWrapping="Wrap" Margin="0,2,0,0" />
                         </StackPanel>
                     </Grid>
+                </ui:CardExpander.Header>
 
-                    <Border Background="{DynamicResource CardBackgroundFillColorSecondaryBrush}" Padding="16" CornerRadius="0,0,4,4" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="0,1,0,0">
-                        <StackPanel>
+                <StackPanel Margin="0">
                             <Grid Margin="0,0,0,12">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
@@ -245,10 +243,8 @@
                                     <ui:Button Grid.Column="1" Content="{DynamicResource AddButton}" Click="AddBlockManual_Click" Appearance="Secondary" />
                                 </Grid>
                             </StackPanel>
-                        </StackPanel>
-                    </Border>
                 </StackPanel>
-            </Border>
+            </ui:CardExpander>
             </Grid>
         </StackPanel>
     </Grid>
