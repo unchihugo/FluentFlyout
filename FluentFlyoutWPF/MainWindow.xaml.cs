@@ -240,7 +240,7 @@ public partial class MainWindow : MicaWindow
         string appId = session.Id ?? string.Empty;
         string appName = MediaPlayerData.GetAndCacheMediaPlayerData(appId).Item1 ?? appId;
 
-        if (SettingsManager.Current.AppFilteringMode == 0) // Blacklist mode
+        if (SettingsManager.Current.AppFilteringMode == 1) // Blacklist mode
         {
             if (SettingsManager.Current.BlockedApps != null && SettingsManager.Current.BlockedApps.Any(b =>
                     appName.Contains(b, StringComparison.OrdinalIgnoreCase) ||

@@ -444,7 +444,7 @@ public partial class UserSettings : ObservableObject
     public partial bool AppFilteringEnabled { get; set; }
 
     /// <summary>
-    /// Returns the active filtering mode. 0 for Blacklist, 1 for Whitelist.
+    /// Returns the active filtering mode. 0 for Whitelist, 1 for Blacklist.
     /// </summary>
     [ObservableProperty]
     public partial int AppFilteringMode { get; set; }
