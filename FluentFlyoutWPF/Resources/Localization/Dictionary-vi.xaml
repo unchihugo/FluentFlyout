@@ -81,9 +81,9 @@ hoặc để lại một bình luận trên Microsoft Store!</system:String>
     <system:String x:Key="AcrylicWindowDescription">Khi tắt, giao diện sẽ trở về nền mờ nhẹ</system:String>
     <system:String x:Key="BackgroundBlurTitle">In mờ ảnh bìa trên nền</system:String>
     <system:String x:Key="BackgroundBlurOption1" xml:space="preserve"> Không in mờ</system:String>
-    <system:String x:Key="BackgroundBlurOption2" xml:space="preserve"> Kiểu 1 (Mờ bên trái)</system:String>
-    <system:String x:Key="BackgroundBlurOption3" xml:space="preserve"> Kiểu 2 (Mờ bên dưới)</system:String>
-    <system:String x:Key="BackgroundBlurOption4" xml:space="preserve"> Kiểu 3 (Mờ toàn phần)</system:String>
+    <system:String x:Key="BackgroundBlurOption2" xml:space="preserve"> Mờ bên trái</system:String>
+    <system:String x:Key="BackgroundBlurOption3" xml:space="preserve"> Mờ bên dưới</system:String>
+    <system:String x:Key="BackgroundBlurOption4" xml:space="preserve"> Mờ toàn phần</system:String>
     <system:String x:Key="TextBlockText2">Chọn phương án in mờ</system:String>
     <system:String x:Key="StartupAppsHyperlinkText">Ứng dụng Khởi động (Startup Apps)</system:String>
     <system:String x:Key="AppLanguageDescription" xml:space="preserve">Các phần không được biên dịch sẽ tự động trả về tiếng Anh.
