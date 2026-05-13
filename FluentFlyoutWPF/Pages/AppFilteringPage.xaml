@@ -47,8 +47,8 @@
                 </StackPanel>
             </ui:CardControl.Header>
             <ComboBox SelectedIndex="{Binding AppFilteringMode, Mode=TwoWay}">
-                <ComboBoxItem Content="{DynamicResource AppFilteringModeWhitelist}" />
                 <ComboBoxItem Content="{DynamicResource AppFilteringModeBlacklist}" />
+                <ComboBoxItem Content="{DynamicResource AppFilteringModeWhitelist}" />
             </ComboBox>
         </ui:CardControl>
 
@@ -70,7 +70,7 @@
                     <Style TargetType="ui:CardExpander" BasedOn="{StaticResource {x:Type ui:CardExpander}}">
                         <Setter Property="Visibility" Value="Collapsed"/>
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding AppFilteringMode}" Value="0">
+                            <DataTrigger Binding="{Binding AppFilteringMode}" Value="1">
                                 <Setter Property="Visibility" Value="Visible"/>
                             </DataTrigger>
                         </Style.Triggers>
@@ -161,7 +161,7 @@
                     <Style TargetType="ui:CardExpander" BasedOn="{StaticResource {x:Type ui:CardExpander}}">
                         <Setter Property="Visibility" Value="Collapsed"/>
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding AppFilteringMode}" Value="1">
+                            <DataTrigger Binding="{Binding AppFilteringMode}" Value="0">
                                 <Setter Property="Visibility" Value="Visible"/>
                             </DataTrigger>
                         </Style.Triggers>
