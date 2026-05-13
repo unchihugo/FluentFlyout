@@ -10,6 +10,7 @@ using FluentFlyoutWPF.Classes;
 using FluentFlyoutWPF.Models;
 using FluentFlyoutWPF.Windows;
 using System.Collections.ObjectModel;
+using System.Reflection;
 using System.Windows;
 using System.Xml.Serialization;
 
@@ -20,6 +21,17 @@ namespace FluentFlyoutWPF.ViewModels;
  */
 public partial class UserSettings : ObservableObject
 {
+    private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+
+    // List of non-XmlIgnore property names
+    private static readonly HashSet<string> PersistedPropertyNames =
+    [
+        .. typeof(UserSettings)
+            .GetProperties(BindingFlags.Instance | BindingFlags.Public)
+            .Where(property => property.CanWrite && property.GetCustomAttribute<XmlIgnoreAttribute>() is null)
+            .Select(property => property.Name)
+    ];
+
     /// <summary>
     /// Use a compact layout
     /// </summary>
@@ -674,6 +686,57 @@ public partial class UserSettings : ObservableObject
         LastUpdateNotificationUnixSeconds = 0;
         ShowUpdateNotifications = true;
         LegacyTaskbarWidthEnabled = false;
+
+        PropertyChanged += OnPropertyChangedSaveSettings;
+    }
+
+    [XmlIgnore]
+    private CancellationTokenSource? _saveSettingsCts;
+
+    private async void OnPropertyChangedSaveSettings(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+    {
+        if (_initializing) return;
+
+        // Only trigger save if a persisted property changed
+        if (string.IsNullOrEmpty(e.PropertyName) || !PersistedPropertyNames.Contains(e.PropertyName))
+            return;
+
+#if DEBUG
+        Logger.Debug("Property '{PropertyName}' changed, scheduling settings save.", e.PropertyName);
+#endif
+
+        var newCts = new CancellationTokenSource();
+        var oldCts = Interlocked.Exchange(ref _saveSettingsCts, newCts);
+        oldCts?.Cancel();
+        oldCts?.Dispose();
+
+        try
+        {
+            await Task.Delay(500, newCts.Token);
+
+            if (ReferenceEquals(_saveSettingsCts, newCts))
+            {
+                SettingsManager.SaveSettings();
+            }
+        }
+        catch (OperationCanceledException)
+        {
+            // Expected when replaced by a new property change
+#if DEBUG
+            Logger.Debug("Settings save canceled due to another property change.");
+#endif
+        }
+        catch (Exception ex)
+        {
+            Logger.Error(ex, "An error occurred while saving settings from property change.");
+        }
+        finally
+        {
+            if (Interlocked.CompareExchange(ref _saveSettingsCts, null, newCts) == newCts)
+            {
+                newCts.Dispose();
+            }
+        }
     }
 
     /// <summary>
