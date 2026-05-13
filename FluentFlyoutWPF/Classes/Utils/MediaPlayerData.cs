@@ -66,11 +66,9 @@ public static class MediaPlayerData
             {
                 try
                 {
-                    // pre-filter processes without a main window handle
-                    if (p.MainWindowHandle == IntPtr.Zero)
-                    {
-                        return null;
-                    }
+                    // we no longer instantly filter out processes without a main window handle, 
+                    // to support background media processes (chrome, edge, etc. may spawn background
+                    // workers).
 
                     var mainModule = p.MainModule;
                     if (mainModule == null) return null;
@@ -79,22 +77,32 @@ public static class MediaPlayerData
 
                     if (variants.Any(v => path.Contains(v, StringComparison.OrdinalIgnoreCase)))
                     {
-                        // prioritize the FileDescription for a user-friendly name
-                        // fall back to MainWindowTitle if the description is empty
-                        string title = !string.IsNullOrWhiteSpace(mainModule.FileVersionInfo.FileDescription)
-                                        ? mainModule.FileVersionInfo.FileDescription
-                                        : p.MainWindowTitle;
+                        // prioritize processes that have a main window, as they represent the primary app (e.g., Microsoft Edge) rather than a background worker
+                        int priority = p.MainWindowHandle != IntPtr.Zero ? 1 : 0;
 
-                        return new { Title = title, Path = path, ProcessId = p.Id };
+                        // prioritize ProductName for the user-facing app name, but fall back to `FileDescription` or `MainWindowTitle` if `ProductName` is not available
+                        string title = !string.IsNullOrWhiteSpace(mainModule.FileVersionInfo.ProductName)
+                                        ? mainModule.FileVersionInfo.ProductName
+                                        : (!string.IsNullOrWhiteSpace(mainModule.FileVersionInfo.FileDescription)
+                                            ? mainModule.FileVersionInfo.FileDescription
+                                            : p.MainWindowTitle);
+
+                        return new { Title = title, Path = path, ProcessId = p.Id, Priority = priority };
                     }
                 }
                 catch (System.ComponentModel.Win32Exception)
                 {
                     // silently ignore the exception for inaccessible processes
                 }
+                catch (InvalidOperationException)
+                {
+                    // process may have exited while accessing properties
+                }
                 return null;
             })
-            .FirstOrDefault(data => data != null); // use first result
+            .Where(data => data != null)
+            .OrderByDescending(data => data.Priority)
+            .FirstOrDefault(); // use best result
 
         if (processData == null) return (mediaTitle, mediaIcon);
 
