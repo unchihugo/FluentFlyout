@@ -80,7 +80,7 @@ hoặc để lại một bình luận trên Microsoft Store!</system:String>
     <system:String x:Key="AcrylicWindowTitle">Nền acrylic</system:String>
     <system:String x:Key="AcrylicWindowDescription">Khi tắt, giao diện sẽ trở về nền mờ nhẹ</system:String>
     <system:String x:Key="BackgroundBlurTitle">In mờ ảnh bìa trên nền</system:String>
-    <system:String x:Key="BackgroundBlurOption1" xml:space="preserve"> Không in mờ</system:String>
+    <system:String x:Key="BackgroundBlurOption1" xml:space="preserve"> Không</system:String>
     <system:String x:Key="BackgroundBlurOption2" xml:space="preserve"> Mờ bên trái</system:String>
     <system:String x:Key="BackgroundBlurOption3" xml:space="preserve"> Mờ bên dưới</system:String>
     <system:String x:Key="BackgroundBlurOption4" xml:space="preserve"> Mờ toàn phần</system:String>
