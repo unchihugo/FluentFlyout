@@ -137,7 +137,7 @@ public static class SystemUsageStyleHelper
 {
     public const string DefaultFontFamily = "Segoe UI Variable";
     public const string AutoColorValue = "Auto";
-    public const double DefaultFontSize = 11;
+    public const double DefaultFontSize = 13;
     private const double MinFontSize = 8;
     private const double MaxFontSize = 16;
 
@@ -172,6 +172,24 @@ public static class SystemUsageStyleHelper
         }
 
         return false;
+    }
+
+    public static bool TryGetCpuTemperatureColor(int? cpuTemperatureCelsius, out Color color)
+    {
+        color = default;
+
+        if (!cpuTemperatureCelsius.HasValue)
+            return false;
+
+        color = cpuTemperatureCelsius.Value switch
+        {
+            < 60 => Color.FromArgb(0xFF, 0xFF, 0xFF, 0xFF),
+            < 80 => Color.FromArgb(0xFF, 0xFF, 0xD1, 0x66),
+            <= 90 => Color.FromArgb(0xFF, 0xFF, 0x9F, 0x1C),
+            _ => Color.FromArgb(0xFF, 0xFF, 0x45, 0x3A)
+        };
+
+        return true;
     }
 }
 

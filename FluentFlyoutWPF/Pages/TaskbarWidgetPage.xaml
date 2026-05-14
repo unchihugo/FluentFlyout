@@ -159,13 +159,7 @@
                                 <TextBlock Text="{DynamicResource TaskbarWidgetSystemStatsFontFamilyDescription}" FontSize="12" Opacity="0.5" />
                             </StackPanel>
                         </ui:CardControl.Header>
-                        <ComboBox Width="190" IsEditable="True" Text="{Binding TaskbarWidgetSystemStatsFontFamily, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsPremiumUnlocked}">
-                            <ComboBoxItem Content="Segoe UI Variable" />
-                            <ComboBoxItem Content="Cascadia Mono" />
-                            <ComboBoxItem Content="Consolas" />
-                            <ComboBoxItem Content="Bahnschrift" />
-                            <ComboBoxItem Content="Microsoft YaHei UI" />
-                        </ComboBox>
+                        <ComboBox x:Name="SystemStatsFontFamilyComboBox" Width="190" IsEditable="True" Text="{Binding TaskbarWidgetSystemStatsFontFamily, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsPremiumUnlocked}" />
                     </ui:CardControl>
                     <ui:CardControl Icon="{ui:SymbolIcon ArrowFit20}" Margin="0,0,0,3">
                         <ui:CardControl.Header>

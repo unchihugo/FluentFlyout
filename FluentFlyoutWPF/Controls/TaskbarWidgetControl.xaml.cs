@@ -460,6 +460,7 @@ public partial class TaskbarWidgetControl : UserControl
             SystemUsageDisplayText text = SystemUsageTextFormatter.FormatLines(snapshot, showCpuTemperature);
             SystemCpuStatsText.Text = text.CpuText;
             SystemRamStatsText.Text = text.RamText;
+            ApplySystemStatsForeground(snapshot.CpuTemperatureCelsius, showCpuTemperature);
         }
         catch (Exception ex)
         {
@@ -482,12 +483,21 @@ public partial class TaskbarWidgetControl : UserControl
         SystemRamStatsText.FontSize = fontSize;
         SystemStatsStackPanel.Width = GetSystemStatsPanelWidth(fontSize, SettingsManager.Current.TaskbarWidgetCpuTemperatureEnabled);
 
+        ApplySystemStatsForeground(null, showCpuTemperature: false);
+    }
+
+    private void ApplySystemStatsForeground(int? cpuTemperatureCelsius, bool showCpuTemperature)
+    {
         Brush foreground = SystemUsageStyleHelper.TryParseColor(SettingsManager.Current.TaskbarWidgetSystemStatsColor, out Color color)
             ? new SolidColorBrush(color)
             : GetWindowsThemeForegroundBrush();
 
-        SystemCpuStatsText.Foreground = foreground;
         SystemRamStatsText.Foreground = foreground;
+
+        SystemCpuStatsText.Foreground = showCpuTemperature
+            && SystemUsageStyleHelper.TryGetCpuTemperatureColor(cpuTemperatureCelsius, out Color cpuTemperatureColor)
+                ? new SolidColorBrush(cpuTemperatureColor)
+                : foreground;
     }
 
     private static SolidColorBrush GetWindowsThemeForegroundBrush()

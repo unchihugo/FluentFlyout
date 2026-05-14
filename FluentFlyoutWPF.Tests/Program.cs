@@ -154,10 +154,34 @@ Run("Does not treat GPU temperature as CPU temperature", () =>
 
 Run("Clamps stats font size to compact taskbar range", () =>
 {
+    AssertEqual(13d, SystemUsageStyleHelper.DefaultFontSize);
     AssertEqual(8d, SystemUsageStyleHelper.NormalizeFontSize(4));
     AssertEqual(12d, SystemUsageStyleHelper.NormalizeFontSize(12));
     AssertEqual(16d, SystemUsageStyleHelper.NormalizeFontSize(24));
     AssertEqual(SystemUsageStyleHelper.DefaultFontSize, SystemUsageStyleHelper.NormalizeFontSize(double.NaN));
+});
+
+Run("Selects CPU temperature foreground colors by threshold", () =>
+{
+    AssertEqual(false, SystemUsageStyleHelper.TryGetCpuTemperatureColor(null, out _));
+
+    AssertEqual(true, SystemUsageStyleHelper.TryGetCpuTemperatureColor(59, out var white));
+    AssertColor(0xFF, 0xFF, 0xFF, 0xFF, white);
+
+    AssertEqual(true, SystemUsageStyleHelper.TryGetCpuTemperatureColor(60, out var yellowStart));
+    AssertColor(0xFF, 0xFF, 0xD1, 0x66, yellowStart);
+
+    AssertEqual(true, SystemUsageStyleHelper.TryGetCpuTemperatureColor(79, out var yellowEnd));
+    AssertColor(0xFF, 0xFF, 0xD1, 0x66, yellowEnd);
+
+    AssertEqual(true, SystemUsageStyleHelper.TryGetCpuTemperatureColor(80, out var orangeStart));
+    AssertColor(0xFF, 0xFF, 0x9F, 0x1C, orangeStart);
+
+    AssertEqual(true, SystemUsageStyleHelper.TryGetCpuTemperatureColor(90, out var orangeEnd));
+    AssertColor(0xFF, 0xFF, 0x9F, 0x1C, orangeEnd);
+
+    AssertEqual(true, SystemUsageStyleHelper.TryGetCpuTemperatureColor(91, out var red));
+    AssertColor(0xFF, 0xFF, 0x45, 0x3A, red);
 });
 
 Run("Parses custom stats color and treats Auto as theme color", () =>
@@ -190,4 +214,12 @@ static void AssertEqual<T>(T expected, T actual)
 {
     if (!EqualityComparer<T>.Default.Equals(expected, actual))
         throw new InvalidOperationException($"expected {expected}, got {actual}");
+}
+
+static void AssertColor(byte expectedA, byte expectedR, byte expectedG, byte expectedB, System.Windows.Media.Color actual)
+{
+    AssertEqual(expectedA, actual.A);
+    AssertEqual(expectedR, actual.R);
+    AssertEqual(expectedG, actual.G);
+    AssertEqual(expectedB, actual.B);
 }
