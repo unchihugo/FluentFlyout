@@ -17,11 +17,13 @@ public partial class TaskbarWidgetPage : Page
     {
         InitializeComponent();
         DataContext = SettingsManager.Current;
-        SystemStatsFontFamilyComboBox.ItemsSource = Fonts.SystemFontFamilies
+        string[] fontFamilies = Fonts.SystemFontFamilies
             .Select(font => font.Source)
             .Distinct()
             .OrderBy(font => font, StringComparer.CurrentCultureIgnoreCase)
             .ToArray();
+        MediaFontFamilyComboBox.ItemsSource = fontFamilies;
+        SystemStatsFontFamilyComboBox.ItemsSource = fontFamilies;
         UpdateMonitorList();
     }
 

@@ -52,6 +52,7 @@ public partial class TaskbarWidgetControl : UserControl
 
         // Set DataContext for bindings
         DataContext = SettingsManager.Current;
+        ApplyMediaStyle();
 
         MainBorder.SizeChanged += (s, e) =>
         {
@@ -470,9 +471,9 @@ public partial class TaskbarWidgetControl : UserControl
 
     private void ApplySystemStatsStyle()
     {
-        string fontFamily = string.IsNullOrWhiteSpace(SettingsManager.Current.TaskbarWidgetSystemStatsFontFamily)
-            ? SystemUsageStyleHelper.DefaultFontFamily
-            : SettingsManager.Current.TaskbarWidgetSystemStatsFontFamily.Trim();
+        string fontFamily = SystemUsageStyleHelper.NormalizeFontFamily(
+            SettingsManager.Current.TaskbarWidgetSystemStatsFontFamily,
+            SystemUsageStyleHelper.DefaultFontFamily);
 
         FontFamily statsFontFamily = new(fontFamily);
         SystemCpuStatsText.FontFamily = statsFontFamily;
@@ -484,6 +485,17 @@ public partial class TaskbarWidgetControl : UserControl
         SystemStatsStackPanel.Width = GetSystemStatsPanelWidth(fontSize, SettingsManager.Current.TaskbarWidgetCpuTemperatureEnabled);
 
         ApplySystemStatsForeground(null, showCpuTemperature: false);
+    }
+
+    private void ApplyMediaStyle()
+    {
+        string fontFamily = SystemUsageStyleHelper.NormalizeFontFamily(
+            SettingsManager.Current.TaskbarWidgetMediaFontFamily,
+            SystemUsageStyleHelper.DefaultMediaFontFamily);
+
+        FontFamily mediaFontFamily = new(fontFamily);
+        SongTitle.FontFamily = mediaFontFamily;
+        SongArtist.FontFamily = mediaFontFamily;
     }
 
     private void ApplySystemStatsForeground(int? cpuTemperatureCelsius, bool showCpuTemperature)

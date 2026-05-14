@@ -136,6 +136,7 @@ public static class MsiAfterburnerTemperatureSelector
 public static class SystemUsageStyleHelper
 {
     public const string DefaultFontFamily = "Segoe UI Variable";
+    public const string DefaultMediaFontFamily = "Segoe UI Variable, Microsoft YaHei, Microsoft JhengHei, MS Gothic";
     public const string AutoColorValue = "Auto";
     public const double DefaultFontSize = 13;
     private const double MinFontSize = 8;
@@ -147,6 +148,13 @@ public static class SystemUsageStyleHelper
             return DefaultFontSize;
 
         return Math.Clamp(fontSize, MinFontSize, MaxFontSize);
+    }
+
+    public static string NormalizeFontFamily(string? fontFamily, string defaultFontFamily)
+    {
+        return string.IsNullOrWhiteSpace(fontFamily)
+            ? defaultFontFamily
+            : fontFamily.Trim();
     }
 
     public static bool TryParseColor(string? value, out Color color)

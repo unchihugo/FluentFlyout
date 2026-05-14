@@ -57,6 +57,8 @@ hides repeat, shuffle and player info</System:String>
     <System:String x:Key="TaskbarWidgetSystemStatsPositionDescription">Choose where the system stats appear relative to media info</System:String>
     <System:String x:Key="TaskbarWidgetSystemStatsPositionLeft">Left of media</System:String>
     <System:String x:Key="TaskbarWidgetSystemStatsPositionRight">Right of media</System:String>
+    <System:String x:Key="TaskbarWidgetMediaFontFamilyTitle">Media font</System:String>
+    <System:String x:Key="TaskbarWidgetMediaFontFamilyDescription">Choose the font family for title and artist text</System:String>
     <System:String x:Key="TaskbarWidgetSystemStatsAppearanceTitle">CPU and RAM text style</System:String>
     <System:String x:Key="TaskbarWidgetSystemStatsAppearanceDescription">Adjust font, size, and color for the system stats text</System:String>
     <System:String x:Key="TaskbarWidgetSystemStatsFontFamilyTitle">Font</System:String>

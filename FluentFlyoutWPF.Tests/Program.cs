@@ -161,6 +161,13 @@ Run("Clamps stats font size to compact taskbar range", () =>
     AssertEqual(SystemUsageStyleHelper.DefaultFontSize, SystemUsageStyleHelper.NormalizeFontSize(double.NaN));
 });
 
+Run("Normalizes taskbar widget font families", () =>
+{
+    AssertEqual(SystemUsageStyleHelper.DefaultMediaFontFamily, SystemUsageStyleHelper.NormalizeFontFamily(null, SystemUsageStyleHelper.DefaultMediaFontFamily));
+    AssertEqual(SystemUsageStyleHelper.DefaultMediaFontFamily, SystemUsageStyleHelper.NormalizeFontFamily("  ", SystemUsageStyleHelper.DefaultMediaFontFamily));
+    AssertEqual("Cascadia Mono", SystemUsageStyleHelper.NormalizeFontFamily("  Cascadia Mono  ", SystemUsageStyleHelper.DefaultMediaFontFamily));
+});
+
 Run("Selects CPU temperature foreground colors by threshold", () =>
 {
     AssertEqual(false, SystemUsageStyleHelper.TryGetCpuTemperatureColor(null, out _));
