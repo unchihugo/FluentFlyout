@@ -49,6 +49,10 @@
                             <TextBlock Name="SongArtist" Text="" FontWeight="Normal" Opacity="0.5" Margin="0,-1.5,0,0" TextTrimming="CharacterEllipsis" />
                         </StackPanel>
 
+                        <StackPanel Name="SystemStatsStackPanel" Orientation="Horizontal" VerticalAlignment="Center" Width="124" Margin="10,0,0,0" Visibility="Collapsed">
+                            <TextBlock Name="SystemStatsText" Text="CPU --% &#183; RAM --%" FontSize="12" FontWeight="SemiBold" Opacity="0.72" TextTrimming="CharacterEllipsis" />
+                        </StackPanel>
+
                         <StackPanel Name="ControlsStackPanel" Orientation="Horizontal" VerticalAlignment="Center" Width="Auto" Margin="8,0,0,0">
                             <StackPanel.Style>
                                 <Style TargetType="StackPanel">

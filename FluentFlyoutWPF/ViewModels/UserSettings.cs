@@ -351,6 +351,12 @@ public partial class UserSettings : ObservableObject
     public partial bool TaskbarWidgetEnabled { get; set; }
 
     /// <summary>
+    /// Gets or sets a value indicating whether CPU and RAM usage should be shown on the taskbar widget.
+    /// </summary>
+    [ObservableProperty]
+    public partial bool TaskbarWidgetSystemStatsEnabled { get; set; }
+
+    /// <summary>
     /// Widget Target Display
     /// </summary>
     [ObservableProperty]
@@ -632,6 +638,7 @@ public partial class UserSettings : ObservableObject
         LockKeysAcrylicWindowEnabled = true;
         VolumeMixerAcrylicWindowEnabled = true;
         TaskbarWidgetEnabled = false;
+        TaskbarWidgetSystemStatsEnabled = true;
         TaskbarWidgetSelectedMonitor = 0;
         TaskbarWidgetPosition = 0;
         TaskbarWidgetPadding = true;
@@ -767,6 +774,12 @@ public partial class UserSettings : ObservableObject
             return;
         }
 
+        UpdateTaskbar();
+    }
+
+    partial void OnTaskbarWidgetSystemStatsEnabledChanged(bool oldValue, bool newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
         UpdateTaskbar();
     }
 
