@@ -3,7 +3,9 @@
 
 using FluentFlyout.Classes;
 using LibreHardwareMonitor.Hardware;
+using System.IO.MemoryMappedFiles;
 using System.Runtime.InteropServices;
+using System.Text;
 using System.Windows.Media;
 
 namespace FluentFlyoutWPF.Classes.Utils;
@@ -80,6 +82,52 @@ public static class CpuTemperatureSelector
     }
 
     private static int RoundTemperature(double temperature)
+    {
+        return (int)Math.Round(temperature, MidpointRounding.AwayFromZero);
+    }
+}
+
+public readonly record struct MsiAfterburnerMonitoringEntry(string SourceName, float Data, uint SourceId);
+
+public static class MsiAfterburnerTemperatureSelector
+{
+    public const uint CpuTemperatureSourceId = 0x00000080;
+
+    public static int? SelectCpuTemperatureCelsius(IEnumerable<MsiAfterburnerMonitoringEntry> entries)
+    {
+        MsiAfterburnerMonitoringEntry[] cpuTemperatureEntries = entries
+            .Where(entry => entry.SourceId == CpuTemperatureSourceId && IsValidTemperature(entry.Data))
+            .ToArray();
+
+        if (cpuTemperatureEntries.Length > 0)
+            return RoundTemperature(cpuTemperatureEntries.Max(entry => entry.Data));
+
+        float? namedCpuTemperature = entries
+            .Where(entry => IsCpuTemperatureName(entry.SourceName) && IsValidTemperature(entry.Data))
+            .Select(entry => (float?)entry.Data)
+            .Max();
+
+        return namedCpuTemperature.HasValue
+            ? RoundTemperature(namedCpuTemperature.Value)
+            : null;
+    }
+
+    private static bool IsCpuTemperatureName(string sourceName)
+    {
+        return !string.IsNullOrWhiteSpace(sourceName)
+            && sourceName.Contains("CPU", StringComparison.OrdinalIgnoreCase)
+            && (sourceName.Contains("temperature", StringComparison.OrdinalIgnoreCase)
+                || sourceName.Contains("temp", StringComparison.OrdinalIgnoreCase));
+    }
+
+    private static bool IsValidTemperature(float temperature)
+    {
+        return temperature is >= 1 and <= 125
+            && !float.IsNaN(temperature)
+            && !float.IsInfinity(temperature);
+    }
+
+    private static int RoundTemperature(float temperature)
     {
         return (int)Math.Round(temperature, MidpointRounding.AwayFromZero);
     }
@@ -224,6 +272,10 @@ public sealed class CpuTemperatureReader : IDisposable
 
     public int? ReadCelsius()
     {
+        int? msiAfterburnerTemperature = MsiAfterburnerTemperatureReader.ReadCelsius();
+        if (msiAfterburnerTemperature.HasValue)
+            return msiAfterburnerTemperature.Value;
+
         if (_isUnavailable)
             return null;
 
@@ -298,5 +350,81 @@ public sealed class CpuTemperatureReader : IDisposable
         _computer = null;
         _isOpened = false;
         _isUnavailable = true;
+    }
+}
+
+public static class MsiAfterburnerTemperatureReader
+{
+    private const string SharedMemoryName = "MAHMSharedMemory";
+    private const uint ValidSignature = 0x4D41484D;
+    private const int MinimumHeaderSize = 32;
+    private const int MinimumEntrySize = 1324;
+    private const int MaximumEntries = 256;
+    private const int MaxPath = 260;
+    private const int SourceNameOffset = 0;
+    private const int DataOffset = 1300;
+    private const int SourceIdOffset = 1320;
+
+    public static int? ReadCelsius()
+    {
+        try
+        {
+            using MemoryMappedFile sharedMemory = MemoryMappedFile.OpenExisting(SharedMemoryName, MemoryMappedFileRights.Read);
+            using MemoryMappedViewAccessor accessor = sharedMemory.CreateViewAccessor(0, 0, MemoryMappedFileAccess.Read);
+
+            return ReadCelsius(accessor);
+        }
+        catch
+        {
+            return null;
+        }
+    }
+
+    internal static int? ReadCelsius(MemoryMappedViewAccessor accessor)
+    {
+        if (accessor.ReadUInt32(0) != ValidSignature)
+            return null;
+
+        uint headerSize = accessor.ReadUInt32(8);
+        uint numEntries = accessor.ReadUInt32(12);
+        uint entrySize = accessor.ReadUInt32(16);
+
+        if (headerSize < MinimumHeaderSize || entrySize < MinimumEntrySize || numEntries > MaximumEntries)
+            return null;
+
+        long requiredCapacity = headerSize + ((long)numEntries * entrySize);
+        if (accessor.Capacity < requiredCapacity)
+            return null;
+
+        return MsiAfterburnerTemperatureSelector.SelectCpuTemperatureCelsius(ReadEntries(accessor, headerSize, numEntries, entrySize));
+    }
+
+    private static IEnumerable<MsiAfterburnerMonitoringEntry> ReadEntries(
+        MemoryMappedViewAccessor accessor,
+        uint headerSize,
+        uint numEntries,
+        uint entrySize)
+    {
+        for (uint index = 0; index < numEntries; index++)
+        {
+            long entryOffset = headerSize + ((long)index * entrySize);
+            string sourceName = ReadAsciiString(accessor, entryOffset + SourceNameOffset, MaxPath);
+            float data = accessor.ReadSingle(entryOffset + DataOffset);
+            uint sourceId = accessor.ReadUInt32(entryOffset + SourceIdOffset);
+
+            yield return new MsiAfterburnerMonitoringEntry(sourceName, data, sourceId);
+        }
+    }
+
+    private static string ReadAsciiString(MemoryMappedViewAccessor accessor, long offset, int length)
+    {
+        byte[] bytes = new byte[length];
+        accessor.ReadArray(offset, bytes, 0, bytes.Length);
+
+        int stringLength = Array.IndexOf(bytes, (byte)0);
+        if (stringLength < 0)
+            stringLength = bytes.Length;
+
+        return Encoding.ASCII.GetString(bytes, 0, stringLength);
     }
 }

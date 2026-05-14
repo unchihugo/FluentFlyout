@@ -117,6 +117,41 @@ Run("Ignores invalid CPU temperature sensor values", () =>
     AssertEqual<int?>(null, CpuTemperatureSelector.SelectCpuTemperatureCelsius(sensors));
 });
 
+Run("Selects MSI Afterburner CPU temperature by source id", () =>
+{
+    MsiAfterburnerMonitoringEntry[] entries =
+    [
+        new("GPU1 temperature", 51, 0x00000000),
+        new("CPU temperature", 70, 0x00000080),
+        new("CPU usage", 6, 0x00000090)
+    ];
+
+    AssertEqual(70, MsiAfterburnerTemperatureSelector.SelectCpuTemperatureCelsius(entries));
+});
+
+Run("Ignores invalid MSI Afterburner CPU temperature values", () =>
+{
+    MsiAfterburnerMonitoringEntry[] entries =
+    [
+        new("CPU temperature", float.MaxValue, 0x00000080),
+        new("CPU temperature", float.NaN, 0x00000080),
+        new("CPU temperature", 0, 0x00000080),
+        new("CPU temperature", 126, 0x00000080)
+    ];
+
+    AssertEqual<int?>(null, MsiAfterburnerTemperatureSelector.SelectCpuTemperatureCelsius(entries));
+});
+
+Run("Does not treat GPU temperature as CPU temperature", () =>
+{
+    MsiAfterburnerMonitoringEntry[] entries =
+    [
+        new("GPU1 temperature", 51, 0x00000000)
+    ];
+
+    AssertEqual<int?>(null, MsiAfterburnerTemperatureSelector.SelectCpuTemperatureCelsius(entries));
+});
+
 Run("Clamps stats font size to compact taskbar range", () =>
 {
     AssertEqual(8d, SystemUsageStyleHelper.NormalizeFontSize(4));
