@@ -51,6 +51,8 @@ hides repeat, shuffle and player info</System:String>
     <System:String x:Key="TaskbarWidgetEnabledDescription">Show a compact media widget on the taskbar</System:String>
     <System:String x:Key="TaskbarWidgetSystemStatsTitle">Show CPU and RAM usage</System:String>
     <System:String x:Key="TaskbarWidgetSystemStatsDescription">Display compact system usage stats in the taskbar widget</System:String>
+    <System:String x:Key="TaskbarWidgetCpuTemperatureTitle">Show CPU temperature</System:String>
+    <System:String x:Key="TaskbarWidgetCpuTemperatureDescription">Add CPU temperature to the CPU usage line when sensors are available</System:String>
     <System:String x:Key="TaskbarWidgetSystemStatsPositionTitle">CPU and RAM position</System:String>
     <System:String x:Key="TaskbarWidgetSystemStatsPositionDescription">Choose where the system stats appear relative to media info</System:String>
     <System:String x:Key="TaskbarWidgetSystemStatsPositionLeft">Left of media</System:String>

@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 using FluentFlyout.Classes;
+using LibreHardwareMonitor.Hardware;
 using System.Runtime.InteropServices;
 using System.Windows.Media;
 
@@ -9,19 +10,78 @@ namespace FluentFlyoutWPF.Classes.Utils;
 
 public readonly record struct SystemTimes(ulong Idle, ulong Kernel, ulong User);
 
-public readonly record struct SystemUsageSnapshot(int CpuPercent, int RamPercent, bool HasCpuSample);
+public readonly record struct SystemUsageSnapshot(int CpuPercent, int RamPercent, bool HasCpuSample, int? CpuTemperatureCelsius = null);
 
 public readonly record struct SystemUsageDisplayText(string CpuText, string RamText);
 
 public static class SystemUsageTextFormatter
 {
-    public static SystemUsageDisplayText FormatLines(SystemUsageSnapshot snapshot)
+    public static SystemUsageDisplayText FormatLines(SystemUsageSnapshot snapshot, bool showCpuTemperature = false)
     {
         string cpuPercent = snapshot.HasCpuSample ? snapshot.CpuPercent.ToString() : "--";
+        string cpuText = $"CPU {cpuPercent}%";
+
+        if (showCpuTemperature)
+        {
+            string cpuTemperature = snapshot.CpuTemperatureCelsius.HasValue
+                ? snapshot.CpuTemperatureCelsius.Value.ToString()
+                : "--";
+            cpuText += $" · {cpuTemperature}°C";
+        }
 
         return new SystemUsageDisplayText(
-            $"CPU {cpuPercent}%",
+            cpuText,
             $"RAM {snapshot.RamPercent}%");
+    }
+}
+
+public readonly record struct CpuTemperatureSensorReading(string Name, double? ValueCelsius);
+
+public static class CpuTemperatureSelector
+{
+    private static readonly string[] PreferredSensorNames =
+    [
+        "CPU Package",
+        "Tctl/Tdie",
+        "Package",
+        "CPU Die",
+        "Core Max"
+    ];
+
+    public static int? SelectCpuTemperatureCelsius(IEnumerable<CpuTemperatureSensorReading> sensors)
+    {
+        CpuTemperatureSensorReading[] validSensors = sensors
+            .Where(sensor => IsValidTemperature(sensor.ValueCelsius))
+            .ToArray();
+
+        foreach (string preferredName in PreferredSensorNames)
+        {
+            CpuTemperatureSensorReading? match = validSensors.FirstOrDefault(sensor =>
+                (sensor.Name ?? string.Empty).Contains(preferredName, StringComparison.OrdinalIgnoreCase));
+
+            if (match is { ValueCelsius: { } temperature })
+                return RoundTemperature(temperature);
+        }
+
+        double? maxTemperature = validSensors
+            .Select(sensor => sensor.ValueCelsius)
+            .Max();
+
+        return maxTemperature.HasValue
+            ? RoundTemperature(maxTemperature.Value)
+            : null;
+    }
+
+    private static bool IsValidTemperature(double? temperature)
+    {
+        return temperature is >= 1 and <= 125
+            && !double.IsNaN(temperature.Value)
+            && !double.IsInfinity(temperature.Value);
+    }
+
+    private static int RoundTemperature(double temperature)
+    {
+        return (int)Math.Round(temperature, MidpointRounding.AwayFromZero);
     }
 }
 
@@ -67,29 +127,33 @@ public static class SystemUsageStyleHelper
     }
 }
 
-public sealed class SystemUsageReader
+public sealed class SystemUsageReader : IDisposable
 {
     private SystemTimes? _previousCpuTimes;
+    private readonly CpuTemperatureReader _cpuTemperatureReader = new();
 
-    public SystemUsageSnapshot Read()
+    public SystemUsageSnapshot Read(bool includeCpuTemperature = true)
     {
         int ramPercent = TryReadMemoryUsagePercent(out int memoryLoad)
             ? memoryLoad
             : 0;
+        int? cpuTemperature = includeCpuTemperature
+            ? _cpuTemperatureReader.ReadCelsius()
+            : null;
 
         if (!TryReadSystemTimes(out SystemTimes currentTimes))
-            return new SystemUsageSnapshot(0, ramPercent, false);
+            return new SystemUsageSnapshot(0, ramPercent, false, cpuTemperature);
 
         if (_previousCpuTimes is not { } previousTimes)
         {
             _previousCpuTimes = currentTimes;
-            return new SystemUsageSnapshot(0, ramPercent, false);
+            return new SystemUsageSnapshot(0, ramPercent, false, cpuTemperature);
         }
 
         int cpuPercent = CalculateCpuPercent(previousTimes, currentTimes);
         _previousCpuTimes = currentTimes;
 
-        return new SystemUsageSnapshot(cpuPercent, ramPercent, true);
+        return new SystemUsageSnapshot(cpuPercent, ramPercent, true, cpuTemperature);
     }
 
     public static int CalculateCpuPercent(SystemTimes previous, SystemTimes current)
@@ -144,5 +208,95 @@ public sealed class SystemUsageReader
     private static ulong Delta(ulong previous, ulong current)
     {
         return current >= previous ? current - previous : 0;
+    }
+
+    public void Dispose()
+    {
+        _cpuTemperatureReader.Dispose();
+    }
+}
+
+public sealed class CpuTemperatureReader : IDisposable
+{
+    private Computer? _computer;
+    private bool _isOpened;
+    private bool _isUnavailable;
+
+    public int? ReadCelsius()
+    {
+        if (_isUnavailable)
+            return null;
+
+        try
+        {
+            EnsureOpen();
+
+            if (_computer is null)
+                return null;
+
+            return CpuTemperatureSelector.SelectCpuTemperatureCelsius(ReadSensors(_computer.Hardware));
+        }
+        catch
+        {
+            _isUnavailable = true;
+            return null;
+        }
+    }
+
+    private void EnsureOpen()
+    {
+        if (_isOpened)
+            return;
+
+        _computer = new Computer { IsCpuEnabled = true };
+        _computer.Open();
+        _isOpened = true;
+    }
+
+    private static IEnumerable<CpuTemperatureSensorReading> ReadSensors(IEnumerable<IHardware> hardwareItems)
+    {
+        foreach (IHardware hardware in hardwareItems)
+        {
+            if (hardware.HardwareType != HardwareType.Cpu)
+                continue;
+
+            hardware.Update();
+
+            foreach (IHardware subHardware in hardware.SubHardware)
+            {
+                subHardware.Update();
+            }
+
+            foreach (CpuTemperatureSensorReading sensor in ReadHardwareSensors(hardware))
+            {
+                yield return sensor;
+            }
+        }
+    }
+
+    private static IEnumerable<CpuTemperatureSensorReading> ReadHardwareSensors(IHardware hardware)
+    {
+        foreach (ISensor sensor in hardware.Sensors)
+        {
+            if (sensor.SensorType == SensorType.Temperature)
+                yield return new CpuTemperatureSensorReading(sensor.Name, sensor.Value);
+        }
+
+        foreach (IHardware subHardware in hardware.SubHardware)
+        {
+            foreach (ISensor sensor in subHardware.Sensors)
+            {
+                if (sensor.SensorType == SensorType.Temperature)
+                    yield return new CpuTemperatureSensorReading(sensor.Name, sensor.Value);
+            }
+        }
+    }
+
+    public void Dispose()
+    {
+        _computer?.Close();
+        _computer = null;
+        _isOpened = false;
+        _isUnavailable = true;
     }
 }

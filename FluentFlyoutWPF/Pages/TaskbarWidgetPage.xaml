@@ -121,6 +121,16 @@
                 <controls:ToggleSwitch IsChecked="{Binding TaskbarWidgetSystemStatsEnabled, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}" />
             </ui:CardControl>
 
+            <ui:CardControl Icon="{ui:SymbolIcon DesktopPulse24}" Margin="0,0,0,3">
+                <ui:CardControl.Header>
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="{DynamicResource TaskbarWidgetCpuTemperatureTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
+                        <TextBlock Text="{DynamicResource TaskbarWidgetCpuTemperatureDescription}" FontSize="12" Opacity="0.5" />
+                    </StackPanel>
+                </ui:CardControl.Header>
+                <controls:ToggleSwitch IsChecked="{Binding TaskbarWidgetCpuTemperatureEnabled, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}" />
+            </ui:CardControl>
+
             <ui:CardControl Icon="{ui:SymbolIcon ArrowMove24}" Margin="0,0,0,3">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">

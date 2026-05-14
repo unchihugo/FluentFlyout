@@ -69,7 +69,11 @@ public partial class TaskbarWidgetControl : UserControl
         Background = new SolidColorBrush(Color.FromArgb(1, 0, 0, 0)); ;
 
         _systemStatsTimer.Tick += (s, e) => UpdateSystemStats();
-        Unloaded += (s, e) => _systemStatsTimer.Stop();
+        Unloaded += (s, e) =>
+        {
+            _systemStatsTimer.Stop();
+            _systemUsageReader.Dispose();
+        };
         UpdateSystemStatsVisibility();
 
         // Initialize control order
@@ -433,7 +437,9 @@ public partial class TaskbarWidgetControl : UserControl
                 _systemStatsTimer.Stop();
             }
 
-            SystemCpuStatsText.Text = "CPU --%";
+            SystemCpuStatsText.Text = SettingsManager.Current.TaskbarWidgetCpuTemperatureEnabled
+                ? "CPU --% · --°C"
+                : "CPU --%";
             SystemRamStatsText.Text = "RAM --%";
             return;
         }
@@ -449,8 +455,9 @@ public partial class TaskbarWidgetControl : UserControl
     {
         try
         {
-            SystemUsageSnapshot snapshot = _systemUsageReader.Read();
-            SystemUsageDisplayText text = SystemUsageTextFormatter.FormatLines(snapshot);
+            bool showCpuTemperature = SettingsManager.Current.TaskbarWidgetCpuTemperatureEnabled;
+            SystemUsageSnapshot snapshot = _systemUsageReader.Read(showCpuTemperature);
+            SystemUsageDisplayText text = SystemUsageTextFormatter.FormatLines(snapshot, showCpuTemperature);
             SystemCpuStatsText.Text = text.CpuText;
             SystemRamStatsText.Text = text.RamText;
         }
@@ -473,7 +480,7 @@ public partial class TaskbarWidgetControl : UserControl
         double fontSize = SystemUsageStyleHelper.NormalizeFontSize(SettingsManager.Current.TaskbarWidgetSystemStatsFontSize);
         SystemCpuStatsText.FontSize = fontSize;
         SystemRamStatsText.FontSize = fontSize;
-        SystemStatsStackPanel.Width = GetSystemStatsPanelWidth(fontSize);
+        SystemStatsStackPanel.Width = GetSystemStatsPanelWidth(fontSize, SettingsManager.Current.TaskbarWidgetCpuTemperatureEnabled);
 
         Brush foreground = SystemUsageStyleHelper.TryParseColor(SettingsManager.Current.TaskbarWidgetSystemStatsColor, out Color color)
             ? new SolidColorBrush(color)
@@ -495,12 +502,16 @@ public partial class TaskbarWidgetControl : UserControl
 
     private double GetSystemStatsLogicalWidth()
     {
-        return GetSystemStatsPanelWidth(SystemUsageStyleHelper.NormalizeFontSize(SettingsManager.Current.TaskbarWidgetSystemStatsFontSize)) + 10;
+        return GetSystemStatsPanelWidth(
+            SystemUsageStyleHelper.NormalizeFontSize(SettingsManager.Current.TaskbarWidgetSystemStatsFontSize),
+            SettingsManager.Current.TaskbarWidgetCpuTemperatureEnabled) + 10;
     }
 
-    private static double GetSystemStatsPanelWidth(double fontSize)
+    private static double GetSystemStatsPanelWidth(double fontSize, bool showCpuTemperature)
     {
-        return Math.Clamp(fontSize * 6.2, 72, 96);
+        return showCpuTemperature
+            ? Math.Clamp(fontSize * 10.4, 116, 156)
+            : Math.Clamp(fontSize * 6.2, 72, 96);
     }
 
     private async void AnimateEntrance()

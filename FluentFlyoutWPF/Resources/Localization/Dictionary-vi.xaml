@@ -95,6 +95,8 @@ Bạn có thể hỗ trợ dịch tại</system:String>
     <system:String x:Key="TaskbarWidgetEnabledDescription">Cho phép hiển thị giao diện</system:String>
     <system:String x:Key="TaskbarWidgetSystemStatsTitle">Hiển thị CPU và RAM</system:String>
     <system:String x:Key="TaskbarWidgetSystemStatsDescription">Hiển thị mức sử dụng CPU/RAM gọn trong giao diện trên thanh tác vụ</system:String>
+    <system:String x:Key="TaskbarWidgetCpuTemperatureTitle">Hiển thị nhiệt độ CPU</system:String>
+    <system:String x:Key="TaskbarWidgetCpuTemperatureDescription">Thêm nhiệt độ CPU vào dòng CPU khi máy có sensor phù hợp</system:String>
     <system:String x:Key="TaskbarWidgetSystemStatsPositionTitle">Vị trí CPU và RAM</system:String>
     <system:String x:Key="TaskbarWidgetSystemStatsPositionDescription">Chọn vị trí hiển thị thông số so với thông tin media</system:String>
     <system:String x:Key="TaskbarWidgetSystemStatsPositionLeft">Bên trái media</system:String>

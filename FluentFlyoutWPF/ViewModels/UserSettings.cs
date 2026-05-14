@@ -359,6 +359,12 @@ public partial class UserSettings : ObservableObject
     public partial bool TaskbarWidgetSystemStatsEnabled { get; set; }
 
     /// <summary>
+    /// Gets or sets a value indicating whether CPU temperature should be shown with CPU usage.
+    /// </summary>
+    [ObservableProperty]
+    public partial bool TaskbarWidgetCpuTemperatureEnabled { get; set; }
+
+    /// <summary>
     /// Position of the taskbar widget system stats. 0: Left of media, 1: Right of media
     /// </summary>
     [ObservableProperty]
@@ -686,6 +692,7 @@ public partial class UserSettings : ObservableObject
         VolumeMixerAcrylicWindowEnabled = true;
         TaskbarWidgetEnabled = false;
         TaskbarWidgetSystemStatsEnabled = true;
+        TaskbarWidgetCpuTemperatureEnabled = true;
         TaskbarWidgetSystemStatsPosition = 0;
         TaskbarWidgetSystemStatsFontFamily = SystemUsageStyleHelper.DefaultFontFamily;
         TaskbarWidgetSystemStatsFontSize = SystemUsageStyleHelper.DefaultFontSize;
@@ -829,6 +836,12 @@ public partial class UserSettings : ObservableObject
     }
 
     partial void OnTaskbarWidgetSystemStatsEnabledChanged(bool oldValue, bool newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+        UpdateTaskbar();
+    }
+
+    partial void OnTaskbarWidgetCpuTemperatureEnabledChanged(bool oldValue, bool newValue)
     {
         if (oldValue == newValue || _initializing) return;
         UpdateTaskbar();

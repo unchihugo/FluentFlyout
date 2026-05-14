@@ -43,6 +43,80 @@ Run("Uses CPU placeholder before first sample", () =>
     AssertEqual("RAM 64%", text.RamText);
 });
 
+Run("Formats CPU temperature on the CPU stats line", () =>
+{
+    SystemUsageSnapshot snapshot = new(CpuPercent: 18, RamPercent: 64, HasCpuSample: true, CpuTemperatureCelsius: 72);
+
+    var text = SystemUsageTextFormatter.FormatLines(snapshot, showCpuTemperature: true);
+
+    AssertEqual("CPU 18% · 72°C", text.CpuText);
+    AssertEqual("RAM 64%", text.RamText);
+});
+
+Run("Formats CPU temperature placeholder before sensor sample", () =>
+{
+    SystemUsageSnapshot snapshot = new(CpuPercent: 18, RamPercent: 64, HasCpuSample: true);
+
+    var text = SystemUsageTextFormatter.FormatLines(snapshot, showCpuTemperature: true);
+
+    AssertEqual("CPU 18% · --°C", text.CpuText);
+    AssertEqual("RAM 64%", text.RamText);
+});
+
+Run("Keeps CPU temperature hidden when disabled", () =>
+{
+    SystemUsageSnapshot snapshot = new(CpuPercent: 18, RamPercent: 64, HasCpuSample: true, CpuTemperatureCelsius: 72);
+
+    var text = SystemUsageTextFormatter.FormatLines(snapshot, showCpuTemperature: false);
+
+    AssertEqual("CPU 18%", text.CpuText);
+});
+
+Run("Formats CPU placeholder with temperature when CPU sample is pending", () =>
+{
+    SystemUsageSnapshot snapshot = new(CpuPercent: 0, RamPercent: 64, HasCpuSample: false, CpuTemperatureCelsius: 72);
+
+    var text = SystemUsageTextFormatter.FormatLines(snapshot, showCpuTemperature: true);
+
+    AssertEqual("CPU --% · 72°C", text.CpuText);
+});
+
+Run("Selects CPU package temperature before other valid sensors", () =>
+{
+    CpuTemperatureSensorReading[] sensors =
+    [
+        new("Core Max", 81),
+        new("CPU Package", 72),
+        new("CPU Core #1", 64)
+    ];
+
+    AssertEqual(72, CpuTemperatureSelector.SelectCpuTemperatureCelsius(sensors));
+});
+
+Run("Falls back to max valid CPU temperature sensor", () =>
+{
+    CpuTemperatureSensorReading[] sensors =
+    [
+        new("CPU Core #1", 64),
+        new("CPU Core #2", 71)
+    ];
+
+    AssertEqual(71, CpuTemperatureSelector.SelectCpuTemperatureCelsius(sensors));
+});
+
+Run("Ignores invalid CPU temperature sensor values", () =>
+{
+    CpuTemperatureSensorReading[] sensors =
+    [
+        new("CPU Package", double.NaN),
+        new("Tctl/Tdie", 0),
+        new("CPU Die", -4),
+        new("Core Max", 126)
+    ];
+
+    AssertEqual<int?>(null, CpuTemperatureSelector.SelectCpuTemperatureCelsius(sensors));
+});
+
 Run("Clamps stats font size to compact taskbar range", () =>
 {
     AssertEqual(8d, SystemUsageStyleHelper.NormalizeFontSize(4));
