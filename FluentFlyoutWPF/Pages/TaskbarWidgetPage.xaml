@@ -144,16 +144,6 @@
                 </ComboBox>
             </ui:CardControl>
 
-            <ui:CardControl Icon="{ui:SymbolIcon TextboxAlignBottom24}" Margin="0,0,0,3">
-                <ui:CardControl.Header>
-                    <StackPanel Orientation="Vertical">
-                        <TextBlock Text="{DynamicResource TaskbarWidgetMediaFontFamilyTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
-                        <TextBlock Text="{DynamicResource TaskbarWidgetMediaFontFamilyDescription}" FontSize="12" Opacity="0.5" />
-                    </StackPanel>
-                </ui:CardControl.Header>
-                <ComboBox x:Name="MediaFontFamilyComboBox" Width="190" IsEditable="True" Text="{Binding TaskbarWidgetMediaFontFamily, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsPremiumUnlocked}" />
-            </ui:CardControl>
-
             <ui:CardExpander Icon="{ui:SymbolIcon Color24}" ContentPadding="6" Margin="0,0,0,24">
                 <ui:CardExpander.Header>
                     <StackPanel Orientation="Vertical">

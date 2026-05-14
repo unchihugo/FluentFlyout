@@ -22,7 +22,6 @@ public partial class TaskbarWidgetPage : Page
             .Distinct()
             .OrderBy(font => font, StringComparer.CurrentCultureIgnoreCase)
             .ToArray();
-        MediaFontFamilyComboBox.ItemsSource = fontFamilies;
         SystemStatsFontFamilyComboBox.ItemsSource = fontFamilies;
         UpdateMonitorList();
     }

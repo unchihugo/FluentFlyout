@@ -377,12 +377,6 @@ public partial class UserSettings : ObservableObject
     public partial string TaskbarWidgetSystemStatsFontFamily { get; set; }
 
     /// <summary>
-    /// Font family used by the taskbar widget media title and artist text.
-    /// </summary>
-    [ObservableProperty]
-    public partial string TaskbarWidgetMediaFontFamily { get; set; }
-
-    /// <summary>
     /// Font size used by the taskbar widget system stats text.
     /// </summary>
     [ObservableProperty]
@@ -701,7 +695,6 @@ public partial class UserSettings : ObservableObject
         TaskbarWidgetCpuTemperatureEnabled = true;
         TaskbarWidgetSystemStatsPosition = 0;
         TaskbarWidgetSystemStatsFontFamily = SystemUsageStyleHelper.DefaultFontFamily;
-        TaskbarWidgetMediaFontFamily = SystemUsageStyleHelper.DefaultMediaFontFamily;
         TaskbarWidgetSystemStatsFontSize = SystemUsageStyleHelper.DefaultFontSize;
         TaskbarWidgetSystemStatsColor = SystemUsageStyleHelper.AutoColorValue;
         TaskbarWidgetSelectedMonitor = 0;
@@ -864,12 +857,6 @@ public partial class UserSettings : ObservableObject
     }
 
     partial void OnTaskbarWidgetSystemStatsFontFamilyChanged(string oldValue, string newValue)
-    {
-        if (oldValue == newValue || _initializing) return;
-        UpdateTaskbar();
-    }
-
-    partial void OnTaskbarWidgetMediaFontFamilyChanged(string oldValue, string newValue)
     {
         if (oldValue == newValue || _initializing) return;
         UpdateTaskbar();
