@@ -30,7 +30,6 @@ public partial class TaskbarWidgetControl : UserControl
     private readonly int _nativeWidgetsPadding = 216;
     private const double MediaOnlyLogicalWidth = 55;
     private const double PlaybackControlsLogicalWidth = 102;
-    private const double SystemStatsLogicalWidth = 76;
 
     // Cached width calculations
     private string _cachedTitleText = string.Empty;
@@ -130,20 +129,14 @@ public partial class TaskbarWidgetControl : UserControl
 
     public void ApplyWindowsTheme()
     {
-        WindowsThemeDetector.GetWindowsTheme(out _, out var systemTheme);
-        bool isDark = systemTheme == WindowsThemeDetector.ThemeMode.Dark;
-
-        var foreground = new SolidColorBrush(isDark
-            ? Color.FromArgb(0xFF, 0xFF, 0xFF, 0xFF)
-            : Color.FromArgb(0xE4, 0x1C, 0x1C, 0x1C));
+        var foreground = GetWindowsThemeForegroundBrush();
 
         SongTitle.Foreground = foreground;
         SongArtist.Foreground = foreground;
-        SystemCpuStatsText.Foreground = foreground;
-        SystemRamStatsText.Foreground = foreground;
         PreviousButton.Foreground = foreground;
         PlayPauseButton.Foreground = foreground;
         NextButton.Foreground = foreground;
+        ApplySystemStatsStyle();
     }
 
     private void Grid_MouseEnter(object sender, MouseEventArgs e)
@@ -261,7 +254,7 @@ public partial class TaskbarWidgetControl : UserControl
 
         if (SystemStatsStackPanel.Visibility == Visibility.Visible)
         {
-            logicalWidth += SystemStatsLogicalWidth;
+            logicalWidth += GetSystemStatsLogicalWidth();
         }
 
         if (logicalWidth <= 0)
@@ -428,6 +421,8 @@ public partial class TaskbarWidgetControl : UserControl
 
     private void UpdateSystemStatsVisibility()
     {
+        ApplySystemStatsStyle();
+
         bool enabled = IsSystemStatsEnabled();
         SystemStatsStackPanel.Visibility = enabled ? Visibility.Visible : Visibility.Collapsed;
 
@@ -463,6 +458,49 @@ public partial class TaskbarWidgetControl : UserControl
         {
             Logger.Warn(ex, "Taskbar Widget failed to update system usage stats");
         }
+    }
+
+    private void ApplySystemStatsStyle()
+    {
+        string fontFamily = string.IsNullOrWhiteSpace(SettingsManager.Current.TaskbarWidgetSystemStatsFontFamily)
+            ? SystemUsageStyleHelper.DefaultFontFamily
+            : SettingsManager.Current.TaskbarWidgetSystemStatsFontFamily.Trim();
+
+        FontFamily statsFontFamily = new(fontFamily);
+        SystemCpuStatsText.FontFamily = statsFontFamily;
+        SystemRamStatsText.FontFamily = statsFontFamily;
+
+        double fontSize = SystemUsageStyleHelper.NormalizeFontSize(SettingsManager.Current.TaskbarWidgetSystemStatsFontSize);
+        SystemCpuStatsText.FontSize = fontSize;
+        SystemRamStatsText.FontSize = fontSize;
+        SystemStatsStackPanel.Width = GetSystemStatsPanelWidth(fontSize);
+
+        Brush foreground = SystemUsageStyleHelper.TryParseColor(SettingsManager.Current.TaskbarWidgetSystemStatsColor, out Color color)
+            ? new SolidColorBrush(color)
+            : GetWindowsThemeForegroundBrush();
+
+        SystemCpuStatsText.Foreground = foreground;
+        SystemRamStatsText.Foreground = foreground;
+    }
+
+    private static SolidColorBrush GetWindowsThemeForegroundBrush()
+    {
+        WindowsThemeDetector.GetWindowsTheme(out _, out var systemTheme);
+        bool isDark = systemTheme == WindowsThemeDetector.ThemeMode.Dark;
+
+        return new SolidColorBrush(isDark
+            ? Color.FromArgb(0xFF, 0xFF, 0xFF, 0xFF)
+            : Color.FromArgb(0xE4, 0x1C, 0x1C, 0x1C));
+    }
+
+    private double GetSystemStatsLogicalWidth()
+    {
+        return GetSystemStatsPanelWidth(SystemUsageStyleHelper.NormalizeFontSize(SettingsManager.Current.TaskbarWidgetSystemStatsFontSize)) + 10;
+    }
+
+    private static double GetSystemStatsPanelWidth(double fontSize)
+    {
+        return Math.Clamp(fontSize * 6.2, 72, 96);
     }
 
     private async void AnimateEntrance()

@@ -43,6 +43,26 @@ Run("Uses CPU placeholder before first sample", () =>
     AssertEqual("RAM 64%", text.RamText);
 });
 
+Run("Clamps stats font size to compact taskbar range", () =>
+{
+    AssertEqual(8d, SystemUsageStyleHelper.NormalizeFontSize(4));
+    AssertEqual(12d, SystemUsageStyleHelper.NormalizeFontSize(12));
+    AssertEqual(16d, SystemUsageStyleHelper.NormalizeFontSize(24));
+    AssertEqual(SystemUsageStyleHelper.DefaultFontSize, SystemUsageStyleHelper.NormalizeFontSize(double.NaN));
+});
+
+Run("Parses custom stats color and treats Auto as theme color", () =>
+{
+    bool parsed = SystemUsageStyleHelper.TryParseColor("#FF00AA66", out var color);
+
+    AssertEqual(true, parsed);
+    AssertEqual(0xFF, color.A);
+    AssertEqual(0x00, color.R);
+    AssertEqual(0xAA, color.G);
+    AssertEqual(0x66, color.B);
+    AssertEqual(false, SystemUsageStyleHelper.TryParseColor("Auto", out _));
+});
+
 static void Run(string name, Action test)
 {
     try

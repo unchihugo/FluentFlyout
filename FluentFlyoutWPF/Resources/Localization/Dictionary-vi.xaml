@@ -99,6 +99,14 @@ Bạn có thể hỗ trợ dịch tại</system:String>
     <system:String x:Key="TaskbarWidgetSystemStatsPositionDescription">Chọn vị trí hiển thị thông số so với thông tin media</system:String>
     <system:String x:Key="TaskbarWidgetSystemStatsPositionLeft">Bên trái media</system:String>
     <system:String x:Key="TaskbarWidgetSystemStatsPositionRight">Bên phải media</system:String>
+    <system:String x:Key="TaskbarWidgetSystemStatsAppearanceTitle">Kiểu chữ CPU và RAM</system:String>
+    <system:String x:Key="TaskbarWidgetSystemStatsAppearanceDescription">Chỉnh font, cỡ chữ, và màu cho thông số hệ thống</system:String>
+    <system:String x:Key="TaskbarWidgetSystemStatsFontFamilyTitle">Font chữ</system:String>
+    <system:String x:Key="TaskbarWidgetSystemStatsFontFamilyDescription">Chọn font cho dòng CPU và RAM</system:String>
+    <system:String x:Key="TaskbarWidgetSystemStatsFontSizeTitle">Cỡ chữ</system:String>
+    <system:String x:Key="TaskbarWidgetSystemStatsFontSizeDescription">Chọn cỡ gọn từ 8 đến 16</system:String>
+    <system:String x:Key="TaskbarWidgetSystemStatsColorTitle">Màu chữ</system:String>
+    <system:String x:Key="TaskbarWidgetSystemStatsColorDescription">Dùng Auto hoặc nhập màu hex như #FFFFFFFF</system:String>
     <system:String x:Key="TaskbarWidgetVisualIssuesWarning">Nếu chưa hài lòng với vị trí giao diện, bạn nên thay đổi các lựa chọn sau.</system:String>
     <system:String x:Key="TaskbarWidgetPosition">Vị trí giao diện</system:String>
     <system:String x:Key="TaskbarWidgetPaddingTitle">Tách khỏi nút Widgets</system:String>

@@ -3,6 +3,7 @@
 
 using FluentFlyout.Classes;
 using System.Runtime.InteropServices;
+using System.Windows.Media;
 
 namespace FluentFlyoutWPF.Classes.Utils;
 
@@ -21,6 +22,48 @@ public static class SystemUsageTextFormatter
         return new SystemUsageDisplayText(
             $"CPU {cpuPercent}%",
             $"RAM {snapshot.RamPercent}%");
+    }
+}
+
+public static class SystemUsageStyleHelper
+{
+    public const string DefaultFontFamily = "Segoe UI Variable";
+    public const string AutoColorValue = "Auto";
+    public const double DefaultFontSize = 11;
+    private const double MinFontSize = 8;
+    private const double MaxFontSize = 16;
+
+    public static double NormalizeFontSize(double fontSize)
+    {
+        if (double.IsNaN(fontSize))
+            return DefaultFontSize;
+
+        return Math.Clamp(fontSize, MinFontSize, MaxFontSize);
+    }
+
+    public static bool TryParseColor(string? value, out Color color)
+    {
+        color = default;
+
+        if (string.IsNullOrWhiteSpace(value) || string.Equals(value.Trim(), AutoColorValue, StringComparison.OrdinalIgnoreCase))
+            return false;
+
+        try
+        {
+            if (ColorConverter.ConvertFromString(value.Trim()) is Color parsedColor)
+            {
+                color = parsedColor;
+                return true;
+            }
+        }
+        catch (FormatException)
+        {
+        }
+        catch (NotSupportedException)
+        {
+        }
+
+        return false;
     }
 }
 
