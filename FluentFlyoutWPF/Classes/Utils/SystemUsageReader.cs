@@ -10,6 +10,20 @@ public readonly record struct SystemTimes(ulong Idle, ulong Kernel, ulong User);
 
 public readonly record struct SystemUsageSnapshot(int CpuPercent, int RamPercent, bool HasCpuSample);
 
+public readonly record struct SystemUsageDisplayText(string CpuText, string RamText);
+
+public static class SystemUsageTextFormatter
+{
+    public static SystemUsageDisplayText FormatLines(SystemUsageSnapshot snapshot)
+    {
+        string cpuPercent = snapshot.HasCpuSample ? snapshot.CpuPercent.ToString() : "--";
+
+        return new SystemUsageDisplayText(
+            $"CPU {cpuPercent}%",
+            $"RAM {snapshot.RamPercent}%");
+    }
+}
+
 public sealed class SystemUsageReader
 {
     private SystemTimes? _previousCpuTimes;

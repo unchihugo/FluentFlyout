@@ -30,7 +30,7 @@ public partial class TaskbarWidgetControl : UserControl
     private readonly int _nativeWidgetsPadding = 216;
     private const double MediaOnlyLogicalWidth = 55;
     private const double PlaybackControlsLogicalWidth = 102;
-    private const double SystemStatsLogicalWidth = 134;
+    private const double SystemStatsLogicalWidth = 76;
 
     // Cached width calculations
     private string _cachedTitleText = string.Empty;
@@ -79,8 +79,20 @@ public partial class TaskbarWidgetControl : UserControl
 
     public void ReorderControls()
     {
-        // Remove ControlsStackPanel from MainStackPanel
+        // Remove configurable sections from MainStackPanel
+        MainStackPanel.Children.Remove(SystemStatsStackPanel);
         MainStackPanel.Children.Remove(ControlsStackPanel);
+
+        if (SettingsManager.Current.TaskbarWidgetSystemStatsPosition == 0)
+        {
+            MainStackPanel.Children.Insert(0, SystemStatsStackPanel);
+            SystemStatsStackPanel.Margin = new Thickness(0, 0, 8, 0);
+        }
+        else
+        {
+            MainStackPanel.Children.Add(SystemStatsStackPanel);
+            SystemStatsStackPanel.Margin = new Thickness(10, 0, 0, 0);
+        }
 
         // Reorder based on position setting
         if (SettingsManager.Current.TaskbarWidgetControlsPosition == 0)
@@ -127,7 +139,8 @@ public partial class TaskbarWidgetControl : UserControl
 
         SongTitle.Foreground = foreground;
         SongArtist.Foreground = foreground;
-        SystemStatsText.Foreground = foreground;
+        SystemCpuStatsText.Foreground = foreground;
+        SystemRamStatsText.Foreground = foreground;
         PreviousButton.Foreground = foreground;
         PlayPauseButton.Foreground = foreground;
         NextButton.Foreground = foreground;
@@ -425,7 +438,8 @@ public partial class TaskbarWidgetControl : UserControl
                 _systemStatsTimer.Stop();
             }
 
-            SystemStatsText.Text = "CPU --% \u00B7 RAM --%";
+            SystemCpuStatsText.Text = "CPU --%";
+            SystemRamStatsText.Text = "RAM --%";
             return;
         }
 
@@ -441,8 +455,9 @@ public partial class TaskbarWidgetControl : UserControl
         try
         {
             SystemUsageSnapshot snapshot = _systemUsageReader.Read();
-            string cpuPercent = snapshot.HasCpuSample ? snapshot.CpuPercent.ToString() : "--";
-            SystemStatsText.Text = $"CPU {cpuPercent}% \u00B7 RAM {snapshot.RamPercent}%";
+            SystemUsageDisplayText text = SystemUsageTextFormatter.FormatLines(snapshot);
+            SystemCpuStatsText.Text = text.CpuText;
+            SystemRamStatsText.Text = text.RamText;
         }
         catch (Exception ex)
         {

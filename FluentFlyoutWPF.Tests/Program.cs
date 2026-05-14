@@ -23,6 +23,26 @@ Run("Returns zero CPU usage when system time does not advance", () =>
     AssertEqual(0, percent);
 });
 
+Run("Formats system usage as two compact taskbar lines", () =>
+{
+    SystemUsageSnapshot snapshot = new(CpuPercent: 18, RamPercent: 64, HasCpuSample: true);
+
+    var text = SystemUsageTextFormatter.FormatLines(snapshot);
+
+    AssertEqual("CPU 18%", text.CpuText);
+    AssertEqual("RAM 64%", text.RamText);
+});
+
+Run("Uses CPU placeholder before first sample", () =>
+{
+    SystemUsageSnapshot snapshot = new(CpuPercent: 0, RamPercent: 64, HasCpuSample: false);
+
+    var text = SystemUsageTextFormatter.FormatLines(snapshot);
+
+    AssertEqual("CPU --%", text.CpuText);
+    AssertEqual("RAM 64%", text.RamText);
+});
+
 static void Run(string name, Action test)
 {
     try

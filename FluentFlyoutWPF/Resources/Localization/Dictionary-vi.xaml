@@ -95,6 +95,10 @@ Bạn có thể hỗ trợ dịch tại</system:String>
     <system:String x:Key="TaskbarWidgetEnabledDescription">Cho phép hiển thị giao diện</system:String>
     <system:String x:Key="TaskbarWidgetSystemStatsTitle">Hiển thị CPU và RAM</system:String>
     <system:String x:Key="TaskbarWidgetSystemStatsDescription">Hiển thị mức sử dụng CPU/RAM gọn trong giao diện trên thanh tác vụ</system:String>
+    <system:String x:Key="TaskbarWidgetSystemStatsPositionTitle">Vị trí CPU và RAM</system:String>
+    <system:String x:Key="TaskbarWidgetSystemStatsPositionDescription">Chọn vị trí hiển thị thông số so với thông tin media</system:String>
+    <system:String x:Key="TaskbarWidgetSystemStatsPositionLeft">Bên trái media</system:String>
+    <system:String x:Key="TaskbarWidgetSystemStatsPositionRight">Bên phải media</system:String>
     <system:String x:Key="TaskbarWidgetVisualIssuesWarning">Nếu chưa hài lòng với vị trí giao diện, bạn nên thay đổi các lựa chọn sau.</system:String>
     <system:String x:Key="TaskbarWidgetPosition">Vị trí giao diện</system:String>
     <system:String x:Key="TaskbarWidgetPaddingTitle">Tách khỏi nút Widgets</system:String>

@@ -357,6 +357,12 @@ public partial class UserSettings : ObservableObject
     public partial bool TaskbarWidgetSystemStatsEnabled { get; set; }
 
     /// <summary>
+    /// Position of the taskbar widget system stats. 0: Left of media, 1: Right of media
+    /// </summary>
+    [ObservableProperty]
+    public partial int TaskbarWidgetSystemStatsPosition { get; set; }
+
+    /// <summary>
     /// Widget Target Display
     /// </summary>
     [ObservableProperty]
@@ -639,6 +645,7 @@ public partial class UserSettings : ObservableObject
         VolumeMixerAcrylicWindowEnabled = true;
         TaskbarWidgetEnabled = false;
         TaskbarWidgetSystemStatsEnabled = true;
+        TaskbarWidgetSystemStatsPosition = 0;
         TaskbarWidgetSelectedMonitor = 0;
         TaskbarWidgetPosition = 0;
         TaskbarWidgetPadding = true;
@@ -780,6 +787,15 @@ public partial class UserSettings : ObservableObject
     partial void OnTaskbarWidgetSystemStatsEnabledChanged(bool oldValue, bool newValue)
     {
         if (oldValue == newValue || _initializing) return;
+        UpdateTaskbar();
+    }
+
+    partial void OnTaskbarWidgetSystemStatsPositionChanged(int oldValue, int newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+
+        MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+        mainWindow.taskbarWindow?.Widget?.ReorderControls();
         UpdateTaskbar();
     }
 
