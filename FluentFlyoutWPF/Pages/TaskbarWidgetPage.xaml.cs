@@ -7,6 +7,7 @@ using FluentFlyoutWPF.Classes;
 using FluentFlyoutWPF.Classes.Utils;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace FluentFlyoutWPF.Pages;
 
@@ -16,6 +17,12 @@ public partial class TaskbarWidgetPage : Page
     {
         InitializeComponent();
         DataContext = SettingsManager.Current;
+        string[] fontFamilies = Fonts.SystemFontFamilies
+            .Select(font => font.Source)
+            .Distinct()
+            .OrderBy(font => font, StringComparer.CurrentCultureIgnoreCase)
+            .ToArray();
+        SystemStatsFontFamilyComboBox.ItemsSource = fontFamilies;
         UpdateMonitorList();
     }
 

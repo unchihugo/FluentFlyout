@@ -4,6 +4,7 @@
 using FluentFlyout.Classes.Settings;
 using FluentFlyout.Classes.Utils;
 using FluentFlyoutWPF;
+using FluentFlyoutWPF.Classes.Utils;
 using MicaWPF.Core.Enums;
 using MicaWPF.Core.Helpers;
 using System.Windows;
@@ -12,6 +13,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
+using System.Windows.Threading;
 using Windows.Media.Control;
 using Wpf.Ui.Controls;
 
@@ -26,12 +28,16 @@ public partial class TaskbarWidgetControl : UserControl
 
     private readonly double _scale = 0.9;
     private readonly int _nativeWidgetsPadding = 216;
+    private const double MediaOnlyLogicalWidth = 55;
+    private const double PlaybackControlsLogicalWidth = 102;
 
     // Cached width calculations
     private string _cachedTitleText = string.Empty;
     private string _cachedArtistText = string.Empty;
     private double _cachedTitleWidth = 0;
     private double _cachedArtistWidth = 0;
+    private readonly SystemUsageReader _systemUsageReader = new();
+    private readonly DispatcherTimer _systemStatsTimer = new() { Interval = TimeSpan.FromMilliseconds(1000) };
 
     // reference to main window for flyout functions
     private MainWindow? _mainWindow;
@@ -62,14 +68,34 @@ public partial class TaskbarWidgetControl : UserControl
 
         Background = new SolidColorBrush(Color.FromArgb(1, 0, 0, 0)); ;
 
+        _systemStatsTimer.Tick += (s, e) => UpdateSystemStats();
+        Unloaded += (s, e) =>
+        {
+            _systemStatsTimer.Stop();
+            _systemUsageReader.Dispose();
+        };
+        UpdateSystemStatsVisibility();
+
         // Initialize control order
         ReorderControls();
     }
 
     public void ReorderControls()
     {
-        // Remove ControlsStackPanel from MainStackPanel
+        // Remove configurable sections from MainStackPanel
+        MainStackPanel.Children.Remove(SystemStatsStackPanel);
         MainStackPanel.Children.Remove(ControlsStackPanel);
+
+        if (SettingsManager.Current.TaskbarWidgetSystemStatsPosition == 0)
+        {
+            MainStackPanel.Children.Insert(0, SystemStatsStackPanel);
+            SystemStatsStackPanel.Margin = new Thickness(0, 0, 8, 0);
+        }
+        else
+        {
+            MainStackPanel.Children.Add(SystemStatsStackPanel);
+            SystemStatsStackPanel.Margin = new Thickness(10, 0, 0, 0);
+        }
 
         // Reorder based on position setting
         if (SettingsManager.Current.TaskbarWidgetControlsPosition == 0)
@@ -107,18 +133,14 @@ public partial class TaskbarWidgetControl : UserControl
 
     public void ApplyWindowsTheme()
     {
-        WindowsThemeDetector.GetWindowsTheme(out _, out var systemTheme);
-        bool isDark = systemTheme == WindowsThemeDetector.ThemeMode.Dark;
-
-        var foreground = new SolidColorBrush(isDark
-            ? Color.FromArgb(0xFF, 0xFF, 0xFF, 0xFF)
-            : Color.FromArgb(0xE4, 0x1C, 0x1C, 0x1C));
+        var foreground = GetWindowsThemeForegroundBrush();
 
         SongTitle.Foreground = foreground;
         SongArtist.Foreground = foreground;
         PreviousButton.Foreground = foreground;
         PlayPauseButton.Foreground = foreground;
         NextButton.Foreground = foreground;
+        ApplySystemStatsStyle();
     }
 
     private void Grid_MouseEnter(object sender, MouseEventArgs e)
@@ -217,17 +239,37 @@ public partial class TaskbarWidgetControl : UserControl
             _cachedArtistText = currentArtist;
         }
 
-        double logicalWidth = Math.Max(_cachedTitleWidth, _cachedArtistWidth) + 55; // add margin for cover image
-        // maximum width limit, same as Windows native widget
-        logicalWidth = Math.Min(logicalWidth, _nativeWidgetsPadding / _scale);
+        UpdateSystemStatsVisibility();
 
-        SongTitle.Width = Math.Max(logicalWidth - 58, 0);
-        SongArtist.Width = Math.Max(logicalWidth - 58, 0);
+        bool mediaVisible = SongImageBorder.Visibility == Visibility.Visible
+            || !string.IsNullOrEmpty(currentTitle + currentArtist);
+
+        double mediaWidth = mediaVisible
+            ? Math.Max(_cachedTitleWidth, _cachedArtistWidth) + MediaOnlyLogicalWidth // add margin for cover image
+            : 0;
+
+        // maximum width limit, same as Windows native widget
+        mediaWidth = Math.Min(mediaWidth, _nativeWidgetsPadding / _scale);
+
+        SongTitle.Width = Math.Max(mediaWidth - 58, 0);
+        SongArtist.Width = Math.Max(mediaWidth - 58, 0);
+
+        double logicalWidth = mediaWidth;
+
+        if (SystemStatsStackPanel.Visibility == Visibility.Visible)
+        {
+            logicalWidth += GetSystemStatsLogicalWidth();
+        }
+
+        if (logicalWidth <= 0)
+        {
+            logicalWidth = MediaOnlyLogicalWidth;
+        }
 
         // add space for playback controls if enabled and visible
         if (SettingsManager.Current.TaskbarWidgetControlsEnabled && ControlsStackPanel.Visibility == Visibility.Visible)
         {
-            logicalWidth += (int)(102);
+            logicalWidth += PlaybackControlsLogicalWidth;
         }
 
 
@@ -243,7 +285,10 @@ public partial class TaskbarWidgetControl : UserControl
             // no media playing, hide UI
             Dispatcher.Invoke(() =>
             {
-                if (SettingsManager.Current.TaskbarWidgetHideCompletely)
+                UpdateSystemStatsVisibility();
+                bool showSystemStats = IsSystemStatsEnabled();
+
+                if (SettingsManager.Current.TaskbarWidgetHideCompletely && !showSystemStats)
                 {
                     Visibility = Visibility.Collapsed;
                     return;
@@ -254,6 +299,7 @@ public partial class TaskbarWidgetControl : UserControl
                 SongArtist.Text = string.Empty;
                 SongInfoStackPanel.Visibility = Visibility.Collapsed;
                 SongInfoStackPanel.ToolTip = string.Empty;
+                SongImageBorder.Visibility = showSystemStats ? Visibility.Collapsed : Visibility.Visible;
                 SongImagePlaceholder.Symbol = SymbolRegular.MusicNote220;
                 SongImagePlaceholder.Visibility = Visibility.Visible;
                 SongImage.ImageSource = null;
@@ -313,6 +359,7 @@ public partial class TaskbarWidgetControl : UserControl
 
             SongTitle.Text = !string.IsNullOrEmpty(title) ? title : "-";
             SongArtist.Text = !string.IsNullOrEmpty(artist) ? artist : "-";
+            SongImageBorder.Visibility = Visibility.Visible;
 
             // Update tooltip with song info
             SongInfoStackPanel.ToolTip = string.Empty;
@@ -364,9 +411,119 @@ public partial class TaskbarWidgetControl : UserControl
             ControlsStackPanel.Visibility = SettingsManager.Current.TaskbarWidgetControlsEnabled
                 ? Visibility.Visible
                 : Visibility.Collapsed;
+            UpdateSystemStatsVisibility();
 
             Visibility = Visibility.Visible;
         });
+    }
+
+    private bool IsSystemStatsEnabled()
+    {
+        return SettingsManager.Current.TaskbarWidgetSystemStatsEnabled
+            && SettingsManager.Current.TaskbarWidgetEnabled;
+    }
+
+    private void UpdateSystemStatsVisibility()
+    {
+        ApplySystemStatsStyle();
+
+        bool enabled = IsSystemStatsEnabled();
+        SystemStatsStackPanel.Visibility = enabled ? Visibility.Visible : Visibility.Collapsed;
+
+        if (!enabled)
+        {
+            if (_systemStatsTimer.IsEnabled)
+            {
+                _systemStatsTimer.Stop();
+            }
+
+            SystemCpuStatsText.Text = SettingsManager.Current.TaskbarWidgetCpuTemperatureEnabled
+                ? "CPU --% · --°C"
+                : "CPU --%";
+            SystemRamStatsText.Text = "RAM --%";
+            return;
+        }
+
+        if (!_systemStatsTimer.IsEnabled)
+        {
+            UpdateSystemStats();
+            _systemStatsTimer.Start();
+        }
+    }
+
+    private void UpdateSystemStats()
+    {
+        try
+        {
+            bool showCpuTemperature = SettingsManager.Current.TaskbarWidgetCpuTemperatureEnabled;
+            SystemUsageSnapshot snapshot = _systemUsageReader.Read(showCpuTemperature);
+            SystemUsageDisplayText text = SystemUsageTextFormatter.FormatLines(snapshot, showCpuTemperature);
+            SystemCpuStatsText.Text = text.CpuText;
+            SystemRamStatsText.Text = text.RamText;
+            ApplySystemStatsForeground(snapshot.CpuTemperatureCelsius, showCpuTemperature);
+        }
+        catch (Exception ex)
+        {
+            Logger.Warn(ex, "Taskbar Widget failed to update system usage stats");
+        }
+    }
+
+    private void ApplySystemStatsStyle()
+    {
+        string fontFamily = SystemUsageStyleHelper.NormalizeFontFamily(
+            SettingsManager.Current.TaskbarWidgetSystemStatsFontFamily,
+            SystemUsageStyleHelper.DefaultFontFamily);
+
+        FontFamily statsFontFamily = new(fontFamily);
+        SongTitle.FontFamily = statsFontFamily;
+        SongArtist.FontFamily = statsFontFamily;
+        SystemCpuStatsText.FontFamily = statsFontFamily;
+        SystemRamStatsText.FontFamily = statsFontFamily;
+
+        double fontSize = SystemUsageStyleHelper.NormalizeFontSize(SettingsManager.Current.TaskbarWidgetSystemStatsFontSize);
+        SystemCpuStatsText.FontSize = fontSize;
+        SystemRamStatsText.FontSize = fontSize;
+        SystemStatsStackPanel.Width = GetSystemStatsPanelWidth(fontSize, SettingsManager.Current.TaskbarWidgetCpuTemperatureEnabled);
+
+        ApplySystemStatsForeground(null, showCpuTemperature: false);
+    }
+
+    private void ApplySystemStatsForeground(int? cpuTemperatureCelsius, bool showCpuTemperature)
+    {
+        Brush foreground = SystemUsageStyleHelper.TryParseColor(SettingsManager.Current.TaskbarWidgetSystemStatsColor, out Color color)
+            ? new SolidColorBrush(color)
+            : GetWindowsThemeForegroundBrush();
+
+        SystemRamStatsText.Foreground = foreground;
+
+        SystemCpuStatsText.Foreground = showCpuTemperature
+            && SystemUsageStyleHelper.TryGetCpuTemperatureColor(cpuTemperatureCelsius, out Color cpuTemperatureColor)
+                ? new SolidColorBrush(cpuTemperatureColor)
+                : foreground;
+    }
+
+    private static SolidColorBrush GetWindowsThemeForegroundBrush()
+    {
+        WindowsThemeDetector.GetWindowsTheme(out _, out var systemTheme);
+        bool isDark = systemTheme == WindowsThemeDetector.ThemeMode.Dark;
+
+        return new SolidColorBrush(isDark
+            ? Color.FromArgb(0xFF, 0xFF, 0xFF, 0xFF)
+            : Color.FromArgb(0xE4, 0x1C, 0x1C, 0x1C));
+    }
+
+    private double GetSystemStatsLogicalWidth()
+    {
+        return GetSystemStatsPanelWidth(
+            SystemUsageStyleHelper.NormalizeFontSize(SettingsManager.Current.TaskbarWidgetSystemStatsFontSize),
+            SettingsManager.Current.TaskbarWidgetCpuTemperatureEnabled) + 10;
+    }
+
+    private static double GetSystemStatsPanelWidth(double fontSize, bool showCpuTemperature)
+    {
+        return showCpuTemperature
+            ? Math.Clamp(fontSize * 10.4, 116, 156)
+            : Math.Clamp(fontSize * 6.2, 72, 96);
     }
 
     private async void AnimateEntrance()

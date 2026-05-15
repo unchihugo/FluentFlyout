@@ -7,9 +7,11 @@ using FluentFlyout.Classes.Settings;
 using FluentFlyout.Classes.Utils;
 using FluentFlyout.Controls;
 using FluentFlyoutWPF.Classes;
+using FluentFlyoutWPF.Classes.Utils;
 using FluentFlyoutWPF.Models;
 using FluentFlyoutWPF.Windows;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Reflection;
 using System.Windows;
 using System.Xml.Serialization;
@@ -351,6 +353,63 @@ public partial class UserSettings : ObservableObject
     public partial bool TaskbarWidgetEnabled { get; set; }
 
     /// <summary>
+    /// Gets or sets a value indicating whether CPU and RAM usage should be shown on the taskbar widget.
+    /// </summary>
+    [ObservableProperty]
+    public partial bool TaskbarWidgetSystemStatsEnabled { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether CPU temperature should be shown with CPU usage.
+    /// </summary>
+    [ObservableProperty]
+    public partial bool TaskbarWidgetCpuTemperatureEnabled { get; set; }
+
+    /// <summary>
+    /// Position of the taskbar widget system stats. 0: Left of media, 1: Right of media
+    /// </summary>
+    [ObservableProperty]
+    public partial int TaskbarWidgetSystemStatsPosition { get; set; }
+
+    /// <summary>
+    /// Font family used by the taskbar widget system stats text.
+    /// </summary>
+    [ObservableProperty]
+    public partial string TaskbarWidgetSystemStatsFontFamily { get; set; }
+
+    /// <summary>
+    /// Font size used by the taskbar widget system stats text.
+    /// </summary>
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(TaskbarWidgetSystemStatsFontSizeText))]
+    public partial double TaskbarWidgetSystemStatsFontSize { get; set; }
+
+    [XmlIgnore]
+    public string TaskbarWidgetSystemStatsFontSizeText
+    {
+        get => TaskbarWidgetSystemStatsFontSize.ToString("0.#", CultureInfo.InvariantCulture);
+        set
+        {
+            if (double.TryParse(value, NumberStyles.Float, CultureInfo.InvariantCulture, out double result)
+                || double.TryParse(value, out result))
+            {
+                TaskbarWidgetSystemStatsFontSize = SystemUsageStyleHelper.NormalizeFontSize(result);
+            }
+            else
+            {
+                TaskbarWidgetSystemStatsFontSize = SystemUsageStyleHelper.DefaultFontSize;
+            }
+
+            OnPropertyChanged();
+        }
+    }
+
+    /// <summary>
+    /// Hex color used by the taskbar widget system stats text, or Auto to follow the taskbar theme.
+    /// </summary>
+    [ObservableProperty]
+    public partial string TaskbarWidgetSystemStatsColor { get; set; }
+
+    /// <summary>
     /// Widget Target Display
     /// </summary>
     [ObservableProperty]
@@ -632,6 +691,12 @@ public partial class UserSettings : ObservableObject
         LockKeysAcrylicWindowEnabled = true;
         VolumeMixerAcrylicWindowEnabled = true;
         TaskbarWidgetEnabled = false;
+        TaskbarWidgetSystemStatsEnabled = true;
+        TaskbarWidgetCpuTemperatureEnabled = true;
+        TaskbarWidgetSystemStatsPosition = 0;
+        TaskbarWidgetSystemStatsFontFamily = SystemUsageStyleHelper.DefaultFontFamily;
+        TaskbarWidgetSystemStatsFontSize = SystemUsageStyleHelper.DefaultFontSize;
+        TaskbarWidgetSystemStatsColor = SystemUsageStyleHelper.AutoColorValue;
         TaskbarWidgetSelectedMonitor = 0;
         TaskbarWidgetPosition = 0;
         TaskbarWidgetPadding = true;
@@ -767,6 +832,45 @@ public partial class UserSettings : ObservableObject
             return;
         }
 
+        UpdateTaskbar();
+    }
+
+    partial void OnTaskbarWidgetSystemStatsEnabledChanged(bool oldValue, bool newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+        UpdateTaskbar();
+    }
+
+    partial void OnTaskbarWidgetCpuTemperatureEnabledChanged(bool oldValue, bool newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+        UpdateTaskbar();
+    }
+
+    partial void OnTaskbarWidgetSystemStatsPositionChanged(int oldValue, int newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+
+        MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+        mainWindow.taskbarWindow?.Widget?.ReorderControls();
+        UpdateTaskbar();
+    }
+
+    partial void OnTaskbarWidgetSystemStatsFontFamilyChanged(string oldValue, string newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+        UpdateTaskbar();
+    }
+
+    partial void OnTaskbarWidgetSystemStatsFontSizeChanged(double oldValue, double newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+        UpdateTaskbar();
+    }
+
+    partial void OnTaskbarWidgetSystemStatsColorChanged(string oldValue, string newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
         UpdateTaskbar();
     }
 
