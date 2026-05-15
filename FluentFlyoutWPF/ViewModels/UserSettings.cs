@@ -462,6 +462,12 @@ public partial class UserSettings : ObservableObject
     public partial bool TaskbarVisualizerClickable { get; set; }
 
     /// <summary>
+    /// Whether scrolling on the visualizer changes system volume.
+    /// </summary>
+    [ObservableProperty]
+    public partial bool TaskbarVisualizerScrollVolume { get; set; }
+
+    /// <summary>
     /// Indicates whether the visualizer has content to display, and is not persisted since it's only relevant at runtime.
     /// </summary>
     [XmlIgnore]
@@ -645,6 +651,7 @@ public partial class UserSettings : ObservableObject
         TaskbarVisualizerEnabled = false;
         TaskbarVisualizerPosition = 1;
         TaskbarVisualizerClickable = false;
+        TaskbarVisualizerScrollVolume = true;
         TaskbarVisualizerBarCount = 10;
         TaskbarVisualizerCenteredBars = false;
         TaskbarVisualizerBaseline = false;

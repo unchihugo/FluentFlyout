@@ -722,8 +722,12 @@ public partial class MainWindow : MicaWindow
             bool mediaKeysPressed = vkCode == 0xB3 || vkCode == 0xB0 || vkCode == 0xB1 || vkCode == 0xB2; // Play/Pause, next, previous, stop
             bool volumeKeysPressed = vkCode == 0xAD || vkCode == 0xAE || vkCode == 0xAF; // Mute, Volume Down, Volume Up
 
-            // MainWindow.WndProc() also handles media and volume keys
-            if (mediaKeysPressed || volumeKeysPressed)
+            // Suppress media flyout for volume keys injected by the visualizer scroll feature.
+            // dwExtraInfo lives at KBDLLHOOKSTRUCT offset 16 (pointer-sized on 64-bit).
+            bool isVisualizerOsdKey = volumeKeysPressed
+                && Marshal.ReadIntPtr(lParam, 16) == new IntPtr(NativeMethods.VolumeOsdExtraInfo);
+
+            if (!isVisualizerOsdKey && (mediaKeysPressed || (!SettingsManager.Current.MediaFlyoutVolumeKeysExcluded && volumeKeysPressed)))
             {
                 bool result = false;
                 if (mediaKeysPressed || (!SettingsManager.Current.MediaFlyoutVolumeKeysExcluded && volumeKeysPressed))
