@@ -3,14 +3,17 @@
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using FluentFlyout.Classes.Settings;
 using FluentFlyout.Classes.Utils;
 using FluentFlyoutWPF.Classes;
+using FluentFlyoutWPF.Classes.Utils;
 using FluentFlyoutWPF.Models;
 using NAudio.CoreAudioApi;
 using NAudio.CoreAudioApi.Interfaces;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Windows.Threading;
+using Windows.System;
 
 namespace FluentFlyoutWPF.ViewModels;
 
@@ -74,7 +77,7 @@ public partial class VolumeMixerViewModel : ObservableObject, IDisposable
         }
 
         DeviceName = _device.FriendlyName;
-        SyncMasterFromDevice();
+        SyncMasterVolume();
         RefreshSessions();
     }
 
@@ -97,33 +100,79 @@ public partial class VolumeMixerViewModel : ObservableObject, IDisposable
 
     partial void OnMasterVolumeChanged(float value)
     {
-        if (_device == null) return;
-        _device.AudioEndpointVolume.MasterVolumeLevelScalar = Math.Clamp(value, 0f, 1f);
-        if (MasterVolume == 0f)
+        UserSettings currentSettings = SettingsManager.Current;
+
+        // If voicemeeter integration is on, only alter the strip's volume and not the windows' device volume
+        if (currentSettings.VolumeVoicemeeterEnabled)
         {
-            IsMasterMuted = true;
+            VoicemeeterHelper.Instance!.SetComponentGain(currentSettings.VolumeVoicemeeterComponentIndex, currentSettings.VolumeVoicemeeterComponent, value * VoicemeeterHelper.AMPLITUDE + VoicemeeterHelper.MIN_GAIN);
         }
+        else
+        {
+            if (_device == null) return;
+            _device.AudioEndpointVolume.MasterVolumeLevelScalar = Math.Clamp(value, 0f, 1f);
+            if (MasterVolume == 0f)
+            {
+                IsMasterMuted = true;
+            }
+        }
+
     }
 
     partial void OnIsMasterMutedChanged(bool value)
     {
-        if (_device == null) return;
-        _device.AudioEndpointVolume.Mute = value;
+        UserSettings currentSettings = SettingsManager.Current;
+
+        if (currentSettings.VolumeVoicemeeterEnabled)
+        {
+            VoicemeeterHelper.Instance!.SetComponentMute(currentSettings.VolumeVoicemeeterComponentIndex, currentSettings.VolumeVoicemeeterComponent, value);
+        }
+        else
+        {
+            if (_device == null) return;
+            _device.AudioEndpointVolume.Mute = value;
+        }
     }
 
 
-    public void SyncMasterFromDevice()
+    public void SyncMasterVolume()
     {
-        if (_device == null) return;
+        UserSettings currentSettings = SettingsManager.Current;
 
-        var vol = _device.AudioEndpointVolume.MasterVolumeLevelScalar;
-        var mute = _device.AudioEndpointVolume.Mute;
+        // Check if Voicemeeter integration is on
+        if (currentSettings.VolumeVoicemeeterEnabled)
+        {
+            // If it IS on, get the value from the strip instead of the device
+            float gain = VoicemeeterHelper.Instance!.GetComponentGain(currentSettings.VolumeVoicemeeterComponentIndex, currentSettings.VolumeVoicemeeterComponent);
 
-        if (MathF.Abs(MasterVolume - vol) > 0.001f)
-            MasterVolume = vol;
+            // Gain is in db instead of percentage. Convert to percentage first
+            // Add the current gain to the absolute of MIN_GAIN
+            float inter = gain + MathF.Abs(VoicemeeterHelper.MIN_GAIN);
 
-        if (IsMasterMuted != mute)
-            IsMasterMuted = mute;
+            // Calculate the percentage
+            float volPercentage = inter / VoicemeeterHelper.AMPLITUDE;
+
+            if (MathF.Abs(MasterVolume - volPercentage) > 0.01f)
+                MasterVolume = volPercentage;
+
+            bool mute = VoicemeeterHelper.Instance!.GetComponentMute(currentSettings.VolumeVoicemeeterComponentIndex, currentSettings.VolumeVoicemeeterComponent);
+
+            if (IsMasterMuted != mute)
+                IsMasterMuted = mute;
+        }
+        else
+        {
+            if (_device == null) return;
+
+            var vol = _device.AudioEndpointVolume.MasterVolumeLevelScalar;
+            var mute = _device.AudioEndpointVolume.Mute;
+
+            if (MathF.Abs(MasterVolume - vol) > 0.001f)
+                MasterVolume = vol;
+
+            if (IsMasterMuted != mute)
+                IsMasterMuted = mute;
+        }
     }
 
 
@@ -200,7 +249,7 @@ public partial class VolumeMixerViewModel : ObservableObject, IDisposable
 
     public void OnPollTick(object? sender, EventArgs e)
     {
-        SyncMasterFromDevice();
+        SyncMasterVolume();
 
         foreach (var session in Sessions)
         {

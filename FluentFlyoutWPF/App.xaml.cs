@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 using FluentFlyout.Classes;
+using FluentFlyoutWPF.Classes.Utils;
 using Microsoft.Toolkit.Uwp.Notifications;
 using System.Windows;
 
@@ -24,6 +25,20 @@ public partial class App : Application
         // Register AUMID for toast notifications
         ToastNotificationManagerCompat.OnActivated += Notifications.HandleNotificationActivation;
 
+        // Try to load Voicemeeter
+        VoicemeeterLoader.Load();
+
         base.OnStartup(e);
+    }
+
+    protected override void OnExit(ExitEventArgs e)
+    {
+        if (VoicemeeterHelper.Instance != null)
+        {
+            VoicemeeterHelper.Instance.Dispose();
+            VoicemeeterHelper.Instance = null;
+        }
+
+        base.OnExit(e);
     }
 }

@@ -16,7 +16,7 @@
       d:Background="White">
 
     <Page.Resources>
-        <utils:BoolToVisibleCollapsedConverter x:Key="BoolToCollapsedVisibleConverter" TrueValue="Collapsed" FalseValue="Visible" />
+        <utils:BoolToVisibleCollapsedConverter x:Key="BoolToCollapsedVisibleConverter" TrueValue="Visible" FalseValue="Collapsed" />
         <utils:BoolToFullHalfOpacityConverter x:Key="BoolToFullHalfOpacityConverter" />
     </Page.Resources>
 
@@ -84,6 +84,44 @@
                 </StackPanel>
             </ui:CardControl>
 
+            
+            <StackPanel Visibility="{Binding IsVoicemeeterLoaded, Converter={StaticResource BoolToCollapsedVisibleConverter}}" Grid.Row="4">
+                <TextBlock Text="{DynamicResource VolumeVoicemeeterSectionTitle}" FontSize="14" FontWeight="SemiBold" Margin="0,12,0,6" />
+                <ui:CardControl Icon="{ui:SymbolIcon SoundWaveCircle24}" Margin="0,0,0,3">
+                    <ui:CardControl.Header>
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock Text="{DynamicResource VolumeVoicemeeterIntegrationTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
+                            <TextBlock Text="{DynamicResource VolumeVoicemeeterIntegrationDescription}" FontSize="12" Opacity="0.5" />
+                        </StackPanel>
+                    </ui:CardControl.Header>
+                    <controls:ToggleSwitch IsChecked="{Binding VolumeVoicemeeterEnabled, Mode=TwoWay}"></controls:ToggleSwitch>
+                </ui:CardControl>
+                
+                <ui:CardControl Icon="{ui:SymbolIcon List24}" Margin="0,0,0,3">
+                    <ui:CardControl.Header>
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock Text="{DynamicResource VolumeVoicemeeterComponentTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
+                            <TextBlock Text="{DynamicResource VolumeVoicemeeterComponentDescription}" FontSize="12" Opacity="0.5" />
+                        </StackPanel>
+                    </ui:CardControl.Header>
+                    <ComboBox SelectedIndex="{Binding VolumeVoicemeeterComponentInt}">
+                        <ComboBoxItem Content="Strip" />
+                        <ComboBoxItem Content="Bus" />
+                    </ComboBox>
+                </ui:CardControl>
+                
+                <ui:CardControl Icon="{ui:SymbolIcon NumberSymbol24}" Margin="0,0,0,12">
+                    <ui:CardControl.Header>
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock Text="{DynamicResource VolumeVoicemeeterComponentIndex}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
+                            <TextBlock Text="{DynamicResource VolumeVoicemeeterComponentIndexDescription}" FontSize="12" Opacity="0.5" />
+                        </StackPanel>
+                    </ui:CardControl.Header>
+                    <ui:TextBox Width="45" ClearButtonEnabled="False" Text="{Binding VolumeVoicemeeterComponentIndexText, Mode=TwoWay}" />
+                </ui:CardControl>
+            </StackPanel>
+            
+            
             <TextBlock Text="{DynamicResource VolumeMixerSectionTitle}" FontSize="14" FontWeight="SemiBold" Margin="0,12,0,6" />
             <ui:CardControl Icon="{ui:SymbolIcon SpeakerSettings24}" Margin="0,0,0,3">
                 <ui:CardControl.Header>
@@ -105,7 +143,7 @@
                         <TextBlock Text="{DynamicResource VolumeMixerHighlightDescription}" FontSize="12" Opacity="0.5" />
                     </StackPanel>
                 </ui:CardControl.Header>
-                <controls:ToggleSwitch IsChecked="{Binding VolumeMixerHighlightActiveApps, Mode=TwoWay}" />
+                <controls:ToggleSwitch IsChecked="{Binding VolumeMixerHighlightActiveApps, Mode=TwoWay}"/>
             </ui:CardControl>
         </StackPanel>
     </StackPanel>

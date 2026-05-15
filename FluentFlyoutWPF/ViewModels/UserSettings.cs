@@ -7,6 +7,7 @@ using FluentFlyout.Classes.Settings;
 using FluentFlyout.Classes.Utils;
 using FluentFlyout.Controls;
 using FluentFlyoutWPF.Classes;
+using FluentFlyoutWPF.Classes.Utils;
 using FluentFlyoutWPF.Models;
 using FluentFlyoutWPF.Windows;
 using System.Collections.ObjectModel;
@@ -527,6 +528,49 @@ public partial class UserSettings : ObservableObject
     }
 
     [ObservableProperty]
+    public partial bool IsVoicemeeterLoaded { get; set; }
+
+    [ObservableProperty]
+    public partial bool VolumeVoicemeeterEnabled { get; set; }
+
+    [ObservableProperty]
+    public partial VoicemeeterComponent VolumeVoicemeeterComponent { get; set; }
+
+    [XmlIgnore]
+    public int VolumeVoicemeeterComponentInt
+    {
+        get => VoicemeeterComponentExtension.GetVoicemeeterComponentInt(VolumeVoicemeeterComponent);
+        set => VolumeVoicemeeterComponent = VoicemeeterComponentExtension.GetVoicemeeterComponentFromInt(value);
+    }
+
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(VolumeVoicemeeterComponentIndexText))]
+    public partial int VolumeVoicemeeterComponentIndex { get; set; }
+
+    [XmlIgnore]
+    public string VolumeVoicemeeterComponentIndexText
+    {
+        get => VolumeVoicemeeterComponentIndex.ToString();
+        set
+        {
+            if (int.TryParse(value, out var result))
+            {
+                VolumeVoicemeeterComponentIndex = result switch
+                {
+                    < 0 => 0,
+                    _ => result
+                };
+            }
+            else
+            {
+                VolumeVoicemeeterComponentIndex = 0;
+            }
+
+            OnPropertyChanged();
+        }
+    }
+
+    [ObservableProperty]
     public partial bool VolumeMixerEnabled { get; set; }
 
     [ObservableProperty]
@@ -653,6 +697,9 @@ public partial class UserSettings : ObservableObject
         VolumeControlEnabled = false;
         VolumeControlAboveMediaFlyout = false;
         VolumeControlDuration = 3000;
+        VolumeVoicemeeterEnabled = false;
+        VolumeVoicemeeterComponent = VoicemeeterComponent.STRIP;
+        VolumeVoicemeeterComponentIndex = 0;
         VolumeMixerEnabled = true;
         VolumeMixerHighlightActiveApps = false;
         AcrylicBlurOpacity = 175;
@@ -719,6 +766,13 @@ public partial class UserSettings : ObservableObject
     internal void CompleteInitialization()
     {
         _initializing = false;
+        IsVoicemeeterLoaded = VoicemeeterLoader.IsLoaded;
+
+        // If voicemeeter isn't loaded, disable voicemeeter volume
+        if (!IsVoicemeeterLoaded)
+        {
+            VolumeVoicemeeterEnabled = false;
+        }
     }
 
     partial void OnAppLanguageChanged(string oldValue, string newValue)
@@ -856,6 +910,22 @@ public partial class UserSettings : ObservableObject
     {
         if (oldValue == newValue || _initializing) return;
         BitmapHelper.GetDominantColors(1);
+    }
+
+    partial void OnVolumeVoicemeeterEnabledChanged(bool oldValue, bool newValue)
+    {
+        if (newValue)
+        {
+            VoicemeeterHelper.Instance = new VoicemeeterHelper();
+            VoicemeeterHelper.Instance.Login();
+        }
+        else
+        {
+            if (VoicemeeterHelper.Instance == null) return;
+
+            VoicemeeterHelper.Instance.Dispose();
+            VoicemeeterHelper.Instance = null;
+        }
     }
 
     partial void OnVolumeMixerHighlightActiveAppsChanged(bool oldValue, bool newValue)
