@@ -98,14 +98,14 @@ public partial class AboutViewModel : ObservableObject
         new LicenseInfo
         {
             Name = "CommunityToolkit.Mvvm",
-            Version = "8.4.0-preview3",
+            Version = "8.4.2",
             License = "MIT",
             Url = "https://github.com/CommunityToolkit/dotnet"
         },
         new LicenseInfo
         {
             Name = "Dubya.WindowsMediaController",
-            Version = "2.5.5",
+            Version = "2.5.6",
             License = "MIT",
             Url = "https://github.com/DubyaDude/WindowsMediaController"
         },
@@ -125,14 +125,14 @@ public partial class AboutViewModel : ObservableObject
         },
         new LicenseInfo{
             Name = "NAudio",
-            Version = "2.2.1",
+            Version = "2.3.0",
             License = "MIT",
             Url = "https://github.com/naudio/NAudio"
         },
         new LicenseInfo
         {
             Name = "NLog",
-            Version = "6.0.6",
+            Version = "6.1.3",
             License = "BSD-3-Clause",
             Url = "https://nlog-project.org/"
         },
@@ -146,14 +146,14 @@ public partial class AboutViewModel : ObservableObject
         new LicenseInfo
         {
             Name = "WPF-UI",
-            Version = "4.2.0",
+            Version = "4.3.0",
             License = "MIT",
             Url = "https://github.com/lepoco/wpfui"
         },
         new LicenseInfo
         {
             Name = "WPF-UI.Tray",
-            Version = "4.2.0",
+            Version = "4.3.0",
             License = "MIT",
             Url = "https://github.com/lepoco/wpfui"
         },
