@@ -112,6 +112,12 @@ Voel u vrij om op welke manier dan ook bij te dragen! Bekijk [CONTRIBUTING.md](h
 - [nopeless](https://github.com/nopeless) - Code Bijdrager
 
 ### Dank aan
+- [CommunityToolkit.Mvvm](https://github.com/CommunityToolkit/dotnet)
 - [Dubya.WindowsMediaController](https://github.com/DubyaDude/WindowsMediaController)
 - [MicaWPF](https://github.com/Simnico99/MicaWPF)
+- [Microsoft.Toolkit.Uwp.Notifications](https://github.com/CommunityToolkit/WindowsCommunityToolkit)
+- [NAudio](https://github.com/naudio/NAudio)
+- [NLog](https://nlog-project.org/)
+- [System.Drawing.Common](https://dot.net/)
 - [WPF-UI](https://github.com/lepoco/wpfui)
+- [WPF-UI-Tray](https://github.com/lepoco/wpfui)

@@ -144,6 +144,12 @@ FluentFlyout은 언제나 무료이며 오픈 소스로 유지됩니다. 제한 
 - [nopeless](https://github.com/nopeless) - 코드 기여자 (편의성 기능)
 
 ### 사용된 라이브러리 (Dependencies)
+- [CommunityToolkit.Mvvm](https://github.com/CommunityToolkit/dotnet)
 - [Dubya.WindowsMediaController](https://github.com/DubyaDude/WindowsMediaController)
 - [MicaWPF](https://github.com/Simnico99/MicaWPF)
+- [Microsoft.Toolkit.Uwp.Notifications](https://github.com/CommunityToolkit/WindowsCommunityToolkit)
+- [NAudio](https://github.com/naudio/NAudio)
+- [NLog](https://nlog-project.org/)
+- [System.Drawing.Common](https://dot.net/)
 - [WPF-UI](https://github.com/lepoco/wpfui)
+- [WPF-UI-Tray](https://github.com/lepoco/wpfui)

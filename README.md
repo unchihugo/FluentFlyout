@@ -128,8 +128,15 @@ Thank you for your support and understanding!
 - [AksharDP](https://github.com/AksharDP) - Code Contributor (media seekbar & duration)
 - [Hykerisme](https://github.com/Hykerisme) - CN Translation
 - [nopeless](https://github.com/nopeless) - Code Contributor (QoL features)
+- All our amazing contributors! Check the full list on our [GitHub Contributors page](https://github.com/unchihugo/FluentFlyout/graphs/contributors?all=1)
 
 ### Dependencies
+- [CommunityToolkit.Mvvm](https://github.com/CommunityToolkit/dotnet)
 - [Dubya.WindowsMediaController](https://github.com/DubyaDude/WindowsMediaController)
 - [MicaWPF](https://github.com/Simnico99/MicaWPF)
+- [Microsoft.Toolkit.Uwp.Notifications](https://github.com/CommunityToolkit/WindowsCommunityToolkit)
+- [NAudio](https://github.com/naudio/NAudio)
+- [NLog](https://nlog-project.org/)
+- [System.Drawing.Common](https://dot.net/)
 - [WPF-UI](https://github.com/lepoco/wpfui)
+- [WPF-UI-Tray](https://github.com/lepoco/wpfui)

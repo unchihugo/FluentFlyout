@@ -117,6 +117,12 @@ https://github.com/user-attachments/assets/bfc7666f-1d59-4cbf-8d15-3855671cb147
 - [Hykerisme](https://github.com/Hykerisme) - 中文翻译
 - [nopeless](https://github.com/nopeless) - 贡献者
 ### 依赖
+- [CommunityToolkit.Mvvm](https://github.com/CommunityToolkit/dotnet)
 - [Dubya.WindowsMediaController](https://github.com/DubyaDude/WindowsMediaController)
 - [MicaWPF](https://github.com/Simnico99/MicaWPF)
+- [Microsoft.Toolkit.Uwp.Notifications](https://github.com/CommunityToolkit/WindowsCommunityToolkit)
+- [NAudio](https://github.com/naudio/NAudio)
+- [NLog](https://nlog-project.org/)
+- [System.Drawing.Common](https://dot.net/)
 - [WPF-UI](https://github.com/lepoco/wpfui)
+- [WPF-UI-Tray](https://github.com/lepoco/wpfui)
