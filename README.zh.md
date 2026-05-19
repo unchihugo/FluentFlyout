@@ -8,7 +8,7 @@
 
 <p align="center">
 	<img alt="GitHub Release" src="https://img.shields.io/github/v/release/unchihugo/FluentFlyout">
-	<img alt="Static Badge" src="https://img.shields.io/badge/downloads-130K%2B-blue?color=limegreen">
+	<img alt="Static Badge" src="https://img.shields.io/badge/downloads-250K%2B-blue?color=limegreen">
 	<a href="https://hosted.weblate.org/engage/fluentflyout/"><img src="https://hosted.weblate.org/widget/fluentflyout/svg-badge.svg" alt="Translation status"/></a>
 	<img alt="GitHub contributors" src="https://img.shields.io/github/contributors-anon/unchihugo/fluentflyout?labelColor=midnightblue&color=goldenrod">
 </p>
