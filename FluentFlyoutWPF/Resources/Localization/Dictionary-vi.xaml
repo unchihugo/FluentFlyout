@@ -241,10 +241,10 @@ Bạn có thể hỗ trợ dịch tại</system:String>
     <system:String x:Key="EnableVolumeFlyoutDescription">Thay thế giao diện chính thức của Windows</system:String>
     <system:String x:Key="VolumeAboveMediaFlyoutTitle">Hiển thị đè lên flyout điều khiển nội dung (khi nào trùng nhau)</system:String>
     <system:String x:Key="VolumeFlyoutStayDurationTitle">Thời gian hiển thị</system:String>
-    <system:String x:Key="VolumeMixerSectionTitle">Thanh âm lượng cho từng ứng dụng</system:String>
+    <system:String x:Key="VolumeMixerSectionTitle">Từng bộ phận</system:String>
     <system:String x:Key="EnableVolumeMixerDescription">Thanh âm lượng cho từng ứng dụng</system:String>
     <system:String x:Key="EnableVolumeMixerTitle">Thanh âm lượng cho từng ứng dụng</system:String>
     <system:String x:Key="VolumeMixerHighlightTitle">Tô sáng ứng dụng đang phát</system:String>
     <system:String x:Key="VolumeMixerHighlightDescription">Tô sáng ứng dụng đang phát</system:String>
-    <system:String x:Key="MasterVolumeText">Âm lượng toàn hệ thống</system:String>
+    <system:String x:Key="MasterVolumeText">Toàn hệ thống</system:String>
 </ResourceDictionary>
