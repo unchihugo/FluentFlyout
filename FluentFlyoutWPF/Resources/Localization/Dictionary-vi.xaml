@@ -44,7 +44,7 @@
     <system:String x:Key="LockKeysBoldUIDescription">In đậm phông chữ</system:String>
     <system:String x:Key="EnableInsertKeyTitle">Thông báo cho phím Insert</system:String>
     <system:String x:Key="EnableInsertKeyDescription">Thông báo cho phím Insert</system:String>
-    <system:String x:Key="SystemSettingsTitle">Tùy chọn hành vi</system:String>
+    <system:String x:Key="SystemSettingsTitle">Tùy chọn chung</system:String>
     <system:String x:Key="LaunchOnStartupTitle">Khởi động cùng Windows</system:String>
     <system:String x:Key="LaunchOnStartupDescription">Khi khởi động, FluentFlyout sẽ nằm trong khay hệ thống</system:String>
     <system:String x:Key="StartupAppsSettingsInfo">Nếu khởi động không được, bạn hãy thử kiểm tra</system:String>
@@ -130,7 +130,7 @@ Bạn có thể hỗ trợ dịch tại</system:String>
     <system:String x:Key="LockWindow_InsertPressed">Insert đang nhấn</system:String>
     <system:String x:Key="LockWindow_LockOn">bật</system:String>
     <system:String x:Key="LockWindow_LockOff">tắt</system:String>
-    <system:String x:Key="NextUpWindow_UpNextText">Đang phát:</system:String>
+    <system:String x:Key="NextUpWindow_UpNextText">Hiện phát:</system:String>
     <system:String x:Key="TrayIcon_SettingsOption">Cấu hình</system:String>
     <system:String x:Key="TrayIcon_GitHubRepositoryOption">Mã nguồn</system:String>
     <system:String x:Key="TrayIcon_ViewLogsOption">Nhật trình</system:String>
@@ -153,7 +153,7 @@ Bạn có thể hỗ trợ dịch tại</system:String>
     <system:String x:Key="AcrylicBlurOpacityDescription">(mặc định: 175)</system:String>
     <system:String x:Key="HomeUpdateDescription">Có gì mới sau cập nhật</system:String>
     <system:String x:Key="HomeDashboardTitle">Cấu hình</system:String>
-    <system:String x:Key="SystemConfigure">Của ứng dụng và các giao diện trên</system:String>
+    <system:String x:Key="SystemConfigure">Cho ứng dụng và các giao diện trên</system:String>
     <system:String x:Key="AboutTitle">Thông tin thêm</system:String>
     <system:String x:Key="AboutContributorsTitle">Ghi nhận đóng góp</system:String>
     <system:String x:Key="AboutContributorsDescription">Cảm ơn các bạn sau đây đã đóng góp cho FluentFlyout:</system:String>
@@ -195,8 +195,8 @@ Bạn có thể hỗ trợ dịch tại</system:String>
     <system:String x:Key="ShowUpdateNotificationsTitle">Thông báo nếu phát hiện cập nhật mới</system:String>
     <system:String x:Key="TaskbarWidgetCloseableFlyoutTitle">Đóng Flyout khi bấm chuột lần 2</system:String>
     <system:String x:Key="TaskbarWidgetCloseableFlyoutDescription">Đóng Flyout nếu cửa sổ đã mở khi nhấp vào tiện ích trên thanh tác vụ</system:String>
-    <system:String x:Key="SettingsExportedSuccessfully">Xuất cấu hình thành công.</system:String>
-    <system:String x:Key="SettingsImportedSuccessfully">Thay đổi sẽ áp dụng trong lần khởi động tiếp theo.</system:String>
+    <system:String x:Key="SettingsExportedSuccessfully">Cấu hình của bạn đã xuất sang tệp thành công.</system:String>
+    <system:String x:Key="SettingsImportedSuccessfully">FluentFlyout sẽ khởi động lại để áp dụng cấu hình.</system:String>
     <system:String x:Key="ExportSuccessful">Xuất cấu hình thành công</system:String>
     <system:String x:Key="ExportFailed">Xuất cấu hình không thành công</system:String>
     <system:String x:Key="ImportSuccessful">Nhập cấu hình thành công</system:String>
@@ -209,9 +209,9 @@ Bạn có thể hỗ trợ dịch tại</system:String>
     <system:String x:Key="BackupRestoreCardTitle">Nhập, xuất cấu hình</system:String>
     <system:String x:Key="ExportSettings">Xuất cấu hình</system:String>
     <system:String x:Key="ImportSettings">Nhập cấu hình</system:String>
-    <system:String x:Key="FailedToExportSettings">Xuất cấu hình không thành công. Kiểm tra nhật trình để xem chi tiết.</system:String>
+    <system:String x:Key="FailedToExportSettings">Để biết thêm chi tiết, hãy nhấn chuột phải vào biểu tượng khay hệ thống và mở folder nhật trình.</system:String>
     <system:String x:Key="ImportSettingsWarning">Điều này sẽ thay đổi cấu hình hiện tại. Có tiếp tục không?</system:String>
-    <system:String x:Key="FailedToImportSettings">Nhập cấu hình không thành công. Kiểm tra nhật trình để xem chi tiết.</system:String>
+    <system:String x:Key="FailedToImportSettings">Để biết thêm chi tiết, hãy nhấn chuột phải vào biểu tượng khay hệ thống và mở folder nhật trình.</system:String>
     <system:String x:Key="TaskbarWidgetControlsPositionTitle">Vị trí trình phát</system:String>
     <system:String x:Key="TaskbarWidgetControlsPositionDescription">Vị trí trình phát</system:String>
     <system:String x:Key="PositionLeft">Trái</system:String>
@@ -226,7 +226,7 @@ Bạn có thể hỗ trợ dịch tại</system:String>
     <system:String x:Key="DefaultLockLayoutPosition">Vị trị cửa sổ mặc định</system:String>
     <system:String x:Key="MonitorWithCursor">Màn hình có con trỏ</system:String>
     <system:String x:Key="LegacyTaskbarWidthTitle">(Khung thông tin nội dung) Vị trí tương đối</system:String>
-    <system:String x:Key="LegacyTaskbarWidthDescription">Chỉ nên chọn khi vị trí bị lỗi, nhất là khi thanh tác vụ bị thay đổi</system:String>
+    <system:String x:Key="LegacyTaskbarWidthDescription">Chỉ nên chọn khi vị trí bị lỗi, nhất là khi thanh tác vụ thay đổi</system:String>
     <system:String x:Key="AdvancedSettingsTitle">Tùy chọn nâng cao</system:String>
     <system:String x:Key="LockKeysAnimatedDescription">Khi tắt: biểu tượng sẽ bất động</system:String>
     <system:String x:Key="LockKeysAnimatedTitle">Hiệu ứng biểu tượng</system:String>
