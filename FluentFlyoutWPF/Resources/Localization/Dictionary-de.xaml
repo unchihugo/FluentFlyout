@@ -149,7 +149,7 @@ Du kannst helfen, die App zu übersetzen auf</system:String>
     <system:String x:Key="Disabled">Deaktiviert</system:String>
     <system:String x:Key="TrayIcon_ViewLogsOption">Protokolle anzeigen</system:String>
     <system:String x:Key="PixelsUnit">px</system:String>
-    <system:String x:Key="HomeTitle">Home</system:String>
+    <system:String x:Key="HomeTitle">Startseite</system:String>
     <system:String x:Key="MediaFlyoutExcludeVolumeTitle">Lautstärketasten ausschließen</system:String>
     <system:String x:Key="MediaFlyoutExcludeVolumeDescription">Beim Ändern der Lautstärke oder Stummschalten kein Flyout anzeigen</system:String>
     <system:String x:Key="SelectedMonitorTitle">Zielbildschirm für Flyout</system:String>
