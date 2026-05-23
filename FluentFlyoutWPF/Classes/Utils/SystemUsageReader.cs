@@ -157,6 +157,13 @@ public static class SystemUsageStyleHelper
             : fontFamily.Trim();
     }
 
+    public static double GetStatsTextColumnWidth(double fontSize, bool showCpuTemperature)
+    {
+        return showCpuTemperature
+            ? Math.Clamp(fontSize * 10.4, 116, 156)
+            : Math.Clamp(fontSize * 6.2, 72, 96);
+    }
+
     public static bool TryParseColor(string? value, out Color color)
     {
         color = default;

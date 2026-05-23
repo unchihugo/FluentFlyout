@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:controls="clr-namespace:FluentFlyout.Controls"
              xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
              xmlns:viewModels="clr-namespace:FluentFlyoutWPF.ViewModels"
              mc:Ignorable="d"
@@ -49,9 +50,15 @@
                             <TextBlock Name="SongArtist" Text="" FontWeight="Normal" Opacity="0.5" Margin="0,-1.5,0,0" TextTrimming="CharacterEllipsis" />
                         </StackPanel>
 
-                        <StackPanel Name="SystemStatsStackPanel" Orientation="Vertical" VerticalAlignment="Center" Width="72" Margin="0,0,8,0" Visibility="Collapsed">
-                            <TextBlock Name="SystemCpuStatsText" Text="CPU --%" FontSize="11" FontWeight="SemiBold" Opacity="0.78" TextTrimming="CharacterEllipsis" />
-                            <TextBlock Name="SystemRamStatsText" Text="RAM --%" FontSize="11" FontWeight="SemiBold" Opacity="0.56" Margin="0,-1.5,0,0" TextTrimming="CharacterEllipsis" />
+                        <StackPanel Name="SystemStatsStackPanel" Orientation="Horizontal" VerticalAlignment="Center" Width="72" Margin="0,0,8,0" Visibility="Collapsed">
+                            <StackPanel Name="SystemStatsTextStackPanel" Orientation="Vertical" VerticalAlignment="Center" Width="72">
+                                <TextBlock Name="SystemCpuStatsText" Text="CPU --%" FontSize="11" FontWeight="SemiBold" Opacity="0.78" TextTrimming="CharacterEllipsis" />
+                                <TextBlock Name="SystemRamStatsText" Text="RAM --%" FontSize="11" FontWeight="SemiBold" Opacity="0.56" Margin="0,-1.5,0,0" TextTrimming="CharacterEllipsis" />
+                            </StackPanel>
+                            <TextBlock Name="PassiveSlotDividerText" Text="|" FontSize="11" FontWeight="SemiBold" Opacity="0.28" Margin="6,0,6,0" VerticalAlignment="Center" Visibility="Collapsed" />
+                            <Border Name="PassiveSlotViewportBorder" Background="Transparent" Width="300" Height="34" Visibility="Collapsed" ClipToBounds="True" Cursor="Hand" MouseLeftButtonUp="PassiveSlotViewportBorder_MouseLeftButtonUp">
+                                <controls:CodexQuotaBarsControl x:Name="CodexQuotaBars" />
+                            </Border>
                         </StackPanel>
 
                         <StackPanel Name="ControlsStackPanel" Orientation="Horizontal" VerticalAlignment="Center" Width="Auto" Margin="8,0,0,0">

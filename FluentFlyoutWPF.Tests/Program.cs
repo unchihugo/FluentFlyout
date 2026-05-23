@@ -203,6 +203,80 @@ Run("Parses custom stats color and treats Auto as theme color", () =>
     AssertEqual(false, SystemUsageStyleHelper.TryParseColor("Auto", out _));
 });
 
+Run("Uses 9router CLI secret when creating local auth token", () =>
+{
+    string tempDirectory = Path.Combine(Path.GetTempPath(), "fluentflyout-9router-token-" + Guid.NewGuid().ToString("N"));
+    Directory.CreateDirectory(Path.Combine(tempDirectory, "auth"));
+    File.WriteAllText(Path.Combine(tempDirectory, "machine-id"), "machine-123");
+    File.WriteAllText(Path.Combine(tempDirectory, "auth", "cli-secret"), "secret-456");
+
+    using HttpRequestMessage request = new(HttpMethod.Get, "http://localhost:20128/api/providers");
+
+    bool applied = CodexUsageCliTokenProvider.TryApplyHeader(request, tempDirectory);
+
+    AssertEqual(true, applied);
+    AssertEqual("35499f2df791a8a0", string.Join("", request.Headers.GetValues(CodexUsageCliTokenProvider.HeaderName)));
+    Directory.Delete(tempDirectory, recursive: true);
+});
+
+Run("Parses Codex provider metadata when quota endpoint is unavailable", () =>
+{
+    string json = """
+    {
+      "id": "codex-1",
+      "provider": "codex",
+      "isActive": true,
+      "testStatus": "active",
+      "priority": 2,
+      "providerSpecificData": {
+        "chatgptPlanType": "plus"
+      },
+      "modelLock_gpt-5.5": "2026-05-23T17:30:00Z",
+      "lastError": "[429]: The usage limit has been reached",
+      "lastErrorAt": "2026-05-23T16:30:00Z"
+    }
+    """;
+
+    CodexUsageSnapshot snapshot = CodexUsageApiPayloadParser.ParseUsagePayload(json, "codex-1");
+
+    AssertEqual(true, snapshot.HasData);
+    AssertEqual("plus", snapshot.Plan);
+    AssertEqual(true, snapshot.LimitReached);
+    AssertEqual(1, snapshot.Session?.Used);
+    AssertEqual(1, snapshot.Session?.Total);
+    AssertEqual(0, snapshot.Session?.Remaining);
+    AssertEqual(new DateTime(2026, 5, 23, 17, 30, 0, DateTimeKind.Utc), snapshot.Session?.ResetAtUtc);
+});
+
+Run("Clamps taskbar bounds to selected monitor", () =>
+{
+    System.Windows.Rect taskbarRect = new(0, 1040, 3840, 40);
+    System.Windows.Rect selectedMonitorRect = new(1920, 0, 1920, 1080);
+
+    System.Windows.Rect clamped = TaskbarWindowGeometryHelper.ClampTaskbarRectToMonitor(taskbarRect, selectedMonitorRect);
+
+    AssertEqual(1920d, clamped.Left);
+    AssertEqual(1040d, clamped.Top);
+    AssertEqual(1920d, clamped.Width);
+    AssertEqual(40d, clamped.Height);
+});
+
+Run("Maps All monitors taskbar selection to every monitor", () =>
+{
+    int[] monitorIndexes = TaskbarWidgetMonitorSelection.GetTargetMonitorIndexes(
+        TaskbarWidgetMonitorSelection.AllMonitorsValue,
+        3);
+
+    AssertSequenceEqual([0, 1, 2], monitorIndexes);
+});
+
+Run("Keeps existing taskbar monitor indexes stable when All monitors is available", () =>
+{
+    int[] monitorIndexes = TaskbarWidgetMonitorSelection.GetTargetMonitorIndexes(0, 3);
+
+    AssertSequenceEqual([0], monitorIndexes);
+});
+
 static void Run(string name, Action test)
 {
     try
@@ -221,6 +295,12 @@ static void AssertEqual<T>(T expected, T actual)
 {
     if (!EqualityComparer<T>.Default.Equals(expected, actual))
         throw new InvalidOperationException($"expected {expected}, got {actual}");
+}
+
+static void AssertSequenceEqual<T>(IReadOnlyList<T> expected, IReadOnlyList<T> actual)
+{
+    if (!expected.SequenceEqual(actual))
+        throw new InvalidOperationException($"expected [{string.Join(", ", expected)}], got [{string.Join(", ", actual)}]");
 }
 
 static void AssertColor(byte expectedA, byte expectedR, byte expectedG, byte expectedB, System.Windows.Media.Color actual)

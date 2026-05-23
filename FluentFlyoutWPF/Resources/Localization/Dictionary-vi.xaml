@@ -97,6 +97,10 @@ Bạn có thể hỗ trợ dịch tại</system:String>
     <system:String x:Key="TaskbarWidgetSystemStatsDescription">Hiển thị mức sử dụng CPU/RAM gọn trong giao diện trên thanh tác vụ</system:String>
     <system:String x:Key="TaskbarWidgetCpuTemperatureTitle">Hiển thị nhiệt độ CPU</system:String>
     <system:String x:Key="TaskbarWidgetCpuTemperatureDescription">Thêm nhiệt độ CPU vào dòng CPU khi máy có sensor phù hợp</system:String>
+    <system:String x:Key="TaskbarWidgetCodexUsageTitle">Hạn mức Codex</system:String>
+    <system:String x:Key="TaskbarWidgetCodexUsageDescription">Hiển thị thanh quota phiên và tuần của Codex từ 9router</system:String>
+    <system:String x:Key="TaskbarWidgetCodexUsageClockSideTitle">Ghim Codex cạnh đồng hồ</system:String>
+    <system:String x:Key="TaskbarWidgetCodexUsageClockSideDescription">Chỉ đưa thanh Codex sang phía đồng hồ; media và CPU/RAM giữ nguyên vị trí widget</system:String>
     <system:String x:Key="TaskbarWidgetSystemStatsPositionTitle">Vị trí CPU và RAM</system:String>
     <system:String x:Key="TaskbarWidgetSystemStatsPositionDescription">Chọn vị trí hiển thị thông số so với thông tin media</system:String>
     <system:String x:Key="TaskbarWidgetSystemStatsPositionLeft">Bên trái media</system:String>
@@ -116,6 +120,7 @@ Bạn có thể hỗ trợ dịch tại</system:String>
     <system:String x:Key="SelectedMonitorTitle">Màn hình hiển thị</system:String>
     <system:String x:Key="TaskbarWidgetDescription">Giao diện này cho biết nội dung đang phát, có thể gắn thêm các nút điều khiển, và chỉnh thành nút mở giao diện điều khiển phát lại.</system:String>
     <system:String x:Key="TaskbarWidgetSelectedMonitorTitle">Màn hình hiển thị</system:String>
+    <system:String x:Key="TaskbarWidgetAllMonitors">Tất cả màn hình</system:String>
     <system:String x:Key="TaskbarWidgetManualPaddingTitle">Độ rộng khoảng trống</system:String>
     <system:String x:Key="TaskbarWidgetManualPaddingDescription">Thay đổi độ rộng cho khoảng trống (mặc định: 0px)</system:String>
     <system:String x:Key="TaskbarWidgetClickableTitle">Mở giao diện điều khiển phát lại khi nhấn vào</system:String>

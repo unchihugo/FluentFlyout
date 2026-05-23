@@ -22,6 +22,7 @@ using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
+using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using Windows.ApplicationModel;
 using Windows.Media.Control;
@@ -73,6 +74,9 @@ public partial class MainWindow : MicaWindow
     private DateTime _lastSelfUpdateTimestamp = DateTime.MinValue;
 
     internal TaskbarWindow? taskbarWindow;
+    private readonly List<TaskbarWindow> _taskbarWindows = [];
+    private bool _taskbarWindowRecreateQueued;
+    internal CodexUsageWidgetService CodexUsageWidgetService { get; private set; } = null!;
 
     private VolumeMixerWindow? volumeMixerWindow;
 
@@ -131,6 +135,8 @@ public partial class MainWindow : MicaWindow
         try
         {
             SettingsManager.RestoreSettings();
+            CodexUsageWidgetService = new CodexUsageWidgetService();
+            SettingsManager.Current.PropertyChanged += Settings_PropertyChanged;
         }
         catch (Exception ex)
         {
@@ -480,11 +486,88 @@ public partial class MainWindow : MicaWindow
         storyboard.Begin(window);
     }
 
+    private void Settings_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == nameof(SettingsManager.Current.TaskbarWidgetSelectedMonitor))
+            QueueTaskbarWindowRecreate();
+    }
+
+    private void QueueTaskbarWindowRecreate()
+    {
+        if (_taskbarWindowRecreateQueued)
+            return;
+
+        _taskbarWindowRecreateQueued = true;
+        Dispatcher.BeginInvoke(() =>
+        {
+            _taskbarWindowRecreateQueued = false;
+            RecreateTaskbarWindow();
+        }, DispatcherPriority.Background);
+    }
+
+    private void CreateTaskbarWindows()
+    {
+        int monitorCount = MonitorUtil.GetMonitors().Count;
+        int[] monitorIndexes = TaskbarWidgetMonitorSelection.GetTargetMonitorIndexes(
+            SettingsManager.Current.TaskbarWidgetSelectedMonitor,
+            monitorCount);
+
+        if (monitorIndexes.Length == 0)
+            monitorIndexes = [0];
+
+        foreach (int monitorIndex in monitorIndexes)
+            _taskbarWindows.Add(new TaskbarWindow(monitorIndex));
+
+        taskbarWindow = _taskbarWindows.FirstOrDefault();
+    }
+
+    private void CloseTaskbarWindows()
+    {
+        foreach (TaskbarWindow window in _taskbarWindows.ToArray())
+        {
+            try
+            {
+                window.Close();
+            }
+            catch { }
+        }
+
+        _taskbarWindows.Clear();
+        taskbarWindow = null;
+    }
+
+    private void UpdateTaskbarWindowsUi(
+        string title,
+        string artist,
+        BitmapImage? icon,
+        GlobalSystemMediaTransportControlsSessionPlaybackStatus? playbackStatus,
+        GlobalSystemMediaTransportControlsSessionPlaybackControls? playbackControls = null)
+    {
+        if (_taskbarWindows.Count > 0)
+        {
+            foreach (TaskbarWindow window in _taskbarWindows.ToArray())
+                window.UpdateUi(title, artist, icon, playbackStatus, playbackControls);
+
+            return;
+        }
+
+        taskbarWindow?.UpdateUi(title, artist, icon, playbackStatus, playbackControls);
+    }
+
+    internal void ApplyTaskbarWindowsTheme()
+    {
+        foreach (TaskbarWindow window in _taskbarWindows.ToArray())
+            window.Widget.ApplyWindowsTheme();
+
+        if (_taskbarWindows.Count == 0)
+            taskbarWindow?.Widget.ApplyWindowsTheme();
+    }
+
     public void UpdateTaskbar()
     {
         if (!mediaManager.IsStarted || mediaManager.GetFocusedSession() == null)
         {
-            taskbarWindow?.UpdateUi("-", "-", null, GlobalSystemMediaTransportControlsSessionPlaybackStatus.Closed);
+            UpdateTaskbarWindowsUi("-", "-", null, GlobalSystemMediaTransportControlsSessionPlaybackStatus.Closed);
             return;
         }
         var focusedSession = mediaManager.GetFocusedSession();
@@ -495,7 +578,7 @@ public partial class MainWindow : MicaWindow
         var playbackInfo = focusedSession.ControlSession.GetPlaybackInfo();
         var thumbnail = BitmapHelper.GetThumbnail(songInfo.Thumbnail);
         BitmapHelper.GetDominantColors(1);
-        taskbarWindow?.UpdateUi(songInfo.Title, songInfo.Artist, thumbnail, playbackInfo.PlaybackStatus, playbackInfo.Controls);
+        UpdateTaskbarWindowsUi(songInfo.Title, songInfo.Artist, thumbnail, playbackInfo.PlaybackStatus, playbackInfo.Controls);
     }
 
     public void reportBug(object? sender, EventArgs e)
@@ -549,7 +632,7 @@ public partial class MainWindow : MicaWindow
         var focusedSession = mediaManager.GetFocusedSession();
         if (focusedSession == null)
         {
-            taskbarWindow?.UpdateUi("-", "-", null, GlobalSystemMediaTransportControlsSessionPlaybackStatus.Closed);
+            UpdateTaskbarWindowsUi("-", "-", null, GlobalSystemMediaTransportControlsSessionPlaybackStatus.Closed);
             return;
         }
 
@@ -559,7 +642,7 @@ public partial class MainWindow : MicaWindow
 
         var thumbnail = BitmapHelper.GetThumbnail(songInfo.Thumbnail);
         BitmapHelper.GetDominantColors(1);
-        taskbarWindow?.UpdateUi(songInfo.Title, songInfo.Artist, thumbnail, playbackInfo?.PlaybackStatus, playbackInfo?.Controls);
+        UpdateTaskbarWindowsUi(songInfo.Title, songInfo.Artist, thumbnail, playbackInfo?.PlaybackStatus, playbackInfo?.Controls);
 
         if (IsVisible)
         {
@@ -582,7 +665,7 @@ public partial class MainWindow : MicaWindow
 #endif
         if (mediaManager.GetFocusedSession() == null)
         {
-            taskbarWindow?.UpdateUi("-", "-", null, GlobalSystemMediaTransportControlsSessionPlaybackStatus.Closed);
+            UpdateTaskbarWindowsUi("-", "-", null, GlobalSystemMediaTransportControlsSessionPlaybackStatus.Closed);
             return;
         }
 
@@ -607,7 +690,7 @@ public partial class MainWindow : MicaWindow
 
         var thumbnail = BitmapHelper.GetThumbnail(songInfo.Thumbnail);
         BitmapHelper.GetDominantColors(1);
-        taskbarWindow?.UpdateUi(songInfo.Title, songInfo.Artist, thumbnail, playbackInfo.PlaybackStatus, playbackInfo.Controls);
+        UpdateTaskbarWindowsUi(songInfo.Title, songInfo.Artist, thumbnail, playbackInfo.PlaybackStatus, playbackInfo.Controls);
 
         pauseOtherMediaSessionsIfNeeded(mediaSession);
 
@@ -686,7 +769,7 @@ public partial class MainWindow : MicaWindow
 
         if (focusedSession == null)
         {
-            taskbarWindow?.UpdateUi("-", "-", null, GlobalSystemMediaTransportControlsSessionPlaybackStatus.Closed);
+            UpdateTaskbarWindowsUi("-", "-", null, GlobalSystemMediaTransportControlsSessionPlaybackStatus.Closed);
         }
         else
         {
@@ -697,7 +780,7 @@ public partial class MainWindow : MicaWindow
             var playbackInfo = focusedSession.ControlSession.GetPlaybackInfo();
             var thumbnail = BitmapHelper.GetThumbnail(songInfo.Thumbnail);
             BitmapHelper.GetDominantColors(1);
-            taskbarWindow?.UpdateUi(songInfo.Title, songInfo.Artist, thumbnail, playbackInfo.PlaybackStatus, playbackInfo.Controls);
+            UpdateTaskbarWindowsUi(songInfo.Title, songInfo.Artist, thumbnail, playbackInfo.PlaybackStatus, playbackInfo.Controls);
         }
     }
 
@@ -1332,6 +1415,7 @@ public partial class MainWindow : MicaWindow
             mediaManager.OnAnyPlaybackStateChanged -= CurrentSession_OnPlaybackStateChanged;
             mediaManager.OnAnyTimelinePropertyChanged -= MediaManager_OnAnyTimelinePropertyChanged;
             mediaManager.OnAnySessionClosed -= MediaManager_OnAnySessionClosed;
+            SettingsManager.Current.PropertyChanged -= Settings_PropertyChanged;
 
             // dispose managed resources
             _positionTimer?.Change(Timeout.Infinite, Timeout.Infinite);
@@ -1340,6 +1424,7 @@ public partial class MainWindow : MicaWindow
             cts?.Dispose();
 
             TaskbarVisualizerControl.DisposeVisualizer();
+            CodexUsageWidgetService?.Dispose();
 
             // unhook hooks
             if (_hookId != IntPtr.Zero)
@@ -1357,8 +1442,7 @@ public partial class MainWindow : MicaWindow
             if (nextUpWindow?.IsLoaded == true)
                 nextUpWindow.Close();
 
-            if (taskbarWindow?.IsLoaded == true)
-                taskbarWindow.Close();
+            CloseTaskbarWindows();
 
             if (volumeMixerWindow?.IsLoaded == true)
                 volumeMixerWindow.Close();
@@ -1594,7 +1678,7 @@ public partial class MainWindow : MicaWindow
         }
 
         BitmapHelper.GetDominantColors(1);
-        taskbarWindow = new TaskbarWindow();
+        CreateTaskbarWindows();
         UpdateTaskbar();
         volumeMixerWindow = new VolumeMixerWindow();
     }
@@ -1605,18 +1689,8 @@ public partial class MainWindow : MicaWindow
         {
             Logger.Info("Recreating Taskbar Widget window");
 
-            if (taskbarWindow != null)
-            {
-                try
-                {
-                    taskbarWindow.Close();
-                }
-                catch { }
-
-                taskbarWindow = null;
-            }
-
-            taskbarWindow = new();
+            CloseTaskbarWindows();
+            CreateTaskbarWindows();
             UpdateTaskbar();
 
             Logger.Info("Taskbar Widget window recreated successfully");

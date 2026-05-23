@@ -25,11 +25,17 @@ namespace FluentFlyout.Controls;
 public partial class TaskbarWidgetControl : UserControl
 {
     private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+    private enum PassiveSlotMode
+    {
+        None,
+        CodexUsage
+    }
 
     private readonly double _scale = 0.9;
     private readonly int _nativeWidgetsPadding = 216;
     private const double MediaOnlyLogicalWidth = 55;
     private const double PlaybackControlsLogicalWidth = 102;
+    private const double PassiveSlotDividerLogicalWidth = 16;
 
     // Cached width calculations
     private string _cachedTitleText = string.Empty;
@@ -38,6 +44,7 @@ public partial class TaskbarWidgetControl : UserControl
     private double _cachedArtistWidth = 0;
     private readonly SystemUsageReader _systemUsageReader = new();
     private readonly DispatcherTimer _systemStatsTimer = new() { Interval = TimeSpan.FromMilliseconds(1000) };
+    private CodexUsageWidgetService? _codexUsageWidgetService;
 
     // reference to main window for flyout functions
     private MainWindow? _mainWindow;
@@ -66,13 +73,15 @@ public partial class TaskbarWidgetControl : UserControl
             MainBorder.Background.Opacity = 0;
         }
 
-        Background = new SolidColorBrush(Color.FromArgb(1, 0, 0, 0)); ;
+        Background = new SolidColorBrush(Color.FromArgb(1, 0, 0, 0));
 
         _systemStatsTimer.Tick += (s, e) => UpdateSystemStats();
         Unloaded += (s, e) =>
         {
             _systemStatsTimer.Stop();
             _systemUsageReader.Dispose();
+            AttachCodexUsageService(null);
+            ClearPassiveSlotDisplay();
         };
         UpdateSystemStatsVisibility();
 
@@ -129,6 +138,7 @@ public partial class TaskbarWidgetControl : UserControl
     public void SetMainWindow(MainWindow mainWindow)
     {
         _mainWindow = mainWindow;
+        AttachCodexUsageService(mainWindow.CodexUsageWidgetService);
     }
 
     public void ApplyWindowsTheme()
@@ -222,7 +232,16 @@ public partial class TaskbarWidgetControl : UserControl
         _mainWindow.ShowMediaFlyout(toggleMode: true, forceShow: true);
     }
 
-    public (double logicalWidth, double logicalHeight) CalculateSize(double dpiScale)
+    private void PassiveSlotViewportBorder_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+    {
+        if (IsCodexUsageVisible())
+        {
+            _codexUsageWidgetService?.Refresh();
+            e.Handled = true;
+        }
+    }
+
+    public (double logicalWidth, double logicalHeight) CalculateSize()
     {
         // calculate widget width - use cached values if text hasn't changed
         string currentTitle = SongTitle.Text;
@@ -423,12 +442,36 @@ public partial class TaskbarWidgetControl : UserControl
             && SettingsManager.Current.TaskbarWidgetEnabled;
     }
 
+    private bool IsCodexUsageVisible()
+    {
+        return TaskbarWidgetPassiveSlotVisibilityHelper.ShouldShowCodexUsageInline(
+            widgetEnabled: SettingsManager.Current.TaskbarWidgetEnabled,
+            systemStatsEnabled: SettingsManager.Current.TaskbarWidgetSystemStatsEnabled,
+            codexUsageEnabled: SettingsManager.Current.TaskbarWidgetCodexUsageEnabled,
+            codexUsageHasData: _codexUsageWidgetService?.HasData == true,
+            pinCodexUsageToClockSide: SettingsManager.Current.TaskbarWidgetCodexUsageClockSideEnabled);
+    }
+
+    private bool IsPassiveSlotVisible()
+    {
+        return IsCodexUsageVisible();
+    }
+
+    private PassiveSlotMode GetPassiveSlotMode()
+    {
+        if (IsCodexUsageVisible())
+            return PassiveSlotMode.CodexUsage;
+
+        return PassiveSlotMode.None;
+    }
+
     private void UpdateSystemStatsVisibility()
     {
         ApplySystemStatsStyle();
 
         bool enabled = IsSystemStatsEnabled();
         SystemStatsStackPanel.Visibility = enabled ? Visibility.Visible : Visibility.Collapsed;
+        UpdatePassiveSlotVisibility();
 
         if (!enabled)
         {
@@ -441,6 +484,7 @@ public partial class TaskbarWidgetControl : UserControl
                 ? "CPU --% · --°C"
                 : "CPU --%";
             SystemRamStatsText.Text = "RAM --%";
+            ClearPassiveSlotDisplay();
             return;
         }
 
@@ -449,6 +493,8 @@ public partial class TaskbarWidgetControl : UserControl
             UpdateSystemStats();
             _systemStatsTimer.Start();
         }
+
+        UpdatePassiveSlotDisplay();
     }
 
     private void UpdateSystemStats()
@@ -461,6 +507,9 @@ public partial class TaskbarWidgetControl : UserControl
             SystemCpuStatsText.Text = text.CpuText;
             SystemRamStatsText.Text = text.RamText;
             ApplySystemStatsForeground(snapshot.CpuTemperatureCelsius, showCpuTemperature);
+
+            if (IsCodexUsageVisible())
+                UpdatePassiveSlotDisplay();
         }
         catch (Exception ex)
         {
@@ -479,13 +528,16 @@ public partial class TaskbarWidgetControl : UserControl
         SongArtist.FontFamily = statsFontFamily;
         SystemCpuStatsText.FontFamily = statsFontFamily;
         SystemRamStatsText.FontFamily = statsFontFamily;
+        PassiveSlotDividerText.FontFamily = statsFontFamily;
 
         double fontSize = SystemUsageStyleHelper.NormalizeFontSize(SettingsManager.Current.TaskbarWidgetSystemStatsFontSize);
         SystemCpuStatsText.FontSize = fontSize;
         SystemRamStatsText.FontSize = fontSize;
-        SystemStatsStackPanel.Width = GetSystemStatsPanelWidth(fontSize, SettingsManager.Current.TaskbarWidgetCpuTemperatureEnabled);
-
+        PassiveSlotDividerText.FontSize = fontSize;
+        CodexQuotaBars.ApplyTextStyle(statsFontFamily, Math.Clamp(fontSize - 2d, 9d, 11d));
+        UpdatePassiveSlotLayout();
         ApplySystemStatsForeground(null, showCpuTemperature: false);
+        UpdatePassiveSlotVisibility();
     }
 
     private void ApplySystemStatsForeground(int? cpuTemperatureCelsius, bool showCpuTemperature)
@@ -495,6 +547,7 @@ public partial class TaskbarWidgetControl : UserControl
             : GetWindowsThemeForegroundBrush();
 
         SystemRamStatsText.Foreground = foreground;
+        PassiveSlotDividerText.Foreground = foreground;
 
         SystemCpuStatsText.Foreground = showCpuTemperature
             && SystemUsageStyleHelper.TryGetCpuTemperatureColor(cpuTemperatureCelsius, out Color cpuTemperatureColor)
@@ -516,14 +569,99 @@ public partial class TaskbarWidgetControl : UserControl
     {
         return GetSystemStatsPanelWidth(
             SystemUsageStyleHelper.NormalizeFontSize(SettingsManager.Current.TaskbarWidgetSystemStatsFontSize),
-            SettingsManager.Current.TaskbarWidgetCpuTemperatureEnabled) + 10;
+            SettingsManager.Current.TaskbarWidgetCpuTemperatureEnabled,
+            GetPassiveSlotMode()) + 10;
     }
 
-    private static double GetSystemStatsPanelWidth(double fontSize, bool showCpuTemperature)
+    private static double GetSystemStatsPanelWidth(double fontSize, bool showCpuTemperature, PassiveSlotMode passiveSlotMode)
     {
-        return showCpuTemperature
-            ? Math.Clamp(fontSize * 10.4, 116, 156)
-            : Math.Clamp(fontSize * 6.2, 72, 96);
+        double statsTextColumnWidth = SystemUsageStyleHelper.GetStatsTextColumnWidth(fontSize, showCpuTemperature);
+
+        if (passiveSlotMode == PassiveSlotMode.None)
+            return statsTextColumnWidth;
+
+        return statsTextColumnWidth + PassiveSlotDividerLogicalWidth + GetPassiveSlotViewportWidth(fontSize, passiveSlotMode);
+    }
+
+    private static double GetPassiveSlotViewportWidth(double fontSize, PassiveSlotMode passiveSlotMode)
+    {
+        return passiveSlotMode switch
+        {
+            PassiveSlotMode.CodexUsage => Math.Clamp(fontSize * 23.0, 300, 340),
+            _ => 0
+        };
+    }
+
+    private void UpdatePassiveSlotLayout()
+    {
+        double fontSize = SystemUsageStyleHelper.NormalizeFontSize(SettingsManager.Current.TaskbarWidgetSystemStatsFontSize);
+        PassiveSlotMode passiveSlotMode = GetPassiveSlotMode();
+
+        SystemStatsTextStackPanel.Width = SystemUsageStyleHelper.GetStatsTextColumnWidth(
+            fontSize,
+            SettingsManager.Current.TaskbarWidgetCpuTemperatureEnabled);
+        PassiveSlotViewportBorder.Width = GetPassiveSlotViewportWidth(fontSize, passiveSlotMode);
+        SystemStatsStackPanel.Width = GetSystemStatsPanelWidth(
+            fontSize,
+            SettingsManager.Current.TaskbarWidgetCpuTemperatureEnabled,
+            passiveSlotMode);
+    }
+
+    private void AttachCodexUsageService(CodexUsageWidgetService? codexUsageWidgetService)
+    {
+        if (ReferenceEquals(_codexUsageWidgetService, codexUsageWidgetService))
+        {
+            UpdatePassiveSlotDisplay();
+            return;
+        }
+
+        if (_codexUsageWidgetService != null)
+            _codexUsageWidgetService.SnapshotChanged -= CodexUsageWidgetService_SnapshotChanged;
+
+        _codexUsageWidgetService = codexUsageWidgetService;
+
+        if (_codexUsageWidgetService != null)
+            _codexUsageWidgetService.SnapshotChanged += CodexUsageWidgetService_SnapshotChanged;
+
+        UpdatePassiveSlotDisplay();
+    }
+
+    private void CodexUsageWidgetService_SnapshotChanged(object? sender, EventArgs e)
+    {
+        Dispatcher.Invoke(() => UpdatePassiveSlotDisplay());
+    }
+
+    private void UpdatePassiveSlotVisibility()
+    {
+        bool visible = IsPassiveSlotVisible();
+        PassiveSlotDividerText.Visibility = visible ? Visibility.Visible : Visibility.Collapsed;
+        PassiveSlotViewportBorder.Visibility = visible ? Visibility.Visible : Visibility.Collapsed;
+        PassiveSlotViewportBorder.Cursor = visible ? Cursors.Hand : Cursors.Arrow;
+        UpdatePassiveSlotLayout();
+
+        if (!visible)
+            ClearPassiveSlotDisplay();
+    }
+
+    private void UpdatePassiveSlotDisplay()
+    {
+        UpdatePassiveSlotVisibility();
+
+        if (!IsPassiveSlotVisible())
+        {
+            ClearPassiveSlotDisplay();
+            return;
+        }
+
+        CodexUsageQuotaBarRow[] rows = CodexUsageTextFormatter.FormatQuotaBars(
+            _codexUsageWidgetService?.CurrentSnapshot ?? default,
+            DateTime.UtcNow);
+        CodexQuotaBars.ApplyRows(rows);
+    }
+
+    private void ClearPassiveSlotDisplay()
+    {
+        CodexQuotaBars.Clear();
     }
 
     private async void AnimateEntrance()

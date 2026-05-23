@@ -410,6 +410,18 @@ public partial class UserSettings : ObservableObject
     public partial string TaskbarWidgetSystemStatsColor { get; set; }
 
     /// <summary>
+    /// Gets or sets a value indicating whether Codex session and weekly quota usage should be shown on the taskbar widget.
+    /// </summary>
+    [ObservableProperty]
+    public partial bool TaskbarWidgetCodexUsageEnabled { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether Codex quota usage should pin the taskbar widget near the clock.
+    /// </summary>
+    [ObservableProperty]
+    public partial bool TaskbarWidgetCodexUsageClockSideEnabled { get; set; }
+
+    /// <summary>
     /// Widget Target Display
     /// </summary>
     [ObservableProperty]
@@ -697,6 +709,8 @@ public partial class UserSettings : ObservableObject
         TaskbarWidgetSystemStatsFontFamily = SystemUsageStyleHelper.DefaultFontFamily;
         TaskbarWidgetSystemStatsFontSize = SystemUsageStyleHelper.DefaultFontSize;
         TaskbarWidgetSystemStatsColor = SystemUsageStyleHelper.AutoColorValue;
+        TaskbarWidgetCodexUsageEnabled = true;
+        TaskbarWidgetCodexUsageClockSideEnabled = true;
         TaskbarWidgetSelectedMonitor = 0;
         TaskbarWidgetPosition = 0;
         TaskbarWidgetPadding = true;
@@ -920,6 +934,18 @@ public partial class UserSettings : ObservableObject
     }
 
     partial void OnTaskbarVisualizerPositionChanged(int oldValue, int newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+        UpdateTaskbar();
+    }
+
+    partial void OnTaskbarWidgetCodexUsageEnabledChanged(bool oldValue, bool newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+        UpdateTaskbar();
+    }
+
+    partial void OnTaskbarWidgetCodexUsageClockSideEnabledChanged(bool oldValue, bool newValue)
     {
         if (oldValue == newValue || _initializing) return;
         UpdateTaskbar();

@@ -35,6 +35,7 @@ public partial class TaskbarWindow : Window
     private AutomationElement? _taskbarFrameElement;
     // reference to main window for flyout functions
     private MainWindow? _mainWindow;
+    private readonly int? _monitorIndexOverride;
     private int _lastSelectedMonitor = -1;
     private bool _positionUpdateInProgress;
     private readonly Dictionary<string, Task> _pendingAutomationTasks = [];
@@ -42,8 +43,9 @@ public partial class TaskbarWindow : Window
     private GlobalSystemMediaTransportControlsSessionPlaybackStatus? _lastPlaybackStatus;
     private DispatcherTimer? _autoHideTimer;
 
-    public TaskbarWindow()
+    public TaskbarWindow(int? monitorIndexOverride = null)
     {
+        _monitorIndexOverride = monitorIndexOverride;
         WindowHelper.SetNoActivate(this);
         InitializeComponent();
         WindowHelper.SetTopmost(this);
@@ -57,6 +59,11 @@ public partial class TaskbarWindow : Window
         _timer.Start();
 
         Show();
+    }
+
+    private int GetTargetMonitorIndex()
+    {
+        return _monitorIndexOverride ?? SettingsManager.Current.TaskbarWidgetSelectedMonitor;
     }
 
     protected override void OnSourceInitialized(EventArgs e)
@@ -103,12 +110,13 @@ public partial class TaskbarWindow : Window
         SetupWindow();
         _mainWindow = (MainWindow)Application.Current.MainWindow;
         Widget.SetMainWindow(_mainWindow);
+        CodexUsageWidget.SetMainWindow(_mainWindow);
     }
 
     private IntPtr GetSelectedTaskbarHandle(out bool isMainTaskbarSelected)
     {
         var monitors = MonitorUtil.GetMonitors();
-        var selectedMonitor = monitors[Math.Clamp(SettingsManager.Current.TaskbarWidgetSelectedMonitor, 0, monitors.Count - 1)];
+        var selectedMonitor = monitors[Math.Clamp(GetTargetMonitorIndex(), 0, monitors.Count - 1)];
         isMainTaskbarSelected = true;
 
         // Get the main taskbar and check if it is on the selected monitor.
@@ -380,6 +388,22 @@ on_error:
                 GetWindowRect(taskbarHandle, out taskbarRect);
             }
 
+            var selectedMonitor = MonitorUtil.GetSelectedMonitor(GetTargetMonitorIndex());
+            Rect clampedTaskbarRect = TaskbarWindowGeometryHelper.ClampTaskbarRectToMonitor(
+                new Rect(
+                    taskbarRect.Left,
+                    taskbarRect.Top,
+                    taskbarRect.Right - taskbarRect.Left,
+                    taskbarRect.Bottom - taskbarRect.Top),
+                selectedMonitor.monitorArea);
+            taskbarRect = new RECT
+            {
+                Left = (int)clampedTaskbarRect.Left,
+                Top = (int)clampedTaskbarRect.Top,
+                Right = (int)clampedTaskbarRect.Right,
+                Bottom = (int)clampedTaskbarRect.Bottom
+            };
+
             int taskbarHeight = taskbarRect.Bottom - taskbarRect.Top;
             int taskbarWidth = taskbarRect.Right - taskbarRect.Left;
 
@@ -400,10 +424,11 @@ on_error:
                      SWP_NOZORDER | SWP_NOACTIVATE | SWP_ASYNCWINDOWPOS | SWP_SHOWWINDOW);
             var wRect = PositionWidget(taskbarHandle, taskbarRect, dpiScale, isMainTaskbarSelected, isVertical);
             var vRect = PositionVisualizer(taskbarHandle, taskbarRect, dpiScale, isMainTaskbarSelected, isVertical);
+            var cRect = PositionCodexUsage(taskbarHandle, taskbarRect, dpiScale, isMainTaskbarSelected, isVertical);
 
-            UpdateWindowRegion(taskbarWindowHandle, wRect, vRect);
+            UpdateWindowRegion(taskbarWindowHandle, wRect, vRect, cRect);
 
-            _lastSelectedMonitor = SettingsManager.Current.TaskbarWidgetSelectedMonitor;
+            _lastSelectedMonitor = GetTargetMonitorIndex();
         }
         finally
         {
@@ -417,7 +442,7 @@ on_error:
             return Rect.Empty;
 
         // Calculate widget size
-        var (logicalWidth, logicalHeight) = Widget.CalculateSize(dpiScale);
+        var (logicalWidth, logicalHeight) = Widget.CalculateSize();
 
         int physicalWidth = (int)(logicalWidth * dpiScale * _scale);
         int physicalHeight = (int)(logicalHeight * dpiScale);
@@ -550,7 +575,7 @@ on_error:
                         }
 
                         // Primary taskbar: TrayNotifyWnd (original approach for horizontal, fallback for vertical)
-                        if (_trayHandle == IntPtr.Zero || _lastSelectedMonitor != SettingsManager.Current.TaskbarWidgetSelectedMonitor)
+                        if (_trayHandle == IntPtr.Zero || _lastSelectedMonitor != GetTargetMonitorIndex())
                             _trayHandle = FindWindowEx(taskbarHandle, IntPtr.Zero, "TrayNotifyWnd", null);
 
                         if (_trayHandle != IntPtr.Zero)
@@ -602,6 +627,99 @@ on_error:
         double rectW = isVertical ? physicalHeight : physicalWidth;
         double rectH = isVertical ? physicalWidth : physicalHeight;
         return new Rect(Canvas.GetLeft(Widget) * dpiScale, Canvas.GetTop(Widget) * dpiScale, rectW, rectH);
+    }
+
+    private Rect PositionCodexUsage(IntPtr taskbarHandle, RECT taskbarRect, double dpiScale, bool isMainTaskbarSelected, bool isVertical)
+    {
+        if (!SettingsManager.Current.TaskbarWidgetEnabled || !CodexUsageWidget.IsClockSideVisible())
+        {
+            CodexUsageWidget.Visibility = Visibility.Collapsed;
+            return Rect.Empty;
+        }
+
+        var (logicalWidth, logicalHeight) = CodexUsageWidget.CalculateSize();
+        if (logicalWidth <= 0 || logicalHeight <= 0)
+        {
+            CodexUsageWidget.Visibility = Visibility.Collapsed;
+            return Rect.Empty;
+        }
+
+        int physicalWidth = (int)(logicalWidth * dpiScale * _scale);
+        int physicalHeight = (int)(logicalHeight * dpiScale);
+
+        int taskbarHeight = taskbarRect.Bottom - taskbarRect.Top;
+        int taskbarWidth = taskbarRect.Right - taskbarRect.Left;
+
+        CodexUsageWidget.LayoutTransform = isVertical ? new System.Windows.Media.RotateTransform(90) : null;
+        CodexUsageWidget.RenderTransform = System.Windows.Media.Transform.Identity;
+
+        int primarySize = isVertical ? taskbarHeight : taskbarWidth;
+        int crossSize = isVertical ? taskbarWidth : taskbarHeight;
+        int crossPos = (crossSize - physicalHeight) / 2;
+        int primaryPos;
+
+        try
+        {
+            if (!isMainTaskbarSelected)
+            {
+                (bool found, Rect trayRect) = GetSystemTrayRect(taskbarHandle);
+
+                if (found)
+                {
+                    double trayOffset = isVertical
+                        ? trayRect.Top - taskbarRect.Top
+                        : trayRect.Left - taskbarRect.Left;
+                    primaryPos = (int)trayOffset - physicalWidth - (isVertical ? 2 : 1);
+                }
+                else
+                {
+                    primaryPos = primarySize - physicalWidth - 20;
+                }
+            }
+            else
+            {
+                primaryPos = primarySize - physicalWidth - 20;
+
+                if (isVertical)
+                {
+                    (bool trayFound, Rect trayAutomationRect) = GetSystemTrayRect(taskbarHandle);
+                    if (trayFound && trayAutomationRect.Top >= taskbarRect.Top)
+                    {
+                        primaryPos = (int)(trayAutomationRect.Top - taskbarRect.Top) - physicalWidth - 2;
+                    }
+                }
+                else
+                {
+                    if (_trayHandle == IntPtr.Zero)
+                        _trayHandle = FindWindowEx(taskbarHandle, IntPtr.Zero, "TrayNotifyWnd", null);
+
+                    if (_trayHandle != IntPtr.Zero)
+                    {
+                        GetWindowRect(_trayHandle, out RECT trayWndRect);
+                        primaryPos = (int)(trayWndRect.Left - taskbarRect.Left) - physicalWidth - 1;
+                    }
+                    else
+                    {
+                        primaryPos = taskbarWidth - physicalWidth - 20;
+                    }
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger.Warn(ex, "Failed to position Codex usage beside System Tray.");
+            primaryPos = primarySize - physicalWidth - 20;
+        }
+
+        Canvas.SetLeft(CodexUsageWidget, (isVertical ? crossPos : primaryPos) / dpiScale);
+        Canvas.SetTop(CodexUsageWidget, (isVertical ? primaryPos : crossPos) / dpiScale);
+        CodexUsageWidget.Width = physicalWidth / dpiScale;
+        CodexUsageWidget.Height = physicalHeight / dpiScale;
+        CodexUsageWidget.Visibility = Visibility.Visible;
+
+        double rectW = isVertical ? physicalHeight : physicalWidth;
+        double rectH = isVertical ? physicalWidth : physicalHeight;
+        return new Rect(Canvas.GetLeft(CodexUsageWidget) * dpiScale, Canvas.GetTop(CodexUsageWidget) * dpiScale, rectW, rectH);
     }
 
     private Rect PositionVisualizer(IntPtr taskbarHandle, RECT taskbarRect, double dpiScale, bool isMainTaskbarSelected, bool isVertical)
@@ -738,7 +856,7 @@ on_error:
         try
         {
             // reset if monitor changed
-            if (_lastSelectedMonitor != SettingsManager.Current.TaskbarWidgetSelectedMonitor)
+            if (_lastSelectedMonitor != GetTargetMonitorIndex())
                 elementCache = null;
 
             // find widget in XAML

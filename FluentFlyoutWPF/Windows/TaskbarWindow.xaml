@@ -22,5 +22,6 @@
     <Canvas Name="WidgetCanvas" Background="Transparent">
 		<controls:TaskbarVisualizerControl x:Name="TaskbarVisualizer" Margin="0,1,0,0" />
         <controls:TaskbarWidgetControl x:Name="Widget" />
+        <controls:TaskbarCodexUsageControl x:Name="CodexUsageWidget" />
     </Canvas>
 </Window>

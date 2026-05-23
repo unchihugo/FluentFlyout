@@ -129,7 +129,7 @@ internal static class ThemeManager
             if (Application.Current.MainWindow is not MainWindow mainWindow)
                 return;
 
-            mainWindow.taskbarWindow?.Widget?.ApplyWindowsTheme();
+            mainWindow.ApplyTaskbarWindowsTheme();
         });
     }
 }

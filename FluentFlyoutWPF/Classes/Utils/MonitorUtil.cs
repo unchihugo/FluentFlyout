@@ -144,6 +144,41 @@ public static class MonitorUtil
         setSelectedIndex(selectedMonitor);
     }
 
+    public static void UpdateTaskbarWidgetMonitorList(ComboBox comboBox, Func<int> getSelectedValue, Action<int> setSelectedValue)
+    {
+        var monitors = GetMonitors();
+        comboBox.Items.Clear();
+
+        comboBox.Items.Add(new ComboBoxItem
+        {
+            Content = GetResourceString("TaskbarWidgetAllMonitors", "All monitors"),
+            Tag = TaskbarWidgetMonitorSelection.AllMonitorsValue
+        });
+
+        for (int i = 0; i < monitors.Count; i++)
+        {
+            var monitor = monitors[i];
+
+            string name = $"{i + 1} ({monitor.deviceName})";
+            string contentName = monitor.isPrimary ? $"* {name}" : $"{name}";
+
+            comboBox.Items.Add(new ComboBoxItem
+            {
+                Content = contentName,
+                Tag = i
+            });
+        }
+
+        int selectedValue = TaskbarWidgetMonitorSelection.NormalizeSelection(getSelectedValue(), monitors.Count);
+        comboBox.SelectedValue = selectedValue;
+        setSelectedValue(selectedValue);
+    }
+
+    private static string GetResourceString(string key, string fallback)
+    {
+        return Application.Current?.TryFindResource(key)?.ToString() ?? fallback;
+    }
+
     public static MonitorInfo GetMonitorWithCursor()
     {
         bool gotCursorPos = GetCursorPos(out POINT cursorPos);
@@ -183,5 +218,40 @@ public static class MonitorUtil
 
         // Fallback to cursor monitor if no focused window
         return GetMonitorWithCursor();
+    }
+}
+
+public static class TaskbarWindowGeometryHelper
+{
+    public static Rect ClampTaskbarRectToMonitor(Rect taskbarRect, Rect monitorRect)
+    {
+        Rect intersection = Rect.Intersect(taskbarRect, monitorRect);
+        return intersection.IsEmpty ? taskbarRect : intersection;
+    }
+}
+
+public static class TaskbarWidgetMonitorSelection
+{
+    public const int AllMonitorsValue = -1;
+
+    public static int NormalizeSelection(int selectedMonitor, int monitorCount)
+    {
+        if (selectedMonitor == AllMonitorsValue)
+            return AllMonitorsValue;
+
+        return monitorCount > 0
+            ? Math.Clamp(selectedMonitor, 0, monitorCount - 1)
+            : 0;
+    }
+
+    public static int[] GetTargetMonitorIndexes(int selectedMonitor, int monitorCount)
+    {
+        if (monitorCount <= 0)
+            return [];
+
+        if (selectedMonitor == AllMonitorsValue)
+            return Enumerable.Range(0, monitorCount).ToArray();
+
+        return [NormalizeSelection(selectedMonitor, monitorCount)];
     }
 }

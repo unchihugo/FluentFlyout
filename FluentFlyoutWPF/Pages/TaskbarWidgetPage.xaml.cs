@@ -33,7 +33,7 @@ public partial class TaskbarWidgetPage : Page
 
     private void UpdateMonitorList()
     {
-        MonitorUtil.UpdateMonitorList(
+        MonitorUtil.UpdateTaskbarWidgetMonitorList(
             TaskbarWidgetSelectedMonitorComboBox,
             () => SettingsManager.Current.TaskbarWidgetSelectedMonitor,
             value => SettingsManager.Current.TaskbarWidgetSelectedMonitor = value);
