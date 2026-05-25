@@ -151,7 +151,7 @@
     <system:String x:Key="Disabled">מושבת</system:String>
     <system:String x:Key="AcrylicBlurOpacityTitle">אטימות טשטוש אקרילית</system:String>
     <system:String x:Key="HomeUpdateDescription">גלו מה חדש</system:String>
-    <system:String x:Key="HomeDashboardTitle">לוח מחוונים</system:String>
+    <system:String x:Key="HomeDashboardTitle">לוח בקרה</system:String>
     <system:String x:Key="SystemConfigure">הגדרה</system:String>
     <system:String x:Key="AboutTitle">אודות</system:String>
     <system:String x:Key="AboutContributorsTitle">❤️ הכירו את התורמים שלנו</system:String>
@@ -161,7 +161,7 @@
     <system:String x:Key="AboutOpenSourceLicensesDescription">FluentFlyout בנויה עם חבילות הקוד הפתוח הבאות:</system:String>
     <system:String x:Key="AcrylicBlurOpacityDescription">כוונון אפקט השקיפות של Acrylic flyouts (ברירת מחדל: 175)</system:String>
     <system:String x:Key="UpdateAvailable">עדכון זמין</system:String>
-    <system:String x:Key="UpToDate">מעודכן</system:String>
+    <system:String x:Key="UpToDate">עדכני</system:String>
     <system:String x:Key="LastChecked">נבדק לאחרונה: {0}</system:String>
     <system:String x:Key="CheckingForUpdates">בודק...</system:String>
     <system:String x:Key="UpdateAvailableNotificationTitle">עדכון זמין!</system:String>
@@ -205,7 +205,7 @@
     <system:String x:Key="UseAlbumArtAccentColorDescription">חלק ממרכיבי הממשק ישתמשו בצבע מעטיפת האלבום במקום בצבע מערכת ההפעלה</system:String>
     <system:String x:Key="AppearanceBehaviorSectionTitle">מראה והתנהגות</system:String>
     <system:String x:Key="SponsorMeLink">נתינת חסות</system:String>
-    <system:String x:Key="BuyMeCoffeeLink">קנה לי קפה</system:String>
+    <system:String x:Key="BuyMeCoffeeLink">לקנות לי קפה</system:String>
     <system:String x:Key="ShowUpdateNotificationsTitle">הצג התראות על עדכונים חדשים</system:String>
     <system:String x:Key="BackupRestoreCardTitle">גבה ושחזר את ההגדרות שלך</system:String>
     <system:String x:Key="ImportSettings">ייבא הגדרות</system:String>
