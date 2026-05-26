@@ -38,14 +38,19 @@
     </Window.Triggers>
 
     <Grid x:Name="RootGrid" Margin="14,6,14,6">
-        <StackPanel x:Name="ContentStack" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,0,4">
-            <Grid Name="LangIconGrid" Width="24" Height="24" VerticalAlignment="Center">
+        <Grid x:Name="ContentGrid" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            
+            <Grid Grid.Column="0" Name="LangIconGrid" Width="24" Height="24" VerticalAlignment="Center">
                  <Ellipse Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" StrokeThickness="1.5"/>
                  <TextBlock Name="LangShortText" Text="??" FontSize="10" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,1"/>
             </Grid>
             
-            <TextBlock Name="LangFullText" Text="Language" FontSize="14" FontWeight="Medium" TextTrimming="None" TextWrapping="NoWrap" Margin="12,0,0,0" VerticalAlignment="Center"/>
-        </StackPanel>
+            <TextBlock Grid.Column="1" Name="LangFullText" Text="Language" FontSize="14" FontWeight="Medium" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Margin="12,0,0,0" VerticalAlignment="Center"/>
+        </Grid>
         
         <Rectangle Name="AccentIndicator" Fill="{DynamicResource MicaWPF.Brushes.AccentFillColorDefault}" Height="4" RadiusX="2" RadiusY="2" Width="60" VerticalAlignment="Bottom" HorizontalAlignment="Center"/>
     </Grid>

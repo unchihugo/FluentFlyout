@@ -5,6 +5,7 @@ using FluentFlyout.Classes;
 using FluentFlyout.Classes.Settings;
 using FluentFlyoutWPF.Classes;
 using MicaWPF.Controls;
+using System;
 using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
@@ -21,7 +22,8 @@ namespace FluentFlyoutWPF.Windows;
 public partial class LanguageWindow : MicaWindow
 {
     private CancellationTokenSource cts = new();
-    private MainWindow _mainWindow = (MainWindow)Application.Current.MainWindow;
+    private CancellationTokenSource? _transitionCts;
+    private readonly MainWindow _mainWindow = (MainWindow)Application.Current.MainWindow;
     private bool _isHiding = true;
     private MonitorInfo _openedMonitor;
 
@@ -35,7 +37,7 @@ public partial class LanguageWindow : MicaWindow
 
         WindowStartupLocation = WindowStartupLocation.Manual;
         Top = -9999; // start off-screen
-        Width = 160;
+        Width = SettingsManager.Current.LanguageFlyoutWidth;
         Left = (SystemParameters.WorkArea.Width - Width) / 2;
     }
 
@@ -98,8 +100,14 @@ public partial class LanguageWindow : MicaWindow
     {
         if (!SettingsManager.Current.LanguageFlyoutEnabled) return;
 
-        await Dispatcher.InvokeAsync(() =>
+        await Dispatcher.InvokeAsync(async () =>
         {
+            // Cancel any active layout transition immediately to support fast clicks (spam)
+            _transitionCts?.Cancel();
+            _transitionCts?.Dispose();
+            _transitionCts = new CancellationTokenSource();
+            var transitionToken = _transitionCts.Token;
+
             if (SettingsManager.Current.LockKeysAcrylicWindowEnabled)
             {
                 WindowBlurHelper.EnableBlur(this);
@@ -122,8 +130,6 @@ public partial class LanguageWindow : MicaWindow
             {
                 CultureInfo culture = new CultureInfo(lcid);
                 string langCode = culture.TwoLetterISOLanguageName;
-                LangShortText.Text = langCode.ToUpper();
-                
                 string name = culture.NativeName;
                 if (!SettingsManager.Current.LanguageFlyoutShowRegion)
                 {
@@ -131,17 +137,11 @@ public partial class LanguageWindow : MicaWindow
                     if (parenIndex > 0) name = name.Substring(0, parenIndex).Trim();
                 }
                 if (!string.IsNullOrEmpty(name)) name = char.ToUpper(name[0]) + name.Substring(1);
-                LangFullText.Text = name;
 
-                // Apply color
                 object colorObj = Application.Current.TryFindResource("MicaWPF.Colors.AccentFillColorDefault");
                 Color systemColor = colorObj is Color c ? c : ((SolidColorBrush)Application.Current.TryFindResource("MicaWPF.Brushes.AccentFillColorDefault")).Color;
-                AccentIndicator.Fill = new SolidColorBrush(GetShiftedColor(systemColor, langCode, name));
 
-                // Force measurement of the content to get the required width before rendering
-                ContentStack.Measure(new Size(double.PositiveInfinity, 50));
-                double targetWidth = Math.Max(160, ContentStack.DesiredSize.Width + 60);
-
+                double targetWidth = SettingsManager.Current.LanguageFlyoutWidth;
                 var monitor = GetSelectedMonitor(SettingsManager.Current.FlyoutSelectedMonitor);
                 double newRawWidth = Math.Ceiling(targetWidth * monitor.dpiX / 96.0);
                 double newLeft = Math.Ceiling(monitor.workArea.Left + (monitor.workArea.Width / 2) - (newRawWidth / 2));
@@ -149,31 +149,79 @@ public partial class LanguageWindow : MicaWindow
                 if (_isHiding)
                 {
                     _isHiding = false;
+
+                    // Set contents instantly
+                    LangShortText.Text = langCode.ToUpper();
+                    LangFullText.Text = name;
+                    AccentIndicator.Fill = new SolidColorBrush(GetShiftedColor(systemColor, langCode, name));
+
+                    ContentGrid.BeginAnimation(UIElement.OpacityProperty, null);
+                    ContentGrid.Opacity = 1.0;
+
+                    this.BeginAnimation(Window.WidthProperty, null);
+                    this.BeginAnimation(Window.LeftProperty, null);
+
                     Width = targetWidth;
                     Left = newLeft * 96.0 / monitor.dpiX;
+                    this.UpdateLayout(); // Force immediate layout centering!
+
                     _openedMonitor = monitor;
                     _mainWindow.OpenAnimation(window: this, alwaysBottom: true, selectedMonitor: _openedMonitor);
                 }
                 else
                 {
-                    // BEAUTIFUL TRANSITION: Animate width and center position together
-                    DoubleAnimation widthAnim = new DoubleAnimation
+                    // 1. Fade out the text content first (quick fade out)
+                    ContentGrid.BeginAnimation(UIElement.OpacityProperty, null);
+
+                    var fadeOutAnim = new DoubleAnimation
                     {
-                        To = targetWidth,
-                        Duration = TimeSpan.FromMilliseconds(75),
+                        To = 0.0,
+                        Duration = TimeSpan.FromMilliseconds(100),
+                        EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseIn }
+                    };
+                    ContentGrid.BeginAnimation(UIElement.OpacityProperty, fadeOutAnim);
+
+                    // 2. Wait for the fade out to complete (supports cancellation under rapid clicks)
+                    await Task.Delay(100, transitionToken);
+
+                    // 3. Update contents while invisible
+                    LangShortText.Text = langCode.ToUpper();
+                    LangFullText.Text = name;
+
+                    // Ensure dimensions are correct (instant positioning, no animations or rendering frame-by-frame loop)
+                    Width = targetWidth;
+                    Left = newLeft * 96.0 / monitor.dpiX;
+                    this.UpdateLayout();
+
+                    // 4. Smoothly animate color change of the indicator (smooth color morphing)
+                    var oldColor = (AccentIndicator.Fill as SolidColorBrush)?.Color ?? systemColor;
+                    var targetColor = GetShiftedColor(systemColor, langCode, name);
+
+                    var colorAnim = new ColorAnimation
+                    {
+                        From = oldColor,
+                        To = targetColor,
+                        Duration = TimeSpan.FromMilliseconds(250),
                         EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut }
                     };
 
-                    DoubleAnimation leftAnim = new DoubleAnimation
-                    {
-                        To = newLeft * 96.0 / monitor.dpiX,
-                        Duration = TimeSpan.FromMilliseconds(75),
-                        EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut }
-                    };
+                    var brush = new SolidColorBrush(oldColor);
+                    AccentIndicator.Fill = brush;
+                    brush.BeginAnimation(SolidColorBrush.ColorProperty, colorAnim);
 
-                    this.BeginAnimation(Window.WidthProperty, widthAnim);
-                    this.BeginAnimation(Window.LeftProperty, leftAnim);
+                    // 5. Fade the content back in
+                    var fadeInAnim = new DoubleAnimation
+                    {
+                        To = 1.0,
+                        Duration = TimeSpan.FromMilliseconds(150),
+                        EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseOut }
+                    };
+                    ContentGrid.BeginAnimation(UIElement.OpacityProperty, fadeInAnim);
                 }
+            }
+            catch (OperationCanceledException)
+            {
+                // Transition was cancelled by a newer keypress - do nothing!
             }
             catch
             {
@@ -182,7 +230,7 @@ public partial class LanguageWindow : MicaWindow
                 if (_isHiding)
                 {
                     _isHiding = false;
-                    Width = 160;
+                    Width = SettingsManager.Current.LanguageFlyoutWidth;
                     _openedMonitor = GetSelectedMonitor(SettingsManager.Current.FlyoutSelectedMonitor);
                     _mainWindow.OpenAnimation(window: this, alwaysBottom: true, selectedMonitor: _openedMonitor);
                 }

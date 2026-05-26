@@ -273,6 +273,12 @@ public partial class UserSettings : ObservableObject
     }
 
     /// <summary>
+    /// Language flyout width (pixels)
+    /// </summary>
+    [ObservableProperty]
+    public partial int LanguageFlyoutWidth { get; set; }
+
+    /// <summary>
     /// App theme. 0 for default, 1 for light, 2 for dark.
     /// </summary>
     [ObservableProperty]
@@ -703,6 +709,7 @@ public partial class UserSettings : ObservableObject
         LockKeysDuration = 2000;
         LanguageFlyoutEnabled = true;
         LanguageFlyoutDuration = 2000;
+        LanguageFlyoutWidth = 220;
         AppTheme = 0;
         MediaFlyoutEnabled = true;
         MediaFlyoutAlwaysDisplay = false;

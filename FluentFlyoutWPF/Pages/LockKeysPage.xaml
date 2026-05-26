@@ -32,6 +32,7 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,24">
                 <Border CornerRadius="10" ClipToBounds="True" Width="164" Height="98">
@@ -184,7 +185,7 @@
                 </ComboBox>
             </ui:CardControl>
 
-            <ui:CardControl Grid.Row="14" Icon="{ui:SymbolIcon Timer24}" Margin="0,0,0,76">
+            <ui:CardControl Grid.Row="14" Icon="{ui:SymbolIcon Timer24}" Margin="0,0,0,3">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
                         <TextBlock Text="{DynamicResource LanguageFlyoutDurationTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
@@ -194,6 +195,20 @@
                 <StackPanel Orientation="Horizontal">
                     <ui:TextBox Width="60" ClearButtonEnabled="False" Text="{Binding LanguageFlyoutDurationText, Mode=TwoWay}" />
                     <TextBlock Text="{DynamicResource MillisecondsUnit}" FontSize="14" FontWeight="Regular" Margin="10,0,0,0" VerticalAlignment="Center" />
+                </StackPanel>
+            </ui:CardControl>
+
+            <ui:CardControl Grid.Row="15" Icon="{ui:SymbolIcon ArrowFit24}" Margin="0,0,0,76">
+                <ui:CardControl.Header>
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="{DynamicResource LanguageFlyoutWidthTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
+                        <TextBlock Text="{DynamicResource LanguageFlyoutWidthDescription}" FontSize="12" Opacity="0.5" />
+                    </StackPanel>
+                </ui:CardControl.Header>
+                <StackPanel Orientation="Horizontal">
+                    <Slider Minimum="160" Maximum="400" Value="{Binding LanguageFlyoutWidth, Mode=TwoWay}" TickFrequency="10" IsSnapToTickEnabled="True" Width="150" VerticalAlignment="Center" />
+                    <ui:TextBlock Text="{Binding LanguageFlyoutWidth}" Width="30" TextAlignment="Center" Margin="12,0,0,0" VerticalAlignment="Center" />
+                    <TextBlock Text="px" FontSize="14" FontWeight="Regular" Margin="4,0,0,0" VerticalAlignment="Center" Opacity="0.5" />
                 </StackPanel>
             </ui:CardControl>
         </Grid>

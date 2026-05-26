@@ -241,6 +241,8 @@
     <system:String x:Key="LanguageFlyoutShowRegionDescription">Отображать страну/регион в скобках (например, Русский (Россия))</system:String>
     <system:String x:Key="LanguageFlyoutColorModeTitle">Цветовой режим окна</system:String>
     <system:String x:Key="LanguageFlyoutColorModeDescription">Выберите, как определяется цвет акцента окна</system:String>
+    <system:String x:Key="LanguageFlyoutWidthTitle">Ширина окна языка</system:String>
+    <system:String x:Key="LanguageFlyoutWidthDescription">Настроить ширину всплывающего окна смены языка</system:String>
     <system:String x:Key="LanguageColorModeOption1">Автоматически</system:String>
     <system:String x:Key="LanguageColorModeOption2">Системный акцент</system:String>
     <system:String x:Key="LanguageColorModeOption3">Уникальный для каждого языка</system:String>
