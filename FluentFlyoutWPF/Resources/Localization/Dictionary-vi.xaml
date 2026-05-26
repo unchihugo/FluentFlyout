@@ -2,9 +2,9 @@
     <system:String x:Key="TitleText">Cấu hình FluentFlyout</system:String>
     <system:String x:Key="MediaFlyoutTitle">Flyout điều khiển nội dung</system:String>
     <system:String x:Key="MediaFlyoutDescription">Giúp bạn theo dõi và điều khiển nội dung đang phát. Hiện lên mỗi khi nhấn phím phát, ngừng phát, điều chỉnh âm lượng, v.v.</system:String>
-    <system:String x:Key="TextBlockText1">Hiển thị giao diện</system:String>
-    <system:String x:Key="TextBlockText3">Hiển thị giao diện</system:String>
-    <system:String x:Key="CompactLayoutTitle">Giao diện nhỏ gọn</system:String>
+    <system:String x:Key="TextBlockText1">Hiển thị flyout</system:String>
+    <system:String x:Key="TextBlockText3">Hiển thị flyout</system:String>
+    <system:String x:Key="CompactLayoutTitle">Flyout tối giản</system:String>
     <system:String x:Key="CompactLayoutDescription" xml:space="preserve">Ẩn tên ứng dụng đang phát, nút lặp lại và nút xáo trộn</system:String>
     <system:String x:Key="FlyoutPositionTitle">Vị trí giao diện</system:String>
     <system:String x:Key="PositionBottomLeft" xml:space="preserve"> Phía dưới, bên trái</system:String>
@@ -17,17 +17,17 @@
     <system:String x:Key="FlyoutStayDurationDescription">(mặc định: 3000 ms)</system:String>
     <system:String x:Key="MillisecondsUnit">ms</system:String>
     <system:String x:Key="CenterTitleArtistTitle">Căn giữa tiêu đề và tên tác giả</system:String>
-    <system:String x:Key="CenterTitleArtistDescription">Khi tắt: các thông tin trên sẽ căn trái</system:String>
+    <system:String x:Key="CenterTitleArtistDescription">Căn giữa tiêu đề và tên tác giả</system:String>
     <system:String x:Key="ShowMediaPlayerNameTitle">Tên ứng dụng đang phát</system:String>
     <system:String x:Key="RepeatButtonTitle">Nút lặp lại*</system:String>
-    <system:String x:Key="RepeatButtonDescription">Lặp lại nội dung một lần hoặc liên tục</system:String>
+    <system:String x:Key="RepeatButtonDescription">Giúp lặp lại nội dung một lần hoặc liên tục</system:String>
     <system:String x:Key="ShuffleButtonTitle">Nút xáo trộn*</system:String>
-    <system:String x:Key="ShuffleButtonDescription">Xáo trộn danh sách phát</system:String>
+    <system:String x:Key="ShuffleButtonDescription">Giúp xáo trộn danh sách phát</system:String>
     <system:String x:Key="ShowSeekbarTitle">Thanh thời gian*</system:String>
-    <system:String x:Key="ShowSeekbarDescription">Tua đi tua lại nội dung</system:String>
-    <system:String x:Key="UnsupportedControlsWarning">*Một số ứng dụng không hỗ trợ các chức năng trên</system:String>
-    <system:String x:Key="PauseOtherMediaTitle">Tự động tạm dừng nội dung khác</system:String>
-    <system:String x:Key="PauseOtherMediaDescription">Tự động tạm dừng nội dung khác ngoài nội dung đang phát</system:String>
+    <system:String x:Key="ShowSeekbarDescription">Giúp tua đi tua lại nội dung</system:String>
+    <system:String x:Key="UnsupportedControlsWarning">*Các chức năng này sẽ không xuất hiện nếu không được hỗ trợ</system:String>
+    <system:String x:Key="PauseOtherMediaTitle">Mỗi lúc một nội dung phát</system:String>
+    <system:String x:Key="PauseOtherMediaDescription">Khi bạn đổi sang một nội dung nào, các nội dung khác sẽ tự động ngừng phát</system:String>
     <system:String x:Key="NextUpCustomizationTitle">Thông báo nội dung kế tiếp</system:String>
     <system:String x:Key="NextUpDescription" xml:space="preserve">Cho biết nội dung kế tiếp. Chỉ hiện lên khi được hỗ trợ.</system:String>
     <system:String x:Key="EnableNextUpTitle">Hiển thị thông báo</system:String>
@@ -47,60 +47,60 @@
     <system:String x:Key="SystemSettingsTitle">Cài đặt chung</system:String>
     <system:String x:Key="LaunchOnStartupTitle">Khởi động cùng Windows</system:String>
     <system:String x:Key="LaunchOnStartupDescription">Khi khởi động, FluentFlyout sẽ nằm trong khay hệ thống</system:String>
-    <system:String x:Key="StartupAppsSettingsInfo">Nếu khởi động không được, bạn hãy thử kiểm tra</system:String>
+    <system:String x:Key="StartupAppsSettingsInfo">Nếu khởi động không được, xin bạn thử kiểm tra</system:String>
     <system:String x:Key="AppThemeTitle">Chủ đề</system:String>
     <system:String x:Key="AppThemeDefault"> Theo hệ thống</system:String>
     <system:String x:Key="AppThemeLight"> Sáng</system:String>
     <system:String x:Key="AppThemeDark"> Tối</system:String>
-    <system:String x:Key="TrayIconLeftClickBehaviorTitle">Khi nhấn, cửa sổ nào sẽ mở</system:String>
-    <system:String x:Key="TrayIconLeftClickBehaviorDescription">Khi nhấn, cửa sổ nào sẽ mở</system:String>
-    <system:String x:Key="TrayIconLeftClickOption1"> Cấu hình FluentFlyout</system:String>
-    <system:String x:Key="TrayIconLeftClickOption2"> Flyout điều khiển nội dung</system:String>
-    <system:String x:Key="Win11TrayIconTitle">Biểu tượng khay hệ thống kiểu Windows 11</system:String>
-    <system:String x:Key="Win11TrayIconDescription">Biểu tượng khay hệ thống kiểu Windows 11</system:String>
-    <system:String x:Key="AnimationSettingsTitle">Hiệu ứng hiện, ẩn các flyout</system:String>
-    <system:String x:Key="AnimationSettingsDescription">Thay đổi độ biến thiên, hàm số biến thiên vận tốc hiện, ẩn các flyout</system:String>
-    <system:String x:Key="AnimationDurationScaleTitle">Độ biến thiên vận tốc hiện, ẩn</system:String>
-    <system:String x:Key="AnimationEasingStyleTitle">Hàm số biến thiên vận tốc hiện, ẩn</system:String>
-    <system:String x:Key="AnimationSpeedOff">Tắt hiệu ứng</system:String>
-    <system:String x:Key="AnimationDurationScaleDescription">Lưu ý: càng cao càng chậm, có lựa chọn để tắt hiệu ứng (mặc định: 1x)</system:String>
-    <system:String x:Key="AnimationEasingStyleDescription">Dựa trên thời gian là t (mặc định: Nửa parabol (t²))</system:String>
+    <system:String x:Key="TrayIconLeftClickBehaviorTitle">Hành vi khi nhấn vào biểu tượng</system:String>
+    <system:String x:Key="TrayIconLeftClickBehaviorDescription">Hành vi khi nhấn vào biểu tượng</system:String>
+    <system:String x:Key="TrayIconLeftClickOption1"> Mở cấu hình FluentFlyout</system:String>
+    <system:String x:Key="TrayIconLeftClickOption2"> Mở flyout điều khiển nội dung</system:String>
+    <system:String x:Key="Win11TrayIconTitle">Biểu tượng kiểu Windows 11</system:String>
+    <system:String x:Key="Win11TrayIconDescription">Biểu tượng kiểu Windows 11</system:String>
+    <system:String x:Key="AnimationSettingsTitle">Scaling effect khi hiện, ẩn các flyout</system:String>
+    <system:String x:Key="AnimationSettingsDescription">Lựa chọn scaling effect và tốc độ của nó</system:String>
+    <system:String x:Key="AnimationDurationScaleTitle">Tốc độ scaling effect</system:String>
+    <system:String x:Key="AnimationEasingStyleTitle">Scaling effect</system:String>
+    <system:String x:Key="AnimationSpeedOff">Tắt effect</system:String>
+    <system:String x:Key="AnimationDurationScaleDescription">Lưu ý: giá trị càng cao, tốc độ càng chậm, có thể lựa chọn để tắt hiệu ứng (mặc định: 1x)</system:String>
+    <system:String x:Key="AnimationEasingStyleDescription">Được tính bằng hàm số biến thiên vận tốc hiện, ẩn dựa trên thời gian là 𝑡 (mặc định: 𝑡²)</system:String>
     <system:String x:Key="EasingLinear" xml:space="preserve"> Tuyến tính</system:String>
-    <system:String x:Key="EasingSine" xml:space="preserve"> Hàm sin</system:String>
-    <system:String x:Key="EasingQuadratic" xml:space="preserve"> Nửa parabol (t²)</system:String>
-    <system:String x:Key="EasingCubic" xml:space="preserve"> Nửa parabol (t³)</system:String>
-    <system:String x:Key="NativeExperienceInfo">Để có được hiệu ứng như Windows, bạn nên để lựa chọn mặc định.</system:String>
-    <system:String x:Key="DisableOnFullscreenTitle">Khi có cửa sổ DirectX toàn màn hình, không bật flyout nào</system:String>
-    <system:String x:Key="DisableOnFullscreenDescription">Giúp tránh cho game bị thu nhỏ khi có flyout xuất hiện</system:String>
+    <system:String x:Key="EasingSine" xml:space="preserve"> Hàm sin (SineEase)</system:String>
+    <system:String x:Key="EasingQuadratic" xml:space="preserve"> Nửa đường cong parabol (𝑡²)</system:String>
+    <system:String x:Key="EasingCubic" xml:space="preserve"> Nửa đường cong parabol (𝑡³)</system:String>
+    <system:String x:Key="NativeExperienceInfo">Để các flyout hiện, ẩn đồng thời và đồng điệu với thanh âm lượng của Windows, bạn nên đặt lựa chọn mặc định</system:String>
+    <system:String x:Key="DisableOnFullscreenTitle">Nếu nhận thấy có cửa sổ DirectX toàn màn hình, không mở lên flyout nào</system:String>
+    <system:String x:Key="DisableOnFullscreenDescription">Giúp tránh cho game khỏi bị thu nhỏ khi có flyout xuất hiện</system:String>
     <system:String x:Key="AppLanguageTitle">Ngôn ngữ</system:String>
-    <system:String x:Key="EnjoyingAppText" xml:space="preserve">Bạn thích ứng dụng? Hãy gắn sao trên GitHub,
-hoặc để lại một bình luận trên Microsoft Store!</system:String>
-    <system:String x:Key="GitHubRepoLink">Trang GitHub</system:String>
+    <system:String x:Key="EnjoyingAppText" xml:space="preserve">Thích ứng dụng này? Hãy star repo GitHub,
+hoặc viết một bài đánh giá trên Microsoft Store!</system:String>
+    <system:String x:Key="GitHubRepoLink">Repo GitHub</system:String>
     <system:String x:Key="CloseButton">Đóng</system:String>
     <system:String x:Key="AcrylicWindowTitle">Nền acrylic</system:String>
-    <system:String x:Key="AcrylicWindowDescription">Khi tắt: sử dụng nền Mica, gần gũi hơn với thiết kế của Windows</system:String>
+    <system:String x:Key="AcrylicWindowDescription">Khi tắt, giao diện sẽ áp dụng nền Mica, gần gũi hơn với thiết kế của Windows 11</system:String>
     <system:String x:Key="BackgroundBlurTitle">In mờ ảnh bìa trên nền</system:String>
     <system:String x:Key="BackgroundBlurOption1" xml:space="preserve"> Không in mờ</system:String>
     <system:String x:Key="BackgroundBlurOption2" xml:space="preserve"> In mờ bên trái</system:String>
     <system:String x:Key="BackgroundBlurOption3" xml:space="preserve"> In mờ bên dưới</system:String>
     <system:String x:Key="BackgroundBlurOption4" xml:space="preserve"> In mờ toàn phần</system:String>
-    <system:String x:Key="TextBlockText2">Chọn phương án in mờ</system:String>
+    <system:String x:Key="TextBlockText2">Chọn kiểu in mờ</system:String>
     <system:String x:Key="StartupAppsHyperlinkText">Ứng dụng Khởi động (Startup Apps)</system:String>
-    <system:String x:Key="AppLanguageDescription" xml:space="preserve">Các phần chưa được biên dịch sẽ tự động trả về tiếng Anh
+    <system:String x:Key="AppLanguageDescription" xml:space="preserve">Các phần chưa biên dịch sẽ tự động trả về tiếng Anh
 Bạn có thể hỗ trợ dịch tại</system:String>
     <system:String x:Key="AppLanguageDescriptionLink">Weblate</system:String>
     <system:String x:Key="MediaFlyoutAlwaysDisplay">Hiển thị vô thời hạn</system:String>
-    <system:String x:Key="TaskbarWidgetCustomizationTitle">Khung thông tin nội dung</system:String>
-    <system:String x:Key="TaskbarWidgetEnabledTitle">Hiển thị giao diện</system:String>
-    <system:String x:Key="TaskbarWidgetEnabledDescription">Hiển thị giao diện</system:String>
-    <system:String x:Key="TaskbarWidgetVisualIssuesWarning">Nếu vị trí chưa vừa ý bạn, bạn nên thay đổi các lựa chọn sau.</system:String>
+    <system:String x:Key="TaskbarWidgetCustomizationTitle">Widget thông tin nội dung</system:String>
+    <system:String x:Key="TaskbarWidgetEnabledTitle">Hiển thị widget</system:String>
+    <system:String x:Key="TaskbarWidgetEnabledDescription">Hiển thị widget</system:String>
+    <system:String x:Key="TaskbarWidgetVisualIssuesWarning">Nếu vị trí của widget chưa vừa ý bạn, bạn nên thay đổi các lựa chọn sau.</system:String>
     <system:String x:Key="TaskbarWidgetPosition">Vị trí giao diện</system:String>
     <system:String x:Key="TaskbarWidgetPaddingTitle">Tách khỏi nút Widgets</system:String>
-    <system:String x:Key="TaskbarWidgetPaddingDescription">Khỏi bị đè lên nút Widgets của Windows</system:String>
+    <system:String x:Key="TaskbarWidgetPaddingDescription">Cho khỏi bị đè lên nút Widgets của Windows</system:String>
     <system:String x:Key="SelectedMonitorTitle">Màn hình hiển thị các flyout</system:String>
     <system:String x:Key="TaskbarWidgetDescription">Giúp bạn theo dõi và điều khiển nội dung đang phát, tương tự flyout.</system:String>
     <system:String x:Key="TaskbarWidgetSelectedMonitorTitle">Màn hình hiển thị</system:String>
-    <system:String x:Key="TaskbarWidgetManualPaddingTitle">Độ rộng khoảng trống</system:String>
+    <system:String x:Key="TaskbarWidgetManualPaddingTitle">Kích cỡ khoảng trống</system:String>
     <system:String x:Key="TaskbarWidgetManualPaddingDescription">(mặc định: 0px)</system:String>
     <system:String x:Key="TaskbarWidgetClickableTitle">Mở giao diện điều khiển phát lại khi nhấn vào</system:String>
     <system:String x:Key="TaskbarWidgetClickableDescription">Giao diện trên chỉ mở lên khi được cho phép hiển thị</system:String>
@@ -109,9 +109,9 @@ Bạn có thể hỗ trợ dịch tại</system:String>
     <system:String x:Key="TaskbarWidgetHideCompletelyTitle">Ẩn khi không có ứng dụng nào đang phát</system:String>
     <system:String x:Key="TaskbarWidgetHideCompletelyDescription">Ẩn khi không có ứng dụng nào đang phát</system:String>
     <system:String x:Key="TaskbarWidgetControlsTitle">Hiển thị các nút điều khiển nội dung</system:String>
-    <system:String x:Key="TaskbarWidgetControlsDescription">Bao gồm các nút phát, chuyển tiếp và quay về</system:String>
+    <system:String x:Key="TaskbarWidgetControlsDescription">Hiển thị các nút phát, chuyển tiếp và quay về</system:String>
     <system:String x:Key="TaskbarWidgetAnimatedTitle">Hiệu ứng chuyển tiếp nội dung</system:String>
-    <system:String x:Key="TaskbarWidgetAnimatedDescription">Hiệu ứng này chỉ áp dụng cho chữ</system:String>
+    <system:String x:Key="TaskbarWidgetAnimatedDescription">Lưu ý: hiệu ứng này chỉ áp dụng cho chữ</system:String>
     <system:String x:Key="PremiumFeatureTitle">Tính năng premium</system:String>
     <system:String x:Key="PremiumFeatureDescription" xml:space="preserve">Nếu cài đặt từ Microsoft Store, bạn có thể mở khóa premium khi giao dịch trong ứng dụng. Số tiền nho nhỏ từ bạn góp phần tạo động lực để tác giả phát triển dự án này.
 
@@ -127,9 +127,9 @@ Bạn có thể hỗ trợ dịch tại</system:String>
     <system:String x:Key="LockWindow_CapsLock">Caps Lock</system:String>
     <system:String x:Key="LockWindow_NumLock">Num Lock</system:String>
     <system:String x:Key="LockWindow_ScrollLock">Scroll Lock</system:String>
-    <system:String x:Key="LockWindow_InsertPressed">Insert đang nhấn</system:String>
-    <system:String x:Key="LockWindow_LockOn">bật</system:String>
-    <system:String x:Key="LockWindow_LockOff">tắt</system:String>
+    <system:String x:Key="LockWindow_InsertPressed">Đổi chế độ Insert</system:String>
+    <system:String x:Key="LockWindow_LockOn">đang bật</system:String>
+    <system:String x:Key="LockWindow_LockOff">đang tắt</system:String>
     <system:String x:Key="NextUpWindow_UpNextText">Hiện phát:</system:String>
     <system:String x:Key="TrayIcon_SettingsOption">Cấu hình</system:String>
     <system:String x:Key="TrayIcon_GitHubRepositoryOption">Mã nguồn</system:String>
@@ -141,14 +141,14 @@ Bạn có thể hỗ trợ dịch tại</system:String>
     <system:String x:Key="UpdateToastMessage">Bạn đang ở bản {0}.</system:String>
     <system:String x:Key="UpdateToastButton">Có gì mới</system:String>
     <system:String x:Key="TrayIconSectionTitle">Biểu tượng khay hệ thống</system:String>
-    <system:String x:Key="HideTrayIconTitle">Ẩn biểu tượng khay hệ thống</system:String>
+    <system:String x:Key="HideTrayIconTitle">Ẩn đi biểu tượng</system:String>
     <system:String x:Key="HideTrayIconDescription">Lưu ý: để thay đổi cấu hình, bạn phải mở FluentFlyout lần nữa</system:String>
-    <system:String x:Key="TaskbarWidgetPaddingSettingsDescription">Thay đổi độ rộng khoảng trống, tách khỏi nút Widgets</system:String>
+    <system:String x:Key="TaskbarWidgetPaddingSettingsDescription">Thay đổi kích cỡ khoảng trống, tách khỏi nút Widgets</system:String>
     <system:String x:Key="TaskbarWidgetPaddingSettingsTitle">Khoảng trống bên hông</system:String>
     <system:String x:Key="HomeTitle">Trang chủ</system:String>
     <system:String x:Key="Enabled">Đang bật</system:String>
     <system:String x:Key="Disabled">Đang tắt</system:String>
-    <system:String x:Key="MediaFlyoutAlwaysDisplayDescription">Hiển thị giao diện đến khi ấn nút đóng</system:String>
+    <system:String x:Key="MediaFlyoutAlwaysDisplayDescription">Hiển thị flyout đến khi ấn nút đóng</system:String>
     <system:String x:Key="AcrylicBlurOpacityTitle">Độ đục nền acrylic cho các flyout</system:String>
     <system:String x:Key="AcrylicBlurOpacityDescription">(mặc định: 175)</system:String>
     <system:String x:Key="HomeUpdateDescription">Có gì mới sau cập nhật</system:String>
@@ -166,17 +166,17 @@ Bạn có thể hỗ trợ dịch tại</system:String>
     <system:String x:Key="UpdateAvailableNotificationTitle">Có cập nhật mới</system:String>
     <system:String x:Key="UpdateAvailableNotificationMessage">Bạn có thể cập nhật lên {0}.</system:String>
     <system:String x:Key="UpdateAvailableNotificationButton">Cập nhật</system:String>
-    <system:String x:Key="MediaFlyoutExcludeVolumeTitle">Không mở lên khi nhấn các phím điều chỉnh âm lượng</system:String>
-    <system:String x:Key="MediaFlyoutExcludeVolumeDescription">Không mở lên khi nhấn các phím điều chỉnh âm lượng</system:String>
+    <system:String x:Key="MediaFlyoutExcludeVolumeTitle">Không mở lên flyout khi nhấn các phím: tăng, giảm, tắt âm lượng</system:String>
+    <system:String x:Key="MediaFlyoutExcludeVolumeDescription">Không mở lên flyout khi nhấn các phím: tăng, giảm, tắt âm lượng</system:String>
     <system:String x:Key="TaskbarVisualizerTitle">Biểu đồ sóng âm</system:String>
-    <system:String x:Key="TaskbarVisualizerDescription">Biểu đồ sóng âm phù hợp với âm thanh đang phát. Chỉ hiện lên sau khi bật khung thông tin nội dung.</system:String>
+    <system:String x:Key="TaskbarVisualizerDescription">Biểu đồ sóng âm tương ứng với âm thanh đang phát. Chỉ hiện lên sau khi đã bật widget thông tin nội dung.</system:String>
     <system:String x:Key="TaskbarVisualizerEnabledTitle">Hiển thị biểu đồ (beta)</system:String>
-    <system:String x:Key="TaskbarVisualizerEnabledDescription">Lưu ý: chỉ hiện lên sau khi bật khung thông tin nội dung</system:String>
-    <system:String x:Key="TaskbarVisualizerPositionTitle">Vị trí biểu đồ (so với khung thông tin nội dung)</system:String>
+    <system:String x:Key="TaskbarVisualizerEnabledDescription">Lưu ý: chỉ hiện lên sau khi đã bật widget thông tin nội dung</system:String>
+    <system:String x:Key="TaskbarVisualizerPositionTitle">Vị trí biểu đồ (so với widget thông tin nội dung)</system:String>
     <system:String x:Key="TaskbarVisualizerBarCountTitle">Số cột biểu thị</system:String>
     <system:String x:Key="TaskbarVisualizerBarCountDescription">Số cột biểu thị</system:String>
     <system:String x:Key="TaskbarVisualizerCenteredBarsTitle">Phát ra từ giữa</system:String>
-    <system:String x:Key="TaskbarVisualizerCenteredBarsDescription">Khi tắt: sóng âm sẽ phát ra từ đáy</system:String>
+    <system:String x:Key="TaskbarVisualizerCenteredBarsDescription">Khi tắt, sóng âm sẽ phát ra từ đáy</system:String>
     <system:String x:Key="TaskbarVisualizerBaselineTitle">Hiển thị ở mức thấp tuyệt đối</system:String>
     <system:String x:Key="TaskbarVisualizerBaselineDescription">Hiển thị ở mức thấp tuyệt đối</system:String>
     <system:String x:Key="TaskbarVisualizerAudioSensitivityTitle">Âm lượng sàn</system:String>
@@ -185,8 +185,8 @@ Bạn có thể hỗ trợ dịch tại</system:String>
     <system:String x:Key="AllFuturePremiumFeatures">Và thêm nữa trong tương lai</system:String>
     <system:String x:Key="DevelopersTitle">Lập trình viên</system:String>
     <system:String x:Key="TranslatorsTitle">Người dịch</system:String>
-    <system:String x:Key="SponsorMeLink">Tài trợ qua GitHub</system:String>
-    <system:String x:Key="BuyMeCoffeeLink">Buy me a coffee</system:String>
+    <system:String x:Key="SponsorMeLink">Donate cho tác giả trên GitHub</system:String>
+    <system:String x:Key="BuyMeCoffeeLink">Hoặc Buy me a coffee</system:String>
     <system:String x:Key="TaskbarWidgetCustomizationPerk">Theo dõi và điều khiển nội dung trên thanh tác vụ</system:String>
     <system:String x:Key="AcrylicBlurOpacityPerk">Chỉnh độ mờ nền acrylic</system:String>
     <system:String x:Key="HideTrayIconPerk">Ẩn biểu tượng khay hệ thống</system:String>
@@ -203,7 +203,7 @@ Bạn có thể hỗ trợ dịch tại</system:String>
     <system:String x:Key="ImportFailed">Nhập cấu hình thất bại</system:String>
     <system:String x:Key="TaskbarVisualizerAudioPeakLevelDescription">Âm lượng lớn nhất có thể biểu thị</system:String>
     <system:String x:Key="TaskbarVisualizerOutputDeviceTitle">Thiết bị đầu ra</system:String>
-    <system:String x:Key="TaskbarVisualizerOutputDeviceDescription">Thiết bị đầu ra để hiển thị sóng âm</system:String>
+    <system:String x:Key="TaskbarVisualizerOutputDeviceDescription">Loa hoặc tai nghe để biểu thị sóng âm</system:String>
     <system:String x:Key="TaskbarVisualizerAudioPeakLevelTitle">Âm lượng trần</system:String>
     <system:String x:Key="BackupRestoreSectionTitle">Sao lưu và khôi phục</system:String>
     <system:String x:Key="BackupRestoreCardTitle">Nhập, xuất cấu hình</system:String>
@@ -216,19 +216,19 @@ Bạn có thể hỗ trợ dịch tại</system:String>
     <system:String x:Key="TaskbarWidgetControlsPositionDescription">Vị trí các nút điều khiển nội dung</system:String>
     <system:String x:Key="PositionLeft">Trái</system:String>
     <system:String x:Key="PositionRight">Phải</system:String>
-    <system:String x:Key="TaskbarVisualizerClickableDescription">Khi nhấn, mở tab cấu hình của chính nó</system:String>
+    <system:String x:Key="TaskbarVisualizerClickableDescription">Khi được nhấn, mở tab cấu hình của chính nó</system:String>
     <system:String x:Key="LockKeysCursorUITitle">Màn hình hiển thị</system:String>
-    <system:String x:Key="UseAlbumArtAccentColorTitle">(Flyout điều khiển nội dung) Lấy màu nút phát từ ảnh bìa</system:String>
-    <system:String x:Key="UseAlbumArtAccentColorDescription">Khi tắt: sử dụng màu accent của hệ thống</system:String>
+    <system:String x:Key="UseAlbumArtAccentColorTitle">Flyout điều khiển nội dung: Màu nút phát tương xứng với ảnh bìa</system:String>
+    <system:String x:Key="UseAlbumArtAccentColorDescription">Khi tắt, màu nút phát sẽ tương tự với màu accent của hệ thống</system:String>
     <system:String x:Key="MonitorWithFocusedWindow">Màn hình có cửa sổ hiện hành</system:String>
-    <system:String x:Key="LockKeysCursorUIDescription" xml:space="preserve">Chọn màn hình để hiển thị giao diện</system:String>
-    <system:String x:Key="TaskbarVisualizerClickableTitle">Khi nhấn, mở tab cấu hình của chính nó</system:String>
+    <system:String x:Key="LockKeysCursorUIDescription" xml:space="preserve">Màn hình hiển thị</system:String>
+    <system:String x:Key="TaskbarVisualizerClickableTitle">Khi được nhấn, mở tab cấu hình của chính nó</system:String>
     <system:String x:Key="DefaultLockLayoutPosition">Tương tự cài đặt chung</system:String>
     <system:String x:Key="MonitorWithCursor">Màn hình có con trỏ chuột</system:String>
-    <system:String x:Key="LegacyTaskbarWidthTitle">(Khung thông tin nội dung) Vị trí tương đối</system:String>
-    <system:String x:Key="LegacyTaskbarWidthDescription">Chỉ nên chọn khi vị trí bị lỗi, nhất là khi thanh tác vụ thay đổi</system:String>
-    <system:String x:Key="AdvancedSettingsTitle">Tùy chọn nâng cao</system:String>
-    <system:String x:Key="LockKeysAnimatedDescription">Khi tắt: biểu tượng sẽ bất động</system:String>
+    <system:String x:Key="LegacyTaskbarWidthTitle">Widget thông tin nội dung: Vị trí tương đối</system:String>
+    <system:String x:Key="LegacyTaskbarWidthDescription">Cài đặt này sẽ phù hợp khi vị trí bị lỗi, ví dụ như khi thanh tác vụ bị biến đổi bởi ứng dụng bên thứ ba</system:String>
+    <system:String x:Key="AdvancedSettingsTitle">Cài đặt nâng cao</system:String>
+    <system:String x:Key="LockKeysAnimatedDescription">Khi tắt, biểu tượng sẽ bất động</system:String>
     <system:String x:Key="LockKeysAnimatedTitle">Hiệu ứng cho biểu tượng</system:String>
     <system:String x:Key="TaskbarWidgetAutoHideDescription">Ẩn khi tạm dừng</system:String>
     <system:String x:Key="TaskbarWidgetAutoHideTitle">Ẩn khi tạm dừng</system:String>
@@ -236,15 +236,15 @@ Bạn có thể hỗ trợ dịch tại</system:String>
     <system:String x:Key="TaskbarWidgetShowPauseOverlayDescription">Mỗi khi tạm dừng, in đè biểu tượng tạm dừng lên ảnh bìa</system:String>
     <system:String x:Key="VolumeMixerHighlightPerk">Tô điểm các ứng dụng đang phát trên thanh âm lượng</system:String>
     <system:String x:Key="VolumeFlyoutTitle">Thanh âm lượng</system:String>
-    <system:String x:Key="VolumeFlyoutDescription">Thay thế giao diện chính thức của Windows. Có thanh âm lượng cho từng ứng dụng riêng lẻ.</system:String>
-    <system:String x:Key="EnableVolumeFlyoutTitle">Hiển thị giao diện</system:String>
-    <system:String x:Key="EnableVolumeFlyoutDescription">Thay thế giao diện chính thức của Windows</system:String>
+    <system:String x:Key="VolumeFlyoutDescription">Thay thế thanh âm lượng mặc định của Windows. Có thể mở rộng thành một volume mixer, để tiện chỉnh âm lượng cho từng ứng dụng riêng lẻ.</system:String>
+    <system:String x:Key="EnableVolumeFlyoutTitle">Thay thế thanh âm lượng mặc định</system:String>
+    <system:String x:Key="EnableVolumeFlyoutDescription">Thay thế thanh âm lượng mặc định của Windows</system:String>
     <system:String x:Key="VolumeAboveMediaFlyoutTitle">Đặt thanh âm lượng lên trên flyout khác</system:String>
     <system:String x:Key="VolumeFlyoutStayDurationTitle">Thời gian hiển thị</system:String>
-    <system:String x:Key="VolumeMixerSectionTitle">Âm lượng từng bộ phận</system:String>
-    <system:String x:Key="EnableVolumeMixerDescription">Thanh âm lượng cho từng ứng dụng và chuông báo hệ thống</system:String>
-    <system:String x:Key="EnableVolumeMixerTitle">Thanh âm lượng cho từng ứng dụng và chuông báo hệ thống</system:String>
-    <system:String x:Key="VolumeMixerHighlightTitle">Tô sáng ứng dụng đang phát</system:String>
+    <system:String x:Key="VolumeMixerSectionTitle">Volume mixer</system:String>
+    <system:String x:Key="EnableVolumeMixerDescription">Dropdown list để chỉnh thanh âm lượng cho từng ứng dụng và chuông báo hệ thống</system:String>
+    <system:String x:Key="EnableVolumeMixerTitle">Volume mixer</system:String>
+    <system:String x:Key="VolumeMixerHighlightTitle">Volume mixer: Tô sáng ứng dụng đang phát</system:String>
     <system:String x:Key="VolumeMixerHighlightDescription">Tô sáng ứng dụng đang phát</system:String>
-    <system:String x:Key="MasterVolumeText">Toàn hệ thống</system:String>
+    <system:String x:Key="MasterVolumeText">Tắt tiếng toàn hệ thống</system:String>
 </ResourceDictionary>
