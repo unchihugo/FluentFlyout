@@ -1,6 +1,6 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib">
     <system:String x:Key="TitleText">Cấu hình FluentFlyout</system:String>
-    <system:String x:Key="MediaFlyoutTitle">Flyout điều khiển nội dung</system:String>
+    <system:String x:Key="MediaFlyoutTitle">Media flyout</system:String>
     <system:String x:Key="MediaFlyoutDescription">Giúp bạn theo dõi và điều khiển nội dung đang phát. Hiện lên mỗi khi nhấn phím phát, ngừng phát, điều chỉnh âm lượng, v.v.</system:String>
     <system:String x:Key="TextBlockText1">Hiển thị flyout</system:String>
     <system:String x:Key="TextBlockText3">Hiển thị flyout</system:String>
@@ -27,7 +27,7 @@
     <system:String x:Key="ShowSeekbarDescription">Giúp tua đi tua lại nội dung</system:String>
     <system:String x:Key="UnsupportedControlsWarning">*Các chức năng này sẽ không xuất hiện nếu không được hỗ trợ</system:String>
     <system:String x:Key="PauseOtherMediaTitle">Mỗi lúc một nội dung phát</system:String>
-    <system:String x:Key="PauseOtherMediaDescription">Khi bạn đổi sang một nội dung nào, các nội dung khác sẽ tự động ngừng phát</system:String>
+    <system:String x:Key="PauseOtherMediaDescription">Khi đổi sang nội dung nào, các nội dung khác sẽ tự động ngừng phát</system:String>
     <system:String x:Key="NextUpCustomizationTitle">Thông báo nội dung kế tiếp</system:String>
     <system:String x:Key="NextUpDescription" xml:space="preserve">Cho biết nội dung kế tiếp. Chỉ hiện lên khi được hỗ trợ.</system:String>
     <system:String x:Key="EnableNextUpTitle">Hiển thị thông báo</system:String>
@@ -55,7 +55,7 @@
     <system:String x:Key="TrayIconLeftClickBehaviorTitle">Hành vi khi nhấn vào biểu tượng</system:String>
     <system:String x:Key="TrayIconLeftClickBehaviorDescription">Hành vi khi nhấn vào biểu tượng</system:String>
     <system:String x:Key="TrayIconLeftClickOption1"> Mở cấu hình FluentFlyout</system:String>
-    <system:String x:Key="TrayIconLeftClickOption2"> Mở flyout điều khiển nội dung</system:String>
+    <system:String x:Key="TrayIconLeftClickOption2"> Mở media flyout</system:String>
     <system:String x:Key="Win11TrayIconTitle">Biểu tượng kiểu Windows 11</system:String>
     <system:String x:Key="Win11TrayIconDescription">Biểu tượng kiểu Windows 11</system:String>
     <system:String x:Key="AnimationSettingsTitle">Scaling effect khi hiện, ẩn các flyout</system:String>
@@ -74,7 +74,7 @@
     <system:String x:Key="DisableOnFullscreenDescription">Giúp tránh cho game khỏi bị thu nhỏ khi có flyout xuất hiện</system:String>
     <system:String x:Key="AppLanguageTitle">Ngôn ngữ</system:String>
     <system:String x:Key="EnjoyingAppText" xml:space="preserve">Thích ứng dụng này? Hãy star repo GitHub,
-hoặc viết một bài đánh giá trên Microsoft Store!</system:String>
+hoặc chia sẻ cảm nhận của bạn trên Microsoft Store!</system:String>
     <system:String x:Key="GitHubRepoLink">Repo GitHub</system:String>
     <system:String x:Key="CloseButton">Đóng</system:String>
     <system:String x:Key="AcrylicWindowTitle">Nền acrylic</system:String>
@@ -112,18 +112,18 @@ Bạn có thể hỗ trợ dịch tại</system:String>
     <system:String x:Key="TaskbarWidgetControlsDescription">Hiển thị các nút phát, chuyển tiếp và quay về</system:String>
     <system:String x:Key="TaskbarWidgetAnimatedTitle">Hiệu ứng chuyển tiếp nội dung</system:String>
     <system:String x:Key="TaskbarWidgetAnimatedDescription">Lưu ý: hiệu ứng này chỉ áp dụng cho chữ</system:String>
-    <system:String x:Key="PremiumFeatureTitle">Tính năng premium</system:String>
-    <system:String x:Key="PremiumFeatureDescription" xml:space="preserve">Nếu cài đặt từ Microsoft Store, bạn có thể mở khóa premium khi giao dịch trong ứng dụng. Số tiền nho nhỏ từ bạn góp phần tạo động lực để tác giả phát triển dự án này.
+    <system:String x:Key="PremiumFeatureTitle">obsolete</system:String>
+    <system:String x:Key="PremiumFeatureDescription" xml:space="preserve">Khi trả phí cho gói premium, bạn đang gửi lời động viên trực tiếp đến tác giả, người đang nỗ lực hoàn thiện ứng dụng để mang lại trải nghiệm phong phú và trọn vẹn hơn cho bạn.
 
-Để hỗ trợ thử nghiệm và báo lỗi, các tính năng premium cũng có thể mở khóa miễn phí khi cài đặt từ GitHub, hoặc tự chạy trình biên dịch mã. Đổi lại, bạn phải cập nhật thủ công.</system:String>
+Nếu bạn chỉ muốn dùng thử, hay hỗ trợ phát hiện và báo lỗi, bạn còn có thể sử dụng bản GitHub. Ở đó, premium đã được mở khóa miễn phí.</system:String>
     <system:String x:Key="PremiumLockedMessage">Tính năng này đã bị khóa</system:String>
-    <system:String x:Key="PremiumUnlockedMessage">Đã mở khóa premium. Cảm ơn bạn đã ủng hộ!</system:String>
-    <system:String x:Key="PremiumGitHubMessage">Vì bạn cài đặt từ GitHub hoặc tự chạy trình biên dịch mã, premium đã được mở khóa miễn phí</system:String>
-    <system:String x:Key="UnlockPremiumButton">Mở khóa premium</system:String>
-    <system:String x:Key="PremiumPurchaseSuccess">Đã mở khóa các tính năng premium!</system:String>
+    <system:String x:Key="PremiumUnlockedMessage">Đã đăng ký gói premium</system:String>
+    <system:String x:Key="PremiumGitHubMessage">Vì đây là bản GitHub, premium đã được mở khóa miễn phí</system:String>
+    <system:String x:Key="UnlockPremiumButton">Đăng ký gói premium</system:String>
+    <system:String x:Key="PremiumPurchaseSuccess">Giao dịch thành công.</system:String>
     <system:String x:Key="PremiumPurchaseFailed">Giao dịch không thành công. Xin bạn thử lại.</system:String>
     <system:String x:Key="PremiumPurchaseCancelled">Giao dịch đã hủy.</system:String>
-    <system:String x:Key="AboutPremiumTitle">Mở khóa premium</system:String>
+    <system:String x:Key="AboutPremiumTitle">Về gói premium</system:String>
     <system:String x:Key="LockWindow_CapsLock">Caps Lock</system:String>
     <system:String x:Key="LockWindow_NumLock">Num Lock</system:String>
     <system:String x:Key="LockWindow_ScrollLock">Scroll Lock</system:String>
@@ -144,7 +144,7 @@ Bạn có thể hỗ trợ dịch tại</system:String>
     <system:String x:Key="HideTrayIconTitle">Ẩn đi biểu tượng</system:String>
     <system:String x:Key="HideTrayIconDescription">Lưu ý: để thay đổi cấu hình, bạn phải mở FluentFlyout lần nữa</system:String>
     <system:String x:Key="TaskbarWidgetPaddingSettingsDescription">Thay đổi kích cỡ khoảng trống, tách khỏi nút Widgets</system:String>
-    <system:String x:Key="TaskbarWidgetPaddingSettingsTitle">Khoảng trống bên hông</system:String>
+    <system:String x:Key="TaskbarWidgetPaddingSettingsTitle">Khoảng trống cạnh bên</system:String>
     <system:String x:Key="HomeTitle">Trang chủ</system:String>
     <system:String x:Key="Enabled">Đang bật</system:String>
     <system:String x:Key="Disabled">Đang tắt</system:String>
@@ -157,8 +157,8 @@ Bạn có thể hỗ trợ dịch tại</system:String>
     <system:String x:Key="AboutTitle">Về ứng dụng</system:String>
     <system:String x:Key="AboutContributorsTitle">Ghi nhận đóng góp</system:String>
     <system:String x:Key="AboutContributorsDescription">Cảm ơn các bạn sau đây đã đóng góp cho FluentFlyout:</system:String>
-    <system:String x:Key="AboutOpenSourceLicensesTitle">Thư viện phụ thuộc</system:String>
-    <system:String x:Key="AboutOpenSourceLicensesDescription">FluentFlyout ghi nhận đã sử dụng các thư viện sau đây:</system:String>
+    <system:String x:Key="AboutOpenSourceLicensesTitle">API mã nguồn mở</system:String>
+    <system:String x:Key="AboutOpenSourceLicensesDescription">FluentFlyout ghi nhận đã sử dụng các API mã nguồn mở sau đây:</system:String>
     <system:String x:Key="UpdateAvailable">Có cập nhật mới</system:String>
     <system:String x:Key="UpToDate">Đang ở bản mới nhất</system:String>
     <system:String x:Key="LastChecked">Xác nhận lần cuối: {0}</system:String>
@@ -181,7 +181,7 @@ Bạn có thể hỗ trợ dịch tại</system:String>
     <system:String x:Key="TaskbarVisualizerBaselineDescription">Hiển thị ở mức thấp tuyệt đối</system:String>
     <system:String x:Key="TaskbarVisualizerAudioSensitivityTitle">Âm lượng sàn</system:String>
     <system:String x:Key="TaskbarVisualizerAudioSensitivityDescription">Âm lượng nhỏ nhất có thể biểu thị</system:String>
-    <system:String x:Key="UnlockFullExperienceText">Trải nghiệm trọn vẹn FluentFlyout:</system:String>
+    <system:String x:Key="UnlockFullExperienceText">Nếu bạn mong muốn trải nghiệm nhiều hơn nữa, bạn có thể đăng ký premium:</system:String>
     <system:String x:Key="AllFuturePremiumFeatures">Và thêm nữa trong tương lai</system:String>
     <system:String x:Key="DevelopersTitle">Lập trình viên</system:String>
     <system:String x:Key="TranslatorsTitle">Người dịch</system:String>
@@ -200,12 +200,12 @@ Bạn có thể hỗ trợ dịch tại</system:String>
     <system:String x:Key="ExportSuccessful">Xuất cấu hình thành công</system:String>
     <system:String x:Key="ExportFailed">Xuất cấu hình không thành công</system:String>
     <system:String x:Key="ImportSuccessful">Nhập cấu hình thành công</system:String>
-    <system:String x:Key="ImportFailed">Nhập cấu hình thất bại</system:String>
+    <system:String x:Key="ImportFailed">Nhập cấu hình không thành công</system:String>
     <system:String x:Key="TaskbarVisualizerAudioPeakLevelDescription">Âm lượng lớn nhất có thể biểu thị</system:String>
     <system:String x:Key="TaskbarVisualizerOutputDeviceTitle">Thiết bị đầu ra</system:String>
     <system:String x:Key="TaskbarVisualizerOutputDeviceDescription">Loa hoặc tai nghe để biểu thị sóng âm</system:String>
     <system:String x:Key="TaskbarVisualizerAudioPeakLevelTitle">Âm lượng trần</system:String>
-    <system:String x:Key="BackupRestoreSectionTitle">Sao lưu và khôi phục</system:String>
+    <system:String x:Key="BackupRestoreSectionTitle">Nhập, xuất cấu hình</system:String>
     <system:String x:Key="BackupRestoreCardTitle">Nhập, xuất cấu hình</system:String>
     <system:String x:Key="ExportSettings">Xuất cấu hình</system:String>
     <system:String x:Key="ImportSettings">Nhập cấu hình</system:String>
@@ -218,14 +218,14 @@ Bạn có thể hỗ trợ dịch tại</system:String>
     <system:String x:Key="PositionRight">Phải</system:String>
     <system:String x:Key="TaskbarVisualizerClickableDescription">Khi được nhấn, mở tab cấu hình của chính nó</system:String>
     <system:String x:Key="LockKeysCursorUITitle">Màn hình hiển thị</system:String>
-    <system:String x:Key="UseAlbumArtAccentColorTitle">Flyout điều khiển nội dung: Màu nút phát tương xứng với ảnh bìa</system:String>
+    <system:String x:Key="UseAlbumArtAccentColorTitle">(Media flyout) Màu nút phát tương xứng với ảnh bìa</system:String>
     <system:String x:Key="UseAlbumArtAccentColorDescription">Khi tắt, màu nút phát sẽ tương tự với màu accent của hệ thống</system:String>
     <system:String x:Key="MonitorWithFocusedWindow">Màn hình có cửa sổ hiện hành</system:String>
     <system:String x:Key="LockKeysCursorUIDescription" xml:space="preserve">Màn hình hiển thị</system:String>
     <system:String x:Key="TaskbarVisualizerClickableTitle">Khi được nhấn, mở tab cấu hình của chính nó</system:String>
     <system:String x:Key="DefaultLockLayoutPosition">Tương tự cài đặt chung</system:String>
     <system:String x:Key="MonitorWithCursor">Màn hình có con trỏ chuột</system:String>
-    <system:String x:Key="LegacyTaskbarWidthTitle">Widget thông tin nội dung: Vị trí tương đối</system:String>
+    <system:String x:Key="LegacyTaskbarWidthTitle">(Widget thông tin nội dung) Vị trí tương đối</system:String>
     <system:String x:Key="LegacyTaskbarWidthDescription">Cài đặt này sẽ phù hợp khi vị trí bị lỗi, ví dụ như khi thanh tác vụ bị biến đổi bởi ứng dụng bên thứ ba</system:String>
     <system:String x:Key="AdvancedSettingsTitle">Cài đặt nâng cao</system:String>
     <system:String x:Key="LockKeysAnimatedDescription">Khi tắt, biểu tượng sẽ bất động</system:String>
@@ -234,7 +234,7 @@ Bạn có thể hỗ trợ dịch tại</system:String>
     <system:String x:Key="TaskbarWidgetAutoHideTitle">Ẩn khi tạm dừng</system:String>
     <system:String x:Key="TaskbarWidgetShowPauseOverlayTitle">Cho biết trạng thái tạm dừng</system:String>
     <system:String x:Key="TaskbarWidgetShowPauseOverlayDescription">Mỗi khi tạm dừng, in đè biểu tượng tạm dừng lên ảnh bìa</system:String>
-    <system:String x:Key="VolumeMixerHighlightPerk">Tô điểm các ứng dụng đang phát trên thanh âm lượng</system:String>
+    <system:String x:Key="VolumeMixerHighlightPerk">Tô sáng các ứng dụng phát ra âm thanh trong volume mixer</system:String>
     <system:String x:Key="VolumeFlyoutTitle">Thanh âm lượng</system:String>
     <system:String x:Key="VolumeFlyoutDescription">Thay thế thanh âm lượng mặc định của Windows. Có thể mở rộng thành một volume mixer, để tiện chỉnh âm lượng cho từng ứng dụng riêng lẻ.</system:String>
     <system:String x:Key="EnableVolumeFlyoutTitle">Thay thế thanh âm lượng mặc định</system:String>
@@ -242,9 +242,9 @@ Bạn có thể hỗ trợ dịch tại</system:String>
     <system:String x:Key="VolumeAboveMediaFlyoutTitle">Đặt thanh âm lượng lên trên flyout khác</system:String>
     <system:String x:Key="VolumeFlyoutStayDurationTitle">Thời gian hiển thị</system:String>
     <system:String x:Key="VolumeMixerSectionTitle">Volume mixer</system:String>
-    <system:String x:Key="EnableVolumeMixerDescription">Dropdown list để chỉnh thanh âm lượng cho từng ứng dụng và chuông báo hệ thống</system:String>
+    <system:String x:Key="EnableVolumeMixerDescription">Dropdown list để chỉnh âm lượng cho từng ứng dụng và chuông báo hệ thống</system:String>
     <system:String x:Key="EnableVolumeMixerTitle">Volume mixer</system:String>
-    <system:String x:Key="VolumeMixerHighlightTitle">Volume mixer: Tô sáng ứng dụng đang phát</system:String>
-    <system:String x:Key="VolumeMixerHighlightDescription">Tô sáng ứng dụng đang phát</system:String>
+    <system:String x:Key="VolumeMixerHighlightTitle">Volume mixer: Tô sáng các ứng dụng phát ra âm thanh</system:String>
+    <system:String x:Key="VolumeMixerHighlightDescription">Tô sáng các ứng dụng phát ra âm thanh</system:String>
     <system:String x:Key="MasterVolumeText">Tắt tiếng toàn hệ thống</system:String>
 </ResourceDictionary>
