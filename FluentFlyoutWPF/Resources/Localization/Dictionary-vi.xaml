@@ -73,9 +73,9 @@
     <system:String x:Key="DisableOnFullscreenTitle">Nếu nhận thấy có cửa sổ DirectX toàn màn hình, không mở lên flyout nào</system:String>
     <system:String x:Key="DisableOnFullscreenDescription">Giúp tránh cho game khỏi bị thu nhỏ khi có flyout xuất hiện</system:String>
     <system:String x:Key="AppLanguageTitle">Ngôn ngữ</system:String>
-    <system:String x:Key="EnjoyingAppText" xml:space="preserve">Thích ứng dụng này? Hãy star repo GitHub,
+    <system:String x:Key="EnjoyingAppText" xml:space="preserve">Thích ứng dụng này? Hãy gắn sao trên GitHub,
 hoặc chia sẻ cảm nhận của bạn trên Microsoft Store!</system:String>
-    <system:String x:Key="GitHubRepoLink">Repo GitHub</system:String>
+    <system:String x:Key="GitHubRepoLink">Trang GitHub</system:String>
     <system:String x:Key="CloseButton">Đóng</system:String>
     <system:String x:Key="AcrylicWindowTitle">Nền acrylic</system:String>
     <system:String x:Key="AcrylicWindowDescription">Khi tắt, giao diện sẽ áp dụng nền Mica, gần gũi hơn với thiết kế của Windows 11</system:String>
@@ -113,7 +113,7 @@ Bạn có thể hỗ trợ dịch tại</system:String>
     <system:String x:Key="TaskbarWidgetAnimatedTitle">Hiệu ứng chuyển tiếp nội dung</system:String>
     <system:String x:Key="TaskbarWidgetAnimatedDescription">Lưu ý: hiệu ứng này chỉ áp dụng cho chữ</system:String>
     <system:String x:Key="PremiumFeatureTitle">obsolete</system:String>
-    <system:String x:Key="PremiumFeatureDescription" xml:space="preserve">Khi trả phí cho gói premium, bạn đang gửi lời động viên trực tiếp đến tác giả, người đang nỗ lực hoàn thiện ứng dụng để mang lại trải nghiệm phong phú và trọn vẹn hơn cho bạn.
+    <system:String x:Key="PremiumFeatureDescription" xml:space="preserve">Khi trả phí cho gói premium, bạn đang gửi lời động viên trực tiếp đến tác giả của ứng dụng này, người đang nỗ lực hoàn thiện dự án để mang lại trải nghiệm phong phú và trọn vẹn hơn cho bạn.
 
 Nếu bạn chỉ muốn dùng thử, hay hỗ trợ phát hiện và báo lỗi, bạn còn có thể sử dụng bản GitHub. Ở đó, premium đã được mở khóa miễn phí.</system:String>
     <system:String x:Key="PremiumLockedMessage">Tính năng này đã bị khóa</system:String>
@@ -185,8 +185,8 @@ Nếu bạn chỉ muốn dùng thử, hay hỗ trợ phát hiện và báo lỗi
     <system:String x:Key="AllFuturePremiumFeatures">Và thêm nữa trong tương lai</system:String>
     <system:String x:Key="DevelopersTitle">Lập trình viên</system:String>
     <system:String x:Key="TranslatorsTitle">Người dịch</system:String>
-    <system:String x:Key="SponsorMeLink">Donate cho tác giả trên GitHub</system:String>
-    <system:String x:Key="BuyMeCoffeeLink">Hoặc Buy me a coffee</system:String>
+    <system:String x:Key="SponsorMeLink">Donate tác giả trên GitHub</system:String>
+    <system:String x:Key="BuyMeCoffeeLink">Buy the author a coffee</system:String>
     <system:String x:Key="TaskbarWidgetCustomizationPerk">Theo dõi và điều khiển nội dung trên thanh tác vụ</system:String>
     <system:String x:Key="AcrylicBlurOpacityPerk">Chỉnh độ mờ nền acrylic</system:String>
     <system:String x:Key="HideTrayIconPerk">Ẩn biểu tượng khay hệ thống</system:String>
@@ -234,7 +234,7 @@ Nếu bạn chỉ muốn dùng thử, hay hỗ trợ phát hiện và báo lỗi
     <system:String x:Key="TaskbarWidgetAutoHideTitle">Ẩn khi tạm dừng</system:String>
     <system:String x:Key="TaskbarWidgetShowPauseOverlayTitle">Cho biết trạng thái tạm dừng</system:String>
     <system:String x:Key="TaskbarWidgetShowPauseOverlayDescription">Mỗi khi tạm dừng, in đè biểu tượng tạm dừng lên ảnh bìa</system:String>
-    <system:String x:Key="VolumeMixerHighlightPerk">Tô sáng các ứng dụng phát ra âm thanh trong volume mixer</system:String>
+    <system:String x:Key="VolumeMixerHighlightPerk">Highlight các ứng dụng có tiếng</system:String>
     <system:String x:Key="VolumeFlyoutTitle">Thanh âm lượng</system:String>
     <system:String x:Key="VolumeFlyoutDescription">Thay thế thanh âm lượng mặc định của Windows. Có thể mở rộng thành một volume mixer, để tiện chỉnh âm lượng cho từng ứng dụng riêng lẻ.</system:String>
     <system:String x:Key="EnableVolumeFlyoutTitle">Thay thế thanh âm lượng mặc định</system:String>
@@ -244,7 +244,7 @@ Nếu bạn chỉ muốn dùng thử, hay hỗ trợ phát hiện và báo lỗi
     <system:String x:Key="VolumeMixerSectionTitle">Volume mixer</system:String>
     <system:String x:Key="EnableVolumeMixerDescription">Dropdown list để chỉnh âm lượng cho từng ứng dụng và chuông báo hệ thống</system:String>
     <system:String x:Key="EnableVolumeMixerTitle">Volume mixer</system:String>
-    <system:String x:Key="VolumeMixerHighlightTitle">Volume mixer: Tô sáng các ứng dụng phát ra âm thanh</system:String>
-    <system:String x:Key="VolumeMixerHighlightDescription">Tô sáng các ứng dụng phát ra âm thanh</system:String>
-    <system:String x:Key="MasterVolumeText">Tắt tiếng toàn hệ thống</system:String>
+    <system:String x:Key="VolumeMixerHighlightTitle">Highlight các ứng dụng có tiếng</system:String>
+    <system:String x:Key="VolumeMixerHighlightDescription">Highlight các ứng dụng có tiếng trong volume mixer</system:String>
+    <system:String x:Key="MasterVolumeText">Nhấn để tắt tiếng</system:String>
 </ResourceDictionary>
