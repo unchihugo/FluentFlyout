@@ -90,7 +90,7 @@ hoặc chia sẻ cảm nhận của bạn trên Microsoft Store!</system:String>
 Bạn có thể hỗ trợ dịch tại</system:String>
     <system:String x:Key="AppLanguageDescriptionLink">Weblate</system:String>
     <system:String x:Key="MediaFlyoutAlwaysDisplay">Hiển thị vô thời hạn</system:String>
-    <system:String x:Key="TaskbarWidgetCustomizationTitle">Widget thông tin nội dung</system:String>
+    <system:String x:Key="TaskbarWidgetCustomizationTitle">Taskbar widget</system:String>
     <system:String x:Key="TaskbarWidgetEnabledTitle">Hiển thị widget</system:String>
     <system:String x:Key="TaskbarWidgetEnabledDescription">Hiển thị widget</system:String>
     <system:String x:Key="TaskbarWidgetVisualIssuesWarning">Nếu vị trí của widget chưa vừa ý bạn, bạn nên thay đổi các lựa chọn sau.</system:String>
@@ -139,7 +139,7 @@ Nếu bạn chỉ muốn dùng thử, hay hỗ trợ phát hiện và báo lỗi
     <system:String x:Key="PixelsUnit">px</system:String>
     <system:String x:Key="UpdateToastTitle">Vừa cập nhật xong</system:String>
     <system:String x:Key="UpdateToastMessage">Bạn đang ở bản {0}.</system:String>
-    <system:String x:Key="UpdateToastButton">Có gì mới</system:String>
+    <system:String x:Key="UpdateToastButton">Tìm hiểu bản mới nhất</system:String>
     <system:String x:Key="TrayIconSectionTitle">Biểu tượng khay hệ thống</system:String>
     <system:String x:Key="HideTrayIconTitle">Ẩn đi biểu tượng</system:String>
     <system:String x:Key="HideTrayIconDescription">Lưu ý: để thay đổi cấu hình, bạn phải mở FluentFlyout lần nữa</system:String>
@@ -151,9 +151,9 @@ Nếu bạn chỉ muốn dùng thử, hay hỗ trợ phát hiện và báo lỗi
     <system:String x:Key="MediaFlyoutAlwaysDisplayDescription">Hiển thị flyout đến khi ấn nút đóng</system:String>
     <system:String x:Key="AcrylicBlurOpacityTitle">Độ đục nền acrylic cho các flyout</system:String>
     <system:String x:Key="AcrylicBlurOpacityDescription">(mặc định: 175)</system:String>
-    <system:String x:Key="HomeUpdateDescription">Có gì mới sau cập nhật</system:String>
+    <system:String x:Key="HomeUpdateDescription">Có gì mới?</system:String>
     <system:String x:Key="HomeDashboardTitle">Cấu hình</system:String>
-    <system:String x:Key="SystemConfigure">Cho ứng dụng và các giao diện trên</system:String>
+    <system:String x:Key="SystemConfigure">Cho ứng dụng và các giao diện</system:String>
     <system:String x:Key="AboutTitle">Về ứng dụng</system:String>
     <system:String x:Key="AboutContributorsTitle">Ghi nhận đóng góp</system:String>
     <system:String x:Key="AboutContributorsDescription">Cảm ơn các bạn sau đây đã đóng góp cho FluentFlyout:</system:String>
@@ -162,17 +162,17 @@ Nếu bạn chỉ muốn dùng thử, hay hỗ trợ phát hiện và báo lỗi
     <system:String x:Key="UpdateAvailable">Có cập nhật mới</system:String>
     <system:String x:Key="UpToDate">Đang ở bản mới nhất</system:String>
     <system:String x:Key="LastChecked">Xác nhận lần cuối: {0}</system:String>
-    <system:String x:Key="CheckingForUpdates">Đang xác định cập nhật mới...</system:String>
+    <system:String x:Key="CheckingForUpdates">Đang tìm cập nhật mới...</system:String>
     <system:String x:Key="UpdateAvailableNotificationTitle">Có cập nhật mới</system:String>
     <system:String x:Key="UpdateAvailableNotificationMessage">Bạn có thể cập nhật lên {0}.</system:String>
     <system:String x:Key="UpdateAvailableNotificationButton">Cập nhật</system:String>
     <system:String x:Key="MediaFlyoutExcludeVolumeTitle">Không mở lên flyout khi nhấn các phím: tăng, giảm, tắt âm lượng</system:String>
     <system:String x:Key="MediaFlyoutExcludeVolumeDescription">Không mở lên flyout khi nhấn các phím: tăng, giảm, tắt âm lượng</system:String>
     <system:String x:Key="TaskbarVisualizerTitle">Biểu đồ sóng âm</system:String>
-    <system:String x:Key="TaskbarVisualizerDescription">Biểu đồ sóng âm tương ứng với âm thanh đang phát. Chỉ hiện lên sau khi đã bật widget thông tin nội dung.</system:String>
+    <system:String x:Key="TaskbarVisualizerDescription">Biểu đồ sóng âm tương ứng với âm thanh đang phát. Chỉ hiện lên sau khi đã bật taskbar widget.</system:String>
     <system:String x:Key="TaskbarVisualizerEnabledTitle">Hiển thị biểu đồ (beta)</system:String>
-    <system:String x:Key="TaskbarVisualizerEnabledDescription">Lưu ý: chỉ hiện lên sau khi đã bật widget thông tin nội dung</system:String>
-    <system:String x:Key="TaskbarVisualizerPositionTitle">Vị trí biểu đồ (so với widget thông tin nội dung)</system:String>
+    <system:String x:Key="TaskbarVisualizerEnabledDescription">Lưu ý: chỉ hiện lên sau khi đã bật taskbar widget</system:String>
+    <system:String x:Key="TaskbarVisualizerPositionTitle">Vị trí biểu đồ (so với taskbar widget)</system:String>
     <system:String x:Key="TaskbarVisualizerBarCountTitle">Số cột biểu thị</system:String>
     <system:String x:Key="TaskbarVisualizerBarCountDescription">Số cột biểu thị</system:String>
     <system:String x:Key="TaskbarVisualizerCenteredBarsTitle">Phát ra từ giữa</system:String>
@@ -187,7 +187,7 @@ Nếu bạn chỉ muốn dùng thử, hay hỗ trợ phát hiện và báo lỗi
     <system:String x:Key="TranslatorsTitle">Người dịch</system:String>
     <system:String x:Key="SponsorMeLink">Donate tác giả trên GitHub</system:String>
     <system:String x:Key="BuyMeCoffeeLink">Buy the author a coffee</system:String>
-    <system:String x:Key="TaskbarWidgetCustomizationPerk">Theo dõi và điều khiển nội dung trên thanh tác vụ</system:String>
+    <system:String x:Key="TaskbarWidgetCustomizationPerk">Kích hoạt taskbar widget</system:String>
     <system:String x:Key="AcrylicBlurOpacityPerk">Chỉnh độ mờ nền acrylic</system:String>
     <system:String x:Key="HideTrayIconPerk">Ẩn biểu tượng khay hệ thống</system:String>
     <system:String x:Key="AppearanceBehaviorSectionTitle">Ứng dụng và giao diện</system:String>
@@ -225,8 +225,8 @@ Nếu bạn chỉ muốn dùng thử, hay hỗ trợ phát hiện và báo lỗi
     <system:String x:Key="TaskbarVisualizerClickableTitle">Khi được nhấn, mở tab cấu hình của chính nó</system:String>
     <system:String x:Key="DefaultLockLayoutPosition">Tương tự cài đặt chung</system:String>
     <system:String x:Key="MonitorWithCursor">Màn hình có con trỏ chuột</system:String>
-    <system:String x:Key="LegacyTaskbarWidthTitle">(Widget thông tin nội dung) Vị trí tương đối</system:String>
-    <system:String x:Key="LegacyTaskbarWidthDescription">Cài đặt này sẽ phù hợp khi vị trí bị lỗi, ví dụ như khi thanh tác vụ bị biến đổi bởi ứng dụng bên thứ ba</system:String>
+    <system:String x:Key="LegacyTaskbarWidthTitle">(Taskbar widget) Vị trí tương đối</system:String>
+    <system:String x:Key="LegacyTaskbarWidthDescription">Cài đặt này sẽ phù hợp khi vị trí bị lỗi, ví dụ như khi taskbar bị biến đổi bởi ứng dụng bên thứ ba</system:String>
     <system:String x:Key="AdvancedSettingsTitle">Cài đặt nâng cao</system:String>
     <system:String x:Key="LockKeysAnimatedDescription">Khi tắt, biểu tượng sẽ bất động</system:String>
     <system:String x:Key="LockKeysAnimatedTitle">Hiệu ứng cho biểu tượng</system:String>
@@ -234,8 +234,8 @@ Nếu bạn chỉ muốn dùng thử, hay hỗ trợ phát hiện và báo lỗi
     <system:String x:Key="TaskbarWidgetAutoHideTitle">Ẩn khi tạm dừng</system:String>
     <system:String x:Key="TaskbarWidgetShowPauseOverlayTitle">Cho biết trạng thái tạm dừng</system:String>
     <system:String x:Key="TaskbarWidgetShowPauseOverlayDescription">Mỗi khi tạm dừng, in đè biểu tượng tạm dừng lên ảnh bìa</system:String>
-    <system:String x:Key="VolumeMixerHighlightPerk">Highlight các ứng dụng có tiếng</system:String>
-    <system:String x:Key="VolumeFlyoutTitle">Thanh âm lượng</system:String>
+    <system:String x:Key="VolumeMixerHighlightPerk">Highlight các ứng dụng có tiếng trong volume mixer</system:String>
+    <system:String x:Key="VolumeFlyoutTitle">Thanh âm lượng thay thế</system:String>
     <system:String x:Key="VolumeFlyoutDescription">Thay thế thanh âm lượng mặc định của Windows. Có thể mở rộng thành một volume mixer, để tiện chỉnh âm lượng cho từng ứng dụng riêng lẻ.</system:String>
     <system:String x:Key="EnableVolumeFlyoutTitle">Thay thế thanh âm lượng mặc định</system:String>
     <system:String x:Key="EnableVolumeFlyoutDescription">Thay thế thanh âm lượng mặc định của Windows</system:String>
@@ -245,6 +245,6 @@ Nếu bạn chỉ muốn dùng thử, hay hỗ trợ phát hiện và báo lỗi
     <system:String x:Key="EnableVolumeMixerDescription">Dropdown list để chỉnh âm lượng cho từng ứng dụng và chuông báo hệ thống</system:String>
     <system:String x:Key="EnableVolumeMixerTitle">Volume mixer</system:String>
     <system:String x:Key="VolumeMixerHighlightTitle">Highlight các ứng dụng có tiếng</system:String>
-    <system:String x:Key="VolumeMixerHighlightDescription">Highlight các ứng dụng có tiếng trong volume mixer</system:String>
-    <system:String x:Key="MasterVolumeText">Nhấn để tắt tiếng</system:String>
+    <system:String x:Key="VolumeMixerHighlightDescription">Highlight các ứng dụng có tiếng</system:String>
+    <system:String x:Key="MasterVolumeText">Nhấn để tắt/bật tiếng</system:String>
 </ResourceDictionary>
