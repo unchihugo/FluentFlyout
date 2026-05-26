@@ -17,4 +17,18 @@
     <system:String x:Key="BackgroundBlurTitle">பின்னணி மங்கல்</system:String>
     <system:String x:Key="MasterVolumeText">முதன்மை ஒலி அளவு</system:String>
     <system:String x:Key="AcrylicWindowTitle">அக்ரிலிக் விண்டோ</system:String>
+    <system:String x:Key="AcrylicWindowDescription">ஃப்ளையவுட்டில் வெளிப்படையான அக்ரிலிக் மங்கல் விளைவை பயன்படுத்தவும் (ஆஃப் செய்தால் Mica பயன்படுத்தப்படும்)</system:String>
+    <system:String x:Key="CompactLayoutTitle">செருகிய அமைப்பு</system:String>
+    <system:String x:Key="CompactLayoutDescription" xml:space="preserve">மெலிதான மற்றும் குறைவாக இடையூறு தரும் அமைப்பு
+ரிபீட், ஷஃபிள் மற்றும் ப்ளேயர் தகவலை மறைக்கும்</system:String>
+    <system:String x:Key="SelectedMonitorTitle">ஃப்ளையவுட் இலக்கு திரை</system:String>
+    <system:String x:Key="FlyoutPositionTitle">ஃப்ளையவுட் தோன்றும் இடம்</system:String>
+    <system:String x:Key="PositionBottomLeft" xml:space="preserve"> கீழ் இடது</system:String>
+    <system:String x:Key="PositionBottomCenter" xml:space="preserve"> கீழ் நடுப்பு</system:String>
+    <system:String x:Key="PositionBottomRight" xml:space="preserve"> கீழ் வலது</system:String>
+    <system:String x:Key="PositionTopCenter" xml:space="preserve"> மேல் நடுப்பு</system:String>
+    <system:String x:Key="FlyoutStayDurationTitle">ஃப்ளையவுட் நீடிப்பு நேரம்</system:String>
+    <system:String x:Key="FlyoutStayDurationDescription">(இயல்புநிலை: 3000 ms)</system:String>
+    <system:String x:Key="MillisecondsUnit">ms</system:String>
+    <system:String x:Key="NextUpWindow_UpNextText">அடுத்து வருவது:</system:String>
 </ResourceDictionary>
