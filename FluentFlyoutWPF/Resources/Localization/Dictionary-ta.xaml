@@ -30,5 +30,9 @@
     <system:String x:Key="FlyoutStayDurationTitle">ஃப்ளையவுட் நீடிப்பு நேரம்</system:String>
     <system:String x:Key="FlyoutStayDurationDescription">(இயல்புநிலை: 3000 ms)</system:String>
     <system:String x:Key="MillisecondsUnit">ms</system:String>
-    <system:String x:Key="NextUpWindow_UpNextText">அடுத்து வருவது:</system:String>
+    <system:String x:Key="NextUpWindow_UpNextText">அடுத்து:</system:String>
+    <system:String x:Key="PositionTopLeft" xml:space="preserve"> மேல் இடது</system:String>
+    <system:String x:Key="PositionTopRight" xml:space="preserve"> மேல் வலது</system:String>
+    <system:String x:Key="LockWindow_LockOn">ஆன்</system:String>
+    <system:String x:Key="LockWindow_LockOff">ஆஃப்</system:String>
 </ResourceDictionary>
