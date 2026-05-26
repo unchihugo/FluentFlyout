@@ -35,4 +35,11 @@
     <system:String x:Key="PositionTopRight" xml:space="preserve"> மேல் வலது</system:String>
     <system:String x:Key="LockWindow_LockOn">ஆன்</system:String>
     <system:String x:Key="LockWindow_LockOff">ஆஃப்</system:String>
+    <system:String x:Key="UpdateToastTitle">FluentFlyout அப்டேட் செய்யப்பட்டுள்ளது!</system:String>
+    <system:String x:Key="UpdateToastMessage">நீங்கள் இப்போது {0} பதிப்பில் உள்ளீர்கள்.</system:String>
+    <system:String x:Key="UpdateToastButton">அப்டேட்களை காண்க</system:String>
+    <system:String x:Key="LockWindow_CapsLock">கேப்ஸ் லாக்</system:String>
+    <system:String x:Key="LockWindow_NumLock">நம் லாக்</system:String>
+    <system:String x:Key="LockWindow_ScrollLock">ஸ்க்ரோல் லாக்</system:String>
+    <system:String x:Key="LockWindow_InsertPressed">இன்சர்ட் அழுத்தப்பட்டது</system:String>
 </ResourceDictionary>
