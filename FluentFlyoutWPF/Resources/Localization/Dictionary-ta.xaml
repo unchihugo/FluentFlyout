@@ -7,4 +7,14 @@
     <system:String x:Key="MediaFlyoutDescription">மீடியாவை கேட்கும் போது, உங்கள் விசைப்பலகையில் உள்ள ஏதேனும் மீடியா அல்லது ஒலி அளவு விசையை (Play/Pause, ஒலி உயர்த்து/குறைத்து போன்றவை) அழுத்தினால் ஃப்ளையவுட் காட்டப்படும். இதில் மீடியா தகவல்கள், இயக்க கட்டுப்பாடுகள் மற்றும் மேலும் பல அம்சங்கள் காண்பிக்கப்படும்.</system:String>
     <system:String x:Key="TextBlockText1">மீடியா ஃப்ளையவுட்டை செயல்படுத்து</system:String>
     <system:String x:Key="TextBlockText3">மீடியா விசையை அழுத்தும் போது ஃப்ளையவுட் காட்டவும்</system:String>
+    <system:String x:Key="MediaFlyoutExcludeVolumeTitle">ஒலி அளவு விசைகளை தவிர்க்கவும்</system:String>
+    <system:String x:Key="MediaFlyoutExcludeVolumeDescription">ஒலி உயர்த்து/குறைத்து/மௌன விசைகளை அழுத்தும் போது ஃப்ளையவுட் காட்ட வேண்டாம்</system:String>
+    <system:String x:Key="TextBlockText2">பின்னணி மங்கல் பாணியை தேர்வு செய்யவும்</system:String>
+    <system:String x:Key="BackgroundBlurOption1" xml:space="preserve"> எதுவுமில்லை</system:String>
+    <system:String x:Key="BackgroundBlurOption2" xml:space="preserve"> பாணி 1 (கவர் ஒளிர்வு)</system:String>
+    <system:String x:Key="BackgroundBlurOption3" xml:space="preserve"> பாணி 2 (எழும் ஒளிர்வு)</system:String>
+    <system:String x:Key="BackgroundBlurOption4" xml:space="preserve"> பாணி 3 (மங்கல்)</system:String>
+    <system:String x:Key="BackgroundBlurTitle">பின்னணி மங்கல்</system:String>
+    <system:String x:Key="MasterVolumeText">முதன்மை ஒலி அளவு</system:String>
+    <system:String x:Key="AcrylicWindowTitle">அக்ரிலிக் விண்டோ</system:String>
 </ResourceDictionary>
