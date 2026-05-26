@@ -46,7 +46,7 @@ public static class WindowHelper
         {
             return new Rect(rect.Left, rect.Top, rect.Right - rect.Left, rect.Bottom - rect.Top);
         }
-        
+
         // Fallback (should not happen for valid windows)
         return new Rect(window.Left, window.Top, window.Width, window.Height);
     }

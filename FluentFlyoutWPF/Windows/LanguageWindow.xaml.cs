@@ -44,7 +44,7 @@ public partial class LanguageWindow : MicaWindow
     private Color GetShiftedColor(Color baseColor, string languageCode, string seedText)
     {
         int mode = SettingsManager.Current.LanguageFlyoutColorMode;
-        
+
         // Mode 1: Always System Accent
         if (mode == 1) return baseColor;
 
@@ -58,7 +58,7 @@ public partial class LanguageWindow : MicaWindow
         // Mode 2 (Unique) or secondary in Mode 0
         int seed = 0;
         foreach (char c in seedText) seed += (int)c;
-        
+
         System.Drawing.Color drawingColor = System.Drawing.Color.FromArgb(baseColor.A, baseColor.R, baseColor.G, baseColor.B);
         float hue = drawingColor.GetHue();
         float saturation = drawingColor.GetSaturation();
@@ -125,7 +125,7 @@ public partial class LanguageWindow : MicaWindow
             if (hkl == IntPtr.Zero) hkl = NativeMethods.GetKeyboardLayout(0);
 
             int lcid = (int)((long)hkl & 0xFFFF);
-            
+
             try
             {
                 CultureInfo culture = new CultureInfo(lcid);

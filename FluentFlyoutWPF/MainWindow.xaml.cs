@@ -390,7 +390,7 @@ public partial class MainWindow : MicaWindow
 
         // prevent flickering
         bool alreadyVisible = window.IsVisible;
-        if (!alreadyVisible) WindowHelper.SetVisibility(window, false); 
+        if (!alreadyVisible) WindowHelper.SetVisibility(window, false);
 
         window.UpdateLayout(); // Ensure layout is computed before querying size
 
