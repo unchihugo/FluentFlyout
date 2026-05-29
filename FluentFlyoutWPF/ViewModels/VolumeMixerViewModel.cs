@@ -137,7 +137,9 @@ public partial class VolumeMixerViewModel : ObservableObject, IDisposable
 
         try
         {
-            var sessionManager = _device.AudioSessionManager;
+            // update device reference because previous _device doesn't have updated sessions
+            var updatedDevice = AudioDeviceMonitor.Instance.GetDeviceById(_device.ID) ?? _device;
+            var sessionManager = updatedDevice.AudioSessionManager;
             var sessions = sessionManager.Sessions;
 
             for (int i = 0; i < sessions.Count; i++)
