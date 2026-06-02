@@ -745,17 +745,17 @@ public partial class MainWindow : MicaWindow
                 && !FullscreenDetector.IsFullscreenApplicationRunning()
                 && wParam == WM_KEYUP)
             {
-                if (vkCode == 0x14) // Caps Lock
+                if (vkCode == 0x14 && SettingsManager.Current.LockKeysCapsEnabled) // Caps Lock
                 {
                     lockWindow ??= new LockWindow();
                     lockWindow.ShowLockFlyout(FindResource("LockWindow_CapsLock").ToString(), Keyboard.IsKeyToggled(Key.CapsLock));
                 }
-                else if (vkCode == 0x90) // Num Lock
+                else if (vkCode == 0x90 && SettingsManager.Current.LockKeysNumEnabled) // Num Lock
                 {
                     lockWindow ??= new LockWindow();
                     lockWindow.ShowLockFlyout(FindResource("LockWindow_NumLock").ToString(), Keyboard.IsKeyToggled(Key.NumLock));
                 }
-                else if (vkCode == 0x91) // Scroll Lock
+                else if (vkCode == 0x91 && SettingsManager.Current.LockKeysScrollEnabled) // Scroll Lock
                 {
                     lockWindow ??= new LockWindow();
                     lockWindow.ShowLockFlyout(FindResource("LockWindow_ScrollLock").ToString(), Keyboard.IsKeyToggled(Key.Scroll));

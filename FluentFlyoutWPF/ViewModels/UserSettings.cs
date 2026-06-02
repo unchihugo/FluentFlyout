@@ -182,6 +182,15 @@ public partial class UserSettings : ObservableObject
     [ObservableProperty]
     public partial bool LockKeysEnabled { get; set; }
 
+    [ObservableProperty]
+    public partial bool LockKeysCapsEnabled { get; set; }
+
+    [ObservableProperty]
+    public partial bool LockKeysNumEnabled { get; set; }
+
+    [ObservableProperty]
+    public partial bool LockKeysScrollEnabled { get; set; }
+
     /// <summary>
     /// Lock keys flyout display duration (milliseconds)
     /// </summary>
@@ -608,6 +617,9 @@ public partial class UserSettings : ObservableObject
         CenterTitleArtist = false;
         FlyoutAnimationEasingStyle = 2;
         LockKeysEnabled = true;
+        LockKeysCapsEnabled = true;
+        LockKeysNumEnabled = true;
+        LockKeysScrollEnabled = true;
         LockKeysDuration = 2000;
         AppTheme = 0;
         MediaFlyoutEnabled = true;
