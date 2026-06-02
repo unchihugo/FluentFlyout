@@ -230,7 +230,7 @@ public partial class MainWindow : MicaWindow
         {
             Logger.Error(ex, "Failed to check for updates on startup");
         }
-        
+
 #if GITHUB_RELEASE
         // Start silent auto-updater for GitHub Release builds
         if (SettingsManager.Current.AutoUpdateEnabled && !SettingsManager.Current.IsStoreVersion)
