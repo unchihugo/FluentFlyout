@@ -419,6 +419,13 @@ public partial class UserSettings : ObservableObject
     public partial bool TaskbarWidgetHideCompletely { get; set; }
 
     /// <summary>
+    /// Gets or sets a value indicating whether the taskbar widget should always be sized at its
+    /// maximum width, so right-aligned controls don't shift when the song changes.
+    /// </summary>
+    [ObservableProperty]
+    public partial bool TaskbarWidgetFixedWidth { get; set; }
+
+    /// <summary>
     /// Gets or sets a value indicating whether the pause icon overlay should be completely hidden from view.
     /// </summary>
     [ObservableProperty]
@@ -638,6 +645,7 @@ public partial class UserSettings : ObservableObject
         TaskbarWidgetManualPadding = 0;
         TaskbarWidgetBackgroundBlur = false;
         TaskbarWidgetHideCompletely = false;
+        TaskbarWidgetFixedWidth = false;
         TaskbarWidgetShowPauseOverlay = true;
         TaskbarWidgetControlsEnabled = false;
         TaskbarWidgetControlsPosition = 1;
@@ -790,6 +798,12 @@ public partial class UserSettings : ObservableObject
     }
 
     partial void OnTaskbarWidgetHideCompletelyChanged(bool oldValue, bool newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+        UpdateTaskbar();
+    }
+
+    partial void OnTaskbarWidgetFixedWidthChanged(bool oldValue, bool newValue)
     {
         if (oldValue == newValue || _initializing) return;
         UpdateTaskbar();
