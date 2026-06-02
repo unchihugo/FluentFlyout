@@ -43,4 +43,22 @@ public partial class UpdateState : ObservableObject
     public string LastCheckedText => LastUpdateCheck == default
         ? string.Empty
         : LastUpdateCheck.ToString("G");
+
+    /// <summary>
+    /// Whether an update is currently being downloaded
+    /// </summary>
+    [ObservableProperty]
+    public partial bool IsDownloadingUpdate { get; set; }
+
+    /// <summary>
+    /// Download progress percentage (0-100)
+    /// </summary>
+    [ObservableProperty]
+    public partial int DownloadProgress { get; set; }
+
+    /// <summary>
+    /// Whether an update has been downloaded and is ready to install
+    /// </summary>
+    [ObservableProperty]
+    public partial bool IsUpdateReadyToInstall { get; set; }
 }
