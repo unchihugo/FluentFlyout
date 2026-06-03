@@ -248,4 +248,10 @@ Vous pouvez contribuer aux traductions sur</system:String>
     <system:String x:Key="VolumeMixerHighlightTitle">Mettre en évidence les applications qui joue du son</system:String>
     <system:String x:Key="VolumeMixerHighlightDescription">Voir quelles applications jouent actuellement du son</system:String>
     <system:String x:Key="MasterVolumeText">Volume principal</system:String>
+    <system:String x:Key="EnableCapsTitle">Activer l'indicateur de Verr.Maj.</system:String>
+    <system:String x:Key="EnableCapsDescription">S'affiche lorsque la touche Verr. Maj. est pressée</system:String>
+    <system:String x:Key="EnableNumTitle">Activer l'indicateur de Verr. Num.</system:String>
+    <system:String x:Key="EnableNumDescription">S'affiche lorsque la touche Verr. Num. est pressée</system:String>
+    <system:String x:Key="EnableScrollTitle">Activer l'indicateur d'Arrêt défil.</system:String>
+    <system:String x:Key="EnableScrollDescription">S'affiche lorsque la touche Arrêt défil. est pressée</system:String>
 </ResourceDictionary>
