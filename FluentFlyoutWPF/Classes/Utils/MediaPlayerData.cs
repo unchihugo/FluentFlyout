@@ -1,7 +1,10 @@
 ﻿// Copyright © 2024-2026 The FluentFlyout Authors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -9,12 +12,31 @@ namespace FluentFlyout.Classes.Utils;
 
 public static class MediaPlayerData
 {
-    private static Process[] cachedProcesses = null;
+    private class CachedMediaPlayerInfo
+    {
+        public required string Title { get; set; }
+        public ImageSource? Icon { get; set; }
+        public int ProcessId { get; set; }
+    }
+    // cache for media player info to avoid redundant process lookups
+    private static readonly Dictionary<string, CachedMediaPlayerInfo> mediaPlayerCache = [];
+
+    // id variants of media players where the key is the mediaPlayerId and the value is the mediaPlayerCache key
+    private static readonly Dictionary<string, string> mediaPlayerIdVariants = [];
+
+    private static Process[]? cachedProcesses = null;
     private static DateTime lastCacheTime = DateTime.MinValue;
     private const int CACHE_DURATION_SECONDS = 5;
 
     public static (string, ImageSource?) GetAndCacheMediaPlayerData(string mediaPlayerId)
     {
+        if (mediaPlayerCache.TryGetValue(mediaPlayerId, out var cachedInfo)
+            || mediaPlayerIdVariants.TryGetValue(mediaPlayerId, out var variantKey)
+            && mediaPlayerCache.TryGetValue(variantKey, out cachedInfo))
+        {
+            return (cachedInfo.Title, cachedInfo.Icon);
+        }
+
         string mediaTitle = mediaPlayerId;
         ImageSource? mediaIcon = null;
 
@@ -68,9 +90,9 @@ public static class MediaPlayerData
                 string path = mainModule.FileName;
 
                 // prioritize the FileDescription for a user-friendly name, fall back to MainWindowTitle
-                string title = !string.IsNullOrWhiteSpace(mainModule.FileVersionInfo.FileDescription)
+                string? title = !string.IsNullOrWhiteSpace(mainModule.FileVersionInfo.FileDescription)
                                 ? mainModule.FileVersionInfo.FileDescription
-                                : p.MainWindowTitle;
+                                : windowTitle;
 
                 foundTitle = title;
                 foundPath = path;
@@ -98,6 +120,9 @@ public static class MediaPlayerData
         {
             mediaTitle = !string.IsNullOrWhiteSpace(foundTitle) ? foundTitle : mediaPlayerId;
 
+            // map the original id to the sanitized title for future lookups
+            mediaPlayerIdVariants[mediaPlayerId] = mediaTitle;
+
             try
             {
                 using (var icon = System.Drawing.Icon.ExtractAssociatedIcon(foundPath))
@@ -119,6 +144,13 @@ public static class MediaPlayerData
             }
         }
 
+        mediaPlayerCache[mediaTitle] = new CachedMediaPlayerInfo
+        {
+            Title = mediaTitle,
+            Icon = mediaIcon,
+            ProcessId = foundPid
+        };
+
         return (mediaTitle, mediaIcon);
     }
 
@@ -131,12 +163,32 @@ public static class MediaPlayerData
         {
             if (title == "System sounds") return null;
 
+            // search in cache
+            foreach (var item in mediaPlayerCache.Values)
+            {
+                if (item.ProcessId == processId && item.Icon != null)
+                {
+                    return item.Icon;
+                }
+            }
+
             // Attempt to load via process MainModule
             var process = Process.GetProcessById(processId);
             var path = process.MainModule?.FileName;
             if (path == null) return null;
 
-            return LoadIconFromPath(path);
+            var icon = LoadIconFromPath(path);
+            if (icon != null)
+            {
+                mediaPlayerCache[title] = new CachedMediaPlayerInfo
+                {
+                    Title = title,
+                    Icon = icon,
+                    ProcessId = processId
+                };
+            }
+
+            return icon;
         }
         catch
         {

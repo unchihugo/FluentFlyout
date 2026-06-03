@@ -270,10 +270,6 @@ public partial class MainWindow : MicaWindow
         if (focused != null && validSessions.Any(s => s.Id == focused.Id))
             return focused;
 
-        var playing = validSessions.FirstOrDefault(s => s.ControlSession.GetPlaybackInfo()?.PlaybackStatus == GlobalSystemMediaTransportControlsSessionPlaybackStatus.Playing);
-        if (playing != null)
-            return playing;
-
         return validSessions.FirstOrDefault();
     }
 
