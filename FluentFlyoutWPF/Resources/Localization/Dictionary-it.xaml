@@ -248,4 +248,10 @@ Puoi contribuire alla traduzione su</system:String>
     <system:String x:Key="VolumeMixerHighlightDescription">Scopri quali app stanno attualmente riproducendo audio</system:String>
     <system:String x:Key="VolumeFlyoutStayDurationTitle">Durata del Flyout del volume</system:String>
     <system:String x:Key="MasterVolumeText">Volume principale</system:String>
+    <system:String x:Key="EnableCapsTitle">Attiva l’indicatore del Blocco maiuscole</system:String>
+    <system:String x:Key="EnableCapsDescription">Mostra quando il Blocco maiuscole viene premuto</system:String>
+    <system:String x:Key="EnableNumTitle">Attiva l'indicatore del Blocco numerico</system:String>
+    <system:String x:Key="EnableNumDescription">Mostra quando il Blocco numerico viene premuto</system:String>
+    <system:String x:Key="EnableScrollTitle">Attiva l'indicatore del Blocco scorrimento</system:String>
+    <system:String x:Key="EnableScrollDescription">Mostra quando il Blocco scorrimento viene premuto</system:String>
 </ResourceDictionary>
