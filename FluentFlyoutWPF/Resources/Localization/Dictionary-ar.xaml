@@ -248,4 +248,10 @@
     <system:String x:Key="VolumeMixerHighlightTitle">تمييز التطبيقات التي تقوم بتشغيل الصوت</system:String>
     <system:String x:Key="VolumeMixerHighlightDescription">إظهار التطبيقات التي تقوم بتشغيل صوت</system:String>
     <system:String x:Key="MasterVolumeText">مستوى الصوت الرئيسي</system:String>
+    <system:String x:Key="EnableCapsTitle">تشغيل مؤشر Caps Lock</system:String>
+    <system:String x:Key="EnableCapsDescription">يظهر عند الضغط على مفتاح Caps Lock</system:String>
+    <system:String x:Key="EnableNumTitle">تشغيل مؤشر Num Lock</system:String>
+    <system:String x:Key="EnableNumDescription">يظهر عند الضغط على مفتاح Num Lock</system:String>
+    <system:String x:Key="EnableScrollTitle">تشغيل مؤشر قفل التمرير</system:String>
+    <system:String x:Key="EnableScrollDescription">يظهر عند الضغط على مفتاح Scroll Lock</system:String>
 </ResourceDictionary>
