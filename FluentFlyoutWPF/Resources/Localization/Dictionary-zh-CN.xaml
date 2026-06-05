@@ -248,4 +248,10 @@
     <system:String x:Key="VolumeMixerHighlightPerk">在音量合成器中高亮活跃应用</system:String>
     <system:String x:Key="VolumeFlyoutDescription">一个独立的音量控制浮窗，可展开为音量合成器，取代 Windows 默认的音量界面。</system:String>
     <system:String x:Key="MasterVolumeText">主音量</system:String>
+    <system:String x:Key="EnableCapsTitle">启用大写锁定指示器</system:String>
+    <system:String x:Key="EnableCapsDescription">按下大写锁定（Caps Lock）键时显示浮窗</system:String>
+    <system:String x:Key="EnableNumTitle">启用数字锁定指示器</system:String>
+    <system:String x:Key="EnableNumDescription">按下数字锁定（Num Lock）键时显示浮窗</system:String>
+    <system:String x:Key="EnableScrollTitle">启用滚动锁定指示器</system:String>
+    <system:String x:Key="EnableScrollDescription">按下滚动锁定（Scroll Lock）键时显示浮窗</system:String>
 </ResourceDictionary>
