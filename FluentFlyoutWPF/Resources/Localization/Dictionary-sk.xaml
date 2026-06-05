@@ -244,4 +244,10 @@ Môžete pomôcť s prekladmi na</system:String>
     <system:String x:Key="EnableVolumeMixerTitle">Povoliť Zmiešavač Hlasitosti</system:String>
     <system:String x:Key="EnableVolumeMixerDescription">Presné ovládanie hlasitostí jednotlivých aplikácií</system:String>
     <system:String x:Key="MasterVolumeText">Celková hlasitosť</system:String>
+    <system:String x:Key="EnableCapsTitle">Povoliť Caps Lock Indikátor</system:String>
+    <system:String x:Key="EnableNumTitle">Povoliť Num Lock Indikátor</system:String>
+    <system:String x:Key="EnableScrollTitle">Povoliť Scroll Lock Indikátor</system:String>
+    <system:String x:Key="EnableCapsDescription">Zobrazuje keď je stlačená Caps Lock klávesa</system:String>
+    <system:String x:Key="EnableNumDescription">Zobrazuje keď je stlačená Num Lock klávesa</system:String>
+    <system:String x:Key="EnableScrollDescription">Zobrazuje keď je stlačená Scroll Lock klávesa</system:String>
 </ResourceDictionary>
