@@ -14,6 +14,7 @@ public partial class AboutViewModel : ObservableObject
     [
         "unchihugo",
         "LiAuTraver",
+        "FireWall-code"
         "kitUIN",
         "DmitriySalnikov",
         "AksharDP",
@@ -78,6 +79,7 @@ public partial class AboutViewModel : ObservableObject
         "mak7im01",
         "D4N_A",
         "Haeil"
+        "FireWall-code"
     ];
 
 
