@@ -181,6 +181,17 @@ public static class LocalizationManager
         }
         SettingsManager.Current.FontFamily = fontFamily;
 
+        // apply the font family to the entire application
+        try
+        {
+            var ff = new System.Windows.Media.FontFamily(fontFamily);
+            Application.Current.Resources["GlobalFontFamily"] = ff;
+        }
+        catch (Exception ex)
+        {
+            Logger.Warn(ex, "Failed to apply GlobalFontFamily, keeping SettingsManager value only.");
+        }
+
         Logger.Debug("Applied font family: " + fontFamily);
     }
 }

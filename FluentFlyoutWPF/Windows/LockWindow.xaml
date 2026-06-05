@@ -12,7 +12,7 @@
     WindowStyle="None" ShowInTaskbar="False"
     ChangeTitleColorWhenInactive="False" Visibility="Visible"
     TextOptions.TextRenderingMode="ClearType" TextOptions.TextFormattingMode="Ideal"
-    FontFamily="{Binding FontFamily}"
+    FontFamily="{DynamicResource GlobalFontFamily}"
     FlowDirection="{Binding FlowDirection}"
     d:DataContext="{d:DesignInstance viewModels:UserSettings}"
     >

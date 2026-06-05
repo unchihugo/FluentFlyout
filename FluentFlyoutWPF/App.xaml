@@ -6,6 +6,7 @@
              StartupUri="MainWindow.xaml"
              xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
              xmlns:mica="clr-namespace:MicaWPF.Styles;assembly=MicaWPF"
+             xmlns:controls="clr-namespace:MicaWPF.Controls;assembly=MicaWPF"
              xmlns:utils="clr-namespace:FluentFlyoutWPF.Classes.Utils"
              ShutdownMode="OnExplicitShutdown">
     <Application.Resources>
@@ -21,7 +22,23 @@
                 <ResourceDictionary Source="Resources/Localization/Dictionary-en-US.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <FontFamily x:Key="SegoeFluentIcons">pack://application:,,,/;component/Fonts/#Segoe Fluent Icons</FontFamily>
-            
+
+            <!-- set global font family -->
+            <FontFamily x:Key="GlobalFontFamily">Segoe UI Variable, Microsoft YaHei UI, Yu Gothic UI, Malgun Gothic</FontFamily>
+
+            <!-- apply global font family to TextBlocks except ones inside icon controls -->
+            <Style TargetType="TextBlock">
+                <Style.Triggers>
+                    <!-- If not inside a MicaWPF SymbolIcon, apply the GlobalFontFamily -->
+                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type controls:SymbolIcon}}}" Value="{x:Null}">
+                        <Setter Property="FontFamily" Value="{DynamicResource GlobalFontFamily}" />
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+            <Style TargetType="Control">
+                <Setter Property="FontFamily" Value="{DynamicResource GlobalFontFamily}" />
+            </Style>
+
             <!-- override default background colors -->
             <SolidColorBrush x:Key="NavigationViewContentBackground" Color="Transparent" />
             <SolidColorBrush x:Key="NavigationViewContentGridBorderBrush" Color="Transparent" />
