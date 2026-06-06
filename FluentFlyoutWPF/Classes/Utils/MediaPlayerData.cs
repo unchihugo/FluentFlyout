@@ -1,10 +1,7 @@
-﻿// Copyright © 2024-2026 The FluentFlyout Authors
+﻿// Copyright (c) 2024-2026 The FluentFlyout Authors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -65,97 +62,66 @@ public static class MediaPlayerData
 
         processes = cachedProcesses;
 
-        // Find the first matching process using a single pass and light-weight checks before touching mainModule
-        string? foundTitle = null;
-        string? foundPath = null;
-        int foundPid = 0;
-
-        foreach (var p in processes)
+        var processData = processes.Select(p =>
         {
             try
             {
-                // skip processes without a visible window early
-                if (p.MainWindowHandle == IntPtr.Zero) continue;
-
-                string procName = p.ProcessName ?? string.Empty;
-                string windowTitle = p.MainWindowTitle ?? string.Empty;
-
-                // quick check against process name or window title to avoid expensive module access for most processes
-                if (!variants.Any(v => procName.Contains(v, StringComparison.OrdinalIgnoreCase) || windowTitle.Contains(v, StringComparison.OrdinalIgnoreCase)))
-                    continue;
+                // pre-filter processes without a main window handle
+                if (p.MainWindowHandle == IntPtr.Zero)
+                {
+                    return null;
+                }
 
                 var mainModule = p.MainModule;
-                if (mainModule == null) continue;
+                if (mainModule == null) return null;
 
                 string path = mainModule.FileName;
 
-                // prioritize the FileDescription for a user-friendly name, fall back to MainWindowTitle
-                string? title = !string.IsNullOrWhiteSpace(mainModule.FileVersionInfo.FileDescription)
-                                ? mainModule.FileVersionInfo.FileDescription
-                                : windowTitle;
+                if (variants.Any(v => path.Contains(v, StringComparison.OrdinalIgnoreCase)))
+                {
+                    // prioritize the FileDescription for a user-friendly name
+                    // fall back to MainWindowTitle if the description is empty
+                    string title = !string.IsNullOrWhiteSpace(mainModule.FileVersionInfo.FileDescription)
+                                    ? mainModule.FileVersionInfo.FileDescription
+                                    : p.MainWindowTitle;
 
-                foundTitle = title;
-                foundPath = path;
-                foundPid = p.Id;
-
-                break; // found the best match, stop scanning further
+                    return new { Title = title, Path = path, ProcessId = p.Id };
+                }
             }
             catch (System.ComponentModel.Win32Exception)
             {
-                // ignore inaccessible processes
-                continue;
+                // silently ignore the exception for inaccessible processes
             }
-            catch (InvalidOperationException)
-            {
-                // process may have exited while checking, ignore and continue
-                continue;
-            }
-            catch
-            {
-                continue;
-            }
-        }
+            return null;
+        })
+            .FirstOrDefault(data => data != null); // use first result
 
-        if (foundTitle != null && foundPath != null)
+        if (processData == null) return (mediaTitle, mediaIcon);
+
+        mediaTitle = !string.IsNullOrWhiteSpace(processData.Title) ? processData.Title : mediaPlayerId;
+
+        // check cache again because we have the sanitized title
+        if (mediaPlayerCache.TryGetValue(mediaTitle, out cachedInfo))
         {
-            mediaTitle = !string.IsNullOrWhiteSpace(foundTitle) ? foundTitle : mediaPlayerId;
-
             // map the original id to the sanitized title for future lookups
             mediaPlayerIdVariants[mediaPlayerId] = mediaTitle;
-
-            try
-            {
-                using (var icon = System.Drawing.Icon.ExtractAssociatedIcon(foundPath))
-                {
-                    if (icon != null)
-                    {
-                        mediaIcon = System.Windows.Interop.Imaging.CreateBitmapSourceFromHIcon(
-                            icon.Handle,
-                            Int32Rect.Empty,
-                            BitmapSizeOptions.FromEmptyOptions());
-
-                        mediaIcon.Freeze();
-                    }
-                }
-            }
-            catch
-            {
-                mediaIcon = null;
-            }
+            return (cachedInfo.Title, cachedInfo.Icon);
         }
 
-        mediaPlayerCache[mediaTitle] = new CachedMediaPlayerInfo
+        mediaIcon = GetIconFromPath(processData.Path);
+
+        mediaPlayerCache[mediaPlayerId] = new CachedMediaPlayerInfo
         {
             Title = mediaTitle,
             Icon = mediaIcon,
-            ProcessId = foundPid
+            ProcessId = processData.ProcessId
         };
 
         return (mediaTitle, mediaIcon);
     }
 
     /// <summary>
-    /// Attempts to load an icon for a given process ID by looking up its main module.
+    /// Extracts the associated icon for a given process ID. Returns null if the process is inaccessible.
     /// </summary>
     public static ImageSource? GetAndCacheProcessIcon(int processId, string title)
     {
@@ -166,18 +132,18 @@ public static class MediaPlayerData
             // search in cache
             foreach (var item in mediaPlayerCache.Values)
             {
-                if (item.ProcessId == processId && item.Icon != null)
+                if (item.ProcessId == processId)
                 {
                     return item.Icon;
                 }
             }
 
-            // Attempt to load via process MainModule
             var process = Process.GetProcessById(processId);
             var path = process.MainModule?.FileName;
             if (path == null) return null;
 
-            var icon = LoadIconFromPath(path);
+            // store in cache for future lookups
+            var icon = GetIconFromPath(path);
             if (icon != null)
             {
                 mediaPlayerCache[title] = new CachedMediaPlayerInfo
@@ -196,7 +162,7 @@ public static class MediaPlayerData
         }
     }
 
-    private static ImageSource? LoadIconFromPath(string exePath)
+    private static ImageSource? GetIconFromPath(string exePath)
     {
         try
         {
