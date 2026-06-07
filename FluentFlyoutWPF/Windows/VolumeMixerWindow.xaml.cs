@@ -120,7 +120,7 @@ public partial class VolumeMixerWindow : MicaWindow
             {
                 await Task.Delay(100, token); // check if mouse is over every 100ms
                 // update master volume again because it can be slow to update when coming from a hardware key press
-                ViewModel.SyncMasterFromDevice();
+                ViewModel.SyncMasterVolume();
 
                 bool mouseOverThis = WindowHelper.IsMouseOverWindow(this);
                 bool mouseOverMedia = SettingsManager.Current.VolumeControlAboveMediaFlyout

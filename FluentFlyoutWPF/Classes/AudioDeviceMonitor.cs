@@ -152,6 +152,6 @@ public class AudioDeviceNotificationClient : IMMNotificationClient
 public class DefaultDeviceChangedEventArgs(DataFlow dataFlow, Role role, string deviceId) : EventArgs
 {
     public DataFlow DataFlow { get; } = dataFlow;
-    public Role Role { get; } = role;
-    public string DeviceId { get; } = deviceId;
+public Role Role { get; } = role;
+public string DeviceId { get; } = deviceId;
 }

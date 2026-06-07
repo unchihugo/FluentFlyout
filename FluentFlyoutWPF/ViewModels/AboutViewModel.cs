@@ -123,7 +123,8 @@ public partial class AboutViewModel : ObservableObject
             License = "MIT",
             Url = "https://github.com/CommunityToolkit/WindowsCommunityToolkit"
         },
-        new LicenseInfo{
+        new LicenseInfo
+        {
             Name = "NAudio",
             Version = "2.3.0",
             License = "MIT",
