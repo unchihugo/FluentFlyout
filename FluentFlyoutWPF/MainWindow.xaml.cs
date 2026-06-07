@@ -45,6 +45,7 @@ public partial class MainWindow : MicaWindow
     private long _lastFlyoutTime = 0;
 
     public readonly WindowsMediaController.MediaManager mediaManager = new();
+    private MediaSession wasPlayingSession;
 
     // for detecting changes in settings (lazy way)
     private int _position = SettingsManager.Current.Position;
@@ -528,7 +529,10 @@ public partial class MainWindow : MicaWindow
         }
     }
 
-    private void pauseOtherMediaSessionsIfNeeded(MediaSession mediaSession)
+    /**
+     * Can either pause all or resume previous session based on setting
+     */
+    private void modifyOtherMediaSessionsIfNeeded(MediaSession mediaSession)
     {
         if (
             SettingsManager.Current.PauseOtherSessionsEnabled
@@ -537,14 +541,25 @@ public partial class MainWindow : MicaWindow
         {
             PauseOtherSessions(mediaSession);
         }
+
+        // temporary feature testing
+        var ps = mediaSession.ControlSession.GetPlaybackInfo().PlaybackStatus;
+        if (ps == GlobalSystemMediaTransportControlsSessionPlaybackStatus.Paused)
+        {
+            if (wasPlayingSession != null && wasPlayingSession.Id != mediaSession.Id && wasPlayingSession.ControlSession.GetPlaybackInfo().PlaybackStatus == GlobalSystemMediaTransportControlsSessionPlaybackStatus.Paused)
+            {
+                PlaySession(wasPlayingSession);
+            }
+        }
     }
+
 
     private void CurrentSession_OnPlaybackStateChanged(MediaSession mediaSession, GlobalSystemMediaTransportControlsSessionPlaybackInfo? playbackInfo = null)
     {
 #if DEBUG
         Logger.Debug("Playback state changed: " + mediaSession.Id + " " + mediaSession.ControlSession.GetPlaybackInfo().PlaybackStatus);
 #endif     
-        pauseOtherMediaSessionsIfNeeded(mediaSession);
+        modifyOtherMediaSessionsIfNeeded(mediaSession);
 
         var focusedSession = mediaManager.GetFocusedSession();
         if (focusedSession == null)
@@ -571,6 +586,7 @@ public partial class MainWindow : MicaWindow
     // for determining whether MediaPropertyChanged has no changes
     private string previousMediaProperty = "";
     private int previousMediaPropertyThumbnail = 0;
+
     private void MediaManager_OnAnyMediaPropertyChanged(MediaSession mediaSession, GlobalSystemMediaTransportControlsSessionMediaProperties mediaProperties)
     {
         // sometimes mediaSession.ControlSession can be null
@@ -609,7 +625,7 @@ public partial class MainWindow : MicaWindow
         BitmapHelper.GetDominantColors(1);
         taskbarWindow?.UpdateUi(songInfo.Title, songInfo.Artist, thumbnail, playbackInfo.PlaybackStatus, playbackInfo.Controls);
 
-        pauseOtherMediaSessionsIfNeeded(mediaSession);
+        modifyOtherMediaSessionsIfNeeded(mediaSession);
 
         if (SettingsManager.Current.NextUpEnabled && !FullscreenDetector.IsFullscreenApplicationRunning()) // show NextUpWindow if enabled in settings
         {
@@ -682,6 +698,11 @@ public partial class MainWindow : MicaWindow
 #if DEBUG
         Logger.Debug("Session closed: " + (mediaSession.Id).ToString());
 #endif
+        if (wasPlayingSession != null && wasPlayingSession.Id != mediaSession.Id)
+        {
+            PlaySession(wasPlayingSession);
+        }
+
         var focusedSession = mediaManager.GetFocusedSession();
 
         if (focusedSession == null)
@@ -1649,12 +1670,23 @@ public partial class MainWindow : MicaWindow
                     session.ControlSession.GetPlaybackInfo().PlaybackStatus == GlobalSystemMediaTransportControlsSessionPlaybackStatus.Playing
                 )
                 {
+                    wasPlayingSession = session;
                     return session.ControlSession.TryPauseAsync().AsTask();
                 }
                 return Task.CompletedTask;
             })
         );
     }
+
+    private Task PlaySession(MediaSession mediaSession)
+    {
+        if (mediaSession.ControlSession.GetPlaybackInfo().PlaybackStatus == GlobalSystemMediaTransportControlsSessionPlaybackStatus.Paused)
+        {
+            return mediaSession.ControlSession.TryPlayAsync().AsTask();
+        }
+        return Task.CompletedTask;
+    }
+
     internal void ToggleBlur()
     {
         if (SettingsManager.Current.MediaFlyoutAcrylicWindowEnabled)
