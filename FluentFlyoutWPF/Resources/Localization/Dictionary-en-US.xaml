@@ -62,6 +62,8 @@ hides repeat, shuffle and player info</System:String>
     <System:String x:Key="TaskbarWidgetBackgroundBlurDescription">Add background blur effect to the taskbar widget</System:String>
     <System:String x:Key="TaskbarWidgetHideCompletelyTitle">Hide Completely When No Media Is Present</System:String>
     <System:String x:Key="TaskbarWidgetHideCompletelyDescription">Hides the entire widget when no media is available, instead of displaying a media icon</System:String>
+    <System:String x:Key="TaskbarWidgetFixedWidthTitle">Fixed Widget Width</System:String>
+    <System:String x:Key="TaskbarWidgetFixedWidthDescription">Keep the widget at a fixed width instead of resizing to fit the title and artist text</System:String>
     <System:String x:Key="TaskbarWidgetAutoHideTitle">Autohide Widget</System:String>
     <System:String x:Key="TaskbarWidgetAutoHideDescription">Hides the widget automatically when media is paused</System:String>
     <System:String x:Key="TaskbarWidgetShowPauseOverlayTitle">Show Pause Icon Overlay</System:String>
