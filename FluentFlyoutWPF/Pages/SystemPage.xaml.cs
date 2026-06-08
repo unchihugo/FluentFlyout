@@ -22,6 +22,10 @@ public partial class SystemPage : Page
         InitializeComponent();
         DataContext = SettingsManager.Current;
         UpdateMonitorList();
+
+#if GITHUB_RELEASE
+        AutoUpdateCard.Visibility = System.Windows.Visibility.Visible;
+#endif
     }
 
     private void StartupSwitch_Click(object sender, RoutedEventArgs e)

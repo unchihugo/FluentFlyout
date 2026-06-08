@@ -34,10 +34,18 @@ internal static class Notifications
                         OpenChangelogInBrowser();
                         break;
                     case "downloadUpdate":
+#if GITHUB_RELEASE
+                        // For GitHub Release builds, open settings to trigger in-app update
+                        Application.Current.Dispatcher.Invoke(() =>
+                        {
+                            FluentFlyoutWPF.SettingsWindow.ShowInstance();
+                        });
+#else
                         if (args.TryGetValue("url", out string url))
                         {
                             OpenUrlInBrowser(url);
                         }
+#endif
                         break;
                 }
             }

@@ -76,6 +76,34 @@
                 </StackPanel>
             </ui:Button>
 
+            <!--Auto-update progress panel (GitHub Release only, controlled by code-behind)-->
+            <StackPanel x:Name="AutoUpdatePanel" Visibility="Collapsed" Margin="0,0,16,16">
+                <StackPanel x:Name="DownloadProgressPanel" Visibility="Collapsed">
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+                        <ui:SymbolIcon Symbol="ArrowDownload24" FontSize="16" Margin="0,0,8,0" />
+                        <ui:TextBlock x:Name="DownloadStatusText" Text="Downloading..." FontSize="12" />
+                    </StackPanel>
+                    <ProgressBar x:Name="DownloadProgressBar" Minimum="0" Maximum="100" Width="200" Height="4"
+                                 Value="{Binding DownloadProgress, Source={x:Static viewModels:UpdateState.Current}}" />
+                </StackPanel>
+                <StackPanel x:Name="InstallPanel" Visibility="Collapsed" Orientation="Horizontal">
+                    <ui:Button x:Name="InstallUpdateButton" Appearance="Primary" Click="InstallUpdate_Click" Margin="0,0,8,0">
+                        <StackPanel Orientation="Horizontal">
+                            <ui:SymbolIcon Symbol="ArrowDownload24" FontSize="16" Margin="0,0,6,0" />
+                            <ui:TextBlock Text="{DynamicResource AutoUpdateInstallButton}" />
+                        </StackPanel>
+                    </ui:Button>
+                    <ui:SymbolIcon Symbol="CheckmarkCircle24" FontSize="16" Foreground="{DynamicResource SystemFillColorSuccessBrush}"
+                                   VerticalAlignment="Center" />
+                    <ui:TextBlock Text="{DynamicResource AutoUpdateDownloaded}" FontSize="12" VerticalAlignment="Center" Margin="4,0,0,0" />
+                </StackPanel>
+                <StackPanel x:Name="InstallingPanel" Visibility="Collapsed" Orientation="Horizontal">
+                    <ProgressBar IsIndeterminate="True" Width="100" Height="4" Margin="0,0,8,0" VerticalAlignment="Center" />
+                    <ui:TextBlock Text="{DynamicResource AutoUpdateInstalling}" FontSize="12" VerticalAlignment="Center" />
+                </StackPanel>
+                <ui:InfoBar x:Name="UpdateErrorBar" IsOpen="False" Severity="Error" IsClosable="True" Margin="0,8,0,0" />
+            </StackPanel>
+
             <!--Supporter status indicator-->
             <ui:Button Appearance="Transparent" Padding="8" BorderBrush="Transparent" Margin="0,0,0,16" IsHitTestVisible="False">
                 <ui:Button.Style>
