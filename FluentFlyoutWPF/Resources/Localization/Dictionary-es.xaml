@@ -248,4 +248,12 @@ Nota: Como proyecto de código abierto, estas opciones también están disponibl
     <system:String x:Key="EnableVolumeMixerDescription">Control fino del volumen de aplicaciones individuales</system:String>
     <system:String x:Key="VolumeMixerHighlightTitle">Resaltar aplicaciones reproduciendo audio</system:String>
     <system:String x:Key="VolumeMixerHighlightDescription">Ver qué aplicaciones están emitiendo audio en este momento</system:String>
+    <system:String x:Key="EnableScrollDescription">Muestra cuando se pulsa Bloq Despl</system:String>
+    <system:String x:Key="EnableCapsTitle">Activar indicador de las Teclas de Bloqueo</system:String>
+    <system:String x:Key="EnableCapsDescription">Muestra cuando se pulsa una Tecla de Bloqueo</system:String>
+    <system:String x:Key="EnableNumTitle">Activar indicador de Bloq Num</system:String>
+    <system:String x:Key="EnableNumDescription">Muestra cuando se pulsa Bloq Num</system:String>
+    <system:String x:Key="EnableScrollTitle">Activar indicador de Bloq Despl</system:String>
+    <system:String x:Key="TaskbarWidgetFixedWidthTitle">Ancho Fijo del Widget</system:String>
+    <system:String x:Key="TaskbarWidgetFixedWidthDescription">Mantén el widget con un ancho fijo en vez de que se adapte según el texto del titulo y el artista</system:String>
 </ResourceDictionary>
