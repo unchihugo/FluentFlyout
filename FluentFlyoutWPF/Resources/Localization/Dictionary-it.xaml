@@ -254,4 +254,6 @@ Puoi contribuire alla traduzione su</system:String>
     <system:String x:Key="EnableNumDescription">Mostra quando il Blocco numerico viene premuto</system:String>
     <system:String x:Key="EnableScrollTitle">Attiva l'indicatore del Blocco scorrimento</system:String>
     <system:String x:Key="EnableScrollDescription">Mostra quando il Blocco scorrimento viene premuto</system:String>
+    <system:String x:Key="TaskbarWidgetFixedWidthTitle">Laghezza fissa del Widget</system:String>
+    <system:String x:Key="TaskbarWidgetFixedWidthDescription">Mantieni il Widget ad una laghezza fissa invece di ridimensionarlo per far stare il nome dell'artista ed il titolo</system:String>
 </ResourceDictionary>
