@@ -250,4 +250,6 @@ Môžete pomôcť s prekladmi na</system:String>
     <system:String x:Key="EnableCapsDescription">Zobrazuje keď je stlačená Caps Lock klávesa</system:String>
     <system:String x:Key="EnableNumDescription">Zobrazuje keď je stlačená Num Lock klávesa</system:String>
     <system:String x:Key="EnableScrollDescription">Zobrazuje keď je stlačená Scroll Lock klávesa</system:String>
+    <system:String x:Key="TaskbarWidgetFixedWidthTitle">Pevná Šírka Widgetu</system:String>
+    <system:String x:Key="TaskbarWidgetFixedWidthDescription">Ponechať pevnú šírku widgetu namiesto zmeny veľkosti podľa názvu a interpreta</system:String>
 </ResourceDictionary>
