@@ -254,4 +254,6 @@
     <system:String x:Key="EnableNumDescription">按下数字锁定（Num Lock）键时显示浮窗</system:String>
     <system:String x:Key="EnableScrollTitle">启用滚动锁定指示器</system:String>
     <system:String x:Key="EnableScrollDescription">按下滚动锁定（Scroll Lock）键时显示浮窗</system:String>
+    <system:String x:Key="TaskbarWidgetFixedWidthTitle">固定小组件宽度</system:String>
+    <system:String x:Key="TaskbarWidgetFixedWidthDescription">保持小组件宽度固定，不跟随媒体标题和艺术家文本宽度变化</system:String>
 </ResourceDictionary>
