@@ -248,4 +248,12 @@
     <system:String x:Key="VolumeMixerHighlightDescription">Просмотр приложений, воспроизводящих звук в данный момент</system:String>
     <system:String x:Key="VolumeMixerHighlightPerk">Выделять активные приложения в микшере громкости</system:String>
     <system:String x:Key="MasterVolumeText">Общая громкость</system:String>
+    <system:String x:Key="TaskbarWidgetFixedWidthDescription">Оставьте ширину виджета фиксированной и не изменяйте её в зависимости от ширины заголовка медиафайла и текста исполнителя</system:String>
+    <system:String x:Key="TaskbarWidgetFixedWidthTitle">Фиксированная ширина виджета</system:String>
+    <system:String x:Key="EnableCapsTitle">Включить индикатор Caps Lock</system:String>
+    <system:String x:Key="EnableCapsDescription">Отображает состояние нажатия клавиши Caps Lock</system:String>
+    <system:String x:Key="EnableNumTitle">Включить индикатор Num Lock</system:String>
+    <system:String x:Key="EnableNumDescription">Отображает состояние нажатия клавиши Num Lock</system:String>
+    <system:String x:Key="EnableScrollDescription">Отображает состояние нажатия клавиши Scroll Lock</system:String>
+    <system:String x:Key="EnableScrollTitle">Включить индикатор Scroll Lock</system:String>
 </ResourceDictionary>
