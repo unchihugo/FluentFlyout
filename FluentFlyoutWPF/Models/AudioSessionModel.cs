@@ -51,6 +51,9 @@ public partial class AudioSessionModel : ObservableObject
         if (Volume == 0f)
         {
             IsMuted = true;
+        } else
+        {
+            IsMuted = false;
         }
     }
 
