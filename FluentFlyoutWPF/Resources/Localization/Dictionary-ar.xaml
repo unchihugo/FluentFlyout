@@ -254,4 +254,6 @@
     <system:String x:Key="EnableNumDescription">يظهر عند الضغط على مفتاح Num Lock</system:String>
     <system:String x:Key="EnableScrollTitle">تشغيل مؤشر قفل التمرير</system:String>
     <system:String x:Key="EnableScrollDescription">يظهر عند الضغط على مفتاح Scroll Lock</system:String>
+    <system:String x:Key="TaskbarWidgetFixedWidthTitle">عرض ثابت للأداة المصغرة</system:String>
+    <system:String x:Key="TaskbarWidgetFixedWidthDescription">احتفظ بعرض ثابت للأداة بدلاً من تغيير حجمها لتلائم العنوان و الفنان</system:String>
 </ResourceDictionary>
