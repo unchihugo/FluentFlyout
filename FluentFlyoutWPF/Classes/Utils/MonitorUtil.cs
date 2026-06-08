@@ -1,4 +1,4 @@
-﻿// Copyright © 2024-2026 The FluentFlyout Authors
+﻿// Copyright (c) 2024-2026 The FluentFlyout Authors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 using FluentFlyout.Classes;
@@ -34,8 +34,8 @@ public static class MonitorUtil
     {
         var info = new NativeMethods.MONITORINFOEX();
         info.cbSize = Marshal.SizeOf<NativeMethods.MONITORINFOEX>();
-        
-        if(GetMonitorInfo(hMonitor, ref info))
+
+        if (GetMonitorInfo(hMonitor, ref info))
         {
             MonitorInfo new_info = new MonitorInfo
             {

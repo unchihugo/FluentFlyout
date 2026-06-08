@@ -1,4 +1,4 @@
-// Copyright © 2024-2026 The FluentFlyout Authors
+// Copyright (c) 2024-2026 The FluentFlyout Authors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 using FluentFlyout.Classes.Settings;
@@ -77,7 +77,9 @@ public partial class TaskbarVisualizerControl : UserControl
 
         SolidColorBrush targetBackgroundBrush;
         // hover effects with animations, hard-coded colors because I can't find the resource brushes
-        if (WindowsThemeHelper.GetCurrentWindowsTheme() == WindowsTheme.Dark)
+        WindowsThemeDetector.GetWindowsTheme(out _, out var systemTheme);
+        bool isDark = systemTheme == WindowsThemeDetector.ThemeMode.Dark;
+        if (isDark)
         { // dark mode
             targetBackgroundBrush = new SolidColorBrush(Color.FromArgb(197, 255, 255, 255)) { Opacity = 0.075 };
             TopBorder.BorderBrush = new SolidColorBrush(Color.FromArgb(93, 255, 255, 255)) { Opacity = 0.25 };
@@ -117,7 +119,7 @@ public partial class TaskbarVisualizerControl : UserControl
     private void Grid_MouseLeave(object sender, MouseEventArgs e)
     {
         if (!SettingsManager.Current.TaskbarVisualizerClickable || !SettingsManager.Current.TaskbarVisualizerHasContent) return;
-        
+
         // Animate back to transparent
         var backgroundAnimation = new ColorAnimation
         {

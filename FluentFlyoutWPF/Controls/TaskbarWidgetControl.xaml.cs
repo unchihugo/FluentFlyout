@@ -1,4 +1,4 @@
-// Copyright © 2024-2026 The FluentFlyout Authors
+// Copyright (c) 2024-2026 The FluentFlyout Authors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 using FluentFlyout.Classes.Settings;
@@ -61,7 +61,7 @@ public partial class TaskbarWidgetControl : UserControl
         }
 
         Background = new SolidColorBrush(Color.FromArgb(1, 0, 0, 0)); ;
-        
+
         // Initialize control order
         ReorderControls();
     }
@@ -86,6 +86,20 @@ public partial class TaskbarWidgetControl : UserControl
         }
     }
 
+    public void SetVerticalMode(bool isVertical)
+    {
+        var counterRotate = isVertical ? new RotateTransform(-90) : null;
+
+        SongImageBorder.RenderTransformOrigin = new System.Windows.Point(0.5, 0.5);
+        SongImageBorder.RenderTransform = (Transform?)counterRotate ?? Transform.Identity;
+
+        foreach (var button in new Wpf.Ui.Controls.Button[] { PreviousButton, PlayPauseButton, NextButton })
+        {
+            button.RenderTransformOrigin = new System.Windows.Point(0.5, 0.5);
+            button.RenderTransform = (Transform?)counterRotate ?? Transform.Identity;
+        }
+    }
+
     public void SetMainWindow(MainWindow mainWindow)
     {
         _mainWindow = mainWindow;
@@ -93,12 +107,18 @@ public partial class TaskbarWidgetControl : UserControl
 
     public void ApplyWindowsTheme()
     {
-        bool isDark = WindowsThemeHelper.GetCurrentWindowsTheme() == WindowsTheme.Dark;
+        WindowsThemeDetector.GetWindowsTheme(out _, out var systemTheme);
+        bool isDark = systemTheme == WindowsThemeDetector.ThemeMode.Dark;
+
         var foreground = new SolidColorBrush(isDark
             ? Color.FromArgb(0xFF, 0xFF, 0xFF, 0xFF)
             : Color.FromArgb(0xE4, 0x1C, 0x1C, 0x1C));
+
         SongTitle.Foreground = foreground;
         SongArtist.Foreground = foreground;
+        PreviousButton.Foreground = foreground;
+        PlayPauseButton.Foreground = foreground;
+        NextButton.Foreground = foreground;
     }
 
     private void Grid_MouseEnter(object sender, MouseEventArgs e)
@@ -107,7 +127,10 @@ public partial class TaskbarWidgetControl : UserControl
 
         SolidColorBrush targetBackgroundBrush;
         // hover effects with animations, hard-coded colors because I can't find the resource brushes
-        if (WindowsThemeHelper.GetCurrentWindowsTheme() == WindowsTheme.Dark)
+        WindowsThemeDetector.GetWindowsTheme(out _, out var systemTheme);
+        bool isDark = systemTheme == WindowsThemeDetector.ThemeMode.Dark;
+
+        if (isDark)
         { // dark mode
             targetBackgroundBrush = new SolidColorBrush(Color.FromArgb(197, 255, 255, 255)) { Opacity = 0.075 };
             TopBorder.BorderBrush = new SolidColorBrush(Color.FromArgb(93, 255, 255, 255)) { Opacity = 0.25 };
@@ -194,9 +217,19 @@ public partial class TaskbarWidgetControl : UserControl
             _cachedArtistText = currentArtist;
         }
 
-        double logicalWidth = Math.Max(_cachedTitleWidth, _cachedArtistWidth) + 55; // add margin for cover image
         // maximum width limit, same as Windows native widget
-        logicalWidth = Math.Min(logicalWidth, _nativeWidgetsPadding / _scale);
+        double maxLogicalWidth = _nativeWidgetsPadding / _scale;
+        double logicalWidth;
+        if (SettingsManager.Current.TaskbarWidgetFixedWidth)
+        {
+            // pin to maximum width so right-aligned controls don't shift between songs
+            logicalWidth = maxLogicalWidth;
+        }
+        else
+        {
+            logicalWidth = Math.Max(_cachedTitleWidth, _cachedArtistWidth) + 55; // add margin for cover image
+            logicalWidth = Math.Min(logicalWidth, maxLogicalWidth);
+        }
 
         SongTitle.Width = Math.Max(logicalWidth - 58, 0);
         SongArtist.Width = Math.Max(logicalWidth - 58, 0);
@@ -309,7 +342,7 @@ public partial class TaskbarWidgetControl : UserControl
 
             if (icon != null)
             {
-                if (_isPaused)
+                if (_isPaused && SettingsManager.Current.TaskbarWidgetShowPauseOverlay && !SettingsManager.Current.TaskbarWidgetControlsEnabled)
                 { // show pause icon overlay
                     SongImagePlaceholder.Symbol = SymbolRegular.Pause24;
                     SongImagePlaceholder.Visibility = Visibility.Visible;

@@ -64,7 +64,7 @@ Catatan: Sebagai proyek open-source, fitur-fitur ini juga tersedia secara gratis
     <system:String x:Key="PremiumPurchaseCancelled">Pembelian dibatalkan.</system:String>
     <system:String x:Key="NextUpCustomizationTitle">Flyout Lanjutan</system:String>
     <system:String x:Key="NextUpDescription" xml:space="preserve">Sebuah flyout menampilkan lagu/video selanjutnya apabila berakhir. Hanya tampil ketika item selanjutnya putar otomatis, jika Berikut/sebelum di tekan manual, flyout utamalah yang akan muncul.</system:String>
-    <system:String x:Key="EnableNextUpTitle">Aktifkan Menu Flyout Berikutnya (Eksperimental)</system:String>
+    <system:String x:Key="EnableNextUpTitle">Aktifkan Flyout Next Up</system:String>
     <system:String x:Key="EnableNextUpDescription">Tampilkan apa selanjutnya apabila lagu/video berakhir</system:String>
     <system:String x:Key="NextUpStayDurationTitle">Durasi Flyout Berikutnya</system:String>
     <system:String x:Key="NextUpStayDurationDescription">(default: 2000 milidetik)</system:String>
@@ -227,4 +227,12 @@ Anda dapat membantu berkontribusi dalam menerjemahkan di</system:String>
     <system:String x:Key="UseAlbumArtAccentColorTitle">Gunakan gambar album sebagai warna aksen</system:String>
     <system:String x:Key="UseAlbumArtAccentColorDescription">Beberapa elemen UI akan menggunakan warna pada gambar album dari pada tema sistem</system:String>
     <system:String x:Key="AdvancedSettingsTitle">Pengaturan Lanjutan</system:String>
+    <system:String x:Key="TaskbarWidgetAutoHideTitle">Sembunyikan Widget Otomatis</system:String>
+    <system:String x:Key="TaskbarWidgetAutoHideDescription">Menyembunyikan widget secara otomatis ketika media dijeda</system:String>
+    <system:String x:Key="TaskbarWidgetShowPauseOverlayTitle">Tampilkan Overlay Ikon Jeda</system:String>
+    <system:String x:Key="TaskbarWidgetShowPauseOverlayDescription">Saat media dijeda, tampilkan ikon jeda di atas sampul album</system:String>
+    <system:String x:Key="LockKeysAnimatedTitle">Animasi Indikator</system:String>
+    <system:String x:Key="LockKeysAnimatedDescription">Aktifkan animasi halus untuk indikator tombol kunci</system:String>
+    <system:String x:Key="LegacyTaskbarWidthTitle">Sistem Lebar Taskbar Lama</system:String>
+    <system:String x:Key="LegacyTaskbarWidthDescription">Gunakan sistem lebar Taskbar lama untuk Widget Taskbar</system:String>
 </ResourceDictionary>

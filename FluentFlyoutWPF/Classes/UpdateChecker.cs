@@ -1,4 +1,4 @@
-// Copyright © 2024-2026 The FluentFlyout Authors
+// Copyright (c) 2024-2026 The FluentFlyout Authors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 using NLog;
@@ -44,7 +44,7 @@ public static class UpdateChecker
         {
             var response = await HttpClient.GetStringAsync(ApiEndpoint);
             var json = JsonDocument.Parse(response);
-            
+
             result.NewestVersion = json.RootElement.GetProperty("version").GetString() ?? string.Empty;
             result.UpdateUrl = json.RootElement.GetProperty("url").GetString() ?? string.Empty;
             result.Success = true;
@@ -71,7 +71,7 @@ public static class UpdateChecker
     public static void OpenUpdateUrl(string url)
     {
         if (string.IsNullOrEmpty(url)) return;
-        
+
         try
         {
             System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
