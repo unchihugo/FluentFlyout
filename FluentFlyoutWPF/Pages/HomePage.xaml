@@ -1,4 +1,4 @@
-﻿<Page x:Class="FluentFlyoutWPF.Pages.HomePage"
+<Page x:Class="FluentFlyoutWPF.Pages.HomePage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -57,7 +57,7 @@
                             </Style>
                         </ui:SymbolIcon.Style>
                     </ui:SymbolIcon>
-                    <StackPanel Orientation="Vertical" VerticalAlignment="Center">
+                    <StackPanel Orientation="Vertical" VerticalAlignment="Center" MinWidth="150">
                         <ui:TextBlock x:Name="UpdateStatusText" FontWeight="SemiBold">
                             <ui:TextBlock.Style>
                                 <Style TargetType="ui:TextBlock">
@@ -67,11 +67,69 @@
                                             <Setter Property="Text" Value="{DynamicResource UpdateAvailable}" />
                                             <Setter Property="Foreground" Value="{DynamicResource AccentTextFillColorPrimaryBrush}" />
                                         </DataTrigger>
+                                        <DataTrigger Binding="{Binding IsDownloadingUpdate, Source={x:Static viewModels:UpdateState.Current}}" Value="True">
+                                            <Setter Property="Text" Value="Downloading update..." />
+                                            <Setter Property="Foreground" Value="{DynamicResource AccentTextFillColorPrimaryBrush}" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding IsUpdateReadyToInstall, Source={x:Static viewModels:UpdateState.Current}}" Value="True">
+                                            <Setter Property="Text" Value="Update ready" />
+                                            <Setter Property="Foreground" Value="{DynamicResource SystemFillColorSuccessBrush}" />
+                                        </DataTrigger>
                                     </Style.Triggers>
                                 </Style>
                             </ui:TextBlock.Style>
                         </ui:TextBlock>
-                        <ui:TextBlock x:Name="LastCheckedText" Opacity="0.5" FontSize="12" />
+                        
+                        <!-- Normal Last Checked Text -->
+                        <ui:TextBlock x:Name="LastCheckedText" Opacity="0.5" FontSize="12">
+                            <ui:TextBlock.Style>
+                                <Style TargetType="ui:TextBlock">
+                                    <Setter Property="Visibility" Value="Visible" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsDownloadingUpdate, Source={x:Static viewModels:UpdateState.Current}}" Value="True">
+                                            <Setter Property="Visibility" Value="Collapsed" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding IsUpdateReadyToInstall, Source={x:Static viewModels:UpdateState.Current}}" Value="True">
+                                            <Setter Property="Visibility" Value="Collapsed" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ui:TextBlock.Style>
+                        </ui:TextBlock>
+
+                        <!-- Download Progress -->
+                        <ProgressBar Height="4" Margin="0,4,0,0" 
+                                     Value="{Binding DownloadProgress, Source={x:Static viewModels:UpdateState.Current}}">
+                            <ProgressBar.Style>
+                                <Style TargetType="ProgressBar" BasedOn="{StaticResource {x:Type ProgressBar}}">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsDownloadingUpdate, Source={x:Static viewModels:UpdateState.Current}}" Value="True">
+                                            <Setter Property="Visibility" Value="Visible" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ProgressBar.Style>
+                        </ProgressBar>
+
+                        <!-- Restart Button -->
+                        <ui:Button Appearance="Primary" Padding="12,2" Margin="0,4,0,0"
+                                   Click="RestartApp_Click">
+                            <ui:Button.Style>
+                                <Style TargetType="ui:Button" BasedOn="{StaticResource {x:Type ui:Button}}">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsUpdateReadyToInstall, Source={x:Static viewModels:UpdateState.Current}}" Value="True">
+                                            <Setter Property="Visibility" Value="Visible" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ui:Button.Style>
+                            <StackPanel Orientation="Horizontal">
+                                <ui:SymbolIcon Symbol="ArrowCounterclockwise20" Margin="0,0,4,0" FontSize="12" />
+                                <TextBlock Text="Restart" FontSize="12" />
+                            </StackPanel>
+                        </ui:Button>
                     </StackPanel>
                 </StackPanel>
             </ui:Button>

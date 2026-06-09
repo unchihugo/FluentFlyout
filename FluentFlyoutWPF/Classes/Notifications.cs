@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2024-2026 The FluentFlyout Authors
+// Copyright (c) 2024-2026 The FluentFlyout Authors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 using FluentFlyout.Classes.Settings;
@@ -38,6 +38,11 @@ internal static class Notifications
                         {
                             OpenUrlInBrowser(url);
                         }
+                        break;
+                    case "restartApp":
+#if GITHUB_RELEASE
+                        GitHubAutoUpdater.RestartApp();
+#endif
                         break;
                 }
             }
@@ -171,6 +176,32 @@ internal static class Notifications
         catch (Exception ex)
         {
             Logger.Error(ex, "Failed to open URL in browser");
+        }
+    }
+
+    /// <summary>
+    /// Show a Windows notification when an update has been silently downloaded and installed
+    /// </summary>
+    /// <param name="newVersion">The new version installed</param>
+    public static void ShowUpdateInstalledNotification(string newVersion)
+    {
+        try
+        {
+            var builder = new ToastContentBuilder()
+                .AddText("Update installed")
+                .AddText($"FluentFlyout has been updated to {newVersion}. Restart the app to apply the update.")
+                .AddButton(new ToastButton()
+                    .SetContent("Restart Now")
+                    .AddArgument("action", "restartApp")
+                    .SetBackgroundActivation());
+
+            builder.Show();
+
+            Logger.Info($"Displayed update installed notification for {newVersion}");
+        }
+        catch (Exception ex)
+        {
+            Logger.Error(ex, "Failed to show update installed notification");
         }
     }
 }

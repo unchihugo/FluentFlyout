@@ -69,6 +69,12 @@ public partial class HomePage : Page
 
         _lastChecked = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
 
+        if (UpdateState.Current.IsUpdateReadyToInstall)
+        {
+            RestartApp_Click(sender, e);
+            return;
+        }
+
         if (UpdateState.Current.IsUpdateAvailable)
         {
             string url = !string.IsNullOrEmpty(UpdateState.Current.UpdateUrl) ? UpdateState.Current.UpdateUrl : "https://fluentflyout.com/changelog/";
@@ -78,6 +84,13 @@ public partial class HomePage : Page
         {
             await CheckForUpdatesAsync();
         }
+    }
+
+    private void RestartApp_Click(object sender, RoutedEventArgs e)
+    {
+#if GITHUB_RELEASE
+        GitHubAutoUpdater.RestartApp();
+#endif
     }
 
     private async Task CheckForUpdatesAsync()
