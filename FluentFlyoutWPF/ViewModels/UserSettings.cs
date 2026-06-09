@@ -466,6 +466,30 @@ public partial class UserSettings : ObservableObject
     public partial bool TaskbarVisualizerEnabled { get; set; }
 
     /// <summary>
+    /// Returns whether app filtering is enabled or disabled.
+    /// </summary>
+    [ObservableProperty]
+    public partial bool AppFilteringEnabled { get; set; }
+
+    /// <summary>
+    /// Returns the active filtering mode. 0 for Whitelist, 1 for Blacklist.
+    /// </summary>
+    [ObservableProperty]
+    public partial int AppFilteringMode { get; set; }
+
+    /// <summary>
+    /// Returns a list of apps that are allowed to display media/update the taskbar.
+    /// </summary>
+    [ObservableProperty]
+    public partial ObservableCollection<string> AllowedApps { get; set; } = new();
+
+    /// <summary>
+    /// Returns a list of apps that are NOT allowed to display media/update the taskbar.
+    /// </summary>
+    [ObservableProperty]
+    public partial ObservableCollection<string> BlockedApps { get; set; } = new();
+
+    /// <summary>
     /// Position of the visualizer, where 0 and 1 are to the left or right of the widget.
     /// </summary>
     [ObservableProperty]
@@ -663,6 +687,8 @@ public partial class UserSettings : ObservableObject
         TaskbarWidgetControlsPosition = 1;
         TaskbarWidgetAnimated = true;
         TaskbarVisualizerEnabled = false;
+        AppFilteringEnabled = false;
+        AppFilteringMode = 0;
         TaskbarVisualizerPosition = 1;
         TaskbarVisualizerClickable = false;
         TaskbarVisualizerBarCount = 10;
@@ -882,6 +908,22 @@ public partial class UserSettings : ObservableObject
     {
         if (oldValue == newValue || _initializing) return;
         BitmapHelper.GetDominantColors(1);
+    }
+
+    partial void OnAppFilteringEnabledChanged(bool oldValue, bool newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+
+        MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+        mainWindow?.RefreshFilteredMedia();
+    }
+
+    partial void OnAppFilteringModeChanged(int oldValue, int newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+
+        MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+        mainWindow?.RefreshFilteredMedia();
     }
 
     partial void OnVolumeMixerHighlightActiveAppsChanged(bool oldValue, bool newValue)
