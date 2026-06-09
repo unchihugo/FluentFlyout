@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2024-2026 The FluentFlyout Authors
+// Copyright (c) 2024-2026 The FluentFlyout Authors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 using System.Diagnostics;
@@ -63,37 +63,37 @@ public static class MediaPlayerData
         processes = cachedProcesses;
 
         var processData = processes.Select(p =>
-        {
-            try
             {
-                // pre-filter processes without a main window handle
-                if (p.MainWindowHandle == IntPtr.Zero)
+                try
                 {
-                    return null;
+                    // pre-filter processes without a main window handle
+                    if (p.MainWindowHandle == IntPtr.Zero)
+                    {
+                        return null;
+                    }
+
+                    var mainModule = p.MainModule;
+                    if (mainModule == null) return null;
+
+                    string path = mainModule.FileName;
+
+                    if (variants.Any(v => path.Contains(v, StringComparison.OrdinalIgnoreCase)))
+                    {
+                        // prioritize the FileDescription for a user-friendly name
+                        // fall back to MainWindowTitle if the description is empty
+                        string title = !string.IsNullOrWhiteSpace(mainModule.FileVersionInfo.FileDescription)
+                                        ? mainModule.FileVersionInfo.FileDescription
+                                        : p.MainWindowTitle;
+
+                        return new { Title = title, Path = path, ProcessId = p.Id };
+                    }
                 }
-
-                var mainModule = p.MainModule;
-                if (mainModule == null) return null;
-
-                string path = mainModule.FileName;
-
-                if (variants.Any(v => path.Contains(v, StringComparison.OrdinalIgnoreCase)))
+                catch (System.ComponentModel.Win32Exception)
                 {
-                    // prioritize the FileDescription for a user-friendly name
-                    // fall back to MainWindowTitle if the description is empty
-                    string title = !string.IsNullOrWhiteSpace(mainModule.FileVersionInfo.FileDescription)
-                                    ? mainModule.FileVersionInfo.FileDescription
-                                    : p.MainWindowTitle;
-
-                    return new { Title = title, Path = path, ProcessId = p.Id };
+                    // silently ignore the exception for inaccessible processes
                 }
-            }
-            catch (System.ComponentModel.Win32Exception)
-            {
-                // silently ignore the exception for inaccessible processes
-            }
-            return null;
-        })
+                return null;
+            })
             .FirstOrDefault(data => data != null); // use first result
 
         if (processData == null) return (mediaTitle, mediaIcon);
