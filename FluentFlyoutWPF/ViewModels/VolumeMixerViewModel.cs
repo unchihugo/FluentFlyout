@@ -103,6 +103,10 @@ public partial class VolumeMixerViewModel : ObservableObject, IDisposable
         {
             IsMasterMuted = true;
         }
+        else
+        {
+            IsMasterMuted = false;
+        }
     }
 
     partial void OnIsMasterMutedChanged(bool value)
