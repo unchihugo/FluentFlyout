@@ -256,4 +256,21 @@
     <system:String x:Key="EnableScrollDescription">يظهر عند الضغط على مفتاح Scroll Lock</system:String>
     <system:String x:Key="TaskbarWidgetFixedWidthTitle">عرض ثابت للأداة المصغرة</system:String>
     <system:String x:Key="TaskbarWidgetFixedWidthDescription">احتفظ بعرض ثابت للأداة بدلاً من تغيير حجمها لتلائم العنوان و الفنان</system:String>
+    <system:String x:Key="AppFilteringTitle">تصفية التطبيق</system:String>
+    <system:String x:Key="AppFilteringRulesDescription">تحكم بالتطبيقات التي يمكنها عرض الوسائط</system:String>
+    <system:String x:Key="EnableAppFilteringTitle">تفعيل التصفية</system:String>
+    <system:String x:Key="AppFilteringModeTitle">وضع التصفية</system:String>
+    <system:String x:Key="AppFilteringModeDescription">حدد من التطبيقات المعروضة اذا كانت مسموحة او محظورة</system:String>
+    <system:String x:Key="AppFilteringModeBlacklist">قائمة الحظر</system:String>
+    <system:String x:Key="AppFilteringModeWhitelist">قائمة المصرح له</system:String>
+    <system:String x:Key="AllowedAppsTitle">التطبيقات المصرح لها</system:String>
+    <system:String x:Key="AllowedAppsDescription">اي تطبيق موجود هنا, يمكن عرض وسائطه.</system:String>
+    <system:String x:Key="BlockedAppsTitle">التطبيقات المستبعدة</system:String>
+    <system:String x:Key="BlockedAppsDescription">استبعد تطبيقًا من الظهور</system:String>
+    <system:String x:Key="AddAppManuallyText">لم تجد تطبيقك؟ اكتب اسمه بالأسفل:</system:String>
+    <system:String x:Key="AppFilteringPlaceholderSpotify">كمثال Spotify.exe</system:String>
+    <system:String x:Key="AppFilteringPlaceholderChrome">كمثال Chrome.exe</system:String>
+    <system:String x:Key="AppFilteringComboBoxHint">اختر تطبيقًا يعمل حاليًا لإضافته</system:String>
+    <system:String x:Key="AddButton">إضافة</system:String>
+    <system:String x:Key="RemoveButton">إزالة</system:String>
 </ResourceDictionary>
