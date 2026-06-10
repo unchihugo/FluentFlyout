@@ -268,4 +268,9 @@
     <system:String x:Key="AppFilteringPlaceholderSpotify">Например, Spotify.exe</system:String>
     <system:String x:Key="AppFilteringPlaceholderChrome">Например, Chrome.exe</system:String>
     <system:String x:Key="AppFilteringComboBoxHint">Выберите запущенное приложение для добавления его</system:String>
+    <system:String x:Key="EnableAppFilteringTitle">Включить фильтрацию</system:String>
+    <system:String x:Key="AppFilteringModeTitle">Режим фильтрации</system:String>
+    <system:String x:Key="AllowedAppsTitle">Разрешить приложения</system:String>
+    <system:String x:Key="AddButton">Добавить</system:String>
+    <system:String x:Key="RemoveButton">Удалить</system:String>
 </ResourceDictionary>
