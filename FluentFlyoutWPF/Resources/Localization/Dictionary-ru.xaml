@@ -256,4 +256,16 @@
     <system:String x:Key="EnableNumDescription">Отображает состояние нажатия клавиши Num Lock</system:String>
     <system:String x:Key="EnableScrollDescription">Отображает состояние нажатия клавиши Scroll Lock</system:String>
     <system:String x:Key="EnableScrollTitle">Включить индикатор Scroll Lock</system:String>
+    <system:String x:Key="AppFilteringTitle">Фильтр приложений</system:String>
+    <system:String x:Key="AppFilteringRulesDescription">Управляйте доступом приложений к медиа</system:String>
+    <system:String x:Key="AppFilteringModeDescription">Выберите, разрешить или заблокировать указанные приложения</system:String>
+    <system:String x:Key="AppFilteringModeBlacklist">Заблокированные</system:String>
+    <system:String x:Key="AppFilteringModeWhitelist">Разрешенные</system:String>
+    <system:String x:Key="AllowedAppsDescription">Отображает медиаконтент только тех приложений, которые добавлены в этот список.</system:String>
+    <system:String x:Key="BlockedAppsTitle">Исключить приложения</system:String>
+    <system:String x:Key="BlockedAppsDescription">Исключает приложение из списка отображения</system:String>
+    <system:String x:Key="AddAppManuallyText">Не нашли приложение? Укажите его ниже:</system:String>
+    <system:String x:Key="AppFilteringPlaceholderSpotify">Например, Spotify.exe</system:String>
+    <system:String x:Key="AppFilteringPlaceholderChrome">Например, Chrome.exe</system:String>
+    <system:String x:Key="AppFilteringComboBoxHint">Выберите запущенное приложение для добавления его</system:String>
 </ResourceDictionary>
