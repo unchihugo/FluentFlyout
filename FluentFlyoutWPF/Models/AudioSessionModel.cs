@@ -52,6 +52,10 @@ public partial class AudioSessionModel : ObservableObject
         {
             IsMuted = true;
         }
+        else
+        {
+            IsMuted = false;
+        }
     }
 
     partial void OnIsMutedChanged(bool value)

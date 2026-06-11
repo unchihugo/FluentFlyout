@@ -428,6 +428,13 @@ public partial class UserSettings : ObservableObject
     public partial bool TaskbarWidgetHideCompletely { get; set; }
 
     /// <summary>
+    /// Gets or sets a value indicating whether the taskbar widget should always be sized at its
+    /// maximum width, so right-aligned controls don't shift when the song changes.
+    /// </summary>
+    [ObservableProperty]
+    public partial bool TaskbarWidgetFixedWidth { get; set; }
+
+    /// <summary>
     /// Gets or sets a value indicating whether the pause icon overlay should be completely hidden from view.
     /// </summary>
     [ObservableProperty]
@@ -457,6 +464,30 @@ public partial class UserSettings : ObservableObject
     /// <remarks>For now, this requires Premium and Taskbar Widget to be enabled.</remarks>
     [ObservableProperty]
     public partial bool TaskbarVisualizerEnabled { get; set; }
+
+    /// <summary>
+    /// Returns whether app filtering is enabled or disabled.
+    /// </summary>
+    [ObservableProperty]
+    public partial bool AppFilteringEnabled { get; set; }
+
+    /// <summary>
+    /// Returns the active filtering mode. 0 for Whitelist, 1 for Blacklist.
+    /// </summary>
+    [ObservableProperty]
+    public partial int AppFilteringMode { get; set; }
+
+    /// <summary>
+    /// Returns a list of apps that are allowed to display media/update the taskbar.
+    /// </summary>
+    [ObservableProperty]
+    public partial ObservableCollection<string> AllowedApps { get; set; } = new();
+
+    /// <summary>
+    /// Returns a list of apps that are NOT allowed to display media/update the taskbar.
+    /// </summary>
+    [ObservableProperty]
+    public partial ObservableCollection<string> BlockedApps { get; set; } = new();
 
     /// <summary>
     /// Position of the visualizer, where 0 and 1 are to the left or right of the widget.
@@ -650,11 +681,14 @@ public partial class UserSettings : ObservableObject
         TaskbarWidgetManualPadding = 0;
         TaskbarWidgetBackgroundBlur = false;
         TaskbarWidgetHideCompletely = false;
+        TaskbarWidgetFixedWidth = false;
         TaskbarWidgetShowPauseOverlay = true;
         TaskbarWidgetControlsEnabled = false;
         TaskbarWidgetControlsPosition = 1;
         TaskbarWidgetAnimated = true;
         TaskbarVisualizerEnabled = false;
+        AppFilteringEnabled = false;
+        AppFilteringMode = 0;
         TaskbarVisualizerPosition = 1;
         TaskbarVisualizerClickable = false;
         TaskbarVisualizerBarCount = 10;
@@ -807,6 +841,12 @@ public partial class UserSettings : ObservableObject
         UpdateTaskbar();
     }
 
+    partial void OnTaskbarWidgetFixedWidthChanged(bool oldValue, bool newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+        UpdateTaskbar();
+    }
+
     partial void OnTaskbarWidgetShowPauseOverlayChanged(bool oldValue, bool newValue)
     {
         if (oldValue == newValue || _initializing) return;
@@ -868,6 +908,22 @@ public partial class UserSettings : ObservableObject
     {
         if (oldValue == newValue || _initializing) return;
         BitmapHelper.GetDominantColors(1);
+    }
+
+    partial void OnAppFilteringEnabledChanged(bool oldValue, bool newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+
+        MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+        mainWindow?.RefreshFilteredMedia();
+    }
+
+    partial void OnAppFilteringModeChanged(int oldValue, int newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+
+        MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+        mainWindow?.RefreshFilteredMedia();
     }
 
     partial void OnVolumeMixerHighlightActiveAppsChanged(bool oldValue, bool newValue)

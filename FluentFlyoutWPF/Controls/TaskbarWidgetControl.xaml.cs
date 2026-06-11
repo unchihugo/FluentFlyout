@@ -217,9 +217,19 @@ public partial class TaskbarWidgetControl : UserControl
             _cachedArtistText = currentArtist;
         }
 
-        double logicalWidth = Math.Max(_cachedTitleWidth, _cachedArtistWidth) + 55; // add margin for cover image
         // maximum width limit, same as Windows native widget
-        logicalWidth = Math.Min(logicalWidth, _nativeWidgetsPadding / _scale);
+        double maxLogicalWidth = _nativeWidgetsPadding / _scale;
+        double logicalWidth;
+        if (SettingsManager.Current.TaskbarWidgetFixedWidth)
+        {
+            // pin to maximum width so right-aligned controls don't shift between songs
+            logicalWidth = maxLogicalWidth;
+        }
+        else
+        {
+            logicalWidth = Math.Max(_cachedTitleWidth, _cachedArtistWidth) + 55; // add margin for cover image
+            logicalWidth = Math.Min(logicalWidth, maxLogicalWidth);
+        }
 
         SongTitle.Width = Math.Max(logicalWidth - 58, 0);
         SongArtist.Width = Math.Max(logicalWidth - 58, 0);
@@ -418,10 +428,7 @@ public partial class TaskbarWidgetControl : UserControl
     {
         if (_mainWindow == null) return;
 
-        var mediaManager = _mainWindow.mediaManager;
-        if (mediaManager == null) return;
-
-        var focusedSession = mediaManager.GetFocusedSession();
+        var focusedSession = _mainWindow.GetActiveMediaSession();
         if (focusedSession == null) return;
 
         await focusedSession.ControlSession.TrySkipPreviousAsync();
@@ -431,30 +438,17 @@ public partial class TaskbarWidgetControl : UserControl
     {
         if (_mainWindow == null) return;
 
-        var mediaManager = _mainWindow.mediaManager;
-        if (mediaManager == null) return;
-
-        var focusedSession = mediaManager.GetFocusedSession();
+        var focusedSession = _mainWindow.GetActiveMediaSession();
         if (focusedSession == null) return;
 
-        if (_isPaused) // paused
-        {
-            await focusedSession.ControlSession.TryPlayAsync();
-        }
-        else // playing
-        {
-            await focusedSession.ControlSession.TryPauseAsync();
-        }
+        await focusedSession.ControlSession.TryTogglePlayPauseAsync();
     }
 
     private async void Next_Click(object sender, RoutedEventArgs e)
     {
         if (_mainWindow == null) return;
 
-        var mediaManager = _mainWindow.mediaManager;
-        if (mediaManager == null) return;
-
-        var focusedSession = mediaManager.GetFocusedSession();
+        var focusedSession = _mainWindow.GetActiveMediaSession();
         if (focusedSession == null) return;
 
         await focusedSession.ControlSession.TrySkipNextAsync();
