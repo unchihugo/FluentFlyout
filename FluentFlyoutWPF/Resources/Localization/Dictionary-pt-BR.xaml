@@ -248,4 +248,10 @@ Nota: Como um projeto de código aberto, esses recursos também estão disponív
     <system:String x:Key="VolumeMixerHighlightTitle">Destacar aplicativos que estão reproduzindo áudio</system:String>
     <system:String x:Key="VolumeMixerHighlightDescription">Ver quais aplicativos estão emitindo áudio no momento</system:String>
     <system:String x:Key="MasterVolumeText">Volume principal</system:String>
+    <system:String x:Key="EnableCapsTitle">Ativar indicador do Caps Lock</system:String>
+    <system:String x:Key="EnableCapsDescription">Exibe quando a tecla Caps Lock é pressionada</system:String>
+    <system:String x:Key="EnableNumTitle">Ativar indicador do Num Lock</system:String>
+    <system:String x:Key="EnableNumDescription">Exibe quando a tecla Num Lock é pressionada</system:String>
+    <system:String x:Key="EnableScrollTitle">Ativar indicador do Scroll Lock</system:String>
+    <system:String x:Key="EnableScrollDescription">Exibe quando a tecla Scroll Lock é pressionada</system:String>
 </ResourceDictionary>
