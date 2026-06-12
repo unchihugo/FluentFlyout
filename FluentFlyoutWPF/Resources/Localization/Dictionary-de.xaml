@@ -245,4 +245,13 @@ Du kannst helfen, die App zu übersetzen auf</system:String>
     <system:String x:Key="EnableVolumeMixerTitle">Aktiviere Lautstärke Mixer</system:String>
     <system:String x:Key="VolumeMixerHighlightTitle">Hebe Audio abspielende Apps hervor</system:String>
     <system:String x:Key="VolumeMixerHighlightDescription">Zeige alle aktuell Audio ausgebenden Apps</system:String>
+    <system:String x:Key="VolumeFlyoutDescription">Ein alleinstehendes Lautstärkeregler-Flyout, welches zu einem Lautstärke Mixer expandiert und das standart Windows Lautstärke Bedienfeld ersetzt.</system:String>
+    <system:String x:Key="EnableVolumeMixerDescription">Feine Kontrolle über die Lautstärke einzelner Apps</system:String>
+    <system:String x:Key="MasterVolumeText">Hauptlautstärke</system:String>
+    <system:String x:Key="EnableCapsTitle">Feststelltasten Indikator aktivieren</system:String>
+    <system:String x:Key="EnableCapsDescription">Wird gezeigt wenn die Feststelltaste gedrückt wird</system:String>
+    <system:String x:Key="EnableNumTitle">Num-Lock-Taste Indikator aktivieren</system:String>
+    <system:String x:Key="EnableNumDescription">Wird gezeigt wenn die Num-Lock-Taste gedrückt wird</system:String>
+    <system:String x:Key="EnableScrollTitle">Scroll-Lock-Taste Indikator aktivieren</system:String>
+    <system:String x:Key="EnableScrollDescription">Wird gezeigt wenn die Scroll-Lock-Taste gedrückt wird</system:String>
 </ResourceDictionary>

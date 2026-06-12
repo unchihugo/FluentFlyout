@@ -233,4 +233,9 @@
     <system:String x:Key="TaskbarWidgetAutoHideDescription">Приховувати віджет автоматично, коли медіа на паузі</system:String>
     <system:String x:Key="LockKeysAnimatedTitle">Анімації індикатора</system:String>
     <system:String x:Key="LockKeysAnimatedDescription">Увімкнути ледь помітну анімацію для індикатора клавіш блокування</system:String>
+    <system:String x:Key="TaskbarWidgetFixedWidthTitle">Фіксована ширина віджета</system:String>
+    <system:String x:Key="TaskbarWidgetFixedWidthDescription">Зберігати ширину віджета незалежно від довжини тексту</system:String>
+    <system:String x:Key="VolumeMixerHighlightPerk">Підсвічувати активні програми в мікшері гучності</system:String>
+    <system:String x:Key="EnableCapsTitle">Увімкнути індикатор Caps Lock</system:String>
+    <system:String x:Key="EnableCapsDescription">Показувати індикатор, коли натиснуто Caps Lock</system:String>
 </ResourceDictionary>
