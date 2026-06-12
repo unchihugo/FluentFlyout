@@ -7,7 +7,7 @@
       xmlns:viewModels="clr-namespace:FluentFlyoutWPF.ViewModels"
       xmlns:controls="clr-namespace:MicaWPF.Controls;assembly=MicaWPF"
       mc:Ignorable="d"
-      d:DesignHeight="800" d:DesignWidth="800"
+      d:DesignHeight="1600" d:DesignWidth="800"
       Title="LockKeysPage"
       d:DataContext="{d:DesignInstance viewModels:UserSettings}"
       Foreground="{DynamicResource TextFillColorPrimaryBrush}"
@@ -90,7 +90,6 @@
                     <StackPanel Orientation="Vertical">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="{DynamicResource LockKeysCursorUITitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
-                            <ui:InfoBadge Value=" NEW " FontWeight="Medium" FontSize="10" Margin="6,-2,0,-2" Severity="Success" />
                         </StackPanel>
                         <TextBlock Text="{DynamicResource LockKeysCursorUIDescription}" FontSize="12" Opacity="0.5" />
                     </StackPanel>
@@ -113,7 +112,10 @@
             <ui:CardControl Grid.Row="8" Icon="{ui:SymbolIcon TextCaseTitle24}" Margin="0,0,0,3">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
-                        <TextBlock Text="{DynamicResource EnableCapsTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{DynamicResource EnableCapsTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
+                            <ui:InfoBadge Value=" NEW " FontWeight="Medium" FontSize="10" Margin="6,-2,0,-2" Severity="Success" />
+                        </StackPanel>
                         <TextBlock Text="{DynamicResource EnableCapsDescription}" FontSize="12" Opacity="0.5" />
                     </StackPanel>
                 </ui:CardControl.Header>
@@ -122,7 +124,10 @@
             <ui:CardControl Grid.Row="9" Icon="{ui:SymbolIcon NumberSymbol24}" Margin="0,0,0,3">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
-                        <TextBlock Text="{DynamicResource EnableNumTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{DynamicResource EnableNumTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
+                            <ui:InfoBadge Value=" NEW " FontWeight="Medium" FontSize="10" Margin="6,-2,0,-2" Severity="Success" />
+                        </StackPanel>
                         <TextBlock Text="{DynamicResource EnableNumDescription}" FontSize="12" Opacity="0.5" />
                     </StackPanel>
                 </ui:CardControl.Header>
@@ -131,7 +136,10 @@
             <ui:CardControl Grid.Row="10" Icon="{ui:SymbolIcon ArrowBetweenDown24}" Margin="0,0,0,76">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
-                        <TextBlock Text="{DynamicResource EnableScrollTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{DynamicResource EnableScrollTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
+                            <ui:InfoBadge Value=" NEW " FontWeight="Medium" FontSize="10" Margin="6,-2,0,-2" Severity="Success" />
+                        </StackPanel>
                         <TextBlock Text="{DynamicResource EnableScrollDescription}" FontSize="12" Opacity="0.5" />
                     </StackPanel>
                 </ui:CardControl.Header>
