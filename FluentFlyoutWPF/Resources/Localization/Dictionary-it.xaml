@@ -3,10 +3,10 @@
     <system:String x:Key="LockWindow_NumLock">Bloc Num</system:String>
     <system:String x:Key="LockWindow_ScrollLock">Bloc Scorr</system:String>
     <system:String x:Key="LockWindow_InsertPressed">Insert Premuto</system:String>
-    <system:String x:Key="LockWindow_LockOn">attivo</system:String>
-    <system:String x:Key="LockWindow_LockOff">disattivato</system:String>
+    <system:String x:Key="LockWindow_LockOn">on</system:String>
+    <system:String x:Key="LockWindow_LockOff">off</system:String>
     <system:String x:Key="TitleText">Impostazioni di FluentFlyout</system:String>
-    <system:String x:Key="MediaFlyoutTitle">Media Flyout</system:String>
+    <system:String x:Key="MediaFlyoutTitle">Flyout media</system:String>
     <system:String x:Key="MediaFlyoutDescription">Quando ascolti un contenuto multimediale, premi un qualsiasi tasto controllo multimediale o volume (Play/Pausa, Volume su/Volume Giù, ecc...) sulla tua tastiera per mostrare il flyout. Mostra le informazioni del contenuto assieme ai controlli per la riproduzione e altro.</system:String>
     <system:String x:Key="TextBlockText1">Abilita il Media Flyout</system:String>
     <system:String x:Key="TextBlockText3">Mostra il flyout quando premi un tasto per il controllo dei contenuti multimediali</system:String>
@@ -54,9 +54,9 @@ nasconde ripeti, riproduzione casuale e le informazioni del player</system:Strin
     <system:String x:Key="TaskbarWidgetPaddingDescription">Attiva questa funzione se hai i Widget di Windows attivi</system:String>
     <system:String x:Key="TaskbarWidgetClickableTitle">Premi per Aprire il Media Flyout se un Contenuto è Presente</system:String>
     <system:String x:Key="TaskbarWidgetClickableDescription">Se il flyout multimediale è attivato, si aprirà quando premerai sul widget nella barra delle applicazione</system:String>
-    <system:String x:Key="TaskbarWidgetBackgroundBlurTitle">Sfocatura Sfondo</system:String>
+    <system:String x:Key="TaskbarWidgetBackgroundBlurTitle">Sfocatura sfondo</system:String>
     <system:String x:Key="TaskbarWidgetBackgroundBlurDescription">Aggiunge un effetto di sfocatura dello sfondo al widget nella barra delle applicazioni</system:String>
-    <system:String x:Key="TaskbarWidgetHideCompletelyTitle">Nascondi Quando Nessun Contenuto è Presente</system:String>
+    <system:String x:Key="TaskbarWidgetHideCompletelyTitle">Nascondi quando nessun contenuto è presente</system:String>
     <system:String x:Key="TaskbarWidgetHideCompletelyDescription">Nasconde l’intero widget in assenza di contenuti multimediali, invece di mostrare un’icona multimediale</system:String>
     <system:String x:Key="PremiumFeatureTitle">Funzionalità Premium</system:String>
     <system:String x:Key="PremiumFeatureDescription" xml:space="preserve">Il tuo contributo una tantum mi aiuta a mantenere FluentFlyout attivo e aggiornato. Sblocca immediatamente tutte le funzionalità premium di personalizzazione, per sempre.
@@ -129,7 +129,7 @@ Puoi contribuire alla traduzione su</system:String>
     <system:String x:Key="NextUpWindow_UpNextText">Prossimo:</system:String>
     <system:String x:Key="TrayIcon_SettingsOption">Impostazioni</system:String>
     <system:String x:Key="TrayIcon_GitHubRepositoryOption">Repository</system:String>
-    <system:String x:Key="TrayIcon_ReportBugOption">Segnala Problema</system:String>
+    <system:String x:Key="TrayIcon_ReportBugOption">Segnala problema</system:String>
     <system:String x:Key="TrayIcon_QuitOption">Chiudi FluentFlyout</system:String>
     <system:String x:Key="TaskbarWidgetControlsTitle">Controlli Multimediali Widget</system:String>
     <system:String x:Key="TaskbarWidgetControlsDescription">Mostra i pulsanti di controllo dei contenuti multimediali sul widget</system:String>
@@ -145,7 +145,7 @@ Puoi contribuire alla traduzione su</system:String>
     <system:String x:Key="PixelsUnit">px</system:String>
     <system:String x:Key="UpdateToastTitle">FluentFlyout è stato aggiornato!</system:String>
     <system:String x:Key="UpdateToastMessage">La tua versione attuale: {0}.</system:String>
-    <system:String x:Key="UpdateToastButton">Controlla Aggiornamenti</system:String>
+    <system:String x:Key="UpdateToastButton">Controlla aggiornamenti</system:String>
     <system:String x:Key="HomeTitle">Home</system:String>
     <system:String x:Key="Enabled">Attivato</system:String>
     <system:String x:Key="Disabled">Disattivato</system:String>
@@ -156,7 +156,7 @@ Puoi contribuire alla traduzione su</system:String>
     <system:String x:Key="HomeDashboardTitle">Dashboard</system:String>
     <system:String x:Key="SystemConfigure">Configura</system:String>
     <system:String x:Key="AboutContributorsTitle">❤️ I Nostri Collaboratori</system:String>
-    <system:String x:Key="AboutContributorsDescription">Grazie mille a tutte le straordinarie persone che hanno contribuito all sviluppo e al successo di FluentFlyout!</system:String>
+    <system:String x:Key="AboutContributorsDescription">Grazie mille a tutte le straordinarie persone che hanno contribuito allo sviluppo e al successo di FluentFlyout!</system:String>
     <system:String x:Key="AboutOpenSourceLicensesTitle">Licenze Open Source</system:String>
     <system:String x:Key="AboutOpenSourceLicensesDescription">FluentFlyout è compilato con i seguenti pacchetti open source:</system:String>
     <system:String x:Key="AboutTitle">Info</system:String>
@@ -164,7 +164,7 @@ Puoi contribuire alla traduzione su</system:String>
     <system:String x:Key="UpToDate">Aggiornato</system:String>
     <system:String x:Key="LastChecked">Ultimo controllo: {0}</system:String>
     <system:String x:Key="CheckingForUpdates">Controllando...</system:String>
-    <system:String x:Key="UpdateAvailableNotificationTitle">Aggiornamento Disponibile!</system:String>
+    <system:String x:Key="UpdateAvailableNotificationTitle">Aggiornamento disponibile!</system:String>
     <system:String x:Key="UpdateAvailableNotificationMessage">Una nuova versione ({0}) è disponibile.</system:String>
     <system:String x:Key="UpdateAvailableNotificationButton">Scarica Aggiornamento</system:String>
     <system:String x:Key="MediaFlyoutExcludeVolumeTitle">Escludi i Tasti Volume</system:String>
@@ -209,7 +209,7 @@ Puoi contribuire alla traduzione su</system:String>
     <system:String x:Key="ImportSuccessful">Importazione riuscita</system:String>
     <system:String x:Key="ImportFailed">Importazione fallita</system:String>
     <system:String x:Key="SettingsExportedSuccessfully">Impostazioni esportate correttamente!</system:String>
-    <system:String x:Key="FailedToExportSettings">Esportazione delle impostazioni fallita. Controlla i log per dettagli.</system:String>
+    <system:String x:Key="FailedToExportSettings">Esportazione delle impostazioni fallita. Controlla i log per i dettagli.</system:String>
     <system:String x:Key="SettingsImportedSuccessfully">Impostazioni importate con successo! L'applicazione si riavvierà per applicare i cambiamenti.</system:String>
     <system:String x:Key="ImportSettingsWarning">Questo sostituirà tutte le impostazioni attuali. Continuare?</system:String>
     <system:String x:Key="FailedToImportSettings">Importazione delle impostazioni fallita. Controlla i log per dettagli.</system:String>
@@ -236,13 +236,13 @@ Puoi contribuire alla traduzione su</system:String>
     <system:String x:Key="TaskbarWidgetShowPauseOverlayTitle">Mostra icona di pausa nell'overlay</system:String>
     <system:String x:Key="TaskbarWidgetShowPauseOverlayDescription">Quando il media è in pausa, mostra un'icona di pausa sulla copertina dell'album</system:String>
     <system:String x:Key="VolumeMixerHighlightPerk">Avidenzia le app attive nel mixer del volume</system:String>
-    <system:String x:Key="VolumeFlyoutTitle">Flyout del Volume</system:String>
+    <system:String x:Key="VolumeFlyoutTitle">Flyout del volume</system:String>
     <system:String x:Key="VolumeFlyoutDescription">Un pannello di controllo del volume indipendente che si espande in un mixer del volume, sostituendo l'interfaccia predefinita di Windows per il controllo del volume.</system:String>
-    <system:String x:Key="EnableVolumeFlyoutTitle">Attiva il Flyout del Volume</system:String>
+    <system:String x:Key="EnableVolumeFlyoutTitle">Attiva il Flyout del volume</system:String>
     <system:String x:Key="EnableVolumeFlyoutDescription">Rimpiazza il Flyout di default di Windows</system:String>
     <system:String x:Key="VolumeAboveMediaFlyoutTitle">Posiziona il Flyout del volume sopra il Flyout dei Media</system:String>
-    <system:String x:Key="VolumeMixerSectionTitle">Mixer del Volume</system:String>
-    <system:String x:Key="EnableVolumeMixerTitle">Abilita il Mixer del Volume</system:String>
+    <system:String x:Key="VolumeMixerSectionTitle">Mixer del volume</system:String>
+    <system:String x:Key="EnableVolumeMixerTitle">Abilita il Mixer del volume</system:String>
     <system:String x:Key="EnableVolumeMixerDescription">Controllo preciso dei volumi delle singole app</system:String>
     <system:String x:Key="VolumeMixerHighlightTitle">Evidenzia le app che riproducono audio</system:String>
     <system:String x:Key="VolumeMixerHighlightDescription">Scopri quali app stanno attualmente riproducendo audio</system:String>
@@ -256,4 +256,21 @@ Puoi contribuire alla traduzione su</system:String>
     <system:String x:Key="EnableScrollDescription">Mostra quando il Blocco scorrimento viene premuto</system:String>
     <system:String x:Key="TaskbarWidgetFixedWidthTitle">Laghezza fissa del Widget</system:String>
     <system:String x:Key="TaskbarWidgetFixedWidthDescription">Mantieni il Widget ad una laghezza fissa invece di ridimensionarlo per far stare il nome dell'artista ed il titolo</system:String>
+    <system:String x:Key="AddButton">Aggiungi</system:String>
+    <system:String x:Key="RemoveButton">Rimuovi</system:String>
+    <system:String x:Key="AppFilteringTitle">Filtro applicazioni</system:String>
+    <system:String x:Key="AppFilteringRulesDescription">Controlla quali applicazioni possono mostrare i media</system:String>
+    <system:String x:Key="EnableAppFilteringTitle">Attiva il filtro</system:String>
+    <system:String x:Key="AppFilteringModeTitle">Modalità filtro</system:String>
+    <system:String x:Key="AppFilteringModeDescription">Scegli se le applicazioni elencate sono consentite o bloccate</system:String>
+    <system:String x:Key="AppFilteringModeBlacklist">Block list</system:String>
+    <system:String x:Key="AppFilteringModeWhitelist">Elenco consentiti</system:String>
+    <system:String x:Key="AllowedAppsTitle">Applicazioni consentite</system:String>
+    <system:String x:Key="AllowedAppsDescription">Le applicazioni elencate qui mostreranno solo i loro media.</system:String>
+    <system:String x:Key="BlockedAppsTitle">Applicazioni escluse</system:String>
+    <system:String x:Key="BlockedAppsDescription">Esclude un'applicazione dall'essere visualizzata</system:String>
+    <system:String x:Key="AddAppManuallyText">Non riesci a trovare la tua applicazione? Scrivi qui sotto:</system:String>
+    <system:String x:Key="AppFilteringPlaceholderSpotify">es. Spotify.exe</system:String>
+    <system:String x:Key="AppFilteringPlaceholderChrome">es. Chrome.exe</system:String>
+    <system:String x:Key="AppFilteringComboBoxHint">Seleziona un'applicazione attualmente in uso da aggiungere</system:String>
 </ResourceDictionary>
