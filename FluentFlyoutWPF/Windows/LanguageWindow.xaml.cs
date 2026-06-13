@@ -142,6 +142,10 @@ public partial class LanguageWindow : MicaWindow
                 Color systemColor = colorObj is Color c ? c : ((SolidColorBrush)Application.Current.TryFindResource("MicaWPF.Brushes.AccentFillColorDefault")).Color;
 
                 double targetWidth = SettingsManager.Current.LanguageFlyoutWidth;
+                if (!SettingsManager.Current.LanguageFlyoutShowRegion)
+                {
+                    targetWidth *= 0.6;
+                }
                 var monitor = GetSelectedMonitor(SettingsManager.Current.FlyoutSelectedMonitor);
                 double newRawWidth = Math.Ceiling(targetWidth * monitor.dpiX / 96.0);
                 double newLeft = Math.Ceiling(monitor.workArea.Left + (monitor.workArea.Width / 2) - (newRawWidth / 2));
@@ -230,7 +234,12 @@ public partial class LanguageWindow : MicaWindow
                 if (_isHiding)
                 {
                     _isHiding = false;
-                    Width = SettingsManager.Current.LanguageFlyoutWidth;
+                    double targetWidth = SettingsManager.Current.LanguageFlyoutWidth;
+                    if (!SettingsManager.Current.LanguageFlyoutShowRegion)
+                    {
+                        targetWidth *= 0.6;
+                    }
+                    Width = targetWidth;
                     _openedMonitor = GetSelectedMonitor(SettingsManager.Current.FlyoutSelectedMonitor);
                     _mainWindow.OpenAnimation(window: this, alwaysBottom: true, selectedMonitor: _openedMonitor);
                 }

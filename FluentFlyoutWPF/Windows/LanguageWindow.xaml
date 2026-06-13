@@ -6,7 +6,7 @@
     xmlns:controls="clr-namespace:MicaWPF.Controls;assembly=MicaWPF"
     xmlns:viewModels="clr-namespace:FluentFlyoutWPF.ViewModels"
     mc:Ignorable="d" 
-    Height="50" MinWidth="160"
+    Height="50" MinWidth="100"
     ResizeMode="NoResize"
     WindowStyle="None" ShowInTaskbar="False"
     ChangeTitleColorWhenInactive="False" Visibility="Visible"
