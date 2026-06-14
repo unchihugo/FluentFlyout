@@ -23,7 +23,8 @@ public partial class AboutViewModel : ObservableObject
         "neegool",
         "mak7im01",
         "Hikaru11747",
-        "FireWall-code"
+        "FireWall-code",
+        "Saransh"
      ];
 
     public ObservableCollection<string> Translators { get; } =
@@ -79,7 +80,8 @@ public partial class AboutViewModel : ObservableObject
         "mak7im01",
         "D4N_A",
         "Haeil",
-        "FireWall-code"
+        "FireWall-code",
+        "saini07ayush"
     ];
 
 
