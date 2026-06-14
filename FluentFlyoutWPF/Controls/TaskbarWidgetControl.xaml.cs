@@ -215,7 +215,7 @@ public partial class TaskbarWidgetControl : UserControl
         string currentTitle = _actualTitle;
         string currentArtist = _actualArtist;
 
-        bool textChanged = false;
+        bool textChanged = false; // determines if we need to recalculate marquee or just adjust widths
 
         if (!string.Equals(currentTitle, _cachedTitleText, StringComparison.Ordinal))
         {
@@ -235,6 +235,7 @@ public partial class TaskbarWidgetControl : UserControl
         double logicalWidth;
         if (SettingsManager.Current.TaskbarWidgetFixedWidth)
         {
+            // pin to maximum width so right-aligned controls don't shift between songs
             logicalWidth = maxLogicalWidth;
         }
         else
@@ -283,12 +284,13 @@ public partial class TaskbarWidgetControl : UserControl
         _lastScrollingSpeed = scrollingSpeed;
         _lastScrollingLoop = scrollingLoop;
 
+        // add space for playback controls if enabled and visible
         if (SettingsManager.Current.TaskbarWidgetControlsEnabled && ControlsStackPanel.Visibility == Visibility.Visible)
         {
             logicalWidth += (int)(102);
         }
 
-        double logicalHeight = 40;
+        double logicalHeight = 40; // default height
 
         return (logicalWidth, logicalHeight);
     }
@@ -306,7 +308,7 @@ public partial class TaskbarWidgetControl : UserControl
             textBlock.TextTrimming = TextTrimming.None;
 
             string origText = textBlock == SongTitle ? _actualTitle : _actualArtist;
-            string spaceStr = "     ";
+            string spaceStr = "     "; // spacing between each iteration of the infinite text
             double spaceWidth = StringWidth.GetStringWidth(spaceStr, 400);
 
             var opacityMask = new LinearGradientBrush();
@@ -351,7 +353,7 @@ public partial class TaskbarWidgetControl : UserControl
             else
             {
                 textBlock.Text = origText;
-                // default style (back and forth)
+                // default style as in apps such as Spotify (ping pong)
                 double scrollDistance = textWidth - containerWidth + 10;
                 double durationSeconds = scrollDistance / speed;
 
