@@ -265,4 +265,8 @@
     <system:String x:Key="AppFilteringPlaceholderSpotify">जैसे Spotify.exe</system:String>
     <system:String x:Key="AppFilteringPlaceholderChrome">जैसे Chrome.exe</system:String>
     <system:String x:Key="EnableVolumeFlyoutDescription">डिफ़ॉल्ट विंडोज वॉल्यूम फ़्लाईआउट को बदलें</system:String>
+    <system:String x:Key="AppFilteringModeTitle">फ़िल्टर मोड</system:String>
+    <system:String x:Key="AppFilteringModeBlacklist">ब्लॉक सूची</system:String>
+    <system:String x:Key="RemoveButton">हटाएं</system:String>
+    <system:String x:Key="MasterVolumeText">मास्टर वॉल्यूम</system:String>
 </ResourceDictionary>
