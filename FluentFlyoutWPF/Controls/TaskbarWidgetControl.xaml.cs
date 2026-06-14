@@ -246,6 +246,9 @@ public partial class TaskbarWidgetControl : UserControl
         double newTitleContainerWidth = Math.Max(logicalWidth - 58, 0);
         double newArtistContainerWidth = Math.Max(logicalWidth - 58, 0);
 
+        // holds the width available for the text after accounting for padding and controls, used for determining when to scroll
+        double availableTextWidth = Math.Max(maxLogicalWidth - 58, 0);
+
         bool scrollingTitleSetting = SettingsManager.Current.TaskbarWidgetScrollingTitleText;
         bool scrollingArtistSetting = SettingsManager.Current.TaskbarWidgetScrollingArtistText;
         int scrollingSpeed = SettingsManager.Current.TaskbarWidgetScrollingTextSpeed;
@@ -260,7 +263,7 @@ public partial class TaskbarWidgetControl : UserControl
             SongTitleContainer.Width = newTitleContainerWidth;
             _cachedTitleContainerWidth = newTitleContainerWidth;
 
-            UpdateMarquee(SongTitle, SongTitleContainer, _cachedTitleWidth, scrollingTitleSetting, scrollingSpeed, scrollingLoop);
+            UpdateMarquee(SongTitle, SongTitleContainer, _cachedTitleWidth, availableTextWidth, scrollingTitleSetting, scrollingSpeed, scrollingLoop);
         }
 
         bool artistSettingsChanged = _lastScrollingArtistSetting != scrollingArtistSetting ||
@@ -272,7 +275,7 @@ public partial class TaskbarWidgetControl : UserControl
             SongArtistContainer.Width = newArtistContainerWidth;
             _cachedArtistContainerWidth = newArtistContainerWidth;
 
-            UpdateMarquee(SongArtist, SongArtistContainer, _cachedArtistWidth, scrollingArtistSetting, scrollingSpeed, scrollingLoop);
+            UpdateMarquee(SongArtist, SongArtistContainer, _cachedArtistWidth, availableTextWidth, scrollingArtistSetting, scrollingSpeed, scrollingLoop);
         }
 
         _lastScrollingTitleSetting = scrollingTitleSetting;
@@ -290,14 +293,14 @@ public partial class TaskbarWidgetControl : UserControl
         return (logicalWidth, logicalHeight);
     }
 
-    private void UpdateMarquee(System.Windows.Controls.TextBlock textBlock, Canvas container, double textWidth, bool isEnabled, int speed, bool loopForever)
+    private void UpdateMarquee(System.Windows.Controls.TextBlock textBlock, Canvas container, double textWidth, double availableWidth, bool isEnabled, int speed, bool loopForever)
     {
         var transform = textBlock.RenderTransform as TranslateTransform;
         if (transform == null) return;
 
         double containerWidth = container.Width;
 
-        if (isEnabled && textWidth > containerWidth + 2 && containerWidth > 0 && !double.IsNaN(containerWidth))
+        if (isEnabled && textWidth > availableWidth && containerWidth > 0 && !double.IsNaN(containerWidth))
         {
             textBlock.Width = double.NaN;
             textBlock.TextTrimming = TextTrimming.None;
