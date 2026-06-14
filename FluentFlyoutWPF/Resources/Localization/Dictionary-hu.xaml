@@ -1,0 +1,232 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib">
+    <system:String x:Key="TitleText">FluentFlyout beállítások</system:String>
+    <system:String x:Key="HomeTitle">Kezdőlap</system:String>
+    <system:String x:Key="Enabled">Engedélyezve</system:String>
+    <system:String x:Key="Disabled">Letiltva</system:String>
+    <system:String x:Key="MediaFlyoutTitle">Média Flyout</system:String>
+    <system:String x:Key="MediaFlyoutDescription">Amikor médiatartalmat hallgat, nyomja meg bármelyik média- vagy hangerőgombot (lejátszás/szünet, hangerő fel/le, stb.) a billentyűzeten a flyout megjelenítéséhez. Megjeleníti a média információkat, valamint a lejátszási vezérlőket és egyebeket.</system:String>
+    <system:String x:Key="TextBlockText1">Média Flyout engedélyezése</system:String>
+    <system:String x:Key="TextBlockText3">Flyout megjelenítése a média gomb megnyomásakor</system:String>
+    <system:String x:Key="MediaFlyoutExcludeVolumeTitle">Hangerő gombok kizárása</system:String>
+    <system:String x:Key="MediaFlyoutExcludeVolumeDescription">Ne jelenítse meg a flyout-ot a hangerő fel/le/némítás gombok megnyomásakor</system:String>
+    <system:String x:Key="TextBlockText2">Válasszon egy előre beállított modern háttér elmosódás stílust</system:String>
+    <system:String x:Key="BackgroundBlurOption1" xml:space="preserve"> Nincs</system:String>
+    <system:String x:Key="BackgroundBlurOption2" xml:space="preserve"> Stílus 1 (Borítófény)</system:String>
+    <system:String x:Key="BackgroundBlurOption3" xml:space="preserve"> Stílus 2 (Fényáramlás)</system:String>
+    <system:String x:Key="BackgroundBlurOption4" xml:space="preserve"> Stílus 3 (Elmosódás)</system:String>
+    <system:String x:Key="BackgroundBlurTitle">Háttér elmosódás</system:String>
+    <system:String x:Key="AcrylicWindowTitle">Akril ablak</system:String>
+    <system:String x:Key="AcrylicWindowDescription">Alkalmazzon átlátszó akril elmosódási hatást a flyout-ra (ki kapcsolás visszaállítja a Mica-t)</system:String>
+    <system:String x:Key="CompactLayoutTitle">Kompakt elrendezés</system:String>
+    <system:String x:Key="CompactLayoutDescription" xml:space="preserve">Keskenyebb és kevésbé zavaró elrendezés
+elrejti az ismétlés, keverés és lejátszó információkat</system:String>
+    <system:String x:Key="SelectedMonitorTitle">Flyout képernyője</system:String>
+    <system:String x:Key="FlyoutPositionTitle">Flyout pozíció</system:String>
+    <system:String x:Key="PositionBottomLeft" xml:space="preserve"> Bal alsó</system:String>
+    <system:String x:Key="PositionBottomCenter" xml:space="preserve"> Alsó közép</system:String>
+    <system:String x:Key="PositionBottomRight" xml:space="preserve"> Jobb alsó</system:String>
+    <system:String x:Key="PositionTopLeft" xml:space="preserve"> Bal felső</system:String>
+    <system:String x:Key="PositionTopCenter" xml:space="preserve"> Felső közép</system:String>
+    <system:String x:Key="PositionTopRight" xml:space="preserve"> Felső jobb</system:String>
+    <system:String x:Key="FlyoutStayDurationTitle">Flyout ablak megjelenítési ideje</system:String>
+    <system:String x:Key="FlyoutStayDurationDescription">(alapértelmezett: 3000 ms)</system:String>
+    <system:String x:Key="MillisecondsUnit">ms</system:String>
+    <system:String x:Key="MediaFlyoutAlwaysDisplay">Mindig megjelenít</system:String>
+    <system:String x:Key="MediaFlyoutAlwaysDisplayDescription">A flyout nyitva marad, amíg be nem zárja a bezárás gombbal</system:String>
+    <system:String x:Key="CenterTitleArtistTitle">Cím és előadó középre igazítása</system:String>
+    <system:String x:Key="CenterTitleArtistDescription">A szöveg középre igazítása a bal helyett</system:String>
+    <system:String x:Key="ShowMediaPlayerNameTitle">Jelenítse meg a médialejátszó nevét</system:String>
+    <system:String x:Key="RepeatButtonTitle">Ismétlés gomb*</system:String>
+    <system:String x:Key="RepeatButtonDescription">Válasszon az összes ismétlése vagy egy ismétlése között, növeli a flyout szélességét</system:String>
+    <system:String x:Key="ShuffleButtonTitle">Keverés gomb*</system:String>
+    <system:String x:Key="ShuffleButtonDescription">Növeli a flyout szélességét</system:String>
+    <system:String x:Key="ShowSeekbarTitle">Mutassa az idősávot</system:String>
+    <system:String x:Key="ShowSeekbarDescription">Ha a lejátszó támogatja, egy interaktív idősáv automatikusan megjelenik</system:String>
+    <system:String x:Key="UnsupportedControlsWarning">*Néhány böngésző/lejátszó nem támogatja az ismétlés, keverés és idősáv vezérlést.</system:String>
+    <system:String x:Key="PauseOtherMediaTitle">Más média automatikus szüneteltetése</system:String>
+    <system:String x:Key="PauseOtherMediaDescription">Amikor új média lejátszása indul, vagy az fókuszba kerül, a többi aktív munkamenet automatikusan szünetel</system:String>
+    <system:String x:Key="TaskbarWidgetCustomizationTitle">Tálca Widget</system:String>
+    <system:String x:Key="TaskbarWidgetDescription">Egy kompakt, beépített widget, amely közvetlenül a Windows tálcán található, azonnali hozzáférést biztosítva a médiához. Kattintson a widgetre a teljes Media Flyout kibővítéséhez.</system:String>
+    <system:String x:Key="TaskbarWidgetEnabledTitle">Tálca Widget engedélyezése</system:String>
+    <system:String x:Key="TaskbarWidgetEnabledDescription">Mutasson egy kompakt média widgetet a tálcán</system:String>
+    <system:String x:Key="TaskbarWidgetVisualIssuesWarning">Állítsa be az alábbi lehetőségeket, ha vizuális problémákat tapasztal.</system:String>
+    <system:String x:Key="TaskbarWidgetSelectedMonitorTitle">Widget képernyője</system:String>
+    <system:String x:Key="TaskbarWidgetPosition">Widget pozíció</system:String>
+    <system:String x:Key="TaskbarWidgetPaddingSettingsTitle">Widget térköz beállítások</system:String>
+    <system:String x:Key="TaskbarWidgetPaddingSettingsDescription">Állítsa be a widget körüli térközt a tálca stílusához igazodva</system:String>
+    <system:String x:Key="TaskbarWidgetPaddingTitle">Automatikus térköz a Windows Widgetek gombhoz</system:String>
+    <system:String x:Key="TaskbarWidgetPaddingDescription">Kapcsolja be ezt a funkciót, ha a Windows Widgetek engedélyezve vannak</system:String>
+    <system:String x:Key="TaskbarWidgetManualPaddingTitle">Egyedi térköz</system:String>
+    <system:String x:Key="TaskbarWidgetManualPaddingDescription">Adjon hozzá extra térközt (alapértelmezett: 0px)</system:String>
+    <system:String x:Key="TaskbarWidgetBackgroundBlurTitle">Háttér elmosás</system:String>
+    <system:String x:Key="TaskbarWidgetBackgroundBlurDescription">Adjon hozzá háttér elmosási effektust a tálca widgethez</system:String>
+    <system:String x:Key="TaskbarWidgetHideCompletelyTitle">Teljes elrejtés, ha nincs média</system:String>
+    <system:String x:Key="TaskbarWidgetHideCompletelyDescription">Teljesen elrejti a widgetet, ha nincs elérhető média, a média ikon megjelenítése helyett</system:String>
+    <system:String x:Key="TaskbarWidgetAutoHideTitle">Automatikus elrejtés</system:String>
+    <system:String x:Key="TaskbarWidgetAutoHideDescription">Automatikusan elrejti a widgetet, amikor a média szünetel</system:String>
+    <system:String x:Key="TaskbarWidgetControlsTitle">Widget Médiavezérlők</system:String>
+    <system:String x:Key="TaskbarWidgetControlsDescription">Mutassa a médiavezérlő gombokat a widgeten</system:String>
+    <system:String x:Key="TaskbarWidgetControlsPositionTitle">Médiavezérlők pozíciója</system:String>
+    <system:String x:Key="TaskbarWidgetControlsPositionDescription">Válassza ki, hol jelenjenek meg a médiavezérlő gombok</system:String>
+    <system:String x:Key="PositionLeft">Bal</system:String>
+    <system:String x:Key="PositionRight">Jobb</system:String>
+    <system:String x:Key="TaskbarWidgetAnimatedTitle">Widget Animációk</system:String>
+    <system:String x:Key="TaskbarWidgetAnimatedDescription">Engedélyezze a finom animációkat a widgethez</system:String>
+    <system:String x:Key="TaskbarVisualizerTitle">Tálca Vizualizáló</system:String>
+    <system:String x:Key="TaskbarVisualizerDescription">Valós idejű hangvizualizáló a tálcán. Minimalizált teljesítményhatással tervezték modern rendszereken.</system:String>
+    <system:String x:Key="TaskbarVisualizerEnabledTitle">Tálca Vizualizáló Engedélyezése (Kísérleti)</system:String>
+    <system:String x:Key="TaskbarVisualizerEnabledDescription">Kísérleti: Ez a funkció csak akkor működik, ha a Tálca Widget engedélyezve van</system:String>
+    <system:String x:Key="TaskbarVisualizerPositionTitle">Vizualizáló pozíciója a Tálca Widgethez képest</system:String>
+    <system:String x:Key="TaskbarVisualizerBarCountTitle">Sávok Száma</system:String>
+    <system:String x:Key="TaskbarVisualizerBarCountDescription">A vizualizáló sávok száma</system:String>
+    <system:String x:Key="TaskbarVisualizerCenteredBarsTitle">Középre Igazított Sávok</system:String>
+    <system:String x:Key="TaskbarVisualizerCenteredBarsDescription">Sávok, amelyek szimmetrikusan terjednek a középpontból, ahelyett, hogy alulról emelkednének</system:String>
+    <system:String x:Key="TaskbarVisualizerBaselineTitle">Alapvonal Megjelenítése</system:String>
+    <system:String x:Key="TaskbarVisualizerBaselineDescription">Vékony vonal megjelenítése, amikor a hangszintek nulla értéken vannak</system:String>
+    <system:String x:Key="TaskbarVisualizerAudioSensitivityTitle">Hangérzékenység</system:String>
+    <system:String x:Key="TaskbarVisualizerAudioSensitivityDescription">Milyen hangosnak kell lennie a lejátszott médiának, mielőtt a sávok mozogni kezdenek</system:String>
+    <system:String x:Key="TaskbarVisualizerAudioPeakLevelTitle">Hang Csúcs Küszöb</system:String>
+    <system:String x:Key="TaskbarVisualizerAudioPeakLevelDescription">Milyen hangosnak kell lennie a lejátszott médiának ahhoz, hogy a sávok elérjék a maximális magasságot</system:String>
+    <system:String x:Key="TaskbarVisualizerOutputDeviceTitle">Kimeneti Eszköz</system:String>
+    <system:String x:Key="TaskbarVisualizerOutputDeviceDescription">Változtassa meg, hogy a vizualizáló mire figyel, a FluentFlyout kimeneti eszközének váltásával.</system:String>
+    <system:String x:Key="TaskbarVisualizerClickableTitle">Kattintson a Beállítások megnyitásához</system:String>
+    <system:String x:Key="TaskbarVisualizerClickableDescription">A vizualizálóra kattintva megnyílik a beállítási oldala</system:String>
+    <system:String x:Key="PremiumFeatureTitle">Prémium Funkció</system:String>
+    <system:String x:Key="PremiumFeatureDescription" xml:space="preserve">Az egyszeri hozzájárulása segít abban, hogy a FluentFlyout életben maradjon és frissüljön. Azonnal feloldja az összes prémium testreszabási funkciót, örökre.
+        
+Megjegyzés: Mivel ez egy nyílt forráskódú projekt, ezek a funkciók ingyenesen is elérhetők a GitHubon található manuális telepítővel. Az egyetlen kompromisszum, hogy a frissítéseket és a telepítést kézzel kell elvégezni.</system:String>
+    <system:String x:Key="PremiumLockedMessage">Ez a funkció a prémium csomag része</system:String>
+    <system:String x:Key="PremiumUnlockedMessage">Prémium funkciók feloldva. Köszönjük a támogatást!</system:String>
+    <system:String x:Key="PremiumGitHubMessage">A prémium funkciók fel vannak oldva a GitHub/self-compiled verziókhoz</system:String>
+    <system:String x:Key="UnlockPremiumButton">Prémium feloldása</system:String>
+    <system:String x:Key="PremiumPurchaseSuccess">Prémium sikeresen feloldva!</system:String>
+    <system:String x:Key="PremiumPurchaseFailed">A vásárlás sikertelen. Kérjük, próbálja újra.</system:String>
+    <system:String x:Key="PremiumPurchaseCancelled">A vásárlás megszakítva.</system:String>
+    <system:String x:Key="UnlockFullExperienceText">Oldja fel a teljes FluentFlyout élményt:</system:String>
+    <system:String x:Key="TaskbarWidgetCustomizationPerk">Tálca Widget és Vizualizáló</system:String>
+    <system:String x:Key="AcrylicBlurOpacityPerk">Akril Blur Átlátszóság</system:String>
+    <system:String x:Key="HideTrayIconPerk">Tálca ikon elrejtése</system:String>
+    <system:String x:Key="AllFuturePremiumFeatures">Minden jövőbeli prémium funkció</system:String>
+    <system:String x:Key="NextUpCustomizationTitle">Következő Flyout</system:String>
+    <system:String x:Key="NextUpDescription" xml:space="preserve">A flyout megmutatja, mi következik, amikor egy dal/videó véget ér. Csak akkor jelenik meg, ha a következő elem automatikusan lejátszódik, ha a következő/előző gombot manuálisan nyomják meg, a fő flyout jelenik meg helyette.</system:String>
+    <system:String x:Key="EnableNextUpTitle">Következő Flyout engedélyezése</system:String>
+    <system:String x:Key="EnableNextUpDescription">Megmutatja, mi következik, amikor egy dal/videó véget ér</system:String>
+    <system:String x:Key="NextUpStayDurationTitle">Következő Flyout ablak megjelenítési ideje</system:String>
+    <system:String x:Key="NextUpStayDurationDescription">(alapértelmezett: 2000 ms)</system:String>
+    <system:String x:Key="LockKeysCustomizationTitle">Billentyűzár Flyout</system:String>
+    <system:String x:Key="LockKeysDescription" xml:space="preserve">Ellenőrizze a billentyűzárak állapotát egy pillantással. A Caps Lock, Num Lock vagy Scroll Lock megnyomása után jelenik meg. Kényelmes laptopokhoz/billentyűzetekhez, amelyek nem rendelkeznek zárjelzőkkel.</system:String>
+    <system:String x:Key="EnableLockKeysTitle">Billentyűzár Flyout engedélyezése</system:String>
+    <system:String x:Key="EnableLockKeysDescription">Megjeleníti, hogy a megadott billentyűzár be van-e kapcsolva vagy ki van-e kapcsolva</system:String>
+    <system:String x:Key="LockKeysStayDurationTitle">Billentyűzár Flyout megjelenítési ideje</system:String>
+    <system:String x:Key="LockKeysStayDurationDescription">(alapértelmezett: 2000 ms)</system:String>
+    <system:String x:Key="LockKeysBoldUITitle">Félkövér szimbólum és betűtípus</system:String>
+    <system:String x:Key="LockKeysBoldUIDescription">Kiemeli a flyout szimbólumát és betűtípusát</system:String>
+    <system:String x:Key="LockKeysCursorUITitle">Megjelenítés helye</system:String>
+    <system:String x:Key="LockKeysCursorUIDescription" xml:space="preserve">Válassza ki, melyik monitoron jelenjen meg a flyout.</system:String>
+    <system:String x:Key="DefaultLockLayoutPosition">Alapértelmezett (Flyout képernyője)</system:String>
+    <system:String x:Key="MonitorWithFocusedWindow">Fókuszált ablak képernyője</system:String>
+    <system:String x:Key="MonitorWithCursor">Kurzor képernyője</system:String>
+    <system:String x:Key="EnableInsertKeyTitle">Insert billentyű felugró ablak engedélyezése</system:String>
+    <system:String x:Key="EnableInsertKeyDescription">Meghatározza, hogy az insert/overwrite billentyű megnyomásakor megjelenjen-e a flyout</system:String>
+    <system:String x:Key="SystemSettingsTitle">Rendszer</system:String>
+    <system:String x:Key="LaunchOnStartupTitle">Indítás a rendszerrel</system:String>
+    <system:String x:Key="LaunchOnStartupDescription">Minimalizált állapotban indítja a tálcán, amikor bejelentkezik a Windowsba</system:String>
+    <system:String x:Key="StartupAppsHyperlinkText">Indítási alkalmazások</system:String>
+    <system:String x:Key="StartupAppsSettingsInfo">Ha ez a beállítás nem működik a várt módon, ellenőrizze</system:String>
+    <system:String x:Key="AppThemeTitle">Alkalmazás téma</system:String>
+    <system:String x:Key="AppThemeDefault"> Windows alapértelmezett</system:String>
+    <system:String x:Key="AppThemeLight"> Világos</system:String>
+    <system:String x:Key="AppThemeDark"> Sötét</system:String>
+    <system:String x:Key="UseAlbumArtAccentColorTitle">Használja az album borítójának színét kiemelő színként</system:String>
+    <system:String x:Key="UseAlbumArtAccentColorDescription">Néhány felhasználói felület elem az album borítójának színét használja a rendszer téma helyett</system:String>
+    <system:String x:Key="TrayIconLeftClickBehaviorTitle">Tálca ikon bal kattintás viselkedése</system:String>
+    <system:String x:Key="TrayIconLeftClickBehaviorDescription">Válassza ki, mi történjen, amikor bal kattint a tálca ikonra</system:String>
+    <system:String x:Key="TrayIconLeftClickOption1"> Beállítások megnyitása</system:String>
+    <system:String x:Key="TrayIconLeftClickOption2"> Média Flyout megjelenítése</system:String>
+    <system:String x:Key="Win11TrayIconTitle">Windows 11 szerű Tálca ikon</system:String>
+    <system:String x:Key="Win11TrayIconDescription">Használjon egy tálca ikont, amely megfelel a Windows 11-nek (váltson a téma frissítéséhez)</system:String>
+    <system:String x:Key="HideTrayIconTitle">Tálca ikon teljes elrejtése</system:String>
+    <system:String x:Key="HideTrayIconDescription">A beállítások eléréséhez indítsa el a programot kétszer</system:String>
+    <system:String x:Key="AnimationSettingsTitle">Animáció beállítások</system:String>
+    <system:String x:Key="AnimationSettingsDescription">Finomhangolja az animációkat az igényeinek megfelelően</system:String>
+    <system:String x:Key="AnimationDurationScaleTitle">Animáció időtartam skála</system:String>
+    <system:String x:Key="AnimationDurationScaleDescription">Gyorsabb vagy lassabb flyout animáció sebesség (alapértelmezett: 1x)</system:String>
+    <system:String x:Key="AnimationSpeedOff">Ki</system:String>
+    <system:String x:Key="AnimationEasingStyleTitle">Animáció típusa</system:String>
+    <system:String x:Key="AnimationEasingStyleDescription">(alapértelmezett: Kvadratikus)</system:String>
+    <system:String x:Key="EasingLinear" xml:space="preserve"> Lineáris</system:String>
+    <system:String x:Key="EasingSine" xml:space="preserve"> Színusz</system:String>
+    <system:String x:Key="EasingQuadratic" xml:space="preserve"> Négyzetes</system:String>
+    <system:String x:Key="EasingCubic" xml:space="preserve"> Köbös</system:String>
+    <system:String x:Key="NativeExperienceInfo">A natív Windows 11 élményhez a beállításokat alapértelmezett értéken kell tartani.</system:String>
+    <system:String x:Key="DisableOnFullscreenTitle">Flyoutok letiltása, ha DirectX teljes képernyős programot észlel</system:String>
+    <system:String x:Key="DisableOnFullscreenDescription">Megakadályozza, hogy a DirectX játékok exkluzív teljes képernyőn minimalizálódjanak, ha egy flyout megjelenik</system:String>
+    <system:String x:Key="AcrylicBlurOpacityTitle">Akril elmosódás átlátszósága</system:String>
+    <system:String x:Key="AcrylicBlurOpacityDescription">Állítsa be az átlátszósági hatást az Akril flyoutokon (alapértelmezett: 175)</system:String>
+    <system:String x:Key="HomeUpdateDescription">Ismerje meg az újdonságokat</system:String>
+    <system:String x:Key="HomeDashboardTitle">Irányítópult</system:String>
+    <system:String x:Key="AppearanceBehaviorSectionTitle">Megjelenés és viselkedés</system:String>
+    <system:String x:Key="TrayIconSectionTitle">Tálca ikon</system:String>
+    <system:String x:Key="UpdatesSectionTitle">Frissítések</system:String>
+    <system:String x:Key="SystemConfigure">Beállítások</system:String>
+    <system:String x:Key="AboutTitle">Névjegy</system:String>
+    <system:String x:Key="AboutContributorsTitle">❤️ Ismerje meg a közreműködőinket</system:String>
+    <system:String x:Key="AboutContributorsDescription">Nagy köszönet mindazoknak a csodálatos embereknek, akik hozzájárultak a FluentFlyout fejlesztéséhez és sikeréhez!</system:String>
+    <system:String x:Key="DevelopersTitle">Fejlesztők</system:String>
+    <system:String x:Key="TranslatorsTitle">Fordítók</system:String>
+    <system:String x:Key="AboutPremiumTitle">A Prémiumról</system:String>
+    <system:String x:Key="AboutOpenSourceLicensesTitle">Nyílt forráskódú licencek</system:String>
+    <system:String x:Key="AboutOpenSourceLicensesDescription">A FluentFlyout a következő nyílt forráskódú csomagokkal készült:</system:String>
+    <system:String x:Key="EnjoyingAppText" xml:space="preserve">Tetszik az alkalmazás? Csillagozd a GitHubon,
+vagy hagyj egy értékelést a Microsoft Store-ban!</system:String>
+    <system:String x:Key="GitHubRepoLink">Git tárhely</system:String>
+    <system:String x:Key="SponsorMeLink">Támogass</system:String>
+    <system:String x:Key="BuyMeCoffeeLink">Vegyél nekem egy kávét</system:String>
+    <system:String x:Key="CloseButton">Bezárás</system:String>
+    <system:String x:Key="AppLanguageTitle">Alkalmazás nyelve</system:String>
+    <system:String x:Key="AppLanguageDescription" xml:space="preserve">Ha a nyelved nincs felsorolva vagy hiányos, az alapértelmezett angol lesz.
+Segíts te is a fordításban a(z)</system:String>
+    <system:String x:Key="AppLanguageDescriptionLink">Weblate</system:String>
+    <system:String x:Key="LockWindow_CapsLock">Caps Lock</system:String>
+    <system:String x:Key="LockWindow_NumLock">Num Lock</system:String>
+    <system:String x:Key="LockWindow_ScrollLock">Scroll Lock</system:String>
+    <system:String x:Key="LockWindow_InsertPressed">Insert Megnyomva</system:String>
+    <system:String x:Key="LockWindow_LockOn">be</system:String>
+    <system:String x:Key="LockWindow_LockOff">ki</system:String>
+    <system:String x:Key="NextUpWindow_UpNextText">Következő:</system:String>
+    <system:String x:Key="TrayIcon_SettingsOption">Beállítások</system:String>
+    <system:String x:Key="TrayIcon_GitHubRepositoryOption">Tárhely</system:String>
+    <system:String x:Key="TrayIcon_ViewLogsOption">Naplók megtekintése</system:String>
+    <system:String x:Key="TrayIcon_ReportBugOption">Hiba jelentése</system:String>
+    <system:String x:Key="TrayIcon_QuitOption">Kilépés a FluentFlyout-ból</system:String>
+    <system:String x:Key="PixelsUnit">px</system:String>
+    <system:String x:Key="UpdateToastTitle">A FluentFlyout frissítve lett!</system:String>
+    <system:String x:Key="UpdateToastMessage">Most a {0} verzión vagy.</system:String>
+    <system:String x:Key="UpdateToastButton">Frissítések megtekintése</system:String>
+    <system:String x:Key="UpdateAvailable">Frissítés elérhető</system:String>
+    <system:String x:Key="UpToDate">Naprakész</system:String>
+    <system:String x:Key="LastChecked">Utolsó frissítés keresése: {0}</system:String>
+    <system:String x:Key="CheckingForUpdates">Frissítések keresése...</system:String>
+    <system:String x:Key="UpdateAvailableNotificationTitle">Frissítés elérhető!</system:String>
+    <system:String x:Key="UpdateAvailableNotificationMessage">Új verzió ({0}) érhető el.</system:String>
+    <system:String x:Key="UpdateAvailableNotificationButton">Frissítés letöltése</system:String>
+    <system:String x:Key="ShowUpdateNotificationsTitle">Értesítések megjelenítése új frissítésekről</system:String>
+    <system:String x:Key="BackupRestoreSectionTitle">Biztonsági mentés &amp; visszaállítás</system:String>
+    <system:String x:Key="BackupRestoreCardTitle">Beállítások biztonsági mentése és visszaállítása</system:String>
+    <system:String x:Key="ExportSettings">Beállítások exportálása</system:String>
+    <system:String x:Key="ImportSettings">Beállítások importálása</system:String>
+    <system:String x:Key="ExportSuccessful">Exportálás sikeres</system:String>
+    <system:String x:Key="ExportFailed">Exportálás sikertelen</system:String>
+    <system:String x:Key="ImportSuccessful">Importálás sikeres</system:String>
+    <system:String x:Key="ImportFailed">Importálás sikertelen</system:String>
+    <system:String x:Key="SettingsExportedSuccessfully">Beállítások sikeresen exportálva!</system:String>
+    <system:String x:Key="FailedToExportSettings">A beállítások exportálása sikertelen. Ellenőrizze a naplókat a részletekért.</system:String>
+    <system:String x:Key="SettingsImportedSuccessfully">Beállítások sikeresen importálva! Az alkalmazás újraindul a változtatások alkalmazásához.</system:String>
+    <system:String x:Key="ImportSettingsWarning">Ez felülírja az összes jelenlegi beállítását. Folytatja?</system:String>
+    <system:String x:Key="FailedToImportSettings">A beállítások importálása sikertelen. Ellenőrizze a naplókat a részletekért.</system:String>
+    <system:String x:Key="AdvancedSettingsTitle">Speciális beállítások</system:String>
+    <system:String x:Key="LegacyTaskbarWidthTitle">Régi tálca szélesség rendszere</system:String>
+    <system:String x:Key="LegacyTaskbarWidthDescription">Használja a régi tálca szélesség rendszerét a Tálca widgetekhez</system:String>
+    <system:String x:Key="LockKeysAnimatedDescription">Engedélyezi a lágy animációkat a billentyűzár jelzőnél</system:String>
+    <system:String x:Key="LockKeysAnimatedTitle">Jelzőanimációk</system:String>
+</ResourceDictionary>

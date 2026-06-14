@@ -1,4 +1,4 @@
-// Copyright © 2024-2026 The FluentFlyout Authors
+// Copyright (c) 2024-2026 The FluentFlyout Authors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -40,7 +40,7 @@ public partial class UpdateState : ObservableObject
     /// <summary>
     /// Formatted text for the last update check time
     /// </summary>
-    public string LastCheckedText => LastUpdateCheck == default 
-        ? string.Empty 
+    public string LastCheckedText => LastUpdateCheck == default
+        ? string.Empty
         : LastUpdateCheck.ToString("G");
 }

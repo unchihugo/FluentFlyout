@@ -3,7 +3,7 @@
     <system:String x:Key="BackgroundBlurOption1" xml:space="preserve"> ללא</system:String>
     <system:String x:Key="CompactLayoutTitle">פריסה קומפקטית</system:String>
     <system:String x:Key="NextUpDescription" xml:space="preserve">חלון נשלף מציג אתה הבא כאשר שיר או סרטון מסתיים. מופיע רק אם הפריט הבא מתנגן אוטומטית, אם ילחץ ידנית הבא או הקודם, יופיע במקום זאת התפריט הנשלף הראשי.</system:String>
-    <system:String x:Key="EnableNextUpTitle">הפעלת חלון נשלף של "הבא בתור" (ניסיוני)</system:String>
+    <system:String x:Key="EnableNextUpTitle">הפעלת חלון נשלף של "הבא בתור"</system:String>
     <system:String x:Key="EnableNextUpDescription">מציג את הבא כששיר או סרטון מסתיים</system:String>
     <system:String x:Key="SystemSettingsTitle">מערכת</system:String>
     <system:String x:Key="LaunchOnStartupTitle">הפעל אוטומטית בעת ההפעלה</system:String>
@@ -151,7 +151,7 @@
     <system:String x:Key="Disabled">מושבת</system:String>
     <system:String x:Key="AcrylicBlurOpacityTitle">אטימות טשטוש אקרילית</system:String>
     <system:String x:Key="HomeUpdateDescription">גלו מה חדש</system:String>
-    <system:String x:Key="HomeDashboardTitle">לוח מחוונים</system:String>
+    <system:String x:Key="HomeDashboardTitle">לוח בקרה</system:String>
     <system:String x:Key="SystemConfigure">הגדרה</system:String>
     <system:String x:Key="AboutTitle">אודות</system:String>
     <system:String x:Key="AboutContributorsTitle">❤️ הכירו את התורמים שלנו</system:String>
@@ -161,7 +161,7 @@
     <system:String x:Key="AboutOpenSourceLicensesDescription">FluentFlyout בנויה עם חבילות הקוד הפתוח הבאות:</system:String>
     <system:String x:Key="AcrylicBlurOpacityDescription">כוונון אפקט השקיפות של Acrylic flyouts (ברירת מחדל: 175)</system:String>
     <system:String x:Key="UpdateAvailable">עדכון זמין</system:String>
-    <system:String x:Key="UpToDate">מעודכן</system:String>
+    <system:String x:Key="UpToDate">עדכני</system:String>
     <system:String x:Key="LastChecked">נבדק לאחרונה: {0}</system:String>
     <system:String x:Key="CheckingForUpdates">בודק...</system:String>
     <system:String x:Key="UpdateAvailableNotificationTitle">עדכון זמין!</system:String>
@@ -194,7 +194,7 @@
     <system:String x:Key="TaskbarVisualizerClickableTitle">לחץ לפתיחת ההגדרות</system:String>
     <system:String x:Key="TaskbarVisualizerClickableDescription">לחיצה על הוויזואליזר תפתח את דף ההגדרות שלו</system:String>
     <system:String x:Key="UnlockFullExperienceText">פתח את חוויית FluentFlyout המלאה:</system:String>
-    <system:String x:Key="HideTrayIconPerk">הסתר סמל במגש המערכת</system:String>
+    <system:String x:Key="HideTrayIconPerk">הסתר את סמל המגש</system:String>
     <system:String x:Key="AllFuturePremiumFeatures">כל תכונות הפרימיום העתידיות</system:String>
     <system:String x:Key="LockKeysCursorUITitle">מסך יעד מועדף</system:String>
     <system:String x:Key="LockKeysCursorUIDescription" xml:space="preserve">בחר באיזה מסך להציג את החלון הקופץ.</system:String>
@@ -204,8 +204,8 @@
     <system:String x:Key="UseAlbumArtAccentColorTitle">השתמש בעטיפת האלבום כצבע הדגשה</system:String>
     <system:String x:Key="UseAlbumArtAccentColorDescription">חלק ממרכיבי הממשק ישתמשו בצבע מעטיפת האלבום במקום בצבע מערכת ההפעלה</system:String>
     <system:String x:Key="AppearanceBehaviorSectionTitle">מראה והתנהגות</system:String>
-    <system:String x:Key="SponsorMeLink">הפוך לתומך שלי</system:String>
-    <system:String x:Key="BuyMeCoffeeLink">קנה לי קפה</system:String>
+    <system:String x:Key="SponsorMeLink">נתינת חסות</system:String>
+    <system:String x:Key="BuyMeCoffeeLink">לקנות לי קפה</system:String>
     <system:String x:Key="ShowUpdateNotificationsTitle">הצג התראות על עדכונים חדשים</system:String>
     <system:String x:Key="BackupRestoreCardTitle">גבה ושחזר את ההגדרות שלך</system:String>
     <system:String x:Key="ImportSettings">ייבא הגדרות</system:String>
@@ -217,9 +217,9 @@
     <system:String x:Key="FailedToImportSettings">ייבוא ההגדרות נכשל. בדוק את הלוגים למידע נוסף.</system:String>
     <system:String x:Key="LegacyTaskbarWidthTitle">רוחב שורת המשימות הקלאסי (Legacy)</system:String>
     <system:String x:Key="LegacyTaskbarWidthDescription">השתמש ברוחב שורת המשימות הקלאסי (Legacy) עבור ווידג'טים בשורת המשימות</system:String>
-    <system:String x:Key="TaskbarWidgetCustomizationPerk">ווידג'ט שורת המשימות וויזואליזר</system:String>
+    <system:String x:Key="TaskbarWidgetCustomizationPerk">הפעל את הווידג'ט והוויזואלייזר בשורת המשימות</system:String>
     <system:String x:Key="TaskbarVisualizerBaselineTitle">הצג קו ייחוס</system:String>
-    <system:String x:Key="AcrylicBlurOpacityPerk">אטימות טשטוש אקרילית</system:String>
+    <system:String x:Key="AcrylicBlurOpacityPerk">התאמת אפקט הטשטוש האקרילי</system:String>
     <system:String x:Key="UpdatesSectionTitle">עדכונים</system:String>
     <system:String x:Key="DevelopersTitle">מפתחים</system:String>
     <system:String x:Key="TranslatorsTitle">מתרגמים</system:String>
@@ -229,4 +229,23 @@
     <system:String x:Key="ExportFailed">הייצוא נכשל</system:String>
     <system:String x:Key="ImportSuccessful">הייבוא הצליח</system:String>
     <system:String x:Key="AdvancedSettingsTitle">הגדרות מתקדמות</system:String>
+    <system:String x:Key="TaskbarWidgetAutoHideTitle">ישומון הסתרה-אוטומטית</system:String>
+    <system:String x:Key="TaskbarWidgetAutoHideDescription">מסתיר את הישומון אוטומטית כשהמדיה נעצרת</system:String>
+    <system:String x:Key="LockKeysAnimatedTitle">מחוון אנימציות</system:String>
+    <system:String x:Key="LockKeysAnimatedDescription">הפעל אנימציות עדינות עבור מחוון מקש הנעילה</system:String>
+    <system:String x:Key="TaskbarWidgetShowPauseOverlayTitle">הצג סמל השהיה מעל התוכן</system:String>
+    <system:String x:Key="TaskbarWidgetShowPauseOverlayDescription">כאשר המדיה מושהית, יוצג סמל השהיה מעל עטיפת האלבום</system:String>
+    <system:String x:Key="VolumeMixerHighlightPerk">הדגש אפליקציות פעילות במערבל עוצמת הקול</system:String>
+    <system:String x:Key="VolumeFlyoutTitle">חלונית עוצמת הקול</system:String>
+    <system:String x:Key="VolumeFlyoutDescription">חלונית עצמאית לשליטה בעוצמת הקול, המתרחבת למערבל עוצמת קול ומחליפה את ממשק עוצמת הקול המובנה של ווינדוס.</system:String>
+    <system:String x:Key="EnableVolumeFlyoutTitle">הפעלת חלונית עוצמת הקול</system:String>
+    <system:String x:Key="EnableVolumeFlyoutDescription">החלף את חלונית עוצמת הקול המובנית של ווינדוס</system:String>
+    <system:String x:Key="VolumeAboveMediaFlyoutTitle">מקם את חלונית עוצמת הקול מעל חלונית המדיה</system:String>
+    <system:String x:Key="VolumeFlyoutStayDurationTitle">משך הופעת חלונית עוצמת הקול</system:String>
+    <system:String x:Key="VolumeMixerSectionTitle">מערבל עוצמת הקול</system:String>
+    <system:String x:Key="EnableVolumeMixerTitle">הפעלת מערבל עוצמת הקול</system:String>
+    <system:String x:Key="EnableVolumeMixerDescription">שליטה מדויקת בעוצמת הקול של כל אפליקציה בנפרד</system:String>
+    <system:String x:Key="VolumeMixerHighlightTitle">הדגשת אפליקציות המשמיעות שמע</system:String>
+    <system:String x:Key="VolumeMixerHighlightDescription">הצג אילו אפליקציות מפיקות שמע כרגע</system:String>
+    <system:String x:Key="MasterVolumeText">עוצמת קול כללית</system:String>
 </ResourceDictionary>

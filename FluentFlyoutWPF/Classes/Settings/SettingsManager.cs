@@ -1,4 +1,4 @@
-﻿// Copyright © 2024-2026 The FluentFlyout Authors
+﻿// Copyright (c) 2024-2026 The FluentFlyout Authors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 using FluentFlyoutWPF.ViewModels;
@@ -21,7 +21,7 @@ public class SettingsManager
         "settings.xml"
     );
 
-    private static UserSettings _current;
+    private static UserSettings? _current;
 
     private static bool DeserializeSettings(string filePath, out UserSettings? settings)
     {
@@ -44,10 +44,7 @@ public class SettingsManager
     {
         get
         {
-            if (_current == null)
-            {
-                _current = new UserSettings();
-            }
+            _current ??= new UserSettings();
             return _current;
         }
         set => _current = value;
@@ -119,7 +116,7 @@ public class SettingsManager
         {
             lock (SettingsFileLock)
             {
-                string directory = Path.GetDirectoryName(filePath);
+                string? directory = Path.GetDirectoryName(filePath);
                 if (directory != null && !Directory.Exists(directory))
                 {
                     Directory.CreateDirectory(directory);

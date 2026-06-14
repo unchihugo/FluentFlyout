@@ -1,5 +1,7 @@
 name: Notify FluentFlyout-Pages of new Release
 
+permissions: {}
+
 on:
   release:
     types: [published]

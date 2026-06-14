@@ -1,4 +1,4 @@
-// Copyright © 2024-2026 The FluentFlyout Authors
+// Copyright (c) 2024-2026 The FluentFlyout Authors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 using FluentFlyout.Classes;
@@ -133,6 +133,11 @@ public partial class HomePage : Page
     private void MediaFlyout_Click(object sender, System.Windows.RoutedEventArgs e)
     {
         SettingsWindow.NavigateToPage(typeof(MediaFlyoutPage));
+    }
+
+    private void VolumeFlyout_Click(object sender, System.Windows.RoutedEventArgs e)
+    {
+        SettingsWindow.NavigateToPage(typeof(VolumeMixerPage));
     }
 
     private void TaskbarWidget_Click(object sender, System.Windows.RoutedEventArgs e)

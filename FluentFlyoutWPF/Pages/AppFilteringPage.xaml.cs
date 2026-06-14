@@ -9,9 +9,9 @@ using System.Windows.Controls;
 
 namespace FluentFlyoutWPF.Pages;
 
-public partial class AppFilteringPage : Page 
+public partial class AppFilteringPage : Page
 {
-    public AppFilteringPage() 
+    public AppFilteringPage()
     {
         InitializeComponent();
         DataContext = SettingsManager.Current;
@@ -36,8 +36,10 @@ public partial class AppFilteringPage : Page
     /// method returns the matched session name. This is helpful to compare against known sources and different aliases they may have.</remarks>
     /// <param name="app">The application name to normalize. This may include the ".exe" extension.</param>
     /// <returns>A normalized application name that matches a known media source, else the default or default with extension stripped.</returns>
-    private static string NormalizeAppName(string app) {
-        if (app.EndsWith(".exe", System.StringComparison.OrdinalIgnoreCase)) {
+    private static string NormalizeAppName(string app)
+    {
+        if (app.EndsWith(".exe", System.StringComparison.OrdinalIgnoreCase))
+        {
             app = app[..^4];
         }
 
@@ -45,7 +47,7 @@ public partial class AppFilteringPage : Page
         if (mainWindow?.mediaManager == null) return app;
 
         var match = mainWindow.mediaManager.CurrentMediaSessions.Values
-            .Select(s => MediaPlayerData.getMediaPlayerData(s.Id).Item1)
+            .Select(s => MediaPlayerData.GetAndCacheMediaPlayerData(s.Id).Item1)
             .FirstOrDefault(name => name.Equals(app, System.StringComparison.OrdinalIgnoreCase) ||
                                     name.Contains(app, System.StringComparison.OrdinalIgnoreCase) ||
                                     app.Contains(name, System.StringComparison.OrdinalIgnoreCase));
@@ -58,14 +60,14 @@ public partial class AppFilteringPage : Page
     /// </summary>
     /// <remarks>If there are no active media sessions, the ComboBox will be populated with an empty list.</remarks>
     /// <param name="comboBox">The ComboBox to populate with the list of applications. (Should not be null).</param>
-    private static void PopulateComboBox(ComboBox comboBox) 
+    private static void PopulateComboBox(ComboBox comboBox)
     {
         var mainWindow = Application.Current.MainWindow as MainWindow;
 
         if (mainWindow?.mediaManager == null) return;
 
         var apps = mainWindow.mediaManager.CurrentMediaSessions.Values
-            .Select(s => MediaPlayerData.getMediaPlayerData(s.Id).Item1)
+            .Select(s => MediaPlayerData.GetAndCacheMediaPlayerData(s.Id).Item1)
             .Distinct()
             .OrderBy(a => a)
             .ToList();
@@ -78,7 +80,7 @@ public partial class AppFilteringPage : Page
     /// </summary>
     /// <param name="sender">The source of the event (typically AllowComboBox).</param>
     /// <param name="e">An EventArgs object that contains the event data.</param>
-    private void AllowComboBox_DropDownOpened(object sender, System.EventArgs e) 
+    private void AllowComboBox_DropDownOpened(object sender, System.EventArgs e)
     {
         PopulateComboBox(AllowComboBox);
     }
@@ -88,7 +90,7 @@ public partial class AppFilteringPage : Page
     /// </summary>
     /// <param name="sender">The source of the event (typically BlockComboBox).</param>
     /// <param name="e">An EventArgs object that contains the event data.</param>
-    private void BlockComboBox_DropDownOpened(object sender, System.EventArgs e) 
+    private void BlockComboBox_DropDownOpened(object sender, System.EventArgs e)
     {
         PopulateComboBox(BlockComboBox);
     }
@@ -98,7 +100,7 @@ public partial class AppFilteringPage : Page
     /// </summary>
     /// <param name="sender">The source of the event (typically the AddAllow button).</param>
     /// <param name="e">The event data associated with the Click event.</param>
-    private void AddAllow_Click(object sender, RoutedEventArgs e) 
+    private void AddAllow_Click(object sender, RoutedEventArgs e)
     {
         var app = AllowComboBox.SelectedItem?.ToString()?.Trim();
 
@@ -117,7 +119,7 @@ public partial class AppFilteringPage : Page
     /// taken. </remarks>
     /// <param name="sender">The source of the event (typically the Add button)</param>
     /// <param name="e">The event data associated with the Click event.</param>
-    private void AddAllowManual_Click(object sender, RoutedEventArgs e) 
+    private void AddAllowManual_Click(object sender, RoutedEventArgs e)
     {
         var app = AllowTextBox.Text?.Trim();
 
@@ -139,7 +141,7 @@ public partial class AppFilteringPage : Page
     /// <remarks>This method updates the allowed applications list and refreshes the media settings after removal. </remarks>
     /// <param name="sender">The source of the event (usually a Button with its Tag property set to the application identifier). </param>
     /// <param name="e">The event data associated with the click event.</param>
-    private void RemoveAllow_Click(object sender, RoutedEventArgs e) 
+    private void RemoveAllow_Click(object sender, RoutedEventArgs e)
     {
         if (sender is not Button { Tag: string app }) return;
 
@@ -154,7 +156,7 @@ public partial class AppFilteringPage : Page
     /// the blocked applications list. The media is then refreshed.</remarks>
     /// <param name="sender">The source of the event (typically the button that was clicked).</param>
     /// <param name="e">The event data associated with the click event.</param>
-    private void AddBlock_Click(object sender, RoutedEventArgs e) 
+    private void AddBlock_Click(object sender, RoutedEventArgs e)
     {
         var app = BlockComboBox.SelectedItem?.ToString()?.Trim();
 
@@ -173,7 +175,7 @@ public partial class AppFilteringPage : Page
     /// and not already present. After adding, the input box is cleared and the media list is refreshed.</remarks>
     /// <param name="sender">The source of the event (typically the button that was clicked).</param>
     /// <param name="e">The event data associated with the click event.</param>
-    private void AddBlockManual_Click(object sender, RoutedEventArgs e) 
+    private void AddBlockManual_Click(object sender, RoutedEventArgs e)
     {
         var app = BlockTextBox.Text?.Trim();
 
@@ -194,7 +196,7 @@ public partial class AppFilteringPage : Page
     /// </summary>
     /// <param name="sender">The source of the event, expected to be a Button with its Tag property set to the application.</param>
     /// <param name="e">The event data associated with the click event.</param>
-    private void RemoveBlock_Click(object sender, RoutedEventArgs e) 
+    private void RemoveBlock_Click(object sender, RoutedEventArgs e)
     {
         if (sender is not Button { Tag: string app }) return;
 

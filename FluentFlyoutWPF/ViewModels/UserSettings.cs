@@ -1,4 +1,4 @@
-// Copyright © 2024-2026 The FluentFlyout Authors
+// Copyright (c) 2024-2026 The FluentFlyout Authors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -8,7 +8,9 @@ using FluentFlyout.Classes.Utils;
 using FluentFlyout.Controls;
 using FluentFlyoutWPF.Classes;
 using FluentFlyoutWPF.Models;
+using FluentFlyoutWPF.Windows;
 using System.Collections.ObjectModel;
+using System.Reflection;
 using System.Windows;
 using System.Xml.Serialization;
 
@@ -19,6 +21,17 @@ namespace FluentFlyoutWPF.ViewModels;
  */
 public partial class UserSettings : ObservableObject
 {
+    private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+
+    // List of non-XmlIgnore property names
+    private static readonly HashSet<string> PersistedPropertyNames =
+    [
+        .. typeof(UserSettings)
+            .GetProperties(BindingFlags.Instance | BindingFlags.Public)
+            .Where(property => property.CanWrite && property.GetCustomAttribute<XmlIgnoreAttribute>() is null)
+            .Select(property => property.Name)
+    ];
+
     /// <summary>
     /// Use a compact layout
     /// </summary>
@@ -169,6 +182,15 @@ public partial class UserSettings : ObservableObject
     [ObservableProperty]
     public partial bool LockKeysEnabled { get; set; }
 
+    [ObservableProperty]
+    public partial bool LockKeysCapsEnabled { get; set; }
+
+    [ObservableProperty]
+    public partial bool LockKeysNumEnabled { get; set; }
+
+    [ObservableProperty]
+    public partial bool LockKeysScrollEnabled { get; set; }
+
     /// <summary>
     /// Lock keys flyout display duration (milliseconds)
     /// </summary>
@@ -249,7 +271,7 @@ public partial class UserSettings : ObservableObject
     /// 0 = Default behavior, 1 = Monitor containing the focused window, 2 = Monitor containing the cursor.
     [ObservableProperty]
     public partial int LockKeysMonitorPreference { get; set; }
-    
+
     /// <summary>
     /// Determines if the user has updated to a new version
     /// </summary>
@@ -304,6 +326,9 @@ public partial class UserSettings : ObservableObject
     [ObservableProperty]
     public partial bool LockKeysAcrylicWindowEnabled { get; set; }
 
+    [ObservableProperty]
+    public partial bool VolumeMixerAcrylicWindowEnabled { get; set; }
+
     /// <summary>
     /// User's preferred app language (e.g., "system" for system default)
     /// </summary>
@@ -339,7 +364,7 @@ public partial class UserSettings : ObservableObject
     /// </summary>
     [ObservableProperty]
     public partial int TaskbarWidgetSelectedMonitor { get; set; }
-    
+
     /// <summary>
     /// Autohide Widget after a few milliseconds after pause 
     /// </summary>
@@ -401,6 +426,19 @@ public partial class UserSettings : ObservableObject
     /// </summary>
     [ObservableProperty]
     public partial bool TaskbarWidgetHideCompletely { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the taskbar widget should always be sized at its
+    /// maximum width, so right-aligned controls don't shift when the song changes.
+    /// </summary>
+    [ObservableProperty]
+    public partial bool TaskbarWidgetFixedWidth { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the pause icon overlay should be completely hidden from view.
+    /// </summary>
+    [ObservableProperty]
+    public partial bool TaskbarWidgetShowPauseOverlay { get; set; }
 
     /// <summary>
     /// Whether taskbar widget controls (pause, previous, next) are enabled.
@@ -483,7 +521,7 @@ public partial class UserSettings : ObservableObject
     public partial bool AppFilteringEnabled { get; set; }
 
     /// <summary>
-    /// Returns the active filtering mode. 0 for Blacklist, 1 for Whitelist.
+    /// Returns the active filtering mode. 0 for Whitelist, 1 for Blacklist.
     /// </summary>
     [ObservableProperty]
     public partial int AppFilteringMode { get; set; }
@@ -542,6 +580,46 @@ public partial class UserSettings : ObservableObject
     /// </summary>
     [ObservableProperty]
     public partial int TaskbarVisualizerAudioSensitivity { get; set; }
+
+    [ObservableProperty]
+    public partial bool VolumeControlEnabled { get; set; }
+
+    [ObservableProperty]
+    public partial bool VolumeControlAboveMediaFlyout { get; set; }
+
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(VolumeControlDurationText))]
+    public partial int VolumeControlDuration { get; set; }
+
+    [XmlIgnore]
+    public string VolumeControlDurationText
+    {
+        get => VolumeControlDuration.ToString();
+        set
+        {
+            if (int.TryParse(value, out var result))
+            {
+                VolumeControlDuration = result switch
+                {
+                    > 10000 => 10000,
+                    < 0 => 0,
+                    _ => result
+                };
+            }
+            else
+            {
+                VolumeControlDuration = 3000;
+            }
+
+            OnPropertyChanged();
+        }
+    }
+
+    [ObservableProperty]
+    public partial bool VolumeMixerEnabled { get; set; }
+
+    [ObservableProperty]
+    public partial bool VolumeMixerHighlightActiveApps { get; set; }
 
     /// <summary>
     /// The audio peak level for the taskbar visualizer from 1 to 3.
@@ -619,6 +697,9 @@ public partial class UserSettings : ObservableObject
         CenterTitleArtist = false;
         FlyoutAnimationEasingStyle = 2;
         LockKeysEnabled = true;
+        LockKeysCapsEnabled = true;
+        LockKeysNumEnabled = true;
+        LockKeysScrollEnabled = true;
         LockKeysDuration = 2000;
         AppTheme = 0;
         MediaFlyoutEnabled = true;
@@ -635,12 +716,13 @@ public partial class UserSettings : ObservableObject
         LockKeysAnimated = true;
         LockKeysInsertEnabled = true;
         MediaFlyoutBackgroundBlur = 0;
-        MediaFlyoutAcrylicWindowEnabled = true;
         AppLanguage = "system";
         FlowDirection = FlowDirection.LeftToRight;
         FontFamily = "Segoe UI Variable, Microsoft YaHei UI, Yu Gothic UI";
+        MediaFlyoutAcrylicWindowEnabled = true;
         NextUpAcrylicWindowEnabled = true;
         LockKeysAcrylicWindowEnabled = true;
+        VolumeMixerAcrylicWindowEnabled = true;
         TaskbarWidgetEnabled = false;
         TaskbarWidgetSelectedMonitor = 0;
         TaskbarWidgetPosition = 0;
@@ -648,6 +730,8 @@ public partial class UserSettings : ObservableObject
         TaskbarWidgetManualPadding = 0;
         TaskbarWidgetBackgroundBlur = false;
         TaskbarWidgetHideCompletely = false;
+        TaskbarWidgetFixedWidth = false;
+        TaskbarWidgetShowPauseOverlay = true;
         TaskbarWidgetControlsEnabled = false;
         TaskbarWidgetControlsPosition = 1;
         TaskbarWidgetAnimated = true;
@@ -665,11 +749,67 @@ public partial class UserSettings : ObservableObject
         TaskbarVisualizerBaseline = false;
         TaskbarVisualizerAudioSensitivity = 2;
         TaskbarVisualizerAudioPeakLevel = 3;
+        VolumeControlEnabled = false;
+        VolumeControlAboveMediaFlyout = false;
+        VolumeControlDuration = 3000;
+        VolumeMixerEnabled = true;
+        VolumeMixerHighlightActiveApps = false;
         AcrylicBlurOpacity = 175;
         UseAlbumArtAsAccentColor = false;
         LastUpdateNotificationUnixSeconds = 0;
         ShowUpdateNotifications = true;
         LegacyTaskbarWidthEnabled = false;
+
+        PropertyChanged += OnPropertyChangedSaveSettings;
+    }
+
+    [XmlIgnore]
+    private CancellationTokenSource? _saveSettingsCts;
+
+    private async void OnPropertyChangedSaveSettings(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+    {
+        if (_initializing) return;
+
+        // Only trigger save if a persisted property changed
+        if (string.IsNullOrEmpty(e.PropertyName) || !PersistedPropertyNames.Contains(e.PropertyName))
+            return;
+
+#if DEBUG
+        Logger.Debug("Property '{PropertyName}' changed, scheduling settings save.", e.PropertyName);
+#endif
+
+        var newCts = new CancellationTokenSource();
+        var oldCts = Interlocked.Exchange(ref _saveSettingsCts, newCts);
+        oldCts?.Cancel();
+        oldCts?.Dispose();
+
+        try
+        {
+            await Task.Delay(500, newCts.Token);
+
+            if (ReferenceEquals(_saveSettingsCts, newCts))
+            {
+                SettingsManager.SaveSettings();
+            }
+        }
+        catch (OperationCanceledException)
+        {
+            // Expected when replaced by a new property change
+#if DEBUG
+            Logger.Debug("Settings save canceled due to another property change.");
+#endif
+        }
+        catch (Exception ex)
+        {
+            Logger.Error(ex, "An error occurred while saving settings from property change.");
+        }
+        finally
+        {
+            if (Interlocked.CompareExchange(ref _saveSettingsCts, null, newCts) == newCts)
+            {
+                newCts.Dispose();
+            }
+        }
     }
 
     /// <summary>
@@ -754,6 +894,18 @@ public partial class UserSettings : ObservableObject
         UpdateTaskbar();
     }
 
+    partial void OnTaskbarWidgetFixedWidthChanged(bool oldValue, bool newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+        UpdateTaskbar();
+    }
+
+    partial void OnTaskbarWidgetShowPauseOverlayChanged(bool oldValue, bool newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+        UpdateTaskbar();
+    }
+
     partial void OnTaskbarWidgetControlsEnabledChanged(bool oldValue, bool newValue)
     {
         if (oldValue == newValue || _initializing) return;
@@ -763,7 +915,7 @@ public partial class UserSettings : ObservableObject
     partial void OnTaskbarWidgetControlsPositionChanged(int oldValue, int newValue)
     {
         if (oldValue == newValue || _initializing) return;
-        
+
         MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
         mainWindow.taskbarWindow?.Widget?.ReorderControls();
     }
@@ -825,5 +977,25 @@ public partial class UserSettings : ObservableObject
 
         MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
         mainWindow?.RefreshFilteredMedia();
+    }
+
+    partial void OnVolumeMixerHighlightActiveAppsChanged(bool oldValue, bool newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+
+        // Check premium status before allowing highlight to be enabled
+        if (newValue && !SettingsManager.Current.IsPremiumUnlocked)
+        {
+            VolumeMixerHighlightActiveApps = false;
+            return;
+        }
+    }
+
+    partial void OnVolumeControlEnabledChanged(bool oldValue, bool newValue)
+    {
+        if (newValue == true || oldValue == newValue || _initializing) return;
+
+        // re-enable native volume flyout
+        VolumeMixerWindow.ShowVolumeOsd();
     }
 }
