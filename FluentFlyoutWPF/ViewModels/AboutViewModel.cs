@@ -21,10 +21,11 @@ public partial class AboutViewModel : ObservableObject
         "xsm2",
         "Simnico99",
         "neegool",
+        "mclt0568",
         "mak7im01",
         "Hikaru11747",
         "FireWall-code",
-        "Saransh"
+        "Saransh" // saransh-ops
      ];
 
     public ObservableCollection<string> Translators { get; } =
@@ -70,7 +71,7 @@ public partial class AboutViewModel : ObservableObject
         "NimiGames68",
         "FenrirXVII",
         "junior0liveira",
-        "AttackerMR",
+        "AttackerMR", // 3mr9
         "hayiamzhengxum",
         "VolodymyrBryzh",
         "havrlisan",
@@ -78,10 +79,12 @@ public partial class AboutViewModel : ObservableObject
         "manuelitou",
         "aic-6301",
         "mak7im01",
-        "D4N_A",
-        "Haeil",
+        "D4N_A", // D4NA-DANA
+        "Haeil", // hae-ill
         "FireWall-code",
-        "saini07ayush"
+        "saini07ayush",
+        "biuseverinoneto",
+        "theantonyis"
     ];
 
 
