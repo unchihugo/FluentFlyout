@@ -226,6 +226,7 @@ public partial class TaskbarWidgetControl : UserControl
 
     public (double logicalWidth, double logicalHeight) CalculateSize(double dpiScale)
     {
+        // calculate widget width - use cached values if text hasn't changed
         string currentTitle = _actualTitle;
         string currentArtist = _actualArtist;
 
@@ -254,7 +255,7 @@ public partial class TaskbarWidgetControl : UserControl
         }
         else
         {
-            logicalWidth = Math.Max(_cachedTitleWidth, _cachedArtistWidth) + 55;
+            logicalWidth = Math.Max(_cachedTitleWidth, _cachedArtistWidth) + 55; // add margin for cover image
             logicalWidth = Math.Min(logicalWidth, maxLogicalWidth);
         }
 
