@@ -256,4 +256,21 @@ Nota: Como proyecto de código abierto, estas opciones también están disponibl
     <system:String x:Key="EnableScrollTitle">Activar indicador de Bloq Despl</system:String>
     <system:String x:Key="TaskbarWidgetFixedWidthTitle">Ancho Fijo del Widget</system:String>
     <system:String x:Key="TaskbarWidgetFixedWidthDescription">Mantén el widget con un ancho fijo en vez de que se adapte según el texto del titulo y el artista</system:String>
+    <system:String x:Key="AppFilteringTitle">Filtrado de Apps</system:String>
+    <system:String x:Key="AppFilteringRulesDescription">Controla que aplicaciones pueden mostrar contenido multimedia</system:String>
+    <system:String x:Key="EnableAppFilteringTitle">Activar Filtrado</system:String>
+    <system:String x:Key="AppFilteringModeTitle">Modo del Filtrado</system:String>
+    <system:String x:Key="AppFilteringModeDescription">Elige si las apps listadas están permitidas o bloqueadas</system:String>
+    <system:String x:Key="AppFilteringModeBlacklist">Lista Negra</system:String>
+    <system:String x:Key="AppFilteringModeWhitelist">Lista Blanca</system:String>
+    <system:String x:Key="AllowedAppsTitle">Apps Permitidas</system:String>
+    <system:String x:Key="AllowedAppsDescription">Si hay alguna aplicación en la lista, solo se mostrara su contenido multimedia.</system:String>
+    <system:String x:Key="BlockedAppsTitle">Apps Excluidas</system:String>
+    <system:String x:Key="BlockedAppsDescription">Excluye una aplicación de ser mostrada</system:String>
+    <system:String x:Key="AddAppManuallyText">¿No encuentras tu app? Escribe su nombre debajo:</system:String>
+    <system:String x:Key="AppFilteringPlaceholderSpotify">ej. Spotify.exe</system:String>
+    <system:String x:Key="AppFilteringPlaceholderChrome">ej. Chrome.exe</system:String>
+    <system:String x:Key="AppFilteringComboBoxHint">Selecciona una app que este reproduciendo contenido para añadirla</system:String>
+    <system:String x:Key="AddButton">Añadir</system:String>
+    <system:String x:Key="RemoveButton">Quitar</system:String>
 </ResourceDictionary>
