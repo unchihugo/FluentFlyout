@@ -3,12 +3,14 @@
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using FluentFlyout.Classes.Settings;
 using FluentFlyout.Classes.Utils;
 using FluentFlyoutWPF.Classes;
 using FluentFlyoutWPF.Models;
 using NAudio.CoreAudioApi;
 using NAudio.CoreAudioApi.Interfaces;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Windows.Threading;
 
@@ -45,6 +47,9 @@ public partial class VolumeMixerViewModel : ObservableObject, IDisposable
 
         AttachDevice(AudioDeviceMonitor.Instance.GetDefaultRenderDevice());
 
+        // Refresh session list whenever the ignore list changes
+        SettingsManager.Current.IgnoredAudioSources.CollectionChanged += OnIgnoredSourcesChanged;
+
         // slow polling to detect changes just in case
         //_pollTimer = new DispatcherTimer
         //{
@@ -52,6 +57,11 @@ public partial class VolumeMixerViewModel : ObservableObject, IDisposable
         //};
         //_pollTimer.Tick += OnPollTick;
         //_pollTimer.Start();
+    }
+
+    private void OnIgnoredSourcesChanged(object? sender, NotifyCollectionChangedEventArgs e)
+    {
+        System.Windows.Application.Current.Dispatcher.InvokeAsync(RefreshSessions);
     }
 
     partial void OnIsExpandedChanged(bool oldValue, bool newValue)
@@ -158,6 +168,12 @@ public partial class VolumeMixerViewModel : ObservableObject, IDisposable
 
                 if (name == "FluentFlyout") continue;
 
+                // Skip user-ignored audio sources
+                var ignored = SettingsManager.Current.IgnoredAudioSources;
+                if (ignored?.Count > 0 && ignored.Any(i =>
+                        name.Contains(i, StringComparison.OrdinalIgnoreCase)))
+                    continue;
+
                 var icon = MediaPlayerData.GetAndCacheProcessIcon(pid, name);
                 Sessions.Add(new AudioSessionModel(session, name, pid, sessionState, icon));
             }
@@ -223,6 +239,7 @@ public partial class VolumeMixerViewModel : ObservableObject, IDisposable
         _pollTimer = null;
 
         AudioDeviceMonitor.Instance.DefaultDeviceChanged -= OnDefaultDeviceChanged;
+        SettingsManager.Current.IgnoredAudioSources.CollectionChanged -= OnIgnoredSourcesChanged;
 
         Sessions.Clear();
 

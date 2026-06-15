@@ -235,10 +235,18 @@ public partial class MainWindow : MicaWindow
     public bool IsSessionAllowed(MediaSession? session)
     {
         if (session == null) return false;
-        if (!SettingsManager.Current.AppFilteringEnabled) return true;
 
         string appId = session.Id ?? string.Empty;
         string appName = MediaPlayerData.GetAndCacheMediaPlayerData(appId).Item1 ?? appId;
+
+        // Always-active ignore list: blocks sessions across all surfaces (media flyout, taskbar widget, volume mixer)
+        var ignoredSources = SettingsManager.Current.IgnoredAudioSources;
+        if (ignoredSources?.Count > 0 && ignoredSources.Any(i =>
+                appName.Contains(i, StringComparison.OrdinalIgnoreCase) ||
+                appId.Contains(i, StringComparison.OrdinalIgnoreCase)))
+            return false;
+
+        if (!SettingsManager.Current.AppFilteringEnabled) return true;
 
         if (SettingsManager.Current.AppFilteringMode == 0) // Blacklist mode
         {

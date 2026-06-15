@@ -269,4 +269,9 @@ You can help contribute translations on</System:String>
     <System:String x:Key="VolumeMixerHighlightTitle">Highlight apps playing audio</System:String>
     <System:String x:Key="VolumeMixerHighlightDescription">See which apps are currently outputting audio</System:String>
     <System:String x:Key="MasterVolumeText">Master volume</System:String>
+    <System:String x:Key="IgnoredAudioSourcesSectionTitle">Ignored Audio Sources</System:String>
+    <System:String x:Key="IgnoredAudioSourcesCardTitle">Hidden from all media surfaces</System:String>
+    <System:String x:Key="IgnoredAudioSourcesCardDescription">These apps won't appear in the Volume Mixer, media flyout, or taskbar widget</System:String>
+    <System:String x:Key="IgnoredAudioSourcesBrowserNote">Browsers appear as a single source — per-site filtering coming soon via browser extension.</System:String>
+    <System:String x:Key="IgnoredAudioSourcesPlaceholder">e.g. Google Chrome, Discord</System:String>
 </ResourceDictionary>
