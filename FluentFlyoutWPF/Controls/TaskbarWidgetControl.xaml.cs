@@ -40,6 +40,20 @@ public partial class TaskbarWidgetControl : UserControl
     private int _lastScrollingSpeed = 20;
     private bool _lastScrollingLoop = true;
 
+    private static readonly double _spaceWidth = StringWidth.GetStringWidth("     ", 400);
+
+    private double _cachedTitleOpacityMaskWidth = -1;
+    private double _cachedArtistOpacityMaskWidth = -1;
+    private LinearGradientBrush? _cachedTitleOpacityMask;
+    private LinearGradientBrush? _cachedArtistOpacityMask;
+
+    private double _lastTitleScrollDistance = double.NaN;
+    private double _lastArtistScrollDistance = double.NaN;
+    private int _lastTitleAnimSpeed = -1;
+    private int _lastArtistAnimSpeed = -1;
+    private bool _lastTitleLoopForever = false;
+    private bool _lastArtistLoopForever = false;
+
     private string _actualTitle = string.Empty;
     private string _actualArtist = string.Empty;
 
@@ -247,7 +261,6 @@ public partial class TaskbarWidgetControl : UserControl
         double newTitleContainerWidth = Math.Max(logicalWidth - 58, 0);
         double newArtistContainerWidth = Math.Max(logicalWidth - 58, 0);
 
-        // holds the width available for the text after accounting for padding and controls, used for determining when to scroll
         double availableTextWidth = Math.Max(maxLogicalWidth - 58, 0);
 
         bool scrollingTitleSetting = SettingsManager.Current.TaskbarWidgetScrollingTitleText;
@@ -255,9 +268,14 @@ public partial class TaskbarWidgetControl : UserControl
         int scrollingSpeed = SettingsManager.Current.TaskbarWidgetScrollingTextSpeed;
         bool scrollingLoop = SettingsManager.Current.TaskbarWidgetScrollingTextLoopForever;
 
-        bool titleSettingsChanged = _lastScrollingTitleSetting != scrollingTitleSetting ||
+        bool settingsChanged = _lastScrollingTitleSetting != scrollingTitleSetting ||
+                               _lastScrollingArtistSetting != scrollingArtistSetting ||
                                _lastScrollingSpeed != scrollingSpeed ||
                                _lastScrollingLoop != scrollingLoop;
+
+        bool titleSettingsChanged = _lastScrollingTitleSetting != scrollingTitleSetting ||
+                                    _lastScrollingSpeed != scrollingSpeed ||
+                                    _lastScrollingLoop != scrollingLoop;
 
         if (textChanged || _cachedTitleContainerWidth != newTitleContainerWidth || titleSettingsChanged)
         {
@@ -279,10 +297,13 @@ public partial class TaskbarWidgetControl : UserControl
             UpdateMarquee(SongArtist, SongArtistContainer, _cachedArtistWidth, availableTextWidth, scrollingArtistSetting, scrollingSpeed, scrollingLoop);
         }
 
-        _lastScrollingTitleSetting = scrollingTitleSetting;
-        _lastScrollingArtistSetting = scrollingArtistSetting;
-        _lastScrollingSpeed = scrollingSpeed;
-        _lastScrollingLoop = scrollingLoop;
+        if (settingsChanged)
+        {
+            _lastScrollingTitleSetting = scrollingTitleSetting;
+            _lastScrollingArtistSetting = scrollingArtistSetting;
+            _lastScrollingSpeed = scrollingSpeed;
+            _lastScrollingLoop = scrollingLoop;
+        }
 
         // add space for playback controls if enabled and visible
         if (SettingsManager.Current.TaskbarWidgetControlsEnabled && ControlsStackPanel.Visibility == Visibility.Visible)
@@ -300,6 +321,7 @@ public partial class TaskbarWidgetControl : UserControl
         var transform = textBlock.RenderTransform as TranslateTransform;
         if (transform == null) return;
 
+        bool isTitle = textBlock == SongTitle;
         double containerWidth = container.Width;
 
         if (isEnabled && textWidth > availableWidth && containerWidth > 0 && !double.IsNaN(containerWidth))
@@ -307,71 +329,90 @@ public partial class TaskbarWidgetControl : UserControl
             textBlock.Width = double.NaN;
             textBlock.TextTrimming = TextTrimming.None;
 
-            string origText = textBlock == SongTitle ? _actualTitle : _actualArtist;
-            string spaceStr = "     "; // spacing between each iteration of the infinite text
-            double spaceWidth = StringWidth.GetStringWidth(spaceStr, 400);
+            string origText = isTitle ? _actualTitle : _actualArtist;
 
-            var opacityMask = new LinearGradientBrush();
-            opacityMask.StartPoint = new Point(0, 0);
-            opacityMask.EndPoint = new Point(containerWidth, 0);
-            opacityMask.MappingMode = BrushMappingMode.Absolute;
+            ref double cachedMaskWidth = ref (isTitle ? ref _cachedTitleOpacityMaskWidth : ref _cachedArtistOpacityMaskWidth);
+            ref LinearGradientBrush? cachedMask = ref (isTitle ? ref _cachedTitleOpacityMask : ref _cachedArtistOpacityMask);
 
-            double fadeFraction = 12.0 / containerWidth;
-            if (fadeFraction > 0.5) fadeFraction = 0.5;
-
-            opacityMask.GradientStops.Add(new GradientStop(Color.FromArgb(0, 255, 255, 255), 0.0));
-            opacityMask.GradientStops.Add(new GradientStop(Color.FromArgb(255, 255, 255, 255), fadeFraction));
-            opacityMask.GradientStops.Add(new GradientStop(Color.FromArgb(255, 255, 255, 255), 1.0 - fadeFraction));
-            opacityMask.GradientStops.Add(new GradientStop(Color.FromArgb(0, 255, 255, 255), 1.0));
-            container.OpacityMask = opacityMask;
-
-            var animation = new DoubleAnimationUsingKeyFrames
+            if (cachedMask == null || Math.Abs(containerWidth - cachedMaskWidth) > 0.5)
             {
-                RepeatBehavior = RepeatBehavior.Forever
-            };
+                double fadeFraction = 12.0 / containerWidth;
+                if (fadeFraction > 0.5) fadeFraction = 0.5;
+
+                cachedMask = new LinearGradientBrush
+                {
+                    StartPoint = new Point(0, 0),
+                    EndPoint = new Point(containerWidth, 0),
+                    MappingMode = BrushMappingMode.Absolute
+                };
+                cachedMask.GradientStops.Add(new GradientStop(Color.FromArgb(0, 255, 255, 255), 0.0));
+                cachedMask.GradientStops.Add(new GradientStop(Color.FromArgb(255, 255, 255, 255), fadeFraction));
+                cachedMask.GradientStops.Add(new GradientStop(Color.FromArgb(255, 255, 255, 255), 1.0 - fadeFraction));
+                cachedMask.GradientStops.Add(new GradientStop(Color.FromArgb(0, 255, 255, 255), 1.0));
+                cachedMaskWidth = containerWidth;
+            }
+            container.OpacityMask = cachedMask;
+
+            double scrollDistance = textWidth - containerWidth + 10;
+
+            ref double lastScrollDistance = ref (isTitle ? ref _lastTitleScrollDistance : ref _lastArtistScrollDistance);
+            ref int lastSpeed = ref (isTitle ? ref _lastTitleAnimSpeed : ref _lastArtistAnimSpeed);
+            ref bool lastLoop = ref (isTitle ? ref _lastTitleLoopForever : ref _lastArtistLoopForever);
 
             if (loopForever)
             {
-                textBlock.Text = origText + spaceStr + origText;
-                textBlock.Measure(new Size(Double.PositiveInfinity, Double.PositiveInfinity));
-                double totalTextWidth = textBlock.DesiredSize.Width;
+                // measure checks the actual rendered font, so we do this to ensure
+                // the width works for any language
 
-                textBlock.Text = origText;
-                textBlock.Measure(new Size(Double.PositiveInfinity, Double.PositiveInfinity));
-                double singleTextWidth = textBlock.DesiredSize.Width;
+                textBlock.Text = origText + "     ";
+                textBlock.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+                scrollDistance = textBlock.DesiredSize.Width;
 
-                double distanceToShift = totalTextWidth - singleTextWidth;
-
-                textBlock.Text = origText + spaceStr + origText;
-
-                // continuous scrolling (text scrolls forever & repeats)
-                double durationToScroll = distanceToShift / speed;
-
-                animation.KeyFrames.Add(new DiscreteDoubleKeyFrame(0, KeyTime.FromTimeSpan(TimeSpan.Zero)));
-                animation.KeyFrames.Add(new LinearDoubleKeyFrame(-distanceToShift, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(durationToScroll))));
+                textBlock.Text = origText + "     " + origText;
             }
             else
-            {
                 textBlock.Text = origText;
-                // default style as in apps such as Spotify (ping pong)
-                double scrollDistance = textWidth - containerWidth + 10;
-                double durationSeconds = scrollDistance / speed;
 
-                animation.KeyFrames.Add(new DiscreteDoubleKeyFrame(0, KeyTime.FromTimeSpan(TimeSpan.Zero)));
-                animation.KeyFrames.Add(new LinearDoubleKeyFrame(0, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(2))));
-                animation.KeyFrames.Add(new LinearDoubleKeyFrame(-scrollDistance, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(2 + durationSeconds))));
-                animation.KeyFrames.Add(new LinearDoubleKeyFrame(-scrollDistance, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(4 + durationSeconds))));
-                animation.KeyFrames.Add(new LinearDoubleKeyFrame(0, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(4 + durationSeconds * 2))));
-                animation.KeyFrames.Add(new LinearDoubleKeyFrame(0, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(6 + durationSeconds * 2))));
+            if (Math.Abs(scrollDistance - lastScrollDistance) > 0.5 || lastSpeed != speed || lastLoop != loopForever)
+            {
+                if (loopForever)
+                {
+                    double durationToScroll = scrollDistance / speed;
+                    var animation = new DoubleAnimation
+                    {
+                        From = 0,
+                        To = -scrollDistance,
+                        Duration = TimeSpan.FromSeconds(durationToScroll),
+                        RepeatBehavior = RepeatBehavior.Forever
+                    };
+                    transform.BeginAnimation(TranslateTransform.XProperty, animation);
+                }
+                else
+                {
+                    double durationSeconds = scrollDistance / speed;
+                    var animation = new DoubleAnimationUsingKeyFrames { RepeatBehavior = RepeatBehavior.Forever };
+                    animation.KeyFrames.Add(new LinearDoubleKeyFrame(0, KeyTime.FromTimeSpan(TimeSpan.Zero)));
+                    animation.KeyFrames.Add(new LinearDoubleKeyFrame(0, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(2))));
+                    animation.KeyFrames.Add(new LinearDoubleKeyFrame(-scrollDistance, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(2 + durationSeconds))));
+                    animation.KeyFrames.Add(new LinearDoubleKeyFrame(-scrollDistance, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(4 + durationSeconds))));
+                    animation.KeyFrames.Add(new LinearDoubleKeyFrame(0, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(4 + durationSeconds * 2))));
+                    animation.KeyFrames.Add(new LinearDoubleKeyFrame(0, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(6 + durationSeconds * 2))));
+                    transform.BeginAnimation(TranslateTransform.XProperty, animation);
+                }
+
+                lastScrollDistance = scrollDistance;
+                lastSpeed = speed;
+                lastLoop = loopForever;
             }
-
-            transform.BeginAnimation(TranslateTransform.XProperty, animation);
         }
         else
         {
+            if (isTitle) { _lastTitleScrollDistance = double.NaN; _lastTitleAnimSpeed = -1; }
+            else { _lastArtistScrollDistance = double.NaN; _lastArtistAnimSpeed = -1; }
+
             transform.BeginAnimation(TranslateTransform.XProperty, null);
             transform.X = 0;
-            textBlock.Text = textBlock == SongTitle ? _actualTitle : _actualArtist;
+            textBlock.Text = isTitle ? _actualTitle : _actualArtist;
             textBlock.Width = containerWidth;
             textBlock.TextTrimming = TextTrimming.CharacterEllipsis;
             container.OpacityMask = null;
