@@ -258,7 +258,7 @@ Nota: Como proyecto de código abierto, estas opciones también están disponibl
     <system:String x:Key="TaskbarWidgetFixedWidthDescription">Mantén el widget con un ancho fijo en vez de que se adapte según el texto del titulo y el artista</system:String>
     <system:String x:Key="AppFilteringTitle">Filtrado de Apps</system:String>
     <system:String x:Key="AppFilteringRulesDescription">Controla que aplicaciones pueden mostrar contenido multimedia</system:String>
-    <system:String x:Key="EnableAppFilteringTitle">Activar Filtrado</system:String>
+    <system:String x:Key="EnableAppFilteringTitle">Habilitar Filtrado</system:String>
     <system:String x:Key="AppFilteringModeTitle">Modo del Filtrado</system:String>
     <system:String x:Key="AppFilteringModeDescription">Elige si las apps listadas están permitidas o bloqueadas</system:String>
     <system:String x:Key="AppFilteringModeBlacklist">Lista Negra</system:String>
