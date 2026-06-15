@@ -58,8 +58,8 @@ Anmerkung: Als Open-Source-Projekt sind diese Funktionen auch kostenlos verfügb
     <system:String x:Key="SystemSettingsTitle">System</system:String>
     <system:String x:Key="LockWindow_LockOn">an</system:String>
     <system:String x:Key="MediaFlyoutTitle">Medien-Flyout</system:String>
-    <system:String x:Key="TextBlockText1">Aktiviere das Media-Flyout</system:String>
-    <system:String x:Key="TextBlockText3">Zeigt das Flyout an, wenn eine Medientaste gedrückt wurde</system:String>
+    <system:String x:Key="TextBlockText1">Aktiviere Media Flyout</system:String>
+    <system:String x:Key="TextBlockText3">Zeige das Flyout an, wenn eine Medientaste gedrückt wurde</system:String>
     <system:String x:Key="TaskbarWidgetPosition">Widget Position</system:String>
     <system:String x:Key="TaskbarWidgetBackgroundBlurDescription">Füge Hintergrundunschärfe für das Taskleisten Widget hinzu</system:String>
     <system:String x:Key="TaskbarWidgetHideCompletelyTitle">Komplett verstecken, wenn keine Medien abgespielt werden</system:String>
@@ -117,7 +117,7 @@ Du kannst helfen, die App zu übersetzen auf</system:String>
     <system:String x:Key="LockWindow_NumLock">Ziffernblock-Sperre</system:String>
     <system:String x:Key="LockWindow_ScrollLock">Rollentasten-Sperre</system:String>
     <system:String x:Key="TrayIcon_GitHubRepositoryOption">Repository</system:String>
-    <system:String x:Key="BackgroundBlurOption1" xml:space="preserve"> Nein</system:String>
+    <system:String x:Key="BackgroundBlurOption1" xml:space="preserve"> · Keine</system:String>
     <system:String x:Key="TaskbarWidgetPaddingTitle">Automatischer Abstand für Windows-Widgets</system:String>
     <system:String x:Key="TaskbarWidgetClickableTitle">Klicken, um das Medien-Flyout bei vorhandenen Medien zu öffnen</system:String>
     <system:String x:Key="TaskbarWidgetClickableDescription">Wenn das Medien-Flyout aktiviert ist, wird es beim Klicken auf das Taskleisten-Widget geöffnet</system:String>
@@ -255,9 +255,22 @@ Du kannst helfen, die App zu übersetzen auf</system:String>
     <system:String x:Key="EnableScrollTitle">Scroll-Lock-Taste Indikator aktivieren</system:String>
     <system:String x:Key="EnableScrollDescription">Wird gezeigt wenn die Scroll-Lock-Taste gedrückt wird</system:String>
     <system:String x:Key="EnableAppFilteringTitle">Filter aktivieren</system:String>
-    <system:String x:Key="AppFilteringModeTitle">Filterungsmodus:</system:String>
+    <system:String x:Key="AppFilteringModeTitle">Filterungsmodus</system:String>
     <system:String x:Key="AppFilteringModeBlacklist">Blockliste</system:String>
     <system:String x:Key="BlockedAppsTitle">Ausgeschlossene Apps</system:String>
     <system:String x:Key="AddButton">Hinzufügen</system:String>
     <system:String x:Key="RemoveButton">Entfernen</system:String>
+    <system:String x:Key="TaskbarWidgetFixedWidthTitle">Feste Widget Breite</system:String>
+    <system:String x:Key="TaskbarWidgetFixedWidthDescription">Feste Breite des Widgets beibehalten, anstatt an die Größe des Titels und des Künstlertexts angepasst zu werden</system:String>
+    <system:String x:Key="AppFilteringTitle">App-Filterung</system:String>
+    <system:String x:Key="AppFilteringRulesDescription">Kontrolliere welche Programme Medien anzeigen können</system:String>
+    <system:String x:Key="AppFilteringModeDescription">Wähle ob gelistete Apps erlaubt oder blockiert werden sollen</system:String>
+    <system:String x:Key="AppFilteringModeWhitelist">Zulassungsliste</system:String>
+    <system:String x:Key="AllowedAppsTitle">Zugelassene Apps</system:String>
+    <system:String x:Key="AllowedAppsDescription">Wenn Programme hier gelistet sind, zeige nur Medien dieser Programme.</system:String>
+    <system:String x:Key="BlockedAppsDescription">Schließt ein Programm vom anzeigen aus</system:String>
+    <system:String x:Key="AddAppManuallyText">Du findest deine App nicht? Tippe sie unten ein:</system:String>
+    <system:String x:Key="AppFilteringPlaceholderSpotify">z. B. Spotify.exe</system:String>
+    <system:String x:Key="AppFilteringPlaceholderChrome">z. B. Chrome.exe</system:String>
+    <system:String x:Key="AppFilteringComboBoxHint">Wähle eine App, die aktuell etwas abspielt, zum hinzufügen</system:String>
 </ResourceDictionary>
