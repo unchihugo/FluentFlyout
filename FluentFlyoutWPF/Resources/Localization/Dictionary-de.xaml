@@ -117,7 +117,7 @@ Du kannst helfen, die App zu übersetzen auf</system:String>
     <system:String x:Key="LockWindow_NumLock">Ziffernblock-Sperre</system:String>
     <system:String x:Key="LockWindow_ScrollLock">Rollentasten-Sperre</system:String>
     <system:String x:Key="TrayIcon_GitHubRepositoryOption">Repository</system:String>
-    <system:String x:Key="BackgroundBlurOption1" xml:space="preserve"> Keine</system:String>
+    <system:String x:Key="BackgroundBlurOption1" xml:space="preserve"> Nein</system:String>
     <system:String x:Key="TaskbarWidgetPaddingTitle">Automatischer Abstand für Windows-Widgets</system:String>
     <system:String x:Key="TaskbarWidgetClickableTitle">Klicken, um das Medien-Flyout bei vorhandenen Medien zu öffnen</system:String>
     <system:String x:Key="TaskbarWidgetClickableDescription">Wenn das Medien-Flyout aktiviert ist, wird es beim Klicken auf das Taskleisten-Widget geöffnet</system:String>
