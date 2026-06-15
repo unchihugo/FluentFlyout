@@ -254,4 +254,10 @@ Du kannst helfen, die App zu übersetzen auf</system:String>
     <system:String x:Key="EnableNumDescription">Wird gezeigt wenn die Num-Lock-Taste gedrückt wird</system:String>
     <system:String x:Key="EnableScrollTitle">Scroll-Lock-Taste Indikator aktivieren</system:String>
     <system:String x:Key="EnableScrollDescription">Wird gezeigt wenn die Scroll-Lock-Taste gedrückt wird</system:String>
+    <system:String x:Key="EnableAppFilteringTitle">Filter aktivieren</system:String>
+    <system:String x:Key="AppFilteringModeTitle">Filterungsmodus:</system:String>
+    <system:String x:Key="AppFilteringModeBlacklist">Blockliste</system:String>
+    <system:String x:Key="BlockedAppsTitle">Ausgeschlossene Apps</system:String>
+    <system:String x:Key="AddButton">Hinzufügen</system:String>
+    <system:String x:Key="RemoveButton">Entfernen</system:String>
 </ResourceDictionary>
