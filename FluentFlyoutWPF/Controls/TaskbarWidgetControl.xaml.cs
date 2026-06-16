@@ -27,7 +27,7 @@ public partial class TaskbarWidgetControl : UserControl
     private readonly double _scale = 0.9;
     private readonly int _nativeWidgetsPadding = 216;
 
-    private readonly int _coverImageMargin = 58;
+    private readonly int _coverImageMargin = 55;
 
     // Cached width calculations
     private string _cachedTitleText = string.Empty;
