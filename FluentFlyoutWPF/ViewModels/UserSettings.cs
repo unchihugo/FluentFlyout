@@ -938,6 +938,38 @@ public partial class UserSettings : ObservableObject
         mainWindow.UpdateTaskbar();
     }
 
+    partial void OnTaskbarWidgetScrollingTitleTextChanged(bool oldValue, bool newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+        RefreshMarquees();
+    }
+
+    partial void OnTaskbarWidgetScrollingArtistTextChanged(bool oldValue, bool newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+        RefreshMarquees();
+    }
+
+    partial void OnTaskbarWidgetScrollingTextLoopForeverChanged(bool oldValue, bool newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+        RefreshMarquees();
+    }
+
+    partial void OnTaskbarWidgetScrollingTextSpeedChanged(int oldValue, int newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+        RefreshMarquees();
+    }
+
+    private void RefreshMarquees()
+    {
+        MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+        var widget = mainWindow.taskbarWindow?.Widget;
+        if (widget == null) return;
+        widget.Dispatcher.Invoke(widget.UpdateMarquees);
+    }
+
     partial void OnTaskbarVisualizerEnabledChanged(bool oldValue, bool newValue)
     {
         if (oldValue == newValue || _initializing) return;

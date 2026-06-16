@@ -34,25 +34,11 @@ public partial class TaskbarWidgetControl : UserControl
     private double _cachedArtistWidth = 0;
     private double _cachedTitleContainerWidth = -1;
     private double _cachedArtistContainerWidth = -1;
-    private bool _lastScrollingTitleSetting = false;
-    private bool _lastScrollingArtistSetting = false;
-
-    private int _lastScrollingSpeed = 20;
-    private bool _lastScrollingLoop = true;
-
-    private static readonly double _spaceWidth = StringWidth.GetStringWidth("     ", 400);
 
     private double _cachedTitleOpacityMaskWidth = -1;
     private double _cachedArtistOpacityMaskWidth = -1;
     private LinearGradientBrush? _cachedTitleOpacityMask;
     private LinearGradientBrush? _cachedArtistOpacityMask;
-
-    private double _lastTitleScrollDistance = double.NaN;
-    private double _lastArtistScrollDistance = double.NaN;
-    private int _lastTitleAnimSpeed = -1;
-    private int _lastArtistAnimSpeed = -1;
-    private bool _lastTitleLoopForever = false;
-    private bool _lastArtistLoopForever = false;
 
     private string _actualTitle = string.Empty;
     private string _actualArtist = string.Empty;
@@ -84,7 +70,7 @@ public partial class TaskbarWidgetControl : UserControl
             MainBorder.Background.Opacity = 0;
         }
 
-        Background = new SolidColorBrush(Color.FromArgb(1, 0, 0, 0)); ;
+        Background = new SolidColorBrush(Color.FromArgb(1, 0, 0, 0));
 
         // Initialize control order
         ReorderControls();
@@ -213,7 +199,7 @@ public partial class TaskbarWidgetControl : UserControl
         MainBorder.Background?.BeginAnimation(SolidColorBrush.ColorProperty, backgroundAnimation);
         MainBorder.Background?.BeginAnimation(SolidColorBrush.OpacityProperty, backgroundOpacityAnimation);
 
-        TopBorder.BorderBrush = System.Windows.Media.Brushes.Transparent;
+        TopBorder.BorderBrush = Brushes.Transparent;
     }
 
     private void Grid_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -230,7 +216,7 @@ public partial class TaskbarWidgetControl : UserControl
         string currentTitle = _actualTitle;
         string currentArtist = _actualArtist;
 
-        bool textChanged = false; // determines if we need to recalculate marquee or just adjust widths
+        bool textChanged = false;
 
         if (!string.Equals(currentTitle, _cachedTitleText, StringComparison.Ordinal))
         {
@@ -248,6 +234,7 @@ public partial class TaskbarWidgetControl : UserControl
         // maximum width limit, same as Windows native widget
         double maxLogicalWidth = _nativeWidgetsPadding / _scale;
         double logicalWidth;
+
         if (SettingsManager.Current.TaskbarWidgetFixedWidth)
         {
             // pin to maximum width so right-aligned controls don't shift between songs
@@ -261,55 +248,32 @@ public partial class TaskbarWidgetControl : UserControl
 
         double newTitleContainerWidth = Math.Max(logicalWidth - 58, 0);
         double newArtistContainerWidth = Math.Max(logicalWidth - 58, 0);
+        bool widthChanged = false;
 
-        double availableTextWidth = Math.Max(maxLogicalWidth - 58, 0);
-
-        bool scrollingTitleSetting = SettingsManager.Current.TaskbarWidgetScrollingTitleText;
-        bool scrollingArtistSetting = SettingsManager.Current.TaskbarWidgetScrollingArtistText;
-        int scrollingSpeed = SettingsManager.Current.TaskbarWidgetScrollingTextSpeed;
-        bool scrollingLoop = SettingsManager.Current.TaskbarWidgetScrollingTextLoopForever;
-
-        bool settingsChanged = _lastScrollingTitleSetting != scrollingTitleSetting ||
-                               _lastScrollingArtistSetting != scrollingArtistSetting ||
-                               _lastScrollingSpeed != scrollingSpeed ||
-                               _lastScrollingLoop != scrollingLoop;
-
-        bool titleSettingsChanged = _lastScrollingTitleSetting != scrollingTitleSetting ||
-                                    _lastScrollingSpeed != scrollingSpeed ||
-                                    _lastScrollingLoop != scrollingLoop;
-
-        if (textChanged || _cachedTitleContainerWidth != newTitleContainerWidth || titleSettingsChanged)
+        if (_cachedTitleContainerWidth != newTitleContainerWidth)
         {
             SongTitleContainer.Width = newTitleContainerWidth;
             _cachedTitleContainerWidth = newTitleContainerWidth;
-
-            UpdateMarquee(SongTitle, SongTitleContainer, _cachedTitleWidth, availableTextWidth, scrollingTitleSetting, scrollingSpeed, scrollingLoop);
+            widthChanged = true;
         }
 
-        bool artistSettingsChanged = _lastScrollingArtistSetting != scrollingArtistSetting ||
-                                     _lastScrollingSpeed != scrollingSpeed ||
-                                     _lastScrollingLoop != scrollingLoop;
-
-        if (textChanged || _cachedArtistContainerWidth != newArtistContainerWidth || artistSettingsChanged)
+        if (_cachedArtistContainerWidth != newArtistContainerWidth)
         {
             SongArtistContainer.Width = newArtistContainerWidth;
             _cachedArtistContainerWidth = newArtistContainerWidth;
-
-            UpdateMarquee(SongArtist, SongArtistContainer, _cachedArtistWidth, availableTextWidth, scrollingArtistSetting, scrollingSpeed, scrollingLoop);
+            widthChanged = true;
         }
 
-        if (settingsChanged)
+        // Refresh animations if layout bounds or text contents change
+        if (textChanged || widthChanged)
         {
-            _lastScrollingTitleSetting = scrollingTitleSetting;
-            _lastScrollingArtistSetting = scrollingArtistSetting;
-            _lastScrollingSpeed = scrollingSpeed;
-            _lastScrollingLoop = scrollingLoop;
+            UpdateMarquees();
         }
 
         // add space for playback controls if enabled and visible
         if (SettingsManager.Current.TaskbarWidgetControlsEnabled && ControlsStackPanel.Visibility == Visibility.Visible)
         {
-            logicalWidth += (int)(102);
+            logicalWidth += 102;
         }
 
         double logicalHeight = 40; // default height
@@ -317,11 +281,21 @@ public partial class TaskbarWidgetControl : UserControl
         return (logicalWidth, logicalHeight);
     }
 
-    private void UpdateMarquee(System.Windows.Controls.TextBlock textBlock, Canvas container, double textWidth, double availableWidth, bool isEnabled, int speed, bool loopForever)
+    public void UpdateMarquees()
     {
-        var transform = textBlock.RenderTransform as TranslateTransform;
-        if (transform == null) return;
+        double titleAvailableWidth = double.IsNaN(SongTitleContainer.Width) ? 0 : SongTitleContainer.Width;
+        double artistAvailableWidth = double.IsNaN(SongArtistContainer.Width) ? 0 : SongArtistContainer.Width;
 
+        UpdateMarquee(SongTitle, SongTitleContainer, _cachedTitleWidth, titleAvailableWidth, SettingsManager.Current.TaskbarWidgetScrollingTitleText);
+        UpdateMarquee(SongArtist, SongArtistContainer, _cachedArtistWidth, artistAvailableWidth, SettingsManager.Current.TaskbarWidgetScrollingArtistText);
+    }
+
+    private void UpdateMarquee(System.Windows.Controls.TextBlock textBlock, Canvas container, double textWidth, double availableWidth, bool isEnabled)
+    {
+        if (textBlock.RenderTransform as TranslateTransform is not { } transform) return;
+
+        int speed = SettingsManager.Current.TaskbarWidgetScrollingTextSpeed;
+        bool loopForever = SettingsManager.Current.TaskbarWidgetScrollingTextLoopForever;
         bool isTitle = textBlock == SongTitle;
         double containerWidth = container.Width;
 
@@ -356,61 +330,43 @@ public partial class TaskbarWidgetControl : UserControl
 
             double scrollDistance = textWidth - containerWidth + 10;
 
-            ref double lastScrollDistance = ref (isTitle ? ref _lastTitleScrollDistance : ref _lastArtistScrollDistance);
-            ref int lastSpeed = ref (isTitle ? ref _lastTitleAnimSpeed : ref _lastArtistAnimSpeed);
-            ref bool lastLoop = ref (isTitle ? ref _lastTitleLoopForever : ref _lastArtistLoopForever);
-
             if (loopForever)
             {
-                // measure checks the actual rendered font, so we do this to ensure
-                // the width works for any language
-
+                // measure checks the actual rendered font, ensuring width works for any language
                 textBlock.Text = origText + "     ";
                 textBlock.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
                 scrollDistance = textBlock.DesiredSize.Width;
 
                 textBlock.Text = origText + "     " + origText;
+
+                double durationToScroll = scrollDistance / speed;
+                var animation = new DoubleAnimation
+                {
+                    From = 0,
+                    To = -scrollDistance,
+                    Duration = TimeSpan.FromSeconds(durationToScroll),
+                    RepeatBehavior = RepeatBehavior.Forever
+                };
+                transform.BeginAnimation(TranslateTransform.XProperty, animation);
             }
             else
-                textBlock.Text = origText;
-
-            if (Math.Abs(scrollDistance - lastScrollDistance) > 0.5 || lastSpeed != speed || lastLoop != loopForever)
             {
-                if (loopForever)
-                {
-                    double durationToScroll = scrollDistance / speed;
-                    var animation = new DoubleAnimation
-                    {
-                        From = 0,
-                        To = -scrollDistance,
-                        Duration = TimeSpan.FromSeconds(durationToScroll),
-                        RepeatBehavior = RepeatBehavior.Forever
-                    };
-                    transform.BeginAnimation(TranslateTransform.XProperty, animation);
-                }
-                else
-                {
-                    double durationSeconds = scrollDistance / speed;
-                    var animation = new DoubleAnimationUsingKeyFrames { RepeatBehavior = RepeatBehavior.Forever };
-                    animation.KeyFrames.Add(new LinearDoubleKeyFrame(0, KeyTime.FromTimeSpan(TimeSpan.Zero)));
-                    animation.KeyFrames.Add(new LinearDoubleKeyFrame(0, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(2))));
-                    animation.KeyFrames.Add(new LinearDoubleKeyFrame(-scrollDistance, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(2 + durationSeconds))));
-                    animation.KeyFrames.Add(new LinearDoubleKeyFrame(-scrollDistance, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(4 + durationSeconds))));
-                    animation.KeyFrames.Add(new LinearDoubleKeyFrame(0, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(4 + durationSeconds * 2))));
-                    animation.KeyFrames.Add(new LinearDoubleKeyFrame(0, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(6 + durationSeconds * 2))));
-                    transform.BeginAnimation(TranslateTransform.XProperty, animation);
-                }
+                textBlock.Text = origText;
+                double durationSeconds = scrollDistance / speed;
 
-                lastScrollDistance = scrollDistance;
-                lastSpeed = speed;
-                lastLoop = loopForever;
+                var animation = new DoubleAnimationUsingKeyFrames { RepeatBehavior = RepeatBehavior.Forever };
+                animation.KeyFrames.Add(new LinearDoubleKeyFrame(0, KeyTime.FromTimeSpan(TimeSpan.Zero)));
+                animation.KeyFrames.Add(new LinearDoubleKeyFrame(0, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(2))));
+                animation.KeyFrames.Add(new LinearDoubleKeyFrame(-scrollDistance, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(2 + durationSeconds))));
+                animation.KeyFrames.Add(new LinearDoubleKeyFrame(-scrollDistance, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(4 + durationSeconds))));
+                animation.KeyFrames.Add(new LinearDoubleKeyFrame(0, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(4 + durationSeconds * 2))));
+                animation.KeyFrames.Add(new LinearDoubleKeyFrame(0, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(6 + durationSeconds * 2))));
+
+                transform.BeginAnimation(TranslateTransform.XProperty, animation);
             }
         }
         else
         {
-            if (isTitle) { _lastTitleScrollDistance = double.NaN; _lastTitleAnimSpeed = -1; }
-            else { _lastArtistScrollDistance = double.NaN; _lastArtistAnimSpeed = -1; }
-
             transform.BeginAnimation(TranslateTransform.XProperty, null);
             transform.X = 0;
             textBlock.Text = isTitle ? _actualTitle : _actualArtist;
