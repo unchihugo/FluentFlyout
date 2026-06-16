@@ -462,13 +462,7 @@ public partial class UserSettings : ObservableObject
     /// Gets or sets a value indicating whether the taskbar widget scrolling text (marquee) is enabled for long titles.
     /// </summary>
     [ObservableProperty]
-    public partial bool TaskbarWidgetScrollingTitleText { get; set; }
-
-    /// <summary>
-    /// Gets or sets a value indicating whether the taskbar widget scrolling text (marquee) is enabled for long artist names.
-    /// </summary>
-    [ObservableProperty]
-    public partial bool TaskbarWidgetScrollingArtistText { get; set; }
+    public partial bool TaskbarWidgetScrollingEnabled { get; set; }
 
     /// <summary>
     /// Gets or sets a value indicating whether the taskbar widget scrolling text should loop forever.
@@ -735,8 +729,7 @@ public partial class UserSettings : ObservableObject
         TaskbarWidgetControlsEnabled = false;
         TaskbarWidgetControlsPosition = 1;
         TaskbarWidgetAnimated = true;
-        TaskbarWidgetScrollingTitleText = true;
-        TaskbarWidgetScrollingArtistText = true;
+        TaskbarWidgetScrollingEnabled = false;
         TaskbarWidgetScrollingTextSpeed = 20;
         TaskbarWidgetScrollingTextLoopForever = false;
         TaskbarVisualizerEnabled = false;
@@ -938,13 +931,7 @@ public partial class UserSettings : ObservableObject
         mainWindow.UpdateTaskbar();
     }
 
-    partial void OnTaskbarWidgetScrollingTitleTextChanged(bool oldValue, bool newValue)
-    {
-        if (oldValue == newValue || _initializing) return;
-        UpdateTaskbarMarquees();
-    }
-
-    partial void OnTaskbarWidgetScrollingArtistTextChanged(bool oldValue, bool newValue)
+    partial void OnTaskbarWidgetScrollingEnabledChanged(bool oldValue, bool newValue)
     {
         if (oldValue == newValue || _initializing) return;
         UpdateTaskbarMarquees();

@@ -288,8 +288,10 @@ public partial class TaskbarWidgetControl : UserControl
         double titleAvailableWidth = double.IsNaN(SongTitleContainer.Width) ? 0 : SongTitleContainer.Width;
         double artistAvailableWidth = double.IsNaN(SongArtistContainer.Width) ? 0 : SongArtistContainer.Width;
 
-        UpdateMarquee(SongTitle, SongTitleContainer, _cachedTitleWidth, titleAvailableWidth, SettingsManager.Current.TaskbarWidgetScrollingTitleText);
-        UpdateMarquee(SongArtist, SongArtistContainer, _cachedArtistWidth, artistAvailableWidth, SettingsManager.Current.TaskbarWidgetScrollingArtistText);
+        bool isScrollingEnabled = SettingsManager.Current.TaskbarWidgetScrollingEnabled;
+
+        UpdateMarquee(SongTitle, SongTitleContainer, _cachedTitleWidth, titleAvailableWidth, isScrollingEnabled);
+        UpdateMarquee(SongArtist, SongArtistContainer, _cachedArtistWidth, artistAvailableWidth, isScrollingEnabled);
     }
 
     private void UpdateMarquee(System.Windows.Controls.TextBlock textBlock, Canvas container, double textWidth, double availableWidth, bool isEnabled)
