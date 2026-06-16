@@ -941,28 +941,28 @@ public partial class UserSettings : ObservableObject
     partial void OnTaskbarWidgetScrollingTitleTextChanged(bool oldValue, bool newValue)
     {
         if (oldValue == newValue || _initializing) return;
-        RefreshMarquees();
+        UpdateTaskbarMarquees();
     }
 
     partial void OnTaskbarWidgetScrollingArtistTextChanged(bool oldValue, bool newValue)
     {
         if (oldValue == newValue || _initializing) return;
-        RefreshMarquees();
+        UpdateTaskbarMarquees();
     }
 
     partial void OnTaskbarWidgetScrollingTextLoopForeverChanged(bool oldValue, bool newValue)
     {
         if (oldValue == newValue || _initializing) return;
-        RefreshMarquees();
+        UpdateTaskbarMarquees();
     }
 
     partial void OnTaskbarWidgetScrollingTextSpeedChanged(int oldValue, int newValue)
     {
         if (oldValue == newValue || _initializing) return;
-        RefreshMarquees();
+        UpdateTaskbarMarquees();
     }
 
-    private void RefreshMarquees()
+    private void UpdateTaskbarMarquees()
     {
         MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
         var widget = mainWindow.taskbarWindow?.Widget;
