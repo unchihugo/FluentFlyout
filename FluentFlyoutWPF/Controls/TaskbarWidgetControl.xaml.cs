@@ -27,6 +27,8 @@ public partial class TaskbarWidgetControl : UserControl
     private readonly double _scale = 0.9;
     private readonly int _nativeWidgetsPadding = 216;
 
+    private readonly int _coverImageMargin = 58;
+
     // Cached width calculations
     private string _cachedTitleText = string.Empty;
     private string _cachedArtistText = string.Empty;
@@ -242,12 +244,12 @@ public partial class TaskbarWidgetControl : UserControl
         }
         else
         {
-            logicalWidth = Math.Max(_cachedTitleWidth, _cachedArtistWidth) + 55; // add margin for cover image
+            logicalWidth = Math.Max(_cachedTitleWidth, _cachedArtistWidth) + _coverImageMargin; // add margin for cover image
             logicalWidth = Math.Min(logicalWidth, maxLogicalWidth);
         }
 
-        double newTitleContainerWidth = Math.Max(logicalWidth - 58, 0);
-        double newArtistContainerWidth = Math.Max(logicalWidth - 58, 0);
+        double newTitleContainerWidth = Math.Max(logicalWidth - _coverImageMargin, 0);
+        double newArtistContainerWidth = Math.Max(logicalWidth - _coverImageMargin, 0);
         bool widthChanged = false;
 
         if (_cachedTitleContainerWidth != newTitleContainerWidth)
