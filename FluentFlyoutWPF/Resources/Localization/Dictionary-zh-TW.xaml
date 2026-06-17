@@ -239,4 +239,9 @@
     <system:String x:Key="EnableCapsTitle">啟用大寫鎖定指示器</system:String>
     <system:String x:Key="EnableCapsDescription">顯示Caps Lock 鍵在何時按下</system:String>
     <system:String x:Key="EnableNumTitle">啟用 Num Lock 指示符</system:String>
+    <system:String x:Key="VolumeFlyoutTitle">音量浮動視窗</system:String>
+    <system:String x:Key="VolumeAboveMediaFlyoutTitle">將音量視窗置於媒體視窗之上</system:String>
+    <system:String x:Key="VolumeMixerHighlightDescription">看看哪些應用程式正在輸出音頻</system:String>
+    <system:String x:Key="VolumeMixerHighlightTitle">顯示正在播放音頻的應用</system:String>
+    <system:String x:Key="EnableVolumeFlyoutTitle">啓用音量浮窗</system:String>
 </ResourceDictionary>
