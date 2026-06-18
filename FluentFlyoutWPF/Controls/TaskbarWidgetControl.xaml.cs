@@ -303,15 +303,16 @@ public partial class TaskbarWidgetControl : UserControl
         bool isTitle = textBlock == SongTitle;
         double containerWidth = container.Width;
 
+        // references moved outside so they may be called in the else block later
+        ref double cachedMaskWidth = ref (isTitle ? ref _cachedTitleOpacityMaskWidth : ref _cachedArtistOpacityMaskWidth);
+        ref LinearGradientBrush? cachedMask = ref (isTitle ? ref _cachedTitleOpacityMask : ref _cachedArtistOpacityMask);
+
         if (isEnabled && textWidth > availableWidth && containerWidth > 0 && !double.IsNaN(containerWidth))
         {
             textBlock.Width = double.NaN;
             textBlock.TextTrimming = TextTrimming.None;
 
             string origText = isTitle ? _actualTitle : _actualArtist;
-
-            ref double cachedMaskWidth = ref (isTitle ? ref _cachedTitleOpacityMaskWidth : ref _cachedArtistOpacityMaskWidth);
-            ref LinearGradientBrush? cachedMask = ref (isTitle ? ref _cachedTitleOpacityMask : ref _cachedArtistOpacityMask);
 
             if (cachedMask == null || Math.Abs(containerWidth - cachedMaskWidth) > 0.5)
             {
@@ -336,6 +337,12 @@ public partial class TaskbarWidgetControl : UserControl
 
             if (loopForever)
             {
+                // continous looping should have the fades constantly active (as its infinite)
+                cachedMask.GradientStops[0].BeginAnimation(GradientStop.ColorProperty, null);
+                cachedMask.GradientStops[3].BeginAnimation(GradientStop.ColorProperty, null);
+                cachedMask.GradientStops[0].Color = Color.FromArgb(0, 255, 255, 255);
+                cachedMask.GradientStops[3].Color = Color.FromArgb(0, 255, 255, 255);
+
                 // measure checks the actual rendered font, ensuring width works for any language
                 textBlock.Text = origText + "     ";
                 textBlock.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
@@ -366,11 +373,44 @@ public partial class TaskbarWidgetControl : UserControl
                 animation.KeyFrames.Add(new LinearDoubleKeyFrame(0, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(4 + durationSeconds * 2))));
                 animation.KeyFrames.Add(new LinearDoubleKeyFrame(0, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(6 + durationSeconds * 2))));
 
+                // sync fades with the "ping pong" movement
+                Color transparentWhite = Color.FromArgb(0, 255, 255, 255);
+                Color solidWhite = Color.FromArgb(255, 255, 255, 255);
+
+                // clamp fade duration to prevent overlapping keyframes on shorter scrolling texts
+                TimeSpan fadeTime = TimeSpan.FromMilliseconds(Math.Min(300, durationSeconds * 1000 / 2.0));
+
+                var leftColorAnim = new ColorAnimationUsingKeyFrames { RepeatBehavior = RepeatBehavior.Forever };
+                leftColorAnim.KeyFrames.Add(new DiscreteColorKeyFrame(solidWhite, KeyTime.FromTimeSpan(TimeSpan.Zero)));
+                leftColorAnim.KeyFrames.Add(new LinearColorKeyFrame(solidWhite, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(2))));
+                leftColorAnim.KeyFrames.Add(new LinearColorKeyFrame(transparentWhite, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(2) + fadeTime)));
+                leftColorAnim.KeyFrames.Add(new LinearColorKeyFrame(transparentWhite, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(4 + durationSeconds * 2) - fadeTime)));
+                leftColorAnim.KeyFrames.Add(new LinearColorKeyFrame(solidWhite, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(4 + durationSeconds * 2))));
+                leftColorAnim.KeyFrames.Add(new LinearColorKeyFrame(solidWhite, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(6 + durationSeconds * 2))));
+
+                var rightColorAnim = new ColorAnimationUsingKeyFrames { RepeatBehavior = RepeatBehavior.Forever };
+                rightColorAnim.KeyFrames.Add(new DiscreteColorKeyFrame(transparentWhite, KeyTime.FromTimeSpan(TimeSpan.Zero)));
+                rightColorAnim.KeyFrames.Add(new LinearColorKeyFrame(transparentWhite, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(2 + durationSeconds) - fadeTime)));
+                rightColorAnim.KeyFrames.Add(new LinearColorKeyFrame(solidWhite, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(2 + durationSeconds))));
+                rightColorAnim.KeyFrames.Add(new LinearColorKeyFrame(solidWhite, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(4 + durationSeconds))));
+                rightColorAnim.KeyFrames.Add(new LinearColorKeyFrame(transparentWhite, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(4 + durationSeconds) + fadeTime)));
+                rightColorAnim.KeyFrames.Add(new LinearColorKeyFrame(transparentWhite, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(6 + durationSeconds * 2))));
+
+                cachedMask.GradientStops[0].BeginAnimation(GradientStop.ColorProperty, leftColorAnim);
+                cachedMask.GradientStops[3].BeginAnimation(GradientStop.ColorProperty, rightColorAnim);
+
                 transform.BeginAnimation(TranslateTransform.XProperty, animation);
             }
         }
         else
         {
+            if (cachedMask != null)
+            {
+                // prevent memory leakss and/or unwanted behavior by clearing the color animations when the mask is hidden
+                cachedMask.GradientStops[0].BeginAnimation(GradientStop.ColorProperty, null);
+                cachedMask.GradientStops[3].BeginAnimation(GradientStop.ColorProperty, null);
+            }
+
             transform.BeginAnimation(TranslateTransform.XProperty, null);
             transform.X = 0;
             textBlock.Text = isTitle ? _actualTitle : _actualArtist;
