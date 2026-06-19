@@ -466,6 +466,37 @@ public partial class UserSettings : ObservableObject
     public partial bool TaskbarVisualizerEnabled { get; set; }
 
     /// <summary>
+    /// Gets or sets a value indicating whether the taskbar lyrics viewer is enabled.
+    /// </summary>
+    [ObservableProperty]
+    public partial bool TaskbarLyricsEnabled { get; set; }
+
+    /// <summary>
+    /// Position of the lyrics viewer relative to the widget.
+    /// </summary>
+    [ObservableProperty]
+    public partial int TaskbarLyricsPosition { get; set; }
+
+    /// <summary>
+    /// Whether the lyrics viewer is clickable.
+    /// </summary>
+    [ObservableProperty]
+    public partial bool TaskbarLyricsClickable { get; set; }
+
+    /// <summary>
+    /// Time offset in milliseconds to adjust lyrics sync (positive to advance, negative to delay).
+    /// </summary>
+    [ObservableProperty]
+    public partial int TaskbarLyricsDelay { get; set; }
+
+    /// <summary>
+    /// Indicates whether the lyrics viewer has content to display.
+    /// </summary>
+    [XmlIgnore]
+    [ObservableProperty]
+    public partial bool TaskbarLyricsHasContent { get; set; }
+
+    /// <summary>
     /// Returns whether app filtering is enabled or disabled.
     /// </summary>
     [ObservableProperty]
@@ -687,6 +718,10 @@ public partial class UserSettings : ObservableObject
         TaskbarWidgetControlsPosition = 1;
         TaskbarWidgetAnimated = true;
         TaskbarVisualizerEnabled = false;
+        TaskbarLyricsEnabled = false;
+        TaskbarLyricsPosition = 1;
+        TaskbarLyricsClickable = false;
+        TaskbarLyricsDelay = 0;
         AppFilteringEnabled = false;
         AppFilteringMode = 0;
         TaskbarVisualizerPosition = 1;
@@ -873,6 +908,12 @@ public partial class UserSettings : ObservableObject
         UpdateTaskbar();
     }
 
+    partial void OnTaskbarLyricsPositionChanged(int oldValue, int newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+        UpdateTaskbar();
+    }
+
     partial void OnLegacyTaskbarWidthEnabledChanged(bool oldValue, bool newValue)
     {
         if (oldValue == newValue || _initializing) return;
@@ -889,6 +930,13 @@ public partial class UserSettings : ObservableObject
     {
         if (oldValue == newValue || _initializing) return;
         TaskbarVisualizerControl.OnTaskbarVisualizerEnabledChanged(newValue);
+        UpdateTaskbar();
+    }
+
+    partial void OnTaskbarLyricsEnabledChanged(bool oldValue, bool newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+        TaskbarLyricsControl.OnTaskbarLyricsEnabledChanged(newValue);
         UpdateTaskbar();
     }
 
