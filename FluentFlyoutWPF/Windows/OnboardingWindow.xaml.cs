@@ -1,7 +1,8 @@
 // Copyright (c) 2024-2026 The FluentFlyout Authors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-using FluentFlyout.Classes;
+using FluentFlyout.Classes.Settings;
+using FluentFlyoutWPF.Classes.Utils;
 using FluentFlyoutWPF.ViewModels;
 using MicaWPF.Controls;
 using System.ComponentModel;
@@ -37,9 +38,26 @@ public partial class OnboardingWindow : MicaWindow
         InitializeComponent();
         instance = this;
 
-        Closed += (_, _) => instance = null;
+        Closed += (_, _) =>
+        {
+            instance = null;
+            // open settings window when onboarding is closed
+            OnOnboardingCompleted(Owner, EventArgs.Empty);
+        };
         _viewModel.Completed += OnOnboardingCompleted;
         _viewModel.PropertyChanged += OnViewModelPropertyChanged;
+
+        // Show loading ring for 0.5 seconds to prevent WPF-UI color flickers
+        Loaded += async (_, _) =>
+        {
+            await Task.Delay(500);
+            _viewModel.IsLoading = false;
+        };
+
+        MonitorUtil.UpdateMonitorList(
+            FlyoutSelectedMonitorComboBox,
+            () => SettingsManager.Current.FlyoutSelectedMonitor,
+            value => SettingsManager.Current.FlyoutSelectedMonitor = value);
     }
 
     private void OnViewModelPropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -51,6 +69,7 @@ public partial class OnboardingWindow : MicaWindow
 
             // Start animation with old content still visible
             _isAnimating = true;
+            _viewModel.IsTransitioning = true;
             AnimateContentTransition(isGoingForward, targetStepIndex);
         }
     }
@@ -107,6 +126,7 @@ public partial class OnboardingWindow : MicaWindow
             fadeInAnimation.Completed += (s2, e2) =>
             {
                 _isAnimating = false;
+                _viewModel.IsTransitioning = false;
             };
 
             ContentsGrid.BeginAnimation(OpacityProperty, fadeInAnimation);
@@ -141,13 +161,6 @@ public partial class OnboardingWindow : MicaWindow
     {
         SettingsWindow.ShowInstance();
         Close();
-    }
-
-    protected override void OnClosed(EventArgs e)
-    {
-        _viewModel.PropertyChanged -= OnViewModelPropertyChanged;
-        _viewModel.Completed -= OnOnboardingCompleted;
-        base.OnClosed(e);
     }
 
     // same as in AboutPage.xaml.cs

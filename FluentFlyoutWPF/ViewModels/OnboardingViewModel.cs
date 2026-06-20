@@ -20,8 +20,29 @@ public sealed class OnboardingStep
 public class OnboardingViewModel : ObservableObject
 {
     private int _currentStepIndex;
+    private bool _isLoading = true;
+    private bool _isTransitioning;
 
     public UserSettings Settings => SettingsManager.Current;
+
+    public bool IsLoading
+    {
+        get => _isLoading;
+        set => SetProperty(ref _isLoading, value);
+    }
+
+    public bool IsTransitioning
+    {
+        get => _isTransitioning;
+        set
+        {
+            if (SetProperty(ref _isTransitioning, value))
+            {
+                GoBackCommand.NotifyCanExecuteChanged();
+                GoNextCommand.NotifyCanExecuteChanged();
+            }
+        }
+    }
 
     public IReadOnlyList<OnboardingStep> Steps { get; } =
     [
@@ -74,9 +95,9 @@ public class OnboardingViewModel : ObservableObject
 
     public OnboardingStep CurrentStep => Steps[CurrentStepIndex];
 
-    public string StepProgressText => $"Step {CurrentStepIndex + 1} of {Steps.Count}";
+    public string StepProgressText => string.Format(Application.Current.TryFindResource("OnboardingStepsCounter").ToString(), CurrentStepIndex + 1, Steps.Count);
 
-    public string NextButtonText => IsLastStep ? "Finish" : "Next";
+    public string NextButtonText => IsLastStep ? Application.Current.TryFindResource("Finish").ToString() : Application.Current.TryFindResource("Next").ToString();
 
     public bool IsLastStep => CurrentStepIndex >= Steps.Count - 1;
 
@@ -100,8 +121,8 @@ public class OnboardingViewModel : ObservableObject
 
     public OnboardingViewModel()
     {
-        GoBackCommand = new RelayCommand(GoBack, () => CanGoBack);
-        GoNextCommand = new RelayCommand(GoNext);
+        GoBackCommand = new RelayCommand(GoBack, () => CanGoBack && !IsTransitioning);
+        GoNextCommand = new RelayCommand(GoNext, () => !IsTransitioning);
         SkipCommand = new RelayCommand(Skip);
     }
 

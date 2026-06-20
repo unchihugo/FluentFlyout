@@ -3,6 +3,10 @@
     <System:String x:Key="HomeTitle">Home</System:String>
     <System:String x:Key="Enabled">Enabled</System:String>
     <System:String x:Key="Disabled">Disabled</System:String>
+    <System:String x:Key="Back">Back</System:String>
+    <System:String x:Key="Next">Next</System:String>
+    <System:String x:Key="Finish">Finish</System:String>
+    <System:String x:Key="OnboardingStepsCounter">Step {0} of {1}</System:String>
     <System:String x:Key="MediaFlyoutTitle">Media Flyout</System:String>
     <System:String x:Key="MediaFlyoutDescription">When listening to media, press any media or volume key (play/pause, volume up/down, etc.) on your keyboard to display the flyout. Displays media info, along with playback controls and more.</System:String>
     <System:String x:Key="TextBlockText1">Enable Media Flyout</System:String>
