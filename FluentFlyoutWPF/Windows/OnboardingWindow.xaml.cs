@@ -1,8 +1,6 @@
 // Copyright (c) 2024-2026 The FluentFlyout Authors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-using FluentFlyout.Classes.Settings;
-using FluentFlyoutWPF.Classes.Utils;
 using FluentFlyoutWPF.ViewModels;
 using MicaWPF.Controls;
 using System.ComponentModel;
@@ -54,10 +52,11 @@ public partial class OnboardingWindow : MicaWindow
             _viewModel.IsLoading = false;
         };
 
-        MonitorUtil.UpdateMonitorList(
-            FlyoutSelectedMonitorComboBox,
-            () => SettingsManager.Current.FlyoutSelectedMonitor,
-            value => SettingsManager.Current.FlyoutSelectedMonitor = value);
+        // unused for now, but can be used in the future if we want to allow users to select a monitor during onboarding
+        //MonitorUtil.UpdateMonitorList(
+        //    FlyoutSelectedMonitorComboBox,
+        //    () => SettingsManager.Current.FlyoutSelectedMonitor,
+        //    value => SettingsManager.Current.FlyoutSelectedMonitor = value);
     }
 
     private void OnViewModelPropertyChanged(object? sender, PropertyChangedEventArgs e)
