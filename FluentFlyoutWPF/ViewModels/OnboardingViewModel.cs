@@ -97,7 +97,7 @@ public class OnboardingViewModel : ObservableObject
 
     public string StepProgressText => string.Format(Application.Current.TryFindResource("OnboardingStepsCounter").ToString(), CurrentStepIndex + 1, Steps.Count);
 
-    public string NextButtonText => IsLastStep ? Application.Current.TryFindResource("Finish").ToString() : Application.Current.TryFindResource("Next").ToString();
+    public string? NextButtonText => IsLastStep ? Application.Current.TryFindResource("Finish").ToString() : Application.Current.TryFindResource("Next").ToString();
 
     public bool IsLastStep => CurrentStepIndex >= Steps.Count - 1;
 
