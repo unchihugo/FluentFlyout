@@ -182,10 +182,10 @@ public partial class MainWindow : MicaWindow
         Dispatcher.Invoke(() =>
         {
             LocalizationManager.ApplyLocalization();
-            // show settings to new users
+            // show onboarding to new users (no previous version stored = user has never run the app before)
             string previousVersion = SettingsManager.Current.LastKnownVersion;
-            if (previousVersion == string.Empty)
-                SettingsWindow.ShowInstance();
+            //if (previousVersion == string.Empty)
+            OnboardingWindow.ShowInstance();
 
             try // update last known version. gets the version of the app, works only in release mode
             {
