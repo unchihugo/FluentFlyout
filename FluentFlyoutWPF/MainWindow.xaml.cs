@@ -139,6 +139,9 @@ public partial class MainWindow : MicaWindow
             Logger.Error(ex, "Failed to restore settings");
         }
 
+        // RestoreSettings may replace SettingsManager.Current instance, so rebind DataContext.
+        DataContext = SettingsManager.Current;
+
         if (SettingsManager.Current.Startup == true) // add to startup programs if enabled, needs improvement
         {
             RegistryKey? key = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
