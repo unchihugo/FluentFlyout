@@ -1,0 +1,231 @@
+﻿<controls:MicaWindow
+    x:Class="FluentFlyoutWPF.OnboardingWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+    xmlns:controls="clr-namespace:MicaWPF.Controls;assembly=MicaWPF"
+    xmlns:viewModels="clr-namespace:FluentFlyoutWPF.ViewModels"
+    Title="Welcome to FluentFlyout"
+	Icon="/Resources/FluentFlyout2.ico"
+    Width="900"
+    Height="600"
+    MinWidth="870"
+    MinHeight="500"
+    WindowStartupLocation="CenterScreen"
+    WindowStyle="None"
+    ResizeMode="CanResize"
+    ChangeTitleColorWhenInactive="False"
+    TextOptions.TextRenderingMode="ClearType"
+    TextOptions.TextFormattingMode="Ideal"
+    FontFamily="{Binding Settings.FontFamily}"
+	FlowDirection="{Binding Settings.FlowDirection}"
+    d:DataContext="{d:DesignInstance viewModels:OnboardingViewModel}"
+    mc:Ignorable="d">
+
+    <Grid>
+        <!-- Loading Ring Overlay -->
+        <Grid Visibility="{Binding IsLoading, Converter={StaticResource BoolToVisibleCollapsedConverter}}">
+            <ui:ProgressRing IsIndeterminate="True" Width="48" Height="48" HorizontalAlignment="Center" VerticalAlignment="Center" />
+        </Grid>
+
+        <!-- Main Content -->
+        <Grid Margin="36" Visibility="{Binding IsLoading, Converter={StaticResource BoolToCollapsedVisibleConverter}}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0" Margin="0,0,0,16" Orientation="Horizontal">
+                <Image Source="/Resources/FluentFlyout2.ico" Width="36" Height="36" Margin="0,0,12,-2" VerticalAlignment="Center" />
+                <TextBlock Text="Get started" FontSize="28" FontWeight="SemiBold" VerticalAlignment="Center" />
+            </StackPanel>
+
+            <Grid Grid.Row="1" ColumnDefinitions="1.2*,*" x:Name="ContentsGrid">
+                <Grid.RenderTransform>
+                    <TranslateTransform X="0" Y="0" />
+                </Grid.RenderTransform>
+                <Border Grid.Column="0"
+                    CornerRadius="8"
+                    Padding="20"
+                    Margin="0,12,10,0">
+                    <Grid>
+                        <Border Width="390"
+                            Height="220"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            CornerRadius="10"
+                            ClipToBounds="True"
+                            BorderThickness="1"
+                            BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}">
+                            <Border.Background>
+                                <ImageBrush ImageSource="{Binding CurrentStep.ImageSource}" Stretch="UniformToFill" />
+                            </Border.Background>
+                        </Border>
+                    </Grid>
+                </Border>
+
+                <Border
+                Grid.Column="1"
+                Margin="10,12,0,0"
+                Padding="20,20,20,0"
+                CornerRadius="8">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <StackPanel Grid.Row="0">
+                            <TextBlock Text="{Binding CurrentStep.Title}" FontSize="24" FontWeight="Medium" TextWrapping="Wrap" />
+                            <TextBlock Text="{Binding CurrentStep.Description}" Margin="0,8,0,32" Opacity="0.7" TextWrapping="Wrap">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Visibility" Value="Visible" />
+                                        <Style.Triggers>
+                                            <Trigger Property="Text" Value="">
+                                                <Setter Property="Visibility" Value="Collapsed" />
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </StackPanel>
+
+                        <ui:PassiveScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                            <StackPanel Margin="0,0,0,0">
+                                <StackPanel Visibility="{Binding IsMediaStep, Converter={StaticResource BoolToVisibleCollapsedConverter}}">
+                                    <TextBlock Text="{DynamicResource TextBlockText1}" FontSize="14" FontWeight="Medium" />
+                                    <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
+                                        <ui:ToggleSwitch IsChecked="{Binding Settings.MediaFlyoutEnabled, Mode=TwoWay}" VerticalAlignment="Center" />
+                                        <TextBlock Margin="8,0,0,0" Text="{Binding Settings.MediaFlyoutEnabled, Converter={StaticResource BoolToEnabledDisabledConverter}}" VerticalAlignment="Center" />
+                                    </StackPanel>
+                                    <!-- unused Advanced Settings section for now
+                                    <ui:CardExpander Padding="10" Margin="0,16,0,0" Cursor="Hand">
+                                        <ui:CardExpander.Header>
+                                            <TextBlock Text="{DynamicResource AdvancedSettingsTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
+                                        </ui:CardExpander.Header>
+                                        <StackPanel>
+                                            <TextBlock Text="{DynamicResource FlyoutPositionTitle}" FontSize="14" FontWeight="Regular" />
+                                            <ComboBox Margin="0,8,0,0" Name="PositionComboBox" SelectedIndex="{Binding UserSettings.Position, Mode=TwoWay}">
+                                                <ComboBoxItem Content="{DynamicResource PositionBottomLeft}" />
+                                                <ComboBoxItem Content="{DynamicResource PositionBottomCenter}" />
+                                                <ComboBoxItem Content="{DynamicResource PositionBottomRight}" />
+                                                <ComboBoxItem Content="{DynamicResource PositionTopLeft}" />
+                                                <ComboBoxItem Content="{DynamicResource PositionTopCenter}" />
+                                                <ComboBoxItem Content="{DynamicResource PositionTopRight}" />
+                                            </ComboBox>
+                                            <TextBlock Margin="0,16,0,0" Text="{DynamicResource SelectedMonitorTitle}" FontSize="14" FontWeight="Regular" />
+                                                        <ComboBox Margin="0,8,0,0" x:Name="FlyoutSelectedMonitorComboBox" SelectedIndex="{Binding Settings.FlyoutSelectedMonitor, Mode=TwoWay}" ></ComboBox>
+                                                    </StackPanel>
+                                    </ui:CardExpander>
+                                    -->
+                                </StackPanel>
+
+                                <StackPanel Visibility="{Binding IsVolumeStep, Converter={StaticResource BoolToVisibleCollapsedConverter}}">
+                                    <TextBlock Text="{DynamicResource EnableVolumeFlyoutTitle}" FontSize="14" FontWeight="SemiBold" />
+                                    <TextBlock Text="{DynamicResource EnableVolumeFlyoutDescription}" Margin="0,4,0,0" FontSize="12" Opacity="0.75" TextWrapping="Wrap" />
+                                    <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
+                                        <ui:ToggleSwitch IsChecked="{Binding Settings.VolumeControlEnabled, Mode=TwoWay}" VerticalAlignment="Center" />
+                                        <TextBlock Margin="8,0,0,0" Text="{Binding Settings.VolumeControlEnabled, Converter={StaticResource BoolToEnabledDisabledConverter}}" VerticalAlignment="Center" />
+                                    </StackPanel>
+                                    <StackPanel Opacity="{Binding Settings.VolumeControlEnabled, Converter={StaticResource BoolToFullHalfOpacityConverter}}">
+                                        <TextBlock Text="{DynamicResource VolumeMixerSectionTitle}" FontSize="14" FontWeight="SemiBold" Margin="0,16,0,0" />
+                                        <TextBlock Text="{DynamicResource EnableVolumeMixerDescription}" Margin="0,4,0,0" FontSize="12" Opacity="0.75" TextWrapping="Wrap" />
+                                        <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
+                                            <ui:ToggleSwitch IsChecked="{Binding Settings.VolumeMixerEnabled, Mode=TwoWay}" VerticalAlignment="Center" IsEnabled="{Binding Settings.VolumeControlEnabled}" />
+                                            <TextBlock Margin="8,0,0,0" Text="{Binding Settings.VolumeMixerEnabled, Converter={StaticResource BoolToEnabledDisabledConverter}}" VerticalAlignment="Center" />
+                                        </StackPanel>
+                                    </StackPanel>
+                                </StackPanel>
+
+                                <StackPanel Visibility="{Binding IsLockKeysStep, Converter={StaticResource BoolToVisibleCollapsedConverter}}">
+                                    <TextBlock Text="{DynamicResource EnableLockKeysTitle}" FontSize="14" FontWeight="SemiBold" />
+                                    <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
+                                        <ui:ToggleSwitch IsChecked="{Binding Settings.LockKeysEnabled, Mode=TwoWay}" />
+                                        <TextBlock Margin="8,0,0,0" Text="{Binding Settings.LockKeysEnabled, Converter={StaticResource BoolToEnabledDisabledConverter}}" VerticalAlignment="Center" />
+                                    </StackPanel>
+                                </StackPanel>
+
+                                <StackPanel Visibility="{Binding IsPremiumStep, Converter={StaticResource BoolToVisibleCollapsedConverter}}">
+                                    <ui:TextBlock FontSize="14" Margin="12,24,12,4" Opacity="0.7" TextWrapping="WrapWithOverflow"
+                                        Text="{Binding Source={StaticResource TaskbarWidgetCustomizationPerk}, StringFormat='•  {0}'}" />
+                                    <ui:TextBlock FontSize="14" Margin="12,0,12,4" Opacity="0.7" TextWrapping="WrapWithOverflow"
+                                        Text="{Binding Source={StaticResource AcrylicBlurOpacityPerk}, StringFormat='•  {0}'}" />
+                                    <ui:TextBlock FontSize="14" Margin="12,0,12,4" Opacity="0.7" TextWrapping="WrapWithOverflow"
+                                        Text="{Binding Source={StaticResource HideTrayIconPerk}, StringFormat='•  {0}'}" />
+                                    <ui:TextBlock FontSize="14" Margin="12,0,12,4" Opacity="0.7" TextWrapping="WrapWithOverflow"
+                                        Text="{Binding Source={StaticResource VolumeMixerHighlightPerk}, StringFormat='•  {0}'}" />
+                                    <ui:TextBlock FontSize="14" Margin="12,0,12,0" Opacity="0.7" TextWrapping="WrapWithOverflow"
+                                        Text="{Binding Source={StaticResource AllFuturePremiumFeatures}, StringFormat='•  {0}'}" />
+
+                                    <!-- Premium Status InfoBar (only shown for Store versions) -->
+                                    <ui:InfoBar Grid.Row="1" Title="{DynamicResource PremiumUnlockedMessage}" Severity="Success" IsClosable="True" Margin="0,8,0,0">
+                                        <ui:InfoBar.Style>
+                                            <Style TargetType="ui:InfoBar" BasedOn="{StaticResource {x:Type ui:InfoBar}}">
+                                                <Setter Property="IsOpen" Value="False" />
+                                                <Style.Triggers>
+                                                    <MultiDataTrigger>
+                                                        <MultiDataTrigger.Conditions>
+                                                            <Condition Binding="{Binding IsStoreVersion}" Value="True"/>
+                                                            <Condition Binding="{Binding IsPremiumUnlocked}" Value="True"/>
+                                                        </MultiDataTrigger.Conditions>
+                                                        <Setter Property="IsOpen" Value="True"/>
+                                                    </MultiDataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </ui:InfoBar.Style>
+                                    </ui:InfoBar>
+                            
+                                    <!-- Premium Locked InfoBar (only shown for Store versions without premium) -->
+                                    <ui:InfoBar Grid.Row="1" IsOpen="True" Severity="Warning" IsClosable="False" Margin="0,8,0,0">
+                                        <ui:InfoBar.Style>
+                                            <Style TargetType="ui:InfoBar">
+                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                                <Style.Triggers>
+                                                    <MultiDataTrigger>
+                                                        <MultiDataTrigger.Conditions>
+                                                            <Condition Binding="{Binding IsStoreVersion}" Value="True"/>
+                                                            <Condition Binding="{Binding IsPremiumUnlocked}" Value="False"/>
+                                                        </MultiDataTrigger.Conditions>
+                                                        <Setter Property="Visibility" Value="Visible"/>
+                                                    </MultiDataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </ui:InfoBar.Style>
+                                        <StackPanel Orientation="Horizontal">
+                                            <ui:Button Name="UnlockPremiumButton"
+                                            Click="UnlockPremiumButton_Click" 
+                                            Appearance="Primary"
+                                            Margin="4,0,0,8" FontSize="12">
+                                                <ui:Button.Content>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Text="{DynamicResource UnlockPremiumButton}" />
+                                                        <TextBlock Text=" - " />
+                                                        <TextBlock Text="{Binding PremiumPrice}" />
+                                                    </StackPanel>
+                                                </ui:Button.Content>
+                                            </ui:Button>
+                                        </StackPanel>
+                                    </ui:InfoBar>
+
+                                    <!-- GitHub Version InfoBar -->
+                                    <ui:InfoBar Grid.Row="1" Title="{DynamicResource PremiumGitHubMessage}" IsOpen="True" Severity="Informational" IsClosable="False" Visibility="{Binding IsStoreVersion, Converter={StaticResource BoolToCollapsedVisibleConverter}}" Margin="0,8,0,0" />
+                                </StackPanel>
+                            </StackPanel>
+                        </ui:PassiveScrollViewer>
+                    </Grid>
+                </Border>
+            </Grid>
+
+            <Grid Grid.Row="2" Margin="0,24,0,0" ColumnDefinitions="*,Auto,Auto,Auto">
+                <TextBlock Text="{Binding StepProgressText}" VerticalAlignment="Center" Opacity="0.5" />
+
+                <!--<ui:Button Grid.Column="1" Appearance="Secondary" Content="Skip" Command="{Binding SkipCommand}" Padding="16,6" Margin="0,0,8,0" />-->
+                <ui:Button Grid.Column="2" Appearance="Transparent" Content="{DynamicResource Back}" Command="{Binding GoBackCommand}" Padding="32,8" Margin="0,0,8,0" BorderThickness="0" Visibility="{Binding CanGoBack, Converter={StaticResource BoolToVisibleCollapsedConverter}}" />
+                <ui:Button Grid.Column="3" Appearance="Primary" Content="{Binding NextButtonText}" Command="{Binding GoNextCommand}" Padding="32,8" />
+            </Grid>
+        </Grid>
+    </Grid>
+</controls:MicaWindow>
