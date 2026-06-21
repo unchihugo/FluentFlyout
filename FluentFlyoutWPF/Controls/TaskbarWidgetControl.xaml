@@ -9,7 +9,7 @@
              d:DataContext="{d:DesignInstance viewModels:UserSettings}"
              Height="40" Width="100"
              TextOptions.TextRenderingMode="ClearType" TextOptions.TextFormattingMode="Ideal"
-             FontFamily="Segoe UI Variable, Microsoft YaHei, Microsoft JhengHei, MS Gothic"
+             FontFamily="{Binding FontFamily}"
              FlowDirection="{Binding FlowDirection}">
     <Border Name="MainBorder" CornerRadius="6" MouseEnter="Grid_MouseEnter" MouseLeave="Grid_MouseLeave" MouseLeftButtonUp="Grid_MouseLeftButtonUp" ClipToBounds="True">
         <Grid>

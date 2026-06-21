@@ -666,6 +666,16 @@ public partial class UserSettings : ObservableObject
     [ObservableProperty]
     public partial bool LegacyTaskbarWidthEnabled { get; set; }
 
+    [ObservableProperty]
+    public partial Guid Uuid { get; set; }
+
+    [XmlIgnore]
+    [ObservableProperty]
+    public partial Guid SessionId { get; set; } = Guid.NewGuid();
+
+    [ObservableProperty]
+    public partial bool AnonymousTelemetryAllowed { get; set; }
+
     [XmlIgnore]
     private bool _initializing = true;
 
@@ -752,6 +762,8 @@ public partial class UserSettings : ObservableObject
         LastUpdateNotificationUnixSeconds = 0;
         ShowUpdateNotifications = true;
         LegacyTaskbarWidthEnabled = false;
+        Uuid = Guid.NewGuid();
+        AnonymousTelemetryAllowed = true;
 
         PropertyChanged += OnPropertyChangedSaveSettings;
     }
