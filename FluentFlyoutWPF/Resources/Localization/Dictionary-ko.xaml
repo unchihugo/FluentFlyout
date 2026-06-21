@@ -256,4 +256,21 @@
     <system:String x:Key="EnableNumDescription">Num Lock 키를 누를 때 Flyout 표시 여부 설정</system:String>
     <system:String x:Key="EnableScrollTitle">Scroll Lock 키 팝업 활성화</system:String>
     <system:String x:Key="EnableScrollDescription">Scroll Lock 키를 누를 때 Flyout 표시 여부 설정</system:String>
+    <system:String x:Key="AppFilteringTitle">앱 필터링</system:String>
+    <system:String x:Key="AppFilteringRulesDescription">어떤 프로그램에서 미디어를 표시할지 설정</system:String>
+    <system:String x:Key="EnableAppFilteringTitle">필터링 활성화</system:String>
+    <system:String x:Key="AppFilteringModeTitle">필터링 형태</system:String>
+    <system:String x:Key="AppFilteringModeDescription">앱을 허용할지 차단할지 선택</system:String>
+    <system:String x:Key="AppFilteringModeBlacklist">차단 목록</system:String>
+    <system:String x:Key="AppFilteringModeWhitelist">허용 목록</system:String>
+    <system:String x:Key="AllowedAppsTitle">허용된 앱</system:String>
+    <system:String x:Key="AllowedAppsDescription">이 목록에 추가된 앱만, 미디어가 표시됩니다.</system:String>
+    <system:String x:Key="BlockedAppsTitle">제외된 앱</system:String>
+    <system:String x:Key="BlockedAppsDescription">미디어 정보를 표시하지 않도록 앱 제외</system:String>
+    <system:String x:Key="AddAppManuallyText">앱을 찾을 수 없나요? 아래에 입력하세요:</system:String>
+    <system:String x:Key="AppFilteringPlaceholderSpotify">예) Spotify.exe</system:String>
+    <system:String x:Key="AppFilteringPlaceholderChrome">예) Chrome.exe</system:String>
+    <system:String x:Key="AppFilteringComboBoxHint">현재 재생 중인 앱 선택</system:String>
+    <system:String x:Key="AddButton">추가</system:String>
+    <system:String x:Key="RemoveButton">제거</system:String>
 </ResourceDictionary>

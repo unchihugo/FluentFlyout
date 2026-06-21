@@ -11,7 +11,7 @@
     <system:String x:Key="PositionBottomRight" xml:space="preserve"> Rechtsonder</system:String>
     <system:String x:Key="PositionTopLeft" xml:space="preserve"> Linksboven</system:String>
     <system:String x:Key="AppThemeTitle">Appthema</system:String>
-    <system:String x:Key="TrayIconLeftClickOption1"> Open instellingen</system:String>
+    <system:String x:Key="TrayIconLeftClickOption1"> .Open instellingen</system:String>
     <system:String x:Key="CloseButton">Sluiten</system:String>
     <system:String x:Key="AppLanguageTitle">App-taal</system:String>
     <system:String x:Key="AppLanguageDescriptionLink">Weblate</system:String>
@@ -63,9 +63,9 @@ verbergt herhalen, shuffle en spelerinfo</system:String>
     <system:String x:Key="TaskbarWidgetControlsDescription">Mediaknoppen weergeven op de widget</system:String>
     <system:String x:Key="TaskbarWidgetAnimatedTitle">Widget-animaties</system:String>
     <system:String x:Key="TaskbarWidgetAnimatedDescription">Subtiele animaties voor de widget inschakelen</system:String>
-    <system:String x:Key="TaskbarVisualizerTitle">Taakbalkvisualizer</system:String>
+    <system:String x:Key="TaskbarVisualizerTitle">Taakbalk Visualiseerder</system:String>
     <system:String x:Key="TaskbarVisualizerDescription">Een realtime audiovisualizer op uw taakbalk. Ontworpen voor een minimale impact op de prestaties van moderne systemen.</system:String>
-    <system:String x:Key="TaskbarVisualizerEnabledTitle">Taakbalkvisualizer inschakelen (experimenteel)</system:String>
+    <system:String x:Key="TaskbarVisualizerEnabledTitle">Taakbalk Visualiseerder Inschakelen (Experimenteel)</system:String>
     <system:String x:Key="TaskbarVisualizerEnabledDescription">Experimenteel: Deze functie werkt alleen als de taakbalkwidget is ingeschakeld</system:String>
     <system:String x:Key="TaskbarVisualizerPositionTitle">Positie van visualizer ten opzichte van de taakbalkwidget</system:String>
     <system:String x:Key="Disabled">Uitgeschakeld</system:String>
@@ -76,12 +76,12 @@ verbergt herhalen, shuffle en spelerinfo</system:String>
     <system:String x:Key="UpdateToastTitle">FluentFlyout is bijgewerkt!</system:String>
     <system:String x:Key="UpdateToastMessage">Je zit nu op {0}.</system:String>
     <system:String x:Key="UpdateToastButton">Bekijk Updates</system:String>
-    <system:String x:Key="HideTrayIconPerk">Verberg Systeemvak icoon</system:String>
+    <system:String x:Key="HideTrayIconPerk">Verberg het systeemvak icoon</system:String>
     <system:String x:Key="HideTrayIconTitle">Verberg Tray icoon volledig</system:String>
     <system:String x:Key="HideTrayIconDescription">Open de instellingen door het programma twee keer te starten</system:String>
     <system:String x:Key="AnimationSettingsTitle">Animatie-instellingen</system:String>
     <system:String x:Key="Enabled">Ingeschakeld</system:String>
-    <system:String x:Key="MediaFlyoutExcludeVolumeTitle">Volumeknoppen Verbergen</system:String>
+    <system:String x:Key="MediaFlyoutExcludeVolumeTitle">Sluit Volumeknoppen Uit</system:String>
     <system:String x:Key="MediaFlyoutExcludeVolumeDescription">De flyout niet tonen wanneer je op de volumeknop omhoog/omlaag/dempen drukt</system:String>
     <system:String x:Key="HomeTitle">Home</system:String>
     <system:String x:Key="MillisecondsUnit">ms</system:String>
@@ -127,4 +127,47 @@ verbergt herhalen, shuffle en spelerinfo</system:String>
     <system:String x:Key="EnableLockKeysTitle">Lock-toetsen Flyout inschakelen</system:String>
     <system:String x:Key="LockKeysStayDurationDescription">(standaard: 2000 ms)</system:String>
     <system:String x:Key="LockKeysBoldUITitle">Vet Symbool en Lettertype</system:String>
+    <system:String x:Key="TaskbarWidgetFixedWidthTitle">Vaste Widget Breedte</system:String>
+    <system:String x:Key="TaskbarWidgetFixedWidthDescription">Houdt de widget op een vaste breedte inplaats van het te vervormen naar de groote van de titel en artiest tekst</system:String>
+    <system:String x:Key="TaskbarWidgetShowPauseOverlayTitle">Toon Pauze Icoon Overlay</system:String>
+    <system:String x:Key="TaskbarWidgetShowPauseOverlayDescription">Als media gepauzeerd is, toon en pauze icoon over het albumhoes</system:String>
+    <system:String x:Key="TaskbarVisualizerOutputDeviceDescription">Verander wat de vizualiseerder naar luistert door te veranderen naar FluentFlyuouts uitgangs audio apparaat</system:String>
+    <system:String x:Key="VolumeMixerHighlightPerk">Markeer actieve aps in de Volume Mixer</system:String>
+    <system:String x:Key="LockKeysDescription" xml:space="preserve">Check uw lock-toest status op een ogenblik. Vershijnt nadat Caps-Lock, Num-Lock of Scroll Lock toets werdt ingeduwd. Gemakelijk voor laptops of toestenborden zonder toetsen indicators</system:String>
+    <system:String x:Key="EnableLockKeysDescription">Toont of de specifieke lock-toest in- of uitgeschakeld is</system:String>
+    <system:String x:Key="EnableCapsTitle">Caps-Lock indicator aandoen</system:String>
+    <system:String x:Key="EnableCapsDescription">Toont waneer de Caps-Lock toets is ingedrukt</system:String>
+    <system:String x:Key="EnableNumTitle">Num-Lock indicator aandoen</system:String>
+    <system:String x:Key="EnableNumDescription">Toont waneer de Num-Lock toets is ingeduwd</system:String>
+    <system:String x:Key="EnableScrollTitle">Scoll-Lock indicator aandoen</system:String>
+    <system:String x:Key="EnableScrollDescription">Toont waneer de Scoll-Lock toets is ingedrukt</system:String>
+    <system:String x:Key="LockKeysStayDurationTitle">Lock-Key Verblijfsduur</system:String>
+    <system:String x:Key="LockKeysBoldUIDescription">Benadrukt de flyout symbool en lettertype</system:String>
+    <system:String x:Key="LockKeysCursorUITitle">Voorkeurde Doel Sherm</system:String>
+    <system:String x:Key="LockKeysCursorUIDescription" xml:space="preserve">Kies welk scherm om de flyout te tonen.</system:String>
+    <system:String x:Key="DefaultLockLayoutPosition">Standaard (Flyour Doel Sherm)</system:String>
+    <system:String x:Key="MonitorWithFocusedWindow">Sherm met gefocusd venster</system:String>
+    <system:String x:Key="MonitorWithCursor">Sherm met cursor</system:String>
+    <system:String x:Key="EnableInsertKeyTitle">Inster-Key Popup Aandoen</system:String>
+    <system:String x:Key="EnableInsertKeyDescription">Verkiest of als de inser/overwrite toest ingedrukt is het de flyout gaat tonen</system:String>
+    <system:String x:Key="LockKeysAnimatedTitle">Indicator Animaties</system:String>
+    <system:String x:Key="LockKeysAnimatedDescription">Actiuveer subtiele animaties for de lock toets indicator</system:String>
+    <system:String x:Key="SystemSettingsTitle">Systeem</system:String>
+    <system:String x:Key="LaunchOnStartupTitle">Start bij Opstarten</system:String>
+    <system:String x:Key="LaunchOnStartupDescription">Start automatish op het systeembalk als u inlogt in Windows</system:String>
+    <system:String x:Key="StartupAppsHyperlinkText">Opstart-Apps</system:String>
+    <system:String x:Key="StartupAppsSettingsInfo">Als deze parameter niet zoals verwacht werkt, check deze</system:String>
+    <system:String x:Key="AppThemeDefault"> Windows Standaard</system:String>
+    <system:String x:Key="AppThemeLight"> Licht</system:String>
+    <system:String x:Key="AppThemeDark"> Donker</system:String>
+    <system:String x:Key="UseAlbumArtAccentColorTitle">Gebruik AlmubHoes als Accenten Kleur</system:String>
+    <system:String x:Key="UseAlbumArtAccentColorDescription">Somige UI elementen gaan de albumhoes kleur gebruiken inplaats van het systeem thema</system:String>
+    <system:String x:Key="TrayIconLeftClickBehaviorTitle">Systeembalk Icoon Linker Klik Gedrag</system:String>
+    <system:String x:Key="TrayIconLeftClickBehaviorDescription">Kies wat er gebbeurt als je linker-klikt op de systeemback icoon</system:String>
+    <system:String x:Key="TrayIconLeftClickOption2"> .Toon Media Flyout</system:String>
+    <system:String x:Key="Win11TrayIconTitle">Windows 11 Achitge Systeembalk</system:String>
+    <system:String x:Key="CheckingForUpdates">Controleren...</system:String>
+    <system:String x:Key="UpdateAvailableNotificationTitle">Update Verkrijgbaar!</system:String>
+    <system:String x:Key="UpdateAvailableNotificationMessage">Een niewe versie ({0}) is verkrijgbaar.</system:String>
+    <system:String x:Key="UpdateAvailableNotificationButton">Download Update</system:String>
 </ResourceDictionary>
