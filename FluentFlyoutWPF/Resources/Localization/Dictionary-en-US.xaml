@@ -150,6 +150,8 @@ Note: As an open-source project, these features are also available for free via 
     <System:String x:Key="LaunchOnStartupDescription">Start minimized to tray when you log in to Windows</System:String>
     <System:String x:Key="StartupAppsHyperlinkText">Startup Apps</System:String>
     <System:String x:Key="StartupAppsSettingsInfo">If this setting does not work as expected, check</System:String>
+    <System:String x:Key="AnonymousUsageDataTitle">Send Anonymous Usage Data</System:String>
+    <System:String x:Key="AnonymousUsageDataDescription">Help improve the app by sending anonymous, non-identifiable usage data</System:String>
     <System:String x:Key="AppThemeTitle">App Theme</System:String>
     <System:String x:Key="AppThemeDefault"> Windows Default</System:String>
     <System:String x:Key="AppThemeLight"> Light</System:String>

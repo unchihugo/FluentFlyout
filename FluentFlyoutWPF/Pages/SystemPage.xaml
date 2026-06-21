@@ -103,6 +103,15 @@
                 </ui:CardControl.Header>
                 <controls:ToggleSwitch x:Name="StartupSwitch" Click="StartupSwitch_Click" IsChecked="{Binding Startup, Mode=TwoWay}" />
             </ui:CardControl>
+            <ui:CardControl Icon="{ui:SymbolIcon Bug24}" Margin="0,0,0,3">
+                <ui:CardControl.Header>
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="{DynamicResource AnonymousUsageDataTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
+                        <TextBlock Text="{DynamicResource AnonymousUsageDataDescription}" FontSize="12" Opacity="0.5" />
+                    </StackPanel>
+                </ui:CardControl.Header>
+                <controls:ToggleSwitch IsChecked="{Binding AnonymousTelemetryAllowed, Mode=TwoWay}" />
+            </ui:CardControl>
             <ui:CardControl Icon="{ui:SymbolIcon ArrowMinimize24}" Margin="0,0,0,3">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">

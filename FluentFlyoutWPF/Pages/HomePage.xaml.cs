@@ -3,6 +3,7 @@
 
 using FluentFlyout.Classes;
 using FluentFlyout.Classes.Settings;
+using FluentFlyoutWPF.Classes.Services;
 using FluentFlyoutWPF.Classes.Utils;
 using FluentFlyoutWPF.ViewModels;
 using NLog;
@@ -72,7 +73,7 @@ public partial class HomePage : Page
         if (UpdateState.Current.IsUpdateAvailable)
         {
             string url = !string.IsNullOrEmpty(UpdateState.Current.UpdateUrl) ? UpdateState.Current.UpdateUrl : "https://fluentflyout.com/changelog/";
-            UpdateChecker.OpenUpdateUrl(url);
+            UpdateCheckerService.OpenUpdateUrl(url);
         }
         else
         {
@@ -86,7 +87,7 @@ public partial class HomePage : Page
         {
             UpdateStatusText.Text = Application.Current.FindResource("CheckingForUpdates")?.ToString();
 
-            var result = await UpdateChecker.CheckForUpdatesAsync(SettingsManager.Current.LastKnownVersion);
+            var result = await UpdateCheckerService.CheckForUpdatesAsync(SettingsManager.Current.LastKnownVersion);
 
             if (result.Success)
             {
