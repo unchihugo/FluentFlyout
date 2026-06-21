@@ -220,7 +220,7 @@ public partial class MainWindow : MicaWindow
     private void OnboardingExperiment(string previousVersion)
     {
         // show onboarding to new users (no previous version stored = user has never run the app before)
-        if (previousVersion != string.Empty)
+        if (previousVersion == string.Empty)
         {
             if (ExperimentsService.HasExperiments)
             {
