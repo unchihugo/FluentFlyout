@@ -256,4 +256,21 @@ Vous pouvez contribuer aux traductions sur</system:String>
     <system:String x:Key="EnableScrollDescription">S'affiche lorsque la touche Arrêt défil. est pressée</system:String>
     <system:String x:Key="TaskbarWidgetFixedWidthTitle">Largeur Fixe du Widget</system:String>
     <system:String x:Key="TaskbarWidgetFixedWidthDescription">Conserve la largeur du widget fixe au lieu de le redimensionner pour l'adapter au texte du titre et de l'artiste</system:String>
+    <system:String x:Key="EnableAppFilteringTitle">Activer le Filtrage</system:String>
+    <system:String x:Key="AppFilteringModeTitle">Mode de Filtrage</system:String>
+    <system:String x:Key="AllowedAppsTitle">Applications Autorisées</system:String>
+    <system:String x:Key="AppFilteringPlaceholderSpotify">p. ex. Spotify.exe</system:String>
+    <system:String x:Key="AppFilteringPlaceholderChrome">p. ex. Chrome.exe</system:String>
+    <system:String x:Key="AppFilteringComboBoxHint">Sélectionnez une application en cours de lecture à ajouter</system:String>
+    <system:String x:Key="AddButton">Ajouter</system:String>
+    <system:String x:Key="RemoveButton">Supprimer</system:String>
+    <system:String x:Key="AppFilteringTitle">Filtrage des Applications</system:String>
+    <system:String x:Key="AppFilteringRulesDescription">Contrôlez quelles applications peuvent afficher du contenu multimédia</system:String>
+    <system:String x:Key="AppFilteringModeDescription">Choisissez si les applications listées sont autorisées ou bloquées</system:String>
+    <system:String x:Key="AppFilteringModeBlacklist">Liste de Blocage</system:String>
+    <system:String x:Key="AppFilteringModeWhitelist">Liste d'autorisation</system:String>
+    <system:String x:Key="AllowedAppsDescription">Si des applications sont listées ici, seul leur contenu multimédia sera affiché.</system:String>
+    <system:String x:Key="BlockedAppsTitle">Applications Exclues</system:String>
+    <system:String x:Key="BlockedAppsDescription">Empêche l'affichage d'une application</system:String>
+    <system:String x:Key="AddAppManuallyText">Vous ne trouvez pas votre application ? Saisissez-la ci-dessous :</system:String>
 </ResourceDictionary>

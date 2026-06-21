@@ -254,4 +254,23 @@ Nota: Como um projeto de código aberto, esses recursos também estão disponív
     <system:String x:Key="EnableNumDescription">Exibe quando a tecla Num Lock é pressionada</system:String>
     <system:String x:Key="EnableScrollTitle">Ativar indicador do Scroll Lock</system:String>
     <system:String x:Key="EnableScrollDescription">Exibe quando a tecla Scroll Lock é pressionada</system:String>
+    <system:String x:Key="TaskbarWidgetFixedWidthTitle">Largura fixa do widget</system:String>
+    <system:String x:Key="TaskbarWidgetFixedWidthDescription">Mantenha o widget em uma largura fixa em vez de redimensioná-lo para se ajustar ao texto do título e do artista</system:String>
+    <system:String x:Key="AppFilteringTitle">Filtragem de aplicativos</system:String>
+    <system:String x:Key="AppFilteringRulesDescription">Controle quais aplicativos podem exibir mídia</system:String>
+    <system:String x:Key="EnableAppFilteringTitle">Ativar filtragem</system:String>
+    <system:String x:Key="AppFilteringModeTitle">Modo de filtragem</system:String>
+    <system:String x:Key="AppFilteringModeDescription">Escolha se os aplicativos listados serão permitidos ou bloqueados</system:String>
+    <system:String x:Key="AppFilteringModeBlacklist">Lista de bloqueio</system:String>
+    <system:String x:Key="AppFilteringModeWhitelist">Lista de permissão</system:String>
+    <system:String x:Key="AllowedAppsTitle">Aplicativos permitidos</system:String>
+    <system:String x:Key="AllowedAppsDescription">Se houver aplicativos listados aqui, somente a mídia deles será exibida.</system:String>
+    <system:String x:Key="BlockedAppsTitle">Aplicativos excluídos</system:String>
+    <system:String x:Key="BlockedAppsDescription">Exclui um aplicativo de ser exibido</system:String>
+    <system:String x:Key="AddAppManuallyText">Não consegue encontrar seu aplicativo? Digite abaixo:</system:String>
+    <system:String x:Key="AppFilteringPlaceholderSpotify">ex Spotify.exe</system:String>
+    <system:String x:Key="AppFilteringPlaceholderChrome">ex Chrome.exe</system:String>
+    <system:String x:Key="AppFilteringComboBoxHint">Selecione um aplicativo em reprodução no momento para adicionar</system:String>
+    <system:String x:Key="AddButton">Adicionar</system:String>
+    <system:String x:Key="RemoveButton">Remover</system:String>
 </ResourceDictionary>
