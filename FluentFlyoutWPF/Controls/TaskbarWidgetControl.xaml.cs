@@ -222,13 +222,13 @@ public partial class TaskbarWidgetControl : UserControl
 
         if (!string.Equals(currentTitle, _cachedTitleText, StringComparison.Ordinal))
         {
-            _cachedTitleWidth = StringWidth.GetStringWidth(currentTitle, 400);
+            _cachedTitleWidth = Math.Round(StringWidth.GetStringWidth(currentTitle, 400), 2);
             _cachedTitleText = currentTitle;
             textChanged = true;
         }
         if (!string.Equals(currentArtist, _cachedArtistText, StringComparison.Ordinal))
         {
-            _cachedArtistWidth = StringWidth.GetStringWidth(currentArtist, 400);
+            _cachedArtistWidth = Math.Round(StringWidth.GetStringWidth(currentArtist, 400), 2);
             _cachedArtistText = currentArtist;
             textChanged = true;
         }
