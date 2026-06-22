@@ -273,4 +273,6 @@ Możesz pomóc w tworzeniu tłumaczeń na stronie</system:String>
     <system:String x:Key="AppFilteringComboBoxHint">Wybierz obecnie odtwarzającą aplikację do wpisania</system:String>
     <system:String x:Key="AddButton">Dodaj</system:String>
     <system:String x:Key="RemoveButton">Usuń</system:String>
+    <system:String x:Key="Back">Cofnij</system:String>
+    <system:String x:Key="Next">Następny</system:String>
 </ResourceDictionary>
