@@ -269,4 +269,10 @@ Môžete pomôcť s prekladmi na</system:String>
     <system:String x:Key="AppFilteringComboBoxHint">Vyberte aktuálne prehrávanú aplikáciu pre jej pridanie</system:String>
     <system:String x:Key="AddButton">Pridať</system:String>
     <system:String x:Key="RemoveButton">Odstrániť</system:String>
+    <system:String x:Key="Back">Späť</system:String>
+    <system:String x:Key="Next">Ďalej</system:String>
+    <system:String x:Key="Finish">Dokončiť</system:String>
+    <system:String x:Key="OnboardingStepsCounter">Krok {0} z {1}</system:String>
+    <system:String x:Key="AnonymousUsageDataTitle">Odosielať Anonymné Údaje O Používaní</system:String>
+    <system:String x:Key="AnonymousUsageDataDescription">Pomôžte zlepšovať aplikáciu odosielaním anonymných a neidentifikovateľných údajov o používaní</system:String>
 </ResourceDictionary>
