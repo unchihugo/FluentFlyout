@@ -273,4 +273,10 @@ Du kannst helfen, die App zu übersetzen auf</system:String>
     <system:String x:Key="AppFilteringPlaceholderSpotify">z. B. Spotify.exe</system:String>
     <system:String x:Key="AppFilteringPlaceholderChrome">z. B. Chrome.exe</system:String>
     <system:String x:Key="AppFilteringComboBoxHint">Wähle eine App, die aktuell etwas abspielt, zum hinzufügen</system:String>
+    <system:String x:Key="Back">Zurück</system:String>
+    <system:String x:Key="Next">Weiter</system:String>
+    <system:String x:Key="Finish">Fertig</system:String>
+    <system:String x:Key="OnboardingStepsCounter">Schritt {0} von {1}</system:String>
+    <system:String x:Key="AnonymousUsageDataTitle">Anonyme Nutzungsdaten übermitteln</system:String>
+    <system:String x:Key="AnonymousUsageDataDescription">Mithilfe anonymer und nicht identifizierbarer Nutzungsdaten helfen die App zu verbessern</system:String>
 </ResourceDictionary>
