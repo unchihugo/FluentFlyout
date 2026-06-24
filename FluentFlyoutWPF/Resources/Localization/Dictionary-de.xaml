@@ -216,11 +216,11 @@ Du kannst helfen, die App zu übersetzen auf</system:String>
     <system:String x:Key="FailedToImportSettings">Einstellungen konnten nicht importiert werden. Prüfe das Dateiformat.</system:String>
     <system:String x:Key="PositionLeft">Links</system:String>
     <system:String x:Key="PositionRight">Rechts</system:String>
-    <system:String x:Key="TaskbarWidgetControlsPositionTitle">Position der Mediensteuerungsknöpfe</system:String>
-    <system:String x:Key="TaskbarWidgetControlsPositionDescription">Wähle die Position, wo die Mediensteuerungsknöpfe angezeigt werden sollen</system:String>
-    <system:String x:Key="TaskbarVisualizerClickableDescription">Beim Anklicken des Visualizers werden die Einstellungen geöffnet</system:String>
+    <system:String x:Key="TaskbarWidgetControlsPositionTitle">Position der Mediensteuerung</system:String>
+    <system:String x:Key="TaskbarWidgetControlsPositionDescription">Wähle aus, wo die Mediensteuerung-Buttons angezeigt werden sollen</system:String>
+    <system:String x:Key="TaskbarVisualizerClickableDescription">Beim klicken des Visualisierers wird die Einstellungsseite geöffnet</system:String>
     <system:String x:Key="TaskbarWidgetAutoHideTitle">Versteckt das Widget Automatisch</system:String>
-    <system:String x:Key="TaskbarVisualizerClickableTitle">Klicken, um Einstellungen zu öffnen</system:String>
+    <system:String x:Key="TaskbarVisualizerClickableTitle">Klicke um die Einstellungen zu öffnen</system:String>
     <system:String x:Key="LockKeysCursorUITitle">Bevorzugte Zielanzeige</system:String>
     <system:String x:Key="LockKeysCursorUIDescription" xml:space="preserve">Wählen Sie den Monitor aus, auf dem das Flyout angezeigt werden soll.</system:String>
     <system:String x:Key="DefaultLockLayoutPosition">Zielbildschirm für Flyout</system:String>
