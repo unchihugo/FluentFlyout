@@ -59,10 +59,10 @@ Anmerkung: Als Open-Source-Projekt sind diese Funktionen auch kostenlos verfügb
     <system:String x:Key="LockWindow_LockOn">am</system:String>
     <system:String x:Key="MediaFlyoutTitle">Medien-Flyout</system:String>
     <system:String x:Key="TextBlockText1">Aktiviere Media Flyout</system:String>
-    <system:String x:Key="TextBlockText3">Zeige das Flyout an, wenn eine Medientaste gedrückt wurde</system:String>
+    <system:String x:Key="TextBlockText3">Zeigt das Flyout an, wenn eine Medientaste gedrückt wurde.</system:String>
     <system:String x:Key="TaskbarWidgetPosition">Widget Position</system:String>
-    <system:String x:Key="TaskbarWidgetBackgroundBlurDescription">Füge Hintergrundunschärfe für das Taskleisten Widget hinzu</system:String>
-    <system:String x:Key="TaskbarWidgetHideCompletelyTitle">Komplett verstecken, wenn keine Medien abgespielt werden</system:String>
+    <system:String x:Key="TaskbarWidgetBackgroundBlurDescription">Füge Hintergrundunschärfe für das Taskleisten Widget hinzu.</system:String>
+    <system:String x:Key="TaskbarWidgetHideCompletelyTitle">Komplett verstecken, wenn keine Medien abgespielt werden.</system:String>
     <system:String x:Key="TaskbarWidgetControlsTitle">Widget Mediensteuerung</system:String>
     <system:String x:Key="TaskbarWidgetControlsDescription">Zeigt die Mediensteuerungsknöpfe auf dem Widget</system:String>
     <system:String x:Key="TaskbarWidgetAnimatedTitle">Widget Animationen</system:String>
