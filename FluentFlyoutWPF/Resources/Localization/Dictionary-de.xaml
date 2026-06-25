@@ -11,16 +11,16 @@
     <system:String x:Key="CompactLayoutDescription" xml:space="preserve">Minimaleres und weniger ablenkendes Layout
 verbirgt autom. Wiederholung, Shuffle und Player-Information</system:String>
     <system:String x:Key="FlyoutPositionTitle">Position des Flyouts</system:String>
-    <system:String x:Key="PositionBottomLeft" xml:space="preserve"> unten links</system:String>
-    <system:String x:Key="PositionBottomCenter" xml:space="preserve"> unten mittig</system:String>
-    <system:String x:Key="PositionBottomRight" xml:space="preserve"> unten rechts</system:String>
-    <system:String x:Key="PositionTopLeft" xml:space="preserve"> oben links</system:String>
-    <system:String x:Key="PositionTopCenter" xml:space="preserve"> oben mittig</system:String>
-    <system:String x:Key="PositionTopRight" xml:space="preserve"> oben rechts</system:String>
+    <system:String x:Key="PositionBottomLeft" xml:space="preserve"> Unten Links</system:String>
+    <system:String x:Key="PositionBottomCenter" xml:space="preserve"> Untere Mitte</system:String>
+    <system:String x:Key="PositionBottomRight" xml:space="preserve"> Unten rechts</system:String>
+    <system:String x:Key="PositionTopLeft" xml:space="preserve"> Oben links</system:String>
+    <system:String x:Key="PositionTopCenter" xml:space="preserve"> Oben mittig</system:String>
+    <system:String x:Key="PositionTopRight" xml:space="preserve"> Oben rechts</system:String>
     <system:String x:Key="FlyoutStayDurationTitle">Anzeigedauer des Flyouts</system:String>
     <system:String x:Key="FlyoutStayDurationDescription">(standardmäßig: 3000 ms)</system:String>
     <system:String x:Key="MillisecondsUnit">ms</system:String>
-    <system:String x:Key="MediaFlyoutAlwaysDisplay">Immer anzeigen</system:String>
+    <system:String x:Key="MediaFlyoutAlwaysDisplay">Display immer eingeschaltet</system:String>
     <system:String x:Key="CenterTitleArtistTitle">Titel und Künstler zentrieren</system:String>
     <system:String x:Key="CenterTitleArtistDescription">Text mittig statt links ausrichten</system:String>
     <system:String x:Key="ShowMediaPlayerNameTitle">Name des Media Players anzeigen</system:String>
@@ -33,13 +33,13 @@ verbirgt autom. Wiederholung, Shuffle und Player-Information</system:String>
     <system:String x:Key="UnsupportedControlsWarning">*Einige Browser/Player unterstützen die automatische Wiederholung, Shuffle und Suchleiste nicht.</system:String>
     <system:String x:Key="PauseOtherMediaTitle">Pausiere andere Medien automatisch</system:String>
     <system:String x:Key="PauseOtherMediaDescription">Wenn Du neue Medien abspielst oder fokussierst, werden andere aktive Mediensitzungen automatisch pausiert</system:String>
-    <system:String x:Key="TaskbarWidgetCustomizationTitle">Taskleisten-Widget</system:String>
+    <system:String x:Key="TaskbarWidgetCustomizationTitle">Widget Anpassung</system:String>
     <system:String x:Key="TaskbarWidgetDescription">Ein kompaktes, eingebautes Widget, das sich direkt in deiner Windows-Taskleiste befindet und sofortigen Zugriff auf deine Medien ermöglicht. Klicke auf das Widget, um das vollständige Medien-Flyout anzuzeigen.</system:String>
     <system:String x:Key="TaskbarWidgetEnabledTitle">Taskleisten-Widget aktivieren</system:String>
     <system:String x:Key="TaskbarWidgetEnabledDescription">Ein kompaktes Medien-Widget auf der Taskleiste anzeigen</system:String>
     <system:String x:Key="TaskbarWidgetVisualIssuesWarning">Passe die folgenden Optionen an, falls visuelle Probleme auftreten.</system:String>
     <system:String x:Key="TaskbarWidgetPaddingDescription">Schalte diese Funktion ein, falls Du Windows-Widgets eingeschaltet hast</system:String>
-    <system:String x:Key="TaskbarWidgetBackgroundBlurTitle">Hintergrundunschärfe</system:String>
+    <system:String x:Key="TaskbarWidgetBackgroundBlurTitle">Hintergrund-Unschärfe</system:String>
     <system:String x:Key="PremiumFeatureDescription" xml:space="preserve">Dein einmaliger Beitrag hilft mir, FluentFlyout zu entwickeln und zu aktualisieren. Der Beitrag schaltet sofort und für immer alle Premium-Anpassungsoptionen frei.
         
 Anmerkung: Als Open-Source-Projekt sind diese Funktionen auch kostenlos verfügbar, wenn Du das manuelle Installationsprogramm auf GitHub nutzt. Der einzige Nachteil besteht darin, dass dabei Aktualisierungen sowie die erstmalige Installation manuell durchgeführt werden müssen.</system:String>
@@ -47,54 +47,54 @@ Anmerkung: Als Open-Source-Projekt sind diese Funktionen auch kostenlos verfügb
     <system:String x:Key="PremiumUnlockedMessage">Die Premium-Funktionen wurden freigeschaltet. Vielen Dank für Ihre Unterstützung!</system:String>
     <system:String x:Key="PremiumGitHubMessage">Premium-Funktionen sind in der Version auf GitHub sowie in selbst kompilierten Versionen bereits freigeschaltet</system:String>
     <system:String x:Key="TrayIcon_SettingsOption">Einstellungen</system:String>
-    <system:String x:Key="TrayIcon_ReportBugOption">Einen Fehler melden</system:String>
+    <system:String x:Key="TrayIcon_ReportBugOption">Fehler melden</system:String>
     <system:String x:Key="TrayIcon_QuitOption">FluentFlyout beenden</system:String>
-    <system:String x:Key="LaunchOnStartupTitle">Beim Hochfahren des Rechners starten</system:String>
+    <system:String x:Key="LaunchOnStartupTitle">Beim Start starten</system:String>
     <system:String x:Key="EasingQuadratic" xml:space="preserve"> Quadratisch</system:String>
     <system:String x:Key="EasingCubic" xml:space="preserve"> Kubisch</system:String>
     <system:String x:Key="LockWindow_LockOff">aus</system:String>
     <system:String x:Key="NextUpWindow_UpNextText">Als nächstes:</system:String>
     <system:String x:Key="UnlockPremiumButton">Premium freischalten</system:String>
     <system:String x:Key="SystemSettingsTitle">System</system:String>
-    <system:String x:Key="LockWindow_LockOn">an</system:String>
+    <system:String x:Key="LockWindow_LockOn">am</system:String>
     <system:String x:Key="MediaFlyoutTitle">Medien-Flyout</system:String>
     <system:String x:Key="TextBlockText1">Aktiviere Media Flyout</system:String>
-    <system:String x:Key="TextBlockText3">Zeige das Flyout an, wenn eine Medientaste gedrückt wurde</system:String>
+    <system:String x:Key="TextBlockText3">Zeigt das Flyout an, wenn eine Medientaste gedrückt wurde.</system:String>
     <system:String x:Key="TaskbarWidgetPosition">Widget Position</system:String>
-    <system:String x:Key="TaskbarWidgetBackgroundBlurDescription">Füge Hintergrundunschärfe für das Taskleisten Widget hinzu</system:String>
-    <system:String x:Key="TaskbarWidgetHideCompletelyTitle">Komplett verstecken, wenn keine Medien abgespielt werden</system:String>
+    <system:String x:Key="TaskbarWidgetBackgroundBlurDescription">Füge Hintergrundunschärfe für das Taskleisten Widget hinzu.</system:String>
+    <system:String x:Key="TaskbarWidgetHideCompletelyTitle">Komplett verstecken, wenn keine Medien abgespielt werden.</system:String>
     <system:String x:Key="TaskbarWidgetControlsTitle">Widget Mediensteuerung</system:String>
     <system:String x:Key="TaskbarWidgetControlsDescription">Zeigt die Mediensteuerungsknöpfe auf dem Widget</system:String>
     <system:String x:Key="TaskbarWidgetAnimatedTitle">Widget Animationen</system:String>
     <system:String x:Key="TaskbarWidgetAnimatedDescription">Aktiviere subtile Animationen für das Widget</system:String>
-    <system:String x:Key="PremiumFeatureTitle">Premium Funktionen</system:String>
+    <system:String x:Key="PremiumFeatureTitle">Premium-Funktionen</system:String>
     <system:String x:Key="PremiumPurchaseSuccess">Premium Funktionen erfolgreich freigeschaltet!</system:String>
     <system:String x:Key="PremiumPurchaseFailed">Kauf fehlgeschlagen. Bitte versuche es erneut.</system:String>
     <system:String x:Key="PremiumPurchaseCancelled">Kauf abgebrochen.</system:String>
     <system:String x:Key="EnableNextUpTitle">Flyout „Als nächstes“ aktivieren</system:String>
     <system:String x:Key="EnableNextUpDescription">Zeigt, welcher Song/Video als nächste abgespielt wird, wenn ein Song/Video endet</system:String>
     <system:String x:Key="NextUpStayDurationTitle">"Als nächstes" Anzeigedauer</system:String>
-    <system:String x:Key="NextUpStayDurationDescription">(Standard: 2000ms)</system:String>
+    <system:String x:Key="NextUpStayDurationDescription">(standardmäßig: 3000 ms)</system:String>
     <system:String x:Key="EnableLockKeysDescription">Zeigt an, wenn eine bestimmte Tastensperre aktiv ist oder nicht</system:String>
     <system:String x:Key="LockKeysStayDurationTitle">Tastensperre Anzeigedauer</system:String>
-    <system:String x:Key="LockKeysStayDurationDescription">(Standard: 2000ms)</system:String>
+    <system:String x:Key="LockKeysStayDurationDescription">(standardmäßig: 3000 ms)</system:String>
     <system:String x:Key="LockKeysBoldUITitle">Dick gedruckte Symbole und Schriftart</system:String>
     <system:String x:Key="LaunchOnStartupDescription">Starte minimiert, wenn du dich in Windows anmeldest</system:String>
     <system:String x:Key="StartupAppsHyperlinkText">Autostart Apps</system:String>
     <system:String x:Key="StartupAppsSettingsInfo">Wenn das nicht funktioniert wie erwartet, überprüfe</system:String>
-    <system:String x:Key="AppThemeTitle">Darstellung</system:String>
-    <system:String x:Key="AppThemeDefault"> System Standard</system:String>
+    <system:String x:Key="AppThemeTitle">App Hintergrund</system:String>
+    <system:String x:Key="AppThemeDefault"> Windows Standart</system:String>
     <system:String x:Key="AppThemeLight"> Hell</system:String>
     <system:String x:Key="AppThemeDark"> Dunkel</system:String>
     <system:String x:Key="TrayIconLeftClickBehaviorTitle">SystemTray Symbol Linksklick verhalten</system:String>
     <system:String x:Key="TrayIconLeftClickBehaviorDescription">Wähle aus, was passiert, wenn du das Systemtray Symbol Links klickst</system:String>
-    <system:String x:Key="TrayIconLeftClickOption1"> Einstellungen öffnen</system:String>
+    <system:String x:Key="TrayIconLeftClickOption1"> Einstellungen Öffnen</system:String>
     <system:String x:Key="TrayIconLeftClickOption2"> Zeige das Flyout</system:String>
     <system:String x:Key="Win11TrayIconTitle">Symbol im Windows 11 Stil</system:String>
-    <system:String x:Key="TrayIconSectionTitle">Systemtray Symbol</system:String>
+    <system:String x:Key="TrayIconSectionTitle">Benachrichtigungsfeldsymbol</system:String>
     <system:String x:Key="HideTrayIconTitle">Verstecke das Systemtray Symbol ganz</system:String>
     <system:String x:Key="HideTrayIconDescription">Öffnet die Einstellungen bei einem doppelklick auf das Symbol im Systemtray</system:String>
-    <system:String x:Key="AnimationSettingsTitle">Animationseinstellungen</system:String>
+    <system:String x:Key="AnimationSettingsTitle">Animations-Einstellungen</system:String>
     <system:String x:Key="AnimationSettingsDescription">Passe die Animation nach deinen Präferenzen an</system:String>
     <system:String x:Key="AnimationDurationScaleDescription">Schnellere oder langsamere Flyout-Animationsgeschwindigkeit (Standard: 1x)</system:String>
     <system:String x:Key="AnimationSpeedOff">Aus</system:String>
@@ -107,16 +107,16 @@ Anmerkung: Als Open-Source-Projekt sind diese Funktionen auch kostenlos verfügb
     <system:String x:Key="AboutPremiumTitle">Über Premium</system:String>
     <system:String x:Key="EnjoyingAppText" xml:space="preserve">Gefällt dir die App? Gebe der App einen Stern auf Github,
 oder hinterlasse eine Rezension im Microsoft Store!</system:String>
-    <system:String x:Key="GitHubRepoLink">GitHub Repository</system:String>
+    <system:String x:Key="GitHubRepoLink">GitHub-Repository</system:String>
     <system:String x:Key="CloseButton">Schließen</system:String>
-    <system:String x:Key="AppLanguageTitle">Sprache</system:String>
+    <system:String x:Key="AppLanguageTitle">App-Sprache</system:String>
     <system:String x:Key="AppLanguageDescription" xml:space="preserve">Wenn deine Sprache nicht aufgelistet oder nicht vollständig ist, wird standardmäßig Englisch ausgewählt. 
 Du kannst helfen, die App zu übersetzen auf</system:String>
     <system:String x:Key="AppLanguageDescriptionLink">Weblate</system:String>
-    <system:String x:Key="LockWindow_CapsLock">Feststelltaste</system:String>
-    <system:String x:Key="LockWindow_NumLock">Ziffernblock-Sperre</system:String>
-    <system:String x:Key="LockWindow_ScrollLock">Rollentasten-Sperre</system:String>
-    <system:String x:Key="TrayIcon_GitHubRepositoryOption">Repository</system:String>
+    <system:String x:Key="LockWindow_CapsLock">Feststell</system:String>
+    <system:String x:Key="LockWindow_NumLock">Num</system:String>
+    <system:String x:Key="LockWindow_ScrollLock">Rollen</system:String>
+    <system:String x:Key="TrayIcon_GitHubRepositoryOption">Paketquelle</system:String>
     <system:String x:Key="BackgroundBlurOption1" xml:space="preserve"> · Keine</system:String>
     <system:String x:Key="TaskbarWidgetPaddingTitle">Automatischer Abstand für Windows-Widgets</system:String>
     <system:String x:Key="TaskbarWidgetClickableTitle">Klicken, um das Medien-Flyout bei vorhandenen Medien zu öffnen</system:String>
@@ -131,7 +131,7 @@ Du kannst helfen, die App zu übersetzen auf</system:String>
     <system:String x:Key="EnableInsertKeyTitle">Aktiviere das Einfügen-Tasten-Popup</system:String>
     <system:String x:Key="EnableInsertKeyDescription">Legt fest, ob beim Drücken der Einfügen-/Überschreiben-Taste das Flyout angezeigt wird</system:String>
     <system:String x:Key="Win11TrayIconDescription">Verwende ein Systemtray Symbol, das zu Windows 11 passt (umschalten, um das Design zu aktualisieren)</system:String>
-    <system:String x:Key="AnimationDurationScaleTitle">Animationsdauer-Skala</system:String>
+    <system:String x:Key="AnimationDurationScaleTitle">Animationsdauer</system:String>
     <system:String x:Key="AnimationEasingStyleTitle">Animationsgeschwindigkeit Stil</system:String>
     <system:String x:Key="LockWindow_InsertPressed">Einfügen gedrückt</system:String>
     <system:String x:Key="MediaFlyoutDescription">Beim Abspielen von Medien kannst du eine beliebige Medien- oder Lautstärketaste (Play/Pause, Lauter/Leiser usw.) auf der Tastatur drücken, um das Flyout anzuzeigen. Zeigt Medieninformationen sowie Wiedergabesteuerungen und weitere Optionen.</system:String>
@@ -173,15 +173,15 @@ Du kannst helfen, die App zu übersetzen auf</system:String>
     <system:String x:Key="TaskbarVisualizerAudioSensitivityTitle">Audio-Empfindlichkeit</system:String>
     <system:String x:Key="TaskbarVisualizerAudioSensitivityDescription">Legt fest, wie laut der Ton sein muss, bevor sich die Balken bewegen</system:String>
     <system:String x:Key="UnlockFullExperienceText">Schalte das volle FluentFlyout-Erlebnis frei:</system:String>
-    <system:String x:Key="TaskbarWidgetCustomizationPerk">Taskleisten-Widget und -Visualizer anzeigen</system:String>
+    <system:String x:Key="TaskbarWidgetCustomizationPerk">Taskleisten-Widget</system:String>
     <system:String x:Key="AcrylicBlurOpacityPerk">Deckkraft der Acryl-Unschärfe anpassen</system:String>
     <system:String x:Key="HideTrayIconPerk">Symbol im Infobereich ausblenden</system:String>
-    <system:String x:Key="AllFuturePremiumFeatures">Alle zukünftigen Premium-Funktionen</system:String>
+    <system:String x:Key="AllFuturePremiumFeatures">Alle Premium-Funktionen</system:String>
     <system:String x:Key="AcrylicBlurOpacityTitle">Deckkraft der Acryl-Unschärfe</system:String>
     <system:String x:Key="AcrylicBlurOpacityDescription">Passe die Transparenz der Acryl-Flyouts an (Standard: 175)</system:String>
     <system:String x:Key="HomeUpdateDescription">Neuerungen entdecken</system:String>
-    <system:String x:Key="HomeDashboardTitle">Dashboard</system:String>
-    <system:String x:Key="AppearanceBehaviorSectionTitle">Design &amp; Verhalten</system:String>
+    <system:String x:Key="HomeDashboardTitle">Übersicht</system:String>
+    <system:String x:Key="AppearanceBehaviorSectionTitle">Aussehen &amp; Verhalten</system:String>
     <system:String x:Key="UpdatesSectionTitle">Aktualisierungen</system:String>
     <system:String x:Key="SystemConfigure">Konfigurieren</system:String>
     <system:String x:Key="AboutTitle">Über</system:String>
@@ -192,10 +192,10 @@ Du kannst helfen, die App zu übersetzen auf</system:String>
     <system:String x:Key="AboutOpenSourceLicensesTitle">Open-Source-Lizenzen</system:String>
     <system:String x:Key="AboutOpenSourceLicensesDescription">FluentFlyout nutzt die folgenden Open-Source-Pakete:</system:String>
     <system:String x:Key="SponsorMeLink">Unterstütze mich</system:String>
-    <system:String x:Key="BuyMeCoffeeLink">Kaffee spendieren</system:String>
+    <system:String x:Key="BuyMeCoffeeLink">Einen Kaffee kaufen</system:String>
     <system:String x:Key="UpdateToastMessage">Du benutzt jetzt Version {0}.</system:String>
-    <system:String x:Key="ShowUpdateNotificationsTitle">Benachrichtigungen bei neuen Updates anzeigen</system:String>
-    <system:String x:Key="TaskbarVisualizerOutputDeviceTitle">Ausgabe Gerät</system:String>
+    <system:String x:Key="ShowUpdateNotificationsTitle">Benachrichtigungen für Over-the-Air-Updates anzeigen</system:String>
+    <system:String x:Key="TaskbarVisualizerOutputDeviceTitle">Ausgabegerät</system:String>
     <system:String x:Key="TaskbarWidgetCloseableFlyoutTitle">Flyout beim zweiten Klick schließen</system:String>
     <system:String x:Key="TaskbarWidgetCloseableFlyoutDescription">Schließe das Flyout, wenn es bereits geöffnet ist, indem Du auf das Taskleisten-Widget klickst.</system:String>
     <system:String x:Key="TaskbarVisualizerAudioPeakLevelTitle">Audio-Spitzenschwellenwert</system:String>
@@ -203,27 +203,27 @@ Du kannst helfen, die App zu übersetzen auf</system:String>
     <system:String x:Key="TaskbarVisualizerOutputDeviceDescription">Ändere, worauf der Visualizer reagiert, indem Du das Ausgabegerät von FluentFlyout umschaltest.</system:String>
     <system:String x:Key="BackupRestoreSectionTitle">Sichern &amp; Wiederherstellen</system:String>
     <system:String x:Key="BackupRestoreCardTitle">Sichern und Wiederherstellen der Einstellungen</system:String>
-    <system:String x:Key="ExportSettings">Export-Einstellungen</system:String>
-    <system:String x:Key="ImportSettings">Import-Einstellungen</system:String>
+    <system:String x:Key="ExportSettings">Einstellungen exportieren</system:String>
+    <system:String x:Key="ImportSettings">Einstellungen importieren</system:String>
     <system:String x:Key="ExportSuccessful">Export erfolgreich</system:String>
     <system:String x:Key="ExportFailed">Export fehlgeschlagen</system:String>
     <system:String x:Key="ImportSuccessful">Import erfolgreich</system:String>
     <system:String x:Key="ImportFailed">Import fehlgeschlagen</system:String>
-    <system:String x:Key="SettingsExportedSuccessfully">Die Einstellungen wurden erfolgreich exportiert!</system:String>
+    <system:String x:Key="SettingsExportedSuccessfully">Einstellungen erfolgreich exportiert</system:String>
     <system:String x:Key="FailedToExportSettings">Das Exportieren der Einstellungen ist fehlgeschlagen. Siehe die Logs für Details.</system:String>
     <system:String x:Key="SettingsImportedSuccessfully">Einstellungen erfolgreich importiert! Die Anwendung wird nun neu gestartet, um die Änderungen zu übernehmen.</system:String>
     <system:String x:Key="ImportSettingsWarning">Dadurch werden alle aktuellen Einstellungen ersetzt. Möchtest Du fortfahren?</system:String>
-    <system:String x:Key="FailedToImportSettings">Einstellungen konnten nicht importiert werden. Prüfe die Logs für Details.</system:String>
+    <system:String x:Key="FailedToImportSettings">Einstellungen konnten nicht importiert werden. Prüfe das Dateiformat.</system:String>
     <system:String x:Key="PositionLeft">Links</system:String>
     <system:String x:Key="PositionRight">Rechts</system:String>
-    <system:String x:Key="TaskbarWidgetControlsPositionTitle">Position der Mediensteuerungsknöpfe</system:String>
-    <system:String x:Key="TaskbarWidgetControlsPositionDescription">Wähle die Position, wo die Mediensteuerungsknöpfe angezeigt werden sollen</system:String>
-    <system:String x:Key="TaskbarVisualizerClickableDescription">Beim Anklicken des Visualizers werden die Einstellungen geöffnet</system:String>
+    <system:String x:Key="TaskbarWidgetControlsPositionTitle">Position der Mediensteuerung</system:String>
+    <system:String x:Key="TaskbarWidgetControlsPositionDescription">Wähle aus, wo die Mediensteuerung-Buttons angezeigt werden sollen</system:String>
+    <system:String x:Key="TaskbarVisualizerClickableDescription">Beim klicken des Visualisierers wird die Einstellungsseite geöffnet</system:String>
     <system:String x:Key="TaskbarWidgetAutoHideTitle">Versteckt das Widget Automatisch</system:String>
-    <system:String x:Key="TaskbarVisualizerClickableTitle">Klicken, um Einstellungen zu öffnen</system:String>
+    <system:String x:Key="TaskbarVisualizerClickableTitle">Klicke um die Einstellungen zu öffnen</system:String>
     <system:String x:Key="LockKeysCursorUITitle">Bevorzugte Zielanzeige</system:String>
     <system:String x:Key="LockKeysCursorUIDescription" xml:space="preserve">Wählen Sie den Monitor aus, auf dem das Flyout angezeigt werden soll.</system:String>
-    <system:String x:Key="DefaultLockLayoutPosition">Standard (Flyout-Zielanzeige)</system:String>
+    <system:String x:Key="DefaultLockLayoutPosition">Zielbildschirm für Flyout</system:String>
     <system:String x:Key="MonitorWithFocusedWindow">Monitor mit fokussiertem Fenster</system:String>
     <system:String x:Key="MonitorWithCursor">Monitor mit Mauszeiger</system:String>
     <system:String x:Key="LockKeysAnimatedTitle">Indikator-Animationen</system:String>
@@ -240,14 +240,14 @@ Du kannst helfen, die App zu übersetzen auf</system:String>
     <system:String x:Key="EnableVolumeFlyoutTitle">Aktiviere Lautstärke-Flyout</system:String>
     <system:String x:Key="EnableVolumeFlyoutDescription">Ersetze das standart Windows Lautstärke-Flyout</system:String>
     <system:String x:Key="VolumeAboveMediaFlyoutTitle">Positioniere Lautstärke-Flyout über Medien-Flyout</system:String>
-    <system:String x:Key="VolumeFlyoutStayDurationTitle">Lautstärke-Flyout Anzeigedauer</system:String>
-    <system:String x:Key="VolumeMixerSectionTitle">Lautstärke Mixer</system:String>
+    <system:String x:Key="VolumeFlyoutStayDurationTitle">Anzeigedauer des Flyouts</system:String>
+    <system:String x:Key="VolumeMixerSectionTitle">Mixer</system:String>
     <system:String x:Key="EnableVolumeMixerTitle">Aktiviere Lautstärke Mixer</system:String>
     <system:String x:Key="VolumeMixerHighlightTitle">Hebe Audio abspielende Apps hervor</system:String>
     <system:String x:Key="VolumeMixerHighlightDescription">Zeige alle aktuell Audio ausgebenden Apps</system:String>
     <system:String x:Key="VolumeFlyoutDescription">Ein alleinstehendes Lautstärkeregler-Flyout, welches zu einem Lautstärke Mixer expandiert und das standart Windows Lautstärke Bedienfeld ersetzt.</system:String>
     <system:String x:Key="EnableVolumeMixerDescription">Feine Kontrolle über die Lautstärke einzelner Apps</system:String>
-    <system:String x:Key="MasterVolumeText">Hauptlautstärke</system:String>
+    <system:String x:Key="MasterVolumeText">Grundlautstärke</system:String>
     <system:String x:Key="EnableCapsTitle">Feststelltasten Indikator aktivieren</system:String>
     <system:String x:Key="EnableCapsDescription">Wird gezeigt wenn die Feststelltaste gedrückt wird</system:String>
     <system:String x:Key="EnableNumTitle">Num-Lock-Taste Indikator aktivieren</system:String>
@@ -266,11 +266,17 @@ Du kannst helfen, die App zu übersetzen auf</system:String>
     <system:String x:Key="AppFilteringRulesDescription">Kontrolliere welche Programme Medien anzeigen können</system:String>
     <system:String x:Key="AppFilteringModeDescription">Wähle ob gelistete Apps erlaubt oder blockiert werden sollen</system:String>
     <system:String x:Key="AppFilteringModeWhitelist">Zulassungsliste</system:String>
-    <system:String x:Key="AllowedAppsTitle">Zugelassene Apps</system:String>
+    <system:String x:Key="AllowedAppsTitle">Anwendungen zulassen</system:String>
     <system:String x:Key="AllowedAppsDescription">Wenn Programme hier gelistet sind, zeige nur Medien dieser Programme.</system:String>
     <system:String x:Key="BlockedAppsDescription">Schließt ein Programm vom anzeigen aus</system:String>
     <system:String x:Key="AddAppManuallyText">Du findest deine App nicht? Tippe sie unten ein:</system:String>
     <system:String x:Key="AppFilteringPlaceholderSpotify">z. B. Spotify.exe</system:String>
     <system:String x:Key="AppFilteringPlaceholderChrome">z. B. Chrome.exe</system:String>
     <system:String x:Key="AppFilteringComboBoxHint">Wähle eine App, die aktuell etwas abspielt, zum hinzufügen</system:String>
+    <system:String x:Key="Back">Zurück</system:String>
+    <system:String x:Key="Next">Weiter</system:String>
+    <system:String x:Key="Finish">Fertig</system:String>
+    <system:String x:Key="OnboardingStepsCounter">Schritt {0} von {1}</system:String>
+    <system:String x:Key="AnonymousUsageDataTitle">Anonyme Nutzungsdaten übermitteln</system:String>
+    <system:String x:Key="AnonymousUsageDataDescription">Mithilfe anonymer und nicht identifizierbarer Nutzungsdaten helfen die App zu verbessern</system:String>
 </ResourceDictionary>

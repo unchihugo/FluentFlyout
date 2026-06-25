@@ -271,4 +271,10 @@
     <system:String x:Key="AppFilteringComboBoxHint">現在実行中のアプリを選択して追加してください</system:String>
     <system:String x:Key="AddButton">追加</system:String>
     <system:String x:Key="RemoveButton">削除</system:String>
+    <system:String x:Key="Back">戻る</system:String>
+    <system:String x:Key="Next">次へ</system:String>
+    <system:String x:Key="Finish">完了</system:String>
+    <system:String x:Key="OnboardingStepsCounter">ステップ{0} / {1}</system:String>
+    <system:String x:Key="AnonymousUsageDataTitle">匿名の利用データを送信する</system:String>
+    <system:String x:Key="AnonymousUsageDataDescription">匿名かつ個人を特定できない情報を送信し、アプリの改善にご協力ください</system:String>
 </ResourceDictionary>

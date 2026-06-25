@@ -273,4 +273,10 @@ Nota: Como proyecto de código abierto, estas opciones también están disponibl
     <system:String x:Key="AppFilteringComboBoxHint">Selecciona una app que este reproduciendo contenido para añadirla</system:String>
     <system:String x:Key="AddButton">Añadir</system:String>
     <system:String x:Key="RemoveButton">Quitar</system:String>
+    <system:String x:Key="Back">Volver</system:String>
+    <system:String x:Key="AnonymousUsageDataDescription">Ayuda a mejorar la app enviando información anónima</system:String>
+    <system:String x:Key="Next">Siguiente</system:String>
+    <system:String x:Key="Finish">Finalizar</system:String>
+    <system:String x:Key="OnboardingStepsCounter">Paso {0} de {1}</system:String>
+    <system:String x:Key="AnonymousUsageDataTitle">Enviar datos de uso anónimos</system:String>
 </ResourceDictionary>

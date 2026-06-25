@@ -273,4 +273,10 @@ Vous pouvez contribuer aux traductions sur</system:String>
     <system:String x:Key="BlockedAppsTitle">Applications Exclues</system:String>
     <system:String x:Key="BlockedAppsDescription">Empêche l'affichage d'une application</system:String>
     <system:String x:Key="AddAppManuallyText">Vous ne trouvez pas votre application ? Saisissez-la ci-dessous :</system:String>
+    <system:String x:Key="Back">Retour</system:String>
+    <system:String x:Key="Next">Suivant</system:String>
+    <system:String x:Key="Finish">Terminer</system:String>
+    <system:String x:Key="OnboardingStepsCounter">Étape {0} sur {1}</system:String>
+    <system:String x:Key="AnonymousUsageDataTitle">Envoyer des Données d'Utilisation Anonymes</system:String>
+    <system:String x:Key="AnonymousUsageDataDescription">Contribuez à l'amélioration de l'application en envoyant des données d'utilisation anonymes et non identifiables</system:String>
 </ResourceDictionary>
