@@ -4,6 +4,7 @@
 using FluentFlyout.Classes.Settings;
 using NLog;
 using System.Net.Http;
+using System.Security.Cryptography;
 
 namespace FluentFlyoutWPF.Classes.Services;
 
@@ -103,7 +104,8 @@ internal class ExperimentsService
         }
 
         // Calculate a hash of the UUID to determine the variant
-        int hash = uuid.GetHashCode();
+        byte[] hashBytes = MD5.HashData(uuid.ToByteArray());
+        uint hash = BitConverter.ToUInt32(hashBytes, 0);
         double totalWeight = experiment.Variants.Values.Sum();
         double cumulativeWeight = 0;
         foreach (var variant in experiment.Variants)
