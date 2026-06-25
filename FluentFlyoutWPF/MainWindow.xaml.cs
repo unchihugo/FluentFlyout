@@ -419,9 +419,10 @@ public partial class MainWindow : MicaWindow
 
         double window_left = 0;
 
-        // Here we work with raw monitor coordinates, without taking DPI into account.
+        // If a reference window is provided and visible, position the window next to it
         if (aboveReference != null && aboveReference.IsVisible)
         {
+            // Here we work with raw monitor coordinates, without taking DPI into account.
             double refWidth = aboveReference.Width * monitor.dpiX / 96.0;
             double refHeight = aboveReference.Height * monitor.dpiY / 96.0;
             var refRect = new Rect(0, 0, refWidth, refHeight);
@@ -445,6 +446,7 @@ public partial class MainWindow : MicaWindow
             else
                 moveAnimation.From = isTop ? aboveTop - 20 : aboveTop + 20;
         }
+        // default behavior: position the flyout based on the user's settings
         else if (alwaysBottom == false)
         {
             _position = SettingsManager.Current.Position;
@@ -503,6 +505,7 @@ public partial class MainWindow : MicaWindow
                     moveAnimation.From = workArea.Top + -4;
             }
         }
+        // other cases (e.g. if alwaysBottom is true): position the flyout at the bottom center of the screen
         else
         {
             window_left = workArea.Left + workArea.Width / 2 - windowRect.Width / 2;
