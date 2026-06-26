@@ -481,13 +481,13 @@ public partial class UserSettings : ObservableObject
     /// Returns a list of apps that are allowed to display media/update the taskbar.
     /// </summary>
     [ObservableProperty]
-    public partial ObservableCollection<string> AllowedApps { get; set; } = new();
+    public partial ObservableCollection<string> AllowedApps { get; set; }
 
     /// <summary>
     /// Returns a list of apps that are NOT allowed to display media/update the taskbar.
     /// </summary>
     [ObservableProperty]
-    public partial ObservableCollection<string> BlockedApps { get; set; } = new();
+    public partial ObservableCollection<string> BlockedApps { get; set; }
 
     /// <summary>
     /// Apps that are ignored across all surfaces: media flyout, taskbar widget, and volume mixer.
@@ -630,6 +630,16 @@ public partial class UserSettings : ObservableObject
     [ObservableProperty]
     public partial bool LegacyTaskbarWidthEnabled { get; set; }
 
+    [ObservableProperty]
+    public partial Guid Uuid { get; set; }
+
+    [XmlIgnore]
+    [ObservableProperty]
+    public partial Guid SessionId { get; set; } = Guid.NewGuid();
+
+    [ObservableProperty]
+    public partial bool AnonymousTelemetryAllowed { get; set; }
+
     [XmlIgnore]
     private bool _initializing = true;
 
@@ -697,7 +707,7 @@ public partial class UserSettings : ObservableObject
         AppFilteringEnabled = false;
         AppFilteringMode = 0;
         TaskbarVisualizerPosition = 1;
-        TaskbarVisualizerClickable = false;
+        TaskbarVisualizerClickable = true;
         TaskbarVisualizerBarCount = 10;
         TaskbarVisualizerCenteredBars = false;
         TaskbarVisualizerBaseline = false;
@@ -706,13 +716,17 @@ public partial class UserSettings : ObservableObject
         VolumeControlEnabled = false;
         VolumeControlAboveMediaFlyout = false;
         VolumeControlDuration = 3000;
-        VolumeMixerEnabled = true;
+        VolumeMixerEnabled = false;
         VolumeMixerHighlightActiveApps = false;
         AcrylicBlurOpacity = 175;
         UseAlbumArtAsAccentColor = false;
         LastUpdateNotificationUnixSeconds = 0;
         ShowUpdateNotifications = true;
         LegacyTaskbarWidthEnabled = false;
+        Uuid = Guid.NewGuid();
+        AnonymousTelemetryAllowed = true;
+        AllowedApps = [];
+        BlockedApps = [];
 
         PropertyChanged += OnPropertyChangedSaveSettings;
     }

@@ -5,12 +5,12 @@ using NLog;
 using System.Net.Http;
 using System.Text.Json;
 
-namespace FluentFlyout.Classes;
+namespace FluentFlyoutWPF.Classes.Services;
 
 /// <summary>
 /// Handles checking for application updates from the API
 /// </summary>
-public static class UpdateChecker
+public static class UpdateCheckerService
 {
     private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
     private static readonly HttpClient HttpClient = new() { Timeout = TimeSpan.FromSeconds(10) };

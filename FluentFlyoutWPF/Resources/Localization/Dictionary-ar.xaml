@@ -273,4 +273,10 @@
     <system:String x:Key="AppFilteringComboBoxHint">اختر تطبيقًا يعمل حاليًا لإضافته</system:String>
     <system:String x:Key="AddButton">إضافة</system:String>
     <system:String x:Key="RemoveButton">إزالة</system:String>
+    <system:String x:Key="Back">رجوع</system:String>
+    <system:String x:Key="Next">التالي</system:String>
+    <system:String x:Key="Finish">إنهاء</system:String>
+    <system:String x:Key="OnboardingStepsCounter">خطوة {0} من {1}</system:String>
+    <system:String x:Key="AnonymousUsageDataTitle">ارسل معلومات استعمالك كمجهول</system:String>
+    <system:String x:Key="AnonymousUsageDataDescription">ساعد بتحسين التطبيق عبر ارسال كمجهول, معلومات استعمال غير شخصية</system:String>
 </ResourceDictionary>

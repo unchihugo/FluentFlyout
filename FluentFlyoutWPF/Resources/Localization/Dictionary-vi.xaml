@@ -113,9 +113,9 @@ Bạn có thể hỗ trợ dịch tại</system:String>
     <system:String x:Key="TaskbarWidgetAnimatedTitle">Hiệu ứng chuyển tiếp</system:String>
     <system:String x:Key="TaskbarWidgetAnimatedDescription">Hiệu ứng chỉ áp dụng cho chữ</system:String>
     <system:String x:Key="PremiumFeatureTitle">obsolete</system:String>
-    <system:String x:Key="PremiumFeatureDescription" xml:space="preserve">Khi trả phí cho gói premium, bạn đang gửi lời động viên trực tiếp đến tác giả của ứng dụng, người đang nỗ lực hoàn thiện dự án để mang lại trải nghiệm phong phú và trọn vẹn hơn cho bạn.
-
-Nếu bạn chỉ muốn dùng thử, hay hỗ trợ phát hiện và báo lỗi, bạn có thể sử dụng bản GitHub. Trong bản đó, premium đã được mở khóa miễn phí.</system:String>
+    <system:String x:Key="PremiumFeatureDescription" xml:space="preserve">Khoản đóng góp một lần của bạn giúp tôi tiếp tục duy trì và cập nhật FluentFlyout. Nó sẽ mở khóa ngay lập tức tất cả các tính năng tùy chỉnh cao cấp, vĩnh viễn.
+        
+Lưu ý: Vì đây là một dự án mã nguồn mở, các tính năng này cũng có sẵn miễn phí thông qua trình cài đặt thủ công trên GitHub. Nhược điểm duy nhất là việc cài đặt và cập nhật sẽ phải được thực hiện thủ công.</system:String>
     <system:String x:Key="PremiumLockedMessage">Tính năng đã bị khóa</system:String>
     <system:String x:Key="PremiumUnlockedMessage">Đã đăng ký premium</system:String>
     <system:String x:Key="PremiumGitHubMessage">Vì đây là bản GitHub, premium đã được mở khóa miễn phí</system:String>
@@ -135,9 +135,9 @@ Nếu bạn chỉ muốn dùng thử, hay hỗ trợ phát hiện và báo lỗi
     <system:String x:Key="TrayIcon_GitHubRepositoryOption">Mã nguồn</system:String>
     <system:String x:Key="TrayIcon_ViewLogsOption">Mở folder nhật ký</system:String>
     <system:String x:Key="TrayIcon_ReportBugOption">Báo lỗi</system:String>
-    <system:String x:Key="TrayIcon_QuitOption">Thoát</system:String>
+    <system:String x:Key="TrayIcon_QuitOption">Thoát FluentFlyout</system:String>
     <system:String x:Key="PixelsUnit">px</system:String>
-    <system:String x:Key="UpdateToastTitle">Vừa cập nhật xong</system:String>
+    <system:String x:Key="UpdateToastTitle">Đã cật nhật FluentFlyout!</system:String>
     <system:String x:Key="UpdateToastMessage">Bạn đang ở bản {0}.</system:String>
     <system:String x:Key="UpdateToastButton">Lịch sử thay đổi</system:String>
     <system:String x:Key="TrayIconSectionTitle">Biểu tượng khay hệ thống</system:String>
@@ -181,7 +181,7 @@ Nếu bạn chỉ muốn dùng thử, hay hỗ trợ phát hiện và báo lỗi
     <system:String x:Key="TaskbarVisualizerBaselineDescription">Hiển thị ở mức thấp tuyệt đối</system:String>
     <system:String x:Key="TaskbarVisualizerAudioSensitivityTitle">Âm lượng sàn</system:String>
     <system:String x:Key="TaskbarVisualizerAudioSensitivityDescription">Âm lượng nhỏ nhất được biểu thị</system:String>
-    <system:String x:Key="UnlockFullExperienceText">Với premium, bạn có thể mở khóa được nhiều tính năng hơn:</system:String>
+    <system:String x:Key="UnlockFullExperienceText">Khám phá trọn vẹn trải nghiệm FluentFlyout:</system:String>
     <system:String x:Key="AllFuturePremiumFeatures">Và thêm nữa trong tương lai</system:String>
     <system:String x:Key="DevelopersTitle">Lập trình viên</system:String>
     <system:String x:Key="TranslatorsTitle">Người dịch</system:String>
@@ -203,7 +203,7 @@ Nếu bạn chỉ muốn dùng thử, hay hỗ trợ phát hiện và báo lỗi
     <system:String x:Key="ImportFailed">Nhập cấu hình không thành công</system:String>
     <system:String x:Key="TaskbarVisualizerAudioPeakLevelDescription">Âm lượng lớn nhất được biểu thị</system:String>
     <system:String x:Key="TaskbarVisualizerOutputDeviceTitle">Thiết bị đầu ra</system:String>
-    <system:String x:Key="TaskbarVisualizerOutputDeviceDescription">Loa hoặc tai nghe để biểu thị sóng âm</system:String>
+    <system:String x:Key="TaskbarVisualizerOutputDeviceDescription">Thay đổi visualizer bằng cách chuyển đổi thiết bị đầu ra của FluentFlyout.</system:String>
     <system:String x:Key="TaskbarVisualizerAudioPeakLevelTitle">Âm lượng trần</system:String>
     <system:String x:Key="BackupRestoreSectionTitle">Nhập, xuất cấu hình</system:String>
     <system:String x:Key="BackupRestoreCardTitle">Nhập, xuất cấu hình</system:String>
@@ -229,7 +229,7 @@ Nếu bạn chỉ muốn dùng thử, hay hỗ trợ phát hiện và báo lỗi
     <system:String x:Key="LegacyTaskbarWidthDescription">Cài đặt này sẽ phù hợp khi vị trí bị lỗi, ví dụ như khi taskbar bị thay đổi bởi ứng dụng bên thứ ba</system:String>
     <system:String x:Key="AdvancedSettingsTitle">Tùy chọn nâng cao</system:String>
     <system:String x:Key="LockKeysAnimatedDescription">Khi tắt, biểu tượng sẽ bất động</system:String>
-    <system:String x:Key="LockKeysAnimatedTitle">Hiểu ứng biểu tượng</system:String>
+    <system:String x:Key="LockKeysAnimatedTitle">Hiệu ứng biểu tượng</system:String>
     <system:String x:Key="TaskbarWidgetAutoHideDescription">Ẩn khi tạm dừng</system:String>
     <system:String x:Key="TaskbarWidgetAutoHideTitle">Ẩn khi tạm dừng</system:String>
     <system:String x:Key="TaskbarWidgetShowPauseOverlayTitle">Cho biết trạng thái tạm dừng</system:String>
@@ -247,4 +247,35 @@ Nếu bạn chỉ muốn dùng thử, hay hỗ trợ phát hiện và báo lỗi
     <system:String x:Key="VolumeMixerHighlightTitle">Highlight ứng dụng có tiếng</system:String>
     <system:String x:Key="VolumeMixerHighlightDescription">Highlight ứng dụng có tiếng</system:String>
     <system:String x:Key="MasterVolumeText">Nhấn để tắt/bật tiếng</system:String>
+    <system:String x:Key="TaskbarWidgetFixedWidthTitle">Cố định chiều rộng widget</system:String>
+    <system:String x:Key="TaskbarWidgetFixedWidthDescription">Giữ nguyên chiều rộng của widget thay vì tự động điều chỉnh kích thước để phù hợp với tiêu đề và nghệ thuật văn bản</system:String>
+    <system:String x:Key="EnableCapsTitle">Bật biểu tượng Caps Lock</system:String>
+    <system:String x:Key="EnableCapsDescription">Hiển thị khi nhấn phím Caps Lock</system:String>
+    <system:String x:Key="EnableNumTitle">Bật biểu tượng Num Lock</system:String>
+    <system:String x:Key="EnableNumDescription">Hiển thị khi nhấn phím Num Lock</system:String>
+    <system:String x:Key="EnableScrollTitle">Bật biểu tượng Scroll Lock</system:String>
+    <system:String x:Key="EnableScrollDescription">Hiển thị khi nhấn phím Scroll Lock</system:String>
+    <system:String x:Key="AppFilteringTitle">Lọc ứng dụng</system:String>
+    <system:String x:Key="AppFilteringRulesDescription">Kiểm soát ứng dụng nào có thể hiển thị phương tiện</system:String>
+    <system:String x:Key="EnableAppFilteringTitle">Bật lọc</system:String>
+    <system:String x:Key="AppFilteringModeTitle">Chế độ lọc</system:String>
+    <system:String x:Key="AppFilteringModeDescription">Chọn xem các ứng dụng được liệt kê có được phép sử dụng hay bị chặn</system:String>
+    <system:String x:Key="AppFilteringModeBlacklist">Danh sách chặn</system:String>
+    <system:String x:Key="AppFilteringModeWhitelist">Danh sách cho phép</system:String>
+    <system:String x:Key="AllowedAppsTitle">Ứng dụng được cho phép</system:String>
+    <system:String x:Key="AllowedAppsDescription">Nếu có bất kỳ ứng dụng nào được liệt kê ở đây, chỉ có nội dung đa phương tiện của chúng được hiển thị.</system:String>
+    <system:String x:Key="BlockedAppsTitle">Ứng dụng bị loại trừ</system:String>
+    <system:String x:Key="BlockedAppsDescription">Loại trừ ứng dụng khỏi việc hiển thị</system:String>
+    <system:String x:Key="AddAppManuallyText">Không tìm thấy ứng dụng của bạn? Hãy nhập tên ứng dụng bên dưới:</system:String>
+    <system:String x:Key="AppFilteringPlaceholderSpotify">VD: Spotify.exe</system:String>
+    <system:String x:Key="AppFilteringPlaceholderChrome">VD: Chrome.exe</system:String>
+    <system:String x:Key="AppFilteringComboBoxHint">Chọn ứng dụng đang phát để thêm</system:String>
+    <system:String x:Key="AddButton">Thêm</system:String>
+    <system:String x:Key="RemoveButton">Xoá</system:String>
+    <system:String x:Key="Back">Quay lại</system:String>
+    <system:String x:Key="Next">Kế tiếp</system:String>
+    <system:String x:Key="Finish">Hoàn thành</system:String>
+    <system:String x:Key="OnboardingStepsCounter">Bước {0} trên {1}</system:String>
+    <system:String x:Key="AnonymousUsageDataTitle">Gửi dữ liệu sử dụng ẩn danh</system:String>
+    <system:String x:Key="AnonymousUsageDataDescription">Hãy giúp cải thiện ứng dụng bằng cách gửi dữ liệu sử dụng ẩn danh, không lộ danh tính</system:String>
 </ResourceDictionary>
