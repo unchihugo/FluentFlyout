@@ -131,13 +131,9 @@ public class SettingsManager
                 }
 
                 if (File.Exists(filePath))
-                {
-                    File.Replace(tempPath, filePath, backupPath, true);
-                }
+                    TryReplaceSettingsFile(filePath, tempPath, backupPath);
                 else
-                {
-                    File.Move(tempPath, filePath, true);
-                }
+                    File.Move(tempPath, filePath);
             }
         }
         catch (UnauthorizedAccessException ex)
@@ -165,5 +161,41 @@ public class SettingsManager
                 }
             }
         }
+    }
+
+    private static void TryReplaceSettingsFile(string filePath, string tempPath, string backupPath)
+    {
+        int maxAttempts = 5;
+        // The following steps try to avoid issues with file locks and permissions on some systems.
+        for (int attempts = 1; attempts <= maxAttempts; attempts++)
+        {
+            try
+            {
+                File.Replace(tempPath, filePath, backupPath, ignoreMetadataErrors: true);
+                break;
+            }
+            catch (IOException ex) when (attempts < maxAttempts)
+            {
+                // if the file is locked, wait and retry
+                Logger.Warn(ex, "Settings file is locked, retrying...");
+                Thread.Sleep(75);
+            }
+            catch (IOException ex)
+            {
+                Logger.Warn(ex, "File.Replace failed after retries, manually replacing...");
+                ManualReplace(filePath, tempPath, backupPath);
+                return;
+            }
+        }
+    }
+
+    private static void ManualReplace(string filePath, string tempPath, string backupPath)
+    {
+        if (File.Exists(backupPath))
+            File.Delete(backupPath);
+
+        File.Copy(filePath, backupPath);
+        File.Delete(filePath);
+        File.Move(tempPath, filePath);
     }
 }
