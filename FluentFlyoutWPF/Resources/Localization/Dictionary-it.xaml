@@ -276,4 +276,7 @@ Puoi contribuire alla traduzione su</system:String>
     <system:String x:Key="Back">Indietro</system:String>
     <system:String x:Key="AnonymousUsageDataTitle">Invia dati d'utilizzo anonimi</system:String>
     <system:String x:Key="AnonymousUsageDataDescription">Aiuta a migliorare l'app mandando informzioni d'uso anonime e non indentificabili</system:String>
+    <system:String x:Key="Next">Prossimo</system:String>
+    <system:String x:Key="Finish">Fine</system:String>
+    <system:String x:Key="OnboardingStepsCounter">Passo {0} di {1}</system:String>
 </ResourceDictionary>
