@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 using FluentFlyout.Classes.Settings;
+using FluentFlyoutWPF.Classes.Clients;
 using NLog;
 using System.Net.Http;
 using System.Security.Cryptography;
@@ -11,8 +12,7 @@ namespace FluentFlyoutWPF.Classes.Services;
 internal class ExperimentsService
 {
     private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-    private static readonly HttpClient HttpClient = new() { Timeout = TimeSpan.FromSeconds(2) };
-    private const string ApiEndpoint = "https://fluentflyout.com/api/experiments";
+    private const string ApiEndpoint = "experiments";
 
     private static List<Experiment> _experiments = new();
     private static bool _hasExperiments = false;
@@ -50,7 +50,7 @@ internal class ExperimentsService
         var result = new ExperimentsResult();
         try
         {
-            var response = await HttpClient.GetStringAsync(ApiEndpoint);
+            var response = await FluentFlyoutApiClient.Client.GetStringAsync(ApiEndpoint);
             var experimentDict = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, Experiment>>(response);
             if (experimentDict != null)
             {
@@ -74,9 +74,14 @@ internal class ExperimentsService
             Logger.Info($"Failed to fetch experiments - network error: {ex.Message}");
             result.Success = false;
         }
-        catch (System.Text.Json.JsonException ex)
+        catch (TaskCanceledException ex)
         {
-            Logger.Error(ex, "Failed to parse experiments JSON.");
+            Logger.Info(ex, "Failed to fetch experiments - request timed out.");
+            result.Success = false;
+        }
+        catch (Exception ex)
+        {
+            Logger.Error(ex, "Failed to fetch experiments.");
             result.Success = false;
         }
 
