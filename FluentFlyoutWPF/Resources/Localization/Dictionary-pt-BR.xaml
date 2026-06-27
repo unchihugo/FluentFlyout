@@ -273,4 +273,10 @@ Nota: Como um projeto de código aberto, esses recursos também estão disponív
     <system:String x:Key="AppFilteringComboBoxHint">Selecione um aplicativo em reprodução no momento para adicionar</system:String>
     <system:String x:Key="AddButton">Adicionar</system:String>
     <system:String x:Key="RemoveButton">Remover</system:String>
+    <system:String x:Key="Back">Voltar</system:String>
+    <system:String x:Key="Next">Avançar</system:String>
+    <system:String x:Key="Finish">Concluir</system:String>
+    <system:String x:Key="OnboardingStepsCounter">Etapa {0} de {1}</system:String>
+    <system:String x:Key="AnonymousUsageDataTitle">Enviar dados de uso anônimos</system:String>
+    <system:String x:Key="AnonymousUsageDataDescription">Ajude a melhorar o aplicativo enviando dados de uso anônimos e não identificáveis</system:String>
 </ResourceDictionary>
