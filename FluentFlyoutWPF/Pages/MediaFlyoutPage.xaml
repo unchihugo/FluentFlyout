@@ -65,15 +65,6 @@
                     <ComboBoxItem Content="{DynamicResource BackgroundBlurOption4}" />
                 </ComboBox>
             </ui:CardControl>
-            <ui:CardControl Grid.Row="3" Icon="{ui:SymbolIcon Blur24}" Margin="0,0,0,3">
-                <ui:CardControl.Header>
-                    <StackPanel Orientation="Vertical">
-                        <TextBlock Text="{DynamicResource AcrylicWindowTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
-                        <TextBlock Text="{DynamicResource AcrylicWindowDescription}" FontSize="12" Opacity="0.5" />
-                    </StackPanel>
-                </ui:CardControl.Header>
-                <controls:ToggleSwitch Name="AcrylicWindowSwitch" IsChecked="{Binding MediaFlyoutAcrylicWindowEnabled, Mode=TwoWay}" />
-            </ui:CardControl>
             <ui:CardControl Grid.Row="4" Icon="{ui:SymbolIcon ArrowAutofitWidth24}" Margin="0,0,0,3">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
