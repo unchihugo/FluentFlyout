@@ -38,12 +38,12 @@
     <system:String x:Key="BackgroundBlurOption4" xml:space="preserve"> Estil 3 (Difuminat)</system:String>
     <system:String x:Key="BackgroundBlurTitle">Desenfocament del fons</system:String>
     <system:String x:Key="AcrylicWindowDescription">Aplica un efecte de desenfocament acrílic transparent al flyout (si està desactivat, torna a ser Mica)</system:String>
-    <system:String x:Key="CompactLayoutTitle">Disseny Compacte</system:String>
+    <system:String x:Key="CompactLayoutTitle">Disposició compacta</system:String>
     <system:String x:Key="CompactLayoutDescription" xml:space="preserve">Un disseny més prim i menys intrusiu
 Oculta els botons de repetició, aleatori i la informació del reproductor</system:String>
     <system:String x:Key="SelectedMonitorTitle">Pantalla objectiu del Flyout</system:String>
     <system:String x:Key="FlyoutPositionTitle">Posició del Flyout</system:String>
-    <system:String x:Key="PositionBottomLeft" xml:space="preserve"> Inferior Esquerra</system:String>
+    <system:String x:Key="PositionBottomLeft" xml:space="preserve"> Part inferior esquerra</system:String>
     <system:String x:Key="PositionBottomCenter" xml:space="preserve"> Inferior Central</system:String>
     <system:String x:Key="PositionBottomRight" xml:space="preserve"> Inferior Dreta</system:String>
     <system:String x:Key="PositionTopLeft" xml:space="preserve"> Superior Esquerra</system:String>
@@ -245,8 +245,8 @@ Pots ajudar a contribuir amb les traduccions a</system:String>
     <system:String x:Key="VolumeMixerHighlightDescription">Veure quines aplicacions estan emetent àudio actualment</system:String>
     <system:String x:Key="MasterVolumeText">Volum principal</system:String>
     <system:String x:Key="Back">Enrere</system:String>
-    <system:String x:Key="Next">Següent</system:String>
-    <system:String x:Key="Finish">Finalitzar</system:String>
+    <system:String x:Key="Next">Seguent</system:String>
+    <system:String x:Key="Finish">Acabar</system:String>
     <system:String x:Key="OnboardingStepsCounter">Pas {0} de {1}</system:String>
     <system:String x:Key="TaskbarWidgetFixedWidthTitle">Amplada fixa del Widget</system:String>
     <system:String x:Key="TaskbarWidgetFixedWidthDescription">Mantingues el widget a una amplada fixa en comptes de redimensionar-lo per adaptar-lo al títol i al text de l'artista</system:String>
