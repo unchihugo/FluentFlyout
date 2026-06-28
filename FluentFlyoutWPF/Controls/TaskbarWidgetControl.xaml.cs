@@ -337,10 +337,6 @@ public partial class TaskbarWidgetControl : UserControl
 
             container.OpacityMask = cachedMask;
 
-            // Adding 10 pixels gives extra padding so the text scrolls past the container's edge before
-            // resetting or reversing, preventing an abrupt cutoff
-            double scrollDistance = textWidth - containerWidth + 10;
-
             if (loopForever)
             {
                 // continuous looping should have the fades constantly active (as its infinite)
@@ -349,13 +345,13 @@ public partial class TaskbarWidgetControl : UserControl
                 cachedMask.GradientStops[0].Color = Color.FromArgb(0, 255, 255, 255);
                 cachedMask.GradientStops[3].Color = Color.FromArgb(0, 255, 255, 255);
 
-                // The 5 spaces are added manually as a visual gap between the end of the first text string
-                // and the start of the second repeated string for the infinite loop.
-                textBlock.Text = origText + "     ";
-                textBlock.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
-                scrollDistance = textBlock.DesiredSize.Width;
+                // \u00A0 are non-breaking spaces, which prevents WPF from collapsing and/or trimming
+                // them
+                string spacer = "\u00A0\u00A0\u00A0\u00A0\u00A0";
+                textBlock.Text = origText + spacer + origText;
 
-                textBlock.Text = origText + "     " + origText;
+                double spacerWidth = StringWidth.GetStringWidth(spacer, 400);
+                double scrollDistance = textWidth + spacerWidth;
 
                 double durationToScroll = scrollDistance / speed;
                 var animation = new DoubleAnimation
@@ -370,6 +366,9 @@ public partial class TaskbarWidgetControl : UserControl
             }
             else
             {
+                // Adding 10 pixels gives extra padding so the text scrolls past the container's edge before
+                // resetting or reversing; this prevents abrupt cutoffs
+                double scrollDistance = textWidth - containerWidth + 10;
                 textBlock.Text = origText;
 
                 double durationSeconds = scrollDistance / speed;
