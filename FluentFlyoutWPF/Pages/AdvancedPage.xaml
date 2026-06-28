@@ -110,7 +110,7 @@
                         <TextBlock Text="{DynamicResource LegacyTaskbarWidthDescription}" FontSize="12" Opacity="0.5" />
                     </StackPanel>
                 </ui:CardControl.Header>
-                <StackPanel Orientation="Horizontal" Opacity="{Binding IsPremiumUnlocked, Converter={StaticResource BoolToFullHalfOpacityConverter}}" >
+                <StackPanel Orientation="Horizontal">
                     <controls:ToggleSwitch IsChecked="{Binding LegacyTaskbarWidthEnabled, Mode=TwoWay}" />
                 </StackPanel>
             </ui:CardControl>
