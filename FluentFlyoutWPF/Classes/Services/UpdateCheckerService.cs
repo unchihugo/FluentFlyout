@@ -1,6 +1,7 @@
 // Copyright (c) 2024-2026 The FluentFlyout Authors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+using FluentFlyoutWPF.Classes.Clients;
 using NLog;
 using System.Net.Http;
 using System.Text.Json;
@@ -13,8 +14,7 @@ namespace FluentFlyoutWPF.Classes.Services;
 public static class UpdateCheckerService
 {
     private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-    private static readonly HttpClient HttpClient = new() { Timeout = TimeSpan.FromSeconds(10) };
-    private const string ApiEndpoint = "https://fluentflyout.com/api/newest-version";
+    private const string ApiEndpoint = "newest-version";
 
     /// <summary>
     /// Result of an update check
@@ -42,7 +42,7 @@ public static class UpdateCheckerService
 
         try
         {
-            var response = await HttpClient.GetStringAsync(ApiEndpoint);
+            var response = await FluentFlyoutApiClient.Client.GetStringAsync(ApiEndpoint);
             var json = JsonDocument.Parse(response);
 
             result.NewestVersion = json.RootElement.GetProperty("version").GetString() ?? string.Empty;
@@ -57,6 +57,11 @@ public static class UpdateCheckerService
         catch (HttpRequestException ex)
         {
             Logger.Info($"Failed to check for updates - network error: {ex.Message}");
+            result.Success = false;
+        }
+        catch (TaskCanceledException ex)
+        {
+            Logger.Info(ex, "Failed to check for updates - request timed out.");
             result.Success = false;
         }
         catch (Exception ex)
