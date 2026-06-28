@@ -316,6 +316,8 @@ public partial class TaskbarWidgetControl : UserControl
 
             if (cachedMask == null || Math.Abs(containerWidth - cachedMaskWidth) > 0.5)
             {
+                // 12.0 is the width in pixels of the gradient fade on the left and right hand edges of the 
+                // text container.
                 double fadeFraction = 12.0 / containerWidth;
                 if (fadeFraction > 0.5) fadeFraction = 0.5;
 
@@ -325,25 +327,30 @@ public partial class TaskbarWidgetControl : UserControl
                     EndPoint = new Point(containerWidth, 0),
                     MappingMode = BrushMappingMode.Absolute
                 };
+
                 cachedMask.GradientStops.Add(new GradientStop(Color.FromArgb(0, 255, 255, 255), 0.0));
                 cachedMask.GradientStops.Add(new GradientStop(Color.FromArgb(255, 255, 255, 255), fadeFraction));
                 cachedMask.GradientStops.Add(new GradientStop(Color.FromArgb(255, 255, 255, 255), 1.0 - fadeFraction));
                 cachedMask.GradientStops.Add(new GradientStop(Color.FromArgb(0, 255, 255, 255), 1.0));
                 cachedMaskWidth = containerWidth;
             }
+
             container.OpacityMask = cachedMask;
 
+            // Adding 10 pixels gives extra padding so the text scrolls past the container's edge before
+            // resetting or reversing, preventing an abrupt cutoff
             double scrollDistance = textWidth - containerWidth + 10;
 
             if (loopForever)
             {
-                // continous looping should have the fades constantly active (as its infinite)
+                // continuous looping should have the fades constantly active (as its infinite)
                 cachedMask.GradientStops[0].BeginAnimation(GradientStop.ColorProperty, null);
                 cachedMask.GradientStops[3].BeginAnimation(GradientStop.ColorProperty, null);
                 cachedMask.GradientStops[0].Color = Color.FromArgb(0, 255, 255, 255);
                 cachedMask.GradientStops[3].Color = Color.FromArgb(0, 255, 255, 255);
 
-                // measure checks the actual rendered font, ensuring width works for any language
+                // The 5 spaces are added manually as a visual gap between the end of the first text string
+                // and the start of the second repeated string for the infinite loop.
                 textBlock.Text = origText + "     ";
                 textBlock.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
                 scrollDistance = textBlock.DesiredSize.Width;
@@ -358,43 +365,52 @@ public partial class TaskbarWidgetControl : UserControl
                     Duration = TimeSpan.FromSeconds(durationToScroll),
                     RepeatBehavior = RepeatBehavior.Forever
                 };
+
                 transform.BeginAnimation(TranslateTransform.XProperty, animation);
             }
             else
             {
                 textBlock.Text = origText;
+
                 double durationSeconds = scrollDistance / speed;
+                double pauseDuration = 2.0; // wait 2 seconds at the start and end of the scroll
+                double tWaitStart = pauseDuration;
+                double tScrollEnd = tWaitStart + durationSeconds;
+                double tWaitEnd = tScrollEnd + pauseDuration;
+                double tScrollBackEnd = tWaitEnd + durationSeconds;
+                double tTotalCycle = tScrollBackEnd + pauseDuration;
 
                 var animation = new DoubleAnimationUsingKeyFrames { RepeatBehavior = RepeatBehavior.Forever };
                 animation.KeyFrames.Add(new LinearDoubleKeyFrame(0, KeyTime.FromTimeSpan(TimeSpan.Zero)));
-                animation.KeyFrames.Add(new LinearDoubleKeyFrame(0, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(2))));
-                animation.KeyFrames.Add(new LinearDoubleKeyFrame(-scrollDistance, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(2 + durationSeconds))));
-                animation.KeyFrames.Add(new LinearDoubleKeyFrame(-scrollDistance, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(4 + durationSeconds))));
-                animation.KeyFrames.Add(new LinearDoubleKeyFrame(0, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(4 + durationSeconds * 2))));
-                animation.KeyFrames.Add(new LinearDoubleKeyFrame(0, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(6 + durationSeconds * 2))));
+                animation.KeyFrames.Add(new LinearDoubleKeyFrame(0, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(tWaitStart))));
+                animation.KeyFrames.Add(new LinearDoubleKeyFrame(-scrollDistance, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(tScrollEnd))));
+                animation.KeyFrames.Add(new LinearDoubleKeyFrame(-scrollDistance, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(tWaitEnd))));
+                animation.KeyFrames.Add(new LinearDoubleKeyFrame(0, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(tScrollBackEnd))));
+                animation.KeyFrames.Add(new LinearDoubleKeyFrame(0, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(tTotalCycle))));
 
                 // sync fades with the "ping pong" movement
                 Color transparentWhite = Color.FromArgb(0, 255, 255, 255);
                 Color solidWhite = Color.FromArgb(255, 255, 255, 255);
 
-                // clamp fade duration to prevent overlapping keyframes on shorter scrolling texts
+                // 300 ms is the capped duration for the fade transition; we clamp it so that the fade animation
+                // doesn't overlap with the scroll animation on certain shorter texts
                 TimeSpan fadeTime = TimeSpan.FromMilliseconds(Math.Min(300, durationSeconds * 1000 / 2.0));
 
                 var leftColorAnim = new ColorAnimationUsingKeyFrames { RepeatBehavior = RepeatBehavior.Forever };
                 leftColorAnim.KeyFrames.Add(new DiscreteColorKeyFrame(solidWhite, KeyTime.FromTimeSpan(TimeSpan.Zero)));
-                leftColorAnim.KeyFrames.Add(new LinearColorKeyFrame(solidWhite, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(2))));
-                leftColorAnim.KeyFrames.Add(new LinearColorKeyFrame(transparentWhite, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(2) + fadeTime)));
-                leftColorAnim.KeyFrames.Add(new LinearColorKeyFrame(transparentWhite, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(4 + durationSeconds * 2) - fadeTime)));
-                leftColorAnim.KeyFrames.Add(new LinearColorKeyFrame(solidWhite, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(4 + durationSeconds * 2))));
-                leftColorAnim.KeyFrames.Add(new LinearColorKeyFrame(solidWhite, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(6 + durationSeconds * 2))));
+                leftColorAnim.KeyFrames.Add(new LinearColorKeyFrame(solidWhite, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(tWaitStart))));
+                leftColorAnim.KeyFrames.Add(new LinearColorKeyFrame(transparentWhite, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(tWaitStart) + fadeTime)));
+                leftColorAnim.KeyFrames.Add(new LinearColorKeyFrame(transparentWhite, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(tWaitEnd) - fadeTime)));
+                leftColorAnim.KeyFrames.Add(new LinearColorKeyFrame(solidWhite, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(tWaitEnd))));
+                leftColorAnim.KeyFrames.Add(new LinearColorKeyFrame(solidWhite, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(tTotalCycle))));
 
                 var rightColorAnim = new ColorAnimationUsingKeyFrames { RepeatBehavior = RepeatBehavior.Forever };
                 rightColorAnim.KeyFrames.Add(new DiscreteColorKeyFrame(transparentWhite, KeyTime.FromTimeSpan(TimeSpan.Zero)));
-                rightColorAnim.KeyFrames.Add(new LinearColorKeyFrame(transparentWhite, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(2 + durationSeconds) - fadeTime)));
-                rightColorAnim.KeyFrames.Add(new LinearColorKeyFrame(solidWhite, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(2 + durationSeconds))));
-                rightColorAnim.KeyFrames.Add(new LinearColorKeyFrame(solidWhite, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(4 + durationSeconds))));
-                rightColorAnim.KeyFrames.Add(new LinearColorKeyFrame(transparentWhite, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(4 + durationSeconds) + fadeTime)));
-                rightColorAnim.KeyFrames.Add(new LinearColorKeyFrame(transparentWhite, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(6 + durationSeconds * 2))));
+                rightColorAnim.KeyFrames.Add(new LinearColorKeyFrame(transparentWhite, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(tScrollEnd) - fadeTime)));
+                rightColorAnim.KeyFrames.Add(new LinearColorKeyFrame(solidWhite, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(tScrollEnd))));
+                rightColorAnim.KeyFrames.Add(new LinearColorKeyFrame(solidWhite, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(tWaitEnd))));
+                rightColorAnim.KeyFrames.Add(new LinearColorKeyFrame(transparentWhite, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(tWaitEnd) + fadeTime)));
+                rightColorAnim.KeyFrames.Add(new LinearColorKeyFrame(transparentWhite, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(tTotalCycle))));
 
                 cachedMask.GradientStops[0].BeginAnimation(GradientStop.ColorProperty, leftColorAnim);
                 cachedMask.GradientStops[3].BeginAnimation(GradientStop.ColorProperty, rightColorAnim);
@@ -406,7 +422,7 @@ public partial class TaskbarWidgetControl : UserControl
         {
             if (cachedMask != null)
             {
-                // prevent memory leakss and/or unwanted behavior by clearing the color animations when the mask is hidden
+                // Prevent memory leaks and/or unwanted behavior by clearing the color animations when the mask is hidden
                 cachedMask.GradientStops[0].BeginAnimation(GradientStop.ColorProperty, null);
                 cachedMask.GradientStops[3].BeginAnimation(GradientStop.ColorProperty, null);
             }
@@ -424,7 +440,7 @@ public partial class TaskbarWidgetControl : UserControl
     {
         if (title == "-" && artist == "-")
         {
-            // no media playing, hide UI
+            // No media playing, hide UI
             Dispatcher.Invoke(() =>
             {
                 _actualTitle = string.Empty;
