@@ -43,7 +43,7 @@
 Oculta els botons de repetició, aleatori i la informació del reproductor</system:String>
     <system:String x:Key="SelectedMonitorTitle">Pantalla objectiu del Flyout</system:String>
     <system:String x:Key="FlyoutPositionTitle">Posició del Flyout</system:String>
-    <system:String x:Key="PositionBottomLeft" xml:space="preserve"> Part inferior esquerra</system:String>
+    <system:String x:Key="PositionBottomLeft" xml:space="preserve"> Inferior esquerra</system:String>
     <system:String x:Key="PositionBottomCenter" xml:space="preserve"> Inferior Central</system:String>
     <system:String x:Key="PositionBottomRight" xml:space="preserve"> Inferior Dreta</system:String>
     <system:String x:Key="PositionTopLeft" xml:space="preserve"> Superior Esquerra</system:String>
