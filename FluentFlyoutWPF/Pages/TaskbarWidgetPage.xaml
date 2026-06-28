@@ -273,7 +273,7 @@
                         <ui:CardControl.Header>
                             <StackPanel Orientation="Vertical">
                                 <TextBlock Text="{DynamicResource TaskbarWidgetScrollingTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
-                                <TextBlock Text="{DynamicResource TaskbarWidgetScrollingTitleDescription}" FontSize="12" Opacity="0.5" />
+                                <TextBlock Text="{DynamicResource TaskbarWidgetScrollingTextDescription}" FontSize="12" Opacity="0.5" />
                             </StackPanel>
                         </ui:CardControl.Header>
                         <controls:ToggleSwitch IsChecked="{Binding TaskbarWidgetScrollingEnabled, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}" />
