@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 using FluentFlyout.Classes.Settings;
+using FluentFlyoutWPF.Classes.Services;
 using System.Windows;
 using System.Windows.Interop;
 using Windows.Services.Store;
@@ -249,6 +250,7 @@ public class LicenseManager
             {
                 _isPremiumUnlocked = true;
                 Logger.Info("Premium purchase successful");
+                _ = TelemetryService.SendTelemetryEventAsync("premium_purchase_succeeded");
                 return (true, string.Empty);
             }
             else if (status == StorePurchaseStatus.AlreadyPurchased)

@@ -7,6 +7,7 @@ using FluentFlyout.Classes.Utils;
 using FluentFlyout.Controls;
 using FluentFlyout.Windows;
 using FluentFlyoutWPF.Classes;
+using FluentFlyoutWPF.Classes.Services;
 using FluentFlyoutWPF.Classes.Utils;
 using FluentFlyoutWPF.ViewModels;
 using FluentFlyoutWPF.Windows;
@@ -141,6 +142,9 @@ public partial class MainWindow : MicaWindow
             Logger.Error(ex, "Failed to restore settings");
         }
 
+        // RestoreSettings may replace SettingsManager.Current instance, so rebind DataContext.
+        DataContext = SettingsManager.Current;
+
         if (SettingsManager.Current.Startup == true) // add to startup programs if enabled, needs improvement
         {
             RegistryKey? key = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
@@ -189,14 +193,16 @@ public partial class MainWindow : MicaWindow
             UpdateSeekbarCurrentDuration(session.ControlSession.GetTimelineProperties().Position);
         }
 
+        string previousVersion = SettingsManager.Current.LastKnownVersion;
+        _ = CheckForExperimentsOnStartupAsync(previousVersion);
+        // show onboarding to new users (no previous version stored = user has never run the app before)
+        //if (previousVersion == string.Empty)
+        //    OnboardingWindow.ShowInstance();
+
         // apply other things on new thread
         Dispatcher.Invoke(() =>
         {
             LocalizationManager.ApplyLocalization();
-            // show settings to new users
-            string previousVersion = SettingsManager.Current.LastKnownVersion;
-            if (previousVersion == string.Empty)
-                SettingsWindow.ShowInstance();
 
             try // update last known version. gets the version of the app, works only in release mode
             {
@@ -218,11 +224,38 @@ public partial class MainWindow : MicaWindow
         });
     }
 
+    private async Task CheckForExperimentsOnStartupAsync(string previousVersion)
+    {
+        await ExperimentsService.GetExperimentsAsync();
+
+        OnboardingExperiment(previousVersion);
+    }
+
+    private void OnboardingExperiment(string previousVersion)
+    {
+        // show onboarding to new users (no previous version stored = user has never run the app before)
+        if (string.IsNullOrEmpty(previousVersion))
+        {
+            if (ExperimentsService.HasExperiments)
+            {
+                if (ExperimentsService.CheckUuidInExperiment("onboarding") == "A")
+                    OnboardingWindow.ShowInstance();
+                else
+                {
+                    SettingsWindow.ShowInstance();
+                    _ = TelemetryService.SendTelemetryEventAsync("onboarding_completed", "onboarding");
+                }
+            }
+            else
+                OnboardingWindow.ShowInstance();
+        }
+    }
+
     private async Task CheckForUpdatesOnStartupAsync()
     {
         try
         {
-            var result = await UpdateChecker.CheckForUpdatesAsync(SettingsManager.Current.LastKnownVersion);
+            var result = await UpdateCheckerService.CheckForUpdatesAsync(SettingsManager.Current.LastKnownVersion);
 
             if (result.Success)
             {
@@ -404,9 +437,10 @@ public partial class MainWindow : MicaWindow
 
         double window_left = 0;
 
-        // Here we work with raw monitor coordinates, without taking DPI into account.
+        // If a reference window is provided and visible, position the window next to it
         if (aboveReference != null && aboveReference.IsVisible)
         {
+            // Here we work with raw monitor coordinates, without taking DPI into account.
             double refWidth = aboveReference.Width * monitor.dpiX / 96.0;
             double refHeight = aboveReference.Height * monitor.dpiY / 96.0;
             var refRect = new Rect(0, 0, refWidth, refHeight);
@@ -430,6 +464,7 @@ public partial class MainWindow : MicaWindow
             else
                 moveAnimation.From = isTop ? aboveTop - 20 : aboveTop + 20;
         }
+        // default behavior: position the flyout based on the user's settings
         else if (alwaysBottom == false)
         {
             _position = SettingsManager.Current.Position;
@@ -488,6 +523,7 @@ public partial class MainWindow : MicaWindow
                     moveAnimation.From = workArea.Top + -4;
             }
         }
+        // other cases (e.g. if alwaysBottom is true): position the flyout at the bottom center of the screen
         else
         {
             window_left = workArea.Left + workArea.Width / 2 - windowRect.Width / 2;
@@ -1693,6 +1729,9 @@ public partial class MainWindow : MicaWindow
         {
             Logger.Error(ex, "Failed to initialize license");
         }
+
+        // Add the experiments loading here
+        await ExperimentsService.GetExperimentsAsync();
 
         BitmapHelper.GetDominantColors(1);
         taskbarWindow = new TaskbarWindow();

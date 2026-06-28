@@ -252,4 +252,27 @@ Môžete pomôcť s prekladmi na</system:String>
     <system:String x:Key="EnableScrollDescription">Zobrazuje keď je stlačená Scroll Lock klávesa</system:String>
     <system:String x:Key="TaskbarWidgetFixedWidthTitle">Pevná Šírka Widgetu</system:String>
     <system:String x:Key="TaskbarWidgetFixedWidthDescription">Ponechať pevnú šírku widgetu namiesto zmeny veľkosti podľa názvu a interpreta</system:String>
+    <system:String x:Key="AppFilteringTitle">Filtrovanie Aplikácií</system:String>
+    <system:String x:Key="AppFilteringRulesDescription">Kontrolujte, ktoré aplikácie môžu zobraziť médiá</system:String>
+    <system:String x:Key="EnableAppFilteringTitle">Povoliť Filtrovanie</system:String>
+    <system:String x:Key="AppFilteringModeTitle">Režim Filtrovania</system:String>
+    <system:String x:Key="AppFilteringModeDescription">Vyberte, či sú uvedené aplikácie povolené alebo blokované</system:String>
+    <system:String x:Key="AppFilteringModeBlacklist">Zoznam Blokovaných</system:String>
+    <system:String x:Key="AppFilteringModeWhitelist">Zoznam Povolených</system:String>
+    <system:String x:Key="AllowedAppsTitle">Povolené Aplikácie</system:String>
+    <system:String x:Key="AllowedAppsDescription">Ak sú tu uvedené nejaké aplikácie, zobrazia sa iba ich médiá.</system:String>
+    <system:String x:Key="BlockedAppsTitle">Vylúčené Aplikácie</system:String>
+    <system:String x:Key="BlockedAppsDescription">Vylučuje aplikáciu zo zobrazovania</system:String>
+    <system:String x:Key="AddAppManuallyText">Nemôžete nájsť svoju aplikáciu? Zadajte ju nižšie:</system:String>
+    <system:String x:Key="AppFilteringPlaceholderSpotify">napr. Spotify.exe</system:String>
+    <system:String x:Key="AppFilteringPlaceholderChrome">napr. Chrome.exe</system:String>
+    <system:String x:Key="AppFilteringComboBoxHint">Vyberte aktuálne prehrávanú aplikáciu pre jej pridanie</system:String>
+    <system:String x:Key="AddButton">Pridať</system:String>
+    <system:String x:Key="RemoveButton">Odstrániť</system:String>
+    <system:String x:Key="Back">Späť</system:String>
+    <system:String x:Key="Next">Ďalej</system:String>
+    <system:String x:Key="Finish">Dokončiť</system:String>
+    <system:String x:Key="OnboardingStepsCounter">Krok {0} z {1}</system:String>
+    <system:String x:Key="AnonymousUsageDataTitle">Odosielať Anonymné Údaje O Používaní</system:String>
+    <system:String x:Key="AnonymousUsageDataDescription">Pomôžte zlepšovať aplikáciu odosielaním anonymných a neidentifikovateľných údajov o používaní</system:String>
 </ResourceDictionary>

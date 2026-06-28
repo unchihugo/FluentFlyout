@@ -51,15 +51,6 @@
                 </ui:CardControl.Header>
                 <controls:ToggleSwitch Name="LockKeysSwitch" IsChecked="{Binding LockKeysEnabled, Mode=TwoWay}" />
             </ui:CardControl>
-            <ui:CardControl Grid.Row="2" Icon="{ui:SymbolIcon Blur24}" Margin="0,0,0,3">
-                <ui:CardControl.Header>
-                    <StackPanel Orientation="Vertical">
-                        <TextBlock Text="{DynamicResource AcrylicWindowTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
-                        <TextBlock Text="{DynamicResource AcrylicWindowDescription}" FontSize="12" Opacity="0.5" />
-                    </StackPanel>
-                </ui:CardControl.Header>
-                <controls:ToggleSwitch Name="LockKeysAcrylicWindowSwitch" IsChecked="{Binding LockKeysAcrylicWindowEnabled, Mode=TwoWay}" />
-            </ui:CardControl>
             <ui:CardControl Grid.Row="3" Icon="{ui:SymbolIcon Timer24}" Margin="0,0,0,3">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">

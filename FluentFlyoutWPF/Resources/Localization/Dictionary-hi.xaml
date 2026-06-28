@@ -109,7 +109,7 @@
     <system:String x:Key="TrayIcon_SettingsOption">सेटिंग्स</system:String>
     <system:String x:Key="TrayIcon_GitHubRepositoryOption">कोष</system:String>
     <system:String x:Key="TrayIcon_ReportBugOption">रिपोर्ट बग</system:String>
-    <system:String x:Key="TrayIcon_QuitOption">फ्लुएंटफ्लाईआउट छोड़ें</system:String>
+    <system:String x:Key="TrayIcon_QuitOption">FluentFlyout छोड़ें</system:String>
     <system:String x:Key="TaskbarWidgetCustomizationTitle">टास्कबार विजेट</system:String>
     <system:String x:Key="TaskbarWidgetDescription">एक कॉम्पैक्ट, अंतर्निर्मित विजेट जो आपके मीडिया तक त्वरित पहुंच के लिए सीधे आपके विंडोज टास्कबार पर रहता है। संपूर्ण मीडिया फ़्लाईआउट का विस्तार करने के लिए विजेट पर क्लिक करें।</system:String>
     <system:String x:Key="TaskbarWidgetEnabledTitle">टास्कबार विजेट सक्षम करें</system:String>
@@ -118,9 +118,7 @@
     <system:String x:Key="TaskbarWidgetPaddingTitle">विंडोज़ विजेट बटन के लिए स्वचालित पैडिंग</system:String>
     <system:String x:Key="TaskbarWidgetPaddingDescription">यदि आपके पास Windows विजेट सक्षम है तो इस सुविधा को चालू करें</system:String>
     <system:String x:Key="PremiumFeatureTitle">प्रीमियम सुविधा</system:String>
-    <system:String x:Key="PremiumFeatureDescription" xml:space="preserve">आपका एकमुश्त योगदान मुझे फ़्लुएंटफ्लाईआउट को जीवित और अद्यतन रखने में मदद करता है। यह तुरंत सभी प्रीमियम अनुकूलन सुविधाओं को हमेशा के लिए अनलॉक कर देता है।
-        
-नोट: एक ओपन-सोर्स प्रोजेक्ट के रूप में, ये सुविधाएं GitHub पर मैन्युअल इंस्टॉलर के माध्यम से मुफ्त में भी उपलब्ध हैं। एकमात्र समझौता यह है कि अपडेट और इंस्टॉलेशन मैन्युअल रूप से किया जाना चाहिए।</system:String>
+    <system:String x:Key="PremiumFeatureDescription" xml:space="preserve">आपका एकमुश्त योगदान मुझे FluentFlyout को जीवित और अद्यतन रखने में मदद करता है। यह तुरंत सभी प्रीमियम अनुकूलन सुविधाओं को हमेशा के लिए अनलॉक कर देता है।नोट: एक ओपन-सोर्स प्रोजेक्ट के रूप में, ये सुविधाएं GitHub पर मैन्युअल इंस्टॉलर के माध्यम से मुफ्त में भी उपलब्ध हैं। एकमात्र समझौता यह है कि अपडेट और इंस्टॉलेशन मैन्युअल रूप से किया जाना चाहिए।</system:String>
     <system:String x:Key="PremiumLockedMessage">यह सुविधा प्रीमियम पैकेज का हिस्सा है</system:String>
     <system:String x:Key="PremiumUnlockedMessage">प्रीमियम सुविधाएँ अनलॉक की गईं। आपके समर्थन के लिए धन्यवाद!</system:String>
     <system:String x:Key="PremiumGitHubMessage">GitHub/स्व-संकलित संस्करणों के लिए प्रीमियम सुविधाएँ अनलॉक की गई हैं</system:String>
@@ -148,7 +146,7 @@
     <system:String x:Key="TaskbarWidgetManualPaddingTitle">कस्टम पैडिंग</system:String>
     <system:String x:Key="TaskbarWidgetManualPaddingDescription">अतिरिक्त पैडिंग जोड़ें (डिफ़ॉल्ट: 0px)</system:String>
     <system:String x:Key="PixelsUnit">पिक्सल</system:String>
-    <system:String x:Key="UpdateToastTitle">फ्लुएंटफ्लाईआउट अपडेट कर दिया गया है!</system:String>
+    <system:String x:Key="UpdateToastTitle">FluentFlyout अपडेट कर दिया गया है!</system:String>
     <system:String x:Key="UpdateToastMessage">अब आप {0} पर हैं।</system:String>
     <system:String x:Key="UpdateToastButton">अद्यतन देखें</system:String>
     <system:String x:Key="AcrylicBlurOpacityTitle">ऐक्रेलिक धुंधला अपारदर्शिता</system:String>
@@ -158,9 +156,9 @@
     <system:String x:Key="SystemConfigure">कॉन्फ़िगर</system:String>
     <system:String x:Key="AboutTitle">के बारे में</system:String>
     <system:String x:Key="AboutContributorsTitle">❤️ हमारे योगदानकर्ताओं से मिलें</system:String>
-    <system:String x:Key="AboutContributorsDescription">फ़्लुएंटफ्लाईआउट के विकास और सफलता में योगदान देने वाले सभी अद्भुत लोगों को बहुत-बहुत धन्यवाद!</system:String>
+    <system:String x:Key="AboutContributorsDescription">FluentFlyout के विकास और सफलता में योगदान देने वाले सभी अद्भुत लोगों को बहुत-बहुत धन्यवाद!</system:String>
     <system:String x:Key="AboutOpenSourceLicensesTitle">ओपन सोर्स लाइसेंस</system:String>
-    <system:String x:Key="AboutOpenSourceLicensesDescription">फ्लुएंटफ्लाईआउट निम्नलिखित ओपन सोर्स पैकेज के साथ बनाया गया है:</system:String>
+    <system:String x:Key="AboutOpenSourceLicensesDescription">FluentFlyout निम्नलिखित ओपन सोर्स पैकेज के साथ बनाया गया है:</system:String>
     <system:String x:Key="UpdateAvailable">उपलब्ध अद्यतन</system:String>
     <system:String x:Key="UpToDate">अप टू डेट</system:String>
     <system:String x:Key="LastChecked">अंतिम बार जाँच की गई: {0}</system:String>
@@ -181,19 +179,19 @@
     <system:String x:Key="TaskbarVisualizerBaselineDescription">जब ऑडियो स्तर शून्य पर हो तो एक पतली रेखा प्रदर्शित करता है</system:String>
     <system:String x:Key="TaskbarVisualizerAudioSensitivityTitle">ऑडियो संवेदनशीलता</system:String>
     <system:String x:Key="TaskbarVisualizerAudioSensitivityDescription">बार हिलना शुरू होने से पहले ऑडियो कितना तेज़ होना चाहिए</system:String>
-    <system:String x:Key="UnlockFullExperienceText">पूर्ण फ्लुएंटफ्लाईआउट अनुभव अनलॉक करें:</system:String>
+    <system:String x:Key="UnlockFullExperienceText">पूर्ण FluentFlyout अनुभव अनलॉक करें:</system:String>
     <system:String x:Key="AllFuturePremiumFeatures">भविष्य की सभी प्रीमियम सुविधाएँ</system:String>
     <system:String x:Key="DevelopersTitle">डेवलपर्स</system:String>
     <system:String x:Key="TranslatorsTitle">अनुवादकों</system:String>
     <system:String x:Key="SponsorMeLink">मुझे आर्थिक संरक्षण दो</system:String>
     <system:String x:Key="BuyMeCoffeeLink">मेरे लिए एक कॉफ़ी खरीदो</system:String>
-    <system:String x:Key="TaskbarWidgetCustomizationPerk">टास्कबार विजेट और विज़ुअलाइज़र</system:String>
+    <system:String x:Key="TaskbarWidgetCustomizationPerk">टास्कबार विजेट और विज़ुअलाइज़र को इनेबल करें</system:String>
     <system:String x:Key="HideTrayIconPerk">ट्रे आइकन को छिपाएं</system:String>
     <system:String x:Key="AppearanceBehaviorSectionTitle">रूप और व्यवहार</system:String>
     <system:String x:Key="UpdatesSectionTitle">अपडेट</system:String>
     <system:String x:Key="ShowUpdateNotificationsTitle">नए अपडेट के लिए सूचनाएं दिखाएं</system:String>
     <system:String x:Key="TaskbarVisualizerOutputDeviceTitle">आउटपुट डिवाइस</system:String>
-    <system:String x:Key="TaskbarVisualizerOutputDeviceDescription">फ़्लुएंटफ्लाईआउट के आउटपुट डिवाइस को स्विच करके विज़ुअलाइज़र जो सुनता है उसे बदलें।</system:String>
+    <system:String x:Key="TaskbarVisualizerOutputDeviceDescription">FluentFlyout के आउटपुट डिवाइस को स्विच करके विज़ुअलाइज़र जो सुनता है उसे बदलें।</system:String>
     <system:String x:Key="TaskbarVisualizerAudioPeakLevelTitle">ऑडियो पीक थ्रेशोल्ड</system:String>
     <system:String x:Key="TaskbarVisualizerAudioPeakLevelDescription">बार को अपनी अधिकतम ऊंचाई तक पहुंचने के लिए ऑडियो कितना तेज़ होना चाहिए</system:String>
     <system:String x:Key="ExportSettings">निर्यात सेटिंग्स</system:String>
@@ -225,6 +223,50 @@
     <system:String x:Key="AdvancedSettingsTitle">एडवांस सेटिंग</system:String>
     <system:String x:Key="LegacyTaskbarWidthTitle">लीगेसी टास्कबार चौड़ाई प्रणाली</system:String>
     <system:String x:Key="LegacyTaskbarWidthDescription">टास्कबार विजेट्स के लिए लीगेसी टास्कबार चौड़ाई प्रणाली का उपयोग करें</system:String>
-    <system:String x:Key="AcrylicBlurOpacityPerk">ऐक्रेलिक ब्लर अपारदर्शिता</system:String>
+    <system:String x:Key="AcrylicBlurOpacityPerk">एक्रिलिक ब्लर इफ़ेक्ट को एडजस्ट करें</system:String>
     <system:String x:Key="LockKeysStayDurationDescription">(डिफ़ॉल्ट: 2000 मिलीसेकंड)</system:String>
+    <system:String x:Key="TaskbarWidgetFixedWidthDescription">टाइटल और आर्टिस्ट के टेक्स्ट के हिसाब से साइज़ बदलने के बजाय, विजेट को एक तय चौड़ाई पर रखें</system:String>
+    <system:String x:Key="TaskbarWidgetAutoHideTitle">ऑटो-हाइड विजेट</system:String>
+    <system:String x:Key="TaskbarWidgetAutoHideDescription">मीडिया के रुकने पर विजेट को अपने-आप छिपा देता है</system:String>
+    <system:String x:Key="TaskbarWidgetShowPauseOverlayTitle">पॉज़ आइकॉन ओवरले दिखाएँ</system:String>
+    <system:String x:Key="TaskbarWidgetShowPauseOverlayDescription">जब मीडिया को रोका जाए, तो एल्बम आर्ट के ऊपर एक 'पॉज़' आइकॉन दिखाएँ</system:String>
+    <system:String x:Key="VolumeMixerHighlightPerk">वॉल्यूम मिक्सर में चालू ऐप्स को हाइलाइट करें</system:String>
+    <system:String x:Key="EnableCapsTitle">कैप्स लॉक इंडिकेटर चालू करें</system:String>
+    <system:String x:Key="EnableScrollTitle">स्क्रॉल लॉक इंडिकेटर चालू करें</system:String>
+    <system:String x:Key="EnableScrollDescription">यह दिखाता है कि स्क्रॉल लॉक की कब दबाई गई है</system:String>
+    <system:String x:Key="LockKeysAnimatedTitle">इंडिकेटर एनिमेशन</system:String>
+    <system:String x:Key="LockKeysAnimatedDescription">लॉक की इंडिकेटर के लिए हल्के एनिमेशन चालू करें</system:String>
+    <system:String x:Key="AppFilteringTitle">ऐप फ़िल्टरिंग</system:String>
+    <system:String x:Key="AppFilteringRulesDescription">यह कंट्रोल करें कि कौन से एप्लिकेशन मीडिया दिखा सकते हैं</system:String>
+    <system:String x:Key="EnableAppFilteringTitle">फ़िल्टरिंग चालू करें</system:String>
+    <system:String x:Key="AppFilteringModeDescription">चुनें कि लिस्ट में दिए गए ऐप्स की अनुमति है या उन्हें ब्लॉक किया गया है</system:String>
+    <system:String x:Key="AppFilteringModeWhitelist">अनुमति सूची</system:String>
+    <system:String x:Key="AllowedAppsTitle">अनुमत ऐप्स</system:String>
+    <system:String x:Key="AllowedAppsDescription">यदि कोई एप्लिकेशन यहां सूचीबद्ध हैं, तो केवल उनका मीडिया दिखाया जाएगा।</system:String>
+    <system:String x:Key="BlockedAppsTitle">वर्जित ऐप्स</system:String>
+    <system:String x:Key="BlockedAppsDescription">किसी ऐप्लिकेशन को दिखाए जाने से रोकता है</system:String>
+    <system:String x:Key="AddAppManuallyText">क्या आपको अपना ऐप नहीं मिल रहा है? उसे नीचे टाइप करें:</system:String>
+    <system:String x:Key="AppFilteringComboBoxHint">जोड़ने के लिए वर्तमान में चल रहे ऐप का चयन करें</system:String>
+    <system:String x:Key="AddButton">जोड़ें</system:String>
+    <system:String x:Key="VolumeFlyoutTitle">वॉल्यूम फ़्लायआउट</system:String>
+    <system:String x:Key="VolumeFlyoutDescription">एक अलग वॉल्यूम कंट्रोल फ्लाईआउट जो वॉल्यूम मिक्सर में फैल जाता है और डिफ़ॉल्ट Windows वॉल्यूम इंटरफ़ेस की जगह ले लेता है।</system:String>
+    <system:String x:Key="EnableVolumeFlyoutTitle">वॉल्यूम फ़्लाईआउट चालू करें</system:String>
+    <system:String x:Key="VolumeAboveMediaFlyoutTitle">मीडिया फ्लाईआउट के ऊपर वॉल्यूम फ्लाईआउट की स्थिति</system:String>
+    <system:String x:Key="VolumeFlyoutStayDurationTitle">वॉल्यूम फ्लाईआउट ठहरने की अवधि</system:String>
+    <system:String x:Key="VolumeMixerSectionTitle">वॉल्यूम मिक्सर</system:String>
+    <system:String x:Key="EnableVolumeMixerTitle">वॉल्यूम मिक्सर चालू करें</system:String>
+    <system:String x:Key="EnableVolumeMixerDescription">हर ऐप के वॉल्यूम पर अलग-अलग कंट्रोल</system:String>
+    <system:String x:Key="VolumeMixerHighlightTitle">ऑडियो चलाने वाले ऐप्स को हाइलाइट करें</system:String>
+    <system:String x:Key="VolumeMixerHighlightDescription">देखें कि अभी कौन-से ऐप्स ऑडियो आउटपुट दे रहे हैं</system:String>
+    <system:String x:Key="TaskbarWidgetFixedWidthTitle">विजेट चौड़ाई सही करी</system:String>
+    <system:String x:Key="EnableCapsDescription">यह दिखाता है कि Caps Lock की कब दबाई गई है</system:String>
+    <system:String x:Key="EnableNumTitle">Num Lock इंडिकेटर चालू करें</system:String>
+    <system:String x:Key="EnableNumDescription">यह दिखाता है कि Num Lock की कब दबाई गई है</system:String>
+    <system:String x:Key="AppFilteringPlaceholderSpotify">जैसे Spotify.exe</system:String>
+    <system:String x:Key="AppFilteringPlaceholderChrome">जैसे Chrome.exe</system:String>
+    <system:String x:Key="EnableVolumeFlyoutDescription">डिफ़ॉल्ट विंडोज वॉल्यूम फ़्लाईआउट को बदलें</system:String>
+    <system:String x:Key="AppFilteringModeTitle">फ़िल्टर मोड</system:String>
+    <system:String x:Key="AppFilteringModeBlacklist">ब्लॉक सूची</system:String>
+    <system:String x:Key="RemoveButton">हटाएं</system:String>
+    <system:String x:Key="MasterVolumeText">मास्टर वॉल्यूम</system:String>
 </ResourceDictionary>
