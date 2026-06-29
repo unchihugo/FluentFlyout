@@ -34,7 +34,7 @@ public partial class TaskbarWidgetControl : UserControl
     private double _cachedArtistWidth = 0;
     private double _cachedTitleContainerWidth = -1;
     private double _cachedArtistContainerWidth = -1;
-    private readonly int _extraMarginForText = 4; // additional margin to avoid text clipping
+    private readonly int _extraMarginForText = 6; // additional margin to avoid text clipping
 
     private double _cachedTitleOpacityMaskWidth = -1;
     private double _cachedArtistOpacityMaskWidth = -1;
