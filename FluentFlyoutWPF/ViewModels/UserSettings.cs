@@ -459,6 +459,49 @@ public partial class UserSettings : ObservableObject
     public partial bool TaskbarWidgetAnimated { get; set; }
 
     /// <summary>
+    /// Gets or sets a value indicating whether the taskbar widget scrolling text (marquee) is enabled for long titles.
+    /// </summary>
+    [ObservableProperty]
+    public partial bool TaskbarWidgetScrollingEnabled { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the taskbar widget scrolling text should loop forever.
+    /// </summary>
+    [ObservableProperty]
+    public partial bool TaskbarWidgetScrollingTextLoopForever { get; set; }
+
+    /// <summary>
+    /// Gets or sets the speed of the taskbar widget scrolling text.
+    /// </summary>
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(TaskbarWidgetScrollingTextSpeedText))]
+    public partial int TaskbarWidgetScrollingTextSpeed { get; set; }
+
+    [XmlIgnore]
+    public string TaskbarWidgetScrollingTextSpeedText
+    {
+        get => TaskbarWidgetScrollingTextSpeed.ToString();
+        set
+        {
+            if (int.TryParse(value, out var result))
+            {
+                TaskbarWidgetScrollingTextSpeed = result switch
+                {
+                    > 100 => 100,
+                    < 1 => 1,
+                    _ => result
+                };
+            }
+            else
+            {
+                TaskbarWidgetScrollingTextSpeed = 20;
+            }
+
+            OnPropertyChanged();
+        }
+    }
+
+    /// <summary>
     /// Gets or sets a value indicating whether the taskbar visualizer is enabled.
     /// </summary>
     /// <remarks>For now, this requires Premium and Taskbar Widget to be enabled.</remarks>
@@ -696,6 +739,9 @@ public partial class UserSettings : ObservableObject
         TaskbarWidgetControlsEnabled = false;
         TaskbarWidgetControlsPosition = 1;
         TaskbarWidgetAnimated = true;
+        TaskbarWidgetScrollingEnabled = false;
+        TaskbarWidgetScrollingTextSpeed = 20;
+        TaskbarWidgetScrollingTextLoopForever = false;
         TaskbarVisualizerEnabled = false;
         AppFilteringEnabled = false;
         AppFilteringMode = 0;
@@ -897,6 +943,32 @@ public partial class UserSettings : ObservableObject
     {
         MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
         mainWindow.UpdateTaskbar();
+    }
+
+    partial void OnTaskbarWidgetScrollingEnabledChanged(bool oldValue, bool newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+        UpdateTaskbarMarquees();
+    }
+
+    partial void OnTaskbarWidgetScrollingTextLoopForeverChanged(bool oldValue, bool newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+        UpdateTaskbarMarquees();
+    }
+
+    partial void OnTaskbarWidgetScrollingTextSpeedChanged(int oldValue, int newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+        UpdateTaskbarMarquees();
+    }
+
+    private void UpdateTaskbarMarquees()
+    {
+        MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+        var widget = mainWindow.taskbarWindow?.Widget;
+        if (widget == null) return;
+        widget.Dispatcher.Invoke(widget.UpdateMarquees);
     }
 
     partial void OnTaskbarVisualizerEnabledChanged(bool oldValue, bool newValue)

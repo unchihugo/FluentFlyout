@@ -263,6 +263,13 @@ You can help contribute translations on</System:String>
     <System:String x:Key="AdvancedSettingsTitle">Advanced Settings</System:String>
     <System:String x:Key="LegacyTaskbarWidthTitle">Legacy Taskbar Width System</System:String>
     <System:String x:Key="LegacyTaskbarWidthDescription">Use the legacy Taskbar width system for Taskbar Widgets</System:String>
+    <System:String x:Key="TaskbarWidgetScrollingTextTitle">Scrolling Text</System:String>
+    <System:String x:Key="TaskbarWidgetScrollingTitle">Enable Scrolling</System:String>
+    <System:String x:Key="TaskbarWidgetScrollingTextDescription">Automatically scroll long text that doesn't fit</System:String>
+    <System:String x:Key="TaskbarWidgetScrollingTextLoopForeverTitle">Continuous Scrolling</System:String>
+    <System:String x:Key="TaskbarWidgetScrollingTextLoopForeverDescription">Infinitely loop the text in one direction instead of scrolling back and forth.</System:String>
+    <System:String x:Key="TaskbarWidgetScrollingTextSpeedTitle">Scroll Speed</System:String>
+    <System:String x:Key="TaskbarWidgetScrollingTextSpeedDescription">Speed at which the text scrolls (pixels/second). Default is 20.</System:String>
     <System:String x:Key="VolumeFlyoutTitle">Volume Flyout</System:String>
     <System:String x:Key="VolumeFlyoutDescription">A standalone volume control flyout that expands into a volume mixer, replacing the default Windows volume interface.</System:String>
     <System:String x:Key="EnableVolumeFlyoutTitle">Enable Volume Flyout</System:String>
