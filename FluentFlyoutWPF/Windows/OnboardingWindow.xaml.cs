@@ -40,10 +40,10 @@ public partial class OnboardingWindow : MicaWindow
         Closed += (_, _) =>
         {
             instance = null;
-            // open settings window when onboarding is closed
+            // open settings window when onboarding is closed or finished
             OnOnboardingCompleted(Owner, EventArgs.Empty);
         };
-        _viewModel.Completed += OnOnboardingCompleted;
+        _viewModel.Completed += (_, _) => Close();
         _viewModel.PropertyChanged += OnViewModelPropertyChanged;
 
         // Show loading ring for 0.5 seconds to prevent WPF-UI color flickers

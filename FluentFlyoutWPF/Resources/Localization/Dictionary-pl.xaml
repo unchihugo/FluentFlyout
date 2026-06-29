@@ -273,4 +273,10 @@ Możesz pomóc w tworzeniu tłumaczeń na stronie</system:String>
     <system:String x:Key="AppFilteringComboBoxHint">Wybierz obecnie odtwarzającą aplikację do wpisania</system:String>
     <system:String x:Key="AddButton">Dodaj</system:String>
     <system:String x:Key="RemoveButton">Usuń</system:String>
+    <system:String x:Key="Back">Cofnij</system:String>
+    <system:String x:Key="Next">Następny</system:String>
+    <system:String x:Key="Finish">Zakończ</system:String>
+    <system:String x:Key="OnboardingStepsCounter">Krok {0} z {1}</system:String>
+    <system:String x:Key="AnonymousUsageDataTitle">Wysyłaj Anonimowe Dane o Użyciu</system:String>
+    <system:String x:Key="AnonymousUsageDataDescription">Pomóż nam ulepszyć aplikację, przesyłając anonimowe, uniemożliwiające identyfikację dane dotyczące korzystania z niej</system:String>
 </ResourceDictionary>

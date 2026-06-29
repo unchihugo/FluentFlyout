@@ -19,8 +19,8 @@
     <System:String x:Key="BackgroundBlurOption3" xml:space="preserve"> Style 2 (Rising Glow)</System:String>
     <System:String x:Key="BackgroundBlurOption4" xml:space="preserve"> Style 3 (Blur)</System:String>
     <System:String x:Key="BackgroundBlurTitle">Background Blur</System:String>
-    <System:String x:Key="AcrylicWindowTitle">Acrylic Window</System:String>
-    <System:String x:Key="AcrylicWindowDescription">Apply transparent acrylic blur effect to the flyout (off reverts to Mica)</System:String>
+    <System:String x:Key="AcrylicWindowTitle">Acrylic Flyouts</System:String>
+    <System:String x:Key="AcrylicWindowDescription">Apply transparent acrylic blur effect to the flyouts</System:String>
     <System:String x:Key="CompactLayoutTitle">Compact Layout</System:String>
     <System:String x:Key="CompactLayoutDescription" xml:space="preserve">Slimmer and less intrusive layout
 hides repeat, shuffle and player info</System:String>
