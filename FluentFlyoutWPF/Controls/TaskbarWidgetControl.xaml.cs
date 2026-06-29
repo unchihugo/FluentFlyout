@@ -4,8 +4,6 @@
 using FluentFlyout.Classes.Settings;
 using FluentFlyout.Classes.Utils;
 using FluentFlyoutWPF;
-using MicaWPF.Core.Enums;
-using MicaWPF.Core.Helpers;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -36,6 +34,7 @@ public partial class TaskbarWidgetControl : UserControl
     private double _cachedArtistWidth = 0;
     private double _cachedTitleContainerWidth = -1;
     private double _cachedArtistContainerWidth = -1;
+    private readonly int _extraMarginForText = 4; // additional margin to avoid text clipping
 
     private double _cachedTitleOpacityMaskWidth = -1;
     private double _cachedArtistOpacityMaskWidth = -1;
@@ -244,7 +243,7 @@ public partial class TaskbarWidgetControl : UserControl
         }
         else
         {
-            logicalWidth = Math.Max(_cachedTitleWidth, _cachedArtistWidth) + _coverImageMargin; // add margin for cover image
+            logicalWidth = Math.Max(_cachedTitleWidth, _cachedArtistWidth) + _coverImageMargin + _extraMarginForText; // add margin for cover image
             logicalWidth = Math.Min(logicalWidth, maxLogicalWidth);
         }
 
@@ -275,7 +274,7 @@ public partial class TaskbarWidgetControl : UserControl
         // add space for playback controls if enabled and visible
         if (SettingsManager.Current.TaskbarWidgetControlsEnabled && ControlsStackPanel.Visibility == Visibility.Visible)
         {
-            logicalWidth += 102;
+            logicalWidth += 104;
         }
 
         double logicalHeight = 40; // default height
