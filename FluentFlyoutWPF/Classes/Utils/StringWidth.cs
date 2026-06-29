@@ -34,7 +34,7 @@ namespace FluentFlyout.Classes.Utils
                 null,
                 1);
 
-            return formattedText.Width + 8;
+            return formattedText.Width;
         }
 
         // Returns the current Typeface based on the font family and weight, caching it for performance.
