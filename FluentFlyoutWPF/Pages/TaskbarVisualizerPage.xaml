@@ -88,7 +88,7 @@
         </Grid>
 
         <StackPanel Opacity="{Binding IsPremiumUnlocked, Converter={StaticResource BoolToFullHalfOpacityConverter}}">
-            <ui:CardControl Icon="{ui:SymbolIcon SoundWaveCircle24}" Margin="0,0,0,24">
+            <ui:CardControl x:Name="TaskbarVisualizerEnabledTitleCard" Icon="{ui:SymbolIcon SoundWaveCircle24}" Margin="0,0,0,24">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
                         <StackPanel Orientation="Horizontal">
@@ -101,7 +101,7 @@
                 <controls:ToggleSwitch IsChecked="{Binding TaskbarVisualizerEnabled, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}" />
             </ui:CardControl>
 
-            <ui:CardControl Icon="{ui:SymbolIcon ArrowMove24}" Margin="0,0,0,3">
+            <ui:CardControl x:Name="TaskbarVisualizerPositionTitleCard" Icon="{ui:SymbolIcon ArrowMove24}" Margin="0,0,0,3">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
                         <TextBlock Text="{DynamicResource TaskbarVisualizerPositionTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
@@ -113,7 +113,7 @@
                 </ComboBox>
             </ui:CardControl>
 
-            <ui:CardControl Icon="{ui:SymbolIcon DataBarVertical24, Filled=True}" Margin="0,0,0,3">
+            <ui:CardControl x:Name="TaskbarVisualizerBarCountTitleCard" Icon="{ui:SymbolIcon DataBarVertical24, Filled=True}" Margin="0,0,0,3">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
                         <StackPanel Orientation="Horizontal">
@@ -128,7 +128,7 @@
                 </StackPanel>
             </ui:CardControl>
 
-            <ui:CardControl Icon="{ui:SymbolIcon AlignCenterHorizontal24, Filled=True}" Margin="0,0,0,3">
+            <ui:CardControl x:Name="TaskbarVisualizerCenteredBarsTitleCard" Icon="{ui:SymbolIcon AlignCenterHorizontal24, Filled=True}" Margin="0,0,0,3">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
                         <TextBlock Text="{DynamicResource TaskbarVisualizerCenteredBarsTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
@@ -138,7 +138,7 @@
                 <controls:ToggleSwitch IsChecked="{Binding TaskbarVisualizerCenteredBars, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}" />
             </ui:CardControl>
 
-            <ui:CardControl Icon="{ui:SymbolIcon LineHorizontal120, Filled=False}" Margin="0,0,0,12">
+            <ui:CardControl x:Name="TaskbarVisualizerBaselineTitleCard" Icon="{ui:SymbolIcon LineHorizontal120, Filled=False}" Margin="0,0,0,12">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
                         <TextBlock Text="{DynamicResource TaskbarVisualizerBaselineTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
@@ -148,7 +148,7 @@
                 <controls:ToggleSwitch IsChecked="{Binding TaskbarVisualizerBaseline, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}" />
             </ui:CardControl>
 
-            <ui:CardControl Icon="{ui:SymbolIcon BezierCurveSquare20, Filled=False}" Margin="0,0,0,3">
+            <ui:CardControl x:Name="TaskbarVisualizerAudioSensitivityTitleCard" Icon="{ui:SymbolIcon BezierCurveSquare20, Filled=False}" Margin="0,0,0,3">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
                         <TextBlock Text="{DynamicResource TaskbarVisualizerAudioSensitivityTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
@@ -162,7 +162,7 @@
                 </StackPanel>
             </ui:CardControl>
 
-            <ui:CardControl Icon="{ui:SymbolIcon ArrowAutofitUp24, Filled=False}" Margin="0,0,0,3">
+            <ui:CardControl x:Name="TaskbarVisualizerAudioPeakLevelTitleCard" Icon="{ui:SymbolIcon ArrowAutofitUp24, Filled=False}" Margin="0,0,0,3">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
                         <StackPanel Orientation="Horizontal">
@@ -193,7 +193,7 @@
                 </ui:CardControl.Header>
             </ui:CardControl>
 
-            <ui:CardControl Icon="{ui:SymbolIcon ExpandUpRight24}" Margin="0,0,0,76">
+            <ui:CardControl x:Name="TaskbarVisualizerClickableTitleCard" Icon="{ui:SymbolIcon ExpandUpRight24}" Margin="0,0,0,76">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
                         <StackPanel Orientation="Horizontal">

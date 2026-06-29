@@ -20,18 +20,47 @@
     ui:Design.Foreground="{DynamicResource TextFillColorPrimaryBrush}"
     ExtendsContentIntoTitleBar="True"
     WindowBackdropType="Mica"
-    Loaded="SettingsWindow_Loaded">
+    Loaded="SettingsWindow_Loaded"
+    PreviewMouseDown="FluentWindow_PreviewMouseDown">
 
 	<Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+		<ui:TitleBar
+            x:Name="TitleBar"
+            Title="FluentFlyout"
+            Grid.Row="0"
+            Panel.ZIndex="1">
+			<ui:TitleBar.Icon>
+				<ui:ImageIcon Source="/Resources/FluentFlyout2.ico" />
+			</ui:TitleBar.Icon>
+			<ui:TitleBar.CenterContent>
+				<Grid x:Name="SearchGrid" VerticalAlignment="Center">
+					<ui:AutoSuggestBox x:Name="SearchBox" PlaceholderText="Search settings..." Width="250" HorizontalAlignment="Center" VerticalAlignment="Center" SuggestionChosen="SearchBox_SuggestionChosen" TextChanged="SearchBox_TextChanged" ClearButtonEnabled="True">
+						<ui:AutoSuggestBox.ItemTemplate>
+							<DataTemplate>
+								<TextBlock Text="{Binding Title}" TextTrimming="CharacterEllipsis" MaxWidth="220" ToolTip="{Binding Title}" />
+							</DataTemplate>
+						</ui:AutoSuggestBox.ItemTemplate>
+					</ui:AutoSuggestBox>
+				</Grid>
+			</ui:TitleBar.CenterContent>
+		</ui:TitleBar>
+
 		<ui:NavigationView x:Name="RootNavigation"
+                           Grid.Row="1"
                            PaneDisplayMode="Left"
                            TransitionDuration="300"
                            IsPaneToggleVisible="true"
-                           Margin="0, 40, 0, 0"
+                           Margin="0, 0, 0, 0"
 						   FrameMargin="0, 0, 0, 0"
                            OpenPaneLength="250"
                            IsTopSeparatorVisible="false"
                            IsFooterSeparatorVisible="false">
+
 			<ui:NavigationView.MenuItems>
 				<ui:NavigationViewItem Content="{DynamicResource HomeTitle}" Icon="{ui:SymbolIcon Home24}" TargetPageType="{x:Type pages:HomePage}" />
 				<ui:NavigationViewItem Content="{DynamicResource MediaFlyoutTitle}" Icon="{ui:SymbolIcon VideoPlayPause24}" TargetPageType="{x:Type pages:MediaFlyoutPage}" />
@@ -46,14 +75,5 @@
 				<ui:NavigationViewItem Content="{DynamicResource AboutTitle}" Icon="{ui:SymbolIcon Info24}" TargetPageType="{x:Type pages:AboutPage}" />
 			</ui:NavigationView.FooterMenuItems>
 		</ui:NavigationView>
-
-		<ui:TitleBar
-            x:Name="TitleBar"
-            Title="FluentFlyout"
-            Grid.Row="0">
-			<ui:TitleBar.Icon>
-				<ui:ImageIcon Source="/Resources/FluentFlyout2.ico" />
-			</ui:TitleBar.Icon>
-		</ui:TitleBar>
 	</Grid>
 </ui:FluentWindow>
