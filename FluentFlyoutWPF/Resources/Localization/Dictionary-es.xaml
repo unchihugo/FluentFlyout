@@ -7,8 +7,8 @@
     <system:String x:Key="TextBlockText2">Elige entre varios ajustes modernos de difuminado del fondo</system:String>
     <system:String x:Key="BackgroundBlurOption1" xml:space="preserve"> Ninguno</system:String>
     <system:String x:Key="BackgroundBlurTitle">Desenfoque del fondo</system:String>
-    <system:String x:Key="AcrylicWindowTitle">Ventana acrílica</system:String>
-    <system:String x:Key="AcrylicWindowDescription">Aplica un efecto de transparencia acrílica al flyout (si se desactiva, se usa Mica)</system:String>
+    <system:String x:Key="AcrylicWindowTitle">Flyouts acrílicos</system:String>
+    <system:String x:Key="AcrylicWindowDescription">Aplica un efecto de transparencia acrílica a los flyouts</system:String>
     <system:String x:Key="CompactLayoutTitle">Diseño Compacto</system:String>
     <system:String x:Key="CompactLayoutDescription" xml:space="preserve">Un diseño más ligero y menos intrusivo
 oculta los botones de repetir y aleatorio y la información del reproductor</system:String>
