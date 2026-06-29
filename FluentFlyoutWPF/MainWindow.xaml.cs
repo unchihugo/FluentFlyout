@@ -71,7 +71,6 @@ public partial class MainWindow : MicaWindow
     private bool _isHiding = true;
 
     private LockWindow? lockWindow;
-    private LanguageWindow? languageWindow;
     private IntPtr _lastLanguageLayout = IntPtr.Zero;
     private DispatcherTimer? _languagePollingTimer;
     private DateTime _lastSelfUpdateTimestamp = DateTime.MinValue;
@@ -880,8 +879,8 @@ public partial class MainWindow : MicaWindow
             // Trigger Language Flyout on Win + Space instantly
             if (vkCode == 0x20 && (Keyboard.Modifiers & ModifierKeys.Windows) != 0 && wParam == WM_KEYDOWN)
             {
-                languageWindow ??= new LanguageWindow();
-                languageWindow.ShowLanguageFlyout();
+                lockWindow ??= new LockWindow();
+                lockWindow.ShowLanguageFlyout();
             }
         }
         return CallNextHookEx(_hookId, nCode, wParam, lParam);
@@ -1539,8 +1538,8 @@ public partial class MainWindow : MicaWindow
         if (hkl != _lastLanguageLayout)
         {
             _lastLanguageLayout = hkl;
-            languageWindow ??= new LanguageWindow();
-            languageWindow.ShowLanguageFlyout();
+            lockWindow ??= new LockWindow();
+            lockWindow.ShowLanguageFlyout();
         }
     }
 

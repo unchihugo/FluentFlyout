@@ -1,10 +1,9 @@
-// Copyright © 2024-2026 The FluentFlyout Authors
+// Copyright (c) 2024-2026 The FluentFlyout Authors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 using FluentFlyout.Classes;
 using FluentFlyout.Classes.Settings;
 using FluentFlyoutWPF.Classes;
-using MicaWPF.Controls;
 using System;
 using System.Globalization;
 using System.Threading;
@@ -16,31 +15,8 @@ using static FluentFlyoutWPF.Classes.Utils.MonitorUtil;
 
 namespace FluentFlyoutWPF.Windows;
 
-/// <summary>
-/// Interaction logic for LanguageWindow.xaml
-/// </summary>
-public partial class LanguageWindow : MicaWindow
+public partial class LockWindow
 {
-    private CancellationTokenSource cts = new();
-    private CancellationTokenSource? _transitionCts;
-    private readonly MainWindow _mainWindow = (MainWindow)Application.Current.MainWindow;
-    private bool _isHiding = true;
-    private MonitorInfo _openedMonitor;
-
-    public LanguageWindow()
-    {
-        DataContext = SettingsManager.Current;
-        WindowHelper.SetNoActivate(this);
-        InitializeComponent();
-        WindowHelper.SetTopmost(this);
-        CustomWindowChrome.CaptionHeight = 0;
-
-        WindowStartupLocation = WindowStartupLocation.Manual;
-        Top = -9999; // start off-screen
-        Width = SettingsManager.Current.LanguageFlyoutWidth;
-        Left = (SystemParameters.WorkArea.Width - Width) / 2;
-    }
-
     private Color GetShiftedColor(Color baseColor, string languageCode, string seedText)
     {
         int mode = SettingsManager.Current.LanguageFlyoutColorMode;
@@ -148,7 +124,7 @@ public partial class LanguageWindow : MicaWindow
                 }
                 var monitor = GetSelectedMonitor(SettingsManager.Current.FlyoutSelectedMonitor);
                 double newRawWidth = Math.Ceiling(targetWidth * monitor.dpiX / 96.0);
-                double newLeft = Math.Ceiling(monitor.workArea.Left + (monitor.workArea.Width / 2) - (newRawWidth / 2));
+                double newLeft = Math.Ceiling(monitor.workArea.Left + (monitor.workArea.Width / 2) - (newRawWidth / 2)) * 96.0 / monitor.dpiX;
 
                 if (_isHiding)
                 {
@@ -157,16 +133,25 @@ public partial class LanguageWindow : MicaWindow
                     // Set contents instantly
                     LangShortText.Text = langCode.ToUpper();
                     LangFullText.Text = name;
-                    AccentIndicator.Fill = new SolidColorBrush(GetShiftedColor(systemColor, langCode, name));
+                    LockIndicatorRectangle.Fill = new SolidColorBrush(GetShiftedColor(systemColor, langCode, name));
 
-                    ContentGrid.BeginAnimation(UIElement.OpacityProperty, null);
-                    ContentGrid.Opacity = 1.0;
+                    // Reset LockIndicator opacity and width in case it was animated/left by lock keys
+                    LockIndicatorRectangle.BeginAnimation(OpacityProperty, null);
+                    LockIndicatorRectangle.BeginAnimation(WidthProperty, null);
+                    LockIndicatorRectangle.Opacity = 1.0;
+                    LockIndicatorRectangle.Width = 60.0;
+
+                    LockKeysContent.Visibility = Visibility.Collapsed;
+                    LanguageContent.Visibility = Visibility.Visible;
+
+                    LanguageContent.BeginAnimation(UIElement.OpacityProperty, null);
+                    LanguageContent.Opacity = 1.0;
 
                     this.BeginAnimation(Window.WidthProperty, null);
                     this.BeginAnimation(Window.LeftProperty, null);
 
                     Width = targetWidth;
-                    Left = newLeft * 96.0 / monitor.dpiX;
+                    Left = newLeft;
                     this.UpdateLayout(); // Force immediate layout centering!
 
                     _openedMonitor = monitor;
@@ -174,16 +159,31 @@ public partial class LanguageWindow : MicaWindow
                 }
                 else
                 {
-                    // 1. Fade out the text content first (quick fade out)
-                    ContentGrid.BeginAnimation(UIElement.OpacityProperty, null);
+                    bool isModeSwitch = LockKeysContent.Visibility == Visibility.Visible;
 
-                    var fadeOutAnim = new DoubleAnimation
+                    // Fade out current content
+                    if (isModeSwitch)
                     {
-                        To = 0.0,
-                        Duration = TimeSpan.FromMilliseconds(100),
-                        EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseIn }
-                    };
-                    ContentGrid.BeginAnimation(UIElement.OpacityProperty, fadeOutAnim);
+                        LockKeysContent.BeginAnimation(UIElement.OpacityProperty, null);
+                        var fadeOutAnim = new DoubleAnimation
+                        {
+                            To = 0.0,
+                            Duration = TimeSpan.FromMilliseconds(100),
+                            EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseIn }
+                        };
+                        LockKeysContent.BeginAnimation(UIElement.OpacityProperty, fadeOutAnim);
+                    }
+                    else
+                    {
+                        LanguageContent.BeginAnimation(UIElement.OpacityProperty, null);
+                        var fadeOutAnim = new DoubleAnimation
+                        {
+                            To = 0.0,
+                            Duration = TimeSpan.FromMilliseconds(100),
+                            EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseIn }
+                        };
+                        LanguageContent.BeginAnimation(UIElement.OpacityProperty, fadeOutAnim);
+                    }
 
                     // 2. Wait for the fade out to complete (supports cancellation under rapid clicks)
                     await Task.Delay(100, transitionToken);
@@ -192,13 +192,22 @@ public partial class LanguageWindow : MicaWindow
                     LangShortText.Text = langCode.ToUpper();
                     LangFullText.Text = name;
 
+                    LockKeysContent.Visibility = Visibility.Collapsed;
+                    LanguageContent.Visibility = Visibility.Visible;
+
+                    // Reset LockIndicator opacity and width in case it was animated/left by lock keys
+                    LockIndicatorRectangle.BeginAnimation(OpacityProperty, null);
+                    LockIndicatorRectangle.BeginAnimation(WidthProperty, null);
+                    LockIndicatorRectangle.Opacity = 1.0;
+                    LockIndicatorRectangle.Width = 60.0;
+
                     // Ensure dimensions are correct (instant positioning, no animations or rendering frame-by-frame loop)
                     Width = targetWidth;
-                    Left = newLeft * 96.0 / monitor.dpiX;
+                    Left = newLeft;
                     this.UpdateLayout();
 
                     // 4. Smoothly animate color change of the indicator (smooth color morphing)
-                    var oldColor = (AccentIndicator.Fill as SolidColorBrush)?.Color ?? systemColor;
+                    var oldColor = (LockIndicatorRectangle.Fill as SolidColorBrush)?.Color ?? systemColor;
                     var targetColor = GetShiftedColor(systemColor, langCode, name);
 
                     var colorAnim = new ColorAnimation
@@ -210,17 +219,18 @@ public partial class LanguageWindow : MicaWindow
                     };
 
                     var brush = new SolidColorBrush(oldColor);
-                    AccentIndicator.Fill = brush;
+                    LockIndicatorRectangle.Fill = brush;
                     brush.BeginAnimation(SolidColorBrush.ColorProperty, colorAnim);
 
                     // 5. Fade the content back in
+                    LanguageContent.BeginAnimation(UIElement.OpacityProperty, null);
                     var fadeInAnim = new DoubleAnimation
                     {
                         To = 1.0,
                         Duration = TimeSpan.FromMilliseconds(150),
                         EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseOut }
                     };
-                    ContentGrid.BeginAnimation(UIElement.OpacityProperty, fadeInAnim);
+                    LanguageContent.BeginAnimation(UIElement.OpacityProperty, fadeInAnim);
                 }
             }
             catch (OperationCanceledException)
