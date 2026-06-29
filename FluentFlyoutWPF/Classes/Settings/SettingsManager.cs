@@ -22,6 +22,21 @@ public class SettingsManager
     );
 
     private static UserSettings? _current;
+    private static XmlSerializer? _exportSerializer;
+
+    private static XmlSerializer GetExportSerializer()
+    {
+        if (_exportSerializer == null)
+        {
+            XmlAttributeOverrides overrides = new XmlAttributeOverrides();
+            XmlAttributes ignoreAttrs = new XmlAttributes();
+            ignoreAttrs.XmlIgnore = true;
+            overrides.Add(typeof(UserSettings), "Uuid", ignoreAttrs);
+            overrides.Add(typeof(UserSettings), "IsStoreVersion", ignoreAttrs);
+            _exportSerializer = new XmlSerializer(typeof(UserSettings), overrides);
+        }
+        return _exportSerializer;
+    }
 
     private static bool DeserializeSettings(string filePath, out UserSettings? settings)
     {
@@ -110,8 +125,6 @@ public class SettingsManager
         return _current;
     }
 
-    private static XmlSerializer? _exportSerializer;
-
     /// <summary>
     /// Saves the app settings to the settings file.
     /// </summary>
@@ -139,16 +152,7 @@ public class SettingsManager
                     XmlSerializer xmlSerializer;
                     if (isExport)
                     {
-                        if (_exportSerializer == null)
-                        {
-                            XmlAttributeOverrides overrides = new XmlAttributeOverrides();
-                            XmlAttributes ignoreAttrs = new XmlAttributes();
-                            ignoreAttrs.XmlIgnore = true;
-                            overrides.Add(typeof(UserSettings), "Uuid", ignoreAttrs);
-                            overrides.Add(typeof(UserSettings), "IsStoreVersion", ignoreAttrs);
-                            _exportSerializer = new XmlSerializer(typeof(UserSettings), overrides);
-                        }
-                        xmlSerializer = _exportSerializer;
+                        xmlSerializer = GetExportSerializer();
                     }
                     else
                     {
