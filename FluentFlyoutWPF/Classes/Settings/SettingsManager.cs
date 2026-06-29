@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2024-2026 The FluentFlyout Authors
+// Copyright (c) 2024-2026 The FluentFlyout Authors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 using FluentFlyoutWPF.ViewModels;
@@ -56,6 +56,7 @@ public class SettingsManager
     /// <returns>The restored settings.</returns>
     public static UserSettings RestoreSettings(string? filePath = null)
     {
+        bool isImport = filePath != null;
         filePath ??= SettingsFilePath;
         string backupPath = filePath + ".bak";
 
@@ -63,6 +64,12 @@ public class SettingsManager
         {
             if (DeserializeSettings(filePath, out var loadedSettings) && loadedSettings != null)
             {
+                if (isImport && _current != null)
+                {
+                    loadedSettings.Uuid = _current.Uuid;
+                    loadedSettings.IsStoreVersion = _current.IsStoreVersion;
+                }
+
                 _current = loadedSettings;
                 _current.CompleteInitialization();
 
@@ -103,11 +110,14 @@ public class SettingsManager
         return _current;
     }
 
+    private static XmlSerializer? _exportSerializer;
+
     /// <summary>
     /// Saves the app settings to the settings file.
     /// </summary>
     public static void SaveSettings(string? filePath = null)
     {
+        bool isExport = filePath != null;
         filePath ??= SettingsFilePath;
         string tempPath = filePath + ".tmp";
         string backupPath = filePath + ".bak";
@@ -126,7 +136,24 @@ public class SettingsManager
 
                 using (var writer = new StreamWriter(tempPath, false))
                 {
-                    XmlSerializer xmlSerializer = new(typeof(UserSettings));
+                    XmlSerializer xmlSerializer;
+                    if (isExport)
+                    {
+                        if (_exportSerializer == null)
+                        {
+                            XmlAttributeOverrides overrides = new XmlAttributeOverrides();
+                            XmlAttributes ignoreAttrs = new XmlAttributes();
+                            ignoreAttrs.XmlIgnore = true;
+                            overrides.Add(typeof(UserSettings), "Uuid", ignoreAttrs);
+                            overrides.Add(typeof(UserSettings), "IsStoreVersion", ignoreAttrs);
+                            _exportSerializer = new XmlSerializer(typeof(UserSettings), overrides);
+                        }
+                        xmlSerializer = _exportSerializer;
+                    }
+                    else
+                    {
+                        xmlSerializer = new XmlSerializer(typeof(UserSettings));
+                    }
                     xmlSerializer.Serialize(writer, _current);
                 }
 
