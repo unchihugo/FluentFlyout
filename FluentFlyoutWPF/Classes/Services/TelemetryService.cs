@@ -19,6 +19,7 @@ public static class TelemetryService
 
         try
         {
+            string appVersion = SettingsManager.Current.LastKnownVersion + "-" + (SettingsManager.Current.IsStoreVersion ? "store" : "github");
 
             var telemetryData = new
             {
@@ -26,7 +27,8 @@ public static class TelemetryService
                 experimentId = experimentId ?? string.Empty,
                 variant = ExperimentsService.CheckUuidInExperiment(experimentId ?? string.Empty),
                 userId = SettingsManager.Current.Uuid,
-                sessionId = SettingsManager.Current.SessionId
+                sessionId = SettingsManager.Current.SessionId,
+                appVersion,
             };
 
             await FluentFlyoutApiClient.Client.PostAsJsonAsync(ApiEndpoint, telemetryData);
