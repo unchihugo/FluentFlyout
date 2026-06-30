@@ -138,7 +138,7 @@
                 <controls:ToggleSwitch IsChecked="{Binding TaskbarVisualizerCenteredBars, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}" />
             </ui:CardControl>
 
-            <ui:CardExpander Icon="{ui:SymbolIcon LineHorizontal120}" ContentPadding="8" Margin="0,0,0,12">
+            <ui:CardExpander Icon="{ui:SymbolIcon LineHorizontal120}" ContentPadding="0" Margin="0,0,0,12">
                 <ui:CardExpander.Header>
                     <Grid ColumnDefinitions="*, Auto">
                         <StackPanel Orientation="Vertical" Grid.Column="0">
@@ -148,8 +148,8 @@
                         <controls:ToggleSwitch Grid.Column="1" IsChecked="{Binding TaskbarVisualizerBaseline, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}" Margin="0,0,16,0" />
                     </Grid>
                 </ui:CardExpander.Header>
-                <StackPanel>
-                    <ui:CardControl Opacity="{Binding TaskbarVisualizerBaseline, Converter={StaticResource BoolToFullHalfOpacityConverter}}" Background="Transparent" BorderThickness="0" Padding="14,8" >
+                <StackPanel Opacity="{Binding TaskbarVisualizerBaseline, Converter={StaticResource BoolToFullHalfOpacityConverter}}">
+                    <ui:CardControl Background="Transparent" BorderBrush="{ui:ThemeResource CardStrokeColorDefaultSolidBrush}" BorderThickness="0" CornerRadius="0" Padding="52,12,16,12">
                         <ui:CardControl.Header>
                             <StackPanel Orientation="Vertical">
                                 <TextBlock Text="{DynamicResource TaskbarWidgetAutoHideTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
