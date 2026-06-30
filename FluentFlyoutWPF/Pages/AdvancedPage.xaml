@@ -19,7 +19,7 @@
         <StackPanel Margin="0,0,0,76">
             <TextBlock Text="{DynamicResource AppearanceBehaviorSectionTitle}" FontSize="14" FontWeight="SemiBold" Margin="0,0,0,6" />
             
-            <ui:CardExpander Icon="{ui:SymbolIcon Wrench24}" ContentPadding="8" Margin="0,0,0,3">
+            <ui:CardExpander Icon="{ui:SymbolIcon Wrench24}" ContentPadding="0" Margin="0,0,0,3">
                 <ui:CardExpander.Header>
                     <StackPanel Orientation="Vertical">
                         <TextBlock Text="{DynamicResource AnimationSettingsTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
@@ -27,7 +27,8 @@
                     </StackPanel>
                 </ui:CardExpander.Header>
                 <StackPanel>
-                    <ui:CardControl Icon="{ui:SymbolIcon TopSpeed24}" Margin="0,0,0,4" Background="Transparent" BorderThickness="0" Padding="14,8">
+                    <ui:InfoBar Title="{DynamicResource NativeExperienceInfo}" IsOpen="True" Severity="Informational" IsClosable="False" Margin="8,8,8,0" />
+                    <ui:CardControl Icon="{ui:SymbolIcon TopSpeed24}" Background="Transparent" BorderBrush="{ui:ThemeResource CardStrokeColorDefaultSolidBrush}" BorderThickness="0,0,0,1" CornerRadius="0" Padding="52,16,16,16">
                         <ui:CardControl.Header>
                             <StackPanel Orientation="Vertical">
                                 <TextBlock Text="{DynamicResource AnimationDurationScaleTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
@@ -45,7 +46,7 @@
                             </ComboBox>
                         </StackPanel>
                     </ui:CardControl>
-                    <ui:CardControl Icon="{ui:SymbolIcon BezierCurveSquare12}" Margin="0,0,0,12" Background="Transparent" BorderThickness="0" Padding="14,8">
+                    <ui:CardControl Icon="{ui:SymbolIcon BezierCurveSquare12}" Background="Transparent" BorderBrush="{ui:ThemeResource CardStrokeColorDefaultSolidBrush}" BorderThickness="0" CornerRadius="0" Padding="52,16,16,16">
                         <ui:CardControl.Header>
                             <StackPanel Orientation="Vertical">
                                 <TextBlock Text="{DynamicResource AnimationEasingStyleTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
@@ -61,11 +62,10 @@
                             </ComboBox>
                         </StackPanel>
                     </ui:CardControl>
-                    <ui:InfoBar Title="{DynamicResource NativeExperienceInfo}" IsOpen="True" Severity="Informational" IsClosable="False" />
                 </StackPanel>
             </ui:CardExpander>
 
-            <ui:CardExpander Icon="{ui:SymbolIcon Blur24}" ContentPadding="8" Margin="0,0,0,3">
+            <ui:CardExpander Icon="{ui:SymbolIcon Blur24}" ContentPadding="0" Margin="0,0,0,3">
                 <ui:CardExpander.Header>
                     <StackPanel Orientation="Vertical">
                         <TextBlock Text="{DynamicResource AcrylicWindowTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
@@ -73,7 +73,7 @@
                     </StackPanel>
                 </ui:CardExpander.Header>
                 <StackPanel>
-                    <ui:CardControl Margin="0,0,0,4" Background="Transparent" BorderThickness="0" Padding="14,8">
+                    <ui:CardControl Background="Transparent" BorderBrush="{ui:ThemeResource CardStrokeColorDefaultSolidBrush}" BorderThickness="0,0,0,1" CornerRadius="0" Padding="52,16,16,16">
                         <ui:CardControl.Header>
                             <StackPanel Orientation="Vertical">
                                 <TextBlock Text="{DynamicResource MediaFlyoutTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
@@ -82,7 +82,7 @@
                         <controls:ToggleSwitch IsChecked="{Binding MediaFlyoutAcrylicWindowEnabled, Mode=TwoWay}" />
                     </ui:CardControl>
 
-                    <ui:CardControl Margin="0,0,0,4" Background="Transparent" BorderThickness="0" Padding="14,8">
+                    <ui:CardControl Background="Transparent" BorderBrush="{ui:ThemeResource CardStrokeColorDefaultSolidBrush}" BorderThickness="0,0,0,1" CornerRadius="0" Padding="52,16,16,16">
                         <ui:CardControl.Header>
                             <StackPanel Orientation="Vertical">
                                 <TextBlock Text="{DynamicResource NextUpCustomizationTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
@@ -91,7 +91,7 @@
                         <controls:ToggleSwitch IsChecked="{Binding NextUpAcrylicWindowEnabled, Mode=TwoWay}" />
                     </ui:CardControl>
 
-                    <ui:CardControl Background="Transparent" BorderThickness="0" Padding="14,8">
+                    <ui:CardControl Background="Transparent" BorderBrush="{ui:ThemeResource CardStrokeColorDefaultSolidBrush}" BorderThickness="0" CornerRadius="0" Padding="52,16,16,16">
                         <ui:CardControl.Header>
                             <StackPanel Orientation="Vertical">
                                 <TextBlock Text="{DynamicResource LockKeysCustomizationTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
