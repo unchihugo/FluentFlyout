@@ -327,6 +327,13 @@ public partial class SettingsWindow : FluentWindow
                     BuildSearchItems();
                 }, System.Windows.Threading.DispatcherPriority.Loaded);
             }
+            else if (args.PropertyName == nameof(SettingsManager.Current.AppLanguage))
+            {
+                await Dispatcher.InvokeAsync(() =>
+                {
+                    BuildSearchItems();
+                }, System.Windows.Threading.DispatcherPriority.Loaded);
+            }
         };
 
         BuildSearchItems();
