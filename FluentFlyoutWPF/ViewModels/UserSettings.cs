@@ -575,6 +575,12 @@ public partial class UserSettings : ObservableObject
     [ObservableProperty]
     public partial int TaskbarVisualizerAudioSensitivity { get; set; }
 
+    /// <summary>
+    /// Autohide taskbar. Only does something if TaskbarVisualizerBaseline is enabled (doesn't autohide by default).
+    /// </summary>
+    [ObservableProperty]
+    public partial bool TaskbarVisualizerBaselineAutoHide { get; set; }
+
     [ObservableProperty]
     public partial bool VolumeControlEnabled { get; set; }
 
@@ -752,6 +758,7 @@ public partial class UserSettings : ObservableObject
         TaskbarVisualizerBaseline = false;
         TaskbarVisualizerAudioSensitivity = 2;
         TaskbarVisualizerAudioPeakLevel = 3;
+        TaskbarVisualizerBaselineAutoHide = false;
         VolumeControlEnabled = false;
         VolumeControlAboveMediaFlyout = false;
         VolumeControlDuration = 3000;
