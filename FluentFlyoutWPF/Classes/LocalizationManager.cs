@@ -1,4 +1,4 @@
-﻿// Copyright © 2024-2026 The FluentFlyout Authors
+﻿// Copyright (c) 2024-2026 The FluentFlyout Authors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 using FluentFlyout.Classes.Settings;
@@ -24,27 +24,33 @@ public static class LocalizationManager
     {
         { "System", "system" },
         { "English", "en-US" },
-        { "العربية", "ar" },
-        { "中文（简体）", "zh-CN" },
-        { "中文（繁體）", "zh-TW" },
-        { "hrvatski jezik", "hr" },
-        { "čeština", "cs" },
-        { "Nederlands", "nl" },
-        { "suomi", "fi" },
-        { "français", "fr" },
-        { "Deutsch", "de" },
-        { "עברית", "he" },
-        { "Bahasa Indonesia", "id" },
-        { "Italiano", "it" },
-        { "日本語", "ja" },
-        { "한국어", "ko" },
-        { "polski", "pl" },
-        { "Português (Brasil)", "pt-BR" },
-        { "Русский", "ru" },
-        { "Español", "es" },
-        { "Türkçe", "tr" },
-        { "Українська", "uk" },
-        { "Tiếng Việt", "vi" },
+        { "العربية", "ar" },                // Arabic
+        { "català", "ca" },                 // Catalan
+        { "中文（简体）", "zh-CN" },          // Chinese (Simplified)
+        { "中文（繁體）", "zh-TW" },          // Chinese (Traditional)
+        { "hrvatski jezik", "hr" },         // Croatian
+        { "čeština", "cs" },                // Czech
+        { "Nederlands", "nl" },             // Dutch
+        { "suomi", "fi" },                  // Finnish
+        { "français", "fr" },               // French
+        { "Deutsch", "de" },                // German
+        { "עברית", "he" },                  // Hebrew
+        { "हिन्दी", "hi" },                    // Hindi
+        { "magyar", "hu" },                 // Hungarian
+        { "Bahasa Indonesia", "id" },       // Indonesian
+        { "Italiano", "it" },               // Italian
+        { "日本語", "ja" },                  // Japanese
+        { "한국어", "ko" },                  // Korean
+        { "polski", "pl" },                 // Polish
+        { "Português (Brasil)", "pt-BR" },  // Portuguese (Brazil)
+        { "Русский", "ru" },                // Russian
+        { "slovenčina", "sk" },             // Slovak
+        { "Español", "es" },                // Spanish
+        { "தமிழ்", "ta" },                  // Tamil
+        { "ไทย", "th" },                    // Thai
+        { "Türkçe", "tr" },                 // Turkish
+        { "Українська", "uk" },             // Ukrainian
+        { "Tiếng Việt", "vi" },             // Vietnamese
     };
 
     // dictionary of font families for specific languages, priorities are switched around
@@ -93,7 +99,7 @@ public static class LocalizationManager
             }
         }
 
-        Logger.Debug("Applying localization for language: " + culture);
+        Logger.Info("Applying localization for language: " + culture);
 
         // change flow direction of all windows
         ApplyFlowDirection(languageCode);
@@ -158,7 +164,7 @@ public static class LocalizationManager
             ? FlowDirection.RightToLeft
             : FlowDirection.LeftToRight;
 
-        Logger.Debug("Applied flow direction: " + SettingsManager.Current.FlowDirection);
+        Logger.Info("Applied flow direction: " + SettingsManager.Current.FlowDirection);
     }
 
     private static void ApplyFontFamily(string culture)

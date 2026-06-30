@@ -167,7 +167,6 @@
                     <StackPanel Orientation="Vertical">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="{DynamicResource TaskbarVisualizerAudioPeakLevelTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
-                            <ui:InfoBadge Value=" NEW " FontWeight="Medium" FontSize="10" Margin="6,-2,0,-2" Severity="Success" />
                         </StackPanel>
                         <TextBlock Text="{DynamicResource TaskbarVisualizerAudioPeakLevelDescription}" FontSize="12" Opacity="0.5" />
                     </StackPanel>
@@ -199,7 +198,6 @@
                     <StackPanel Orientation="Vertical">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="{DynamicResource TaskbarVisualizerClickableTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
-                            <ui:InfoBadge Value=" NEW " FontWeight="Medium" FontSize="10" Margin="6,-2,0,-2" Severity="Success" />
                         </StackPanel>
                         <TextBlock Text="{DynamicResource TaskbarVisualizerClickableDescription}" FontSize="12" Opacity="0.5" />
                     </StackPanel>

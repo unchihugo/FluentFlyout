@@ -1,3 +1,45 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib">
     <system:String x:Key="HomeTitle">முகப்பு</system:String>
+    <system:String x:Key="TitleText">FluentFlyout அமைப்புகள்</system:String>
+    <system:String x:Key="Enabled">செயலில் உள்ளது</system:String>
+    <system:String x:Key="Disabled">செயலில் இல்லை</system:String>
+    <system:String x:Key="MediaFlyoutTitle">மீடியா ஃப்ளையவுட்</system:String>
+    <system:String x:Key="MediaFlyoutDescription">மீடியாவை கேட்கும் போது, உங்கள் விசைப்பலகையில் உள்ள ஏதேனும் மீடியா அல்லது ஒலி அளவு விசையை (Play/Pause, ஒலி உயர்த்து/குறைத்து போன்றவை) அழுத்தினால் ஃப்ளையவுட் காட்டப்படும். இதில் மீடியா தகவல்கள், இயக்க கட்டுப்பாடுகள் மற்றும் மேலும் பல அம்சங்கள் காண்பிக்கப்படும்.</system:String>
+    <system:String x:Key="TextBlockText1">மீடியா ஃப்ளையவுட்டை செயல்படுத்து</system:String>
+    <system:String x:Key="TextBlockText3">மீடியா விசையை அழுத்தும் போது ஃப்ளையவுட் காட்டவும்</system:String>
+    <system:String x:Key="MediaFlyoutExcludeVolumeTitle">ஒலி அளவு விசைகளை தவிர்க்கவும்</system:String>
+    <system:String x:Key="MediaFlyoutExcludeVolumeDescription">ஒலி உயர்த்து/குறைத்து/மௌன விசைகளை அழுத்தும் போது ஃப்ளையவுட் காட்ட வேண்டாம்</system:String>
+    <system:String x:Key="TextBlockText2">பின்னணி மங்கல் பாணியை தேர்வு செய்யவும்</system:String>
+    <system:String x:Key="BackgroundBlurOption1" xml:space="preserve"> எதுவுமில்லை</system:String>
+    <system:String x:Key="BackgroundBlurOption2" xml:space="preserve"> பாணி 1 (கவர் ஒளிர்வு)</system:String>
+    <system:String x:Key="BackgroundBlurOption3" xml:space="preserve"> பாணி 2 (எழும் ஒளிர்வு)</system:String>
+    <system:String x:Key="BackgroundBlurOption4" xml:space="preserve"> பாணி 3 (மங்கல்)</system:String>
+    <system:String x:Key="BackgroundBlurTitle">பின்னணி மங்கல்</system:String>
+    <system:String x:Key="MasterVolumeText">முதன்மை ஒலி அளவு</system:String>
+    <system:String x:Key="AcrylicWindowTitle">அக்ரிலிக் விண்டோ</system:String>
+    <system:String x:Key="AcrylicWindowDescription">ஃப்ளையவுட்டில் வெளிப்படையான அக்ரிலிக் மங்கல் விளைவை பயன்படுத்தவும் (ஆஃப் செய்தால் Mica பயன்படுத்தப்படும்)</system:String>
+    <system:String x:Key="CompactLayoutTitle">செருகிய அமைப்பு</system:String>
+    <system:String x:Key="CompactLayoutDescription" xml:space="preserve">மெலிதான மற்றும் குறைவாக இடையூறு தரும் அமைப்பு
+ரிபீட், ஷஃபிள் மற்றும் ப்ளேயர் தகவலை மறைக்கும்</system:String>
+    <system:String x:Key="SelectedMonitorTitle">ஃப்ளையவுட் இலக்கு திரை</system:String>
+    <system:String x:Key="FlyoutPositionTitle">ஃப்ளையவுட் தோன்றும் இடம்</system:String>
+    <system:String x:Key="PositionBottomLeft" xml:space="preserve"> கீழ் இடது</system:String>
+    <system:String x:Key="PositionBottomCenter" xml:space="preserve"> கீழ் நடுப்பு</system:String>
+    <system:String x:Key="PositionBottomRight" xml:space="preserve"> கீழ் வலது</system:String>
+    <system:String x:Key="PositionTopCenter" xml:space="preserve"> மேல் நடுப்பு</system:String>
+    <system:String x:Key="FlyoutStayDurationTitle">ஃப்ளையவுட் நீடிப்பு நேரம்</system:String>
+    <system:String x:Key="FlyoutStayDurationDescription">(இயல்புநிலை: 3000 ms)</system:String>
+    <system:String x:Key="MillisecondsUnit">ms</system:String>
+    <system:String x:Key="NextUpWindow_UpNextText">அடுத்து:</system:String>
+    <system:String x:Key="PositionTopLeft" xml:space="preserve"> மேல் இடது</system:String>
+    <system:String x:Key="PositionTopRight" xml:space="preserve"> மேல் வலது</system:String>
+    <system:String x:Key="LockWindow_LockOn">ஆன்</system:String>
+    <system:String x:Key="LockWindow_LockOff">ஆஃப்</system:String>
+    <system:String x:Key="UpdateToastTitle">FluentFlyout அப்டேட் செய்யப்பட்டுள்ளது!</system:String>
+    <system:String x:Key="UpdateToastMessage">நீங்கள் இப்போது {0} பதிப்பில் உள்ளீர்கள்.</system:String>
+    <system:String x:Key="UpdateToastButton">அப்டேட்களை காண்க</system:String>
+    <system:String x:Key="LockWindow_CapsLock">கேப்ஸ் லாக்</system:String>
+    <system:String x:Key="LockWindow_NumLock">நம் லாக்</system:String>
+    <system:String x:Key="LockWindow_ScrollLock">ஸ்க்ரோல் லாக்</system:String>
+    <system:String x:Key="LockWindow_InsertPressed">இன்சர்ட் அழுத்தப்பட்டது</system:String>
 </ResourceDictionary>

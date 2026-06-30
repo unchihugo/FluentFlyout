@@ -1,8 +1,9 @@
-// Copyright © 2024-2026 The FluentFlyout Authors
+// Copyright (c) 2024-2026 The FluentFlyout Authors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 using FluentFlyout.Classes;
 using FluentFlyout.Classes.Settings;
+using FluentFlyoutWPF.Classes.Services;
 using FluentFlyoutWPF.Classes.Utils;
 using FluentFlyoutWPF.ViewModels;
 using NLog;
@@ -72,7 +73,7 @@ public partial class HomePage : Page
         if (UpdateState.Current.IsUpdateAvailable)
         {
             string url = !string.IsNullOrEmpty(UpdateState.Current.UpdateUrl) ? UpdateState.Current.UpdateUrl : "https://fluentflyout.com/changelog/";
-            UpdateChecker.OpenUpdateUrl(url);
+            UpdateCheckerService.OpenUpdateUrl(url);
         }
         else
         {
@@ -86,7 +87,7 @@ public partial class HomePage : Page
         {
             UpdateStatusText.Text = Application.Current.FindResource("CheckingForUpdates")?.ToString();
 
-            var result = await UpdateChecker.CheckForUpdatesAsync(SettingsManager.Current.LastKnownVersion);
+            var result = await UpdateCheckerService.CheckForUpdatesAsync(SettingsManager.Current.LastKnownVersion);
 
             if (result.Success)
             {
@@ -133,6 +134,11 @@ public partial class HomePage : Page
     private void MediaFlyout_Click(object sender, System.Windows.RoutedEventArgs e)
     {
         SettingsWindow.NavigateToPage(typeof(MediaFlyoutPage));
+    }
+
+    private void VolumeFlyout_Click(object sender, System.Windows.RoutedEventArgs e)
+    {
+        SettingsWindow.NavigateToPage(typeof(VolumeMixerPage));
     }
 
     private void TaskbarWidget_Click(object sender, System.Windows.RoutedEventArgs e)

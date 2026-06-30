@@ -1,4 +1,4 @@
-// Copyright © 2024-2026 The FluentFlyout Authors
+// Copyright (c) 2024-2026 The FluentFlyout Authors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 using FluentFlyout.Classes.Settings;
@@ -27,11 +27,23 @@ public partial class TaskbarWidgetControl : UserControl
     private readonly double _scale = 0.9;
     private readonly int _nativeWidgetsPadding = 216;
 
+    private readonly int _coverImageMargin = 55;
+
     // Cached width calculations
     private string _cachedTitleText = string.Empty;
     private string _cachedArtistText = string.Empty;
     private double _cachedTitleWidth = 0;
     private double _cachedArtistWidth = 0;
+    private double _cachedTitleContainerWidth = -1;
+    private double _cachedArtistContainerWidth = -1;
+
+    private double _cachedTitleOpacityMaskWidth = -1;
+    private double _cachedArtistOpacityMaskWidth = -1;
+    private LinearGradientBrush? _cachedTitleOpacityMask;
+    private LinearGradientBrush? _cachedArtistOpacityMask;
+
+    private string _actualTitle = string.Empty;
+    private string _actualArtist = string.Empty;
 
     // reference to main window for flyout functions
     private MainWindow? _mainWindow;
@@ -60,8 +72,8 @@ public partial class TaskbarWidgetControl : UserControl
             MainBorder.Background.Opacity = 0;
         }
 
-        Background = new SolidColorBrush(Color.FromArgb(1, 0, 0, 0)); ;
-        
+        Background = new SolidColorBrush(Color.FromArgb(1, 0, 0, 0));
+
         // Initialize control order
         ReorderControls();
     }
@@ -86,6 +98,20 @@ public partial class TaskbarWidgetControl : UserControl
         }
     }
 
+    public void SetVerticalMode(bool isVertical)
+    {
+        var counterRotate = isVertical ? new RotateTransform(-90) : null;
+
+        SongImageBorder.RenderTransformOrigin = new System.Windows.Point(0.5, 0.5);
+        SongImageBorder.RenderTransform = (Transform?)counterRotate ?? Transform.Identity;
+
+        foreach (var button in new Wpf.Ui.Controls.Button[] { PreviousButton, PlayPauseButton, NextButton })
+        {
+            button.RenderTransformOrigin = new System.Windows.Point(0.5, 0.5);
+            button.RenderTransform = (Transform?)counterRotate ?? Transform.Identity;
+        }
+    }
+
     public void SetMainWindow(MainWindow mainWindow)
     {
         _mainWindow = mainWindow;
@@ -93,12 +119,18 @@ public partial class TaskbarWidgetControl : UserControl
 
     public void ApplyWindowsTheme()
     {
-        bool isDark = WindowsThemeHelper.GetCurrentWindowsTheme() == WindowsTheme.Dark;
+        WindowsThemeDetector.GetWindowsTheme(out _, out var systemTheme);
+        bool isDark = systemTheme == WindowsThemeDetector.ThemeMode.Dark;
+
         var foreground = new SolidColorBrush(isDark
             ? Color.FromArgb(0xFF, 0xFF, 0xFF, 0xFF)
             : Color.FromArgb(0xE4, 0x1C, 0x1C, 0x1C));
+
         SongTitle.Foreground = foreground;
         SongArtist.Foreground = foreground;
+        PreviousButton.Foreground = foreground;
+        PlayPauseButton.Foreground = foreground;
+        NextButton.Foreground = foreground;
     }
 
     private void Grid_MouseEnter(object sender, MouseEventArgs e)
@@ -107,7 +139,10 @@ public partial class TaskbarWidgetControl : UserControl
 
         SolidColorBrush targetBackgroundBrush;
         // hover effects with animations, hard-coded colors because I can't find the resource brushes
-        if (WindowsThemeHelper.GetCurrentWindowsTheme() == WindowsTheme.Dark)
+        WindowsThemeDetector.GetWindowsTheme(out _, out var systemTheme);
+        bool isDark = systemTheme == WindowsThemeDetector.ThemeMode.Dark;
+
+        if (isDark)
         { // dark mode
             targetBackgroundBrush = new SolidColorBrush(Color.FromArgb(197, 255, 255, 255)) { Opacity = 0.075 };
             TopBorder.BorderBrush = new SolidColorBrush(Color.FromArgb(93, 255, 255, 255)) { Opacity = 0.25 };
@@ -166,7 +201,7 @@ public partial class TaskbarWidgetControl : UserControl
         MainBorder.Background?.BeginAnimation(SolidColorBrush.ColorProperty, backgroundAnimation);
         MainBorder.Background?.BeginAnimation(SolidColorBrush.OpacityProperty, backgroundOpacityAnimation);
 
-        TopBorder.BorderBrush = System.Windows.Media.Brushes.Transparent;
+        TopBorder.BorderBrush = Brushes.Transparent;
     }
 
     private void Grid_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -180,46 +215,236 @@ public partial class TaskbarWidgetControl : UserControl
     public (double logicalWidth, double logicalHeight) CalculateSize(double dpiScale)
     {
         // calculate widget width - use cached values if text hasn't changed
-        string currentTitle = SongTitle.Text;
-        string currentArtist = SongArtist.Text;
+        string currentTitle = _actualTitle;
+        string currentArtist = _actualArtist;
+
+        bool textChanged = false;
 
         if (!string.Equals(currentTitle, _cachedTitleText, StringComparison.Ordinal))
         {
-            _cachedTitleWidth = StringWidth.GetStringWidth(currentTitle, 400);
+            _cachedTitleWidth = Math.Round(StringWidth.GetStringWidth(currentTitle, 400), 2);
             _cachedTitleText = currentTitle;
+            textChanged = true;
         }
         if (!string.Equals(currentArtist, _cachedArtistText, StringComparison.Ordinal))
         {
-            _cachedArtistWidth = StringWidth.GetStringWidth(currentArtist, 400);
+            _cachedArtistWidth = Math.Round(StringWidth.GetStringWidth(currentArtist, 400), 2);
             _cachedArtistText = currentArtist;
+            textChanged = true;
         }
 
-        double logicalWidth = Math.Max(_cachedTitleWidth, _cachedArtistWidth) + 55; // add margin for cover image
         // maximum width limit, same as Windows native widget
-        logicalWidth = Math.Min(logicalWidth, _nativeWidgetsPadding / _scale);
+        double maxLogicalWidth = _nativeWidgetsPadding / _scale;
+        double logicalWidth;
 
-        SongTitle.Width = Math.Max(logicalWidth - 58, 0);
-        SongArtist.Width = Math.Max(logicalWidth - 58, 0);
+        if (SettingsManager.Current.TaskbarWidgetFixedWidth)
+        {
+            // pin to maximum width so right-aligned controls don't shift between songs
+            logicalWidth = maxLogicalWidth;
+        }
+        else
+        {
+            logicalWidth = Math.Max(_cachedTitleWidth, _cachedArtistWidth) + _coverImageMargin; // add margin for cover image
+            logicalWidth = Math.Min(logicalWidth, maxLogicalWidth);
+        }
+
+        double newTitleContainerWidth = Math.Max(logicalWidth - _coverImageMargin, 0);
+        double newArtistContainerWidth = Math.Max(logicalWidth - _coverImageMargin, 0);
+        bool widthChanged = false;
+
+        if (_cachedTitleContainerWidth != newTitleContainerWidth)
+        {
+            SongTitleContainer.Width = newTitleContainerWidth;
+            _cachedTitleContainerWidth = newTitleContainerWidth;
+            widthChanged = true;
+        }
+
+        if (_cachedArtistContainerWidth != newArtistContainerWidth)
+        {
+            SongArtistContainer.Width = newArtistContainerWidth;
+            _cachedArtistContainerWidth = newArtistContainerWidth;
+            widthChanged = true;
+        }
+
+        // Refresh animations if layout bounds or text contents change
+        if (textChanged || widthChanged)
+        {
+            UpdateMarquees();
+        }
 
         // add space for playback controls if enabled and visible
         if (SettingsManager.Current.TaskbarWidgetControlsEnabled && ControlsStackPanel.Visibility == Visibility.Visible)
         {
-            logicalWidth += (int)(102);
+            logicalWidth += 102;
         }
-
 
         double logicalHeight = 40; // default height
 
         return (logicalWidth, logicalHeight);
     }
 
+    public void UpdateMarquees()
+    {
+        double titleAvailableWidth = double.IsNaN(SongTitleContainer.Width) ? 0 : SongTitleContainer.Width;
+        double artistAvailableWidth = double.IsNaN(SongArtistContainer.Width) ? 0 : SongArtistContainer.Width;
+
+        bool isScrollingEnabled = SettingsManager.Current.TaskbarWidgetScrollingEnabled;
+
+        UpdateMarquee(SongTitle, SongTitleContainer, _cachedTitleWidth, titleAvailableWidth, isScrollingEnabled);
+        UpdateMarquee(SongArtist, SongArtistContainer, _cachedArtistWidth, artistAvailableWidth, isScrollingEnabled);
+    }
+
+    private void UpdateMarquee(System.Windows.Controls.TextBlock textBlock, Canvas container, double textWidth, double availableWidth, bool isEnabled)
+    {
+        if (textBlock.RenderTransform as TranslateTransform is not { } transform) return;
+
+        int speed = SettingsManager.Current.TaskbarWidgetScrollingTextSpeed;
+        bool loopForever = SettingsManager.Current.TaskbarWidgetScrollingTextLoopForever;
+        bool isTitle = textBlock == SongTitle;
+        double containerWidth = container.Width;
+
+        // references moved outside so they may be called in the else block later
+        ref double cachedMaskWidth = ref (isTitle ? ref _cachedTitleOpacityMaskWidth : ref _cachedArtistOpacityMaskWidth);
+        ref LinearGradientBrush? cachedMask = ref (isTitle ? ref _cachedTitleOpacityMask : ref _cachedArtistOpacityMask);
+
+        if (isEnabled && textWidth > availableWidth && containerWidth > 0 && !double.IsNaN(containerWidth))
+        {
+            textBlock.Width = double.NaN;
+            textBlock.TextTrimming = TextTrimming.None;
+
+            string origText = isTitle ? _actualTitle : _actualArtist;
+
+            if (cachedMask == null || Math.Abs(containerWidth - cachedMaskWidth) > 0.5)
+            {
+                // 12.0 is the width in pixels of the gradient fade on the left and right hand edges of the 
+                // text container.
+                double fadeFraction = 12.0 / containerWidth;
+                if (fadeFraction > 0.5) fadeFraction = 0.5;
+
+                cachedMask = new LinearGradientBrush
+                {
+                    StartPoint = new Point(0, 0),
+                    EndPoint = new Point(containerWidth, 0),
+                    MappingMode = BrushMappingMode.Absolute
+                };
+
+                cachedMask.GradientStops.Add(new GradientStop(Color.FromArgb(0, 255, 255, 255), 0.0));
+                cachedMask.GradientStops.Add(new GradientStop(Color.FromArgb(255, 255, 255, 255), fadeFraction));
+                cachedMask.GradientStops.Add(new GradientStop(Color.FromArgb(255, 255, 255, 255), 1.0 - fadeFraction));
+                cachedMask.GradientStops.Add(new GradientStop(Color.FromArgb(0, 255, 255, 255), 1.0));
+                cachedMaskWidth = containerWidth;
+            }
+
+            container.OpacityMask = cachedMask;
+
+            if (loopForever)
+            {
+                // continuous looping should have the fades constantly active (as its infinite)
+                cachedMask.GradientStops[0].BeginAnimation(GradientStop.ColorProperty, null);
+                cachedMask.GradientStops[3].BeginAnimation(GradientStop.ColorProperty, null);
+                cachedMask.GradientStops[0].Color = Color.FromArgb(0, 255, 255, 255);
+                cachedMask.GradientStops[3].Color = Color.FromArgb(0, 255, 255, 255);
+
+                // \u00A0 are non-breaking spaces, which prevents WPF from collapsing and/or trimming
+                // them
+                string spacer = "\u00A0\u00A0\u00A0\u00A0\u00A0";
+                textBlock.Text = origText + spacer + origText;
+
+                double spacerWidth = StringWidth.GetStringWidth(spacer, 400);
+                double scrollDistance = textWidth + spacerWidth;
+
+                double durationToScroll = scrollDistance / speed;
+                var animation = new DoubleAnimation
+                {
+                    From = 0,
+                    To = -scrollDistance,
+                    Duration = TimeSpan.FromSeconds(durationToScroll),
+                    RepeatBehavior = RepeatBehavior.Forever
+                };
+
+                transform.BeginAnimation(TranslateTransform.XProperty, animation);
+            }
+            else
+            {
+                // Adding 10 pixels gives extra padding so the text scrolls past the container's edge before
+                // resetting or reversing; this prevents abrupt cutoffs
+                double scrollDistance = textWidth - containerWidth + 10;
+                textBlock.Text = origText;
+
+                double durationSeconds = scrollDistance / speed;
+                double pauseDuration = 2.0; // wait 2 seconds at the start and end of the scroll
+                double tWaitStart = pauseDuration;
+                double tScrollEnd = tWaitStart + durationSeconds;
+                double tWaitEnd = tScrollEnd + pauseDuration;
+                double tScrollBackEnd = tWaitEnd + durationSeconds;
+                double tTotalCycle = tScrollBackEnd + pauseDuration;
+
+                var animation = new DoubleAnimationUsingKeyFrames { RepeatBehavior = RepeatBehavior.Forever };
+                animation.KeyFrames.Add(new LinearDoubleKeyFrame(0, KeyTime.FromTimeSpan(TimeSpan.Zero)));
+                animation.KeyFrames.Add(new LinearDoubleKeyFrame(0, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(tWaitStart))));
+                animation.KeyFrames.Add(new LinearDoubleKeyFrame(-scrollDistance, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(tScrollEnd))));
+                animation.KeyFrames.Add(new LinearDoubleKeyFrame(-scrollDistance, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(tWaitEnd))));
+                animation.KeyFrames.Add(new LinearDoubleKeyFrame(0, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(tScrollBackEnd))));
+                animation.KeyFrames.Add(new LinearDoubleKeyFrame(0, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(tTotalCycle))));
+
+                // sync fades with the "ping pong" movement
+                Color transparentWhite = Color.FromArgb(0, 255, 255, 255);
+                Color solidWhite = Color.FromArgb(255, 255, 255, 255);
+
+                // 300 ms is the capped duration for the fade transition; we clamp it so that the fade animation
+                // doesn't overlap with the scroll animation on certain shorter texts
+                TimeSpan fadeTime = TimeSpan.FromMilliseconds(Math.Min(300, durationSeconds * 1000 / 2.0));
+
+                var leftColorAnim = new ColorAnimationUsingKeyFrames { RepeatBehavior = RepeatBehavior.Forever };
+                leftColorAnim.KeyFrames.Add(new DiscreteColorKeyFrame(solidWhite, KeyTime.FromTimeSpan(TimeSpan.Zero)));
+                leftColorAnim.KeyFrames.Add(new LinearColorKeyFrame(solidWhite, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(tWaitStart))));
+                leftColorAnim.KeyFrames.Add(new LinearColorKeyFrame(transparentWhite, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(tWaitStart) + fadeTime)));
+                leftColorAnim.KeyFrames.Add(new LinearColorKeyFrame(transparentWhite, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(tWaitEnd) - fadeTime)));
+                leftColorAnim.KeyFrames.Add(new LinearColorKeyFrame(solidWhite, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(tWaitEnd))));
+                leftColorAnim.KeyFrames.Add(new LinearColorKeyFrame(solidWhite, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(tTotalCycle))));
+
+                var rightColorAnim = new ColorAnimationUsingKeyFrames { RepeatBehavior = RepeatBehavior.Forever };
+                rightColorAnim.KeyFrames.Add(new DiscreteColorKeyFrame(transparentWhite, KeyTime.FromTimeSpan(TimeSpan.Zero)));
+                rightColorAnim.KeyFrames.Add(new LinearColorKeyFrame(transparentWhite, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(tScrollEnd) - fadeTime)));
+                rightColorAnim.KeyFrames.Add(new LinearColorKeyFrame(solidWhite, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(tScrollEnd))));
+                rightColorAnim.KeyFrames.Add(new LinearColorKeyFrame(solidWhite, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(tWaitEnd))));
+                rightColorAnim.KeyFrames.Add(new LinearColorKeyFrame(transparentWhite, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(tWaitEnd) + fadeTime)));
+                rightColorAnim.KeyFrames.Add(new LinearColorKeyFrame(transparentWhite, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(tTotalCycle))));
+
+                cachedMask.GradientStops[0].BeginAnimation(GradientStop.ColorProperty, leftColorAnim);
+                cachedMask.GradientStops[3].BeginAnimation(GradientStop.ColorProperty, rightColorAnim);
+
+                transform.BeginAnimation(TranslateTransform.XProperty, animation);
+            }
+        }
+        else
+        {
+            if (cachedMask != null)
+            {
+                // Prevent memory leaks and/or unwanted behavior by clearing the color animations when the mask is hidden
+                cachedMask.GradientStops[0].BeginAnimation(GradientStop.ColorProperty, null);
+                cachedMask.GradientStops[3].BeginAnimation(GradientStop.ColorProperty, null);
+            }
+
+            transform.BeginAnimation(TranslateTransform.XProperty, null);
+            transform.X = 0;
+            textBlock.Text = isTitle ? _actualTitle : _actualArtist;
+            textBlock.Width = containerWidth;
+            textBlock.TextTrimming = TextTrimming.CharacterEllipsis;
+            container.OpacityMask = null;
+        }
+    }
+
     public void UpdateUi(string title, string artist, BitmapImage? icon, GlobalSystemMediaTransportControlsSessionPlaybackStatus? playbackStatus, GlobalSystemMediaTransportControlsSessionPlaybackControls? playbackControls = null)
     {
         if (title == "-" && artist == "-")
         {
-            // no media playing, hide UI
+            // No media playing, hide UI
             Dispatcher.Invoke(() =>
             {
+                _actualTitle = string.Empty;
+                _actualArtist = string.Empty;
+
                 if (SettingsManager.Current.TaskbarWidgetHideCompletely)
                 {
                     Visibility = Visibility.Collapsed;
@@ -279,17 +504,23 @@ public partial class TaskbarWidgetControl : UserControl
 
         Dispatcher.Invoke(() =>
         {
-            if (SongTitle.Text != title && SongArtist.Text != artist)
+            string newTitle = !string.IsNullOrEmpty(title) ? title : "-";
+            string newArtist = !string.IsNullOrEmpty(artist) ? artist : "-";
+
+            if (_actualTitle != newTitle || _actualArtist != newArtist)
             {
                 // changed info
                 if (SettingsManager.Current.TaskbarWidgetAnimated)
                 {
                     AnimateEntrance();
                 }
-            }
 
-            SongTitle.Text = !string.IsNullOrEmpty(title) ? title : "-";
-            SongArtist.Text = !string.IsNullOrEmpty(artist) ? artist : "-";
+                _actualTitle = newTitle;
+                _actualArtist = newArtist;
+
+                SongTitle.Text = _actualTitle;
+                SongArtist.Text = _actualArtist;
+            }
 
             // Update tooltip with song info
             SongInfoStackPanel.ToolTip = string.Empty;
@@ -309,7 +540,7 @@ public partial class TaskbarWidgetControl : UserControl
 
             if (icon != null)
             {
-                if (_isPaused)
+                if (_isPaused && SettingsManager.Current.TaskbarWidgetShowPauseOverlay && !SettingsManager.Current.TaskbarWidgetControlsEnabled)
                 { // show pause icon overlay
                     SongImagePlaceholder.Symbol = SymbolRegular.Pause24;
                     SongImagePlaceholder.Visibility = Visibility.Visible;
@@ -350,7 +581,7 @@ public partial class TaskbarWidgetControl : UserControl
     {
         try
         {
-            int msDuration = _mainWindow != null ? _mainWindow.getDuration() : 300;
+            int msDuration = MainWindow.getDuration();
 
             // opacity and left to right animation for SongInfoStackPanel
             DoubleAnimation opacityAnimation = new()
@@ -395,10 +626,7 @@ public partial class TaskbarWidgetControl : UserControl
     {
         if (_mainWindow == null) return;
 
-        var mediaManager = _mainWindow.mediaManager;
-        if (mediaManager == null) return;
-
-        var focusedSession = mediaManager.GetFocusedSession();
+        var focusedSession = _mainWindow.GetActiveMediaSession();
         if (focusedSession == null) return;
 
         await focusedSession.ControlSession.TrySkipPreviousAsync();
@@ -408,30 +636,17 @@ public partial class TaskbarWidgetControl : UserControl
     {
         if (_mainWindow == null) return;
 
-        var mediaManager = _mainWindow.mediaManager;
-        if (mediaManager == null) return;
-
-        var focusedSession = mediaManager.GetFocusedSession();
+        var focusedSession = _mainWindow.GetActiveMediaSession();
         if (focusedSession == null) return;
 
-        if (_isPaused) // paused
-        {
-            await focusedSession.ControlSession.TryPlayAsync();
-        }
-        else // playing
-        {
-            await focusedSession.ControlSession.TryPauseAsync();
-        }
+        await focusedSession.ControlSession.TryTogglePlayPauseAsync();
     }
 
     private async void Next_Click(object sender, RoutedEventArgs e)
     {
         if (_mainWindow == null) return;
 
-        var mediaManager = _mainWindow.mediaManager;
-        if (mediaManager == null) return;
-
-        var focusedSession = mediaManager.GetFocusedSession();
+        var focusedSession = _mainWindow.GetActiveMediaSession();
         if (focusedSession == null) return;
 
         await focusedSession.ControlSession.TrySkipNextAsync();

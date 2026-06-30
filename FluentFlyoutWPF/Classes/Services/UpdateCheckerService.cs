@@ -1,20 +1,20 @@
-// Copyright © 2024-2026 The FluentFlyout Authors
+// Copyright (c) 2024-2026 The FluentFlyout Authors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+using FluentFlyoutWPF.Classes.Clients;
 using NLog;
 using System.Net.Http;
 using System.Text.Json;
 
-namespace FluentFlyout.Classes;
+namespace FluentFlyoutWPF.Classes.Services;
 
 /// <summary>
 /// Handles checking for application updates from the API
 /// </summary>
-public static class UpdateChecker
+public static class UpdateCheckerService
 {
     private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-    private static readonly HttpClient HttpClient = new() { Timeout = TimeSpan.FromSeconds(10) };
-    private const string ApiEndpoint = "https://fluentflyout.com/api/newest-version";
+    private const string ApiEndpoint = "newest-version";
 
     /// <summary>
     /// Result of an update check
@@ -42,9 +42,9 @@ public static class UpdateChecker
 
         try
         {
-            var response = await HttpClient.GetStringAsync(ApiEndpoint);
+            var response = await FluentFlyoutApiClient.Client.GetStringAsync(ApiEndpoint);
             var json = JsonDocument.Parse(response);
-            
+
             result.NewestVersion = json.RootElement.GetProperty("version").GetString() ?? string.Empty;
             result.UpdateUrl = json.RootElement.GetProperty("url").GetString() ?? string.Empty;
             result.Success = true;
@@ -59,6 +59,11 @@ public static class UpdateChecker
             Logger.Info($"Failed to check for updates - network error: {ex.Message}");
             result.Success = false;
         }
+        catch (TaskCanceledException ex)
+        {
+            Logger.Info(ex, "Failed to check for updates - request timed out.");
+            result.Success = false;
+        }
         catch (Exception ex)
         {
             Logger.Error(ex, "Unexpected error checking for updates");
@@ -71,7 +76,7 @@ public static class UpdateChecker
     public static void OpenUpdateUrl(string url)
     {
         if (string.IsNullOrEmpty(url)) return;
-        
+
         try
         {
             System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo

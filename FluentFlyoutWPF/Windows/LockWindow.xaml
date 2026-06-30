@@ -4,7 +4,6 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
     xmlns:local="clr-namespace:FluentFlyoutWPF"
-    xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
     xmlns:controls="clr-namespace:MicaWPF.Controls;assembly=MicaWPF"
     xmlns:viewModels="clr-namespace:FluentFlyoutWPF.ViewModels"
     mc:Ignorable="d" 
@@ -38,8 +37,25 @@
         </EventTrigger>
     </Window.Triggers>
 
-    <Grid Margin="12,6,12,6">
-        <ui:SymbolIcon Name="LockSymbol" HorizontalAlignment="Left" Symbol="LockClosed24" Filled="false" Width="22" Height="22" FontSize="22" VerticalAlignment="Center" Margin="0,0,2,1"/>
+    <Grid Margin="14,6,12,6">
+        <Viewbox Name="LockSymbol" HorizontalAlignment="Left" Width="22" Height="22" VerticalAlignment="Center" Margin="0,0,0,-2">
+            <Canvas Width="24" Height="24" ClipToBounds="False">
+                <Path Data="M7.25 7A3.25 3.25 0 0 0 4 10.25v7.5C4 19.55 5.46 21 7.25 21h9.5c1.8 0 3.25-1.46 3.25-3.25v-7.5C20 8.45 18.54 7 16.75 7H7.25Zm0 1.5h9.5c.97 0 1.75.78 1.75 1.75v7.5c0 .97-.78 1.75-1.75 1.75h-9.5c-.97 0-1.75-.78-1.75-1.75v-7.5c0-.97.78-1.75 1.75-1.75Z"
+                      Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"/>
+                <Path Data="M12 15.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z"
+                      Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"/>
+                <Path Name="LockShackle"
+                      Data="M8 7V5a4 4 0 0 1 8 0v2h-1.5V5a2.5 2.5 0 0 0-5 0v2H8Z"
+                      Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type Window}}}">
+                    <Path.RenderTransform>
+                        <TransformGroup>
+                            <RotateTransform x:Name="ShackleRotation" Angle="0" CenterX="16" CenterY="7"/>
+                            <TranslateTransform x:Name="ShackleBounce" Y="0"/>
+                        </TransformGroup>
+                    </Path.RenderTransform>
+                </Path>
+            </Canvas>
+        </Viewbox>
         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="20,0,0,4">
             <TextBlock Name="LockTextBlock" Text="Loading..." FontSize="14" FontWeight="Medium" TextTrimming="CharacterEllipsis"/>
         </StackPanel>

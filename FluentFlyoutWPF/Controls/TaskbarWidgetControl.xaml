@@ -9,7 +9,7 @@
              d:DataContext="{d:DesignInstance viewModels:UserSettings}"
              Height="40" Width="100"
              TextOptions.TextRenderingMode="ClearType" TextOptions.TextFormattingMode="Ideal"
-             FontFamily="Segoe UI Variable, Microsoft YaHei, Microsoft JhengHei, MS Gothic"
+             FontFamily="{Binding FontFamily}"
              FlowDirection="{Binding FlowDirection}">
     <Border Name="MainBorder" CornerRadius="6" MouseEnter="Grid_MouseEnter" MouseLeave="Grid_MouseLeave" MouseLeftButtonUp="Grid_MouseLeftButtonUp" ClipToBounds="True">
         <Grid>
@@ -18,13 +18,6 @@
                     <BlurEffect Radius="80" />
                 </Image.Effect>
             </Image>
-            <!-- unused next image for crossfade effect
-            <Image x:Name="BackgroundImageNext" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" Opacity="0">
-                <Image.Effect>
-                    <BlurEffect Radius="80" />
-                </Image.Effect>
-            </Image> -->
-            
             <Border Name="TopBorder" BorderThickness="0,1.25,0,0" CornerRadius="5" Margin="0,0,0,1.25">
                 <Grid Name="MainGrid" HorizontalAlignment="Left" VerticalAlignment="Center" RenderTransformOrigin="0,0.5">
                     <Grid.RenderTransform>
@@ -34,7 +27,6 @@
                         <Border Name="SongImageBorder" CornerRadius="5" Margin="0,0,0,-2" ClipToBounds="True" Width="36" Height="36" Panel.ZIndex="2">
                             <Grid>
                                 <ui:SymbolIcon Name="SongImagePlaceholder" Symbol="MusicNote220" FontSize="24" Filled="True" Foreground="{DynamicResource MicaWPF.Brushes.SystemAccentColorTertiary}" />
-                                <!--<Image x:Name="VisualizerContainer" Width="Auto" Height="Auto" Margin="4" />-->
                             </Grid>
                             <Border.Background>
                                 <ImageBrush x:Name="SongImage" Stretch="UniformToFill" />
@@ -45,8 +37,20 @@
                                     ToolTipService.InitialShowDelay="800"
                                     ToolTipService.Placement="RelativePoint"
                                     ToolTipService.VerticalOffset="-16">
-                            <TextBlock Name="SongTitle" Text="" FontWeight="Normal" TextTrimming="CharacterEllipsis" />
-                            <TextBlock Name="SongArtist" Text="" FontWeight="Normal" Opacity="0.5" Margin="0,-1.5,0,0" TextTrimming="CharacterEllipsis" />
+                            <Canvas x:Name="SongTitleContainer" ClipToBounds="True" Height="19">
+                                <TextBlock x:Name="SongTitle" Text="" FontWeight="Normal" Margin="0,0,8,0">
+                                    <TextBlock.RenderTransform>
+                                        <TranslateTransform />
+                                    </TextBlock.RenderTransform>
+                                </TextBlock>
+                            </Canvas>
+                            <Canvas x:Name="SongArtistContainer" ClipToBounds="True" Margin="0,-1.5,0,0" Height="19">
+                                <TextBlock x:Name="SongArtist" Text="" FontWeight="Normal" Opacity="0.5" Margin="0,0,8,0">
+                                    <TextBlock.RenderTransform>
+                                        <TranslateTransform />
+                                    </TextBlock.RenderTransform>
+                                </TextBlock>
+                            </Canvas>
                         </StackPanel>
 
                         <StackPanel Name="ControlsStackPanel" Orientation="Horizontal" VerticalAlignment="Center" Width="Auto" Margin="8,0,0,0">

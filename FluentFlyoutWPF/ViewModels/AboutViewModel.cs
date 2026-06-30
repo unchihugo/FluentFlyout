@@ -1,4 +1,4 @@
-// Copyright © 2024-2026 The FluentFlyout Authors
+// Copyright (c) 2024-2026 The FluentFlyout Authors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -21,8 +21,12 @@ public partial class AboutViewModel : ObservableObject
         "xsm2",
         "Simnico99",
         "neegool",
+        "mclt0568",
         "mak7im01",
-        "Hikaru11747"
+        "Hikaru11747",
+        "FireWall-code",
+        "Saransh", // saransh-ops
+        "Jonas Schips" // zen1337th
      ];
 
     public ObservableCollection<string> Translators { get; } =
@@ -68,7 +72,7 @@ public partial class AboutViewModel : ObservableObject
         "NimiGames68",
         "FenrirXVII",
         "junior0liveira",
-        "AttackerMR",
+        "AttackerMR", // 3mr9
         "hayiamzhengxum",
         "VolodymyrBryzh",
         "havrlisan",
@@ -76,7 +80,12 @@ public partial class AboutViewModel : ObservableObject
         "manuelitou",
         "aic-6301",
         "mak7im01",
-        "D4N_A"
+        "D4N_A", // D4NA-DANA
+        "Haeil", // hae-ill
+        "FireWall-code",
+        "saini07ayush",
+        "biuseverinoneto",
+        "theantonyis"
     ];
 
 
@@ -97,14 +106,14 @@ public partial class AboutViewModel : ObservableObject
         new LicenseInfo
         {
             Name = "CommunityToolkit.Mvvm",
-            Version = "8.4.0-preview3",
+            Version = "8.4.2",
             License = "MIT",
             Url = "https://github.com/CommunityToolkit/dotnet"
         },
         new LicenseInfo
         {
             Name = "Dubya.WindowsMediaController",
-            Version = "2.5.5",
+            Version = "2.5.6",
             License = "MIT",
             Url = "https://github.com/DubyaDude/WindowsMediaController"
         },
@@ -124,14 +133,14 @@ public partial class AboutViewModel : ObservableObject
         },
         new LicenseInfo{
             Name = "NAudio",
-            Version = "2.2.1",
+            Version = "2.3.0",
             License = "MIT",
             Url = "https://github.com/naudio/NAudio"
         },
         new LicenseInfo
         {
             Name = "NLog",
-            Version = "6.0.6",
+            Version = "6.1.3",
             License = "BSD-3-Clause",
             Url = "https://nlog-project.org/"
         },
@@ -145,14 +154,14 @@ public partial class AboutViewModel : ObservableObject
         new LicenseInfo
         {
             Name = "WPF-UI",
-            Version = "4.2.0",
+            Version = "4.3.0",
             License = "MIT",
             Url = "https://github.com/lepoco/wpfui"
         },
         new LicenseInfo
         {
             Name = "WPF-UI.Tray",
-            Version = "4.2.0",
+            Version = "4.3.0",
             License = "MIT",
             Url = "https://github.com/lepoco/wpfui"
         },
