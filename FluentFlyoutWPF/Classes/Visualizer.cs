@@ -242,7 +242,7 @@ namespace FluentFlyoutWPF.Classes
                         }
                         UpdateBitmap();
 
-                        //if (!SettingsManager.Current.TaskbarVisualizerBaseline) // if baseline is enabled, don't switch the setting
+                        if (!SettingsManager.Current.TaskbarVisualizerBaseline || SettingsManager.Current.TaskbarVisualizerBaselineAutoHide) // if baseline is enabled and autohide is off, condition is false
                             SettingsManager.Current.TaskbarVisualizerHasContent = false;
 
                         // If we stop receiving loopback callbacks entirely (common after lock/unlock + device changes),
@@ -330,12 +330,12 @@ namespace FluentFlyoutWPF.Classes
                 _lastUpdateTime = now;
                 SettingsManager.Current.TaskbarVisualizerHasContent = true;
 
-                //if (SettingsManager.Current.TaskbarVisualizerBaseline)
-                //{
-                //    // if baseline is enabled, we want to keep showing the bars even when they are all zero
-                //    UpdateBitmap();
-                //    break;
-                //}
+                if (SettingsManager.Current.TaskbarVisualizerBaseline && !SettingsManager.Current.TaskbarVisualizerBaselineAutoHide)
+                {
+                    // if baseline is enabled and autohide is off, we want to keep showing the bars even when they are all zero
+                    UpdateBitmap();
+                    break;
+                }
 
                 // check if bars are all zero, if so set has content to false to disable hover effect
                 bool allZero = true;
