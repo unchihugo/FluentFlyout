@@ -279,4 +279,10 @@ Nota: Como proyecto de código abierto, estas opciones también están disponibl
     <system:String x:Key="Finish">Finalizar</system:String>
     <system:String x:Key="OnboardingStepsCounter">Paso {0} de {1}</system:String>
     <system:String x:Key="AnonymousUsageDataTitle">Enviar datos de uso anónimos</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextTitle">Texto desplazable</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTitle">Habilitar el desplazamiento</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextDescription">Desplazamiento automático para texto largo</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextLoopForeverTitle">Desplazamiento continuo</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextLoopForeverDescription">Repetir el texto infinitamente en una dirección en lugar de desplazarse hacia adelante y hacia atrás.</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextSpeedDescription">Velocidad a la que se desplaza el texto (píxeles/segundo). El valor predeterminado es 20.</system:String>
 </ResourceDictionary>
