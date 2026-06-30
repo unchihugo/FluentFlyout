@@ -265,7 +265,10 @@
                 <ui:CardExpander.Header>
                     <Grid ColumnDefinitions="*, Auto">
                         <StackPanel Orientation="Vertical">
-                            <TextBlock Text="{DynamicResource TaskbarWidgetScrollingTextTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{DynamicResource TaskbarWidgetScrollingTextTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
+                                <ui:InfoBadge Value=" NEW " FontWeight="Medium" FontSize="10" Margin="6,-2,0,-2" Severity="Success" />
+                            </StackPanel>
                             <TextBlock Text="{DynamicResource TaskbarWidgetScrollingTextDescription}" FontSize="12" Opacity="0.5" />
                         </StackPanel>
                         <controls:ToggleSwitch Grid.Column="1" IsChecked="{Binding TaskbarWidgetScrollingEnabled, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}" Margin="0,0,16,0" />

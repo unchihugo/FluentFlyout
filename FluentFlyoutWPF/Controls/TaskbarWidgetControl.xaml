@@ -24,7 +24,7 @@
                         <ScaleTransform ScaleX="0.9" ScaleY="0.9" />
                     </Grid.RenderTransform>
                     <StackPanel Name="MainStackPanel" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Width="Auto" Margin="4,0,-100,0">
-                        <Border Name="SongImageBorder" CornerRadius="5" Margin="0,0,0,-2" ClipToBounds="True" Width="36" Height="36" Panel.ZIndex="2">
+                        <Border Name="SongImageBorder" CornerRadius="5" ClipToBounds="True" Width="36" Height="36" Panel.ZIndex="2">
                             <Grid>
                                 <ui:SymbolIcon Name="SongImagePlaceholder" Symbol="MusicNote220" FontSize="24" Filled="True" Foreground="{DynamicResource MicaWPF.Brushes.SystemAccentColorTertiary}" />
                             </Grid>
@@ -38,14 +38,14 @@
                                     ToolTipService.Placement="RelativePoint"
                                     ToolTipService.VerticalOffset="-16">
                             <Canvas x:Name="SongTitleContainer" ClipToBounds="True" Height="19">
-                                <TextBlock x:Name="SongTitle" Text="" FontWeight="Normal" Margin="0,0,8,0">
+                                <TextBlock x:Name="SongTitle" Text="" FontWeight="Normal">
                                     <TextBlock.RenderTransform>
                                         <TranslateTransform />
                                     </TextBlock.RenderTransform>
                                 </TextBlock>
                             </Canvas>
                             <Canvas x:Name="SongArtistContainer" ClipToBounds="True" Margin="0,-1.5,0,0" Height="19">
-                                <TextBlock x:Name="SongArtist" Text="" FontWeight="Normal" Opacity="0.5" Margin="0,0,8,0">
+                                <TextBlock x:Name="SongArtist" Text="" FontWeight="Normal" Opacity="0.5">
                                     <TextBlock.RenderTransform>
                                         <TranslateTransform />
                                     </TextBlock.RenderTransform>
@@ -53,7 +53,7 @@
                             </Canvas>
                         </StackPanel>
 
-                        <StackPanel Name="ControlsStackPanel" Orientation="Horizontal" VerticalAlignment="Center" Width="Auto" Margin="8,0,0,0">
+                        <StackPanel Name="ControlsStackPanel" Orientation="Horizontal" VerticalAlignment="Center" Width="Auto">
                             <StackPanel.Style>
                                 <Style TargetType="StackPanel">
                                     <Setter Property="Visibility" Value="Collapsed" />

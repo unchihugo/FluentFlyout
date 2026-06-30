@@ -151,7 +151,7 @@ public static class LocalizationManager
         Lengths.Add(StringWidth.GetStringWidth(OnOffMax + Application.Current.TryFindResource("LockWindow_NumLock").ToString() ?? string.Empty));
         Lengths.Add(StringWidth.GetStringWidth(OnOffMax + Application.Current.TryFindResource("LockWindow_ScrollLock").ToString() ?? string.Empty));
 
-        maxLength = Lengths.Max();
+        maxLength = Lengths.Max() + 8; // additional margin to avoid text clipping
 
         // set minimum just in case if resources weren't loaded
         if (maxLength < 20)
