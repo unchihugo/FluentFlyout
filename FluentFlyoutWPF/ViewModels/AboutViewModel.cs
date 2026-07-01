@@ -25,7 +25,8 @@ public partial class AboutViewModel : ObservableObject
         "mak7im01",
         "Hikaru11747",
         "FireWall-code",
-        "Saransh" // saransh-ops
+        "Saransh", // saransh-ops
+        "Jonas Schips" // zen1337th
      ];
 
     public ObservableCollection<string> Translators { get; } =
