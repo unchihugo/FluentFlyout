@@ -162,88 +162,14 @@ public partial class SettingsWindow : FluentWindow
             }
         }
 
-        // Add specific settings deep links
-        void AddDeepLink(Type targetPageType, string resourceKey, string elementId)
+        // Add specific settings deep links from auto-generated static array
+        foreach (var item in SearchItems)
         {
-            string title = Application.Current.TryFindResource(resourceKey)?.ToString() ?? resourceKey;
+            string title = Application.Current.TryFindResource(item.ResourceKey)?.ToString() ?? item.ResourceKey;
             // Clean up the page type name (e.g. "SystemPage" -> "System")
-            string pageName = targetPageType.Name.Replace("Page", "");
-            items.Add(new SearchItem { Title = $"{title} ({pageName})", TargetPageType = targetPageType, TargetElementId = elementId });
+            string pageName = item.TargetPageType.Name.Replace("Page", "");
+            items.Add(new SearchItem { Title = $"{title} ({pageName})", TargetPageType = item.TargetPageType, TargetElementId = item.TargetElementId });
         }
-
-        AddDeepLink(typeof(Pages.AdvancedPage), "MediaFlyoutTitle", "MediaFlyoutTitleCard");
-        AddDeepLink(typeof(Pages.AdvancedPage), "NextUpCustomizationTitle", "NextUpCustomizationTitleCard");
-        AddDeepLink(typeof(Pages.AdvancedPage), "LockKeysCustomizationTitle", "LockKeysCustomizationTitleCard");
-        AddDeepLink(typeof(Pages.AdvancedPage), "LegacyTaskbarWidthTitle", "LegacyTaskbarWidthTitleCard");
-        AddDeepLink(typeof(Pages.AppFilteringPage), "EnableAppFilteringTitle", "EnableAppFilteringTitleCard");
-        AddDeepLink(typeof(Pages.AppFilteringPage), "AppFilteringModeTitle", "AppFilteringModeTitleCard");
-        AddDeepLink(typeof(Pages.HomePage), "UnlockFullExperienceText", "UnlockFullExperienceTextCard");
-        AddDeepLink(typeof(Pages.LockKeysPage), "EnableLockKeysTitle", "EnableLockKeysTitleCard");
-        AddDeepLink(typeof(Pages.LockKeysPage), "LockKeysStayDurationTitle", "LockKeysStayDurationTitleCard");
-        AddDeepLink(typeof(Pages.LockKeysPage), "LockKeysBoldUITitle", "LockKeysBoldUITitleCard");
-        AddDeepLink(typeof(Pages.LockKeysPage), "LockKeysAnimatedTitle", "LockKeysAnimatedTitleCard");
-        AddDeepLink(typeof(Pages.LockKeysPage), "LockKeysCursorUITitle", "LockKeysCursorUITitleCard");
-        AddDeepLink(typeof(Pages.LockKeysPage), "EnableInsertKeyTitle", "EnableInsertKeyTitleCard");
-        AddDeepLink(typeof(Pages.LockKeysPage), "EnableCapsTitle", "EnableCapsTitleCard");
-        AddDeepLink(typeof(Pages.LockKeysPage), "EnableNumTitle", "EnableNumTitleCard");
-        AddDeepLink(typeof(Pages.LockKeysPage), "EnableScrollTitle", "EnableScrollTitleCard");
-        AddDeepLink(typeof(Pages.MediaFlyoutPage), "TextBlockText1", "TextBlockText1Card");
-        AddDeepLink(typeof(Pages.MediaFlyoutPage), "BackgroundBlurTitle", "BackgroundBlurTitleCard");
-        AddDeepLink(typeof(Pages.MediaFlyoutPage), "CompactLayoutTitle", "CompactLayoutTitleCard");
-        AddDeepLink(typeof(Pages.MediaFlyoutPage), "FlyoutPositionTitle", "FlyoutPositionTitleCard");
-        AddDeepLink(typeof(Pages.MediaFlyoutPage), "FlyoutStayDurationTitle", "FlyoutStayDurationTitleCard");
-        AddDeepLink(typeof(Pages.MediaFlyoutPage), "MediaFlyoutAlwaysDisplay", "MediaFlyoutAlwaysDisplayCard");
-        AddDeepLink(typeof(Pages.MediaFlyoutPage), "CenterTitleArtistTitle", "CenterTitleArtistTitleCard");
-        AddDeepLink(typeof(Pages.MediaFlyoutPage), "ShowMediaPlayerNameTitle", "ShowMediaPlayerNameTitleCard");
-        AddDeepLink(typeof(Pages.MediaFlyoutPage), "RepeatButtonTitle", "RepeatButtonTitleCard");
-        AddDeepLink(typeof(Pages.MediaFlyoutPage), "ShuffleButtonTitle", "ShuffleButtonTitleCard");
-        AddDeepLink(typeof(Pages.MediaFlyoutPage), "ShowSeekbarTitle", "ShowSeekbarTitleCard");
-        AddDeepLink(typeof(Pages.MediaFlyoutPage), "PauseOtherMediaTitle", "PauseOtherMediaTitleCard");
-        AddDeepLink(typeof(Pages.MediaFlyoutPage), "MediaFlyoutExcludeVolumeTitle", "MediaFlyoutExcludeVolumeTitleCard");
-        AddDeepLink(typeof(Pages.NextUpPage), "EnableNextUpTitle", "EnableNextUpTitleCard");
-        AddDeepLink(typeof(Pages.NextUpPage), "NextUpStayDurationTitle", "NextUpStayDurationTitleCard");
-        AddDeepLink(typeof(Pages.SystemPage), "SelectedMonitorTitle", "SelectedMonitorCard");
-        AddDeepLink(typeof(Pages.SystemPage), "AcrylicBlurOpacityTitle", "AcrylicBlurOpacityCard");
-        AddDeepLink(typeof(Pages.SystemPage), "UseAlbumArtAccentColorTitle", "UseAlbumArtAccentColorCard");
-        AddDeepLink(typeof(Pages.SystemPage), "AppLanguageTitle", "AppLanguageCard");
-        AddDeepLink(typeof(Pages.SystemPage), "AppThemeTitle", "AppThemeCard");
-        AddDeepLink(typeof(Pages.SystemPage), "LaunchOnStartupTitle", "LaunchOnStartupCard");
-        AddDeepLink(typeof(Pages.SystemPage), "AnonymousUsageDataTitle", "AnonymousUsageDataCard");
-        AddDeepLink(typeof(Pages.SystemPage), "DisableOnFullscreenTitle", "DisableOnFullscreenCard");
-        AddDeepLink(typeof(Pages.SystemPage), "TrayIconLeftClickBehaviorTitle", "TrayIconLeftClickBehaviorCard");
-        AddDeepLink(typeof(Pages.SystemPage), "Win11TrayIconTitle", "Win11TrayIconCard");
-        AddDeepLink(typeof(Pages.SystemPage), "HideTrayIconTitle", "HideTrayIconCard");
-        AddDeepLink(typeof(Pages.SystemPage), "BackupRestoreCardTitle", "BackupRestoreCardTitleCard");
-        AddDeepLink(typeof(Pages.SystemPage), "ShowUpdateNotificationsTitle", "ShowUpdateNotificationsTitleCard");
-        AddDeepLink(typeof(Pages.SystemPage), "AppFilteringTitle", "AppFilteringTitleCard");
-        AddDeepLink(typeof(Pages.SystemPage), "AdvancedSettingsTitle", "AdvancedSettingsTitleCard");
-        AddDeepLink(typeof(Pages.TaskbarVisualizerPage), "TaskbarVisualizerEnabledTitle", "TaskbarVisualizerEnabledTitleCard");
-        AddDeepLink(typeof(Pages.TaskbarVisualizerPage), "TaskbarVisualizerPositionTitle", "TaskbarVisualizerPositionTitleCard");
-        AddDeepLink(typeof(Pages.TaskbarVisualizerPage), "TaskbarVisualizerBarCountTitle", "TaskbarVisualizerBarCountTitleCard");
-        AddDeepLink(typeof(Pages.TaskbarVisualizerPage), "TaskbarVisualizerCenteredBarsTitle", "TaskbarVisualizerCenteredBarsTitleCard");
-        AddDeepLink(typeof(Pages.TaskbarVisualizerPage), "TaskbarVisualizerBaselineTitle", "TaskbarVisualizerBaselineTitleCard");
-        AddDeepLink(typeof(Pages.TaskbarVisualizerPage), "TaskbarVisualizerAudioSensitivityTitle", "TaskbarVisualizerAudioSensitivityTitleCard");
-        AddDeepLink(typeof(Pages.TaskbarVisualizerPage), "TaskbarVisualizerAudioPeakLevelTitle", "TaskbarVisualizerAudioPeakLevelTitleCard");
-        AddDeepLink(typeof(Pages.TaskbarVisualizerPage), "AccentTextFillColorPrimaryBrush", "StartupHyperlink");
-        AddDeepLink(typeof(Pages.TaskbarVisualizerPage), "TaskbarVisualizerClickableTitle", "TaskbarVisualizerClickableTitleCard");
-        AddDeepLink(typeof(Pages.TaskbarWidgetPage), "TaskbarWidgetEnabledTitle", "TaskbarWidgetEnabledTitleCard");
-        AddDeepLink(typeof(Pages.TaskbarWidgetPage), "TaskbarWidgetPosition", "TaskbarWidgetPositionCard");
-        AddDeepLink(typeof(Pages.TaskbarWidgetPage), "TaskbarWidgetSelectedMonitorTitle", "TaskbarWidgetSelectedMonitorTitleCard");
-        AddDeepLink(typeof(Pages.TaskbarWidgetPage), "TaskbarWidgetPaddingTitle", "TaskbarWidgetPaddingTitleCard");
-        AddDeepLink(typeof(Pages.TaskbarWidgetPage), "TaskbarWidgetManualPaddingTitle", "TaskbarWidgetManualPaddingTitleCard");
-        AddDeepLink(typeof(Pages.TaskbarWidgetPage), "TaskbarWidgetBackgroundBlurTitle", "TaskbarWidgetBackgroundBlurTitleCard");
-        AddDeepLink(typeof(Pages.TaskbarWidgetPage), "TaskbarWidgetHideCompletelyTitle", "TaskbarWidgetHideCompletelyTitleCard");
-        AddDeepLink(typeof(Pages.TaskbarWidgetPage), "TaskbarWidgetFixedWidthTitle", "TaskbarWidgetFixedWidthTitleCard");
-        AddDeepLink(typeof(Pages.TaskbarWidgetPage), "TaskbarWidgetAutoHideTitle", "TaskbarWidgetAutoHideTitleCard");
-        AddDeepLink(typeof(Pages.TaskbarWidgetPage), "TaskbarWidgetControlsTitle", "TaskbarWidgetControlsTitleCard");
-        AddDeepLink(typeof(Pages.TaskbarWidgetPage), "TaskbarWidgetControlsPositionTitle", "TaskbarWidgetControlsPositionTitleCard");
-        AddDeepLink(typeof(Pages.TaskbarWidgetPage), "TaskbarWidgetAnimatedTitle", "TaskbarWidgetAnimatedTitleCard");
-        AddDeepLink(typeof(Pages.TaskbarWidgetPage), "TaskbarWidgetShowPauseOverlayTitle", "TaskbarWidgetShowPauseOverlayTitleCard");
-        AddDeepLink(typeof(Pages.VolumeMixerPage), "EnableVolumeFlyoutTitle", "EnableVolumeFlyoutTitleCard");
-        AddDeepLink(typeof(Pages.VolumeMixerPage), "VolumeAboveMediaFlyoutTitle", "VolumeAboveMediaFlyoutTitleCard");
-        AddDeepLink(typeof(Pages.VolumeMixerPage), "VolumeFlyoutStayDurationTitle", "VolumeFlyoutStayDurationTitleCard");
-        AddDeepLink(typeof(Pages.VolumeMixerPage), "EnableVolumeMixerTitle", "EnableVolumeMixerTitleCard");
-        AddDeepLink(typeof(Pages.VolumeMixerPage), "VolumeMixerHighlightTitle", "VolumeMixerHighlightTitleCard");
 
         _allSearchItems = items;
         SearchBox.OriginalItemsSource = _allSearchItems;

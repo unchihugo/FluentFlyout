@@ -285,7 +285,7 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <ui:CardControl x:Name="UnlockFullExperienceTextCard" Grid.Row="0">
+            <ui:CardControl x:Name="UnlockFullExperienceTextCard" Tag="Indexable" Grid.Row="0">
                 <ui:CardControl.Header>
                     <StackPanel>
                         <StackPanel Margin="0,0,0,12" Visibility="{Binding IsPremiumUnlocked, Converter={StaticResource BoolToCollapsedVisibleConverter}}">

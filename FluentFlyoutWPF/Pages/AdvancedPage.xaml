@@ -72,7 +72,7 @@
                     </StackPanel>
                 </ui:CardExpander.Header>
                 <StackPanel>
-                    <ui:CardControl x:Name="MediaFlyoutTitleCard" Margin="0,0,0,3">
+                    <ui:CardControl x:Name="MediaFlyoutTitleCard" Tag="Indexable" Margin="0,0,0,3">
                         <ui:CardControl.Header>
                             <StackPanel Orientation="Vertical">
                                 <TextBlock Text="{DynamicResource MediaFlyoutTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
@@ -81,7 +81,7 @@
                         <controls:ToggleSwitch IsChecked="{Binding MediaFlyoutAcrylicWindowEnabled, Mode=TwoWay}" />
                     </ui:CardControl>
 
-                    <ui:CardControl x:Name="NextUpCustomizationTitleCard" Margin="0,0,0,3">
+                    <ui:CardControl x:Name="NextUpCustomizationTitleCard" Tag="Indexable" Margin="0,0,0,3">
                         <ui:CardControl.Header>
                             <StackPanel Orientation="Vertical">
                                 <TextBlock Text="{DynamicResource NextUpCustomizationTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
@@ -90,7 +90,7 @@
                         <controls:ToggleSwitch IsChecked="{Binding NextUpAcrylicWindowEnabled, Mode=TwoWay}" />
                     </ui:CardControl>
 
-                    <ui:CardControl x:Name="LockKeysCustomizationTitleCard">
+                    <ui:CardControl x:Name="LockKeysCustomizationTitleCard" Tag="Indexable">
                         <ui:CardControl.Header>
                             <StackPanel Orientation="Vertical">
                                 <TextBlock Text="{DynamicResource LockKeysCustomizationTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
@@ -101,7 +101,7 @@
                 </StackPanel>
             </ui:CardExpander>
 
-            <ui:CardControl x:Name="LegacyTaskbarWidthTitleCard" Icon="{ui:SymbolIcon ArrowCounterclockwise24}">
+            <ui:CardControl x:Name="LegacyTaskbarWidthTitleCard" Tag="Indexable" Icon="{ui:SymbolIcon ArrowCounterclockwise24}">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
                         <StackPanel Orientation="Horizontal">
