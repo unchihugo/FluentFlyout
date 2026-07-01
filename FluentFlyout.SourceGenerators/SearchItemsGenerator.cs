@@ -17,7 +17,7 @@ namespace FluentFlyout.SourceGenerators
         {
             var searchItems = new List<(string pageType, string resourceKey, string elementId)>();
 
-            foreach (var file in context.AdditionalFiles.Where(f => f.Path.EndsWith(".xaml", StringComparison.OrdinalIgnoreCase)))
+            foreach (var file in context.AdditionalFiles.Where(f => f.Path.EndsWith(".xaml", StringComparison.OrdinalIgnoreCase) && f.Path.Replace('\\', '/').IndexOf("/Pages/", StringComparison.OrdinalIgnoreCase) >= 0))
             {
                 var pageName = Path.GetFileNameWithoutExtension(file.Path);
 
