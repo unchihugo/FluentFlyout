@@ -533,6 +533,13 @@ public partial class UserSettings : ObservableObject
     public partial ObservableCollection<string> BlockedApps { get; set; }
 
     /// <summary>
+    /// Apps that are ignored across all surfaces: media flyout, taskbar widget, and volume mixer.
+    /// Unlike BlockedApps, this list is always active regardless of AppFilteringEnabled.
+    /// </summary>
+    [ObservableProperty]
+    public partial ObservableCollection<string> IgnoredAudioSources { get; set; } = new();
+
+    /// <summary>
     /// Position of the visualizer, where 0 and 1 are to the left or right of the widget.
     /// </summary>
     [ObservableProperty]
