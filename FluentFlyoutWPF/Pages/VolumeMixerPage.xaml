@@ -49,7 +49,7 @@
         </Grid>
 
         <StackPanel>
-            <ui:CardControl Icon="{ui:SymbolIcon Symbol=Speaker224}" Margin="0,0,0,24">
+            <ui:CardControl x:Name="EnableVolumeFlyoutTitleCard" Tag="Indexable" Icon="{ui:SymbolIcon Symbol=Speaker224}" Margin="0,0,0,24">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
                         <StackPanel Orientation="Horizontal">
@@ -62,7 +62,7 @@
                 <controls:ToggleSwitch IsChecked="{Binding VolumeControlEnabled, Mode=TwoWay}" />
             </ui:CardControl>
 
-            <ui:CardControl Icon="{ui:SymbolIcon ArrowMove24}" Margin="0,0,0,3">
+            <ui:CardControl x:Name="VolumeAboveMediaFlyoutTitleCard" Tag="Indexable" Icon="{ui:SymbolIcon ArrowMove24}" Margin="0,0,0,3">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
                         <TextBlock Text="{DynamicResource VolumeAboveMediaFlyoutTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
@@ -71,7 +71,7 @@
                 <controls:ToggleSwitch IsChecked="{Binding VolumeControlAboveMediaFlyout, Mode=TwoWay}" />
             </ui:CardControl>
 
-            <ui:CardControl Grid.Row="3" Icon="{ui:SymbolIcon Timer24}" Margin="0,0,0,12">
+            <ui:CardControl x:Name="VolumeFlyoutStayDurationTitleCard" Tag="Indexable" Grid.Row="3" Icon="{ui:SymbolIcon Timer24}" Margin="0,0,0,12">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
                         <TextBlock Text="{DynamicResource VolumeFlyoutStayDurationTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
@@ -85,7 +85,7 @@
             </ui:CardControl>
 
             <TextBlock Text="{DynamicResource VolumeMixerSectionTitle}" FontSize="14" FontWeight="SemiBold" Margin="0,12,0,6" />
-            <ui:CardControl Icon="{ui:SymbolIcon SpeakerSettings24}" Margin="0,0,0,3">
+            <ui:CardControl x:Name="EnableVolumeMixerTitleCard" Tag="Indexable" Icon="{ui:SymbolIcon SpeakerSettings24}" Margin="0,0,0,3">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
                         <TextBlock Text="{DynamicResource EnableVolumeMixerTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
@@ -95,7 +95,7 @@
                 <controls:ToggleSwitch IsChecked="{Binding VolumeMixerEnabled, Mode=TwoWay}" />
             </ui:CardControl>
             
-            <ui:CardControl Icon="{ui:SymbolIcon Highlight24}" Margin="0,0,0,76" Opacity="{Binding IsPremiumUnlocked, Converter={StaticResource BoolToFullHalfOpacityConverter}}">
+            <ui:CardControl x:Name="VolumeMixerHighlightTitleCard" Tag="Indexable" Icon="{ui:SymbolIcon Highlight24}" Margin="0,0,0,76" Opacity="{Binding IsPremiumUnlocked, Converter={StaticResource BoolToFullHalfOpacityConverter}}">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
                         <StackPanel Orientation="Horizontal">

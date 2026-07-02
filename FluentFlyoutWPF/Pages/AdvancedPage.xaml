@@ -1,4 +1,4 @@
-﻿<Page x:Class="FluentFlyoutWPF.Pages.AdvancedPage"
+<Page x:Class="FluentFlyoutWPF.Pages.AdvancedPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -26,7 +26,7 @@
                     </StackPanel>
                 </ui:CardExpander.Header>
                 <StackPanel>
-                    <ui:CardControl Icon="{ui:SymbolIcon TopSpeed24}" Margin="0,0,0,3">
+                    <ui:CardControl x:Name="AnimationDurationScaleTitleCard" Tag="Indexable" Icon="{ui:SymbolIcon TopSpeed24}" Margin="0,0,0,3">
                         <ui:CardControl.Header>
                             <StackPanel Orientation="Vertical">
                                 <TextBlock Text="{DynamicResource AnimationDurationScaleTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
@@ -44,7 +44,7 @@
                             </ComboBox>
                         </StackPanel>
                     </ui:CardControl>
-                    <ui:CardControl Icon="{ui:SymbolIcon BezierCurveSquare12}" Margin="0,0,0,3">
+                    <ui:CardControl x:Name="AnimationEasingStyleTitleCard" Tag="Indexable" Icon="{ui:SymbolIcon BezierCurveSquare12}" Margin="0,0,0,3">
                         <ui:CardControl.Header>
                             <StackPanel Orientation="Vertical">
                                 <TextBlock Text="{DynamicResource AnimationEasingStyleTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
@@ -72,7 +72,7 @@
                     </StackPanel>
                 </ui:CardExpander.Header>
                 <StackPanel>
-                    <ui:CardControl Margin="0,0,0,3">
+                    <ui:CardControl x:Name="MediaFlyoutTitleCard" Tag="Indexable" Margin="0,0,0,3">
                         <ui:CardControl.Header>
                             <StackPanel Orientation="Vertical">
                                 <TextBlock Text="{DynamicResource MediaFlyoutTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
@@ -81,7 +81,7 @@
                         <controls:ToggleSwitch IsChecked="{Binding MediaFlyoutAcrylicWindowEnabled, Mode=TwoWay}" />
                     </ui:CardControl>
 
-                    <ui:CardControl Margin="0,0,0,3">
+                    <ui:CardControl x:Name="NextUpCustomizationTitleCard" Tag="Indexable" Margin="0,0,0,3">
                         <ui:CardControl.Header>
                             <StackPanel Orientation="Vertical">
                                 <TextBlock Text="{DynamicResource NextUpCustomizationTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
@@ -90,7 +90,7 @@
                         <controls:ToggleSwitch IsChecked="{Binding NextUpAcrylicWindowEnabled, Mode=TwoWay}" />
                     </ui:CardControl>
 
-                    <ui:CardControl>
+                    <ui:CardControl x:Name="LockKeysCustomizationTitleCard" Tag="Indexable">
                         <ui:CardControl.Header>
                             <StackPanel Orientation="Vertical">
                                 <TextBlock Text="{DynamicResource LockKeysCustomizationTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
@@ -101,7 +101,7 @@
                 </StackPanel>
             </ui:CardExpander>
 
-            <ui:CardControl Icon="{ui:SymbolIcon ArrowCounterclockwise24}">
+            <ui:CardControl x:Name="LegacyTaskbarWidthTitleCard" Tag="Indexable" Icon="{ui:SymbolIcon ArrowCounterclockwise24}">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
                         <StackPanel Orientation="Horizontal">

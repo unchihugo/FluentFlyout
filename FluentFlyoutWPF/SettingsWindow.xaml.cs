@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2024-2026 The FluentFlyout Authors
+// Copyright (c) 2024-2026 The FluentFlyout Authors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 using FluentFlyout.Classes;
@@ -18,6 +18,8 @@ public partial class SettingsWindow : FluentWindow
     private static SettingsWindow? instance;
     private Type? _currentPageType;
     private ScrollViewer? _contentScrollViewer;
+    private List<SearchItem> _allSearchItems = new();
+    private string? _pendingHighlightElementId = null;
 
     public SettingsWindow()
     {
@@ -36,11 +38,43 @@ public partial class SettingsWindow : FluentWindow
 
         InitializeComponent();
         instance = this;
+        this.SizeChanged += SettingsWindow_SizeChanged;
 
         Closed += (s, e) => instance = null;
         DataContext = SettingsManager.Current;
 
         RootNavigation.SetCurrentValue(NavigationView.IsPaneOpenProperty, false);
+    }
+
+    private void SettingsWindow_SizeChanged(object sender, SizeChangedEventArgs e)
+    {
+        UpdateSearchBoxPosition();
+    }
+
+    private void UpdateSearchBoxPosition()
+    {
+        if (SearchGrid.IsLoaded)
+        {
+            try
+            {
+                var transform = SearchGrid.TransformToAncestor(this);
+                Point gridPos = transform.Transform(new Point(0, 0));
+
+                double leftBound = gridPos.X;
+                double rightBound = this.ActualWidth - 150; // 150px approx width of window control buttons
+
+                if (rightBound > leftBound)
+                {
+                    double availableWidth = rightBound - leftBound;
+                    SearchGrid.Width = Math.Max(availableWidth, SearchBox.Width);
+                }
+                else
+                {
+                    SearchGrid.Width = SearchBox.Width;
+                }
+            }
+            catch { }
+        }
     }
 
     public static void ShowInstance(string? navigationPage = null)
@@ -60,14 +94,53 @@ public partial class SettingsWindow : FluentWindow
             instance.Activate();
             instance.Focus();
         }
+    }
 
-        if (navigationPage != null)
+    private void SearchBox_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
+    {
+        if (args.SelectedItem is SearchItem selectedItem)
         {
-            var pageType = System.Reflection.Assembly
-                .GetExecutingAssembly()
-                .GetType($"FluentFlyoutWPF.Pages.{navigationPage}");
-            if (pageType != null)
-                NavigateToPage(pageType);
+            // Clear the search text asynchronously to avoid being overwritten by the AutoSuggestBox setting the text to the selected item
+            Dispatcher.BeginInvoke(new Action(() =>
+            {
+                sender.Text = string.Empty;
+                sender.IsSuggestionListOpen = false;
+            }), System.Windows.Threading.DispatcherPriority.Loaded);
+
+            if (selectedItem.TargetPageType != null)
+            {
+                if (_currentPageType != selectedItem.TargetPageType)
+                {
+                    _pendingHighlightElementId = selectedItem.TargetElementId;
+                    RootNavigation.Navigate(selectedItem.TargetPageType);
+                }
+                else if (!string.IsNullOrEmpty(selectedItem.TargetElementId))
+                {
+                    // Already on the page, just scroll and highlight
+                    ScrollToAndHighlight(selectedItem.TargetElementId);
+                }
+            }
+        }
+    }
+
+    private void SearchBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+    {
+        if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
+        {
+            var query = sender.Text.ToLowerInvariant();
+            var matches = _allSearchItems.Where(x => x.Title.ToLowerInvariant().Contains(query)).ToList();
+            sender.ItemsSource = matches;
+            sender.IsSuggestionListOpen = matches.Count > 0;
+        }
+    }
+
+    private void FluentWindow_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+    {
+        if (SearchBox.IsKeyboardFocusWithin && !SearchBox.IsMouseOver)
+        {
+            SearchBox.IsSuggestionListOpen = false;
+            // Move focus to the window to unfocus the search box
+            this.Focus();
         }
     }
 
@@ -76,8 +149,65 @@ public partial class SettingsWindow : FluentWindow
         instance?.RootNavigation.Navigate(pageType);
     }
 
+    private void BuildSearchItems()
+    {
+        var items = new List<SearchItem>();
+
+        // Add all tabs
+        foreach (var navItem in RootNavigation.MenuItems.OfType<NavigationViewItem>().Concat(RootNavigation.FooterMenuItems.OfType<NavigationViewItem>()))
+        {
+            if (navItem.Content != null)
+            {
+                items.Add(new SearchItem { Title = navItem.Content.ToString()!, TargetPageType = navItem.TargetPageType });
+            }
+        }
+
+        // Add specific settings deep links from auto-generated static array
+        foreach (var item in SearchItems)
+        {
+            string title = Application.Current.TryFindResource(item.ResourceKey)?.ToString() ?? item.ResourceKey;
+            // Clean up the page type name (e.g. "SystemPage" -> "System")
+            string pageName = item.TargetPageType.Name.Replace("Page", "");
+            items.Add(new SearchItem { Title = $"{title} ({pageName})", TargetPageType = item.TargetPageType, TargetElementId = item.TargetElementId });
+        }
+
+        _allSearchItems = items;
+        SearchBox.OriginalItemsSource = _allSearchItems;
+    }
+
+    private void ScrollToAndHighlight(string elementId)
+    {
+        Dispatcher.BeginInvoke(new Action(() =>
+        {
+            try
+            {
+                var targetElement = FindChildByName<FrameworkElement>(RootNavigation, elementId);
+                if (targetElement != null)
+                {
+                    targetElement.BringIntoView();
+
+                    // Heartbeat animation
+                    var heartbeatAnimation = new System.Windows.Media.Animation.DoubleAnimation
+                    {
+                        From = 1.0,
+                        To = 0.5,
+                        Duration = new Duration(TimeSpan.FromMilliseconds(250)),
+                        AutoReverse = true,
+                        RepeatBehavior = new System.Windows.Media.Animation.RepeatBehavior(2)
+                    };
+                    targetElement.BeginAnimation(UIElement.OpacityProperty, heartbeatAnimation);
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "Error scrolling to and highlighting element");
+            }
+        }), System.Windows.Threading.DispatcherPriority.Loaded);
+    }
+
     private async void SettingsWindow_Loaded(object sender, RoutedEventArgs e)
     {
+        UpdateSearchBoxPosition();
         RootNavigation.IsPaneOpen = false;
 
         _currentPageType = typeof(HomePage);
@@ -97,6 +227,13 @@ public partial class SettingsWindow : FluentWindow
         {
             _currentPageType = args.Page?.GetType();
             ResetScrollPosition();
+            if (!string.IsNullOrEmpty(_pendingHighlightElementId))
+            {
+                var elementId = _pendingHighlightElementId;
+                _pendingHighlightElementId = null;
+                // Add a slight delay to ensure page is fully rendered before finding child and scrolling
+                Task.Delay(150).ContinueWith(_ => ScrollToAndHighlight(elementId));
+            }
         };
 
         SettingsManager.Current.PropertyChanged += async (s, args) =>
@@ -113,11 +250,19 @@ public partial class SettingsWindow : FluentWindow
                     await Task.Delay(10);
                     RootNavigation.IsPaneOpen = wasPaneOpen;
 
-                    await Task.Delay(300);
-                    RootNavigation.Navigate(typeof(HomePage));
+                    BuildSearchItems();
+                }, System.Windows.Threading.DispatcherPriority.Loaded);
+            }
+            else if (args.PropertyName == nameof(SettingsManager.Current.AppLanguage))
+            {
+                await Dispatcher.InvokeAsync(() =>
+                {
+                    BuildSearchItems();
                 }, System.Windows.Threading.DispatcherPriority.Loaded);
             }
         };
+
+        BuildSearchItems();
     }
 
     private void SettingsWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -208,5 +353,13 @@ public partial class SettingsWindow : FluentWindow
             }
         }
         return null;
+    }
+
+    public class SearchItem
+    {
+        public string Title { get; set; } = string.Empty;
+        public Type? TargetPageType { get; set; }
+        public string? TargetElementId { get; set; }
+        public override string ToString() => Title;
     }
 }
