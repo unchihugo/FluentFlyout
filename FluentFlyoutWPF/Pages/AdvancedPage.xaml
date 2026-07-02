@@ -26,7 +26,7 @@
                     </StackPanel>
                 </ui:CardExpander.Header>
                 <StackPanel>
-                    <ui:CardControl x:Name="AnimationDurationScaleTitleCard" Icon="{ui:SymbolIcon TopSpeed24}" Margin="0,0,0,3">
+                    <ui:CardControl x:Name="AnimationDurationScaleTitleCard" Tag="Indexable" Icon="{ui:SymbolIcon TopSpeed24}" Margin="0,0,0,3">
                         <ui:CardControl.Header>
                             <StackPanel Orientation="Vertical">
                                 <TextBlock Text="{DynamicResource AnimationDurationScaleTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
@@ -44,7 +44,7 @@
                             </ComboBox>
                         </StackPanel>
                     </ui:CardControl>
-                    <ui:CardControl x:Name="AnimationEasingStyleTitleCard" Icon="{ui:SymbolIcon BezierCurveSquare12}" Margin="0,0,0,3">
+                    <ui:CardControl x:Name="AnimationEasingStyleTitleCard" Tag="Indexable" Icon="{ui:SymbolIcon BezierCurveSquare12}" Margin="0,0,0,3">
                         <ui:CardControl.Header>
                             <StackPanel Orientation="Vertical">
                                 <TextBlock Text="{DynamicResource AnimationEasingStyleTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
