@@ -34,8 +34,8 @@
     <system:String x:Key="BackgroundBlurOption2" xml:space="preserve"> Estilo 1 (Brilho de Capa)</system:String>
     <system:String x:Key="BackgroundBlurOption3" xml:space="preserve"> Estilo 2 (Brilho Ascendente)</system:String>
     <system:String x:Key="BackgroundBlurOption4" xml:space="preserve"> Estilo 3 (Desfoque)</system:String>
-    <system:String x:Key="AcrylicWindowTitle">Janela Acrílica</system:String>
-    <system:String x:Key="AcrylicWindowDescription">Aplicar efeito acrílico transparente de desfoque no flyout (desativado reverte para Mica)</system:String>
+    <system:String x:Key="AcrylicWindowTitle">Menus flutuantes acrílicos</system:String>
+    <system:String x:Key="AcrylicWindowDescription">Aplicar efeito de desfoque acrílico transparente aos menus flutuantes</system:String>
     <system:String x:Key="CompactLayoutDescription" xml:space="preserve">Layout mais fino e menos intrusivo
 esconde os botões de repetir, aleatório e as informações do player</system:String>
     <system:String x:Key="RepeatButtonDescription">Escolha entre repetir todos ou repetir um, aumenta a largura do flyout</system:String>
@@ -279,4 +279,12 @@ Nota: Como um projeto de código aberto, esses recursos também estão disponív
     <system:String x:Key="OnboardingStepsCounter">Etapa {0} de {1}</system:String>
     <system:String x:Key="AnonymousUsageDataTitle">Enviar dados de uso anônimos</system:String>
     <system:String x:Key="AnonymousUsageDataDescription">Ajude a melhorar o aplicativo enviando dados de uso anônimos e não identificáveis</system:String>
+    <system:String x:Key="TaskbarVisualizerBaselineAutoHideDescription">Oculta automaticamente a linha de base quando nenhum áudio estiver tocando</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextTitle">Texto rolante</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTitle">Ativar rolagem</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextDescription">Rola automaticamente textos longos que não cabem</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextLoopForeverTitle">Rolagem contínua</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextLoopForeverDescription">Repetir o texto infinitamente em uma direção em vez de rolar para frente e para trás.</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextSpeedTitle">Velocidade de rolagem</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextSpeedDescription">Velocidade em que o texto rola (pixels/segundo). O padrão é 20.</system:String>
 </ResourceDictionary>
