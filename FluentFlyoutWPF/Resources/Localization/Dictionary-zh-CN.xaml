@@ -10,8 +10,8 @@
     <system:String x:Key="BackgroundBlurOption3" xml:space="preserve"> 样式 2（底部辉光）</system:String>
     <system:String x:Key="BackgroundBlurOption4" xml:space="preserve"> 样式 3（封面模糊）</system:String>
     <system:String x:Key="BackgroundBlurTitle">背景模糊</system:String>
-    <system:String x:Key="AcrylicWindowTitle">亚克力窗口</system:String>
-    <system:String x:Key="AcrylicWindowDescription">在浮窗上使用透明的亚克力模糊效果（关闭后还原为云母效果）</system:String>
+    <system:String x:Key="AcrylicWindowTitle">亚克力浮窗</system:String>
+    <system:String x:Key="AcrylicWindowDescription">在浮窗上使用透明的亚克力模糊效果</system:String>
     <system:String x:Key="CompactLayoutTitle">紧凑布局</system:String>
     <system:String x:Key="CompactLayoutDescription" xml:space="preserve">布局更简洁、干扰更少
 将会隐藏重复与随机播放按钮，以及播放器信息</system:String>
@@ -279,4 +279,12 @@
     <system:String x:Key="OnboardingStepsCounter">第 {0} 步 / 共 {1} 步</system:String>
     <system:String x:Key="AnonymousUsageDataTitle">发送匿名使用数据</system:String>
     <system:String x:Key="AnonymousUsageDataDescription">通过发送匿名且无法识别个人身份的使用数据来帮助改进本应用</system:String>
+    <system:String x:Key="TaskbarVisualizerBaselineAutoHideDescription">当没有音频正在播放时，自动隐藏基线</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextTitle">滚动文本</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTitle">启用滚动</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextDescription">自动滚动显示过长的文本</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextLoopForeverTitle">连续滚动</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextLoopForeverDescription">向同一方向无限循环滚动，而非来回往复滚动。</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextSpeedTitle">滚动速度</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextSpeedDescription">文本滚动速度（像素/秒），默认值为 20。</system:String>
 </ResourceDictionary>

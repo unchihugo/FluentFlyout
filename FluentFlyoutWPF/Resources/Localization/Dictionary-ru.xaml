@@ -31,7 +31,7 @@
     <system:String x:Key="BackgroundBlurOption3" xml:space="preserve"> Стиль 2 (Восходящее свечение)</system:String>
     <system:String x:Key="BackgroundBlurOption4" xml:space="preserve"> Стиль 3 (Размытие)</system:String>
     <system:String x:Key="AcrylicWindowTitle">Эффект акрилового окна</system:String>
-    <system:String x:Key="AcrylicWindowDescription">Применяет к всплывающему плееру эффект прозрачного акрилового размытия (отключение вернёт эффект Міса)</system:String>
+    <system:String x:Key="AcrylicWindowDescription">Применяет к всплывающему плееру эффект прозрачного акрилового размытия</system:String>
     <system:String x:Key="CompactLayoutDescription" xml:space="preserve">Более простой и менее навязчивый макет
 скрывает кнопки повтора, случайного порядка и название плеера</system:String>
     <system:String x:Key="FlyoutPositionTitle">Расположение всплывающего плеера</system:String>

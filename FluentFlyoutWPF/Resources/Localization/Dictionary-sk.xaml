@@ -15,8 +15,8 @@
     <system:String x:Key="BackgroundBlurOption3" xml:space="preserve"> Štýl 2 (Rising Glow)</system:String>
     <system:String x:Key="BackgroundBlurOption4" xml:space="preserve"> Štýl 3 (Blur)</system:String>
     <system:String x:Key="BackgroundBlurTitle">Rozmazanie Pozadia</system:String>
-    <system:String x:Key="AcrylicWindowTitle">Akrylové Okno</system:String>
-    <system:String x:Key="AcrylicWindowDescription">Použiť priehľadný akrylový efekt rozmazania pre plávajúce okno (vypnuté použije Mica)</system:String>
+    <system:String x:Key="AcrylicWindowTitle">Akrylové Plávajúce Okná</system:String>
+    <system:String x:Key="AcrylicWindowDescription">Použiť priehľadný akrylový efekt rozmazania pre plávajúce okná</system:String>
     <system:String x:Key="CompactLayoutTitle">Kompaktné Rozloženie</system:String>
     <system:String x:Key="CompactLayoutDescription" xml:space="preserve">Štíhlejšie a menej rušivé rozloženie
 skrýva informácie o opakovaní, náhodnom prehrávaní a prehrávači</system:String>

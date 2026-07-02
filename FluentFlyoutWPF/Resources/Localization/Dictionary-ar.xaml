@@ -272,7 +272,7 @@
     <system:String x:Key="AppFilteringPlaceholderChrome">كمثال Chrome.exe</system:String>
     <system:String x:Key="AppFilteringComboBoxHint">اختر تطبيقًا يعمل حاليًا لإضافته</system:String>
     <system:String x:Key="AddButton">إضافة</system:String>
-    <system:String x:Key="RemoveButton">إزالة</system:String>
+    <system:String x:Key="RemoveButton">حذف</system:String>
     <system:String x:Key="Back">رجوع</system:String>
     <system:String x:Key="Next">التالي</system:String>
     <system:String x:Key="Finish">إنهاء</system:String>
