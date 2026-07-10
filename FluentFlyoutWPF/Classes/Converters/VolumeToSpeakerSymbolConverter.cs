@@ -5,7 +5,7 @@ using System.Globalization;
 using System.Windows.Data;
 using Wpf.Ui.Controls;
 
-namespace FluentFlyoutWPF.Classes.Utils;
+namespace FluentFlyoutWPF.Classes.Converters;
 
 public class VolumeToSpeakerSymbolConverter : IValueConverter
 {

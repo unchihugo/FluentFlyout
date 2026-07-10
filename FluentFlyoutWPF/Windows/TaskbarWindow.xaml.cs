@@ -564,7 +564,7 @@ on_error:
                             // For vertical: validate the tray is in the lower half of the taskbar
                             if (!isVertical || trayOffset > taskbarHeight / 2)
                             {
-                                primaryPos += (int)trayOffset - physicalWidth - (isVertical ? 2 : 1);
+                                primaryPos += (int)trayOffset - physicalWidth - (isVertical ? 2 : 6); // trayOffset isn't 100% accurate, so we subtract a few pixels
                                 break;
                             }
                         }

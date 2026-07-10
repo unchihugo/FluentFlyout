@@ -9,8 +9,8 @@
     <system:String x:Key="BackgroundBlurOption2" xml:space="preserve"> .النمط 1 (شكل متوهج)</system:String>
     <system:String x:Key="BackgroundBlurOption3" xml:space="preserve"> .النمط 2 (توهج متصاعد)</system:String>
     <system:String x:Key="BackgroundBlurOption4" xml:space="preserve"> . النمط 3 (ضبابي)</system:String>
-    <system:String x:Key="AcrylicWindowTitle">نافذة أكريليك</system:String>
-    <system:String x:Key="AcrylicWindowDescription">قم بتطبيق تأثير تمويه الأكريليك الشفاف على القائمة المنبثقة (إيقافه يعيده إلى مايكا)</system:String>
+    <system:String x:Key="AcrylicWindowTitle">تمويه أكريليك</system:String>
+    <system:String x:Key="AcrylicWindowDescription">قم بتطبيق تأثير تمويه الأكريليك الشفاف على القوائم المنبثقة</system:String>
     <system:String x:Key="CompactLayoutTitle">شكل مصغر</system:String>
     <system:String x:Key="CompactLayoutDescription" xml:space="preserve">تصميم أنحف وأقل إزدحام
 يخفي أزرار التكرار والعشوائية ومعلومات المشغل</system:String>
@@ -248,4 +248,43 @@
     <system:String x:Key="VolumeMixerHighlightTitle">تمييز التطبيقات التي تقوم بتشغيل الصوت</system:String>
     <system:String x:Key="VolumeMixerHighlightDescription">إظهار التطبيقات التي تقوم بتشغيل صوت</system:String>
     <system:String x:Key="MasterVolumeText">مستوى الصوت الرئيسي</system:String>
+    <system:String x:Key="EnableCapsTitle">تشغيل مؤشر Caps Lock</system:String>
+    <system:String x:Key="EnableCapsDescription">يظهر عند الضغط على مفتاح Caps Lock</system:String>
+    <system:String x:Key="EnableNumTitle">تشغيل مؤشر Num Lock</system:String>
+    <system:String x:Key="EnableNumDescription">يظهر عند الضغط على مفتاح Num Lock</system:String>
+    <system:String x:Key="EnableScrollTitle">تشغيل مؤشر قفل التمرير</system:String>
+    <system:String x:Key="EnableScrollDescription">يظهر عند الضغط على مفتاح Scroll Lock</system:String>
+    <system:String x:Key="TaskbarWidgetFixedWidthTitle">عرض ثابت للأداة المصغرة</system:String>
+    <system:String x:Key="TaskbarWidgetFixedWidthDescription">احتفظ بعرض ثابت للأداة بدلاً من تغيير حجمها لتلائم العنوان و الفنان</system:String>
+    <system:String x:Key="AppFilteringTitle">تصفية التطبيق</system:String>
+    <system:String x:Key="AppFilteringRulesDescription">تحكم بالتطبيقات التي يمكنها عرض الوسائط</system:String>
+    <system:String x:Key="EnableAppFilteringTitle">تفعيل التصفية</system:String>
+    <system:String x:Key="AppFilteringModeTitle">وضع التصفية</system:String>
+    <system:String x:Key="AppFilteringModeDescription">حدد من التطبيقات المعروضة اذا كانت مسموحة او محظورة</system:String>
+    <system:String x:Key="AppFilteringModeBlacklist">قائمة الحظر</system:String>
+    <system:String x:Key="AppFilteringModeWhitelist">قائمة المصرح له</system:String>
+    <system:String x:Key="AllowedAppsTitle">التطبيقات المصرح لها</system:String>
+    <system:String x:Key="AllowedAppsDescription">اي تطبيق موجود هنا, يمكن عرض وسائطه.</system:String>
+    <system:String x:Key="BlockedAppsTitle">التطبيقات المستبعدة</system:String>
+    <system:String x:Key="BlockedAppsDescription">استبعد تطبيقًا من الظهور</system:String>
+    <system:String x:Key="AddAppManuallyText">لم تجد تطبيقك؟ اكتب اسمه بالأسفل:</system:String>
+    <system:String x:Key="AppFilteringPlaceholderSpotify">كمثال Spotify.exe</system:String>
+    <system:String x:Key="AppFilteringPlaceholderChrome">كمثال Chrome.exe</system:String>
+    <system:String x:Key="AppFilteringComboBoxHint">اختر تطبيقًا يعمل حاليًا لإضافته</system:String>
+    <system:String x:Key="AddButton">إضافة</system:String>
+    <system:String x:Key="RemoveButton">حذف</system:String>
+    <system:String x:Key="Back">رجوع</system:String>
+    <system:String x:Key="Next">التالي</system:String>
+    <system:String x:Key="Finish">إنهاء</system:String>
+    <system:String x:Key="OnboardingStepsCounter">خطوة {0} من {1}</system:String>
+    <system:String x:Key="AnonymousUsageDataTitle">ارسل معلومات استعمالك كمجهول</system:String>
+    <system:String x:Key="AnonymousUsageDataDescription">ساعد بتحسين التطبيق عبر ارسال كمجهول, معلومات استعمال غير شخصية</system:String>
+    <system:String x:Key="TaskbarVisualizerBaselineAutoHideDescription">إخفاء خط الأساس تلقائيًا عند عدم وجود صوت</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextTitle">نص متحرك</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTitle">تفعيل التحريك</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextDescription">تمرير تلقائي للنصوص الطويلة التي لا تتسع</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextLoopForeverTitle">تمرير متواصل</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextLoopForeverDescription">قم بتمرير النص متواصلاً في اتجاه واحد بدلاً من التمرير ذهابًا وإيابًا.</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextSpeedTitle">سرعة التمرير</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextSpeedDescription">سرعة تمرير النصوص (بكسل/ثانية). الإفتراضي هو 20.</system:String>
 </ResourceDictionary>

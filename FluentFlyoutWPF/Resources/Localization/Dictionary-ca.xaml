@@ -38,16 +38,16 @@
     <system:String x:Key="BackgroundBlurOption4" xml:space="preserve"> Estil 3 (Difuminat)</system:String>
     <system:String x:Key="BackgroundBlurTitle">Desenfocament del fons</system:String>
     <system:String x:Key="AcrylicWindowDescription">Aplica un efecte de desenfocament acrílic transparent al flyout (si està desactivat, torna a ser Mica)</system:String>
-    <system:String x:Key="CompactLayoutTitle">Disseny Compacte</system:String>
+    <system:String x:Key="CompactLayoutTitle">Disposició compacta</system:String>
     <system:String x:Key="CompactLayoutDescription" xml:space="preserve">Un disseny més prim i menys intrusiu
 Oculta els botons de repetició, aleatori i la informació del reproductor</system:String>
     <system:String x:Key="SelectedMonitorTitle">Pantalla objectiu del Flyout</system:String>
     <system:String x:Key="FlyoutPositionTitle">Posició del Flyout</system:String>
-    <system:String x:Key="PositionBottomLeft" xml:space="preserve"> Inferior Esquerra</system:String>
-    <system:String x:Key="PositionBottomCenter" xml:space="preserve"> Inferior Central</system:String>
+    <system:String x:Key="PositionBottomLeft" xml:space="preserve"> Inferior esquerra</system:String>
+    <system:String x:Key="PositionBottomCenter" xml:space="preserve"> Centre inferior</system:String>
     <system:String x:Key="PositionBottomRight" xml:space="preserve"> Inferior Dreta</system:String>
     <system:String x:Key="PositionTopLeft" xml:space="preserve"> Superior Esquerra</system:String>
-    <system:String x:Key="PositionTopCenter" xml:space="preserve"> Superior Central</system:String>
+    <system:String x:Key="PositionTopCenter" xml:space="preserve"> Centre superior</system:String>
     <system:String x:Key="PositionTopRight" xml:space="preserve"> Superior Dreta</system:String>
     <system:String x:Key="FlyoutStayDurationTitle">Duració del Flyout</system:String>
     <system:String x:Key="MediaFlyoutAlwaysDisplayDescription">El menú desplegable roman obert fins que feu clic al botó de tancament</system:String>
@@ -91,7 +91,7 @@ Oculta els botons de repetició, aleatori i la informació del reproductor</syst
     <system:String x:Key="TaskbarVisualizerOutputDeviceDescription">Canvia el que mostra el visualitzador canviant el dispositiu de sortida de FluentFlyout.</system:String>
     <system:String x:Key="TaskbarVisualizerClickableTitle">Click per obrir Configuració</system:String>
     <system:String x:Key="TaskbarVisualizerClickableDescription">Feu clic al visualitzador obre la vostra pàgina de configuració</system:String>
-    <system:String x:Key="PremiumFeatureTitle">Funcionalitats Premium</system:String>
+    <system:String x:Key="PremiumFeatureTitle">Funcions Premium</system:String>
     <system:String x:Key="PremiumFeatureDescription" xml:space="preserve">La teva contribució única m'ajuda a mantenir FluentFlyout viu i actualitzat. Desbloqueja instantàniament totes les opcions de personalització premiun, per sempre.
 
 Nota: Com a projecte de codi obert, aquestes opcions també estan disponibles de franc mitjançant l'instal·lador manual de GitHub. L'únic inconvenient és que les actualitzacions i la instal·lació s'han de fer manualment.</system:String>
@@ -136,11 +136,11 @@ Nota: Com a projecte de codi obert, aquestes opcions també estan disponibles de
     <system:String x:Key="StartupAppsHyperlinkText">Aplicacions d'arrencada</system:String>
     <system:String x:Key="StartupAppsSettingsInfo">Si aquest ajustament no funciona com cal, revisa</system:String>
     <system:String x:Key="AppThemeTitle">Tema de l'Aplicació</system:String>
-    <system:String x:Key="AppThemeDefault"> Per defecte de Windows</system:String>
+    <system:String x:Key="AppThemeDefault"> Per defecte del Windows</system:String>
     <system:String x:Key="AppThemeLight"> Clar</system:String>
     <system:String x:Key="AppThemeDark"> Fosc</system:String>
     <system:String x:Key="UseAlbumArtAccentColorTitle">Usar el Color d'Accent de la Caratula de l'Àlbum</system:String>
-    <system:String x:Key="UseAlbumArtAccentColorDescription">Alguns elements d'UI utilitzaran el color de la portada en comptes del del sistema</system:String>
+    <system:String x:Key="UseAlbumArtAccentColorDescription">Alguns elements d'UI utilitzaran el color de la portada en comptes del sistema</system:String>
     <system:String x:Key="TrayIconLeftClickBehaviorTitle">Comportament del clic esquerre a la safata</system:String>
     <system:String x:Key="TrayIconLeftClickBehaviorDescription">Trieu què passa quan feu clic esquerre a la icona de la safata</system:String>
     <system:String x:Key="TrayIconLeftClickOption1"> Obrir Configuració</system:String>
@@ -157,16 +157,16 @@ Nota: Com a projecte de codi obert, aquestes opcions també estan disponibles de
     <system:String x:Key="AnimationEasingStyleTitle">Estil de Suavitzat d'Animacions</system:String>
     <system:String x:Key="AnimationEasingStyleDescription">(per defecte: Quadràtica)</system:String>
     <system:String x:Key="EasingLinear" xml:space="preserve"> Lineal</system:String>
-    <system:String x:Key="EasingSine" xml:space="preserve"> Sinus</system:String>
-    <system:String x:Key="EasingQuadratic" xml:space="preserve"> Quadràtica</system:String>
-    <system:String x:Key="EasingCubic" xml:space="preserve"> Cúbica</system:String>
+    <system:String x:Key="EasingSine" xml:space="preserve"> Sinusoidal</system:String>
+    <system:String x:Key="EasingQuadratic" xml:space="preserve"> Quadràtic</system:String>
+    <system:String x:Key="EasingCubic" xml:space="preserve"> Cúbic</system:String>
     <system:String x:Key="NativeExperienceInfo">Per a una experiència nativa de Windows 11, aquest ajustament ha de romandre amb el valor per defecte.</system:String>
     <system:String x:Key="DisableOnFullscreenTitle">Desactivar Flyouts si es detecta un programa que fa servir DirectX en pantalla completa</system:String>
     <system:String x:Key="DisableOnFullscreenDescription">Prevé que els jocs que usen DirectX en pantalla completa exclusiva es minimitzin si apareix un flyout</system:String>
     <system:String x:Key="AcrylicBlurOpacityTitle">Opacitat del difuminat Acrylic</system:String>
     <system:String x:Key="AcrylicBlurOpacityDescription">Ajusta l'efecte translúcid d'Acrylic als flyouts (per defecte: 175)</system:String>
     <system:String x:Key="HomeUpdateDescription">Assabenta't de les novetats</system:String>
-    <system:String x:Key="HomeDashboardTitle">Panel</system:String>
+    <system:String x:Key="HomeDashboardTitle">Tauler</system:String>
     <system:String x:Key="AppearanceBehaviorSectionTitle">Aparença i comportament</system:String>
     <system:String x:Key="TrayIconSectionTitle">Icona de la Safata</system:String>
     <system:String x:Key="UpdatesSectionTitle">Actualitzacions</system:String>
@@ -198,8 +198,8 @@ Pots ajudar a contribuir amb les traduccions a</system:String>
     <system:String x:Key="NextUpWindow_UpNextText">Pista següent:</system:String>
     <system:String x:Key="TrayIcon_SettingsOption">Configuració</system:String>
     <system:String x:Key="TrayIcon_GitHubRepositoryOption">Repositori</system:String>
-    <system:String x:Key="TrayIcon_ViewLogsOption">Veure els registres</system:String>
-    <system:String x:Key="TrayIcon_ReportBugOption">Reportar error</system:String>
+    <system:String x:Key="TrayIcon_ViewLogsOption">Visualitza els registres</system:String>
+    <system:String x:Key="TrayIcon_ReportBugOption">Informeu d'un error</system:String>
     <system:String x:Key="TrayIcon_QuitOption">Sortir de FluentFlyout</system:String>
     <system:String x:Key="PixelsUnit">px</system:String>
     <system:String x:Key="UpdateToastTitle">FluentFlyout s'ha actualitzat!</system:String>
@@ -208,17 +208,17 @@ Pots ajudar a contribuir amb les traduccions a</system:String>
     <system:String x:Key="UpdateAvailable">Actualització disponible</system:String>
     <system:String x:Key="UpToDate">Actualitzat</system:String>
     <system:String x:Key="LastChecked">Última comprovació: {0}</system:String>
-    <system:String x:Key="CheckingForUpdates">Verificant...</system:String>
+    <system:String x:Key="CheckingForUpdates">Comprovant...</system:String>
     <system:String x:Key="UpdateAvailableNotificationTitle">Actualització disponible!</system:String>
     <system:String x:Key="UpdateAvailableNotificationMessage">Hi ha una nova versió ({0}) disponible.</system:String>
     <system:String x:Key="UpdateAvailableNotificationButton">Descarregar Actualització</system:String>
     <system:String x:Key="ShowUpdateNotificationsTitle">Mostra notificacions per a actualitzacions</system:String>
-    <system:String x:Key="BackupRestoreSectionTitle">Còpies de seguretat i restauració</system:String>
+    <system:String x:Key="BackupRestoreSectionTitle">Còpia de seguretat i restaurar</system:String>
     <system:String x:Key="BackupRestoreCardTitle">Recolza i restaura els teus ajustaments</system:String>
     <system:String x:Key="ExportSettings">Exportar Configuració</system:String>
     <system:String x:Key="ImportSettings">Importar Configuració</system:String>
     <system:String x:Key="ExportSuccessful">Exportat Correctament</system:String>
-    <system:String x:Key="ExportFailed">Exportat Fallit</system:String>
+    <system:String x:Key="ExportFailed">Exportació fallida</system:String>
     <system:String x:Key="ImportSuccessful">Importat Correctament</system:String>
     <system:String x:Key="ImportFailed">Importat Fallit</system:String>
     <system:String x:Key="SettingsExportedSuccessfully">La configuració s'ha exportat correctament!</system:String>
@@ -244,4 +244,35 @@ Pots ajudar a contribuir amb les traduccions a</system:String>
     <system:String x:Key="VolumeMixerHighlightTitle">Ressaltar aplicacions que reprodueixen àudio</system:String>
     <system:String x:Key="VolumeMixerHighlightDescription">Veure quines aplicacions estan emetent àudio actualment</system:String>
     <system:String x:Key="MasterVolumeText">Volum principal</system:String>
+    <system:String x:Key="Back">Enrere</system:String>
+    <system:String x:Key="Next">Seguent</system:String>
+    <system:String x:Key="Finish">Acabar</system:String>
+    <system:String x:Key="OnboardingStepsCounter">Pas {0} de {1}</system:String>
+    <system:String x:Key="TaskbarWidgetFixedWidthTitle">Amplada fixa del Widget</system:String>
+    <system:String x:Key="TaskbarWidgetFixedWidthDescription">Mantingues el widget a una amplada fixa en comptes de redimensionar-lo per adaptar-lo al títol i al text de l'artista</system:String>
+    <system:String x:Key="EnableCapsTitle">Activa l'indicador de Bloq Majúscules</system:String>
+    <system:String x:Key="EnableCapsDescription">Mostra quan es prem la tecla Bloq Majúscules</system:String>
+    <system:String x:Key="EnableNumTitle">Activa l'indicador del Bloq Num</system:String>
+    <system:String x:Key="EnableNumDescription">Mostra quan es prem la tecla Bloq Num</system:String>
+    <system:String x:Key="EnableScrollTitle">Indicador d'activació del Bloq Desplaçament</system:String>
+    <system:String x:Key="EnableScrollDescription">Mostra quan es prem la tecla Bloq Desplaçament</system:String>
+    <system:String x:Key="AnonymousUsageDataTitle">Enviar dades d'ús anònimes</system:String>
+    <system:String x:Key="AnonymousUsageDataDescription">Ajuda a millorar l'aplicació enviant dades d'ús anònimes i no identificables</system:String>
+    <system:String x:Key="AppFilteringTitle">Filtratge d'Aplicacions</system:String>
+    <system:String x:Key="AppFilteringRulesDescription">Controla quines aplicacions poden mostrar contingut multimèdia</system:String>
+    <system:String x:Key="EnableAppFilteringTitle">Activa el Filtratge</system:String>
+    <system:String x:Key="AppFilteringModeTitle">Mode de Filtratge</system:String>
+    <system:String x:Key="AppFilteringModeDescription">Trieu si les aplicacions de la llista estan permeses o bloquejades</system:String>
+    <system:String x:Key="AppFilteringModeBlacklist">Llista de Bloqueig</system:String>
+    <system:String x:Key="AppFilteringModeWhitelist">Llista de Permesos</system:String>
+    <system:String x:Key="AllowedAppsTitle">Aplicacions Permeses</system:String>
+    <system:String x:Key="AllowedAppsDescription">Si hi ha alguna aplicació llistada aquí, només es mostrarà el seu contingut multimèdia.</system:String>
+    <system:String x:Key="BlockedAppsTitle">Aplicacions Excloses</system:String>
+    <system:String x:Key="BlockedAppsDescription">Exclou una aplicació de la visualització</system:String>
+    <system:String x:Key="AddAppManuallyText">No trobes la teva aplicació? Escriu-la a continuació:</system:String>
+    <system:String x:Key="AppFilteringPlaceholderSpotify">p. ex. Spotify.exe</system:String>
+    <system:String x:Key="AppFilteringPlaceholderChrome">p. ex. Chrome.exe</system:String>
+    <system:String x:Key="AppFilteringComboBoxHint">Selecciona una aplicació que s'està reproduint actualment per afegir-la</system:String>
+    <system:String x:Key="AddButton">Afegeix</system:String>
+    <system:String x:Key="RemoveButton">Suprimeix</system:String>
 </ResourceDictionary>

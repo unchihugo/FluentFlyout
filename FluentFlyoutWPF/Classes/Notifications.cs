@@ -25,7 +25,7 @@ internal static class Notifications
             // Obtain the arguments from the notification
             ToastArguments args = ToastArguments.Parse(toastArgs.Argument);
 
-            // Check if the user clicked the "View Changes" button
+            // Check if the user clicked the notification
             if (args.TryGetValue("action", out string action))
             {
                 switch (action)
@@ -60,30 +60,9 @@ internal static class Notifications
     /// <param name="currentVersion"></param>
     public static void ShowFirstOrUpdateNotification(string lastKnownVersion, string currentVersion)
     {
-        if (String.IsNullOrEmpty(lastKnownVersion))
+        if (string.IsNullOrEmpty(lastKnownVersion) || currentVersion == "debug")
         {
-            // first run
             return;
-
-            //new ToastContentBuilder()
-            //    .AddText("Welcome to FluentFlyout!")
-            //    .AddText("Thank you for installing FluentFlyout. You can access the settings at any time by clicking the tray icon.")
-            //    .Show();
-
-            //return;
-        }
-
-        if (currentVersion == "debug")
-        {
-            // when on debug build
-            return;
-
-            //new ToastContentBuilder()
-            //    .AddText("FluentFlyout Debug Build")
-            //    .AddText("You are running a debug build.")
-            //    .Show();
-
-            //return;
         }
 
         if (lastKnownVersion != currentVersion)
@@ -94,6 +73,7 @@ internal static class Notifications
                 new ToastContentBuilder()
                     .AddText(Application.Current.FindResource("UpdateToastTitle").ToString())
                     .AddText(string.Format(Application.Current.FindResource("UpdateToastMessage").ToString(), currentVersion))
+                    .AddArgument("action", "viewChanges")
                     .AddButton(new ToastButton()
                         .SetContent(Application.Current.FindResource("UpdateToastButton").ToString())
                         .AddArgument("action", "viewChanges")
@@ -132,7 +112,8 @@ internal static class Notifications
         {
             var builder = new ToastContentBuilder()
                 .AddText(Application.Current.FindResource("UpdateAvailableNotificationTitle").ToString())
-                .AddText(string.Format(Application.Current.FindResource("UpdateAvailableNotificationMessage").ToString(), newVersion));
+                .AddText(string.Format(Application.Current.FindResource("UpdateAvailableNotificationMessage").ToString(), newVersion))
+                .AddArgument("action", "downloadUpdate");
 
             // only add download button if URL is available
             if (!string.IsNullOrEmpty(updateUrl))

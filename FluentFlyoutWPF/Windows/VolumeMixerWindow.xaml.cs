@@ -59,6 +59,9 @@ public partial class VolumeMixerWindow : MicaWindow
     // one day we might want to convert these to an interface
     public async void ShowFlyout()
     {
+        if (FullscreenDetector.IsFullscreenApplicationRunning())
+            return;
+
         long currentTime = Environment.TickCount64;
 
         if (currentTime - _lastFlyoutTime < _flyoutCooldown.TotalMilliseconds)
@@ -93,14 +96,15 @@ public partial class VolumeMixerWindow : MicaWindow
 
             bool aboveMedia = SettingsManager.Current.VolumeControlAboveMediaFlyout;
             if (aboveMedia)
+            {
                 Width = _mainWindow.Width;
-            else
-                Width = _normalWidth;
-
-            if (aboveMedia)
                 _mainWindow.OpenAnimation(this, aboveReference: _mainWindow);
+            }
             else
+            {
+                Width = _normalWidth;
                 _mainWindow.OpenAnimation(this, alwaysBottom: true);
+            }
 
             Show();
             //WindowHelper.SetNoActivate(this);
@@ -237,22 +241,29 @@ public partial class VolumeMixerWindow : MicaWindow
         var easing = msDuration > 0 ? _mainWindow.getEasingStyle(true) : null;
         var duration = new Duration(TimeSpan.FromMilliseconds(msDuration > 0 ? msDuration / 1.4 : 1));
 
-        bool isTop = SettingsManager.Current.Position switch
+        bool isTop = false;
+
+        // check if the media flyout is at the top or bottom of the screen if applicable
+        if (SettingsManager.Current.VolumeControlAboveMediaFlyout)
         {
-            3 or 4 or 5 => true,
-            _ => false
-        };
+            isTop = SettingsManager.Current.Position switch
+            {
+                3 or 4 or 5 => true,
+                _ => false
+            };
+        }
 
         double expandedHeight;
         if (expand)
         {
             SessionsExpanded.Visibility = Visibility.Visible;
+            SessionsSeparator.Visibility = Visibility.Visible;
             SessionsPanel.UpdateLayout();
         }
 
         // measure desired size
         SessionsExpanded.Measure(new Size(ActualWidth, double.PositiveInfinity));
-        expandedHeight = _collapsedHeight + Math.Min(SessionsExpanded.DesiredSize.Height + 16, 220); // 16 for padding
+        expandedHeight = _collapsedHeight + Math.Min(SessionsExpanded.DesiredSize.Height, 220);
 
         double targetHeight = expand ? expandedHeight : _collapsedHeight;
         double currentHeight = ActualHeight;
@@ -294,6 +305,7 @@ public partial class VolumeMixerWindow : MicaWindow
             heightAnimation.Completed += (s, e) =>
             {
                 SessionsExpanded.Visibility = Visibility.Collapsed;
+                SessionsSeparator.Visibility = Visibility.Collapsed;
             };
         }
 

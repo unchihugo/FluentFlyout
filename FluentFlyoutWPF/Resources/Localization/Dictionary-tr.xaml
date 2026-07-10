@@ -1,8 +1,8 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib">
     <system:String x:Key="TitleText">FluentFlyout Ayarları</system:String>
-    <system:String x:Key="MediaFlyoutTitle">Medya Açılır Penceresi</system:String>
+    <system:String x:Key="MediaFlyoutTitle">Medya Penceresi</system:String>
     <system:String x:Key="MediaFlyoutDescription">Medya dinlerken, klavyenizdeki herhangi bir medya veya ses tuşuna (oynat/duraklat, ses arttırma/azaltma vb.) basarak açılır pencereyi görüntüleyebilirsiniz. Medya bilgilerini, oynatma kontrollerini ve daha fazlasını gösterir.</system:String>
-    <system:String x:Key="TextBlockText1">Medya Açılır Penceresini Etkinleştir</system:String>
+    <system:String x:Key="TextBlockText1">Medya Penceresini Etkinleştir</system:String>
     <system:String x:Key="TextBlockText3">Bir medya tuşuna bastığınızda açılır pencereyi görüntüleyin</system:String>
     <system:String x:Key="TextBlockText2">Önceden ayarlanmış modern arka plan bulanıklığı stilleri arasından seçim yapın</system:String>
     <system:String x:Key="BackgroundBlurOption2" xml:space="preserve"> Stil 1 (Kapak Parıltısı)</system:String>

@@ -10,6 +10,7 @@ using FluentFlyoutWPF.Classes;
 using FluentFlyoutWPF.Models;
 using FluentFlyoutWPF.Windows;
 using System.Collections.ObjectModel;
+using System.Reflection;
 using System.Windows;
 using System.Xml.Serialization;
 
@@ -20,6 +21,17 @@ namespace FluentFlyoutWPF.ViewModels;
  */
 public partial class UserSettings : ObservableObject
 {
+    private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+
+    // List of non-XmlIgnore property names
+    private static readonly HashSet<string> PersistedPropertyNames =
+    [
+        .. typeof(UserSettings)
+            .GetProperties(BindingFlags.Instance | BindingFlags.Public)
+            .Where(property => property.CanWrite && property.GetCustomAttribute<XmlIgnoreAttribute>() is null)
+            .Select(property => property.Name)
+    ];
+
     /// <summary>
     /// Use a compact layout
     /// </summary>
@@ -169,6 +181,15 @@ public partial class UserSettings : ObservableObject
     /// </summary>
     [ObservableProperty]
     public partial bool LockKeysEnabled { get; set; }
+
+    [ObservableProperty]
+    public partial bool LockKeysCapsEnabled { get; set; }
+
+    [ObservableProperty]
+    public partial bool LockKeysNumEnabled { get; set; }
+
+    [ObservableProperty]
+    public partial bool LockKeysScrollEnabled { get; set; }
 
     /// <summary>
     /// Lock keys flyout display duration (milliseconds)
@@ -407,6 +428,13 @@ public partial class UserSettings : ObservableObject
     public partial bool TaskbarWidgetHideCompletely { get; set; }
 
     /// <summary>
+    /// Gets or sets a value indicating whether the taskbar widget should always be sized at its
+    /// maximum width, so right-aligned controls don't shift when the song changes.
+    /// </summary>
+    [ObservableProperty]
+    public partial bool TaskbarWidgetFixedWidth { get; set; }
+
+    /// <summary>
     /// Gets or sets a value indicating whether the pause icon overlay should be completely hidden from view.
     /// </summary>
     [ObservableProperty]
@@ -431,11 +459,78 @@ public partial class UserSettings : ObservableObject
     public partial bool TaskbarWidgetAnimated { get; set; }
 
     /// <summary>
+    /// Gets or sets a value indicating whether the taskbar widget scrolling text (marquee) is enabled for long titles.
+    /// </summary>
+    [ObservableProperty]
+    public partial bool TaskbarWidgetScrollingEnabled { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the taskbar widget scrolling text should loop forever.
+    /// </summary>
+    [ObservableProperty]
+    public partial bool TaskbarWidgetScrollingTextLoopForever { get; set; }
+
+    /// <summary>
+    /// Gets or sets the speed of the taskbar widget scrolling text.
+    /// </summary>
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(TaskbarWidgetScrollingTextSpeedText))]
+    public partial int TaskbarWidgetScrollingTextSpeed { get; set; }
+
+    [XmlIgnore]
+    public string TaskbarWidgetScrollingTextSpeedText
+    {
+        get => TaskbarWidgetScrollingTextSpeed.ToString();
+        set
+        {
+            if (int.TryParse(value, out var result))
+            {
+                TaskbarWidgetScrollingTextSpeed = result switch
+                {
+                    > 100 => 100,
+                    < 1 => 1,
+                    _ => result
+                };
+            }
+            else
+            {
+                TaskbarWidgetScrollingTextSpeed = 20;
+            }
+
+            OnPropertyChanged();
+        }
+    }
+
+    /// <summary>
     /// Gets or sets a value indicating whether the taskbar visualizer is enabled.
     /// </summary>
     /// <remarks>For now, this requires Premium and Taskbar Widget to be enabled.</remarks>
     [ObservableProperty]
     public partial bool TaskbarVisualizerEnabled { get; set; }
+
+    /// <summary>
+    /// Returns whether app filtering is enabled or disabled.
+    /// </summary>
+    [ObservableProperty]
+    public partial bool AppFilteringEnabled { get; set; }
+
+    /// <summary>
+    /// Returns the active filtering mode. 0 for Whitelist, 1 for Blacklist.
+    /// </summary>
+    [ObservableProperty]
+    public partial int AppFilteringMode { get; set; }
+
+    /// <summary>
+    /// Returns a list of apps that are allowed to display media/update the taskbar.
+    /// </summary>
+    [ObservableProperty]
+    public partial ObservableCollection<string> AllowedApps { get; set; }
+
+    /// <summary>
+    /// Returns a list of apps that are NOT allowed to display media/update the taskbar.
+    /// </summary>
+    [ObservableProperty]
+    public partial ObservableCollection<string> BlockedApps { get; set; }
 
     /// <summary>
     /// Position of the visualizer, where 0 and 1 are to the left or right of the widget.
@@ -485,6 +580,12 @@ public partial class UserSettings : ObservableObject
     /// </summary>
     [ObservableProperty]
     public partial int TaskbarVisualizerAudioSensitivity { get; set; }
+
+    /// <summary>
+    /// Autohide taskbar. Only does something if TaskbarVisualizerBaseline is enabled (doesn't autohide by default).
+    /// </summary>
+    [ObservableProperty]
+    public partial bool TaskbarVisualizerBaselineAutoHide { get; set; }
 
     [ObservableProperty]
     public partial bool VolumeControlEnabled { get; set; }
@@ -577,6 +678,16 @@ public partial class UserSettings : ObservableObject
     [ObservableProperty]
     public partial bool LegacyTaskbarWidthEnabled { get; set; }
 
+    [ObservableProperty]
+    public partial Guid Uuid { get; set; }
+
+    [XmlIgnore]
+    [ObservableProperty]
+    public partial Guid SessionId { get; set; } = Guid.NewGuid();
+
+    [ObservableProperty]
+    public partial bool AnonymousTelemetryAllowed { get; set; }
+
     [XmlIgnore]
     private bool _initializing = true;
 
@@ -602,6 +713,9 @@ public partial class UserSettings : ObservableObject
         CenterTitleArtist = false;
         FlyoutAnimationEasingStyle = 2;
         LockKeysEnabled = true;
+        LockKeysCapsEnabled = true;
+        LockKeysNumEnabled = true;
+        LockKeysScrollEnabled = true;
         LockKeysDuration = 2000;
         AppTheme = 0;
         MediaFlyoutEnabled = true;
@@ -632,29 +746,91 @@ public partial class UserSettings : ObservableObject
         TaskbarWidgetManualPadding = 0;
         TaskbarWidgetBackgroundBlur = false;
         TaskbarWidgetHideCompletely = false;
+        TaskbarWidgetFixedWidth = false;
         TaskbarWidgetShowPauseOverlay = true;
         TaskbarWidgetControlsEnabled = false;
         TaskbarWidgetControlsPosition = 1;
         TaskbarWidgetAnimated = true;
+        TaskbarWidgetScrollingEnabled = false;
+        TaskbarWidgetScrollingTextSpeed = 20;
+        TaskbarWidgetScrollingTextLoopForever = false;
         TaskbarVisualizerEnabled = false;
+        AppFilteringEnabled = false;
+        AppFilteringMode = 0;
         TaskbarVisualizerPosition = 1;
-        TaskbarVisualizerClickable = false;
+        TaskbarVisualizerClickable = true;
         TaskbarVisualizerScrollVolume = true;
         TaskbarVisualizerBarCount = 10;
         TaskbarVisualizerCenteredBars = false;
         TaskbarVisualizerBaseline = false;
         TaskbarVisualizerAudioSensitivity = 2;
         TaskbarVisualizerAudioPeakLevel = 3;
+        TaskbarVisualizerBaselineAutoHide = false;
         VolumeControlEnabled = false;
         VolumeControlAboveMediaFlyout = false;
         VolumeControlDuration = 3000;
-        VolumeMixerEnabled = true;
+        VolumeMixerEnabled = false;
         VolumeMixerHighlightActiveApps = false;
         AcrylicBlurOpacity = 175;
         UseAlbumArtAsAccentColor = false;
         LastUpdateNotificationUnixSeconds = 0;
         ShowUpdateNotifications = true;
         LegacyTaskbarWidthEnabled = false;
+        Uuid = Guid.NewGuid();
+        AnonymousTelemetryAllowed = true;
+        AllowedApps = [];
+        BlockedApps = [];
+
+        PropertyChanged += OnPropertyChangedSaveSettings;
+    }
+
+    [XmlIgnore]
+    private CancellationTokenSource? _saveSettingsCts;
+
+    private async void OnPropertyChangedSaveSettings(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+    {
+        if (_initializing) return;
+
+        // Only trigger save if a persisted property changed
+        if (string.IsNullOrEmpty(e.PropertyName) || !PersistedPropertyNames.Contains(e.PropertyName))
+            return;
+
+#if DEBUG
+        Logger.Debug("Property '{PropertyName}' changed, scheduling settings save.", e.PropertyName);
+#endif
+
+        var newCts = new CancellationTokenSource();
+        var oldCts = Interlocked.Exchange(ref _saveSettingsCts, newCts);
+        oldCts?.Cancel();
+        oldCts?.Dispose();
+
+        try
+        {
+            await Task.Delay(500, newCts.Token);
+
+            if (ReferenceEquals(_saveSettingsCts, newCts))
+            {
+                SettingsManager.SaveSettings();
+            }
+        }
+        catch (OperationCanceledException)
+        {
+            // Expected when replaced by a new property change
+#if DEBUG
+            Logger.Debug("Settings save canceled due to another property change.");
+#endif
+        }
+        catch (Exception ex)
+        {
+            Logger.Error(ex, "An error occurred while saving settings from property change.");
+        }
+        finally
+        {
+            if (Interlocked.CompareExchange(ref _saveSettingsCts, null, newCts) == newCts)
+            {
+                newCts.Dispose();
+            }
+        }
     }
 
     /// <summary>
@@ -739,6 +915,12 @@ public partial class UserSettings : ObservableObject
         UpdateTaskbar();
     }
 
+    partial void OnTaskbarWidgetFixedWidthChanged(bool oldValue, bool newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+        UpdateTaskbar();
+    }
+
     partial void OnTaskbarWidgetShowPauseOverlayChanged(bool oldValue, bool newValue)
     {
         if (oldValue == newValue || _initializing) return;
@@ -777,6 +959,32 @@ public partial class UserSettings : ObservableObject
         mainWindow.UpdateTaskbar();
     }
 
+    partial void OnTaskbarWidgetScrollingEnabledChanged(bool oldValue, bool newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+        UpdateTaskbarMarquees();
+    }
+
+    partial void OnTaskbarWidgetScrollingTextLoopForeverChanged(bool oldValue, bool newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+        UpdateTaskbarMarquees();
+    }
+
+    partial void OnTaskbarWidgetScrollingTextSpeedChanged(int oldValue, int newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+        UpdateTaskbarMarquees();
+    }
+
+    private void UpdateTaskbarMarquees()
+    {
+        MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+        var widget = mainWindow.taskbarWindow?.Widget;
+        if (widget == null) return;
+        widget.Dispatcher.Invoke(widget.UpdateMarquees);
+    }
+
     partial void OnTaskbarVisualizerEnabledChanged(bool oldValue, bool newValue)
     {
         if (oldValue == newValue || _initializing) return;
@@ -800,6 +1008,22 @@ public partial class UserSettings : ObservableObject
     {
         if (oldValue == newValue || _initializing) return;
         BitmapHelper.GetDominantColors(1);
+    }
+
+    partial void OnAppFilteringEnabledChanged(bool oldValue, bool newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+
+        MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+        mainWindow?.RefreshFilteredMedia();
+    }
+
+    partial void OnAppFilteringModeChanged(int oldValue, int newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+
+        MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+        mainWindow?.RefreshFilteredMedia();
     }
 
     partial void OnVolumeMixerHighlightActiveAppsChanged(bool oldValue, bool newValue)

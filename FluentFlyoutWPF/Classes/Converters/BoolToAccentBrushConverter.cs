@@ -7,7 +7,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media;
 
-namespace FluentFlyoutWPF.Classes.Utils;
+namespace FluentFlyoutWPF.Classes.Converters;
 
 public class BoolToAccentBrushConverter : IValueConverter
 {

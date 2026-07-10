@@ -193,9 +193,9 @@ Anda dapat membantu berkontribusi dalam menerjemahkan di</system:String>
     <system:String x:Key="TaskbarVisualizerOutputDeviceTitle">Perangkat Keluaran</system:String>
     <system:String x:Key="TaskbarVisualizerOutputDeviceDescription">Ganti apa yang visualizer dengarkan dengan beralih perangkat keluaran pada FluentFlyout.</system:String>
     <system:String x:Key="UnlockFullExperienceText">Buka pengalaman penuh FluentFlyout:</system:String>
-    <system:String x:Key="TaskbarWidgetCustomizationPerk">Widget bilah tugas dan Visualizer</system:String>
-    <system:String x:Key="AcrylicBlurOpacityPerk">Opasitas Blur Akrilik</system:String>
-    <system:String x:Key="HideTrayIconPerk">Sembunyikan Ikon Baki</system:String>
+    <system:String x:Key="TaskbarWidgetCustomizationPerk">Aktifkan Widget Taskbar dan Visualizer</system:String>
+    <system:String x:Key="AcrylicBlurOpacityPerk">Sesuaikan efek blur Acrylic</system:String>
+    <system:String x:Key="HideTrayIconPerk">Sembunyikan ikon tray</system:String>
     <system:String x:Key="AllFuturePremiumFeatures">Semua fitur Premium kedepannya</system:String>
     <system:String x:Key="AppearanceBehaviorSectionTitle">Tampilan &amp; perilaku</system:String>
     <system:String x:Key="UpdatesSectionTitle">Pembaruan</system:String>
@@ -235,4 +235,23 @@ Anda dapat membantu berkontribusi dalam menerjemahkan di</system:String>
     <system:String x:Key="LockKeysAnimatedDescription">Aktifkan animasi halus untuk indikator tombol kunci</system:String>
     <system:String x:Key="LegacyTaskbarWidthTitle">Sistem Lebar Taskbar Lama</system:String>
     <system:String x:Key="LegacyTaskbarWidthDescription">Gunakan sistem lebar Taskbar lama untuk Widget Taskbar</system:String>
+    <system:String x:Key="VolumeMixerHighlightPerk">Sorot aplikasi aktif di Volume Mixer</system:String>
+    <system:String x:Key="EnableCapsTitle">Aktifkan indikator Caps Lock</system:String>
+    <system:String x:Key="EnableCapsDescription">Menampilkan saat tombol Caps Lock ditekan</system:String>
+    <system:String x:Key="EnableNumTitle">Aktifkan indikator Num Lock</system:String>
+    <system:String x:Key="EnableNumDescription">Menampilkan saat tombol Num Lock ditekan</system:String>
+    <system:String x:Key="EnableScrollTitle">Aktifkan indikator Scroll Lock</system:String>
+    <system:String x:Key="EnableScrollDescription">Menampilkan saat tombol Scroll Lock ditekan</system:String>
+    <system:String x:Key="VolumeFlyoutTitle">Flyout Volume</system:String>
+    <system:String x:Key="VolumeFlyoutDescription">Flyout kontrol volume mandiri yang dapat diperluas menjadi mixer volume, menggantikan antarmuka volume bawaan Windows.</system:String>
+    <system:String x:Key="EnableVolumeFlyoutTitle">Aktifkan Flyout Volume</system:String>
+    <system:String x:Key="EnableVolumeFlyoutDescription">Gantikan flyout volume bawaan Windows</system:String>
+    <system:String x:Key="VolumeAboveMediaFlyoutTitle">Posisikan Flyout Volume di atas Flyout Media</system:String>
+    <system:String x:Key="VolumeFlyoutStayDurationTitle">Durasi tampil Flyout Volume</system:String>
+    <system:String x:Key="VolumeMixerSectionTitle">Mixer Volume</system:String>
+    <system:String x:Key="EnableVolumeMixerTitle">Aktifkan Mixer Volume</system:String>
+    <system:String x:Key="EnableVolumeMixerDescription">Kontrol rinci atas volume tiap aplikasi</system:String>
+    <system:String x:Key="VolumeMixerHighlightTitle">Sorot aplikasi yang sedang memutar audio</system:String>
+    <system:String x:Key="VolumeMixerHighlightDescription">Lihat aplikasi mana yang sedang mengeluarkan audio</system:String>
+    <system:String x:Key="MasterVolumeText">Volume master</system:String>
 </ResourceDictionary>

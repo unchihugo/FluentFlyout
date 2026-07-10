@@ -1,4 +1,4 @@
-﻿<Page x:Class="FluentFlyoutWPF.Pages.HomePage"
+<Page x:Class="FluentFlyoutWPF.Pages.HomePage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -96,7 +96,7 @@
                     <ui:SymbolIcon Symbol="Heart24" FontSize="24" Margin="0,0,10,0" Foreground="{DynamicResource AccentTextFillColorPrimaryBrush}" />
                     <StackPanel Orientation="Vertical" VerticalAlignment="Center">
                         <ui:TextBlock Text="Supporter" FontWeight="SemiBold" />
-                        <ui:TextBlock Text="Thank you!" Opacity="0.5" />
+                        <ui:TextBlock Text="Thank you!" Opacity="0.5" FontSize="12" />
                     </StackPanel>
                 </StackPanel>
             </ui:Button>
@@ -248,7 +248,7 @@
         </Grid>
 
         <StackPanel Orientation="Horizontal" Margin="0,16,0,0">
-            <ui:Button Appearance="Transparent" Padding="16,4,16,0" Height="56" BorderBrush="Transparent" Margin="0,0,8,0" Click="ViewMicrosoftStore_Click">
+            <ui:Button x:Name="ViewMicrosoftStoreButton" Tag="Indexable" Appearance="Transparent" Padding="16,4,16,0" Height="56" BorderBrush="Transparent" Margin="0,0,8,0" Click="ViewMicrosoftStore_Click">
                 <StackPanel Orientation="Horizontal">
                     <StackPanel Orientation="Vertical" VerticalAlignment="Center">
                         <ui:SymbolIcon Symbol="StoreMicrosoft20" FontSize="18" Filled="False" />
@@ -257,7 +257,7 @@
                 </StackPanel>
             </ui:Button>
 
-            <ui:Button Appearance="Transparent" Padding="16,4,16,0" Height="56" BorderBrush="Transparent" Margin="0,0,8,0" Click="ViewLogs_Click">
+            <ui:Button x:Name="ViewLogsButton" Tag="Indexable" Appearance="Transparent" Padding="16,4,16,0" Height="56" BorderBrush="Transparent" Margin="0,0,8,0" Click="ViewLogs_Click">
                 <StackPanel Orientation="Horizontal">
                     <StackPanel Orientation="Vertical" VerticalAlignment="Center">
                         <ui:SymbolIcon Symbol="FolderOpen20" FontSize="18" Filled="False" />
@@ -266,7 +266,7 @@
                 </StackPanel>
             </ui:Button>
 
-            <ui:Button Appearance="Transparent" Padding="16,4,16,0" Height="56" BorderBrush="Transparent" Margin="0,0,8,0" Click="ReportBug_Click">
+            <ui:Button x:Name="ReportBugButton" Tag="Indexable" Appearance="Transparent" Padding="16,4,16,0" Height="56" BorderBrush="Transparent" Margin="0,0,8,0" Click="ReportBug_Click">
                 <StackPanel Orientation="Horizontal">
                     <StackPanel Orientation="Vertical" VerticalAlignment="Center">
                         <ui:SymbolIcon Symbol="Bug20" FontSize="18" Filled="False" />
@@ -285,7 +285,7 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <ui:CardControl Grid.Row="0">
+            <ui:CardControl x:Name="UnlockFullExperienceTextCard" Tag="Indexable" Grid.Row="0">
                 <ui:CardControl.Header>
                     <StackPanel>
                         <StackPanel Margin="0,0,0,12" Visibility="{Binding IsPremiumUnlocked, Converter={StaticResource BoolToCollapsedVisibleConverter}}">

@@ -6,7 +6,7 @@
              StartupUri="MainWindow.xaml"
              xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
              xmlns:mica="clr-namespace:MicaWPF.Styles;assembly=MicaWPF"
-             xmlns:utils="clr-namespace:FluentFlyoutWPF.Classes.Utils"
+             xmlns:converters="clr-namespace:FluentFlyoutWPF.Classes.Converters"
              ShutdownMode="OnExplicitShutdown">
     <Application.Resources>
         <ResourceDictionary>
@@ -27,11 +27,14 @@
             <SolidColorBrush x:Key="NavigationViewContentGridBorderBrush" Color="Transparent" />
             
             <!-- XAML utility resources -->
-            <utils:BoolToVisibleCollapsedConverter x:Key="BoolToVisibleCollapsedConverter"/>
-            <utils:BoolToVisibleCollapsedConverter x:Key="BoolToCollapsedVisibleConverter" TrueValue="Collapsed" FalseValue="Visible" />
-            <utils:BoolToEnabledDisabledConverter x:Key="BoolToEnabledDisabledConverter" />
-            <utils:BoolToFullHalfOpacityConverter x:Key="BoolToFullHalfOpacityConverter" />
-            <utils:BoolToFullHalfOpacityConverter x:Key="BoolToHalfFullOpacityConverter" TrueValue="0.5" FalseValue="1" />
+            <converters:BoolToVisibleCollapsedConverter x:Key="BoolToVisibleCollapsedConverter"/>
+            <converters:BoolToVisibleCollapsedConverter x:Key="BoolToCollapsedVisibleConverter" TrueValue="Collapsed" FalseValue="Visible" />
+            <converters:BoolToEnabledDisabledConverter x:Key="BoolToEnabledDisabledConverter" />
+            <converters:BoolToFullHalfOpacityConverter x:Key="BoolToFullHalfOpacityConverter" />
+            <converters:BoolToFullHalfOpacityConverter x:Key="BoolToHalfFullOpacityConverter" TrueValue="0.5" FalseValue="1" />
+
+            <converters:NullToVisibilityConverter x:Key="NullToVisibleConverter" />
+            <converters:NullToVisibilityConverter x:Key="NullToCollapsedConverter" NullValue="Collapsed" NonNullValue="Visible" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

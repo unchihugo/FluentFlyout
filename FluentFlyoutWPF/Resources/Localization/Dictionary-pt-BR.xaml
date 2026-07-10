@@ -34,8 +34,8 @@
     <system:String x:Key="BackgroundBlurOption2" xml:space="preserve"> Estilo 1 (Brilho de Capa)</system:String>
     <system:String x:Key="BackgroundBlurOption3" xml:space="preserve"> Estilo 2 (Brilho Ascendente)</system:String>
     <system:String x:Key="BackgroundBlurOption4" xml:space="preserve"> Estilo 3 (Desfoque)</system:String>
-    <system:String x:Key="AcrylicWindowTitle">Janela Acrílica</system:String>
-    <system:String x:Key="AcrylicWindowDescription">Aplicar efeito acrílico transparente de desfoque no flyout (desativado reverte para Mica)</system:String>
+    <system:String x:Key="AcrylicWindowTitle">Menus flutuantes acrílicos</system:String>
+    <system:String x:Key="AcrylicWindowDescription">Aplicar efeito de desfoque acrílico transparente aos menus flutuantes</system:String>
     <system:String x:Key="CompactLayoutDescription" xml:space="preserve">Layout mais fino e menos intrusivo
 esconde os botões de repetir, aleatório e as informações do player</system:String>
     <system:String x:Key="RepeatButtonDescription">Escolha entre repetir todos ou repetir um, aumenta a largura do flyout</system:String>
@@ -248,4 +248,43 @@ Nota: Como um projeto de código aberto, esses recursos também estão disponív
     <system:String x:Key="VolumeMixerHighlightTitle">Destacar aplicativos que estão reproduzindo áudio</system:String>
     <system:String x:Key="VolumeMixerHighlightDescription">Ver quais aplicativos estão emitindo áudio no momento</system:String>
     <system:String x:Key="MasterVolumeText">Volume principal</system:String>
+    <system:String x:Key="EnableCapsTitle">Ativar indicador do Caps Lock</system:String>
+    <system:String x:Key="EnableCapsDescription">Exibe quando a tecla Caps Lock é pressionada</system:String>
+    <system:String x:Key="EnableNumTitle">Ativar indicador do Num Lock</system:String>
+    <system:String x:Key="EnableNumDescription">Exibe quando a tecla Num Lock é pressionada</system:String>
+    <system:String x:Key="EnableScrollTitle">Ativar indicador do Scroll Lock</system:String>
+    <system:String x:Key="EnableScrollDescription">Exibe quando a tecla Scroll Lock é pressionada</system:String>
+    <system:String x:Key="TaskbarWidgetFixedWidthTitle">Largura fixa do widget</system:String>
+    <system:String x:Key="TaskbarWidgetFixedWidthDescription">Mantenha o widget em uma largura fixa em vez de redimensioná-lo para se ajustar ao texto do título e do artista</system:String>
+    <system:String x:Key="AppFilteringTitle">Filtragem de aplicativos</system:String>
+    <system:String x:Key="AppFilteringRulesDescription">Controle quais aplicativos podem exibir mídia</system:String>
+    <system:String x:Key="EnableAppFilteringTitle">Ativar filtragem</system:String>
+    <system:String x:Key="AppFilteringModeTitle">Modo de filtragem</system:String>
+    <system:String x:Key="AppFilteringModeDescription">Escolha se os aplicativos listados serão permitidos ou bloqueados</system:String>
+    <system:String x:Key="AppFilteringModeBlacklist">Lista de bloqueio</system:String>
+    <system:String x:Key="AppFilteringModeWhitelist">Lista de permissão</system:String>
+    <system:String x:Key="AllowedAppsTitle">Aplicativos permitidos</system:String>
+    <system:String x:Key="AllowedAppsDescription">Se houver aplicativos listados aqui, somente a mídia deles será exibida.</system:String>
+    <system:String x:Key="BlockedAppsTitle">Aplicativos excluídos</system:String>
+    <system:String x:Key="BlockedAppsDescription">Exclui um aplicativo de ser exibido</system:String>
+    <system:String x:Key="AddAppManuallyText">Não consegue encontrar seu aplicativo? Digite abaixo:</system:String>
+    <system:String x:Key="AppFilteringPlaceholderSpotify">ex Spotify.exe</system:String>
+    <system:String x:Key="AppFilteringPlaceholderChrome">ex Chrome.exe</system:String>
+    <system:String x:Key="AppFilteringComboBoxHint">Selecione um aplicativo em reprodução no momento para adicionar</system:String>
+    <system:String x:Key="AddButton">Adicionar</system:String>
+    <system:String x:Key="RemoveButton">Remover</system:String>
+    <system:String x:Key="Back">Voltar</system:String>
+    <system:String x:Key="Next">Avançar</system:String>
+    <system:String x:Key="Finish">Concluir</system:String>
+    <system:String x:Key="OnboardingStepsCounter">Etapa {0} de {1}</system:String>
+    <system:String x:Key="AnonymousUsageDataTitle">Enviar dados de uso anônimos</system:String>
+    <system:String x:Key="AnonymousUsageDataDescription">Ajude a melhorar o aplicativo enviando dados de uso anônimos e não identificáveis</system:String>
+    <system:String x:Key="TaskbarVisualizerBaselineAutoHideDescription">Oculta automaticamente a linha de base quando nenhum áudio estiver tocando</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextTitle">Texto rolante</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTitle">Ativar rolagem</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextDescription">Rola automaticamente textos longos que não cabem</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextLoopForeverTitle">Rolagem contínua</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextLoopForeverDescription">Repetir o texto infinitamente em uma direção em vez de rolar para frente e para trás.</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextSpeedTitle">Velocidade de rolagem</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextSpeedDescription">Velocidade em que o texto rola (pixels/segundo). O padrão é 20.</system:String>
 </ResourceDictionary>

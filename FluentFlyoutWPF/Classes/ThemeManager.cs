@@ -104,7 +104,8 @@ internal static class ThemeManager
             {
                 if (SettingsManager.Current.NIconSymbol == true)
                 {
-                    var iconUri = new Uri(WindowsThemeHelper.GetCurrentWindowsTheme() == WindowsTheme.Dark
+                    WindowsThemeDetector.GetWindowsTheme(out _, out var systemTheme);
+                    var iconUri = new Uri(systemTheme == WindowsThemeDetector.ThemeMode.Dark
                         ? "pack://application:,,,/Resources/TrayIcons/FluentFlyoutWhite.png"
                         : "pack://application:,,,/Resources/TrayIcons/FluentFlyoutBlack.png");
                     nIcon.Icon = new BitmapImage(iconUri);

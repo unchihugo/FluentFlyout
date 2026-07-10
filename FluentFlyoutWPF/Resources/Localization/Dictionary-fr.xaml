@@ -28,7 +28,7 @@
     <system:String x:Key="TextBlockText3">Afficher un volet quand vous appuyez sur une touche multimédia</system:String>
     <system:String x:Key="BackgroundBlurOption1" xml:space="preserve"> Aucun</system:String>
     <system:String x:Key="BackgroundBlurTitle">Flou d'arrière-plan</system:String>
-    <system:String x:Key="AcrylicWindowTitle">Fenêtre acrylique</system:String>
+    <system:String x:Key="AcrylicWindowTitle">Volet Acrylique</system:String>
     <system:String x:Key="CompactLayoutTitle">Disposition compacte</system:String>
     <system:String x:Key="CompactLayoutDescription" xml:space="preserve">Mise en page plus fine et moins intrusive
 masque les options de répétition, de lecture aléatoire et les informations du lecteur</system:String>
@@ -37,7 +37,7 @@ masque les options de répétition, de lecture aléatoire et les informations du
     <system:String x:Key="EnableNextUpTitle">Activer le volet “À suivre”</system:String>
     <system:String x:Key="TextBlockText2">Choisir un flou d'arrière-plan moderne à partir d'un préréglée</system:String>
     <system:String x:Key="BackgroundBlurOption4" xml:space="preserve"> Style 3 (Flou)</system:String>
-    <system:String x:Key="AcrylicWindowDescription">Appliquer un effet transparent acrylique floué au volet (reviendra à Mica si désactivé)</system:String>
+    <system:String x:Key="AcrylicWindowDescription">Appliquer un effet transparent acrylique floué au volets</system:String>
     <system:String x:Key="PauseOtherMediaDescription">Lorsque vous reproduisez ou sélectionnez de nouveau média, les autres sessions actives seront mises en pause automatiquement</system:String>
     <system:String x:Key="TaskbarWidgetCustomizationTitle">Widget de la barre des tâches</system:String>
     <system:String x:Key="TaskbarWidgetDescription">Un widget compact et intégré sur la barre de tâches de Windows pour un accès instantané à votre média. Cliquez sur le widget pour étendre le volet de média complet.</system:String>
@@ -248,4 +248,43 @@ Vous pouvez contribuer aux traductions sur</system:String>
     <system:String x:Key="VolumeMixerHighlightTitle">Mettre en évidence les applications qui joue du son</system:String>
     <system:String x:Key="VolumeMixerHighlightDescription">Voir quelles applications jouent actuellement du son</system:String>
     <system:String x:Key="MasterVolumeText">Volume principal</system:String>
+    <system:String x:Key="EnableCapsTitle">Activer l'indicateur de Verr.Maj.</system:String>
+    <system:String x:Key="EnableCapsDescription">S'affiche lorsque la touche Verr. Maj. est pressée</system:String>
+    <system:String x:Key="EnableNumTitle">Activer l'indicateur de Verr. Num.</system:String>
+    <system:String x:Key="EnableNumDescription">S'affiche lorsque la touche Verr. Num. est pressée</system:String>
+    <system:String x:Key="EnableScrollTitle">Activer l'indicateur d'Arrêt défil.</system:String>
+    <system:String x:Key="EnableScrollDescription">S'affiche lorsque la touche Arrêt défil. est pressée</system:String>
+    <system:String x:Key="TaskbarWidgetFixedWidthTitle">Largeur Fixe du Widget</system:String>
+    <system:String x:Key="TaskbarWidgetFixedWidthDescription">Conserve la largeur du widget fixe au lieu de le redimensionner pour l'adapter au texte du titre et de l'artiste</system:String>
+    <system:String x:Key="EnableAppFilteringTitle">Activer le Filtrage</system:String>
+    <system:String x:Key="AppFilteringModeTitle">Mode de Filtrage</system:String>
+    <system:String x:Key="AllowedAppsTitle">Applications Autorisées</system:String>
+    <system:String x:Key="AppFilteringPlaceholderSpotify">p. ex. Spotify.exe</system:String>
+    <system:String x:Key="AppFilteringPlaceholderChrome">p. ex. Chrome.exe</system:String>
+    <system:String x:Key="AppFilteringComboBoxHint">Sélectionnez une application en cours de lecture à ajouter</system:String>
+    <system:String x:Key="AddButton">Ajouter</system:String>
+    <system:String x:Key="RemoveButton">Supprimer</system:String>
+    <system:String x:Key="AppFilteringTitle">Filtrage des Applications</system:String>
+    <system:String x:Key="AppFilteringRulesDescription">Contrôlez quelles applications peuvent afficher du contenu multimédia</system:String>
+    <system:String x:Key="AppFilteringModeDescription">Choisissez si les applications listées sont autorisées ou bloquées</system:String>
+    <system:String x:Key="AppFilteringModeBlacklist">Liste de Blocage</system:String>
+    <system:String x:Key="AppFilteringModeWhitelist">Liste d'autorisation</system:String>
+    <system:String x:Key="AllowedAppsDescription">Si des applications sont listées ici, seul leur contenu multimédia sera affiché.</system:String>
+    <system:String x:Key="BlockedAppsTitle">Applications Exclues</system:String>
+    <system:String x:Key="BlockedAppsDescription">Empêche l'affichage d'une application</system:String>
+    <system:String x:Key="AddAppManuallyText">Vous ne trouvez pas votre application ? Saisissez-la ci-dessous :</system:String>
+    <system:String x:Key="Back">Retour</system:String>
+    <system:String x:Key="Next">Suivant</system:String>
+    <system:String x:Key="Finish">Terminer</system:String>
+    <system:String x:Key="OnboardingStepsCounter">Étape {0} sur {1}</system:String>
+    <system:String x:Key="AnonymousUsageDataTitle">Envoyer des Données d'Utilisation Anonymes</system:String>
+    <system:String x:Key="AnonymousUsageDataDescription">Contribuez à l'amélioration de l'application en envoyant des données d'utilisation anonymes et non identifiables</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTitle">Activer le Défilement</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextSpeedDescription">Vitesse a laquelle le texte défile (pixels/secondes). Défaut est a 20.</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextTitle">Texte défilant</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextLoopForeverTitle">Défilement continu</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextDescription">Faire défiler automatiquement les textes trop longs pour être affichés entièrement</system:String>
+    <system:String x:Key="TaskbarVisualizerBaselineAutoHideDescription">Masquer automatiquement la ligne de base lorsqu'aucun son n'est en cours de lecture</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextLoopForeverDescription">Faire défiler le texte indéfiniment dans une seule direction au lieu d'un défilement aller-retour.</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextSpeedTitle">Vitesse de défilement</system:String>
 </ResourceDictionary>
