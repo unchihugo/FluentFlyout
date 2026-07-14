@@ -42,7 +42,7 @@ public static class UpdateCheckerService
 
         try
         {
-            var response = await FluentFlyoutApiClient.Client.GetStringAsync(ApiEndpoint);
+            var response = await FluentFlyoutApiClient.GetStringAsync(ApiEndpoint);
             var json = JsonDocument.Parse(response);
 
             result.NewestVersion = json.RootElement.GetProperty("version").GetString() ?? string.Empty;

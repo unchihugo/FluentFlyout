@@ -287,4 +287,5 @@ Nota: Como um projeto de código aberto, esses recursos também estão disponív
     <system:String x:Key="TaskbarWidgetScrollingTextLoopForeverDescription">Repetir o texto infinitamente em uma direção em vez de rolar para frente e para trás.</system:String>
     <system:String x:Key="TaskbarWidgetScrollingTextSpeedTitle">Velocidade de rolagem</system:String>
     <system:String x:Key="TaskbarWidgetScrollingTextSpeedDescription">Velocidade em que o texto rola (pixels/segundo). O padrão é 20.</system:String>
+    <system:String x:Key="SearchSettings">Pesquisar configurações</system:String>
 </ResourceDictionary>

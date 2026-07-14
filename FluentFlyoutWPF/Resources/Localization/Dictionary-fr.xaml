@@ -287,4 +287,5 @@ Vous pouvez contribuer aux traductions sur</system:String>
     <system:String x:Key="TaskbarVisualizerBaselineAutoHideDescription">Masquer automatiquement la ligne de base lorsqu'aucun son n'est en cours de lecture</system:String>
     <system:String x:Key="TaskbarWidgetScrollingTextLoopForeverDescription">Faire défiler le texte indéfiniment dans une seule direction au lieu d'un défilement aller-retour.</system:String>
     <system:String x:Key="TaskbarWidgetScrollingTextSpeedTitle">Vitesse de défilement</system:String>
+    <system:String x:Key="SearchSettings">Rechercher les paramètres</system:String>
 </ResourceDictionary>

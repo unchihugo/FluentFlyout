@@ -1,5 +1,5 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib">
-    <system:String x:Key="TitleText">FluentFlyout सेटिंग्स</system:String>
+    <system:String x:Key="TitleText">FluentFlyout विकल्प</system:String>
     <system:String x:Key="MediaFlyoutTitle">मीडिया फ्लाईआउट</system:String>
     <system:String x:Key="MediaFlyoutDescription">मुख्य फ्लाईआउट । मीडिया को सुनते समय, फ्लाईआउट प्रदर्शित करने के लिए अपने कीबोर्ड पर किसी भी मीडिया या वॉल्यूम कुंजी (प्ले / पॉज़, वॉल्यूम अप / डाउन, आदि) को दबाएं। प्लेबैक नियंत्रण के साथ मीडिया जानकारी प्रदर्शित करता है।</system:String>
     <system:String x:Key="TextBlockText1">मीडिया फ्लाईआउट सक्षम करें</system:String>
@@ -8,7 +8,7 @@
     <system:String x:Key="BackgroundBlurOption1" xml:space="preserve"> कोई नहीं</system:String>
     <system:String x:Key="BackgroundBlurOption2" xml:space="preserve"> स्टाइल 1 (कवर ग्लो)</system:String>
     <system:String x:Key="HomeTitle">होम</system:String>
-    <system:String x:Key="Enabled">सक्षम</system:String>
+    <system:String x:Key="Enabled">सक्रिय</system:String>
     <system:String x:Key="Disabled">निष्क्रिय</system:String>
     <system:String x:Key="MediaFlyoutExcludeVolumeTitle">वॉल्यूम बटन को शामिल न करें</system:String>
     <system:String x:Key="MediaFlyoutExcludeVolumeDescription">वॉल्यूम बढ़ाने/घटाने/म्यूट करने के दौरान फ़्लाइआउट न दिखाएं</system:String>
@@ -17,8 +17,8 @@
     <system:String x:Key="BackgroundBlurOption3" xml:space="preserve"> उज्ज्वल चमक</system:String>
     <system:String x:Key="BackgroundBlurOption4" xml:space="preserve"> धुंधला</system:String>
     <system:String x:Key="BackgroundBlurTitle">दृश्य धुंधला</system:String>
-    <system:String x:Key="AcrylicWindowTitle">ऐक्रेलिक विंडो</system:String>
-    <system:String x:Key="AcrylicWindowDescription">फ्लाईआउट पर पारदर्शी ऐक्रेलिक ब्लर इफ़ेक्ट लागू करें (बंद करने पर माइका इफ़ेक्ट में बदल जाता है)</system:String>
+    <system:String x:Key="AcrylicWindowTitle">ऐक्रेलिक फ़्लाईआउट</system:String>
+    <system:String x:Key="AcrylicWindowDescription">फ्लाईआउट पर पारदर्शी ऐक्रेलिक ब्लर इफ़ेक्ट लागू करें</system:String>
     <system:String x:Key="CompactLayoutTitle">तंग लेआउट</system:String>
     <system:String x:Key="CompactLayoutDescription" xml:space="preserve">सरल और कम दखल देने वाला लेआउट
 रिपीट, शफल और प्लेयर की जानकारी छुपाता है</system:String>
@@ -26,7 +26,7 @@
     <system:String x:Key="FlyoutPositionTitle">फ्लाईआउट स्थिति</system:String>
     <system:String x:Key="PositionBottomCenter" xml:space="preserve"> निचला मध्य</system:String>
     <system:String x:Key="PositionBottomRight" xml:space="preserve"> नीचे दाईं ओर</system:String>
-    <system:String x:Key="PositionTopLeft" xml:space="preserve"> ऊपरी बायाँ</system:String>
+    <system:String x:Key="PositionTopLeft" xml:space="preserve"> ऊपरी बायाँ ओर</system:String>
     <system:String x:Key="PositionTopCenter" xml:space="preserve"> ऊपरी केंद्र</system:String>
     <system:String x:Key="PositionTopRight" xml:space="preserve"> ऊपर दाईं ओर</system:String>
     <system:String x:Key="FlyoutStayDurationTitle">फ्लायआउट रहने की अवधि</system:String>
@@ -36,7 +36,7 @@
     <system:String x:Key="MediaFlyoutAlwaysDisplayDescription">फ़्लायआउट तब तक खुला रहता है जब तक आप क्लोज़ बटन पर क्लिक नहीं करते</system:String>
     <system:String x:Key="CenterTitleArtistTitle">केंद्र शीर्षक और कलाकार</system:String>
     <system:String x:Key="CenterTitleArtistDescription">टेक्स्ट को बाईं ओर की बजाय बीच में संरेखित करें</system:String>
-    <system:String x:Key="PositionBottomLeft" xml:space="preserve"> निचला बायाँ</system:String>
+    <system:String x:Key="PositionBottomLeft" xml:space="preserve"> निचला बायाँ ओर</system:String>
     <system:String x:Key="ShowMediaPlayerNameTitle">मीडिया प्लेयर का नाम दिखाएँ</system:String>
     <system:String x:Key="RepeatButtonTitle">रीपीट(दोहराएँ) बटन*</system:String>
     <system:String x:Key="RepeatButtonDescription">सभी को दोहराने या केवल एक को दोहराने का विकल्प चुनें, इससे फ्लाईआउट की चौड़ाई बढ़ जाती है</system:String>
@@ -118,7 +118,9 @@
     <system:String x:Key="TaskbarWidgetPaddingTitle">विंडोज़ विजेट बटन के लिए स्वचालित पैडिंग</system:String>
     <system:String x:Key="TaskbarWidgetPaddingDescription">यदि आपके पास Windows विजेट सक्षम है तो इस सुविधा को चालू करें</system:String>
     <system:String x:Key="PremiumFeatureTitle">प्रीमियम सुविधा</system:String>
-    <system:String x:Key="PremiumFeatureDescription" xml:space="preserve">आपका एकमुश्त योगदान मुझे FluentFlyout को जीवित और अद्यतन रखने में मदद करता है। यह तुरंत सभी प्रीमियम अनुकूलन सुविधाओं को हमेशा के लिए अनलॉक कर देता है।नोट: एक ओपन-सोर्स प्रोजेक्ट के रूप में, ये सुविधाएं GitHub पर मैन्युअल इंस्टॉलर के माध्यम से मुफ्त में भी उपलब्ध हैं। एकमात्र समझौता यह है कि अपडेट और इंस्टॉलेशन मैन्युअल रूप से किया जाना चाहिए।</system:String>
+    <system:String x:Key="PremiumFeatureDescription" xml:space="preserve">आपका एक बार का योगदान FluentFlyout को चालू और अपडेटेड रखने में मेरी मदद करता है। इससे सभी प्रीमियम कस्टमाइज़ेशन फ़ीचर तुरंत और हमेशा के लिए अनलॉक हो जाते हैं।
+
+ध्यान दें: एक ओपन-सोर्स प्रोजेक्ट होने के नाते, ये फ़ीचर GitHub पर मैनुअल इंस्टॉलर के ज़रिए मुफ़्त में भी उपलब्ध हैं। बस इसमें एक बात का ध्यान रखना होगा कि अपडेट और इंस्टॉलेशन मैनुअली करने होंगे।</system:String>
     <system:String x:Key="PremiumLockedMessage">यह सुविधा प्रीमियम पैकेज का हिस्सा है</system:String>
     <system:String x:Key="PremiumUnlockedMessage">प्रीमियम सुविधाएँ अनलॉक की गईं। आपके समर्थन के लिए धन्यवाद!</system:String>
     <system:String x:Key="PremiumGitHubMessage">GitHub/स्व-संकलित संस्करणों के लिए प्रीमियम सुविधाएँ अनलॉक की गई हैं</system:String>
@@ -269,4 +271,19 @@
     <system:String x:Key="AppFilteringModeBlacklist">ब्लॉक सूची</system:String>
     <system:String x:Key="RemoveButton">हटाएं</system:String>
     <system:String x:Key="MasterVolumeText">मास्टर वॉल्यूम</system:String>
+    <system:String x:Key="Back">पीछे</system:String>
+    <system:String x:Key="Next">अगला</system:String>
+    <system:String x:Key="Finish">खत्म</system:String>
+    <system:String x:Key="AnonymousUsageDataTitle">अनाम इस्तेमाल का डेटा भेजें</system:String>
+    <system:String x:Key="AnonymousUsageDataDescription">गुमनाम और पहचान न हो सकने वाला यूसेज डेटा भेजकर ऐप को बेहतर बनाने में मदद करें</system:String>
+    <system:String x:Key="SearchSettings">खोजो सेटिंग</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextTitle">ऊपर-नीचे लेख</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTitle">ऊपर और नीचे की सुविधा चालू करें</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextDescription">जो लंबा लेख स्क्रीन पर पूरा नहीं आता, उसे अपने-आप स्क्रॉल करे</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextLoopForeverTitle">लगातार ऊपर-नीचे</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextLoopForeverDescription">आगे-पीछे करने के बजाय, लिखने की प्रक्रिया को एक ही दिशा में लगातार दोहराएं।</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextSpeedTitle">ऊपर-नीचे करने की गति</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextSpeedDescription">लेख ऊपर-नीचे करनो की गति (पिक्सेल/सेकंड)। प्रीसेट 20 है।</system:String>
+    <system:String x:Key="OnboardingStepsCounter">{1} में से {0} चरण</system:String>
+    <system:String x:Key="TaskbarVisualizerBaselineAutoHideDescription">जब कोई ऑडियो नहीं चल रहा हो, तो बेसलाइन को अपने-आप छिपा दो</system:String>
 </ResourceDictionary>

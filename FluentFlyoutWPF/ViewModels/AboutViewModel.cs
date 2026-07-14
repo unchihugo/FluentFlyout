@@ -86,7 +86,8 @@ public partial class AboutViewModel : ObservableObject
         "saini07ayush",
         "biuseverinoneto",
         "theantonyis",
-        "mlynado"
+        "mlynado",
+        "Korvus"
     ];
 
 

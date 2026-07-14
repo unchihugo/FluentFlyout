@@ -16,8 +16,8 @@
     <system:String x:Key="BackgroundBlurOption3" xml:space="preserve"> Stile 2 (Bagliore crescente)</system:String>
     <system:String x:Key="BackgroundBlurOption4" xml:space="preserve"> Stile 3 (Sfocatura)</system:String>
     <system:String x:Key="BackgroundBlurTitle">Sfocatura Sfondo</system:String>
-    <system:String x:Key="AcrylicWindowTitle">Finestra Acrilica</system:String>
-    <system:String x:Key="AcrylicWindowDescription">Applica un effetto di trasparenza acrilica al flyout (Se disattivato: Mica)</system:String>
+    <system:String x:Key="AcrylicWindowTitle">Flyouts Acrilico</system:String>
+    <system:String x:Key="AcrylicWindowDescription">Applica un effetto di trasparenza acrilica al flyout</system:String>
     <system:String x:Key="CompactLayoutTitle">Layout Compatto</system:String>
     <system:String x:Key="CompactLayoutDescription" xml:space="preserve">Layout più snello e meno intrusivo
 nasconde ripeti, riproduzione casuale e le informazioni del player</system:String>
@@ -279,4 +279,13 @@ Puoi contribuire alla traduzione su</system:String>
     <system:String x:Key="Next">Prossimo</system:String>
     <system:String x:Key="Finish">Fine</system:String>
     <system:String x:Key="OnboardingStepsCounter">Passo {0} di {1}</system:String>
+    <system:String x:Key="TaskbarVisualizerBaselineAutoHideDescription">Nasconde automaticamente la linea di base quando non viene riprodotto alcun audio</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTitle">Abilita lo scorrimento</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextDescription">Scorri automaticamente il testo lungo che non si adatta</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextLoopForeverTitle">Scorrimento continuo</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextLoopForeverDescription">Ripeti il testo all'infinito in una direzione invece di scorrere avanti e indietro.</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextSpeedDescription">Velocità di scorrimento del testo (pixel/secondo). Il valore predefinito è 20.</system:String>
+    <system:String x:Key="SearchSettings">Cerca impostazioni</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextTitle">Testo Scorrevole</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextSpeedTitle">Velocità di scorrimento</system:String>
 </ResourceDictionary>

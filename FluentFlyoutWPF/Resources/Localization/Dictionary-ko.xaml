@@ -10,8 +10,8 @@
     <system:String x:Key="BackgroundBlurOption3" xml:space="preserve"> 스타일 2 (상승 글로우)</system:String>
     <system:String x:Key="BackgroundBlurOption4" xml:space="preserve"> 스타일 3 (흐림 효과)</system:String>
     <system:String x:Key="BackgroundBlurTitle">배경 블러</system:String>
-    <system:String x:Key="AcrylicWindowTitle">아크릴 효과</system:String>
-    <system:String x:Key="AcrylicWindowDescription">Flyout에 투명한 아크릴 블러 효과를 적용합니다. (이 기능을 끄면 Mica 효과로 되돌아갑니다.)</system:String>
+    <system:String x:Key="AcrylicWindowTitle">아크릴풍 Flyout</system:String>
+    <system:String x:Key="AcrylicWindowDescription">Flyout에 투명한 아크릴 블러 효과를 적용</system:String>
     <system:String x:Key="CompactLayoutTitle">레이아웃 간소화</system:String>
     <system:String x:Key="CompactLayoutDescription" xml:space="preserve">더 슬림하고 덜 거슬리는 레이아웃
 반복, 셔플, 플레이어 정보를 숨김</system:String>
@@ -273,4 +273,19 @@
     <system:String x:Key="AppFilteringComboBoxHint">현재 재생 중인 앱 선택</system:String>
     <system:String x:Key="AddButton">추가</system:String>
     <system:String x:Key="RemoveButton">제거</system:String>
+    <system:String x:Key="Back">이전</system:String>
+    <system:String x:Key="Next">다음</system:String>
+    <system:String x:Key="Finish">완료</system:String>
+    <system:String x:Key="OnboardingStepsCounter">{1} 중 {0}</system:String>
+    <system:String x:Key="TaskbarVisualizerBaselineAutoHideDescription">오디오가 재생되고 있지 않을 때 기준선 자동 숨기기</system:String>
+    <system:String x:Key="AnonymousUsageDataTitle">익명 사용 데이터 전송</system:String>
+    <system:String x:Key="AnonymousUsageDataDescription">익명 사용 데이터를 전송하여, 앱을 개선하는데 도움 주기</system:String>
+    <system:String x:Key="SearchSettings">검색 설정</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextTitle">텍스트 스크롤</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTitle">스크롤 켜기</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextDescription">긴 텍스트를 자동으로 스크롤하기</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextLoopForeverTitle">연속 스크롤</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextLoopForeverDescription">텍스트를 한 방향으로 계속 스크롤하기.</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextSpeedTitle">스크롤 속도</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextSpeedDescription">텍스트 스크롤 속도 설정(픽셀/초). 기본값은 20.</system:String>
 </ResourceDictionary>

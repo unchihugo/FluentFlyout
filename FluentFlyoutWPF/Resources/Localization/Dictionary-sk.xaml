@@ -275,4 +275,13 @@ Môžete pomôcť s prekladmi na</system:String>
     <system:String x:Key="OnboardingStepsCounter">Krok {0} z {1}</system:String>
     <system:String x:Key="AnonymousUsageDataTitle">Odosielať Anonymné Údaje O Používaní</system:String>
     <system:String x:Key="AnonymousUsageDataDescription">Pomôžte zlepšovať aplikáciu odosielaním anonymných a neidentifikovateľných údajov o používaní</system:String>
+    <system:String x:Key="TaskbarVisualizerBaselineAutoHideDescription">Automaticky skryje základovú čiaru keď sa neprehráva žiadny zvuk</system:String>
+    <system:String x:Key="SearchSettings">Nastavenia vyhľadávania</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextTitle">Posúvajúci sa Text</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTitle">Povoliť Posúvanie</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextDescription">Automaticky posúvať dlhý text, ktorý sa nezmestí</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextLoopForeverTitle">Nepretržité Posúvanie</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextLoopForeverDescription">Nekonečná slučka textu jedným smerom namiesto posúvania tam a späť.</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextSpeedTitle">Rýchlosť Posúvania</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextSpeedDescription">Rýchlosť, ktorou sa text posúva (pixel za sekundu). Predvolené: 20.</system:String>
 </ResourceDictionary>

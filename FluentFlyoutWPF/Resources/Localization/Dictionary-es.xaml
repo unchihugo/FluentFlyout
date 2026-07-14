@@ -286,4 +286,6 @@ Nota: Como proyecto de código abierto, estas opciones también están disponibl
     <system:String x:Key="TaskbarWidgetScrollingTextLoopForeverDescription">Repetir el texto infinitamente en una dirección en lugar de desplazarse hacia adelante y hacia atrás.</system:String>
     <system:String x:Key="TaskbarWidgetScrollingTextSpeedDescription">Velocidad a la que se desplaza el texto (píxeles/segundo). El valor predeterminado es 20.</system:String>
     <system:String x:Key="TaskbarWidgetScrollingTextSpeedTitle">Velocidad del Scroll</system:String>
+    <system:String x:Key="SearchSettings">Ajustes de búsqueda</system:String>
+    <system:String x:Key="TaskbarVisualizerBaselineAutoHideDescription">Oculta automáticamente la base cuando no se reproduce audio</system:String>
 </ResourceDictionary>

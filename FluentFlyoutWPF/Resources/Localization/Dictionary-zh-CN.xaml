@@ -287,4 +287,5 @@
     <system:String x:Key="TaskbarWidgetScrollingTextLoopForeverDescription">向同一方向无限循环滚动，而非来回往复滚动。</system:String>
     <system:String x:Key="TaskbarWidgetScrollingTextSpeedTitle">滚动速度</system:String>
     <system:String x:Key="TaskbarWidgetScrollingTextSpeedDescription">文本滚动速度（像素/秒），默认值为 20。</system:String>
+    <system:String x:Key="SearchSettings">搜索设置</system:String>
 </ResourceDictionary>

@@ -56,7 +56,7 @@ Anmerkung: Als Open-Source-Projekt sind diese Funktionen auch kostenlos verfügb
     <system:String x:Key="NextUpWindow_UpNextText">Als nächstes:</system:String>
     <system:String x:Key="UnlockPremiumButton">Premium freischalten</system:String>
     <system:String x:Key="SystemSettingsTitle">System</system:String>
-    <system:String x:Key="LockWindow_LockOn">am</system:String>
+    <system:String x:Key="LockWindow_LockOn">an</system:String>
     <system:String x:Key="MediaFlyoutTitle">Medien-Flyout</system:String>
     <system:String x:Key="TextBlockText1">Aktiviere Media Flyout</system:String>
     <system:String x:Key="TextBlockText3">Zeigt das Flyout an, wenn eine Medientaste gedrückt wurde.</system:String>
@@ -279,4 +279,8 @@ Du kannst helfen, die App zu übersetzen auf</system:String>
     <system:String x:Key="OnboardingStepsCounter">Schritt {0} von {1}</system:String>
     <system:String x:Key="AnonymousUsageDataTitle">Anonyme Nutzungsdaten übermitteln</system:String>
     <system:String x:Key="AnonymousUsageDataDescription">Mithilfe anonymer und nicht identifizierbarer Nutzungsdaten helfen die App zu verbessern</system:String>
+    <system:String x:Key="SearchSettings">Suchen Einstellungen</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextTitle">Lauftext</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextLoopForeverTitle">Durchgehend Scrollen</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTitle">Aktiviere Lauftext</system:String>
 </ResourceDictionary>

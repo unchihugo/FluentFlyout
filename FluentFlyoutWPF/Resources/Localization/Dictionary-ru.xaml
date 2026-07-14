@@ -30,7 +30,7 @@
     <system:String x:Key="BackgroundBlurOption2" xml:space="preserve"> Стиль 1 (Свечение обложки)</system:String>
     <system:String x:Key="BackgroundBlurOption3" xml:space="preserve"> Стиль 2 (Восходящее свечение)</system:String>
     <system:String x:Key="BackgroundBlurOption4" xml:space="preserve"> Стиль 3 (Размытие)</system:String>
-    <system:String x:Key="AcrylicWindowTitle">Эффект акрилового окна</system:String>
+    <system:String x:Key="AcrylicWindowTitle">Эффект акрила для всплывающих окон</system:String>
     <system:String x:Key="AcrylicWindowDescription">Применяет к всплывающему плееру эффект прозрачного акрилового размытия</system:String>
     <system:String x:Key="CompactLayoutDescription" xml:space="preserve">Более простой и менее навязчивый макет
 скрывает кнопки повтора, случайного порядка и название плеера</system:String>
@@ -273,4 +273,19 @@
     <system:String x:Key="AllowedAppsTitle">Разрешить приложения</system:String>
     <system:String x:Key="AddButton">Добавить</system:String>
     <system:String x:Key="RemoveButton">Удалить</system:String>
+    <system:String x:Key="SearchSettings">Поиск настроек</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextTitle">Прокрутка текста</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTitle">Включить прокрутку</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextDescription">Автоматически прокручивать длинный текст, который не помещается</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextLoopForeverDescription">Текст будет зациклен в одном направлении вместо движения туда и обратно.</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextSpeedDescription">Скорость прокрутки текста (пикселей в секунду). По умолчанию: 20.</system:String>
+    <system:String x:Key="Next">Далее</system:String>
+    <system:String x:Key="Finish">Готово</system:String>
+    <system:String x:Key="AnonymousUsageDataTitle">Отправлять анонимные данные об использовании</system:String>
+    <system:String x:Key="AnonymousUsageDataDescription">Помогите улучшить приложение, отправляя анонимные данные об использовании, которые не содержат личной информации</system:String>
+    <system:String x:Key="TaskbarVisualizerBaselineAutoHideDescription">Автоматически скрывать базовый уровень, когда аудио не воспроизводится</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextLoopForeverTitle">Непрерывная прокрутка</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextSpeedTitle">Скорость прокрутки</system:String>
+    <system:String x:Key="Back">Назад</system:String>
+    <system:String x:Key="OnboardingStepsCounter">Шаг {0} из {1}</system:String>
 </ResourceDictionary>

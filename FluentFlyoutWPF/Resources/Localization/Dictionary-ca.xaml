@@ -11,7 +11,7 @@
     <system:String x:Key="BackgroundBlurOption1" xml:space="preserve"> Cap</system:String>
     <system:String x:Key="MediaFlyoutExcludeVolumeTitle">Exclou Tecles de Volum</system:String>
     <system:String x:Key="MediaFlyoutExcludeVolumeDescription">No mostrar el flyout quan es premi volum amunt/avall/silenci</system:String>
-    <system:String x:Key="AcrylicWindowTitle">Finestra acrilica</system:String>
+    <system:String x:Key="AcrylicWindowTitle">Flyouts Acrilics</system:String>
     <system:String x:Key="MillisecondsUnit">ms</system:String>
     <system:String x:Key="FlyoutStayDurationDescription">(per defecte: 3000 ms)</system:String>
     <system:String x:Key="MediaFlyoutAlwaysDisplay">Mostra Sempre</system:String>
@@ -37,7 +37,7 @@
     <system:String x:Key="BackgroundBlurOption3" xml:space="preserve"> Estil 2 (Il·luminat Difuminat)</system:String>
     <system:String x:Key="BackgroundBlurOption4" xml:space="preserve"> Estil 3 (Difuminat)</system:String>
     <system:String x:Key="BackgroundBlurTitle">Desenfocament del fons</system:String>
-    <system:String x:Key="AcrylicWindowDescription">Aplica un efecte de desenfocament acrílic transparent al flyout (si està desactivat, torna a ser Mica)</system:String>
+    <system:String x:Key="AcrylicWindowDescription">Aplica un efecte de desenfocament acrílic transparent al flyouts</system:String>
     <system:String x:Key="CompactLayoutTitle">Disposició compacta</system:String>
     <system:String x:Key="CompactLayoutDescription" xml:space="preserve">Un disseny més prim i menys intrusiu
 Oculta els botons de repetició, aleatori i la informació del reproductor</system:String>
@@ -275,4 +275,13 @@ Pots ajudar a contribuir amb les traduccions a</system:String>
     <system:String x:Key="AppFilteringComboBoxHint">Selecciona una aplicació que s'està reproduint actualment per afegir-la</system:String>
     <system:String x:Key="AddButton">Afegeix</system:String>
     <system:String x:Key="RemoveButton">Suprimeix</system:String>
+    <system:String x:Key="TaskbarVisualizerBaselineAutoHideDescription">Amaga automàticament la línia de base quan no es reprodueix àudio</system:String>
+    <system:String x:Key="SearchSettings">Configuració de cerca</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextTitle">Text en Desplaçament</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTitle">Activar Desplaçament</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextDescription">Desplaça automàticament el text llarg que no cap</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextLoopForeverTitle">Desplaçament Continu</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextLoopForeverDescription">Repetir el text en un bucle infinit en una direcció en comptes de desplaçar-se endavant i endarrere.</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextSpeedTitle">Velocitat de Desplaçament</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextSpeedDescription">Velocitat a la qual es desplaça el text (píxels/segon). El valor per defecte és 20.</system:String>
 </ResourceDictionary>

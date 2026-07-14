@@ -50,7 +50,7 @@ internal class ExperimentsService
         var result = new ExperimentsResult();
         try
         {
-            var response = await FluentFlyoutApiClient.Client.GetStringAsync(ApiEndpoint);
+            var response = await FluentFlyoutApiClient.GetStringAsync(ApiEndpoint);
             var experimentDict = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, Experiment>>(response);
             if (experimentDict != null)
             {

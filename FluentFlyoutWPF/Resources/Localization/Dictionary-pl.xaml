@@ -279,4 +279,13 @@ Możesz pomóc w tworzeniu tłumaczeń na stronie</system:String>
     <system:String x:Key="OnboardingStepsCounter">Krok {0} z {1}</system:String>
     <system:String x:Key="AnonymousUsageDataTitle">Wysyłaj Anonimowe Dane o Użyciu</system:String>
     <system:String x:Key="AnonymousUsageDataDescription">Pomóż nam ulepszyć aplikację, przesyłając anonimowe, uniemożliwiające identyfikację dane dotyczące korzystania z niej</system:String>
+    <system:String x:Key="TaskbarVisualizerBaselineAutoHideDescription">Automatycznie ukrywa podstawę gdy audio nie jest odtwarzane</system:String>
+    <system:String x:Key="SearchSettings">Przeszukaj ustawienia</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextTitle">Przewijany Tekst</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTitle">Włącz Przewijanie</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextDescription">Automatycznie przewijanie zbyt długiego tekstu</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextLoopForeverTitle">Przewijanie Ciągłe</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextLoopForeverDescription">Przewijaj tekst nieskończenie w jedną stronę zamiast przewijania w przód i w tył.</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextSpeedTitle">Prędkość Przewijania</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextSpeedDescription">Prędkość przewijania tekstu (pikseli na sekundę). Domyślna wartość to 20.</system:String>
 </ResourceDictionary>

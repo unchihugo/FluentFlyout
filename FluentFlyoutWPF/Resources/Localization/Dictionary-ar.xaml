@@ -287,4 +287,5 @@
     <system:String x:Key="TaskbarWidgetScrollingTextLoopForeverDescription">قم بتمرير النص متواصلاً في اتجاه واحد بدلاً من التمرير ذهابًا وإيابًا.</system:String>
     <system:String x:Key="TaskbarWidgetScrollingTextSpeedTitle">سرعة التمرير</system:String>
     <system:String x:Key="TaskbarWidgetScrollingTextSpeedDescription">سرعة تمرير النصوص (بكسل/ثانية). الإفتراضي هو 20.</system:String>
+    <system:String x:Key="SearchSettings">إعدادات البحث</system:String>
 </ResourceDictionary>
