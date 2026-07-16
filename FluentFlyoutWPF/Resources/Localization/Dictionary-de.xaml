@@ -6,7 +6,7 @@
     <system:String x:Key="BackgroundBlurOption4" xml:space="preserve"> Stil 3 (Unschärfe)</system:String>
     <system:String x:Key="BackgroundBlurTitle">Hintergrund-Unschärfe</system:String>
     <system:String x:Key="AcrylicWindowTitle">Akryl-Fenster</system:String>
-    <system:String x:Key="AcrylicWindowDescription">Transparenten Unschärfe-Effekt auf das Flyout anwenden (ansonsten Mica)</system:String>
+    <system:String x:Key="AcrylicWindowDescription">Transparenten Akryl-Unschärfe-Effekt auf das Flyout anwenden</system:String>
     <system:String x:Key="CompactLayoutTitle">Kompaktes Layout</system:String>
     <system:String x:Key="CompactLayoutDescription" xml:space="preserve">Minimaleres und weniger ablenkendes Layout
 verbirgt autom. Wiederholung, Shuffle und Player-Information</system:String>
