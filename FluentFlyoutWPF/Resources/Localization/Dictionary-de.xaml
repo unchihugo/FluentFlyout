@@ -223,7 +223,7 @@ Du kannst helfen, die App zu übersetzen auf</system:String>
     <system:String x:Key="TaskbarVisualizerClickableTitle">Klicke um die Einstellungen zu öffnen</system:String>
     <system:String x:Key="LockKeysCursorUITitle">Bevorzugte Zielanzeige</system:String>
     <system:String x:Key="LockKeysCursorUIDescription" xml:space="preserve">Wählen Sie den Monitor aus, auf dem das Flyout angezeigt werden soll.</system:String>
-    <system:String x:Key="DefaultLockLayoutPosition">Zielbildschirm für Flyout</system:String>
+    <system:String x:Key="DefaultLockLayoutPosition">(Standard-) Zielbildschirm für Flyout</system:String>
     <system:String x:Key="MonitorWithFocusedWindow">Monitor mit fokussiertem Fenster</system:String>
     <system:String x:Key="MonitorWithCursor">Monitor mit Mauszeiger</system:String>
     <system:String x:Key="LockKeysAnimatedTitle">Indikator-Animationen</system:String>
@@ -283,4 +283,9 @@ Du kannst helfen, die App zu übersetzen auf</system:String>
     <system:String x:Key="TaskbarWidgetScrollingTextTitle">Lauftext</system:String>
     <system:String x:Key="TaskbarWidgetScrollingTextLoopForeverTitle">Durchgehend Scrollen</system:String>
     <system:String x:Key="TaskbarWidgetScrollingTitle">Aktiviere Lauftext</system:String>
+    <system:String x:Key="TaskbarVisualizerBaselineAutoHideDescription">Basislinie automatisch ausblenden, wenn kein Audio abgespielt wird</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextDescription">Langen Text, der nicht vollständig angezeigt wird, automatisch scrollen</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextLoopForeverDescription">Lassen Sie den Text in einer Richtung endlos durchlaufen, anstatt ihn hin und her scrollen zu lassen.</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextSpeedTitle">Scrollgeschwindigkeit</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextSpeedDescription">Geschwindigkeit, mit der der Text scrollt (Pixel/Sekunde). Der Standardwert ist 20.</system:String>
 </ResourceDictionary>
