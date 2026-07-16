@@ -16,7 +16,7 @@
     <system:String x:Key="BackgroundBlurOption4" xml:space="preserve"> สไตล์ที่ 3 (เบลอ)</system:String>
     <system:String x:Key="BackgroundBlurTitle">พื้นหลังเบลอ</system:String>
     <system:String x:Key="AcrylicWindowTitle">หน้าต่างอะคริลิก</system:String>
-    <system:String x:Key="AcrylicWindowDescription">ใช้เอฟเฟ็กต์เบลอแบบอะคริลิกโปร่งใสกับส่วนที่เลื่อนออกมา (ปิดใช้งานจะกลับไปเป็น Mica)</system:String>
+    <system:String x:Key="AcrylicWindowDescription">ใช้เอฟเฟกต์เบลอแบบอะคริลิกโปร่งใสกับส่วนที่เลื่อนออกมา (ปิดใช้งานจะกลับไปเป็น Mica)</system:String>
     <system:String x:Key="CompactLayoutTitle">เลย์เอาต์แบบแน่น</system:String>
     <system:String x:Key="CompactLayoutDescription" xml:space="preserve">รูปแบบที่เรียบง่ายและไม่เกะกะ
 ซ่อนข้อมูลการเล่นซ้ำ การสุ่ม และตัวเล่น</system:String>
@@ -34,5 +34,6 @@
     <system:String x:Key="MediaFlyoutAlwaysDisplayDescription">หน้าต่างป๊อปอัพจะเปิดค้างอยู่จนกว่าคุณจะคลิกปุ่มปิด</system:String>
     <system:String x:Key="Back">กลับ</system:String>
     <system:String x:Key="Next">ถัดไป</system:String>
-    <system:String x:Key="Finish">เสร็จ</system:String>
+    <system:String x:Key="Finish">เสร็จสิ้น</system:String>
+    <system:String x:Key="OnboardingStepsCounter">ขั้นตอนที่ {0} จาก {1}</system:String>
 </ResourceDictionary>
