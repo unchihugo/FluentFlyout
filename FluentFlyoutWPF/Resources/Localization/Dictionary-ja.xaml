@@ -277,4 +277,12 @@
     <system:String x:Key="OnboardingStepsCounter">ステップ{0} / {1}</system:String>
     <system:String x:Key="AnonymousUsageDataTitle">匿名の利用データを送信する</system:String>
     <system:String x:Key="AnonymousUsageDataDescription">匿名かつ個人を特定できない情報を送信し、アプリの改善にご協力ください</system:String>
+    <system:String x:Key="SearchSettings">設定の検索</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextTitle">テキストのスクロール</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextDescription">収まりきらない長いテキストを自動的にスクロールします</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextLoopForeverTitle">連続スクロール</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextLoopForeverDescription">往復させず、一方向に無限ループでスクロールします。</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextSpeedTitle">スクロールの速度</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextSpeedDescription">テキストがスクロールする速度 (ピクセル/秒)。既定値は 20。</system:String>
+    <system:String x:Key="TaskbarVisualizerBaselineAutoHideDescription">オーディオが再生されていないときは、ベースラインを自動的に非表示にします</system:String>
 </ResourceDictionary>
