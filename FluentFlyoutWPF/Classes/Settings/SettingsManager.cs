@@ -133,7 +133,7 @@ public class SettingsManager
                 if (File.Exists(filePath))
                     TryReplaceSettingsFile(filePath, tempPath, backupPath);
                 else
-                    File.Move(tempPath, filePath);
+                    File.Move(tempPath, filePath, true);
             }
         }
         catch (UnauthorizedAccessException ex)
