@@ -63,6 +63,12 @@ public partial class UserSettings : ObservableObject
     public partial bool PlayerInfoEnabled { get; set; }
 
     /// <summary>
+    /// Open the media player when clicking media info in the flyout
+    /// </summary>
+    [ObservableProperty]
+    public partial bool MediaFlyoutOpenPlayerOnClick { get; set; }
+
+    /// <summary>
     /// Enable repeat button
     /// </summary>
     [ObservableProperty]
@@ -697,6 +703,7 @@ public partial class UserSettings : ObservableObject
         Position = 0;
         FlyoutAnimationSpeed = 2;
         PlayerInfoEnabled = true;
+        MediaFlyoutOpenPlayerOnClick = false;
         RepeatEnabled = false;
         ShuffleEnabled = false;
         Startup = true;

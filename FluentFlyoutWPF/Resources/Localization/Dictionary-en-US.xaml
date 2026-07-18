@@ -40,6 +40,8 @@ hides repeat, shuffle and player info</System:String>
     <System:String x:Key="CenterTitleArtistTitle">Center Title and Artist</System:String>
     <System:String x:Key="CenterTitleArtistDescription">Align text to the center instead of the left</System:String>
     <System:String x:Key="ShowMediaPlayerNameTitle">Show Media Player name</System:String>
+    <System:String x:Key="MediaFlyoutOpenPlayerOnClickTitle">Open Player on Click</System:String>
+    <System:String x:Key="MediaFlyoutOpenPlayerOnClickDescription">Click the title or player name to focus the playing app</System:String>
     <System:String x:Key="RepeatButtonTitle">Repeat Button*</System:String>
     <System:String x:Key="RepeatButtonDescription">Choose between repeat all or repeat one, increases flyout width</System:String>
     <System:String x:Key="ShuffleButtonTitle">Shuffle Button*</System:String>

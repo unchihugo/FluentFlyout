@@ -56,6 +56,7 @@ public partial class MainWindow : MicaWindow
     private bool _centerTitleArtist = SettingsManager.Current.CenterTitleArtist;
     private bool _seekBarEnabled = SettingsManager.Current.SeekbarEnabled;
     private bool _alwaysDisplay = SettingsManager.Current.MediaFlyoutAlwaysDisplay;
+    private bool _openPlayerOnClick = SettingsManager.Current.MediaFlyoutOpenPlayerOnClick;
     private bool _mediaSessionSupportsSeekbar = false; // default off to handle initialization
     private bool _acrylicEnabled = false; // default off to handle initialization
     private int _themeOption = SettingsManager.Current.AppTheme;
@@ -975,7 +976,8 @@ public partial class MainWindow : MicaWindow
             _playerInfoEnabled != SettingsManager.Current.PlayerInfoEnabled ||
             _centerTitleArtist != SettingsManager.Current.CenterTitleArtist ||
             _seekBarEnabled != SettingsManager.Current.SeekbarEnabled ||
-            _alwaysDisplay != SettingsManager.Current.MediaFlyoutAlwaysDisplay)
+            _alwaysDisplay != SettingsManager.Current.MediaFlyoutAlwaysDisplay ||
+            _openPlayerOnClick != SettingsManager.Current.MediaFlyoutOpenPlayerOnClick)
             UpdateUILayout();
 
         // sometimes mediaSession.ControlSession can be null
@@ -1236,6 +1238,10 @@ public partial class MainWindow : MicaWindow
                 SeekbarWrapper.Visibility = Visibility.Visible;
             else
                 SeekbarWrapper.Visibility = Visibility.Collapsed;
+
+            Cursor mediaInfoCursor = SettingsManager.Current.MediaFlyoutOpenPlayerOnClick ? Cursors.Hand : Cursors.Arrow;
+            SongTitle.Cursor = mediaInfoCursor;
+            MediaIdStackPanel.Cursor = mediaInfoCursor;
         });
 
         _layout = SettingsManager.Current.CompactLayout;
@@ -1245,6 +1251,18 @@ public partial class MainWindow : MicaWindow
         _centerTitleArtist = SettingsManager.Current.CenterTitleArtist;
         _seekBarEnabled = SettingsManager.Current.SeekbarEnabled;
         _alwaysDisplay = SettingsManager.Current.MediaFlyoutAlwaysDisplay;
+        _openPlayerOnClick = SettingsManager.Current.MediaFlyoutOpenPlayerOnClick;
+    }
+
+    private async void MediaIdStackPanel_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+    {
+        if (!SettingsManager.Current.MediaFlyoutOpenPlayerOnClick) return;
+        e.Handled = true;
+        if (GetActiveMediaSession() is { } activeSession)
+        {
+            var mediaProperties = TryGetMediaProperties(activeSession.ControlSession);
+            await Task.Run(() => MediaPlayerData.TryActivateMediaPlayer(activeSession.Id, mediaProperties?.Title));
+        }
     }
 
     private async void Back_Click(object sender, RoutedEventArgs e)

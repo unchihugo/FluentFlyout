@@ -253,6 +253,14 @@ public static partial class NativeMethods
     [LibraryImport("user32.dll", SetLastError = true)]
     internal static partial uint GetWindowThreadProcessId(IntPtr hWnd, IntPtr lpdwProcessId);
 
+    [LibraryImport("user32.dll", SetLastError = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static partial bool SetForegroundWindow(IntPtr hWnd);
+
+    [LibraryImport("user32.dll")]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static partial bool IsIconic(IntPtr hWnd);
+
     [LibraryImport("user32.dll", EntryPoint = "SetWindowLongW")]
     internal static partial int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
 
