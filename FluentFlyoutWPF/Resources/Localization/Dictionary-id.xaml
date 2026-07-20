@@ -10,8 +10,8 @@
     <system:String x:Key="BackgroundBlurOption3" xml:space="preserve"> Gaya 2 (Rising Glow)</system:String>
     <system:String x:Key="BackgroundBlurOption4" xml:space="preserve"> Gaya 3 (Blur)</system:String>
     <system:String x:Key="BackgroundBlurTitle">Blur Latar Belakang</system:String>
-    <system:String x:Key="AcrylicWindowTitle">Jendela Akrilik</system:String>
-    <system:String x:Key="AcrylicWindowDescription">Terapkan Transparansi Blur Akrilik pada flyout (Jika tidak, akan menggunakan efek Mika)</system:String>
+    <system:String x:Key="AcrylicWindowTitle">Flyout Akrilik</system:String>
+    <system:String x:Key="AcrylicWindowDescription">Terapkan Transparansi Blur Akrilik pada flyout</system:String>
     <system:String x:Key="CompactLayoutTitle">Tata Letak Ringkas</system:String>
     <system:String x:Key="CompactLayoutDescription" xml:space="preserve">Layout yang lebih ramping dan tidak mencolok 
 menyembunyikan tombol ulangi (repeat), acak (shuffle), serta informasi pemutar</system:String>
@@ -39,7 +39,7 @@ menyembunyikan tombol ulangi (repeat), acak (shuffle), serta informasi pemutar</
     <system:String x:Key="PauseOtherMediaTitle">Jeda Media Lain secara Otomatis</system:String>
     <system:String x:Key="PauseOtherMediaDescription">Ketika anda putar atau fokus pada media baru, sesi pemutran lain akan otomatis dijeda</system:String>
     <system:String x:Key="TaskbarWidgetCustomizationTitle">Widget Bilah Tugas</system:String>
-    <system:String x:Key="TaskbarWidgetDescription">Sebuah widget ringkas yang terpasang (built-in) dan berada langsung di Bilah Tugas Windows Anda untuk akses instan ke media Anda. Klik widget tersebut untuk memperluas Media Flyout penuh (jika diaktifkan).</system:String>
+    <system:String x:Key="TaskbarWidgetDescription">Sebuah widget ringkas yang terpasang (built-in) dan berada langsung di Bilah Tugas Windows Anda untuk akses instan ke media Anda. Klik widget tersebut untuk memperluas Media Flyout penuh.</system:String>
     <system:String x:Key="TaskbarWidgetEnabledTitle">Aktifkan Widget Bilah Tugas</system:String>
     <system:String x:Key="TaskbarWidgetEnabledDescription">Tampilkan media widget kompak pada bilah tugas</system:String>
     <system:String x:Key="TaskbarWidgetVisualIssuesWarning">Konfigurasikan opsi dibawah ini jika anda mengalami gangguan visual.</system:String>
@@ -285,4 +285,7 @@ Anda dapat membantu berkontribusi dalam menerjemahkan di</system:String>
     <system:String x:Key="TaskbarWidgetScrollingTitle">Aktifkan Pengguliran</system:String>
     <system:String x:Key="TaskbarWidgetScrollingTextDescription">Otomatis menggulir teks panjang yang tidak muat</system:String>
     <system:String x:Key="TaskbarWidgetScrollingTextLoopForeverTitle">Lanjut Bergulir</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextSpeedTitle">Kecepatan Gulir</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextLoopForeverDescription">Gulirkan teks terus-menerus ke satu arah, bukan bolak-balik.</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextSpeedDescription">Kecepatan gulir teks (piksel/detik). Nilai bawaan adalah 20.</system:String>
 </ResourceDictionary>
