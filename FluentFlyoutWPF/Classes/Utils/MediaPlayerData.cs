@@ -127,7 +127,7 @@ public static class MediaPlayerData
         {
             using var process = Process.GetProcessById(cachedInfo.ProcessId);
             IntPtr handle = process.MainWindowHandle;
-            if (TryActivateBrowserTab(process.ProcessName, mediaTitle)) return true;
+            if (IsBrowser(process.ProcessName)) return TryActivateBrowserTab(process.ProcessName, mediaTitle);
 
             if (handle == IntPtr.Zero)
             {
@@ -165,22 +165,31 @@ public static class MediaPlayerData
         {
             try
             {
-                IntPtr handle = browserProcess.MainWindowHandle;
-                if (handle == IntPtr.Zero) continue;
+                var windows = AutomationElement.RootElement.FindAll(TreeScope.Children,
+                    new AndCondition(
+                        new PropertyCondition(AutomationElement.ProcessIdProperty, browserProcess.Id),
+                        new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.Window)));
 
-                var tabs = AutomationElement.FromHandle(handle).FindAll(TreeScope.Descendants,
-                    new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.TabItem));
-
-                foreach (AutomationElement tab in tabs)
+                foreach (AutomationElement window in windows)
                 {
-                    if (!tab.Current.Name.Contains(mediaTitle, StringComparison.OrdinalIgnoreCase)) continue;
-                    if (tab.TryGetCurrentPattern(SelectionItemPattern.Pattern, out var pattern))
-                        ((SelectionItemPattern)pattern).Select();
-                    else if (tab.TryGetCurrentPattern(InvokePattern.Pattern, out pattern))
-                        ((InvokePattern)pattern).Invoke();
-                    else continue;
-                    if (IsIconic(handle)) ShowWindow(handle, SW_RESTORE);
-                    return SetForegroundWindow(handle);
+                    IntPtr handle = new(window.Current.NativeWindowHandle);
+                    if (handle == IntPtr.Zero) continue;
+
+                    var tabs = window.FindAll(TreeScope.Descendants,
+                        new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.TabItem));
+
+                    foreach (AutomationElement tab in tabs)
+                    {
+                        if (!tab.Current.Name.Contains(mediaTitle, StringComparison.OrdinalIgnoreCase)) continue;
+                        if (tab.TryGetCurrentPattern(SelectionItemPattern.Pattern, out var pattern))
+                            ((SelectionItemPattern)pattern).Select();
+                        else if (tab.TryGetCurrentPattern(InvokePattern.Pattern, out pattern))
+                            ((InvokePattern)pattern).Invoke();
+                        else continue;
+
+                        if (IsIconic(handle)) ShowWindow(handle, SW_RESTORE);
+                        return SetForegroundWindow(handle);
+                    }
                 }
             }
             catch { }
