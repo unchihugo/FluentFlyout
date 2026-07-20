@@ -255,8 +255,8 @@ Anda dapat membantu berkontribusi dalam menerjemahkan di</system:String>
     <system:String x:Key="VolumeMixerHighlightDescription">Lihat aplikasi mana yang sedang mengeluarkan audio</system:String>
     <system:String x:Key="MasterVolumeText">Volume master</system:String>
     <system:String x:Key="Back">Kembali</system:String>
-    <system:String x:Key="Next">Berikutnya</system:String>
-    <system:String x:Key="Finish">Selesai</system:String>
+    <system:String x:Key="Next">Selanjutnya</system:String>
+    <system:String x:Key="Finish">Menyelesaikan</system:String>
     <system:String x:Key="OnboardingStepsCounter">Langkahh {0} dari {1}</system:String>
     <system:String x:Key="TaskbarWidgetFixedWidthTitle">Lebar Widget Tetap</system:String>
     <system:String x:Key="TaskbarWidgetFixedWidthDescription">Pertahankan lebar widget tetap, alih-alih mengubah ukurannya agar sesuai dengan judul dan teks artis</system:String>
