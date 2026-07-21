@@ -997,6 +997,14 @@ public partial class UserSettings : ObservableObject
         TaskbarVisualizerHasContent = true;
     }
 
+    partial void OnTaskbarVisualizerBaselineAutoHideChanged(bool oldValue, bool newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+        // If newValue is true, refresh the visualizer by hiding it:
+        // if audio is playing, it will be shown again, if not, it will remain hidden.
+        TaskbarVisualizerHasContent = !newValue;
+    }
+
     partial void OnUseAlbumArtAsAccentColorChanged(bool oldValue, bool newValue)
     {
         if (oldValue == newValue || _initializing) return;
