@@ -111,7 +111,7 @@
                                         ToolTipService.InitialShowDelay="800"
                                         ToolTipService.Placement="Top"
                                         ToolTipService.VerticalOffset="-16">
-                                <TextBlock Name="SongTitle" Text="Song Title" FontSize="14" FontWeight="Medium" MouseLeftButtonUp="MediaIdStackPanel_MouseLeftButtonUp" TextTrimming="CharacterEllipsis" />
+                                <TextBlock Name="SongTitle" Text="Song Title" FontSize="14" FontWeight="Medium" TextTrimming="CharacterEllipsis" />
                                 <TextBlock Name="SongArtist" Text="Artist Name" FontSize="14" FontWeight="Medium" Opacity="0.5" TextTrimming="CharacterEllipsis" />
                             </StackPanel>
                         </StackPanel>

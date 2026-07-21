@@ -130,15 +130,6 @@
                 </ui:CardControl.Header>
                 <controls:ToggleSwitch Name="PlayerInfoSwitch" IsChecked="{Binding PlayerInfoEnabled, Mode=TwoWay}" />
             </ui:CardControl>
-            <ui:CardControl x:Name="MediaFlyoutOpenPlayerOnClickCard" Tag="Indexable" Grid.Row="10" Icon="{ui:SymbolIcon ExpandUpRight24}" Margin="0,0,0,12">
-                <ui:CardControl.Header>
-                    <StackPanel Orientation="Vertical">
-                        <TextBlock Text="{DynamicResource MediaFlyoutOpenPlayerOnClickTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
-                        <TextBlock Text="{DynamicResource MediaFlyoutOpenPlayerOnClickDescription}" FontSize="12" Opacity="0.5" />
-                    </StackPanel>
-                </ui:CardControl.Header>
-                <controls:ToggleSwitch Name="MediaFlyoutOpenPlayerOnClickSwitch" IsChecked="{Binding MediaFlyoutOpenPlayerOnClick, Mode=TwoWay}" />
-            </ui:CardControl>
             <ui:CardControl x:Name="RepeatButtonTitleCard" Tag="Indexable" Grid.Row="11" Icon="{ui:SymbolIcon ArrowRepeatAll24}" Margin="0,0,0,3">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">

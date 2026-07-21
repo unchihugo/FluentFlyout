@@ -56,7 +56,6 @@ public partial class MainWindow : MicaWindow
     private bool _centerTitleArtist = SettingsManager.Current.CenterTitleArtist;
     private bool _seekBarEnabled = SettingsManager.Current.SeekbarEnabled;
     private bool _alwaysDisplay = SettingsManager.Current.MediaFlyoutAlwaysDisplay;
-    private bool _openPlayerOnClick = SettingsManager.Current.MediaFlyoutOpenPlayerOnClick;
     private bool _mediaSessionSupportsSeekbar = false; // default off to handle initialization
     private bool _acrylicEnabled = false; // default off to handle initialization
     private int _themeOption = SettingsManager.Current.AppTheme;
@@ -976,8 +975,7 @@ public partial class MainWindow : MicaWindow
             _playerInfoEnabled != SettingsManager.Current.PlayerInfoEnabled ||
             _centerTitleArtist != SettingsManager.Current.CenterTitleArtist ||
             _seekBarEnabled != SettingsManager.Current.SeekbarEnabled ||
-            _alwaysDisplay != SettingsManager.Current.MediaFlyoutAlwaysDisplay ||
-            _openPlayerOnClick != SettingsManager.Current.MediaFlyoutOpenPlayerOnClick)
+            _alwaysDisplay != SettingsManager.Current.MediaFlyoutAlwaysDisplay)
             UpdateUILayout();
 
         // sometimes mediaSession.ControlSession can be null
@@ -1239,9 +1237,7 @@ public partial class MainWindow : MicaWindow
             else
                 SeekbarWrapper.Visibility = Visibility.Collapsed;
 
-            Cursor mediaInfoCursor = SettingsManager.Current.MediaFlyoutOpenPlayerOnClick ? Cursors.Hand : Cursors.Arrow;
-            SongTitle.Cursor = mediaInfoCursor;
-            MediaIdStackPanel.Cursor = mediaInfoCursor;
+            MediaIdStackPanel.Cursor = SettingsManager.Current.PlayerInfoEnabled && !SettingsManager.Current.CompactLayout ? Cursors.Hand : Cursors.Arrow;
         });
 
         _layout = SettingsManager.Current.CompactLayout;
@@ -1251,12 +1247,11 @@ public partial class MainWindow : MicaWindow
         _centerTitleArtist = SettingsManager.Current.CenterTitleArtist;
         _seekBarEnabled = SettingsManager.Current.SeekbarEnabled;
         _alwaysDisplay = SettingsManager.Current.MediaFlyoutAlwaysDisplay;
-        _openPlayerOnClick = SettingsManager.Current.MediaFlyoutOpenPlayerOnClick;
     }
 
     private async void MediaIdStackPanel_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
     {
-        if (!SettingsManager.Current.MediaFlyoutOpenPlayerOnClick) return;
+        if (!SettingsManager.Current.PlayerInfoEnabled || SettingsManager.Current.CompactLayout) return;
         e.Handled = true;
         if (GetActiveMediaSession() is { } activeSession)
         {
