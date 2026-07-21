@@ -54,6 +54,9 @@ public static class MediaPlayerData
 
         // add original id to the end of the array to ensure at least one variant
         variants.Add(mediaPlayerId);
+        if (variants.Any(v => v.Contains("MicrosoftEdge", StringComparison.OrdinalIgnoreCase)
+            || v.Equals("MSEdge", StringComparison.OrdinalIgnoreCase)
+            || v.EndsWith("!MSEdge", StringComparison.OrdinalIgnoreCase))) variants.Add("msedge");
 
         Process[] processes;
 
@@ -75,7 +78,8 @@ public static class MediaPlayerData
 
                     string path = mainModule.FileName;
 
-                    if (variants.Any(v => path.Contains(v, StringComparison.OrdinalIgnoreCase)))
+                    bool isExactMatch = variants.Contains(p.ProcessName, StringComparer.OrdinalIgnoreCase);
+                    if (isExactMatch || variants.Any(v => path.Contains(v, StringComparison.OrdinalIgnoreCase)))
                     {
                         // prioritize the FileDescription for a user-friendly name
                         // fall back to MainWindowTitle if the description is empty
@@ -83,7 +87,7 @@ public static class MediaPlayerData
                                         ? mainModule.FileVersionInfo.FileDescription
                                         : p.MainWindowTitle;
 
-                        return new { Title = title, Path = path, ProcessId = p.Id };
+                        return new { Title = title, Path = path, ProcessId = p.Id, IsExactMatch = isExactMatch };
                     }
                 }
                 catch (System.ComponentModel.Win32Exception)
@@ -92,6 +96,7 @@ public static class MediaPlayerData
                 }
                 return null;
             })
+            .OrderByDescending(data => data != null && data.IsExactMatch)
             .FirstOrDefault(data => data != null); // use first result
 
         if (processData == null) return (mediaTitle, mediaIcon);
@@ -179,6 +184,11 @@ public static class MediaPlayerData
                 {
                     IntPtr handle = new(window.Current.NativeWindowHandle);
                     if (handle == IntPtr.Zero) continue;
+                    if (IsIconic(handle))
+                    {
+                        ShowWindow(handle, SW_RESTORE);
+                        Thread.Sleep(100);
+                    }
 
                     var tabs = window.FindAll(TreeScope.Descendants,
                         new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.TabItem));
@@ -208,7 +218,7 @@ public static class MediaPlayerData
     }
 
     private static bool IsBrowser(string processName) =>
-        new[] { "chrome", "msedge", "firefox", "brave", "brave-browser", "opera", "vivaldi" }
+        new[] { "chrome", "msedge" }
         .Contains(processName, StringComparer.OrdinalIgnoreCase);
 
     /// <summary>
