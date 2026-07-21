@@ -11,6 +11,8 @@ namespace FluentFlyout.Classes.Utils;
 
 public static class MediaPlayerData
 {
+    private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+
     private class CachedMediaPlayerInfo
     {
         public required string Title { get; set; }
@@ -152,7 +154,10 @@ public static class MediaPlayerData
                 return true;
             }
         }
-        catch { }
+        catch (Exception ex)
+        {
+            Logger.Error(ex, "Failed to activate media player");
+        }
 
         return false;
     }
