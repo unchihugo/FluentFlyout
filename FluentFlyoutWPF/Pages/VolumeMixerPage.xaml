@@ -107,6 +107,108 @@
                 </ui:CardControl.Header>
                 <controls:ToggleSwitch IsChecked="{Binding VolumeMixerHighlightActiveApps, Mode=TwoWay}" />
             </ui:CardControl>
+
+            <!-- Ignored Audio Sources -->
+            <TextBlock Text="{DynamicResource IgnoredAudioSourcesSectionTitle}" FontSize="14" FontWeight="SemiBold" Margin="0,4,0,6" />
+
+            <ui:CardExpander IsExpanded="True" Margin="0,0,0,76">
+                <ui:CardExpander.Header>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <ui:SymbolIcon Symbol="EyeOff24" FontSize="20" Margin="0,0,16,0" VerticalAlignment="Center" />
+                        <StackPanel Grid.Column="1" Orientation="Vertical" VerticalAlignment="Center">
+                            <TextBlock Text="{DynamicResource IgnoredAudioSourcesCardTitle}" FontSize="14" FontWeight="Regular" />
+                            <TextBlock Text="{DynamicResource IgnoredAudioSourcesCardDescription}" FontSize="12" Opacity="0.5" TextWrapping="Wrap" Margin="0,2,0,0" />
+                        </StackPanel>
+                    </Grid>
+                </ui:CardExpander.Header>
+
+                <StackPanel Margin="0">
+                    <!-- Dropdown: pick from currently active audio sessions -->
+                    <Grid Margin="0,0,0,12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Grid Grid.Column="0" Margin="0,0,8,0">
+                            <ComboBox x:Name="IgnoredSourceComboBox"
+                                      HorizontalAlignment="Stretch"
+                                      DropDownOpened="IgnoredSourceComboBox_DropDownOpened"
+                                      MinHeight="36" Padding="16,8,16,8">
+                                <ComboBox.ItemContainerStyle>
+                                    <Style TargetType="ComboBoxItem" BasedOn="{StaticResource {x:Type ComboBoxItem}}">
+                                        <Setter Property="Padding" Value="16,8,16,8" />
+                                    </Style>
+                                </ComboBox.ItemContainerStyle>
+                            </ComboBox>
+                            <TextBlock Text="{DynamicResource AppFilteringComboBoxHint}"
+                                       Margin="16,0,32,0" VerticalAlignment="Center"
+                                       IsHitTestVisible="False" Opacity="0.5">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding SelectedItem, ElementName=IgnoredSourceComboBox}" Value="{x:Null}">
+                                                <Setter Property="Visibility" Value="Visible" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </Grid>
+                        <ui:Button Grid.Column="1" Content="{DynamicResource AddButton}"
+                                   Click="AddIgnoredSource_Click" Appearance="Primary" />
+                    </Grid>
+
+                    <!-- List of currently ignored sources -->
+                    <ListBox ItemsSource="{Binding IgnoredAudioSources}" MinHeight="80"
+                             HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch">
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="ListBoxItem" BasedOn="{StaticResource {x:Type ListBoxItem}}">
+                                <Setter Property="Focusable" Value="False" />
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Grid HorizontalAlignment="Stretch">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" Text="{Binding}" VerticalAlignment="Center"
+                                               TextTrimming="CharacterEllipsis" />
+                                    <ui:Button Grid.Column="1" Content="{DynamicResource RemoveButton}"
+                                               Click="RemoveIgnoredSource_Click" Tag="{Binding}"
+                                               Margin="8,0,0,0" Padding="8,4" Background="Transparent"
+                                               HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+                                </Grid>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+
+                    <!-- Manual entry -->
+                    <StackPanel Margin="0,16,0,0">
+                        <Border Height="1" Background="{DynamicResource CardStrokeColorDefaultBrush}" Margin="0,0,0,12" />
+                        <TextBlock Text="{DynamicResource AddAppManuallyText}" FontSize="12" Opacity="0.65" Margin="0,0,0,8" />
+                        <TextBlock Text="{DynamicResource IgnoredAudioSourcesBrowserNote}"
+                                   FontSize="11" Opacity="0.45" TextWrapping="Wrap" Margin="0,0,0,8" />
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <ui:TextBox Grid.Column="0" x:Name="IgnoredSourceTextBox"
+                                        PlaceholderText="{DynamicResource IgnoredAudioSourcesPlaceholder}"
+                                        HorizontalAlignment="Stretch" Margin="0,0,8,0" ClearButtonEnabled="False" />
+                            <ui:Button Grid.Column="1" Content="{DynamicResource AddButton}"
+                                       Click="AddIgnoredSourceManual_Click" Appearance="Secondary" />
+                        </Grid>
+                    </StackPanel>
+                </StackPanel>
+            </ui:CardExpander>
         </StackPanel>
     </StackPanel>
 </Page>
