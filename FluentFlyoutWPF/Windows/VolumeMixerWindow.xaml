@@ -73,7 +73,7 @@
             </ui:Button>
         </Grid>
         <Border x:Name="SessionsSeparator" BorderThickness="0 1 0 0" BorderBrush="{DynamicResource TextFillColorDisabledBrush}" Opacity="0.5" Margin="8,6,8,0" Visibility="Collapsed" />
-        <ui:PassiveScrollViewer VerticalScrollBarVisibility="Auto" MaxHeight="220" Margin="0" Padding="8,0" >
+        <ui:DynamicScrollViewer VerticalScrollBarVisibility="Auto" MaxHeight="220" Margin="0" Padding="8,0" >
             <StackPanel x:Name="SessionsExpanded" Visibility="Collapsed" >
                 <!-- hacky way to set top margin in scrollviewer -->
                 <Grid Height="24" Margin="8">
@@ -111,6 +111,6 @@
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
             </StackPanel>
-        </ui:PassiveScrollViewer>
+        </ui:DynamicScrollViewer>
     </StackPanel>
 </controls:MicaWindow>
