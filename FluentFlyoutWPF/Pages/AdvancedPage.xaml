@@ -80,7 +80,7 @@
                                 <TextBlock Text="{DynamicResource MediaFlyoutTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
                             </StackPanel>
                         </ui:CardControl.Header>
-                        <controls:ToggleSwitch IsChecked="{Binding MediaFlyoutAcrylicWindowEnabled, Mode=TwoWay}" />
+                        <ui:ToggleSwitch IsChecked="{Binding MediaFlyoutAcrylicWindowEnabled, Mode=TwoWay}" />
                     </ui:CardControl>
 
                     <ui:CardControl Background="Transparent" BorderBrush="{ui:ThemeResource CardStrokeColorDefaultSolidBrush}" BorderThickness="0,0,0,1" CornerRadius="0" Padding="52,16,16,16">
@@ -89,7 +89,7 @@
                                 <TextBlock Text="{DynamicResource NextUpCustomizationTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
                             </StackPanel>
                         </ui:CardControl.Header>
-                        <controls:ToggleSwitch IsChecked="{Binding NextUpAcrylicWindowEnabled, Mode=TwoWay}" />
+                        <ui:ToggleSwitch IsChecked="{Binding NextUpAcrylicWindowEnabled, Mode=TwoWay}" />
                     </ui:CardControl>
 
                     <ui:CardControl Background="Transparent" BorderBrush="{ui:ThemeResource CardStrokeColorDefaultSolidBrush}" BorderThickness="0" CornerRadius="0" Padding="52,16,16,16">
@@ -98,7 +98,7 @@
                                 <TextBlock Text="{DynamicResource LockKeysCustomizationTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
                             </StackPanel>
                         </ui:CardControl.Header>
-                        <controls:ToggleSwitch IsChecked="{Binding LockKeysAcrylicWindowEnabled, Mode=TwoWay}" />
+                        <ui:ToggleSwitch IsChecked="{Binding LockKeysAcrylicWindowEnabled, Mode=TwoWay}" />
                     </ui:CardControl>
                 </StackPanel>
             </ui:CardExpander>
@@ -113,7 +113,7 @@
                     </StackPanel>
                 </ui:CardControl.Header>
                 <StackPanel Orientation="Horizontal">
-                    <controls:ToggleSwitch IsChecked="{Binding LegacyTaskbarWidthEnabled, Mode=TwoWay}" />
+                    <ui:ToggleSwitch IsChecked="{Binding LegacyTaskbarWidthEnabled, Mode=TwoWay}" />
                 </StackPanel>
             </ui:CardControl>
         </StackPanel>

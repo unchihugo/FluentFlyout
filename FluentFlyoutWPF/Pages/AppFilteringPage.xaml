@@ -27,7 +27,7 @@
                     <TextBlock Text="{DynamicResource AppFilteringRulesDescription}" FontSize="12" Opacity="0.5" />
                 </StackPanel>
             </ui:CardControl.Header>
-            <controls:ToggleSwitch IsChecked="{Binding AppFilteringEnabled, Mode=TwoWay}" />
+            <ui:ToggleSwitch IsChecked="{Binding AppFilteringEnabled, Mode=TwoWay}" />
         </ui:CardControl>
 
             <ui:CardControl x:Name="FilteringModeCard" Tag="Indexable" Icon="{ui:SymbolIcon Wrench24}" Margin="0,0,0,24">

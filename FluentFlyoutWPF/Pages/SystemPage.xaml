@@ -40,7 +40,8 @@
                     </StackPanel>
                 </ui:CardControl.Header>
                 <StackPanel Orientation="Horizontal" Opacity="{Binding IsPremiumUnlocked, Converter={StaticResource BoolToFullHalfOpacityConverter}}" >
-                    <Slider Minimum="0" Maximum="255" Value="{Binding AcrylicBlurOpacity, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}" TickFrequency="5" IsSnapToTickEnabled="True" Width="150" />
+                    <Slider Minimum="0" Maximum="255" Value="{Binding AcrylicBlurOpacity, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}" TickFrequency="5" IsSnapToTickEnabled="True" Width="150"
+                            IsMoveToPointEnabled="True" />
                     <ui:TextBlock Text="{Binding AcrylicBlurOpacity}" Width="24" TextAlignment="Center" Margin="12,0,0,0" />
                 </StackPanel>
             </ui:CardControl>
@@ -53,7 +54,7 @@
                         <TextBlock Text="{DynamicResource UseAlbumArtAccentColorDescription}" FontSize="12" Opacity="0.5" />
                     </StackPanel>
                 </ui:CardControl.Header>
-                <controls:ToggleSwitch IsChecked="{Binding UseAlbumArtAsAccentColor, Mode=TwoWay}" />
+                <ui:ToggleSwitch IsChecked="{Binding UseAlbumArtAsAccentColor, Mode=TwoWay}" />
             </ui:CardControl>
             <ui:CardControl x:Name="AppLanguageCard" Tag="Indexable" Icon="{ui:SymbolIcon Globe24}" Margin="0,0,0,3">
                 <ui:CardControl.Header>
@@ -101,7 +102,7 @@
                         </TextBlock>
                     </StackPanel>
                 </ui:CardControl.Header>
-                <controls:ToggleSwitch x:Name="StartupSwitch" Click="StartupSwitch_Click" IsChecked="{Binding Startup, Mode=TwoWay}" />
+                <ui:ToggleSwitch x:Name="StartupSwitch" Click="StartupSwitch_Click" IsChecked="{Binding Startup, Mode=TwoWay}" />
             </ui:CardControl>
             <ui:CardControl x:Name="AnonymousUsageDataCard" Tag="Indexable" Icon="{ui:SymbolIcon Bug24}" Margin="0,0,0,3">
                 <ui:CardControl.Header>
@@ -110,7 +111,7 @@
                         <TextBlock Text="{DynamicResource AnonymousUsageDataDescription}" FontSize="12" Opacity="0.5" />
                     </StackPanel>
                 </ui:CardControl.Header>
-                <controls:ToggleSwitch IsChecked="{Binding AnonymousTelemetryAllowed, Mode=TwoWay}" />
+                <ui:ToggleSwitch IsChecked="{Binding AnonymousTelemetryAllowed, Mode=TwoWay}" />
             </ui:CardControl>
             <ui:CardControl x:Name="DisableOnFullscreenCard" Tag="Indexable" Icon="{ui:SymbolIcon ArrowMinimize24}" Margin="0,0,0,3">
                 <ui:CardControl.Header>
@@ -119,7 +120,7 @@
                         <TextBlock Text="{DynamicResource DisableOnFullscreenDescription}" FontSize="12" Opacity="0.5" />
                     </StackPanel>
                 </ui:CardControl.Header>
-                <controls:ToggleSwitch Name="DisableIfFullscreenSwitch" IsChecked="{Binding DisableIfFullscreen, Mode=TwoWay}" />
+                <ui:ToggleSwitch Name="DisableIfFullscreenSwitch" IsChecked="{Binding DisableIfFullscreen, Mode=TwoWay}" />
             </ui:CardControl>
 
             <!-- tray icon section -->
@@ -145,7 +146,7 @@
                         <TextBlock Text="{DynamicResource Win11TrayIconDescription}" FontSize="12" Opacity="0.5" />
                     </StackPanel>
                 </ui:CardControl.Header>
-                <controls:ToggleSwitch IsChecked="{Binding NIconSymbol, Mode=TwoWay}" />
+                <ui:ToggleSwitch IsChecked="{Binding NIconSymbol, Mode=TwoWay}" />
             </ui:CardControl>
             <ui:CardControl x:Name="HideTrayIconCard" Tag="Indexable" Icon="{ui:SymbolIcon EyeOff24}" Margin="0,0,0,3">
                 <ui:CardControl.Header>
@@ -157,7 +158,7 @@
                         <TextBlock Text="{DynamicResource HideTrayIconDescription}" FontSize="12" Opacity="0.5" />
                     </StackPanel>
                 </ui:CardControl.Header>
-                <controls:ToggleSwitch x:Name="NIconHideSwitch" IsChecked="{Binding NIconHide, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}" Click="ToggleSwitch_Click" />
+                <ui:ToggleSwitch x:Name="NIconHideSwitch" IsChecked="{Binding NIconHide, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}" Click="ToggleSwitch_Click" />
             </ui:CardControl>
 
             <!-- back up & restore section -->
@@ -180,7 +181,7 @@
                 <ui:CardControl.Header>
                     <TextBlock Text="{DynamicResource ShowUpdateNotificationsTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
                 </ui:CardControl.Header>
-                <controls:ToggleSwitch IsChecked="{Binding ShowUpdateNotifications, Mode=TwoWay}" />
+                <ui:ToggleSwitch IsChecked="{Binding ShowUpdateNotifications, Mode=TwoWay}" />
             </ui:CardControl>
 
             <!-- app filtering -->

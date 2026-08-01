@@ -49,7 +49,7 @@
                         <TextBlock Text="{DynamicResource TextBlockText3}" FontSize="12" Opacity="0.5" />
                     </StackPanel>
                 </ui:CardControl.Header>
-                <controls:ToggleSwitch Name="MediaFlyoutEnabledSwitch" IsChecked="{Binding MediaFlyoutEnabled, Mode=TwoWay}" />
+                <ui:ToggleSwitch Name="MediaFlyoutEnabledSwitch" IsChecked="{Binding MediaFlyoutEnabled, Mode=TwoWay}" />
             </ui:CardControl>
             <ui:CardControl x:Name="BackgroundBlurTitleCard" Tag="Indexable" Grid.Row="2" Icon="{ui:SymbolIcon ColorBackground24}" Margin="0,0,0,3">
                 <ui:CardControl.Header>
@@ -72,7 +72,7 @@
                         <TextBlock Text="{DynamicResource CompactLayoutDescription}" FontSize="12" Opacity="0.5" />
                     </StackPanel>
                 </ui:CardControl.Header>
-                <controls:ToggleSwitch Name="LayoutSwitch" IsChecked="{Binding CompactLayout, Mode=TwoWay}" />
+                <ui:ToggleSwitch Name="LayoutSwitch" IsChecked="{Binding CompactLayout, Mode=TwoWay}" />
             </ui:CardControl>
             <ui:CardControl x:Name="FlyoutPositionTitleCard" Tag="Indexable" Grid.Row="5" Icon="{ui:SymbolIcon ArrowMove24}" Margin="0,0,0,12">
                 <ui:CardControl.Header>
@@ -109,7 +109,7 @@
                     </StackPanel>
                 </ui:CardControl.Header>
                 <StackPanel Orientation="Horizontal">
-                    <controls:ToggleSwitch IsChecked="{Binding MediaFlyoutAlwaysDisplay, Mode=TwoWay}" />
+                    <ui:ToggleSwitch IsChecked="{Binding MediaFlyoutAlwaysDisplay, Mode=TwoWay}" />
                 </StackPanel>
             </ui:CardControl>
             <ui:CardControl x:Name="CenterTitleArtistTitleCard" Tag="Indexable" Grid.Row="8" Icon="{ui:SymbolIcon AlignLeft24}" Margin="0,0,0,3">
@@ -119,7 +119,7 @@
                         <TextBlock Text="{DynamicResource CenterTitleArtistDescription}" FontSize="12" Opacity="0.5" />
                     </StackPanel>
                 </ui:CardControl.Header>
-                <controls:ToggleSwitch Name="CenterTitleArtistSwitch" IsChecked="{Binding CenterTitleArtist, Mode=TwoWay}" />
+                <ui:ToggleSwitch Name="CenterTitleArtistSwitch" IsChecked="{Binding CenterTitleArtist, Mode=TwoWay}" />
             </ui:CardControl>
             <ui:CardControl x:Name="ShowMediaPlayerNameTitleCard" Tag="Indexable" Grid.Row="9" Icon="{ui:SymbolIcon Subtitles24}" Margin="0,0,0,12">
                 <ui:CardControl.Header>
@@ -127,7 +127,7 @@
                         <TextBlock Text="{DynamicResource ShowMediaPlayerNameTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
                     </StackPanel>
                 </ui:CardControl.Header>
-                <controls:ToggleSwitch Name="PlayerInfoSwitch" IsChecked="{Binding PlayerInfoEnabled, Mode=TwoWay}" />
+                <ui:ToggleSwitch Name="PlayerInfoSwitch" IsChecked="{Binding PlayerInfoEnabled, Mode=TwoWay}" />
             </ui:CardControl>
             <ui:CardControl x:Name="RepeatButtonTitleCard" Tag="Indexable" Grid.Row="10" Icon="{ui:SymbolIcon ArrowRepeatAll24}" Margin="0,0,0,3">
                 <ui:CardControl.Header>
@@ -136,7 +136,7 @@
                         <TextBlock Text="{DynamicResource RepeatButtonDescription}" FontSize="12" Opacity="0.5" />
                     </StackPanel>
                 </ui:CardControl.Header>
-                <controls:ToggleSwitch Name="RepeatSwitch" IsChecked="{Binding RepeatEnabled, Mode=TwoWay}" />
+                <ui:ToggleSwitch Name="RepeatSwitch" IsChecked="{Binding RepeatEnabled, Mode=TwoWay}" />
             </ui:CardControl>
             <ui:CardControl x:Name="ShuffleButtonTitleCard" Tag="Indexable" Grid.Row="11" Icon="{ui:SymbolIcon ArrowShuffle24}" Margin="0,0,0,3">
                 <ui:CardControl.Header>
@@ -145,7 +145,7 @@
                         <TextBlock Text="{DynamicResource ShuffleButtonDescription}" FontSize="12" Opacity="0.5" />
                     </StackPanel>
                 </ui:CardControl.Header>
-                <controls:ToggleSwitch Name="ShuffleSwitch" IsChecked="{Binding ShuffleEnabled, Mode=TwoWay}" />
+                <ui:ToggleSwitch Name="ShuffleSwitch" IsChecked="{Binding ShuffleEnabled, Mode=TwoWay}" />
             </ui:CardControl>
             <ui:CardControl x:Name="ShowSeekbarTitleCard" Tag="Indexable" Grid.Row="12" Icon="{ui:SymbolIcon SlideArrowRight24}" Margin="0,0,0,3">
                 <ui:CardControl.Header>
@@ -154,7 +154,7 @@
                         <TextBlock Text="{DynamicResource ShowSeekbarDescription}" FontSize="12" Opacity="0.5" />
                     </StackPanel>
                 </ui:CardControl.Header>
-                <controls:ToggleSwitch Name="SeekbarSwitch" IsChecked="{Binding SeekbarEnabled, Mode=TwoWay}" />
+                <ui:ToggleSwitch Name="SeekbarSwitch" IsChecked="{Binding SeekbarEnabled, Mode=TwoWay}" />
             </ui:CardControl>
             <ui:InfoBar Grid.Row="13" Title="{DynamicResource UnsupportedControlsWarning}" IsOpen="True" Severity="Warning" IsClosable="False" Margin="0,0,0,12" />
             <ui:CardControl x:Name="PauseOtherMediaTitleCard" Tag="Indexable" Grid.Row="14" Icon="{ui:SymbolIcon Pause24}" Margin="0,0,0,3">
@@ -164,7 +164,7 @@
                         <TextBlock Text="{DynamicResource PauseOtherMediaDescription}" FontSize="12" Opacity="0.5" />
                     </StackPanel>
                 </ui:CardControl.Header>
-                <controls:ToggleSwitch Name="PauseOtherSessionsEnabledSwitch" IsChecked="{Binding PauseOtherSessionsEnabled, Mode=TwoWay}" />
+                <ui:ToggleSwitch Name="PauseOtherSessionsEnabledSwitch" IsChecked="{Binding PauseOtherSessionsEnabled, Mode=TwoWay}" />
             </ui:CardControl>
             <ui:CardControl x:Name="MediaFlyoutExcludeVolumeTitleCard" Tag="Indexable" Grid.Row="15" Icon="{ui:SymbolIcon SpeakerOff24}" Margin="0,0,0,76">
                 <ui:CardControl.Header>
@@ -173,7 +173,7 @@
                         <TextBlock Text="{DynamicResource MediaFlyoutExcludeVolumeDescription}" FontSize="12" Opacity="0.5" />
                     </StackPanel>
                 </ui:CardControl.Header>
-                <controls:ToggleSwitch Name="MediaFlyoutVolumeKeysExcludedSwitch" IsChecked="{Binding MediaFlyoutVolumeKeysExcluded, Mode=TwoWay}" />
+                <ui:ToggleSwitch Name="MediaFlyoutVolumeKeysExcludedSwitch" IsChecked="{Binding MediaFlyoutVolumeKeysExcluded, Mode=TwoWay}" />
             </ui:CardControl>
         </Grid>
     </StackPanel>
