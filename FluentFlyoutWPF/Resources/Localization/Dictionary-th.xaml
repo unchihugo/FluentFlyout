@@ -36,4 +36,18 @@
     <system:String x:Key="Next">ถัดไป</system:String>
     <system:String x:Key="Finish">เสร็จสิ้น</system:String>
     <system:String x:Key="OnboardingStepsCounter">ขั้นตอนที่ {0} จาก {1}</system:String>
+    <system:String x:Key="SelectedMonitorTitle">หน้าจอที่จะแสดงหน้าต่าง</system:String>
+    <system:String x:Key="FlyoutStayDurationTitle">ระยะเวลาที่จะแสดงหน้าต่าง</system:String>
+    <system:String x:Key="CenterTitleArtistTitle">แสดงชื่อเพลงและศิลปินไว้ตรงกลาง</system:String>
+    <system:String x:Key="CenterTitleArtistDescription">แสดงชื่อศิลปินไว้ตรงกลาง</system:String>
+    <system:String x:Key="RepeatButtonTitle">ปุ่มเล่นซ้ำ*</system:String>
+    <system:String x:Key="RepeatButtonDescription">เลือกระหว่างเล่นซ้ำทั้ง Playlist หรือซ้ำแค่เพลงเดียว, เพิ่มความกว้างของหน้าต่าง</system:String>
+    <system:String x:Key="ShuffleButtonTitle">ปุ่มสุ่มเพลง*</system:String>
+    <system:String x:Key="ShuffleButtonDescription">เพิ่มความกว้างของหน้าต่าง</system:String>
+    <system:String x:Key="ShowSeekbarTitle">แสดงแถบกรอ</system:String>
+    <system:String x:Key="ShowSeekbarDescription">แถบกรอจะแสดงขึ้นมาหากสื่อที่เล่นรองรับ</system:String>
+    <system:String x:Key="UnsupportedControlsWarning">*บางเบราเซอร์/ตัวเล่นสื่อ ไม่รองรับระบบเล่นซ้ำ, สุ่มเพลง หรือ แถบกรอ</system:String>
+    <system:String x:Key="PauseOtherMediaTitle">หยุดสื่อที่เล่นอยู่ก่อนหน้านี้อัตโนมัติ</system:String>
+    <system:String x:Key="PauseOtherMediaDescription">เมื่อคุณเล่นสื่อตัวใหม่ สื่ออื่นๆที่เคยเล่นอยู่จะถูกหยุดโดยอัตโนมัติ</system:String>
+    <system:String x:Key="TaskbarWidgetCustomizationTitle">Widget ของ Taskbar</system:String>
 </ResourceDictionary>
