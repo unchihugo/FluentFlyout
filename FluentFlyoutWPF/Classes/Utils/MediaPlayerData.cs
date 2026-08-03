@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Automation;
 using System.Windows.Media;
@@ -99,7 +100,20 @@ public static class MediaPlayerData
             .OrderByDescending(data => data != null && data.IsExactMatch)
             .FirstOrDefault(data => data != null); // use first result
 
-        if (processData == null) return (mediaTitle, mediaIcon);
+        if (processData == null)
+        {
+            var (shellTitle, shellIcon) = ResolveViaAppsFolder(mediaPlayerId);
+            if (shellTitle == null) return (mediaTitle, mediaIcon);
+
+            mediaPlayerCache[mediaPlayerId] = new CachedMediaPlayerInfo
+            {
+                Title = shellTitle,
+                Icon = shellIcon,
+                ProcessId = -1 // no process match, -1 avoids colliding with real PIDs
+            };
+
+            return (shellTitle, shellIcon);
+        }
 
         mediaTitle = !string.IsNullOrWhiteSpace(processData.Title) ? processData.Title : mediaPlayerId;
 
@@ -282,6 +296,40 @@ public static class MediaPlayerData
         catch
         {
             return null;
+        }
+    }
+
+    /// <summary>
+    /// Resolves an AppUserModelId through the shell Apps folder ("shell:AppsFolder"),
+    /// the same way the native media flyout does. Handles apps whose session id
+    /// doesn't match their process path, e.g. Firefox-based browsers (#949).
+    /// </summary>
+    private static (string? Title, ImageSource? Icon) ResolveViaAppsFolder(string appUserModelId)
+    {
+        try
+        {
+            var shellType = Type.GetTypeFromProgID("Shell.Application");
+            if (shellType == null) return (null, null);
+
+            dynamic shell = Activator.CreateInstance(shellType)!;
+            dynamic? item = shell.NameSpace("shell:AppsFolder")?.ParseName(appUserModelId);
+            if (item == null) return (null, null);
+
+            string name = item.Name;
+            if (string.IsNullOrWhiteSpace(name)) return (null, null);
+
+            // desktop apps expose their start menu shortcut target, so the icon can
+            // be extracted the same way as everywhere else; packaged apps don't
+            // have one and keep a null icon
+            var targetPath = item.ExtendedProperty("System.Link.TargetParsingPath") as string;
+            ImageSource? icon = targetPath != null ? GetIconFromPath(targetPath) : null;
+
+            return (name, icon);
+        }
+        catch
+        {
+            // id is not registered in the apps folder, nothing we can do
+            return (null, null);
         }
     }
 }

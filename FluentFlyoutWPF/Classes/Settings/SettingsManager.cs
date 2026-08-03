@@ -162,12 +162,34 @@ public class SettingsManager
                 }
 
                 if (File.Exists(filePath))
-                {
-                    File.Replace(tempPath, filePath, backupPath, true);
-                }
+                    _ = Task.Run(async () =>
+                    {
+                        // Run asynchronously to avoid blocking the UI thread
+                        try
+                        {
+                            await TryReplaceSettingsFileAsync(filePath, tempPath, backupPath);
+                            Logger.Info("Settings successfully saved to {0}", filePath);
+                        }
+                        catch (Exception ex)
+                        {
+                            Logger.Error(ex, "Error replacing settings file");
+                        }
+                        finally
+                        {
+                            TryDeleteFileIfExists(tempPath);
+                        }
+                    });
                 else
                 {
-                    File.Move(tempPath, filePath, true);
+                    try
+                    {
+                        File.Move(tempPath, filePath, true);
+                        Logger.Info("Settings successfully saved to {0}", filePath);
+                    }
+                    finally
+                    {
+                        TryDeleteFileIfExists(tempPath);
+                    }
                 }
             }
         }
@@ -181,19 +203,55 @@ public class SettingsManager
             // if the settings file cannot be saved
             Logger.Error(ex, "Error saving settings");
         }
-        finally
+    }
+
+    private async static Task TryReplaceSettingsFileAsync(string filePath, string tempPath, string backupPath)
+    {
+        Logger.Debug("Initializing replacing settings file at {0}", filePath);
+        int maxAttempts = 5;
+        // The following steps try to avoid issues with file locks and permissions on some systems.
+        for (int attempts = 1; attempts <= maxAttempts; attempts++)
         {
-            // delete temp file if it still exists
-            if (File.Exists(tempPath))
+            try
             {
-                try
-                {
-                    File.Delete(tempPath);
-                }
-                catch (Exception ex)
-                {
-                    Logger.Error(ex, "Error deleting temporary settings file");
-                }
+                File.Replace(tempPath, filePath, backupPath, ignoreMetadataErrors: true);
+                break;
+            }
+            catch (IOException ex) when (attempts < maxAttempts)
+            {
+                // if the file is locked, wait and retry
+                Logger.Warn(ex, "Settings file is locked, retrying...");
+                Thread.Sleep(75);
+            }
+            catch (IOException ex)
+            {
+                Logger.Warn(ex, "File.Replace failed after retries, manually replacing...");
+                ManualReplace(filePath, tempPath, backupPath);
+                return;
+            }
+        }
+    }
+
+    private static void ManualReplace(string filePath, string tempPath, string backupPath)
+    {
+        TryDeleteFileIfExists(backupPath);
+        File.Copy(filePath, backupPath);
+        TryDeleteFileIfExists(filePath);
+        File.Move(tempPath, filePath);
+    }
+
+    private static void TryDeleteFileIfExists(string path)
+    {
+        // delete file if it still exists
+        if (File.Exists(path))
+        {
+            try
+            {
+                File.Delete(path);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "Error deleting file at {0}", path);
             }
         }
     }

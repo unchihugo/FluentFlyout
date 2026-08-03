@@ -59,7 +59,7 @@
                         <TextBlock Text="{DynamicResource EnableVolumeFlyoutDescription}" FontSize="12" Opacity="0.5" />
                     </StackPanel>
                 </ui:CardControl.Header>
-                <controls:ToggleSwitch IsChecked="{Binding VolumeControlEnabled, Mode=TwoWay}" />
+                <ui:ToggleSwitch IsChecked="{Binding VolumeControlEnabled, Mode=TwoWay}" />
             </ui:CardControl>
 
             <ui:CardControl x:Name="VolumeAboveMediaFlyoutTitleCard" Tag="Indexable" Icon="{ui:SymbolIcon ArrowMove24}" Margin="0,0,0,3">
@@ -68,7 +68,7 @@
                         <TextBlock Text="{DynamicResource VolumeAboveMediaFlyoutTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
                     </StackPanel>
                 </ui:CardControl.Header>
-                <controls:ToggleSwitch IsChecked="{Binding VolumeControlAboveMediaFlyout, Mode=TwoWay}" />
+                <ui:ToggleSwitch IsChecked="{Binding VolumeControlAboveMediaFlyout, Mode=TwoWay}" />
             </ui:CardControl>
 
             <ui:CardControl x:Name="VolumeFlyoutStayDurationTitleCard" Tag="Indexable" Grid.Row="3" Icon="{ui:SymbolIcon Timer24}" Margin="0,0,0,12">
@@ -92,7 +92,7 @@
                         <TextBlock Text="{DynamicResource EnableVolumeMixerDescription}" FontSize="12" Opacity="0.5" />
                     </StackPanel>
                 </ui:CardControl.Header>
-                <controls:ToggleSwitch IsChecked="{Binding VolumeMixerEnabled, Mode=TwoWay}" />
+                <ui:ToggleSwitch IsChecked="{Binding VolumeMixerEnabled, Mode=TwoWay}" />
             </ui:CardControl>
             
             <ui:CardControl x:Name="VolumeMixerHighlightTitleCard" Tag="Indexable" Icon="{ui:SymbolIcon Highlight24}" Margin="0,0,0,76" Opacity="{Binding IsPremiumUnlocked, Converter={StaticResource BoolToFullHalfOpacityConverter}}">
@@ -105,7 +105,7 @@
                         <TextBlock Text="{DynamicResource VolumeMixerHighlightDescription}" FontSize="12" Opacity="0.5" />
                     </StackPanel>
                 </ui:CardControl.Header>
-                <controls:ToggleSwitch IsChecked="{Binding VolumeMixerHighlightActiveApps, Mode=TwoWay}" />
+                <ui:ToggleSwitch IsChecked="{Binding VolumeMixerHighlightActiveApps, Mode=TwoWay}" />
             </ui:CardControl>
         </StackPanel>
     </StackPanel>

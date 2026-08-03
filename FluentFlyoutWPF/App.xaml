@@ -15,7 +15,6 @@
                 <ui:ControlsDictionary />
                 <mica:ThemeDictionary Theme="Auto" DesignModeTheme="Auto"/>
                 <mica:ControlsDictionary />
-                <ResourceDictionary Source="Resources/Styles/CustomSlider.xaml"/>
                 <ResourceDictionary Source="Resources/Styles/CustomToolTip.xaml"/>
                 <!-- default language en-US -->
                 <ResourceDictionary Source="Resources/Localization/Dictionary-en-US.xaml"/>
