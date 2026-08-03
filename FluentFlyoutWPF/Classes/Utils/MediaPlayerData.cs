@@ -74,12 +74,17 @@ public static class MediaPlayerData
             {
                 try
                 {
+                    bool isExactMatch = variants.Contains(p.ProcessName, StringComparer.OrdinalIgnoreCase);
+                    if (!isExactMatch && p.MainWindowHandle == IntPtr.Zero)
+                    {
+                        return null;
+                    }
+
                     var mainModule = p.MainModule;
                     if (mainModule == null) return null;
 
                     string path = mainModule.FileName;
 
-                    bool isExactMatch = variants.Contains(p.ProcessName, StringComparer.OrdinalIgnoreCase);
                     if (isExactMatch || variants.Any(v => path.Contains(v, StringComparison.OrdinalIgnoreCase)))
                     {
                         // prioritize the FileDescription for a user-friendly name
@@ -94,6 +99,10 @@ public static class MediaPlayerData
                 catch (System.ComponentModel.Win32Exception)
                 {
                     // silently ignore the exception for inaccessible processes
+                }
+                catch (InvalidOperationException)
+                {
+                    // process exited while being inspected
                 }
                 return null;
             })
