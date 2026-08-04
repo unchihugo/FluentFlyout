@@ -862,6 +862,7 @@ public partial class UserSettings : ObservableObject
 
         SelectedLanguage = selectedLanguage;
     }
+
     partial void OnSelectedLanguageChanged(LanguageOption oldValue, LanguageOption newValue)
     {
         if (oldValue == newValue || _initializing) return;
@@ -968,13 +969,13 @@ public partial class UserSettings : ObservableObject
         UpdateTaskbar();
     }
 
-   private void UpdateTaskbar()
-{
-    if (Application.Current?.MainWindow is not MainWindow mainWindow)
-        return;
+    private void UpdateTaskbar()
+    {
+        if (Application.Current?.MainWindow is not MainWindow mainWindow)
+            return;
 
-    mainWindow.UpdateTaskbar();
-}
+        mainWindow.UpdateTaskbar();
+    }
 
     partial void OnTaskbarWidgetScrollingEnabledChanged(bool oldValue, bool newValue)
     {
@@ -994,17 +995,18 @@ public partial class UserSettings : ObservableObject
         UpdateTaskbarMarquees();
     }
 
-   private void UpdateTaskbarMarquees()
-{
-    if (Application.Current?.MainWindow is not MainWindow mainWindow)
-        return;
+    private void UpdateTaskbarMarquees()
+    {
+        if (Application.Current?.MainWindow is not MainWindow mainWindow)
+            return;
 
-    var widget = mainWindow.taskbarWindow?.Widget;
-    if (widget == null)
-        return;
+        var widget = mainWindow.taskbarWindow?.Widget;
+        if (widget == null)
+            return;
 
-    widget.Dispatcher.Invoke(widget.UpdateMarquees);
-}
+        widget.Dispatcher.Invoke(widget.UpdateMarquees);
+    }
+
     partial void OnTaskbarVisualizerEnabledChanged(bool oldValue, bool newValue)
     {
         if (oldValue == newValue || _initializing) return;
