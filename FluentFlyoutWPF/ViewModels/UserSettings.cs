@@ -727,6 +727,8 @@ public partial class UserSettings : ObservableObject
         LockKeysInsertEnabled = true;
         MediaFlyoutBackgroundBlur = 0;
         AppLanguage = "system";
+        SelectedLanguage = LanguageOptions.FirstOrDefault(l => l.Tag == "system") ?? LanguageOptions.FirstOrDefault() ?? new LanguageOption("system", "System");
+        PremiumPrice = string.Empty;
         FlowDirection = FlowDirection.LeftToRight;
         FontFamily = "Segoe UI Variable, Microsoft YaHei UI, Yu Gothic UI";
         MediaFlyoutAcrylicWindowEnabled = true;
@@ -836,10 +838,30 @@ public partial class UserSettings : ObservableObject
 
     partial void OnAppLanguageChanged(string oldValue, string newValue)
     {
-        if (oldValue == newValue) return;
-        SelectedLanguage = LanguageOptions.First(l => l.Tag == newValue);
-    }
+        if (oldValue == newValue)
+            return;
 
+        var selectedLanguage =
+            LanguageOptions.FirstOrDefault(l => l.Tag == newValue)
+            ?? LanguageOptions.FirstOrDefault(l => l.Tag == "system")
+            ?? LanguageOptions.FirstOrDefault();
+
+        if (selectedLanguage is null)
+        {
+            Logger.Warn("Unable to restore app language. No language options are available.");
+            return;
+        }
+
+        if (selectedLanguage.Tag != newValue)
+        {
+            Logger.Warn(
+                "Requested language '{LanguageTag}' was not found. Falling back to '{FallbackLanguage}'.",
+                newValue,
+                selectedLanguage.Tag);
+        }
+
+        SelectedLanguage = selectedLanguage;
+    }
     partial void OnSelectedLanguageChanged(LanguageOption oldValue, LanguageOption newValue)
     {
         if (oldValue == newValue || _initializing) return;
@@ -946,11 +968,13 @@ public partial class UserSettings : ObservableObject
         UpdateTaskbar();
     }
 
-    private void UpdateTaskbar()
-    {
-        MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
-        mainWindow.UpdateTaskbar();
-    }
+   private void UpdateTaskbar()
+{
+    if (Application.Current?.MainWindow is not MainWindow mainWindow)
+        return;
+
+    mainWindow.UpdateTaskbar();
+}
 
     partial void OnTaskbarWidgetScrollingEnabledChanged(bool oldValue, bool newValue)
     {
@@ -970,14 +994,17 @@ public partial class UserSettings : ObservableObject
         UpdateTaskbarMarquees();
     }
 
-    private void UpdateTaskbarMarquees()
-    {
-        MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
-        var widget = mainWindow.taskbarWindow?.Widget;
-        if (widget == null) return;
-        widget.Dispatcher.Invoke(widget.UpdateMarquees);
-    }
+   private void UpdateTaskbarMarquees()
+{
+    if (Application.Current?.MainWindow is not MainWindow mainWindow)
+        return;
 
+    var widget = mainWindow.taskbarWindow?.Widget;
+    if (widget == null)
+        return;
+
+    widget.Dispatcher.Invoke(widget.UpdateMarquees);
+}
     partial void OnTaskbarVisualizerEnabledChanged(bool oldValue, bool newValue)
     {
         if (oldValue == newValue || _initializing) return;

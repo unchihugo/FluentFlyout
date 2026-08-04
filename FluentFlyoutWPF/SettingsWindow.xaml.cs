@@ -21,6 +21,7 @@ public partial class SettingsWindow : FluentWindow
     private ScrollViewer? _contentScrollViewer;
     private List<SearchItem> _allSearchItems = [];
     private string? _pendingHighlightElementId = null;
+    private static readonly IReadOnlyList<(string ResourceKey, Type TargetPageType, string? TargetElementId)> SearchItems = Array.Empty<(string ResourceKey, Type TargetPageType, string? TargetElementId)>();
     static readonly Regex SplitCamelCaseRegex = new(@"(?<=[a-z0-9])(?=[A-Z])", RegexOptions.Compiled);
 
     public SettingsWindow()
