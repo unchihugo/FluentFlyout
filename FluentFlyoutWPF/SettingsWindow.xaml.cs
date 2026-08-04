@@ -21,7 +21,7 @@ public partial class SettingsWindow : FluentWindow
     private ScrollViewer? _contentScrollViewer;
     private List<SearchItem> _allSearchItems = [];
     private string? _pendingHighlightElementId = null;
-    
+
     public SettingsWindow()
     {
         if (instance != null)
