@@ -49,9 +49,11 @@ public static partial class NativeMethods
     internal const int WM_KEYDOWN = 0x0100;
     internal const int WM_KEYUP = 0x0101;
     internal const int WM_SETTINGCHANGE = 0x001A;
+    internal const int WM_INPUTLANGCHANGE = 0x0051;
 
     // Shell Hook Messages
     internal const int HSHELL_APPCOMMAND = 12;
+    internal const int HSHELL_LANGUAGE = 0x0037;
 
     // App Command Messages
     internal const int APPCOMMAND_VOLUME_MUTE = 8;
@@ -252,6 +254,12 @@ public static partial class NativeMethods
 
     [LibraryImport("user32.dll", SetLastError = true)]
     internal static partial uint GetWindowThreadProcessId(IntPtr hWnd, IntPtr lpdwProcessId);
+
+    [LibraryImport("user32.dll", SetLastError = true)]
+    internal static partial uint GetWindowThreadProcessId(IntPtr hWnd, out uint lpdwProcessId);
+
+    [LibraryImport("user32.dll")]
+    internal static partial IntPtr GetKeyboardLayout(uint idThread);
 
     [LibraryImport("user32.dll", EntryPoint = "SetWindowLongW")]
     internal static partial int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);

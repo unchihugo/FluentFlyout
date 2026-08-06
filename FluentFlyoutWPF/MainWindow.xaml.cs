@@ -71,6 +71,7 @@ public partial class MainWindow : MicaWindow
     private bool _isHiding = true;
 
     private LockWindow? lockWindow;
+    private IntPtr _lastLanguageLayout = IntPtr.Zero;
     private DateTime _lastSelfUpdateTimestamp = DateTime.MinValue;
 
     internal TaskbarWindow? taskbarWindow;
@@ -177,6 +178,7 @@ public partial class MainWindow : MicaWindow
         RegisterShellHookWindow(new WindowInteropHelper(this).Handle);
 
         _positionTimer = new Timer(SeekbarUpdateUi, null, Timeout.Infinite, Timeout.Infinite);
+
         if (_seekBarEnabled && GetActiveMediaSession() is { } session)
         {
             UpdateSeekbarCurrentDuration(session.ControlSession.GetTimelineProperties().Position);
@@ -854,6 +856,27 @@ public partial class MainWindow : MicaWindow
                     lockWindow.ShowLockFlyout("Insert", Keyboard.IsKeyToggled(Key.Insert));
                 }
             }
+
+            if (SettingsManager.Current.LanguageFlyoutEnabled && !FullscreenDetector.IsFullscreenApplicationRunning())
+            {
+                IntPtr foregroundWindow = NativeMethods.GetForegroundWindow();
+                if (foregroundWindow != IntPtr.Zero)
+                {
+                    uint threadId = NativeMethods.GetWindowThreadProcessId(foregroundWindow, IntPtr.Zero);
+                    IntPtr hkl = NativeMethods.GetKeyboardLayout(threadId);
+
+                    if (_lastLanguageLayout == IntPtr.Zero)
+                    {
+                        _lastLanguageLayout = hkl;
+                    }
+                    else if (hkl != _lastLanguageLayout && hkl != IntPtr.Zero)
+                    {
+                        _lastLanguageLayout = hkl;
+                        lockWindow ??= new LockWindow();
+                        lockWindow.ShowLanguageFlyout();
+                    }
+                }
+            }
         }
         return CallNextHookEx(_hookId, nCode, wParam, lParam);
     }
@@ -1514,6 +1537,15 @@ public partial class MainWindow : MicaWindow
 
     private nint WndProc(nint hwnd, int msg, nint wParam, nint lParam, ref bool handled)
     {
+        if (msg == WM_INPUTLANGCHANGE || (msg == WM_SHELLHOOK && (int)wParam == HSHELL_LANGUAGE))
+        {
+            if (SettingsManager.Current.LanguageFlyoutEnabled)
+            {
+                lockWindow ??= new LockWindow();
+                lockWindow.ShowLanguageFlyout();
+            }
+        }
+
         // detect key presses from both keyboard hook and shell hook to show flyouts
         if (msg == WM_SHELLHOOK && wParam == HSHELL_APPCOMMAND)
         {
