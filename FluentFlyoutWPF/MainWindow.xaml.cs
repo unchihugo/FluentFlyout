@@ -1236,6 +1236,8 @@ public partial class MainWindow : MicaWindow
                 SeekbarWrapper.Visibility = Visibility.Visible;
             else
                 SeekbarWrapper.Visibility = Visibility.Collapsed;
+
+            MediaIdStackPanel.Cursor = SettingsManager.Current.PlayerInfoEnabled && !SettingsManager.Current.CompactLayout ? Cursors.Hand : Cursors.Arrow;
         });
 
         _layout = SettingsManager.Current.CompactLayout;
@@ -1245,6 +1247,17 @@ public partial class MainWindow : MicaWindow
         _centerTitleArtist = SettingsManager.Current.CenterTitleArtist;
         _seekBarEnabled = SettingsManager.Current.SeekbarEnabled;
         _alwaysDisplay = SettingsManager.Current.MediaFlyoutAlwaysDisplay;
+    }
+
+    private async void MediaIdStackPanel_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+    {
+        if (!SettingsManager.Current.PlayerInfoEnabled || SettingsManager.Current.CompactLayout) return;
+        e.Handled = true;
+        if (GetActiveMediaSession() is { } activeSession)
+        {
+            var mediaProperties = TryGetMediaProperties(activeSession.ControlSession);
+            await Task.Run(() => MediaPlayerData.TryActivateMediaPlayer(activeSession.Id, mediaProperties?.Title));
+        }
     }
 
     private async void Back_Click(object sender, RoutedEventArgs e)
