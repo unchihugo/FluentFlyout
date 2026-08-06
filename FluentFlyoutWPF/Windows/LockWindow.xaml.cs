@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2024-2026 The FluentFlyout Authors
+// Copyright (c) 2024-2026 The FluentFlyout Authors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 using FluentFlyout.Classes;
@@ -18,6 +18,7 @@ namespace FluentFlyoutWPF.Windows;
 public partial class LockWindow : MicaWindow
 {
     private CancellationTokenSource cts;
+    private CancellationTokenSource? _transitionCts;
     private MainWindow _mainWindow = (MainWindow)Application.Current.MainWindow;
     private bool _isHiding = true;
     private MonitorInfo _openedMonitor;
@@ -120,33 +121,76 @@ public partial class LockWindow : MicaWindow
     {
         if (string.IsNullOrEmpty(key)) return;
 
-        if (SettingsManager.Current.LockKeysAcrylicWindowEnabled)
+        await Dispatcher.InvokeAsync(async () =>
         {
-            WindowBlurHelper.EnableBlur(this);
-        }
-        else
-        {
-            WindowBlurHelper.DisableBlur(this);
-        }
+            _transitionCts?.Cancel();
+            _transitionCts?.Dispose();
+            _transitionCts = new CancellationTokenSource();
+            var transitionToken = _transitionCts.Token;
 
-        // lengthen the window width to fit longer translated texts
-        if (LocalizationManager.LanguageCode != "en")
-        {
-            Width = LocalizationManager.maxLength + 56.0; //Max length of the text + extra space for the icon and padding
-        }
-        else
-        {
-            Width = 160; // default width
-        }
+            if (SettingsManager.Current.LockKeysAcrylicWindowEnabled)
+            {
+                WindowBlurHelper.EnableBlur(this);
+            }
+            else
+            {
+                WindowBlurHelper.DisableBlur(this);
+            }
 
-        setStatus(key, isOn);
+            bool isModeSwitch = LanguageContent.Visibility == Visibility.Visible;
 
-        if (_isHiding)
-        {
-            _isHiding = false;
+            if (isModeSwitch)
+            {
+                LanguageContent.BeginAnimation(UIElement.OpacityProperty, null);
+                var fadeOutAnim = new DoubleAnimation
+                {
+                    To = 0.0,
+                    Duration = TimeSpan.FromMilliseconds(100),
+                    EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseIn }
+                };
+                LanguageContent.BeginAnimation(UIElement.OpacityProperty, fadeOutAnim);
+                try
+                {
+                    await Task.Delay(100, transitionToken);
+                }
+                catch (OperationCanceledException) { return; }
+            }
+
+            setStatus(key, isOn);
+
+            LockKeysContent.Visibility = Visibility.Visible;
+            LanguageContent.Visibility = Visibility.Collapsed;
+
+            LockKeysContent.BeginAnimation(UIElement.OpacityProperty, null);
+            LanguageContent.BeginAnimation(UIElement.OpacityProperty, null);
+
+            LockKeysContent.Opacity = 1.0;
+
+            // Calculate target dimensions & position
+            double targetWidth = 160;
+            if (LocalizationManager.LanguageCode != "en")
+            {
+                targetWidth = LocalizationManager.maxLength + 56.0;
+            }
+
             _openedMonitor = GetPreferredTargetDisplay();
-            _mainWindow.OpenAnimation(window: this, alwaysBottom: true, selectedMonitor: _openedMonitor);
-        }
+            double newRawWidth = Math.Ceiling(targetWidth * _openedMonitor.dpiX / 96.0);
+            double newLeft = Math.Ceiling(_openedMonitor.workArea.Left + (_openedMonitor.workArea.Width / 2) - (newRawWidth / 2)) * 96.0 / _openedMonitor.dpiX;
+
+            this.BeginAnimation(Window.WidthProperty, null);
+            this.BeginAnimation(Window.LeftProperty, null);
+
+            Width = targetWidth;
+            Left = newLeft;
+            this.UpdateLayout();
+
+            if (_isHiding)
+            {
+                _isHiding = false;
+                _mainWindow.OpenAnimation(window: this, alwaysBottom: true, selectedMonitor: _openedMonitor);
+            }
+        });
+
         cts.Cancel();
         cts = new CancellationTokenSource();
         var token = cts.Token;

@@ -230,6 +230,14 @@ You can help contribute translations on</System:String>
     <System:String x:Key="LockWindow_InsertPressed">Insert Pressed</System:String>
     <System:String x:Key="LockWindow_LockOn">on</System:String>
     <System:String x:Key="LockWindow_LockOff">off</System:String>
+    <System:String x:Key="LanguageFlyoutTitle">Language Flyout</System:String>
+    <System:String x:Key="LanguageFlyoutDescription">Show flyout when switching keyboard input layout</System:String>
+    <System:String x:Key="LanguageFlyoutShowRegionTitle">Show Country / Region</System:String>
+    <System:String x:Key="LanguageFlyoutShowRegionDescription">Include country or region in parentheses (e.g. English (United States))</System:String>
+    <System:String x:Key="LanguageFlyoutDurationTitle">Display Duration</System:String>
+    <System:String x:Key="LanguageFlyoutDurationDescription">Duration the language flyout stays on screen</System:String>
+    <System:String x:Key="LanguageFlyoutWidthTitle">Flyout Width</System:String>
+    <System:String x:Key="LanguageFlyoutWidthDescription">Custom width of the language flyout in pixels</System:String>
     <System:String x:Key="NextUpWindow_UpNextText">Up next:</System:String>
     <System:String x:Key="TrayIcon_SettingsOption">Settings</System:String>
     <System:String x:Key="TrayIcon_GitHubRepositoryOption">Repository</System:String>
