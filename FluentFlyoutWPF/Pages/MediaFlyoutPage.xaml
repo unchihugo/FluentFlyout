@@ -33,7 +33,6 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,24">
                 <Border CornerRadius="10" ClipToBounds="True" Width="164" Height="98">
@@ -130,7 +129,7 @@
                 </ui:CardControl.Header>
                 <ui:ToggleSwitch Name="PlayerInfoSwitch" IsChecked="{Binding PlayerInfoEnabled, Mode=TwoWay}" />
             </ui:CardControl>
-            <ui:CardControl x:Name="RepeatButtonTitleCard" Tag="Indexable" Grid.Row="11" Icon="{ui:SymbolIcon ArrowRepeatAll24}" Margin="0,0,0,3">
+            <ui:CardControl x:Name="RepeatButtonTitleCard" Tag="Indexable" Grid.Row="10" Icon="{ui:SymbolIcon ArrowRepeatAll24}" Margin="0,0,0,3">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
                         <TextBlock Text="{DynamicResource RepeatButtonTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
@@ -139,7 +138,7 @@
                 </ui:CardControl.Header>
                 <ui:ToggleSwitch Name="RepeatSwitch" IsChecked="{Binding RepeatEnabled, Mode=TwoWay}" />
             </ui:CardControl>
-            <ui:CardControl x:Name="ShuffleButtonTitleCard" Tag="Indexable" Grid.Row="12" Icon="{ui:SymbolIcon ArrowShuffle24}" Margin="0,0,0,3">
+            <ui:CardControl x:Name="ShuffleButtonTitleCard" Tag="Indexable" Grid.Row="11" Icon="{ui:SymbolIcon ArrowShuffle24}" Margin="0,0,0,3">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
                         <TextBlock Text="{DynamicResource ShuffleButtonTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
@@ -148,7 +147,7 @@
                 </ui:CardControl.Header>
                 <ui:ToggleSwitch Name="ShuffleSwitch" IsChecked="{Binding ShuffleEnabled, Mode=TwoWay}" />
             </ui:CardControl>
-            <ui:CardControl x:Name="ShowSeekbarTitleCard" Tag="Indexable" Grid.Row="13" Icon="{ui:SymbolIcon SlideArrowRight24}" Margin="0,0,0,3">
+            <ui:CardControl x:Name="ShowSeekbarTitleCard" Tag="Indexable" Grid.Row="12" Icon="{ui:SymbolIcon SlideArrowRight24}" Margin="0,0,0,3">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
                         <TextBlock Text="{DynamicResource ShowSeekbarTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
@@ -157,8 +156,8 @@
                 </ui:CardControl.Header>
                 <ui:ToggleSwitch Name="SeekbarSwitch" IsChecked="{Binding SeekbarEnabled, Mode=TwoWay}" />
             </ui:CardControl>
-            <ui:InfoBar Grid.Row="14" Title="{DynamicResource UnsupportedControlsWarning}" IsOpen="True" Severity="Warning" IsClosable="False" Margin="0,0,0,12" />
-            <ui:CardControl x:Name="PauseOtherMediaTitleCard" Tag="Indexable" Grid.Row="15" Icon="{ui:SymbolIcon Pause24}" Margin="0,0,0,3">
+            <ui:InfoBar Grid.Row="13" Title="{DynamicResource UnsupportedControlsWarning}" IsOpen="True" Severity="Warning" IsClosable="False" Margin="0,0,0,12" />
+            <ui:CardControl x:Name="PauseOtherMediaTitleCard" Tag="Indexable" Grid.Row="14" Icon="{ui:SymbolIcon Pause24}" Margin="0,0,0,3">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
                         <TextBlock Text="{DynamicResource PauseOtherMediaTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
@@ -167,7 +166,7 @@
                 </ui:CardControl.Header>
                 <ui:ToggleSwitch Name="PauseOtherSessionsEnabledSwitch" IsChecked="{Binding PauseOtherSessionsEnabled, Mode=TwoWay}" />
             </ui:CardControl>
-            <ui:CardControl x:Name="MediaFlyoutExcludeVolumeTitleCard" Tag="Indexable" Grid.Row="16" Icon="{ui:SymbolIcon SpeakerOff24}" Margin="0,0,0,76">
+            <ui:CardControl x:Name="MediaFlyoutExcludeVolumeTitleCard" Tag="Indexable" Grid.Row="15" Icon="{ui:SymbolIcon SpeakerOff24}" Margin="0,0,0,76">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
                         <TextBlock Text="{DynamicResource MediaFlyoutExcludeVolumeTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
