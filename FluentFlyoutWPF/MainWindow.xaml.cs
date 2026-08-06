@@ -71,6 +71,7 @@ public partial class MainWindow : MicaWindow
     private bool _isHiding = true;
 
     private LockWindow? lockWindow;
+    private IntPtr _lastLanguageLayout = IntPtr.Zero;
     private DateTime _lastSelfUpdateTimestamp = DateTime.MinValue;
 
     internal TaskbarWindow? taskbarWindow;
@@ -853,6 +854,27 @@ public partial class MainWindow : MicaWindow
                 {
                     lockWindow ??= new LockWindow();
                     lockWindow.ShowLockFlyout("Insert", Keyboard.IsKeyToggled(Key.Insert));
+                }
+            }
+
+            if (SettingsManager.Current.LanguageFlyoutEnabled && !FullscreenDetector.IsFullscreenApplicationRunning())
+            {
+                IntPtr foregroundWindow = NativeMethods.GetForegroundWindow();
+                if (foregroundWindow != IntPtr.Zero)
+                {
+                    uint threadId = NativeMethods.GetWindowThreadProcessId(foregroundWindow, IntPtr.Zero);
+                    IntPtr hkl = NativeMethods.GetKeyboardLayout(threadId);
+
+                    if (_lastLanguageLayout == IntPtr.Zero)
+                    {
+                        _lastLanguageLayout = hkl;
+                    }
+                    else if (hkl != _lastLanguageLayout && hkl != IntPtr.Zero)
+                    {
+                        _lastLanguageLayout = hkl;
+                        lockWindow ??= new LockWindow();
+                        lockWindow.ShowLanguageFlyout();
+                    }
                 }
             }
         }
