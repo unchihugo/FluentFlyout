@@ -253,6 +253,12 @@ public static partial class NativeMethods
     [LibraryImport("user32.dll", SetLastError = true)]
     internal static partial uint GetWindowThreadProcessId(IntPtr hWnd, IntPtr lpdwProcessId);
 
+    [LibraryImport("user32.dll", SetLastError = true)]
+    internal static partial uint GetWindowThreadProcessId(IntPtr hWnd, out uint lpdwProcessId);
+
+    [LibraryImport("user32.dll")]
+    internal static partial IntPtr GetKeyboardLayout(uint idThread);
+
     [LibraryImport("user32.dll", EntryPoint = "SetWindowLongW")]
     internal static partial int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
 
