@@ -71,8 +71,6 @@ public partial class MainWindow : MicaWindow
     private bool _isHiding = true;
 
     private LockWindow? lockWindow;
-    private IntPtr _lastLanguageLayout = IntPtr.Zero;
-    private DispatcherTimer? _languagePollingTimer;
     private DateTime _lastSelfUpdateTimestamp = DateTime.MinValue;
 
     internal TaskbarWindow? taskbarWindow;
@@ -179,13 +177,6 @@ public partial class MainWindow : MicaWindow
         RegisterShellHookWindow(new WindowInteropHelper(this).Handle);
 
         _positionTimer = new Timer(SeekbarUpdateUi, null, Timeout.Infinite, Timeout.Infinite);
-
-        _languagePollingTimer = new DispatcherTimer
-        {
-            Interval = TimeSpan.FromMilliseconds(75)
-        };
-        _languagePollingTimer.Tick += LanguagePollingTimer_Tick;
-        _languagePollingTimer.Start();
 
         if (_seekBarEnabled && GetActiveMediaSession() is { } session)
         {
@@ -864,13 +855,6 @@ public partial class MainWindow : MicaWindow
                     lockWindow.ShowLockFlyout("Insert", Keyboard.IsKeyToggled(Key.Insert));
                 }
             }
-
-            // Trigger Language Flyout on Win + Space instantly
-            if (vkCode == 0x20 && (Keyboard.Modifiers & ModifierKeys.Windows) != 0 && wParam == WM_KEYDOWN)
-            {
-                lockWindow ??= new LockWindow();
-                lockWindow.ShowLanguageFlyout();
-            }
         }
         return CallNextHookEx(_hookId, nCode, wParam, lParam);
     }
@@ -1531,6 +1515,15 @@ public partial class MainWindow : MicaWindow
 
     private nint WndProc(nint hwnd, int msg, nint wParam, nint lParam, ref bool handled)
     {
+        if (msg == WM_INPUTLANGCHANGE || (msg == WM_SHELLHOOK && (int)wParam == HSHELL_LANGUAGE))
+        {
+            if (SettingsManager.Current.LanguageFlyoutEnabled)
+            {
+                lockWindow ??= new LockWindow();
+                lockWindow.ShowLanguageFlyout();
+            }
+        }
+
         // detect key presses from both keyboard hook and shell hook to show flyouts
         if (msg == WM_SHELLHOOK && wParam == HSHELL_APPCOMMAND)
         {
@@ -1775,29 +1768,5 @@ public partial class MainWindow : MicaWindow
     {
         // Use the updated ShowMediaFlyout method with toggle mode to close the flyout
         ShowMediaFlyout(toggleMode: true);
-    }
-
-    private void LanguagePollingTimer_Tick(object? sender, EventArgs e)
-    {
-        if (!SettingsManager.Current.LanguageFlyoutEnabled) return;
-
-        IntPtr foregroundWindow = NativeMethods.GetForegroundWindow();
-        if (foregroundWindow == IntPtr.Zero) return;
-
-        uint threadId = NativeMethods.GetWindowThreadProcessId(foregroundWindow, IntPtr.Zero);
-        IntPtr hkl = NativeMethods.GetKeyboardLayout(threadId);
-
-        if (_lastLanguageLayout == IntPtr.Zero)
-        {
-            _lastLanguageLayout = hkl;
-            return;
-        }
-
-        if (hkl != _lastLanguageLayout)
-        {
-            _lastLanguageLayout = hkl;
-            lockWindow ??= new LockWindow();
-            lockWindow.ShowLanguageFlyout();
-        }
     }
 }
