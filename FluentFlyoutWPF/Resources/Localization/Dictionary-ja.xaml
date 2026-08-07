@@ -10,8 +10,8 @@
     <system:String x:Key="BackgroundBlurOption3" xml:space="preserve"> スタイル 2 (ライジング グロー)</system:String>
     <system:String x:Key="BackgroundBlurOption4" xml:space="preserve"> スタイル 3 (ぼかし)</system:String>
     <system:String x:Key="BackgroundBlurTitle">背景のぼかし</system:String>
-    <system:String x:Key="AcrylicWindowTitle">アクリル ウィンドウ</system:String>
-    <system:String x:Key="AcrylicWindowDescription">ポップアップに透明なアクリルぼかし効果を適用します（オフにするとマイカ効果に戻ります）</system:String>
+    <system:String x:Key="AcrylicWindowTitle">アクリル フライアウト</system:String>
+    <system:String x:Key="AcrylicWindowDescription">ポップアップに透明なアクリルぼかし効果を適用します</system:String>
     <system:String x:Key="CompactLayoutTitle">コンパクト レイアウト</system:String>
     <system:String x:Key="CompactLayoutDescription" xml:space="preserve">シンプルで邪魔になりにくいレイアウト
 リピート、シャッフル、およびプレイヤー情報を非表示にします</system:String>
@@ -277,4 +277,13 @@
     <system:String x:Key="OnboardingStepsCounter">ステップ{0} / {1}</system:String>
     <system:String x:Key="AnonymousUsageDataTitle">匿名の利用データを送信する</system:String>
     <system:String x:Key="AnonymousUsageDataDescription">匿名かつ個人を特定できない情報を送信し、アプリの改善にご協力ください</system:String>
+    <system:String x:Key="SearchSettings">設定の検索</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextTitle">テキストのスクロール</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextDescription">収まりきらない長いテキストを自動的にスクロールします</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextLoopForeverTitle">連続スクロール</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextLoopForeverDescription">往復させず、一方向に無限ループでスクロールします。</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextSpeedTitle">スクロールの速度</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextSpeedDescription">テキストがスクロールする速度 (ピクセル/秒)。既定値は 20。</system:String>
+    <system:String x:Key="TaskbarVisualizerBaselineAutoHideDescription">オーディオが再生されていないときは、ベースラインを自動的に非表示にします</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTitle">スクロールを有効化</system:String>
 </ResourceDictionary>
