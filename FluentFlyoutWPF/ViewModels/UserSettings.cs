@@ -255,10 +255,16 @@ public partial class UserSettings : ObservableObject
     public partial bool NIconHide { get; set; }
 
     /// <summary>
-    /// Disable flyout when a DirectX exclusive fullscreen app is detected
+    /// Disable flyout when an Exclusive or Borderless app is detected
     /// </summary>
     [ObservableProperty]
     public partial bool DisableIfFullscreen { get; set; }
+
+    /// <summary>
+    /// Allow flyout to be shown when there's a fullscreen app in another monitor other than the one where the flyout will appear
+    /// </summary>
+    [ObservableProperty]
+    public partial bool AllowOtherMonitors { get; set; }
 
     /// <summary>
     /// Use bold symbol and font in the lock keys flyout
@@ -718,6 +724,7 @@ public partial class UserSettings : ObservableObject
         NIconSymbol = false;
         NIconHide = false;
         DisableIfFullscreen = true;
+        AllowOtherMonitors = false;
         LockKeysBoldUi = false;
         LockKeysMonitorPreference = 0;
         LastKnownVersion = "";

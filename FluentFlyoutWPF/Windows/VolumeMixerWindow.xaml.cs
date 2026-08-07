@@ -10,6 +10,7 @@
 using FluentFlyout.Classes;
 using FluentFlyout.Classes.Settings;
 using FluentFlyoutWPF.Classes;
+using FluentFlyoutWPF.Classes.Utils;
 using FluentFlyoutWPF.ViewModels;
 using MicaWPF.Controls;
 using NLog;
@@ -59,7 +60,7 @@ public partial class VolumeMixerWindow : MicaWindow
     // one day we might want to convert these to an interface
     public async void ShowFlyout()
     {
-        if (FullscreenDetector.IsFullscreenApplicationRunning())
+        if (FullscreenDetector.IsFullscreenApplicationRunning(MonitorUtil.GetSelectedMonitor(SettingsManager.Current.FlyoutSelectedMonitor)))
             return;
 
         long currentTime = Environment.TickCount64;
