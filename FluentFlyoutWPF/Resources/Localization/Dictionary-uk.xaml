@@ -240,4 +240,5 @@
     <system:String x:Key="EnableCapsDescription">Показувати індикатор, коли натиснуто Caps Lock</system:String>
     <system:String x:Key="Back">Назад</system:String>
     <system:String x:Key="Next">Далі</system:String>
+    <system:String x:Key="Finish">Закінчити</system:String>
 </ResourceDictionary>
