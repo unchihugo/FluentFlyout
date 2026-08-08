@@ -636,6 +636,15 @@ public partial class MainWindow : MicaWindow
         }
     }
 
+    private void UpdateDiscordPresence(MediaSession session)
+    {
+        var songInfo = TryGetMediaProperties(session.ControlSession);
+        if (songInfo == null) return;
+        var playbackInfo = session.ControlSession.GetPlaybackInfo();
+        var timeline = session.ControlSession.GetTimelineProperties();
+        DiscordRpcService.UpdatePresence(songInfo.Title, songInfo.Artist, playbackInfo?.PlaybackStatus == GlobalSystemMediaTransportControlsSessionPlaybackStatus.Playing, timeline?.Position, timeline?.EndTime);
+    }
+
     private void CurrentSession_OnPlaybackStateChanged(MediaSession mediaSession, GlobalSystemMediaTransportControlsSessionPlaybackInfo? playbackInfo = null)
     {
 #if DEBUG
@@ -658,6 +667,7 @@ public partial class MainWindow : MicaWindow
             var tbPlayback = focusedSession.ControlSession.GetPlaybackInfo();
 
             taskbarWindow?.UpdateUi(tbSongInfo.Title, tbSongInfo.Artist, tbThumbnail, tbPlayback?.PlaybackStatus, tbPlayback?.Controls);
+            UpdateDiscordPresence(focusedSession);
         }
 
         if (IsVisible)
@@ -709,6 +719,7 @@ public partial class MainWindow : MicaWindow
         BitmapHelper.GetDominantColors(1);
 
         taskbarWindow?.UpdateUi(songInfo.Title, songInfo.Artist, thumbnail, playbackInfo.PlaybackStatus, playbackInfo.Controls);
+        UpdateDiscordPresence(currentActiveSession);
 
         pauseOtherMediaSessionsIfNeeded(mediaSession);
 
@@ -769,6 +780,8 @@ public partial class MainWindow : MicaWindow
 
         if (GetActiveMediaSession() is not { } session || session.Id != mediaSession.Id) return;
 
+        UpdateDiscordPresence(session);
+
         if (_seekBarEnabled)
         {
             Dispatcher.Invoke(() =>
@@ -787,6 +800,11 @@ public partial class MainWindow : MicaWindow
         Logger.Debug("Session closed: " + (mediaSession.Id).ToString());
 #endif
         UpdateTaskbar();
+        var activeSession = GetActiveMediaSession();
+        if (activeSession == null)
+        {
+            DiscordRpcService.ClearPresence();
+        }
     }
 
     private static IntPtr SetHook(LowLevelKeyboardProc proc) // set the keyboard hook
@@ -1424,6 +1442,7 @@ public partial class MainWindow : MicaWindow
             cts?.Dispose();
 
             TaskbarVisualizerControl.DisposeVisualizer();
+            DiscordRpcService.Dispose();
 
             // unhook hooks
             if (_hookId != IntPtr.Zero)
