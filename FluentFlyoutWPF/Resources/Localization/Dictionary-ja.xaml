@@ -277,7 +277,7 @@
     <system:String x:Key="OnboardingStepsCounter">ステップ{0} / {1}</system:String>
     <system:String x:Key="AnonymousUsageDataTitle">匿名の利用データを送信する</system:String>
     <system:String x:Key="AnonymousUsageDataDescription">匿名かつ個人を特定できない情報を送信し、アプリの改善にご協力ください</system:String>
-    <system:String x:Key="SearchSettings">設定の検索</system:String>
+    <system:String x:Key="SearchSettings">設定を検索</system:String>
     <system:String x:Key="TaskbarWidgetScrollingTextTitle">テキストのスクロール</system:String>
     <system:String x:Key="TaskbarWidgetScrollingTextDescription">収まりきらない長いテキストを自動的にスクロールします</system:String>
     <system:String x:Key="TaskbarWidgetScrollingTextLoopForeverTitle">連続スクロール</system:String>
