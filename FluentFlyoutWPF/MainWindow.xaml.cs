@@ -1074,7 +1074,7 @@ public partial class MainWindow : MicaWindow
 
                 if (SettingsManager.Current.PlayerInfoEnabled && !SettingsManager.Current.CompactLayout)
                 {
-                    MediaIdStackPanel.Visibility = Visibility.Visible;
+                    MediaIdButton.Visibility = Visibility.Visible;
                     (string title, ImageSource? Icon) = MediaPlayerData.GetAndCacheMediaPlayerData(mediaSession.Id);
                     MediaId.Text = title;
                     if (Icon != null)
@@ -1087,7 +1087,7 @@ public partial class MainWindow : MicaWindow
                         MediaIdIcon.Visibility = Visibility.Collapsed;
                     }
                 }
-                else MediaIdStackPanel.Visibility = Visibility.Collapsed;
+                else MediaIdButton.Visibility = Visibility.Collapsed;
 
                 // background blurred image visibility setting
                 BackgroundImageStyle1.Visibility = SettingsManager.Current.MediaFlyoutBackgroundBlur == 1 ? Visibility.Visible : Visibility.Collapsed;
@@ -1195,7 +1195,7 @@ public partial class MainWindow : MicaWindow
                 BodyStackPanel.Width = 300;
                 ControlsStackPanel.Margin = new Thickness(0);
                 ControlsStackPanel.Width = 104;
-                MediaIdStackPanel.Visibility = Visibility.Collapsed;
+                MediaIdButton.Visibility = Visibility.Collapsed;
                 SongImageBorder.Margin = new Thickness(0);
                 SongImageBorder.Height = 36;
                 SongInfoStackPanel.Margin = new Thickness(8, 0, 0, 0);
@@ -1214,7 +1214,7 @@ public partial class MainWindow : MicaWindow
                 BodyStackPanel.Width = 194 - 72 + extraWidth;
                 ControlsStackPanel.Margin = Margin = new Thickness(12, 8, 0, 0);
                 ControlsStackPanel.Width = 184 - 72 + extraWidth;
-                MediaIdStackPanel.Visibility = Visibility.Visible;
+                MediaIdButton.Visibility = Visibility.Visible;
                 SongImageBorder.Margin = new Thickness(6);
                 SongImageBorder.Height = 78;
                 SongInfoStackPanel.Margin = new Thickness(12, 0, 0, 0);
@@ -1236,8 +1236,6 @@ public partial class MainWindow : MicaWindow
                 SeekbarWrapper.Visibility = Visibility.Visible;
             else
                 SeekbarWrapper.Visibility = Visibility.Collapsed;
-
-            MediaIdStackPanel.Cursor = SettingsManager.Current.PlayerInfoEnabled && !SettingsManager.Current.CompactLayout ? Cursors.Hand : Cursors.Arrow;
         });
 
         _layout = SettingsManager.Current.CompactLayout;
@@ -1249,7 +1247,7 @@ public partial class MainWindow : MicaWindow
         _alwaysDisplay = SettingsManager.Current.MediaFlyoutAlwaysDisplay;
     }
 
-    private async void MediaIdStackPanel_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+    private async void MediaIdButton_Click(object sender, RoutedEventArgs e)
     {
         if (!SettingsManager.Current.PlayerInfoEnabled || SettingsManager.Current.CompactLayout) return;
         e.Handled = true;

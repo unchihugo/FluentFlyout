@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 using System.Diagnostics;
-using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Automation;
 using System.Windows.Media;
@@ -74,6 +73,7 @@ public static class MediaPlayerData
             {
                 try
                 {
+                    // pre-filter processes without a main window handle unless they are an exact match to the media player id
                     bool isExactMatch = variants.Contains(p.ProcessName, StringComparer.OrdinalIgnoreCase);
                     if (!isExactMatch && p.MainWindowHandle == IntPtr.Zero)
                     {
