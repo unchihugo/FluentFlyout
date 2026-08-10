@@ -144,7 +144,7 @@ Not: Açık kaynaklı bir proje olduğundan, bu özellikler GitHub'daki manuel y
     <system:String x:Key="TrayIcon_ViewLogsOption">Logları görüntüle</system:String>
     <system:String x:Key="PixelsUnit">px</system:String>
     <system:String x:Key="HomeTitle">Ana Sayfa</system:String>
-    <system:String x:Key="Enabled">Etkin</system:String>
+    <system:String x:Key="Enabled">Aktif</system:String>
     <system:String x:Key="Disabled">Devre Dışı</system:String>
     <system:String x:Key="MediaFlyoutAlwaysDisplayDescription">Kapat düğmesine tıklayana kadar açılır pencere açık kalır</system:String>
     <system:String x:Key="AcrylicBlurOpacityTitle">Akrilik Bulanıklık Opaklığı</system:String>
