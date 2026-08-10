@@ -241,8 +241,8 @@ Not: Açık kaynaklı bir proje olduğundan, bu özellikler GitHub'daki manuel y
     <system:String x:Key="EnableVolumeFlyoutTitle">Ses Açılır Penceresini etkinleştir</system:String>
     <system:String x:Key="EnableVolumeFlyoutDescription">Varsayılan Windows ses açılır penceresini değiştir</system:String>
     <system:String x:Key="VolumeAboveMediaFlyoutTitle">Ses Açılır Penceresini Medya Açılır Penceresinin üzerine konumlandır</system:String>
-    <system:String x:Key="VolumeFlyoutStayDurationTitle">Ses Paneli Ekranda Kalma Süresi</system:String>
-    <system:String x:Key="VolumeMixerSectionTitle">Ses Düzeyi Karıştırıcısı</system:String>
+    <system:String x:Key="VolumeFlyoutStayDurationTitle">Açılır Pencere Kalış Süresi</system:String>
+    <system:String x:Key="VolumeMixerSectionTitle">Ses masası</system:String>
     <system:String x:Key="EnableVolumeMixerTitle">Ses Düzeyi Karıştırıcısını etkinleştir</system:String>
     <system:String x:Key="EnableVolumeMixerDescription">Uygulama ses düzeyleri üzerinde hassas kontrol</system:String>
     <system:String x:Key="VolumeMixerHighlightTitle">Ses çalan uygulamaları vurgula</system:String>
