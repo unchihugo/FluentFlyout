@@ -859,23 +859,15 @@ public partial class MainWindow : MicaWindow
 
             if (SettingsManager.Current.LanguageFlyoutEnabled && !FullscreenDetector.IsFullscreenApplicationRunning())
             {
-                IntPtr foregroundWindow = NativeMethods.GetForegroundWindow();
-                if (foregroundWindow != IntPtr.Zero)
-                {
-                    uint threadId = NativeMethods.GetWindowThreadProcessId(foregroundWindow, IntPtr.Zero);
-                    IntPtr hkl = NativeMethods.GetKeyboardLayout(threadId);
+                IntPtr fgWindow = NativeMethods.GetForegroundWindow();
+                IntPtr hkl = NativeMethods.GetKeyboardLayout(NativeMethods.GetWindowThreadProcessId(fgWindow, IntPtr.Zero));
 
-                    if (_lastLanguageLayout == IntPtr.Zero)
-                    {
-                        _lastLanguageLayout = hkl;
-                    }
-                    else if (hkl != _lastLanguageLayout && hkl != IntPtr.Zero)
-                    {
-                        _lastLanguageLayout = hkl;
-                        lockWindow ??= new LockWindow();
-                        lockWindow.ShowLanguageFlyout();
-                    }
+                if (hkl != IntPtr.Zero && _lastLanguageLayout != IntPtr.Zero && hkl != _lastLanguageLayout)
+                {
+                    lockWindow ??= new LockWindow();
+                    lockWindow.ShowLanguageFlyout();
                 }
+                if (hkl != IntPtr.Zero) _lastLanguageLayout = hkl;
             }
         }
         return CallNextHookEx(_hookId, nCode, wParam, lParam);
