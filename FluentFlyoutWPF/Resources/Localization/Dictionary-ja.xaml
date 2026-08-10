@@ -21,7 +21,7 @@
     <system:String x:Key="PositionBottomRight" xml:space="preserve"> 右下</system:String>
     <system:String x:Key="PositionTopLeft" xml:space="preserve"> 左上</system:String>
     <system:String x:Key="PositionTopCenter" xml:space="preserve"> 上部中央</system:String>
-    <system:String x:Key="PositionTopRight" xml:space="preserve"> 右上</system:String>
+    <system:String x:Key="PositionTopRight" xml:space="preserve"> 上段 右側</system:String>
     <system:String x:Key="FlyoutStayDurationTitle">ポップアップの表示時間</system:String>
     <system:String x:Key="FlyoutStayDurationDescription">(既定値: 3000 ms)</system:String>
     <system:String x:Key="MillisecondsUnit">ms</system:String>
@@ -144,7 +144,7 @@
     <system:String x:Key="UpdateToastMessage">現在のバージョンは {0} です。</system:String>
     <system:String x:Key="UpdateToastButton">アップデートを見る</system:String>
     <system:String x:Key="HomeTitle">ホーム</system:String>
-    <system:String x:Key="Enabled">有効</system:String>
+    <system:String x:Key="Enabled">有効にする</system:String>
     <system:String x:Key="Disabled">無効</system:String>
     <system:String x:Key="MediaFlyoutExcludeVolumeTitle">音量キーを除外</system:String>
     <system:String x:Key="MediaFlyoutExcludeVolumeDescription">音量アップ/ダウン/ミュート時にポップアップ表示をしません</system:String>
@@ -274,7 +274,7 @@
     <system:String x:Key="Back">戻る</system:String>
     <system:String x:Key="Next">次へ</system:String>
     <system:String x:Key="Finish">完了</system:String>
-    <system:String x:Key="OnboardingStepsCounter">ステップ{0} / {1}</system:String>
+    <system:String x:Key="OnboardingStepsCounter">進捗 {0} / {1}</system:String>
     <system:String x:Key="AnonymousUsageDataTitle">匿名の利用データを送信する</system:String>
     <system:String x:Key="AnonymousUsageDataDescription">匿名かつ個人を特定できない情報を送信し、アプリの改善にご協力ください</system:String>
     <system:String x:Key="SearchSettings">設定を検索</system:String>
