@@ -5,8 +5,8 @@
     <system:String x:Key="BackgroundBlurOption3" xml:space="preserve"> Stil 2 (Rising Glow)</system:String>
     <system:String x:Key="BackgroundBlurOption4" xml:space="preserve"> Stil 3 (Unschärfe)</system:String>
     <system:String x:Key="BackgroundBlurTitle">Hintergrund-Unschärfe</system:String>
-    <system:String x:Key="AcrylicWindowTitle">Akryl-Fenster</system:String>
-    <system:String x:Key="AcrylicWindowDescription">Transparenten Unschärfe-Effekt auf das Flyout anwenden (ansonsten Mica)</system:String>
+    <system:String x:Key="AcrylicWindowTitle">Acryl-Flyouts</system:String>
+    <system:String x:Key="AcrylicWindowDescription">Transparenten Akryl-Unschärfe-Effekt auf das Flyout anwenden</system:String>
     <system:String x:Key="CompactLayoutTitle">Kompaktes Layout</system:String>
     <system:String x:Key="CompactLayoutDescription" xml:space="preserve">Minimaleres und weniger ablenkendes Layout
 verbirgt autom. Wiederholung, Shuffle und Player-Information</system:String>
@@ -59,7 +59,7 @@ Anmerkung: Als Open-Source-Projekt sind diese Funktionen auch kostenlos verfügb
     <system:String x:Key="LockWindow_LockOn">an</system:String>
     <system:String x:Key="MediaFlyoutTitle">Medien-Flyout</system:String>
     <system:String x:Key="TextBlockText1">Aktiviere Media Flyout</system:String>
-    <system:String x:Key="TextBlockText3">Zeigt das Flyout an, wenn eine Medientaste gedrückt wurde.</system:String>
+    <system:String x:Key="TextBlockText3">Zeigt ein Flyout an, wenn eine Medientaste gedrückt wird.</system:String>
     <system:String x:Key="TaskbarWidgetPosition">Widget Position</system:String>
     <system:String x:Key="TaskbarWidgetBackgroundBlurDescription">Füge Hintergrundunschärfe für das Taskleisten Widget hinzu.</system:String>
     <system:String x:Key="TaskbarWidgetHideCompletelyTitle">Komplett verstecken, wenn keine Medien abgespielt werden.</system:String>
@@ -223,7 +223,7 @@ Du kannst helfen, die App zu übersetzen auf</system:String>
     <system:String x:Key="TaskbarVisualizerClickableTitle">Klicke um die Einstellungen zu öffnen</system:String>
     <system:String x:Key="LockKeysCursorUITitle">Bevorzugte Zielanzeige</system:String>
     <system:String x:Key="LockKeysCursorUIDescription" xml:space="preserve">Wählen Sie den Monitor aus, auf dem das Flyout angezeigt werden soll.</system:String>
-    <system:String x:Key="DefaultLockLayoutPosition">Zielbildschirm für Flyout</system:String>
+    <system:String x:Key="DefaultLockLayoutPosition">(Standard-) Zielbildschirm für Flyout</system:String>
     <system:String x:Key="MonitorWithFocusedWindow">Monitor mit fokussiertem Fenster</system:String>
     <system:String x:Key="MonitorWithCursor">Monitor mit Mauszeiger</system:String>
     <system:String x:Key="LockKeysAnimatedTitle">Indikator-Animationen</system:String>
@@ -283,4 +283,9 @@ Du kannst helfen, die App zu übersetzen auf</system:String>
     <system:String x:Key="TaskbarWidgetScrollingTextTitle">Lauftext</system:String>
     <system:String x:Key="TaskbarWidgetScrollingTextLoopForeverTitle">Durchgehend Scrollen</system:String>
     <system:String x:Key="TaskbarWidgetScrollingTitle">Aktiviere Lauftext</system:String>
+    <system:String x:Key="TaskbarVisualizerBaselineAutoHideDescription">Basislinie automatisch ausblenden, wenn kein Audio abgespielt wird</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextDescription">Langen Text, der nicht vollständig angezeigt wird, automatisch scrollen</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextLoopForeverDescription">Lassen Sie den Text in einer Richtung endlos durchlaufen, anstatt ihn hin und her scrollen zu lassen.</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextSpeedTitle">Scrollgeschwindigkeit</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextSpeedDescription">Geschwindigkeit, mit der der Text scrollt (Pixel/Sekunde). Der Standardwert ist 20.</system:String>
 </ResourceDictionary>
