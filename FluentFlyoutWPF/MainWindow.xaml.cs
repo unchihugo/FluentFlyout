@@ -712,7 +712,7 @@ public partial class MainWindow : MicaWindow
 
         pauseOtherMediaSessionsIfNeeded(mediaSession);
 
-        if (SettingsManager.Current.NextUpEnabled && !FullscreenDetector.IsFullscreenApplicationRunning()) // show NextUpWindow if enabled in settings
+        if (SettingsManager.Current.NextUpEnabled && !FullscreenDetector.IsFullscreenApplicationRunning() && !BlockedAppDetector.IsBlockedAppInForeground()) // show NextUpWindow if enabled in settings
         {
             void createNewNextUpWindow()
             {
@@ -831,6 +831,7 @@ public partial class MainWindow : MicaWindow
 
             if (SettingsManager.Current.LockKeysEnabled
                 && !FullscreenDetector.IsFullscreenApplicationRunning()
+                && !BlockedAppDetector.IsBlockedAppInForeground()
                 && wParam == WM_KEYUP)
             {
                 if (vkCode == 0x14 && SettingsManager.Current.LockKeysCapsEnabled) // Caps Lock
@@ -877,7 +878,7 @@ public partial class MainWindow : MicaWindow
         var activeSession = GetActiveMediaSession();
         if (activeSession == null ||
             (!forceShow && !SettingsManager.Current.MediaFlyoutEnabled) ||
-            FullscreenDetector.IsFullscreenApplicationRunning())
+            FullscreenDetector.IsFullscreenApplicationRunning() || BlockedAppDetector.IsBlockedAppInForeground())
             return;
 
         // If in toggle mode and flyout is visible, close it
