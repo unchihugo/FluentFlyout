@@ -124,5 +124,5 @@ https://github.com/user-attachments/assets/bfc7666f-1d59-4cbf-8d15-3855671cb147
 - [NAudio](https://github.com/naudio/NAudio)
 - [NLog](https://nlog-project.org/)
 - [System.Drawing.Common](https://dot.net/)
-- [WPF-UI](https://github.com/lepoco/wpfui)
+- [unchihugo.WPF-UI](https://github.com/unchihugo/wpfui)
 - [WPF-UI-Tray](https://github.com/lepoco/wpfui)
