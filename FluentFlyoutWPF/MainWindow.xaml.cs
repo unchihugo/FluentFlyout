@@ -270,9 +270,9 @@ public partial class MainWindow : MicaWindow
         string appId = session.Id ?? string.Empty;
         string appName = MediaPlayerData.GetAndCacheMediaPlayerData(appId).Item1 ?? appId;
 
-        if (SettingsManager.Current.AppFilteringMode == 0) // Blacklist mode
+        if (SettingsManager.Current.MediaAppFilteringMode == 0) // Blacklist mode
         {
-            if (SettingsManager.Current.BlockedApps != null && SettingsManager.Current.BlockedApps.Any(b =>
+            if (SettingsManager.Current.BlockedMediaApps != null && SettingsManager.Current.BlockedMediaApps.Any(b =>
                     appName.Contains(b, StringComparison.OrdinalIgnoreCase) ||
                     appId.Contains(b, StringComparison.OrdinalIgnoreCase)))
                 return false;
@@ -281,7 +281,7 @@ public partial class MainWindow : MicaWindow
         }
         else // Whitelist mode
         {
-            if (SettingsManager.Current.AllowedApps != null && SettingsManager.Current.AllowedApps.Any(a =>
+            if (SettingsManager.Current.AllowedMediaApps != null && SettingsManager.Current.AllowedMediaApps.Any(a =>
                     appName.Contains(a, StringComparison.OrdinalIgnoreCase) ||
                     appId.Contains(a, StringComparison.OrdinalIgnoreCase)))
                 return true;

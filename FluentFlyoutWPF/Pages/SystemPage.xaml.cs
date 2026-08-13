@@ -206,4 +206,58 @@ public partial class SystemPage : Page
     {
         SettingsWindow.NavigateToPage(typeof(AdvancedPage));
     }
+
+    private void BlockedAppsComboBox_DropDownOpened(object sender, System.EventArgs e)
+    {
+        List<Process> validProcesses = [];
+        
+        foreach (Process process in Process.GetProcesses())
+        {
+            if (!String.IsNullOrEmpty(process.MainWindowTitle) && !SettingsManager.Current.BlockedApps.Contains(process.ProcessName))
+            {
+                validProcesses.Add(process);
+            }
+        }
+
+        BlockedAppsComboBox.ItemsSource = validProcesses.Select(p => p.ProcessName).Distinct().ToList();
+    }
+
+    private void AddBlock_Click(object sender, RoutedEventArgs e)
+    {
+        String? proccessName = BlockedAppsComboBox.SelectionBoxItem?.ToString()?.Trim();
+        if (String.IsNullOrEmpty(proccessName)) return;
+        
+        SettingsManager.Current.BlockedApps.Add(proccessName);
+        SettingsManager.SaveSettings();
+        BlockedAppsComboBox.SelectedIndex = -1;
+    }
+    
+    private void RemoveBlock_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender is not Button { Tag: string app }) return;
+
+        SettingsManager.Current.BlockedApps.Remove(app);
+        SettingsManager.SaveSettings();
+    }
+    
+    private void AddBlockManual_Click(object sender, RoutedEventArgs e)
+    {
+        String app = BlockTextBox.Text.Trim();
+
+        if (String.IsNullOrEmpty(app)) return;
+        
+        if (app.EndsWith(".exe", StringComparison.OrdinalIgnoreCase))
+        {
+            app = app[..^4];
+        }
+
+        if (SettingsManager.Current.BlockedApps.Contains(app))
+        {
+            BlockTextBox.Text = String.Empty;
+            return;
+        }
+        
+        SettingsManager.Current.BlockedApps.Add(app);
+        SettingsManager.SaveSettings();
+    }
 }

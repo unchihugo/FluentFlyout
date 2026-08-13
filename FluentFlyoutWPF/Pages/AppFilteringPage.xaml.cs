@@ -104,9 +104,9 @@ public partial class AppFilteringPage : Page
     {
         var app = AllowComboBox.SelectedItem?.ToString()?.Trim();
 
-        if (string.IsNullOrEmpty(app) || SettingsManager.Current.AllowedApps.Any(a => a.Equals(app, System.StringComparison.OrdinalIgnoreCase))) return;
+        if (string.IsNullOrEmpty(app) || SettingsManager.Current.AllowedMediaApps.Any(a => a.Equals(app, System.StringComparison.OrdinalIgnoreCase))) return;
 
-        SettingsManager.Current.AllowedApps.Add(app);
+        SettingsManager.Current.AllowedMediaApps.Add(app);
         AllowComboBox.SelectedIndex = -1;
 
         SaveAndRefreshMedia();
@@ -127,9 +127,9 @@ public partial class AppFilteringPage : Page
 
         app = NormalizeAppName(app);
 
-        if (SettingsManager.Current.AllowedApps.Any(a => a.Equals(app, System.StringComparison.OrdinalIgnoreCase))) return;
+        if (SettingsManager.Current.AllowedMediaApps.Any(a => a.Equals(app, System.StringComparison.OrdinalIgnoreCase))) return;
 
-        SettingsManager.Current.AllowedApps.Add(app);
+        SettingsManager.Current.AllowedMediaApps.Add(app);
         AllowTextBox.Text = string.Empty;
 
         SaveAndRefreshMedia();
@@ -145,7 +145,7 @@ public partial class AppFilteringPage : Page
     {
         if (sender is not Button { Tag: string app }) return;
 
-        SettingsManager.Current.AllowedApps.Remove(app);
+        SettingsManager.Current.AllowedMediaApps.Remove(app);
         SaveAndRefreshMedia();
     }
 
@@ -160,9 +160,9 @@ public partial class AppFilteringPage : Page
     {
         var app = BlockComboBox.SelectedItem?.ToString()?.Trim();
 
-        if (string.IsNullOrEmpty(app) || SettingsManager.Current.BlockedApps.Any(b => b.Equals(app, System.StringComparison.OrdinalIgnoreCase))) return;
+        if (string.IsNullOrEmpty(app) || SettingsManager.Current.BlockedMediaApps.Any(b => b.Equals(app, System.StringComparison.OrdinalIgnoreCase))) return;
 
-        SettingsManager.Current.BlockedApps.Add(app);
+        SettingsManager.Current.BlockedMediaApps.Add(app);
         BlockComboBox.SelectedIndex = -1;
 
         SaveAndRefreshMedia();
@@ -183,9 +183,9 @@ public partial class AppFilteringPage : Page
 
         app = NormalizeAppName(app);
 
-        if (SettingsManager.Current.BlockedApps.Any(b => b.Equals(app, System.StringComparison.OrdinalIgnoreCase))) return;
+        if (SettingsManager.Current.BlockedMediaApps.Any(b => b.Equals(app, System.StringComparison.OrdinalIgnoreCase))) return;
 
-        SettingsManager.Current.BlockedApps.Add(app);
+        SettingsManager.Current.BlockedMediaApps.Add(app);
         BlockTextBox.Text = string.Empty;
 
         SaveAndRefreshMedia();
@@ -200,7 +200,7 @@ public partial class AppFilteringPage : Page
     {
         if (sender is not Button { Tag: string app }) return;
 
-        SettingsManager.Current.BlockedApps.Remove(app);
+        SettingsManager.Current.BlockedMediaApps.Remove(app);
 
         SaveAndRefreshMedia();
     }
