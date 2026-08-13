@@ -6,9 +6,9 @@
     <system:String x:Key="TextBlockText3">當按下媒體鍵時顯示彈出視窗</system:String>
     <system:String x:Key="TextBlockText2">選擇背景模糊樣式</system:String>
     <system:String x:Key="BackgroundBlurOption1" xml:space="preserve"> 無</system:String>
-    <system:String x:Key="BackgroundBlurOption2" xml:space="preserve"> 風格 1 (Cover Glow)</system:String>
-    <system:String x:Key="BackgroundBlurOption3" xml:space="preserve"> 風格 2 (Rising Glow)</system:String>
-    <system:String x:Key="BackgroundBlurOption4" xml:space="preserve"> 風格 3 (Blur)</system:String>
+    <system:String x:Key="BackgroundBlurOption2" xml:space="preserve"> 風格 1 (封面發光)</system:String>
+    <system:String x:Key="BackgroundBlurOption3" xml:space="preserve"> 風格 2 (底部輝光)</system:String>
+    <system:String x:Key="BackgroundBlurOption4" xml:space="preserve"> 風格 3 (封面模糊)</system:String>
     <system:String x:Key="BackgroundBlurTitle">背景模糊</system:String>
     <system:String x:Key="AcrylicWindowTitle">壓克力視窗</system:String>
     <system:String x:Key="AcrylicWindowDescription">對彈出視窗套用透明壓克力模糊效果</system:String>
@@ -250,4 +250,10 @@
     <system:String x:Key="Finish">結束</system:String>
     <system:String x:Key="TaskbarWidgetFixedWidthTitle">固定小工具寬度</system:String>
     <system:String x:Key="EnableScrollTitle">啟用 Scroll Lock 指示符</system:String>
+    <system:String x:Key="OnboardingStepsCounter">第 {0} 步 / 共 {1} 步</system:String>
+    <system:String x:Key="BlockedAppsDescription">不顯示下方列表中應用的媒體信息</system:String>
+    <system:String x:Key="AddAppManuallyText">找不到您的應用？在下方直接輸入：</system:String>
+    <system:String x:Key="AppFilteringPlaceholderSpotify">例如：Spotify.exe</system:String>
+    <system:String x:Key="AppFilteringPlaceholderChrome">例如：Chrome.exe</system:String>
+    <system:String x:Key="AppFilteringComboBoxHint">選著一個當前正在播放媒體的應用進行添加</system:String>
 </ResourceDictionary>
