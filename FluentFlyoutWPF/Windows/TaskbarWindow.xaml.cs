@@ -691,15 +691,16 @@ on_error:
                 // Start delayed hide
                 if (_autoHideTimer == null)
                 {
-                    _autoHideTimer = new DispatcherTimer
+                    var localTimer = new DispatcherTimer
                     {
                         Interval = TimeSpan.FromMilliseconds(750)
                     };
 
-                    _autoHideTimer.Tick += (s, e) =>
+                    localTimer.Tick += (s, e) =>
                     {
-                        _autoHideTimer.Stop();
-                        _autoHideTimer = null;
+                        localTimer.Stop();
+                        if (_autoHideTimer == localTimer)
+                            _autoHideTimer = null;
 
                         if (_lastPlaybackStatus != GlobalSystemMediaTransportControlsSessionPlaybackStatus.Playing)
                         {
@@ -710,7 +711,8 @@ on_error:
                         }
                     };
 
-                    _autoHideTimer.Start();
+                    _autoHideTimer = localTimer;
+                    localTimer.Start();
                 }
             }
         }
