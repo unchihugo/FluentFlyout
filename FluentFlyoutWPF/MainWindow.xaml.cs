@@ -270,9 +270,9 @@ public partial class MainWindow : MicaWindow
         string appId = session.Id ?? string.Empty;
         string appName = MediaPlayerData.GetAndCacheMediaPlayerData(appId).Item1 ?? appId;
 
-        if (SettingsManager.Current.AppFilteringMode == 0) // Blacklist mode
+        if (SettingsManager.Current.MediaAppFilteringMode == 0) // Blacklist mode
         {
-            if (SettingsManager.Current.BlockedApps != null && SettingsManager.Current.BlockedApps.Any(b =>
+            if (SettingsManager.Current.BlockedMediaApps != null && SettingsManager.Current.BlockedMediaApps.Any(b =>
                     appName.Contains(b, StringComparison.OrdinalIgnoreCase) ||
                     appId.Contains(b, StringComparison.OrdinalIgnoreCase)))
                 return false;
@@ -281,7 +281,7 @@ public partial class MainWindow : MicaWindow
         }
         else // Whitelist mode
         {
-            if (SettingsManager.Current.AllowedApps != null && SettingsManager.Current.AllowedApps.Any(a =>
+            if (SettingsManager.Current.AllowedMediaApps != null && SettingsManager.Current.AllowedMediaApps.Any(a =>
                     appName.Contains(a, StringComparison.OrdinalIgnoreCase) ||
                     appId.Contains(a, StringComparison.OrdinalIgnoreCase)))
                 return true;
@@ -712,7 +712,9 @@ public partial class MainWindow : MicaWindow
 
         pauseOtherMediaSessionsIfNeeded(mediaSession);
 
-        if (SettingsManager.Current.NextUpEnabled && !FullscreenDetector.IsFullscreenApplicationRunning()) // show NextUpWindow if enabled in settings
+        if (SettingsManager.Current.NextUpEnabled
+            && !FullscreenDetector.IsFullscreenApplicationRunning()
+            && !BlockedAppDetector.IsBlockedAppInForeground(GetSelectedMonitor(SettingsManager.Current.FlyoutSelectedMonitor))) // show NextUpWindow if enabled in settings
         {
             void createNewNextUpWindow()
             {
@@ -831,6 +833,12 @@ public partial class MainWindow : MicaWindow
 
             if (SettingsManager.Current.LockKeysEnabled
                 && !FullscreenDetector.IsFullscreenApplicationRunning()
+                && !BlockedAppDetector.IsBlockedAppInForeground(SettingsManager.Current.LockKeysMonitorPreference switch
+                {
+                    1 => GetMonitorWithFocusedWindow(),
+                    2 => GetMonitorWithCursor(),
+                    _ => GetSelectedMonitor(SettingsManager.Current.FlyoutSelectedMonitor)
+                })
                 && wParam == WM_KEYUP)
             {
                 if (vkCode == 0x14 && SettingsManager.Current.LockKeysCapsEnabled) // Caps Lock
@@ -877,7 +885,7 @@ public partial class MainWindow : MicaWindow
         var activeSession = GetActiveMediaSession();
         if (activeSession == null ||
             (!forceShow && !SettingsManager.Current.MediaFlyoutEnabled) ||
-            FullscreenDetector.IsFullscreenApplicationRunning())
+            FullscreenDetector.IsFullscreenApplicationRunning() || BlockedAppDetector.IsBlockedAppInForeground(GetSelectedMonitor(SettingsManager.Current.FlyoutSelectedMonitor)))
             return;
 
         // If in toggle mode and flyout is visible, close it

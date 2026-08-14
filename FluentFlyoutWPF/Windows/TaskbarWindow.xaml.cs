@@ -157,7 +157,7 @@ public partial class TaskbarWindow : Window
         // Actually, I couldn't achieve that kind of behavior.
         if (mainHwnd != IntPtr.Zero)
         {
-            uint threadId = GetWindowThreadProcessId(mainHwnd, IntPtr.Zero);
+            uint threadId = GetWindowThreadProcessId(mainHwnd, out _);
             EnumThreadWindows(threadId, (wnd, param) =>
             {
                 secondHwnd = checkWindowClass(wnd);

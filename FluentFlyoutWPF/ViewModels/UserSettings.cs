@@ -509,6 +509,18 @@ public partial class UserSettings : ObservableObject
     public partial bool TaskbarVisualizerEnabled { get; set; }
 
     /// <summary>
+    /// Returns a list of apps that disable Flyouts when on the foreground.
+    /// </summary>
+    [ObservableProperty]
+    public partial ObservableCollection<string> BlockedApps { get; set; }
+
+    /// <summary>
+    /// Returns whether flytouts are allowed if they're on a different monitor than the one with the blocked app.
+    /// </summary>
+    [ObservableProperty]
+    public partial bool AllowBlockedAppsOnDifferentMonitor { get; set; }
+
+    /// <summary>
     /// Returns whether app filtering is enabled or disabled.
     /// </summary>
     [ObservableProperty]
@@ -518,19 +530,19 @@ public partial class UserSettings : ObservableObject
     /// Returns the active filtering mode. 0 for Whitelist, 1 for Blacklist.
     /// </summary>
     [ObservableProperty]
-    public partial int AppFilteringMode { get; set; }
+    public partial int MediaAppFilteringMode { get; set; }
 
     /// <summary>
     /// Returns a list of apps that are allowed to display media/update the taskbar.
     /// </summary>
     [ObservableProperty]
-    public partial ObservableCollection<string> AllowedApps { get; set; }
+    public partial ObservableCollection<string> AllowedMediaApps { get; set; }
 
     /// <summary>
     /// Returns a list of apps that are NOT allowed to display media/update the taskbar.
     /// </summary>
     [ObservableProperty]
-    public partial ObservableCollection<string> BlockedApps { get; set; }
+    public partial ObservableCollection<string> BlockedMediaApps { get; set; }
 
     /// <summary>
     /// Position of the visualizer, where 0 and 1 are to the left or right of the widget.
@@ -750,7 +762,7 @@ public partial class UserSettings : ObservableObject
         TaskbarWidgetScrollingTextLoopForever = false;
         TaskbarVisualizerEnabled = false;
         AppFilteringEnabled = false;
-        AppFilteringMode = 0;
+        MediaAppFilteringMode = 0;
         TaskbarVisualizerPosition = 1;
         TaskbarVisualizerClickable = true;
         TaskbarVisualizerBarCount = 10;
@@ -771,8 +783,10 @@ public partial class UserSettings : ObservableObject
         LegacyTaskbarWidthEnabled = false;
         Uuid = Guid.NewGuid();
         AnonymousTelemetryAllowed = true;
-        AllowedApps = [];
+        AllowedMediaApps = [];
+        BlockedMediaApps = [];
         BlockedApps = [];
+        AllowBlockedAppsOnDifferentMonitor = false;
 
         PropertyChanged += OnPropertyChangedSaveSettings;
     }
@@ -1019,7 +1033,7 @@ public partial class UserSettings : ObservableObject
         mainWindow?.RefreshFilteredMedia();
     }
 
-    partial void OnAppFilteringModeChanged(int oldValue, int newValue)
+    partial void OnMediaAppFilteringModeChanged(int oldValue, int newValue)
     {
         if (oldValue == newValue || _initializing) return;
 
