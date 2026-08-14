@@ -712,7 +712,9 @@ public partial class MainWindow : MicaWindow
 
         pauseOtherMediaSessionsIfNeeded(mediaSession);
 
-        if (SettingsManager.Current.NextUpEnabled && !FullscreenDetector.IsFullscreenApplicationRunning() && !BlockedAppDetector.IsBlockedAppInForeground()) // show NextUpWindow if enabled in settings
+        if (SettingsManager.Current.NextUpEnabled 
+            && !FullscreenDetector.IsFullscreenApplicationRunning() 
+            && !BlockedAppDetector.IsBlockedAppInForeground(GetSelectedMonitor(SettingsManager.Current.FlyoutSelectedMonitor))) // show NextUpWindow if enabled in settings
         {
             void createNewNextUpWindow()
             {
@@ -831,7 +833,12 @@ public partial class MainWindow : MicaWindow
 
             if (SettingsManager.Current.LockKeysEnabled
                 && !FullscreenDetector.IsFullscreenApplicationRunning()
-                && !BlockedAppDetector.IsBlockedAppInForeground()
+                && !BlockedAppDetector.IsBlockedAppInForeground(SettingsManager.Current.LockKeysMonitorPreference switch
+                {
+                    1 => GetMonitorWithFocusedWindow(),
+                    2 => GetMonitorWithCursor(),
+                    _ => GetSelectedMonitor(SettingsManager.Current.FlyoutSelectedMonitor)
+                })
                 && wParam == WM_KEYUP)
             {
                 if (vkCode == 0x14 && SettingsManager.Current.LockKeysCapsEnabled) // Caps Lock
@@ -878,7 +885,7 @@ public partial class MainWindow : MicaWindow
         var activeSession = GetActiveMediaSession();
         if (activeSession == null ||
             (!forceShow && !SettingsManager.Current.MediaFlyoutEnabled) ||
-            FullscreenDetector.IsFullscreenApplicationRunning() || BlockedAppDetector.IsBlockedAppInForeground())
+            FullscreenDetector.IsFullscreenApplicationRunning() || BlockedAppDetector.IsBlockedAppInForeground(GetSelectedMonitor(SettingsManager.Current.FlyoutSelectedMonitor)))
             return;
 
         // If in toggle mode and flyout is visible, close it

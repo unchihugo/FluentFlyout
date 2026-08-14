@@ -3,6 +3,7 @@
 
 using FluentFlyout.Classes;
 using FluentFlyout.Classes.Settings;
+using FluentFlyoutWPF.Classes.Utils;
 using System.Diagnostics;
 
 namespace FluentFlyoutWPF.Classes;
@@ -10,8 +11,8 @@ namespace FluentFlyoutWPF.Classes;
 public static class BlockedAppDetector
 {
     private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
-
-    public static bool IsBlockedAppInForeground()
+    
+    public static bool IsBlockedAppInForeground(MonitorUtil.MonitorInfo flyoutMonitor)
     {
         // Get the handle of the foreground window
         IntPtr foregroundWindowHandle = NativeMethods.GetForegroundWindow();
@@ -32,6 +33,14 @@ public static class BlockedAppDetector
         }
         
         // Check if the process name is in the blocked apps list
-        return SettingsManager.Current.BlockedApps.Contains(processName, StringComparer.OrdinalIgnoreCase);
+        bool isBlocked = SettingsManager.Current.BlockedApps.Contains(processName, StringComparer.OrdinalIgnoreCase);
+        
+        // If the "Other Monitors" option is disabled, return "isBlocked"
+        if (!SettingsManager.Current.AllowBlockedAppsOnDifferentMonitor) return isBlocked;
+        
+        // Get the monitor of the foreground window
+        MonitorUtil.MonitorInfo foregroundAppMonitor = MonitorUtil.GetMonitor(foregroundWindowHandle);
+
+        return foregroundAppMonitor.deviceId.Equals(flyoutMonitor.deviceId) && isBlocked;
     }
 }

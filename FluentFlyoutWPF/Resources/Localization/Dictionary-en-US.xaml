@@ -206,8 +206,10 @@ Note: As an open-source project, these features are also available for free via 
     <System:String x:Key="MediaAppFilteringComboBoxHint">Select a currently playing app to add</System:String>
     <System:String x:Key="AddButton">Add</System:String>
     <System:String x:Key="RemoveButton">Remove</System:String>
-    <System:String x:Key="BlockedAppsTitle">Excluded Apps</System:String>
+    <System:String x:Key="BlockedAppsTitle">Blocked Apps</System:String>
     <System:String x:Key="BlockedAppsDescription">Stops Flyouts from appearing when any of these apps are in the foreground</System:String>
+    <System:String x:Key="AllowBlockedAppsInOtherMonitorTitle">Allow on other monitors</System:String>
+    <System:String x:Key="AllowBlockedAppsInOtherMonitorDescription">Allow Flyouts to appear if on a different monitor</System:String>
     <System:String x:Key="AppFilteringComboBoxHint">Select a currently open app to add</System:String>
     <System:String x:Key="AboutTitle">About</System:String>
     <System:String x:Key="AboutContributorsTitle">❤️ Meet Our Contributors</System:String>

@@ -202,6 +202,18 @@
                             <ui:Button Grid.Column="1" Content="{DynamicResource AddButton}" Click="AddBlockManual_Click" Appearance="Secondary" />
                         </Grid>
                     </StackPanel>
+                    
+                    <StackPanel Margin="0,16,0,0">
+                        <ui:CardControl x:Name="AllowOtherMonitors" Tag="Indexable" Icon="{ui:SymbolIcon DualScreen24}" Margin="0,0,0,3">
+                            <ui:CardControl.Header>
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock Text="{DynamicResource AllowBlockedAppsInOtherMonitorTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
+                                    <TextBlock Text="{DynamicResource AllowBlockedAppsInOtherMonitorDescription}" FontSize="12" Opacity="0.5" />
+                                </StackPanel>
+                            </ui:CardControl.Header>
+                            <ui:ToggleSwitch Name="AllowOtherMonitorsSwitch" IsChecked="{Binding AllowBlockedAppsOnDifferentMonitor, Mode=TwoWay}" />
+                        </ui:CardControl>
+                    </StackPanel>
                 </StackPanel>
             </ui:CardExpander>
 
