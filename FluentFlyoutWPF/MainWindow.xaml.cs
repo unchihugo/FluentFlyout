@@ -712,8 +712,8 @@ public partial class MainWindow : MicaWindow
 
         pauseOtherMediaSessionsIfNeeded(mediaSession);
 
-        if (SettingsManager.Current.NextUpEnabled 
-            && !FullscreenDetector.IsFullscreenApplicationRunning() 
+        if (SettingsManager.Current.NextUpEnabled
+            && !FullscreenDetector.IsFullscreenApplicationRunning()
             && !BlockedAppDetector.IsBlockedAppInForeground(GetSelectedMonitor(SettingsManager.Current.FlyoutSelectedMonitor))) // show NextUpWindow if enabled in settings
         {
             void createNewNextUpWindow()

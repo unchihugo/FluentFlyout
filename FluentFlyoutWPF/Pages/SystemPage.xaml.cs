@@ -210,7 +210,7 @@ public partial class SystemPage : Page
     private void BlockedAppsComboBox_DropDownOpened(object sender, System.EventArgs e)
     {
         List<Process> validProcesses = [];
-        
+
         foreach (Process process in Process.GetProcesses())
         {
             if (!String.IsNullOrEmpty(process.MainWindowTitle) && !SettingsManager.Current.BlockedApps.Contains(process.ProcessName))
@@ -226,12 +226,12 @@ public partial class SystemPage : Page
     {
         String? proccessName = BlockedAppsComboBox.SelectionBoxItem?.ToString()?.Trim();
         if (String.IsNullOrEmpty(proccessName)) return;
-        
+
         SettingsManager.Current.BlockedApps.Add(proccessName);
         SettingsManager.SaveSettings();
         BlockedAppsComboBox.SelectedIndex = -1;
     }
-    
+
     private void RemoveBlock_Click(object sender, RoutedEventArgs e)
     {
         if (sender is not Button { Tag: string app }) return;
@@ -239,13 +239,13 @@ public partial class SystemPage : Page
         SettingsManager.Current.BlockedApps.Remove(app);
         SettingsManager.SaveSettings();
     }
-    
+
     private void AddBlockManual_Click(object sender, RoutedEventArgs e)
     {
         String app = BlockTextBox.Text.Trim();
 
         if (String.IsNullOrEmpty(app)) return;
-        
+
         if (app.EndsWith(".exe", StringComparison.OrdinalIgnoreCase))
         {
             app = app[..^4];
@@ -256,7 +256,7 @@ public partial class SystemPage : Page
             BlockTextBox.Text = String.Empty;
             return;
         }
-        
+
         SettingsManager.Current.BlockedApps.Add(app);
         SettingsManager.SaveSettings();
     }

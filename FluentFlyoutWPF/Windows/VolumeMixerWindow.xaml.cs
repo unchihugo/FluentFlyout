@@ -60,7 +60,7 @@ public partial class VolumeMixerWindow : MicaWindow
     // one day we might want to convert these to an interface
     public async void ShowFlyout()
     {
-        if (FullscreenDetector.IsFullscreenApplicationRunning() 
+        if (FullscreenDetector.IsFullscreenApplicationRunning()
             || BlockedAppDetector.IsBlockedAppInForeground(MonitorUtil.GetSelectedMonitor(SettingsManager.Current.FlyoutSelectedMonitor)))
             return;
 

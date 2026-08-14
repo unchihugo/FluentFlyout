@@ -513,13 +513,13 @@ public partial class UserSettings : ObservableObject
     /// </summary>
     [ObservableProperty]
     public partial ObservableCollection<string> BlockedApps { get; set; }
-    
+
     /// <summary>
     /// Returns whether flytouts are allowed if they're on a different monitor than the one with the blocked app.
     /// </summary>
     [ObservableProperty]
     public partial bool AllowBlockedAppsOnDifferentMonitor { get; set; }
-    
+
     /// <summary>
     /// Returns whether app filtering is enabled or disabled.
     /// </summary>
@@ -787,7 +787,7 @@ public partial class UserSettings : ObservableObject
         BlockedMediaApps = [];
         BlockedApps = [];
         AllowBlockedAppsOnDifferentMonitor = false;
-        
+
         PropertyChanged += OnPropertyChangedSaveSettings;
     }
 
