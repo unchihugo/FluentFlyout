@@ -288,4 +288,12 @@
     <system:String x:Key="TaskbarWidgetScrollingTextSpeedTitle">Скорость прокрутки</system:String>
     <system:String x:Key="Back">Назад</system:String>
     <system:String x:Key="OnboardingStepsCounter">Шаг {0} из {1}</system:String>
+    <system:String x:Key="LanguageFlyoutTitle">Окно раскладки клавиатуры</system:String>
+    <system:String x:Key="LanguageFlyoutDescription">Отображать всплывающее окно при переключении языка ввода</system:String>
+    <system:String x:Key="LanguageFlyoutShowRegionTitle">Показывать страну / регион</system:String>
+    <system:String x:Key="LanguageFlyoutShowRegionDescription">Включать страну или регион в скобках (например, Русский (Россия))</system:String>
+    <system:String x:Key="LanguageFlyoutDurationTitle">Время отображения</system:String>
+    <system:String x:Key="LanguageFlyoutDurationDescription">Длительность отображения окна смены языка</system:String>
+    <system:String x:Key="LanguageFlyoutWidthTitle">Ширина окна</system:String>
+    <system:String x:Key="LanguageFlyoutWidthDescription">Настраиваемая ширина окна смены языка в пикселях</system:String>
 </ResourceDictionary>
