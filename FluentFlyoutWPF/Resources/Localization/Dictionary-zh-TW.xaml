@@ -11,7 +11,7 @@
     <system:String x:Key="BackgroundBlurOption4" xml:space="preserve"> 風格 3 (Blur)</system:String>
     <system:String x:Key="BackgroundBlurTitle">背景模糊</system:String>
     <system:String x:Key="AcrylicWindowTitle">壓克力視窗</system:String>
-    <system:String x:Key="AcrylicWindowDescription">對彈出視窗套用透明壓克力模糊效果（關閉則恢復為雲母效果)</system:String>
+    <system:String x:Key="AcrylicWindowDescription">對彈出視窗套用透明壓克力模糊效果</system:String>
     <system:String x:Key="CompactLayoutTitle">緊湊佈局</system:String>
     <system:String x:Key="CompactLayoutDescription" xml:space="preserve">更簡潔、更不顯眼的佈局
 隱藏重複播放、隨機播放和播放器訊息</system:String>
@@ -245,4 +245,9 @@
     <system:String x:Key="VolumeMixerHighlightTitle">顯示正在播放音頻的應用</system:String>
     <system:String x:Key="EnableVolumeFlyoutTitle">啓用音量浮窗</system:String>
     <system:String x:Key="VolumeMixerSectionTitle">音量混合器</system:String>
+    <system:String x:Key="Back">返回</system:String>
+    <system:String x:Key="Next">下一步</system:String>
+    <system:String x:Key="Finish">結束</system:String>
+    <system:String x:Key="TaskbarWidgetFixedWidthTitle">固定小工具寬度</system:String>
+    <system:String x:Key="EnableScrollTitle">啟用 Scroll Lock 指示符</system:String>
 </ResourceDictionary>

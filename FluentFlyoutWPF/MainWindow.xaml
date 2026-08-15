@@ -161,7 +161,7 @@
                                              Click="MediaIdButton_Click">
                                 <StackPanel Orientation="Horizontal" Margin="2,0">
                                     <Image x:Name="MediaIdIcon" Width="14" Height="14"/>
-                                    <TextBlock Name="MediaId" VerticalAlignment="Center" FontSize="10" Width="50" Margin="6,0,0,0" FontWeight="Regular" Opacity="0.25" TextWrapping="Wrap" TextTrimming="CharacterEllipsis"/>
+                                    <TextBlock Name="MediaId" VerticalAlignment="Center" FontSize="10" Width="48" Margin="4,0,0,0" FontWeight="Regular" Opacity="0.25" TextWrapping="Wrap" TextTrimming="CharacterEllipsis"/>
                                 </StackPanel>
                             </controls:Button>
 
