@@ -32,6 +32,8 @@ public partial class TaskbarWidgetControl : UserControl
     private string _cachedArtistText = string.Empty;
     private double _cachedTitleWidth = 0;
     private double _cachedArtistWidth = 0;
+    private double _layoutTitleWidth = 0;
+    private double _layoutArtistWidth = 0;
     private double _cachedTitleContainerWidth = -1;
     private double _cachedArtistContainerWidth = -1;
     private readonly int _extraMarginForText = 6; // additional margin to avoid text clipping
@@ -43,6 +45,7 @@ public partial class TaskbarWidgetControl : UserControl
 
     private string _actualTitle = string.Empty;
     private string _actualArtist = string.Empty;
+    private readonly TrackIdentityTracker _trackIdentityTracker = new();
 
     // reference to main window for flyout functions
     private MainWindow? _mainWindow;
@@ -243,7 +246,7 @@ public partial class TaskbarWidgetControl : UserControl
         }
         else
         {
-            logicalWidth = Math.Max(_cachedTitleWidth, _cachedArtistWidth) + _coverImageMargin + _extraMarginForText; // add margin for cover image
+            logicalWidth = Math.Max(_layoutTitleWidth, _layoutArtistWidth) + _coverImageMargin + _extraMarginForText; // add margin for cover image
             logicalWidth = Math.Min(logicalWidth, maxLogicalWidth);
         }
 
@@ -434,7 +437,7 @@ public partial class TaskbarWidgetControl : UserControl
         }
     }
 
-    public void UpdateUi(string title, string artist, BitmapImage? icon, GlobalSystemMediaTransportControlsSessionPlaybackStatus? playbackStatus, GlobalSystemMediaTransportControlsSessionPlaybackControls? playbackControls = null)
+    public void UpdateUi(string title, string artist, BitmapImage? icon, GlobalSystemMediaTransportControlsSessionPlaybackStatus? playbackStatus, GlobalSystemMediaTransportControlsSessionPlaybackControls? playbackControls = null, bool updateArtwork = true)
     {
         if (title == "-" && artist == "-")
         {
@@ -443,6 +446,9 @@ public partial class TaskbarWidgetControl : UserControl
             {
                 _actualTitle = string.Empty;
                 _actualArtist = string.Empty;
+                _trackIdentityTracker.Reset();
+                _layoutTitleWidth = 0;
+                _layoutArtistWidth = 0;
 
                 if (SettingsManager.Current.TaskbarWidgetHideCompletely)
                 {
@@ -505,17 +511,35 @@ public partial class TaskbarWidgetControl : UserControl
         {
             string newTitle = !string.IsNullOrEmpty(title) ? title : "-";
             string newArtist = !string.IsNullOrEmpty(artist) ? artist : "-";
+            // Some media players expose synced lyrics through the title field and move the
+            // original metadata to the artist field as "title - artist". Keep the widget's
+            // layout tied to the original track metadata so each lyric line does not resize
+            // the whole widget and shift the cover art or playback controls.
+            bool trackChanged = _trackIdentityTracker.Update(newTitle, newArtist);
+            string displayArtist = _trackIdentityTracker.IsLyricsUpdate
+                ? _trackIdentityTracker.DisplayArtist
+                : newArtist;
+            bool titleChanged = !string.Equals(_actualTitle, newTitle, StringComparison.Ordinal);
+            bool artistChanged = !string.Equals(_actualArtist, displayArtist, StringComparison.Ordinal);
 
-            if (_actualTitle != newTitle || _actualArtist != newArtist)
+            if (trackChanged || _layoutTitleWidth <= 0 || _layoutArtistWidth <= 0)
             {
-                // changed info
+                _layoutTitleWidth = Math.Round(StringWidth.GetStringWidth(newTitle, 400), 2);
+                _layoutArtistWidth = Math.Round(StringWidth.GetStringWidth(displayArtist, 400), 2);
+            }
+
+            if (titleChanged || artistChanged)
+            {
                 if (SettingsManager.Current.TaskbarWidgetAnimated)
                 {
-                    AnimateEntrance();
+                    if (trackChanged)
+                        AnimateEntrance();
+                    else if (titleChanged)
+                        AnimateTitleChange();
                 }
 
                 _actualTitle = newTitle;
-                _actualArtist = newArtist;
+                _actualArtist = displayArtist;
 
                 SongTitle.Text = _actualTitle;
                 SongArtist.Text = _actualArtist;
@@ -524,20 +548,25 @@ public partial class TaskbarWidgetControl : UserControl
             // Update tooltip with song info
             SongInfoStackPanel.ToolTip = string.Empty;
             SongInfoStackPanel.ToolTip += !string.IsNullOrEmpty(title) ? title : string.Empty;
-            SongInfoStackPanel.ToolTip += !string.IsNullOrEmpty(artist) ? "\n\n" + artist : string.Empty;
+            SongInfoStackPanel.ToolTip += !string.IsNullOrEmpty(_actualArtist) ? "\n\n" + _actualArtist : string.Empty;
 
             if (SettingsManager.Current.TaskbarWidgetControlsEnabled)
             {
                 PlayPauseButton.Icon = _isPaused ? new SymbolIcon(SymbolRegular.Play24, filled: true) : new SymbolIcon(SymbolRegular.Pause24, filled: true);
             }
 
-            // change color of icon
-            SolidColorBrush brush = BitmapHelper.SavedDominantColors.Count > 0 ?
-                BitmapHelper.SavedDominantColors.Last()
-                : (SolidColorBrush)Application.Current.TryFindResource("MicaWPF.Brushes.SystemAccentColorTertiary");
-            SongImagePlaceholder.Foreground = brush;
+            if (updateArtwork)
+            {
+                SolidColorBrush brush = BitmapHelper.SavedDominantColors.Count > 0 ?
+                    BitmapHelper.SavedDominantColors.Last()
+                    : (SolidColorBrush)Application.Current.TryFindResource("MicaWPF.Brushes.SystemAccentColorTertiary");
+                SongImagePlaceholder.Foreground = brush;
 
-            if (icon != null)
+                SongImage.ImageSource = icon;
+                BackgroundImage.Source = icon;
+            }
+
+            if (SongImage.ImageSource != null)
             {
                 if (_isPaused && SettingsManager.Current.TaskbarWidgetShowPauseOverlay)
                 { // show pause icon overlay
@@ -550,20 +579,16 @@ public partial class TaskbarWidgetControl : UserControl
                     SongImagePlaceholder.Visibility = Visibility.Collapsed;
                     SongImage.Opacity = 1;
                 }
-                SongImage.ImageSource = icon;
-                BackgroundImage.Source = icon;
                 SongImageBorder.Margin = new Thickness(0, 0, 0, -2); // align image better when cover is present
             }
             else
             {
                 SongImagePlaceholder.Symbol = SymbolRegular.MusicNote220;
                 SongImagePlaceholder.Visibility = Visibility.Visible;
-                SongImage.ImageSource = null;
-                BackgroundImage.Source = null;
             }
 
             SongTitle.Visibility = Visibility.Visible;
-            SongArtist.Visibility = !string.IsNullOrEmpty(artist) ? Visibility.Visible : Visibility.Collapsed; // hide artist if it's not available
+            SongArtist.Visibility = !string.IsNullOrEmpty(_actualArtist) ? Visibility.Visible : Visibility.Collapsed; // hide artist if it's not available
             SongInfoStackPanel.Visibility = Visibility.Visible;
             BackgroundImage.Visibility = SettingsManager.Current.TaskbarWidgetBackgroundBlur ? Visibility.Visible : Visibility.Collapsed;
 
@@ -576,13 +601,14 @@ public partial class TaskbarWidgetControl : UserControl
         });
     }
 
-    private async void AnimateEntrance()
+    private void AnimateTitleChange()
     {
         try
         {
             int msDuration = MainWindow.getDuration();
 
-            // opacity and left to right animation for SongInfoStackPanel
+            // Animate only the title container. Animating SongInfoStackPanel or
+            // ControlsStackPanel makes lyric updates look like the whole widget reloads.
             DoubleAnimation opacityAnimation = new()
             {
                 From = 0.0,
@@ -600,19 +626,49 @@ public partial class TaskbarWidgetControl : UserControl
             };
 
             // Apply animations
-            SongInfoStackPanel.BeginAnimation(OpacityProperty, opacityAnimation);
+            SongTitleContainer.BeginAnimation(OpacityProperty, opacityAnimation);
             TranslateTransform translateTransform = new();
-            SongInfoStackPanel.RenderTransform = translateTransform;
+            SongTitleContainer.RenderTransform = translateTransform;
             translateTransform.BeginAnimation(TranslateTransform.XProperty, translateAnimation);
+        }
+        catch (Exception ex)
+        {
+            Logger.Error(ex, "Taskbar Widget error during title animation");
+        }
+    }
 
-            // don't play ControlsStackPanel animation if it's not enabled
+    private void AnimateEntrance()
+    {
+        try
+        {
+            int msDuration = MainWindow.getDuration();
+            DoubleAnimation opacityAnimation = new()
+            {
+                From = 0.0,
+                To = 1.0,
+                Duration = TimeSpan.FromMilliseconds(msDuration),
+                EasingFunction = new QuarticEase { EasingMode = EasingMode.EaseOut }
+            };
+            DoubleAnimation translateAnimation = new()
+            {
+                From = -10,
+                To = 0,
+                Duration = TimeSpan.FromMilliseconds(msDuration),
+                EasingFunction = new QuarticEase { EasingMode = EasingMode.EaseOut }
+            };
+
+            SongInfoStackPanel.BeginAnimation(OpacityProperty, opacityAnimation);
+            TranslateTransform songInfoTransform = new();
+            SongInfoStackPanel.RenderTransform = songInfoTransform;
+            songInfoTransform.BeginAnimation(TranslateTransform.XProperty, translateAnimation);
+
             if (!SettingsManager.Current.TaskbarWidgetControlsEnabled)
                 return;
 
             ControlsStackPanel.BeginAnimation(OpacityProperty, opacityAnimation);
-            TranslateTransform translateTransform2 = new();
-            ControlsStackPanel.RenderTransform = translateTransform2;
-            translateTransform2.BeginAnimation(TranslateTransform.XProperty, translateAnimation);
+            TranslateTransform controlsTransform = new();
+            ControlsStackPanel.RenderTransform = controlsTransform;
+            controlsTransform.BeginAnimation(TranslateTransform.XProperty, translateAnimation);
         }
         catch (Exception ex)
         {
