@@ -88,21 +88,29 @@ public partial class MainWindow : MicaWindow
 
         if (!singleton.WaitOne(TimeSpan.Zero, true)) // if another instance is already running, close this one
         {
-            // Signal the existing instance to open settings
-            Task.Run(() =>
+            // Signal the existing instance to open settings, unless this instance was
+            // auto-started via the app's own startup entry (launched with "--startup").
+            if (!IsStartupLaunch())
             {
-                try
+                Task.Run(() =>
                 {
-                    using (EventWaitHandle settingsEvent = new EventWaitHandle(false, EventResetMode.AutoReset, "FluentFlyout_OpenSettings"))
+                    try
                     {
-                        settingsEvent.Set();
+                        using (EventWaitHandle settingsEvent = new EventWaitHandle(false, EventResetMode.AutoReset, "FluentFlyout_OpenSettings"))
+                        {
+                            settingsEvent.Set();
+                        }
                     }
-                }
-                catch (Exception ex)
-                {
-                    Logger.Error(ex, "Failed to signal existing instance");
-                }
-            });
+                    catch (Exception ex)
+                    {
+                        Logger.Error(ex, "Failed to signal existing instance");
+                    }
+                });
+            }
+            else
+            {
+                Logger.Info("Duplicate instance started by the app's startup entry; exiting without opening settings");
+            }
 
             Environment.Exit(0);
         }
@@ -147,7 +155,7 @@ public partial class MainWindow : MicaWindow
             RegistryKey? key = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
             string? executablePath = Environment.ProcessPath;
             if (key != null && executablePath != null)
-                key.SetValue("FluentFlyout", executablePath);
+                key.SetValue("FluentFlyout", $"\"{executablePath}\" --startup");
         }
 
         // display tray icon if enabled
@@ -217,6 +225,11 @@ public partial class MainWindow : MicaWindow
         OnboardingExperiment(previousVersion);
     }
 
+    private static bool IsStartupLaunch()
+    {
+        return Environment.GetCommandLineArgs().Any(a => a.Equals("--startup", StringComparison.OrdinalIgnoreCase));
+    }
+
     private void OnboardingExperiment(string previousVersion)
     {
         // show onboarding to new users (no previous version stored = user has never run the app before)
@@ -272,30 +285,22 @@ public partial class MainWindow : MicaWindow
 
         if (SettingsManager.Current.AppFilteringMode == 0) // Blacklist mode
         {
-            if (SettingsManager.Current.BlockedApps != null &&
-                SettingsManager.Current.BlockedApps.Any(b => MatchesFilterEntry(b, appName, appId)))
+            if (SettingsManager.Current.BlockedApps != null && SettingsManager.Current.BlockedApps.Any(b =>
+                    appName.Contains(b, StringComparison.OrdinalIgnoreCase) ||
+                    appId.Contains(b, StringComparison.OrdinalIgnoreCase)))
                 return false;
 
             return true;
         }
         else // Whitelist mode
         {
-            if (SettingsManager.Current.AllowedApps != null &&
-                SettingsManager.Current.AllowedApps.Any(a => MatchesFilterEntry(a, appName, appId)))
+            if (SettingsManager.Current.AllowedApps != null && SettingsManager.Current.AllowedApps.Any(a =>
+                    appName.Contains(a, StringComparison.OrdinalIgnoreCase) ||
+                    appId.Contains(a, StringComparison.OrdinalIgnoreCase)))
                 return true;
 
             return false;
         }
-    }
-
-    // display names are matched in full: entries always hold a whole app name, and a substring match let one entry
-    // swallow others (blocking "Amazon Music" also blocked "Amazon Music SMTC Bridge"). the session id keeps substring
-    // matching so an entry can still target a whole package or publisher
-    private static bool MatchesFilterEntry(string entry, string appName, string appId)
-    {
-        if (string.IsNullOrWhiteSpace(entry)) return false; // an empty entry would match every session
-
-        return appName.Equals(entry, StringComparison.OrdinalIgnoreCase) || appId.Contains(entry, StringComparison.OrdinalIgnoreCase);
     }
 
     public MediaSession? GetActiveMediaSession()

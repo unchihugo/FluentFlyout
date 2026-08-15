@@ -41,7 +41,7 @@ public partial class SystemPage : Page
             {
                 if (File.Exists(executablePath))
                 {
-                    key.SetValue(appName, executablePath);
+                    key.SetValue(appName, $"\"{executablePath}\" --startup");
                 }
                 else
                 {
