@@ -1735,7 +1735,6 @@ public partial class MainWindow : MicaWindow
                 return 0;
             }
 
-            // check if the changed setting is related to theme or accent color
             string? changedSetting = lParam == IntPtr.Zero ? null : Marshal.PtrToStringUni(lParam);
             if (changedSetting == "SystemDockMode")
             {
@@ -1743,6 +1742,7 @@ public partial class MainWindow : MicaWindow
                 return 0;
             }
 
+            // check if the changed setting is related to theme or accent color
             if (changedSetting != "ImmersiveColorSet" && changedSetting != "WindowsThemeElement")
                 return 0;
 
