@@ -1224,6 +1224,18 @@ public partial class MainWindow : MicaWindow
                 {
                     SolidColorBrush brush = BitmapHelper.SavedDominantColors.First();
                     ControlPlayPause.Background = brush;
+                    if (SettingsManager.Current.UseAlbumArtAsAccentColor)
+                    {
+                        Seekbar.Resources["AccentTextFillColorTertiaryBrush"] = brush;
+                        Seekbar.Resources["SliderThumbBackground"] = brush;
+                        Seekbar.Resources["SliderThumbBackgroundPointerOver"] = brush;
+                    }
+                    else
+                    {
+                        Seekbar.Resources.Remove("AccentTextFillColorTertiaryBrush");
+                        Seekbar.Resources.Remove("SliderThumbBackground");
+                        Seekbar.Resources.Remove("SliderThumbBackgroundPointerOver");
+                    }
                 }
 
                 // acrylic effect setting
