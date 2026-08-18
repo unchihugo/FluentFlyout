@@ -554,7 +554,7 @@ public partial class MainWindow : MicaWindow
         DoubleAnimation moveAnimation = (DoubleAnimation)storyboard.Children[0];
         var monitor = selectedMonitor != null ? selectedMonitor.Value : getSelectedMonitor();
         var workArea = monitor.workArea;
-        var windowRect = WindowHelper.GetPlacement(window);
+        Rect windowRect = WindowHelper.GetPlacement(window);
 
         // Use the window's actual current position as the animation start
         moveAnimation.From = windowRect.Top;
