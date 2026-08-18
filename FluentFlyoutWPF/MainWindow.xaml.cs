@@ -274,22 +274,30 @@ public partial class MainWindow : MicaWindow
 
         if (SettingsManager.Current.AppFilteringMode == 0) // Blacklist mode
         {
-            if (SettingsManager.Current.BlockedApps != null && SettingsManager.Current.BlockedApps.Any(b =>
-                    appName.Contains(b, StringComparison.OrdinalIgnoreCase) ||
-                    appId.Contains(b, StringComparison.OrdinalIgnoreCase)))
+            if (SettingsManager.Current.BlockedApps != null &&
+                SettingsManager.Current.BlockedApps.Any(b => MatchesFilterEntry(b, appName, appId)))
                 return false;
 
             return true;
         }
         else // Whitelist mode
         {
-            if (SettingsManager.Current.AllowedApps != null && SettingsManager.Current.AllowedApps.Any(a =>
-                    appName.Contains(a, StringComparison.OrdinalIgnoreCase) ||
-                    appId.Contains(a, StringComparison.OrdinalIgnoreCase)))
+            if (SettingsManager.Current.AllowedApps != null &&
+                SettingsManager.Current.AllowedApps.Any(a => MatchesFilterEntry(a, appName, appId)))
                 return true;
 
             return false;
         }
+    }
+
+    // display names are matched in full: entries always hold a whole app name, and a substring match let one entry
+    // swallow others (blocking "Amazon Music" also blocked "Amazon Music SMTC Bridge"). the session id keeps substring
+    // matching so an entry can still target a whole package or publisher
+    private static bool MatchesFilterEntry(string entry, string appName, string appId)
+    {
+        if (string.IsNullOrWhiteSpace(entry)) return false; // an empty entry would match every session
+
+        return appName.Equals(entry, StringComparison.OrdinalIgnoreCase) || appId.Contains(entry, StringComparison.OrdinalIgnoreCase);
     }
 
     public MediaSession? GetActiveMediaSession()
