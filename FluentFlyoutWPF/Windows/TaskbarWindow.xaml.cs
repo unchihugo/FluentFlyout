@@ -416,6 +416,8 @@ on_error:
         if (!SettingsManager.Current.TaskbarWidgetEnabled)
             return Rect.Empty;
 
+        Widget.SetVerticalMode(isVertical);
+
         // Calculate widget size
         var (logicalWidth, logicalHeight) = Widget.CalculateSize(dpiScale);
 
@@ -428,7 +430,6 @@ on_error:
         // Apply orientation transform
         Widget.LayoutTransform = isVertical ? new System.Windows.Media.RotateTransform(90) : null;
         Widget.RenderTransform = System.Windows.Media.Transform.Identity;
-        Widget.SetVerticalMode(isVertical);
 
         // On a vertical taskbar the widget is rotated 90°, so the axes flip:
         //   primarySize = taskbarHeight, positioning runs along Y

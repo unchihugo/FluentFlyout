@@ -47,6 +47,7 @@ public partial class TaskbarWidgetControl : UserControl
     // reference to main window for flyout functions
     private MainWindow? _mainWindow;
     private bool _isPaused;
+    private bool _isVertical;
 
     public TaskbarWidgetControl()
     {
@@ -99,6 +100,9 @@ public partial class TaskbarWidgetControl : UserControl
 
     public void SetVerticalMode(bool isVertical)
     {
+        _isVertical = isVertical;
+        SongInfoStackPanel.Visibility = isVertical ? Visibility.Collapsed : Visibility.Visible;
+
         var counterRotate = isVertical ? new RotateTransform(-90) : null;
 
         SongImageBorder.RenderTransformOrigin = new System.Windows.Point(0.5, 0.5);
@@ -236,7 +240,11 @@ public partial class TaskbarWidgetControl : UserControl
         double maxLogicalWidth = _nativeWidgetsPadding / _scale;
         double logicalWidth;
 
-        if (SettingsManager.Current.TaskbarWidgetFixedWidth)
+        if (_isVertical)
+        {
+            logicalWidth = _coverImageMargin;
+        }
+        else if (SettingsManager.Current.TaskbarWidgetFixedWidth)
         {
             // pin to maximum width so right-aligned controls don't shift between songs
             logicalWidth = maxLogicalWidth;
@@ -274,7 +282,10 @@ public partial class TaskbarWidgetControl : UserControl
         // add space for playback controls if enabled and visible
         if (SettingsManager.Current.TaskbarWidgetControlsEnabled && ControlsStackPanel.Visibility == Visibility.Visible)
         {
-            logicalWidth += 104;
+            if (!_isVertical)
+                logicalWidth += 104;
+            else
+                logicalWidth += 96; // vertical widget has no text, so remove 8px of text spacing
         }
 
         double logicalHeight = 40; // default height
@@ -564,7 +575,7 @@ public partial class TaskbarWidgetControl : UserControl
 
             SongTitle.Visibility = Visibility.Visible;
             SongArtist.Visibility = !string.IsNullOrEmpty(artist) ? Visibility.Visible : Visibility.Collapsed; // hide artist if it's not available
-            SongInfoStackPanel.Visibility = Visibility.Visible;
+            SongInfoStackPanel.Visibility = _isVertical ? Visibility.Collapsed : Visibility.Visible;
             BackgroundImage.Visibility = SettingsManager.Current.TaskbarWidgetBackgroundBlur ? Visibility.Visible : Visibility.Collapsed;
 
             // on top of XAML visibility binding (XAML binding only hides when disabled in settings)
