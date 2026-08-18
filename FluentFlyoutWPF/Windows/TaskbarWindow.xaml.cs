@@ -25,6 +25,8 @@ public partial class TaskbarWindow : Window
 {
     private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
+    private const double SmallTaskbarDetectionThreshold = 40;
+
     private readonly DispatcherTimer _timer;
     private readonly int _nativeWidgetsPadding = 216;
     private readonly double _scale = 0.9;
@@ -385,8 +387,13 @@ on_error:
 
             // Vertical taskbar support: rotate and reposition widget when taskbar is taller than wide
             bool isVertical = taskbarHeight > taskbarWidth;
+            double taskbarCrossSize = (isVertical ? taskbarWidth : taskbarHeight) / dpiScale;
+            bool isSmallTaskbar = taskbarCrossSize < SmallTaskbarDetectionThreshold;
             int containerWidth = taskbarWidth;
             int containerHeight = taskbarHeight;
+
+            Widget.SetSmallTaskbarMode(isSmallTaskbar);
+            TaskbarVisualizer.SetSmallTaskbarMode(isSmallTaskbar);
 
             // Following SetWindowPos will set the position relative to the parent window,
             // so those coordinates need to be converted.
