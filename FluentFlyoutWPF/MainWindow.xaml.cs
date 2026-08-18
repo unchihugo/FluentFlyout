@@ -77,6 +77,11 @@ public partial class MainWindow : MicaWindow
 
     private VolumeMixerWindow? volumeMixerWindow;
 
+    private readonly DispatcherTimer _displayRefreshTimer;
+    private string _pendingDisplayRefreshReason = "Unknown";
+    private bool _displayRefreshInProgress;
+    private bool _isCleaningUp;
+
     internal static volatile bool ExplorerRestarting = false;
 
     public MainWindow()
@@ -85,6 +90,12 @@ public partial class MainWindow : MicaWindow
         WindowHelper.SetNoActivate(this); // prevents some fullscreen apps from minimizing
         InitializeComponent();
         WindowHelper.SetTopmost(this); // more prevention of fullscreen apps minimizing
+
+        _displayRefreshTimer = new DispatcherTimer(DispatcherPriority.Background)
+        {
+            Interval = TimeSpan.FromMilliseconds(1000)
+        };
+        _displayRefreshTimer.Tick += DisplayRefreshTimer_Tick;
 
         if (!singleton.WaitOne(TimeSpan.Zero, true)) // if another instance is already running, close this one
         {
@@ -1430,6 +1441,10 @@ public partial class MainWindow : MicaWindow
         // should be handled automatically on app exit but just in case
         try
         {
+            _isCleaningUp = true;
+            _displayRefreshTimer.Stop();
+            _displayRefreshTimer.Tick -= DisplayRefreshTimer_Tick;
+
             // unsubscribe from events
             mediaManager.OnAnyMediaPropertyChanged -= MediaManager_OnAnyMediaPropertyChanged;
             mediaManager.OnAnyPlaybackStateChanged -= CurrentSession_OnPlaybackStateChanged;
@@ -1531,6 +1546,94 @@ public partial class MainWindow : MicaWindow
         return false;
     }
 
+    private void ScheduleDisplayEnvironmentRefresh(string reason)
+    {
+        if (_isCleaningUp)
+            return;
+
+        if (!Dispatcher.CheckAccess())
+        {
+            Dispatcher.BeginInvoke(() => ScheduleDisplayEnvironmentRefresh(reason));
+            return;
+        }
+
+        _pendingDisplayRefreshReason = reason;
+        _displayRefreshTimer.Stop();
+        _displayRefreshTimer.Start();
+        Logger.Debug($"Scheduled display environment refresh: {reason}");
+    }
+
+    private void DisplayRefreshTimer_Tick(object? sender, EventArgs e)
+    {
+        _displayRefreshTimer.Stop();
+
+        if (_displayRefreshInProgress || _isCleaningUp)
+            return;
+
+        _displayRefreshInProgress = true;
+        try
+        {
+            RefreshDisplayEnvironment(_pendingDisplayRefreshReason);
+        }
+        catch (Exception ex)
+        {
+            Logger.Error(ex, "Failed to refresh windows after a display environment change");
+        }
+        finally
+        {
+            _displayRefreshInProgress = false;
+        }
+    }
+
+    private void RefreshDisplayEnvironment(string reason)
+    {
+        var monitors = MonitorUtil.GetMonitors();
+        if (monitors.Count == 0)
+        {
+            Logger.Warn($"Display environment refresh skipped because no monitors were found ({reason})");
+            return;
+        }
+
+        Logger.Info($"Refreshing window DPI and placement after display change ({reason}); monitors={monitors.Count}");
+
+        // Stop placement animations that were calculated for the previous work area.
+        cts.Cancel();
+        _isHiding = true;
+        Hide();
+
+        // Move the reusable main flyout to its current target monitor while hidden. This
+        // makes WPF process the per-monitor DPI transition before the next animation.
+        var targetMonitor = getSelectedMonitor();
+        WindowHelper.SetPosition(this, targetMonitor.workArea.Left, targetMonitor.workArea.Top);
+        InvalidateMeasure();
+        InvalidateArrange();
+        InvalidateVisual();
+        UpdateLayout();
+        SyncMainFlyoutSizeToCurrentDpi(new WindowInteropHelper(this).Handle);
+
+        // These windows retain an HWND for their lifetime. Recreate them so they cannot
+        // keep DPI, work-area, taskbar-parent, or UI Automation state from the old topology.
+        if (lockWindow != null)
+        {
+            lockWindow.Close();
+            lockWindow = null;
+        }
+
+        if (nextUpWindow != null)
+        {
+            nextUpWindow.Close();
+            nextUpWindow = null;
+        }
+
+        if (volumeMixerWindow != null)
+        {
+            volumeMixerWindow.Close();
+            volumeMixerWindow = new VolumeMixerWindow();
+        }
+
+        RecreateTaskbarWindow();
+    }
+
     private nint WndProc(nint hwnd, int msg, nint wParam, nint lParam, ref bool handled)
     {
         // detect key presses from both keyboard hook and shell hook to show flyouts
@@ -1613,13 +1716,41 @@ public partial class MainWindow : MicaWindow
             handled = true;
             return 0;
         }
+        else if (msg == WM_DISPLAYCHANGE)
+        {
+            ScheduleDisplayEnvironmentRefresh("WM_DISPLAYCHANGE");
+            return 0;
+        }
+        else if (msg == WM_DPICHANGED)
+        {
+            // Leave the message unhandled so WPF can update its internal DPI state,
+            // then size the native HWND from the logical WPF dimensions exactly once.
+            Dispatcher.BeginInvoke(() =>
+            {
+                InvalidateMeasure();
+                InvalidateArrange();
+                InvalidateVisual();
+                UpdateLayout();
+                SyncMainFlyoutSizeToCurrentDpi(hwnd);
+            }, DispatcherPriority.Loaded);
+            return 0;
+        }
         else if (msg == WM_SETTINGCHANGE) // system settings changed
         {
-            if (lParam == IntPtr.Zero)
+            if (wParam.ToInt64() == SPI_SETWORKAREA)
+            {
+                ScheduleDisplayEnvironmentRefresh("WM_SETTINGCHANGE/SPI_SETWORKAREA");
                 return 0;
+            }
+
+            string? changedSetting = lParam == IntPtr.Zero ? null : Marshal.PtrToStringUni(lParam);
+            if (changedSetting == "SystemDockMode")
+            {
+                ScheduleDisplayEnvironmentRefresh($"WM_SETTINGCHANGE/{changedSetting}");
+                return 0;
+            }
 
             // check if the changed setting is related to theme or accent color
-            string? changedSetting = Marshal.PtrToStringUni(lParam);
             if (changedSetting != "ImmersiveColorSet" && changedSetting != "WindowsThemeElement")
                 return 0;
 
@@ -1640,6 +1771,32 @@ public partial class MainWindow : MicaWindow
         }
 
         return 0;
+    }
+
+    private void SyncMainFlyoutSizeToCurrentDpi(IntPtr hwnd)
+    {
+        if (hwnd == IntPtr.Zero)
+            return;
+
+        uint dpi = GetDpiForWindow(hwnd);
+        if (dpi == 0)
+            return;
+
+        double dpiScale = dpi / 96.0;
+        int pixelWidth = (int)Math.Ceiling(Width * dpiScale);
+        int pixelHeight = (int)Math.Ceiling(Height * dpiScale);
+
+        if (!SetWindowPos(
+            hwnd,
+            0,
+            0,
+            0,
+            pixelWidth,
+            pixelHeight,
+            SWP_NOMOVE | SWP_NOZORDER | SWP_NOACTIVATE))
+        {
+            Logger.Warn($"Failed to resize MainWindow for DPI; HWND=0x{hwnd.ToInt64():X}, DPI={dpi}, Size={pixelWidth}x{pixelHeight}, Win32Error={Marshal.GetLastWin32Error()}");
+        }
     }
 
     private void RecreateTrayIconSafely()

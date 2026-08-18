@@ -165,6 +165,15 @@ public partial class VolumeMixerWindow : MicaWindow
         }
     }
 
+    protected override void OnClosed(EventArgs e)
+    {
+        _cts.Cancel();
+        _cts.Dispose();
+        ViewModel.PropertyChanged -= OnViewModelPropertyChanged;
+        ViewModel.Dispose();
+        base.OnClosed(e);
+    }
+
     // derived from gpkgpk/HideVolumeOSD: https://github.com/gpkgpk/HideVolumeOSD
     private static void HideVolumeOsd()
     {
