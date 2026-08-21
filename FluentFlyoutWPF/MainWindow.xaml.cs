@@ -23,9 +23,11 @@ using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
+using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using Windows.ApplicationModel;
 using Windows.Media.Control;
+using Windows.Storage.Streams;
 using static FluentFlyout.Classes.NativeMethods;
 using static FluentFlyoutWPF.Classes.Utils.MonitorUtil;
 using static WindowsMediaController.MediaManager;
@@ -62,7 +64,7 @@ public partial class MainWindow : MicaWindow
 
     static Mutex singleton = new Mutex(true, "FluentFlyout"); // to prevent multiple instances of the app
     private NextUpWindow? nextUpWindow = null; // to prevent multiple instances of NextUpWindow
-    private string currentTitle = ""; // to prevent NextUpWindow from showing the same song
+    private readonly TrackIdentityTracker _nextUpTrackIdentityTracker = new();
 
     private readonly int _seekbarUpdateInterval = 300;
     private readonly Timer _positionTimer;
@@ -600,6 +602,7 @@ public partial class MainWindow : MicaWindow
         var activeSession = GetActiveMediaSession();
         if (!mediaManager.IsStarted || activeSession == null)
         {
+            ResetMediaPropertyTracking();
             taskbarWindow?.UpdateUi("-", "-", null, GlobalSystemMediaTransportControlsSessionPlaybackStatus.Closed);
             return;
         }
@@ -609,9 +612,9 @@ public partial class MainWindow : MicaWindow
             return;
 
         var playbackInfo = activeSession.ControlSession.GetPlaybackInfo();
-        var thumbnail = BitmapHelper.GetThumbnail(songInfo.Thumbnail);
-        BitmapHelper.GetDominantColors(1);
-        taskbarWindow?.UpdateUi(songInfo.Title, songInfo.Artist, thumbnail, playbackInfo.PlaybackStatus, playbackInfo.Controls);
+        _nextUpTrackIdentityTracker.Update(songInfo.Title, songInfo.Artist);
+        UpdateCurrentArtwork(songInfo.Thumbnail);
+        taskbarWindow?.UpdateUi(songInfo.Title, songInfo.Artist, _currentMediaThumbnail, playbackInfo.PlaybackStatus, playbackInfo.Controls);
     }
 
     public void reportBug(object? sender, EventArgs e)
@@ -665,6 +668,7 @@ public partial class MainWindow : MicaWindow
         var focusedSession = GetActiveMediaSession();
         if (focusedSession == null)
         {
+            ResetMediaPropertyTracking();
             taskbarWindow?.UpdateUi("-", "-", null, GlobalSystemMediaTransportControlsSessionPlaybackStatus.Closed);
             return;
         }
@@ -672,11 +676,9 @@ public partial class MainWindow : MicaWindow
         var tbSongInfo = TryGetMediaProperties(focusedSession.ControlSession);
         if (tbSongInfo != null)
         {
-            var tbThumbnail = BitmapHelper.GetThumbnail(tbSongInfo.Thumbnail);
-            BitmapHelper.GetDominantColors(1);
             var tbPlayback = focusedSession.ControlSession.GetPlaybackInfo();
 
-            taskbarWindow?.UpdateUi(tbSongInfo.Title, tbSongInfo.Artist, tbThumbnail, tbPlayback?.PlaybackStatus, tbPlayback?.Controls);
+            taskbarWindow?.UpdateUi(tbSongInfo.Title, tbSongInfo.Artist, _currentMediaThumbnail, tbPlayback?.PlaybackStatus, tbPlayback?.Controls, updateArtwork: false, updatePosition: false);
         }
 
         if (IsVisible)
@@ -686,9 +688,101 @@ public partial class MainWindow : MicaWindow
         }
     }
 
-    // for determining whether MediaPropertyChanged has no changes
     private string previousMediaProperty = "";
-    private int previousMediaPropertyThumbnail = 0;
+    private int previousMediaPropertyThumbnail;
+    private BitmapImage? _currentMediaThumbnail;
+    private bool _awaitingTrackArtwork;
+    private DateTime _nextArtworkProbe = DateTime.MinValue;
+    private DateTime _artworkProbeDeadline = DateTime.MinValue;
+    private CancellationTokenSource? _artworkRefreshCts;
+
+    private bool UpdateCurrentArtwork(IRandomAccessStreamReference? thumbnail, bool preserveCurrentWhenMissing = false)
+    {
+        if (thumbnail == null && preserveCurrentWhenMissing)
+            return false;
+
+        int hash = BitmapHelper.GetStableThumbnailHash(thumbnail!);
+        if (hash == previousMediaPropertyThumbnail)
+            return false;
+
+        previousMediaPropertyThumbnail = hash;
+        _currentMediaThumbnail = BitmapHelper.GetThumbnail(thumbnail, knownHashCode: hash);
+        if (_currentMediaThumbnail != null)
+            BitmapHelper.GetDominantColors(1);
+        return true;
+    }
+
+    private void ResetMediaPropertyTracking()
+    {
+        _artworkRefreshCts?.Cancel();
+        _artworkRefreshCts?.Dispose();
+        _artworkRefreshCts = null;
+        previousMediaProperty = string.Empty;
+        previousMediaPropertyThumbnail = 0;
+        _currentMediaThumbnail = null;
+        _awaitingTrackArtwork = false;
+        _nextArtworkProbe = DateTime.MinValue;
+        _artworkProbeDeadline = DateTime.MinValue;
+        _nextUpTrackIdentityTracker.Reset();
+    }
+
+    private void ScheduleArtworkRefresh()
+    {
+        _artworkRefreshCts?.Cancel();
+        _artworkRefreshCts?.Dispose();
+        _artworkRefreshCts = new CancellationTokenSource();
+        _ = RefreshArtworkAfterTrackChangeAsync(_artworkRefreshCts.Token);
+    }
+
+    private async Task RefreshArtworkAfterTrackChangeAsync(CancellationToken token)
+    {
+        // Some bridges replace the SMTC thumbnail after publishing the new track but
+        // do not raise another media-property event. Probe independently of lyric
+        // updates so the final cover reaches the taskbar without decoding every line.
+        int[] retryDelays = [100, 150, 250, 500, 1000, 2000];
+
+        try
+        {
+            foreach (int delay in retryDelays)
+            {
+                await Task.Delay(delay, token);
+                token.ThrowIfCancellationRequested();
+
+                bool updated = await Dispatcher.InvokeAsync(() =>
+                {
+                    if (token.IsCancellationRequested)
+                        return false;
+
+                    var activeSession = GetActiveMediaSession();
+                    if (activeSession?.ControlSession == null)
+                        return false;
+
+                    var refreshedInfo = TryGetMediaProperties(activeSession.ControlSession);
+                    var refreshedPlayback = activeSession.ControlSession.GetPlaybackInfo();
+                    if (refreshedInfo == null || refreshedPlayback == null)
+                        return false;
+
+                    bool artworkChanged = UpdateCurrentArtwork(refreshedInfo.Thumbnail, preserveCurrentWhenMissing: true);
+                    if (!artworkChanged)
+                        return false;
+
+                    _awaitingTrackArtwork = false;
+                    taskbarWindow?.UpdateUi(refreshedInfo.Title, refreshedInfo.Artist, _currentMediaThumbnail, refreshedPlayback.PlaybackStatus, refreshedPlayback.Controls, updateArtwork: true, updatePosition: false);
+                    return true;
+                });
+
+                if (updated)
+                    return;
+            }
+        }
+        catch (OperationCanceledException)
+        {
+            return;
+        }
+
+        _awaitingTrackArtwork = false;
+    }
+
     private void MediaManager_OnAnyMediaPropertyChanged(MediaSession mediaSession, GlobalSystemMediaTransportControlsSessionMediaProperties mediaProperties)
     {
         // sometimes mediaSession.ControlSession can be null
@@ -701,6 +795,7 @@ public partial class MainWindow : MicaWindow
         var currentActiveSession = GetActiveMediaSession();
         if (currentActiveSession == null)
         {
+            ResetMediaPropertyTracking();
             taskbarWindow?.UpdateUi("-", "-", null, GlobalSystemMediaTransportControlsSessionPlaybackStatus.Closed);
             return;
         }
@@ -710,24 +805,55 @@ public partial class MainWindow : MicaWindow
             return;
 
         var playbackInfo = currentActiveSession.ControlSession.GetPlaybackInfo();
+        bool trackChanged = _nextUpTrackIdentityTracker.Update(songInfo.Title, songInfo.Artist);
+        bool isLyricsUpdate = _nextUpTrackIdentityTracker.IsLyricsUpdate;
 
         string check = songInfo.Title + songInfo.Artist + playbackInfo.PlaybackStatus;
-        int checkThumbnail = BitmapHelper.GetStableThumbnailHash(songInfo.Thumbnail);
-        bool onlyThumbnailChanged = false;
-        if (previousMediaProperty == check)
+        bool metadataUnchanged = string.Equals(previousMediaProperty, check, StringComparison.Ordinal);
+        previousMediaProperty = check;
+
+        DateTime now = DateTime.UtcNow;
+        if (trackChanged)
         {
-            onlyThumbnailChanged = true;
-            if (previousMediaPropertyThumbnail == checkThumbnail)
-                return; // prevent multiple calls for the same song info
+            // Some SMTC bridges publish the new title before the new thumbnail. Keep a
+            // short, throttled probe window open so the first lyrics event can pick up
+            // the delayed cover instead of permanently retaining the previous track's.
+            _awaitingTrackArtwork = true;
+            _nextArtworkProbe = now;
+            _artworkProbeDeadline = now.AddSeconds(5);
+            ScheduleArtworkRefresh();
         }
 
-        previousMediaProperty = check;
-        previousMediaPropertyThumbnail = checkThumbnail;
+        // The lyrics bridge creates a fresh thumbnail reference for every line even
+        // though the image is unchanged. Outside the short delayed-artwork window after
+        // a real track change, lyrics updates never open/hash/decode that stream.
+        bool artworkChanged = false;
+        bool artworkProbeDue = _awaitingTrackArtwork
+            && (metadataUnchanged || now >= _nextArtworkProbe);
+        bool shouldInspectArtwork = trackChanged
+            || artworkProbeDue
+            || (!isLyricsUpdate && metadataUnchanged && now >= _nextArtworkProbe);
 
-        var thumbnail = BitmapHelper.GetThumbnail(songInfo.Thumbnail);
-        BitmapHelper.GetDominantColors(1);
+        if (shouldInspectArtwork)
+        {
+            _nextArtworkProbe = now.AddMilliseconds(500);
+            artworkChanged = UpdateCurrentArtwork(songInfo.Thumbnail, preserveCurrentWhenMissing: _awaitingTrackArtwork);
 
-        taskbarWindow?.UpdateUi(songInfo.Title, songInfo.Artist, thumbnail, playbackInfo.PlaybackStatus, playbackInfo.Controls);
+            if (artworkChanged && _currentMediaThumbnail != null && !trackChanged)
+            {
+                _awaitingTrackArtwork = false;
+            }
+            else if (_awaitingTrackArtwork && now >= _artworkProbeDeadline)
+            {
+                _awaitingTrackArtwork = false;
+                artworkChanged = UpdateCurrentArtwork(songInfo.Thumbnail);
+            }
+
+            if (metadataUnchanged && !artworkChanged && !_awaitingTrackArtwork)
+                return;
+        }
+
+        taskbarWindow?.UpdateUi(songInfo.Title, songInfo.Artist, _currentMediaThumbnail, playbackInfo.PlaybackStatus, playbackInfo.Controls, updateArtwork: artworkChanged, updatePosition: trackChanged);
 
         pauseOtherMediaSessionsIfNeeded(mediaSession);
 
@@ -739,18 +865,17 @@ public partial class MainWindow : MicaWindow
                 {
                     if (nextUpWindow == null && playbackInfo.PlaybackStatus == GlobalSystemMediaTransportControlsSessionPlaybackStatus.Playing) // double-check within the Dispatcher to prevent race conditions
                     {
-                        nextUpWindow = new NextUpWindow(songInfo.Title, songInfo.Artist, thumbnail);
-                        currentTitle = songInfo.Title;
+                        nextUpWindow = new NextUpWindow(songInfo.Title, songInfo.Artist, _currentMediaThumbnail!);
                         nextUpWindow.Closed += (s, e) => nextUpWindow = null; // set nextUpWindow to null when closed
                     }
                 });
             }
 
-            if (nextUpWindow == null && IsVisible == false && songInfo.Thumbnail != null && currentTitle != songInfo.Title)
+            if (nextUpWindow == null && IsVisible == false && _currentMediaThumbnail != null && trackChanged)
             {
                 createNewNextUpWindow();
             }
-            else if (nextUpWindow != null && !onlyThumbnailChanged)
+            else if (nextUpWindow != null && trackChanged)
             {
                 Dispatcher.Invoke(() =>
                 {
@@ -762,11 +887,11 @@ public partial class MainWindow : MicaWindow
                 });
                 createNewNextUpWindow();
             }
-            else if (nextUpWindow != null && songInfo.Thumbnail != null)
+            else if (nextUpWindow != null && artworkChanged && _currentMediaThumbnail != null)
             {
                 Dispatcher.Invoke(() =>
                 {
-                    nextUpWindow?.UpdateThumbnail(thumbnail);
+                    nextUpWindow?.UpdateThumbnail(_currentMediaThumbnail);
                 });
             }
         }
@@ -1118,6 +1243,18 @@ public partial class MainWindow : MicaWindow
                 {
                     SolidColorBrush brush = BitmapHelper.SavedDominantColors.First();
                     ControlPlayPause.Background = brush;
+                    if (SettingsManager.Current.UseAlbumArtAsAccentColor)
+                    {
+                        Seekbar.Resources["AccentTextFillColorTertiaryBrush"] = brush;
+                        Seekbar.Resources["SliderThumbBackground"] = brush;
+                        Seekbar.Resources["SliderThumbBackgroundPointerOver"] = brush;
+                    }
+                    else
+                    {
+                        Seekbar.Resources.Remove("AccentTextFillColorTertiaryBrush");
+                        Seekbar.Resources.Remove("SliderThumbBackground");
+                        Seekbar.Resources.Remove("SliderThumbBackgroundPointerOver");
+                    }
                 }
 
                 // acrylic effect setting
