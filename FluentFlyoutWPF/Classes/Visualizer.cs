@@ -394,7 +394,7 @@ namespace FluentFlyoutWPF.Classes
                 }
 
                 float progress = (float)i / BarCount;
-                float linearBoost = 1.0f + (progress * 75.0f);
+                float linearBoost = 1.0f + (progress * 6.0f);
                 maxAmplitude *= linearBoost;
 
                 if (maxAmplitude < 0.001f) maxAmplitude = 0.001f;
