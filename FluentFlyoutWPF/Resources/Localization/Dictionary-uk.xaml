@@ -10,8 +10,8 @@
     <system:String x:Key="BackgroundBlurOption3" xml:space="preserve"> Стиль 2 (Висхідне сяйво)</system:String>
     <system:String x:Key="BackgroundBlurOption4" xml:space="preserve"> Стиль 3 (Розмиття)</system:String>
     <system:String x:Key="BackgroundBlurTitle">Розмиття фону</system:String>
-    <system:String x:Key="AcrylicWindowTitle">Акрилове вікно</system:String>
-    <system:String x:Key="AcrylicWindowDescription">Застосувати прозорий акриловий ефект розмиття до спливаючого меню</system:String>
+    <system:String x:Key="AcrylicWindowTitle">Акрилові спливаючі вікна</system:String>
+    <system:String x:Key="AcrylicWindowDescription">Застосувати прозорий акриловий ефект розмиття до випадаючих елементів</system:String>
     <system:String x:Key="CompactLayoutTitle">Компактне розташування</system:String>
     <system:String x:Key="CompactLayoutDescription" xml:space="preserve">Більш компактний і менш нав'язливий макет
 приховує повторення, перетасовку та інформацію про програвач</system:String>
@@ -241,4 +241,5 @@
     <system:String x:Key="Back">Назад</system:String>
     <system:String x:Key="Next">Далі</system:String>
     <system:String x:Key="Finish">Закінчити</system:String>
+    <system:String x:Key="OnboardingStepsCounter">Крок {0} з {1}</system:String>
 </ResourceDictionary>
