@@ -4,7 +4,6 @@
 using FluentFlyout.Classes;
 using FluentFlyout.Classes.Settings;
 using FluentFlyoutWPF.Pages;
-using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -21,7 +20,6 @@ public partial class SettingsWindow : FluentWindow
     private ScrollViewer? _contentScrollViewer;
     private List<SearchItem> _allSearchItems = [];
     private string? _pendingHighlightElementId = null;
-    static readonly Regex SplitCamelCaseRegex = new(@"(?<=[a-z0-9])(?=[A-Z])", RegexOptions.Compiled);
 
     public SettingsWindow()
     {
@@ -133,16 +131,6 @@ public partial class SettingsWindow : FluentWindow
                 items.Add(new SearchItem { Title = navItem.Content.ToString()!, TargetPageType = navItem.TargetPageType });
             }
         }
-
-        // Add specific settings deep links from auto-generated static array
-        foreach (var item in SearchItems)
-        {
-            string title = Application.Current.TryFindResource(item.ResourceKey)?.ToString() ?? item.ResourceKey;
-            // Clean up the page type name (e.g. "SystemPage" -> "System") and split camel case (e.g. "MediaFlyout" -> "Media Flyout")
-            string pageName = SplitCamelCaseRegex.Replace(item.TargetPageType.Name.Replace("Page", ""), " ");
-            items.Add(new SearchItem { Title = $"{title}", Subtitle = pageName, TargetPageType = item.TargetPageType, TargetElementId = item.TargetElementId });
-        }
-
         _allSearchItems = items;
         SearchBox.OriginalItemsSource = _allSearchItems;
     }
