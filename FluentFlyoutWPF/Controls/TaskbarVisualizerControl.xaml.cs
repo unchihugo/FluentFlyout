@@ -4,8 +4,6 @@
 using FluentFlyout.Classes.Settings;
 using FluentFlyoutWPF;
 using FluentFlyoutWPF.Classes;
-using MicaWPF.Core.Enums;
-using MicaWPF.Core.Helpers;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -18,6 +16,9 @@ namespace FluentFlyout.Controls;
 /// </summary>
 public partial class TaskbarVisualizerControl : UserControl
 {
+    private const double DefaultTaskbarVisualizerHeight = 40;
+    private const double SmallTaskbarVisualizerHeight = 28;
+
     // reference to main window for flyout functions
     private static readonly Visualizer visualizer = new();
 
@@ -43,6 +44,11 @@ public partial class TaskbarVisualizerControl : UserControl
         }
 
         Background = new SolidColorBrush(Color.FromArgb(1, 0, 0, 0));
+    }
+
+    public void SetSmallTaskbarMode(bool isSmallTaskbar)
+    {
+        Height = isSmallTaskbar ? SmallTaskbarVisualizerHeight : DefaultTaskbarVisualizerHeight;
     }
 
     public static void OnTaskbarVisualizerEnabledChanged(bool value)

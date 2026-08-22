@@ -25,6 +25,8 @@ public partial class TaskbarWindow : Window
 {
     private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
+    private const double SmallTaskbarDetectionThreshold = 40;
+
     private readonly DispatcherTimer _timer;
     private readonly int _nativeWidgetsPadding = 216;
     private readonly double _scale = 0.9;
@@ -416,8 +418,13 @@ on_error:
 
             // Vertical taskbar support: rotate and reposition widget when taskbar is taller than wide
             bool isVertical = taskbarHeight > taskbarWidth;
+            double taskbarCrossSize = (isVertical ? taskbarWidth : taskbarHeight) / dpiScale;
+            bool isSmallTaskbar = taskbarCrossSize < SmallTaskbarDetectionThreshold;
             int containerWidth = taskbarWidth;
             int containerHeight = taskbarHeight;
+
+            Widget.SetSmallTaskbarMode(isSmallTaskbar);
+            TaskbarVisualizer.SetSmallTaskbarMode(isSmallTaskbar);
 
             // Following SetWindowPos will set the position relative to the parent window,
             // so those coordinates need to be converted.
@@ -447,6 +454,8 @@ on_error:
         if (!SettingsManager.Current.TaskbarWidgetEnabled)
             return Rect.Empty;
 
+        Widget.SetVerticalMode(isVertical);
+
         // Calculate widget size
         var (logicalWidth, logicalHeight) = Widget.CalculateSize(dpiScale);
 
@@ -459,7 +468,6 @@ on_error:
         // Apply orientation transform
         Widget.LayoutTransform = isVertical ? new System.Windows.Media.RotateTransform(90) : null;
         Widget.RenderTransform = System.Windows.Media.Transform.Identity;
-        Widget.SetVerticalMode(isVertical);
 
         // On a vertical taskbar the widget is rotated 90°, so the axes flip:
         //   primarySize = taskbarHeight, positioning runs along Y

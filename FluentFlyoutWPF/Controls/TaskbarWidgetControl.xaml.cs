@@ -22,10 +22,22 @@ public partial class TaskbarWidgetControl : UserControl
 {
     private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
+    // Constants for default and small taskbar widget sizes
+    private const double DefaultTaskbarWidgetHeight = 40;
+    private const double SmallTaskbarWidgetHeight = 28;
+
+    // Constants for cover image and control button sizes
+    private const double DefaultCoverImageSize = 36;
+    private const double SmallCoverImageSize = 24;
+    private const double DefaultCoverImageMargin = 55;
+    private const double SmallCoverImageMargin = 43;
+    private const double DefaultPlaceholderIconSize = 24;
+    private const double SmallPlaceholderIconSize = 18;
+    private const double DefaultControlButtonSize = 32;
+    private const double SmallControlButtonSize = 24;
+
     private readonly double _scale = 0.9;
     private readonly int _nativeWidgetsPadding = 216;
-
-    private readonly int _coverImageMargin = 55;
 
     // Cached width calculations
     private string _cachedTitleText = string.Empty;
@@ -47,6 +59,8 @@ public partial class TaskbarWidgetControl : UserControl
     // reference to main window for flyout functions
     private MainWindow? _mainWindow;
     private bool _isPaused;
+    private bool _isVertical;
+    private bool _isSmallTaskbar;
 
     public TaskbarWidgetControl()
     {
@@ -99,6 +113,12 @@ public partial class TaskbarWidgetControl : UserControl
 
     public void SetVerticalMode(bool isVertical)
     {
+        _isVertical = isVertical;
+        SongInfoStackPanel.Visibility = isVertical ? Visibility.Collapsed : Visibility.Visible;
+        SongArtistContainer.Visibility = !_isSmallTaskbar && !isVertical && !string.IsNullOrEmpty(_actualArtist)
+            ? Visibility.Visible
+            : Visibility.Collapsed;
+
         var counterRotate = isVertical ? new RotateTransform(-90) : null;
 
         SongImageBorder.RenderTransformOrigin = new System.Windows.Point(0.5, 0.5);
@@ -108,6 +128,26 @@ public partial class TaskbarWidgetControl : UserControl
         {
             button.RenderTransformOrigin = new System.Windows.Point(0.5, 0.5);
             button.RenderTransform = (Transform?)counterRotate ?? Transform.Identity;
+        }
+    }
+
+    public void SetSmallTaskbarMode(bool isSmallTaskbar)
+    {
+        _isSmallTaskbar = isSmallTaskbar;
+        SongArtistContainer.Visibility = !isSmallTaskbar && !_isVertical && !string.IsNullOrEmpty(_actualArtist)
+            ? Visibility.Visible
+            : Visibility.Collapsed;
+
+        double coverImageSize = isSmallTaskbar ? SmallCoverImageSize : DefaultCoverImageSize;
+        SongImageBorder.Width = coverImageSize;
+        SongImageBorder.Height = coverImageSize;
+        SongImagePlaceholder.FontSize = isSmallTaskbar ? SmallPlaceholderIconSize : DefaultPlaceholderIconSize;
+
+        double controlButtonSize = isSmallTaskbar ? SmallControlButtonSize : DefaultControlButtonSize;
+        foreach (var button in new Wpf.Ui.Controls.Button[] { PreviousButton, PlayPauseButton, NextButton })
+        {
+            button.Width = controlButtonSize;
+            button.Height = controlButtonSize;
         }
     }
 
@@ -213,6 +253,8 @@ public partial class TaskbarWidgetControl : UserControl
 
     public (double logicalWidth, double logicalHeight) CalculateSize(double dpiScale)
     {
+        double coverImageMargin = _isSmallTaskbar ? SmallCoverImageMargin : DefaultCoverImageMargin;
+
         // calculate widget width - use cached values if text hasn't changed
         string currentTitle = _actualTitle;
         string currentArtist = _actualArtist;
@@ -236,19 +278,24 @@ public partial class TaskbarWidgetControl : UserControl
         double maxLogicalWidth = _nativeWidgetsPadding / _scale;
         double logicalWidth;
 
-        if (SettingsManager.Current.TaskbarWidgetFixedWidth)
+        if (_isVertical)
+        {
+            logicalWidth = coverImageMargin;
+        }
+        else if (SettingsManager.Current.TaskbarWidgetFixedWidth)
         {
             // pin to maximum width so right-aligned controls don't shift between songs
             logicalWidth = maxLogicalWidth;
         }
         else
         {
-            logicalWidth = Math.Max(_cachedTitleWidth, _cachedArtistWidth) + _coverImageMargin + _extraMarginForText; // add margin for cover image
+            double contentWidth = _isSmallTaskbar ? _cachedTitleWidth : Math.Max(_cachedTitleWidth, _cachedArtistWidth);
+            logicalWidth = contentWidth + coverImageMargin + _extraMarginForText; // add margin for cover image
             logicalWidth = Math.Min(logicalWidth, maxLogicalWidth);
         }
 
-        double newTitleContainerWidth = Math.Max(logicalWidth - _coverImageMargin, 0);
-        double newArtistContainerWidth = Math.Max(logicalWidth - _coverImageMargin, 0);
+        double newTitleContainerWidth = Math.Max(logicalWidth - coverImageMargin, 0);
+        double newArtistContainerWidth = Math.Max(logicalWidth - coverImageMargin, 0);
         bool widthChanged = false;
 
         if (_cachedTitleContainerWidth != newTitleContainerWidth)
@@ -274,10 +321,14 @@ public partial class TaskbarWidgetControl : UserControl
         // add space for playback controls if enabled and visible
         if (SettingsManager.Current.TaskbarWidgetControlsEnabled && ControlsStackPanel.Visibility == Visibility.Visible)
         {
-            logicalWidth += 104;
+            double controlsWidth = PreviousButton.Width + PlayPauseButton.Width + NextButton.Width;
+            if (!_isVertical)
+                controlsWidth += ControlsStackPanel.Margin.Left + ControlsStackPanel.Margin.Right;
+
+            logicalWidth += controlsWidth;
         }
 
-        double logicalHeight = 40; // default height
+        double logicalHeight = _isSmallTaskbar ? SmallTaskbarWidgetHeight : DefaultTaskbarWidgetHeight;
 
         return (logicalWidth, logicalHeight);
     }
@@ -563,8 +614,10 @@ public partial class TaskbarWidgetControl : UserControl
             }
 
             SongTitle.Visibility = Visibility.Visible;
-            SongArtist.Visibility = !string.IsNullOrEmpty(artist) ? Visibility.Visible : Visibility.Collapsed; // hide artist if it's not available
-            SongInfoStackPanel.Visibility = Visibility.Visible;
+            SongArtistContainer.Visibility = !_isSmallTaskbar && !_isVertical && !string.IsNullOrEmpty(artist)
+                ? Visibility.Visible
+                : Visibility.Collapsed;
+            SongInfoStackPanel.Visibility = _isVertical ? Visibility.Collapsed : Visibility.Visible;
             BackgroundImage.Visibility = SettingsManager.Current.TaskbarWidgetBackgroundBlur ? Visibility.Visible : Visibility.Collapsed;
 
             // on top of XAML visibility binding (XAML binding only hides when disabled in settings)
