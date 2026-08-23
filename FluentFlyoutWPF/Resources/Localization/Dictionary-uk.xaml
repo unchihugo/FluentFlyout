@@ -241,4 +241,6 @@
     <system:String x:Key="Back">Назад</system:String>
     <system:String x:Key="Next">Далі</system:String>
     <system:String x:Key="Finish">Закінчити</system:String>
+    <system:String x:Key="VolumeSyncWithMediaFlyoutTitle">Завжди показувати й приховувати разом зі спливним вікном медіа</system:String>
+    <system:String x:Key="VolumeSyncWithMediaFlyoutDescription">Показує або приховує спливне вікно гучності разом зі спливним вікном медіа під час відкриття з піктограми в треї або віджета панелі завдань.</system:String>
 </ResourceDictionary>

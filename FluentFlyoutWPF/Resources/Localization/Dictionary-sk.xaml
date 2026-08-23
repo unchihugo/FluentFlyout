@@ -284,4 +284,6 @@ Môžete pomôcť s prekladmi na</system:String>
     <system:String x:Key="TaskbarWidgetScrollingTextLoopForeverDescription">Nekonečná slučka textu jedným smerom namiesto posúvania tam a späť.</system:String>
     <system:String x:Key="TaskbarWidgetScrollingTextSpeedTitle">Rýchlosť Posúvania</system:String>
     <system:String x:Key="TaskbarWidgetScrollingTextSpeedDescription">Rýchlosť, ktorou sa text posúva (pixel za sekundu). Predvolené: 20.</system:String>
+    <system:String x:Key="VolumeSyncWithMediaFlyoutTitle">Vždy zobraziť a skryť spolu s plávajúcim oknom médií</system:String>
+    <system:String x:Key="VolumeSyncWithMediaFlyoutDescription">Zobrazí alebo skryje plávajúce okno hlasitosti spolu s plávajúcim oknom médií pri otvorení z ikony v systémovej lište alebo widgetu panela úloh.</system:String>
 </ResourceDictionary>

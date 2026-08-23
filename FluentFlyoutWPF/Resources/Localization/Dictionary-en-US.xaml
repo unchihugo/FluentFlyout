@@ -292,4 +292,6 @@ You can help contribute translations on</System:String>
     <System:String x:Key="VolumeMixerHighlightDescription">See which apps are currently outputting audio</System:String>
     <System:String x:Key="MasterVolumeText">Master volume</System:String>
     <System:String x:Key="OpenMediaPlayerText">Open media player</System:String>
+    <System:String x:Key="VolumeSyncWithMediaFlyoutTitle">Always show and hide with Media Flyout</System:String>
+    <System:String x:Key="VolumeSyncWithMediaFlyoutDescription">Show or hide the volume flyout together with the media flyout when opened from the tray icon or taskbar widget.</System:String>
 </ResourceDictionary>

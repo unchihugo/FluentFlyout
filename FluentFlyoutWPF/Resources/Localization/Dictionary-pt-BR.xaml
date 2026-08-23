@@ -288,4 +288,6 @@ Nota: Como um projeto de código aberto, esses recursos também estão disponív
     <system:String x:Key="TaskbarWidgetScrollingTextSpeedTitle">Velocidade de rolagem</system:String>
     <system:String x:Key="TaskbarWidgetScrollingTextSpeedDescription">Velocidade em que o texto rola (pixels/segundo). O padrão é 20.</system:String>
     <system:String x:Key="SearchSettings">Pesquisar configurações</system:String>
+    <system:String x:Key="VolumeSyncWithMediaFlyoutTitle">Sempre mostrar e ocultar com o flyout de mídia</system:String>
+    <system:String x:Key="VolumeSyncWithMediaFlyoutDescription">Mostra ou oculta o flyout de volume junto com o flyout de mídia ao abrir pelo ícone da bandeja ou pelo widget da barra de tarefas.</system:String>
 </ResourceDictionary>

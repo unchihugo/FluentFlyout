@@ -71,6 +71,16 @@
                 <ui:ToggleSwitch IsChecked="{Binding VolumeControlAboveMediaFlyout, Mode=TwoWay}" />
             </ui:CardControl>
 
+            <ui:CardControl x:Name="VolumeSyncWithMediaFlyoutTitleCard" Tag="Indexable" Icon="{ui:SymbolIcon ArrowSync24}" Margin="0,0,0,3">
+                <ui:CardControl.Header>
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="{DynamicResource VolumeSyncWithMediaFlyoutTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
+                        <TextBlock Text="{DynamicResource VolumeSyncWithMediaFlyoutDescription}" FontSize="12" Opacity="0.5" />
+                    </StackPanel>
+                </ui:CardControl.Header>
+                <ui:ToggleSwitch IsChecked="{Binding VolumeControlSyncWithMediaFlyout, Mode=TwoWay}" />
+            </ui:CardControl>
+
             <ui:CardControl x:Name="VolumeFlyoutStayDurationTitleCard" Tag="Indexable" Grid.Row="3" Icon="{ui:SymbolIcon Timer24}" Margin="0,0,0,12">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">

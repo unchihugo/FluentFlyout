@@ -288,4 +288,6 @@ Puoi contribuire alla traduzione su</system:String>
     <system:String x:Key="SearchSettings">Cerca impostazioni</system:String>
     <system:String x:Key="TaskbarWidgetScrollingTextTitle">Testo Scorrevole</system:String>
     <system:String x:Key="TaskbarWidgetScrollingTextSpeedTitle">Velocità di scorrimento</system:String>
+    <system:String x:Key="VolumeSyncWithMediaFlyoutTitle">Mostra e nascondi sempre con il flyout multimediale</system:String>
+    <system:String x:Key="VolumeSyncWithMediaFlyoutDescription">Mostra o nasconde il flyout del volume insieme al flyout multimediale quando viene aperto dall&apos;icona dell&apos;area di notifica o dal widget della barra delle applicazioni.</system:String>
 </ResourceDictionary>

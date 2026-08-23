@@ -50,4 +50,6 @@
     <system:String x:Key="PauseOtherMediaTitle">หยุดสื่อที่เล่นอยู่ก่อนหน้านี้อัตโนมัติ</system:String>
     <system:String x:Key="PauseOtherMediaDescription">เมื่อคุณเล่นสื่อตัวใหม่ สื่ออื่นๆที่เคยเล่นอยู่จะถูกหยุดโดยอัตโนมัติ</system:String>
     <system:String x:Key="TaskbarWidgetCustomizationTitle">Widget ของ Taskbar</system:String>
+    <system:String x:Key="VolumeSyncWithMediaFlyoutTitle">แสดงและซ่อนพร้อมกับ Media Flyout เสมอ</system:String>
+    <system:String x:Key="VolumeSyncWithMediaFlyoutDescription">แสดงหรือซ่อน flyout ระดับเสียงพร้อมกับ media flyout เมื่อเปิดจากไอคอนถาดระบบหรือวิดเจ็ตแถบงาน</system:String>
 </ResourceDictionary>

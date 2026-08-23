@@ -595,6 +595,9 @@ public partial class UserSettings : ObservableObject
     public partial bool VolumeControlAboveMediaFlyout { get; set; }
 
     [ObservableProperty]
+    public partial bool VolumeControlSyncWithMediaFlyout { get; set; }
+
+    [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(VolumeControlDurationText))]
     public partial int VolumeControlDuration { get; set; }
 
@@ -769,6 +772,7 @@ public partial class UserSettings : ObservableObject
         TaskbarVisualizerBaselineAutoHide = false;
         VolumeControlEnabled = false;
         VolumeControlAboveMediaFlyout = false;
+        VolumeControlSyncWithMediaFlyout = false;
         VolumeControlDuration = 3000;
         VolumeMixerEnabled = false;
         VolumeMixerHighlightActiveApps = false;

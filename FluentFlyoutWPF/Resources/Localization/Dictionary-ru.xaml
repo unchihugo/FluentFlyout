@@ -288,4 +288,6 @@
     <system:String x:Key="TaskbarWidgetScrollingTextSpeedTitle">Скорость прокрутки</system:String>
     <system:String x:Key="Back">Назад</system:String>
     <system:String x:Key="OnboardingStepsCounter">Шаг {0} из {1}</system:String>
+    <system:String x:Key="VolumeSyncWithMediaFlyoutTitle">Всегда показывать и скрывать вместе с панелью мультимедиа</system:String>
+    <system:String x:Key="VolumeSyncWithMediaFlyoutDescription">Показывает или скрывает панель громкости вместе с панелью мультимедиа при открытии из значка в трее или виджета панели задач.</system:String>
 </ResourceDictionary>

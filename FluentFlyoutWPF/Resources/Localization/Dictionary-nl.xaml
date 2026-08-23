@@ -170,4 +170,6 @@ verbergt herhalen, shuffle en spelerinfo</system:String>
     <system:String x:Key="UpdateAvailableNotificationTitle">Update Verkrijgbaar!</system:String>
     <system:String x:Key="UpdateAvailableNotificationMessage">Een niewe versie ({0}) is verkrijgbaar.</system:String>
     <system:String x:Key="UpdateAvailableNotificationButton">Download Update</system:String>
+    <system:String x:Key="VolumeSyncWithMediaFlyoutTitle">Altijd samen met de mediaflyout tonen en verbergen</system:String>
+    <system:String x:Key="VolumeSyncWithMediaFlyoutDescription">Toon of verberg de volumeflyout samen met de mediaflyout wanneer deze wordt geopend via het systeemvakpictogram of de taakbalkwidget.</system:String>
 </ResourceDictionary>

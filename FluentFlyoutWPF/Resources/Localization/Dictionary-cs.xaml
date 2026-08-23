@@ -231,4 +231,6 @@ Poznámka: Jelikož se jedná o open-source projekt, jsou tyto funkce k dispozic
     <system:String x:Key="MonitorWithFocusedWindow">Monitor s aktivním oknem</system:String>
     <system:String x:Key="LegacyTaskbarWidthTitle">Starší systém šířky na hlavním panelu</system:String>
     <system:String x:Key="LegacyTaskbarWidthDescription">Použije starší sytém pro šířku na hlavním panelu pro panelové Widgety</system:String>
+    <system:String x:Key="VolumeSyncWithMediaFlyoutTitle">Vždy zobrazit a skrýt společně s plovoucím oknem médií</system:String>
+    <system:String x:Key="VolumeSyncWithMediaFlyoutDescription">Zobrazit nebo skrýt plovoucí okno hlasitosti společně s plovoucím oknem médií při otevření z ikony v oznamovací oblasti nebo widgetu hlavního panelu.</system:String>
 </ResourceDictionary>
