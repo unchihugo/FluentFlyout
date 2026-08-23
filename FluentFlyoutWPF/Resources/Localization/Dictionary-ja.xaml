@@ -66,6 +66,10 @@
     <system:String x:Key="EnableNextUpDescription">曲や動画の終了時に次の曲を表示します</system:String>
     <system:String x:Key="NextUpStayDurationTitle">次に再生ポップアップの表示時間</system:String>
     <system:String x:Key="NextUpStayDurationDescription">(既定値: 2000 ms)</system:String>
+    <system:String x:Key="NextUpPositionTitle">ポップアップ表示の位置</system:String>
+    <system:String x:Key="NextUpCenterTitleArtistTitle">タイトルとアーティストを中央揃え</system:String>
+    <system:String x:Key="NextUpShowUpNextTextTitle">ラベルを表示</system:String>
+    <system:String x:Key="NextUpShowUpNextTextDescription">曲情報の前に次に再生ラベルを表示します</system:String>
     <system:String x:Key="LockKeysCustomizationTitle">ロックキー</system:String>
     <system:String x:Key="LockKeysDescription" xml:space="preserve">ロックキーの状態を一目で確認できます。Caps Lock、Num Lock、またはScroll Lockを押すと表示されます。ロックキーインジケーターがないノートPCやキーボードに便利です。</system:String>
     <system:String x:Key="EnableLockKeysTitle">ロックキーのポップアップを有効化</system:String>

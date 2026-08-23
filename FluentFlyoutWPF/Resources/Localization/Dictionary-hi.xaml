@@ -53,6 +53,10 @@
     <system:String x:Key="EnableNextUpDescription">जब कोई गीत/वीडियो समाप्त होता है तो दिखाता है कि आगे क्या है</system:String>
     <system:String x:Key="NextUpStayDurationTitle">अगले ऊपर रहने की अवधि</system:String>
     <system:String x:Key="NextUpStayDurationDescription">(डिफ़ॉल्ट: 2000 एमएस)</system:String>
+    <system:String x:Key="NextUpPositionTitle">फ्लाईआउट स्थिति</system:String>
+    <system:String x:Key="NextUpCenterTitleArtistTitle">केंद्र शीर्षक और कलाकार</system:String>
+    <system:String x:Key="NextUpShowUpNextTextTitle">लेबल दिखाएँ</system:String>
+    <system:String x:Key="NextUpShowUpNextTextDescription">गीत की जानकारी से पहले नेक्स्ट अप लेबल दिखाता है</system:String>
     <system:String x:Key="LockKeysCustomizationTitle">लॉक कीज़ फ़्लाईआउट</system:String>
     <system:String x:Key="LockKeysDescription" xml:space="preserve">एक नज़र में अपने ताले की कुंजी की स्थिति जांचें। कैप्स लॉक, न्यूम लॉक या स्क्रॉल लॉक दबाने के बाद दिखाई देता है। बिना लॉक कुंजी संकेतक वाले लैपटॉप/कीबोर्ड के लिए सुविधाजनक।</system:String>
     <system:String x:Key="EnableLockKeysTitle">लॉक कुंजी फ़्लाईआउट सक्षम करें</system:String>

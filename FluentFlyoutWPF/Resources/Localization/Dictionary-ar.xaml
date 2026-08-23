@@ -44,6 +44,10 @@
     <system:String x:Key="EnableNextUpDescription">يُظهر ما التالي بعد انتهاء الأغنية/الفيديو</system:String>
     <system:String x:Key="NextUpStayDurationTitle">مدة ظهور إشعار الوسائط التالية</system:String>
     <system:String x:Key="NextUpStayDurationDescription">(الافتراضي: 2000 مللي ثانية)</system:String>
+    <system:String x:Key="NextUpPositionTitle">موقع أداة التحكم</system:String>
+    <system:String x:Key="NextUpCenterTitleArtistTitle">توسيط العنوان والفنان</system:String>
+    <system:String x:Key="NextUpShowUpNextTextTitle">إظهار التسمية</system:String>
+    <system:String x:Key="NextUpShowUpNextTextDescription">يعرض تسمية التالي قبل معلومات الأغنية</system:String>
     <system:String x:Key="LockKeysCustomizationTitle">إشعار مفاتيح القفل</system:String>
     <system:String x:Key="LockKeysDescription" xml:space="preserve">تحقق من حالة مفتاح القفل بنظرة واحدة. يظهر بعد الضغط على Caps Lock أو Num Lock أو Scroll Lock. مناسب لأجهزة الكمبيوتر المحمولة/لوحات المفاتيح التي لا تحتوي على مؤشرات مفاتيح القفل.</system:String>
     <system:String x:Key="EnableLockKeysTitle">تفعيل مفاتيح القفل المنبثقة</system:String>

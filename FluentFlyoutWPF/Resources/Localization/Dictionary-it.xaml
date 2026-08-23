@@ -75,6 +75,10 @@ Nota: essendo un progetto open-source, queste funzionalità sono comunque dispon
     <system:String x:Key="EnableNextUpDescription">Mostra cosa verrà riprodotto dopo la fine di una canzone o di un video</system:String>
     <system:String x:Key="NextUpStayDurationTitle">Durata Prossimo Elemento</system:String>
     <system:String x:Key="NextUpStayDurationDescription">(predefinito: 2000 ms)</system:String>
+    <system:String x:Key="NextUpPositionTitle">Posizione del Flyout</system:String>
+    <system:String x:Key="NextUpCenterTitleArtistTitle">Centra Titolo e Artista</system:String>
+    <system:String x:Key="NextUpShowUpNextTextTitle">Mostra etichetta</system:String>
+    <system:String x:Key="NextUpShowUpNextTextDescription">Mostra l&apos;etichetta Prossimo prima delle informazioni del brano</system:String>
     <system:String x:Key="LockKeysCustomizationTitle">Flyout Tasti di Blocco</system:String>
     <system:String x:Key="LockKeysDescription" xml:space="preserve">Controlla lo stato dei tasti Bloc Maiusc, Bloc Num e Bloc Scorr a colpo d’occhio. Compare dopo aver premuto uno di questi tasti. Utile per laptop o tastiere senza indicatori dei tasti di blocco.</system:String>
     <system:String x:Key="EnableLockKeysTitle">Attiva Flyout Pulsanti di Blocco</system:String>

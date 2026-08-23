@@ -68,6 +68,10 @@ Catatan: Sebagai proyek open-source, fitur-fitur ini juga tersedia secara gratis
     <system:String x:Key="EnableNextUpDescription">Tampilkan apa selanjutnya apabila lagu/video berakhir</system:String>
     <system:String x:Key="NextUpStayDurationTitle">Durasi Flyout Berikutnya</system:String>
     <system:String x:Key="NextUpStayDurationDescription">(default: 2000 milidetik)</system:String>
+    <system:String x:Key="NextUpPositionTitle">Posisi Flyout</system:String>
+    <system:String x:Key="NextUpCenterTitleArtistTitle">Judul dengan Nama Artis ditengah</system:String>
+    <system:String x:Key="NextUpShowUpNextTextTitle">Tampilkan label</system:String>
+    <system:String x:Key="NextUpShowUpNextTextDescription">Menampilkan label Berikutnya sebelum info lagu</system:String>
     <system:String x:Key="LockKeysCustomizationTitle">Tombol Kunci Flyout</system:String>
     <system:String x:Key="LockKeysDescription" xml:space="preserve">Periksa status kunci pengunci Anda sekilas pandang. Tampil setelah menekan Caps Lock, Num Lock, atau Scroll Lock. Praktis untuk laptop/keyboard yang tidak dilengkapi indikator lampu kunci pengunci.</system:String>
     <system:String x:Key="EnableLockKeysTitle">Aktifkan Tombol Kunci untuk Flyout</system:String>

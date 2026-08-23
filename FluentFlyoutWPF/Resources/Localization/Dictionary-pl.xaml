@@ -64,6 +64,10 @@ Uwaga: Jako projekt open-source, te funkcje są również dostępne za darmo pop
     <system:String x:Key="EnableNextUpDescription">Pokazuje co następne, gdy utwór lub wideo się zakończy</system:String>
     <system:String x:Key="NextUpStayDurationTitle">Czas wyświetlania panelu "Następne w kolejce"</system:String>
     <system:String x:Key="NextUpStayDurationDescription">(domyślnie: 2000 ms)</system:String>
+    <system:String x:Key="NextUpPositionTitle">Pozycja Panelu</system:String>
+    <system:String x:Key="NextUpCenterTitleArtistTitle">Wyśrodkuj Tytuł oraz Artystę</system:String>
+    <system:String x:Key="NextUpShowUpNextTextTitle">Pokaż etykietę</system:String>
+    <system:String x:Key="NextUpShowUpNextTextDescription">Pokazuje etykietę Następne przed informacjami o utworze</system:String>
     <system:String x:Key="SystemSettingsTitle">Ustawienia systemowe</system:String>
     <system:String x:Key="LaunchOnStartupTitle">Uruchom przy starcie systemu</system:String>
     <system:String x:Key="LaunchOnStartupDescription">Uruchom zminimalizowany do zasobnika systemowego po zalogowaniu do Windows</system:String>

@@ -113,6 +113,10 @@ Nota: Com a projecte de codi obert, aquestes opcions també estan disponibles de
     <system:String x:Key="EnableNextUpDescription">Mostra el que ve quan s'acaba una cançó/vídeo</system:String>
     <system:String x:Key="NextUpStayDurationTitle">Duració de Següent</system:String>
     <system:String x:Key="NextUpStayDurationDescription">(per defecte: 2000 ms)</system:String>
+    <system:String x:Key="NextUpPositionTitle">Posició del Flyout</system:String>
+    <system:String x:Key="NextUpCenterTitleArtistTitle">Centrar títol i artista</system:String>
+    <system:String x:Key="NextUpShowUpNextTextTitle">Mostra l&apos;etiqueta</system:String>
+    <system:String x:Key="NextUpShowUpNextTextDescription">Mostra l&apos;etiqueta Següent abans de la informació de la cançó</system:String>
     <system:String x:Key="LockKeysCustomizationTitle">Flyout de Tecles de Bloqueig</system:String>
     <system:String x:Key="LockKeysDescription" xml:space="preserve">Revisa l'estat de les tecles de bloqueig d'una ullada. Apareix en prémer Bloq Maj, Bloq Num o Bloq Despl. Útil per a portàtils/teclats sense indicadors de tecles de bloqueig.</system:String>
     <system:String x:Key="EnableLockKeysTitle">Activar Flyout de Tecles de Bloqueig</system:String>

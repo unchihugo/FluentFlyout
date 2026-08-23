@@ -482,9 +482,14 @@ public partial class MainWindow : MicaWindow
         return SettingsManager.Current.VolumeControlEnabled && SettingsManager.Current.VolumeControlAboveMediaFlyout ? 16 : 80;
     }
 
-    private (double left, double top) GetFinalPosition(Rect windowRect, Rect workArea, bool reserveNativeVolumeOsdSpace = false)
+    private static int NormalizeFlyoutPosition(int position)
     {
-        int position = SettingsManager.Current.Position;
+        return position is >= 0 and <= 5 ? position : 0;
+    }
+
+    private (double left, double top) GetFinalPosition(Rect windowRect, Rect workArea, bool reserveNativeVolumeOsdSpace = false, int? positionOverride = null)
+    {
+        int position = NormalizeFlyoutPosition(positionOverride ?? SettingsManager.Current.Position);
         double left = position switch
         {
             0 or 3 => workArea.Left + 16,
@@ -500,7 +505,7 @@ public partial class MainWindow : MicaWindow
         return (left, top);
     }
 
-    public void OpenAnimation(MicaWindow window, bool alwaysBottom = false, MonitorInfo? selectedMonitor = null, MicaWindow? aboveReference = null, bool reserveNativeVolumeOsdSpace = false)
+    public void OpenAnimation(MicaWindow window, bool alwaysBottom = false, MonitorInfo? selectedMonitor = null, MicaWindow? aboveReference = null, bool reserveNativeVolumeOsdSpace = false, int? positionOverride = null)
     {
         var eventTriggers = window.Triggers[0] as EventTrigger;
         var beginStoryboard = eventTriggers.Actions[0] as BeginStoryboard;
@@ -509,6 +514,7 @@ public partial class MainWindow : MicaWindow
         DoubleAnimation moveAnimation = (DoubleAnimation)storyboard.Children[0];
         var monitor = selectedMonitor != null ? selectedMonitor.Value : getSelectedMonitor();
         var workArea = monitor.workArea;
+        int position = NormalizeFlyoutPosition(positionOverride ?? SettingsManager.Current.Position);
 
         // prevent flickering
         WindowHelper.SetVisibility(window, false); // window.Visibility = Visibility.Hidden works with some delay
@@ -526,11 +532,11 @@ public partial class MainWindow : MicaWindow
             double refWidth = aboveReference.Width * monitor.dpiX / 96.0;
             double refHeight = aboveReference.Height * monitor.dpiY / 96.0;
             var refRect = new Rect(0, 0, refWidth, refHeight);
-            var (refLeft, refTop) = GetFinalPosition(refRect, workArea, reserveNativeVolumeOsdSpace);
+            var (refLeft, refTop) = GetFinalPosition(refRect, workArea, reserveNativeVolumeOsdSpace, position);
 
             window_left = refLeft + refWidth / 2 - windowRect.Width / 2;
             double aboveTop = refTop - windowRect.Height - 8;
-            bool isTop = SettingsManager.Current.Position switch
+            bool isTop = position switch
             {
                 3 or 4 or 5 => true,
                 _ => false
@@ -549,7 +555,7 @@ public partial class MainWindow : MicaWindow
         // default behavior: position the flyout based on the user's settings
         else if (alwaysBottom == false)
         {
-            _position = SettingsManager.Current.Position;
+            _position = position;
             if (_position == 0)
             {
                 window_left = workArea.Left + 16;

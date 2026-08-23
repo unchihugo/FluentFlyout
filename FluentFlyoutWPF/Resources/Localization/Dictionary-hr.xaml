@@ -60,4 +60,8 @@ nasumičnu reprodukciju i informacije o mediju</system:String>
     <system:String x:Key="TaskbarWidgetBackgroundBlurTitle">Pozadinsko Zamućenje</system:String>
     <system:String x:Key="TaskbarWidgetBackgroundBlurDescription">Dodaj efekt pozadinskog zamućenja widgetu za traku</system:String>
     <system:String x:Key="TaskbarWidgetHideCompletelyTitle">Kompletno Sakrij Kada Nema Nikakvog Medija</system:String>
+    <system:String x:Key="NextUpPositionTitle">Pozicija iskočnog prozora</system:String>
+    <system:String x:Key="NextUpCenterTitleArtistTitle">Centriraj naslov i izvođača</system:String>
+    <system:String x:Key="NextUpShowUpNextTextTitle">Prikaži oznaku</system:String>
+    <system:String x:Key="NextUpShowUpNextTextDescription">Prikazuje oznaku Sljedeće prije informacija o pjesmi</system:String>
 </ResourceDictionary>

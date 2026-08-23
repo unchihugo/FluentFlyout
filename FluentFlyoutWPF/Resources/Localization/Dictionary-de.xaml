@@ -75,6 +75,10 @@ Anmerkung: Als Open-Source-Projekt sind diese Funktionen auch kostenlos verfügb
     <system:String x:Key="EnableNextUpDescription">Zeigt, welcher Song/Video als nächste abgespielt wird, wenn ein Song/Video endet</system:String>
     <system:String x:Key="NextUpStayDurationTitle">"Als nächstes" Anzeigedauer</system:String>
     <system:String x:Key="NextUpStayDurationDescription">(standardmäßig: 3000 ms)</system:String>
+    <system:String x:Key="NextUpPositionTitle">Position des Flyouts</system:String>
+    <system:String x:Key="NextUpCenterTitleArtistTitle">Titel und Künstler zentrieren</system:String>
+    <system:String x:Key="NextUpShowUpNextTextTitle">Label anzeigen</system:String>
+    <system:String x:Key="NextUpShowUpNextTextDescription">Zeigt das Label Als Nächstes vor den Songinformationen an</system:String>
     <system:String x:Key="EnableLockKeysDescription">Zeigt an, wenn eine bestimmte Tastensperre aktiv ist oder nicht</system:String>
     <system:String x:Key="LockKeysStayDurationTitle">Tastensperre Anzeigedauer</system:String>
     <system:String x:Key="LockKeysStayDurationDescription">(standardmäßig: 3000 ms)</system:String>
