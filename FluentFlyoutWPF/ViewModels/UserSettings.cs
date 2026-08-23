@@ -453,6 +453,12 @@ public partial class UserSettings : ObservableObject
     public partial int TaskbarWidgetControlsPosition { get; set; }
 
     /// <summary>
+    /// Whether a thin, clickable progress/seek bar is shown at the bottom of the taskbar widget.
+    /// </summary>
+    [ObservableProperty]
+    public partial bool TaskbarWidgetSeekbarEnabled { get; set; }
+
+    /// <summary>
     /// Gets or sets a value indicating whether the taskbar widget should play animations.
     /// </summary>
     [ObservableProperty]
@@ -744,6 +750,7 @@ public partial class UserSettings : ObservableObject
         TaskbarWidgetShowPauseOverlay = true;
         TaskbarWidgetControlsEnabled = false;
         TaskbarWidgetControlsPosition = 1;
+        TaskbarWidgetSeekbarEnabled = false;
         TaskbarWidgetAnimated = true;
         TaskbarWidgetScrollingEnabled = false;
         TaskbarWidgetScrollingTextSpeed = 20;
@@ -921,6 +928,12 @@ public partial class UserSettings : ObservableObject
     }
 
     partial void OnTaskbarWidgetControlsEnabledChanged(bool oldValue, bool newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+        UpdateTaskbar();
+    }
+
+    partial void OnTaskbarWidgetSeekbarEnabledChanged(bool oldValue, bool newValue)
     {
         if (oldValue == newValue || _initializing) return;
         UpdateTaskbar();

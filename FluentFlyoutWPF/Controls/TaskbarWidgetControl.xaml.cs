@@ -25,6 +25,7 @@ public partial class TaskbarWidgetControl : UserControl
     // Constants for default and small taskbar widget sizes
     private const double DefaultTaskbarWidgetHeight = 40;
     private const double SmallTaskbarWidgetHeight = 28;
+    private const double SeekBarExtraHeight = 12; // extra vertical space reserved for the progress bar row
 
     // Constants for cover image and control button sizes
     private const double DefaultCoverImageSize = 36;
@@ -62,9 +63,16 @@ public partial class TaskbarWidgetControl : UserControl
     private bool _isVertical;
     private bool _isSmallTaskbar;
 
+    // seek/progress bar
+    private System.Threading.Timer? _seekBarTimer;
+    private DateTime _lastSeekBarInteraction = DateTime.MinValue;
+    private bool _isSeekBarDragging;
+
     public TaskbarWidgetControl()
     {
         InitializeComponent();
+
+        _seekBarTimer = new System.Threading.Timer(SeekBarTimerTick, null, 0, 1000);
 
         // Apply Windows theme colors (independent of the app theme setting)
         ApplyWindowsTheme();
@@ -330,6 +338,11 @@ public partial class TaskbarWidgetControl : UserControl
 
         double logicalHeight = _isSmallTaskbar ? SmallTaskbarWidgetHeight : DefaultTaskbarWidgetHeight;
 
+        // reserve dedicated space below the cover/text row for the draggable progress bar,
+        // instead of overlapping the song title/artist text
+        if (SettingsManager.Current.TaskbarWidgetSeekbarEnabled)
+            logicalHeight += SeekBarExtraHeight;
+
         return (logicalWidth, logicalHeight);
     }
 
@@ -515,6 +528,8 @@ public partial class TaskbarWidgetControl : UserControl
                 MainBorder.Background = new SolidColorBrush(Colors.Transparent);
                 MainBorder.Background.Opacity = 0;
                 TopBorder.BorderBrush = Brushes.Transparent;
+
+                SeekBarFill.Width = 0;
 
                 Visibility = Visibility.Visible;
             });
@@ -702,5 +717,109 @@ public partial class TaskbarWidgetControl : UserControl
         if (focusedSession == null) return;
 
         await focusedSession.ControlSession.TrySkipNextAsync();
+    }
+
+    // periodically syncs the thin progress line (and its thumb) at the bottom of the widget with
+    // the active media session's playback position. Cheap no-op when disabled/hidden/dragging.
+    private void SeekBarTimerTick(object? state)
+    {
+        try
+        {
+            if (!SettingsManager.Current.TaskbarWidgetSeekbarEnabled) return;
+            if (_mainWindow == null || Visibility != Visibility.Visible) return;
+            if (_isSeekBarDragging) return;
+            // avoid fighting with the user right after they release a seek
+            if (DateTime.Now.Subtract(_lastSeekBarInteraction).TotalMilliseconds < 750) return;
+
+            var session = _mainWindow.GetActiveMediaSession();
+            if (session == null) return;
+
+            var timeline = session.ControlSession.GetTimelineProperties();
+            if (timeline.MaxSeekTime.TotalSeconds < 1.0) return; // player doesn't report a real duration/seek support
+
+            var position = timeline.Position + (DateTime.Now - timeline.LastUpdatedTime.DateTime);
+            double fraction = timeline.MaxSeekTime.TotalSeconds > 0
+                ? position.TotalSeconds / timeline.MaxSeekTime.TotalSeconds
+                : 0;
+            fraction = Math.Clamp(fraction, 0.0, 1.0);
+
+            Dispatcher.Invoke(() => SetSeekBarVisual(fraction));
+        }
+        catch (Exception ex)
+        {
+            Logger.Error(ex, "Taskbar widget error while updating seek bar");
+        }
+    }
+
+    // moves the fill rectangle and the round thumb to reflect a 0.0-1.0 position in the song
+    private void SetSeekBarVisual(double fraction)
+    {
+        fraction = Math.Clamp(fraction, 0.0, 1.0);
+        if (SeekBarTrack.ActualWidth <= 0) return;
+
+        double filledWidth = SeekBarTrack.ActualWidth * fraction;
+        SeekBarFill.Width = filledWidth;
+        SeekBarThumbTransform.X = filledWidth - (SeekBarThumb.Width / 2);
+    }
+
+    // returns the 0.0-1.0 fraction along the track for a mouse event's X position
+    private double GetSeekBarFraction(MouseEventArgs e)
+    {
+        if (SeekBarTrack.ActualWidth <= 0) return 0;
+        double fraction = e.GetPosition(SeekBarTrack).X / SeekBarTrack.ActualWidth;
+        return Math.Clamp(fraction, 0.0, 1.0);
+    }
+
+    private void SeekBarTrack_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+    {
+        // swallow so the click doesn't also toggle the media flyout via the parent border
+        e.Handled = true;
+
+        if (_mainWindow == null || SeekBarTrack.ActualWidth <= 0) return;
+        if (_mainWindow.GetActiveMediaSession() == null) return;
+
+        _isSeekBarDragging = true;
+        SeekBarTrack.CaptureMouse();
+        SetSeekBarVisual(GetSeekBarFraction(e));
+    }
+
+    private void SeekBarTrack_MouseMove(object sender, MouseEventArgs e)
+    {
+        if (!_isSeekBarDragging || e.LeftButton != MouseButtonState.Pressed) return;
+
+        SetSeekBarVisual(GetSeekBarFraction(e));
+    }
+
+    private async void SeekBarTrack_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+    {
+        e.Handled = true;
+
+        if (!_isSeekBarDragging) return;
+        _isSeekBarDragging = false;
+        SeekBarTrack.ReleaseMouseCapture();
+
+        if (_mainWindow == null || SeekBarTrack.ActualWidth <= 0) return;
+
+        var focusedSession = _mainWindow.GetActiveMediaSession();
+        if (focusedSession == null) return;
+
+        try
+        {
+            var timeline = focusedSession.ControlSession.GetTimelineProperties();
+            double totalSeconds = timeline.MaxSeekTime.TotalSeconds;
+            if (totalSeconds < 1.0) return; // this player/session doesn't support seeking
+
+            double fraction = GetSeekBarFraction(e);
+            var targetPosition = TimeSpan.FromSeconds(totalSeconds * fraction);
+
+            SetSeekBarVisual(fraction); // reflect the final position immediately
+            _lastSeekBarInteraction = DateTime.Now;
+
+            await focusedSession.ControlSession.TryChangePlaybackPositionAsync(targetPosition.Ticks);
+        }
+        catch (Exception ex)
+        {
+            Logger.Error(ex, "Taskbar widget error while seeking");
+        }
     }
 }
