@@ -127,6 +127,19 @@
                     <ComboBoxItem Content="{DynamicResource PositionBottomRight}" />
                 </ComboBox>
             </ui:CardControl>
+            <ui:CardControl x:Name="TaskbarWidgetCoverPositionTitleCard" Tag="Indexable" Icon="{ui:SymbolIcon ArrowMove24}" Margin="0,0,0,3">
+                <ui:CardControl.Header>
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="{DynamicResource TaskbarWidgetCoverPositionTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
+                        <TextBlock Text="{DynamicResource TaskbarWidgetCoverPositionDescription}" FontSize="12" Opacity="0.5" />
+                    </StackPanel>
+                </ui:CardControl.Header>
+                <ComboBox SelectedIndex="{Binding TaskbarWidgetCoverPosition}" IsEnabled="{Binding IsPremiumUnlocked}">
+                    <ComboBoxItem Content="{DynamicResource PositionDefault}" />
+                    <ComboBoxItem Content="{DynamicResource PositionLeft}" />
+                    <ComboBoxItem Content="{DynamicResource PositionRight}" />
+                </ComboBox>
+            </ui:CardControl>
             <ui:CardControl x:Name="TaskbarWidgetSelectedMonitorTitleCard" Tag="Indexable" Grid.Row="5" Icon="{ui:SymbolIcon ProjectionScreen24}" Margin="0,0,0,3">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">

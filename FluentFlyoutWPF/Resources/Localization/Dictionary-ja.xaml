@@ -205,6 +205,9 @@
     <system:String x:Key="TaskbarWidgetAutoHideDescription">メディアが停止している間はウィジェットを非表示にします</system:String>
     <system:String x:Key="TaskbarWidgetShowPauseOverlayDescription">メディアが停止されたときに、アルバムアートの上に一時停止ボタンを表示します</system:String>
     <system:String x:Key="TaskbarWidgetShowPauseOverlayTitle">一時停止アイコンオーバーレイを表示</system:String>
+    <system:String x:Key="PositionDefault">既定</system:String>
+    <system:String x:Key="TaskbarWidgetCoverPositionTitle">アルバムアートの位置</system:String>
+    <system:String x:Key="TaskbarWidgetCoverPositionDescription">既定では左側です。ウィジェットの位置が右下に設定されている場合、既定では右側になります。</system:String>
     <system:String x:Key="TaskbarWidgetControlsPositionTitle">メディア操作位置</system:String>
     <system:String x:Key="TaskbarWidgetControlsPositionDescription">メディア操作ボタンを表示する位置を選択</system:String>
     <system:String x:Key="PositionLeft">左</system:String>

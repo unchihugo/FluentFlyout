@@ -210,6 +210,9 @@ Możesz pomóc w tworzeniu tłumaczeń na stronie</system:String>
     <system:String x:Key="FailedToImportSettings">Nie udało się zaimportować ustawień. Sprawdź dziennik zdarzeń, aby zobaczyć szczegóły.</system:String>
     <system:String x:Key="TaskbarWidgetCloseableFlyoutTitle">Zamknij Flyout klikając dwa razy</system:String>
     <system:String x:Key="TaskbarWidgetCloseableFlyoutDescription">Zamknij flyout jeżeli jest już otwarty po kliknięciu w widget na pasku zadań</system:String>
+    <system:String x:Key="PositionDefault">Domyślne</system:String>
+    <system:String x:Key="TaskbarWidgetCoverPositionTitle">Pozycja okładki albumu</system:String>
+    <system:String x:Key="TaskbarWidgetCoverPositionDescription">Domyślnie po lewej. Jeśli pozycja widżetu jest ustawiona na prawy dolny róg, domyślnie jest po prawej.</system:String>
     <system:String x:Key="TaskbarWidgetControlsPositionTitle">Pozycja Kontroli Mediów</system:String>
     <system:String x:Key="TaskbarWidgetControlsPositionDescription">Wybierz gdzie wyświetlać przyciski kontroli mediów</system:String>
     <system:String x:Key="PositionLeft">Lewo</system:String>

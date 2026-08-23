@@ -141,6 +141,9 @@
     <system:String x:Key="TaskbarVisualizerBarCountDescription">비주얼라이저에 표시되는 바의 개수 설정</system:String>
     <system:String x:Key="TaskbarWidgetCloseableFlyoutTitle">두 번 클릭하여 Flyout 닫기</system:String>
     <system:String x:Key="TaskbarWidgetCloseableFlyoutDescription">Flyout이 열려 있을 때 작업 표시줄 위젯을 클릭하여 닫기</system:String>
+    <system:String x:Key="PositionDefault">기본값</system:String>
+    <system:String x:Key="TaskbarWidgetCoverPositionTitle">앨범 아트 위치</system:String>
+    <system:String x:Key="TaskbarWidgetCoverPositionDescription">기본값은 왼쪽입니다. 위젯 위치가 오른쪽 아래로 설정되어 있으면 기본값은 오른쪽입니다.</system:String>
     <system:String x:Key="TaskbarWidgetControlsPositionTitle">미디어 컨트롤 위치</system:String>
     <system:String x:Key="TaskbarWidgetControlsPositionDescription">미디어 컨트롤 버튼을 표시할 위치를 선택</system:String>
     <system:String x:Key="PositionLeft">왼쪽</system:String>

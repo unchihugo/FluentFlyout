@@ -171,6 +171,9 @@
     <system:String x:Key="MediaFlyoutExcludeVolumeDescription">אל תציג את החלון הקופץ בעת לחיצה על הגברת/הנמכת עוצמה או השתקה</system:String>
     <system:String x:Key="TaskbarWidgetCloseableFlyoutTitle">סגור את החלון הקופץ בלחיצה שנייה</system:String>
     <system:String x:Key="TaskbarWidgetCloseableFlyoutDescription">סגור את החלון הקופץ אם הוא כבר פתוח בעת לחיצה על הווידג'ט בשורת המשימות</system:String>
+    <system:String x:Key="PositionDefault">ברירת מחדל</system:String>
+    <system:String x:Key="TaskbarWidgetCoverPositionTitle">מיקום עטיפת האלבום</system:String>
+    <system:String x:Key="TaskbarWidgetCoverPositionDescription">ברירת המחדל היא שמאלה. אם מיקום הווידג׳ט מוגדר לימין למטה, ברירת המחדל היא ימינה.</system:String>
     <system:String x:Key="TaskbarWidgetControlsPositionTitle">מיקום פקדי המדיה</system:String>
     <system:String x:Key="TaskbarWidgetControlsPositionDescription">בחר היכן יוצגו פקדי המדיה</system:String>
     <system:String x:Key="PositionLeft">שמאל</system:String>

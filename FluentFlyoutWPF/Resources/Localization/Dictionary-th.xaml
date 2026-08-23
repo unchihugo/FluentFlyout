@@ -50,4 +50,7 @@
     <system:String x:Key="PauseOtherMediaTitle">หยุดสื่อที่เล่นอยู่ก่อนหน้านี้อัตโนมัติ</system:String>
     <system:String x:Key="PauseOtherMediaDescription">เมื่อคุณเล่นสื่อตัวใหม่ สื่ออื่นๆที่เคยเล่นอยู่จะถูกหยุดโดยอัตโนมัติ</system:String>
     <system:String x:Key="TaskbarWidgetCustomizationTitle">Widget ของ Taskbar</system:String>
+    <system:String x:Key="PositionDefault">ค่าเริ่มต้น</system:String>
+    <system:String x:Key="TaskbarWidgetCoverPositionTitle">ตำแหน่งภาพปกอัลบั้ม</system:String>
+    <system:String x:Key="TaskbarWidgetCoverPositionDescription">ค่าเริ่มต้นอยู่ทางซ้าย หากตั้งค่าตำแหน่งวิดเจ็ตเป็นมุมขวาล่าง ค่าเริ่มต้นจะอยู่ทางขวา</system:String>
 </ResourceDictionary>

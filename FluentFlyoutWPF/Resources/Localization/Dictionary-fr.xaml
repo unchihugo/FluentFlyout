@@ -197,6 +197,9 @@ Vous pouvez contribuer aux traductions sur</system:String>
     <system:String x:Key="TaskbarVisualizerOutputDeviceTitle">Périphérique de sortie</system:String>
     <system:String x:Key="TaskbarWidgetCloseableFlyoutTitle">Fermer le menu déroulant au deuxième clique</system:String>
     <system:String x:Key="TaskbarWidgetCloseableFlyoutDescription">Fermer le menu déroulant s'il est déjà ouvert lors du clique sur le widget dans la barre des tâches</system:String>
+    <system:String x:Key="PositionDefault">Par défaut</system:String>
+    <system:String x:Key="TaskbarWidgetCoverPositionTitle">Position de la pochette</system:String>
+    <system:String x:Key="TaskbarWidgetCoverPositionDescription">Par défaut, elle est à gauche. Si la position du widget est définie en bas à droite, elle est à droite par défaut.</system:String>
     <system:String x:Key="TaskbarWidgetControlsPositionTitle">Contrôle de la position des médias</system:String>
     <system:String x:Key="TaskbarWidgetControlsPositionDescription">Choisir où afficher le bouton de contrôle des médias</system:String>
     <system:String x:Key="PositionLeft">Gauche</system:String>

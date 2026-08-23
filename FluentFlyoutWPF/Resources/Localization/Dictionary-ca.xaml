@@ -66,6 +66,9 @@ Oculta els botons de repetició, aleatori i la informació del reproductor</syst
     <system:String x:Key="TaskbarWidgetAutoHideDescription">Oculta automàticament el widget quan la reproducció es pausa</system:String>
     <system:String x:Key="TaskbarWidgetControlsTitle">Controls Multimèdia del Widget</system:String>
     <system:String x:Key="TaskbarWidgetControlsDescription">Mostra controls multimèdia al widget</system:String>
+    <system:String x:Key="PositionDefault">Predeterminat</system:String>
+    <system:String x:Key="TaskbarWidgetCoverPositionTitle">Posició de la caràtula</system:String>
+    <system:String x:Key="TaskbarWidgetCoverPositionDescription">Per defecte és a l'esquerra. Si la posició del widget està configurada a baix a la dreta, per defecte és a la dreta.</system:String>
     <system:String x:Key="TaskbarWidgetControlsPositionTitle">Posició de Controls Multimèdia</system:String>
     <system:String x:Key="TaskbarWidgetControlsPositionDescription">Tria on vols mostrar els controls multimèdia</system:String>
     <system:String x:Key="PositionLeft">Esquerra</system:String>

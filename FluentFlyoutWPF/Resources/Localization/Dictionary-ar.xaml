@@ -215,6 +215,9 @@
     <system:String x:Key="TaskbarVisualizerAudioPeakLevelTitle">حد ذروة الصوت</system:String>
     <system:String x:Key="PositionLeft">اليسار</system:String>
     <system:String x:Key="PositionRight">اليمين</system:String>
+    <system:String x:Key="PositionDefault">الافتراضي</system:String>
+    <system:String x:Key="TaskbarWidgetCoverPositionTitle">موضع صورة الألبوم</system:String>
+    <system:String x:Key="TaskbarWidgetCoverPositionDescription">الافتراضي إلى اليسار. إذا تم تعيين موضع الأداة إلى أسفل اليمين، يكون الافتراضي إلى اليمين.</system:String>
     <system:String x:Key="TaskbarWidgetControlsPositionTitle">موقع أزرار التحكم بالوسائط</system:String>
     <system:String x:Key="TaskbarWidgetControlsPositionDescription">اختر مكان عرض أزرار التحكم في الوسائط</system:String>
     <system:String x:Key="TaskbarVisualizerClickableTitle">إضغط لفتح الإعدادات</system:String>
