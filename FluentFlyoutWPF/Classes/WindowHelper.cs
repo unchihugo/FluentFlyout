@@ -22,7 +22,7 @@ public static class WindowHelper
     public static void SetVisibility(Window window, bool visible) // workaround to set window even more topmost
     {
         var handle = new WindowInteropHelper(window).Handle;
-        SetWindowPos(handle, 0, 0, 0, 0, 0, (uint)(SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | (visible ? SWP_SHOWWINDOW : SWP_HIDEWINDOW)));
+        SetWindowPos(handle, 0, 0, 0, 0, 0, (uint)(SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_NOACTIVATE | (visible ? SWP_SHOWWINDOW : SWP_HIDEWINDOW)));
     }
 
     public static Rect GetPlacement(Window window) // get the window position, ignoring WPF
@@ -39,7 +39,7 @@ public static class WindowHelper
     public static void SetPosition(Window window, double x, double y, bool async = false) // set the position of the window, ignoring WPF
     {
         var handle = new WindowInteropHelper(window).Handle;
-        uint flags = SWP_NOSIZE | SWP_NOZORDER | (async ? SWP_ASYNCWINDOWPOS : (uint)0);
+        uint flags = SWP_NOSIZE | SWP_NOZORDER | SWP_NOACTIVATE | (async ? SWP_ASYNCWINDOWPOS : (uint)0);
         bool result = SetWindowPos(handle, 0, (int)x, (int)y, 0, 0, flags);
 
         if (!result)
@@ -53,11 +53,19 @@ public static class WindowHelper
 
     public static void SetNoActivate(Window window) // prevent window from stealing focus
     {
-        window.SourceInitialized += (sender, e) =>
+        window.ShowActivated = false;
+
+        void ApplyNoActivateStyle()
         {
             var helper = new WindowInteropHelper(window);
+            if (helper.Handle == IntPtr.Zero)
+                return;
+
             SetWindowLong(helper.Handle, GWL_EXSTYLE, GetWindowLong(helper.Handle, GWL_EXSTYLE) | WS_EX_NOACTIVATE);
-        };
+        }
+
+        window.SourceInitialized += (sender, e) => ApplyNoActivateStyle();
+        ApplyNoActivateStyle();
     }
 
     // Check if the mouse cursor is currently over the specified window
