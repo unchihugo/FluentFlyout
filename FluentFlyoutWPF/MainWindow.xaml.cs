@@ -784,16 +784,15 @@ public partial class MainWindow : MicaWindow
 
     private void MediaManager_OnAnyTimelinePropertyChanged(MediaSession mediaSession, GlobalSystemMediaTransportControlsSessionTimelineProperties timelineProperties)
     {
-        _lastSelfUpdateTimestamp = DateTime.Now;
-
         if (GetActiveMediaSession() is not { } session || session.Id != mediaSession.Id) return;
 
         if (_seekBarEnabled)
         {
             Dispatcher.Invoke(() =>
             {
-                if (!IsActive || _isDragging) return;
+                if (Visibility != Visibility.Visible || _isHiding || _isDragging) return;
 
+                _lastSelfUpdateTimestamp = DateTime.Now;
                 UpdateSeekbarCurrentDuration(session.ControlSession.GetTimelineProperties().Position);
                 HandlePlayBackState(session.ControlSession.GetPlaybackInfo().PlaybackStatus);
             });
