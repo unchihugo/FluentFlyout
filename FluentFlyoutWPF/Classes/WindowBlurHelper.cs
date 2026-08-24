@@ -1,4 +1,4 @@
-// Copyright © 2024-2026 The FluentFlyout Authors
+// Copyright (c) 2024-2026 The FluentFlyout Authors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 using FluentFlyout.Classes.Settings;
@@ -17,8 +17,8 @@ public static class WindowBlurHelper
     /// </summary>
     /// <param name="window">The window to apply blur to</param>
     /// <param name="blurOpacity">Opacity of the blur (0-255)</param>
-    /// <param name="blurBackgroundColor">Background color in BGR format (default: 0x000000)</param>
-    public static void EnableBlur(Window window, uint blurOpacity = 175, uint blurBackgroundColor = 0x000000)
+    /// <param name="blurBackgroundColor">Background color in BGR format (default: 0x202020)</param>
+    public static void EnableBlur(Window window, uint blurOpacity = 175, uint blurBackgroundColor = 0x202020)
     {
         // override opacity if premium is unlocked
         if (SettingsManager.Current.IsPremiumUnlocked) blurOpacity = SettingsManager.Current.AcrylicBlurOpacity;
@@ -29,7 +29,11 @@ public static class WindowBlurHelper
         var currentTheme = ApplicationThemeManager.GetAppTheme();
         if (currentTheme == ApplicationTheme.Light)
         {
-            blurBackgroundColor = 0xFFFFFF; // use light background for light theme
+            blurBackgroundColor = 0xF3F3F3; // use light background for light theme
+        }
+        else
+        {
+            blurBackgroundColor = 0x202020; // use dark background for dark theme
         }
 
         var accent = new AccentPolicy
@@ -89,8 +93,7 @@ public static class WindowBlurHelper
     /// <param name="newBlurOpacity">New opacity value (0-255)</param>
     public static void AdjustBlurOpacityForAllWindows(uint newBlurOpacity)
     {
-        if (!SettingsManager.Current.IsPremiumUnlocked) return;
-        newBlurOpacity = Math.Clamp(newBlurOpacity, 0, 255);
+        newBlurOpacity = SettingsManager.Current.IsPremiumUnlocked ? Math.Clamp(newBlurOpacity, 0, 255) : 175;
 
         foreach (Window window in Application.Current.Windows)
         {
@@ -103,7 +106,7 @@ public static class WindowBlurHelper
             if (ShouldHaveAcrylicBlur(window))
             {
                 var currentTheme = ApplicationThemeManager.GetAppTheme();
-                uint blurBackgroundColor = currentTheme == ApplicationTheme.Light ? 0xFFFFFFu : 0x000000u;
+                uint blurBackgroundColor = currentTheme == ApplicationTheme.Light ? 0xF3F3F3u : 0x202020u;
 
                 var accent = new AccentPolicy
                 {
@@ -141,6 +144,7 @@ public static class WindowBlurHelper
             "MainWindow" => SettingsManager.Current.MediaFlyoutAcrylicWindowEnabled,
             "NextUpWindow" => SettingsManager.Current.NextUpAcrylicWindowEnabled,
             "LockWindow" => SettingsManager.Current.LockKeysAcrylicWindowEnabled,
+            "VolumeMixerWindow" => SettingsManager.Current.VolumeMixerAcrylicWindowEnabled,
             _ => false
         };
     }

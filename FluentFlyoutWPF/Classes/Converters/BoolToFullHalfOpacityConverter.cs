@@ -1,10 +1,10 @@
-﻿// Copyright © 2024-2026 The FluentFlyout Authors
+﻿// Copyright (c) 2024-2026 The FluentFlyout Authors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 using System.Globalization;
 using System.Windows.Data;
 
-namespace FluentFlyoutWPF.Classes.Utils;
+namespace FluentFlyoutWPF.Classes.Converters;
 
 public class BoolToFullHalfOpacityConverter : IValueConverter
 {

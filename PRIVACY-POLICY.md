@@ -1,14 +1,27 @@
 ## Privacy Policy
 
+*Last updated: June 21, 2026*
+
+_We have updated our February 27, 2026 Privacy Policy to include information on how we collect and process new anonymous usage data, and how Cloudflare may collect additional data automatically._
+
 This Privacy Policy describes how your personal information is handled in FluentFlyout.
 
 ### 1. Information We Collect
-FluentFlyout **does not** collect, store, or process any personal data from users. As a background utility application, it does not require any user-specific information to function. 
+FluentFlyout does not collect, store, or process any personally identifiable information (PII) such as your name, email address, or precise location. As a background utility application, it does not require any user-specific information to function. 
 
-While the application itself does not collect data, the platform through which you install the app (Microsoft Store) may collect certain technical and usage information automatically (see Section 3).
+To help us understand how the application is used, improve performance and add features users like, we collect basic, anonymous usage data (see Section 2).
 
-### 2. Cookies and Tracking
-FluentFlyout does not use cookies, tracking pixels, or any custom telemetry within its own code to monitor or track user activity.
+Additionally, the platform through which you install the app (Microsoft Store) may collect certain technical and usage information automatically (see Section 3).
+
+FluentFlyout's website is hosted on Cloudflare Pages (https://fluentflyout.com). Cloudflare may collect additional network and HTTP traffic data automatically (see Section 4).
+
+### 2. Telemetry and Usage Data
+FluentFlyout collects limited, anonymous telemetry to help us maintain, optimize and improve the application.
+
+* **What we collect:** This data may include basic information about application events (such as whether a specific feature was enabled, or whether onboarding was successful).
+* **Anonymity:** This data is entirely anonymous. It does not contain any personal identifiers, names, locations, or network addresses such as IP. We cannot use this data to identify you or link it to any specific individual.
+* **Purpose:** We use this information solely to identify bugs, understand which features are most valuable to our users, and guide future development.
+* **Opt-out:** You can opt out of this anonymous data collection at any time by going to the FluentFlyout Settings menu and disabling "Anonymous Usage Data" under System.
 
 ### 3. Microsoft Store Analytics & Windows Diagnostics
 Depending on your installation method and Windows settings, Microsoft may automatically collect certain diagnostic and usage data:
@@ -19,13 +32,18 @@ Depending on your installation method and Windows settings, Microsoft may automa
 
 For more information on what Microsoft collects, please refer to the [Microsoft Privacy Statement](https://privacy.microsoft.com/en-us/privacystatement).
 
-### 4. Third-Party Services
-FluentFlyout does not share any personal information with third-party services. The only third-party interaction occurs at the system level via the Microsoft Store or Windows OS for the purposes of delivery, updates, and reliability reporting as described in Section 3.
+### 4. Cloudflare Data Collection
+FluentFlyout's website is hosted on Cloudflare Pages. Cloudflare may automatically collect network metadata and HTTP traffic, primarily consisting of IP addresses, device interaction, and server activity data. Cloudflare uses this data to route traffic, protect against malicious attacks (such as DDoS), and measure web analytics.
 
-### 5. Data Security
-Since no personal information is collected or stored by the application, there are no specific security measures required for the storage of user data. We rely on the security of the Microsoft Store and GitHub for the safe distribution of the application binaries.
+No tracking or fingerprinting: Cloudflare does not use tracking or cookies to collect usage metrics, and our website does not store or collect anything.
 
-### 6. Changes to This Privacy Policy
+For more information on what Cloudflare collects, please refer to [Cloudflare's Privacy Policy](https://www.cloudflare.com/privacypolicy/).
+
+### 5. Third-Party Services
+We use Cloudflare Analytics Engine to securely collect the anonymous usage data described in Section 2. No personal data is shared with this service. They do not monetize, sell, or use your data to build advertising profiles.
+
+### 6. Data Security
+The anonymous usage data collected by the application is transmitted securely over HTTPS. Because we do not collect or store any personal information, there are no databases of personal user data to secure. We rely on the security of the Microsoft Store, Cloudflare and GitHub for the safe distribution of the application binaries.
+
+### 7. Changes to This Privacy Policy
 We reserve the right to update this Privacy Policy at any time. Any changes will be reflected in the updated version available in the app’s repository.
-
-*Last updated: February 27, 2026*

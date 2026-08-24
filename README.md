@@ -8,12 +8,12 @@
 
 <p align="center">
 	<img alt="GitHub Release" src="https://img.shields.io/github/v/release/unchihugo/FluentFlyout">
-	<img alt="Static Badge" src="https://img.shields.io/badge/downloads-130K%2B-blue?color=limegreen">
+	<img alt="Static Badge" src="https://img.shields.io/badge/downloads-500k%2B-blue?color=limegreen">
 	<a href="https://hosted.weblate.org/engage/fluentflyout/"><img src="https://hosted.weblate.org/widget/fluentflyout/svg-badge.svg" alt="Translation status"/></a>
 	<img alt="GitHub contributors" src="https://img.shields.io/github/contributors-anon/unchihugo/fluentflyout?labelColor=midnightblue&color=goldenrod">
 </p>
 <p align="center">
-  <strong>English</strong> | <a href="https://github.com/unchihugo/FluentFlyout/blob/master/README.zh.md">简体中文</a> | <a href="https://github.com/unchihugo/FluentFlyout/blob/master/README.nl.md">Nederlands</a> | <a href="https://github.com/unchihugo/FluentFlyout/blob/master/README.tr.md">Türkçe</a> | <a href="https://github.com/unchihugo/FluentFlyout/blob/master/README.ru.md">Русский</a>
+  <strong>English</strong> | <a href="https://github.com/unchihugo/FluentFlyout/blob/master/README.zh.md">简体中文</a> | <a href="https://github.com/unchihugo/FluentFlyout/blob/master/README.nl.md">Nederlands</a> | <a href="https://github.com/unchihugo/FluentFlyout/blob/master/README.tr.md">Türkçe</a> | <a href="https://github.com/unchihugo/FluentFlyout/blob/master/README.ru.md">Русский</a> | <a href="https://github.com/unchihugo/FluentFlyout/blob/master/README.kr.md">한국어</a>
 </p>
 
 ---
@@ -131,8 +131,15 @@ Thank you for your support and understanding!
 - [Hykerisme](https://github.com/Hykerisme) - CN Translation
 - [nopeless](https://github.com/nopeless) - Code Contributor (QoL features)
 - [Apolake](https://github.com/Apolake) - Code Contributor (MusicBee support fork)
+- All our amazing contributors! Check the full list on our [GitHub Contributors page](https://github.com/unchihugo/FluentFlyout/graphs/contributors?all=1)
 
 ### Dependencies
+- [CommunityToolkit.Mvvm](https://github.com/CommunityToolkit/dotnet)
 - [Dubya.WindowsMediaController](https://github.com/DubyaDude/WindowsMediaController)
 - [MicaWPF](https://github.com/Simnico99/MicaWPF)
-- [WPF-UI](https://github.com/lepoco/wpfui)
+- [Microsoft.Toolkit.Uwp.Notifications](https://github.com/CommunityToolkit/WindowsCommunityToolkit)
+- [NAudio](https://github.com/naudio/NAudio)
+- [NLog](https://nlog-project.org/)
+- [System.Drawing.Common](https://dot.net/)
+- [unchihugo.WPF-UI](https://github.com/unchihugo/wpfui)
+- [WPF-UI-Tray](https://github.com/lepoco/wpfui)

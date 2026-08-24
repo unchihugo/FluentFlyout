@@ -61,4 +61,6 @@ Huomaa: Koska kyseessä on avoimen lähdekoodin projekti, nämä toiminnot ovat 
     <system:String x:Key="PremiumPurchaseSuccess">Premium-ominaisuudet avattu onnistuneesti!</system:String>
     <system:String x:Key="PremiumPurchaseFailed">Maksu epäonnistui. Ole hyvä ja yritä uudelleen.</system:String>
     <system:String x:Key="PremiumPurchaseCancelled">Osto peruttu.</system:String>
+    <system:String x:Key="HomeTitle">Koti</system:String>
+    <system:String x:Key="Enabled">Käytössä</system:String>
 </ResourceDictionary>

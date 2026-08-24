@@ -1,11 +1,9 @@
-// Copyright © 2024-2026 The FluentFlyout Authors
+// Copyright (c) 2024-2026 The FluentFlyout Authors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 using FluentFlyout.Classes.Settings;
 using FluentFlyoutWPF;
 using FluentFlyoutWPF.Classes;
-using MicaWPF.Core.Enums;
-using MicaWPF.Core.Helpers;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -18,6 +16,9 @@ namespace FluentFlyout.Controls;
 /// </summary>
 public partial class TaskbarVisualizerControl : UserControl
 {
+    private const double DefaultTaskbarVisualizerHeight = 40;
+    private const double SmallTaskbarVisualizerHeight = 28;
+
     // reference to main window for flyout functions
     private static readonly Visualizer visualizer = new();
 
@@ -43,6 +44,11 @@ public partial class TaskbarVisualizerControl : UserControl
         }
 
         Background = new SolidColorBrush(Color.FromArgb(1, 0, 0, 0));
+    }
+
+    public void SetSmallTaskbarMode(bool isSmallTaskbar)
+    {
+        Height = isSmallTaskbar ? SmallTaskbarVisualizerHeight : DefaultTaskbarVisualizerHeight;
     }
 
     public static void OnTaskbarVisualizerEnabledChanged(bool value)
@@ -77,7 +83,9 @@ public partial class TaskbarVisualizerControl : UserControl
 
         SolidColorBrush targetBackgroundBrush;
         // hover effects with animations, hard-coded colors because I can't find the resource brushes
-        if (WindowsThemeHelper.GetCurrentWindowsTheme() == WindowsTheme.Dark)
+        WindowsThemeDetector.GetWindowsTheme(out _, out var systemTheme);
+        bool isDark = systemTheme == WindowsThemeDetector.ThemeMode.Dark;
+        if (isDark)
         { // dark mode
             targetBackgroundBrush = new SolidColorBrush(Color.FromArgb(197, 255, 255, 255)) { Opacity = 0.075 };
             TopBorder.BorderBrush = new SolidColorBrush(Color.FromArgb(93, 255, 255, 255)) { Opacity = 0.25 };
@@ -117,7 +125,7 @@ public partial class TaskbarVisualizerControl : UserControl
     private void Grid_MouseLeave(object sender, MouseEventArgs e)
     {
         if (!SettingsManager.Current.TaskbarVisualizerClickable || !SettingsManager.Current.TaskbarVisualizerHasContent) return;
-        
+
         // Animate back to transparent
         var backgroundAnimation = new ColorAnimation
         {

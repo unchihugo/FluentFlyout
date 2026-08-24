@@ -88,7 +88,7 @@
         </Grid>
 
         <StackPanel Opacity="{Binding IsPremiumUnlocked, Converter={StaticResource BoolToFullHalfOpacityConverter}}">
-            <ui:CardControl Icon="{ui:SymbolIcon SoundWaveCircle24}" Margin="0,0,0,24">
+            <ui:CardControl x:Name="TaskbarVisualizerEnabledTitleCard" Tag="Indexable" Icon="{ui:SymbolIcon SoundWaveCircle24}" Margin="0,0,0,24">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
                         <StackPanel Orientation="Horizontal">
@@ -98,10 +98,10 @@
                         <TextBlock Text="{DynamicResource TaskbarVisualizerEnabledDescription}" FontSize="12" Opacity="0.5" />
                     </StackPanel>
                 </ui:CardControl.Header>
-                <controls:ToggleSwitch IsChecked="{Binding TaskbarVisualizerEnabled, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}" />
+                <ui:ToggleSwitch IsChecked="{Binding TaskbarVisualizerEnabled, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}" />
             </ui:CardControl>
 
-            <ui:CardControl Icon="{ui:SymbolIcon ArrowMove24}" Margin="0,0,0,3">
+            <ui:CardControl x:Name="TaskbarVisualizerPositionTitleCard" Tag="Indexable" Icon="{ui:SymbolIcon ArrowMove24}" Margin="0,0,0,3">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
                         <TextBlock Text="{DynamicResource TaskbarVisualizerPositionTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
@@ -113,7 +113,7 @@
                 </ComboBox>
             </ui:CardControl>
 
-            <ui:CardControl Icon="{ui:SymbolIcon DataBarVertical24, Filled=True}" Margin="0,0,0,3">
+            <ui:CardControl x:Name="TaskbarVisualizerBarCountTitleCard" Tag="Indexable" Icon="{ui:SymbolIcon DataBarVertical24, Filled=True}" Margin="0,0,0,3">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
                         <StackPanel Orientation="Horizontal">
@@ -123,32 +123,46 @@
                     </StackPanel>
                 </ui:CardControl.Header>
                 <StackPanel Orientation="Horizontal" Opacity="{Binding IsPremiumUnlocked, Converter={StaticResource BoolToFullHalfOpacityConverter}}" >
-                    <Slider Minimum="1" Maximum="20" Value="{Binding TaskbarVisualizerBarCount, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}" TickFrequency="1" IsSnapToTickEnabled="True" Width="150" />
+                    <Slider Minimum="1" Maximum="20" Value="{Binding TaskbarVisualizerBarCount, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}" TickFrequency="1" IsSnapToTickEnabled="True" Width="150"
+                            IsMoveToPointEnabled="True" />
                     <ui:TextBlock Text="{Binding TaskbarVisualizerBarCount}" Width="24" TextAlignment="Center" Margin="12,0,0,0" />
                 </StackPanel>
             </ui:CardControl>
 
-            <ui:CardControl Icon="{ui:SymbolIcon AlignCenterHorizontal24, Filled=True}" Margin="0,0,0,3">
+            <ui:CardControl x:Name="TaskbarVisualizerCenteredBarsTitleCard" Tag="Indexable" Icon="{ui:SymbolIcon AlignCenterHorizontal24, Filled=True}" Margin="0,0,0,3">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
                         <TextBlock Text="{DynamicResource TaskbarVisualizerCenteredBarsTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
                         <TextBlock Text="{DynamicResource TaskbarVisualizerCenteredBarsDescription}" FontSize="12" Opacity="0.5" />
                     </StackPanel>
                 </ui:CardControl.Header>
-                <controls:ToggleSwitch IsChecked="{Binding TaskbarVisualizerCenteredBars, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}" />
+                <ui:ToggleSwitch IsChecked="{Binding TaskbarVisualizerCenteredBars, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}" />
             </ui:CardControl>
 
-            <ui:CardControl Icon="{ui:SymbolIcon LineHorizontal120, Filled=False}" Margin="0,0,0,12">
-                <ui:CardControl.Header>
-                    <StackPanel Orientation="Vertical">
-                        <TextBlock Text="{DynamicResource TaskbarVisualizerBaselineTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
-                        <TextBlock Text="{DynamicResource TaskbarVisualizerBaselineDescription}" FontSize="12" Opacity="0.5" />
-                    </StackPanel>
-                </ui:CardControl.Header>
-                <controls:ToggleSwitch IsChecked="{Binding TaskbarVisualizerBaseline, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}" />
-            </ui:CardControl>
+            <ui:CardExpander x:Name="TaskbarVisualizerBaselineTitleCard" Tag="Indexable" Icon="{ui:SymbolIcon LineHorizontal120}" ContentPadding="0" Margin="0,0,0,12">
+                <ui:CardExpander.Header>
+                    <Grid ColumnDefinitions="*, Auto">
+                        <StackPanel Orientation="Vertical" Grid.Column="0">
+                            <TextBlock Text="{DynamicResource TaskbarVisualizerBaselineTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
+                            <TextBlock Text="{DynamicResource TaskbarVisualizerBaselineDescription}" FontSize="12" Opacity="0.5" />
+                        </StackPanel>
+                        <ui:ToggleSwitch Grid.Column="1" IsChecked="{Binding TaskbarVisualizerBaseline, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}" Margin="0,0,16,0" />
+                    </Grid>
+                </ui:CardExpander.Header>
+                <StackPanel Opacity="{Binding TaskbarVisualizerBaseline, Converter={StaticResource BoolToFullHalfOpacityConverter}}">
+                    <ui:CardControl Background="Transparent" BorderBrush="{ui:ThemeResource CardStrokeColorDefaultSolidBrush}" BorderThickness="0" CornerRadius="0" Padding="52,12,16,12">
+                        <ui:CardControl.Header>
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock Text="{DynamicResource TaskbarWidgetAutoHideTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
+                                <TextBlock Text="{DynamicResource TaskbarVisualizerBaselineAutoHideDescription}" FontSize="12" Opacity="0.5" />
+                            </StackPanel>
+                        </ui:CardControl.Header>
+                        <ui:ToggleSwitch IsChecked="{Binding TaskbarVisualizerBaselineAutoHide, Mode=TwoWay}" IsEnabled="{Binding TaskbarVisualizerBaseline}" />
+                    </ui:CardControl>
+                </StackPanel>
+            </ui:CardExpander>
 
-            <ui:CardControl Icon="{ui:SymbolIcon BezierCurveSquare20, Filled=False}" Margin="0,0,0,3">
+            <ui:CardControl x:Name="TaskbarVisualizerAudioSensitivityTitleCard" Tag="Indexable" Icon="{ui:SymbolIcon BezierCurveSquare20, Filled=False}" Margin="0,0,0,3">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
                         <TextBlock Text="{DynamicResource TaskbarVisualizerAudioSensitivityTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
@@ -157,33 +171,34 @@
                 </ui:CardControl.Header>
                 <StackPanel Orientation="Horizontal" Opacity="{Binding IsPremiumUnlocked, Converter={StaticResource BoolToFullHalfOpacityConverter}}" >
                     <ui:SymbolIcon Symbol="Subtract24" Width="24" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                    <Slider Minimum="1" Maximum="3" Value="{Binding TaskbarVisualizerAudioSensitivity, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}" TickFrequency="1" TickPlacement="Both" IsSnapToTickEnabled="True" Width="150" Margin="12,0,12,0" />
+                    <Slider Minimum="1" Maximum="3" Value="{Binding TaskbarVisualizerAudioSensitivity, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}" TickFrequency="1" TickPlacement="Both" IsSnapToTickEnabled="True" Width="150" Margin="12,0,12,0"
+                            IsMoveToPointEnabled="True" />
                     <ui:SymbolIcon Symbol="Add24" Width="24" HorizontalAlignment="Center" VerticalAlignment="Center" />
                 </StackPanel>
             </ui:CardControl>
 
-            <ui:CardControl Icon="{ui:SymbolIcon ArrowAutofitUp24, Filled=False}" Margin="0,0,0,3">
+            <ui:CardControl x:Name="TaskbarVisualizerAudioPeakLevelTitleCard" Tag="Indexable" Icon="{ui:SymbolIcon ArrowAutofitUp24, Filled=False}" Margin="0,0,0,3">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="{DynamicResource TaskbarVisualizerAudioPeakLevelTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
-                            <ui:InfoBadge Value=" NEW " FontWeight="Medium" FontSize="10" Margin="6,-2,0,-2" Severity="Success" />
                         </StackPanel>
                         <TextBlock Text="{DynamicResource TaskbarVisualizerAudioPeakLevelDescription}" FontSize="12" Opacity="0.5" />
                     </StackPanel>
                 </ui:CardControl.Header>
                 <StackPanel Orientation="Horizontal" Opacity="{Binding IsPremiumUnlocked, Converter={StaticResource BoolToFullHalfOpacityConverter}}" >
                     <ui:SymbolIcon Symbol="Subtract24" Width="24" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                    <Slider Minimum="1" Maximum="3" Value="{Binding TaskbarVisualizerAudioPeakLevel, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}" TickFrequency="1" TickPlacement="Both" IsSnapToTickEnabled="True" Width="150" Margin="12,0,12,0" />
+                    <Slider Minimum="1" Maximum="3" Value="{Binding TaskbarVisualizerAudioPeakLevel, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}" TickFrequency="1" TickPlacement="Both" IsSnapToTickEnabled="True" Width="150" Margin="12,0,12,0"
+                            IsMoveToPointEnabled="True" />
                     <ui:SymbolIcon Symbol="Add24" Width="24" HorizontalAlignment="Center" VerticalAlignment="Center" />
                 </StackPanel>
             </ui:CardControl>
 
-            <ui:CardControl Icon="{ui:SymbolIcon Speaker224}" Margin="0,0,0,12">
+            <ui:CardControl x:Name="TaskbarVisualizerOutputDeviceCard" Tag="Indexable" Icon="{ui:SymbolIcon Speaker224}" Margin="0,0,0,12">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
                         <TextBlock FontSize="14" FontWeight="Regular" VerticalAlignment="Center">
-                            <Hyperlink x:Name="StartupHyperlink" NavigateUri="ms-settings:apps-volume" BaselineAlignment="Center"
+                            <Hyperlink x:Name="StartupHyperlink" Tag="Indexable" NavigateUri="ms-settings:apps-volume" BaselineAlignment="Center"
                                    RequestNavigate="StartupHyperlink_RequestNavigate" TextDecorations="None" Foreground="{DynamicResource AccentTextFillColorPrimaryBrush}" >
                                 <Run Text="{DynamicResource TaskbarVisualizerOutputDeviceTitle}" />
                                 <ui:SymbolIcon VerticalAlignment="Center" FontSize="14" Symbol="ArrowUpRight24" />
@@ -194,17 +209,16 @@
                 </ui:CardControl.Header>
             </ui:CardControl>
 
-            <ui:CardControl Icon="{ui:SymbolIcon ExpandUpRight24}" Margin="0,0,0,76">
+            <ui:CardControl x:Name="TaskbarVisualizerClickableTitleCard" Tag="Indexable" Icon="{ui:SymbolIcon ExpandUpRight24}" Margin="0,0,0,76">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="{DynamicResource TaskbarVisualizerClickableTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
-                            <ui:InfoBadge Value=" NEW " FontWeight="Medium" FontSize="10" Margin="6,-2,0,-2" Severity="Success" />
                         </StackPanel>
                         <TextBlock Text="{DynamicResource TaskbarVisualizerClickableDescription}" FontSize="12" Opacity="0.5" />
                     </StackPanel>
                 </ui:CardControl.Header>
-                <controls:ToggleSwitch IsChecked="{Binding TaskbarVisualizerClickable, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}" />
+                <ui:ToggleSwitch IsChecked="{Binding TaskbarVisualizerClickable, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}" />
             </ui:CardControl>
         </StackPanel>
     </StackPanel>

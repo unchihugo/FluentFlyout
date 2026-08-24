@@ -1,4 +1,4 @@
-﻿// Copyright © 2024-2026 The FluentFlyout Authors
+﻿// Copyright (c) 2024-2026 The FluentFlyout Authors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 using FluentFlyout.Classes;
@@ -27,8 +27,7 @@ public partial class NextUpWindow : MicaWindow
         InitializeComponent();
         WindowHelper.SetTopmost(this);
         CustomWindowChrome.CaptionHeight = 0;
-        CustomWindowChrome.UseAeroCaptionButtons = false;
-        CustomWindowChrome.GlassFrameThickness = new Thickness(0);
+
         if (SettingsManager.Current.NextUpAcrylicWindowEnabled)
         {
             WindowBlurHelper.EnableBlur(this);
@@ -38,12 +37,12 @@ public partial class NextUpWindow : MicaWindow
             WindowBlurHelper.DisableBlur(this);
         }
 
-        var upNextWidth = StringWidth.GetStringWidth(UpNextTextBlock.Text);
-        var titleWidth = StringWidth.GetStringWidth(title);
-        var artistWidth = StringWidth.GetStringWidth(artist);
+        int additionalMargin = 8; // additional margin to avoid text clipping
+        var upNextWidth = StringWidth.GetStringWidth(UpNextTextBlock.Text) + additionalMargin;
+        var titleWidth = StringWidth.GetStringWidth(title) + additionalMargin;
+        var artistWidth = StringWidth.GetStringWidth(artist) + additionalMargin;
 
-        if (titleWidth > artistWidth) Width = titleWidth + 76 + upNextWidth;
-        else Width = artistWidth + 76 + upNextWidth;
+        Width = titleWidth > artistWidth ? titleWidth + 76 + upNextWidth : artistWidth + 76 + upNextWidth;
         if (Width > 400) Width = 400; // max width to prevent window from being too wide
         SongTitle.Text = title;
         SongArtist.Text = artist;
@@ -56,7 +55,7 @@ public partial class NextUpWindow : MicaWindow
         {
             await Task.Delay(SettingsManager.Current.NextUpDuration);
             mainWindow.CloseAnimation(this);
-            await Task.Delay(mainWindow.getDuration());
+            await Task.Delay(MainWindow.getDuration());
             Close();
         }
 

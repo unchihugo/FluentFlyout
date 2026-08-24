@@ -1,4 +1,4 @@
-// Copyright © 2024-2026 The FluentFlyout Authors
+// Copyright (c) 2024-2026 The FluentFlyout Authors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 using FluentFlyout.Classes.Settings;
@@ -39,6 +39,7 @@ namespace FluentFlyoutWPF.Classes
         private System.Timers.Timer? _captureWatchdog;
         private DateTime _lastDataAvailableUtc = DateTime.MinValue;
         private int _restartInProgress; // 0=false, 1=true (Interlocked)
+        private string? _deviceId; // track current device ID for restart logic
 
         private readonly struct BarGeometry
         {
@@ -145,8 +146,7 @@ namespace FluentFlyoutWPF.Classes
 
         private void OnDefaultDeviceChanged(object? sender, DefaultDeviceChangedEventArgs e)
         {
-            if (e.DataFlow != DataFlow.Render || e.Role != Role.Multimedia)
-                return;
+            _deviceId = e.DeviceId;
 
             // Even if capture isn't currently running (e.g. restart attempt failed while the device was reconfiguring),
             // we still want to try restarting as soon as Windows reports a usable default endpoint again.
@@ -211,7 +211,9 @@ namespace FluentFlyoutWPF.Classes
                 // Using the parameterless capture can throw transient COM errors when the default endpoint is
                 // reconfiguring (e.g. Bluetooth earbuds disconnect/reconnect around lock/unlock).
                 _renderDevice?.Dispose();
-                _renderDevice = AudioDeviceMonitor.Instance.GetDefaultRenderDevice();
+                _renderDevice = string.IsNullOrWhiteSpace(_deviceId)
+                     ? AudioDeviceMonitor.Instance.GetDefaultRenderDevice()
+                     : AudioDeviceMonitor.Instance.GetDeviceById(_deviceId) ?? AudioDeviceMonitor.Instance.GetDefaultRenderDevice();
 
                 if (_renderDevice == null)
                 {
@@ -240,7 +242,7 @@ namespace FluentFlyoutWPF.Classes
                         }
                         UpdateBitmap();
 
-                        if (!SettingsManager.Current.TaskbarVisualizerBaseline) // if baseline is enabled, don't switch the setting
+                        if (!SettingsManager.Current.TaskbarVisualizerBaseline || SettingsManager.Current.TaskbarVisualizerBaselineAutoHide) // if baseline is enabled and autohide is off, condition is false
                             SettingsManager.Current.TaskbarVisualizerHasContent = false;
 
                         // If we stop receiving loopback callbacks entirely (common after lock/unlock + device changes),
@@ -328,9 +330,9 @@ namespace FluentFlyoutWPF.Classes
                 _lastUpdateTime = now;
                 SettingsManager.Current.TaskbarVisualizerHasContent = true;
 
-                if (SettingsManager.Current.TaskbarVisualizerBaseline)
+                if (SettingsManager.Current.TaskbarVisualizerBaseline && !SettingsManager.Current.TaskbarVisualizerBaselineAutoHide)
                 {
-                    // if baseline is enabled, we want to keep showing the bars even when they are all zero
+                    // if baseline is enabled and autohide is off, we want to keep showing the bars even when they are all zero
                     UpdateBitmap();
                     break;
                 }

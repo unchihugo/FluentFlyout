@@ -10,8 +10,8 @@
     <system:String x:Key="BackgroundBlurOption3" xml:space="preserve"> Gaya 2 (Rising Glow)</system:String>
     <system:String x:Key="BackgroundBlurOption4" xml:space="preserve"> Gaya 3 (Blur)</system:String>
     <system:String x:Key="BackgroundBlurTitle">Blur Latar Belakang</system:String>
-    <system:String x:Key="AcrylicWindowTitle">Jendela Akrilik</system:String>
-    <system:String x:Key="AcrylicWindowDescription">Terapkan Transparansi Blur Akrilik pada flyout (Jika tidak, akan menggunakan efek Mika)</system:String>
+    <system:String x:Key="AcrylicWindowTitle">Flyout Akrilik</system:String>
+    <system:String x:Key="AcrylicWindowDescription">Terapkan Transparansi Blur Akrilik pada flyout</system:String>
     <system:String x:Key="CompactLayoutTitle">Tata Letak Ringkas</system:String>
     <system:String x:Key="CompactLayoutDescription" xml:space="preserve">Layout yang lebih ramping dan tidak mencolok 
 menyembunyikan tombol ulangi (repeat), acak (shuffle), serta informasi pemutar</system:String>
@@ -39,7 +39,7 @@ menyembunyikan tombol ulangi (repeat), acak (shuffle), serta informasi pemutar</
     <system:String x:Key="PauseOtherMediaTitle">Jeda Media Lain secara Otomatis</system:String>
     <system:String x:Key="PauseOtherMediaDescription">Ketika anda putar atau fokus pada media baru, sesi pemutran lain akan otomatis dijeda</system:String>
     <system:String x:Key="TaskbarWidgetCustomizationTitle">Widget Bilah Tugas</system:String>
-    <system:String x:Key="TaskbarWidgetDescription">Sebuah widget ringkas yang terpasang (built-in) dan berada langsung di Bilah Tugas Windows Anda untuk akses instan ke media Anda. Klik widget tersebut untuk memperluas Media Flyout penuh (jika diaktifkan).</system:String>
+    <system:String x:Key="TaskbarWidgetDescription">Sebuah widget ringkas yang terpasang (built-in) dan berada langsung di Bilah Tugas Windows Anda untuk akses instan ke media Anda. Klik widget tersebut untuk memperluas Media Flyout penuh.</system:String>
     <system:String x:Key="TaskbarWidgetEnabledTitle">Aktifkan Widget Bilah Tugas</system:String>
     <system:String x:Key="TaskbarWidgetEnabledDescription">Tampilkan media widget kompak pada bilah tugas</system:String>
     <system:String x:Key="TaskbarWidgetVisualIssuesWarning">Konfigurasikan opsi dibawah ini jika anda mengalami gangguan visual.</system:String>
@@ -64,7 +64,7 @@ Catatan: Sebagai proyek open-source, fitur-fitur ini juga tersedia secara gratis
     <system:String x:Key="PremiumPurchaseCancelled">Pembelian dibatalkan.</system:String>
     <system:String x:Key="NextUpCustomizationTitle">Flyout Lanjutan</system:String>
     <system:String x:Key="NextUpDescription" xml:space="preserve">Sebuah flyout menampilkan lagu/video selanjutnya apabila berakhir. Hanya tampil ketika item selanjutnya putar otomatis, jika Berikut/sebelum di tekan manual, flyout utamalah yang akan muncul.</system:String>
-    <system:String x:Key="EnableNextUpTitle">Aktifkan Menu Flyout Berikutnya (Eksperimental)</system:String>
+    <system:String x:Key="EnableNextUpTitle">Aktifkan Flyout Next Up</system:String>
     <system:String x:Key="EnableNextUpDescription">Tampilkan apa selanjutnya apabila lagu/video berakhir</system:String>
     <system:String x:Key="NextUpStayDurationTitle">Durasi Flyout Berikutnya</system:String>
     <system:String x:Key="NextUpStayDurationDescription">(default: 2000 milidetik)</system:String>
@@ -193,9 +193,9 @@ Anda dapat membantu berkontribusi dalam menerjemahkan di</system:String>
     <system:String x:Key="TaskbarVisualizerOutputDeviceTitle">Perangkat Keluaran</system:String>
     <system:String x:Key="TaskbarVisualizerOutputDeviceDescription">Ganti apa yang visualizer dengarkan dengan beralih perangkat keluaran pada FluentFlyout.</system:String>
     <system:String x:Key="UnlockFullExperienceText">Buka pengalaman penuh FluentFlyout:</system:String>
-    <system:String x:Key="TaskbarWidgetCustomizationPerk">Widget bilah tugas dan Visualizer</system:String>
-    <system:String x:Key="AcrylicBlurOpacityPerk">Opasitas Blur Akrilik</system:String>
-    <system:String x:Key="HideTrayIconPerk">Sembunyikan Ikon Baki</system:String>
+    <system:String x:Key="TaskbarWidgetCustomizationPerk">Aktifkan Widget Taskbar dan Visualizer</system:String>
+    <system:String x:Key="AcrylicBlurOpacityPerk">Sesuaikan efek blur Acrylic</system:String>
+    <system:String x:Key="HideTrayIconPerk">Sembunyikan ikon tray</system:String>
     <system:String x:Key="AllFuturePremiumFeatures">Semua fitur Premium kedepannya</system:String>
     <system:String x:Key="AppearanceBehaviorSectionTitle">Tampilan &amp; perilaku</system:String>
     <system:String x:Key="UpdatesSectionTitle">Pembaruan</system:String>
@@ -217,4 +217,75 @@ Anda dapat membantu berkontribusi dalam menerjemahkan di</system:String>
     <system:String x:Key="SettingsImportedSuccessfully">Pengauran berhasil diimpor! Aplikasi akan memulai ulang sekarang untuk menerapkan perubahan.</system:String>
     <system:String x:Key="ImportSettingsWarning">Ini akan menimpa semua pengaturan anda saat ini. Lanjutkan?</system:String>
     <system:String x:Key="FailedToImportSettings">Gagal mengimpor pengaturan. Periksa log untuk selengkapnya.</system:String>
+    <system:String x:Key="TaskbarVisualizerClickableTitle">Tekan untuk membuka Pengaturan</system:String>
+    <system:String x:Key="TaskbarVisualizerClickableDescription">Menekan visualizer akan membuka halaman pengaturan</system:String>
+    <system:String x:Key="LockKeysCursorUITitle">Target Layar yang Diinginkan</system:String>
+    <system:String x:Key="LockKeysCursorUIDescription" xml:space="preserve">Pilih monitor mana yang akan digunakan untuk menunjukan flyout.</system:String>
+    <system:String x:Key="DefaultLockLayoutPosition">Target Layar Flyout</system:String>
+    <system:String x:Key="MonitorWithFocusedWindow">Monitor dengan jendela yang difokuskan</system:String>
+    <system:String x:Key="MonitorWithCursor">Monitor dengan kursor</system:String>
+    <system:String x:Key="UseAlbumArtAccentColorTitle">Gunakan gambar album sebagai warna aksen</system:String>
+    <system:String x:Key="UseAlbumArtAccentColorDescription">Beberapa elemen UI akan menggunakan warna pada gambar album dari pada tema sistem</system:String>
+    <system:String x:Key="AdvancedSettingsTitle">Pengaturan Lanjutan</system:String>
+    <system:String x:Key="TaskbarWidgetAutoHideTitle">Sembunyikan Widget Otomatis</system:String>
+    <system:String x:Key="TaskbarWidgetAutoHideDescription">Menyembunyikan widget secara otomatis ketika media dijeda</system:String>
+    <system:String x:Key="TaskbarWidgetShowPauseOverlayTitle">Tampilkan Overlay Ikon Jeda</system:String>
+    <system:String x:Key="TaskbarWidgetShowPauseOverlayDescription">Saat media dijeda, tampilkan ikon jeda di atas sampul album</system:String>
+    <system:String x:Key="LockKeysAnimatedTitle">Animasi Indikator</system:String>
+    <system:String x:Key="LockKeysAnimatedDescription">Aktifkan animasi halus untuk indikator tombol kunci</system:String>
+    <system:String x:Key="LegacyTaskbarWidthTitle">Sistem Lebar Taskbar Lama</system:String>
+    <system:String x:Key="LegacyTaskbarWidthDescription">Gunakan sistem lebar Taskbar lama untuk Widget Taskbar</system:String>
+    <system:String x:Key="VolumeMixerHighlightPerk">Sorot aplikasi aktif di Volume Mixer</system:String>
+    <system:String x:Key="EnableCapsTitle">Aktifkan indikator Caps Lock</system:String>
+    <system:String x:Key="EnableCapsDescription">Menampilkan saat tombol Caps Lock ditekan</system:String>
+    <system:String x:Key="EnableNumTitle">Aktifkan indikator Num Lock</system:String>
+    <system:String x:Key="EnableNumDescription">Menampilkan saat tombol Num Lock ditekan</system:String>
+    <system:String x:Key="EnableScrollTitle">Aktifkan indikator Scroll Lock</system:String>
+    <system:String x:Key="EnableScrollDescription">Menampilkan saat tombol Scroll Lock ditekan</system:String>
+    <system:String x:Key="VolumeFlyoutTitle">Flyout Volume</system:String>
+    <system:String x:Key="VolumeFlyoutDescription">Flyout kontrol volume mandiri yang dapat diperluas menjadi mixer volume, menggantikan antarmuka volume bawaan Windows.</system:String>
+    <system:String x:Key="EnableVolumeFlyoutTitle">Aktifkan Flyout Volume</system:String>
+    <system:String x:Key="EnableVolumeFlyoutDescription">Gantikan flyout volume bawaan Windows</system:String>
+    <system:String x:Key="VolumeAboveMediaFlyoutTitle">Posisikan Flyout Volume di atas Flyout Media</system:String>
+    <system:String x:Key="VolumeFlyoutStayDurationTitle">Durasi tampil Flyout Volume</system:String>
+    <system:String x:Key="VolumeMixerSectionTitle">Mixer Volume</system:String>
+    <system:String x:Key="EnableVolumeMixerTitle">Aktifkan Mixer Volume</system:String>
+    <system:String x:Key="EnableVolumeMixerDescription">Kontrol rinci atas volume tiap aplikasi</system:String>
+    <system:String x:Key="VolumeMixerHighlightTitle">Sorot aplikasi yang sedang memutar audio</system:String>
+    <system:String x:Key="VolumeMixerHighlightDescription">Lihat aplikasi mana yang sedang mengeluarkan audio</system:String>
+    <system:String x:Key="MasterVolumeText">Volume master</system:String>
+    <system:String x:Key="Back">Kembali</system:String>
+    <system:String x:Key="Next">Selanjutnya</system:String>
+    <system:String x:Key="Finish">Menyelesaikan</system:String>
+    <system:String x:Key="OnboardingStepsCounter">Langkahh {0} dari {1}</system:String>
+    <system:String x:Key="TaskbarWidgetFixedWidthTitle">Lebar Widget Tetap</system:String>
+    <system:String x:Key="TaskbarWidgetFixedWidthDescription">Pertahankan lebar widget tetap, alih-alih mengubah ukurannya agar sesuai dengan judul dan teks artis</system:String>
+    <system:String x:Key="TaskbarVisualizerBaselineAutoHideDescription">Otomatis menyembunyikan baris base ketika tidak ada audio yang diputar</system:String>
+    <system:String x:Key="AnonymousUsageDataTitle">Kirim Data Penggunaan Anonim</system:String>
+    <system:String x:Key="AnonymousUsageDataDescription">Bantu menyempurnakan aplikasi dengan mengirim anonim, data penggunaan tidak diidentifikasi</system:String>
+    <system:String x:Key="AppFilteringTitle">Filtering Aplikasi</system:String>
+    <system:String x:Key="AppFilteringRulesDescription">Kontrol aplikasi yang dapat menampilkan media</system:String>
+    <system:String x:Key="EnableAppFilteringTitle">Aktifkan Filtering</system:String>
+    <system:String x:Key="AppFilteringModeTitle">Mode Filtering</system:String>
+    <system:String x:Key="AppFilteringModeDescription">Pilih daftar aplikasi yang mana diizinkan atau diblokir</system:String>
+    <system:String x:Key="AppFilteringModeBlacklist">Daftar yang Diblokir</system:String>
+    <system:String x:Key="AppFilteringModeWhitelist">Daftar yang Diizinkan</system:String>
+    <system:String x:Key="AllowedAppsTitle">Aplikasi yang Diizinkan</system:String>
+    <system:String x:Key="AllowedAppsDescription">Jika aplikasi apapun yang terdaftar disini, hanya media mereka yang akan ditampilkan.</system:String>
+    <system:String x:Key="BlockedAppsTitle">Aplikasi yang dikecualikan</system:String>
+    <system:String x:Key="BlockedAppsDescription">Kecualikan aplikasi dari tampilan</system:String>
+    <system:String x:Key="AddAppManuallyText">Tidak dapat mencari aplikasi anda? Ketik dibawah:</system:String>
+    <system:String x:Key="AppFilteringPlaceholderSpotify">Misalnya Spotify.exe</system:String>
+    <system:String x:Key="AppFilteringPlaceholderChrome">Misalnya Chrome.exe</system:String>
+    <system:String x:Key="AppFilteringComboBoxHint">Pilih pemutaran aplikasi saat ini untuk menambahkannya</system:String>
+    <system:String x:Key="AddButton">Tambah</system:String>
+    <system:String x:Key="RemoveButton">Hapus</system:String>
+    <system:String x:Key="SearchSettings">Pengaturan pencarian</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextTitle">Gulir Teks</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTitle">Aktifkan Pengguliran</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextDescription">Otomatis menggulir teks panjang yang tidak muat</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextLoopForeverTitle">Lanjut Bergulir</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextSpeedTitle">Kecepatan Gulir</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextLoopForeverDescription">Gulirkan teks terus-menerus ke satu arah, bukan bolak-balik.</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextSpeedDescription">Kecepatan gulir teks (piksel/detik). Nilai bawaan adalah 20.</system:String>
 </ResourceDictionary>

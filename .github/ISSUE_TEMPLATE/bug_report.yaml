@@ -28,26 +28,21 @@ body:
       description: "Write a clear and concise description of what the bug is."
     validations:
       required: true
-  - type: textarea
-    id: reproduction-steps
-    attributes:
-      label: "To Reproduce"
-      description: "Steps to reproduce the behavior:"
-      value: |
-        1. Add Steps Here
-        2.
-        3.
-        ...
   - type: markdown
     attributes:
       value: "Prepare your logs: you can find them by right-clicking the Tray Icon or in Settings > Home."
   - type: textarea
-    id: additional-context
+    id: logs
     attributes:
-      label: "Logs, screenshots & additional context"
-      description: "Attach your logs here (drag & drop). You can also add screenshots and any other context about the problem."
+      label: "Logs"
+      description: "Attach your logs here (drag & drop)."
     validations:
       required: true
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: "Screenshots & additional context"
+      description: "You can add screenshots and any other context about the problem if necessary."
   - type: input
     id: info-fluentflyout-version
     attributes:

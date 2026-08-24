@@ -1,4 +1,4 @@
-﻿// Copyright © 2024-2026 The FluentFlyout Authors
+﻿// Copyright (c) 2024-2026 The FluentFlyout Authors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 using FluentFlyout.Classes;
@@ -12,20 +12,6 @@ namespace FluentFlyoutWPF.Classes;
 public static class WindowHelper
 {
     private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
-
-    [StructLayout(LayoutKind.Sequential)]
-    public struct RECT
-    {
-        public int left;
-        public int top;
-        public int right;
-        public int bottom;
-
-        public static implicit operator Rect(RECT rect)
-        {
-            return new Rect(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top);
-        }
-    }
 
     public static void SetTopmost(Window window) // workaround to set window even more topmost
     {
@@ -41,14 +27,13 @@ public static class WindowHelper
 
     public static Rect GetPlacement(Window window) // get the window position, ignoring WPF
     {
-        var wp = new NativeMethods.WINDOWPLACEMENT { length = Marshal.SizeOf<NativeMethods.WINDOWPLACEMENT>() };
-
         var handle = new WindowInteropHelper(window).Handle;
-        GetWindowPlacement(handle, ref wp);
-
-        return new Rect(wp.rcNormalPosition.Left, wp.rcNormalPosition.Top, 
-            wp.rcNormalPosition.Right - wp.rcNormalPosition.Left, 
-            wp.rcNormalPosition.Bottom - wp.rcNormalPosition.Top);
+        GetWindowRect(handle, out RECT windowRect);
+        return new Rect(
+            windowRect.Left,
+            windowRect.Top,
+            windowRect.Right - windowRect.Left,
+            windowRect.Bottom - windowRect.Top);
     }
 
     public static void SetPosition(Window window, double x, double y, bool async = false) // set the position of the window, ignoring WPF
@@ -73,5 +58,20 @@ public static class WindowHelper
             var helper = new WindowInteropHelper(window);
             SetWindowLong(helper.Handle, GWL_EXSTYLE, GetWindowLong(helper.Handle, GWL_EXSTYLE) | WS_EX_NOACTIVATE);
         };
+    }
+
+    // Check if the mouse cursor is currently over the specified window
+    // More reliable than WPF's IsMouseOver, it sometimes doesn't detect mouse over the background
+    public static bool IsMouseOverWindow(Window window)
+    {
+        if (!GetCursorPos(out POINT cursor))
+            return false;
+
+        var hwnd = new WindowInteropHelper(window).Handle;
+        if (!GetWindowRect(hwnd, out RECT rect))
+            return false;
+
+        return cursor.X >= rect.Left && cursor.X <= rect.Right &&
+               cursor.Y >= rect.Top && cursor.Y <= rect.Bottom;
     }
 }

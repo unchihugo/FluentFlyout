@@ -32,6 +32,8 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <StackPanel Orientation="Horizontal" Margin="0,0,0,24">
                 <Border CornerRadius="10" ClipToBounds="True" Width="164" Height="98">
@@ -98,7 +100,7 @@
         </Grid>
 
         <StackPanel Opacity="{Binding IsPremiumUnlocked, Converter={StaticResource BoolToFullHalfOpacityConverter}}">
-                <ui:CardControl Grid.Row="2" Icon="{ui:SymbolIcon TextboxAlignBottom24}" Margin="0,0,0,24">
+                <ui:CardControl x:Name="TaskbarWidgetEnabledTitleCard" Tag="Indexable" Grid.Row="2" Icon="{ui:SymbolIcon TextboxAlignBottom24}" Margin="0,0,0,24">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
                         <StackPanel Orientation="Horizontal">
@@ -108,11 +110,11 @@
                         <TextBlock Text="{DynamicResource TaskbarWidgetEnabledDescription}" FontSize="12" Opacity="0.5" />
                     </StackPanel>
                 </ui:CardControl.Header>
-                <controls:ToggleSwitch IsChecked="{Binding TaskbarWidgetEnabled, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}" />
+                <ui:ToggleSwitch IsChecked="{Binding TaskbarWidgetEnabled, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}" />
             </ui:CardControl>
             <ui:InfoBar Grid.Row="3" Title="{DynamicResource TaskbarWidgetVisualIssuesWarning}" IsOpen="True" Severity="Informational" IsClosable="False" Margin="0,0,0,3" />
 
-            <ui:CardControl Grid.Row="4" Icon="{ui:SymbolIcon ArrowMove24}" Margin="0,0,0,3">
+            <ui:CardControl x:Name="TaskbarWidgetPositionCard" Tag="Indexable" Grid.Row="4" Icon="{ui:SymbolIcon ArrowMove24}" Margin="0,0,0,3">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
                         <TextBlock Text="{DynamicResource TaskbarWidgetPosition}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
@@ -124,7 +126,7 @@
                     <ComboBoxItem Content="{DynamicResource PositionBottomRight}" />
                 </ComboBox>
             </ui:CardControl>
-            <ui:CardControl Grid.Row="5" Icon="{ui:SymbolIcon ProjectionScreen24}" Margin="0,0,0,3">
+            <ui:CardControl x:Name="TaskbarWidgetSelectedMonitorTitleCard" Tag="Indexable" Grid.Row="5" Icon="{ui:SymbolIcon ProjectionScreen24}" Margin="0,0,0,3">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
                         <TextBlock Text="{DynamicResource TaskbarWidgetSelectedMonitorTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
@@ -135,7 +137,7 @@
             </ui:CardControl>
 
             <!-- Padding settings -->
-            <ui:CardExpander Grid.Row="6" Icon="{ui:SymbolIcon Wrench24}" ContentPadding="6" Margin="0,0,0,12">
+            <ui:CardExpander x:Name="TaskbarWidgetPaddingSettingsCard" Tag="Indexable" Grid.Row="6" Icon="{ui:SymbolIcon Wrench24}" ContentPadding="0" Margin="0,0,0,12">
                 <ui:CardExpander.Header>
                     <StackPanel Orientation="Vertical">
                         <TextBlock Text="{DynamicResource TaskbarWidgetPaddingSettingsTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
@@ -143,16 +145,16 @@
                     </StackPanel>
                 </ui:CardExpander.Header>
                 <StackPanel>
-                    <ui:CardControl Grid.Row="5" Icon="{ui:SymbolIcon PaddingRight24}" Margin="0,0,0,3">
+                    <ui:CardControl x:Name="TaskbarWidgetPaddingTitleCard" Tag="Indexable" Grid.Row="5" Icon="{ui:SymbolIcon PaddingRight24}" Background="Transparent" BorderBrush="{ui:ThemeResource CardStrokeColorDefaultSolidBrush}" BorderThickness="0,0,0,1" CornerRadius="0" Padding="52,16,16,16">
                         <ui:CardControl.Header>
                             <StackPanel Orientation="Vertical">
                                 <TextBlock Text="{DynamicResource TaskbarWidgetPaddingTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
                                 <TextBlock Text="{DynamicResource TaskbarWidgetPaddingDescription}" FontSize="12" Opacity="0.5" />
                             </StackPanel>
                         </ui:CardControl.Header>
-                        <controls:ToggleSwitch IsChecked="{Binding TaskbarWidgetPadding, Mode=TwoWay}">
-                            <controls:ToggleSwitch.Style>
-                                <Style TargetType="controls:ToggleSwitch" BasedOn="{StaticResource {x:Type controls:ToggleSwitch}}">
+                        <ui:ToggleSwitch IsChecked="{Binding TaskbarWidgetPadding, Mode=TwoWay}">
+                            <ui:ToggleSwitch.Style>
+                                <Style TargetType="ui:ToggleSwitch" BasedOn="{StaticResource {x:Type ui:ToggleSwitch}}">
                                     <Setter Property="IsEnabled" Value="False" />
                                     <Style.Triggers>
                                         <MultiDataTrigger>
@@ -171,10 +173,10 @@
                                         </MultiDataTrigger>
                                     </Style.Triggers>
                                 </Style>
-                            </controls:ToggleSwitch.Style>
-                        </controls:ToggleSwitch>
+                            </ui:ToggleSwitch.Style>
+                        </ui:ToggleSwitch>
                     </ui:CardControl>
-                    <ui:CardControl Icon="{ui:SymbolIcon ArrowFit20}" Margin="0,0,0,0">
+                    <ui:CardControl x:Name="TaskbarWidgetManualPaddingTitleCard" Tag="Indexable" Icon="{ui:SymbolIcon ArrowFit20}" Background="Transparent" BorderBrush="{ui:ThemeResource CardStrokeColorDefaultSolidBrush}" BorderThickness="0" CornerRadius="0" Padding="52,16,16,16">
                         <ui:CardControl.Header>
                             <StackPanel Orientation="Vertical">
                                 <TextBlock Text="{DynamicResource TaskbarWidgetManualPaddingTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
@@ -189,34 +191,55 @@
                 </StackPanel>
             </ui:CardExpander>
 
-            <ui:CardControl Grid.Row="9" Icon="{ui:SymbolIcon ColorBackground24}" Margin="0,0,0,3">
+            <ui:CardControl x:Name="TaskbarWidgetBackgroundBlurTitleCard" Tag="Indexable" Grid.Row="7" Icon="{ui:SymbolIcon ColorBackground24}" Margin="0,0,0,3">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
                         <TextBlock Text="{DynamicResource TaskbarWidgetBackgroundBlurTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
                         <TextBlock Text="{DynamicResource TaskbarWidgetBackgroundBlurDescription}" FontSize="12" Opacity="0.5" />
                     </StackPanel>
                 </ui:CardControl.Header>
-                <controls:ToggleSwitch IsChecked="{Binding TaskbarWidgetBackgroundBlur, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}" />
+                <ui:ToggleSwitch IsChecked="{Binding TaskbarWidgetBackgroundBlur, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}" />
             </ui:CardControl>
-            <ui:CardControl Grid.Row="10" Icon="{ui:SymbolIcon EyeOff24}" Margin="0,0,0,12">
+            <ui:CardControl x:Name="TaskbarWidgetHideCompletelyTitleCard" Tag="Indexable" Grid.Row="8" Icon="{ui:SymbolIcon EyeOff24}" Margin="0,0,0,3">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
                         <TextBlock Text="{DynamicResource TaskbarWidgetHideCompletelyTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
                         <TextBlock Text="{DynamicResource TaskbarWidgetHideCompletelyDescription}" FontSize="12" Opacity="0.5" />
                     </StackPanel>
                 </ui:CardControl.Header>
-                <controls:ToggleSwitch IsChecked="{Binding TaskbarWidgetHideCompletely, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}" />
+                <ui:ToggleSwitch IsChecked="{Binding TaskbarWidgetHideCompletely, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}" />
             </ui:CardControl>
-            <ui:CardControl Grid.Row="11" Icon="{ui:SymbolIcon VideoPlayPause24}" Margin="0,0,0,3">
+            <ui:CardControl x:Name="TaskbarWidgetFixedWidthTitleCard" Tag="Indexable" Grid.Row="9" Icon="{ui:SymbolIcon ArrowAutofitWidth24}" Margin="0,0,0,3">
+                <ui:CardControl.Header>
+                    <StackPanel Orientation="Vertical">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{DynamicResource TaskbarWidgetFixedWidthTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
+                            <ui:InfoBadge Value=" NEW " FontWeight="Medium" FontSize="10" Margin="6,-2,0,-2" Severity="Success" />
+                        </StackPanel>
+                        <TextBlock Text="{DynamicResource TaskbarWidgetFixedWidthDescription}" FontSize="12" Opacity="0.5" />
+                    </StackPanel>
+                </ui:CardControl.Header>
+                <ui:ToggleSwitch IsChecked="{Binding TaskbarWidgetFixedWidth, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}" />
+            </ui:CardControl>
+            <ui:CardControl x:Name="TaskbarWidgetAutoHideTitleCard" Tag="Indexable" Grid.Row="10" Icon="{ui:SymbolIcon EyeLines24}" Margin="0,0,0,12">
+                <ui:CardControl.Header>
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="{DynamicResource TaskbarWidgetAutoHideTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
+                        <TextBlock Text="{DynamicResource TaskbarWidgetAutoHideDescription}" FontSize="12" Opacity="0.5" />
+                    </StackPanel>
+                </ui:CardControl.Header>
+                <ui:ToggleSwitch IsChecked="{Binding TaskbarWidgetAutoHide, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}" />
+            </ui:CardControl>
+            <ui:CardControl x:Name="TaskbarWidgetControlsTitleCard" Tag="Indexable" Grid.Row="11" Icon="{ui:SymbolIcon VideoPlayPause24}" Margin="0,0,0,3">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
                         <TextBlock Text="{DynamicResource TaskbarWidgetControlsTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
                         <TextBlock Text="{DynamicResource TaskbarWidgetControlsDescription}" FontSize="12" Opacity="0.5" />
                     </StackPanel>
                 </ui:CardControl.Header>
-                <controls:ToggleSwitch IsChecked="{Binding TaskbarWidgetControlsEnabled, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}" />
+                <ui:ToggleSwitch IsChecked="{Binding TaskbarWidgetControlsEnabled, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}" />
             </ui:CardControl>
-            <ui:CardControl Grid.Row="12" Icon="{ui:SymbolIcon ArrowMove24}" Margin="0,0,0,12">
+            <ui:CardControl x:Name="TaskbarWidgetControlsPositionTitleCard" Tag="Indexable" Grid.Row="12" Icon="{ui:SymbolIcon ArrowMove24}" Margin="0,0,0,12">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
                         <TextBlock Text="{DynamicResource TaskbarWidgetControlsPositionTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
@@ -228,14 +251,61 @@
                     <ComboBoxItem Content="{DynamicResource PositionRight}" />
                 </ComboBox>
             </ui:CardControl>
-            <ui:CardControl Grid.Row="13" Icon="{ui:SymbolIcon Wand24}" Margin="0,0,0,76">
+            <ui:CardControl x:Name="TaskbarWidgetAnimatedTitleCard" Tag="Indexable" Grid.Row="13" Icon="{ui:SymbolIcon Wand24}" Margin="0,0,0,3">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
                         <TextBlock Text="{DynamicResource TaskbarWidgetAnimatedTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
                         <TextBlock Text="{DynamicResource TaskbarWidgetAnimatedDescription}" FontSize="12" Opacity="0.5" />
                     </StackPanel>
                 </ui:CardControl.Header>
-                <controls:ToggleSwitch IsChecked="{Binding TaskbarWidgetAnimated, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}" />
+                <ui:ToggleSwitch IsChecked="{Binding TaskbarWidgetAnimated, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}" />
+            </ui:CardControl>
+
+            <ui:CardExpander x:Name="TaskbarWidgetScrollingTextCard" Tag="Indexable" Grid.Row="14" Icon="{ui:SymbolIcon TextDirectionHorizontalRight24}" ContentPadding="0" Margin="0,0,0,3">
+                <ui:CardExpander.Header>
+                    <Grid ColumnDefinitions="*, Auto">
+                        <StackPanel Orientation="Vertical">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{DynamicResource TaskbarWidgetScrollingTextTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
+                                <ui:InfoBadge Value=" NEW " FontWeight="Medium" FontSize="10" Margin="6,-2,0,-2" Severity="Success" />
+                            </StackPanel>
+                            <TextBlock Text="{DynamicResource TaskbarWidgetScrollingTextDescription}" FontSize="12" Opacity="0.5" />
+                        </StackPanel>
+                        <ui:ToggleSwitch Grid.Column="1" IsChecked="{Binding TaskbarWidgetScrollingEnabled, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}" Margin="0,0,16,0" />
+                    </Grid>
+                </ui:CardExpander.Header>
+                <StackPanel  Opacity="{Binding TaskbarWidgetScrollingEnabled, Converter={StaticResource BoolToFullHalfOpacityConverter}}">
+                    <ui:CardControl Background="Transparent" BorderBrush="{ui:ThemeResource CardStrokeColorDefaultSolidBrush}" BorderThickness="0,0,0,1" CornerRadius="0" Padding="52,16,16,16">
+                        <ui:CardControl.Header>
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock Text="{DynamicResource TaskbarWidgetScrollingTextLoopForeverTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
+                                <TextBlock Text="{DynamicResource TaskbarWidgetScrollingTextLoopForeverDescription}" FontSize="12" Opacity="0.5" />
+                            </StackPanel>
+                        </ui:CardControl.Header>
+                        <ui:ToggleSwitch IsChecked="{Binding TaskbarWidgetScrollingTextLoopForever, Mode=TwoWay}" IsEnabled="{Binding TaskbarWidgetScrollingEnabled}" />
+                    </ui:CardControl>
+                    <ui:CardControl Background="Transparent" BorderBrush="{ui:ThemeResource CardStrokeColorDefaultSolidBrush}" BorderThickness="0" CornerRadius="0" Padding="52,16,16,16">
+                        <ui:CardControl.Header>
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock Text="{DynamicResource TaskbarWidgetScrollingTextSpeedTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
+                                <TextBlock Text="{DynamicResource TaskbarWidgetScrollingTextSpeedDescription}" FontSize="12" Opacity="0.5" />
+                            </StackPanel>
+                        </ui:CardControl.Header>
+                        <StackPanel Orientation="Horizontal">
+                            <ui:TextBox Width="60" ClearButtonEnabled="False" Text="{Binding TaskbarWidgetScrollingTextSpeedText, Mode=TwoWay}" IsEnabled="{Binding TaskbarWidgetScrollingEnabled}" />
+                        </StackPanel>
+                    </ui:CardControl>
+                </StackPanel>
+            </ui:CardExpander>
+
+            <ui:CardControl x:Name="TaskbarWidgetShowPauseOverlayTitleCard" Tag="Indexable" Grid.Row="15" Icon="{ui:SymbolIcon Pause24}" Margin="0,0,0,76">
+                <ui:CardControl.Header>
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="{DynamicResource TaskbarWidgetShowPauseOverlayTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
+                        <TextBlock Text="{DynamicResource TaskbarWidgetShowPauseOverlayDescription}" FontSize="12" Opacity="0.5" />
+                    </StackPanel>
+                </ui:CardControl.Header>
+                <ui:ToggleSwitch IsChecked="{Binding TaskbarWidgetShowPauseOverlay, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}" />
             </ui:CardControl>
         </StackPanel>
     </StackPanel>

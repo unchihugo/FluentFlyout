@@ -7,7 +7,7 @@
       xmlns:viewModels="clr-namespace:FluentFlyoutWPF.ViewModels"
       xmlns:controls="clr-namespace:MicaWPF.Controls;assembly=MicaWPF"
       mc:Ignorable="d"
-      d:DesignHeight="800" d:DesignWidth="800"
+      d:DesignHeight="1600" d:DesignWidth="800"
       Title="LockKeysPage"
       d:DataContext="{d:DesignInstance viewModels:UserSettings}"
       Foreground="{DynamicResource TextFillColorPrimaryBrush}"
@@ -24,6 +24,10 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <StackPanel Orientation="Horizontal" Margin="0,0,0,24">
                 <Border CornerRadius="10" ClipToBounds="True" Width="164" Height="98">
@@ -33,25 +37,16 @@
                 </Border>
                 <TextBlock FontSize="14" FontWeight="Regular" HorizontalAlignment="Stretch" Opacity="0.75" Margin="12,0,0,0" MaxWidth="450" TextWrapping="WrapWithOverflow" Text="{DynamicResource LockKeysDescription}" />
             </StackPanel>
-            <ui:CardControl Grid.Row="1" Icon="{ui:SymbolIcon LockMultiple24}" Margin="0,0,0,24">
+            <ui:CardControl x:Name="EnableLockKeysTitleCard" Tag="Indexable" Grid.Row="1" Icon="{ui:SymbolIcon LockMultiple24}" Margin="0,0,0,24">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
                         <TextBlock Text="{DynamicResource EnableLockKeysTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
                         <TextBlock Text="{DynamicResource EnableLockKeysDescription}" FontSize="12" Opacity="0.5" />
                     </StackPanel>
                 </ui:CardControl.Header>
-                <controls:ToggleSwitch Name="LockKeysSwitch" IsChecked="{Binding LockKeysEnabled, Mode=TwoWay}" />
+                <ui:ToggleSwitch Name="LockKeysSwitch" IsChecked="{Binding LockKeysEnabled, Mode=TwoWay}" />
             </ui:CardControl>
-            <ui:CardControl Grid.Row="2" Icon="{ui:SymbolIcon Blur24}" Margin="0,0,0,3">
-                <ui:CardControl.Header>
-                    <StackPanel Orientation="Vertical">
-                        <TextBlock Text="{DynamicResource AcrylicWindowTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
-                        <TextBlock Text="{DynamicResource AcrylicWindowDescription}" FontSize="12" Opacity="0.5" />
-                    </StackPanel>
-                </ui:CardControl.Header>
-                <controls:ToggleSwitch Name="LockKeysAcrylicWindowSwitch" IsChecked="{Binding LockKeysAcrylicWindowEnabled, Mode=TwoWay}" />
-            </ui:CardControl>
-            <ui:CardControl Grid.Row="3" Icon="{ui:SymbolIcon Timer24}" Margin="0,0,0,3">
+            <ui:CardControl x:Name="LockKeysStayDurationTitleCard" Tag="Indexable" Grid.Row="3" Icon="{ui:SymbolIcon Timer24}" Margin="0,0,0,3">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
                         <TextBlock Text="{DynamicResource LockKeysStayDurationTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
@@ -63,21 +58,29 @@
                     <TextBlock Text="{DynamicResource MillisecondsUnit}" FontSize="14" FontWeight="Regular" Margin="10,0,0,0" VerticalAlignment="Center" />
                 </StackPanel>
             </ui:CardControl>
-            <ui:CardControl Grid.Row="4" Icon="{ui:SymbolIcon TextBold24}" Margin="0,0,0,3">
+            <ui:CardControl x:Name="LockKeysBoldUITitleCard" Tag="Indexable" Grid.Row="4" Icon="{ui:SymbolIcon TextBold24}" Margin="0,0,0,3">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
                         <TextBlock Text="{DynamicResource LockKeysBoldUITitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
                         <TextBlock Text="{DynamicResource LockKeysBoldUIDescription}" FontSize="12" Opacity="0.5" />
                     </StackPanel>
                 </ui:CardControl.Header>
-                <controls:ToggleSwitch Name="LockKeysBoldUISwitch" IsChecked="{Binding LockKeysBoldUi, Mode=TwoWay}" />
+                <ui:ToggleSwitch Name="LockKeysBoldUISwitch" IsChecked="{Binding LockKeysBoldUi, Mode=TwoWay}" />
             </ui:CardControl>
-            <ui:CardControl Grid.Row="5" Icon="{ui:SymbolIcon ProjectionScreen24}" Margin="0,0,0,3">
+            <ui:CardControl x:Name="LockKeysAnimatedTitleCard" Tag="Indexable" Grid.Row="5" Icon="{ui:SymbolIcon Wand24}" Margin="0,0,0,3">
+                <ui:CardControl.Header>
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="{DynamicResource LockKeysAnimatedTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
+                        <TextBlock Text="{DynamicResource LockKeysAnimatedDescription}" FontSize="12" Opacity="0.5" />
+                    </StackPanel>
+                </ui:CardControl.Header>
+                <ui:ToggleSwitch Name="LockKeysAnimatedSwitch" IsChecked="{Binding LockKeysAnimated, Mode=TwoWay}" />
+            </ui:CardControl>
+            <ui:CardControl x:Name="LockKeysCursorUITitleCard" Tag="Indexable" Grid.Row="6" Icon="{ui:SymbolIcon ProjectionScreen24}" Margin="0,0,0,3">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="{DynamicResource LockKeysCursorUITitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
-                            <ui:InfoBadge Value=" NEW " FontWeight="Medium" FontSize="10" Margin="6,-2,0,-2" Severity="Success" />
                         </StackPanel>
                         <TextBlock Text="{DynamicResource LockKeysCursorUIDescription}" FontSize="12" Opacity="0.5" />
                     </StackPanel>
@@ -88,14 +91,50 @@
                     <ComboBoxItem Content="{DynamicResource MonitorWithCursor}" />
                 </ComboBox>
             </ui:CardControl>
-            <ui:CardControl Grid.Row="6" Icon="{ui:SymbolIcon Info24}" Margin="0,0,0,76">
+            <ui:CardControl x:Name="EnableInsertKeyTitleCard" Tag="Indexable" Grid.Row="7" Icon="{ui:SymbolIcon Info24}" Margin="0,0,0,24">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
                         <TextBlock Text="{DynamicResource EnableInsertKeyTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
                         <TextBlock Text="{DynamicResource EnableInsertKeyDescription}" FontSize="12" Opacity="0.5" />
                     </StackPanel>
                 </ui:CardControl.Header>
-                <controls:ToggleSwitch Name="LockKeysEnableInsertSwitch" IsChecked="{Binding LockKeysInsertEnabled, Mode=TwoWay}" />
+                <ui:ToggleSwitch Name="LockKeysEnableInsertSwitch" IsChecked="{Binding LockKeysInsertEnabled, Mode=TwoWay}" />
+            </ui:CardControl>
+            <ui:CardControl x:Name="EnableCapsTitleCard" Tag="Indexable" Grid.Row="8" Icon="{ui:SymbolIcon TextCaseTitle24}" Margin="0,0,0,3">
+                <ui:CardControl.Header>
+                    <StackPanel Orientation="Vertical">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{DynamicResource EnableCapsTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
+                            <ui:InfoBadge Value=" NEW " FontWeight="Medium" FontSize="10" Margin="6,-2,0,-2" Severity="Success" />
+                        </StackPanel>
+                        <TextBlock Text="{DynamicResource EnableCapsDescription}" FontSize="12" Opacity="0.5" />
+                    </StackPanel>
+                </ui:CardControl.Header>
+                <ui:ToggleSwitch Name="LockKeysCapsSwitch" IsChecked="{Binding LockKeysCapsEnabled, Mode=TwoWay}" />
+            </ui:CardControl>
+            <ui:CardControl x:Name="EnableNumTitleCard" Tag="Indexable" Grid.Row="9" Icon="{ui:SymbolIcon NumberSymbol24}" Margin="0,0,0,3">
+                <ui:CardControl.Header>
+                    <StackPanel Orientation="Vertical">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{DynamicResource EnableNumTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
+                            <ui:InfoBadge Value=" NEW " FontWeight="Medium" FontSize="10" Margin="6,-2,0,-2" Severity="Success" />
+                        </StackPanel>
+                        <TextBlock Text="{DynamicResource EnableNumDescription}" FontSize="12" Opacity="0.5" />
+                    </StackPanel>
+                </ui:CardControl.Header>
+                <ui:ToggleSwitch Name="LockKeysNumSwitch" IsChecked="{Binding LockKeysNumEnabled, Mode=TwoWay}" />
+            </ui:CardControl>
+            <ui:CardControl x:Name="EnableScrollTitleCard" Tag="Indexable" Grid.Row="10" Icon="{ui:SymbolIcon ArrowBetweenDown24}" Margin="0,0,0,76">
+                <ui:CardControl.Header>
+                    <StackPanel Orientation="Vertical">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{DynamicResource EnableScrollTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
+                            <ui:InfoBadge Value=" NEW " FontWeight="Medium" FontSize="10" Margin="6,-2,0,-2" Severity="Success" />
+                        </StackPanel>
+                        <TextBlock Text="{DynamicResource EnableScrollDescription}" FontSize="12" Opacity="0.5" />
+                    </StackPanel>
+                </ui:CardControl.Header>
+                <ui:ToggleSwitch Name="LockKeysScrollSwitch" IsChecked="{Binding LockKeysScrollEnabled, Mode=TwoWay}" />
             </ui:CardControl>
         </Grid>
     </StackPanel>
