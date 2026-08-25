@@ -592,6 +592,7 @@ namespace FluentFlyoutWPF.Classes
             for (int y = barY; y < barEndY && y < ImageHeight && y >= 0; y++)
             {
                 int row = y * stride;
+                float py = y + 0.5f;
 
                 for (int x = barX; x < barX + barWidth && x < ImageWidth; x++)
                 {
@@ -599,33 +600,35 @@ namespace FluentFlyoutWPF.Classes
                     if (index + 3 >= buffer.Length)
                         continue;
 
+                    float px = x + 0.5f;
+
                     // CENTER
-                    if (x >= innerLeft && x <= innerRight)
+                    if (px >= innerLeft && px <= innerRight)
                     {
                         WritePixel(buffer, index, b, g, r, 255);
                         continue;
                     }
 
                     // SIDES
-                    if (y >= innerTop && y <= innerBottom)
+                    if (py >= innerTop && py <= innerBottom)
                     {
                         WritePixel(buffer, index, b, g, r, 255);
                         continue;
                     }
 
                     // FLAT BOTTOM
-                    if (!centeredBars && y >= innerBottom)
+                    if (!centeredBars && py >= innerBottom)
                     {
                         WritePixel(buffer, index, b, g, r, 255);
                         continue;
                     }
 
                     // CORNERS
-                    float cx = x < innerLeft ? innerLeft : (x > innerRight ? innerRight : x);
-                    float cy = y < innerTop ? innerTop : (y > innerBottom ? innerBottom : y);
+                    float cx = px < innerLeft ? innerLeft : (px > innerRight ? innerRight : px);
+                    float cy = py < innerTop ? innerTop : (py > innerBottom ? innerBottom : py);
 
-                    float dx = x - cx;
-                    float dy = y - cy;
+                    float dx = px - cx;
+                    float dy = py - cy;
 
                     float distSq = dx * dx + dy * dy;
                     float sdf = (distSq - radiusSq) / (2f * radius);
