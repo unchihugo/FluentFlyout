@@ -1204,9 +1204,6 @@ public partial class MainWindow : MicaWindow
             extraWidth = Math.Max(extraWidth, 72);
 
             int extraHeight = SettingsManager.Current.SeekbarEnabled && _mediaSessionSupportsSeekbar ? 36 : 0;
-            bool centerControlsWithSongInfo = !SettingsManager.Current.CompactLayout
-                && SettingsManager.Current.CenterTitleArtist
-                && !SettingsManager.Current.PlayerInfoEnabled;
 
             if (SettingsManager.Current.CompactLayout) // compact layout
             {
@@ -1231,13 +1228,12 @@ public partial class MainWindow : MicaWindow
             }
             else // normal layout
             {
+                bool centerControlsWithSongInfo = SettingsManager.Current.CenterTitleArtist && !SettingsManager.Current.PlayerInfoEnabled;
                 Height = 112 + extraHeight;
                 Width = 310 - 72 + extraWidth;
                 BodyStackPanel.Orientation = Orientation.Vertical;
                 BodyStackPanel.Width = 194 - 72 + extraWidth;
-                ControlsStackPanelContainer.Margin = centerControlsWithSongInfo
-                    ? new Thickness(12, 8, 0, 0)
-                    : new Thickness(14, 8, 0, 0);
+                ControlsStackPanelContainer.Margin = new Thickness(12, 8, 0, 0);
                 ControlsStackPanelContainer.Width = double.NaN;
                 ControlsStackPanelContainer.HorizontalAlignment = HorizontalAlignment.Stretch;
                 ControlsStackPanel.HorizontalAlignment = centerControlsWithSongInfo ? HorizontalAlignment.Center : HorizontalAlignment.Left;
