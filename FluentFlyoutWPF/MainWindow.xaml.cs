@@ -398,12 +398,15 @@ public partial class MainWindow : MicaWindow
     /// Computes the final resting position (left, top) for a window based on the current
     /// position setting and the selected monitor's work area.
     /// </summary>
-    private static double GetBottomCenterFlyoutBottomMargin()
+    private static double GetBottomCenterFlyoutBottomMargin(bool reserveNativeVolumeOsdSpace)
     {
+        if (!reserveNativeVolumeOsdSpace)
+            return 16;
+
         return SettingsManager.Current.VolumeControlEnabled && SettingsManager.Current.VolumeControlAboveMediaFlyout ? 16 : 80;
     }
 
-    private (double left, double top) GetFinalPosition(Rect windowRect, Rect workArea)
+    private (double left, double top) GetFinalPosition(Rect windowRect, Rect workArea, bool reserveNativeVolumeOsdSpace = false)
     {
         int position = SettingsManager.Current.Position;
         double left = position switch
@@ -415,13 +418,13 @@ public partial class MainWindow : MicaWindow
         double top = position switch
         {
             0 or 2 => workArea.Top + workArea.Height - windowRect.Height - 16,
-            1 => workArea.Top + workArea.Height - windowRect.Height - GetBottomCenterFlyoutBottomMargin(),
+            1 => workArea.Top + workArea.Height - windowRect.Height - GetBottomCenterFlyoutBottomMargin(reserveNativeVolumeOsdSpace),
             _ => workArea.Top + 16
         };
         return (left, top);
     }
 
-    public void OpenAnimation(MicaWindow window, bool alwaysBottom = false, MonitorInfo? selectedMonitor = null, MicaWindow? aboveReference = null)
+    public void OpenAnimation(MicaWindow window, bool alwaysBottom = false, MonitorInfo? selectedMonitor = null, MicaWindow? aboveReference = null, bool reserveNativeVolumeOsdSpace = false)
     {
         var eventTriggers = window.Triggers[0] as EventTrigger;
         var beginStoryboard = eventTriggers.Actions[0] as BeginStoryboard;
@@ -447,7 +450,7 @@ public partial class MainWindow : MicaWindow
             double refWidth = aboveReference.Width * monitor.dpiX / 96.0;
             double refHeight = aboveReference.Height * monitor.dpiY / 96.0;
             var refRect = new Rect(0, 0, refWidth, refHeight);
-            var (refLeft, refTop) = GetFinalPosition(refRect, workArea);
+            var (refLeft, refTop) = GetFinalPosition(refRect, workArea, reserveNativeVolumeOsdSpace);
 
             window_left = refLeft + refWidth / 2 - windowRect.Width / 2;
             double aboveTop = refTop - windowRect.Height - 8;
@@ -482,7 +485,7 @@ public partial class MainWindow : MicaWindow
             }
             else if (_position == 1)
             {
-                double bottomMargin = GetBottomCenterFlyoutBottomMargin();
+                double bottomMargin = GetBottomCenterFlyoutBottomMargin(reserveNativeVolumeOsdSpace);
                 window_left = workArea.Left + workArea.Width / 2 - windowRect.Width / 2;
                 moveAnimation.To = workArea.Top + workArea.Height - windowRect.Height - bottomMargin;
                 if (SettingsManager.Current.FlyoutAnimationSpeed == 0)
@@ -933,7 +936,7 @@ public partial class MainWindow : MicaWindow
         if (_isHiding == true)
         {
             _isHiding = false;
-            OpenAnimation(this);
+            OpenAnimation(this, reserveNativeVolumeOsdSpace: true);
         }
         cts.Cancel();
         cts = new CancellationTokenSource();
