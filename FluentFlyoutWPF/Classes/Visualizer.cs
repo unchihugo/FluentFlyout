@@ -18,9 +18,18 @@ namespace FluentFlyoutWPF.Classes
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
         public static int BarCount = 10;
-        private readonly int ImageWidth = 76 * 3;
-        private readonly int ImageHeight = 32 * 3;
-        private readonly int BarSpacing = 2 * 3;
+
+        // The bitmap is supersampled and then minified by WPF to its on-screen size.
+        // Keep this at 2: at an exact 2:1 minification the default Linear filter samples
+        // the midpoint between two source pixel centers, so its weights land at exactly
+        // 50/50 and the tap becomes a true 2x2 box average. Other factors (3, 4) put the
+        // sample on a single source pixel center or an off-centre pair, which throws most
+        // of the supersampled detail away.
+        private const int Supersample = 2;
+
+        private readonly int ImageWidth = 76 * Supersample;
+        private readonly int ImageHeight = 32 * Supersample;
+        private readonly int BarSpacing = 2 * Supersample;
 
         private WasapiLoopbackCapture? _capture;
         private MMDevice? _renderDevice;
@@ -476,7 +485,7 @@ namespace FluentFlyoutWPF.Classes
             byte r = brush.Color.R;
 
             bool centeredBars = SettingsManager.Current.TaskbarVisualizerCenteredBars;
-            int barBaseline = SettingsManager.Current.TaskbarVisualizerBaseline ? 4 : 0;
+            int barBaseline = SettingsManager.Current.TaskbarVisualizerBaseline ? Supersample : 0;
 
             int centerY = ImageHeight / 2;
 
@@ -557,7 +566,7 @@ namespace FluentFlyoutWPF.Classes
         }
         private static float GetCornerRadius()
         {
-            return 6f / MathF.Max(1f, SettingsManager.Current.TaskbarVisualizerBarCount / 10f);
+            return (2f * Supersample) / MathF.Max(1f, SettingsManager.Current.TaskbarVisualizerBarCount / 10f);
         }
 
         private static float ClampRadius(float r, int width, int height)
