@@ -19,14 +19,9 @@ namespace FluentFlyoutWPF.Classes
 
         public static int BarCount = 10;
 
-        // The bitmap is supersampled and then minified by WPF to its on-screen size.
-        // Keep this at 2: at an exact 2:1 minification the default Linear filter samples
-        // the midpoint between two source pixel centers, so its weights land at exactly
-        // 50/50 and the tap becomes a true 2x2 box average. Other factors (3, 4) put the
-        // sample on a single source pixel center or an off-centre pair, which throws most
-        // of the supersampled detail away.
+        // Keep at 2: only an exact 2:1 minification turns WPF's default Linear
+        // filter into a true box average. Other factors discard the supersampling.
         private const int Supersample = 2;
-
         private readonly int ImageWidth = 76 * Supersample;
         private readonly int ImageHeight = 32 * Supersample;
         private readonly int BarSpacing = 2 * Supersample;
@@ -485,7 +480,7 @@ namespace FluentFlyoutWPF.Classes
             byte r = brush.Color.R;
 
             bool centeredBars = SettingsManager.Current.TaskbarVisualizerCenteredBars;
-            int barBaseline = SettingsManager.Current.TaskbarVisualizerBaseline ? Supersample : 0;
+            int barBaseline = SettingsManager.Current.TaskbarVisualizerBaseline ? Supersample * 2 : 0;
 
             int centerY = ImageHeight / 2;
 
