@@ -485,13 +485,14 @@ public partial class MainWindow : MicaWindow
             }
             else if (_position == 1)
             {
-                double bottomMargin = GetBottomCenterFlyoutBottomMargin(reserveNativeVolumeOsdSpace);
                 window_left = workArea.Left + workArea.Width / 2 - windowRect.Width / 2;
-                moveAnimation.To = workArea.Top + workArea.Height - windowRect.Height - bottomMargin;
+                double bottomMargin = GetBottomCenterFlyoutBottomMargin(reserveNativeVolumeOsdSpace);
+                double moveTo = workArea.Top + workArea.Height - windowRect.Height - bottomMargin;
+                moveAnimation.To = moveTo;
                 if (SettingsManager.Current.FlyoutAnimationSpeed == 0)
-                    moveAnimation.From = moveAnimation.To;
+                    moveAnimation.From = moveTo;
                 else
-                    moveAnimation.From = moveAnimation.To + 20;
+                    moveAnimation.From = moveTo + 20;
             }
             else if (_position == 2)
             {
