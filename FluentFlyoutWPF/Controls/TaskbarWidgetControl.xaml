@@ -19,7 +19,7 @@
                 </Image.Effect>
             </Image>
             <Border Name="TopBorder" BorderThickness="0,1.25,0,0" CornerRadius="5" Margin="0,0,0,1.25">
-                <Grid Name="MainGrid" HorizontalAlignment="Left" VerticalAlignment="Center" RenderTransformOrigin="0,0.5">
+                <Grid Name="MainGrid" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="0,0.5">
                     <Grid.RenderTransform>
                         <ScaleTransform ScaleX="0.9" ScaleY="0.9" />
                     </Grid.RenderTransform>
@@ -72,6 +72,38 @@
                     </StackPanel>
                 </Grid>
             </Border>
+
+            <Grid Name="SeekBarTrack" HorizontalAlignment="Left" VerticalAlignment="Bottom"
+                  Width="{Binding ActualWidth, ElementName=TopBorder}" Height="12" Margin="0,0,0,0"
+                  Background="Transparent" Cursor="Hand" Panel.ZIndex="3"
+                  MouseLeftButtonDown="SeekBarTrack_MouseLeftButtonDown"
+                  MouseMove="SeekBarTrack_MouseMove"
+                  MouseLeftButtonUp="SeekBarTrack_MouseLeftButtonUp">
+                <Grid.Style>
+                    <Style TargetType="Grid">
+                        <Setter Property="Visibility" Value="Collapsed" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding TaskbarWidgetSeekbarEnabled}" Value="True">
+                                <Setter Property="Visibility" Value="Visible" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Grid.Style>
+                <Grid VerticalAlignment="Center" Height="6" IsHitTestVisible="False">
+                    <Border Background="#33FFFFFF" CornerRadius="3" />
+                    <Rectangle Name="SeekBarFill" HorizontalAlignment="Left" Width="0" RadiusX="3" RadiusY="3"
+                               Fill="{DynamicResource MicaWPF.Brushes.SystemAccentColorTertiary}" />
+                </Grid>
+                <Ellipse Name="SeekBarThumb" Width="12" Height="12" HorizontalAlignment="Left" VerticalAlignment="Center"
+                         Fill="{DynamicResource MicaWPF.Brushes.SystemAccentColorTertiary}" IsHitTestVisible="False">
+                    <Ellipse.Effect>
+                        <DropShadowEffect BlurRadius="4" ShadowDepth="0" Opacity="0.5" Color="Black" />
+                    </Ellipse.Effect>
+                    <Ellipse.RenderTransform>
+                        <TranslateTransform x:Name="SeekBarThumbTransform" X="-6" />
+                    </Ellipse.RenderTransform>
+                </Ellipse>
+            </Grid>
         </Grid>
     </Border>
 </UserControl>

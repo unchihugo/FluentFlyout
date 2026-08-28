@@ -218,6 +218,8 @@ Du kannst helfen, die App zu übersetzen auf</system:String>
     <system:String x:Key="PositionRight">Rechts</system:String>
     <system:String x:Key="TaskbarWidgetControlsPositionTitle">Position der Mediensteuerung</system:String>
     <system:String x:Key="TaskbarWidgetControlsPositionDescription">Wähle aus, wo die Mediensteuerung-Buttons angezeigt werden sollen</system:String>
+    <system:String x:Key="TaskbarWidgetSeekbarTitle">Fortschrittsbalken anzeigen</system:String>
+    <system:String x:Key="TaskbarWidgetSeekbarDescription">Zeigt einen dünnen, klickbaren Fortschrittsbalken am unteren Rand des Widgets an. Klicke an eine beliebige Stelle, um im Song dorthin zu springen (nicht von allen Playern unterstützt).</system:String>
     <system:String x:Key="TaskbarVisualizerClickableDescription">Beim klicken des Visualisierers wird die Einstellungsseite geöffnet</system:String>
     <system:String x:Key="TaskbarWidgetAutoHideTitle">Versteckt das Widget Automatisch</system:String>
     <system:String x:Key="TaskbarVisualizerClickableTitle">Klicke um die Einstellungen zu öffnen</system:String>
