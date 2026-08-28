@@ -1,6 +1,7 @@
 // Copyright (c) 2024-2026 The FluentFlyout Authors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Automation;
@@ -20,10 +21,10 @@ public static class MediaPlayerData
         public int ProcessId { get; set; }
     }
     // cache for media player info to avoid redundant process lookups
-    private static readonly Dictionary<string, CachedMediaPlayerInfo> mediaPlayerCache = [];
+    private static readonly ConcurrentDictionary<string, CachedMediaPlayerInfo> mediaPlayerCache = [];
 
     // id variants of media players where the key is the mediaPlayerId and the value is the mediaPlayerCache key
-    private static readonly Dictionary<string, string> mediaPlayerIdVariants = [];
+    private static readonly ConcurrentDictionary<string, string> mediaPlayerIdVariants = [];
 
     private static Process[]? cachedProcesses = null;
     private static DateTime lastCacheTime = DateTime.MinValue;
