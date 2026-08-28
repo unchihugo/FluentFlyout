@@ -98,7 +98,7 @@ public partial class VolumeMixerWindow : MicaWindow
             if (aboveMedia)
             {
                 Width = _mainWindow.Width;
-                _mainWindow.OpenAnimation(this, aboveReference: _mainWindow);
+                _mainWindow.OpenAnimation(this, aboveReference: _mainWindow, reserveNativeVolumeOsdSpace: true);
             }
             else
             {
