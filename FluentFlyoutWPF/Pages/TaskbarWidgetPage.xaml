@@ -120,7 +120,7 @@
                         <TextBlock Text="{DynamicResource TaskbarWidgetPosition}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
                     </StackPanel>
                 </ui:CardControl.Header>
-                <ComboBox SelectedIndex="{Binding TaskbarWidgetPosition}" IsEnabled="{Binding IsPremiumUnlocked}">
+                <ComboBox SelectedIndex="{Binding TaskbarWidgetPosition}" IsEnabled="{Binding IsPremiumUnlocked}" Style="{StaticResource DefaultComboBoxStyle}">
                     <ComboBoxItem Content="{DynamicResource PositionBottomLeft}" />
                     <ComboBoxItem Content="{DynamicResource PositionBottomCenter}" />
                     <ComboBoxItem Content="{DynamicResource PositionBottomRight}" />
@@ -132,7 +132,7 @@
                         <TextBlock Text="{DynamicResource TaskbarWidgetSelectedMonitorTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
                     </StackPanel>
                 </ui:CardControl.Header>
-                <ComboBox x:Name="TaskbarWidgetSelectedMonitorComboBox" SelectedIndex="{Binding TaskbarWidgetSelectedMonitor, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}">
+                <ComboBox x:Name="TaskbarWidgetSelectedMonitorComboBox" SelectedIndex="{Binding TaskbarWidgetSelectedMonitor, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}" Style="{StaticResource DefaultComboBoxStyle}">
                 </ComboBox>
             </ui:CardControl>
 
@@ -246,7 +246,7 @@
                         <TextBlock Text="{DynamicResource TaskbarWidgetControlsPositionDescription}" FontSize="12" Opacity="0.5" />
                     </StackPanel>
                 </ui:CardControl.Header>
-                <ComboBox SelectedIndex="{Binding TaskbarWidgetControlsPosition}" IsEnabled="{Binding IsPremiumUnlocked}">
+                <ComboBox SelectedIndex="{Binding TaskbarWidgetControlsPosition}" IsEnabled="{Binding IsPremiumUnlocked}" Style="{StaticResource DefaultComboBoxStyle}">
                     <ComboBoxItem Content="{DynamicResource PositionLeft}" />
                     <ComboBoxItem Content="{DynamicResource PositionRight}" />
                 </ComboBox>
