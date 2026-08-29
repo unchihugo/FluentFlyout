@@ -256,4 +256,5 @@
     <system:String x:Key="AppFilteringPlaceholderSpotify">例如：Spotify.exe</system:String>
     <system:String x:Key="AppFilteringPlaceholderChrome">例如：Chrome.exe</system:String>
     <system:String x:Key="AppFilteringComboBoxHint">選著一個當前正在播放媒體的應用進行添加</system:String>
+    <system:String x:Key="TaskbarWidgetFixedWidthDescription">將小工具保持固定寬度，而不是調整大小以配合標題和演出者文字</system:String>
 </ResourceDictionary>
