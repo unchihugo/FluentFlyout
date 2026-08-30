@@ -720,7 +720,7 @@ public partial class UserSettings : ObservableObject
         DisableIfFullscreen = true;
         LockKeysBoldUi = false;
         LockKeysMonitorPreference = 0;
-        LastKnownVersion = "";
+        LastKnownVersion = string.Empty;
         SeekbarEnabled = false;
         PauseOtherSessionsEnabled = false;
         LockKeysAnimated = true;

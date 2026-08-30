@@ -1871,9 +1871,9 @@ public partial class MainWindow : MicaWindow
         await ExperimentsService.GetExperimentsAsync();
 
         BitmapHelper.GetDominantColors(1);
+        volumeMixerWindow = new VolumeMixerWindow();
         taskbarWindow = new TaskbarWindow();
         UpdateTaskbar();
-        volumeMixerWindow = new VolumeMixerWindow();
     }
 
     public void RecreateTaskbarWindow()

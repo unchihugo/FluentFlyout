@@ -58,7 +58,7 @@
                 </Path>
             </Canvas>
         </Viewbox>
-            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="16,0,0,4">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="18,0,0,4">
                 <TextBlock Name="LockTextBlock" Text="Loading..." FontSize="14" FontWeight="Medium" TextTrimming="CharacterEllipsis"/>
             </StackPanel>
         </Grid>
