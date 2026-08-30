@@ -44,14 +44,6 @@ public partial class VolumeMixerViewModel : ObservableObject, IDisposable
         AudioDeviceMonitor.Instance.DefaultDeviceChanged += OnDefaultDeviceChanged;
 
         AttachDevice(AudioDeviceMonitor.Instance.GetDefaultRenderDevice());
-
-        // slow polling to detect changes just in case
-        //_pollTimer = new DispatcherTimer
-        //{
-        //    Interval = TimeSpan.FromMilliseconds(5000)
-        //};
-        //_pollTimer.Tick += OnPollTick;
-        //_pollTimer.Start();
     }
 
     partial void OnIsExpandedChanged(bool oldValue, bool newValue)
@@ -113,6 +105,30 @@ public partial class VolumeMixerViewModel : ObservableObject, IDisposable
     {
         if (_device == null) return;
         _device.AudioEndpointVolume.Mute = value;
+    }
+
+    public bool TryAdjustMasterVolume(float delta)
+    {
+        if (_device == null) return false;
+        
+        MasterVolume = Math.Clamp(MasterVolume + delta, 0f, 1f);
+        return true;
+    }
+
+    public bool TryAdjustSessionVolume(int processId, float delta)
+    {
+        var session = Sessions.FirstOrDefault(session => session.ProcessId == processId);
+        
+        if (session == null)
+        {
+            RefreshSessions();
+            session = Sessions.FirstOrDefault(session => session.ProcessId == processId);
+        }
+
+        if (session == null) return false;
+
+        session.AdjustVolume(delta);
+        return true;
     }
 
 

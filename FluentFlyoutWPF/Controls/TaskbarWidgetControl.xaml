@@ -11,7 +11,13 @@
              TextOptions.TextRenderingMode="ClearType" TextOptions.TextFormattingMode="Ideal"
              FontFamily="{Binding FontFamily}"
              FlowDirection="{Binding FlowDirection}">
-    <Border Name="MainBorder" CornerRadius="6" MouseEnter="Grid_MouseEnter" MouseLeave="Grid_MouseLeave" MouseLeftButtonUp="Grid_MouseLeftButtonUp" ClipToBounds="True">
+    <Border Name="MainBorder"
+            CornerRadius="6"
+            MouseEnter="Grid_MouseEnter"
+            MouseLeave="Grid_MouseLeave"
+            MouseLeftButtonUp="Grid_MouseLeftButtonUp"
+            MouseWheel="MainBorder_MouseWheel"
+            ClipToBounds="True">
         <Grid>
             <Image x:Name="BackgroundImage" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" Opacity="0.4">
                 <Image.Effect>
@@ -33,7 +39,7 @@
                             </Border.Background>
                         </Border>
 
-                        <StackPanel Name="SongInfoStackPanel" Orientation="Vertical" VerticalAlignment="Center" Width="Auto" Margin="8,0,0,0" 
+                        <StackPanel Name="SongInfoStackPanel" Orientation="Vertical" VerticalAlignment="Center" Width="Auto" Margin="8,0,0,0"
                                     ToolTipService.InitialShowDelay="800"
                                     ToolTipService.Placement="RelativePoint"
                                     ToolTipService.VerticalOffset="-16">

@@ -322,6 +322,29 @@ public partial class MainWindow : MicaWindow
         return validSessions.FirstOrDefault();
     }
 
+    public void AdjustTaskbarVolume(float delta)
+    {
+        if (volumeMixerWindow?.ViewModel is not { } volumeMixerViewModel) return;
+
+        switch (SettingsManager.Current.TaskbarWidgetScrollVolumeMode)
+        {
+            case 1:
+                bool success = volumeMixerViewModel.TryAdjustMasterVolume(delta);
+
+                if (success && SettingsManager.Current.VolumeControlEnabled)
+                    volumeMixerWindow?.ShowFlyout();
+                break;
+                
+            case 2:
+                if (GetActiveMediaSession() is not { } activeSession) return;
+
+                int? processId = MediaPlayerData.GetAndCacheProcessId(activeSession.Id);
+                if (processId.HasValue)
+                    volumeMixerViewModel.TryAdjustSessionVolume(processId.Value, delta);
+                break;
+        }
+    }
+
     public void RefreshFilteredMedia()
     {
         UpdateTaskbar();

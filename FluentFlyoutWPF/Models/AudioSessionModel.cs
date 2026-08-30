@@ -63,6 +63,11 @@ public partial class AudioSessionModel : ObservableObject
         _sessionControl.SimpleAudioVolume.Mute = value;
     }
 
+    public void AdjustVolume(float delta)
+    {
+        Volume = Math.Clamp(Volume + delta, 0f, 1f);
+    }
+
     [RelayCommand]
     private void ToggleMute() => IsMuted = !IsMuted;
 
