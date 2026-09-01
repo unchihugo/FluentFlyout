@@ -689,30 +689,31 @@ public partial class TaskbarWidgetControl : UserControl
     private async void Previous_Click(object sender, RoutedEventArgs e)
     {
         if (_mainWindow == null) return;
-
-        var focusedSession = _mainWindow.GetActiveMediaSession();
-        if (focusedSession == null) return;
-
-        await focusedSession.ControlSession.TrySkipPreviousAsync();
+        await _mainWindow.TrySkipPreviousAsync();
     }
 
     private async void PlayPause_Click(object sender, RoutedEventArgs e)
     {
         if (_mainWindow == null) return;
-
-        var focusedSession = _mainWindow.GetActiveMediaSession();
-        if (focusedSession == null) return;
-
-        await focusedSession.ControlSession.TryTogglePlayPauseAsync();
+        await _mainWindow.TryTogglePlayPauseAsync();
     }
 
     private async void Next_Click(object sender, RoutedEventArgs e)
     {
         if (_mainWindow == null) return;
+        await _mainWindow.TrySkipNextAsync();
+    }
 
-        var focusedSession = _mainWindow.GetActiveMediaSession();
-        if (focusedSession == null) return;
+    // Event handlers for context menu items
+    private async void ContextMenuMediaPlayer_Click(object sender, RoutedEventArgs e)
+    {
+        if (_mainWindow == null) return;
 
-        await focusedSession.ControlSession.TrySkipNextAsync();
+        _ = _mainWindow.TryOpenMediaPlayerAsync();
+    }
+
+    private void ContextMenuSettings_Click(object sender, RoutedEventArgs e)
+    {
+        SettingsWindow.ShowInstance();
     }
 }

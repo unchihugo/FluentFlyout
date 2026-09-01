@@ -78,6 +78,21 @@
                     </StackPanel>
                 </Grid>
             </Border>
+            <Grid.ContextMenu>
+                <ContextMenu Style="{StaticResource UiContextMenu}">
+                    <ui:MenuItem x:Name="ContextMenuMediaPlayer" Header="{DynamicResource OpenMediaPlayerText}" Click="ContextMenuMediaPlayer_Click">
+                        <ui:MenuItem.Icon>
+                            <ui:SymbolIcon Symbol="Open20"/>
+                        </ui:MenuItem.Icon>
+                    </ui:MenuItem>
+                    <Separator></Separator>
+                    <ui:MenuItem x:Name="ContextMenuSettings" Header="{DynamicResource TrayIconLeftClickOption1}" Click="ContextMenuSettings_Click">
+                        <ui:MenuItem.Icon>
+                            <ui:SymbolIcon Symbol="Settings20"/>
+                        </ui:MenuItem.Icon>
+                    </ui:MenuItem>
+                </ContextMenu>
+            </Grid.ContextMenu>
         </Grid>
     </Border>
 </UserControl>

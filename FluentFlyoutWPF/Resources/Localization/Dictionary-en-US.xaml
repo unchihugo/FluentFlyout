@@ -288,4 +288,5 @@ You can help contribute translations on</System:String>
     <System:String x:Key="VolumeMixerHighlightTitle">Highlight apps playing audio</System:String>
     <System:String x:Key="VolumeMixerHighlightDescription">See which apps are currently outputting audio</System:String>
     <System:String x:Key="MasterVolumeText">Master volume</System:String>
+    <System:String x:Key="OpenMediaPlayerText">Open media player</System:String>
 </ResourceDictionary>

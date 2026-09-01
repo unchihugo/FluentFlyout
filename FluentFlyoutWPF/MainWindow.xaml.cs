@@ -334,7 +334,7 @@ public partial class MainWindow : MicaWindow
                 if (success && SettingsManager.Current.VolumeControlEnabled)
                     volumeMixerWindow?.ShowFlyout();
                 break;
-                
+
             case 2:
                 if (GetActiveMediaSession() is not { } activeSession) return;
 
@@ -365,6 +365,44 @@ public partial class MainWindow : MicaWindow
                 HandlePlayBackState(GlobalSystemMediaTransportControlsSessionPlaybackStatus.Closed);
             }
         }
+    }
+
+    public async Task<bool> TrySkipPreviousAsync()
+    {
+        var focusedSession = GetActiveMediaSession();
+        if (focusedSession == null) return false;
+        return await focusedSession.ControlSession.TrySkipPreviousAsync();
+    }
+
+    public async Task<bool> TryTogglePlayPauseAsync()
+    {
+        var focusedSession = GetActiveMediaSession();
+        if (focusedSession == null) return false;
+        return await focusedSession.ControlSession.TryTogglePlayPauseAsync();
+    }
+
+    public async Task<bool> TrySkipNextAsync()
+    {
+        var focusedSession = GetActiveMediaSession();
+        if (focusedSession == null) return false;
+        return await focusedSession.ControlSession.TrySkipNextAsync();
+    }
+
+    public async Task<bool> TryOpenMediaPlayerAsync()
+    {
+        try
+        {
+            if (GetActiveMediaSession() is { } activeSession)
+            {
+                var mediaProperties = TryGetMediaProperties(activeSession.ControlSession);
+                return await Task.Run(() => MediaPlayerData.TryActivateMediaPlayer(activeSession.Id, mediaProperties?.Title));
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger.Error(ex, "Failed to open media player");
+        }
+        return false;
     }
 
     private static GlobalSystemMediaTransportControlsSessionMediaProperties? TryGetMediaProperties(GlobalSystemMediaTransportControlsSession controlSession)
@@ -1068,14 +1106,7 @@ public partial class MainWindow : MicaWindow
 
                 ControlPlayPause.IsEnabled = mediaProperties.Controls.IsPlayEnabled || mediaProperties.Controls.IsPauseEnabled;
 
-                if (ControlPlayPause.IsEnabled)
-                {
-                    ControlPlayPause.Opacity = 1;
-                }
-                else
-                {
-                    ControlPlayPause.Opacity = 0.35;
-                }
+                ControlPlayPause.Opacity = ControlPlayPause.IsEnabled ? 1 : 0.35;
 
                 ControlBack.IsEnabled = ControlForward.IsEnabled = mediaProperties.Controls.IsNextEnabled;
                 ControlBack.Opacity = ControlForward.Opacity = mediaProperties.Controls.IsNextEnabled ? 1 : 0.35;
@@ -1197,8 +1228,7 @@ public partial class MainWindow : MicaWindow
                     }
                 }
 
-                if (SongImage.ImageSource == null) SongImagePlaceholder.Visibility = Visibility.Visible;
-                else SongImagePlaceholder.Visibility = Visibility.Collapsed;
+                SongImagePlaceholder.Visibility = SongImage.ImageSource == null ? Visibility.Visible : Visibility.Collapsed;
 
                 if (_seekBarEnabled)
                 {
@@ -1277,21 +1307,11 @@ public partial class MainWindow : MicaWindow
                 SongInfoStackPanel.Width = 182 - 72 + extraWidth;
             }
 
-            if (SettingsManager.Current.CenterTitleArtist)
-            {
-                SongTitle.HorizontalAlignment = HorizontalAlignment.Center;
-                SongArtist.HorizontalAlignment = HorizontalAlignment.Center;
-            }
-            else
-            {
-                SongTitle.HorizontalAlignment = HorizontalAlignment.Left;
-                SongArtist.HorizontalAlignment = HorizontalAlignment.Left;
-            }
+            var alignment = SettingsManager.Current.CenterTitleArtist ? HorizontalAlignment.Center : HorizontalAlignment.Left;
+            SongTitle.HorizontalAlignment = alignment;
+            SongArtist.HorizontalAlignment = alignment;
 
-            if (SettingsManager.Current.SeekbarEnabled)
-                SeekbarWrapper.Visibility = Visibility.Visible;
-            else
-                SeekbarWrapper.Visibility = Visibility.Collapsed;
+            SeekbarWrapper.Visibility = SettingsManager.Current.SeekbarEnabled ? Visibility.Visible : Visibility.Collapsed;
         });
 
         _layout = SettingsManager.Current.CompactLayout;
@@ -1307,35 +1327,22 @@ public partial class MainWindow : MicaWindow
     {
         if (!SettingsManager.Current.PlayerInfoEnabled || SettingsManager.Current.CompactLayout) return;
         e.Handled = true;
-        if (GetActiveMediaSession() is { } activeSession)
-        {
-            var mediaProperties = TryGetMediaProperties(activeSession.ControlSession);
-            await Task.Run(() => MediaPlayerData.TryActivateMediaPlayer(activeSession.Id, mediaProperties?.Title));
-        }
+        _ = TryOpenMediaPlayerAsync();
     }
 
     private async void Back_Click(object sender, RoutedEventArgs e)
     {
-        var activeSession = GetActiveMediaSession();
-        if (activeSession == null) return;
-
-        await activeSession.ControlSession.TrySkipPreviousAsync();
+        TrySkipPreviousAsync();
     }
 
     private async void PlayPause_Click(object sender, RoutedEventArgs e)
     {
-        var activeSession = GetActiveMediaSession();
-        if (activeSession == null) return;
-
-        await activeSession.ControlSession.TryTogglePlayPauseAsync();
+        TryTogglePlayPauseAsync();
     }
 
     private async void Forward_Click(object sender, RoutedEventArgs e)
     {
-        var activeSession = GetActiveMediaSession();
-        if (activeSession == null) return;
-
-        await activeSession.ControlSession.TrySkipNextAsync();
+        TrySkipNextAsync();
     }
 
     private async void Repeat_Click(object sender, RoutedEventArgs e)
