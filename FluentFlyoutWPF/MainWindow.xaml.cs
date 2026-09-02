@@ -322,6 +322,18 @@ public partial class MainWindow : MicaWindow
         return validSessions.FirstOrDefault();
     }
 
+    public float? GetActiveMediaAppVolume()
+    {
+        if (volumeMixerWindow?.ViewModel is not { } volumeMixerViewModel ||
+            GetActiveMediaSession() is not { } activeSession)
+            return null;
+
+        int? processId = MediaPlayerData.GetAndCacheProcessId(activeSession.Id);
+        return processId.HasValue
+            ? volumeMixerViewModel.Sessions.FirstOrDefault(session => session.ProcessId == processId.Value)?.Volume
+            : null;
+    }
+
     public void AdjustTaskbarVolume(float delta)
     {
         if (volumeMixerWindow?.ViewModel is not { } volumeMixerViewModel) return;
@@ -343,10 +355,6 @@ public partial class MainWindow : MicaWindow
                 if (processId.HasValue)
                 {
                     volumeMixerViewModel.TryAdjustSessionVolume(processId.Value, delta);
-                    if (SettingsManager.Current.VolumeControlEnabled)
-                    {
-                        volumeMixerWindow.ShowFlyout(startExpanded: true);
-                    }
                 }
                 break;
         }

@@ -56,6 +56,8 @@ public partial class TaskbarWidgetControl : UserControl
 
     private string _actualTitle = string.Empty;
     private string _actualArtist = string.Empty;
+    private string _songInfoTooltip = string.Empty;
+    private float? _appVolume;
 
     // reference to main window for flyout functions
     private MainWindow? _mainWindow;
@@ -506,6 +508,8 @@ public partial class TaskbarWidgetControl : UserControl
             {
                 _actualTitle = string.Empty;
                 _actualArtist = string.Empty;
+                _songInfoTooltip = string.Empty;
+                _appVolume = null;
 
                 if (SettingsManager.Current.TaskbarWidgetHideCompletely)
                 {
@@ -584,10 +588,12 @@ public partial class TaskbarWidgetControl : UserControl
                 SongArtist.Text = _actualArtist;
             }
 
-            // Update tooltip with song info
-            SongInfoStackPanel.ToolTip = string.Empty;
-            SongInfoStackPanel.ToolTip += !string.IsNullOrEmpty(title) ? title : string.Empty;
-            SongInfoStackPanel.ToolTip += !string.IsNullOrEmpty(artist) ? "\n\n" + artist : string.Empty;
+            // Update tooltip with song info and the active app volume
+            _songInfoTooltip = string.Empty;
+            _songInfoTooltip += !string.IsNullOrEmpty(title) ? title : string.Empty;
+            _songInfoTooltip += !string.IsNullOrEmpty(artist) ? "\n\n" + artist : string.Empty;
+            _appVolume = _mainWindow?.GetActiveMediaAppVolume();
+            UpdateSongInfoTooltip();
 
             if (SettingsManager.Current.TaskbarWidgetControlsEnabled)
             {
@@ -639,6 +645,22 @@ public partial class TaskbarWidgetControl : UserControl
 
             Visibility = Visibility.Visible;
         });
+    }
+
+    public void RefreshAppVolumeTooltip()
+    {
+        Dispatcher.Invoke(() =>
+        {
+            _appVolume = _mainWindow?.GetActiveMediaAppVolume();
+            UpdateSongInfoTooltip();
+        });
+    }
+
+    private void UpdateSongInfoTooltip()
+    {
+        SongInfoStackPanel.ToolTip = _songInfoTooltip;
+        if (_appVolume is float appVolume)
+            SongInfoStackPanel.ToolTip += $" ({appVolume:P0})";
     }
 
     private async void AnimateEntrance()

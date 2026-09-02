@@ -34,6 +34,8 @@ public partial class AudioSessionModel : ObservableObject
 
     public bool IsActive => State == AudioSessionState.AudioSessionStateActive;
 
+    public event EventHandler? VolumeChanged;
+
     public AudioSessionModel(AudioSessionControl sessionControl, string displayName, int processId, AudioSessionState sessionState, ImageSource? icon)
     {
         _sessionControl = sessionControl;
@@ -56,6 +58,8 @@ public partial class AudioSessionModel : ObservableObject
         {
             IsMuted = false;
         }
+
+        VolumeChanged?.Invoke(this, EventArgs.Empty);
     }
 
     partial void OnIsMutedChanged(bool value)
