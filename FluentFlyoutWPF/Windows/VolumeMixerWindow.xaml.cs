@@ -57,7 +57,7 @@ public partial class VolumeMixerWindow : MicaWindow
     }
 
     // one day we might want to convert these to an interface
-    public async void ShowFlyout()
+    public async void ShowFlyout(bool startExpanded = false)
     {
         if (FullscreenDetector.IsFullscreenApplicationRunning())
             return;
@@ -107,8 +107,21 @@ public partial class VolumeMixerWindow : MicaWindow
             }
 
             Show();
-            //WindowHelper.SetNoActivate(this);
             WindowHelper.SetTopmost(this);
+
+            _ = Task.Run(() =>
+            {
+                Thread.Sleep(MainWindow.getDuration());
+                Dispatcher.Invoke(() =>
+                {
+                    if (startExpanded) ViewModel.IsExpanded = true;
+                });
+            });
+        }
+        else
+        {
+            // only expand if the flyout isn't expanded already
+            if (startExpanded) ViewModel.IsExpanded = true;
         }
 
         _cts.Cancel();

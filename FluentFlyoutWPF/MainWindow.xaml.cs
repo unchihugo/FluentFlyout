@@ -328,6 +328,7 @@ public partial class MainWindow : MicaWindow
 
         switch (SettingsManager.Current.TaskbarWidgetScrollVolumeMode)
         {
+            // 0 = disabled, 1 = master volume, 2 = active media session
             case 1:
                 bool success = volumeMixerViewModel.TryAdjustMasterVolume(delta);
 
@@ -340,7 +341,13 @@ public partial class MainWindow : MicaWindow
 
                 int? processId = MediaPlayerData.GetAndCacheProcessId(activeSession.Id);
                 if (processId.HasValue)
+                {
                     volumeMixerViewModel.TryAdjustSessionVolume(processId.Value, delta);
+                    if (SettingsManager.Current.VolumeControlEnabled)
+                    {
+                        volumeMixerWindow.ShowFlyout(startExpanded: true);
+                    }
+                }
                 break;
         }
     }
