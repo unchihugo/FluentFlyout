@@ -58,7 +58,7 @@
                         <TextBlock Text="{DynamicResource TextBlockText2}" FontSize="12" Opacity="0.5" />
                     </StackPanel>
                 </ui:CardControl.Header>
-                <ComboBox Name="BackgroundComboBox" SelectedIndex="{Binding MediaFlyoutBackgroundBlur}">
+                <ComboBox Name="BackgroundComboBox" SelectedIndex="{Binding MediaFlyoutBackgroundBlur}" Style="{StaticResource DefaultComboBoxStyle}">
                     <ComboBoxItem Content="{DynamicResource BackgroundBlurOption1}" />
                     <ComboBoxItem Content="{DynamicResource BackgroundBlurOption2}" />
                     <ComboBoxItem Content="{DynamicResource BackgroundBlurOption3}" />
@@ -80,7 +80,7 @@
                         <TextBlock Text="{DynamicResource FlyoutPositionTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
                     </StackPanel>
                 </ui:CardControl.Header>
-                <ComboBox Name="PositionComboBox" SelectedIndex="{Binding Position, Mode=TwoWay}">
+                <ComboBox Name="PositionComboBox" SelectedIndex="{Binding Position, Mode=TwoWay}" Style="{StaticResource DefaultComboBoxStyle}">
                     <ComboBoxItem Content="{DynamicResource PositionBottomLeft}" />
                     <ComboBoxItem Content="{DynamicResource PositionBottomCenter}" />
                     <ComboBoxItem Content="{DynamicResource PositionBottomRight}" />

@@ -465,6 +465,13 @@ public partial class UserSettings : ObservableObject
     public partial bool TaskbarWidgetScrollingEnabled { get; set; }
 
     /// <summary>
+    /// Controls whether scrolling over the taskbar widget adjusts master or player volume.
+    /// 0: Off, 1: Master volume, 2: Player volume
+    /// </summary>
+    [ObservableProperty]
+    public partial int TaskbarWidgetScrollVolumeMode { get; set; }
+
+    /// <summary>
     /// Gets or sets a value indicating whether the taskbar widget scrolling text should loop forever.
     /// </summary>
     [ObservableProperty]
@@ -720,7 +727,7 @@ public partial class UserSettings : ObservableObject
         DisableIfFullscreen = true;
         LockKeysBoldUi = false;
         LockKeysMonitorPreference = 0;
-        LastKnownVersion = "";
+        LastKnownVersion = string.Empty;
         SeekbarEnabled = false;
         PauseOtherSessionsEnabled = false;
         LockKeysAnimated = true;
@@ -746,6 +753,7 @@ public partial class UserSettings : ObservableObject
         TaskbarWidgetControlsPosition = 1;
         TaskbarWidgetAnimated = true;
         TaskbarWidgetScrollingEnabled = false;
+        TaskbarWidgetScrollVolumeMode = 1;
         TaskbarWidgetScrollingTextSpeed = 20;
         TaskbarWidgetScrollingTextLoopForever = false;
         TaskbarVisualizerEnabled = false;

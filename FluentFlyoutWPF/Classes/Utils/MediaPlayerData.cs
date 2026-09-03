@@ -147,6 +147,17 @@ public static class MediaPlayerData
         return (mediaTitle, mediaIcon);
     }
 
+    public static int? GetAndCacheProcessId(string mediaPlayerId)
+    {
+        GetAndCacheMediaPlayerData(mediaPlayerId);
+
+        if (!mediaPlayerCache.TryGetValue(mediaPlayerId, out var cachedInfo)
+            && (!mediaPlayerIdVariants.TryGetValue(mediaPlayerId, out var variantKey)
+            || !mediaPlayerCache.TryGetValue(variantKey, out cachedInfo))) return null;
+
+        return cachedInfo.ProcessId > 0 ? cachedInfo.ProcessId : null;
+    }
+
     public static bool TryActivateMediaPlayer(string mediaPlayerId, string? mediaTitle = null)
     {
         GetAndCacheMediaPlayerData(mediaPlayerId);

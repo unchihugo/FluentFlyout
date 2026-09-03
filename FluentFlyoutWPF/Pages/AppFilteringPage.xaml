@@ -49,7 +49,7 @@
                     <TextBlock Text="{DynamicResource AppFilteringModeDescription}" FontSize="12" Opacity="0.5" />
                 </StackPanel>
             </ui:CardControl.Header>
-            <ComboBox SelectedIndex="{Binding AppFilteringMode, Mode=TwoWay}">
+                <ComboBox SelectedIndex="{Binding AppFilteringMode, Mode=TwoWay}" Style="{StaticResource DefaultComboBoxStyle}">
                 <ComboBoxItem Content="{DynamicResource AppFilteringModeBlacklist}" />
                 <ComboBoxItem Content="{DynamicResource AppFilteringModeWhitelist}" />
             </ComboBox>
@@ -100,7 +100,7 @@
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
                                 <Grid Grid.Column="0" Margin="0,0,8,0">
-                                    <ComboBox IsEditable="False" x:Name="AllowComboBox" HorizontalAlignment="Stretch" DropDownOpened="AllowComboBox_DropDownOpened" MinHeight="36" Padding="16,8,16,8">
+                                <ComboBox IsEditable="False" x:Name="AllowComboBox" HorizontalAlignment="Stretch" DropDownOpened="AllowComboBox_DropDownOpened" MinHeight="36" Padding="16,8,16,8" Style="{StaticResource DefaultComboBoxStyle}">
                                         <ComboBox.ItemContainerStyle>
                                             <Style TargetType="ComboBoxItem" BasedOn="{StaticResource {x:Type ComboBoxItem}}">
                                                 <Setter Property="Padding" Value="16,8,16,8" />
@@ -191,7 +191,7 @@
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
                                 <Grid Grid.Column="0" Margin="0,0,8,0">
-                                    <ComboBox IsEditable="False" x:Name="BlockComboBox" HorizontalAlignment="Stretch" DropDownOpened="BlockComboBox_DropDownOpened" MinHeight="36" Padding="16,8,16,8">
+                                <ComboBox IsEditable="False" x:Name="BlockComboBox" HorizontalAlignment="Stretch" DropDownOpened="BlockComboBox_DropDownOpened" MinHeight="36" Padding="16,8,16,8" Style="{StaticResource DefaultComboBoxStyle}">
                                         <ComboBox.ItemContainerStyle>
                                             <Style TargetType="ComboBoxItem" BasedOn="{StaticResource {x:Type ComboBoxItem}}">
                                                 <Setter Property="Padding" Value="16,8,16,8" />

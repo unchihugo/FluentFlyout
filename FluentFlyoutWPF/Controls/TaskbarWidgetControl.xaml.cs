@@ -35,6 +35,7 @@ public partial class TaskbarWidgetControl : UserControl
     private const double SmallPlaceholderIconSize = 18;
     private const double DefaultControlButtonSize = 32;
     private const double SmallControlButtonSize = 24;
+    private const float TaskbarVolumeStep = 0.02f;
 
     private readonly double _scale = 0.9;
     private readonly int _nativeWidgetsPadding = 216;
@@ -55,6 +56,8 @@ public partial class TaskbarWidgetControl : UserControl
 
     private string _actualTitle = string.Empty;
     private string _actualArtist = string.Empty;
+    private string _songInfoTooltip = string.Empty;
+    private float? _appVolume;
 
     // reference to main window for flyout functions
     private MainWindow? _mainWindow;
@@ -249,6 +252,17 @@ public partial class TaskbarWidgetControl : UserControl
 
         // toggle main flyout when clicked
         _mainWindow.ShowMediaFlyout(toggleMode: true, forceShow: true);
+    }
+
+    private void MainBorder_MouseWheel(object sender, MouseWheelEventArgs e)
+    {
+        if (SettingsManager.Current.TaskbarWidgetScrollVolumeMode != 0 && _mainWindow != null)
+        {
+            float volumeDelta = Math.Clamp(e.Delta / 120f * TaskbarVolumeStep, -1f, 1f);
+            _mainWindow.AdjustTaskbarVolume(volumeDelta);
+        }
+
+        e.Handled = true;
     }
 
     public (double logicalWidth, double logicalHeight) CalculateSize(double dpiScale)
@@ -494,6 +508,8 @@ public partial class TaskbarWidgetControl : UserControl
             {
                 _actualTitle = string.Empty;
                 _actualArtist = string.Empty;
+                _songInfoTooltip = string.Empty;
+                _appVolume = null;
 
                 if (SettingsManager.Current.TaskbarWidgetHideCompletely)
                 {
@@ -572,10 +588,12 @@ public partial class TaskbarWidgetControl : UserControl
                 SongArtist.Text = _actualArtist;
             }
 
-            // Update tooltip with song info
-            SongInfoStackPanel.ToolTip = string.Empty;
-            SongInfoStackPanel.ToolTip += !string.IsNullOrEmpty(title) ? title : string.Empty;
-            SongInfoStackPanel.ToolTip += !string.IsNullOrEmpty(artist) ? "\n\n" + artist : string.Empty;
+            // Update tooltip with song info and the active app volume
+            _songInfoTooltip = string.Empty;
+            _songInfoTooltip += !string.IsNullOrEmpty(title) ? title : string.Empty;
+            _songInfoTooltip += !string.IsNullOrEmpty(artist) ? "\n\n" + artist : string.Empty;
+            _appVolume = _mainWindow?.GetActiveMediaAppVolume();
+            UpdateSongInfoTooltip();
 
             if (SettingsManager.Current.TaskbarWidgetControlsEnabled)
             {
@@ -629,6 +647,22 @@ public partial class TaskbarWidgetControl : UserControl
         });
     }
 
+    public void RefreshAppVolumeTooltip()
+    {
+        Dispatcher.Invoke(() =>
+        {
+            _appVolume = _mainWindow?.GetActiveMediaAppVolume();
+            UpdateSongInfoTooltip();
+        });
+    }
+
+    private void UpdateSongInfoTooltip()
+    {
+        SongInfoStackPanel.ToolTip = _songInfoTooltip;
+        if (_appVolume is float appVolume)
+            SongInfoStackPanel.ToolTip += $" ({appVolume:P0})";
+    }
+
     private async void AnimateEntrance()
     {
         try
@@ -677,30 +711,31 @@ public partial class TaskbarWidgetControl : UserControl
     private async void Previous_Click(object sender, RoutedEventArgs e)
     {
         if (_mainWindow == null) return;
-
-        var focusedSession = _mainWindow.GetActiveMediaSession();
-        if (focusedSession == null) return;
-
-        await focusedSession.ControlSession.TrySkipPreviousAsync();
+        await _mainWindow.TrySkipPreviousAsync();
     }
 
     private async void PlayPause_Click(object sender, RoutedEventArgs e)
     {
         if (_mainWindow == null) return;
-
-        var focusedSession = _mainWindow.GetActiveMediaSession();
-        if (focusedSession == null) return;
-
-        await focusedSession.ControlSession.TryTogglePlayPauseAsync();
+        await _mainWindow.TryTogglePlayPauseAsync();
     }
 
     private async void Next_Click(object sender, RoutedEventArgs e)
     {
         if (_mainWindow == null) return;
+        await _mainWindow.TrySkipNextAsync();
+    }
 
-        var focusedSession = _mainWindow.GetActiveMediaSession();
-        if (focusedSession == null) return;
+    // Event handlers for context menu items
+    private async void ContextMenuMediaPlayer_Click(object sender, RoutedEventArgs e)
+    {
+        if (_mainWindow == null) return;
 
-        await focusedSession.ControlSession.TrySkipNextAsync();
+        _ = _mainWindow.TryOpenMediaPlayerAsync();
+    }
+
+    private void ContextMenuSettings_Click(object sender, RoutedEventArgs e)
+    {
+        SettingsWindow.ShowInstance();
     }
 }
