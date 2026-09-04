@@ -117,7 +117,6 @@
                         </StackPanel>
                         <Grid Name="ControlsStackPanelContainer" HorizontalAlignment="Stretch" Height="35" Margin="12,8,0,0">
                             <StackPanel Name="ControlsStackPanel" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
-                                <!--<ui:Button Name="ControlBack" Icon="{ui:SymbolIcon Previous20, Filled=True}" Width="28" Height="28" Padding="0" CornerRadius="999" Margin="0,0,8,0" Click="Back_Click" Focusable="False"/>-->
                                 <controls:Button
                                     Height="28" Width="28" Name="ControlBack"
                                     Margin="0" Click="Back_Click" Focusable="False"

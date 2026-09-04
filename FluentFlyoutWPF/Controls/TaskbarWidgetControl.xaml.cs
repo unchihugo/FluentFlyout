@@ -179,71 +179,14 @@ public partial class TaskbarWidgetControl : UserControl
     {
         if (string.IsNullOrEmpty(SongTitle.Text + SongArtist.Text)) return;
 
-        SolidColorBrush targetBackgroundBrush;
-        // hover effects with animations, hard-coded colors because I can't find the resource brushes
-        WindowsThemeDetector.GetWindowsTheme(out _, out var systemTheme);
-        bool isDark = systemTheme == WindowsThemeDetector.ThemeMode.Dark;
-
-        if (isDark)
-        { // dark mode
-            targetBackgroundBrush = new SolidColorBrush(Color.FromArgb(197, 255, 255, 255)) { Opacity = 0.075 };
-            TopBorder.BorderBrush = new SolidColorBrush(Color.FromArgb(93, 255, 255, 255)) { Opacity = 0.25 };
-        }
-        else
-        { // light mode
-            targetBackgroundBrush = new SolidColorBrush(Color.FromArgb(255, 255, 255, 255)) { Opacity = 0.6 };
-            TopBorder.BorderBrush = new SolidColorBrush(Color.FromArgb(93, 255, 255, 255)) { Opacity = 1 };
-        }
-
-        // Animate background
-        var backgroundAnimation = new ColorAnimation
-        {
-            To = targetBackgroundBrush.Color,
-            Duration = TimeSpan.FromMilliseconds(200),
-            EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut }
-        };
-
-        var backgroundOpacityAnimation = new DoubleAnimation
-        {
-            To = targetBackgroundBrush.Opacity,
-            Duration = TimeSpan.FromMilliseconds(200),
-            EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut }
-        };
-
-        // rare case where background is not a SolidColorBrush after SetupWindow
-        if (MainBorder.Background is not SolidColorBrush)
-        {
-            MainBorder.Background = new SolidColorBrush(Colors.Transparent);
-            MainBorder.Background.Opacity = 0;
-        }
-
-        MainBorder.Background.BeginAnimation(SolidColorBrush.ColorProperty, backgroundAnimation);
-        MainBorder.Background.BeginAnimation(SolidColorBrush.OpacityProperty, backgroundOpacityAnimation);
+        TaskbarHoverEffect.Apply(MainBorder, TopBorder);
     }
 
     private void Grid_MouseLeave(object sender, MouseEventArgs e)
     {
         if (string.IsNullOrEmpty(SongTitle.Text + SongArtist.Text)) return;
 
-        // Animate back to transparent
-        var backgroundAnimation = new ColorAnimation
-        {
-            To = Colors.Transparent,
-            Duration = TimeSpan.FromMilliseconds(200),
-            EasingFunction = new CubicEase { EasingMode = EasingMode.EaseInOut }
-        };
-
-        var backgroundOpacityAnimation = new DoubleAnimation
-        {
-            To = 0,
-            Duration = TimeSpan.FromMilliseconds(200),
-            EasingFunction = new CubicEase { EasingMode = EasingMode.EaseInOut }
-        };
-
-        MainBorder.Background?.BeginAnimation(SolidColorBrush.ColorProperty, backgroundAnimation);
-        MainBorder.Background?.BeginAnimation(SolidColorBrush.OpacityProperty, backgroundOpacityAnimation);
-
-        TopBorder.BorderBrush = Brushes.Transparent;
+        TaskbarHoverEffect.Clear(MainBorder, TopBorder);
     }
 
     private void Grid_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)

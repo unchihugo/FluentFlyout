@@ -8,7 +8,6 @@ using FluentFlyoutWPF.Classes.Utils;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Animation;
 
 namespace FluentFlyoutWPF.Controls;
 
@@ -75,77 +74,18 @@ public partial class TaskbarVisualizerControl : UserControl
         visualizer.Dispose();
     }
 
-    // TODO: The following mouse events are almost the same as the ones in TaskbarWidgetControl.xaml.cs.
-    // We should find a way to unify these methods instead of duplicating them.
-
     private void Grid_MouseEnter(object sender, MouseEventArgs e)
     {
         if (!SettingsManager.Current.TaskbarVisualizerClickable || !SettingsManager.Current.TaskbarVisualizerHasContent) return;
 
-        SolidColorBrush targetBackgroundBrush;
-        // hover effects with animations, hard-coded colors because I can't find the resource brushes
-        WindowsThemeDetector.GetWindowsTheme(out _, out var systemTheme);
-        bool isDark = systemTheme == WindowsThemeDetector.ThemeMode.Dark;
-        if (isDark)
-        { // dark mode
-            targetBackgroundBrush = new SolidColorBrush(Color.FromArgb(197, 255, 255, 255)) { Opacity = 0.075 };
-            TopBorder.BorderBrush = new SolidColorBrush(Color.FromArgb(93, 255, 255, 255)) { Opacity = 0.25 };
-        }
-        else
-        { // light mode
-            targetBackgroundBrush = new SolidColorBrush(Color.FromArgb(255, 255, 255, 255)) { Opacity = 0.6 };
-            TopBorder.BorderBrush = new SolidColorBrush(Color.FromArgb(93, 255, 255, 255)) { Opacity = 1 };
-        }
-
-        // Animate background
-        var backgroundAnimation = new ColorAnimation
-        {
-            To = targetBackgroundBrush.Color,
-            Duration = TimeSpan.FromMilliseconds(200),
-            EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut }
-        };
-
-        var backgroundOpacityAnimation = new DoubleAnimation
-        {
-            To = targetBackgroundBrush.Opacity,
-            Duration = TimeSpan.FromMilliseconds(200),
-            EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut }
-        };
-
-        // rare case where background is not a SolidColorBrush after SetupWindow
-        if (MainBorder.Background is not SolidColorBrush)
-        {
-            MainBorder.Background = new SolidColorBrush(Colors.Transparent);
-            MainBorder.Background.Opacity = 0;
-        }
-
-        MainBorder.Background.BeginAnimation(SolidColorBrush.ColorProperty, backgroundAnimation);
-        MainBorder.Background.BeginAnimation(SolidColorBrush.OpacityProperty, backgroundOpacityAnimation);
+        TaskbarHoverEffect.Apply(MainBorder, TopBorder);
     }
 
     private void Grid_MouseLeave(object sender, MouseEventArgs e)
     {
         if (!SettingsManager.Current.TaskbarVisualizerClickable || !SettingsManager.Current.TaskbarVisualizerHasContent) return;
 
-        // Animate back to transparent
-        var backgroundAnimation = new ColorAnimation
-        {
-            To = Colors.Transparent,
-            Duration = TimeSpan.FromMilliseconds(200),
-            EasingFunction = new CubicEase { EasingMode = EasingMode.EaseInOut }
-        };
-
-        var backgroundOpacityAnimation = new DoubleAnimation
-        {
-            To = 0,
-            Duration = TimeSpan.FromMilliseconds(200),
-            EasingFunction = new CubicEase { EasingMode = EasingMode.EaseInOut }
-        };
-
-        MainBorder.Background?.BeginAnimation(SolidColorBrush.ColorProperty, backgroundAnimation);
-        MainBorder.Background?.BeginAnimation(SolidColorBrush.OpacityProperty, backgroundOpacityAnimation);
-
-        TopBorder.BorderBrush = System.Windows.Media.Brushes.Transparent;
+        TaskbarHoverEffect.Clear(MainBorder, TopBorder);
     }
 
     private void Grid_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
