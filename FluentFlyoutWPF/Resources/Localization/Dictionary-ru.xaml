@@ -293,4 +293,6 @@
     <system:String x:Key="TaskbarWidgetScrollVolumeMaster">Вкл. (Общая громкость)</system:String>
     <system:String x:Key="TaskbarWidgetScrollVolumePlayer">Вкл. (Громкость плеера)</system:String>
     <system:String x:Key="OpenMediaPlayerText">Открыть плеер</system:String>
+    <system:String x:Key="OnboardingTitle">Начать</system:String>
+    <system:String x:Key="SupporterTitle">Поддержать проект</system:String>
 </ResourceDictionary>
