@@ -73,7 +73,7 @@ public partial class HomePage : Page
         if (UpdateState.Current.IsUpdateAvailable)
         {
             string url = !string.IsNullOrEmpty(UpdateState.Current.UpdateUrl) ? UpdateState.Current.UpdateUrl : "https://fluentflyout.com/changelog/";
-            UpdateCheckerService.OpenUpdateUrl(url);
+            Notifications.OpenUrlInBrowser(url);
         }
         else
         {
@@ -180,17 +180,6 @@ public partial class HomePage : Page
 
     private void ReportBug_Click(object sender, System.Windows.RoutedEventArgs e)
     {
-        try
-        {
-            Process.Start(new ProcessStartInfo
-            {
-                FileName = "https://github.com/unchihugo/FluentFlyout/issues/new/choose",
-                UseShellExecute = true
-            });
-        }
-        catch (Exception ex)
-        {
-            Logger.Error(ex, "Failed to open bug report page");
-        }
+        Notifications.OpenUrlInBrowser("https://github.com/unchihugo/FluentFlyout/issues/new/choose");
     }
 }

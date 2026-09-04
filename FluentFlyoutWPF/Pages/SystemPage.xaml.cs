@@ -1,6 +1,7 @@
 // Copyright (c) 2024-2026 The FluentFlyout Authors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+using FluentFlyoutWPF.Classes;
 using FluentFlyoutWPF.Classes.Settings;
 using FluentFlyoutWPF.Classes.Utils;
 using Microsoft.Win32;
@@ -71,7 +72,7 @@ public partial class SystemPage : Page
 
     private void StartupHyperlink_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
     {
-        Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri) { UseShellExecute = true });
+        Notifications.OpenUrlInBrowser(e.Uri.AbsoluteUri);
         e.Handled = true;
     }
 

@@ -3,7 +3,6 @@
 
 using FluentFlyoutWPF.Classes;
 using FluentFlyoutWPF.Classes.Settings;
-using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -20,7 +19,7 @@ public partial class TaskbarVisualizerPage : Page
     // same as SystemPage.StartupHyperlink_RequestNavigate
     private void StartupHyperlink_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
     {
-        Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri) { UseShellExecute = true });
+        Notifications.OpenUrlInBrowser(e.Uri.AbsoluteUri);
         e.Handled = true;
     }
 }

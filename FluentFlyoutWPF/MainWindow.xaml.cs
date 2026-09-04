@@ -694,20 +694,12 @@ public partial class MainWindow : MicaWindow
 
     public void reportBug(object? sender, EventArgs e)
     {
-        Process.Start(new ProcessStartInfo
-        {
-            FileName = "https://github.com/unchihugo/FluentFlyout/issues/new/choose",
-            UseShellExecute = true
-        });
+        Notifications.OpenUrlInBrowser("https://github.com/unchihugo/FluentFlyout/issues/new/choose");
     }
 
     private void openRepository(object? sender, EventArgs e)
     {
-        Process.Start(new ProcessStartInfo
-        {
-            FileName = "https://github.com/unchihugo/FluentFlyout",
-            UseShellExecute = true
-        });
+        Notifications.OpenUrlInBrowser("https://github.com/unchihugo/FluentFlyout");
     }
 
     public void openLogsFolder(object? sender, EventArgs e)
