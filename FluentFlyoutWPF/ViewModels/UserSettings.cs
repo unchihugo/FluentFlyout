@@ -379,6 +379,12 @@ public partial class UserSettings : ObservableObject
     public partial int TaskbarWidgetPosition { get; set; }
 
     /// <summary>
+    /// Position of the taskbar widget cover image. 0: Default, 1: Left, 2: Right
+    /// </summary>
+    [ObservableProperty]
+    public partial int TaskbarWidgetCoverPosition { get; set; }
+
+    /// <summary>
     /// Determines whether padding should be applied to the taskbar widget for the native Windows Widgets button
     /// </summary>
     [ObservableProperty]
@@ -743,6 +749,7 @@ public partial class UserSettings : ObservableObject
         TaskbarWidgetEnabled = false;
         TaskbarWidgetSelectedMonitor = 0;
         TaskbarWidgetPosition = 0;
+        TaskbarWidgetCoverPosition = 0;
         TaskbarWidgetPadding = true;
         TaskbarWidgetManualPadding = 0;
         TaskbarWidgetBackgroundBlur = false;
@@ -895,7 +902,19 @@ public partial class UserSettings : ObservableObject
     partial void OnTaskbarWidgetPositionChanged(int oldValue, int newValue)
     {
         if (oldValue == newValue || _initializing) return;
+        if (TaskbarWidgetCoverPosition == 0)
+        {
+            UpdateTaskbarWidgetLayout();
+            return;
+        }
+
         UpdateTaskbar();
+    }
+
+    partial void OnTaskbarWidgetCoverPositionChanged(int oldValue, int newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+        UpdateTaskbarWidgetLayout();
     }
 
     partial void OnTaskbarWidgetManualPaddingChanged(int oldValue, int newValue)
@@ -938,8 +957,7 @@ public partial class UserSettings : ObservableObject
     {
         if (oldValue == newValue || _initializing) return;
 
-        MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
-        mainWindow.taskbarWindow?.Widget?.ReorderControls();
+        UpdateTaskbarWidgetLayout();
     }
 
     partial void OnTaskbarVisualizerPositionChanged(int oldValue, int newValue)
@@ -957,6 +975,18 @@ public partial class UserSettings : ObservableObject
     private void UpdateTaskbar()
     {
         MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+        mainWindow.UpdateTaskbar();
+    }
+
+    private void UpdateTaskbarWidgetLayout()
+    {
+        MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+        var widget = mainWindow.taskbarWindow?.Widget;
+        if (widget != null)
+        {
+            widget.Dispatcher.Invoke(widget.ReorderControls);
+        }
+
         mainWindow.UpdateTaskbar();
     }
 

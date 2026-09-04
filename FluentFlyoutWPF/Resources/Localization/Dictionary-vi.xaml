@@ -212,6 +212,9 @@ Lưu ý: Vì đây là một dự án mã nguồn mở, các tính năng này c�
     <system:String x:Key="FailedToExportSettings">Để biết thêm chi tiết, hãy nhấn chuột phải vào biểu tượng khay hệ thống và mở folder nhật ký.</system:String>
     <system:String x:Key="ImportSettingsWarning">Sắp áp dụng thay đổi. Có tiếp tục không?</system:String>
     <system:String x:Key="FailedToImportSettings">Để biết thêm chi tiết, hãy nhấn chuột phải vào biểu tượng khay hệ thống và mở folder nhật ký.</system:String>
+    <system:String x:Key="PositionDefault">Mặc định</system:String>
+    <system:String x:Key="TaskbarWidgetCoverPositionTitle">Vị trí ảnh bìa album</system:String>
+    <system:String x:Key="TaskbarWidgetCoverPositionDescription">Mặc định ở bên trái. Nếu vị trí widget được đặt ở góc dưới bên phải, mặc định ở bên phải.</system:String>
     <system:String x:Key="TaskbarWidgetControlsPositionTitle">Vị trí các nút điều khiển</system:String>
     <system:String x:Key="TaskbarWidgetControlsPositionDescription">Vị trí các nút điều khiển</system:String>
     <system:String x:Key="PositionLeft">Trái</system:String>

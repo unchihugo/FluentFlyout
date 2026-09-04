@@ -176,6 +176,9 @@
     <system:String x:Key="TaskbarVisualizerBarCountTitle">長條數量</system:String>
     <system:String x:Key="TaskbarWidgetCloseableFlyoutTitle">第二次點擊時關閉浮動視窗</system:String>
     <system:String x:Key="TaskbarWidgetCloseableFlyoutDescription">若在點擊工作列小工具時浮出視窗已開啟，則將其關閉</system:String>
+    <system:String x:Key="PositionDefault">預設</system:String>
+    <system:String x:Key="TaskbarWidgetCoverPositionTitle">封面位置</system:String>
+    <system:String x:Key="TaskbarWidgetCoverPositionDescription">預設靠左，如果小工具位置設定為右下角，則預設靠右。</system:String>
     <system:String x:Key="TaskbarWidgetControlsPositionTitle">媒體控制項位置</system:String>
     <system:String x:Key="TaskbarWidgetControlsPositionDescription">選擇媒體控制鈕的顯示位置</system:String>
     <system:String x:Key="PositionLeft">靠左</system:String>

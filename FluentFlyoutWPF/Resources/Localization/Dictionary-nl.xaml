@@ -91,6 +91,9 @@ verbergt herhalen, shuffle en spelerinfo</system:String>
     <system:String x:Key="NextUpStayDurationTitle">Weergaveduur van ‘Volgende’</system:String>
     <system:String x:Key="TaskbarWidgetManualPaddingTitle">Aangepaste Opvulling</system:String>
     <system:String x:Key="TaskbarWidgetManualPaddingDescription">Voeg extra opvulling toe (standaard: 0px)</system:String>
+    <system:String x:Key="PositionDefault">Standaard</system:String>
+    <system:String x:Key="TaskbarWidgetCoverPositionTitle">Positie albumhoes</system:String>
+    <system:String x:Key="TaskbarWidgetCoverPositionDescription">Standaard links. Als de widgetpositie is ingesteld op rechtsonder, is standaard rechts.</system:String>
     <system:String x:Key="TaskbarWidgetControlsPositionTitle">Mediaknoppen positie</system:String>
     <system:String x:Key="TaskbarWidgetControlsPositionDescription">Bepaal waar de mediaknoppen worden weergegeven</system:String>
     <system:String x:Key="PositionLeft">Links</system:String>

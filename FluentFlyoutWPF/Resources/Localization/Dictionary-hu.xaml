@@ -66,6 +66,9 @@ elrejti az ismétlés, keverés és lejátszó információkat</system:String>
     <system:String x:Key="TaskbarWidgetAutoHideDescription">Automatikusan elrejti a widgetet, amikor a média szünetel</system:String>
     <system:String x:Key="TaskbarWidgetControlsTitle">Widget Médiavezérlők</system:String>
     <system:String x:Key="TaskbarWidgetControlsDescription">Mutassa a médiavezérlő gombokat a widgeten</system:String>
+    <system:String x:Key="PositionDefault">Alapértelmezett</system:String>
+    <system:String x:Key="TaskbarWidgetCoverPositionTitle">Albumborító pozíciója</system:String>
+    <system:String x:Key="TaskbarWidgetCoverPositionDescription">Az alapértelmezett bal oldalt van. Ha a widget pozíciója jobb alsóra van állítva, az alapértelmezett jobb oldalt van.</system:String>
     <system:String x:Key="TaskbarWidgetControlsPositionTitle">Médiavezérlők pozíciója</system:String>
     <system:String x:Key="TaskbarWidgetControlsPositionDescription">Válassza ki, hol jelenjenek meg a médiavezérlő gombok</system:String>
     <system:String x:Key="PositionLeft">Bal</system:String>

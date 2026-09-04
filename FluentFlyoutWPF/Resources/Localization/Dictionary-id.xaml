@@ -181,6 +181,9 @@ Anda dapat membantu berkontribusi dalam menerjemahkan di</system:String>
     <system:String x:Key="TaskbarVisualizerBaselineTitle">Perlihatkan garis dasar</system:String>
     <system:String x:Key="TaskbarWidgetCloseableFlyoutTitle">Tutup Flyout dalam Klik Detik</system:String>
     <system:String x:Key="TaskbarWidgetCloseableFlyoutDescription">Tutup flyout jika sudah siap membuka ketika mengklik widget bilah tugas</system:String>
+    <system:String x:Key="PositionDefault">Default</system:String>
+    <system:String x:Key="TaskbarWidgetCoverPositionTitle">Posisi Sampul Album</system:String>
+    <system:String x:Key="TaskbarWidgetCoverPositionDescription">Default berada di kiri. Jika posisi widget diatur ke kanan bawah, default berada di kanan.</system:String>
     <system:String x:Key="TaskbarWidgetControlsPositionTitle">Posisi Kontrol Media</system:String>
     <system:String x:Key="TaskbarWidgetControlsPositionDescription">Pilih dimana untuk menampilkan tombol kontrol media</system:String>
     <system:String x:Key="PositionLeft">Kiri</system:String>

@@ -75,6 +75,9 @@ hides repeat, shuffle and player info</System:String>
     <System:String x:Key="TaskbarWidgetShowPauseOverlayDescription">When media is paused, display a pause icon over the album art</System:String>
     <System:String x:Key="TaskbarWidgetControlsTitle">Widget Media Controls</System:String>
     <System:String x:Key="TaskbarWidgetControlsDescription">Show media control buttons on the widget</System:String>
+    <System:String x:Key="PositionDefault">Default</System:String>
+    <System:String x:Key="TaskbarWidgetCoverPositionTitle">Album Art Position</System:String>
+    <System:String x:Key="TaskbarWidgetCoverPositionDescription">Default is left. If the widget position is set to bottom-right, default is right.</System:String>
     <System:String x:Key="TaskbarWidgetControlsPositionTitle">Media Controls Position</System:String>
     <System:String x:Key="TaskbarWidgetControlsPositionDescription">Choose where to display the media control buttons</System:String>
     <System:String x:Key="PositionLeft">Left</System:String>

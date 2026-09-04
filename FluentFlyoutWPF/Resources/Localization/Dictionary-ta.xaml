@@ -42,4 +42,7 @@
     <system:String x:Key="LockWindow_NumLock">நம் லாக்</system:String>
     <system:String x:Key="LockWindow_ScrollLock">ஸ்க்ரோல் லாக்</system:String>
     <system:String x:Key="LockWindow_InsertPressed">இன்சர்ட் அழுத்தப்பட்டது</system:String>
+    <system:String x:Key="PositionDefault">இயல்பு</system:String>
+    <system:String x:Key="TaskbarWidgetCoverPositionTitle">ஆல்பம் அட்டையின் நிலை</system:String>
+    <system:String x:Key="TaskbarWidgetCoverPositionDescription">இயல்பாக இடப்புறம். விட்ஜெட் நிலை கீழ் வலப்புறமாக அமைக்கப்பட்டிருந்தால், இயல்பாக வலப்புறம் இருக்கும்.</system:String>
 </ResourceDictionary>

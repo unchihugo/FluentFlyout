@@ -209,6 +209,9 @@
     <system:String x:Key="FailedToImportSettings">सेटिंग्स आयात करने में विफल. विवरण के लिए लॉग जांचें।</system:String>
     <system:String x:Key="BackupRestoreSectionTitle">बैकअप लें और पुनर्स्थापित करें</system:String>
     <system:String x:Key="BackupRestoreCardTitle">बैकअप लें और अपनी सेटिंग्स पुनर्स्थापित करें</system:String>
+    <system:String x:Key="PositionDefault">डिफ़ॉल्ट</system:String>
+    <system:String x:Key="TaskbarWidgetCoverPositionTitle">एल्बम आर्ट की स्थिति</system:String>
+    <system:String x:Key="TaskbarWidgetCoverPositionDescription">डिफ़ॉल्ट बाईं ओर है। यदि विजेट की स्थिति नीचे-दाईं ओर सेट है, तो डिफ़ॉल्ट दाईं ओर है।</system:String>
     <system:String x:Key="TaskbarWidgetControlsPositionTitle">मीडिया नियंत्रण स्थिति</system:String>
     <system:String x:Key="TaskbarWidgetControlsPositionDescription">चुनें कि मीडिया नियंत्रण बटन कहाँ प्रदर्शित करना है</system:String>
     <system:String x:Key="PositionLeft">बाएं</system:String>

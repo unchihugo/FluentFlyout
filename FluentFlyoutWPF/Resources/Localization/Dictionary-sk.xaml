@@ -86,6 +86,9 @@ skrýva informácie o opakovaní, náhodnom prehrávaní a prehrávači</system:
     <system:String x:Key="TaskbarVisualizerAudioPeakLevelDescription">Aký hlasný musí byť zvuk, aby stĺpce dosiahli svoju maximálnu výšku</system:String>
     <system:String x:Key="TaskbarVisualizerOutputDeviceTitle">Výstupné Zariadenie</system:String>
     <system:String x:Key="TaskbarVisualizerOutputDeviceDescription">Zmeňte, čo vizualizér počúva, prepnutím výstupného zariadenia FluentFlyout.</system:String>
+    <system:String x:Key="PositionDefault">Predvolené</system:String>
+    <system:String x:Key="TaskbarWidgetCoverPositionTitle">Pozícia obalu albumu</system:String>
+    <system:String x:Key="TaskbarWidgetCoverPositionDescription">Predvolene je vľavo. Ak je pozícia widgetu nastavená vpravo dole, predvolene je vpravo.</system:String>
     <system:String x:Key="TaskbarWidgetControlsPositionTitle">Pozícia Ovládania Médií</system:String>
     <system:String x:Key="TaskbarVisualizerClickableTitle">Kliknutím otvoríte Nastavenia</system:String>
     <system:String x:Key="TaskbarVisualizerClickableDescription">Kliknutím na vizualizér sa otvorí jeho stránka s nastaveniami</system:String>

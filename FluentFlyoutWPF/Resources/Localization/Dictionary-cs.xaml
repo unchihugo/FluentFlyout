@@ -200,6 +200,9 @@ Poznámka: Jelikož se jedná o open-source projekt, jsou tyto funkce k dispozic
     <system:String x:Key="PositionRight">Vpravo</system:String>
     <system:String x:Key="TaskbarVisualizerOutputDeviceTitle">Výstupní zařízení</system:String>
     <system:String x:Key="TaskbarWidgetAutoHideTitle">Autoskrytí widgetu</system:String>
+    <system:String x:Key="PositionDefault">Výchozí</system:String>
+    <system:String x:Key="TaskbarWidgetCoverPositionTitle">Pozice obalu alba</system:String>
+    <system:String x:Key="TaskbarWidgetCoverPositionDescription">Výchozí hodnota je vlevo. Pokud je pozice widgetu nastavena vpravo dole, výchozí hodnota je vpravo.</system:String>
     <system:String x:Key="TaskbarWidgetControlsPositionTitle">Pozice média tlačítek</system:String>
     <system:String x:Key="TaskbarWidgetControlsPositionDescription">Vybrat, kde zobrazovat média tlačítka</system:String>
     <system:String x:Key="LockKeysCursorUIDescription" xml:space="preserve">Vybrat monitor na kterém se bude zobrazovat flyout.</system:String>

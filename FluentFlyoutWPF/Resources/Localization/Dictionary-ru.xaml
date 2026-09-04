@@ -213,6 +213,9 @@
     <system:String x:Key="SettingsImportedSuccessfully">Настройки успешно импортированы! Приложение перезапустится для применения изменений.</system:String>
     <system:String x:Key="ImportSettingsWarning">Это заменит все ваши текущие настройки. Продолжить?</system:String>
     <system:String x:Key="FailedToImportSettings">Не удалось импортировать настройки. Подробнее в журнале.</system:String>
+    <system:String x:Key="PositionDefault">По умолчанию</system:String>
+    <system:String x:Key="TaskbarWidgetCoverPositionTitle">Положение обложки альбома</system:String>
+    <system:String x:Key="TaskbarWidgetCoverPositionDescription">По умолчанию слева. Если положение виджета задано как внизу справа, по умолчанию будет справа.</system:String>
     <system:String x:Key="TaskbarWidgetControlsPositionTitle">Позиция медиакнопок</system:String>
     <system:String x:Key="TaskbarWidgetControlsPositionDescription">Выберите, где отображать медиакнопки</system:String>
     <system:String x:Key="PositionLeft">Слева</system:String>

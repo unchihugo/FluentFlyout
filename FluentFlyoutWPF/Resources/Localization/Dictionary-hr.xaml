@@ -51,6 +51,9 @@ nasumičnu reprodukciju i informacije o mediju</system:String>
     <system:String x:Key="TaskbarWidgetVisualIssuesWarning">Konfigurirajte postavke ispod ako Vam se pojavljuju vizualne poteškoće.</system:String>
     <system:String x:Key="TaskbarWidgetSelectedMonitorTitle">Target Zaslon za Widget</system:String>
     <system:String x:Key="TaskbarWidgetPosition">Pozicija Widgeta</system:String>
+    <system:String x:Key="PositionDefault">Zadano</system:String>
+    <system:String x:Key="TaskbarWidgetCoverPositionTitle">Položaj omota albuma</system:String>
+    <system:String x:Key="TaskbarWidgetCoverPositionDescription">Zadano je lijevo. Ako je položaj widgeta postavljen dolje desno, zadano je desno.</system:String>
     <system:String x:Key="TaskbarWidgetPaddingSettingsTitle">Postavke za Ispunjenje Widgeta</system:String>
     <system:String x:Key="TaskbarWidgetPaddingSettingsDescription">Prilagodi ispunjenje oko widgeta kako bi stalo Vašem stilu trake</system:String>
     <system:String x:Key="TaskbarWidgetPaddingTitle">Automatsko Ispunjenje za tipku za Windows Widgets</system:String>

@@ -216,6 +216,9 @@ Du kannst helfen, die App zu übersetzen auf</system:String>
     <system:String x:Key="FailedToImportSettings">Einstellungen konnten nicht importiert werden. Prüfe das Dateiformat.</system:String>
     <system:String x:Key="PositionLeft">Links</system:String>
     <system:String x:Key="PositionRight">Rechts</system:String>
+    <system:String x:Key="PositionDefault">Standard</system:String>
+    <system:String x:Key="TaskbarWidgetCoverPositionTitle">Position des Albumcovers</system:String>
+    <system:String x:Key="TaskbarWidgetCoverPositionDescription">Standardmäßig links. Wenn die Widget-Position auf unten rechts eingestellt ist, ist die Standardeinstellung rechts.</system:String>
     <system:String x:Key="TaskbarWidgetControlsPositionTitle">Position der Mediensteuerung</system:String>
     <system:String x:Key="TaskbarWidgetControlsPositionDescription">Wähle aus, wo die Mediensteuerung-Buttons angezeigt werden sollen</system:String>
     <system:String x:Key="TaskbarVisualizerClickableDescription">Beim klicken des Visualisierers wird die Einstellungsseite geöffnet</system:String>

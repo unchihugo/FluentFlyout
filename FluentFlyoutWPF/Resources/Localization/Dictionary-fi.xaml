@@ -63,4 +63,7 @@ Huomaa: Koska kyseessä on avoimen lähdekoodin projekti, nämä toiminnot ovat 
     <system:String x:Key="PremiumPurchaseCancelled">Osto peruttu.</system:String>
     <system:String x:Key="HomeTitle">Koti</system:String>
     <system:String x:Key="Enabled">Käytössä</system:String>
+    <system:String x:Key="PositionDefault">Oletus</system:String>
+    <system:String x:Key="TaskbarWidgetCoverPositionTitle">Kansikuvan sijainti</system:String>
+    <system:String x:Key="TaskbarWidgetCoverPositionDescription">Oletus on vasemmalla. Jos widgetin sijainniksi on asetettu oikea alakulma, oletus on oikealla.</system:String>
 </ResourceDictionary>

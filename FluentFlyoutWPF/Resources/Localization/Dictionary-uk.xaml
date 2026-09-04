@@ -111,6 +111,9 @@
     <system:String x:Key="TaskbarWidgetCloseableFlyoutTitle">Закривати впливаючі вікна подвійним натисканням</system:String>
     <system:String x:Key="TaskbarWidgetCloseableFlyoutDescription">Закриваи вспливаюче вікно, якщо воно вже відкрите, натисканням на панель завдань</system:String>
     <system:String x:Key="TaskbarWidgetControlsDescription">Показувати кнопки керування на віджеті</system:String>
+    <system:String x:Key="PositionDefault">За замовчуванням</system:String>
+    <system:String x:Key="TaskbarWidgetCoverPositionTitle">Положення обкладинки альбому</system:String>
+    <system:String x:Key="TaskbarWidgetCoverPositionDescription">За замовчуванням ліворуч. Якщо положення віджета встановлено внизу праворуч, за замовчуванням буде праворуч.</system:String>
     <system:String x:Key="TaskbarWidgetControlsPositionTitle">Позиція кнопок керування</system:String>
     <system:String x:Key="TaskbarWidgetControlsPositionDescription">Де розташувати кнопки керування</system:String>
     <system:String x:Key="PositionLeft">Зліва</system:String>
