@@ -103,6 +103,9 @@ public partial class AboutViewModel : ObservableObject
         public string Url { get; set; } = string.Empty;
     }
 
+    /// <summary>
+    /// Gets the license notices displayed in Settings > About > Open Source Licenses.
+    /// </summary>
     public ObservableCollection<LicenseInfo> Licenses { get; } =
     [
         new LicenseInfo
@@ -160,10 +163,10 @@ public partial class AboutViewModel : ObservableObject
         },
         new LicenseInfo
         {
-            Name = "WPF-UI",
-            Version = "4.3.0",
+            Name = "unchihugo.WPF-UI",
+            Version = "4.4.1",
             License = "MIT",
-            Url = "https://github.com/lepoco/wpfui"
+            Url = "https://github.com/unchihugo/wpfui"
         },
         new LicenseInfo
         {
