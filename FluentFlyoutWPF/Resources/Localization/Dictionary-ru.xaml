@@ -288,4 +288,9 @@
     <system:String x:Key="TaskbarWidgetScrollingTextSpeedTitle">Скорость прокрутки</system:String>
     <system:String x:Key="Back">Назад</system:String>
     <system:String x:Key="OnboardingStepsCounter">Шаг {0} из {1}</system:String>
+    <system:String x:Key="TaskbarWidgetScrollVolumeTitle">Регулировка громкости колёсиком мыши</system:String>
+    <system:String x:Key="TaskbarWidgetScrollVolumeDescription">Для регулировки громкости используйте колёсико мыши, наведя курсор на виджет на панели задач</system:String>
+    <system:String x:Key="TaskbarWidgetScrollVolumeMaster">Вкл. (Общая громкость)</system:String>
+    <system:String x:Key="TaskbarWidgetScrollVolumePlayer">Вкл. (Громкость плеера)</system:String>
+    <system:String x:Key="OpenMediaPlayerText">Открыть плеер</system:String>
 </ResourceDictionary>
