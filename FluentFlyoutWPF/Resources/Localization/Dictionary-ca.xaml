@@ -284,4 +284,6 @@ Pots ajudar a contribuir amb les traduccions a</system:String>
     <system:String x:Key="TaskbarWidgetScrollingTextLoopForeverDescription">Repetir el text en un bucle infinit en una direcció en comptes de desplaçar-se endavant i endarrere.</system:String>
     <system:String x:Key="TaskbarWidgetScrollingTextSpeedTitle">Velocitat de Desplaçament</system:String>
     <system:String x:Key="TaskbarWidgetScrollingTextSpeedDescription">Velocitat a la qual es desplaça el text (píxels/segon). El valor per defecte és 20.</system:String>
+    <system:String x:Key="VolumeSyncWithMediaFlyoutTitle">Mostra i amaga sempre amb el desplegable multimèdia</system:String>
+    <system:String x:Key="VolumeSyncWithMediaFlyoutDescription">Mostra o amaga el desplegable de volum juntament amb el desplegable multimèdia quan s&apos;obre des de la icona de la safata o el giny de la barra de tasques.</system:String>
 </ResourceDictionary>

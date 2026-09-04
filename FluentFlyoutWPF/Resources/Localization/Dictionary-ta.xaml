@@ -42,4 +42,6 @@
     <system:String x:Key="LockWindow_NumLock">நம் லாக்</system:String>
     <system:String x:Key="LockWindow_ScrollLock">ஸ்க்ரோல் லாக்</system:String>
     <system:String x:Key="LockWindow_InsertPressed">இன்சர்ட் அழுத்தப்பட்டது</system:String>
+    <system:String x:Key="VolumeSyncWithMediaFlyoutTitle">மீடியா ஃப்ளையவுட்டுடன் எப்போதும் காட்டவும் மறைக்கவும்</system:String>
+    <system:String x:Key="VolumeSyncWithMediaFlyoutDescription">Tray icon அல்லது taskbar widget இலிருந்து திறக்கும் போது volume flyout-ஐ media flyout உடன் காட்டவும் அல்லது மறைக்கவும்.</system:String>
 </ResourceDictionary>

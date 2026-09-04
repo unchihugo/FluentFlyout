@@ -250,4 +250,6 @@
     <system:String x:Key="Finish">結束</system:String>
     <system:String x:Key="TaskbarWidgetFixedWidthTitle">固定小工具寬度</system:String>
     <system:String x:Key="EnableScrollTitle">啟用 Scroll Lock 指示符</system:String>
+    <system:String x:Key="VolumeSyncWithMediaFlyoutTitle">始終隨媒體彈出視窗一同顯示或隱藏</system:String>
+    <system:String x:Key="VolumeSyncWithMediaFlyoutDescription">從系統匣圖示或工作列小工具開啟或關閉媒體彈出視窗時，一併顯示或隱藏音量彈出視窗。</system:String>
 </ResourceDictionary>

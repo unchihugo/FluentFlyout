@@ -288,4 +288,6 @@ Du kannst helfen, die App zu übersetzen auf</system:String>
     <system:String x:Key="TaskbarWidgetScrollingTextLoopForeverDescription">Lassen Sie den Text in einer Richtung endlos durchlaufen, anstatt ihn hin und her scrollen zu lassen.</system:String>
     <system:String x:Key="TaskbarWidgetScrollingTextSpeedTitle">Scrollgeschwindigkeit</system:String>
     <system:String x:Key="TaskbarWidgetScrollingTextSpeedDescription">Geschwindigkeit, mit der der Text scrollt (Pixel/Sekunde). Der Standardwert ist 20.</system:String>
+    <system:String x:Key="VolumeSyncWithMediaFlyoutTitle">Immer zusammen mit dem Medien-Flyout ein- und ausblenden</system:String>
+    <system:String x:Key="VolumeSyncWithMediaFlyoutDescription">Blendet das Lautstärke-Flyout zusammen mit dem Medien-Flyout ein oder aus, wenn es über das Taskleistensymbol oder das Taskleisten-Widget geöffnet wird.</system:String>
 </ResourceDictionary>

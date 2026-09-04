@@ -251,7 +251,7 @@ public partial class TaskbarWidgetControl : UserControl
         if (_mainWindow == null) return;
 
         // toggle main flyout when clicked
-        _mainWindow.ShowMediaFlyout(toggleMode: true, forceShow: true);
+        _mainWindow.ShowMediaFlyoutWithVolume(toggleMode: true, forceShow: true);
     }
 
     private void MainBorder_MouseWheel(object sender, MouseWheelEventArgs e)

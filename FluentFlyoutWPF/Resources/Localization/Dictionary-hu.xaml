@@ -268,4 +268,6 @@ Segíts te is a fordításban a(z)</system:String>
     <system:String x:Key="MasterVolumeText">Fő hangerő</system:String>
     <system:String x:Key="TaskbarWidgetFixedWidthTitle">Widget szélességének rögzítése</system:String>
     <system:String x:Key="TaskbarWidgetFixedWidthDescription">A widget szélességét tartsa állandóan, ne pedig a címhez és az előadó nevéhez igazítsa</system:String>
+    <system:String x:Key="VolumeSyncWithMediaFlyoutTitle">Mindig a média flyouttal együtt jelenjen meg és tűnjön el</system:String>
+    <system:String x:Key="VolumeSyncWithMediaFlyoutDescription">A hangerő flyout megjelenítése vagy elrejtése a média flyouttal együtt, amikor a tálcaikonról vagy a tálcawidgetről nyitja meg.</system:String>
 </ResourceDictionary>

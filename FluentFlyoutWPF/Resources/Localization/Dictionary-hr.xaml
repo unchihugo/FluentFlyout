@@ -60,4 +60,6 @@ nasumičnu reprodukciju i informacije o mediju</system:String>
     <system:String x:Key="TaskbarWidgetBackgroundBlurTitle">Pozadinsko Zamućenje</system:String>
     <system:String x:Key="TaskbarWidgetBackgroundBlurDescription">Dodaj efekt pozadinskog zamućenja widgetu za traku</system:String>
     <system:String x:Key="TaskbarWidgetHideCompletelyTitle">Kompletno Sakrij Kada Nema Nikakvog Medija</system:String>
+    <system:String x:Key="VolumeSyncWithMediaFlyoutTitle">Uvijek prikaži i sakrij s medijskim skočnim prozorom</system:String>
+    <system:String x:Key="VolumeSyncWithMediaFlyoutDescription">Prikaži ili sakrij skočni prozor glasnoće zajedno s medijskim skočnim prozorom kada se otvori iz ikone u traci ili widgeta programske trake.</system:String>
 </ResourceDictionary>

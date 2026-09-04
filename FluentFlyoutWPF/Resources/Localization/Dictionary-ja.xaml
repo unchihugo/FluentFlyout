@@ -286,4 +286,6 @@
     <system:String x:Key="TaskbarWidgetScrollingTextSpeedDescription">テキストがスクロールする速度 (ピクセル/秒)。既定値は 20。</system:String>
     <system:String x:Key="TaskbarVisualizerBaselineAutoHideDescription">オーディオが再生されていないときは、ベースラインを自動的に非表示にします</system:String>
     <system:String x:Key="TaskbarWidgetScrollingTitle">スクロールを有効化</system:String>
+    <system:String x:Key="VolumeSyncWithMediaFlyoutTitle">メディア フライアウトと常に一緒に表示/非表示</system:String>
+    <system:String x:Key="VolumeSyncWithMediaFlyoutDescription">トレイ アイコンまたはタスクバー ウィジェットから開いたときに、音量フライアウトをメディア フライアウトと一緒に表示または非表示にします。</system:String>
 </ResourceDictionary>

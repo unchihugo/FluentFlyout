@@ -288,4 +288,6 @@ Not: Açık kaynaklı bir proje olduğundan, bu özellikler GitHub'daki manuel y
     <system:String x:Key="TaskbarWidgetScrollingTextLoopForeverDescription">Metni ileri geri kaydırmak yerine tek yönde sonsuz döngüye al.</system:String>
     <system:String x:Key="TaskbarWidgetScrollingTextSpeedTitle">Kaydırma Hızı</system:String>
     <system:String x:Key="TaskbarWidgetScrollingTextSpeedDescription">Metnin kayma hızı (piksel/saniye). Varsayılan: 20.</system:String>
+    <system:String x:Key="VolumeSyncWithMediaFlyoutTitle">Medya açılır penceresiyle her zaman birlikte göster ve gizle</system:String>
+    <system:String x:Key="VolumeSyncWithMediaFlyoutDescription">Tepsi simgesinden veya görev çubuğu widget&apos;ından açıldığında ses açılır penceresini medya açılır penceresiyle birlikte gösterir ya da gizler.</system:String>
 </ResourceDictionary>

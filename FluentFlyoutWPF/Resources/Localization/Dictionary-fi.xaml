@@ -63,4 +63,6 @@ Huomaa: Koska kyseessä on avoimen lähdekoodin projekti, nämä toiminnot ovat 
     <system:String x:Key="PremiumPurchaseCancelled">Osto peruttu.</system:String>
     <system:String x:Key="HomeTitle">Koti</system:String>
     <system:String x:Key="Enabled">Käytössä</system:String>
+    <system:String x:Key="VolumeSyncWithMediaFlyoutTitle">Näytä ja piilota aina mediaikkunan kanssa</system:String>
+    <system:String x:Key="VolumeSyncWithMediaFlyoutDescription">Näytä tai piilota äänenvoimakkuusikkuna mediaikkunan mukana, kun se avataan ilmaisinalueen kuvakkeesta tai tehtäväpalkin widgetistä.</system:String>
 </ResourceDictionary>

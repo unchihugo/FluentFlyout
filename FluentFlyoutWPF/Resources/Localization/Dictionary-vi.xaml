@@ -287,4 +287,6 @@ Lưu ý: Vì đây là một dự án mã nguồn mở, các tính năng này c�
     <system:String x:Key="TaskbarWidgetScrollingTextLoopForeverDescription">Lặp lại văn bản vô hạn theo một hướng thay vì cuộn qua lại.</system:String>
     <system:String x:Key="TaskbarWidgetScrollingTextSpeedTitle">Tốc độ cuộn</system:String>
     <system:String x:Key="TaskbarWidgetScrollingTextSpeedDescription">Tốc độ cuộn văn bản (pixel/giây). Mặc định là 20.</system:String>
+    <system:String x:Key="VolumeSyncWithMediaFlyoutTitle">Luôn hiển thị và ẩn cùng flyout media</system:String>
+    <system:String x:Key="VolumeSyncWithMediaFlyoutDescription">Hiển thị hoặc ẩn flyout âm lượng cùng với flyout media khi mở từ biểu tượng khay hoặc tiện ích trên thanh tác vụ.</system:String>
 </ResourceDictionary>

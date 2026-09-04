@@ -288,4 +288,6 @@
     <system:String x:Key="TaskbarWidgetScrollingTextSpeedTitle">سرعة التمرير</system:String>
     <system:String x:Key="TaskbarWidgetScrollingTextSpeedDescription">سرعة تمرير النصوص (بكسل/ثانية). الإفتراضي هو 20.</system:String>
     <system:String x:Key="SearchSettings">إعدادات البحث</system:String>
+    <system:String x:Key="VolumeSyncWithMediaFlyoutTitle">إظهار وإخفاء قائمة الصوت دائمًا مع قائمة الوسائط المنبثقة</system:String>
+    <system:String x:Key="VolumeSyncWithMediaFlyoutDescription">إظهار أو إخفاء قائمة الصوت المنبثقة مع قائمة الوسائط عند فتحها من أيقونة شريط المهام أو أداة شريط المهام.</system:String>
 </ResourceDictionary>

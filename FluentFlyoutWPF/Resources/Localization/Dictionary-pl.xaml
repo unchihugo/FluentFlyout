@@ -288,4 +288,6 @@ Możesz pomóc w tworzeniu tłumaczeń na stronie</system:String>
     <system:String x:Key="TaskbarWidgetScrollingTextLoopForeverDescription">Przewijaj tekst nieskończenie w jedną stronę zamiast przewijania w przód i w tył.</system:String>
     <system:String x:Key="TaskbarWidgetScrollingTextSpeedTitle">Prędkość Przewijania</system:String>
     <system:String x:Key="TaskbarWidgetScrollingTextSpeedDescription">Prędkość przewijania tekstu (pikseli na sekundę). Domyślna wartość to 20.</system:String>
+    <system:String x:Key="VolumeSyncWithMediaFlyoutTitle">Zawsze pokazuj i ukrywaj razem z panelem multimediów</system:String>
+    <system:String x:Key="VolumeSyncWithMediaFlyoutDescription">Pokazuj lub ukrywaj panel głośności razem z panelem multimediów po otwarciu z ikony zasobnika lub widżetu paska zadań.</system:String>
 </ResourceDictionary>

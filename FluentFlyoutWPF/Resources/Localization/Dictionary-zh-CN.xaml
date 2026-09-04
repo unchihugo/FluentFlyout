@@ -288,4 +288,7 @@
     <system:String x:Key="TaskbarWidgetScrollingTextSpeedTitle">滚动速度</system:String>
     <system:String x:Key="TaskbarWidgetScrollingTextSpeedDescription">文本滚动速度（像素/秒），默认值为 20。</system:String>
     <system:String x:Key="SearchSettings">搜索设置</system:String>
+    <system:String x:Key="VolumeSyncWithMediaFlyoutTitle">随媒体浮窗显示</system:String>
+    <system:String x:Key="VolumeSyncWithMediaFlyoutDescription" xml:space="preserve">从任务栏小组件唤起或收起媒体浮窗时一同显隐音量浮窗
+如“单击托盘图标时行为”设为“显示媒体浮窗”，触发时音量浮窗也将一同显示</system:String>
 </ResourceDictionary>

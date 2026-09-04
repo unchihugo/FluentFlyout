@@ -171,6 +171,24 @@ public partial class VolumeMixerWindow : MicaWindow
         }
     }
 
+    public async void HideFlyout()
+    {
+        if (_isHiding)
+            return;
+
+        _cts.Cancel();
+        _mainWindow.CloseAnimation(this);
+        _isHiding = true;
+        _lastFlyoutTime = 0;
+        await Task.Delay(MainWindow.getDuration());
+
+        if (!_isHiding)
+            return;
+
+        WindowHelper.SetVisibility(this, false);
+        ViewModel.IsExpanded = false;
+    }
+
     private void OnViewModelPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
     {
         if (e.PropertyName == nameof(VolumeMixerViewModel.IsExpanded))

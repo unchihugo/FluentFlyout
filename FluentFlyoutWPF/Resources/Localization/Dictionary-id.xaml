@@ -288,4 +288,6 @@ Anda dapat membantu berkontribusi dalam menerjemahkan di</system:String>
     <system:String x:Key="TaskbarWidgetScrollingTextSpeedTitle">Kecepatan Gulir</system:String>
     <system:String x:Key="TaskbarWidgetScrollingTextLoopForeverDescription">Gulirkan teks terus-menerus ke satu arah, bukan bolak-balik.</system:String>
     <system:String x:Key="TaskbarWidgetScrollingTextSpeedDescription">Kecepatan gulir teks (piksel/detik). Nilai bawaan adalah 20.</system:String>
+    <system:String x:Key="VolumeSyncWithMediaFlyoutTitle">Selalu tampil dan sembunyi bersama flyout media</system:String>
+    <system:String x:Key="VolumeSyncWithMediaFlyoutDescription">Tampilkan atau sembunyikan flyout volume bersama flyout media saat dibuka dari ikon baki atau widget bilah tugas.</system:String>
 </ResourceDictionary>
