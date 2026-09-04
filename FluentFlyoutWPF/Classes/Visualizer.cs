@@ -197,8 +197,8 @@ public class Visualizer : IDisposable
 
     public static void ResizeBarList(int newBarCount)
     {
+        _barValues = new float[newBarCount]; // array before count, readers use the array's length
         BarCount = newBarCount;
-        _barValues = new float[BarCount];
     }
 
     public void Start()
@@ -206,8 +206,7 @@ public class Visualizer : IDisposable
         if (_isRunning)
             return;
 
-        float barCount = BarCount >= 0 ? BarCount : 8;
-        _barValues = new float[(int)barCount];
+        _barValues = new float[BarCount > 0 ? BarCount : 8];
 
         try
         {
@@ -258,10 +257,15 @@ public class Visualizer : IDisposable
                     }
                 }
             };
+
+            // started here too, callbacks may never arrive at all and that is what it recovers from
+            _captureWatchdog.Start();
         }
         catch (Exception ex)
         {
             Logger.Error(ex, "Failed to start visualizer");
+            _isRunning = false;
+            ReleaseCaptureResources();
         }
     }
 
@@ -271,12 +275,19 @@ public class Visualizer : IDisposable
             return;
 
         _isRunning = false;
+        ReleaseCaptureResources();
+    }
 
-        _capture?.DataAvailable -= OnDataAvailable;
-        _capture?.RecordingStopped -= OnRecordingStopped;
-        _capture?.StopRecording();
-        _capture?.Dispose();
-        _capture = null;
+    private void ReleaseCaptureResources()
+    {
+        if (_capture != null)
+        {
+            _capture.DataAvailable -= OnDataAvailable;
+            _capture.RecordingStopped -= OnRecordingStopped;
+            _capture.StopRecording();
+            _capture.Dispose();
+            _capture = null;
+        }
 
         _renderDevice?.Dispose();
         _renderDevice = null;
@@ -293,10 +304,17 @@ public class Visualizer : IDisposable
 
         _lastDataAvailableUtc = DateTime.UtcNow;
 
-        _captureWatchdog.Stop();
-        _captureWatchdog.Start();
+        // snapshot, Stop() can null these out from another thread mid-callback
+        var captureWatchdog = _captureWatchdog;
+        var capture = _capture;
+        var barValues = _barValues;
+        if (captureWatchdog == null || capture == null || barValues == null)
+            return;
 
-        int bytesPerSample = _capture!.WaveFormat.BitsPerSample / 8;
+        captureWatchdog.Stop();
+        captureWatchdog.Start();
+
+        int bytesPerSample = capture.WaveFormat.BitsPerSample / 8;
         int samplesRecorded = e.BytesRecorded / bytesPerSample;
 
         for (int i = 0; i < samplesRecorded; i++)
@@ -321,7 +339,7 @@ public class Visualizer : IDisposable
 
             // perform FFT
             _fftPos = 0;
-            ProcessFftData();
+            ProcessFftData(capture, barValues);
 
             // Update UI with frame rate limiting
             DateTime now = DateTime.UtcNow;
@@ -343,9 +361,9 @@ public class Visualizer : IDisposable
 
             // check if bars are all zero, if so set has content to false to disable hover effect
             bool allZero = true;
-            for (int j = 0; j < BarCount; j++)
+            for (int j = 0; j < barValues.Length; j++)
             {
-                if (_barValues[j] > 0.01f)
+                if (barValues[j] > 0.01f)
                 {
                     allZero = false;
                     break;
@@ -360,11 +378,11 @@ public class Visualizer : IDisposable
         }
     }
 
-    private void ProcessFftData()
+    private void ProcessFftData(WasapiLoopbackCapture capture, float[] barValues)
     {
         FastFourierTransform.FFT(true, (int)Math.Log(_fftLength, 2.0), _fftBuffer);
 
-        int sampleRate = _capture.WaveFormat.SampleRate;
+        int sampleRate = capture.WaveFormat.SampleRate;
         double frequencyPerBin = (double)sampleRate / _fftLength;
 
         double minFreq = 40;   // Hz
@@ -374,12 +392,13 @@ public class Visualizer : IDisposable
         float minDb = (SettingsManager.Current.TaskbarVisualizerAudioSensitivity * -10f) - 30f;
         float maxDb = (SettingsManager.Current.TaskbarVisualizerAudioPeakLevel * 10f) - 30f;
 
-        float[] currentBars = new float[BarCount];
+        int barCount = barValues.Length;
+        float[] currentBars = new float[barCount];
 
-        for (int i = 0; i < BarCount; i++)
+        for (int i = 0; i < barCount; i++)
         {
-            double startFreq = minFreq * Math.Pow(maxFreq / minFreq, (double)i / BarCount);
-            double endFreq = minFreq * Math.Pow(maxFreq / minFreq, (double)(i + 1) / BarCount);
+            double startFreq = minFreq * Math.Pow(maxFreq / minFreq, (double)i / barCount);
+            double endFreq = minFreq * Math.Pow(maxFreq / minFreq, (double)(i + 1) / barCount);
 
             int startBin = (int)(startFreq / frequencyPerBin);
             int endBin = (int)(endFreq / frequencyPerBin);
@@ -397,7 +416,7 @@ public class Visualizer : IDisposable
                     maxAmplitude = amplitude;
             }
 
-            float progress = (float)i / BarCount;
+            float progress = (float)i / barCount;
             float linearBoost = 1.0f + (progress * 75.0f);
             maxAmplitude *= linearBoost;
 
@@ -411,20 +430,20 @@ public class Visualizer : IDisposable
             currentBars[i] = intensity;
         }
 
-        for (int i = 0; i < BarCount; i++)
+        for (int i = 0; i < barCount; i++)
         {
-            if (currentBars[i] > _barValues[i])
+            if (currentBars[i] > barValues[i])
             {
                 // Jump up quickly
-                _barValues[i] = currentBars[i];
+                barValues[i] = currentBars[i];
             }
             else
             {
                 // Fall down slowly
-                //_barValues[i] = (_barValues[i] * 0.9f) + (currentBars[i] * 0.1f);
-                _barValues[i] = (_barValues[i] * 0.8f) + (currentBars[i] * 0.2f);
-                //_barValues[i] = (_barValues[i] * 0.7f) + (currentBars[i] * 0.3f); // could be options for smoothening
-                //_barValues[i] = (_barValues[i] * 0.6f) + (currentBars[i] * 0.4f);
+                //barValues[i] = (barValues[i] * 0.9f) + (currentBars[i] * 0.1f);
+                barValues[i] = (barValues[i] * 0.8f) + (currentBars[i] * 0.2f);
+                //barValues[i] = (barValues[i] * 0.7f) + (currentBars[i] * 0.3f); // could be options for smoothening
+                //barValues[i] = (barValues[i] * 0.6f) + (currentBars[i] * 0.4f);
             }
         }
     }
@@ -470,7 +489,11 @@ public class Visualizer : IDisposable
 
     private unsafe void DrawBars(int stride, Span<byte> buffer)
     {
-        // Resolve brush once 
+        var barValues = _barValues; // snapshot, ResizeBarList() can swap it from another thread
+        if (barValues == null)
+            return;
+
+        // Resolve brush once
         SolidColorBrush brush = BitmapHelper.SavedDominantColors.Count > 0
             ? BitmapHelper.SavedDominantColors.Last()
             : (SolidColorBrush)Application.Current.TryFindResource("MicaWPF.Brushes.SystemAccentColorTertiary");
@@ -484,23 +507,23 @@ public class Visualizer : IDisposable
 
         int centerY = ImageHeight / 2;
 
-        // Horizontal layout 
-        ComputeLayout(ImageWidth, BarCount, BarSpacing,
+        // Horizontal layout
+        ComputeLayout(ImageWidth, barValues.Length, BarSpacing,
             out int barWidth,
             out int offsetX);
 
-        // Radius 
+        // Radius
         float baseRadius = GetCornerRadius();
 
-        // AA constants 
+        // AA constants
         const float aa = 1.25f;
         float invAA = 1f / aa;
 
-        for (int i = 0; i < BarCount; i++)
+        for (int i = 0; i < barValues.Length; i++)
         {
             int barX = offsetX + i * (barWidth + BarSpacing);
 
-            int barHeight = GetBarHeight(_barValues[i], barBaseline);
+            int barHeight = GetBarHeight(barValues[i], barBaseline);
 
             if (barHeight <= 0)
                 continue;
@@ -668,17 +691,10 @@ public class Visualizer : IDisposable
     public void Dispose()
     {
         Stop();
+        ReleaseCaptureResources(); // Stop() is a no-op if Start() failed before setting _isRunning
 
         AudioDeviceMonitor.Instance.DefaultDeviceChanged -= OnDefaultDeviceChanged;
         TryUnregisterSystemEvents();
-
-        if (_capture != null)
-        {
-            _capture.DataAvailable -= OnDataAvailable;
-            _capture.RecordingStopped -= OnRecordingStopped;
-            _capture.Dispose();
-            _capture = null;
-        }
 
         GC.SuppressFinalize(this);
     }

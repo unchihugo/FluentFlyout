@@ -77,7 +77,7 @@ public partial class SystemPage : Page
 
     private void ToggleSwitch_Click(object sender, RoutedEventArgs e)
     {
-        bool isChecked = (bool)NIconHideSwitch.IsChecked;
+        bool isChecked = NIconHideSwitch.IsChecked ?? false;
 
         MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
 
@@ -178,7 +178,9 @@ public partial class SystemPage : Page
 
                     // Restart the application
                     Application.Current.Shutdown();
-                    System.Diagnostics.Process.Start(System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName);
+
+                    if (Environment.ProcessPath is { } executablePath)
+                        System.Diagnostics.Process.Start(executablePath);
                 }
                 catch (Exception ex)
                 {

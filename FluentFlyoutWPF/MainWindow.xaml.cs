@@ -96,21 +96,16 @@ public partial class MainWindow : MicaWindow
 
         if (!singleton.WaitOne(TimeSpan.Zero, true)) // if another instance is already running, close this one
         {
-            // Signal the existing instance to open settings
-            Task.Run(() =>
+            // must be synchronous, Environment.Exit below would kill a background task first
+            try
             {
-                try
-                {
-                    using (EventWaitHandle settingsEvent = new EventWaitHandle(false, EventResetMode.AutoReset, "FluentFlyout_OpenSettings"))
-                    {
-                        settingsEvent.Set();
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Logger.Error(ex, "Failed to signal existing instance");
-                }
-            });
+                using EventWaitHandle settingsEvent = new(false, EventResetMode.AutoReset, "FluentFlyout_OpenSettings");
+                settingsEvent.Set();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "Failed to signal existing instance");
+            }
 
             Environment.Exit(0);
         }
@@ -499,8 +494,8 @@ public partial class MainWindow : MicaWindow
 
     public void OpenAnimation(MicaWindow window, bool alwaysBottom = false, MonitorInfo? selectedMonitor = null, MicaWindow? aboveReference = null, bool reserveNativeVolumeOsdSpace = false)
     {
-        var eventTriggers = window.Triggers[0] as EventTrigger;
-        var beginStoryboard = eventTriggers.Actions[0] as BeginStoryboard;
+        var eventTrigger = (EventTrigger)window.Triggers[0];
+        var beginStoryboard = (BeginStoryboard)eventTrigger.Actions[0];
         var storyboard = beginStoryboard.Storyboard;
 
         DoubleAnimation moveAnimation = (DoubleAnimation)storyboard.Children[0];
@@ -641,8 +636,8 @@ public partial class MainWindow : MicaWindow
 
     public void CloseAnimation(MicaWindow window, MonitorInfo? selectedMonitor = null)
     {
-        var eventTriggers = window.Triggers[0] as EventTrigger;
-        var beginStoryboard = eventTriggers.Actions[0] as BeginStoryboard;
+        var eventTrigger = (EventTrigger)window.Triggers[0];
+        var beginStoryboard = (BeginStoryboard)eventTrigger.Actions[0];
         var storyboard = beginStoryboard.Storyboard;
 
         DoubleAnimation moveAnimation = (DoubleAnimation)storyboard.Children[0];
@@ -1342,19 +1337,23 @@ public partial class MainWindow : MicaWindow
         _ = TryOpenMediaPlayerAsync();
     }
 
-    private async void Back_Click(object sender, RoutedEventArgs e)
-    {
-        TrySkipPreviousAsync();
-    }
+    private async void Back_Click(object sender, RoutedEventArgs e) => await RunMediaControlAsync(TrySkipPreviousAsync);
 
-    private async void PlayPause_Click(object sender, RoutedEventArgs e)
-    {
-        TryTogglePlayPauseAsync();
-    }
+    private async void PlayPause_Click(object sender, RoutedEventArgs e) => await RunMediaControlAsync(TryTogglePlayPauseAsync);
 
-    private async void Forward_Click(object sender, RoutedEventArgs e)
+    private async void Forward_Click(object sender, RoutedEventArgs e) => await RunMediaControlAsync(TrySkipNextAsync);
+
+    // awaited so failures are logged instead of leaving the task unobserved
+    private static async Task RunMediaControlAsync(Func<Task<bool>> action)
     {
-        TrySkipNextAsync();
+        try
+        {
+            await action();
+        }
+        catch (Exception ex)
+        {
+            Logger.Error(ex, "Media control action failed");
+        }
     }
 
     private async void Repeat_Click(object sender, RoutedEventArgs e)
