@@ -50,4 +50,8 @@
     <system:String x:Key="PauseOtherMediaTitle">หยุดสื่อที่เล่นอยู่ก่อนหน้านี้อัตโนมัติ</system:String>
     <system:String x:Key="PauseOtherMediaDescription">เมื่อคุณเล่นสื่อตัวใหม่ สื่ออื่นๆที่เคยเล่นอยู่จะถูกหยุดโดยอัตโนมัติ</system:String>
     <system:String x:Key="TaskbarWidgetCustomizationTitle">Widget ของ Taskbar</system:String>
+    <system:String x:Key="NextUpPositionTitle">ตำแหน่ง Flyout</system:String>
+    <system:String x:Key="NextUpCenterTitleArtistTitle">แสดงชื่อเพลงและศิลปินไว้ตรงกลาง</system:String>
+    <system:String x:Key="NextUpShowUpNextTextTitle">แสดงป้าย</system:String>
+    <system:String x:Key="NextUpShowUpNextTextDescription">แสดงป้ายถัดไปก่อนข้อมูลเพลง</system:String>
 </ResourceDictionary>

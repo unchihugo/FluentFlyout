@@ -41,6 +41,10 @@ oculta los botones de repetir y aleatorio y la información del reproductor</sys
     <system:String x:Key="EnableNextUpDescription">Muestra lo que viene cuando acaba una canción/video</system:String>
     <system:String x:Key="NextUpStayDurationTitle">Duración de Siguiente</system:String>
     <system:String x:Key="NextUpStayDurationDescription">(por defecto: 2000 ms)</system:String>
+    <system:String x:Key="NextUpPositionTitle">Posición del Flyout</system:String>
+    <system:String x:Key="NextUpCenterTitleArtistTitle">Centrar Título y Artista</system:String>
+    <system:String x:Key="NextUpShowUpNextTextTitle">Mostrar etiqueta</system:String>
+    <system:String x:Key="NextUpShowUpNextTextDescription">Muestra la etiqueta A continuación antes de la información de la canción</system:String>
     <system:String x:Key="LockKeysCustomizationTitle">Flyout de Teclas de Bloqueo</system:String>
     <system:String x:Key="LockKeysDescription" xml:space="preserve">Revisa el estado de las teclas de bloqueo de un vistazo. Aparece al pulsar Bloq Mayús, Bloq Num o Bloq Despl. Útil para portátiles/teclados sin indicadores de teclas de bloqueo.</system:String>
     <system:String x:Key="EnableLockKeysTitle">Activar Flyout de Teclas de Bloqueo</system:String>

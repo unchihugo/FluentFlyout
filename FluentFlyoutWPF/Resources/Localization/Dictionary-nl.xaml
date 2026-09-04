@@ -123,6 +123,10 @@ verbergt herhalen, shuffle en spelerinfo</system:String>
     <system:String x:Key="AllFuturePremiumFeatures">Alle premium-functies</system:String>
     <system:String x:Key="NextUpCustomizationTitle">Volgende Video/Nummer Flyout</system:String>
     <system:String x:Key="NextUpStayDurationDescription">(standaard: 2000 ms)</system:String>
+    <system:String x:Key="NextUpPositionTitle">Flyoutpositie</system:String>
+    <system:String x:Key="NextUpCenterTitleArtistTitle">Titel en artiest centreren</system:String>
+    <system:String x:Key="NextUpShowUpNextTextTitle">Label tonen</system:String>
+    <system:String x:Key="NextUpShowUpNextTextDescription">Toont het label Volgende voor de nummerinformatie</system:String>
     <system:String x:Key="LockKeysCustomizationTitle">Lock-toetsen Flyout</system:String>
     <system:String x:Key="EnableLockKeysTitle">Lock-toetsen Flyout inschakelen</system:String>
     <system:String x:Key="LockKeysStayDurationDescription">(standaard: 2000 ms)</system:String>

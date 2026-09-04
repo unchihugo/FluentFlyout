@@ -46,6 +46,10 @@ skryje opakování,náhodné přehrávání a informace přehrávače</system:St
     <system:String x:Key="EnableNextUpDescription">Ukáže, jaká skladba následuje po konci písničky/videa</system:String>
     <system:String x:Key="NextUpStayDurationTitle">Zmizení Další skladby</system:String>
     <system:String x:Key="NextUpStayDurationDescription">(výchozí: 2000 ms)</system:String>
+    <system:String x:Key="NextUpPositionTitle">Pozice plovoucího přehrávače</system:String>
+    <system:String x:Key="NextUpCenterTitleArtistTitle">Vycentrovat název písničky a autora</system:String>
+    <system:String x:Key="NextUpShowUpNextTextTitle">Zobrazit štítek</system:String>
+    <system:String x:Key="NextUpShowUpNextTextDescription">Zobrazí štítek Další na řadě před informacemi o skladbě</system:String>
     <system:String x:Key="LockKeysCustomizationTitle">Okno Lock Keys</system:String>
     <system:String x:Key="LockKeysDescription" xml:space="preserve">Zkontrolujte stav Lock key na první pohled. Zobrazí se po stisknutí klávesy Caps Lock, Num Lock nebo Scroll Lock. Praktické pro notebooky/klávesnice bez indikátorů klávesy Lock.</system:String>
     <system:String x:Key="EnableLockKeysTitle">Povolit plovoucí okno Lock Keys</system:String>

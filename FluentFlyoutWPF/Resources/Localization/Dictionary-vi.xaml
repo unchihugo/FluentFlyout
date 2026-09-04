@@ -34,6 +34,10 @@
     <system:String x:Key="EnableNextUpDescription">Hiển thị thông báo</system:String>
     <system:String x:Key="NextUpStayDurationTitle">Thời gian hiển thị</system:String>
     <system:String x:Key="NextUpStayDurationDescription">(mặc định: 2000 ms)</system:String>
+    <system:String x:Key="NextUpPositionTitle">Vị trí giao diện</system:String>
+    <system:String x:Key="NextUpCenterTitleArtistTitle">Căn giữa tiêu đề và tên tác giả</system:String>
+    <system:String x:Key="NextUpShowUpNextTextTitle">Hiển thị nhãn</system:String>
+    <system:String x:Key="NextUpShowUpNextTextDescription">Hiển thị nhãn Tiếp theo trước thông tin bài hát</system:String>
     <system:String x:Key="LockKeysCustomizationTitle">Thông báo phím chuyển</system:String>
     <system:String x:Key="LockKeysDescription" xml:space="preserve">Thông báo hiển thị khi nhấn các phím chuyển: Caps Lock, Scroll Lock, Num Lock và Insert.</system:String>
     <system:String x:Key="EnableLockKeysTitle">Hiển thị thông báo</system:String>

@@ -113,6 +113,10 @@ Megjegyzés: Mivel ez egy nyílt forráskódú projekt, ezek a funkciók ingyene
     <system:String x:Key="EnableNextUpDescription">Megmutatja, mi következik, amikor egy dal/videó véget ér</system:String>
     <system:String x:Key="NextUpStayDurationTitle">Következő Flyout ablak megjelenítési ideje</system:String>
     <system:String x:Key="NextUpStayDurationDescription">(alapértelmezett: 2000 ms)</system:String>
+    <system:String x:Key="NextUpPositionTitle">Flyout pozíció</system:String>
+    <system:String x:Key="NextUpCenterTitleArtistTitle">Cím és előadó középre igazítása</system:String>
+    <system:String x:Key="NextUpShowUpNextTextTitle">Címke megjelenítése</system:String>
+    <system:String x:Key="NextUpShowUpNextTextDescription">Megjeleníti a Következő címkét a dal adatai előtt</system:String>
     <system:String x:Key="LockKeysCustomizationTitle">Billentyűzár Flyout</system:String>
     <system:String x:Key="LockKeysDescription" xml:space="preserve">Ellenőrizze a billentyűzárak állapotát egy pillantással. A Caps Lock, Num Lock vagy Scroll Lock megnyomása után jelenik meg. Kényelmes laptopokhoz/billentyűzetekhez, amelyek nem rendelkeznek zárjelzőkkel.</system:String>
     <system:String x:Key="EnableLockKeysTitle">Billentyűzár Flyout engedélyezése</system:String>

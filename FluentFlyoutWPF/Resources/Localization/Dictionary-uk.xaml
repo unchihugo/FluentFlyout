@@ -87,6 +87,10 @@
     <system:String x:Key="NextUpCustomizationTitle">Далі в черзі</system:String>
     <system:String x:Key="AnimationSettingsTitle">Налаштування анімації</system:String>
     <system:String x:Key="NextUpStayDurationDescription">(за замовчуванням: 2000 мс)</system:String>
+    <system:String x:Key="NextUpPositionTitle">Розташування спливаючого вікна</system:String>
+    <system:String x:Key="NextUpCenterTitleArtistTitle">Центрувати назву та виконавця</system:String>
+    <system:String x:Key="NextUpShowUpNextTextTitle">Показувати мітку</system:String>
+    <system:String x:Key="NextUpShowUpNextTextDescription">Показує мітку Далі перед інформацією про трек</system:String>
     <system:String x:Key="LockKeysStayDurationDescription">(за замовчуванням: 2000 мс)</system:String>
     <system:String x:Key="SystemSettingsTitle">Система</system:String>
     <system:String x:Key="HomeDashboardTitle">Інформаційна панель</system:String>

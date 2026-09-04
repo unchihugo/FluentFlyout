@@ -42,4 +42,8 @@
     <system:String x:Key="LockWindow_NumLock">நம் லாக்</system:String>
     <system:String x:Key="LockWindow_ScrollLock">ஸ்க்ரோல் லாக்</system:String>
     <system:String x:Key="LockWindow_InsertPressed">இன்சர்ட் அழுத்தப்பட்டது</system:String>
+    <system:String x:Key="NextUpPositionTitle">ஃப்ளையவுட் தோன்றும் இடம்</system:String>
+    <system:String x:Key="NextUpCenterTitleArtistTitle">தலைப்பு மற்றும் கலைஞரை மையப்படுத்து</system:String>
+    <system:String x:Key="NextUpShowUpNextTextTitle">லேபிளைக் காட்டு</system:String>
+    <system:String x:Key="NextUpShowUpNextTextDescription">பாடல் தகவலுக்கு முன் அடுத்து லேபிளைக் காட்டுகிறது</system:String>
 </ResourceDictionary>

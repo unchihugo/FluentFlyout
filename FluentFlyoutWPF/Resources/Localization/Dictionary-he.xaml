@@ -105,6 +105,10 @@
     <system:String x:Key="NextUpCustomizationTitle">חלון נשלף הבא</system:String>
     <system:String x:Key="NextUpStayDurationTitle">משך הצגה הבאה</system:String>
     <system:String x:Key="NextUpStayDurationDescription">(ברירת מחדל: 2000 מילישניות.)</system:String>
+    <system:String x:Key="NextUpPositionTitle">מיקום החלון הנשלף</system:String>
+    <system:String x:Key="NextUpCenterTitleArtistTitle">מרכז את הכותרת והאמן</system:String>
+    <system:String x:Key="NextUpShowUpNextTextTitle">הצג תווית</system:String>
+    <system:String x:Key="NextUpShowUpNextTextDescription">מציג את תווית הבא בתור לפני פרטי השיר</system:String>
     <system:String x:Key="LockKeysCustomizationTitle">חלון נשלף של מקשי נעילה</system:String>
     <system:String x:Key="LockKeysDescription" xml:space="preserve">בדוק את מצב מקשי הנעילה במבט חטוף. מופיע לאחר לחיצה על Caps Lock, Num Lock או Scroll Lock. נוח למחשבים ניידים ומקלדות ללא מנורות מצב למקשי הנעילה.</system:String>
     <system:String x:Key="EnableLockKeysTitle">הפעל את חלון נשלף של נעילת מקשים</system:String>

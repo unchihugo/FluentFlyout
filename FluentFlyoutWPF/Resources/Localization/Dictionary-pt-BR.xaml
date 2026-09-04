@@ -20,6 +20,10 @@
     <system:String x:Key="EnableNextUpTitle">Ativar flyout A seguir</system:String>
     <system:String x:Key="NextUpStayDurationTitle">Duração do "Próximo"</system:String>
     <system:String x:Key="NextUpStayDurationDescription">(padrão: 2000 ms)</system:String>
+    <system:String x:Key="NextUpPositionTitle">Posição do Submenu</system:String>
+    <system:String x:Key="NextUpCenterTitleArtistTitle">Centralizar título e artista</system:String>
+    <system:String x:Key="NextUpShowUpNextTextTitle">Mostrar rótulo</system:String>
+    <system:String x:Key="NextUpShowUpNextTextDescription">Mostra o rótulo A seguir antes das informações da música</system:String>
     <system:String x:Key="BackgroundBlurOption1" xml:space="preserve"> Nenhum</system:String>
     <system:String x:Key="BackgroundBlurTitle">Blur de fundo</system:String>
     <system:String x:Key="CompactLayoutTitle">Layout compacto</system:String>

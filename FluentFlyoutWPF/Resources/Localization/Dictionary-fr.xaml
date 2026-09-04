@@ -69,6 +69,10 @@ Note : En tant que projet open source, ces fonctionnalités sont également dis
     <system:String x:Key="EnableNextUpDescription">Affiche ce qui suit la fin d'une chanson/vidéo</system:String>
     <system:String x:Key="NextUpStayDurationTitle">Prochaine étape Durée du séjour</system:String>
     <system:String x:Key="NextUpStayDurationDescription">(par défaut : 2000 ms)</system:String>
+    <system:String x:Key="NextUpPositionTitle">Position du volet</system:String>
+    <system:String x:Key="NextUpCenterTitleArtistTitle">Centrer le titre et l&apos;artiste</system:String>
+    <system:String x:Key="NextUpShowUpNextTextTitle">Afficher le libellé</system:String>
+    <system:String x:Key="NextUpShowUpNextTextDescription">Affiche le libellé À suivre avant les informations du morceau</system:String>
     <system:String x:Key="LockKeysCustomizationTitle">Volet des touches de verrouillage</system:String>
     <system:String x:Key="LockKeysDescription" xml:space="preserve">Vérifiez en un coup d'œil l'état de vos touches de verrouillage. S'affiche après avoir appuyé sur Verr. Maj., Verr. Num. ou Arrêt défil. Pratique pour les ordinateurs portables et les claviers sans indicateur de verrouillage.</system:String>
     <system:String x:Key="EnableLockKeysTitle">Activer le menu déroulant des touches de verrouillage</system:String>

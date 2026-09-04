@@ -111,6 +111,10 @@ Poznámka: Keďže ide o open-source projekt, tieto funkcie sú k dispozícii aj
     <system:String x:Key="EnableNextUpDescription">Zobrazuje, čo nasleduje po skončení skladby/videa</system:String>
     <system:String x:Key="NextUpStayDurationTitle">Doba Zotrvania Ďalšia Skladba</system:String>
     <system:String x:Key="NextUpStayDurationDescription">(predvolené: 2000 ms)</system:String>
+    <system:String x:Key="NextUpPositionTitle">Pozícia Plávajúceho okna</system:String>
+    <system:String x:Key="NextUpCenterTitleArtistTitle">Vycentrovať Názov a Autora</system:String>
+    <system:String x:Key="NextUpShowUpNextTextTitle">Zobraziť štítok</system:String>
+    <system:String x:Key="NextUpShowUpNextTextDescription">Zobrazí štítok Ďalej pred informáciami o skladbe</system:String>
     <system:String x:Key="LockKeysCustomizationTitle">Plávajúce okno Lock Klávesy</system:String>
     <system:String x:Key="LockKeysDescription" xml:space="preserve">Skontrolujte si stav Lock kláves jedným pohľadom. Zobrazí sa po stlačení klávesy Caps Lock, Num Lock alebo Scroll Lock. Vhodné pre notebooky/klávesnice bez indikátorov Lock kláves.</system:String>
     <system:String x:Key="EnableLockKeysTitle">Povoliť Plávajúce okno Lock Klávesy</system:String>

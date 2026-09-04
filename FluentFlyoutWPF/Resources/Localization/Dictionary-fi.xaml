@@ -63,4 +63,8 @@ Huomaa: Koska kyseessä on avoimen lähdekoodin projekti, nämä toiminnot ovat 
     <system:String x:Key="PremiumPurchaseCancelled">Osto peruttu.</system:String>
     <system:String x:Key="HomeTitle">Koti</system:String>
     <system:String x:Key="Enabled">Käytössä</system:String>
+    <system:String x:Key="NextUpPositionTitle">Flyoutin Sijainti</system:String>
+    <system:String x:Key="NextUpCenterTitleArtistTitle">Keskitä Kappaleen Nimi ja Artisti</system:String>
+    <system:String x:Key="NextUpShowUpNextTextTitle">Näytä tunniste</system:String>
+    <system:String x:Key="NextUpShowUpNextTextDescription">Näyttää Seuraavaksi-tunnisteen kappaletietojen edessä</system:String>
 </ResourceDictionary>

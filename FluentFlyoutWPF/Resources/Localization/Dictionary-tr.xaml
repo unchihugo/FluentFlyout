@@ -43,6 +43,10 @@ tekrar, karıştırma ve oynatıcı bilgilerini gizler</system:String>
     <system:String x:Key="EnableNextUpDescription">Bir şarkı/video bittiğinde sırada ne olduğunu gösterir</system:String>
     <system:String x:Key="NextUpStayDurationTitle">Sıradaki Kalış Süresi</system:String>
     <system:String x:Key="NextUpStayDurationDescription">(varsayılan: 2000 ms)</system:String>
+    <system:String x:Key="NextUpPositionTitle">Açılır Pencere Pozisyonu</system:String>
+    <system:String x:Key="NextUpCenterTitleArtistTitle">Başlığı ve Sanatçıyı Ortala</system:String>
+    <system:String x:Key="NextUpShowUpNextTextTitle">Etiketi göster</system:String>
+    <system:String x:Key="NextUpShowUpNextTextDescription">Şarkı bilgisinden önce Sıradaki etiketini gösterir</system:String>
     <system:String x:Key="LockKeysCustomizationTitle">Kilitleme Tuşları Açılır Penceresi</system:String>
     <system:String x:Key="LockKeysDescription" xml:space="preserve">Caps Lock, Num Lock veya Scroll Lock tuşlarının durumunu hızlıca kontrol edin. Bu bildirim, kilitleme tuşu göstergesi olmayan dizüstü bilgisayarlarda/klavyelerde kullanışlıdır. Tuşlara basıldıktan sonra görünür.</system:String>
     <system:String x:Key="EnableLockKeysTitle">Kilitleme Tuşları Açılır Pencerelerini Etkinleştir</system:String>

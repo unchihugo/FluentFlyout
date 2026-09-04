@@ -44,6 +44,10 @@
     <system:String x:Key="EnableNextUpDescription">음악/영상이 끝날 때 현재 미디어 정보를 표시</system:String>
     <system:String x:Key="NextUpStayDurationTitle">현재 재생 정보 표시 지속 시간</system:String>
     <system:String x:Key="NextUpStayDurationDescription">(기본값: 2000 ms)</system:String>
+    <system:String x:Key="NextUpPositionTitle">Flyout 위치</system:String>
+    <system:String x:Key="NextUpCenterTitleArtistTitle">제목 및 아티스트 가운데 정렬</system:String>
+    <system:String x:Key="NextUpShowUpNextTextTitle">레이블 표시</system:String>
+    <system:String x:Key="NextUpShowUpNextTextDescription">곡 정보 앞에 다음 항목 레이블을 표시합니다</system:String>
     <system:String x:Key="LockKeysCustomizationTitle">토글 키 Flyout</system:String>
     <system:String x:Key="LockKeysDescription" xml:space="preserve">토글 키 상태를 한눈에 확인하세요. Caps Lock, Num Lock 또는 Scroll Lock을 누르면 나타납니다. 토글 키 표시등이 없는 노트북/키보드에 편리합니다.</system:String>
     <system:String x:Key="EnableLockKeysTitle">토글 키 Flyout 활성화</system:String>
