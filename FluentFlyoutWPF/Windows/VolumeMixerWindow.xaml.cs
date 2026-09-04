@@ -7,15 +7,14 @@
 // Copyright (c) 2022 gpkgpk
 // Modifications copyright (c) 2026 The FluentFlyout Authors
 
-using FluentFlyout.Classes;
-using FluentFlyout.Classes.Settings;
 using FluentFlyoutWPF.Classes;
+using FluentFlyoutWPF.Classes.Settings;
 using FluentFlyoutWPF.ViewModels;
 using MicaWPF.Controls;
 using NLog;
 using System.Windows;
 using System.Windows.Media.Animation;
-using static FluentFlyout.Classes.NativeMethods;
+using static FluentFlyoutWPF.Classes.NativeMethods;
 
 namespace FluentFlyoutWPF.Windows;
 

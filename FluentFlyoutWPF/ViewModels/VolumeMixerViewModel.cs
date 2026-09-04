@@ -3,8 +3,8 @@
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using FluentFlyout.Classes.Utils;
 using FluentFlyoutWPF.Classes;
+using FluentFlyoutWPF.Classes.Utils;
 using FluentFlyoutWPF.Models;
 using NAudio.CoreAudioApi;
 using NAudio.CoreAudioApi.Interfaces;

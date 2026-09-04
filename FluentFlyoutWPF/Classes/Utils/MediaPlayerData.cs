@@ -7,8 +7,8 @@ using System.Windows;
 using System.Windows.Automation;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using static FluentFlyout.Classes.NativeMethods;
-namespace FluentFlyout.Classes.Utils;
+using static FluentFlyoutWPF.Classes.NativeMethods;
+namespace FluentFlyoutWPF.Classes.Utils;
 
 public static class MediaPlayerData
 {

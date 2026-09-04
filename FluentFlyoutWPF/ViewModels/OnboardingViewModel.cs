@@ -3,7 +3,7 @@
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using FluentFlyout.Classes.Settings;
+using FluentFlyoutWPF.Classes.Settings;
 using System.Windows;
 
 namespace FluentFlyoutWPF.ViewModels;

@@ -1,7 +1,7 @@
 ﻿// Copyright (c) 2024-2026 The FluentFlyout Authors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-using FluentFlyout.Classes.Settings;
+using FluentFlyoutWPF.Classes.Settings;
 using System.Diagnostics;
 using System.IO;
 using System.Security.Cryptography;
@@ -11,7 +11,7 @@ using System.Windows.Media.Imaging;
 using Windows.Storage.Streams;
 using Wpf.Ui.Appearance;
 
-namespace FluentFlyout.Classes.Utils;
+namespace FluentFlyoutWPF.Classes.Utils;
 
 internal static class BitmapHelper
 {

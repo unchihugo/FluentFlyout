@@ -2,11 +2,10 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 using CommunityToolkit.Mvvm.ComponentModel;
-using FluentFlyout.Classes;
-using FluentFlyout.Classes.Settings;
-using FluentFlyout.Classes.Utils;
-using FluentFlyout.Controls;
 using FluentFlyoutWPF.Classes;
+using FluentFlyoutWPF.Classes.Settings;
+using FluentFlyoutWPF.Classes.Utils;
+using FluentFlyoutWPF.Controls;
 using FluentFlyoutWPF.Models;
 using FluentFlyoutWPF.Windows;
 using System.Collections.ObjectModel;

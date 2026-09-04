@@ -5,10 +5,10 @@ using FluentFlyoutWPF.ViewModels;
 using System.IO;
 using System.Xml.Serialization;
 
-namespace FluentFlyout.Classes.Settings;
+namespace FluentFlyoutWPF.Classes.Settings;
 
 /// <summary>
-/// Manages the application settings and saves them to a file in \AppData\FluentFlyout.
+/// Manages the application settings and saves them to a file in \AppData\FluentFlyoutWPF.
 /// </summary>
 public class SettingsManager
 {

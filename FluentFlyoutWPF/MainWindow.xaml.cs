@@ -1,14 +1,11 @@
 // Copyright (c) 2024-2026 The FluentFlyout Authors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-using FluentFlyout.Classes;
-using FluentFlyout.Classes.Settings;
-using FluentFlyout.Classes.Utils;
-using FluentFlyout.Controls;
-using FluentFlyout.Windows;
 using FluentFlyoutWPF.Classes;
 using FluentFlyoutWPF.Classes.Services;
+using FluentFlyoutWPF.Classes.Settings;
 using FluentFlyoutWPF.Classes.Utils;
+using FluentFlyoutWPF.Controls;
 using FluentFlyoutWPF.ViewModels;
 using FluentFlyoutWPF.Windows;
 using MicaWPF.Controls;
@@ -26,7 +23,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Threading;
 using Windows.ApplicationModel;
 using Windows.Media.Control;
-using static FluentFlyout.Classes.NativeMethods;
+using static FluentFlyoutWPF.Classes.NativeMethods;
 using static FluentFlyoutWPF.Classes.Utils.MonitorUtil;
 using static WindowsMediaController.MediaManager;
 

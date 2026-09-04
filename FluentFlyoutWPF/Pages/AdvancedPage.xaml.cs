@@ -1,20 +1,19 @@
 ﻿// Copyright (c) 2024-2026 The FluentFlyout Authors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-using FluentFlyout.Classes.Settings;
+using FluentFlyoutWPF.Classes.Settings;
 using System.Windows.Controls;
 
-namespace FluentFlyoutWPF.Pages
+namespace FluentFlyoutWPF.Pages;
+
+/// <summary>
+/// Interaction logic for AdvancedPage.xaml
+/// </summary>
+public partial class AdvancedPage : Page
 {
-    /// <summary>
-    /// Interaction logic for AdvancedPage.xaml
-    /// </summary>
-    public partial class AdvancedPage : Page
+    public AdvancedPage()
     {
-        public AdvancedPage()
-        {
-            InitializeComponent();
-            DataContext = SettingsManager.Current;
-        }
+        InitializeComponent();
+        DataContext = SettingsManager.Current;
     }
 }

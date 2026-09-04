@@ -1,8 +1,8 @@
 ﻿// Copyright (c) 2024-2026 The FluentFlyout Authors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-using FluentFlyout.Classes.Settings;
-using static FluentFlyout.Classes.NativeMethods;
+using FluentFlyoutWPF.Classes.Settings;
+using static FluentFlyoutWPF.Classes.NativeMethods;
 
 namespace FluentFlyoutWPF.Classes;
 

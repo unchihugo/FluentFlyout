@@ -4,7 +4,7 @@
 using System.Windows;
 using System.Windows.Controls;
 
-namespace FluentFlyout.Controls;
+namespace FluentFlyoutWPF.Controls;
 
 public partial class AccentBadge : UserControl
 {

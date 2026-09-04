@@ -1,13 +1,13 @@
 ﻿// Copyright (c) 2024-2026 The FluentFlyout Authors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-using FluentFlyout.Classes.Settings;
+using FluentFlyoutWPF.Classes.Settings;
 using Microsoft.Toolkit.Uwp.Notifications;
 using NLog;
 using System.Runtime.InteropServices;
 using System.Windows;
 
-namespace FluentFlyout.Classes;
+namespace FluentFlyoutWPF.Classes;
 
 [ComVisible(true)]
 [Guid("79086E7F-0D65-4507-82B6-85F2288930D5")]

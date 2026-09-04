@@ -4,7 +4,7 @@
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace FluentFlyout.Classes;
+namespace FluentFlyoutWPF.Classes;
 
 /// <summary>
 /// Centralized class for all P/Invoke declarations and unmanaged code imports.

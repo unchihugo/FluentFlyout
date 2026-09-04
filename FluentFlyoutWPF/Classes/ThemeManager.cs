@@ -1,8 +1,9 @@
 ﻿// Copyright (c) 2024-2026 The FluentFlyout Authors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-using FluentFlyout.Classes.Settings;
 using FluentFlyoutWPF;
+using FluentFlyoutWPF.Classes.Settings;
+using FluentFlyoutWPF.Classes.Utils;
 using MicaWPF.Core.Enums;
 using MicaWPF.Core.Helpers;
 using MicaWPF.Core.Services;
@@ -11,7 +12,7 @@ using System.Windows.Media.Imaging;
 using Wpf.Ui.Appearance;
 using Wpf.Ui.Tray.Controls;
 
-namespace FluentFlyout.Classes;
+namespace FluentFlyoutWPF.Classes;
 
 /// <summary>
 /// Manages the application theme settings and applies the selected theme.

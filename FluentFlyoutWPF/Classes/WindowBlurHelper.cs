@@ -1,14 +1,14 @@
 // Copyright (c) 2024-2026 The FluentFlyout Authors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-using FluentFlyout.Classes.Settings;
+using FluentFlyoutWPF.Classes.Settings;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interop;
 using Wpf.Ui.Appearance;
-using static FluentFlyout.Classes.NativeMethods;
+using static FluentFlyoutWPF.Classes.NativeMethods;
 
-namespace FluentFlyout.Classes;
+namespace FluentFlyoutWPF.Classes;
 
 public static class WindowBlurHelper
 {

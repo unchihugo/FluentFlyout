@@ -1,9 +1,9 @@
 // Copyright (c) 2024-2026 The FluentFlyout Authors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-using FluentFlyout.Classes;
-using FluentFlyout.Classes.Settings;
+using FluentFlyoutWPF.Classes;
 using FluentFlyoutWPF.Classes.Services;
+using FluentFlyoutWPF.Classes.Settings;
 using FluentFlyoutWPF.Classes.Utils;
 using FluentFlyoutWPF.ViewModels;
 using NLog;

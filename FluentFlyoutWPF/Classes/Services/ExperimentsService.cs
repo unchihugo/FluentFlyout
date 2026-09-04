@@ -1,8 +1,8 @@
 ﻿// Copyright (c) 2024-2026 The FluentFlyout Authors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-using FluentFlyout.Classes.Settings;
 using FluentFlyoutWPF.Classes.Clients;
+using FluentFlyoutWPF.Classes.Settings;
 using NLog;
 using System.Net.Http;
 using System.Security.Cryptography;
