@@ -39,7 +39,7 @@
             </Grid.RowDefinitions>
             <StackPanel Grid.Row="0" Margin="0,0,0,16" Orientation="Horizontal">
                 <Image Source="/Resources/FluentFlyout2.ico" Width="36" Height="36" Margin="0,0,12,-2" VerticalAlignment="Center" />
-                <TextBlock Text="Get started" FontSize="28" FontWeight="SemiBold" VerticalAlignment="Center" />
+                <TextBlock Text="{DynamicResource OnboardingTitle}" FontSize="28" FontWeight="SemiBold" VerticalAlignment="Center" />
             </StackPanel>
 
             <Grid Grid.Row="1" ColumnDefinitions="1.2*,*" x:Name="ContentsGrid">
