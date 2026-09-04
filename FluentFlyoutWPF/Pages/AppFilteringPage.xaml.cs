@@ -1,4 +1,4 @@
-// Copyright © 2024-2026 The FluentFlyout Authors
+// Copyright (c) 2024-2026 The FluentFlyout Authors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 using FluentFlyout.Classes.Settings;
@@ -7,7 +7,7 @@ using FluentFlyout.Classes.Utils;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace FluentFlyoutWPF.Pages;
+namespace FluentFlyout.Pages;
 
 public partial class AppFilteringPage : Page
 {

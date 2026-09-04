@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 using FluentFlyout.Classes.Settings;
-using FluentFlyoutWPF.Classes.Utils;
+using FluentFlyout.Classes.Utils;
 using Microsoft.Win32;
 using NLog;
 using System.Diagnostics;
@@ -11,7 +11,7 @@ using System.Windows;
 using System.Windows.Controls;
 using MessageBox = Wpf.Ui.Controls.MessageBox;
 
-namespace FluentFlyoutWPF.Pages;
+namespace FluentFlyout.Pages;
 
 public partial class SystemPage : Page
 {

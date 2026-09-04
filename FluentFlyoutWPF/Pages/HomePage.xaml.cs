@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 using FluentFlyout.Classes;
+using FluentFlyout.Classes.Services;
 using FluentFlyout.Classes.Settings;
-using FluentFlyoutWPF.Classes.Services;
-using FluentFlyoutWPF.Classes.Utils;
-using FluentFlyoutWPF.ViewModels;
+using FluentFlyout.Classes.Utils;
+using FluentFlyout.ViewModels;
 using NLog;
 using System.Diagnostics;
 using System.IO;
@@ -15,7 +15,7 @@ using Windows.ApplicationModel;
 using Wpf.Ui.Controls;
 using MessageBox = Wpf.Ui.Controls.MessageBox;
 
-namespace FluentFlyoutWPF.Pages;
+namespace FluentFlyout.Pages;
 
 public partial class HomePage : Page
 {

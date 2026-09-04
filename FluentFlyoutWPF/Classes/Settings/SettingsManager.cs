@@ -1,7 +1,7 @@
 // Copyright (c) 2024-2026 The FluentFlyout Authors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-using FluentFlyoutWPF.ViewModels;
+using FluentFlyout.ViewModels;
 using System.IO;
 using System.Xml.Serialization;
 

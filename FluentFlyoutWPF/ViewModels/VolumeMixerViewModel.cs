@@ -3,16 +3,16 @@
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using FluentFlyout.Classes;
 using FluentFlyout.Classes.Utils;
-using FluentFlyoutWPF.Classes;
-using FluentFlyoutWPF.Models;
+using FluentFlyout.Models;
 using NAudio.CoreAudioApi;
 using NAudio.CoreAudioApi.Interfaces;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Windows.Threading;
 
-namespace FluentFlyoutWPF.ViewModels;
+namespace FluentFlyout.ViewModels;
 
 /// <summary>
 /// ViewModel for the volume mixer, exposing master volume and per-application audio sessions.

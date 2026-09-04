@@ -4,7 +4,7 @@
 using System.Globalization;
 using System.Windows.Data;
 
-namespace FluentFlyoutWPF.Classes.Converters;
+namespace FluentFlyout.Classes.Converters;
 
 public class DecimalPercentageToFullConverter : IValueConverter
 {

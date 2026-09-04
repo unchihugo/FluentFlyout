@@ -4,7 +4,7 @@
 using NAudio.CoreAudioApi;
 using NAudio.CoreAudioApi.Interfaces;
 
-namespace FluentFlyoutWPF.Classes;
+namespace FluentFlyout.Classes;
 
 public class AudioDeviceMonitor : IDisposable
 {

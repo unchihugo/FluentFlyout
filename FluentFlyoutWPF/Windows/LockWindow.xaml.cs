@@ -3,14 +3,12 @@
 
 using FluentFlyout.Classes;
 using FluentFlyout.Classes.Settings;
-using FluentFlyoutWPF.Classes;
 using MicaWPF.Controls;
 using System.Windows;
 using System.Windows.Media.Animation;
-using static FluentFlyoutWPF.Classes.Utils.MonitorUtil;
+using static FluentFlyout.Classes.Utils.MonitorUtil;
 
-
-namespace FluentFlyoutWPF.Windows;
+namespace FluentFlyout.Windows;
 
 /// <summary>
 /// Interaction logic for LockWindow.xaml

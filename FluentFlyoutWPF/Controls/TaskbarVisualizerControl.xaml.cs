@@ -1,9 +1,10 @@
 // Copyright (c) 2024-2026 The FluentFlyout Authors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+using FluentFlyout;
+using FluentFlyout.Classes;
 using FluentFlyout.Classes.Settings;
-using FluentFlyoutWPF;
-using FluentFlyoutWPF.Classes;
+using FluentFlyout.Classes.Utils;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;

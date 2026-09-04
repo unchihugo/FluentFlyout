@@ -1,5 +1,10 @@
+// Copyright (c) 2024-2026 The FluentFlyout Authors
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 using Microsoft.Win32;
 using System;
+
+namespace FluentFlyout.Classes.Utils;
 
 // Custom Theme detector from checking the Windows Registry.
 // WindowsThemeHelper.GetCurrentWindowsTheme and MicaWPFServiceUtility.ThemeService.CurrentTheme will return the wrong value

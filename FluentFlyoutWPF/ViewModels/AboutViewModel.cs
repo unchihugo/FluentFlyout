@@ -6,7 +6,7 @@ using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 
-namespace FluentFlyoutWPF.ViewModels;
+namespace FluentFlyout.ViewModels;
 
 public partial class AboutViewModel : ObservableObject
 {

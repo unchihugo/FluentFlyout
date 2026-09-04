@@ -2,15 +2,12 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 using FluentFlyout.Classes;
+using FluentFlyout.Classes.Services;
 using FluentFlyout.Classes.Settings;
 using FluentFlyout.Classes.Utils;
 using FluentFlyout.Controls;
+using FluentFlyout.ViewModels;
 using FluentFlyout.Windows;
-using FluentFlyoutWPF.Classes;
-using FluentFlyoutWPF.Classes.Services;
-using FluentFlyoutWPF.Classes.Utils;
-using FluentFlyoutWPF.ViewModels;
-using FluentFlyoutWPF.Windows;
 using MicaWPF.Controls;
 using MicaWPF.Core.Extensions;
 using Microsoft.Win32;
@@ -27,11 +24,11 @@ using System.Windows.Threading;
 using Windows.ApplicationModel;
 using Windows.Media.Control;
 using static FluentFlyout.Classes.NativeMethods;
-using static FluentFlyoutWPF.Classes.Utils.MonitorUtil;
+using static FluentFlyout.Classes.Utils.MonitorUtil;
 using static WindowsMediaController.MediaManager;
 
 
-namespace FluentFlyoutWPF;
+namespace FluentFlyout;
 
 public partial class MainWindow : MicaWindow
 {

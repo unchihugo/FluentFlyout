@@ -6,8 +6,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
     <UseWindowsForms>False</UseWindowsForms>
-    <RootNamespace>FluentFlyoutWPF</RootNamespace>
-    <StartupObject>FluentFlyoutWPF.App</StartupObject>
+    <RootNamespace>FluentFlyout</RootNamespace>
+    <StartupObject>FluentFlyout.App</StartupObject>
     <AssemblyName>$(MSBuildProjectName)</AssemblyName>
     <Platforms>x64;ARM64</Platforms>
 	<RuntimeIdentifiers>win-x64;win-arm64</RuntimeIdentifiers>
@@ -20,9 +20,6 @@
   <PropertyGroup Condition="'$(Configuration)' == 'GitHub Release'">
     <DefineConstants>GITHUB_RELEASE</DefineConstants>
   </PropertyGroup>
-  <ItemGroup>
-    <Content Remove="C:\Users\hu8go\.nuget\packages\dubya.windowsmediacontroller\2.5.5\contentFiles\any\net6.0-windows10.0.22000\Icon.ico" />
-  </ItemGroup>
   <ItemGroup>
     <None Remove="icon.ico" />
     <None Remove="NLog.config" />

@@ -4,7 +4,7 @@
 using FluentFlyout.Classes.Settings;
 using static FluentFlyout.Classes.NativeMethods;
 
-namespace FluentFlyoutWPF.Classes;
+namespace FluentFlyout.Classes;
 
 internal class FullscreenDetector
 {

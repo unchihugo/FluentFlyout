@@ -6,7 +6,7 @@ using CommunityToolkit.Mvvm.Input;
 using FluentFlyout.Classes.Settings;
 using System.Windows;
 
-namespace FluentFlyoutWPF.ViewModels;
+namespace FluentFlyout.ViewModels;
 
 public sealed class OnboardingStep
 {

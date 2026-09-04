@@ -3,14 +3,14 @@
 
 using FluentFlyout.Classes;
 using FluentFlyout.Classes.Settings;
-using FluentFlyoutWPF.Pages;
+using FluentFlyout.Pages;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using Wpf.Ui.Controls;
 
-namespace FluentFlyoutWPF;
+namespace FluentFlyout;
 
 public partial class SettingsWindow : FluentWindow
 {
@@ -69,7 +69,7 @@ public partial class SettingsWindow : FluentWindow
         {
             var pageType = System.Reflection.Assembly
                 .GetExecutingAssembly()
-                .GetType($"FluentFlyoutWPF.Pages.{navigationPage}");
+                .GetType($"FluentFlyout.Pages.{navigationPage}");
             if (pageType != null)
                 NavigateToPage(pageType);
         }

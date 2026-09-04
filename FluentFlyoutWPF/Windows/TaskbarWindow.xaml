@@ -17,7 +17,7 @@
         FontFamily="{Binding FontFamily}"
         FlowDirection="{Binding FlowDirection}"
         Loaded="Window_Loaded" Visibility="Collapsed" d:Visibility="Visible"
-        xmlns:viewModels="clr-namespace:FluentFlyoutWPF.ViewModels"
+        xmlns:viewModels="clr-namespace:FluentFlyout.ViewModels"
 		d:DataContext="{d:DesignInstance viewModels:UserSettings}">
     <Canvas Name="WidgetCanvas" Background="Transparent">
 		<controls:TaskbarVisualizerControl x:Name="TaskbarVisualizer" Margin="0,1,0,0" />
