@@ -1343,7 +1343,6 @@ public partial class MainWindow : MicaWindow
 
     private async void Forward_Click(object sender, RoutedEventArgs e) => await RunMediaControlAsync(TrySkipNextAsync);
 
-    // awaited so failures are logged instead of leaving the task unobserved
     private static async Task RunMediaControlAsync(Func<Task<bool>> action)
     {
         try

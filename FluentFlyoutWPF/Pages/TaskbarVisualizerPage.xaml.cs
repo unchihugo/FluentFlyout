@@ -17,11 +17,6 @@ public partial class TaskbarVisualizerPage : Page
         DataContext = SettingsManager.Current;
     }
 
-    private async void UnlockPremiumButton_Click(object sender, RoutedEventArgs e)
-    {
-        LicenseManager.UnlockPremium(sender);
-    }
-
     // same as SystemPage.StartupHyperlink_RequestNavigate
     private void StartupHyperlink_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
     {

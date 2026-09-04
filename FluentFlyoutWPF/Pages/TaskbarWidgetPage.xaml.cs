@@ -18,11 +18,6 @@ public partial class TaskbarWidgetPage : Page
         UpdateMonitorList();
     }
 
-    private async void UnlockPremiumButton_Click(object sender, RoutedEventArgs e)
-    {
-        LicenseManager.UnlockPremium(sender);
-    }
-
     private void UpdateMonitorList()
     {
         MonitorUtil.UpdateMonitorList(

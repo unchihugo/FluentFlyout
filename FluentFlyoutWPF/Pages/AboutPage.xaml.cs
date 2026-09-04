@@ -18,10 +18,4 @@ public partial class AboutPage : Page
         InitializeComponent();
         DataContext = this;
     }
-
-    // same as in HomePage.xaml.cs
-    private async void UnlockPremiumButton_Click(object sender, RoutedEventArgs e)
-    {
-        LicenseManager.UnlockPremium(sender);
-    }
 }

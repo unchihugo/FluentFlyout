@@ -16,89 +16,14 @@
 
     <StackPanel MaxWidth="1000" Margin="16">
         <TextBlock Text="{DynamicResource TaskbarWidgetCustomizationTitle}" FontSize="24" FontWeight="SemiBold" Margin="0,0,0,20" />
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-            <StackPanel Orientation="Horizontal" Margin="0,0,0,24">
-                <Border CornerRadius="10" ClipToBounds="True" Width="164" Height="98">
-                    <Border.Background>
-                        <ImageBrush ImageSource="/Resources/FluentFlyoutDemo9.1.png" Stretch="UniformToFill" />
-                    </Border.Background>
-                </Border>
-                <TextBlock FontSize="14" FontWeight="Regular" HorizontalAlignment="Stretch" Opacity="0.75" Margin="12,0,0,0" MaxWidth="450" TextWrapping="WrapWithOverflow" Text="{DynamicResource TaskbarWidgetDescription}" />
-            </StackPanel>
-
-            <!-- Premium Status InfoBar (only shown for Store versions) -->
-            <ui:InfoBar Grid.Row="1" Title="{DynamicResource PremiumUnlockedMessage}" Severity="Success" IsClosable="True" Margin="0,0,0,3">
-                <ui:InfoBar.Style>
-                    <Style TargetType="ui:InfoBar" BasedOn="{StaticResource {x:Type ui:InfoBar}}">
-                        <Setter Property="IsOpen" Value="False" />
-                        <Style.Triggers>
-                            <MultiDataTrigger>
-                                <MultiDataTrigger.Conditions>
-                                    <Condition Binding="{Binding IsStoreVersion}" Value="True" />
-                                    <Condition Binding="{Binding IsPremiumUnlocked}" Value="True" />
-                                </MultiDataTrigger.Conditions>
-                                <Setter Property="IsOpen" Value="True" />
-                            </MultiDataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </ui:InfoBar.Style>
-            </ui:InfoBar>
-
-            <!-- Premium Locked InfoBar (only shown for Store versions without premium) -->
-            <ui:InfoBar Grid.Row="1" IsOpen="True" Severity="Warning" IsClosable="False" Margin="0,0,0,3">
-                <ui:InfoBar.Style>
-                    <Style TargetType="ui:InfoBar">
-                        <Setter Property="Visibility" Value="Collapsed" />
-                        <Style.Triggers>
-                            <MultiDataTrigger>
-                                <MultiDataTrigger.Conditions>
-                                    <Condition Binding="{Binding IsStoreVersion}" Value="True" />
-                                    <Condition Binding="{Binding IsPremiumUnlocked}" Value="False" />
-                                </MultiDataTrigger.Conditions>
-                                <Setter Property="Visibility" Value="Visible" />
-                            </MultiDataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </ui:InfoBar.Style>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="{DynamicResource PremiumLockedMessage}" VerticalAlignment="Center" />
-                    <ui:Button Name="UnlockPremiumButton"
-                            Click="UnlockPremiumButton_Click" 
-                            Appearance="Primary"
-                            Margin="12,2,0,2" FontSize="12">
-                        <ui:Button.Content>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{DynamicResource UnlockPremiumButton}" />
-                                <TextBlock Text=" - " />
-                                <TextBlock Text="{Binding PremiumPrice}" />
-                            </StackPanel>
-                        </ui:Button.Content>
-                    </ui:Button>
-                </StackPanel>
-            </ui:InfoBar>
-
-            <!-- GitHub Version InfoBar -->
-            <ui:InfoBar Grid.Row="1" Title="{DynamicResource PremiumGitHubMessage}" IsOpen="True" Severity="Informational" IsClosable="False" Margin="0,0,0,3" Visibility="{Binding IsStoreVersion, Converter={StaticResource BoolToCollapsedVisibleConverter}}" />
-        </Grid>
+        <StackPanel Orientation="Horizontal" Margin="0,0,0,24">
+            <Border CornerRadius="10" ClipToBounds="True" Width="164" Height="98">
+                <Border.Background>
+                    <ImageBrush ImageSource="/Resources/FluentFlyoutDemo9.1.png" Stretch="UniformToFill" />
+                </Border.Background>
+            </Border>
+            <TextBlock FontSize="14" FontWeight="Regular" HorizontalAlignment="Stretch" Opacity="0.75" Margin="12,0,0,0" MaxWidth="450" TextWrapping="WrapWithOverflow" Text="{DynamicResource TaskbarWidgetDescription}" />
+        </StackPanel>
 
         <StackPanel Opacity="{Binding IsPremiumUnlocked, Converter={StaticResource BoolToFullHalfOpacityConverter}}">
                 <ui:CardControl x:Name="TaskbarWidgetEnabledTitleCard" Tag="Indexable" Grid.Row="2" Icon="{ui:SymbolIcon TextboxAlignBottom24}" Margin="0,0,0,24">

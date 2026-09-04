@@ -166,12 +166,6 @@ public partial class HomePage : Page
         SettingsWindow.NavigateToPage(typeof(SystemPage));
     }
 
-    // same as in AboutPage.xaml.cs
-    private async void UnlockPremiumButton_Click(object sender, System.Windows.RoutedEventArgs e)
-    {
-        LicenseManager.UnlockPremium(sender);
-    }
-
     private void ViewMicrosoftStore_Click(object sender, System.Windows.RoutedEventArgs e)
     {
         try

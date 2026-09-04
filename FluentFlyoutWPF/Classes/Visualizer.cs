@@ -197,7 +197,7 @@ public class Visualizer : IDisposable
 
     public static void ResizeBarList(int newBarCount)
     {
-        _barValues = new float[newBarCount]; // array before count, readers use the array's length
+        _barValues = new float[newBarCount];
         BarCount = newBarCount;
     }
 
@@ -258,7 +258,6 @@ public class Visualizer : IDisposable
                 }
             };
 
-            // started here too, callbacks may never arrive at all and that is what it recovers from
             _captureWatchdog.Start();
         }
         catch (Exception ex)
@@ -304,7 +303,6 @@ public class Visualizer : IDisposable
 
         _lastDataAvailableUtc = DateTime.UtcNow;
 
-        // snapshot, Stop() can null these out from another thread mid-callback
         var captureWatchdog = _captureWatchdog;
         var capture = _capture;
         var barValues = _barValues;
@@ -489,7 +487,7 @@ public class Visualizer : IDisposable
 
     private unsafe void DrawBars(int stride, Span<byte> buffer)
     {
-        var barValues = _barValues; // snapshot, ResizeBarList() can swap it from another thread
+        var barValues = _barValues;
         if (barValues == null)
             return;
 
@@ -691,7 +689,7 @@ public class Visualizer : IDisposable
     public void Dispose()
     {
         Stop();
-        ReleaseCaptureResources(); // Stop() is a no-op if Start() failed before setting _isRunning
+        ReleaseCaptureResources();
 
         AudioDeviceMonitor.Instance.DefaultDeviceChanged -= OnDefaultDeviceChanged;
         TryUnregisterSystemEvents();

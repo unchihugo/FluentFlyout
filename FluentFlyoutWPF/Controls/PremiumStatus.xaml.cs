@@ -6,13 +6,15 @@ using FluentFlyoutWPF.Classes.Settings;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace FluentFlyoutWPF.Pages;
+namespace FluentFlyoutWPF.Controls;
 
-public partial class VolumeMixerPage : Page
+public partial class PremiumStatus : UserControl
 {
-    public VolumeMixerPage()
+    public PremiumStatus()
     {
         InitializeComponent();
         DataContext = SettingsManager.Current;
     }
+
+    private void UnlockPremium_Click(object sender, RoutedEventArgs e) => LicenseManager.UnlockPremium(sender);
 }

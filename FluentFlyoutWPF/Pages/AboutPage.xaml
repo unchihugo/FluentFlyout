@@ -5,6 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
       xmlns:controls="clr-namespace:MicaWPF.Controls;assembly=MicaWPF"
+      xmlns:fluentflyoutcontrols="clr-namespace:FluentFlyoutWPF.Controls"
       xmlns:viewModels="clr-namespace:FluentFlyoutWPF.ViewModels"
       mc:Ignorable="d"
       d:DesignHeight="800" d:DesignWidth="800"
@@ -40,58 +41,7 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <!-- Premium Status InfoBar (only shown for Store versions) -->
-            <ui:InfoBar Grid.Row="1" Title="{DynamicResource PremiumUnlockedMessage}" Severity="Success" IsClosable="False" Margin="0,0,0,12">
-                <ui:InfoBar.Style>
-                    <Style TargetType="ui:InfoBar" BasedOn="{StaticResource {x:Type ui:InfoBar}}">
-                        <Setter Property="IsOpen" Value="False" />
-                        <Style.Triggers>
-                            <MultiDataTrigger>
-                                <MultiDataTrigger.Conditions>
-                                    <Condition Binding="{Binding UserSettings.IsStoreVersion}" Value="True" />
-                                    <Condition Binding="{Binding UserSettings.IsPremiumUnlocked}" Value="True" />
-                                </MultiDataTrigger.Conditions>
-                                <Setter Property="IsOpen" Value="True" />
-                            </MultiDataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </ui:InfoBar.Style>
-            </ui:InfoBar>
-
-            <!-- Premium Locked InfoBar (only shown for Store versions without premium) -->
-            <ui:InfoBar Grid.Row="1" Title="{DynamicResource PremiumLockedMessage}" IsOpen="True" Severity="Warning" IsClosable="False" Margin="0,4,0,12">
-                <ui:InfoBar.Style>
-                    <Style TargetType="ui:InfoBar">
-                        <Setter Property="Visibility" Value="Collapsed" />
-                        <Style.Triggers>
-                            <MultiDataTrigger>
-                                <MultiDataTrigger.Conditions>
-                                    <Condition Binding="{Binding UserSettings.IsStoreVersion}" Value="True" />
-                                    <Condition Binding="{Binding UserSettings.IsPremiumUnlocked}" Value="False" />
-                                </MultiDataTrigger.Conditions>
-                                <Setter Property="Visibility" Value="Visible" />
-                            </MultiDataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </ui:InfoBar.Style>
-                <StackPanel Orientation="Horizontal">
-                    <ui:Button Name="UnlockPremiumButton"
-                            Click="UnlockPremiumButton_Click" 
-                            Appearance="Primary"
-                            Margin="4,0,0,8" FontSize="12">
-                        <ui:Button.Content>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{DynamicResource UnlockPremiumButton}" />
-                                <TextBlock Text=" - " />
-                                <TextBlock Text="{Binding UserSettings.PremiumPrice}" />
-                            </StackPanel>
-                        </ui:Button.Content>
-                    </ui:Button>
-                </StackPanel>
-            </ui:InfoBar>
-
-            <!-- GitHub Version InfoBar -->
-            <ui:InfoBar Grid.Row="1" Title="{DynamicResource PremiumGitHubMessage}" IsOpen="True" Severity="Informational" IsClosable="False" Margin="0,0,0,12" Visibility="{Binding UserSettings.IsStoreVersion, Converter={StaticResource BoolToCollapsedVisibleConverter}}" />
+            <fluentflyoutcontrols:PremiumStatus Grid.Row="1" Margin="0,0,0,12" />
 
             <TextBlock Grid.Row="2" FontSize="14" Margin="4,0,0,0" FontWeight="Regular" HorizontalAlignment="Left" Opacity="0.75" TextWrapping="WrapWithOverflow" Text="{DynamicResource PremiumFeatureDescription}" />
 

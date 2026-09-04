@@ -1,0 +1,60 @@
+<UserControl x:Class="FluentFlyoutWPF.Controls.PremiumStatus"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+             xmlns:viewModels="clr-namespace:FluentFlyoutWPF.ViewModels"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance viewModels:UserSettings}">
+    <ui:InfoBar IsOpen="True" IsClosable="False">
+        <ui:InfoBar.Style>
+            <Style TargetType="ui:InfoBar" BasedOn="{StaticResource {x:Type ui:InfoBar}}">
+                <Setter Property="Severity" Value="Informational" />
+                <Setter Property="Title" Value="{DynamicResource PremiumGitHubMessage}" />
+                <Style.Triggers>
+                    <MultiDataTrigger>
+                        <MultiDataTrigger.Conditions>
+                            <Condition Binding="{Binding IsStoreVersion}" Value="True" />
+                            <Condition Binding="{Binding IsPremiumUnlocked}" Value="True" />
+                        </MultiDataTrigger.Conditions>
+                        <Setter Property="Severity" Value="Success" />
+                        <Setter Property="Title" Value="{DynamicResource PremiumUnlockedMessage}" />
+                    </MultiDataTrigger>
+                    <MultiDataTrigger>
+                        <MultiDataTrigger.Conditions>
+                            <Condition Binding="{Binding IsStoreVersion}" Value="True" />
+                            <Condition Binding="{Binding IsPremiumUnlocked}" Value="False" />
+                        </MultiDataTrigger.Conditions>
+                        <Setter Property="Severity" Value="Warning" />
+                        <Setter Property="Title" Value="{DynamicResource PremiumLockedMessage}" />
+                    </MultiDataTrigger>
+                </Style.Triggers>
+            </Style>
+        </ui:InfoBar.Style>
+
+        <ui:Button Click="UnlockPremium_Click" Appearance="Primary" Margin="0,4,0,4" FontSize="12">
+            <ui:Button.Style>
+                <Style TargetType="ui:Button" BasedOn="{StaticResource {x:Type ui:Button}}">
+                    <Setter Property="Visibility" Value="Collapsed" />
+                    <Style.Triggers>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding IsStoreVersion}" Value="True" />
+                                <Condition Binding="{Binding IsPremiumUnlocked}" Value="False" />
+                            </MultiDataTrigger.Conditions>
+                            <Setter Property="Visibility" Value="Visible" />
+                        </MultiDataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </ui:Button.Style>
+            <ui:Button.Content>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{DynamicResource UnlockPremiumButton}" />
+                    <TextBlock Text=" - " />
+                    <TextBlock Text="{Binding PremiumPrice}" />
+                </StackPanel>
+            </ui:Button.Content>
+        </ui:Button>
+    </ui:InfoBar>
+</UserControl>
