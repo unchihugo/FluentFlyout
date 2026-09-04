@@ -15,42 +15,34 @@
 
     <StackPanel MaxWidth="1000" Margin="16">
         <TextBlock Text="{DynamicResource NextUpCustomizationTitle}" FontSize="24" FontWeight="SemiBold" Margin="0,0,0,20" />
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-            <StackPanel Orientation="Horizontal" Margin="0,0,0,24">
-                <Border CornerRadius="10" ClipToBounds="True" Width="164" Height="98">
-                    <Border.Background>
-                        <ImageBrush ImageSource="/Resources/FluentFlyoutDemo4.1.png" Stretch="UniformToFill" />
-                    </Border.Background>
-                </Border>
-                <TextBlock FontSize="14" FontWeight="Regular" HorizontalAlignment="Stretch" Opacity="0.75" Margin="12,0,0,0" MaxWidth="450" TextWrapping="WrapWithOverflow" Text="{DynamicResource NextUpDescription}" />
-            </StackPanel>
-            <ui:CardControl x:Name="EnableNextUpTitleCard" Tag="Indexable" Grid.Row="1" Icon="{ui:SymbolIcon MusicNote2Play20}" Margin="0,0,0,24">
-                <ui:CardControl.Header>
-                    <StackPanel Orientation="Vertical">
-                        <TextBlock Text="{DynamicResource EnableNextUpTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
-                        <TextBlock Text="{DynamicResource EnableNextUpDescription}" FontSize="12" Opacity="0.5" />
-                    </StackPanel>
-                </ui:CardControl.Header>
-                <ui:ToggleSwitch Name="NextUpSwitch" IsChecked="{Binding NextUpEnabled, Mode=TwoWay}" />
-            </ui:CardControl>
-            <ui:CardControl x:Name="NextUpStayDurationTitleCard" Tag="Indexable" Grid.Row="3" Icon="{ui:SymbolIcon Timer24}" Margin="0,0,0,76">
-                <ui:CardControl.Header>
-                    <StackPanel Orientation="Vertical">
-                        <TextBlock Text="{DynamicResource NextUpStayDurationTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
-                        <TextBlock Text="{DynamicResource NextUpStayDurationDescription}" FontSize="12" Opacity="0.5" />
-                    </StackPanel>
-                </ui:CardControl.Header>
-                <StackPanel Orientation="Horizontal">
-                    <ui:TextBox Name="NextUpDurationTextBox" Width="60" ClearButtonEnabled="False" Text="{Binding NextUpDurationText, Mode=TwoWay}" />
-                    <TextBlock Text="{DynamicResource MillisecondsUnit}" FontSize="14" FontWeight="Regular" Margin="10,0,0,0" VerticalAlignment="Center" />
+        <StackPanel Orientation="Horizontal" Margin="0,0,0,24">
+            <Border CornerRadius="10" ClipToBounds="True" Width="164" Height="98">
+                <Border.Background>
+                    <ImageBrush ImageSource="/Resources/FluentFlyoutDemo4.1.png" Stretch="UniformToFill" />
+                </Border.Background>
+            </Border>
+            <TextBlock FontSize="14" FontWeight="Regular" HorizontalAlignment="Stretch" Opacity="0.75" Margin="12,0,0,0" MaxWidth="450" TextWrapping="WrapWithOverflow" Text="{DynamicResource NextUpDescription}" />
+        </StackPanel>
+        <ui:CardControl x:Name="EnableNextUpTitleCard" Tag="Indexable" Icon="{ui:SymbolIcon MusicNote2Play20}" Margin="0,0,0,24">
+            <ui:CardControl.Header>
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Text="{DynamicResource EnableNextUpTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
+                    <TextBlock Text="{DynamicResource EnableNextUpDescription}" FontSize="12" Opacity="0.5" />
                 </StackPanel>
-            </ui:CardControl>
-        </Grid>
+            </ui:CardControl.Header>
+            <ui:ToggleSwitch Name="NextUpSwitch" IsChecked="{Binding NextUpEnabled, Mode=TwoWay}" />
+        </ui:CardControl>
+        <ui:CardControl x:Name="NextUpStayDurationTitleCard" Tag="Indexable" Icon="{ui:SymbolIcon Timer24}" Margin="0,0,0,76">
+            <ui:CardControl.Header>
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Text="{DynamicResource NextUpStayDurationTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
+                    <TextBlock Text="{DynamicResource NextUpStayDurationDescription}" FontSize="12" Opacity="0.5" />
+                </StackPanel>
+            </ui:CardControl.Header>
+            <StackPanel Orientation="Horizontal">
+                <ui:TextBox Name="NextUpDurationTextBox" Width="60" ClearButtonEnabled="False" Text="{Binding NextUpDurationText, Mode=TwoWay}" />
+                <TextBlock Text="{DynamicResource MillisecondsUnit}" FontSize="14" FontWeight="Regular" Margin="10,0,0,0" VerticalAlignment="Center" />
+            </StackPanel>
+        </ui:CardControl>
     </StackPanel>
 </Page>

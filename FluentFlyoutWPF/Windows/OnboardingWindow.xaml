@@ -169,12 +169,11 @@
                 </Border>
             </Grid>
 
-            <Grid Grid.Row="2" Margin="0,24,0,0" ColumnDefinitions="*,Auto,Auto,Auto">
+            <Grid Grid.Row="2" Margin="0,24,0,0" ColumnDefinitions="*,Auto,Auto">
                 <TextBlock Text="{Binding StepProgressText}" VerticalAlignment="Center" Opacity="0.5" />
 
-                <!--<ui:Button Grid.Column="1" Appearance="Secondary" Content="Skip" Command="{Binding SkipCommand}" Padding="16,6" Margin="0,0,8,0" />-->
-                <ui:Button Grid.Column="2" Appearance="Transparent" Content="{DynamicResource Back}" Command="{Binding GoBackCommand}" Padding="32,8" Margin="0,0,8,0" BorderThickness="0" Visibility="{Binding CanGoBack, Converter={StaticResource BoolToVisibleCollapsedConverter}}" />
-                <ui:Button Grid.Column="3" Appearance="Primary" Content="{Binding NextButtonText}" Command="{Binding GoNextCommand}" Padding="32,8" />
+                <ui:Button Grid.Column="1" Appearance="Transparent" Content="{DynamicResource Back}" Command="{Binding GoBackCommand}" Padding="32,8" Margin="0,0,8,0" BorderThickness="0" Visibility="{Binding CanGoBack, Converter={StaticResource BoolToVisibleCollapsedConverter}}" />
+                <ui:Button Grid.Column="2" Appearance="Primary" Content="{Binding NextButtonText}" Command="{Binding GoNextCommand}" Padding="32,8" />
             </Grid>
         </Grid>
     </Grid>
