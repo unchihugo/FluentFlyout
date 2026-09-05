@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2024-2026 The FluentFlyout Authors
+// Copyright (c) 2024-2026 The FluentFlyout Authors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 // Portions of this code are derived from:
@@ -129,6 +129,7 @@ public partial class VolumeMixerWindow : MicaWindow
         _cts = new CancellationTokenSource();
         var token = _cts.Token;
 
+        Logger.Info("Volume flyout shown");
         try
         {
             while (!token.IsCancellationRequested)
@@ -160,6 +161,7 @@ public partial class VolumeMixerWindow : MicaWindow
 
                         WindowHelper.SetVisibility(this, false);
                         ViewModel.IsExpanded = false;
+                        Logger.Info("Volume flyout hidden");
                         break;
                     }
                 }
@@ -168,6 +170,22 @@ public partial class VolumeMixerWindow : MicaWindow
         catch (TaskCanceledException)
         {
             // do nothing
+        }
+        catch (Exception ex)
+        {
+            // Never let the auto-hide loop take the process down: an async void
+            // throw here is an abnormal exit with no further logging.
+            Logger.Error(ex, "Volume flyout loop failed, hiding flyout");
+            try
+            {
+                _isHiding = true;
+                WindowHelper.SetVisibility(this, false);
+                ViewModel.IsExpanded = false;
+            }
+            catch (Exception hideEx)
+            {
+                Logger.Debug(hideEx, "Volume flyout emergency hide failed");
+            }
         }
     }
 
@@ -197,38 +215,40 @@ public partial class VolumeMixerWindow : MicaWindow
     // derived from gpkgpk/HideVolumeOSD: https://github.com/gpkgpk/HideVolumeOSD
     private static void HideVolumeOsd()
     {
-        // find widget in XAML
-        IntPtr hwndXamlIsland, hwndOsd = IntPtr.Zero;
-        while ((hwndXamlIsland = FindWindowEx(IntPtr.Zero, IntPtr.Zero, "XamlExplorerHostIslandWindow", null)) != IntPtr.Zero)
+        // Enumerate top-level XAML islands properly: FindWindowEx with a NULL
+        // child-after handle always returns the FIRST match, so the previous
+        // code re-examined the same window forever (100% CPU spin) whenever it
+        // didn't meet the criteria, and could hide the wrong island's window.
+        IntPtr hwndOsd = IntPtr.Zero;
+        IntPtr hwndXamlIsland = IntPtr.Zero;
+
+        while ((hwndXamlIsland = FindWindowEx(IntPtr.Zero, hwndXamlIsland, "XamlExplorerHostIslandWindow", null)) != IntPtr.Zero)
         {
-            if (hwndXamlIsland == IntPtr.Zero)
+            IntPtr hwndBridge = IntPtr.Zero;
+            while ((hwndBridge = FindWindowEx(hwndXamlIsland, hwndBridge, "Windows.UI.Composition.DesktopWindowContentBridge", "DesktopWindowXamlSource")) != IntPtr.Zero)
             {
-                continue;
-            }
-
-            hwndOsd = FindWindowEx(hwndXamlIsland, IntPtr.Zero, "Windows.UI.Composition.DesktopWindowContentBridge", "DesktopWindowXamlSource");
-            if (hwndOsd == IntPtr.Zero)
-            {
-                continue;
-            }
-
-            // check if the child window has the expected class name and title
-            IntPtr hwndInputClass = FindWindowEx(hwndOsd, IntPtr.Zero, "Windows.UI.Input.InputSite.WindowClass", null);
-            if (hwndInputClass == IntPtr.Zero)
-            {
-                hwndOsd = IntPtr.Zero;
-                continue;
-            }
-
-            ShowWindow(hwndInputClass, 9); // SW_RESTORE
-            if (GetWindowRect(hwndInputClass, out RECT rect))
-            {
-                if (rect.Top == 0 && rect.Left == 0 && rect.Bottom == 0 && rect.Right == 0)
+                // check if the child window has the expected class name and title
+                IntPtr hwndInputClass = FindWindowEx(hwndBridge, IntPtr.Zero, "Windows.UI.Input.InputSite.WindowClass", null);
+                if (hwndInputClass == IntPtr.Zero)
                 {
-                    hwndOsd = IntPtr.Zero;
+                    continue;
                 }
-                else break;
+
+                ShowWindow(hwndInputClass, 9); // SW_RESTORE
+                if (GetWindowRect(hwndInputClass, out RECT rect))
+                {
+                    if (rect.Top == 0 && rect.Left == 0 && rect.Bottom == 0 && rect.Right == 0)
+                    {
+                        continue;
+                    }
+
+                    hwndOsd = hwndBridge;
+                    break;
+                }
             }
+
+            if (hwndOsd != IntPtr.Zero)
+                break;
         }
 
         if (hwndOsd == IntPtr.Zero)
@@ -246,6 +266,36 @@ public partial class VolumeMixerWindow : MicaWindow
             SWP_NOSIZE | SWP_NOZORDER | SWP_NOACTIVATE);
         ShowWindow(_nativeOsdElement, SW_MINIMIZE);
         Logger.Info("Successfully hid volume OSD.");
+    }
+
+    /// <summary>
+    /// Re-hides the native volume OSD after an Explorer restart. Explorer
+    /// recreates the OSD window (new HWND), so the previously hidden handle is
+    /// dead and the native flyout pops back until something re-hides it.
+    /// Retries briefly since the island can lag behind the taskbar.
+    /// </summary>
+    public static void RehideVolumeOsdAfterExplorerRestart()
+    {
+        _nativeOsdElement = IntPtr.Zero;
+        _ = Task.Run(async () =>
+        {
+            for (int attempt = 0; attempt < 6; attempt++)
+            {
+                try
+                {
+                    if (attempt > 0)
+                        await Task.Delay(2000);
+                    HideVolumeOsd();
+                    if (_nativeOsdElement != IntPtr.Zero)
+                        return;
+                }
+                catch (Exception ex)
+                {
+                    Logger.Debug(ex, "Native OSD re-hide attempt failed");
+                }
+            }
+            Logger.Warn("Could not re-hide native volume OSD after Explorer restart; will retry on next volume key press");
+        });
     }
 
     public static void ShowVolumeOsd()

@@ -41,6 +41,8 @@ public partial class MainWindow : MicaWindow
 
     private IntPtr _hookId = IntPtr.Zero;
     private LowLevelKeyboardProc _hookProc;
+    private Thread? _hookThread;
+    private uint _hookThreadId;
 
     private CancellationTokenSource cts; // to close the flyout after a certain time
     private long _lastFlyoutTime = 0;
@@ -61,6 +63,41 @@ public partial class MainWindow : MicaWindow
     private int _themeOption = SettingsManager.Current.AppTheme;
 
     static Mutex singleton = new Mutex(true, "FluentFlyout"); // to prevent multiple instances of the app
+
+    /// <summary>
+    /// True when another same-named process started very recently (boot/login
+    /// storms, duplicate autostart entries). Used to swallow the
+    /// open-settings signal such launches would otherwise trigger.
+    /// </summary>
+    private static bool IsFirstInstanceStartingUp()
+    {
+        try
+        {
+            using var me = Process.GetCurrentProcess();
+            foreach (var proc in Process.GetProcessesByName(me.ProcessName))
+            {
+                try
+                {
+                    if (proc.Id != me.Id &&
+                        (DateTime.UtcNow - proc.StartTime.ToUniversalTime()).TotalSeconds < 30)
+                        return true;
+                }
+                catch
+                {
+                    // process exited or start time unreadable; ignore
+                }
+                finally
+                {
+                    try { proc.Dispose(); } catch { }
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger.Debug(ex, "Failed to check first-instance startup age");
+        }
+        return false;
+    }
     private NextUpWindow? nextUpWindow = null; // to prevent multiple instances of NextUpWindow
     private string currentTitle = ""; // to prevent NextUpWindow from showing the same song
 
@@ -99,6 +136,17 @@ public partial class MainWindow : MicaWindow
 
         if (!singleton.WaitOne(TimeSpan.Zero, true)) // if another instance is already running, close this one
         {
+            // A second launch with no live user behind it (duplicate autostart
+            // entries, boot storms, updater re-launch) must not pop the
+            // settings window on the running instance (#1029: window appearing
+            // on every boot). Only forward the open-settings signal when the
+            // first instance is past its startup window.
+            if (IsFirstInstanceStartingUp())
+            {
+                Logger.Info("Duplicate launch during first-instance startup; exiting silently without opening settings.");
+                Environment.Exit(0);
+            }
+
             // Signal the existing instance to open settings
             Task.Run(() =>
             {
@@ -172,7 +220,13 @@ public partial class MainWindow : MicaWindow
         mediaManager.Start();
 
         _hookProc = HookCallback;
-        _hookId = SetHook(_hookProc);
+        // Install the low-level keyboard hook on a dedicated thread with its
+        // own message pump. Hook callbacks run on the installing thread, so
+        // installing on the UI thread delayed every keystroke system-wide
+        // whenever the UI thread was busy (song-info/thumbnail fetches),
+        // producing keyboard-only input lag with no CPU spike (#1083).
+        _hookThread = new Thread(HookThreadProc) { IsBackground = true, Name = "FluentFlyout Keyboard Hook" };
+        _hookThread.Start();
 
         WindowStartupLocation = WindowStartupLocation.Manual;
         Left = -Width - 20; // workaround for window appearing on the screen before the animation starts
@@ -550,6 +604,8 @@ public partial class MainWindow : MicaWindow
         else if (alwaysBottom == false)
         {
             _position = SettingsManager.Current.Position;
+            if (_position < 0 || _position > 5)
+                _position = 1; // corrupted setting: fall back to bottom-center so the flyout always lands on-screen
             if (_position == 0)
             {
                 window_left = workArea.Left + 16;
@@ -621,6 +677,11 @@ public partial class MainWindow : MicaWindow
         // Set the initial position in raw coordinates.
         WindowHelper.SetPosition(window, window_left, moveAnimation.From!.Value);
 
+        // Capture the exact resting position in raw pixels before converting to
+        // DIPs below; used for the post-animation correction.
+        double restLeftRaw = window_left;
+        double restTopRaw = moveAnimation.To ?? moveAnimation.From.Value;
+
         // Next coordinates will be used to set Window.Top, which takes DPI into account,
         // so we need to convert the coordinates to DPI scale.
         moveAnimation.From *= 96.0 / monitor.dpiY;
@@ -640,6 +701,37 @@ public partial class MainWindow : MicaWindow
         storyboard.Begin(window);
         WindowHelper.SetVisibility(window, true);
         WindowHelper.SetTopmost(window);
+
+        Logger.Info($"Flyout '{window.GetType().Name}' shown at raw ({restLeftRaw:0}, {restTopRaw:0}) on '{monitor.deviceName}' ({monitor.workArea.Width:0}x{monitor.workArea.Height:0}@{monitor.workArea.Left:0},{monitor.workArea.Top:0} dpiY={monitor.dpiY})");
+
+        // Guarantee the resting position in raw pixels once the flight ends. On
+        // mixed-DPI multi-monitor setups the DIP scaling above can race the
+        // window's DPI flip, stranding the flyout off-screen so it never
+        // appears. The async correction is a no-op when already correct.
+        _ = Task.Run(async () =>
+        {
+            try { await Task.Delay(msDuration + 150); } catch { return; }
+            try
+            {
+                await Dispatcher.InvokeAsync(() =>
+                {
+                    try
+                    {
+                        if (!window.IsVisible)
+                            return;
+                        WindowHelper.SetPosition(window, restLeftRaw, restTopRaw, async: true);
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.Debug(ex, "Flyout resting-position correction failed");
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                Logger.Debug(ex, "Flyout resting-position dispatch failed");
+            }
+        });
     }
 
     public void CloseAnimation(MicaWindow window, MonitorInfo? selectedMonitor = null)
@@ -651,21 +743,46 @@ public partial class MainWindow : MicaWindow
         DoubleAnimation moveAnimation = (DoubleAnimation)storyboard.Children[0];
         var monitor = selectedMonitor != null ? selectedMonitor.Value : getSelectedMonitor();
         var workArea = monitor.workArea;
-        Rect windowRect = WindowHelper.GetPlacement(window);
+
+        // Use the window's actual current rendered position as the animation
+        // start. GetWindowPlacement can report zeros for transient handles and
+        // the selected monitor's DPI may differ from the monitor hosting the
+        // flyout - either made From wrong, so the first frame snapped
+        // (flyout jumps upward) before animating downward.
+        double dpiY = monitor.dpiY;
+        double currentTopPhys = double.NaN;
+        try
+        {
+            currentTopPhys = window.PointToScreen(new Point(0, 0)).Y;
+            var host = MonitorUtil.GetMonitor(window);
+            if (host.dpiY > 0)
+                dpiY = host.dpiY;
+        }
+        catch (Exception ex)
+        {
+            Logger.Debug(ex, "CloseAnimation PointToScreen failed, falling back to placement");
+        }
+        var placementRect = WindowHelper.GetPlacement(window);
+        if (double.IsNaN(currentTopPhys))
+            currentTopPhys = placementRect.Top;
+        if (dpiY <= 0)
+            dpiY = 96;
 
         // Use the window's actual current position as the animation start
-        moveAnimation.From = windowRect.Top;
+        moveAnimation.From = currentTopPhys * 96.0 / dpiY;
 
+        // Determine slide direction (physical pixels throughout)
+        bool isTopHalf = currentTopPhys + placementRect.Height / 2 < workArea.Top + workArea.Height / 2;
         if (SettingsManager.Current.FlyoutAnimationSpeed != 0)
         {
-            // Determine slide direction
-            bool isTopHalf = windowRect.Top + windowRect.Height / 2 < workArea.Top + workArea.Height / 2;
-            moveAnimation.To = windowRect.Top + (isTopHalf ? -20 : 20);
+            moveAnimation.To = moveAnimation.From + (isTopHalf ? -20 : 20);
         }
-
-        moveAnimation.From *= 96.0 / monitor.dpiY;
-        if (moveAnimation.To != null)
-            moveAnimation.To *= 96.0 / monitor.dpiY;
+        else
+        {
+            // Animations off: still pin To to From so a stale storyboard value
+            // can't teleport the window on the zero-duration snap.
+            moveAnimation.To = moveAnimation.From;
+        }
 
         int msDuration = getDuration();
 
@@ -905,6 +1022,64 @@ public partial class MainWindow : MicaWindow
         return SetWindowsHookEx(WH_KEYBOARD_LL, proc, GetModuleHandle(curModule.ModuleName), 0);
     }
 
+    /// <summary>
+    /// Installs the keyboard hook and pumps messages on the dedicated hook
+    /// thread until shutdown. Never touches UI objects here: callbacks must
+    /// return to Windows immediately and marshal UI work via the Dispatcher.
+    /// </summary>
+    private void HookThreadProc()
+    {
+        try
+        {
+            _hookThreadId = GetCurrentThreadId();
+            _hookId = SetHook(_hookProc);
+            while (_hookId != IntPtr.Zero && GetMessage(out FluentFlyout.Classes.NativeMethods.MSG msg, IntPtr.Zero, 0, 0) > 0)
+            {
+                TranslateMessage(ref msg);
+                DispatchMessage(ref msg);
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger.Error(ex, "Keyboard hook thread failed");
+        }
+        finally
+        {
+            if (_hookId != IntPtr.Zero)
+            {
+                UnhookWindowsHookEx(_hookId);
+                _hookId = IntPtr.Zero;
+            }
+        }
+    }
+
+    private void StopHookThread()
+    {
+        try
+        {
+            uint threadId = _hookThreadId;
+            _hookThreadId = 0;
+            if (threadId != 0)
+                PostThreadMessage(threadId, WM_QUIT, UIntPtr.Zero, IntPtr.Zero);
+            // The thread unhooks itself on exit; bounded wait so shutdown
+            // never hangs if the pump is stuck.
+            _hookThread?.Join(TimeSpan.FromSeconds(3));
+            if (_hookId != IntPtr.Zero)
+            {
+                UnhookWindowsHookEx(_hookId);
+                _hookId = IntPtr.Zero;
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger.Debug(ex, "Failed to stop keyboard hook thread");
+        }
+        finally
+        {
+            _hookThread = null;
+        }
+    }
+
     private IntPtr HookCallback(int nCode, IntPtr wParam, IntPtr lParam)
     {
         if (nCode >= 0 && (wParam == WM_KEYDOWN || wParam == WM_KEYUP))
@@ -914,22 +1089,65 @@ public partial class MainWindow : MicaWindow
             bool mediaKeysPressed = vkCode == 0xB3 || vkCode == 0xB0 || vkCode == 0xB1 || vkCode == 0xB2; // Play/Pause, next, previous, stop
             bool volumeKeysPressed = vkCode == 0xAD || vkCode == 0xAE || vkCode == 0xAF; // Mute, Volume Down, Volume Up
 
-            // MainWindow.WndProc() also handles media and volume keys
+            // MainWindow.WndProc() also handles media and volume keys.
+            // NOTE: a low-level keyboard hook must return to Windows immediately.
+            // ShowMediaFlyout does blocking UI/COM work (Dispatcher.Invoke, media
+            // property fetches, animations); doing it synchronously here stalls
+            // every keystroke system-wide and Windows silently drops slow hooks,
+            // which breaks Alt+Tab and the media keys themselves over time
+            // (worse at boot when everything is slow). Queue it instead.
             if (mediaKeysPressed || volumeKeysPressed)
             {
-                bool result = false;
                 if (mediaKeysPressed || (!SettingsManager.Current.MediaFlyoutVolumeKeysExcluded && volumeKeysPressed))
-                    result = TryShowMediaFlyoutDebounced();
-
-                if (SettingsManager.Current.VolumeControlEnabled)
                 {
-                    volumeMixerWindow?.ViewModel.SyncMasterFromDevice();
-                    volumeMixerWindow?.ShowFlyout();
+                    long currentTime = Environment.TickCount64;
+                    // debounce to prevent hangs with rapid key presses
+                    if ((currentTime - _lastFlyoutTime) >= 500) // 500ms debounce time
+                    {
+                        _lastFlyoutTime = currentTime;
+                        _ = Dispatcher.BeginInvoke(() =>
+                        {
+                            try { ShowMediaFlyout(); }
+                            catch (Exception ex) { Logger.Debug(ex, "Show media flyout from hook failed"); }
+                        });
+                    }
                 }
 
-                if (!result)
+                if (SettingsManager.Current.VolumeControlEnabled && volumeMixerWindow != null)
                 {
-                    return CallNextHookEx(_hookId, nCode, wParam, lParam);
+                    // SyncMasterFromDevice is dispatcher-aware (marshals to UI thread itself).
+                    // ShowFlyout is queued to the UI thread so this hook returns to
+                    // Windows immediately. The hook fires before the OS applies the
+                    // volume step, so the live OnVolumeNotification subscription in
+                    // VolumeMixerViewModel is the source of truth for the final value.
+                    var mixerWindow = volumeMixerWindow;
+                    try
+                    {
+                        mixerWindow.ViewModel.SyncMasterFromDevice();
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.Debug(ex, "Volume sync from hook failed");
+                    }
+                    try
+                    {
+                        if (Dispatcher.CheckAccess())
+                        {
+                            mixerWindow.ShowFlyout();
+                        }
+                        else
+                        {
+                            _ = Dispatcher.BeginInvoke(() =>
+                            {
+                                try { mixerWindow.ShowFlyout(); }
+                                catch (Exception ex) { Logger.Debug(ex, "Show volume flyout from hook failed"); }
+                            });
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.Debug(ex, "Failed to dispatch volume flyout");
+                    }
                 }
             }
 
@@ -937,25 +1155,32 @@ public partial class MainWindow : MicaWindow
                 && !FullscreenDetector.IsFullscreenApplicationRunning()
                 && wParam == WM_KEYUP)
             {
-                if (vkCode == 0x14 && SettingsManager.Current.LockKeysCapsEnabled) // Caps Lock
+                // Window creation and resource/keyboard-state reads are
+                // UI-thread affine: the hook now runs on its own thread, so
+                // marshal the whole presentation step to the Dispatcher.
+                (string resourceKey, Key toggleKey)? lockInfo = vkCode switch
                 {
-                    lockWindow ??= new LockWindow();
-                    lockWindow.ShowLockFlyout(FindResource("LockWindow_CapsLock").ToString(), Keyboard.IsKeyToggled(Key.CapsLock));
-                }
-                else if (vkCode == 0x90 && SettingsManager.Current.LockKeysNumEnabled) // Num Lock
+                    0x14 when SettingsManager.Current.LockKeysCapsEnabled => ("LockWindow_CapsLock", Key.CapsLock),
+                    0x90 when SettingsManager.Current.LockKeysNumEnabled => ("LockWindow_NumLock", Key.NumLock),
+                    0x91 when SettingsManager.Current.LockKeysScrollEnabled => ("LockWindow_ScrollLock", Key.Scroll),
+                    0x2D when SettingsManager.Current.LockKeysInsertEnabled => ("Insert", Key.Insert),
+                    _ => null
+                };
+                if (lockInfo is { } info)
                 {
-                    lockWindow ??= new LockWindow();
-                    lockWindow.ShowLockFlyout(FindResource("LockWindow_NumLock").ToString(), Keyboard.IsKeyToggled(Key.NumLock));
-                }
-                else if (vkCode == 0x91 && SettingsManager.Current.LockKeysScrollEnabled) // Scroll Lock
-                {
-                    lockWindow ??= new LockWindow();
-                    lockWindow.ShowLockFlyout(FindResource("LockWindow_ScrollLock").ToString(), Keyboard.IsKeyToggled(Key.Scroll));
-                }
-                else if (vkCode == 0x2D && SettingsManager.Current.LockKeysInsertEnabled) // Insert
-                {
-                    lockWindow ??= new LockWindow();
-                    lockWindow.ShowLockFlyout("Insert", Keyboard.IsKeyToggled(Key.Insert));
+                    _ = Dispatcher.BeginInvoke(() =>
+                    {
+                        try
+                        {
+                            lockWindow ??= new LockWindow();
+                            // "Insert" has no matching resource, so skip the lookup; fall
+                            // back to the key itself if the resource is ever missing.
+                            object? resource = info.resourceKey == "Insert" ? null : FindResource(info.resourceKey);
+                            string label = resource?.ToString() ?? info.resourceKey;
+                            lockWindow.ShowLockFlyout(label, Keyboard.IsKeyToggled(info.toggleKey));
+                        }
+                        catch (Exception ex) { Logger.Debug(ex, "Show lock flyout from hook failed"); }
+                    });
                 }
             }
         }
@@ -979,10 +1204,13 @@ public partial class MainWindow : MicaWindow
     public async void ShowMediaFlyout(bool toggleMode = false, bool forceShow = false)
     {
         var activeSession = GetActiveMediaSession();
-        if (activeSession == null ||
-            (!forceShow && !SettingsManager.Current.MediaFlyoutEnabled) ||
-            FullscreenDetector.IsFullscreenApplicationRunning())
+        bool flyoutEnabled = forceShow || SettingsManager.Current.MediaFlyoutEnabled;
+        bool fullscreenBlock = FullscreenDetector.IsFullscreenApplicationRunning();
+        if (activeSession == null || !flyoutEnabled || fullscreenBlock)
+        {
+            Logger.Info($"ShowMediaFlyout suppressed: session={(activeSession == null ? "none" : activeSession.Id)}, enabled={flyoutEnabled}, fullscreenBlock={fullscreenBlock}");
             return;
+        }
 
         // If in toggle mode and flyout is visible, close it
         if (toggleMode && Visibility == Visibility.Visible && !_isHiding)
@@ -1062,6 +1290,21 @@ public partial class MainWindow : MicaWindow
         catch (TaskCanceledException)
         {
             // task was canceled, do nothing
+        }
+        catch (Exception ex)
+        {
+            // Never let the auto-hide loop take the process down: an async void
+            // throw here is an abnormal exit with no further logging.
+            Logger.Error(ex, "Media flyout loop failed, hiding flyout");
+            try
+            {
+                _isHiding = true;
+                Hide();
+            }
+            catch (Exception hideEx)
+            {
+                Logger.Debug(hideEx, "Media flyout emergency hide failed");
+            }
         }
     }
 
@@ -1760,6 +2003,14 @@ public partial class MainWindow : MicaWindow
 
                         // Now it is safe to recreate tray icon
                         RecreateTrayIconSafely();
+
+                        // Explorer recreates the native volume OSD window, so a
+                        // previously hidden OSD comes back until re-hidden.
+                        if (SettingsManager.Current.VolumeControlEnabled)
+                        {
+                            Logger.Info("Re-hiding native volume OSD after Explorer restart");
+                            VolumeMixerWindow.RehideVolumeOsdAfterExplorerRestart();
+                        }
                     }
                     else
                     {
@@ -1966,12 +2217,21 @@ public partial class MainWindow : MicaWindow
         return Task.WhenAll(
             mediaManager.CurrentMediaSessions.Values.Select(session =>
             {
-                if (
-                    session.Id != currentMediaSession.Id &&
-                    session.ControlSession.GetPlaybackInfo().PlaybackStatus == GlobalSystemMediaTransportControlsSessionPlaybackStatus.Playing
-                )
+                try
                 {
-                    return session.ControlSession.TryPauseAsync().AsTask();
+                    if (
+                        session.Id != currentMediaSession.Id &&
+                        session.ControlSession?.GetPlaybackInfo().PlaybackStatus == GlobalSystemMediaTransportControlsSessionPlaybackStatus.Playing
+                    )
+                    {
+                        return session.ControlSession.TryPauseAsync().AsTask();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Fire-and-forget fan-out: one dead session must not fail
+                    // the whole batch (or go unobserved).
+                    Logger.Debug(ex, "Failed to auto-pause session {0}", session.Id);
                 }
                 return Task.CompletedTask;
             })

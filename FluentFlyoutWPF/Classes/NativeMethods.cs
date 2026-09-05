@@ -69,6 +69,9 @@ public static partial class NativeMethods
     internal const int APPCOMMAND_MEDIA_PLAY_PAUSE = 14;
     internal const int FAPPCOMMAND_KEY = 0x0000;
 
+    // Process Access Rights
+    internal const uint PROCESS_QUERY_LIMITED_INFORMATION = 0x1000;
+
     #endregion
 
     #region Enums
@@ -331,6 +334,37 @@ public static partial class NativeMethods
 
     [LibraryImport("user32.dll", SetLastError = true)]
     internal static partial IntPtr CallNextHookEx(IntPtr hhk, int nCode, IntPtr wParam, IntPtr lParam);
+
+    // Message pump for the dedicated keyboard-hook thread (#1083)
+    internal const uint WM_QUIT = 0x0012;
+
+    [StructLayout(LayoutKind.Sequential)]
+    internal struct MSG
+    {
+        public IntPtr hwnd;
+        public uint message;
+        public UIntPtr wParam;
+        public IntPtr lParam;
+        public uint time;
+        public POINT pt;
+    }
+
+    [LibraryImport("user32.dll", EntryPoint = "GetMessageW", SetLastError = true)]
+    internal static partial int GetMessage(out MSG lpMsg, IntPtr hWnd, uint wMsgFilterMin, uint wMsgFilterMax);
+
+    [LibraryImport("user32.dll", SetLastError = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static partial bool TranslateMessage(ref MSG lpMsg);
+
+    [LibraryImport("user32.dll", SetLastError = true)]
+    internal static partial IntPtr DispatchMessage(ref MSG lpMsg);
+
+    [LibraryImport("user32.dll", SetLastError = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static partial bool PostThreadMessage(uint idThread, uint Msg, UIntPtr wParam, IntPtr lParam);
+
+    [LibraryImport("kernel32.dll")]
+    internal static partial uint GetCurrentThreadId();
 
     [LibraryImport("user32.dll", SetLastError = true)]
     [return: MarshalAs(UnmanagedType.Bool)]

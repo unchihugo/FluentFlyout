@@ -131,9 +131,23 @@ namespace FluentFlyoutWPF.Classes
             if (!SettingsManager.Current.TaskbarVisualizerEnabled)
                 return;
 
-            if (e.Mode == PowerModes.Resume)
+            if (e.Mode == PowerModes.Suspend)
             {
-                RequestRestart("power resume");
+                // Release WASAPI before S3 sleep so the AudioClient isn't left invalidated.
+                try { Stop(); } catch (Exception ex) { Logger.Debug(ex, "Visualizer stop on suspend failed"); }
+                _deviceId = null;
+            }
+            else if (e.Mode == PowerModes.Resume)
+            {
+                // Desktop S3 resume often fires no DefaultDeviceChanged (same endpoint),
+                // and the audio stack needs seconds to come back. Drop the cached device
+                // ID so restart re-resolves the default, then retry with backoff.
+                _deviceId = null;
+                Task.Run(async () =>
+                {
+                    try { await Task.Delay(2500); } catch { }
+                    RequestRestart("power resume");
+                });
             }
         }
 
@@ -159,7 +173,7 @@ namespace FluentFlyoutWPF.Classes
             RequestRestart("default audio output device changed");
         }
 
-        private void RequestRestart(string reason)
+        private void RequestRestart(string reason, bool allowFollowUp = true)
         {
             if (!SettingsManager.Current.TaskbarVisualizerEnabled)
                 return;
@@ -175,13 +189,32 @@ namespace FluentFlyoutWPF.Classes
                 {
                     Stop();
 
-                    for (int attempt = 0; attempt < 5; attempt++)
+                    for (int attempt = 0; attempt < 10; attempt++)
                     {
-                        await Task.Delay(500);
+                        await Task.Delay(800);
+                        if (!SettingsManager.Current.TaskbarVisualizerEnabled)
+                            return;
                         Start();
                         if (_isRunning)
+                        {
+                            if (attempt > 0)
+                                Logger.Info($"Visualizer restart succeeded on attempt {attempt + 1} ({reason})");
                             return;
+                        }
                         Logger.Warn($"Visualizer restart attempt {attempt + 1} failed, retrying...");
+                    }
+
+                    // S3 resume can leave the audio stack unavailable longer than the
+                    // retry window (or with no further system event to trigger us).
+                    // Schedule one delayed follow-up instead of staying dead forever.
+                    if (allowFollowUp && SettingsManager.Current.TaskbarVisualizerEnabled && !_isRunning)
+                    {
+                        Logger.Warn("Visualizer still not running after retries, scheduling delayed recovery");
+                        _ = Task.Run(async () =>
+                        {
+                            try { await Task.Delay(TimeSpan.FromSeconds(15)); } catch { }
+                            RequestRestart($"delayed recovery: {reason}", allowFollowUp: false);
+                        });
                     }
                 }
                 catch (Exception ex)
@@ -238,24 +271,40 @@ namespace FluentFlyoutWPF.Classes
                 };
                 _captureWatchdog.Elapsed += (_, _) =>
                 {
-                    if (_isRunning)
+                    try
                     {
-                        for (int i = 0; i < _barValues.Length; i++)
+                        if (!_isRunning)
+                            return;
+
+                        if (_barValues != null)
                         {
-                            _barValues[i] = 0;
+                            for (int i = 0; i < _barValues.Length; i++)
+                            {
+                                _barValues[i] = 0;
+                            }
                         }
                         UpdateBitmap();
 
                         if (!SettingsManager.Current.TaskbarVisualizerBaseline || SettingsManager.Current.TaskbarVisualizerBaselineAutoHide) // if baseline is enabled and autohide is off, condition is false
                             SettingsManager.Current.TaskbarVisualizerHasContent = false;
 
-                        // If we stop receiving loopback callbacks entirely (common after lock/unlock + device changes),
-                        // the timer fires once and then never again. Use it as a recovery trigger.
+                        // If we stop receiving loopback callbacks entirely (common after sleep/lock + device changes),
+                        // use it as a recovery trigger. The timer is single-shot and re-armed on
+                        // every DataAvailable, so re-arm it here while the silence is still
+                        // short; otherwise it would fire once and never watch again.
                         var silenceFor = DateTime.UtcNow - _lastDataAvailableUtc;
                         if (silenceFor > TimeSpan.FromSeconds(2))
                         {
                             RequestRestart($"no audio callbacks for {silenceFor.TotalSeconds:0.0}s");
                         }
+                        else if (_isRunning && _captureWatchdog != null)
+                        {
+                            try { _captureWatchdog.Start(); } catch { }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.Debug(ex, "Visualizer watchdog tick failed");
                     }
                 };
             }
@@ -286,6 +335,32 @@ namespace FluentFlyoutWPF.Classes
             _captureWatchdog = null;
         }
 
+        /// <summary>
+        /// Decodes one PCM sample from a loopback buffer at the given byte offset.
+        /// </summary>
+        private static float ReadLoopbackSample(byte[] buffer, int offset, int bytesPerSample, bool isFloat)
+        {
+            if (isFloat && bytesPerSample == 4)
+                return BitConverter.ToSingle(buffer, offset);
+
+            return bytesPerSample switch
+            {
+                1 => (buffer[offset] - 128) / 128f,
+                2 => BitConverter.ToInt16(buffer, offset) / 32768f,
+                3 => Decode24Bit(buffer, offset) / 8388608f,
+                4 => BitConverter.ToInt32(buffer, offset) / 2147483648f,
+                _ => 0f,
+            };
+        }
+
+        private static int Decode24Bit(byte[] buffer, int offset)
+        {
+            int value = buffer[offset] | (buffer[offset + 1] << 8) | (buffer[offset + 2] << 16);
+            if ((value & 0x800000) != 0)
+                value |= unchecked((int)0xFF000000); // sign-extend
+            return value;
+        }
+
         private void OnDataAvailable(object? sender, WaveInEventArgs e)
         {
             if (!_isRunning || e.BytesRecorded == 0)
@@ -293,23 +368,36 @@ namespace FluentFlyoutWPF.Classes
 
             _lastDataAvailableUtc = DateTime.UtcNow;
 
-            _captureWatchdog.Stop();
-            _captureWatchdog.Start();
-
-            int bytesPerSample = _capture!.WaveFormat.BitsPerSample / 8;
-            int samplesRecorded = e.BytesRecorded / bytesPerSample;
-
-            for (int i = 0; i < samplesRecorded; i++)
+            try
             {
-                float sampleValue = 0;
-                if (bytesPerSample == 4)
+                _captureWatchdog?.Stop();
+                _captureWatchdog?.Start();
+            }
+            catch (ObjectDisposedException) { }
+
+            // Decode loopback frames honoring the mix format. The old code assumed
+            // 16-bit int or 32-bit float and treated interleaved channels as mono
+            // samples: 24-bit streams (common with spatial/Dolby Atmos pipelines)
+            // decoded as permanent silence, and 6/8-channel streams fed the FFT
+            // at multiples of the real rate. Downmix every frame to mono instead.
+            var waveFormat = _capture!.WaveFormat;
+            int bytesPerSample = waveFormat.BitsPerSample / 8;
+            int channels = Math.Max(1, waveFormat.Channels);
+            bool isFloat = waveFormat.Encoding == WaveFormatEncoding.IeeeFloat;
+            int bytesPerFrame = bytesPerSample * channels;
+            int framesRecorded = bytesPerFrame > 0 ? e.BytesRecorded / bytesPerFrame : 0;
+
+            for (int frame = 0; frame < framesRecorded; frame++)
+            {
+                double mixed = 0;
+                int frameOffset = frame * bytesPerFrame;
+                for (int ch = 0; ch < channels; ch++)
                 {
-                    sampleValue = BitConverter.ToSingle(e.Buffer, i * 4);
+                    mixed += ReadLoopbackSample(e.Buffer, frameOffset + ch * bytesPerSample, bytesPerSample, isFloat);
                 }
-                else if (bytesPerSample == 2)
-                {
-                    sampleValue = BitConverter.ToInt16(e.Buffer, i * 2) / 32768f;
-                }
+                float sampleValue = (float)(mixed / channels);
+                if (!float.IsFinite(sampleValue))
+                    sampleValue = 0;
 
                 _fftBuffer[_fftPos].X = (float)(sampleValue * FastFourierTransform.HammingWindow(_fftPos, _fftLength));
                 _fftBuffer[_fftPos].Y = 0;
@@ -662,6 +750,10 @@ namespace FluentFlyoutWPF.Classes
             if (e.Exception != null)
             {
                 Logger.Error(e.Exception, "Visualizer recording stopped due to an error");
+                // Abnormal stop (e.g. device invalidated across sleep): our own Stop()
+                // unsubscribes first, so this path means WASAPI died underneath us.
+                if (SettingsManager.Current.TaskbarVisualizerEnabled)
+                    RequestRestart($"recording stopped: {e.Exception.Message}");
             }
         }
 
