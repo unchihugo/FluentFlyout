@@ -89,6 +89,7 @@ Read more about the project's model in the [Sustainability & The Microsoft Store
 
 > Looking for FluentFlyout Settings? You can access it by clicking the system tray icon
 ### Using .msixbundle installer
+> **Prerequisite:** the GitHub build requires the [.NET 10 Desktop Runtime (x64)](https://aka.ms/dotnet/10.0/windowsdesktop-runtime-win-x64.exe). Without it, the package installs but the app silently fails to start.
 1. Go to the [latest release](https://github.com/unchihugo/FluentFlyout/releases/latest) page
 2. Download the **"*.cer"** file *(real certificates cost a lot of money)*
 3. Open the certificate and press **"Install Certificate..."**
