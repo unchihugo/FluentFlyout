@@ -331,6 +331,32 @@ namespace FluentFlyoutWPF.Classes
             _captureWatchdog = null;
         }
 
+        /// <summary>
+        /// Decodes one PCM sample from a loopback buffer at the given byte offset.
+        /// </summary>
+        private static float ReadLoopbackSample(byte[] buffer, int offset, int bytesPerSample, bool isFloat)
+        {
+            if (isFloat && bytesPerSample == 4)
+                return BitConverter.ToSingle(buffer, offset);
+
+            return bytesPerSample switch
+            {
+                1 => (buffer[offset] - 128) / 128f,
+                2 => BitConverter.ToInt16(buffer, offset) / 32768f,
+                3 => Decode24Bit(buffer, offset) / 8388608f,
+                4 => BitConverter.ToInt32(buffer, offset) / 2147483648f,
+                _ => 0f,
+            };
+        }
+
+        private static int Decode24Bit(byte[] buffer, int offset)
+        {
+            int value = buffer[offset] | (buffer[offset + 1] << 8) | (buffer[offset + 2] << 16);
+            if ((value & 0x800000) != 0)
+                value |= unchecked((int)0xFF000000); // sign-extend
+            return value;
+        }
+
         private void OnDataAvailable(object? sender, WaveInEventArgs e)
         {
             if (!_isRunning || e.BytesRecorded == 0)
@@ -345,20 +371,29 @@ namespace FluentFlyoutWPF.Classes
             }
             catch (ObjectDisposedException) { }
 
-            int bytesPerSample = _capture!.WaveFormat.BitsPerSample / 8;
-            int samplesRecorded = e.BytesRecorded / bytesPerSample;
+            // Decode loopback frames honoring the mix format. The old code assumed
+            // 16-bit int or 32-bit float and treated interleaved channels as mono
+            // samples: 24-bit streams (common with spatial/Dolby Atmos pipelines)
+            // decoded as permanent silence, and 6/8-channel streams fed the FFT
+            // at multiples of the real rate. Downmix every frame to mono instead.
+            var waveFormat = _capture!.WaveFormat;
+            int bytesPerSample = waveFormat.BitsPerSample / 8;
+            int channels = Math.Max(1, waveFormat.Channels);
+            bool isFloat = waveFormat.Encoding == WaveFormatEncoding.IeeeFloat;
+            int bytesPerFrame = bytesPerSample * channels;
+            int framesRecorded = bytesPerFrame > 0 ? e.BytesRecorded / bytesPerFrame : 0;
 
-            for (int i = 0; i < samplesRecorded; i++)
+            for (int frame = 0; frame < framesRecorded; frame++)
             {
-                float sampleValue = 0;
-                if (bytesPerSample == 4)
+                double mixed = 0;
+                int frameOffset = frame * bytesPerFrame;
+                for (int ch = 0; ch < channels; ch++)
                 {
-                    sampleValue = BitConverter.ToSingle(e.Buffer, i * 4);
+                    mixed += ReadLoopbackSample(e.Buffer, frameOffset + ch * bytesPerSample, bytesPerSample, isFloat);
                 }
-                else if (bytesPerSample == 2)
-                {
-                    sampleValue = BitConverter.ToInt16(e.Buffer, i * 2) / 32768f;
-                }
+                float sampleValue = (float)(mixed / channels);
+                if (!float.IsFinite(sampleValue))
+                    sampleValue = 0;
 
                 _fftBuffer[_fftPos].X = (float)(sampleValue * FastFourierTransform.HammingWindow(_fftPos, _fftLength));
                 _fftBuffer[_fftPos].Y = 0;
