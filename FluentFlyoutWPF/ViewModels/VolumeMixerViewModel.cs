@@ -401,9 +401,18 @@ public partial class VolumeMixerViewModel : ObservableObject, IDisposable
 
         foreach (var session in Sessions)
         {
-            session.SyncFromDevice();
-            //Logger.Trace("Session '{0}' (PID {1}) - Volume: {2}, Muted: {3}, State: {4}",
-            //    session.DisplayName, session.ProcessId, session.Volume, session.IsMuted, session.State);
+            try
+            {
+                session.SyncFromDevice();
+                //Logger.Trace("Session '{0}' (PID {1}) - Volume: {2}, Muted: {3}, State: {4}",
+                //    session.DisplayName, session.ProcessId, session.Volume, session.IsMuted, session.State);
+            }
+            catch (Exception ex)
+            {
+                // A single dead session (process exited mid-poll) must not break
+                // the mixer refresh, let alone the flyout loop calling us.
+                Logger.Debug(ex, "Failed to sync session '{0}' (PID {1})", session.DisplayName, session.ProcessId);
+            }
         }
     }
 

@@ -1068,6 +1068,21 @@ public partial class MainWindow : MicaWindow
         {
             // task was canceled, do nothing
         }
+        catch (Exception ex)
+        {
+            // Never let the auto-hide loop take the process down: an async void
+            // throw here is an abnormal exit with no further logging.
+            Logger.Error(ex, "Media flyout loop failed, hiding flyout");
+            try
+            {
+                _isHiding = true;
+                Hide();
+            }
+            catch (Exception hideEx)
+            {
+                Logger.Debug(hideEx, "Media flyout emergency hide failed");
+            }
+        }
     }
 
     private void UpdateMediaFlyoutCloseButtonVisibility()

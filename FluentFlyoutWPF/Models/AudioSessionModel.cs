@@ -60,6 +60,7 @@ public partial class AudioSessionModel : ObservableObject
 
     partial void OnIsMutedChanged(bool value)
     {
+        if (_syncing) return;
         _sessionControl.SimpleAudioVolume.Mute = value;
     }
 
