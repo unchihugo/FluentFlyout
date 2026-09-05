@@ -163,10 +163,10 @@ Puoi contribuire alla traduzione su</system:String>
     <system:String x:Key="UpdateAvailable">Aggiornamento disponibile</system:String>
     <system:String x:Key="UpToDate">Aggiornato</system:String>
     <system:String x:Key="LastChecked">Ultimo controllo: {0}</system:String>
-    <system:String x:Key="CheckingForUpdates">Controllando...</system:String>
+    <system:String x:Key="CheckingForUpdates">Ricerca in corso...</system:String>
     <system:String x:Key="UpdateAvailableNotificationTitle">Aggiornamento disponibile!</system:String>
     <system:String x:Key="UpdateAvailableNotificationMessage">Una nuova versione ({0}) è disponibile.</system:String>
-    <system:String x:Key="UpdateAvailableNotificationButton">Scarica Aggiornamento</system:String>
+    <system:String x:Key="UpdateAvailableNotificationButton">Scarica aggiornamento</system:String>
     <system:String x:Key="MediaFlyoutExcludeVolumeTitle">Escludi i Tasti Volume</system:String>
     <system:String x:Key="MediaFlyoutExcludeVolumeDescription">Non mostrare il flyout quando premi i tasti volume su/giù/muto</system:String>
     <system:String x:Key="TaskbarVisualizerTitle">Visualizzatore Barra delle App</system:String>
@@ -192,7 +192,7 @@ Puoi contribuire alla traduzione su</system:String>
     <system:String x:Key="TranslatorsTitle">Traduttori</system:String>
     <system:String x:Key="SponsorMeLink">Supportami</system:String>
     <system:String x:Key="BuyMeCoffeeLink">Offrimi un caffè</system:String>
-    <system:String x:Key="ShowUpdateNotificationsTitle">Mostra Notifiche per Nuovi Aggiornamenti</system:String>
+    <system:String x:Key="ShowUpdateNotificationsTitle">Mostra notifiche per nuovi aggiornamenti</system:String>
     <system:String x:Key="AcrylicBlurOpacityPerk">Aggiusta l'effetto di sfocatura acrilica</system:String>
     <system:String x:Key="TaskbarVisualizerOutputDeviceTitle">Dispositivo di Uscita</system:String>
     <system:String x:Key="TaskbarVisualizerAudioPeakLevelTitle">Soglia del Picco Audio</system:String>
@@ -205,7 +205,7 @@ Puoi contribuire alla traduzione su</system:String>
     <system:String x:Key="ExportSettings">Esporta impostazioni</system:String>
     <system:String x:Key="ImportSettings">Importa impostazioni</system:String>
     <system:String x:Key="ExportSuccessful">Esportazione riuscita</system:String>
-    <system:String x:Key="ExportFailed">Esportazione non riuscita</system:String>
+    <system:String x:Key="ExportFailed">Esportazione fallita</system:String>
     <system:String x:Key="ImportSuccessful">Importazione riuscita</system:String>
     <system:String x:Key="ImportFailed">Importazione fallita</system:String>
     <system:String x:Key="SettingsExportedSuccessfully">Impostazioni esportate correttamente!</system:String>
@@ -288,4 +288,12 @@ Puoi contribuire alla traduzione su</system:String>
     <system:String x:Key="SearchSettings">Cerca impostazioni</system:String>
     <system:String x:Key="TaskbarWidgetScrollingTextTitle">Testo Scorrevole</system:String>
     <system:String x:Key="TaskbarWidgetScrollingTextSpeedTitle">Velocità di scorrimento</system:String>
+    <system:String x:Key="OnboardingTitle">Inizia</system:String>
+    <system:String x:Key="SupporterTitle">Sostenitore</system:String>
+    <system:String x:Key="SupporterDescription">Grazie!</system:String>
+    <system:String x:Key="TaskbarWidgetScrollVolumeTitle">Scorri per regolare il volume</system:String>
+    <system:String x:Key="TaskbarWidgetScrollVolumeDescription">Usa la rotella del mouse sul widget della taskbar per regolare il volume</system:String>
+    <system:String x:Key="TaskbarWidgetScrollVolumeMaster">On (volume principale)</system:String>
+    <system:String x:Key="TaskbarWidgetScrollVolumePlayer">On (volume riproduzione)</system:String>
+    <system:String x:Key="OpenMediaPlayerText">Apri lettore multimediale</system:String>
 </ResourceDictionary>
