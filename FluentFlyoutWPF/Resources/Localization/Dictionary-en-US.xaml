@@ -14,6 +14,8 @@
     <System:String x:Key="TextBlockText3">Display a flyout when you press a media key</System:String>
     <System:String x:Key="MediaFlyoutExcludeVolumeTitle">Exclude Volume Keys</System:String>
     <System:String x:Key="MediaFlyoutExcludeVolumeDescription">Do not display the flyout when pressing volume up/down/mute</System:String>
+    <System:String x:Key="DiscordRpcEnabledTitle">Discord Rich Presence</System:String>
+    <System:String x:Key="DiscordRpcEnabledDescription">Show currently playing media on your Discord profile.</System:String>
     <System:String x:Key="TextBlockText2">Choose from a preset of modern background blur styles</System:String>
     <System:String x:Key="BackgroundBlurOption1" xml:space="preserve"> None</System:String>
     <System:String x:Key="BackgroundBlurOption2" xml:space="preserve"> Style 1 (Cover Glow)</System:String>

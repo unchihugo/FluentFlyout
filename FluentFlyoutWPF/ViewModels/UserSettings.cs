@@ -689,6 +689,9 @@ public partial class UserSettings : ObservableObject
     [ObservableProperty]
     public partial bool AnonymousTelemetryAllowed { get; set; }
 
+    [ObservableProperty]
+    public partial bool DiscordRpcEnabled { get; set; }
+
     [XmlIgnore]
     private bool _initializing = true;
 
@@ -781,6 +784,7 @@ public partial class UserSettings : ObservableObject
         AnonymousTelemetryAllowed = true;
         AllowedApps = [];
         BlockedApps = [];
+        DiscordRpcEnabled = false;
 
         PropertyChanged += OnPropertyChangedSaveSettings;
     }
@@ -846,6 +850,20 @@ public partial class UserSettings : ObservableObject
     {
         if (oldValue == newValue) return;
         SelectedLanguage = LanguageOptions.First(l => l.Tag == newValue);
+    }
+
+    partial void OnDiscordRpcEnabledChanged(bool oldValue, bool newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+
+        if (!newValue)
+        {
+            FluentFlyoutWPF.Classes.Services.DiscordRpcService.Dispose();
+        }
+        else
+        {
+            FluentFlyoutWPF.Classes.Services.DiscordRpcService.Initialize();
+        }
     }
 
     partial void OnSelectedLanguageChanged(LanguageOption oldValue, LanguageOption newValue)
