@@ -408,7 +408,12 @@ public partial class VolumeMixerViewModel : ObservableObject, IDisposable
 
     private static string GetSessionDisplayName(AudioSessionControl session)
     {
-        if (!string.IsNullOrWhiteSpace(session.DisplayName))
+        // WASAPI DisplayName is often an unresolved indirect string resource
+        // ("@%SystemRoot%\System32\foo.dll,-123" / "@{Package?ms-resource:...}"),
+        // which was shown verbatim or left the row blank (#1087). Only accept a
+        // literal name here; anything resource-shaped falls through to the exe.
+        if (!string.IsNullOrWhiteSpace(session.DisplayName)
+            && !session.DisplayName.StartsWith('@'))
             return session.DisplayName;
 
         try
