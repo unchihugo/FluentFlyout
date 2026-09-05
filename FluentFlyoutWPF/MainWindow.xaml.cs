@@ -61,6 +61,41 @@ public partial class MainWindow : MicaWindow
     private int _themeOption = SettingsManager.Current.AppTheme;
 
     static Mutex singleton = new Mutex(true, "FluentFlyout"); // to prevent multiple instances of the app
+
+    /// <summary>
+    /// True when another same-named process started very recently (boot/login
+    /// storms, duplicate autostart entries). Used to swallow the
+    /// open-settings signal such launches would otherwise trigger.
+    /// </summary>
+    private static bool IsFirstInstanceStartingUp()
+    {
+        try
+        {
+            using var me = Process.GetCurrentProcess();
+            foreach (var proc in Process.GetProcessesByName(me.ProcessName))
+            {
+                try
+                {
+                    if (proc.Id != me.Id &&
+                        (DateTime.UtcNow - proc.StartTime.ToUniversalTime()).TotalSeconds < 30)
+                        return true;
+                }
+                catch
+                {
+                    // process exited or start time unreadable; ignore
+                }
+                finally
+                {
+                    try { proc.Dispose(); } catch { }
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger.Debug(ex, "Failed to check first-instance startup age");
+        }
+        return false;
+    }
     private NextUpWindow? nextUpWindow = null; // to prevent multiple instances of NextUpWindow
     private string currentTitle = ""; // to prevent NextUpWindow from showing the same song
 
@@ -88,6 +123,17 @@ public partial class MainWindow : MicaWindow
 
         if (!singleton.WaitOne(TimeSpan.Zero, true)) // if another instance is already running, close this one
         {
+            // A second launch with no live user behind it (duplicate autostart
+            // entries, boot storms, updater re-launch) must not pop the
+            // settings window on the running instance (#1029: window appearing
+            // on every boot). Only forward the open-settings signal when the
+            // first instance is past its startup window.
+            if (IsFirstInstanceStartingUp())
+            {
+                Logger.Info("Duplicate launch during first-instance startup; exiting silently without opening settings.");
+                Environment.Exit(0);
+            }
+
             // Signal the existing instance to open settings
             Task.Run(() =>
             {
