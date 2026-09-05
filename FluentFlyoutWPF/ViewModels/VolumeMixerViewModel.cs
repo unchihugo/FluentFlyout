@@ -165,7 +165,12 @@ public partial class VolumeMixerViewModel : ObservableObject, IDisposable
 
         System.Windows.Application.Current.Dispatcher.InvokeAsync(() =>
         {
-            AttachDevice(AudioDeviceMonitor.Instance.GetDeviceById(e.DeviceId));
+            // GetDeviceById returns null when the reported id is empty or already
+            // gone; attaching null would leave the mixer permanently detached and
+            // the flyout frozen, so fall back to the current default endpoint.
+            var device = AudioDeviceMonitor.Instance.GetDeviceById(e.DeviceId)
+                         ?? AudioDeviceMonitor.Instance.GetDefaultRenderDevice();
+            AttachDevice(device);
         });
     }
 
@@ -298,6 +303,7 @@ public partial class VolumeMixerViewModel : ObservableObject, IDisposable
 
     public bool TryAdjustMasterVolume(float delta)
     {
+        EnsureDeviceAttached();
         if (_device == null) return false;
 
         MasterVolume = Math.Clamp(MasterVolume + delta, 0f, 1f);
@@ -321,9 +327,45 @@ public partial class VolumeMixerViewModel : ObservableObject, IDisposable
     }
 
 
+    /// <summary>
+    /// Re-resolves the default render endpoint when we have none. The device can
+    /// be missing because it wasn't ready yet when the mixer was constructed
+    /// (early startup) or because a previous attach failed; without this the
+    /// view model stays permanently detached and the flyout shows a frozen
+    /// volume value while the system volume keeps changing (#1086).
+    /// </summary>
+    private void EnsureDeviceAttached()
+    {
+        if (_device != null) return;
+
+        try
+        {
+            var device = AudioDeviceMonitor.Instance.GetDefaultRenderDevice();
+            if (device == null) return;
+
+            Logger.Info("Volume mixer had no audio endpoint, attaching default render device");
+            AttachDevice(device);
+        }
+        catch (Exception ex)
+        {
+            Logger.Debug(ex, "Failed to lazily attach default render device");
+        }
+    }
+
     public void SyncMasterFromDevice()
     {
-        if (_device == null) return;
+        if (_device == null)
+        {
+            var app0 = System.Windows.Application.Current;
+            if (app0?.Dispatcher != null && !app0.Dispatcher.CheckAccess())
+            {
+                _ = app0.Dispatcher.InvokeAsync(SyncMasterFromDevice);
+                return;
+            }
+
+            EnsureDeviceAttached();
+            if (_device == null) return;
+        }
 
         try
         {
@@ -343,7 +385,13 @@ public partial class VolumeMixerViewModel : ObservableObject, IDisposable
             }
             catch (Exception ex)
             {
-                Logger.Debug(ex, "Failed to read master volume from device");
+                // The cached MMDevice went stale (endpoint invalidated by a driver
+                // reset, device reconfiguration, or resume). Reads keep failing
+                // forever, so the displayed volume freezes (#1086/#1076).
+                // Drop it and re-resolve the current default endpoint.
+                Logger.Debug(ex, "Failed to read master volume from device, reattaching default endpoint");
+                _device = null;
+                EnsureDeviceAttached();
                 return;
             }
 
