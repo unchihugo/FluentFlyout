@@ -107,7 +107,7 @@
                         <TextBlock Text="{DynamicResource TaskbarVisualizerPositionTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
                     </StackPanel>
                 </ui:CardControl.Header>
-                <ComboBox SelectedIndex="{Binding TaskbarVisualizerPosition}" IsEnabled="{Binding IsPremiumUnlocked}">
+                <ComboBox SelectedIndex="{Binding TaskbarVisualizerPosition}" IsEnabled="{Binding IsPremiumUnlocked}" Style="{StaticResource DefaultComboBoxStyle}">
                     <ComboBoxItem Content="{DynamicResource PositionBottomLeft}" />
                     <ComboBoxItem Content="{DynamicResource PositionBottomRight}" />
                 </ComboBox>

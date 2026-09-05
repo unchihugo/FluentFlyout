@@ -26,7 +26,7 @@
                         </StackPanel>
                     </StackPanel>
                 </ui:CardControl.Header>
-                <ComboBox x:Name="FlyoutSelectedMonitorComboBox" SelectedIndex="{Binding FlyoutSelectedMonitor, Mode=TwoWay}">
+                <ComboBox x:Name="FlyoutSelectedMonitorComboBox" SelectedIndex="{Binding FlyoutSelectedMonitor, Mode=TwoWay}" Style="{StaticResource DefaultComboBoxStyle}">
                 </ComboBox>
             </ui:CardControl>
             <ui:CardControl x:Name="AcrylicBlurOpacityCard" Tag="Indexable" Icon="{ui:SymbolIcon PaintBucket24}" Margin="0,0,0,3">
@@ -71,9 +71,10 @@
                 </ui:CardControl.Header>
                 <StackPanel Orientation="Horizontal">
                     <ComboBox Name="AppLanguageComboBox"
-                                  ItemsSource="{Binding LanguageOptions}"
-                                  SelectedItem="{Binding SelectedLanguage, Mode=TwoWay}"
-                                  DisplayMemberPath="DisplayName" />
+                                ItemsSource="{Binding LanguageOptions}"
+                                SelectedItem="{Binding SelectedLanguage, Mode=TwoWay}"
+                                DisplayMemberPath="DisplayName"
+                              Style="{StaticResource DefaultComboBoxStyle}"/>
                 </StackPanel>
             </ui:CardControl>
             <ui:CardControl x:Name="AppThemeCard" Tag="Indexable" Icon="{ui:SymbolIcon Color24}" Margin="0,0,0,3">
@@ -82,7 +83,7 @@
                         <TextBlock Text="{DynamicResource AppThemeTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
                     </StackPanel>
                 </ui:CardControl.Header>
-                <ComboBox Name="AppThemeComboBox" SelectedIndex="{Binding AppTheme, Mode=TwoWay}" IsReadOnly="False">
+                <ComboBox Name="AppThemeComboBox" SelectedIndex="{Binding AppTheme, Mode=TwoWay}" IsReadOnly="False" Style="{StaticResource DefaultComboBoxStyle}">
                     <ComboBoxItem Content="{DynamicResource AppThemeDefault}" />
                     <ComboBoxItem Content="{DynamicResource AppThemeLight}" />
                     <ComboBoxItem Content="{DynamicResource AppThemeDark}" />
@@ -133,7 +134,7 @@
                     </StackPanel>
                 </ui:CardControl.Header>
                 <StackPanel Orientation="Horizontal">
-                    <ComboBox SelectedIndex="{Binding NIconLeftClick, Mode=TwoWay}">
+                    <ComboBox SelectedIndex="{Binding NIconLeftClick, Mode=TwoWay}" Style="{StaticResource DefaultComboBoxStyle}">
                         <ComboBoxItem Content="{DynamicResource TrayIconLeftClickOption1}" />
                         <ComboBoxItem Content="{DynamicResource TrayIconLeftClickOption2}" />
                     </ComboBox>

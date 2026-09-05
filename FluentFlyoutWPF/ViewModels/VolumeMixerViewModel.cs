@@ -37,6 +37,7 @@ public partial class VolumeMixerViewModel : ObservableObject, IDisposable
     public partial bool IsExpanded { get; set; }
 
     public ObservableCollection<AudioSessionModel> Sessions { get; } = [];
+    public event EventHandler? SessionVolumeChanged;
 
     public VolumeMixerViewModel()
     {
@@ -45,13 +46,9 @@ public partial class VolumeMixerViewModel : ObservableObject, IDisposable
 
         AttachDevice(AudioDeviceMonitor.Instance.GetDefaultRenderDevice());
 
-        // slow polling to detect changes just in case
-        //_pollTimer = new DispatcherTimer
-        //{
-        //    Interval = TimeSpan.FromMilliseconds(5000)
-        //};
-        //_pollTimer.Tick += OnPollTick;
-        //_pollTimer.Start();
+        _pollTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(1000) };
+        _pollTimer.Tick += OnPollTick;
+        _pollTimer.Start();
     }
 
     partial void OnIsExpandedChanged(bool oldValue, bool newValue)
@@ -69,7 +66,7 @@ public partial class VolumeMixerViewModel : ObservableObject, IDisposable
             DeviceName = string.Empty;
             MasterVolume = 0f;
             IsMasterMuted = false;
-            Sessions.Clear();
+            ClearSessions();
             return;
         }
 
@@ -86,6 +83,19 @@ public partial class VolumeMixerViewModel : ObservableObject, IDisposable
         {
             AttachDevice(AudioDeviceMonitor.Instance.GetDeviceById(e.DeviceId));
         });
+    }
+
+    private void OnSessionVolumeChanged(object? sender, EventArgs e)
+    {
+        SessionVolumeChanged?.Invoke(sender, e);
+    }
+
+    private void ClearSessions()
+    {
+        foreach (var session in Sessions)
+            session.VolumeChanged -= OnSessionVolumeChanged;
+
+        Sessions.Clear();
     }
 
 
@@ -115,6 +125,30 @@ public partial class VolumeMixerViewModel : ObservableObject, IDisposable
         _device.AudioEndpointVolume.Mute = value;
     }
 
+    public bool TryAdjustMasterVolume(float delta)
+    {
+        if (_device == null) return false;
+
+        MasterVolume = Math.Clamp(MasterVolume + delta, 0f, 1f);
+        return true;
+    }
+
+    public bool TryAdjustSessionVolume(int processId, float delta)
+    {
+        var session = Sessions.FirstOrDefault(session => session.ProcessId == processId);
+
+        if (session == null)
+        {
+            RefreshSessions();
+            session = Sessions.FirstOrDefault(session => session.ProcessId == processId);
+        }
+
+        if (session == null) return false;
+
+        session.AdjustVolume(delta);
+        return true;
+    }
+
 
     public void SyncMasterFromDevice()
     {
@@ -134,7 +168,7 @@ public partial class VolumeMixerViewModel : ObservableObject, IDisposable
     [RelayCommand]
     public void RefreshSessions()
     {
-        Sessions.Clear();
+        ClearSessions();
 
         if (_device == null)
             return;
@@ -159,7 +193,9 @@ public partial class VolumeMixerViewModel : ObservableObject, IDisposable
                 if (name == "FluentFlyout") continue;
 
                 var icon = MediaPlayerData.GetAndCacheProcessIcon(pid, name);
-                Sessions.Add(new AudioSessionModel(session, name, pid, sessionState, icon));
+                var audioSession = new AudioSessionModel(session, name, pid, sessionState, icon);
+                audioSession.VolumeChanged += OnSessionVolumeChanged;
+                Sessions.Add(audioSession);
             }
         }
         catch (Exception ex)
@@ -219,12 +255,16 @@ public partial class VolumeMixerViewModel : ObservableObject, IDisposable
 
     public void Dispose()
     {
-        _pollTimer?.Stop();
-        _pollTimer = null;
+        if (_pollTimer != null)
+        {
+            _pollTimer.Tick -= OnPollTick;
+            _pollTimer.Stop();
+            _pollTimer = null;
+        }
 
         AudioDeviceMonitor.Instance.DefaultDeviceChanged -= OnDefaultDeviceChanged;
 
-        Sessions.Clear();
+        ClearSessions();
 
         GC.SuppressFinalize(this);
     }

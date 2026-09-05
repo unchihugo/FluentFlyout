@@ -29,4 +29,4 @@ jobs:
         exempt-issue-labels: 'important'
         days-before-stale: 90
         days-before-issue-close: 30
-        
+        days-before-pr-close: -1

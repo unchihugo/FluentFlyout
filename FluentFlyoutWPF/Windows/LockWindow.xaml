@@ -4,6 +4,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
     xmlns:local="clr-namespace:FluentFlyoutWPF"
+    xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
     xmlns:controls="clr-namespace:MicaWPF.Controls;assembly=MicaWPF"
     xmlns:viewModels="clr-namespace:FluentFlyoutWPF.ViewModels"
     mc:Ignorable="d" 
@@ -37,7 +38,8 @@
         </EventTrigger>
     </Window.Triggers>
 
-    <Grid Margin="14,6,12,6">
+    <Grid>
+    <Grid Margin="16,6,12,10">
         <Viewbox Name="LockSymbol" HorizontalAlignment="Left" Width="22" Height="22" VerticalAlignment="Center" Margin="0,0,0,-2">
             <Canvas Width="24" Height="24" ClipToBounds="False">
                 <Path Data="M7.25 7A3.25 3.25 0 0 0 4 10.25v7.5C4 19.55 5.46 21 7.25 21h9.5c1.8 0 3.25-1.46 3.25-3.25v-7.5C20 8.45 18.54 7 16.75 7H7.25Zm0 1.5h9.5c.97 0 1.75.78 1.75 1.75v7.5c0 .97-.78 1.75-1.75 1.75h-9.5c-.97 0-1.75-.78-1.75-1.75v-7.5c0-.97.78-1.75 1.75-1.75Z"
@@ -56,9 +58,12 @@
                 </Path>
             </Canvas>
         </Viewbox>
-        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="20,0,0,4">
-            <TextBlock Name="LockTextBlock" Text="Loading..." FontSize="14" FontWeight="Medium" TextTrimming="CharacterEllipsis"/>
-        </StackPanel>
-        <Rectangle Name="LockIndicatorRectangle" Fill="{DynamicResource MicaWPF.Brushes.AccentFillColorDefault}" Height="4" RadiusX="2" RadiusY="2" Width="60" VerticalAlignment="Bottom"/>
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="18,0,0,2">
+                <TextBlock Name="LockTextBlock" Text="Loading..." FontSize="14" FontWeight="Medium" TextTrimming="CharacterEllipsis"/>
+            </StackPanel>
+        </Grid>
+
+        <!--<Rectangle Fill="{ui:ThemeResource SmokeFillColorDefaultBrush}" Height="14" Width="Auto" VerticalAlignment="Bottom" />-->
+        <Rectangle Name="LockIndicatorRectangle" Fill="{DynamicResource MicaWPF.Brushes.AccentFillColorDefault}" Height="3" RadiusX="2" RadiusY="2" Width="60" Margin="0,0,0,7" VerticalAlignment="Bottom"/>
     </Grid>
 </controls:MicaWindow>

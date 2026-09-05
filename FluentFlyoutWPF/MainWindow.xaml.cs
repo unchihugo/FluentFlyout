@@ -77,6 +77,11 @@ public partial class MainWindow : MicaWindow
 
     private VolumeMixerWindow? volumeMixerWindow;
 
+    private readonly DispatcherTimer _displayRefreshTimer;
+    private string _pendingDisplayRefreshReason = "Unknown";
+    private bool _displayRefreshInProgress;
+    private bool _isCleaningUp;
+
     internal static volatile bool ExplorerRestarting = false;
 
     public MainWindow()
@@ -85,6 +90,12 @@ public partial class MainWindow : MicaWindow
         WindowHelper.SetNoActivate(this); // prevents some fullscreen apps from minimizing
         InitializeComponent();
         WindowHelper.SetTopmost(this); // more prevention of fullscreen apps minimizing
+
+        _displayRefreshTimer = new DispatcherTimer(DispatcherPriority.Background)
+        {
+            Interval = TimeSpan.FromMilliseconds(1000)
+        };
+        _displayRefreshTimer.Tick += DisplayRefreshTimer_Tick;
 
         if (!singleton.WaitOne(TimeSpan.Zero, true)) // if another instance is already running, close this one
         {
@@ -272,22 +283,30 @@ public partial class MainWindow : MicaWindow
 
         if (SettingsManager.Current.AppFilteringMode == 0) // Blacklist mode
         {
-            if (SettingsManager.Current.BlockedApps != null && SettingsManager.Current.BlockedApps.Any(b =>
-                    appName.Contains(b, StringComparison.OrdinalIgnoreCase) ||
-                    appId.Contains(b, StringComparison.OrdinalIgnoreCase)))
+            if (SettingsManager.Current.BlockedApps != null &&
+                SettingsManager.Current.BlockedApps.Any(b => MatchesFilterEntry(b, appName, appId)))
                 return false;
 
             return true;
         }
         else // Whitelist mode
         {
-            if (SettingsManager.Current.AllowedApps != null && SettingsManager.Current.AllowedApps.Any(a =>
-                    appName.Contains(a, StringComparison.OrdinalIgnoreCase) ||
-                    appId.Contains(a, StringComparison.OrdinalIgnoreCase)))
+            if (SettingsManager.Current.AllowedApps != null &&
+                SettingsManager.Current.AllowedApps.Any(a => MatchesFilterEntry(a, appName, appId)))
                 return true;
 
             return false;
         }
+    }
+
+    // display names are matched in full: entries always hold a whole app name, and a substring match let one entry
+    // swallow others (blocking "Amazon Music" also blocked "Amazon Music SMTC Bridge"). the session id keeps substring
+    // matching so an entry can still target a whole package or publisher
+    private static bool MatchesFilterEntry(string entry, string appName, string appId)
+    {
+        if (string.IsNullOrWhiteSpace(entry)) return false; // an empty entry would match every session
+
+        return appName.Equals(entry, StringComparison.OrdinalIgnoreCase) || appId.Contains(entry, StringComparison.OrdinalIgnoreCase);
     }
 
     public MediaSession? GetActiveMediaSession()
@@ -301,6 +320,44 @@ public partial class MainWindow : MicaWindow
             return focused;
 
         return validSessions.FirstOrDefault();
+    }
+
+    public float? GetActiveMediaAppVolume()
+    {
+        if (volumeMixerWindow?.ViewModel is not { } volumeMixerViewModel ||
+            GetActiveMediaSession() is not { } activeSession)
+            return null;
+
+        int? processId = MediaPlayerData.GetAndCacheProcessId(activeSession.Id);
+        return processId.HasValue
+            ? volumeMixerViewModel.Sessions.FirstOrDefault(session => session.ProcessId == processId.Value)?.Volume
+            : null;
+    }
+
+    public void AdjustTaskbarVolume(float delta)
+    {
+        if (volumeMixerWindow?.ViewModel is not { } volumeMixerViewModel) return;
+
+        switch (SettingsManager.Current.TaskbarWidgetScrollVolumeMode)
+        {
+            // 0 = disabled, 1 = master volume, 2 = active media session
+            case 1:
+                bool success = volumeMixerViewModel.TryAdjustMasterVolume(delta);
+
+                if (success && SettingsManager.Current.VolumeControlEnabled)
+                    volumeMixerWindow?.ShowFlyout();
+                break;
+
+            case 2:
+                if (GetActiveMediaSession() is not { } activeSession) return;
+
+                int? processId = MediaPlayerData.GetAndCacheProcessId(activeSession.Id);
+                if (processId.HasValue)
+                {
+                    volumeMixerViewModel.TryAdjustSessionVolume(processId.Value, delta);
+                }
+                break;
+        }
     }
 
     public void RefreshFilteredMedia()
@@ -323,6 +380,44 @@ public partial class MainWindow : MicaWindow
                 HandlePlayBackState(GlobalSystemMediaTransportControlsSessionPlaybackStatus.Closed);
             }
         }
+    }
+
+    public async Task<bool> TrySkipPreviousAsync()
+    {
+        var focusedSession = GetActiveMediaSession();
+        if (focusedSession == null) return false;
+        return await focusedSession.ControlSession.TrySkipPreviousAsync();
+    }
+
+    public async Task<bool> TryTogglePlayPauseAsync()
+    {
+        var focusedSession = GetActiveMediaSession();
+        if (focusedSession == null) return false;
+        return await focusedSession.ControlSession.TryTogglePlayPauseAsync();
+    }
+
+    public async Task<bool> TrySkipNextAsync()
+    {
+        var focusedSession = GetActiveMediaSession();
+        if (focusedSession == null) return false;
+        return await focusedSession.ControlSession.TrySkipNextAsync();
+    }
+
+    public async Task<bool> TryOpenMediaPlayerAsync()
+    {
+        try
+        {
+            if (GetActiveMediaSession() is { } activeSession)
+            {
+                var mediaProperties = TryGetMediaProperties(activeSession.ControlSession);
+                return await Task.Run(() => MediaPlayerData.TryActivateMediaPlayer(activeSession.Id, mediaProperties?.Title));
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger.Error(ex, "Failed to open media player");
+        }
+        return false;
     }
 
     private static GlobalSystemMediaTransportControlsSessionMediaProperties? TryGetMediaProperties(GlobalSystemMediaTransportControlsSession controlSession)
@@ -379,7 +474,15 @@ public partial class MainWindow : MicaWindow
     /// Computes the final resting position (left, top) for a window based on the current
     /// position setting and the selected monitor's work area.
     /// </summary>
-    private (double left, double top) GetFinalPosition(Rect windowRect, Rect workArea)
+    private static double GetBottomCenterFlyoutBottomMargin(bool reserveNativeVolumeOsdSpace)
+    {
+        if (!reserveNativeVolumeOsdSpace)
+            return 16;
+
+        return SettingsManager.Current.VolumeControlEnabled && SettingsManager.Current.VolumeControlAboveMediaFlyout ? 16 : 80;
+    }
+
+    private (double left, double top) GetFinalPosition(Rect windowRect, Rect workArea, bool reserveNativeVolumeOsdSpace = false)
     {
         int position = SettingsManager.Current.Position;
         double left = position switch
@@ -391,13 +494,13 @@ public partial class MainWindow : MicaWindow
         double top = position switch
         {
             0 or 2 => workArea.Top + workArea.Height - windowRect.Height - 16,
-            1 => workArea.Top + workArea.Height - windowRect.Height - 80,
+            1 => workArea.Top + workArea.Height - windowRect.Height - GetBottomCenterFlyoutBottomMargin(reserveNativeVolumeOsdSpace),
             _ => workArea.Top + 16
         };
         return (left, top);
     }
 
-    public void OpenAnimation(MicaWindow window, bool alwaysBottom = false, MonitorInfo? selectedMonitor = null, MicaWindow? aboveReference = null)
+    public void OpenAnimation(MicaWindow window, bool alwaysBottom = false, MonitorInfo? selectedMonitor = null, MicaWindow? aboveReference = null, bool reserveNativeVolumeOsdSpace = false)
     {
         var eventTriggers = window.Triggers[0] as EventTrigger;
         var beginStoryboard = eventTriggers.Actions[0] as BeginStoryboard;
@@ -423,7 +526,7 @@ public partial class MainWindow : MicaWindow
             double refWidth = aboveReference.Width * monitor.dpiX / 96.0;
             double refHeight = aboveReference.Height * monitor.dpiY / 96.0;
             var refRect = new Rect(0, 0, refWidth, refHeight);
-            var (refLeft, refTop) = GetFinalPosition(refRect, workArea);
+            var (refLeft, refTop) = GetFinalPosition(refRect, workArea, reserveNativeVolumeOsdSpace);
 
             window_left = refLeft + refWidth / 2 - windowRect.Width / 2;
             double aboveTop = refTop - windowRect.Height - 8;
@@ -459,11 +562,13 @@ public partial class MainWindow : MicaWindow
             else if (_position == 1)
             {
                 window_left = workArea.Left + workArea.Width / 2 - windowRect.Width / 2;
-                moveAnimation.To = workArea.Top + workArea.Height - windowRect.Height - 80;
+                double bottomMargin = GetBottomCenterFlyoutBottomMargin(reserveNativeVolumeOsdSpace);
+                double moveTo = workArea.Top + workArea.Height - windowRect.Height - bottomMargin;
+                moveAnimation.To = moveTo;
                 if (SettingsManager.Current.FlyoutAnimationSpeed == 0)
-                    moveAnimation.From = moveAnimation.To;
+                    moveAnimation.From = moveTo;
                 else
-                    moveAnimation.From = workArea.Top + workArea.Height - windowRect.Height - 60;
+                    moveAnimation.From = moveTo + 20;
             }
             else if (_position == 2)
             {
@@ -546,7 +651,7 @@ public partial class MainWindow : MicaWindow
         DoubleAnimation moveAnimation = (DoubleAnimation)storyboard.Children[0];
         var monitor = selectedMonitor != null ? selectedMonitor.Value : getSelectedMonitor();
         var workArea = monitor.workArea;
-        var windowRect = WindowHelper.GetPlacement(window);
+        Rect windowRect = WindowHelper.GetPlacement(window);
 
         // Use the window's actual current position as the animation start
         moveAnimation.From = windowRect.Top;
@@ -765,16 +870,15 @@ public partial class MainWindow : MicaWindow
 
     private void MediaManager_OnAnyTimelinePropertyChanged(MediaSession mediaSession, GlobalSystemMediaTransportControlsSessionTimelineProperties timelineProperties)
     {
-        _lastSelfUpdateTimestamp = DateTime.Now;
-
         if (GetActiveMediaSession() is not { } session || session.Id != mediaSession.Id) return;
 
         if (_seekBarEnabled)
         {
             Dispatcher.Invoke(() =>
             {
-                if (!IsActive || _isDragging) return;
+                if (Visibility != Visibility.Visible || _isHiding || _isDragging) return;
 
+                _lastSelfUpdateTimestamp = DateTime.Now;
                 UpdateSeekbarCurrentDuration(session.ControlSession.GetTimelineProperties().Position);
                 HandlePlayBackState(session.ControlSession.GetPlaybackInfo().PlaybackStatus);
             });
@@ -909,7 +1013,7 @@ public partial class MainWindow : MicaWindow
         if (_isHiding == true)
         {
             _isHiding = false;
-            OpenAnimation(this);
+            OpenAnimation(this, reserveNativeVolumeOsdSpace: true);
         }
         cts.Cancel();
         cts = new CancellationTokenSource();
@@ -1017,14 +1121,7 @@ public partial class MainWindow : MicaWindow
 
                 ControlPlayPause.IsEnabled = mediaProperties.Controls.IsPlayEnabled || mediaProperties.Controls.IsPauseEnabled;
 
-                if (ControlPlayPause.IsEnabled)
-                {
-                    ControlPlayPause.Opacity = 1;
-                }
-                else
-                {
-                    ControlPlayPause.Opacity = 0.35;
-                }
+                ControlPlayPause.Opacity = ControlPlayPause.IsEnabled ? 1 : 0.35;
 
                 ControlBack.IsEnabled = ControlForward.IsEnabled = mediaProperties.Controls.IsNextEnabled;
                 ControlBack.Opacity = ControlForward.Opacity = mediaProperties.Controls.IsNextEnabled ? 1 : 0.35;
@@ -1146,8 +1243,7 @@ public partial class MainWindow : MicaWindow
                     }
                 }
 
-                if (SongImage.ImageSource == null) SongImagePlaceholder.Visibility = Visibility.Visible;
-                else SongImagePlaceholder.Visibility = Visibility.Collapsed;
+                SongImagePlaceholder.Visibility = SongImage.ImageSource == null ? Visibility.Visible : Visibility.Collapsed;
 
                 if (_seekBarEnabled)
                 {
@@ -1193,8 +1289,10 @@ public partial class MainWindow : MicaWindow
                 Width = 400;
                 BodyStackPanel.Orientation = Orientation.Horizontal;
                 BodyStackPanel.Width = 300;
-                ControlsStackPanel.Margin = new Thickness(0);
-                ControlsStackPanel.Width = 104;
+                ControlsStackPanelContainer.Margin = new Thickness(2, 0, 0, 0);
+                ControlsStackPanelContainer.Width = 104;
+                ControlsStackPanelContainer.HorizontalAlignment = HorizontalAlignment.Left;
+                ControlsStackPanel.HorizontalAlignment = HorizontalAlignment.Left;
                 MediaIdButton.Visibility = Visibility.Collapsed;
                 SongImageBorder.Margin = new Thickness(0);
                 SongImageBorder.Height = 36;
@@ -1203,17 +1301,20 @@ public partial class MainWindow : MicaWindow
                 if (SettingsManager.Current.MediaFlyoutAlwaysDisplay)
                 {
                     SongInfoStackPanel.Width -= 36;
-                    ControlsStackPanel.Width += 44;
+                    ControlsStackPanelContainer.Width += 44;
                 }
             }
             else // normal layout
             {
+                bool centerControlsWithSongInfo = SettingsManager.Current.CenterTitleArtist && !SettingsManager.Current.PlayerInfoEnabled;
                 Height = 112 + extraHeight;
                 Width = 310 - 72 + extraWidth;
                 BodyStackPanel.Orientation = Orientation.Vertical;
                 BodyStackPanel.Width = 194 - 72 + extraWidth;
-                ControlsStackPanel.Margin = Margin = new Thickness(12, 8, 0, 0);
-                ControlsStackPanel.Width = 184 - 72 + extraWidth;
+                ControlsStackPanelContainer.Margin = new Thickness(12, 8, 0, 0);
+                ControlsStackPanelContainer.Width = double.NaN;
+                ControlsStackPanelContainer.HorizontalAlignment = HorizontalAlignment.Stretch;
+                ControlsStackPanel.HorizontalAlignment = centerControlsWithSongInfo ? HorizontalAlignment.Center : HorizontalAlignment.Left;
                 MediaIdButton.Visibility = Visibility.Visible;
                 SongImageBorder.Margin = new Thickness(6);
                 SongImageBorder.Height = 78;
@@ -1221,21 +1322,11 @@ public partial class MainWindow : MicaWindow
                 SongInfoStackPanel.Width = 182 - 72 + extraWidth;
             }
 
-            if (SettingsManager.Current.CenterTitleArtist)
-            {
-                SongTitle.HorizontalAlignment = HorizontalAlignment.Center;
-                SongArtist.HorizontalAlignment = HorizontalAlignment.Center;
-            }
-            else
-            {
-                SongTitle.HorizontalAlignment = HorizontalAlignment.Left;
-                SongArtist.HorizontalAlignment = HorizontalAlignment.Left;
-            }
+            var alignment = SettingsManager.Current.CenterTitleArtist ? HorizontalAlignment.Center : HorizontalAlignment.Left;
+            SongTitle.HorizontalAlignment = alignment;
+            SongArtist.HorizontalAlignment = alignment;
 
-            if (SettingsManager.Current.SeekbarEnabled)
-                SeekbarWrapper.Visibility = Visibility.Visible;
-            else
-                SeekbarWrapper.Visibility = Visibility.Collapsed;
+            SeekbarWrapper.Visibility = SettingsManager.Current.SeekbarEnabled ? Visibility.Visible : Visibility.Collapsed;
         });
 
         _layout = SettingsManager.Current.CompactLayout;
@@ -1251,35 +1342,22 @@ public partial class MainWindow : MicaWindow
     {
         if (!SettingsManager.Current.PlayerInfoEnabled || SettingsManager.Current.CompactLayout) return;
         e.Handled = true;
-        if (GetActiveMediaSession() is { } activeSession)
-        {
-            var mediaProperties = TryGetMediaProperties(activeSession.ControlSession);
-            await Task.Run(() => MediaPlayerData.TryActivateMediaPlayer(activeSession.Id, mediaProperties?.Title));
-        }
+        _ = TryOpenMediaPlayerAsync();
     }
 
     private async void Back_Click(object sender, RoutedEventArgs e)
     {
-        var activeSession = GetActiveMediaSession();
-        if (activeSession == null) return;
-
-        await activeSession.ControlSession.TrySkipPreviousAsync();
+        TrySkipPreviousAsync();
     }
 
     private async void PlayPause_Click(object sender, RoutedEventArgs e)
     {
-        var activeSession = GetActiveMediaSession();
-        if (activeSession == null) return;
-
-        await activeSession.ControlSession.TryTogglePlayPauseAsync();
+        TryTogglePlayPauseAsync();
     }
 
     private async void Forward_Click(object sender, RoutedEventArgs e)
     {
-        var activeSession = GetActiveMediaSession();
-        if (activeSession == null) return;
-
-        await activeSession.ControlSession.TrySkipNextAsync();
+        TrySkipNextAsync();
     }
 
     private async void Repeat_Click(object sender, RoutedEventArgs e)
@@ -1422,6 +1500,10 @@ public partial class MainWindow : MicaWindow
         // should be handled automatically on app exit but just in case
         try
         {
+            _isCleaningUp = true;
+            _displayRefreshTimer.Stop();
+            _displayRefreshTimer.Tick -= DisplayRefreshTimer_Tick;
+
             // unsubscribe from events
             mediaManager.OnAnyMediaPropertyChanged -= MediaManager_OnAnyMediaPropertyChanged;
             mediaManager.OnAnyPlaybackStateChanged -= CurrentSession_OnPlaybackStateChanged;
@@ -1523,6 +1605,94 @@ public partial class MainWindow : MicaWindow
         return false;
     }
 
+    private void ScheduleDisplayEnvironmentRefresh(string reason)
+    {
+        if (_isCleaningUp)
+            return;
+
+        if (!Dispatcher.CheckAccess())
+        {
+            Dispatcher.BeginInvoke(() => ScheduleDisplayEnvironmentRefresh(reason));
+            return;
+        }
+
+        _pendingDisplayRefreshReason = reason;
+        _displayRefreshTimer.Stop();
+        _displayRefreshTimer.Start();
+        Logger.Debug($"Scheduled display environment refresh: {reason}");
+    }
+
+    private void DisplayRefreshTimer_Tick(object? sender, EventArgs e)
+    {
+        _displayRefreshTimer.Stop();
+
+        if (_displayRefreshInProgress || _isCleaningUp)
+            return;
+
+        _displayRefreshInProgress = true;
+        try
+        {
+            RefreshDisplayEnvironment(_pendingDisplayRefreshReason);
+        }
+        catch (Exception ex)
+        {
+            Logger.Error(ex, "Failed to refresh windows after a display environment change");
+        }
+        finally
+        {
+            _displayRefreshInProgress = false;
+        }
+    }
+
+    private void RefreshDisplayEnvironment(string reason)
+    {
+        var monitors = MonitorUtil.GetMonitors();
+        if (monitors.Count == 0)
+        {
+            Logger.Warn($"Display environment refresh skipped because no monitors were found ({reason})");
+            return;
+        }
+
+        Logger.Info($"Refreshing window DPI and placement after display change ({reason}); monitors={monitors.Count}");
+
+        // Stop placement animations that were calculated for the previous work area.
+        cts.Cancel();
+        _isHiding = true;
+        Hide();
+
+        // Move the reusable main flyout to its current target monitor while hidden. This
+        // makes WPF process the per-monitor DPI transition before the next animation.
+        var targetMonitor = getSelectedMonitor();
+        WindowHelper.SetPosition(this, targetMonitor.workArea.Left, targetMonitor.workArea.Top);
+        InvalidateMeasure();
+        InvalidateArrange();
+        InvalidateVisual();
+        UpdateLayout();
+        SyncMainFlyoutSizeToCurrentDpi(new WindowInteropHelper(this).Handle);
+
+        // These windows retain an HWND for their lifetime. Recreate them so they cannot
+        // keep DPI, work-area, taskbar-parent, or UI Automation state from the old topology.
+        if (lockWindow != null)
+        {
+            lockWindow.Close();
+            lockWindow = null;
+        }
+
+        if (nextUpWindow != null)
+        {
+            nextUpWindow.Close();
+            nextUpWindow = null;
+        }
+
+        if (volumeMixerWindow != null)
+        {
+            volumeMixerWindow.Close();
+            volumeMixerWindow = new VolumeMixerWindow();
+        }
+
+        RecreateTaskbarWindow();
+    }
+
     private nint WndProc(nint hwnd, int msg, nint wParam, nint lParam, ref bool handled)
     {
         // detect key presses from both keyboard hook and shell hook to show flyouts
@@ -1605,13 +1775,41 @@ public partial class MainWindow : MicaWindow
             handled = true;
             return 0;
         }
+        else if (msg == WM_DISPLAYCHANGE)
+        {
+            ScheduleDisplayEnvironmentRefresh("WM_DISPLAYCHANGE");
+            return 0;
+        }
+        else if (msg == WM_DPICHANGED)
+        {
+            // Leave the message unhandled so WPF can update its internal DPI state,
+            // then size the native HWND from the logical WPF dimensions exactly once.
+            Dispatcher.BeginInvoke(() =>
+            {
+                InvalidateMeasure();
+                InvalidateArrange();
+                InvalidateVisual();
+                UpdateLayout();
+                SyncMainFlyoutSizeToCurrentDpi(hwnd);
+            }, DispatcherPriority.Loaded);
+            return 0;
+        }
         else if (msg == WM_SETTINGCHANGE) // system settings changed
         {
-            if (lParam == IntPtr.Zero)
+            if (wParam.ToInt64() == SPI_SETWORKAREA)
+            {
+                ScheduleDisplayEnvironmentRefresh("WM_SETTINGCHANGE/SPI_SETWORKAREA");
                 return 0;
+            }
+
+            string? changedSetting = lParam == IntPtr.Zero ? null : Marshal.PtrToStringUni(lParam);
+            if (changedSetting == "SystemDockMode")
+            {
+                ScheduleDisplayEnvironmentRefresh($"WM_SETTINGCHANGE/{changedSetting}");
+                return 0;
+            }
 
             // check if the changed setting is related to theme or accent color
-            string? changedSetting = Marshal.PtrToStringUni(lParam);
             if (changedSetting != "ImmersiveColorSet" && changedSetting != "WindowsThemeElement")
                 return 0;
 
@@ -1632,6 +1830,32 @@ public partial class MainWindow : MicaWindow
         }
 
         return 0;
+    }
+
+    private void SyncMainFlyoutSizeToCurrentDpi(IntPtr hwnd)
+    {
+        if (hwnd == IntPtr.Zero)
+            return;
+
+        uint dpi = GetDpiForWindow(hwnd);
+        if (dpi == 0)
+            return;
+
+        double dpiScale = dpi / 96.0;
+        int pixelWidth = (int)Math.Ceiling(Width * dpiScale);
+        int pixelHeight = (int)Math.Ceiling(Height * dpiScale);
+
+        if (!SetWindowPos(
+            hwnd,
+            0,
+            0,
+            0,
+            pixelWidth,
+            pixelHeight,
+            SWP_NOMOVE | SWP_NOZORDER | SWP_NOACTIVATE))
+        {
+            Logger.Warn($"Failed to resize MainWindow for DPI; HWND=0x{hwnd.ToInt64():X}, DPI={dpi}, Size={pixelWidth}x{pixelHeight}, Win32Error={Marshal.GetLastWin32Error()}");
+        }
     }
 
     private void RecreateTrayIconSafely()
@@ -1692,9 +1916,9 @@ public partial class MainWindow : MicaWindow
         await ExperimentsService.GetExperimentsAsync();
 
         BitmapHelper.GetDominantColors(1);
+        volumeMixerWindow = new VolumeMixerWindow();
         taskbarWindow = new TaskbarWindow();
         UpdateTaskbar();
-        volumeMixerWindow = new VolumeMixerWindow();
     }
 
     public void RecreateTaskbarWindow()
