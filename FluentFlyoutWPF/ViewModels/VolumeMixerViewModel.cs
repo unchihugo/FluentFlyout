@@ -6,6 +6,7 @@ using CommunityToolkit.Mvvm.Input;
 using FluentFlyout.Classes.Utils;
 using FluentFlyoutWPF.Classes;
 using FluentFlyoutWPF.Models;
+using Microsoft.Win32;
 using NAudio.CoreAudioApi;
 using NAudio.CoreAudioApi.Interfaces;
 using System.Collections.ObjectModel;
@@ -43,6 +44,7 @@ public partial class VolumeMixerViewModel : ObservableObject, IDisposable
     {
         DeviceName = string.Empty;
         AudioDeviceMonitor.Instance.DefaultDeviceChanged += OnDefaultDeviceChanged;
+        TryRegisterSystemEvents();
 
         AttachDevice(AudioDeviceMonitor.Instance.GetDefaultRenderDevice());
 
@@ -167,6 +169,77 @@ public partial class VolumeMixerViewModel : ObservableObject, IDisposable
         System.Windows.Application.Current.Dispatcher.InvokeAsync(() =>
         {
             AttachDevice(AudioDeviceMonitor.Instance.GetDeviceById(e.DeviceId));
+        });
+    }
+
+    private void TryRegisterSystemEvents()
+    {
+        try
+        {
+            SystemEvents.SessionSwitch += OnSessionSwitch;
+            SystemEvents.PowerModeChanged += OnPowerModeChanged;
+        }
+        catch (Exception ex)
+        {
+            Logger.Warn(ex, "Failed to register SystemEvents handlers for volume mixer recovery");
+        }
+    }
+
+    private void TryUnregisterSystemEvents()
+    {
+        try
+        {
+            SystemEvents.SessionSwitch -= OnSessionSwitch;
+            SystemEvents.PowerModeChanged -= OnPowerModeChanged;
+        }
+        catch (Exception ex)
+        {
+            Logger.Warn(ex, "Failed to unregister SystemEvents handlers for volume mixer recovery");
+        }
+    }
+
+    private void OnSessionSwitch(object sender, SessionSwitchEventArgs e)
+    {
+        if (e.Reason == SessionSwitchReason.SessionUnlock || e.Reason == SessionSwitchReason.SessionLogon)
+            RecoverAudioDeviceAfterResume($"session switch: {e.Reason}");
+    }
+
+    private void OnPowerModeChanged(object sender, PowerModeChangedEventArgs e)
+    {
+        if (e.Mode == PowerModes.Resume)
+            RecoverAudioDeviceAfterResume("power resume");
+    }
+
+    private void RecoverAudioDeviceAfterResume(string reason)
+    {
+        // S3 resume invalidates the cached MMDevice (volume flyout frozen, mixer
+        // showing a single stale session) and often fires no DefaultDeviceChanged
+        // on desktops, so re-resolve the default endpoint after the audio stack settles.
+        Logger.Info($"Reattaching volume mixer after resume ({reason})");
+        _ = Task.Run(async () =>
+        {
+            try { await Task.Delay(2000); } catch { }
+            try
+            {
+                var app = System.Windows.Application.Current;
+                if (app?.Dispatcher == null)
+                    return;
+                await app.Dispatcher.InvokeAsync(() =>
+                {
+                    try
+                    {
+                        AttachDevice(AudioDeviceMonitor.Instance.GetDefaultRenderDevice());
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.Error(ex, "Volume mixer resume reattach failed");
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "Volume mixer resume recovery failed");
+            }
         });
     }
 
@@ -341,6 +414,7 @@ public partial class VolumeMixerViewModel : ObservableObject, IDisposable
         _pollTimer = null;
 
         AudioDeviceMonitor.Instance.DefaultDeviceChanged -= OnDefaultDeviceChanged;
+        TryUnregisterSystemEvents();
 
         if (_device != null)
         {
