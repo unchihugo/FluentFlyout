@@ -531,9 +531,49 @@ public partial class MainWindow : MicaWindow
     private static double GetBottomCenterFlyoutBottomMargin(bool reserveNativeVolumeOsdSpace)
     {
         if (!reserveNativeVolumeOsdSpace)
-            return 16;
+            return 16 + GetAutoHideTaskbarInset(bottomEdge: true);
 
-        return SettingsManager.Current.VolumeControlEnabled && SettingsManager.Current.VolumeControlAboveMediaFlyout ? 16 : 80;
+        return (SettingsManager.Current.VolumeControlEnabled && SettingsManager.Current.VolumeControlAboveMediaFlyout ? 16 : 80)
+            + GetAutoHideTaskbarInset(bottomEdge: true);
+    }
+
+    /// <summary>
+    /// Extra margin (raw pixels) to keep free for an auto-hidden taskbar on the
+    /// given screen edge. An auto-hidden taskbar is not part of the monitor work
+    /// area, so flyouts anchored 16px from the edge are covered by (or cover) the
+    /// taskbar as soon as it slides out (#987, #1039).
+    /// Returns 0 when the taskbar is not in auto-hide mode or lives on another edge.
+    /// </summary>
+    private static double GetAutoHideTaskbarInset(bool bottomEdge)
+    {
+        try
+        {
+            var data = new APPBARDATA { cbSize = Marshal.SizeOf<APPBARDATA>() };
+            int state = (int)SHAppBarMessage(ABM_GETSTATE, ref data);
+            if ((state & ABS_AUTOHIDE) == 0)
+                return 0;
+
+            var posData = new APPBARDATA { cbSize = Marshal.SizeOf<APPBARDATA>() };
+            if (SHAppBarMessage(ABM_GETTASKBARPOS, ref posData) == IntPtr.Zero)
+                return 0;
+
+            // ABE_LEFT = 0, ABE_TOP = 1, ABE_RIGHT = 2, ABE_BOTTOM = 3
+            bool taskbarOnBottom = posData.uEdge == 3;
+            bool taskbarOnTop = posData.uEdge == 1;
+            if (bottomEdge ? !taskbarOnBottom : !taskbarOnTop)
+                return 0;
+
+            double height = posData.rc.Bottom - posData.rc.Top;
+            if (height <= 0 || height > 500)
+                return 0;
+
+            return height;
+        }
+        catch (Exception ex)
+        {
+            Logger.Debug(ex, "Failed to query auto-hide taskbar state");
+            return 0;
+        }
     }
 
     private (double left, double top) GetFinalPosition(Rect windowRect, Rect workArea, bool reserveNativeVolumeOsdSpace = false)
@@ -547,9 +587,9 @@ public partial class MainWindow : MicaWindow
         };
         double top = position switch
         {
-            0 or 2 => workArea.Top + workArea.Height - windowRect.Height - 16,
+            0 or 2 => workArea.Top + workArea.Height - windowRect.Height - 16 - GetAutoHideTaskbarInset(bottomEdge: true),
             1 => workArea.Top + workArea.Height - windowRect.Height - GetBottomCenterFlyoutBottomMargin(reserveNativeVolumeOsdSpace),
-            _ => workArea.Top + 16
+            _ => workArea.Top + 16 + GetAutoHideTaskbarInset(bottomEdge: false)
         };
         return (left, top);
     }
@@ -609,7 +649,7 @@ public partial class MainWindow : MicaWindow
             if (_position == 0)
             {
                 window_left = workArea.Left + 16;
-                moveAnimation.To = workArea.Top + workArea.Height - windowRect.Height - 16;
+                moveAnimation.To = workArea.Top + workArea.Height - windowRect.Height - 16 - GetAutoHideTaskbarInset(bottomEdge: true);
                 if (SettingsManager.Current.FlyoutAnimationSpeed == 0) // if off, don't animate (just appear at the bottom)
                     moveAnimation.From = moveAnimation.To;
                 else
@@ -629,7 +669,7 @@ public partial class MainWindow : MicaWindow
             else if (_position == 2)
             {
                 window_left = workArea.Left + workArea.Width - windowRect.Width - 16;
-                moveAnimation.To = workArea.Top + workArea.Height - windowRect.Height - 16;
+                moveAnimation.To = workArea.Top + workArea.Height - windowRect.Height - 16 - GetAutoHideTaskbarInset(bottomEdge: true);
                 if (SettingsManager.Current.FlyoutAnimationSpeed == 0)
                     moveAnimation.From = moveAnimation.To;
                 else
@@ -638,7 +678,7 @@ public partial class MainWindow : MicaWindow
             else if (_position == 3)
             {
                 window_left = workArea.Left + 16;
-                moveAnimation.To = workArea.Top + 16;
+                moveAnimation.To = workArea.Top + 16 + GetAutoHideTaskbarInset(bottomEdge: false);
                 if (SettingsManager.Current.FlyoutAnimationSpeed == 0)
                     moveAnimation.From = moveAnimation.To;
                 else
@@ -647,7 +687,7 @@ public partial class MainWindow : MicaWindow
             else if (_position == 4)
             {
                 window_left = workArea.Left + workArea.Width / 2 - windowRect.Width / 2;
-                moveAnimation.To = workArea.Top + 16;
+                moveAnimation.To = workArea.Top + 16 + GetAutoHideTaskbarInset(bottomEdge: false);
                 if (SettingsManager.Current.FlyoutAnimationSpeed == 0)
                     moveAnimation.From = moveAnimation.To;
                 else
@@ -656,7 +696,7 @@ public partial class MainWindow : MicaWindow
             else if (_position == 5)
             {
                 window_left = workArea.Left + workArea.Width - windowRect.Width - 16;
-                moveAnimation.To = workArea.Top + 16;
+                moveAnimation.To = workArea.Top + 16 + GetAutoHideTaskbarInset(bottomEdge: false);
                 if (SettingsManager.Current.FlyoutAnimationSpeed == 0)
                     moveAnimation.From = moveAnimation.To;
                 else
@@ -667,7 +707,7 @@ public partial class MainWindow : MicaWindow
         else
         {
             window_left = workArea.Left + workArea.Width / 2 - windowRect.Width / 2;
-            moveAnimation.To = workArea.Top + workArea.Height - windowRect.Height - 16;
+            moveAnimation.To = workArea.Top + workArea.Height - windowRect.Height - 16 - GetAutoHideTaskbarInset(bottomEdge: true);
             if (SettingsManager.Current.FlyoutAnimationSpeed == 0)
                 moveAnimation.From = moveAnimation.To;
             else
