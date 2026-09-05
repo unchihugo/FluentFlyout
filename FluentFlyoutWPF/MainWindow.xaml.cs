@@ -1874,12 +1874,21 @@ public partial class MainWindow : MicaWindow
         return Task.WhenAll(
             mediaManager.CurrentMediaSessions.Values.Select(session =>
             {
-                if (
-                    session.Id != currentMediaSession.Id &&
-                    session.ControlSession.GetPlaybackInfo().PlaybackStatus == GlobalSystemMediaTransportControlsSessionPlaybackStatus.Playing
-                )
+                try
                 {
-                    return session.ControlSession.TryPauseAsync().AsTask();
+                    if (
+                        session.Id != currentMediaSession.Id &&
+                        session.ControlSession?.GetPlaybackInfo().PlaybackStatus == GlobalSystemMediaTransportControlsSessionPlaybackStatus.Playing
+                    )
+                    {
+                        return session.ControlSession.TryPauseAsync().AsTask();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Fire-and-forget fan-out: one dead session must not fail
+                    // the whole batch (or go unobserved).
+                    Logger.Debug(ex, "Failed to auto-pause session {0}", session.Id);
                 }
                 return Task.CompletedTask;
             })
@@ -1901,5 +1910,7 @@ public partial class MainWindow : MicaWindow
     {
         // Use the updated ShowMediaFlyout method with toggle mode to close the flyout
         ShowMediaFlyout(toggleMode: true);
+    }
+}ShowMediaFlyout(toggleMode: true);
     }
 }
