@@ -16,6 +16,7 @@ public class AudioDeviceMonitor : IDisposable
     private AudioDeviceNotificationClient? _notificationClient;
 
     public event EventHandler<DefaultDeviceChangedEventArgs>? DefaultDeviceChanged;
+    public event EventHandler? DeviceTopologyChanged;
 
     public static AudioDeviceMonitor Instance
     {
@@ -44,6 +45,7 @@ public class AudioDeviceMonitor : IDisposable
             _deviceEnumerator = new MMDeviceEnumerator();
             _notificationClient = new AudioDeviceNotificationClient();
             _notificationClient.DefaultDeviceChanged += OnDefaultDeviceChanged;
+            _notificationClient.DeviceTopologyChanged += OnDeviceTopologyChanged;
             _deviceEnumerator.RegisterEndpointNotificationCallback(_notificationClient);
 
             Logger.Info("Audio device monitoring initialized");
@@ -62,6 +64,12 @@ public class AudioDeviceMonitor : IDisposable
 
         Logger.Info("Default audio output device changed");
         DefaultDeviceChanged?.Invoke(this, e);
+    }
+
+    private void OnDeviceTopologyChanged(object? sender, EventArgs e)
+    {
+        Logger.Info("Audio device topology changed");
+        DeviceTopologyChanged?.Invoke(this, e);
     }
 
     public MMDevice? GetDefaultRenderDevice()
@@ -97,7 +105,11 @@ public class AudioDeviceMonitor : IDisposable
 
     public void Dispose()
     {
-        _notificationClient?.DefaultDeviceChanged -= OnDefaultDeviceChanged;
+        if (_notificationClient != null)
+        {
+            _notificationClient.DefaultDeviceChanged -= OnDefaultDeviceChanged;
+            _notificationClient.DeviceTopologyChanged -= OnDeviceTopologyChanged;
+        }
 
         if (_deviceEnumerator != null && _notificationClient != null)
         {
@@ -137,15 +149,16 @@ public class AudioDeviceMonitor : IDisposable
 public class AudioDeviceNotificationClient : IMMNotificationClient
 {
     public event EventHandler<DefaultDeviceChangedEventArgs>? DefaultDeviceChanged;
+    public event EventHandler? DeviceTopologyChanged;
 
     public void OnDefaultDeviceChanged(DataFlow flow, Role role, string defaultDeviceId)
     {
         DefaultDeviceChanged?.Invoke(this, new DefaultDeviceChangedEventArgs(flow, role, defaultDeviceId));
     }
 
-    public void OnDeviceStateChanged(string deviceId, DeviceState newState) { }
-    public void OnDeviceAdded(string pwstrDeviceId) { }
-    public void OnDeviceRemoved(string deviceId) { }
+    public void OnDeviceStateChanged(string deviceId, DeviceState newState) => DeviceTopologyChanged?.Invoke(this, EventArgs.Empty);
+    public void OnDeviceAdded(string pwstrDeviceId) => DeviceTopologyChanged?.Invoke(this, EventArgs.Empty);
+    public void OnDeviceRemoved(string deviceId) => DeviceTopologyChanged?.Invoke(this, EventArgs.Empty);
     public void OnPropertyValueChanged(string pwstrDeviceId, PropertyKey key) { }
 }
 

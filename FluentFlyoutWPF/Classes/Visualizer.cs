@@ -83,6 +83,7 @@ namespace FluentFlyoutWPF.Classes
 
             ResizeBarList(SettingsManager.Current.TaskbarVisualizerBarCount);
             AudioDeviceMonitor.Instance.DefaultDeviceChanged += OnDefaultDeviceChanged;
+            AudioDeviceMonitor.Instance.DeviceTopologyChanged += OnDeviceTopologyChanged;
             TryRegisterSystemEvents();
         }
 
@@ -171,6 +172,12 @@ namespace FluentFlyoutWPF.Classes
             if (!SettingsManager.Current.TaskbarVisualizerEnabled)
                 return;
             RequestRestart("default audio output device changed");
+        }
+
+        private void OnDeviceTopologyChanged(object? sender, EventArgs e)
+        {
+            if (SettingsManager.Current.TaskbarVisualizerEnabled)
+                RequestRestart("audio device added, removed, or state changed");
         }
 
         private void RequestRestart(string reason, bool allowFollowUp = true)
@@ -786,6 +793,7 @@ namespace FluentFlyoutWPF.Classes
             Stop();
 
             AudioDeviceMonitor.Instance.DefaultDeviceChanged -= OnDefaultDeviceChanged;
+            AudioDeviceMonitor.Instance.DeviceTopologyChanged -= OnDeviceTopologyChanged;
             TryUnregisterSystemEvents();
 
             if (_capture != null)
