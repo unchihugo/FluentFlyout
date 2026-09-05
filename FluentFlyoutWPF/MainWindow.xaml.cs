@@ -2076,6 +2076,19 @@ public partial class MainWindow : MicaWindow
                         // Now it is safe to recreate tray icon
                         RecreateTrayIconSafely();
 
+                        // The widget is a WS_CHILD of the old Shell_TrayWnd. After
+                        // an Explorer restart that parent HWND is dead: the child
+                        // keeps its hit-test region (clicks still register) but is
+                        // never composited again, so the widget and visualizer are
+                        // invisible until Explorer is restarted a second time
+                        // (#1065, #1052). Reparenting alone doesn't restore
+                        // rendering, so rebuild the window against the new taskbar.
+                        if (SettingsManager.Current.TaskbarWidgetEnabled || SettingsManager.Current.TaskbarVisualizerEnabled)
+                        {
+                            Logger.Info("Recreating Taskbar Widget window after Explorer restart");
+                            RecreateTaskbarWindow();
+                        }
+
                         // Explorer recreates the native volume OSD window, so a
                         // previously hidden OSD comes back until re-hidden.
                         if (SettingsManager.Current.VolumeControlEnabled)
