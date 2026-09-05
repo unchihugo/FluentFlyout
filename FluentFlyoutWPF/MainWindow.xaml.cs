@@ -1539,6 +1539,9 @@ public partial class MainWindow : MicaWindow
                 MediaIdButton.Visibility = Visibility.Collapsed;
                 SongImageBorder.Margin = new Thickness(0);
                 SongImageBorder.Height = 36;
+                // keep the album art square: only Height was updated here, so the
+                // 78px design width from XAML stayed and stretched the cover (#1019)
+                SongImageBorder.Width = 36;
                 SongInfoStackPanel.Margin = new Thickness(8, 0, 0, 0);
                 SongInfoStackPanel.Width = 182;
                 if (SettingsManager.Current.MediaFlyoutAlwaysDisplay)
@@ -1561,6 +1564,7 @@ public partial class MainWindow : MicaWindow
                 MediaIdButton.Visibility = Visibility.Visible;
                 SongImageBorder.Margin = new Thickness(6);
                 SongImageBorder.Height = 78;
+                SongImageBorder.Width = 78;
                 SongInfoStackPanel.Margin = new Thickness(12, 0, 0, 0);
                 SongInfoStackPanel.Width = 182 - 72 + extraWidth;
             }
