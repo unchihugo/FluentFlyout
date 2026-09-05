@@ -447,6 +447,8 @@ public partial class MainWindow : MicaWindow
         else if (alwaysBottom == false)
         {
             _position = SettingsManager.Current.Position;
+            if (_position < 0 || _position > 5)
+                _position = 1; // corrupted setting: fall back to bottom-center so the flyout always lands on-screen
             if (_position == 0)
             {
                 window_left = workArea.Left + 16;
@@ -516,6 +518,11 @@ public partial class MainWindow : MicaWindow
         // Set the initial position in raw coordinates.
         WindowHelper.SetPosition(window, window_left, moveAnimation.From!.Value);
 
+        // Capture the exact resting position in raw pixels before converting to
+        // DIPs below; used for the post-animation correction.
+        double restLeftRaw = window_left;
+        double restTopRaw = moveAnimation.To ?? moveAnimation.From.Value;
+
         // Next coordinates will be used to set Window.Top, which takes DPI into account,
         // so we need to convert the coordinates to DPI scale.
         moveAnimation.From *= 96.0 / monitor.dpiY;
@@ -535,6 +542,37 @@ public partial class MainWindow : MicaWindow
         storyboard.Begin(window);
         WindowHelper.SetVisibility(window, true);
         WindowHelper.SetTopmost(window);
+
+        Logger.Info($"Flyout '{window.GetType().Name}' shown at raw ({restLeftRaw:0}, {restTopRaw:0}) on '{monitor.deviceName}' ({monitor.workArea.Width:0}x{monitor.workArea.Height:0}@{monitor.workArea.Left:0},{monitor.workArea.Top:0} dpiY={monitor.dpiY})");
+
+        // Guarantee the resting position in raw pixels once the flight ends. On
+        // mixed-DPI multi-monitor setups the DIP scaling above can race the
+        // window's DPI flip, stranding the flyout off-screen so it never
+        // appears. The async correction is a no-op when already correct.
+        _ = Task.Run(async () =>
+        {
+            try { await Task.Delay(msDuration + 150); } catch { return; }
+            try
+            {
+                await Dispatcher.InvokeAsync(() =>
+                {
+                    try
+                    {
+                        if (!window.IsVisible)
+                            return;
+                        WindowHelper.SetPosition(window, restLeftRaw, restTopRaw, async: true);
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.Debug(ex, "Flyout resting-position correction failed");
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                Logger.Debug(ex, "Flyout resting-position dispatch failed");
+            }
+        });
     }
 
     public void CloseAnimation(MicaWindow window, MonitorInfo? selectedMonitor = null)
@@ -943,10 +981,13 @@ public partial class MainWindow : MicaWindow
     public async void ShowMediaFlyout(bool toggleMode = false, bool forceShow = false)
     {
         var activeSession = GetActiveMediaSession();
-        if (activeSession == null ||
-            (!forceShow && !SettingsManager.Current.MediaFlyoutEnabled) ||
-            FullscreenDetector.IsFullscreenApplicationRunning())
+        bool flyoutEnabled = forceShow || SettingsManager.Current.MediaFlyoutEnabled;
+        bool fullscreenBlock = FullscreenDetector.IsFullscreenApplicationRunning();
+        if (activeSession == null || !flyoutEnabled || fullscreenBlock)
+        {
+            Logger.Info($"ShowMediaFlyout suppressed: session={(activeSession == null ? "none" : activeSession.Id)}, enabled={flyoutEnabled}, fullscreenBlock={fullscreenBlock}");
             return;
+        }
 
         // If in toggle mode and flyout is visible, close it
         if (toggleMode && Visibility == Visibility.Visible && !_isHiding)
