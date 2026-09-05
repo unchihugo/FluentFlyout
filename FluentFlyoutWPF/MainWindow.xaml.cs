@@ -546,21 +546,46 @@ public partial class MainWindow : MicaWindow
         DoubleAnimation moveAnimation = (DoubleAnimation)storyboard.Children[0];
         var monitor = selectedMonitor != null ? selectedMonitor.Value : getSelectedMonitor();
         var workArea = monitor.workArea;
-        var windowRect = WindowHelper.GetPlacement(window);
+
+        // Use the window's actual current rendered position as the animation
+        // start. GetWindowPlacement can report zeros for transient handles and
+        // the selected monitor's DPI may differ from the monitor hosting the
+        // flyout - either made From wrong, so the first frame snapped
+        // (flyout jumps upward) before animating downward.
+        double dpiY = monitor.dpiY;
+        double currentTopPhys = double.NaN;
+        try
+        {
+            currentTopPhys = window.PointToScreen(new Point(0, 0)).Y;
+            var host = MonitorUtil.GetMonitor(window);
+            if (host.dpiY > 0)
+                dpiY = host.dpiY;
+        }
+        catch (Exception ex)
+        {
+            Logger.Debug(ex, "CloseAnimation PointToScreen failed, falling back to placement");
+        }
+        var placementRect = WindowHelper.GetPlacement(window);
+        if (double.IsNaN(currentTopPhys))
+            currentTopPhys = placementRect.Top;
+        if (dpiY <= 0)
+            dpiY = 96;
 
         // Use the window's actual current position as the animation start
-        moveAnimation.From = windowRect.Top;
+        moveAnimation.From = currentTopPhys * 96.0 / dpiY;
 
+        // Determine slide direction (physical pixels throughout)
+        bool isTopHalf = currentTopPhys + placementRect.Height / 2 < workArea.Top + workArea.Height / 2;
         if (SettingsManager.Current.FlyoutAnimationSpeed != 0)
         {
-            // Determine slide direction
-            bool isTopHalf = windowRect.Top + windowRect.Height / 2 < workArea.Top + workArea.Height / 2;
-            moveAnimation.To = windowRect.Top + (isTopHalf ? -20 : 20);
+            moveAnimation.To = moveAnimation.From + (isTopHalf ? -20 : 20);
         }
-
-        moveAnimation.From *= 96.0 / monitor.dpiY;
-        if (moveAnimation.To != null)
-            moveAnimation.To *= 96.0 / monitor.dpiY;
+        else
+        {
+            // Animations off: still pin To to From so a stale storyboard value
+            // can't teleport the window on the zero-duration snap.
+            moveAnimation.To = moveAnimation.From;
+        }
 
         int msDuration = getDuration();
 
@@ -810,19 +835,36 @@ public partial class MainWindow : MicaWindow
             bool mediaKeysPressed = vkCode == 0xB3 || vkCode == 0xB0 || vkCode == 0xB1 || vkCode == 0xB2; // Play/Pause, next, previous, stop
             bool volumeKeysPressed = vkCode == 0xAD || vkCode == 0xAE || vkCode == 0xAF; // Mute, Volume Down, Volume Up
 
-            // MainWindow.WndProc() also handles media and volume keys
+            // MainWindow.WndProc() also handles media and volume keys.
+            // NOTE: a low-level keyboard hook must return to Windows immediately.
+            // ShowMediaFlyout does blocking UI/COM work (Dispatcher.Invoke, media
+            // property fetches, animations); doing it synchronously here stalls
+            // every keystroke system-wide and Windows silently drops slow hooks,
+            // which breaks Alt+Tab and the media keys themselves over time
+            // (worse at boot when everything is slow). Queue it instead.
             if (mediaKeysPressed || volumeKeysPressed)
             {
-                bool result = false;
                 if (mediaKeysPressed || (!SettingsManager.Current.MediaFlyoutVolumeKeysExcluded && volumeKeysPressed))
-                    result = TryShowMediaFlyoutDebounced();
+                {
+                    long currentTime = Environment.TickCount64;
+                    // debounce to prevent hangs with rapid key presses
+                    if ((currentTime - _lastFlyoutTime) >= 500) // 500ms debounce time
+                    {
+                        _lastFlyoutTime = currentTime;
+                        _ = Dispatcher.BeginInvoke(() =>
+                        {
+                            try { ShowMediaFlyout(); }
+                            catch (Exception ex) { Logger.Debug(ex, "Show media flyout from hook failed"); }
+                        });
+                    }
+                }
 
                 if (SettingsManager.Current.VolumeControlEnabled && volumeMixerWindow != null)
                 {
-                    // SyncMasterFromDevice is dispatcher-aware (marshals to UI thread itself),
-                    // but ShowFlyout touches WPF visuals and must run on the UI thread.
-                    // The low-level hook fires on a non-UI thread and before the OS applies
-                    // the volume step, so the live OnVolumeNotification subscription in
+                    // SyncMasterFromDevice is dispatcher-aware (marshals to UI thread itself).
+                    // ShowFlyout is queued to the UI thread so this hook returns to
+                    // Windows immediately. The hook fires before the OS applies the
+                    // volume step, so the live OnVolumeNotification subscription in
                     // VolumeMixerViewModel is the source of truth for the final value.
                     var mixerWindow = volumeMixerWindow;
                     try
@@ -852,11 +894,6 @@ public partial class MainWindow : MicaWindow
                     {
                         Logger.Debug(ex, "Failed to dispatch volume flyout");
                     }
-                }
-
-                if (!result)
-                {
-                    return CallNextHookEx(_hookId, nCode, wParam, lParam);
                 }
             }
 
