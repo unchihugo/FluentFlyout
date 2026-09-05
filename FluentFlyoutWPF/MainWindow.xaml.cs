@@ -1614,8 +1614,9 @@ public partial class MainWindow : MicaWindow
             int extraWidth = SettingsManager.Current.RepeatEnabled ? 36 : 0;
             extraWidth += SettingsManager.Current.ShuffleEnabled ? 36 : 0;
             extraWidth += SettingsManager.Current.PlayerInfoEnabled ? 72 : 0;
-            // keep minimum width at 72 even if all extra features are disabled to prevent the widget from being too small
-            extraWidth = Math.Max(extraWidth, 72);
+            // Do not reserve optional-control space when repeat and shuffle are
+            // disabled; the base layout already includes the always-visible
+            // playback controls (#802).
 
             int extraHeight = SettingsManager.Current.SeekbarEnabled && _mediaSessionSupportsSeekbar ? 36 : 0;
 
