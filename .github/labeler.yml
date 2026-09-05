@@ -11,6 +11,8 @@
           - 'FluentFlyoutWPF/Pages/HomePage.{xaml,xaml.cs}'
           - 'FluentFlyoutWPF/Pages/AboutPage.{xaml,xaml.cs}'
           - 'FluentFlyoutWPF/Pages/SystemPage.{xaml,xaml.cs}'
+          - 'FluentFlyoutWPF/Pages/AppFilteringPage.{xaml,xaml.cs}'
+          - 'FluentFlyoutWPF/Pages/AdvancedPage.{xaml,xaml.cs}'
 
 'Lock Keys Flyout':
   - changed-files:
@@ -42,7 +44,9 @@
 
 'Volume Flyout':
   - changed-files:
-      - any-glob-to-any-file: 'FluentFlyoutWPF/Windows/VolumeMixerWindow.{xaml,xaml.cs}'
+      - any-glob-to-any-file:
+          - 'FluentFlyoutWPF/Windows/VolumeMixerWindow.{xaml,xaml.cs}'
+          - 'FluentFlyoutWPF/Pages/VolumeMixerPage.{xaml,xaml.cs}'
 
 # Add translations label to changes within Localization dictionaries except for en-US dictionary
 'translations':

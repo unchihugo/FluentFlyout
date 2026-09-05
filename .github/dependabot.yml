@@ -9,3 +9,13 @@ updates:
     directory: "/FluentFlyoutWPF/"
     schedule:
       interval: "daily"
+
+  - package-ecosystem: "nuget"
+    directory: "/FluentFlyout.SourceGenerators/"
+    schedule:
+      interval: "daily"
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "daily"
