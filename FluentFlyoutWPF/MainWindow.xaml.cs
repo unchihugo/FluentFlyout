@@ -976,6 +976,15 @@ public partial class MainWindow : MicaWindow
 
         var playbackInfo = currentActiveSession.ControlSession.GetPlaybackInfo();
 
+        if (_seekBarEnabled && currentActiveSession.Id == mediaSession.Id)
+        {
+            // A track change can arrive as a media-property event without a
+            // separate timeline event. Read the new timeline immediately so the
+            // seekbar does not retain the previous track's position (#153).
+            var timeline = currentActiveSession.ControlSession.GetTimelineProperties();
+            UpdateSeekbarCurrentDuration(timeline.Position);
+        }
+
         // Players republish empty metadata for a moment when a track restarts
         // (looping a song in YouTube Music) before sending the real properties.
         // Pushing that blank snapshot left the taskbar widget showing only the
