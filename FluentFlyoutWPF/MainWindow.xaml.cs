@@ -2291,6 +2291,18 @@ public partial class MainWindow : MicaWindow
 
         BitmapHelper.GetDominantColors(1);
         volumeMixerWindow = new VolumeMixerWindow();
+
+        // Hide the native volume OSD up front instead of waiting for the first
+        // volume key press. The OSD's XAML island only had to be found once we
+        // already wanted to show our own flyout, so the very first volume change
+        // after login still popped the Windows flyout - and if that lookup failed
+        // it was never retried, leaving the native flyout visible for the whole
+        // session (#966, #1078).
+        if (SettingsManager.Current.VolumeControlEnabled)
+        {
+            VolumeMixerWindow.RehideVolumeOsdAfterExplorerRestart();
+        }
+
         taskbarWindow = new TaskbarWindow();
         UpdateTaskbar();
     }
