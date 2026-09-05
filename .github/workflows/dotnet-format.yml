@@ -8,6 +8,7 @@ on:
 
 permissions:
   contents: read
+  actions: write
 
 jobs:
   dotnet-format:
@@ -23,4 +24,14 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
     - name: Format
-      run: dotnet format --verify-no-changes --verbosity diagnostic
+      shell: pwsh
+      run: |
+        dotnet format --verify-no-changes --verbosity diagnostic 2>&1 | Tee-Object -FilePath format-output.log
+        exit $LASTEXITCODE
+    - name: Upload format log
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: format-log
+        path: format-output.log
+        if-no-files-found: ignore
