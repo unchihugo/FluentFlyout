@@ -889,10 +889,19 @@ public partial class MainWindow : MicaWindow
 
     private void pauseOtherMediaSessionsIfNeeded(MediaSession mediaSession)
     {
-        if (
-            SettingsManager.Current.PauseOtherSessionsEnabled
-            && mediaSession.ControlSession.GetPlaybackInfo().PlaybackStatus == GlobalSystemMediaTransportControlsSessionPlaybackStatus.Playing
-            )
+        if (!SettingsManager.Current.PauseOtherSessionsEnabled)
+            return;
+
+        // Only the session the user actually interacted with may pause the
+        // others. This ran for every session that raised an event, so a
+        // background player emitting a property/playback update paused the
+        // session the user had just started, which then paused the first one
+        // back - the "exclusive audio mode" ping-pong between e.g. Spotify and
+        // a browser video (#1084).
+        if (GetActiveMediaSession() is not { } activeSession || activeSession.Id != mediaSession.Id)
+            return;
+
+        if (mediaSession.ControlSession?.GetPlaybackInfo()?.PlaybackStatus == GlobalSystemMediaTransportControlsSessionPlaybackStatus.Playing)
         {
             PauseOtherSessions(mediaSession);
         }
