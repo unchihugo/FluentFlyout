@@ -1194,7 +1194,7 @@ public partial class MainWindow : MicaWindow
                     }
                 }
 
-                if (SettingsManager.Current.VolumeControlEnabled && volumeMixerWindow != null)
+                if (volumeKeysPressed && SettingsManager.Current.VolumeControlEnabled && volumeMixerWindow != null)
                 {
                     // SyncMasterFromDevice is dispatcher-aware (marshals to UI thread itself).
                     // ShowFlyout is queued to the UI thread so this hook returns to
