@@ -84,6 +84,7 @@ namespace FluentFlyoutWPF.Classes
             ResizeBarList(SettingsManager.Current.TaskbarVisualizerBarCount);
             AudioDeviceMonitor.Instance.DefaultDeviceChanged += OnDefaultDeviceChanged;
             AudioDeviceMonitor.Instance.DeviceTopologyChanged += OnDeviceTopologyChanged;
+            AudioDeviceMonitor.Instance.DevicePropertyChanged += OnDevicePropertyChanged;
             TryRegisterSystemEvents();
         }
 
@@ -178,6 +179,14 @@ namespace FluentFlyoutWPF.Classes
         {
             if (SettingsManager.Current.TaskbarVisualizerEnabled)
                 RequestRestart("audio device added, removed, or state changed");
+        }
+
+        private void OnDevicePropertyChanged(object? sender, EventArgs e)
+        {
+            // Spatial-audio changes invalidate an existing loopback client even
+            // though the default endpoint id remains the same (#817).
+            if (SettingsManager.Current.TaskbarVisualizerEnabled)
+                RequestRestart("audio endpoint property changed");
         }
 
         private void RequestRestart(string reason, bool allowFollowUp = true)
@@ -794,6 +803,7 @@ namespace FluentFlyoutWPF.Classes
 
             AudioDeviceMonitor.Instance.DefaultDeviceChanged -= OnDefaultDeviceChanged;
             AudioDeviceMonitor.Instance.DeviceTopologyChanged -= OnDeviceTopologyChanged;
+            AudioDeviceMonitor.Instance.DevicePropertyChanged -= OnDevicePropertyChanged;
             TryUnregisterSystemEvents();
 
             if (_capture != null)
