@@ -207,7 +207,13 @@ public partial class MainWindow : MicaWindow
         mediaManager.Start();
 
         _hookProc = HookCallback;
-        _hookId = SetHook(_hookProc);
+        // Install the low-level keyboard hook on a dedicated thread with its
+        // own message pump. Hook callbacks run on the installing thread, so
+        // installing on the UI thread delayed every keystroke system-wide
+        // whenever the UI thread was busy (song-info/thumbnail fetches),
+        // producing keyboard-only input lag with no CPU spike (#1083).
+        _hookThread = new Thread(HookThreadProc) { IsBackground = true, Name = "FluentFlyout Keyboard Hook" };
+        _hookThread.Start();
 
         WindowStartupLocation = WindowStartupLocation.Manual;
         Left = -Width - 20; // workaround for window appearing on the screen before the animation starts
@@ -910,6 +916,64 @@ public partial class MainWindow : MicaWindow
         return SetWindowsHookEx(WH_KEYBOARD_LL, proc, GetModuleHandle(curModule.ModuleName), 0);
     }
 
+    /// <summary>
+    /// Installs the keyboard hook and pumps messages on the dedicated hook
+    /// thread until shutdown. Never touches UI objects here: callbacks must
+    /// return to Windows immediately and marshal UI work via the Dispatcher.
+    /// </summary>
+    private void HookThreadProc()
+    {
+        try
+        {
+            _hookThreadId = GetCurrentThreadId();
+            _hookId = SetHook(_hookProc);
+            while (_hookId != IntPtr.Zero && GetMessage(out MSG msg, IntPtr.Zero, 0, 0) > 0)
+            {
+                TranslateMessage(ref msg);
+                DispatchMessage(ref msg);
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger.Error(ex, "Keyboard hook thread failed");
+        }
+        finally
+        {
+            if (_hookId != IntPtr.Zero)
+            {
+                UnhookWindowsHookEx(_hookId);
+                _hookId = IntPtr.Zero;
+            }
+        }
+    }
+
+    private void StopHookThread()
+    {
+        try
+        {
+            uint threadId = _hookThreadId;
+            _hookThreadId = 0;
+            if (threadId != 0)
+                PostThreadMessage(threadId, WM_QUIT, UIntPtr.Zero, IntPtr.Zero);
+            // The thread unhooks itself on exit; bounded wait so shutdown
+            // never hangs if the pump is stuck.
+            _hookThread?.Join(TimeSpan.FromSeconds(3));
+            if (_hookId != IntPtr.Zero)
+            {
+                UnhookWindowsHookEx(_hookId);
+                _hookId = IntPtr.Zero;
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger.Debug(ex, "Failed to stop keyboard hook thread");
+        }
+        finally
+        {
+            _hookThread = null;
+        }
+    }
+
     private IntPtr HookCallback(int nCode, IntPtr wParam, IntPtr lParam)
     {
         if (nCode >= 0 && (wParam == WM_KEYDOWN || wParam == WM_KEYUP))
@@ -985,25 +1049,31 @@ public partial class MainWindow : MicaWindow
                 && !FullscreenDetector.IsFullscreenApplicationRunning()
                 && wParam == WM_KEYUP)
             {
-                if (vkCode == 0x14 && SettingsManager.Current.LockKeysCapsEnabled) // Caps Lock
+                // Window creation and resource/keyboard-state reads are
+                // UI-thread affine: the hook now runs on its own thread, so
+                // marshal the whole presentation step to the Dispatcher.
+                (string resourceKey, Key toggleKey)? lockInfo = vkCode switch
                 {
-                    lockWindow ??= new LockWindow();
-                    lockWindow.ShowLockFlyout(FindResource("LockWindow_CapsLock").ToString(), Keyboard.IsKeyToggled(Key.CapsLock));
-                }
-                else if (vkCode == 0x90 && SettingsManager.Current.LockKeysNumEnabled) // Num Lock
+                    0x14 when SettingsManager.Current.LockKeysCapsEnabled => ("LockWindow_CapsLock", Key.CapsLock),
+                    0x90 when SettingsManager.Current.LockKeysNumEnabled => ("LockWindow_NumLock", Key.NumLock),
+                    0x91 when SettingsManager.Current.LockKeysScrollEnabled => ("LockWindow_ScrollLock", Key.Scroll),
+                    0x2D when SettingsManager.Current.LockKeysInsertEnabled => ("Insert", Key.Insert),
+                    _ => null
+                };
+                if (lockInfo is { } info)
                 {
-                    lockWindow ??= new LockWindow();
-                    lockWindow.ShowLockFlyout(FindResource("LockWindow_NumLock").ToString(), Keyboard.IsKeyToggled(Key.NumLock));
-                }
-                else if (vkCode == 0x91 && SettingsManager.Current.LockKeysScrollEnabled) // Scroll Lock
-                {
-                    lockWindow ??= new LockWindow();
-                    lockWindow.ShowLockFlyout(FindResource("LockWindow_ScrollLock").ToString(), Keyboard.IsKeyToggled(Key.Scroll));
-                }
-                else if (vkCode == 0x2D && SettingsManager.Current.LockKeysInsertEnabled) // Insert
-                {
-                    lockWindow ??= new LockWindow();
-                    lockWindow.ShowLockFlyout("Insert", Keyboard.IsKeyToggled(Key.Insert));
+                    _ = Dispatcher.BeginInvoke(() =>
+                    {
+                        try
+                        {
+                            lockWindow ??= new LockWindow();
+                            string label = info.resourceKey == "Insert"
+                                ? "Insert"
+                                : FindResource(info.resourceKey).ToString();
+                            lockWindow.ShowLockFlyout(label, Keyboard.IsKeyToggled(info.toggleKey));
+                        }
+                        catch (Exception ex) { Logger.Debug(ex, "Show lock flyout from hook failed"); }
+                    });
                 }
             }
         }
