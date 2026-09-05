@@ -1775,6 +1775,17 @@ public partial class MainWindow : MicaWindow
         if (GetActiveMediaSession() is not { } session) return;
 
         var timeline = session.ControlSession.GetTimelineProperties();
+        var playbackStatus = session.ControlSession.GetPlaybackInfo()?.PlaybackStatus;
+        if (playbackStatus != GlobalSystemMediaTransportControlsSessionPlaybackStatus.Playing)
+        {
+            // Timeline.LastUpdatedTime is commonly left at the last playing
+            // timestamp while a browser is paused. Do not extrapolate from it or
+            // the seekbar keeps counting in the background (#746).
+            HandlePlayBackState(playbackStatus);
+            UpdateSeekbarCurrentDuration(timeline.Position);
+            return;
+        }
+
         var pos = timeline.Position + (DateTime.Now - timeline.LastUpdatedTime.DateTime);
         if (pos > timeline.EndTime)
         {
