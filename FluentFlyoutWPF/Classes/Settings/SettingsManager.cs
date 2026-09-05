@@ -22,6 +22,7 @@ public class SettingsManager
     );
 
     private static UserSettings? _current;
+    private static int _saveCounter;
     private static XmlSerializer? _exportSerializer;
 
     private static XmlSerializer GetExportSerializer()
@@ -132,7 +133,14 @@ public class SettingsManager
     {
         bool isExport = filePath != null;
         filePath ??= SettingsFilePath;
-        string tempPath = filePath + ".tmp";
+        // Unique temp name per save: the replace step runs asynchronously, so two
+        // saves scheduled close together shared one ".tmp" file. The first one to
+        // finish deleted the temp the second was still about to replace from,
+        // leaving settings.xml stale or missing -> settings reset on next start
+        // (#1013, #1072).
+        string tempPath = isExport
+            ? filePath + ".tmp"
+            : $"{filePath}.{Environment.ProcessId}.{Interlocked.Increment(ref _saveCounter)}.tmp";
         string backupPath = filePath + ".bak";
 
         try
@@ -214,14 +222,20 @@ public class SettingsManager
         {
             try
             {
-                File.Replace(tempPath, filePath, backupPath, ignoreMetadataErrors: true);
+                // Serialize against other saves: the replace runs outside the
+                // caller's lock, so concurrent replaces could interleave and
+                // leave settings.xml missing.
+                lock (SettingsFileLock)
+                {
+                    File.Replace(tempPath, filePath, backupPath, ignoreMetadataErrors: true);
+                }
                 break;
             }
             catch (IOException ex) when (attempts < maxAttempts)
             {
                 // if the file is locked, wait and retry
                 Logger.Warn(ex, "Settings file is locked, retrying...");
-                Thread.Sleep(75);
+                await Task.Delay(75);
             }
             catch (IOException ex)
             {
@@ -234,10 +248,28 @@ public class SettingsManager
 
     private static void ManualReplace(string filePath, string tempPath, string backupPath)
     {
-        TryDeleteFileIfExists(backupPath);
-        File.Copy(filePath, backupPath);
-        TryDeleteFileIfExists(filePath);
-        File.Move(tempPath, filePath);
+        lock (SettingsFileLock)
+        {
+            // Never delete the live settings file before the new content is in
+            // place: the old order (delete filePath, then move tempPath) left the
+            // user with no settings at all whenever the move failed, so the next
+            // start loaded defaults (#1013, #1072). Copy over it instead, which
+            // is atomic enough for our purposes and always leaves a readable file.
+            if (File.Exists(filePath))
+            {
+                TryDeleteFileIfExists(backupPath);
+                try
+                {
+                    File.Copy(filePath, backupPath);
+                }
+                catch (Exception ex)
+                {
+                    Logger.Warn(ex, "Could not refresh settings backup before manual replace");
+                }
+            }
+
+            File.Copy(tempPath, filePath, true);
+        }
     }
 
     private static void TryDeleteFileIfExists(string path)
