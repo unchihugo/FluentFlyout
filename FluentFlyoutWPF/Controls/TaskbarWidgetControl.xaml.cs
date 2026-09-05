@@ -214,23 +214,7 @@ public partial class TaskbarWidgetControl : UserControl
     public (double logicalWidth, double logicalHeight) CalculateSize(double dpiScale)
     {
         // calculate widget width - use cached values if text hasn't changed
-        string currentTitle = _actualTitle;
-        string currentArtist = _actualArtist;
-
-        bool textChanged = false;
-
-        if (!string.Equals(currentTitle, _cachedTitleText, StringComparison.Ordinal))
-        {
-            _cachedTitleWidth = Math.Round(StringWidth.GetStringWidth(currentTitle, 400), 2);
-            _cachedTitleText = currentTitle;
-            textChanged = true;
-        }
-        if (!string.Equals(currentArtist, _cachedArtistText, StringComparison.Ordinal))
-        {
-            _cachedArtistWidth = Math.Round(StringWidth.GetStringWidth(currentArtist, 400), 2);
-            _cachedArtistText = currentArtist;
-            textChanged = true;
-        }
+        bool textChanged = RefreshCachedTextWidths();
 
         // maximum width limit, same as Windows native widget
         double maxLogicalWidth = _nativeWidgetsPadding / _scale;
@@ -280,6 +264,48 @@ public partial class TaskbarWidgetControl : UserControl
         double logicalHeight = 40; // default height
 
         return (logicalWidth, logicalHeight);
+    }
+
+    /// <summary>
+    /// Re-measures title/artist text widths when the underlying strings changed.
+    /// Returns true when either measurement was refreshed.
+    /// </summary>
+    private bool RefreshCachedTextWidths()
+    {
+        bool changed = false;
+
+        if (!string.Equals(_actualTitle, _cachedTitleText, StringComparison.Ordinal))
+        {
+            _cachedTitleWidth = Math.Round(StringWidth.GetStringWidth(_actualTitle, 400), 2);
+            _cachedTitleText = _actualTitle;
+            changed = true;
+        }
+        if (!string.Equals(_actualArtist, _cachedArtistText, StringComparison.Ordinal))
+        {
+            _cachedArtistWidth = Math.Round(StringWidth.GetStringWidth(_actualArtist, 400), 2);
+            _cachedArtistText = _actualArtist;
+            changed = true;
+        }
+
+        return changed;
+    }
+
+    /// <summary>
+    /// Instantly stops any running scroll animation on a marquee text block and
+    /// restores the single-copy text at offset 0. Must run synchronously on the
+    /// UI thread right when the song text changes: the position/size pass that
+    /// rebuilds marquees runs async, and any frame in between would render the
+    /// new text with the previous song's animation offset (blank/blinking widget).
+    /// </summary>
+    private static void ResetMarquee(System.Windows.Controls.TextBlock textBlock, Canvas container, string actualText)
+    {
+        if (textBlock.RenderTransform is TranslateTransform transform)
+        {
+            transform.BeginAnimation(TranslateTransform.XProperty, null);
+            transform.X = 0;
+        }
+        if (!string.Equals(textBlock.Text, actualText, StringComparison.Ordinal))
+            textBlock.Text = actualText;
     }
 
     public void UpdateMarquees()
@@ -465,6 +491,12 @@ public partial class TaskbarWidgetControl : UserControl
                 MainBorder.Background.Opacity = 0;
                 TopBorder.BorderBrush = Brushes.Transparent;
 
+                // stop any stale scroll animation so it can't leak into the next song
+                ResetMarquee(SongTitle, SongTitleContainer, string.Empty);
+                ResetMarquee(SongArtist, SongArtistContainer, string.Empty);
+                RefreshCachedTextWidths();
+                UpdateMarquees();
+
                 Visibility = Visibility.Visible;
             });
             return;
@@ -506,7 +538,8 @@ public partial class TaskbarWidgetControl : UserControl
             string newTitle = !string.IsNullOrEmpty(title) ? title : "-";
             string newArtist = !string.IsNullOrEmpty(artist) ? artist : "-";
 
-            if (_actualTitle != newTitle || _actualArtist != newArtist)
+            bool infoChanged = _actualTitle != newTitle || _actualArtist != newArtist;
+            if (infoChanged)
             {
                 // changed info
                 if (SettingsManager.Current.TaskbarWidgetAnimated)
@@ -519,6 +552,14 @@ public partial class TaskbarWidgetControl : UserControl
 
                 SongTitle.Text = _actualTitle;
                 SongArtist.Text = _actualArtist;
+
+                // Kill the previous song's scroll animation synchronously. The
+                // size/position pass that rebuilds marquees runs async, and any
+                // frame in between would render the new text with the old
+                // animation offset (blank widget) or snap back later (blink) -
+                // especially with loop mode, which doubles the text.
+                ResetMarquee(SongTitle, SongTitleContainer, _actualTitle);
+                ResetMarquee(SongArtist, SongArtistContainer, _actualArtist);
             }
 
             // Update tooltip with song info
@@ -571,6 +612,15 @@ public partial class TaskbarWidgetControl : UserControl
             ControlsStackPanel.Visibility = SettingsManager.Current.TaskbarWidgetControlsEnabled
                 ? Visibility.Visible
                 : Visibility.Collapsed;
+
+            // Rebuild marquee state for the new text now (container widths get
+            // corrected on the upcoming async position pass). Skipped for
+            // play/pause-only updates so scrolling never restarts/blinks.
+            if (infoChanged)
+            {
+                RefreshCachedTextWidths();
+                UpdateMarquees();
+            }
 
             Visibility = Visibility.Visible;
         });
