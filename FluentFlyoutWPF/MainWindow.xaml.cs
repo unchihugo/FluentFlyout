@@ -2251,6 +2251,4 @@ public partial class MainWindow : MicaWindow
         // Use the updated ShowMediaFlyout method with toggle mode to close the flyout
         ShowMediaFlyout(toggleMode: true);
     }
-}ShowMediaFlyout(toggleMode: true);
-    }
 }
