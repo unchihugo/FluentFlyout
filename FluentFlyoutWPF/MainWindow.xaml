@@ -1,4 +1,4 @@
-﻿<controls:MicaWindow x:Class="FluentFlyoutWPF.MainWindow"
+<controls:MicaWindow x:Class="FluentFlyoutWPF.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -102,7 +102,7 @@
                     <Border Name="SongImageBorder" CornerRadius="6" BorderThickness="1" BorderBrush="#26FFFFFF" Margin="0" ClipToBounds="True" Width="78" Height="78">
                         <ui:SymbolIcon Name="SongImagePlaceholder" Symbol="MusicNote220" FontSize="40" Filled="True" Foreground="{DynamicResource MicaWPF.Brushes.SystemAccentColorSecondary}" Visibility="Collapsed" />
                         <Border.Background>
-                            <ImageBrush x:Name="SongImage" Stretch="UniformToFill"/>
+                            <ImageBrush x:Name="SongImage" Stretch="Uniform"/>
                         </Border.Background>
                     </Border>
                     <StackPanel Name="BodyStackPanel" Orientation="Vertical" VerticalAlignment="Center" Width="194">
