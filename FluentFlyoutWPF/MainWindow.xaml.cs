@@ -998,7 +998,10 @@ public partial class MainWindow : MicaWindow
             return;
         }
 
-        string check = songInfo.Title + songInfo.Artist + playbackInfo.PlaybackStatus;
+        // Dedupe per media session. Two players can publish the same title,
+        // artist and state; a process-wide key would then suppress the second
+        // player's update and leave the widget showing stale metadata (#659).
+        string check = mediaSession.Id + "\0" + songInfo.Title + songInfo.Artist + playbackInfo.PlaybackStatus;
         int checkThumbnail = BitmapHelper.GetStableThumbnailHash(songInfo.Thumbnail);
         bool onlyThumbnailChanged = false;
         if (previousMediaProperty == check)
