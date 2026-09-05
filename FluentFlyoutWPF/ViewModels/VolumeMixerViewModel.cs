@@ -371,6 +371,13 @@ public partial class VolumeMixerViewModel : ObservableObject, IDisposable
             var sessionManager = updatedDevice.AudioSessionManager;
             var sessions = sessionManager.Sessions;
 
+            // Apps that open several WASAPI sessions (or several processes of the
+            // same executable, e.g. Flow Launcher) previously produced one row per
+            // session. The native Windows mixer groups them per app, so keep only
+            // the first session of each process id / display name (#973).
+            var seenProcessIds = new HashSet<int>();
+            var seenNames = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
             for (int i = 0; i < sessions.Count; i++)
             {
                 var session = sessions[i];
@@ -382,6 +389,10 @@ public partial class VolumeMixerViewModel : ObservableObject, IDisposable
                 string name = pid != 0 ? GetSessionDisplayName(session) : "System sounds";
 
                 if (name == "FluentFlyout") continue;
+
+                // pid 0 is "System sounds", which is a single logical entry
+                if (pid != 0 && !seenProcessIds.Add(pid)) continue;
+                if (!seenNames.Add(name)) continue;
 
                 var icon = MediaPlayerData.GetAndCacheProcessIcon(pid, name);
                 var audioSession = new AudioSessionModel(session, name, pid, sessionState, icon);
