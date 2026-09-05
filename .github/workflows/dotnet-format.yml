@@ -23,12 +23,4 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
     - name: Format
-      shell: pwsh
-      run: |
-        dotnet format --verify-no-changes --verbosity diagnostic 2>&1 | Tee-Object -FilePath format-output.log
-        if ($LASTEXITCODE -ne 0) {
-          $log = (Get-Content format-output.log -Raw) -replace "`r?`n", " || "
-          if ($log.Length -gt 60000) { $log = "..." + $log.Substring($log.Length - 60000) }
-          Write-Host "::error file=.github/workflows/dotnet-format.yml,line=1::DOTNET-FORMAT-LOG: $log"
-          exit 1
-        }
+      run: dotnet format --verify-no-changes --verbosity diagnostic

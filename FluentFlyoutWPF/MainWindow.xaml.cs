@@ -1171,9 +1171,10 @@ public partial class MainWindow : MicaWindow
                         try
                         {
                             lockWindow ??= new LockWindow();
-                            string label = info.resourceKey == "Insert"
-                                ? "Insert"
-                                : FindResource(info.resourceKey).ToString();
+                            // "Insert" has no matching resource, so skip the lookup; fall
+                            // back to the key itself if the resource is ever missing.
+                            object? resource = info.resourceKey == "Insert" ? null : FindResource(info.resourceKey);
+                            string label = resource?.ToString() ?? info.resourceKey;
                             lockWindow.ShowLockFlyout(label, Keyboard.IsKeyToggled(info.toggleKey));
                         }
                         catch (Exception ex) { Logger.Debug(ex, "Show lock flyout from hook failed"); }
