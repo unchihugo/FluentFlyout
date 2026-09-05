@@ -963,6 +963,19 @@ public partial class MainWindow : MicaWindow
 
         var playbackInfo = currentActiveSession.ControlSession.GetPlaybackInfo();
 
+        // Players republish empty metadata for a moment when a track restarts
+        // (looping a song in YouTube Music) before sending the real properties.
+        // Pushing that blank snapshot left the taskbar widget showing only the
+        // album art with no title/artist until the song was changed manually,
+        // and poisoned the dedupe cache so the real update was suppressed
+        // (#961). Ignore the blank interim state while the session is alive.
+        if (string.IsNullOrWhiteSpace(songInfo.Title) && string.IsNullOrWhiteSpace(songInfo.Artist)
+            && playbackInfo.PlaybackStatus != GlobalSystemMediaTransportControlsSessionPlaybackStatus.Closed
+            && playbackInfo.PlaybackStatus != GlobalSystemMediaTransportControlsSessionPlaybackStatus.Stopped)
+        {
+            return;
+        }
+
         string check = songInfo.Title + songInfo.Artist + playbackInfo.PlaybackStatus;
         int checkThumbnail = BitmapHelper.GetStableThumbnailHash(songInfo.Thumbnail);
         bool onlyThumbnailChanged = false;
@@ -998,7 +1011,13 @@ public partial class MainWindow : MicaWindow
                 });
             }
 
-            if (nextUpWindow == null && IsVisible == false && songInfo.Thumbnail != null && currentTitle != songInfo.Title)
+            // A looped track legitimately repeats its title, so comparing against
+            // the last shown title alone permanently suppressed the next-up
+            // flyout for that song (#961). Allow a repeat once the title has
+            // actually been republished by the player.
+            bool isNewSong = currentTitle != songInfo.Title || !onlyThumbnailChanged;
+
+            if (nextUpWindow == null && IsVisible == false && songInfo.Thumbnail != null && isNewSong)
             {
                 createNewNextUpWindow();
             }
