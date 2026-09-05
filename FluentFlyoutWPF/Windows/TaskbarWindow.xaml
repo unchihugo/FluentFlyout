@@ -19,8 +19,10 @@
         Loaded="Window_Loaded" Visibility="Collapsed" d:Visibility="Visible"
         xmlns:viewModels="clr-namespace:FluentFlyoutWPF.ViewModels"
 		d:DataContext="{d:DesignInstance viewModels:UserSettings}">
-    <Canvas Name="WidgetCanvas" Background="Transparent">
-		<controls:TaskbarVisualizerControl x:Name="TaskbarVisualizer" Margin="0,1,0,0" />
-        <controls:TaskbarWidgetControl x:Name="Widget" />
+    <!-- Keep the host coordinate system LTR; RTL is applied to the widget content
+         itself so Canvas.Left/Top continue to describe taskbar pixels (#529). -->
+    <Canvas Name="WidgetCanvas" Background="Transparent" FlowDirection="LeftToRight">
+			<controls:TaskbarVisualizerControl x:Name="TaskbarVisualizer" Margin="0,1,0,0" FlowDirection="LeftToRight" />
+        <controls:TaskbarWidgetControl x:Name="Widget" FlowDirection="{Binding FlowDirection}" />
     </Canvas>
 </Window>

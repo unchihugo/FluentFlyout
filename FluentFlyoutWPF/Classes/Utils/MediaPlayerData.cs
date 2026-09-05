@@ -102,7 +102,9 @@ public static class MediaPlayerData
                         // fall back to MainWindowTitle if the description is empty
                         string title = !string.IsNullOrWhiteSpace(mainModule.FileVersionInfo.FileDescription)
                                         ? mainModule.FileVersionInfo.FileDescription
-                                        : p.MainWindowTitle;
+                                        : !string.IsNullOrWhiteSpace(p.MainWindowTitle)
+                                            ? p.MainWindowTitle
+                                            : p.ProcessName;
 
                         return new { Title = title, Path = path, ProcessId = p.Id, IsExactMatch = isExactMatch };
                     }

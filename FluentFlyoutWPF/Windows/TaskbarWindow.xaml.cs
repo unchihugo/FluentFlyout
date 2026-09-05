@@ -56,7 +56,10 @@ public partial class TaskbarWindow : Window
         DataContext = SettingsManager.Current;
 
         _timer = new DispatcherTimer();
-        _timer.Interval = TimeSpan.FromMilliseconds(1500); // slow auto-update for display changes
+        // Auto-hide taskbars resize while they are being revealed. A 1.5s
+        // placement interval left the child window half clipped until the next
+        // reveal; refresh often enough to follow that transition (#849).
+        _timer.Interval = TimeSpan.FromMilliseconds(250);
         _timer.Tick += (s, e) => UpdatePosition();
         _timer.Start();
 

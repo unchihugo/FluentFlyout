@@ -976,6 +976,15 @@ public partial class MainWindow : MicaWindow
 
         var playbackInfo = currentActiveSession.ControlSession.GetPlaybackInfo();
 
+        if (_seekBarEnabled && currentActiveSession.Id == mediaSession.Id)
+        {
+            // A track change can arrive as a media-property event without a
+            // separate timeline event. Read the new timeline immediately so the
+            // seekbar does not retain the previous track's position (#153).
+            var timeline = currentActiveSession.ControlSession.GetTimelineProperties();
+            UpdateSeekbarCurrentDuration(timeline.Position);
+        }
+
         // Players republish empty metadata for a moment when a track restarts
         // (looping a song in YouTube Music) before sending the real properties.
         // Pushing that blank snapshot left the taskbar widget showing only the
@@ -989,7 +998,10 @@ public partial class MainWindow : MicaWindow
             return;
         }
 
-        string check = songInfo.Title + songInfo.Artist + playbackInfo.PlaybackStatus;
+        // Dedupe per media session. Two players can publish the same title,
+        // artist and state; a process-wide key would then suppress the second
+        // player's update and leave the widget showing stale metadata (#659).
+        string check = mediaSession.Id + "\0" + songInfo.Title + songInfo.Artist + playbackInfo.PlaybackStatus;
         int checkThumbnail = BitmapHelper.GetStableThumbnailHash(songInfo.Thumbnail);
         bool onlyThumbnailChanged = false;
         if (previousMediaProperty == check)
@@ -1194,7 +1206,7 @@ public partial class MainWindow : MicaWindow
                     }
                 }
 
-                if (SettingsManager.Current.VolumeControlEnabled && volumeMixerWindow != null)
+                if (volumeKeysPressed && SettingsManager.Current.VolumeControlEnabled && volumeMixerWindow != null)
                 {
                     // SyncMasterFromDevice is dispatcher-aware (marshals to UI thread itself).
                     // ShowFlyout is queued to the UI thread so this hook returns to
@@ -1602,8 +1614,9 @@ public partial class MainWindow : MicaWindow
             int extraWidth = SettingsManager.Current.RepeatEnabled ? 36 : 0;
             extraWidth += SettingsManager.Current.ShuffleEnabled ? 36 : 0;
             extraWidth += SettingsManager.Current.PlayerInfoEnabled ? 72 : 0;
-            // keep minimum width at 72 even if all extra features are disabled to prevent the widget from being too small
-            extraWidth = Math.Max(extraWidth, 72);
+            // Do not reserve optional-control space when repeat and shuffle are
+            // disabled; the base layout already includes the always-visible
+            // playback controls (#802).
 
             int extraHeight = SettingsManager.Current.SeekbarEnabled && _mediaSessionSupportsSeekbar ? 36 : 0;
 
@@ -1775,6 +1788,17 @@ public partial class MainWindow : MicaWindow
         if (GetActiveMediaSession() is not { } session) return;
 
         var timeline = session.ControlSession.GetTimelineProperties();
+        var playbackStatus = session.ControlSession.GetPlaybackInfo()?.PlaybackStatus;
+        if (playbackStatus != GlobalSystemMediaTransportControlsSessionPlaybackStatus.Playing)
+        {
+            // Timeline.LastUpdatedTime is commonly left at the last playing
+            // timestamp while a browser is paused. Do not extrapolate from it or
+            // the seekbar keeps counting in the background (#746).
+            HandlePlayBackState(playbackStatus);
+            UpdateSeekbarCurrentDuration(timeline.Position);
+            return;
+        }
+
         var pos = timeline.Position + (DateTime.Now - timeline.LastUpdatedTime.DateTime);
         if (pos > timeline.EndTime)
         {
