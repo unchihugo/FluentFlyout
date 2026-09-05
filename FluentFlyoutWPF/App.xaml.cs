@@ -5,7 +5,7 @@ using FluentFlyout.Classes;
 using Microsoft.Toolkit.Uwp.Notifications;
 using System.Windows;
 
-namespace FluentFlyoutWPF;
+namespace FluentFlyout;
 
 /// <summary>
 /// Interaction logic for App.xaml

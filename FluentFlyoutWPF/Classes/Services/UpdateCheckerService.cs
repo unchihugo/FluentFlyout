@@ -1,12 +1,12 @@
 // Copyright (c) 2024-2026 The FluentFlyout Authors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-using FluentFlyoutWPF.Classes.Clients;
+using FluentFlyout.Classes.Clients;
 using NLog;
 using System.Net.Http;
 using System.Text.Json;
 
-namespace FluentFlyoutWPF.Classes.Services;
+namespace FluentFlyout.Classes.Services;
 
 /// <summary>
 /// Handles checking for application updates from the API

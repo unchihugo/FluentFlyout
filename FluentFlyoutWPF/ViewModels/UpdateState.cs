@@ -3,7 +3,7 @@
 
 using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace FluentFlyoutWPF.ViewModels;
+namespace FluentFlyout.ViewModels;
 
 /// <summary>
 /// Runtime state for update checking (not persisted)

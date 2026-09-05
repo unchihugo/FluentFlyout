@@ -1,13 +1,13 @@
 ﻿// Copyright (c) 2024-2026 The FluentFlyout Authors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+using FluentFlyout.Classes.Clients;
 using FluentFlyout.Classes.Settings;
-using FluentFlyoutWPF.Classes.Clients;
 using NLog;
 using System.Net.Http;
 using System.Security.Cryptography;
 
-namespace FluentFlyoutWPF.Classes.Services;
+namespace FluentFlyout.Classes.Services;
 
 internal class ExperimentsService
 {

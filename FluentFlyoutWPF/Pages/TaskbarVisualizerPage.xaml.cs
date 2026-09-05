@@ -7,7 +7,7 @@ using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace FluentFlyoutWPF.Pages;
+namespace FluentFlyout.Pages;
 
 public partial class TaskbarVisualizerPage : Page
 {

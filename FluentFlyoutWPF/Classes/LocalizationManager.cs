@@ -1,9 +1,9 @@
 ﻿// Copyright (c) 2024-2026 The FluentFlyout Authors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+using FluentFlyout;
 using FluentFlyout.Classes.Settings;
 using FluentFlyout.Classes.Utils;
-using FluentFlyoutWPF;
 using System.Globalization;
 using System.Windows;
 
@@ -44,6 +44,7 @@ public static class LocalizationManager
         { "polski", "pl" },                 // Polish
         { "Português (Brasil)", "pt-BR" },  // Portuguese (Brazil)
         { "Русский", "ru" },                // Russian
+        { "සිංහල", "si" },                   // Sinhala
         { "slovenčina", "sk" },             // Slovak
         { "Español", "es" },                // Spanish
         { "தமிழ்", "ta" },                  // Tamil

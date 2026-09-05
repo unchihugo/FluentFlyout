@@ -7,7 +7,7 @@ using System.Windows;
 using System.Windows.Interop;
 using static FluentFlyout.Classes.NativeMethods;
 
-namespace FluentFlyoutWPF.Classes;
+namespace FluentFlyout.Classes;
 
 public static class WindowHelper
 {

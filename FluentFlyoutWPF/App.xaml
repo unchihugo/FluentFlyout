@@ -1,12 +1,12 @@
-﻿<Application x:Class="FluentFlyoutWPF.App"
+﻿<Application x:Class="FluentFlyout.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:FluentFlyoutWPF"
+             xmlns:local="clr-namespace:FluentFlyout"
              xmlns:classes="clr-namespace:FluentFlyout.Classes"
              StartupUri="MainWindow.xaml"
              xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
              xmlns:mica="clr-namespace:MicaWPF.Styles;assembly=MicaWPF"
-             xmlns:converters="clr-namespace:FluentFlyoutWPF.Classes.Converters"
+             xmlns:converters="clr-namespace:FluentFlyout.Classes.Converters"
              ShutdownMode="OnExplicitShutdown">
     <Application.Resources>
         <ResourceDictionary>

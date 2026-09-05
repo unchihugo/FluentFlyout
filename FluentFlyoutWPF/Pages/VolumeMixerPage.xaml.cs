@@ -6,7 +6,7 @@ using FluentFlyout.Classes.Settings;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace FluentFlyoutWPF.Pages;
+namespace FluentFlyout.Pages;
 
 public partial class VolumeMixerPage : Page
 {

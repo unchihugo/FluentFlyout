@@ -1,14 +1,14 @@
 // Copyright (c) 2024-2026 The FluentFlyout Authors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-using FluentFlyoutWPF.Classes.Services;
-using FluentFlyoutWPF.ViewModels;
+using FluentFlyout.Classes.Services;
+using FluentFlyout.ViewModels;
 using MicaWPF.Controls;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Media.Animation;
 
-namespace FluentFlyoutWPF;
+namespace FluentFlyout;
 
 public partial class OnboardingWindow : MicaWindow
 {

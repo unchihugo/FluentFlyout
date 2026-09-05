@@ -6,15 +6,14 @@ using FluentFlyout.Classes;
 using FluentFlyout.Classes.Settings;
 using FluentFlyout.Classes.Utils;
 using FluentFlyout.Controls;
-using FluentFlyoutWPF.Classes;
-using FluentFlyoutWPF.Models;
-using FluentFlyoutWPF.Windows;
+using FluentFlyout.Models;
+using FluentFlyout.Windows;
 using System.Collections.ObjectModel;
 using System.Reflection;
 using System.Windows;
 using System.Xml.Serialization;
 
-namespace FluentFlyoutWPF.ViewModels;
+namespace FluentFlyout.ViewModels;
 
 /**
  * User Settings data model.

@@ -5,7 +5,7 @@ using FluentFlyout.Classes.Settings;
 using System.Net.Http;
 using System.Net.Http.Json;
 
-namespace FluentFlyoutWPF.Classes.Clients;
+namespace FluentFlyout.Classes.Clients;
 
 public sealed class FluentFlyoutApiClient
 {

@@ -1,8 +1,9 @@
 ﻿// Copyright (c) 2024-2026 The FluentFlyout Authors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+using FluentFlyout;
 using FluentFlyout.Classes.Settings;
-using FluentFlyoutWPF;
+using FluentFlyout.Classes.Utils;
 using MicaWPF.Core.Enums;
 using MicaWPF.Core.Helpers;
 using MicaWPF.Core.Services;

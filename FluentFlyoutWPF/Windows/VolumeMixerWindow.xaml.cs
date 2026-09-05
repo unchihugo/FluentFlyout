@@ -9,15 +9,14 @@
 
 using FluentFlyout.Classes;
 using FluentFlyout.Classes.Settings;
-using FluentFlyoutWPF.Classes;
-using FluentFlyoutWPF.ViewModels;
+using FluentFlyout.ViewModels;
 using MicaWPF.Controls;
 using NLog;
 using System.Windows;
 using System.Windows.Media.Animation;
 using static FluentFlyout.Classes.NativeMethods;
 
-namespace FluentFlyoutWPF.Windows;
+namespace FluentFlyout.Windows;
 
 /// <summary>
 /// Interaction logic for VolumeMixerWindow.xaml

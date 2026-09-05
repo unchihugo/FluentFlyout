@@ -3,12 +3,11 @@
 
 using FluentFlyout.Classes;
 using FluentFlyout.Classes.Settings;
-using FluentFlyoutWPF.Classes;
-using FluentFlyoutWPF.Classes.Utils;
+using FluentFlyout.Classes.Utils;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace FluentFlyoutWPF.Pages;
+namespace FluentFlyout.Pages;
 
 public partial class TaskbarWidgetPage : Page
 {

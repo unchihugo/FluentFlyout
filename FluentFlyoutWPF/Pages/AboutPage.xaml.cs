@@ -3,10 +3,10 @@
 
 using FluentFlyout.Classes;
 using FluentFlyout.Classes.Settings;
-using FluentFlyoutWPF.ViewModels;
+using FluentFlyout.ViewModels;
 using System.Windows;
 using System.Windows.Controls;
-namespace FluentFlyoutWPF.Pages;
+namespace FluentFlyout.Pages;
 
 public partial class AboutPage : Page
 {

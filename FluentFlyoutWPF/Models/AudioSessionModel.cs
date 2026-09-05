@@ -7,7 +7,7 @@ using NAudio.CoreAudioApi;
 using NAudio.CoreAudioApi.Interfaces;
 using System.Windows.Media;
 
-namespace FluentFlyoutWPF.Models;
+namespace FluentFlyout.Models;
 
 public partial class AudioSessionModel : ObservableObject
 {

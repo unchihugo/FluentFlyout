@@ -8,7 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Interop;
 using static FluentFlyout.Classes.NativeMethods;
 
-namespace FluentFlyoutWPF.Classes.Utils;
+namespace FluentFlyout.Classes.Utils;
 
 public static class MonitorUtil
 {
