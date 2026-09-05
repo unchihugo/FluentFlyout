@@ -239,6 +239,36 @@ public partial class VolumeMixerWindow : MicaWindow
         Logger.Info("Successfully hid volume OSD.");
     }
 
+    /// <summary>
+    /// Re-hides the native volume OSD after an Explorer restart. Explorer
+    /// recreates the OSD window (new HWND), so the previously hidden handle is
+    /// dead and the native flyout pops back until something re-hides it.
+    /// Retries briefly since the island can lag behind the taskbar.
+    /// </summary>
+    public static void RehideVolumeOsdAfterExplorerRestart()
+    {
+        _nativeOsdElement = IntPtr.Zero;
+        _ = Task.Run(async () =>
+        {
+            for (int attempt = 0; attempt < 6; attempt++)
+            {
+                try
+                {
+                    if (attempt > 0)
+                        await Task.Delay(2000);
+                    HideVolumeOsd();
+                    if (_nativeOsdElement != IntPtr.Zero)
+                        return;
+                }
+                catch (Exception ex)
+                {
+                    Logger.Debug(ex, "Native OSD re-hide attempt failed");
+                }
+            }
+            Logger.Warn("Could not re-hide native volume OSD after Explorer restart; will retry on next volume key press");
+        });
+    }
+
     public static void ShowVolumeOsd()
     {
         if (_nativeOsdElement == IntPtr.Zero)

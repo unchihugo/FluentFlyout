@@ -1714,6 +1714,14 @@ public partial class MainWindow : MicaWindow
 
                         // Now it is safe to recreate tray icon
                         RecreateTrayIconSafely();
+
+                        // Explorer recreates the native volume OSD window, so a
+                        // previously hidden OSD comes back until re-hidden.
+                        if (SettingsManager.Current.VolumeControlEnabled)
+                        {
+                            Logger.Info("Re-hiding native volume OSD after Explorer restart");
+                            VolumeMixerWindow.RehideVolumeOsdAfterExplorerRestart();
+                        }
                     }
                     else
                     {
