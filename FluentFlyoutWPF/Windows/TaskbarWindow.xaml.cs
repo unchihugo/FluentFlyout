@@ -25,6 +25,8 @@ public partial class TaskbarWindow : Window
 {
     private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
+    private const double SmallTaskbarDetectionThreshold = 40;
+
     private readonly DispatcherTimer _timer;
     private readonly int _nativeWidgetsPadding = 216;
     private readonly double _scale = 0.9;
@@ -36,7 +38,9 @@ public partial class TaskbarWindow : Window
     // reference to main window for flyout functions
     private MainWindow? _mainWindow;
     private int _lastSelectedMonitor = -1;
+    private IntPtr _lastTaskbarHandle;
     private bool _positionUpdateInProgress;
+    private bool _isClosing;
     private readonly Dictionary<string, Task> _pendingAutomationTasks = [];
 
     private GlobalSystemMediaTransportControlsSessionPlaybackStatus? _lastPlaybackStatus;
@@ -68,6 +72,20 @@ public partial class TaskbarWindow : Window
 
     private IntPtr WindowProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
     {
+        if (msg is WM_DPICHANGED or WM_DPICHANGED_AFTERPARENT)
+        {
+            // WPF processes WM_DPICHANGED itself. Refresh placement after that layout
+            // pass; PMv2 child windows receive the AFTERPARENT variant instead.
+            Dispatcher.BeginInvoke(() =>
+            {
+                InvalidateMeasure();
+                InvalidateArrange();
+                InvalidateVisual();
+                UpdateLayout();
+                UpdatePosition();
+            }, DispatcherPriority.Loaded);
+        }
+
         // Some interface mods may collect information from all windows associated with the taskbar,
         // causing the widget and the entire taskbar to freeze.
         // For example, Nilesoft Shell and "Click on empty taskbar space" from Windhawk.
@@ -223,6 +241,7 @@ public partial class TaskbarWindow : Window
             //Background = _hitTestTransparent; // ensures that non-content areas also trigger MouseEnter event
 
             IntPtr taskbarHandle = GetSelectedTaskbarHandle(out bool isMainTaskbarSelected);
+            ResetTaskbarCachesIfHandleChanged(taskbarHandle);
 
             // This prevents the window from trying to float above the taskbar as a separate entity
             int style = GetWindowLong(taskbarWindowHandle, GWL_STYLE);
@@ -315,7 +334,7 @@ on_error:
 
     private void UpdatePosition()
     {
-        if (MainWindow.ExplorerRestarting)
+        if (_isClosing || MainWindow.ExplorerRestarting)
         {
             // Explorer is restarting -- do NOTHING
             return;
@@ -329,6 +348,7 @@ on_error:
         {
             var interop = new WindowInteropHelper(this);
             IntPtr taskbarHandle = GetSelectedTaskbarHandle(out bool isMainTaskbarSelected);
+            ResetTaskbarCachesIfHandleChanged(taskbarHandle);
 
             if (interop.Handle == IntPtr.Zero)
             {
@@ -374,6 +394,19 @@ on_error:
         {
             Logger.Error(ex, "Taskbar Widget error during position update");
         }
+    }
+
+    private void ResetTaskbarCachesIfHandleChanged(IntPtr taskbarHandle)
+    {
+        if (_lastTaskbarHandle == taskbarHandle)
+            return;
+
+        _lastTaskbarHandle = taskbarHandle;
+        _trayHandle = IntPtr.Zero;
+        _widgetElement = null;
+        _trayElement = null;
+        _taskbarFrameElement = null;
+        _pendingAutomationTasks.Clear();
     }
 
     private void CalculateAndSetPosition(IntPtr taskbarHandle, IntPtr taskbarWindowHandle, bool isMainTaskbarSelected)
@@ -435,8 +468,13 @@ on_error:
 
             // Vertical taskbar support: rotate and reposition widget when taskbar is taller than wide
             bool isVertical = taskbarHeight > taskbarWidth;
+            double taskbarCrossSize = (isVertical ? taskbarWidth : taskbarHeight) / dpiScale;
+            bool isSmallTaskbar = taskbarCrossSize < SmallTaskbarDetectionThreshold;
             int containerWidth = taskbarWidth;
             int containerHeight = taskbarHeight;
+
+            Widget.SetSmallTaskbarMode(isSmallTaskbar);
+            TaskbarVisualizer.SetSmallTaskbarMode(isSmallTaskbar);
 
             // Following SetWindowPos will set the position relative to the parent window,
             // so those coordinates need to be converted.
@@ -466,6 +504,8 @@ on_error:
         if (!SettingsManager.Current.TaskbarWidgetEnabled)
             return Rect.Empty;
 
+        Widget.SetVerticalMode(isVertical);
+
         // Calculate widget size
         var (logicalWidth, logicalHeight) = Widget.CalculateSize(dpiScale);
 
@@ -478,7 +518,6 @@ on_error:
         // Apply orientation transform
         Widget.LayoutTransform = isVertical ? new System.Windows.Media.RotateTransform(90) : null;
         Widget.RenderTransform = System.Windows.Media.Transform.Identity;
-        Widget.SetVerticalMode(isVertical);
 
         // On a vertical taskbar the widget is rotated 90°, so the axes flip:
         //   primarySize = taskbarHeight, positioning runs along Y
@@ -782,6 +821,11 @@ on_error:
         });
     }
 
+    public void RefreshAppVolumeTooltip()
+    {
+        Widget.RefreshAppVolumeTooltip();
+    }
+
     private (bool, Rect) GetTaskbarXamlElementRect(IntPtr taskbarHandle, ref AutomationElement? elementCache, string elementName)
     {
         if (taskbarHandle == IntPtr.Zero)
@@ -898,5 +942,18 @@ on_error:
     private (bool, Rect) GetTaskbarFrameRect(IntPtr taskbarHandle)
     {
         return GetTaskbarXamlElementRect(taskbarHandle, ref _taskbarFrameElement, "TaskbarFrame");
+    }
+
+    protected override void OnClosed(EventArgs e)
+    {
+        _isClosing = true;
+        _timer.Stop();
+        _autoHideTimer?.Stop();
+        _autoHideTimer = null;
+        _widgetElement = null;
+        _trayElement = null;
+        _taskbarFrameElement = null;
+        _pendingAutomationTasks.Clear();
+        base.OnClosed(e);
     }
 }

@@ -49,6 +49,12 @@ public static partial class NativeMethods
     internal const int WM_KEYDOWN = 0x0100;
     internal const int WM_KEYUP = 0x0101;
     internal const int WM_SETTINGCHANGE = 0x001A;
+    internal const int WM_DISPLAYCHANGE = 0x007E;
+    internal const int WM_DPICHANGED = 0x02E0;
+    internal const int WM_DPICHANGED_AFTERPARENT = 0x02E3;
+
+    // SystemParametersInfo Actions
+    internal const int SPI_SETWORKAREA = 0x002F;
 
     // Shell Hook Messages
     internal const int HSHELL_APPCOMMAND = 12;

@@ -54,10 +54,11 @@ public partial class VolumeMixerWindow : MicaWindow
         _normalWidth = Width;
 
         ViewModel.PropertyChanged += OnViewModelPropertyChanged;
+        ViewModel.SessionVolumeChanged += OnSessionVolumeChanged;
     }
 
     // one day we might want to convert these to an interface
-    public async void ShowFlyout()
+    public async void ShowFlyout(bool startExpanded = false)
     {
         if (FullscreenDetector.IsFullscreenApplicationRunning())
             return;
@@ -98,7 +99,7 @@ public partial class VolumeMixerWindow : MicaWindow
             if (aboveMedia)
             {
                 Width = _mainWindow.Width;
-                _mainWindow.OpenAnimation(this, aboveReference: _mainWindow);
+                _mainWindow.OpenAnimation(this, aboveReference: _mainWindow, reserveNativeVolumeOsdSpace: true);
             }
             else
             {
@@ -107,8 +108,21 @@ public partial class VolumeMixerWindow : MicaWindow
             }
 
             Show();
-            //WindowHelper.SetNoActivate(this);
             WindowHelper.SetTopmost(this);
+
+            _ = Task.Run(() =>
+            {
+                Thread.Sleep(MainWindow.getDuration());
+                Dispatcher.Invoke(() =>
+                {
+                    if (startExpanded) ViewModel.IsExpanded = true;
+                });
+            });
+        }
+        else
+        {
+            // only expand if the flyout isn't expanded already
+            if (startExpanded) ViewModel.IsExpanded = true;
         }
 
         _cts.Cancel();
@@ -181,6 +195,21 @@ public partial class VolumeMixerWindow : MicaWindow
         {
             AnimateExpandCollapse(ViewModel.IsExpanded);
         }
+    }
+
+    private void OnSessionVolumeChanged(object? sender, EventArgs e)
+    {
+        _mainWindow.taskbarWindow?.RefreshAppVolumeTooltip();
+    }
+
+    protected override void OnClosed(EventArgs e)
+    {
+        _cts.Cancel();
+        _cts.Dispose();
+        ViewModel.PropertyChanged -= OnViewModelPropertyChanged;
+        ViewModel.SessionVolumeChanged -= OnSessionVolumeChanged;
+        ViewModel.Dispose();
+        base.OnClosed(e);
     }
 
     // derived from gpkgpk/HideVolumeOSD: https://github.com/gpkgpk/HideVolumeOSD

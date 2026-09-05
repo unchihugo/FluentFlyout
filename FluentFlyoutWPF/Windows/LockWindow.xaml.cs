@@ -181,4 +181,11 @@ public partial class LockWindow : MicaWindow
         };
     }
 
+    protected override void OnClosed(EventArgs e)
+    {
+        cts.Cancel();
+        cts.Dispose();
+        base.OnClosed(e);
+    }
+
 }

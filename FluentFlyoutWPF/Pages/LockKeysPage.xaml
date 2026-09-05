@@ -85,7 +85,7 @@
                         <TextBlock Text="{DynamicResource LockKeysCursorUIDescription}" FontSize="12" Opacity="0.5" />
                     </StackPanel>
                 </ui:CardControl.Header>
-                <ComboBox Name="LockKeysMonitorPreferenceComboBox" SelectedIndex="{Binding LockKeysMonitorPreference}">
+                <ComboBox Name="LockKeysMonitorPreferenceComboBox" SelectedIndex="{Binding LockKeysMonitorPreference}" Style="{StaticResource DefaultComboBoxStyle}">
                     <ComboBoxItem Content="{DynamicResource DefaultLockLayoutPosition}" />
                     <ComboBoxItem Content="{DynamicResource MonitorWithFocusedWindow}" />
                     <ComboBoxItem Content="{DynamicResource MonitorWithCursor}" />

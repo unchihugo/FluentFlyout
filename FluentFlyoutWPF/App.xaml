@@ -11,10 +11,10 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ui:ThemesDictionary Theme="Unknown"/>
-                <ui:ControlsDictionary />
                 <mica:ThemeDictionary Theme="Auto" DesignModeTheme="Auto"/>
                 <mica:ControlsDictionary />
+                <ui:ThemesDictionary Theme="Unknown"/>
+                <ui:ControlsDictionary />
                 <ResourceDictionary Source="Resources/Styles/CustomToolTip.xaml"/>
                 <!-- default language en-US -->
                 <ResourceDictionary Source="Resources/Localization/Dictionary-en-US.xaml"/>
