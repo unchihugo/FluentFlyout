@@ -41,6 +41,8 @@ public partial class MainWindow : MicaWindow
 
     private IntPtr _hookId = IntPtr.Zero;
     private LowLevelKeyboardProc _hookProc;
+    private Thread? _hookThread;
+    private uint _hookThreadId;
 
     private CancellationTokenSource cts; // to close the flyout after a certain time
     private long _lastFlyoutTime = 0;
@@ -1031,7 +1033,7 @@ public partial class MainWindow : MicaWindow
         {
             _hookThreadId = GetCurrentThreadId();
             _hookId = SetHook(_hookProc);
-            while (_hookId != IntPtr.Zero && GetMessage(out MSG msg, IntPtr.Zero, 0, 0) > 0)
+            while (_hookId != IntPtr.Zero && GetMessage(out FluentFlyout.Classes.NativeMethods.MSG msg, IntPtr.Zero, 0, 0) > 0)
             {
                 TranslateMessage(ref msg);
                 DispatchMessage(ref msg);
