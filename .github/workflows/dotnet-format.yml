@@ -9,6 +9,7 @@ on:
 permissions:
   contents: read
   actions: write
+  pull-requests: write
 
 jobs:
   dotnet-format:
@@ -24,14 +25,18 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
     - name: Format
+      id: fmt
       shell: pwsh
       run: |
         dotnet format --verify-no-changes --verbosity diagnostic 2>&1 | Tee-Object -FilePath format-output.log
         exit $LASTEXITCODE
-    - name: Upload format log
-      if: always()
-      uses: actions/upload-artifact@v4
-      with:
-        name: format-log
-        path: format-output.log
-        if-no-files-found: ignore
+    - name: Post format log to PR
+      if: ${{ failure() }}
+      shell: pwsh
+      run: |
+        if (-not (Test-Path format-output.log)) { $body = "format-output.log missing (restore or earlier step failed)" }
+        else { $body = Get-Content format-output.log -Raw }
+        if ($body.Length -gt 50000) { $body = $body.Substring(0, 50000) }
+        $comment = "dotnet format output (debug, will be removed):`n```````````````text`n${body}`n```````````````"
+        gh pr comment ${{ github.event.pull_request.number }} --body $comment --edit-last
+        if ($LASTEXITCODE -ne 0) { Write-Error "failed to post comment" }
