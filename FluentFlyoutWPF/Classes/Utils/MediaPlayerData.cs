@@ -245,6 +245,51 @@ public static class MediaPlayerData
         .Contains(processName, StringComparer.OrdinalIgnoreCase);
 
     /// <summary>
+    /// Resolves the executable path of a process, including elevated/admin
+    /// processes that deny <see cref="Process.MainModule"/> to a non-elevated
+    /// caller. <c>PROCESS_QUERY_LIMITED_INFORMATION</c> plus
+    /// <c>QueryFullProcessImageName</c> is granted for such processes, and file
+    /// metadata/icon reads work on the path without opening the process.
+    /// Returns null only when the process is gone or fully inaccessible.
+    /// </summary>
+    public static string? TryGetProcessPath(int processId)
+    {
+        IntPtr handle = IntPtr.Zero;
+        try
+        {
+            handle = OpenProcess(PROCESS_QUERY_LIMITED_INFORMATION, false, (uint)processId);
+            if (handle != IntPtr.Zero)
+            {
+                var builder = new System.Text.StringBuilder(1024);
+                int size = builder.Capacity;
+                if (QueryFullProcessImageName(handle, 0, builder, ref size) && size > 0)
+                    return builder.ToString(0, size);
+            }
+        }
+        catch
+        {
+            // fall through to the MainModule attempt below
+        }
+        finally
+        {
+            if (handle != IntPtr.Zero)
+            {
+                try { CloseHandle(handle); } catch { }
+            }
+        }
+
+        try
+        {
+            using var process = Process.GetProcessById(processId);
+            return process.MainModule?.FileName;
+        }
+        catch
+        {
+            return null;
+        }
+    }
+
+    /// <summary>
     /// Extracts the associated icon for a given process ID. Returns null if the process is inaccessible.
     /// </summary>
     public static ImageSource? GetAndCacheProcessIcon(int processId, string title)
@@ -262,8 +307,7 @@ public static class MediaPlayerData
                 }
             }
 
-            var process = Process.GetProcessById(processId);
-            var path = process.MainModule?.FileName;
+            var path = TryGetProcessPath(processId);
             if (path == null) return null;
 
             // store in cache for future lookups

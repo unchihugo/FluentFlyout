@@ -369,20 +369,52 @@ public partial class VolumeMixerViewModel : ObservableObject, IDisposable
             uint pid = session.GetProcessID;
             if (pid != 0)
             {
-                var process = Process.GetProcessById((int)pid);
-                var mainModule = process.MainModule;
-
-                if (mainModule != null)
+                // Resolve via the exe path: FileVersionInfo reads the file, so it
+                // works for elevated/admin processes whose MainModule denies
+                // access to a non-elevated caller (previously: "Unknown").
+                string? path = null;
+                try
                 {
-                    return !string.IsNullOrWhiteSpace(mainModule.FileVersionInfo.FileDescription)
-                    ? mainModule.FileVersionInfo.FileDescription
-                    : process.MainWindowTitle;
+                    path = MediaPlayerData.TryGetProcessPath((int)pid);
                 }
-                else
+                catch
                 {
+                    // fall through to the ProcessName fallback below
+                }
+
+                if (!string.IsNullOrWhiteSpace(path))
+                {
+                    try
+                    {
+                        var versionInfo = FileVersionInfo.GetVersionInfo(path);
+                        if (!string.IsNullOrWhiteSpace(versionInfo.FileDescription))
+                            return versionInfo.FileDescription;
+                    }
+                    catch
+                    {
+                        // unreadable version resource, use process name below
+                    }
+
+                    try
+                    {
+                        return System.IO.Path.GetFileNameWithoutExtension(path);
+                    }
+                    catch
+                    {
+                        // fall through
+                    }
+                }
+
+                try
+                {
+                    using var process = Process.GetProcessById((int)pid);
                     return process.MainWindowTitle is { Length: > 0 } title
-                    ? title
-                    : process.ProcessName;
+                        ? title
+                        : process.ProcessName;
+                }
+                catch
+                {
+                    // Process may have exited
                 }
             }
         }
