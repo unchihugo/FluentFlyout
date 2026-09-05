@@ -149,8 +149,15 @@ public partial class TaskbarWindow : Window
     private IntPtr GetSelectedTaskbarHandle(out bool isMainTaskbarSelected)
     {
         var monitors = MonitorUtil.GetMonitors();
-        var selectedMonitor = monitors[Math.Clamp(SettingsManager.Current.TaskbarWidgetSelectedMonitor, 0, monitors.Count - 1)];
         isMainTaskbarSelected = true;
+
+        // Empty list during a display topology change: Math.Clamp(x, 0, -1)
+        // throws, which used to abort the position update and leave a stale
+        // hit-test region behind (#1085).
+        if (monitors.Count == 0)
+            return FindWindow("Shell_TrayWnd", null);
+
+        var selectedMonitor = monitors[Math.Clamp(SettingsManager.Current.TaskbarWidgetSelectedMonitor, 0, monitors.Count - 1)];
 
         // Get the main taskbar and check if it is on the selected monitor.
         var mainHwnd = FindWindow("Shell_TrayWnd", null);

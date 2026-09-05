@@ -27,6 +27,16 @@ public static class MonitorUtil
     public static MonitorInfo GetSelectedMonitor(int index = 0)
     {
         var monitors = GetMonitors();
+
+        // Math.Clamp throws when min > max, which is exactly what happens with an
+        // empty monitor list: turning off a secondary display or switching the
+        // projection mode makes EnumDisplayMonitors briefly return nothing, and
+        // the resulting ArgumentException propagated out of every flyout
+        // placement and taskbar position tick, leaving the widget stuck and the
+        // taskbar unresponsive (#1085).
+        if (monitors.Count == 0)
+            return default;
+
         return monitors[Math.Clamp(index, 0, monitors.Count - 1)];
     }
 

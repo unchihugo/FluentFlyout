@@ -72,6 +72,11 @@ public static partial class NativeMethods
     // Process Access Rights
     internal const uint PROCESS_QUERY_LIMITED_INFORMATION = 0x1000;
 
+    // AppBar (taskbar) messages and states
+    internal const uint ABM_GETSTATE = 0x00000004;
+    internal const uint ABM_GETTASKBARPOS = 0x00000005;
+    internal const int ABS_AUTOHIDE = 0x0000001;
+
     #endregion
 
     #region Enums
@@ -198,6 +203,17 @@ public static partial class NativeMethods
         public string DeviceID;
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 128)]
         public string DeviceKey;
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    internal struct APPBARDATA
+    {
+        public int cbSize;
+        public IntPtr hWnd;
+        public uint uCallbackMessage;
+        public uint uEdge;
+        public RECT rc;
+        public int lParam;
     }
 
     [StructLayout(LayoutKind.Sequential)]
@@ -419,6 +435,9 @@ public static partial class NativeMethods
 
     [LibraryImport("shell32.dll")]
     internal static partial int SHQueryUserNotificationState(out QUERY_USER_NOTIFICATION_STATE pquns);
+
+    [DllImport("shell32.dll", CharSet = CharSet.Auto)]
+    internal static extern IntPtr SHAppBarMessage(uint dwMessage, ref APPBARDATA pData);
 
     #endregion
 }

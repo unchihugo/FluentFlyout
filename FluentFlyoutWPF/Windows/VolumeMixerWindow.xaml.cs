@@ -72,62 +72,93 @@ public partial class VolumeMixerWindow : MicaWindow
 
         _lastFlyoutTime = currentTime;
 
-        if (_isHiding)
+        // Everything up to the auto-hide loop below used to run outside any
+        // try/catch. ShowFlyout is `async void`, so a single throw here (a
+        // blur/DWM call failing, placement running while the window is being
+        // torn down, a disposed CTS) went straight to the runtime and killed the
+        // process with no log entry - the abnormal exit on volume key press
+        // reported in #1075.
+        try
         {
-            if (_nativeOsdElement == IntPtr.Zero)
+            if (_isHiding)
             {
+                if (_nativeOsdElement == IntPtr.Zero)
+                {
+                    _ = Task.Run(() =>
+                    {
+                        HideVolumeOsd();
+                    });
+                }
+
+                _isHiding = false;
+                if (SettingsManager.Current.VolumeMixerAcrylicWindowEnabled)
+                {
+                    WindowBlurHelper.EnableBlur(this);
+                }
+                else
+                {
+                    WindowBlurHelper.DisableBlur(this);
+                }
+
+                // refresh all data
+                ViewModel.OnPollTick(null, EventArgs.Empty);
+
+                bool aboveMedia = SettingsManager.Current.VolumeControlAboveMediaFlyout;
+                if (aboveMedia)
+                {
+                    Width = _mainWindow.Width;
+                    _mainWindow.OpenAnimation(this, aboveReference: _mainWindow, reserveNativeVolumeOsdSpace: true);
+                }
+                else
+                {
+                    Width = _normalWidth;
+                    _mainWindow.OpenAnimation(this, alwaysBottom: true);
+                }
+
+                Show();
+                WindowHelper.SetTopmost(this);
+
                 _ = Task.Run(() =>
                 {
-                    HideVolumeOsd();
+                    Thread.Sleep(MainWindow.getDuration());
+                    try
+                    {
+                        Dispatcher.Invoke(() =>
+                        {
+                            if (startExpanded) ViewModel.IsExpanded = true;
+                        });
+                    }
+                    catch (Exception ex)
+                    {
+                        // dispatcher shut down while we waited out the animation
+                        Logger.Debug(ex, "Deferred volume flyout expand failed");
+                    }
                 });
-            }
-
-            _isHiding = false;
-            if (SettingsManager.Current.VolumeMixerAcrylicWindowEnabled)
-            {
-                WindowBlurHelper.EnableBlur(this);
             }
             else
             {
-                WindowBlurHelper.DisableBlur(this);
+                // only expand if the flyout isn't expanded already
+                if (startExpanded) ViewModel.IsExpanded = true;
             }
-
-            // refresh all data
-            ViewModel.OnPollTick(null, EventArgs.Empty);
-
-            bool aboveMedia = SettingsManager.Current.VolumeControlAboveMediaFlyout;
-            if (aboveMedia)
-            {
-                Width = _mainWindow.Width;
-                _mainWindow.OpenAnimation(this, aboveReference: _mainWindow, reserveNativeVolumeOsdSpace: true);
-            }
-            else
-            {
-                Width = _normalWidth;
-                _mainWindow.OpenAnimation(this, alwaysBottom: true);
-            }
-
-            Show();
-            WindowHelper.SetTopmost(this);
-
-            _ = Task.Run(() =>
-            {
-                Thread.Sleep(MainWindow.getDuration());
-                Dispatcher.Invoke(() =>
-                {
-                    if (startExpanded) ViewModel.IsExpanded = true;
-                });
-            });
         }
-        else
+        catch (Exception ex)
         {
-            // only expand if the flyout isn't expanded already
-            if (startExpanded) ViewModel.IsExpanded = true;
+            Logger.Error(ex, "Failed to show volume flyout");
+            return;
         }
 
-        _cts.Cancel();
-        _cts = new CancellationTokenSource();
-        var token = _cts.Token;
+        CancellationToken token;
+        try
+        {
+            _cts.Cancel();
+            _cts = new CancellationTokenSource();
+            token = _cts.Token;
+        }
+        catch (ObjectDisposedException)
+        {
+            // window was closed while we were showing it
+            return;
+        }
 
         Logger.Info("Volume flyout shown");
         try
@@ -204,8 +235,15 @@ public partial class VolumeMixerWindow : MicaWindow
 
     protected override void OnClosed(EventArgs e)
     {
-        _cts.Cancel();
-        _cts.Dispose();
+        try
+        {
+            _cts.Cancel();
+            _cts.Dispose();
+        }
+        catch (ObjectDisposedException)
+        {
+            // already disposed
+        }
         ViewModel.PropertyChanged -= OnViewModelPropertyChanged;
         ViewModel.SessionVolumeChanged -= OnSessionVolumeChanged;
         ViewModel.Dispose();

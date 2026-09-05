@@ -307,10 +307,34 @@ namespace FluentFlyoutWPF.Classes
                         Logger.Debug(ex, "Visualizer watchdog tick failed");
                     }
                 };
+
+                // Arm the watchdog immediately. It was only ever started from
+                // OnDataAvailable, so a capture that starts successfully but
+                // never delivers a single buffer - exactly what happens on a
+                // desktop S3 resume, where the AudioClient is accepted but the
+                // stream is dead - was never watched and the visualizer stayed
+                // frozen until the app was restarted (#1071).
+                try { _captureWatchdog.Start(); }
+                catch (Exception ex) { Logger.Debug(ex, "Failed to arm visualizer watchdog"); }
             }
             catch (Exception ex)
             {
                 Logger.Error(ex, "Failed to start visualizer");
+
+                // A partially constructed capture would otherwise be leaked and
+                // block the next Start() attempt from binding the endpoint.
+                _isRunning = false;
+                try
+                {
+                    if (_capture != null)
+                    {
+                        _capture.DataAvailable -= OnDataAvailable;
+                        _capture.RecordingStopped -= OnRecordingStopped;
+                        _capture.Dispose();
+                    }
+                }
+                catch (Exception cleanupEx) { Logger.Debug(cleanupEx, "Failed to clean up visualizer capture after start failure"); }
+                _capture = null;
             }
         }
 
