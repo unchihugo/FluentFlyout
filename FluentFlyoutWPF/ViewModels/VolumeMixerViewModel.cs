@@ -23,6 +23,7 @@ public partial class VolumeMixerViewModel : ObservableObject, IDisposable
 
     private MMDevice? _device;
     private DispatcherTimer? _pollTimer;
+    private bool _suppressDevicePush;
 
     [ObservableProperty]
     public partial float MasterVolume { get; set; }
@@ -62,20 +63,101 @@ public partial class VolumeMixerViewModel : ObservableObject, IDisposable
 
     private void AttachDevice(MMDevice? device)
     {
+        if (_device != null)
+        {
+            try
+            {
+                _device.AudioEndpointVolume.OnVolumeNotification -= OnEndpointVolumeNotification;
+            }
+            catch (Exception ex)
+            {
+                Logger.Debug(ex, "Failed to unsubscribe from previous volume notifications");
+            }
+        }
+
         _device = device;
 
         if (_device == null)
         {
             DeviceName = string.Empty;
-            MasterVolume = 0f;
-            IsMasterMuted = false;
+            try
+            {
+                _suppressDevicePush = true;
+                MasterVolume = 0f;
+                IsMasterMuted = false;
+            }
+            finally
+            {
+                _suppressDevicePush = false;
+            }
             Sessions.Clear();
             return;
         }
 
-        DeviceName = _device.FriendlyName;
+        try
+        {
+            _device.AudioEndpointVolume.OnVolumeNotification += OnEndpointVolumeNotification;
+        }
+        catch (Exception ex)
+        {
+            Logger.Error(ex, "Failed to subscribe to volume notifications");
+        }
+
+        try
+        {
+            DeviceName = _device.FriendlyName;
+        }
+        catch (Exception ex)
+        {
+            Logger.Error(ex, "Failed to read device friendly name");
+            DeviceName = string.Empty;
+        }
         SyncMasterFromDevice();
         RefreshSessions();
+    }
+
+    private void OnEndpointVolumeNotification(AudioVolumeNotificationData data)
+    {
+        try
+        {
+            var app = System.Windows.Application.Current;
+            if (app?.Dispatcher == null)
+                return;
+
+            float vol = data.MasterVolume;
+            bool mute = data.Muted;
+
+            if (!app.Dispatcher.CheckAccess())
+            {
+                _ = app.Dispatcher.InvokeAsync(() => ApplyVolumeFromDevice(vol, mute));
+            }
+            else
+            {
+                ApplyVolumeFromDevice(vol, mute);
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger.Error(ex, "Failed to handle volume notification");
+        }
+    }
+
+    private void ApplyVolumeFromDevice(float vol, bool mute)
+    {
+        _suppressDevicePush = true;
+        try
+        {
+            vol = Math.Clamp(vol, 0f, 1f);
+            if (MathF.Abs(MasterVolume - vol) > 0.001f)
+                MasterVolume = vol;
+
+            if (IsMasterMuted != mute)
+                IsMasterMuted = mute;
+        }
+        finally
+        {
+            _suppressDevicePush = false;
+        }
     }
 
     private void OnDefaultDeviceChanged(object? sender, DefaultDeviceChangedEventArgs e)
@@ -97,22 +179,38 @@ public partial class VolumeMixerViewModel : ObservableObject, IDisposable
 
     partial void OnMasterVolumeChanged(float value)
     {
+        if (_suppressDevicePush) return;
         if (_device == null) return;
-        _device.AudioEndpointVolume.MasterVolumeLevelScalar = Math.Clamp(value, 0f, 1f);
-        if (MasterVolume == 0f)
+        try
         {
-            IsMasterMuted = true;
+            _device.AudioEndpointVolume.MasterVolumeLevelScalar = Math.Clamp(value, 0f, 1f);
+            if (MasterVolume == 0f)
+            {
+                IsMasterMuted = true;
+            }
+            else
+            {
+                IsMasterMuted = false;
+            }
         }
-        else
+        catch (Exception ex)
         {
-            IsMasterMuted = false;
+            Logger.Error(ex, "Failed to set master volume on device");
         }
     }
 
     partial void OnIsMasterMutedChanged(bool value)
     {
+        if (_suppressDevicePush) return;
         if (_device == null) return;
-        _device.AudioEndpointVolume.Mute = value;
+        try
+        {
+            _device.AudioEndpointVolume.Mute = value;
+        }
+        catch (Exception ex)
+        {
+            Logger.Error(ex, "Failed to set master mute on device");
+        }
     }
 
 
@@ -120,14 +218,34 @@ public partial class VolumeMixerViewModel : ObservableObject, IDisposable
     {
         if (_device == null) return;
 
-        var vol = _device.AudioEndpointVolume.MasterVolumeLevelScalar;
-        var mute = _device.AudioEndpointVolume.Mute;
+        try
+        {
+            var app = System.Windows.Application.Current;
+            if (app?.Dispatcher != null && !app.Dispatcher.CheckAccess())
+            {
+                _ = app.Dispatcher.InvokeAsync(SyncMasterFromDevice);
+                return;
+            }
 
-        if (MathF.Abs(MasterVolume - vol) > 0.001f)
-            MasterVolume = vol;
+            float vol;
+            bool mute;
+            try
+            {
+                vol = _device.AudioEndpointVolume.MasterVolumeLevelScalar;
+                mute = _device.AudioEndpointVolume.Mute;
+            }
+            catch (Exception ex)
+            {
+                Logger.Debug(ex, "Failed to read master volume from device");
+                return;
+            }
 
-        if (IsMasterMuted != mute)
-            IsMasterMuted = mute;
+            ApplyVolumeFromDevice(vol, mute);
+        }
+        catch (Exception ex)
+        {
+            Logger.Error(ex, "Failed to sync master volume from device");
+        }
     }
 
 
@@ -223,6 +341,18 @@ public partial class VolumeMixerViewModel : ObservableObject, IDisposable
         _pollTimer = null;
 
         AudioDeviceMonitor.Instance.DefaultDeviceChanged -= OnDefaultDeviceChanged;
+
+        if (_device != null)
+        {
+            try
+            {
+                _device.AudioEndpointVolume.OnVolumeNotification -= OnEndpointVolumeNotification;
+            }
+            catch (Exception ex)
+            {
+                Logger.Debug(ex, "Failed to unsubscribe from volume notifications on dispose");
+            }
+        }
 
         Sessions.Clear();
 

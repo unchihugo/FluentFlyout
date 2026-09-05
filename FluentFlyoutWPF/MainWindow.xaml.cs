@@ -817,10 +817,41 @@ public partial class MainWindow : MicaWindow
                 if (mediaKeysPressed || (!SettingsManager.Current.MediaFlyoutVolumeKeysExcluded && volumeKeysPressed))
                     result = TryShowMediaFlyoutDebounced();
 
-                if (SettingsManager.Current.VolumeControlEnabled)
+                if (SettingsManager.Current.VolumeControlEnabled && volumeMixerWindow != null)
                 {
-                    volumeMixerWindow?.ViewModel.SyncMasterFromDevice();
-                    volumeMixerWindow?.ShowFlyout();
+                    // SyncMasterFromDevice is dispatcher-aware (marshals to UI thread itself),
+                    // but ShowFlyout touches WPF visuals and must run on the UI thread.
+                    // The low-level hook fires on a non-UI thread and before the OS applies
+                    // the volume step, so the live OnVolumeNotification subscription in
+                    // VolumeMixerViewModel is the source of truth for the final value.
+                    var mixerWindow = volumeMixerWindow;
+                    try
+                    {
+                        mixerWindow.ViewModel.SyncMasterFromDevice();
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.Debug(ex, "Volume sync from hook failed");
+                    }
+                    try
+                    {
+                        if (Dispatcher.CheckAccess())
+                        {
+                            mixerWindow.ShowFlyout();
+                        }
+                        else
+                        {
+                            _ = Dispatcher.BeginInvoke(() =>
+                            {
+                                try { mixerWindow.ShowFlyout(); }
+                                catch (Exception ex) { Logger.Debug(ex, "Show volume flyout from hook failed"); }
+                            });
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.Debug(ex, "Failed to dispatch volume flyout");
+                    }
                 }
 
                 if (!result)
