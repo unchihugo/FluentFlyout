@@ -29,7 +29,7 @@
                 <ComboBox x:Name="FlyoutSelectedMonitorComboBox" SelectedIndex="{Binding FlyoutSelectedMonitor, Mode=TwoWay}" Style="{StaticResource DefaultComboBoxStyle}">
                 </ComboBox>
             </ui:CardControl>
-            <ui:CardControl x:Name="AcrylicBlurOpacityCard" Tag="Indexable" Icon="{ui:SymbolIcon PaintBucket24}" Margin="0,0,0,3">
+            <ui:CardControl x:Name="AcrylicBlurOpacityCard" Tag="Indexable" Icon="{ui:SymbolIcon PaintBucket24}" Margin="0,0,0,3" Opacity="{Binding IsPremiumUnlocked, Converter={StaticResource BoolToFullHalfOpacityConverter}}">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
                         <StackPanel Orientation="Horizontal">
@@ -39,7 +39,7 @@
                         <TextBlock Text="{DynamicResource AcrylicBlurOpacityDescription}" FontSize="12" Opacity="0.5" />
                     </StackPanel>
                 </ui:CardControl.Header>
-                <StackPanel Orientation="Horizontal" Opacity="{Binding IsPremiumUnlocked, Converter={StaticResource BoolToFullHalfOpacityConverter}}" >
+                <StackPanel Orientation="Horizontal" >
                     <Slider Minimum="0" Maximum="255" Value="{Binding AcrylicBlurOpacity, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}" TickFrequency="5" IsSnapToTickEnabled="True" Width="150"
                             IsMoveToPointEnabled="True" />
                     <ui:TextBlock Text="{Binding AcrylicBlurOpacity}" Width="24" TextAlignment="Center" Margin="12,0,0,0" />
@@ -149,7 +149,7 @@
                 </ui:CardControl.Header>
                 <ui:ToggleSwitch IsChecked="{Binding NIconSymbol, Mode=TwoWay}" />
             </ui:CardControl>
-            <ui:CardControl x:Name="HideTrayIconCard" Tag="Indexable" Icon="{ui:SymbolIcon EyeOff24}" Margin="0,0,0,3">
+            <ui:CardControl x:Name="HideTrayIconCard" Tag="Indexable" Icon="{ui:SymbolIcon EyeOff24}" Margin="0,0,0,3" Opacity="{Binding IsPremiumUnlocked, Converter={StaticResource BoolToFullHalfOpacityConverter}}" >
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
                         <StackPanel Orientation="Horizontal">
