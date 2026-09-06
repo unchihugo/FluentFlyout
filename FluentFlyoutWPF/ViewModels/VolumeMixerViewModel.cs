@@ -6,6 +6,7 @@ using CommunityToolkit.Mvvm.Input;
 using FluentFlyout.Classes.Utils;
 using FluentFlyoutWPF.Classes;
 using FluentFlyoutWPF.Models;
+using Microsoft.Win32;
 using NAudio.CoreAudioApi;
 using NAudio.CoreAudioApi.Interfaces;
 using System.Collections.ObjectModel;
@@ -43,6 +44,7 @@ public partial class VolumeMixerViewModel : ObservableObject, IDisposable
     {
         DeviceName = string.Empty;
         AudioDeviceMonitor.Instance.DefaultDeviceChanged += OnDefaultDeviceChanged;
+        TryRegisterSystemEvents();
 
         AttachDevice(AudioDeviceMonitor.Instance.GetDefaultRenderDevice());
 
@@ -81,7 +83,12 @@ public partial class VolumeMixerViewModel : ObservableObject, IDisposable
 
         System.Windows.Application.Current.Dispatcher.InvokeAsync(() =>
         {
-            AttachDevice(AudioDeviceMonitor.Instance.GetDeviceById(e.DeviceId));
+            // GetDeviceById returns null when the reported id is empty or already
+            // gone; attaching null would leave the mixer permanently detached and
+            // the flyout frozen, so fall back to the current default endpoint.
+            var device = AudioDeviceMonitor.Instance.GetDeviceById(e.DeviceId)
+                         ?? AudioDeviceMonitor.Instance.GetDefaultRenderDevice();
+            AttachDevice(device);
         });
     }
 
@@ -96,6 +103,77 @@ public partial class VolumeMixerViewModel : ObservableObject, IDisposable
             session.VolumeChanged -= OnSessionVolumeChanged;
 
         Sessions.Clear();
+    }
+
+    private void TryRegisterSystemEvents()
+    {
+        try
+        {
+            SystemEvents.SessionSwitch += OnSessionSwitch;
+            SystemEvents.PowerModeChanged += OnPowerModeChanged;
+        }
+        catch (Exception ex)
+        {
+            Logger.Warn(ex, "Failed to register SystemEvents handlers for volume mixer recovery");
+        }
+    }
+
+    private void TryUnregisterSystemEvents()
+    {
+        try
+        {
+            SystemEvents.SessionSwitch -= OnSessionSwitch;
+            SystemEvents.PowerModeChanged -= OnPowerModeChanged;
+        }
+        catch (Exception ex)
+        {
+            Logger.Warn(ex, "Failed to unregister SystemEvents handlers for volume mixer recovery");
+        }
+    }
+
+    private void OnSessionSwitch(object sender, SessionSwitchEventArgs e)
+    {
+        if (e.Reason == SessionSwitchReason.SessionUnlock || e.Reason == SessionSwitchReason.SessionLogon)
+            RecoverAudioDeviceAfterResume($"session switch: {e.Reason}");
+    }
+
+    private void OnPowerModeChanged(object sender, PowerModeChangedEventArgs e)
+    {
+        if (e.Mode == PowerModes.Resume)
+            RecoverAudioDeviceAfterResume("power resume");
+    }
+
+    private void RecoverAudioDeviceAfterResume(string reason)
+    {
+        // S3 resume invalidates the cached MMDevice (volume flyout frozen, mixer
+        // showing a single stale session) and often fires no DefaultDeviceChanged
+        // on desktops, so re-resolve the default endpoint after the audio stack settles.
+        Logger.Info($"Reattaching volume mixer after resume ({reason})");
+        _ = Task.Run(async () =>
+        {
+            try { await Task.Delay(2000); } catch { }
+            try
+            {
+                var app = System.Windows.Application.Current;
+                if (app?.Dispatcher == null)
+                    return;
+                await app.Dispatcher.InvokeAsync(() =>
+                {
+                    try
+                    {
+                        AttachDevice(AudioDeviceMonitor.Instance.GetDefaultRenderDevice());
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.Error(ex, "Volume mixer resume reattach failed");
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "Volume mixer resume recovery failed");
+            }
+        });
     }
 
 
@@ -127,6 +205,7 @@ public partial class VolumeMixerViewModel : ObservableObject, IDisposable
 
     public bool TryAdjustMasterVolume(float delta)
     {
+        EnsureDeviceAttached();
         if (_device == null) return false;
 
         MasterVolume = Math.Clamp(MasterVolume + delta, 0f, 1f);
@@ -150,18 +229,78 @@ public partial class VolumeMixerViewModel : ObservableObject, IDisposable
     }
 
 
+    /// <summary>
+    /// Re-resolves the default render endpoint when we have none. The device can
+    /// be missing because it wasn't ready yet when the mixer was constructed
+    /// (early startup) or because a previous attach failed; without this the
+    /// view model stays permanently detached and the flyout shows a frozen
+    /// volume value while the system volume keeps changing (#1086).
+    /// </summary>
+    private void EnsureDeviceAttached()
+    {
+        if (_device != null) return;
+
+        try
+        {
+            var device = AudioDeviceMonitor.Instance.GetDefaultRenderDevice();
+            if (device == null) return;
+
+            Logger.Info("Volume mixer had no audio endpoint, attaching default render device");
+            AttachDevice(device);
+        }
+        catch (Exception ex)
+        {
+            Logger.Debug(ex, "Failed to lazily attach default render device");
+        }
+    }
+
     public void SyncMasterFromDevice()
     {
-        if (_device == null) return;
+        if (_device == null)
+        {
+            var app0 = System.Windows.Application.Current;
+            if (app0?.Dispatcher != null && !app0.Dispatcher.CheckAccess())
+            {
+                _ = app0.Dispatcher.InvokeAsync(SyncMasterFromDevice);
+                return;
+            }
 
-        var vol = _device.AudioEndpointVolume.MasterVolumeLevelScalar;
-        var mute = _device.AudioEndpointVolume.Mute;
+            EnsureDeviceAttached();
+            if (_device == null) return;
+        }
 
-        if (MathF.Abs(MasterVolume - vol) > 0.001f)
-            MasterVolume = vol;
+        try
+        {
+            var app = System.Windows.Application.Current;
+            if (app?.Dispatcher != null && !app.Dispatcher.CheckAccess())
+            {
+                _ = app.Dispatcher.InvokeAsync(SyncMasterFromDevice);
+                return;
+            }
 
-        if (IsMasterMuted != mute)
-            IsMasterMuted = mute;
+            float vol;
+            bool mute;
+            try
+            {
+                vol = _device.AudioEndpointVolume.MasterVolumeLevelScalar;
+                mute = _device.AudioEndpointVolume.Mute;
+            }
+            catch (Exception ex)
+            {
+                Logger.Debug(ex, "Failed to read master volume from device");
+                return;
+            }
+
+            if (MathF.Abs(MasterVolume - vol) > 0.001f)
+                MasterVolume = vol;
+
+            if (IsMasterMuted != mute)
+                IsMasterMuted = mute;
+        }
+        catch (Exception ex)
+        {
+            Logger.Error(ex, "Failed to sync master volume from device");
+        }
     }
 
 
@@ -180,6 +319,13 @@ public partial class VolumeMixerViewModel : ObservableObject, IDisposable
             var sessionManager = updatedDevice.AudioSessionManager;
             var sessions = sessionManager.Sessions;
 
+            // Apps that open several WASAPI sessions (or several processes of the
+            // same executable, e.g. Flow Launcher) previously produced one row per
+            // session. The native Windows mixer groups them per app, so keep only
+            // the first session of each process id / display name (#973).
+            var seenProcessIds = new HashSet<int>();
+            var seenNames = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
             for (int i = 0; i < sessions.Count; i++)
             {
                 var session = sessions[i];
@@ -191,6 +337,10 @@ public partial class VolumeMixerViewModel : ObservableObject, IDisposable
                 string name = pid != 0 ? GetSessionDisplayName(session) : "System sounds";
 
                 if (name == "FluentFlyout") continue;
+
+                // pid 0 is "System sounds", which is a single logical entry
+                if (pid != 0 && !seenProcessIds.Add(pid)) continue;
+                if (!seenNames.Add(name)) continue;
 
                 var icon = MediaPlayerData.GetAndCacheProcessIcon(pid, name);
                 var audioSession = new AudioSessionModel(session, name, pid, sessionState, icon);
@@ -206,7 +356,12 @@ public partial class VolumeMixerViewModel : ObservableObject, IDisposable
 
     private static string GetSessionDisplayName(AudioSessionControl session)
     {
-        if (!string.IsNullOrWhiteSpace(session.DisplayName))
+        // WASAPI DisplayName is often an unresolved indirect string resource
+        // ("@%SystemRoot%\System32\foo.dll,-123" / "@{Package?ms-resource:...}"),
+        // which was shown verbatim or left the row blank (#1087). Only accept a
+        // literal name here; anything resource-shaped falls through to the exe.
+        if (!string.IsNullOrWhiteSpace(session.DisplayName)
+            && !session.DisplayName.StartsWith('@'))
             return session.DisplayName;
 
         try
@@ -214,20 +369,52 @@ public partial class VolumeMixerViewModel : ObservableObject, IDisposable
             uint pid = session.GetProcessID;
             if (pid != 0)
             {
-                var process = Process.GetProcessById((int)pid);
-                var mainModule = process.MainModule;
-
-                if (mainModule != null)
+                // Resolve via the exe path: FileVersionInfo reads the file, so it
+                // works for elevated/admin processes whose MainModule denies
+                // access to a non-elevated caller (previously: "Unknown").
+                string? path = null;
+                try
                 {
-                    return !string.IsNullOrWhiteSpace(mainModule.FileVersionInfo.FileDescription)
-                    ? mainModule.FileVersionInfo.FileDescription
-                    : process.MainWindowTitle;
+                    path = MediaPlayerData.TryGetProcessPath((int)pid);
                 }
-                else
+                catch
                 {
+                    // fall through to the ProcessName fallback below
+                }
+
+                if (!string.IsNullOrWhiteSpace(path))
+                {
+                    try
+                    {
+                        var versionInfo = FileVersionInfo.GetVersionInfo(path);
+                        if (!string.IsNullOrWhiteSpace(versionInfo.FileDescription))
+                            return versionInfo.FileDescription;
+                    }
+                    catch
+                    {
+                        // unreadable version resource, use process name below
+                    }
+
+                    try
+                    {
+                        return System.IO.Path.GetFileNameWithoutExtension(path);
+                    }
+                    catch
+                    {
+                        // fall through
+                    }
+                }
+
+                try
+                {
+                    using var process = Process.GetProcessById((int)pid);
                     return process.MainWindowTitle is { Length: > 0 } title
-                    ? title
-                    : process.ProcessName;
+                        ? title
+                        : process.ProcessName;
+                }
+                catch
+                {
+                    // Process may have exited
                 }
             }
         }
@@ -246,9 +433,18 @@ public partial class VolumeMixerViewModel : ObservableObject, IDisposable
 
         foreach (var session in Sessions)
         {
-            session.SyncFromDevice();
-            //Logger.Trace("Session '{0}' (PID {1}) - Volume: {2}, Muted: {3}, State: {4}",
-            //    session.DisplayName, session.ProcessId, session.Volume, session.IsMuted, session.State);
+            try
+            {
+                session.SyncFromDevice();
+                //Logger.Trace("Session '{0}' (PID {1}) - Volume: {2}, Muted: {3}, State: {4}",
+                //    session.DisplayName, session.ProcessId, session.Volume, session.IsMuted, session.State);
+            }
+            catch (Exception ex)
+            {
+                // A single dead session (process exited mid-poll) must not break
+                // the mixer refresh, let alone the flyout loop calling us.
+                Logger.Debug(ex, "Failed to sync session '{0}' (PID {1})", session.DisplayName, session.ProcessId);
+            }
         }
     }
 
@@ -263,6 +459,7 @@ public partial class VolumeMixerViewModel : ObservableObject, IDisposable
         }
 
         AudioDeviceMonitor.Instance.DefaultDeviceChanged -= OnDefaultDeviceChanged;
+        TryUnregisterSystemEvents();
 
         ClearSessions();
 

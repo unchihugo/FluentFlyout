@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2024-2026 The FluentFlyout Authors
+// Copyright (c) 2024-2026 The FluentFlyout Authors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 // Portions of this code are derived from:
@@ -72,63 +72,95 @@ public partial class VolumeMixerWindow : MicaWindow
 
         _lastFlyoutTime = currentTime;
 
-        if (_isHiding)
+        // Everything up to the auto-hide loop below used to run outside any
+        // try/catch. ShowFlyout is `async void`, so a single throw here (a
+        // blur/DWM call failing, placement running while the window is being
+        // torn down, a disposed CTS) went straight to the runtime and killed the
+        // process with no log entry - the abnormal exit on volume key press
+        // reported in #1075.
+        try
         {
-            if (_nativeOsdElement == IntPtr.Zero)
+            if (_isHiding)
             {
+                if (_nativeOsdElement == IntPtr.Zero)
+                {
+                    _ = Task.Run(() =>
+                    {
+                        HideVolumeOsd();
+                    });
+                }
+
+                _isHiding = false;
+                if (SettingsManager.Current.VolumeMixerAcrylicWindowEnabled)
+                {
+                    WindowBlurHelper.EnableBlur(this);
+                }
+                else
+                {
+                    WindowBlurHelper.DisableBlur(this);
+                }
+
+                // refresh all data
+                ViewModel.OnPollTick(null, EventArgs.Empty);
+
+                bool aboveMedia = SettingsManager.Current.VolumeControlAboveMediaFlyout;
+                if (aboveMedia)
+                {
+                    Width = _mainWindow.Width;
+                    _mainWindow.OpenAnimation(this, aboveReference: _mainWindow, reserveNativeVolumeOsdSpace: true);
+                }
+                else
+                {
+                    Width = _normalWidth;
+                    _mainWindow.OpenAnimation(this, alwaysBottom: true);
+                }
+
+                Show();
+                WindowHelper.SetTopmost(this);
+
                 _ = Task.Run(() =>
                 {
-                    HideVolumeOsd();
+                    Thread.Sleep(MainWindow.getDuration());
+                    try
+                    {
+                        Dispatcher.Invoke(() =>
+                        {
+                            if (startExpanded) ViewModel.IsExpanded = true;
+                        });
+                    }
+                    catch (Exception ex)
+                    {
+                        // dispatcher shut down while we waited out the animation
+                        Logger.Debug(ex, "Deferred volume flyout expand failed");
+                    }
                 });
-            }
-
-            _isHiding = false;
-            if (SettingsManager.Current.VolumeMixerAcrylicWindowEnabled)
-            {
-                WindowBlurHelper.EnableBlur(this);
             }
             else
             {
-                WindowBlurHelper.DisableBlur(this);
+                // only expand if the flyout isn't expanded already
+                if (startExpanded) ViewModel.IsExpanded = true;
             }
-
-            // refresh all data
-            ViewModel.OnPollTick(null, EventArgs.Empty);
-
-            bool aboveMedia = SettingsManager.Current.VolumeControlAboveMediaFlyout;
-            if (aboveMedia)
-            {
-                Width = _mainWindow.Width;
-                _mainWindow.OpenAnimation(this, aboveReference: _mainWindow, reserveNativeVolumeOsdSpace: true);
-            }
-            else
-            {
-                Width = _normalWidth;
-                _mainWindow.OpenAnimation(this, alwaysBottom: true);
-            }
-
-            Show();
-            WindowHelper.SetTopmost(this);
-
-            _ = Task.Run(() =>
-            {
-                Thread.Sleep(MainWindow.getDuration());
-                Dispatcher.Invoke(() =>
-                {
-                    if (startExpanded) ViewModel.IsExpanded = true;
-                });
-            });
         }
-        else
+        catch (Exception ex)
         {
-            // only expand if the flyout isn't expanded already
-            if (startExpanded) ViewModel.IsExpanded = true;
+            Logger.Error(ex, "Failed to show volume flyout");
+            return;
         }
 
-        _cts.Cancel();
-        _cts = new CancellationTokenSource();
-        var token = _cts.Token;
+        CancellationToken token;
+        try
+        {
+            _cts.Cancel();
+            _cts = new CancellationTokenSource();
+            token = _cts.Token;
+        }
+        catch (ObjectDisposedException)
+        {
+            // window was closed while we were showing it
+            return;
+        }
 
+        Logger.Info("Volume flyout shown");
         try
         {
             while (!token.IsCancellationRequested)
@@ -160,6 +192,7 @@ public partial class VolumeMixerWindow : MicaWindow
 
                         WindowHelper.SetVisibility(this, false);
                         ViewModel.IsExpanded = false;
+                        Logger.Info("Volume flyout hidden");
                         break;
                     }
                 }
@@ -168,6 +201,22 @@ public partial class VolumeMixerWindow : MicaWindow
         catch (TaskCanceledException)
         {
             // do nothing
+        }
+        catch (Exception ex)
+        {
+            // Never let the auto-hide loop take the process down: an async void
+            // throw here is an abnormal exit with no further logging.
+            Logger.Error(ex, "Volume flyout loop failed, hiding flyout");
+            try
+            {
+                _isHiding = true;
+                WindowHelper.SetVisibility(this, false);
+                ViewModel.IsExpanded = false;
+            }
+            catch (Exception hideEx)
+            {
+                Logger.Debug(hideEx, "Volume flyout emergency hide failed");
+            }
         }
     }
 
@@ -186,8 +235,15 @@ public partial class VolumeMixerWindow : MicaWindow
 
     protected override void OnClosed(EventArgs e)
     {
-        _cts.Cancel();
-        _cts.Dispose();
+        try
+        {
+            _cts.Cancel();
+            _cts.Dispose();
+        }
+        catch (ObjectDisposedException)
+        {
+            // already disposed
+        }
         ViewModel.PropertyChanged -= OnViewModelPropertyChanged;
         ViewModel.SessionVolumeChanged -= OnSessionVolumeChanged;
         ViewModel.Dispose();
@@ -197,38 +253,40 @@ public partial class VolumeMixerWindow : MicaWindow
     // derived from gpkgpk/HideVolumeOSD: https://github.com/gpkgpk/HideVolumeOSD
     private static void HideVolumeOsd()
     {
-        // find widget in XAML
-        IntPtr hwndXamlIsland, hwndOsd = IntPtr.Zero;
-        while ((hwndXamlIsland = FindWindowEx(IntPtr.Zero, IntPtr.Zero, "XamlExplorerHostIslandWindow", null)) != IntPtr.Zero)
+        // Enumerate top-level XAML islands properly: FindWindowEx with a NULL
+        // child-after handle always returns the FIRST match, so the previous
+        // code re-examined the same window forever (100% CPU spin) whenever it
+        // didn't meet the criteria, and could hide the wrong island's window.
+        IntPtr hwndOsd = IntPtr.Zero;
+        IntPtr hwndXamlIsland = IntPtr.Zero;
+
+        while ((hwndXamlIsland = FindWindowEx(IntPtr.Zero, hwndXamlIsland, "XamlExplorerHostIslandWindow", null)) != IntPtr.Zero)
         {
-            if (hwndXamlIsland == IntPtr.Zero)
+            IntPtr hwndBridge = IntPtr.Zero;
+            while ((hwndBridge = FindWindowEx(hwndXamlIsland, hwndBridge, "Windows.UI.Composition.DesktopWindowContentBridge", "DesktopWindowXamlSource")) != IntPtr.Zero)
             {
-                continue;
-            }
-
-            hwndOsd = FindWindowEx(hwndXamlIsland, IntPtr.Zero, "Windows.UI.Composition.DesktopWindowContentBridge", "DesktopWindowXamlSource");
-            if (hwndOsd == IntPtr.Zero)
-            {
-                continue;
-            }
-
-            // check if the child window has the expected class name and title
-            IntPtr hwndInputClass = FindWindowEx(hwndOsd, IntPtr.Zero, "Windows.UI.Input.InputSite.WindowClass", null);
-            if (hwndInputClass == IntPtr.Zero)
-            {
-                hwndOsd = IntPtr.Zero;
-                continue;
-            }
-
-            ShowWindow(hwndInputClass, 9); // SW_RESTORE
-            if (GetWindowRect(hwndInputClass, out RECT rect))
-            {
-                if (rect.Top == 0 && rect.Left == 0 && rect.Bottom == 0 && rect.Right == 0)
+                // check if the child window has the expected class name and title
+                IntPtr hwndInputClass = FindWindowEx(hwndBridge, IntPtr.Zero, "Windows.UI.Input.InputSite.WindowClass", null);
+                if (hwndInputClass == IntPtr.Zero)
                 {
-                    hwndOsd = IntPtr.Zero;
+                    continue;
                 }
-                else break;
+
+                ShowWindow(hwndInputClass, 9); // SW_RESTORE
+                if (GetWindowRect(hwndInputClass, out RECT rect))
+                {
+                    if (rect.Top == 0 && rect.Left == 0 && rect.Bottom == 0 && rect.Right == 0)
+                    {
+                        continue;
+                    }
+
+                    hwndOsd = hwndBridge;
+                    break;
+                }
             }
+
+            if (hwndOsd != IntPtr.Zero)
+                break;
         }
 
         if (hwndOsd == IntPtr.Zero)
@@ -246,6 +304,36 @@ public partial class VolumeMixerWindow : MicaWindow
             SWP_NOSIZE | SWP_NOZORDER | SWP_NOACTIVATE);
         ShowWindow(_nativeOsdElement, SW_MINIMIZE);
         Logger.Info("Successfully hid volume OSD.");
+    }
+
+    /// <summary>
+    /// Re-hides the native volume OSD after an Explorer restart. Explorer
+    /// recreates the OSD window (new HWND), so the previously hidden handle is
+    /// dead and the native flyout pops back until something re-hides it.
+    /// Retries briefly since the island can lag behind the taskbar.
+    /// </summary>
+    public static void RehideVolumeOsdAfterExplorerRestart()
+    {
+        _nativeOsdElement = IntPtr.Zero;
+        _ = Task.Run(async () =>
+        {
+            for (int attempt = 0; attempt < 6; attempt++)
+            {
+                try
+                {
+                    if (attempt > 0)
+                        await Task.Delay(2000);
+                    HideVolumeOsd();
+                    if (_nativeOsdElement != IntPtr.Zero)
+                        return;
+                }
+                catch (Exception ex)
+                {
+                    Logger.Debug(ex, "Native OSD re-hide attempt failed");
+                }
+            }
+            Logger.Warn("Could not re-hide native volume OSD after Explorer restart; will retry on next volume key press");
+        });
     }
 
     public static void ShowVolumeOsd()

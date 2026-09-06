@@ -12,6 +12,7 @@ namespace FluentFlyoutWPF.Models;
 public partial class AudioSessionModel : ObservableObject
 {
     private readonly AudioSessionControl _sessionControl;
+    private bool _syncing;
 
     [ObservableProperty]
     public partial string DisplayName { get; set; }
@@ -49,6 +50,7 @@ public partial class AudioSessionModel : ObservableObject
 
     partial void OnVolumeChanged(float value)
     {
+        if (_syncing) return;
         _sessionControl.SimpleAudioVolume.Volume = Math.Clamp(value, 0f, 1f);
         if (Volume == 0f)
         {
@@ -64,6 +66,7 @@ public partial class AudioSessionModel : ObservableObject
 
     partial void OnIsMutedChanged(bool value)
     {
+        if (_syncing) return;
         _sessionControl.SimpleAudioVolume.Mute = value;
     }
 
@@ -80,13 +83,21 @@ public partial class AudioSessionModel : ObservableObject
     /// </summary>
     public void SyncFromDevice()
     {
-        var vol = _sessionControl.SimpleAudioVolume.Volume;
-        var mute = _sessionControl.SimpleAudioVolume.Mute;
+        _syncing = true;
+        try
+        {
+            var vol = _sessionControl.SimpleAudioVolume.Volume;
+            var mute = _sessionControl.SimpleAudioVolume.Mute;
 
-        if (MathF.Abs(Volume - vol) > 0.001f)
-            Volume = vol;
+            if (MathF.Abs(Volume - vol) > 0.001f)
+                Volume = vol;
 
-        if (IsMuted != mute)
-            IsMuted = mute;
+            if (IsMuted != mute)
+                IsMuted = mute;
+        }
+        finally
+        {
+            _syncing = false;
+        }
     }
 }

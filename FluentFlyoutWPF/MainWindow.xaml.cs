@@ -61,6 +61,41 @@ public partial class MainWindow : MicaWindow
     private int _themeOption = SettingsManager.Current.AppTheme;
 
     static Mutex singleton = new Mutex(true, "FluentFlyout"); // to prevent multiple instances of the app
+
+    /// <summary>
+    /// True when another same-named process started very recently (boot/login
+    /// storms, duplicate autostart entries). Used to swallow the
+    /// open-settings signal such launches would otherwise trigger.
+    /// </summary>
+    private static bool IsFirstInstanceStartingUp()
+    {
+        try
+        {
+            using var me = Process.GetCurrentProcess();
+            foreach (var proc in Process.GetProcessesByName(me.ProcessName))
+            {
+                try
+                {
+                    if (proc.Id != me.Id &&
+                        (DateTime.UtcNow - proc.StartTime.ToUniversalTime()).TotalSeconds < 30)
+                        return true;
+                }
+                catch
+                {
+                    // process exited or start time unreadable; ignore
+                }
+                finally
+                {
+                    try { proc.Dispose(); } catch { }
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger.Debug(ex, "Failed to check first-instance startup age");
+        }
+        return false;
+    }
     private NextUpWindow? nextUpWindow = null; // to prevent multiple instances of NextUpWindow
     private string currentTitle = ""; // to prevent NextUpWindow from showing the same song
 
@@ -99,6 +134,17 @@ public partial class MainWindow : MicaWindow
 
         if (!singleton.WaitOne(TimeSpan.Zero, true)) // if another instance is already running, close this one
         {
+            // A second launch with no live user behind it (duplicate autostart
+            // entries, boot storms, updater re-launch) must not pop the
+            // settings window on the running instance (#1029: window appearing
+            // on every boot). Only forward the open-settings signal when the
+            // first instance is past its startup window.
+            if (IsFirstInstanceStartingUp())
+            {
+                Logger.Info("Duplicate launch during first-instance startup; exiting silently without opening settings.");
+                Environment.Exit(0);
+            }
+
             // Signal the existing instance to open settings
             Task.Run(() =>
             {
@@ -182,6 +228,19 @@ public partial class MainWindow : MicaWindow
         mediaManager.OnAnyPlaybackStateChanged += CurrentSession_OnPlaybackStateChanged;
         mediaManager.OnAnyTimelinePropertyChanged += MediaManager_OnAnyTimelinePropertyChanged;
         mediaManager.OnAnySessionClosed += MediaManager_OnAnySessionClosed;
+
+        // Monitor power-off and lock/unlock destroy or reshuffle the taskbar's
+        // child windows without sending us WM_DISPLAYCHANGE, so the widget was
+        // silently gone after unlocking (#983). Rebuild placement on resume.
+        try
+        {
+            SystemEvents.SessionSwitch += OnSystemSessionSwitch;
+            SystemEvents.PowerModeChanged += OnSystemPowerModeChanged;
+        }
+        catch (Exception ex)
+        {
+            Logger.Warn(ex, "Failed to register SystemEvents handlers for window recovery");
+        }
 
         WM_TASKBARCREATED = RegisterWindowMessage("TaskbarCreated");
         WM_SHELLHOOK = RegisterWindowMessage("SHELLHOOK");
@@ -477,9 +536,49 @@ public partial class MainWindow : MicaWindow
     private static double GetBottomCenterFlyoutBottomMargin(bool reserveNativeVolumeOsdSpace)
     {
         if (!reserveNativeVolumeOsdSpace)
-            return 16;
+            return 16 + GetAutoHideTaskbarInset(bottomEdge: true);
 
-        return SettingsManager.Current.VolumeControlEnabled && SettingsManager.Current.VolumeControlAboveMediaFlyout ? 16 : 80;
+        return (SettingsManager.Current.VolumeControlEnabled && SettingsManager.Current.VolumeControlAboveMediaFlyout ? 16 : 80)
+            + GetAutoHideTaskbarInset(bottomEdge: true);
+    }
+
+    /// <summary>
+    /// Extra margin (raw pixels) to keep free for an auto-hidden taskbar on the
+    /// given screen edge. An auto-hidden taskbar is not part of the monitor work
+    /// area, so flyouts anchored 16px from the edge are covered by (or cover) the
+    /// taskbar as soon as it slides out (#987, #1039).
+    /// Returns 0 when the taskbar is not in auto-hide mode or lives on another edge.
+    /// </summary>
+    private static double GetAutoHideTaskbarInset(bool bottomEdge)
+    {
+        try
+        {
+            var data = new APPBARDATA { cbSize = Marshal.SizeOf<APPBARDATA>() };
+            int state = (int)SHAppBarMessage(ABM_GETSTATE, ref data);
+            if ((state & ABS_AUTOHIDE) == 0)
+                return 0;
+
+            var posData = new APPBARDATA { cbSize = Marshal.SizeOf<APPBARDATA>() };
+            if (SHAppBarMessage(ABM_GETTASKBARPOS, ref posData) == IntPtr.Zero)
+                return 0;
+
+            // ABE_LEFT = 0, ABE_TOP = 1, ABE_RIGHT = 2, ABE_BOTTOM = 3
+            bool taskbarOnBottom = posData.uEdge == 3;
+            bool taskbarOnTop = posData.uEdge == 1;
+            if (bottomEdge ? !taskbarOnBottom : !taskbarOnTop)
+                return 0;
+
+            double height = posData.rc.Bottom - posData.rc.Top;
+            if (height <= 0 || height > 500)
+                return 0;
+
+            return height;
+        }
+        catch (Exception ex)
+        {
+            Logger.Debug(ex, "Failed to query auto-hide taskbar state");
+            return 0;
+        }
     }
 
     private (double left, double top) GetFinalPosition(Rect windowRect, Rect workArea, bool reserveNativeVolumeOsdSpace = false)
@@ -493,9 +592,9 @@ public partial class MainWindow : MicaWindow
         };
         double top = position switch
         {
-            0 or 2 => workArea.Top + workArea.Height - windowRect.Height - 16,
+            0 or 2 => workArea.Top + workArea.Height - windowRect.Height - 16 - GetAutoHideTaskbarInset(bottomEdge: true),
             1 => workArea.Top + workArea.Height - windowRect.Height - GetBottomCenterFlyoutBottomMargin(reserveNativeVolumeOsdSpace),
-            _ => workArea.Top + 16
+            _ => workArea.Top + 16 + GetAutoHideTaskbarInset(bottomEdge: false)
         };
         return (left, top);
     }
@@ -550,10 +649,12 @@ public partial class MainWindow : MicaWindow
         else if (alwaysBottom == false)
         {
             _position = SettingsManager.Current.Position;
+            if (_position < 0 || _position > 5)
+                _position = 1; // corrupted setting: fall back to bottom-center so the flyout always lands on-screen
             if (_position == 0)
             {
                 window_left = workArea.Left + 16;
-                moveAnimation.To = workArea.Top + workArea.Height - windowRect.Height - 16;
+                moveAnimation.To = workArea.Top + workArea.Height - windowRect.Height - 16 - GetAutoHideTaskbarInset(bottomEdge: true);
                 if (SettingsManager.Current.FlyoutAnimationSpeed == 0) // if off, don't animate (just appear at the bottom)
                     moveAnimation.From = moveAnimation.To;
                 else
@@ -573,7 +674,7 @@ public partial class MainWindow : MicaWindow
             else if (_position == 2)
             {
                 window_left = workArea.Left + workArea.Width - windowRect.Width - 16;
-                moveAnimation.To = workArea.Top + workArea.Height - windowRect.Height - 16;
+                moveAnimation.To = workArea.Top + workArea.Height - windowRect.Height - 16 - GetAutoHideTaskbarInset(bottomEdge: true);
                 if (SettingsManager.Current.FlyoutAnimationSpeed == 0)
                     moveAnimation.From = moveAnimation.To;
                 else
@@ -582,7 +683,7 @@ public partial class MainWindow : MicaWindow
             else if (_position == 3)
             {
                 window_left = workArea.Left + 16;
-                moveAnimation.To = workArea.Top + 16;
+                moveAnimation.To = workArea.Top + 16 + GetAutoHideTaskbarInset(bottomEdge: false);
                 if (SettingsManager.Current.FlyoutAnimationSpeed == 0)
                     moveAnimation.From = moveAnimation.To;
                 else
@@ -591,7 +692,7 @@ public partial class MainWindow : MicaWindow
             else if (_position == 4)
             {
                 window_left = workArea.Left + workArea.Width / 2 - windowRect.Width / 2;
-                moveAnimation.To = workArea.Top + 16;
+                moveAnimation.To = workArea.Top + 16 + GetAutoHideTaskbarInset(bottomEdge: false);
                 if (SettingsManager.Current.FlyoutAnimationSpeed == 0)
                     moveAnimation.From = moveAnimation.To;
                 else
@@ -600,7 +701,7 @@ public partial class MainWindow : MicaWindow
             else if (_position == 5)
             {
                 window_left = workArea.Left + workArea.Width - windowRect.Width - 16;
-                moveAnimation.To = workArea.Top + 16;
+                moveAnimation.To = workArea.Top + 16 + GetAutoHideTaskbarInset(bottomEdge: false);
                 if (SettingsManager.Current.FlyoutAnimationSpeed == 0)
                     moveAnimation.From = moveAnimation.To;
                 else
@@ -611,7 +712,7 @@ public partial class MainWindow : MicaWindow
         else
         {
             window_left = workArea.Left + workArea.Width / 2 - windowRect.Width / 2;
-            moveAnimation.To = workArea.Top + workArea.Height - windowRect.Height - 16;
+            moveAnimation.To = workArea.Top + workArea.Height - windowRect.Height - 16 - GetAutoHideTaskbarInset(bottomEdge: true);
             if (SettingsManager.Current.FlyoutAnimationSpeed == 0)
                 moveAnimation.From = moveAnimation.To;
             else
@@ -620,6 +721,11 @@ public partial class MainWindow : MicaWindow
 
         // Set the initial position in raw coordinates.
         WindowHelper.SetPosition(window, window_left, moveAnimation.From!.Value);
+
+        // Capture the exact resting position in raw pixels before converting to
+        // DIPs below; used for the post-animation correction.
+        double restLeftRaw = window_left;
+        double restTopRaw = moveAnimation.To ?? moveAnimation.From.Value;
 
         // Next coordinates will be used to set Window.Top, which takes DPI into account,
         // so we need to convert the coordinates to DPI scale.
@@ -640,6 +746,37 @@ public partial class MainWindow : MicaWindow
         storyboard.Begin(window);
         WindowHelper.SetVisibility(window, true);
         WindowHelper.SetTopmost(window);
+
+        Logger.Info($"Flyout '{window.GetType().Name}' shown at raw ({restLeftRaw:0}, {restTopRaw:0}) on '{monitor.deviceName}' ({monitor.workArea.Width:0}x{monitor.workArea.Height:0}@{monitor.workArea.Left:0},{monitor.workArea.Top:0} dpiY={monitor.dpiY})");
+
+        // Guarantee the resting position in raw pixels once the flight ends. On
+        // mixed-DPI multi-monitor setups the DIP scaling above can race the
+        // window's DPI flip, stranding the flyout off-screen so it never
+        // appears. The async correction is a no-op when already correct.
+        _ = Task.Run(async () =>
+        {
+            try { await Task.Delay(msDuration + 150); } catch { return; }
+            try
+            {
+                await Dispatcher.InvokeAsync(() =>
+                {
+                    try
+                    {
+                        if (!window.IsVisible)
+                            return;
+                        WindowHelper.SetPosition(window, restLeftRaw, restTopRaw, async: true);
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.Debug(ex, "Flyout resting-position correction failed");
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                Logger.Debug(ex, "Flyout resting-position dispatch failed");
+            }
+        });
     }
 
     public void CloseAnimation(MicaWindow window, MonitorInfo? selectedMonitor = null)
@@ -651,21 +788,46 @@ public partial class MainWindow : MicaWindow
         DoubleAnimation moveAnimation = (DoubleAnimation)storyboard.Children[0];
         var monitor = selectedMonitor != null ? selectedMonitor.Value : getSelectedMonitor();
         var workArea = monitor.workArea;
-        Rect windowRect = WindowHelper.GetPlacement(window);
+
+        // Use the window's actual current rendered position as the animation
+        // start. GetWindowPlacement can report zeros for transient handles and
+        // the selected monitor's DPI may differ from the monitor hosting the
+        // flyout - either made From wrong, so the first frame snapped
+        // (flyout jumps upward) before animating downward.
+        double dpiY = monitor.dpiY;
+        double currentTopPhys = double.NaN;
+        try
+        {
+            currentTopPhys = window.PointToScreen(new Point(0, 0)).Y;
+            var host = MonitorUtil.GetMonitor(window);
+            if (host.dpiY > 0)
+                dpiY = host.dpiY;
+        }
+        catch (Exception ex)
+        {
+            Logger.Debug(ex, "CloseAnimation PointToScreen failed, falling back to placement");
+        }
+        var placementRect = WindowHelper.GetPlacement(window);
+        if (double.IsNaN(currentTopPhys))
+            currentTopPhys = placementRect.Top;
+        if (dpiY <= 0)
+            dpiY = 96;
 
         // Use the window's actual current position as the animation start
-        moveAnimation.From = windowRect.Top;
+        moveAnimation.From = currentTopPhys * 96.0 / dpiY;
 
+        // Determine slide direction (physical pixels throughout)
+        bool isTopHalf = currentTopPhys + placementRect.Height / 2 < workArea.Top + workArea.Height / 2;
         if (SettingsManager.Current.FlyoutAnimationSpeed != 0)
         {
-            // Determine slide direction
-            bool isTopHalf = windowRect.Top + windowRect.Height / 2 < workArea.Top + workArea.Height / 2;
-            moveAnimation.To = windowRect.Top + (isTopHalf ? -20 : 20);
+            moveAnimation.To = moveAnimation.From + (isTopHalf ? -20 : 20);
         }
-
-        moveAnimation.From *= 96.0 / monitor.dpiY;
-        if (moveAnimation.To != null)
-            moveAnimation.To *= 96.0 / monitor.dpiY;
+        else
+        {
+            // Animations off: still pin To to From so a stale storyboard value
+            // can't teleport the window on the zero-duration snap.
+            moveAnimation.To = moveAnimation.From;
+        }
 
         int msDuration = getDuration();
 
@@ -732,10 +894,19 @@ public partial class MainWindow : MicaWindow
 
     private void pauseOtherMediaSessionsIfNeeded(MediaSession mediaSession)
     {
-        if (
-            SettingsManager.Current.PauseOtherSessionsEnabled
-            && mediaSession.ControlSession.GetPlaybackInfo().PlaybackStatus == GlobalSystemMediaTransportControlsSessionPlaybackStatus.Playing
-            )
+        if (!SettingsManager.Current.PauseOtherSessionsEnabled)
+            return;
+
+        // Only the session the user actually interacted with may pause the
+        // others. This ran for every session that raised an event, so a
+        // background player emitting a property/playback update paused the
+        // session the user had just started, which then paused the first one
+        // back - the "exclusive audio mode" ping-pong between e.g. Spotify and
+        // a browser video (#1084).
+        if (GetActiveMediaSession() is not { } activeSession || activeSession.Id != mediaSession.Id)
+            return;
+
+        if (mediaSession.ControlSession?.GetPlaybackInfo()?.PlaybackStatus == GlobalSystemMediaTransportControlsSessionPlaybackStatus.Playing)
         {
             PauseOtherSessions(mediaSession);
         }
@@ -797,7 +968,32 @@ public partial class MainWindow : MicaWindow
 
         var playbackInfo = currentActiveSession.ControlSession.GetPlaybackInfo();
 
-        string check = songInfo.Title + songInfo.Artist + playbackInfo.PlaybackStatus;
+        if (_seekBarEnabled && currentActiveSession.Id == mediaSession.Id)
+        {
+            // A track change can arrive as a media-property event without a
+            // separate timeline event. Read the new timeline immediately so the
+            // seekbar does not retain the previous track's position (#153).
+            var timeline = currentActiveSession.ControlSession.GetTimelineProperties();
+            UpdateSeekbarCurrentDuration(timeline.Position);
+        }
+
+        // Players republish empty metadata for a moment when a track restarts
+        // (looping a song in YouTube Music) before sending the real properties.
+        // Pushing that blank snapshot left the taskbar widget showing only the
+        // album art with no title/artist until the song was changed manually,
+        // and poisoned the dedupe cache so the real update was suppressed
+        // (#961). Ignore the blank interim state while the session is alive.
+        if (string.IsNullOrWhiteSpace(songInfo.Title) && string.IsNullOrWhiteSpace(songInfo.Artist)
+            && playbackInfo.PlaybackStatus != GlobalSystemMediaTransportControlsSessionPlaybackStatus.Closed
+            && playbackInfo.PlaybackStatus != GlobalSystemMediaTransportControlsSessionPlaybackStatus.Stopped)
+        {
+            return;
+        }
+
+        // Dedupe per media session. Two players can publish the same title,
+        // artist and state; a process-wide key would then suppress the second
+        // player's update and leave the widget showing stale metadata (#659).
+        string check = mediaSession.Id + "\0" + songInfo.Title + songInfo.Artist + playbackInfo.PlaybackStatus;
         int checkThumbnail = BitmapHelper.GetStableThumbnailHash(songInfo.Thumbnail);
         bool onlyThumbnailChanged = false;
         if (previousMediaProperty == check)
@@ -832,7 +1028,13 @@ public partial class MainWindow : MicaWindow
                 });
             }
 
-            if (nextUpWindow == null && IsVisible == false && songInfo.Thumbnail != null && currentTitle != songInfo.Title)
+            // A looped track legitimately repeats its title, so comparing against
+            // the last shown title alone permanently suppressed the next-up
+            // flyout for that song (#961). Allow a repeat once the title has
+            // actually been republished by the player.
+            bool isNewSong = currentTitle != songInfo.Title || !onlyThumbnailChanged;
+
+            if (nextUpWindow == null && IsVisible == false && songInfo.Thumbnail != null && isNewSong)
             {
                 createNewNextUpWindow();
             }
@@ -914,22 +1116,65 @@ public partial class MainWindow : MicaWindow
             bool mediaKeysPressed = vkCode == 0xB3 || vkCode == 0xB0 || vkCode == 0xB1 || vkCode == 0xB2; // Play/Pause, next, previous, stop
             bool volumeKeysPressed = vkCode == 0xAD || vkCode == 0xAE || vkCode == 0xAF; // Mute, Volume Down, Volume Up
 
-            // MainWindow.WndProc() also handles media and volume keys
+            // MainWindow.WndProc() also handles media and volume keys.
+            // NOTE: a low-level keyboard hook must return to Windows immediately.
+            // ShowMediaFlyout does blocking UI/COM work (Dispatcher.Invoke, media
+            // property fetches, animations); doing it synchronously here stalls
+            // every keystroke system-wide and Windows silently drops slow hooks,
+            // which breaks Alt+Tab and the media keys themselves over time
+            // (worse at boot when everything is slow). Queue it instead.
             if (mediaKeysPressed || volumeKeysPressed)
             {
-                bool result = false;
                 if (mediaKeysPressed || (!SettingsManager.Current.MediaFlyoutVolumeKeysExcluded && volumeKeysPressed))
-                    result = TryShowMediaFlyoutDebounced();
-
-                if (SettingsManager.Current.VolumeControlEnabled)
                 {
-                    volumeMixerWindow?.ViewModel.SyncMasterFromDevice();
-                    volumeMixerWindow?.ShowFlyout();
+                    long currentTime = Environment.TickCount64;
+                    // debounce to prevent hangs with rapid key presses
+                    if ((currentTime - _lastFlyoutTime) >= 500) // 500ms debounce time
+                    {
+                        _lastFlyoutTime = currentTime;
+                        _ = Dispatcher.BeginInvoke(() =>
+                        {
+                            try { ShowMediaFlyout(); }
+                            catch (Exception ex) { Logger.Debug(ex, "Show media flyout from hook failed"); }
+                        });
+                    }
                 }
 
-                if (!result)
+                if (volumeKeysPressed && SettingsManager.Current.VolumeControlEnabled && volumeMixerWindow != null)
                 {
-                    return CallNextHookEx(_hookId, nCode, wParam, lParam);
+                    // SyncMasterFromDevice is dispatcher-aware (marshals to UI thread itself).
+                    // ShowFlyout is queued to the UI thread so this hook returns to
+                    // Windows immediately. The hook fires before the OS applies the
+                    // volume step, so the live OnVolumeNotification subscription in
+                    // VolumeMixerViewModel is the source of truth for the final value.
+                    var mixerWindow = volumeMixerWindow;
+                    try
+                    {
+                        mixerWindow.ViewModel.SyncMasterFromDevice();
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.Debug(ex, "Volume sync from hook failed");
+                    }
+                    try
+                    {
+                        if (Dispatcher.CheckAccess())
+                        {
+                            mixerWindow.ShowFlyout();
+                        }
+                        else
+                        {
+                            _ = Dispatcher.BeginInvoke(() =>
+                            {
+                                try { mixerWindow.ShowFlyout(); }
+                                catch (Exception ex) { Logger.Debug(ex, "Show volume flyout from hook failed"); }
+                            });
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.Debug(ex, "Failed to dispatch volume flyout");
+                    }
                 }
             }
 
@@ -979,10 +1224,13 @@ public partial class MainWindow : MicaWindow
     public async void ShowMediaFlyout(bool toggleMode = false, bool forceShow = false)
     {
         var activeSession = GetActiveMediaSession();
-        if (activeSession == null ||
-            (!forceShow && !SettingsManager.Current.MediaFlyoutEnabled) ||
-            FullscreenDetector.IsFullscreenApplicationRunning())
+        bool flyoutEnabled = forceShow || SettingsManager.Current.MediaFlyoutEnabled;
+        bool fullscreenBlock = FullscreenDetector.IsFullscreenApplicationRunning();
+        if (activeSession == null || !flyoutEnabled || fullscreenBlock)
+        {
+            Logger.Info($"ShowMediaFlyout suppressed: session={(activeSession == null ? "none" : activeSession.Id)}, enabled={flyoutEnabled}, fullscreenBlock={fullscreenBlock}");
             return;
+        }
 
         // If in toggle mode and flyout is visible, close it
         if (toggleMode && Visibility == Visibility.Visible && !_isHiding)
@@ -1062,6 +1310,21 @@ public partial class MainWindow : MicaWindow
         catch (TaskCanceledException)
         {
             // task was canceled, do nothing
+        }
+        catch (Exception ex)
+        {
+            // Never let the auto-hide loop take the process down: an async void
+            // throw here is an abnormal exit with no further logging.
+            Logger.Error(ex, "Media flyout loop failed, hiding flyout");
+            try
+            {
+                _isHiding = true;
+                Hide();
+            }
+            catch (Exception hideEx)
+            {
+                Logger.Debug(hideEx, "Media flyout emergency hide failed");
+            }
         }
     }
 
@@ -1278,8 +1541,9 @@ public partial class MainWindow : MicaWindow
             int extraWidth = SettingsManager.Current.RepeatEnabled ? 36 : 0;
             extraWidth += SettingsManager.Current.ShuffleEnabled ? 36 : 0;
             extraWidth += SettingsManager.Current.PlayerInfoEnabled ? 72 : 0;
-            // keep minimum width at 72 even if all extra features are disabled to prevent the widget from being too small
-            extraWidth = Math.Max(extraWidth, 72);
+            // Do not reserve optional-control space when repeat and shuffle are
+            // disabled; the base layout already includes the always-visible
+            // playback controls (#802).
 
             int extraHeight = SettingsManager.Current.SeekbarEnabled && _mediaSessionSupportsSeekbar ? 36 : 0;
 
@@ -1296,6 +1560,9 @@ public partial class MainWindow : MicaWindow
                 MediaIdButton.Visibility = Visibility.Collapsed;
                 SongImageBorder.Margin = new Thickness(0);
                 SongImageBorder.Height = 36;
+                // keep the album art square: only Height was updated here, so the
+                // 78px design width from XAML stayed and stretched the cover (#1019)
+                SongImageBorder.Width = 36;
                 SongInfoStackPanel.Margin = new Thickness(8, 0, 0, 0);
                 SongInfoStackPanel.Width = 182;
                 if (SettingsManager.Current.MediaFlyoutAlwaysDisplay)
@@ -1318,6 +1585,7 @@ public partial class MainWindow : MicaWindow
                 MediaIdButton.Visibility = Visibility.Visible;
                 SongImageBorder.Margin = new Thickness(6);
                 SongImageBorder.Height = 78;
+                SongImageBorder.Width = 78;
                 SongInfoStackPanel.Margin = new Thickness(12, 0, 0, 0);
                 SongInfoStackPanel.Width = 182 - 72 + extraWidth;
             }
@@ -1447,6 +1715,17 @@ public partial class MainWindow : MicaWindow
         if (GetActiveMediaSession() is not { } session) return;
 
         var timeline = session.ControlSession.GetTimelineProperties();
+        var playbackStatus = session.ControlSession.GetPlaybackInfo()?.PlaybackStatus;
+        if (playbackStatus != GlobalSystemMediaTransportControlsSessionPlaybackStatus.Playing)
+        {
+            // Timeline.LastUpdatedTime is commonly left at the last playing
+            // timestamp while a browser is paused. Do not extrapolate from it or
+            // the seekbar keeps counting in the background (#746).
+            HandlePlayBackState(playbackStatus);
+            UpdateSeekbarCurrentDuration(timeline.Position);
+            return;
+        }
+
         var pos = timeline.Position + (DateTime.Now - timeline.LastUpdatedTime.DateTime);
         if (pos > timeline.EndTime)
         {
@@ -1503,6 +1782,16 @@ public partial class MainWindow : MicaWindow
             _isCleaningUp = true;
             _displayRefreshTimer.Stop();
             _displayRefreshTimer.Tick -= DisplayRefreshTimer_Tick;
+
+            try
+            {
+                SystemEvents.SessionSwitch -= OnSystemSessionSwitch;
+                SystemEvents.PowerModeChanged -= OnSystemPowerModeChanged;
+            }
+            catch (Exception ex)
+            {
+                Logger.Debug(ex, "Failed to unregister SystemEvents handlers");
+            }
 
             // unsubscribe from events
             mediaManager.OnAnyMediaPropertyChanged -= MediaManager_OnAnyMediaPropertyChanged;
@@ -1620,6 +1909,21 @@ public partial class MainWindow : MicaWindow
         _displayRefreshTimer.Stop();
         _displayRefreshTimer.Start();
         Logger.Debug($"Scheduled display environment refresh: {reason}");
+    }
+
+    private void OnSystemSessionSwitch(object sender, SessionSwitchEventArgs e)
+    {
+        if (e.Reason is SessionSwitchReason.SessionUnlock or SessionSwitchReason.SessionLogon
+            or SessionSwitchReason.RemoteConnect or SessionSwitchReason.ConsoleConnect)
+        {
+            ScheduleDisplayEnvironmentRefresh($"session switch: {e.Reason}");
+        }
+    }
+
+    private void OnSystemPowerModeChanged(object sender, PowerModeChangedEventArgs e)
+    {
+        if (e.Mode == PowerModes.Resume)
+            ScheduleDisplayEnvironmentRefresh("power resume");
     }
 
     private void DisplayRefreshTimer_Tick(object? sender, EventArgs e)
@@ -1760,6 +2064,27 @@ public partial class MainWindow : MicaWindow
 
                         // Now it is safe to recreate tray icon
                         RecreateTrayIconSafely();
+
+                        // The widget is a WS_CHILD of the old Shell_TrayWnd. After
+                        // an Explorer restart that parent HWND is dead: the child
+                        // keeps its hit-test region (clicks still register) but is
+                        // never composited again, so the widget and visualizer are
+                        // invisible until Explorer is restarted a second time
+                        // (#1065, #1052). Reparenting alone doesn't restore
+                        // rendering, so rebuild the window against the new taskbar.
+                        if (SettingsManager.Current.TaskbarWidgetEnabled || SettingsManager.Current.TaskbarVisualizerEnabled)
+                        {
+                            Logger.Info("Recreating Taskbar Widget window after Explorer restart");
+                            RecreateTaskbarWindow();
+                        }
+
+                        // Explorer recreates the native volume OSD window, so a
+                        // previously hidden OSD comes back until re-hidden.
+                        if (SettingsManager.Current.VolumeControlEnabled)
+                        {
+                            Logger.Info("Re-hiding native volume OSD after Explorer restart");
+                            VolumeMixerWindow.RehideVolumeOsdAfterExplorerRestart();
+                        }
                     }
                     else
                     {
@@ -1917,6 +2242,18 @@ public partial class MainWindow : MicaWindow
 
         BitmapHelper.GetDominantColors(1);
         volumeMixerWindow = new VolumeMixerWindow();
+
+        // Hide the native volume OSD up front instead of waiting for the first
+        // volume key press. The OSD's XAML island only had to be found once we
+        // already wanted to show our own flyout, so the very first volume change
+        // after login still popped the Windows flyout - and if that lookup failed
+        // it was never retried, leaving the native flyout visible for the whole
+        // session (#966, #1078).
+        if (SettingsManager.Current.VolumeControlEnabled)
+        {
+            VolumeMixerWindow.RehideVolumeOsdAfterExplorerRestart();
+        }
+
         taskbarWindow = new TaskbarWindow();
         UpdateTaskbar();
     }
@@ -1966,12 +2303,21 @@ public partial class MainWindow : MicaWindow
         return Task.WhenAll(
             mediaManager.CurrentMediaSessions.Values.Select(session =>
             {
-                if (
-                    session.Id != currentMediaSession.Id &&
-                    session.ControlSession.GetPlaybackInfo().PlaybackStatus == GlobalSystemMediaTransportControlsSessionPlaybackStatus.Playing
-                )
+                try
                 {
-                    return session.ControlSession.TryPauseAsync().AsTask();
+                    if (
+                        session.Id != currentMediaSession.Id &&
+                        session.ControlSession?.GetPlaybackInfo().PlaybackStatus == GlobalSystemMediaTransportControlsSessionPlaybackStatus.Playing
+                    )
+                    {
+                        return session.ControlSession.TryPauseAsync().AsTask();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Fire-and-forget fan-out: one dead session must not fail
+                    // the whole batch (or go unobserved).
+                    Logger.Debug(ex, "Failed to auto-pause session {0}", session.Id);
                 }
                 return Task.CompletedTask;
             })

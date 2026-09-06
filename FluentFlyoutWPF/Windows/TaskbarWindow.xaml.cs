@@ -56,7 +56,10 @@ public partial class TaskbarWindow : Window
         DataContext = SettingsManager.Current;
 
         _timer = new DispatcherTimer();
-        _timer.Interval = TimeSpan.FromMilliseconds(1500); // slow auto-update for display changes
+        // Auto-hide taskbars resize while they are being revealed. A 1.5s
+        // placement interval left the child window half clipped until the next
+        // reveal; refresh often enough to follow that transition (#849).
+        _timer.Interval = TimeSpan.FromMilliseconds(250);
         _timer.Tick += (s, e) => UpdatePosition();
         _timer.Start();
 
@@ -93,6 +96,29 @@ public partial class TaskbarWindow : Window
         // Also prevents the widget from blocking taskbar's message processing, which is another source of freezes.
         switch (msg)
         {
+            case 0x007E: // WM_DISPLAYCHANGE - monitor added/removed, resolution or projection changed.
+                // Topology changes can orphan our taskbar parent, stale cached
+                // handles/regions (ghost widget that still eats clicks), and
+                // poisoned automation lookups. Re-resolve everything now instead
+                // of waiting for the next position tick. Not marked handled.
+                Dispatcher.BeginInvoke(() =>
+                {
+                    try
+                    {
+                        _trayHandle = IntPtr.Zero;
+                        _widgetElement = null;
+                        _trayElement = null;
+                        _taskbarFrameElement = null;
+                        _pendingAutomationTasks.Clear();
+                        _lastSelectedMonitor = -1;
+                        UpdatePosition();
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.Error(ex, "Taskbar Widget error during display-change recovery");
+                    }
+                }, DispatcherPriority.Background);
+                break;
             case 0x003D: // WM_GETOBJECT (Sent by Microsoft UI Automation to obtain information about an accessible object contained in a server application)
             case 0x0018: // WM_SHOWWINDOW
             case 0x0046: // WM_WINDOWPOSCHANGING - Triggers during alt-tabs, window changes
@@ -126,8 +152,15 @@ public partial class TaskbarWindow : Window
     private IntPtr GetSelectedTaskbarHandle(out bool isMainTaskbarSelected)
     {
         var monitors = MonitorUtil.GetMonitors();
-        var selectedMonitor = monitors[Math.Clamp(SettingsManager.Current.TaskbarWidgetSelectedMonitor, 0, monitors.Count - 1)];
         isMainTaskbarSelected = true;
+
+        // Empty list during a display topology change: Math.Clamp(x, 0, -1)
+        // throws, which used to abort the position update and leave a stale
+        // hit-test region behind (#1085).
+        if (monitors.Count == 0)
+            return FindWindow("Shell_TrayWnd", null);
+
+        var selectedMonitor = monitors[Math.Clamp(SettingsManager.Current.TaskbarWidgetSelectedMonitor, 0, monitors.Count - 1)];
 
         // Get the main taskbar and check if it is on the selected monitor.
         var mainHwnd = FindWindow("Shell_TrayWnd", null);
@@ -233,6 +266,26 @@ public partial class TaskbarWindow : Window
         {
             Logger.Error(ex, "Taskbar Widget error during setup");
         }
+    }
+
+    /// <summary>
+    /// Rejects region rects that cannot represent a real on-screen widget
+    /// (NaN/infinity from transient layout, overflowed int casts). Returns
+    /// <see cref="Rect.Empty"/> (click-through) instead of a taskbar-eating region.
+    /// </summary>
+    private static Rect SanitizeRegionRect(Rect rect)
+    {
+        if (rect == Rect.Empty)
+            return rect;
+
+        if (double.IsNaN(rect.X) || double.IsNaN(rect.Y) || double.IsNaN(rect.Width) || double.IsNaN(rect.Height) ||
+            double.IsInfinity(rect.X) || double.IsInfinity(rect.Y) || double.IsInfinity(rect.Width) || double.IsInfinity(rect.Height) ||
+            rect.Width <= 0 || rect.Height <= 0 ||
+            rect.Width > 100000 || rect.Height > 100000 ||
+            Math.Abs(rect.X) > 100000 || Math.Abs(rect.Y) > 100000)
+            return Rect.Empty;
+
+        return rect;
     }
 
     private void UpdateWindowRegion(IntPtr windowHandle, params Rect[] rects)
@@ -381,7 +434,14 @@ on_error:
 
             // Guard against invalid DPI (e.g. during explorer restart when handle is stale)
             if (dpiScale <= 0)
+            {
+                // Drop the hit-test region instead of keeping a stale one: a
+                // stale region leaves an invisible "ghost" widget that still
+                // eats taskbar clicks after topology changes.
+                try { UpdateWindowRegion(taskbarWindowHandle, Rect.Empty, Rect.Empty); }
+                catch (Exception ex) { Logger.Debug(ex, "Failed to reset taskbar widget region"); }
                 return;
+            }
 
             // Get Taskbar dimensions
             RECT taskbarRect;
