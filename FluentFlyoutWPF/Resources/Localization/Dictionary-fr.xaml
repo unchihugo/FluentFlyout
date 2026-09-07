@@ -288,4 +288,8 @@ Vous pouvez contribuer aux traductions sur</system:String>
     <system:String x:Key="TaskbarWidgetScrollingTextLoopForeverDescription">Faire défiler le texte indéfiniment dans une seule direction au lieu d'un défilement aller-retour.</system:String>
     <system:String x:Key="TaskbarWidgetScrollingTextSpeedTitle">Vitesse de défilement</system:String>
     <system:String x:Key="SearchSettings">Rechercher les paramètres</system:String>
+    <system:String x:Key="OnboardingTitle">Commencer</system:String>
+    <system:String x:Key="SupporterDescription">Merci !</system:String>
+    <system:String x:Key="TaskbarWidgetScrollVolumeTitle">Faire Défiler pour Régler le Volume</system:String>
+    <system:String x:Key="TaskbarWidgetScrollVolumeDescription">Utilisez la molette de la souris sur le widget de la barre des tâches pour régler le volume</system:String>
 </ResourceDictionary>
