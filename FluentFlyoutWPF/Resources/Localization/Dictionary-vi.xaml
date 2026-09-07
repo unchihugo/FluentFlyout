@@ -287,4 +287,12 @@ Lưu ý: Vì đây là một dự án mã nguồn mở, các tính năng này c�
     <system:String x:Key="TaskbarWidgetScrollingTextLoopForeverDescription">Lặp lại văn bản vô hạn theo một hướng thay vì cuộn qua lại.</system:String>
     <system:String x:Key="TaskbarWidgetScrollingTextSpeedTitle">Tốc độ cuộn</system:String>
     <system:String x:Key="TaskbarWidgetScrollingTextSpeedDescription">Tốc độ cuộn văn bản (pixel/giây). Mặc định là 20.</system:String>
+    <system:String x:Key="OnboardingTitle">Bắt đầu nào</system:String>
+    <system:String x:Key="SupporterTitle">Người ủng hộ</system:String>
+    <system:String x:Key="SupporterDescription">Chân thành cảm ơn!</system:String>
+    <system:String x:Key="TaskbarWidgetScrollVolumeTitle">Lăn chuột để Thay đổi Âm Lượng</system:String>
+    <system:String x:Key="TaskbarWidgetScrollVolumeDescription">Sử dụng con lăn chuột trên giao diện taskbar để thay đổi âm lượng</system:String>
+    <system:String x:Key="TaskbarWidgetScrollVolumeMaster">Bật (Âm Lượng Tổng)</system:String>
+    <system:String x:Key="TaskbarWidgetScrollVolumePlayer">Bật (Âm Lượng Trình Phát)</system:String>
+    <system:String x:Key="OpenMediaPlayerText">Mở trình phát phương tiện</system:String>
 </ResourceDictionary>
