@@ -51,6 +51,8 @@ public partial class OnboardingWindow : MicaWindow
         {
             await Task.Delay(500);
             _viewModel.IsLoading = false;
+
+            FluentFlyout.Classes.LicenseManager.GetPremiumProductInfo();
         };
 
         // unused for now, but can be used in the future if we want to allow users to select a monitor during onboarding
@@ -165,11 +167,5 @@ public partial class OnboardingWindow : MicaWindow
 
         SettingsWindow.ShowInstance();
         Close();
-    }
-
-    // same as in AboutPage.xaml.cs
-    private async void UnlockPremiumButton_Click(object sender, RoutedEventArgs e)
-    {
-        FluentFlyout.Classes.LicenseManager.UnlockPremium(sender);
     }
 }
