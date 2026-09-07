@@ -44,7 +44,7 @@ public partial class HomePage : Page
         if (UpdateState.Current.LastUpdateCheck != default)
         {
             LastCheckedText.Text = string.Format(
-                Application.Current.FindResource("LastChecked")?.ToString(),
+                Application.Current.FindResource("LastChecked")?.ToString() ?? string.Empty,
                 UpdateState.Current.LastCheckedText);
         }
         else

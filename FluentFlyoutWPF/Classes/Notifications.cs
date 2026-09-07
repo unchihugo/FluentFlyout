@@ -72,7 +72,7 @@ internal static class Notifications
                 // updated app version
                 new ToastContentBuilder()
                     .AddText(Application.Current.FindResource("UpdateToastTitle").ToString())
-                    .AddText(string.Format(Application.Current.FindResource("UpdateToastMessage").ToString(), currentVersion))
+                    .AddText(string.Format(Application.Current.FindResource("UpdateToastMessage").ToString() ?? string.Empty, currentVersion))
                     .AddArgument("action", "viewChanges")
                     .AddButton(new ToastButton()
                         .SetContent(Application.Current.FindResource("UpdateToastButton").ToString())
@@ -112,7 +112,7 @@ internal static class Notifications
         {
             var builder = new ToastContentBuilder()
                 .AddText(Application.Current.FindResource("UpdateAvailableNotificationTitle").ToString())
-                .AddText(string.Format(Application.Current.FindResource("UpdateAvailableNotificationMessage").ToString(), newVersion))
+                .AddText(string.Format(Application.Current.FindResource("UpdateAvailableNotificationMessage").ToString() ?? string.Empty, newVersion))
                 .AddArgument("action", "downloadUpdate");
 
             // only add download button if URL is available

@@ -48,25 +48,25 @@ public class OnboardingViewModel : ObservableObject
     [
         new OnboardingStep
         {
-            Title = Application.Current.TryFindResource("MediaFlyoutTitle").ToString(),
-            Description = Application.Current.TryFindResource("MediaFlyoutDescription").ToString(),
+            Title = GetLocalizedText("MediaFlyoutTitle"),
+            Description = GetLocalizedText("MediaFlyoutDescription"),
             ImageSource = "/Resources/Onboarding/MediaFlyout.png"
         },
         new OnboardingStep
         {
-            Title = Application.Current.TryFindResource("VolumeFlyoutTitle").ToString(),
-            Description = Application.Current.TryFindResource("VolumeFlyoutDescription").ToString(),
+            Title = GetLocalizedText("VolumeFlyoutTitle"),
+            Description = GetLocalizedText("VolumeFlyoutDescription"),
             ImageSource = "/Resources/FluentFlyoutVolumeDemo.png"
         },
         new OnboardingStep
         {
-            Title = Application.Current.TryFindResource("LockKeysCustomizationTitle").ToString(),
-            Description = Application.Current.TryFindResource("LockKeysDescription").ToString(),
+            Title = GetLocalizedText("LockKeysCustomizationTitle"),
+            Description = GetLocalizedText("LockKeysDescription"),
             ImageSource = "/Resources/Onboarding/LockKeysFlyout.png"
         },
         new OnboardingStep
         {
-            Title = Application.Current.TryFindResource("UnlockFullExperienceText").ToString(),
+            Title = GetLocalizedText("UnlockFullExperienceText"),
             Description = "",
             ImageSource = "/Resources/Onboarding/Taskbar.png"
         }
@@ -95,9 +95,12 @@ public class OnboardingViewModel : ObservableObject
 
     public OnboardingStep CurrentStep => Steps[CurrentStepIndex];
 
-    public string StepProgressText => string.Format(Application.Current.TryFindResource("OnboardingStepsCounter").ToString(), CurrentStepIndex + 1, Steps.Count);
+    public string StepProgressText => string.Format(GetLocalizedText("OnboardingStepsCounter"), CurrentStepIndex + 1, Steps.Count);
 
-    public string? NextButtonText => IsLastStep ? Application.Current.TryFindResource("Finish").ToString() : Application.Current.TryFindResource("Next").ToString();
+    public string? NextButtonText => IsLastStep ? GetLocalizedText("Finish") : GetLocalizedText("Next");
+
+    private static string GetLocalizedText(string resourceKey)
+        => Application.Current.TryFindResource(resourceKey)?.ToString() ?? string.Empty;
 
     public bool IsLastStep => CurrentStepIndex >= Steps.Count - 1;
 
