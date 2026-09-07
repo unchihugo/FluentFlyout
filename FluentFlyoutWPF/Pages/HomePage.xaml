@@ -248,15 +248,6 @@
         </Grid>
 
         <StackPanel Orientation="Horizontal" Margin="0,16,0,0">
-            <ui:Button x:Name="ViewMicrosoftStoreButton" Tag="Indexable" Appearance="Transparent" Padding="16,4,16,0" Height="56" BorderBrush="Transparent" Margin="0,0,8,0" Click="ViewMicrosoftStore_Click">
-                <StackPanel Orientation="Horizontal">
-                    <StackPanel Orientation="Vertical" VerticalAlignment="Center">
-                        <ui:SymbolIcon Symbol="StoreMicrosoft20" FontSize="18" Filled="False" />
-                        <ui:TextBlock Text="Microsoft Store" FontWeight="Normal" />
-                    </StackPanel>
-                </StackPanel>
-            </ui:Button>
-
             <ui:Button x:Name="ViewLogsButton" Tag="Indexable" Appearance="Transparent" Padding="16,4,16,0" Height="56" BorderBrush="Transparent" Margin="0,0,8,0" Click="ViewLogs_Click">
                 <StackPanel Orientation="Horizontal">
                     <StackPanel Orientation="Vertical" VerticalAlignment="Center">
@@ -316,19 +307,5 @@
             </ui:CardControl>
         </StackPanel>
 
-        <StackPanel Orientation="Horizontal" Margin="0,24,0,0">
-            <ui:Anchor Content="{DynamicResource SponsorMeLink}" Icon="{ui:SymbolIcon Heart24}" NavigateUri="https://github.com/sponsors/unchihugo" Margin="0,0,4,0" />
-            <ui:Anchor Content="{DynamicResource BuyMeCoffeeLink}" Icon="{ui:SymbolIcon DrinkCoffee24}" NavigateUri="https://ko-fi.com/unchihugo" Margin="0,0,4,0" />
-        </StackPanel>
-
-        <DockPanel LastChildFill="False" Margin="0,24,0,12">
-            <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" HorizontalAlignment="Left">
-                <ui:SymbolIcon Symbol="Star24" Filled="True" Width="24" Height="24" FontSize="16" VerticalAlignment="Center" Foreground="Gold" />
-                <StackPanel Orientation="Vertical" VerticalAlignment="Center">
-                    <TextBlock Text="{DynamicResource EnjoyingAppText}" HorizontalAlignment="Center" FontSize="12" Opacity="0.5" VerticalAlignment="Center" Margin="4,0,12,0" />
-                </StackPanel>
-                <ui:Anchor Appearance="Transparent" Content="{DynamicResource GitHubRepoLink}" Icon="{ui:SymbolIcon Open24}" NavigateUri="https://github.com/unchihugo/FluentFlyout" />
-            </StackPanel>
-        </DockPanel>
     </StackPanel>
 </Page>
