@@ -292,4 +292,6 @@ Vous pouvez contribuer aux traductions sur</system:String>
     <system:String x:Key="SupporterDescription">Merci !</system:String>
     <system:String x:Key="TaskbarWidgetScrollVolumeTitle">Faire Défiler pour Régler le Volume</system:String>
     <system:String x:Key="TaskbarWidgetScrollVolumeDescription">Utilisez la molette de la souris sur le widget de la barre des tâches pour régler le volume</system:String>
+    <system:String x:Key="OpenMediaPlayerText">Ouvrir le lecteur multimédia</system:String>
+    <system:String x:Key="SupporterTitle">Supporter</system:String>
 </ResourceDictionary>
