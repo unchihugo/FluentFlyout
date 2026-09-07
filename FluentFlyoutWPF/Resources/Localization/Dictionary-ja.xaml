@@ -77,7 +77,7 @@
     <system:String x:Key="EnableInsertKeyTitle">Insertキー ポップアップを有効化</system:String>
     <system:String x:Key="EnableInsertKeyDescription">Insert/Overwriteキーを押した際にポップアップを表示するかどうかを切り替えます</system:String>
     <system:String x:Key="SystemSettingsTitle">システム</system:String>
-    <system:String x:Key="LaunchOnStartupTitle">スタートアップ時に起動</system:String>
+    <system:String x:Key="LaunchOnStartupTitle">起動時に実行</system:String>
     <system:String x:Key="LaunchOnStartupDescription">Windowsにログインした際、トレイに最小化して起動します</system:String>
     <system:String x:Key="StartupAppsHyperlinkText">スタートアップ アプリ</system:String>
     <system:String x:Key="StartupAppsSettingsInfo">この設定が期待どおりに機能しない場合は、設定を確認してください</system:String>
@@ -133,7 +133,7 @@
     <system:String x:Key="EasingCubic" xml:space="preserve"> 三次関数</system:String>
     <system:String x:Key="TaskbarWidgetControlsTitle">ウィジェットメディアコントロール</system:String>
     <system:String x:Key="TrayIcon_ViewLogsOption">ログを表示</system:String>
-    <system:String x:Key="SelectedMonitorTitle">ポップアップを表示すすディスプレイ</system:String>
+    <system:String x:Key="SelectedMonitorTitle">ポップアップを表示するディスプレイ</system:String>
     <system:String x:Key="TaskbarWidgetSelectedMonitorTitle">ウィジェットを表示するディスプレイ</system:String>
     <system:String x:Key="TaskbarWidgetPaddingSettingsTitle">ウィジェットの余白設定</system:String>
     <system:String x:Key="TaskbarWidgetPaddingSettingsDescription">タスクバーのスタイルに合わせてウィジェットの空白を調整します</system:String>

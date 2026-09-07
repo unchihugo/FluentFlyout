@@ -77,26 +77,26 @@ https://github.com/user-attachments/assets/bfc7666f-1d59-4cbf-8d15-3855671cb147
 </details>
 
 ## How to install 📥
-### Which version should you choose? 
-The **Microsoft Store version** provides automatic updates, but has a one-time purchase to unlock a few extra features.  
-The **GitHub version** is completely free and open-source, but requires manual updates.  
-Read more about the project's model in the [Sustainability & The Microsoft Store](#sustainability--the-microsoft-store-) section below.
-
-### Using Microsoft Store
+### Using Microsoft Store (recommended)
 <a href="https://apps.microsoft.com/detail/9n45nsm4tnbp?referrer=appbadge&cid=GitHub_README_2&mode=direct">
 	<img src="https://get.microsoft.com/images/en-us%20dark.svg" width="300"/>
 </a>
+  
+(Find other download options on our [download page](https://fluentflyout.com/download/))
 
-> Looking for FluentFlyout Settings? You can access it by clicking the system tray icon
+### Using the manual installer
+1. Go to our website's [download page](https://fluentflyout.com/download/)
+2. Download the manual installer *(GitHub release (x64))*
+3. Run the installer (**FluentFlyout_Installer.bat**) and follow the instructions. If you prefer to install without the installer, follow the instructions in the **"Using .msixbundle installer"** section below.
+
 ### Using .msixbundle installer
-1. Go to the [latest release](https://github.com/unchihugo/FluentFlyout/releases/latest) page
-2. Download the **"*.cer"** file *(real certificates cost a lot of money)*
-3. Open the certificate and press **"Install Certificate..."**
-4. On the Certificate Import Wizard, select **"Local Machine"**, press **"Next"** and grant Admin Access
-5. Select **"Place all certificates in the following store"**, then **"Browse..."**, choose **"Trusted Root Certification Authorities"** and **"OK"**
-6. Finally, press **"Next"** and then **"Finish"**. It might ask you to confirm, press **Yes**
-7. Download the **"*.msixbundle"** file
-8. The App Installer will pop up, press **"Install"**, or **"Update"** if you've installed FluentFlyout before
+1. Find and download the **"*.cer"** file
+2. Open the certificate and press **"Install Certificate..."**
+3. On the Certificate Import Wizard, select **"Local Machine"**, press **"Next"** and grant Admin Access
+4. Select **"Place all certificates in the following store"**, then **"Browse..."**, choose **"Trusted Root Certification Authorities"** and **"OK"**
+5. Finally, press **"Next"** and then **"Finish"**. It might ask you to confirm, press **Yes**
+6. Download the **"*.msixbundle"** file
+7. The App Installer will pop up, press **"Install"**, or **"Update"** if you've installed FluentFlyout before
 
 ## Contributing 💖
 Please feel free to contribute in any way you can! Check out [CONTRIBUTING.md](https://github.com/unchihugo/FluentFlyout/blob/master/.github/CONTRIBUTING.md) to get started.

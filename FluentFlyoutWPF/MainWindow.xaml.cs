@@ -223,8 +223,6 @@ public partial class MainWindow : MicaWindow
 
     private async Task CheckForExperimentsOnStartupAsync(string previousVersion)
     {
-        await ExperimentsService.GetExperimentsAsync();
-
         OnboardingExperiment(previousVersion);
     }
 
