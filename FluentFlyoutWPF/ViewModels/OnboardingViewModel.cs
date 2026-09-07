@@ -120,13 +120,10 @@ public class OnboardingViewModel : ObservableObject
 
     public IRelayCommand GoNextCommand { get; }
 
-    public IRelayCommand SkipCommand { get; }
-
     public OnboardingViewModel()
     {
         GoBackCommand = new RelayCommand(GoBack, () => CanGoBack && !IsTransitioning);
         GoNextCommand = new RelayCommand(GoNext, () => !IsTransitioning);
-        SkipCommand = new RelayCommand(Skip);
     }
 
     private void GoBack()
@@ -149,11 +146,5 @@ public class OnboardingViewModel : ObservableObject
         }
 
         CurrentStepIndex++;
-    }
-
-    private void Skip()
-    {
-        SettingsManager.SaveSettings();
-        Completed?.Invoke(this, EventArgs.Empty);
     }
 }
