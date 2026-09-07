@@ -1,8 +1,8 @@
 // Copyright (c) 2024-2026 The FluentFlyout Authors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+using FluentFlyout.Classes;
 using FluentFlyout.Classes.Settings;
-using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -19,7 +19,7 @@ public partial class TaskbarVisualizerPage : Page
     // same as SystemPage.StartupHyperlink_RequestNavigate
     private void StartupHyperlink_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
     {
-        Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri) { UseShellExecute = true });
+        Notifications.OpenUrlInBrowser(e.Uri.AbsoluteUri);
         e.Handled = true;
     }
 }

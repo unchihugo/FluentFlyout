@@ -73,24 +73,6 @@ public static class UpdateCheckerService
         return result;
     }
 
-    public static void OpenUpdateUrl(string url)
-    {
-        if (string.IsNullOrEmpty(url)) return;
-
-        try
-        {
-            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
-            {
-                FileName = url,
-                UseShellExecute = true
-            });
-        }
-        catch (Exception ex)
-        {
-            Logger.Error(ex, "Failed to open update URL");
-        }
-    }
-
     private static bool IsNewerVersion(string currentVersion, string newestVersion)
     {
         try
