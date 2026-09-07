@@ -1,17 +1,20 @@
 // Copyright (c) 2024-2026 The FluentFlyout Authors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+using FluentFlyout.Classes;
 using FluentFlyout.Classes.Settings;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace FluentFlyoutWPF.Pages;
+namespace FluentFlyout.Controls;
 
-public partial class VolumeMixerPage : Page
+public partial class PremiumStatus : UserControl
 {
-    public VolumeMixerPage()
+    public PremiumStatus()
     {
         InitializeComponent();
         DataContext = SettingsManager.Current;
     }
+
+    private void UnlockPremium_Click(object sender, RoutedEventArgs e) => LicenseManager.UnlockPremium(sender);
 }
