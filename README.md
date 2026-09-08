@@ -77,19 +77,19 @@ https://github.com/user-attachments/assets/bfc7666f-1d59-4cbf-8d15-3855671cb147
 </details>
 
 ## How to install 📥
-### Which version should you choose? 
-The **Microsoft Store version** provides automatic updates, but has a one-time purchase to unlock a few extra features.  
-The **GitHub version** is completely free and open-source, but requires manual updates.  
-Read more about the project's model in the [Sustainability & The Microsoft Store](#sustainability--the-microsoft-store-) section below.
-
-### Using Microsoft Store
+### Using Microsoft Store (recommended)
 <a href="https://apps.microsoft.com/detail/9n45nsm4tnbp?referrer=appbadge&cid=GitHub_README_2&mode=direct">
 	<img src="https://get.microsoft.com/images/en-us%20dark.svg" width="300"/>
 </a>
+  
+(Find other download options on our [download page](https://fluentflyout.com/download/))
 
-> Looking for FluentFlyout Settings? You can access it by clicking the system tray icon
+### Using the manual installer
+1. Go to our website's [download page](https://fluentflyout.com/download/)
+2. Download the manual installer *(GitHub release (x64))*
+3. Run the installer (**FluentFlyout_Installer.bat**) and follow the instructions. If you prefer to install without the installer, follow the instructions in the **"Using .msixbundle installer"** section below.
+
 ### Using .msixbundle installer
-> **Prerequisite:** the GitHub build requires the [.NET 10 Desktop Runtime (x64)](https://aka.ms/dotnet/10.0/windowsdesktop-runtime-win-x64.exe). Without it, the package installs but the app silently fails to start.
 1. Go to the [latest release](https://github.com/unchihugo/FluentFlyout/releases/latest) page
 2. Download the **"*.cer"** file *(real certificates cost a lot of money)*
 3. Open the certificate and press **"Install Certificate..."**

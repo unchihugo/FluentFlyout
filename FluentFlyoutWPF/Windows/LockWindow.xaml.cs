@@ -50,7 +50,11 @@ public partial class LockWindow : MicaWindow
             }
             else LockTextBlock.Text = key + " " + (isOn ? FindResource("LockWindow_LockOn").ToString() : FindResource("LockWindow_LockOff").ToString());
 
-            LockTextBlock.FontWeight = SettingsManager.Current.LockKeysBoldUi ? FontWeights.Medium : FontWeights.Normal;
+            LockTextBlock.FontWeight = SettingsManager.Current.LockKeysBoldUi
+                ? SettingsManager.Current.AppLanguage == "zh-CN" || SettingsManager.Current.AppLanguage == "zh-TW"
+                    ? FontWeights.Bold
+                    : FontWeights.Medium
+                : FontWeights.Normal;
 
             double targetOpacity = isOn ? 1.0 : 0.2;
             double targetWidth = isOn ? 60.0 : 36.0;
