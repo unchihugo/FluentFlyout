@@ -5,6 +5,7 @@ using FluentFlyout.Classes.Settings;
 using FluentFlyoutWPF;
 using FluentFlyoutWPF.Classes;
 using FluentFlyoutWPF.Classes.Utils;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows;
@@ -32,16 +33,12 @@ public partial class TaskbarWindow : Window
     private readonly double _scale = 0.9;
 
     private IntPtr _trayHandle;
-    private AutomationElement? _widgetElement;
-    private AutomationElement? _trayElement;
-    private AutomationElement? _taskbarFrameElement;
     // reference to main window for flyout functions
     private MainWindow? _mainWindow;
     private int _lastSelectedMonitor = -1;
     private IntPtr _lastTaskbarHandle;
     private bool _positionUpdateInProgress;
     private bool _isClosing;
-    private readonly Dictionary<string, Task> _pendingAutomationTasks = [];
 
     private GlobalSystemMediaTransportControlsSessionPlaybackStatus? _lastPlaybackStatus;
     private DispatcherTimer? _autoHideTimer;
@@ -360,10 +357,7 @@ on_error:
 
         _lastTaskbarHandle = taskbarHandle;
         _trayHandle = IntPtr.Zero;
-        _widgetElement = null;
-        _trayElement = null;
-        _taskbarFrameElement = null;
-        _pendingAutomationTasks.Clear();
+        _xamlElementStates.Clear();
     }
 
     private void CalculateAndSetPosition(IntPtr taskbarHandle, IntPtr taskbarWindowHandle, bool isMainTaskbarSelected)
@@ -776,101 +770,121 @@ on_error:
         Widget.RefreshAppVolumeTooltip();
     }
 
-    private (bool, Rect) GetTaskbarXamlElementRect(IntPtr taskbarHandle, ref AutomationElement? elementCache, string elementName)
+    /// <summary>
+    /// Per-element cache for taskbar XAML element rects queried via UI Automation.
+    /// All queries run on a background thread; the UI thread never blocks on them.
+    /// </summary>
+    private sealed class XamlElementState
+    {
+        public AutomationElement? Element;
+        public Rect Rect = Rect.Empty;
+        public bool HasRect;
+        public int QueryInFlight; // 0/1 - Interlocked
+        public DateTime LastQueryCompleted = DateTime.MinValue;
+        public long QueryDurationMs;
+    }
+
+    private readonly Dictionary<string, XamlElementState> _xamlElementStates = new();
+
+    /// <summary>
+    /// Returns the cached bounding rect of a taskbar XAML element, refreshing it in the
+    /// background when stale. Never blocks the caller; if no rect is available yet the
+    /// caller falls back to its default positioning. The stale-limit keeps the rect fresh
+    /// without querying the taskbar's UI Automation tree on every timer tick.
+    /// </summary>
+    private (bool, Rect) GetTaskbarXamlElementRect(IntPtr taskbarHandle, string elementName)
     {
         if (taskbarHandle == IntPtr.Zero)
             return (false, Rect.Empty);
 
-        try
+        if (!_xamlElementStates.TryGetValue(elementName, out var state))
+            _xamlElementStates[elementName] = state = new XamlElementState();
+
+        // reset if monitor changed
+        if (_lastSelectedMonitor != SettingsManager.Current.TaskbarWidgetSelectedMonitor)
         {
-            // reset if monitor changed
-            if (_lastSelectedMonitor != SettingsManager.Current.TaskbarWidgetSelectedMonitor)
-                elementCache = null;
+            state.HasRect = false;
+            state.Element = null;
+        }
 
-            // find widget in XAML
-            if (elementCache == null)
-            {
-                if (_pendingAutomationTasks.TryGetValue(elementName, out var pendingTask) && !pendingTask.IsCompleted)
-                    return (false, Rect.Empty);
+        bool needsRefresh = !state.HasRect
+            || DateTime.Now.Subtract(state.LastQueryCompleted) > TimeSpan.FromSeconds(3);
 
-                AutomationElement? found = null;
-                var findTask = Task.Run(() =>
-                {
-                    var root = AutomationElement.FromHandle(taskbarHandle);
-                    found = root.FindFirst(TreeScope.Descendants,
-                        new PropertyCondition(AutomationElement.AutomationIdProperty, elementName));
-                });
-                _pendingAutomationTasks[elementName] = findTask;
+        // if the last query took a long time, the taskbar's UIA tree is in a slow state -
+        // back off proportionally so a creeping walk does not keep consuming a core
+        long backoffMs = state.QueryDurationMs > 300
+            ? Math.Min(state.QueryDurationMs * 10, 60000)
+            : 3000;
+        bool inBackoff = DateTime.Now.Subtract(state.LastQueryCompleted).TotalMilliseconds < backoffMs;
 
-                if (!findTask.Wait(1000))
-                {
-                    Logger.Warn("Timeout querying taskbar XAML element: " + elementName);
-                    return (false, Rect.Empty);
-                }
+        if (inBackoff)
+            return state.HasRect ? (true, state.Rect) : (false, Rect.Empty);
 
-                // Propagate any exception from the background thread
-                findTask.GetAwaiter().GetResult();
-                elementCache = found;
-            }
+        if (needsRefresh
+            && Interlocked.CompareExchange(ref state.QueryInFlight, 1, 0) == 0)
+        {
+            StartXamlElementQuery(taskbarHandle, elementName, state);
+        }
 
-            if (elementCache == null) // widget most likely disabled
-                return (false, Rect.Empty);
+        return state.HasRect ? (true, state.Rect) : (false, Rect.Empty);
+    }
 
+    private void StartXamlElementQuery(IntPtr taskbarHandle, string elementName, XamlElementState state)
+    {
+        Task.Run(() =>
+        {
+            var sw = Stopwatch.StartNew();
+            Rect rect = Rect.Empty;
+            AutomationElement? found = null;
             try
             {
-                if (_pendingAutomationTasks.TryGetValue(elementName, out var pendingTask) && !pendingTask.IsCompleted)
+                var root = AutomationElement.FromHandle(taskbarHandle);
+                found = root.FindFirst(TreeScope.Descendants,
+                    new PropertyCondition(AutomationElement.AutomationIdProperty, elementName));
+                if (found != null)
                 {
-                    elementCache = null;
-                    return (false, Rect.Empty);
+                    try
+                    {
+                        rect = found.Current.BoundingRectangle;
+                    }
+                    catch (ElementNotAvailableException)
+                    {
+                        found = null;
+                    }
                 }
-
-                var cachedElement = elementCache;
-                var boundsTask = Task.Run(() => cachedElement.Current.BoundingRectangle);
-                _pendingAutomationTasks[elementName] = boundsTask;
-
-                if (!boundsTask.Wait(500))
-                {
-                    Logger.Warn("Timeout getting bounds for taskbar XAML element: " + elementName);
-                    elementCache = null;
-                    return (false, Rect.Empty);
-                }
-
-                Rect elementRect = boundsTask.GetAwaiter().GetResult();
-
-                if (elementRect == Rect.Empty) // widget shown before but most likely disabled now
-                {
-                    elementCache = null; // reset cache
-                    return (false, Rect.Empty);
-                }
-
-                return (true, elementRect);
             }
-            catch (ElementNotAvailableException)
+            catch (Exception ex)
             {
-                // element became stale, reset cache
-                Logger.Warn("Taskbar XAML element became stale, resetting cache: " + elementName);
-                elementCache = null;
-                return (false, Rect.Empty);
+                Logger.Warn(ex, "Error querying taskbar XAML element: " + elementName);
             }
-        }
-        catch (COMException ex)
-        {
-            Logger.Warn(ex, "COM error retrieving taskbar XAML element Rect: " + elementName);
-            elementCache = null; // reset cache on error
-            return (false, Rect.Empty);
-        }
-        catch (ElementNotAvailableException)
-        {
-            Logger.Warn("Taskbar XAML element not available, resetting cache: " + elementName);
-            elementCache = null;
-            return (false, Rect.Empty);
-        }
-        catch (Exception ex)
-        {
-            Logger.Error(ex, "Error retrieving taskbar XAML element Rect: " + elementName);
-            elementCache = null; // reset cache on error
-            return (false, Rect.Empty);
-        }
+            long durationMs = sw.ElapsedMilliseconds;
+
+            // complete the query on the UI thread
+            Dispatcher.BeginInvoke(() =>
+            {
+                if (found == null || rect == Rect.Empty)
+                {
+                    // element is gone/disabled; drop the cache and back off before retrying
+                    state.HasRect = false;
+                    state.Element = null;
+                    state.LastQueryCompleted = DateTime.Now;
+                }
+                else
+                {
+                    // no change -> keep existing element reference to avoid stale handles
+                    state.Element = found;
+                    state.Rect = rect;
+                    state.HasRect = true;
+                    state.LastQueryCompleted = DateTime.Now;
+                }
+
+                state.QueryDurationMs = durationMs;
+                Interlocked.Exchange(ref state.QueryInFlight, 0);
+
+                // apply the refreshed position now that the rect may have changed
+                UpdatePosition();
+            }, DispatcherPriority.Background);
+        });
     }
 
     /// <summary>
@@ -881,17 +895,17 @@ on_error:
     /// <see cref="Rect.Empty"/> if not found.</returns>
     private (bool, Rect) GetTaskbarWidgetRect(IntPtr taskbarHandle)
     {
-        return GetTaskbarXamlElementRect(taskbarHandle, ref _widgetElement, "WidgetsButton");
+        return GetTaskbarXamlElementRect(taskbarHandle, "WidgetsButton");
     }
 
     private (bool, Rect) GetSystemTrayRect(IntPtr taskbarHandle)
     {
-        return GetTaskbarXamlElementRect(taskbarHandle, ref _trayElement, "SystemTrayIcon");
+        return GetTaskbarXamlElementRect(taskbarHandle, "SystemTrayIcon");
     }
 
     private (bool, Rect) GetTaskbarFrameRect(IntPtr taskbarHandle)
     {
-        return GetTaskbarXamlElementRect(taskbarHandle, ref _taskbarFrameElement, "TaskbarFrame");
+        return GetTaskbarXamlElementRect(taskbarHandle, "TaskbarFrame");
     }
 
     protected override void OnClosed(EventArgs e)
@@ -900,10 +914,7 @@ on_error:
         _timer.Stop();
         _autoHideTimer?.Stop();
         _autoHideTimer = null;
-        _widgetElement = null;
-        _trayElement = null;
-        _taskbarFrameElement = null;
-        _pendingAutomationTasks.Clear();
+        _xamlElementStates.Clear();
         base.OnClosed(e);
     }
 }
