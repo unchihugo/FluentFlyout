@@ -175,6 +175,16 @@ Nota: Como proyecto de código abierto, estas opciones también están disponibl
     <system:String x:Key="TaskbarVisualizerEnabledTitle">Activar Visualizador de la Barra de Tareas (Experimental)</system:String>
     <system:String x:Key="TaskbarVisualizerEnabledDescription">Experimental: Esta funcionalidad solo funciona si el Widget de la Barra de Tareas esta activado</system:String>
     <system:String x:Key="TaskbarVisualizerPositionTitle">Posición del Visualizador Relativa al Widget de la Barra de Tareas</system:String>
+
+    <system:String x:Key="TaskbarLyricsTitle">Letras en Barra de Tareas</system:String>
+    <system:String x:Key="TaskbarLyricsDescription">Muestra la letra sincronizada en tiempo real de la canción que está sonando junto al widget de la barra de tareas usando LRCLIB.</system:String>
+    <system:String x:Key="TaskbarLyricsEnabledTitle">Activar Letras en la Barra de Tareas (Experimental)</system:String>
+    <system:String x:Key="TaskbarLyricsEnabledDescription">Experimental: Esta funcionalidad solo funciona si el Widget de la Barra de Tareas está activado</system:String>
+    <system:String x:Key="TaskbarLyricsPositionTitle">Posición de las Letras Relativa al Widget</system:String>
+    <system:String x:Key="TaskbarLyricsClickableTitle">Hacer clic para abrir Ajustes</system:String>
+    <system:String x:Key="TaskbarLyricsClickableDescription">Al hacer clic en las letras se abrirá su página de configuración</system:String>
+    <system:String x:Key="TaskbarLyricsDelayTitle">Ajuste de tiempo de las letras</system:String>
+    <system:String x:Key="TaskbarLyricsDelayDescription">Ajusta la sincronización (positivo para adelantar, negativo para retrasar)</system:String>
     <system:String x:Key="TaskbarVisualizerBarCountTitle">Número de Barras</system:String>
     <system:String x:Key="TaskbarVisualizerBarCountDescription">La cantidad de barras del visualizador</system:String>
     <system:String x:Key="TaskbarVisualizerCenteredBarsTitle">Barras Centradas</system:String>
