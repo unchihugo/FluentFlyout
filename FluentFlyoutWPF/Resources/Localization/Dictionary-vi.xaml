@@ -22,7 +22,7 @@
     <system:String x:Key="RepeatButtonTitle">Nút lặp lại*</system:String>
     <system:String x:Key="RepeatButtonDescription">Lựa chọn giữa lặp lại một lần hoặc liên tục</system:String>
     <system:String x:Key="ShuffleButtonTitle">Nút xáo trộn*</system:String>
-    <system:String x:Key="ShuffleButtonDescription">Cho phép xáo trộn danh sách phát</system:String>
+    <system:String x:Key="ShuffleButtonDescription">Tăng độ rộng của menu flyout</system:String>
     <system:String x:Key="ShowSeekbarTitle">Thanh thời gian*</system:String>
     <system:String x:Key="ShowSeekbarDescription">Cho phép tua đi tua lại nội dung</system:String>
     <system:String x:Key="UnsupportedControlsWarning">*Một số trình duyệt/trình phát không hỗ trợ chức năng lặp lại, phát ngẫu nhiên và điều khiển bằng thanh tìm kiếm.</system:String>
@@ -92,7 +92,7 @@ Bạn có thể hỗ trợ dịch tại</system:String>
     <system:String x:Key="MediaFlyoutAlwaysDisplay">Hiển thị vô thời hạn</system:String>
     <system:String x:Key="TaskbarWidgetCustomizationTitle">Widget thanh tác vụ</system:String>
     <system:String x:Key="TaskbarWidgetEnabledTitle">Hiển thị widget</system:String>
-    <system:String x:Key="TaskbarWidgetEnabledDescription">Hiển thị widget</system:String>
+    <system:String x:Key="TaskbarWidgetEnabledDescription">Hiển thị widget trên thanh taskbar</system:String>
     <system:String x:Key="TaskbarWidgetVisualIssuesWarning">Nếu vị trí của widget chưa vừa ý bạn, bạn nên thay đổi các lựa chọn sau.</system:String>
     <system:String x:Key="TaskbarWidgetPosition">Vị trí giao diện</system:String>
     <system:String x:Key="TaskbarWidgetPaddingTitle">Tách khỏi nút Widgets</system:String>
@@ -100,8 +100,8 @@ Bạn có thể hỗ trợ dịch tại</system:String>
     <system:String x:Key="SelectedMonitorTitle">Màn hình hiển thị flyout</system:String>
     <system:String x:Key="TaskbarWidgetDescription">Widget giúp theo dõi nội dung. Ngoài ra, có thể mở rộng với các nút phát/ngừng phát, chuyển tiếp, quay về. Khi nhấn, nó sẽ mở lên media flyout.</system:String>
     <system:String x:Key="TaskbarWidgetSelectedMonitorTitle">Màn hình hiển thị</system:String>
-    <system:String x:Key="TaskbarWidgetManualPaddingTitle">Kích cỡ khoảng trống</system:String>
-    <system:String x:Key="TaskbarWidgetManualPaddingDescription">(mặc định: 0px)</system:String>
+    <system:String x:Key="TaskbarWidgetManualPaddingTitle">Tuỳ chỉnh kích thước khoảng trống</system:String>
+    <system:String x:Key="TaskbarWidgetManualPaddingDescription">Thêm khoảng trống khác (mặc định: 0px)</system:String>
     <system:String x:Key="TaskbarWidgetClickableTitle">Mở giao diện điều khiển phát lại khi nhấn vào</system:String>
     <system:String x:Key="TaskbarWidgetClickableDescription">Giao diện trên chỉ mở lên khi được cho phép hiển thị</system:String>
     <system:String x:Key="TaskbarWidgetBackgroundBlurTitle">In mờ ảnh bìa trên nền</system:String>
