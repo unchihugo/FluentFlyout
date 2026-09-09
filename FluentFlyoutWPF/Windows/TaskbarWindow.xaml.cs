@@ -381,7 +381,7 @@ public partial class TaskbarWindow : Window
 
 on_error:
 
-        // All regions that were not sent without errors to SetWindowRgn must be destroyed manually.
+// All regions that were not sent without errors to SetWindowRgn must be destroyed manually.
         DeleteObject(rgn);
         ClearWindowRegion(windowHandle);
     }

@@ -14,6 +14,7 @@ using FluentFlyoutWPF.Windows;
 using MicaWPF.Controls;
 using MicaWPF.Core.Extensions;
 using Microsoft.Toolkit.Uwp.Notifications;
+using Microsoft.Win32;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Windows;
