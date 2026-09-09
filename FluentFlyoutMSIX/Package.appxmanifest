@@ -72,7 +72,7 @@
 			<desktop:Extension Category="windows.startupTask">
 				<desktop:StartupTask
 				  TaskId="FluentFlyoutStartup"
-				  Enabled="true"
+				  Enabled="false"
 				  DisplayName="FluentFlyout"/>
 			</desktop:Extension>
 

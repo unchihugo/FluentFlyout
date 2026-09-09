@@ -40,7 +40,7 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <StackPanel Grid.Row="0" Margin="0,0,0,16" Orientation="Horizontal">
-                <Image Source="/Resources/FluentFlyout2.ico" Width="36" Height="36" Margin="0,0,12,-2" VerticalAlignment="Center" />
+                <Image Source="/Resources/FluentFlyout2.ico" Width="36" Height="36" Margin="0,0,12,-2" VerticalAlignment="Center" FlowDirection="LeftToRight" />
                 <TextBlock Text="{DynamicResource OnboardingTitle}" FontSize="28" FontWeight="SemiBold" VerticalAlignment="Center" />
             </StackPanel>
 
@@ -55,6 +55,7 @@
                     <Grid>
                         <Border Width="390"
                             Height="220"
+                            FlowDirection="LeftToRight"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
                             CornerRadius="10"

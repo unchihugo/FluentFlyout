@@ -2,11 +2,10 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 using FluentFlyout.Classes.Settings;
+using FluentFlyoutWPF.Classes;
 using FluentFlyoutWPF.Classes.Utils;
-using Microsoft.Win32;
 using NLog;
 using System.Diagnostics;
-using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using MessageBox = Wpf.Ui.Controls.MessageBox;
@@ -23,50 +22,31 @@ public partial class SystemPage : Page
         UpdateMonitorList();
     }
 
-    private void StartupSwitch_Click(object sender, RoutedEventArgs e)
+    private async void StartupSwitch_Click(object sender, RoutedEventArgs e)
     {
-        SetStartup(StartupSwitch.IsChecked ?? false);
+        await SetStartupAsync(StartupSwitch.IsChecked ?? false);
     }
 
-    private void SetStartup(bool enable)
+    private async Task SetStartupAsync(bool enable)
     {
-        try
-        {
-            using var key = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true);
-            if (key == null) return;
-            const string appName = "FluentFlyout";
-            var executablePath = Environment.ProcessPath;
+        StartupManager.StartupOperationResult result = await StartupManager.ApplyAsync(enable);
+        if (result.Success)
+            return;
 
-            if (enable)
-            {
-                if (File.Exists(executablePath))
-                {
-                    key.SetValue(appName, executablePath);
-                }
-                else
-                {
-                    throw new FileNotFoundException("Application executable not found");
-                }
-            }
-            else
-            {
-                if (key.GetValue(appName) != null)
-                {
-                    key.DeleteValue(appName, false);
-                }
-            }
-        }
-        catch (Exception ex)
-        {
-            MessageBox messageBox = new()
-            {
-                Title = "Error",
-                Content = $"Failed to set startup: {ex.Message}",
-                CloseButtonText = "OK",
-            };
+        // Keep the persisted setting and the switch aligned with the state we
+        // could verify. A failed enable must not leave the toggle checked.
+        bool actualState = result.IsEnabled ?? !enable;
+        SettingsManager.Current.Startup = actualState;
+        StartupSwitch.IsChecked = actualState;
 
-            _ = messageBox.ShowDialogAsync();
-        }
+        MessageBox messageBox = new()
+        {
+            Title = "Error",
+            Content = $"Failed to set startup: {result.Error ?? "Windows did not confirm the requested state."}",
+            CloseButtonText = "OK",
+        };
+
+        _ = messageBox.ShowDialogAsync();
     }
 
     private void StartupHyperlink_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
@@ -77,18 +57,8 @@ public partial class SystemPage : Page
 
     private void ToggleSwitch_Click(object sender, RoutedEventArgs e)
     {
-        bool isChecked = (bool)NIconHideSwitch.IsChecked;
-
-        MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
-
-        if (!isChecked)
-        {
-            mainWindow.nIcon.Register();
-        }
-        else
-        {
-            mainWindow.nIcon.Unregister();
-        }
+        if (Application.Current.MainWindow is MainWindow mainWindow)
+            mainWindow.ApplyTrayVisibilityPolicy();
     }
 
     private void UpdateMonitorList()
@@ -113,7 +83,7 @@ public partial class SystemPage : Page
         {
             try
             {
-                SettingsManager.SaveSettings(saveFileDialog.FileName);
+                await SettingsManager.SaveSettingsAsync(saveFileDialog.FileName);
 
                 Wpf.Ui.Controls.MessageBox messageBox = new()
                 {
@@ -165,7 +135,7 @@ public partial class SystemPage : Page
                 try
                 {
                     SettingsManager.RestoreSettings(openFileDialog.FileName);
-                    SettingsManager.SaveSettings();
+                    await SettingsManager.SaveSettingsAsync();
 
                     Wpf.Ui.Controls.MessageBox messageBox = new()
                     {

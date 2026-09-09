@@ -75,7 +75,8 @@ public partial class UserSettings : ObservableObject
     public partial bool ShuffleEnabled { get; set; }
 
     /// <summary>
-    /// Start minimized to tray when Windows starts
+    /// Start minimized to tray when Windows starts. StartupManager is the sole
+    /// authority that applies this persisted preference to Windows.
     /// </summary>
     [ObservableProperty]
     public partial bool Startup { get; set; }
@@ -710,6 +711,8 @@ public partial class UserSettings : ObservableObject
         PlayerInfoEnabled = true;
         RepeatEnabled = false;
         ShuffleEnabled = false;
+        // The OS registration is applied and verified by StartupManager after
+        // settings restoration; this is only the default user preference.
         Startup = true;
         Duration = 3000;
         NextUpEnabled = false;
@@ -856,16 +859,28 @@ public partial class UserSettings : ObservableObject
     public void FlushPendingSettingsSave()
     {
         var pendingCts = Interlocked.Exchange(ref _saveSettingsCts, null);
-        if (pendingCts == null) return; // no save pending
-
-        // Cancel the debounced save so it cannot also fire (a benign duplicate
-        // at worst, but pointless during shutdown).
-        pendingCts.Cancel();
-        pendingCts.Dispose();
+        if (pendingCts != null)
+        {
+            // Cancel the debounced save so it cannot also fire (a benign
+            // duplicate at worst, but pointless during shutdown).
+            pendingCts.Cancel();
+            pendingCts.Dispose();
+        }
 
         try
         {
-            SettingsManager.SaveSettings();
+            if (pendingCts != null)
+            {
+                // Start the final save through the normal non-blocking API, then
+                // wait below for its tracked atomic replacement. Serialization
+                // remains unchanged for in-app changes; only shutdown gets
+                // completion semantics.
+                SettingsManager.SaveSettings();
+            }
+
+            // Also wait for replacements started by an earlier debounced save.
+            // Cancelling the debounce CTS alone cannot stop those file tasks.
+            SettingsManager.WaitForPendingSettingsSaves();
             Logger.Debug("Flushed pending settings save on shutdown.");
         }
         catch (Exception ex)
@@ -921,6 +936,14 @@ public partial class UserSettings : ObservableObject
     {
         if (oldValue == newValue || _initializing) return;
         ThemeManager.UpdateTrayIcon();
+    }
+
+    partial void OnNIconHideChanged(bool oldValue, bool newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+
+        if (Application.Current?.MainWindow is MainWindow mainWindow)
+            mainWindow.ApplyTrayVisibilityPolicy();
     }
 
     partial void OnAcrylicBlurOpacityChanged(uint oldValue, uint newValue)
