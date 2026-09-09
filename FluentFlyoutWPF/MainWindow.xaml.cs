@@ -109,6 +109,11 @@ public partial class MainWindow : MicaWindow
     private bool _isHiding = true;
     private SolidColorBrush? _playPauseAccentBrush;
     private SolidColorBrush? _playPauseHoverBrush;
+    /// <summary>
+    /// Relative-luminance cutoff for play/pause glyph contrast on album-art
+    /// accent fills. Starting guess, not a spec value (#919).
+    /// </summary>
+    private const double IconContrastLuminanceThreshold = 0.45;
 
     private LockWindow? lockWindow;
     private DateTime _lastSelfUpdateTimestamp = DateTime.MinValue;
@@ -1073,11 +1078,30 @@ public partial class MainWindow : MicaWindow
         }
     }
 
+    private string? _lastPlaybackSessionId;
+    private GlobalSystemMediaTransportControlsSessionPlaybackStatus? _lastPlaybackStatus;
+
     private void CurrentSession_OnPlaybackStateChanged(MediaSession mediaSession, GlobalSystemMediaTransportControlsSessionPlaybackInfo? playbackInfo = null)
     {
+        var resolvedStatus = playbackInfo?.PlaybackStatus
+            ?? TryGetPlaybackInfo(mediaSession.ControlSession)?.PlaybackStatus;
+
+        // Chrome/Firefox/Movies & TV raise SMTC playback twice with the same
+        // (session, status) pair. Dedupe that pair only: a pause→play→pause
+        // sequence on the same session must still run each transition (#675).
+        if (resolvedStatus != null
+            && mediaSession.Id == _lastPlaybackSessionId
+            && resolvedStatus == _lastPlaybackStatus)
+        {
+            return;
+        }
+
+        _lastPlaybackSessionId = mediaSession.Id;
+        _lastPlaybackStatus = resolvedStatus;
+
 #if DEBUG
-        Logger.Debug("Playback state changed: " + mediaSession.Id + " " + (mediaSession.ControlSession == null ? null : TryGetPlaybackInfo(mediaSession.ControlSession)?.PlaybackStatus));
-#endif     
+        Logger.Debug("Playback state changed: " + mediaSession.Id + " " + resolvedStatus);
+#endif
         pauseOtherMediaSessionsIfNeeded(mediaSession);
 
         var focusedSession = GetActiveMediaSession();
@@ -1357,13 +1381,28 @@ public partial class MainWindow : MicaWindow
             // every keystroke system-wide and Windows silently drops slow hooks,
             // which breaks Alt+Tab and the media keys themselves over time
             // (worse at boot when everything is slow). Queue it instead.
-            if (mediaKeysPressed || volumeKeysPressed)
+            // Media keys never present the volume flyout. Volume keys present
+            // the media flyout only when MediaFlyoutVolumeKeysExcluded is false (#920).
+            if (mediaKeysPressed)
             {
-                if (mediaKeysPressed || (!SettingsManager.Current.MediaFlyoutVolumeKeysExcluded && volumeKeysPressed))
+                long currentTime = Environment.TickCount64;
+                if ((currentTime - _lastFlyoutTime) >= 500)
+                {
+                    _lastFlyoutTime = currentTime;
+                    _ = Dispatcher.BeginInvoke(() =>
+                    {
+                        try { ShowMediaFlyout(); }
+                        catch (Exception ex) { Logger.Debug(ex, "Show media flyout from hook failed"); }
+                    });
+                }
+            }
+
+            if (volumeKeysPressed)
+            {
+                if (!SettingsManager.Current.MediaFlyoutVolumeKeysExcluded)
                 {
                     long currentTime = Environment.TickCount64;
-                    // debounce to prevent hangs with rapid key presses
-                    if ((currentTime - _lastFlyoutTime) >= 500) // 500ms debounce time
+                    if ((currentTime - _lastFlyoutTime) >= 500)
                     {
                         _lastFlyoutTime = currentTime;
                         _ = Dispatcher.BeginInvoke(() =>
@@ -1374,7 +1413,7 @@ public partial class MainWindow : MicaWindow
                     }
                 }
 
-                if (volumeKeysPressed && SettingsManager.Current.VolumeControlEnabled && volumeMixerWindow != null)
+                if (SettingsManager.Current.VolumeControlEnabled && volumeMixerWindow != null)
                 {
                     // SyncMasterFromDevice is dispatcher-aware (marshals to UI thread itself).
                     // ShowFlyout is queued to the UI thread so this hook returns to
@@ -1742,7 +1781,9 @@ public partial class MainWindow : MicaWindow
                 SongTitle.Text = displayTitle;
                 SongArtist.Text = displayArtist;
                 var image = BitmapHelper.GetThumbnail(songInfo.Thumbnail);
-                SongImage.ImageSource = image;
+                // Square source so UniformToFill cannot center-crop widescreen
+                // SMTC thumbs inside the 78×78 (or compact 36×36) border (#1019).
+                SongImage.ImageSource = BitmapHelper.CropToSquare(image) ?? (ImageSource?)image;
 
                 // set tooltip
                 SongInfoStackPanel.ToolTip = string.Empty;
@@ -2392,7 +2433,8 @@ public partial class MainWindow : MicaWindow
         {
             int highWord = (int)(lParam >> 16);
             int cmd = highWord & 0x0FFF;
-            int device = highWord & 0xF000;
+            int device = highWord & FAPPCOMMAND_MASK;
+            bool isMouseCommand = device == FAPPCOMMAND_MOUSE;
 
             bool isMediaCommand = cmd switch
             {
@@ -2403,35 +2445,55 @@ public partial class MainWindow : MicaWindow
                 _ => false
             };
 
-            bool isVolumeCommand = false;
-
-            if (!isMediaCommand && !SettingsManager.Current.MediaFlyoutVolumeKeysExcluded)
+            bool isVolumeCommand = cmd switch
             {
-                isVolumeCommand = cmd switch
+                APPCOMMAND_VOLUME_MUTE => true,
+                APPCOMMAND_VOLUME_DOWN => true,
+                APPCOMMAND_VOLUME_UP => true,
+                _ => false
+            };
+
+            if (isMediaCommand)
+            {
+                // Mouse macros must not open the media flyout (#920 / #728).
+                if (isMouseCommand)
+                    return 0;
+
+                bool result = TryShowMediaFlyoutDebounced();
+                if (result)
+                    handled = true;
+                return 0;
+            }
+
+            if (isVolumeCommand)
+            {
+                // FAPPCOMMAND_MOUSE stays excluded from the volume-show path
+                // even after splitting media/volume APPCOMMAND handling (#920).
+                if (isMouseCommand)
+                    return 0;
+
+                // Bluetooth / OEM APPCOMMAND_VOLUME_* must present the volume
+                // flyout without requiring FAPPCOMMAND_KEY (#1119).
+                if (SettingsManager.Current.VolumeControlEnabled && volumeMixerWindow != null)
                 {
-                    APPCOMMAND_VOLUME_MUTE => true,
-                    APPCOMMAND_VOLUME_DOWN => true,
-                    APPCOMMAND_VOLUME_UP => true,
-                    _ => false
-                };
-            }
+                    var mixerWindow = volumeMixerWindow;
+                    _ = Dispatcher.BeginInvoke(() =>
+                    {
+                        try { mixerWindow.ShowFlyout(); }
+                        catch (Exception ex) { Logger.Debug(ex, "Show volume flyout from APPCOMMAND failed"); }
+                    });
+                }
 
-            if (!isMediaCommand && !isVolumeCommand)
-                return 0;
+                // Media flyout on volume APPCOMMAND only when the user has not
+                // excluded volume keys from the media flyout.
+                if (!SettingsManager.Current.MediaFlyoutVolumeKeysExcluded)
+                    TryShowMediaFlyoutDebounced();
 
-            bool isKeyCommand = device == FAPPCOMMAND_KEY;
-
-            if (!isKeyCommand)
-                return 0;
-
-            bool result = TryShowMediaFlyoutDebounced();
-
-            if (!result)
-            {
+                handled = true;
                 return 0;
             }
 
-            handled = true;
+            return 0;
         }
         else if (msg == WM_TASKBARCREATED)
         {
@@ -2743,6 +2805,16 @@ public partial class MainWindow : MicaWindow
         ControlPlayPause.MouseLeave -= ControlPlayPause_MouseLeave;
         ControlPlayPause.MouseEnter += ControlPlayPause_MouseEnter;
         ControlPlayPause.MouseLeave += ControlPlayPause_MouseLeave;
+
+        // Album-art accents can be near-black; the glyph otherwise inherits
+        // dark-theme foreground and disappears on the button (#919).
+        double luminance = (0.2126 * baseColor.R + 0.7152 * baseColor.G + 0.0722 * baseColor.B) / 255.0;
+        var iconBrush = luminance < IconContrastLuminanceThreshold
+            ? Brushes.White
+            : new SolidColorBrush(Color.FromRgb(0x1A, 0x1A, 0x1A));
+        if (iconBrush.CanFreeze)
+            iconBrush.Freeze();
+        SymbolPlayPause.Foreground = iconBrush;
 
         // Default WPF Slider templates use Foreground for the filled track.
         Seekbar.Foreground = brush;

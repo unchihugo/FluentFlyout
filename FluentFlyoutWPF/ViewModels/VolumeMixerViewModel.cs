@@ -3,6 +3,7 @@
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using FluentFlyout.Classes.Settings;
 using FluentFlyout.Classes.Utils;
 using FluentFlyoutWPF.Classes;
 using FluentFlyoutWPF.Models;
@@ -40,6 +41,12 @@ public partial class VolumeMixerViewModel : ObservableObject, IDisposable
 
     public ObservableCollection<AudioSessionModel> Sessions { get; } = [];
     public event EventHandler? SessionVolumeChanged;
+    /// <summary>
+    /// Raised after an endpoint volume notification has been applied to the
+    /// view-model. Used to present or extend the volume flyout for Bluetooth
+    /// / AVRCP changes that never produce a keyboard VK_VOLUME (#1119).
+    /// </summary>
+    public event EventHandler? EndpointVolumeChanged;
 
     public VolumeMixerViewModel()
     {
@@ -141,11 +148,16 @@ public partial class VolumeMixerViewModel : ObservableObject, IDisposable
 
             if (!app.Dispatcher.CheckAccess())
             {
-                _ = app.Dispatcher.InvokeAsync(() => ApplyVolumeFromDevice(vol, mute));
+                _ = app.Dispatcher.BeginInvoke(() =>
+                {
+                    ApplyVolumeFromDevice(vol, mute);
+                    RaiseEndpointVolumeChanged();
+                });
             }
             else
             {
                 ApplyVolumeFromDevice(vol, mute);
+                RaiseEndpointVolumeChanged();
             }
         }
         catch (Exception ex)
@@ -170,6 +182,14 @@ public partial class VolumeMixerViewModel : ObservableObject, IDisposable
         {
             _suppressDevicePush = false;
         }
+    }
+
+    private void RaiseEndpointVolumeChanged()
+    {
+        if (!SettingsManager.Current.VolumeControlEnabled)
+            return;
+
+        EndpointVolumeChanged?.Invoke(this, EventArgs.Empty);
     }
 
     private void OnDefaultDeviceChanged(object? sender, DefaultDeviceChangedEventArgs e)
