@@ -22,16 +22,16 @@ Closes #issue-number
 
 <!-- Bullet points of key changes made in this PR. -->
 
-- 
-- 
+-
+-
 
 ## Additional Information
 
 <!-- Any other information, such as screenshots -->
 
 ## Checklist
+
 - [ ] Code changes are manually tested and working.
 - [ ] Formatting and naming are consistent with the project.
 - [ ] Self-review of changes is done.
-<!-- AI usage -->
 - [ ] AI tools were used (if yes, I reviewed and fully understand the changes myself).
