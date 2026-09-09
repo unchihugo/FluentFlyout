@@ -68,6 +68,8 @@ public static partial class NativeMethods
     internal const int APPCOMMAND_MEDIA_STOP = 13;
     internal const int APPCOMMAND_MEDIA_PLAY_PAUSE = 14;
     internal const int FAPPCOMMAND_KEY = 0x0000;
+    internal const int FAPPCOMMAND_MOUSE = 0x8000;
+    internal const int FAPPCOMMAND_MASK = 0xF000;
 
     // Process Access Rights
     internal const uint PROCESS_QUERY_LIMITED_INFORMATION = 0x1000;

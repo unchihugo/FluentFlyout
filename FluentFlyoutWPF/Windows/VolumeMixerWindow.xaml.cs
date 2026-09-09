@@ -16,6 +16,7 @@ using NLog;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Media.Animation;
+using System.Windows.Threading;
 using static FluentFlyout.Classes.NativeMethods;
 
 namespace FluentFlyoutWPF.Windows;
@@ -39,6 +40,7 @@ public partial class VolumeMixerWindow : MicaWindow
 
     private long _lastFlyoutTime = 0;
     private readonly TimeSpan _flyoutCooldown = TimeSpan.FromMilliseconds(500);
+    private readonly DispatcherTimer _autoHideExtendTimer;
 
     public VolumeMixerWindow()
     {
@@ -54,12 +56,65 @@ public partial class VolumeMixerWindow : MicaWindow
         _cts = new CancellationTokenSource();
         _normalWidth = Width;
 
+        _autoHideExtendTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(Math.Max(1, SettingsManager.Current.VolumeControlDuration)) };
+        _autoHideExtendTimer.Tick += OnAutoHideExtendTimerTick;
+
         ViewModel.PropertyChanged += OnViewModelPropertyChanged;
         ViewModel.SessionVolumeChanged += OnSessionVolumeChanged;
+        ViewModel.EndpointVolumeChanged += OnEndpointVolumeChanged;
+    }
+
+    /// <summary>
+    /// Bluetooth / AVRCP volume changes never produce VK_VOLUME. When the flyout
+    /// is already visible, reset the auto-hide timer in place (cooldown still
+    /// blocks a reopen while hidden). Otherwise present the flyout (#1119).
+    /// </summary>
+    private void OnEndpointVolumeChanged(object? sender, EventArgs e)
+    {
+        if (!SettingsManager.Current.VolumeControlEnabled)
+            return;
+
+        if (!_isHiding)
+        {
+            RestartAutoHideTimer();
+            return;
+        }
+
+        ShowFlyout();
+    }
+
+    /// <summary>
+    /// Extends the visible flyout's auto-hide without reopening it. Restarts a
+    /// DispatcherTimer rather than bypassing the 500 ms show-cooldown, so
+    /// hidden-state floods still cannot reopen the window.
+    /// </summary>
+    private void RestartAutoHideTimer()
+    {
+        int durationMs = Math.Max(1, SettingsManager.Current.VolumeControlDuration);
+        _autoHideExtendTimer.Stop();
+        _autoHideExtendTimer.Interval = TimeSpan.FromMilliseconds(durationMs);
+        _autoHideExtendTimer.Start();
+
+        try
+        {
+            _cts.Cancel();
+            _cts = new CancellationTokenSource();
+        }
+        catch (ObjectDisposedException)
+        {
+            return;
+        }
+
+        _ = RunAutoHideLoopAsync(_cts.Token);
+    }
+
+    private void OnAutoHideExtendTimerTick(object? sender, EventArgs e)
+    {
+        _autoHideExtendTimer.Stop();
     }
 
     // one day we might want to convert these to an interface
-    public async void ShowFlyout(bool startExpanded = false)
+    public void ShowFlyout(bool startExpanded = false)
     {
         if (FullscreenDetector.IsFullscreenApplicationRunning())
             return;
@@ -148,20 +203,12 @@ public partial class VolumeMixerWindow : MicaWindow
             return;
         }
 
-        CancellationToken token;
-        try
-        {
-            _cts.Cancel();
-            _cts = new CancellationTokenSource();
-            token = _cts.Token;
-        }
-        catch (ObjectDisposedException)
-        {
-            // window was closed while we were showing it
-            return;
-        }
-
         Logger.Info("Volume flyout shown");
+        RestartAutoHideTimer();
+    }
+
+    private async Task RunAutoHideLoopAsync(CancellationToken token)
+    {
         try
         {
             while (!token.IsCancellationRequested)
@@ -186,6 +233,7 @@ public partial class VolumeMixerWindow : MicaWindow
 
                     if (!mouseOverThis && !mouseOverMedia)
                     {
+                        _autoHideExtendTimer.Stop();
                         _mainWindow.CloseAnimation(this);
                         _isHiding = true;
                         await Task.Delay(MainWindow.getDuration());
@@ -210,6 +258,7 @@ public partial class VolumeMixerWindow : MicaWindow
             Logger.Error(ex, "Volume flyout loop failed, hiding flyout");
             try
             {
+                _autoHideExtendTimer.Stop();
                 _isHiding = true;
                 WindowHelper.SetVisibility(this, false);
                 ViewModel.IsExpanded = false;
@@ -238,6 +287,8 @@ public partial class VolumeMixerWindow : MicaWindow
     {
         try
         {
+            _autoHideExtendTimer.Stop();
+            _autoHideExtendTimer.Tick -= OnAutoHideExtendTimerTick;
             _cts.Cancel();
             _cts.Dispose();
         }
@@ -247,6 +298,7 @@ public partial class VolumeMixerWindow : MicaWindow
         }
         ViewModel.PropertyChanged -= OnViewModelPropertyChanged;
         ViewModel.SessionVolumeChanged -= OnSessionVolumeChanged;
+        ViewModel.EndpointVolumeChanged -= OnEndpointVolumeChanged;
         ViewModel.Dispose();
         base.OnClosed(e);
     }
