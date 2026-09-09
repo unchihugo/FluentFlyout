@@ -126,6 +126,8 @@ public partial class MainWindow : MicaWindow
     private string _pendingDisplayRefreshReason = "Unknown";
     private bool _displayRefreshInProgress;
     private bool _isCleaningUp;
+    private bool _trayIconRegistered;
+    private string _previousVersion = string.Empty;
 
     internal static volatile bool ExplorerRestarting = false;
 
@@ -209,36 +211,18 @@ public partial class MainWindow : MicaWindow
         // RestoreSettings may replace SettingsManager.Current instance, so rebind DataContext.
         DataContext = SettingsManager.Current;
 
-        if (SettingsManager.Current.Startup == true) // add to startup programs if enabled, needs improvement
-        {
-            // This block used to run unguarded on every launch: a SecurityException
-            // (locked-down policy, AV tamper protection) killed startup, and the
-            // RegistryKey handle leaked. Dispose the key, guard the write, and
-            // only rewrite when the stored value actually differs.
-            try
-            {
-                string? executablePath = Environment.ProcessPath;
-                if (executablePath != null)
-                {
-                    using RegistryKey? key = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
-                    if (key != null
-                        && !string.Equals(key.GetValue("FluentFlyout") as string, executablePath, StringComparison.OrdinalIgnoreCase))
-                    {
-                        key.SetValue("FluentFlyout", executablePath);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.Warn(ex, "Failed to register FluentFlyout in the Run key");
-            }
-        }
+        // StartupManager is the only component allowed to touch the OS startup
+        // mechanism. It selects StartupTask for packaged builds and the verified
+        // quoted Run value for unpackaged builds, without delaying window/tray
+        // creation or changing the #1029 duplicate-launch guard above.
+        _ = SynchronizeStartupSettingAsync(SettingsManager.Current.Startup);
 
-        // display tray icon if enabled
-        if (!SettingsManager.Current.NIconHide)
-        {
+        // NotifyIcon registers itself when the visible MainWindow is loaded.
+        // Remember the initial state so recovery can distinguish that icon from
+        // one that Explorer removed later.
+        _trayIconRegistered = !SettingsManager.Current.NIconHide;
+        if (_trayIconRegistered)
             nIcon.Visibility = Visibility.Visible;
-        }
 
         cts = new CancellationTokenSource();
 
@@ -287,8 +271,7 @@ public partial class MainWindow : MicaWindow
                 UpdateSeekbarCurrentDuration(timeline.Position);
         }
 
-        string previousVersion = SettingsManager.Current.LastKnownVersion;
-        _ = CheckForExperimentsOnStartupAsync(previousVersion);
+        _previousVersion = SettingsManager.Current.LastKnownVersion;
 
         // apply other things on new thread
         Dispatcher.Invoke(() =>
@@ -307,7 +290,7 @@ public partial class MainWindow : MicaWindow
 
             Logger.Info($"Current version: {SettingsManager.Current.LastKnownVersion}");
 
-            Notifications.ShowFirstOrUpdateNotification(previousVersion, SettingsManager.Current.LastKnownVersion);
+            Notifications.ShowFirstOrUpdateNotification(_previousVersion, SettingsManager.Current.LastKnownVersion);
             FlowDirection = SettingsManager.Current.FlowDirection;
 
             // check for updates on startup
@@ -317,6 +300,18 @@ public partial class MainWindow : MicaWindow
 
     private async Task CheckForExperimentsOnStartupAsync(string previousVersion)
     {
+        try
+        {
+            // This awaits the shared, bounded request only after the main
+            // window/tray/taskbar have been created. An unavailable endpoint
+            // leaves HasExperiments false and uses the safe onboarding fallback.
+            await ExperimentsService.GetExperimentsAsync();
+        }
+        catch (Exception ex)
+        {
+            Logger.Error(ex, "Failed to load startup experiments");
+        }
+
         OnboardingExperiment(previousVersion);
     }
 
@@ -2170,9 +2165,10 @@ public partial class MainWindow : MicaWindow
 
     private void CleanupResources()
     {
-        // Flush a debounced settings change made within the last 500 ms; a plain
-        // unconditional SaveSettings here caused shutdown races, so only save
-        // when a debounced save is actually pending (see UserSettings).
+        // Flush a debounced settings change made within the last 500 ms and
+        // wait for every tracked atomic replacement before logging is shut down.
+        // A plain unconditional SaveSettings here caused shutdown races (see
+        // UserSettings and SettingsManager).
         try
         {
             SettingsManager.Current.FlushPendingSettingsSave();
@@ -2302,6 +2298,21 @@ public partial class MainWindow : MicaWindow
         }
     }
 
+    private async Task SynchronizeStartupSettingAsync(bool enable)
+    {
+        StartupManager.StartupOperationResult result = await StartupManager.ApplyAsync(enable);
+        if (result.Success)
+            return;
+
+        Logger.Warn(
+            "Startup setting could not be verified during launch: {0}",
+            result.Error ?? "Windows did not confirm the requested state.");
+
+        // Do not leave a checked startup toggle when enabling failed. If the
+        // manager could verify an existing state, keep that state instead.
+        SettingsManager.Current.Startup = result.IsEnabled ?? false;
+    }
+
     private async Task<bool> WaitForExplorerReadyAsync(int timeoutMs = 60000)
     {
         var sw = Stopwatch.StartNew();
@@ -2373,6 +2384,9 @@ public partial class MainWindow : MicaWindow
         }
         finally
         {
+            // Session unlock/resume uses this existing delayed recovery timer;
+            // reapply tray visibility only after that recovery pass has run.
+            ApplyTrayVisibilityPolicy();
             _displayRefreshInProgress = false;
         }
     }
@@ -2633,17 +2647,50 @@ public partial class MainWindow : MicaWindow
         }
     }
 
+    /// <summary>
+    /// Applies the one tray-visibility policy used by settings changes and
+    /// shell/display recovery. The registration flag makes repeated recovery
+    /// calls idempotent and prevents duplicate tray icons.
+    /// </summary>
+    internal void ApplyTrayVisibilityPolicy()
+    {
+        try
+        {
+            if (SettingsManager.Current.NIconHide)
+            {
+                // The hidden path must never register an icon. Unregister even
+                // when our state says it is absent so a shell-created/stale icon
+                // is removed as well.
+                nIcon.Visibility = Visibility.Collapsed;
+                _trayIconRegistered = false;
+                nIcon.Unregister();
+                return;
+            }
+
+            nIcon.Visibility = Visibility.Visible;
+            if (_trayIconRegistered)
+                return;
+
+            nIcon.Register();
+            _trayIconRegistered = true;
+        }
+        catch (Exception ex)
+        {
+            Logger.Error(ex, "Failed to apply tray visibility policy");
+        }
+    }
+
     private void RecreateTrayIconSafely()
     {
         try
         {
+            // Explorer may have discarded the native icon while our local state
+            // still says it is registered. Reset that state only after the
+            // existing icon has been unregistered, then apply the policy once.
             nIcon.Visibility = Visibility.Collapsed;
-
-            if (!SettingsManager.Current.NIconHide)
-            {
-                nIcon.Visibility = Visibility.Visible;
-                nIcon.Register();
-            }
+            _trayIconRegistered = false;
+            nIcon.Unregister();
+            ApplyTrayVisibilityPolicy();
         }
         catch (Exception ex)
         {
@@ -2651,13 +2698,15 @@ public partial class MainWindow : MicaWindow
         }
     }
 
-    private async void MicaWindow_Loaded(object sender, RoutedEventArgs e)
+    private void MicaWindow_Loaded(object sender, RoutedEventArgs e)
     {
         Hide();
         UpdateUILayout();
         ThemeManager.ApplySavedTheme();
 
-        // add tray icon hook when taskbar resets
+        // Add the shell hook and create the native integration windows before
+        // any remote Store/experiments work. Startup failures must not prevent
+        // the tray, flyout, or taskbar widget from existing.
         try
         {
             HwndSource? source = PresentationSource.FromVisual(this) as HwndSource;
@@ -2671,41 +2720,100 @@ public partial class MainWindow : MicaWindow
             Logger.Error(ex, "Failed to initialize tray icon");
         }
 
+        CreateStartupWindows();
+        _ = InitializeStartupServicesAsync(_previousVersion);
+    }
+
+    private void CreateStartupWindows()
+    {
         try
         {
-            await LicenseManager.Instance.InitializeAsync();
-
-            // Sync license status from LicenseManager to SettingsManager
-            SettingsManager.Current.IsPremiumUnlocked = LicenseManager.Instance.IsPremiumUnlocked;
-            SettingsManager.Current.IsStoreVersion = LicenseManager.Instance.IsStoreVersion;
-            SettingsManager.SaveSettings();
-
-            Logger.Info($"License synced on startup - Store: {SettingsManager.Current.IsStoreVersion}, Premium: {SettingsManager.Current.IsPremiumUnlocked}");
+            BitmapHelper.GetDominantColors(1);
         }
         catch (Exception ex)
         {
-            Logger.Error(ex, "Failed to initialize license");
+            Logger.Debug(ex, "Failed to initialize startup artwork");
         }
 
-        // Add the experiments loading here
-        await ExperimentsService.GetExperimentsAsync();
-
-        BitmapHelper.GetDominantColors(1);
-        volumeMixerWindow = new VolumeMixerWindow();
-
-        // Hide the native volume OSD up front instead of waiting for the first
-        // volume key press. The OSD's XAML island only had to be found once we
-        // already wanted to show our own flyout, so the very first volume change
-        // after login still popped the Windows flyout - and if that lookup failed
-        // it was never retried, leaving the native flyout visible for the whole
-        // session (#966, #1078).
-        if (SettingsManager.Current.VolumeControlEnabled)
+        try
         {
-            VolumeMixerWindow.RehideVolumeOsdAfterExplorerRestart();
+            volumeMixerWindow = new VolumeMixerWindow();
+
+            // Hide the native volume OSD up front instead of waiting for the
+            // first volume key press. The OSD's XAML island only had to be
+            // found once we already wanted to show our own flyout, so the very
+            // first volume change after login still popped the Windows flyout
+            // (#966, #1078).
+            if (SettingsManager.Current.VolumeControlEnabled)
+                VolumeMixerWindow.RehideVolumeOsdAfterExplorerRestart();
+        }
+        catch (Exception ex)
+        {
+            Logger.Error(ex, "Failed to create the volume mixer window");
         }
 
-        taskbarWindow = new TaskbarWindow();
-        UpdateTaskbar();
+        try
+        {
+            taskbarWindow = new TaskbarWindow();
+            UpdateTaskbar();
+        }
+        catch (Exception ex)
+        {
+            Logger.Error(ex, "Failed to create the taskbar window during startup");
+        }
+    }
+
+    private async Task InitializeStartupServicesAsync(string previousVersion)
+    {
+        // Start both remote/Store initializers after the native windows are
+        // alive. Their bounded failures are isolated so one service cannot
+        // stop onboarding or taskbar recovery.
+        Task licenseTask = InitializeLicenseAsync();
+        Task experimentsTask = CheckForExperimentsOnStartupAsync(previousVersion);
+
+        try
+        {
+            await licenseTask;
+        }
+        catch (Exception ex)
+        {
+            Logger.Error(ex, "Background license initialization failed");
+        }
+
+        try
+        {
+            await experimentsTask;
+        }
+        catch (Exception ex)
+        {
+            Logger.Error(ex, "Background experiments initialization failed");
+            OnboardingExperiment(previousVersion);
+        }
+    }
+
+    private async Task InitializeLicenseAsync()
+    {
+        try
+        {
+            await LicenseManager.Instance.InitializeAsync().WaitAsync(TimeSpan.FromSeconds(10));
+
+            // Sync license status from LicenseManager to SettingsManager after
+            // the window/tray/taskbar are already available.
+            SettingsManager.Current.IsPremiumUnlocked = LicenseManager.Instance.IsPremiumUnlocked;
+            SettingsManager.Current.IsStoreVersion = LicenseManager.Instance.IsStoreVersion;
+            SettingsManager.SaveSettings();
+            UpdateTaskbar();
+
+            Logger.Info($"License synced on startup - Store: {SettingsManager.Current.IsStoreVersion}, Premium: {SettingsManager.Current.IsPremiumUnlocked}");
+        }
+        catch (TimeoutException ex)
+        {
+            Logger.Error(ex, "Timed out initializing license in the background");
+        }
+        catch (Exception ex)
+        {
+            Logger.Error(ex, "Failed to initialize license in the background");
+        }
     }
 
     public void RecreateTaskbarWindow()

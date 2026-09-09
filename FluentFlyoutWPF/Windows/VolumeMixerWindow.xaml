@@ -96,7 +96,7 @@
                                             <ui:SymbolIcon Symbol="DesktopSpeaker24" FontSize="16"
                                                    Opacity="{Binding IsMuted, Converter={StaticResource BoolToHalfFullOpacityConverter}}"
                                                    Visibility="{Binding Icon, Converter={StaticResource NullToVisibleConverter}}" />
-                                            <Image Source="{Binding Icon}" Width="16" Height="16"
+                                            <Image Source="{Binding Icon}" Width="16" Height="16" FlowDirection="LeftToRight"
                                                    Opacity="{Binding IsMuted, Converter={StaticResource BoolToHalfFullOpacityConverter}}" />
                                             <ui:SymbolIcon Symbol="SpeakerMute28" FontSize="12" Margin="0,0,-16,-16"
                                                    Visibility="{Binding IsMuted, Converter={StaticResource BoolToVisibleCollapsedConverter}}" />

@@ -49,7 +49,7 @@
             <ui:SymbolIcon Symbol="Dismiss20" Filled="True"/>
         </controls:Button>
         <Grid>
-            <Image x:Name="BackgroundImageStyle1" Stretch="UniformToFill" Opacity="1" IsHitTestVisible="False" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" Visibility="Collapsed" ClipToBounds="True">
+            <Image x:Name="BackgroundImageStyle1" Stretch="UniformToFill" Opacity="1" IsHitTestVisible="False" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" Visibility="Collapsed" ClipToBounds="True" FlowDirection="LeftToRight">
                 <Image.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform ScaleX="1.2" ScaleY="1.2"/>
@@ -66,7 +66,7 @@
                     </RadialGradientBrush>
                 </Image.OpacityMask>
             </Image>
-            <Image x:Name="BackgroundImageStyle2" Stretch="Fill" Opacity="0.8" IsHitTestVisible="False" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" Visibility="Collapsed" ClipToBounds="True">
+            <Image x:Name="BackgroundImageStyle2" Stretch="Fill" Opacity="0.8" IsHitTestVisible="False" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" Visibility="Collapsed" ClipToBounds="True" FlowDirection="LeftToRight">
                 <Image.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform ScaleX="1.8" ScaleY="1.8"/>
@@ -82,7 +82,7 @@
                     </RadialGradientBrush>
                 </Image.OpacityMask>
             </Image>
-            <Image x:Name="BackgroundImageStyle3" Stretch="UniformToFill" Opacity="0.3" IsHitTestVisible="False" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" Visibility="Collapsed">
+            <Image x:Name="BackgroundImageStyle3" Stretch="UniformToFill" Opacity="0.3" IsHitTestVisible="False" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" Visibility="Collapsed" FlowDirection="LeftToRight">
                 <Image.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform ScaleX="1.2" ScaleY="1.2"/>
@@ -99,7 +99,7 @@
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 <StackPanel Grid.Row="0" Margin="12" Orientation="Horizontal">
-                    <Border Name="SongImageBorder" CornerRadius="6" BorderThickness="1" BorderBrush="#26FFFFFF" Margin="0" ClipToBounds="True" Width="78" Height="78">
+                    <Border Name="SongImageBorder" CornerRadius="6" BorderThickness="1" BorderBrush="#26FFFFFF" Margin="0" ClipToBounds="True" Width="78" Height="78" FlowDirection="LeftToRight">
                         <ui:SymbolIcon Name="SongImagePlaceholder" Symbol="MusicNote220" FontSize="40" Filled="True" Foreground="{DynamicResource MicaWPF.Brushes.SystemAccentColorSecondary}" Visibility="Collapsed" />
                         <Border.Background>
                             <ImageBrush x:Name="SongImage" Stretch="UniformToFill"/>
@@ -166,7 +166,7 @@
                                     Style="{StaticResource MicaWPF.Styles.TransparentButton}"
                                     Click="MediaIdButton_Click">
                                     <StackPanel Orientation="Horizontal" Margin="2,0">
-                                        <Image x:Name="MediaIdIcon" Width="14" Height="14"/>
+                                        <Image x:Name="MediaIdIcon" Width="14" Height="14" FlowDirection="LeftToRight"/>
                                         <TextBlock Name="MediaId" VerticalAlignment="Center" FontSize="10" Width="48" Margin="4,0,0,0" FontWeight="Regular" Opacity="0.25" TextWrapping="Wrap" TextTrimming="CharacterEllipsis"/>
                                     </StackPanel>
                                 </controls:Button>

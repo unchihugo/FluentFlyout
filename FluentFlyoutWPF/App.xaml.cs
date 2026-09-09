@@ -13,7 +13,7 @@ namespace FluentFlyoutWPF;
 /// </summary>
 public partial class App : Application
 {
-    protected override async void OnStartup(StartupEventArgs e)
+    protected override void OnStartup(StartupEventArgs e)
     {
         // log unhandled exceptions before crashing
         AppDomain.CurrentDomain.UnhandledException += (sender, args) =>
@@ -25,8 +25,25 @@ public partial class App : Application
         // Register AUMID for toast notifications
         ToastNotificationManagerCompat.OnActivated += Notifications.HandleNotificationActivation;
 
-        await ExperimentsService.GetExperimentsAsync();
-
+        // StartupUri creates MainWindow from base.OnStartup. Do not put remote
+        // work in front of it: the tray/flyout must exist even when the network
+        // is unavailable.
         base.OnStartup(e);
+
+        // App and MainWindow receive the same shared request. This warm-up is
+        // intentionally fire-and-forget and fault-tolerant.
+        _ = LoadExperimentsInBackgroundAsync();
+    }
+
+    private static async Task LoadExperimentsInBackgroundAsync()
+    {
+        try
+        {
+            await ExperimentsService.GetExperimentsAsync().ConfigureAwait(false);
+        }
+        catch (Exception ex)
+        {
+            NLog.LogManager.GetCurrentClassLogger().Error(ex, "Background experiments initialization failed");
+        }
     }
 }

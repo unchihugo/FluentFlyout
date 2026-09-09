@@ -14,8 +14,10 @@ internal class ExperimentsService
     private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
     private const string ApiEndpoint = "experiments";
 
+    private static readonly object ExperimentsTaskLock = new();
     private static List<Experiment> _experiments = new();
     private static bool _hasExperiments = false;
+    private static Task<ExperimentsResult>? _experimentsTask;
 
     /// <summary>
     /// Result of experiments
@@ -45,12 +47,25 @@ internal class ExperimentsService
 
     public static bool HasExperiments => _hasExperiments;
 
-    public static async Task<ExperimentsResult> GetExperimentsAsync()
+    /// <summary>
+    /// Returns the one shared startup request. App and MainWindow can both
+    /// request it without issuing duplicate network calls or blocking window
+    /// creation on the endpoint.
+    /// </summary>
+    public static Task<ExperimentsResult> GetExperimentsAsync()
+    {
+        lock (ExperimentsTaskLock)
+        {
+            return _experimentsTask ??= FetchExperimentsAsync();
+        }
+    }
+
+    private static async Task<ExperimentsResult> FetchExperimentsAsync()
     {
         var result = new ExperimentsResult();
         try
         {
-            var response = await FluentFlyoutApiClient.GetStringAsync(ApiEndpoint);
+            var response = await FluentFlyoutApiClient.GetStringAsync(ApiEndpoint).ConfigureAwait(false);
             var experimentDict = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, Experiment>>(response);
             if (experimentDict != null)
             {

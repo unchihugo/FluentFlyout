@@ -292,25 +292,56 @@ public partial class TaskbarWindow : Window
         return rect;
     }
 
+    private void ClearWindowRegion(IntPtr windowHandle)
+    {
+        if (windowHandle == IntPtr.Zero)
+            return;
+
+        if (SetWindowRgn(windowHandle, IntPtr.Zero, true) == 0)
+            Logger.Debug("Taskbar Widget region was already clear or could not be reset.");
+    }
+
     private void UpdateWindowRegion(IntPtr windowHandle, params Rect[] rects)
     {
+        if (windowHandle == IntPtr.Zero)
+            return;
+
         IntPtr rgn = CreateRectRgn(0, 0, 0, 0);
-        foreach (var r in rects)
+        if (rgn == IntPtr.Zero)
         {
-            // make sure rect is not empty - happens when setting elements to collapsed
-            if (r == Rect.Empty)
+            Logger.Error("Taskbar Widget error during initial CreateRectRgn.");
+            ClearWindowRegion(windowHandle);
+            return;
+        }
+
+        bool hasValidRect = false;
+        foreach (var rect in rects)
+        {
+            // Sanitize every input before converting it to Win32 integers. A
+            // transient NaN/infinite/overflowed layout value must never create a
+            // giant or inverted taskbar hit-test region.
+            Rect sanitizedRect = SanitizeRegionRect(rect);
+            if (sanitizedRect == Rect.Empty)
                 continue;
 
-            IntPtr newRgn = CreateRectRgn((int)r.Left, (int)r.Top, (int)r.Right, (int)r.Bottom);
+            int left = (int)Math.Floor(sanitizedRect.Left);
+            int top = (int)Math.Floor(sanitizedRect.Top);
+            int right = (int)Math.Ceiling(sanitizedRect.Right);
+            int bottom = (int)Math.Ceiling(sanitizedRect.Bottom);
+            if (right <= left || bottom <= top)
+                continue;
+
+            hasValidRect = true;
+            IntPtr newRgn = CreateRectRgn(left, top, right, bottom);
             if (newRgn == IntPtr.Zero)
             {
-                Logger.Error($"Taskbar Widget error during CreateRectRgn({(int)r.Left}, {(int)r.Top}, {(int)r.Right}, {(int)r.Bottom}).");
+                Logger.Error($"Taskbar Widget error during CreateRectRgn({left}, {top}, {right}, {bottom}).");
                 goto on_error;
             }
 
             if (CombineRgn(rgn, rgn, newRgn, 2 /*RGN_OR*/) == 0)
             {
-                Logger.Error($"Taskbar Widget error during CombineRgn. Combined regions: {string.Join(", ", rects.Select(i => $"RECT({(int)i.Left}, {(int)i.Top}, {(int)i.Right}, {(int)i.Bottom})"))}");
+                Logger.Error($"Taskbar Widget error during CombineRgn. Combined regions: {string.Join(", ", rects.Select(i => SanitizeRegionRect(i)))}");
                 DeleteObject(newRgn);
                 goto on_error;
             }
@@ -318,9 +349,19 @@ public partial class TaskbarWindow : Window
             DeleteObject(newRgn);
         }
 
+        // An empty or invalid layout must be explicitly click-through; retaining
+        // the previous native region is what made the invisible widget consume
+        // taskbar clicks (#701).
+        if (!hasValidRect)
+        {
+            DeleteObject(rgn);
+            ClearWindowRegion(windowHandle);
+            return;
+        }
+
         if (SetWindowRgn(windowHandle, rgn, true) == 0)
         {
-            Logger.Error($"Taskbar Widget error during SetWindowRgn.");
+            Logger.Error("Taskbar Widget error during SetWindowRgn.");
             goto on_error;
         }
 
@@ -340,29 +381,46 @@ public partial class TaskbarWindow : Window
 
 on_error:
 
-// All regions that were not sent without errors to SetWindowRgn must be destroyed manually
+// All regions that were not sent without errors to SetWindowRgn must be destroyed manually.
         DeleteObject(rgn);
-        if (SetWindowRgn(windowHandle, IntPtr.Zero, true) == 0)
-            Logger.Error("Taskbar Widget error during window region reset.");
+        ClearWindowRegion(windowHandle);
     }
 
     private void UpdatePosition()
     {
-        if (_isClosing || MainWindow.ExplorerRestarting)
+        var interop = new WindowInteropHelper(this);
+        if (_isClosing)
         {
-            // Explorer is restarting -- do NOTHING
+            ClearWindowRegion(interop.Handle);
             return;
         }
 
-        // Check premium status before allowing widget to be displayed
-        if (!SettingsManager.Current.TaskbarWidgetEnabled || !SettingsManager.Current.IsPremiumUnlocked)
+        if (MainWindow.ExplorerRestarting)
+        {
+            // Explorer is restarting; clear the old region so a dead child
+            // cannot keep consuming taskbar clicks while recovery is deferred.
+            ClearWindowRegion(interop.Handle);
             return;
+        }
+
+        // Check premium status before allowing widget to be displayed. The WPF
+        // content can be collapsed independently from the native child HWND, so
+        // the latter must be made explicitly click-through here.
+        if (!SettingsManager.Current.TaskbarWidgetEnabled || !SettingsManager.Current.IsPremiumUnlocked)
+        {
+            ClearWindowRegion(interop.Handle);
+            return;
+        }
 
         try
         {
-            var interop = new WindowInteropHelper(this);
             IntPtr taskbarHandle = GetSelectedTaskbarHandle(out bool isMainTaskbarSelected);
             ResetTaskbarCachesIfHandleChanged(taskbarHandle);
+            if (taskbarHandle == IntPtr.Zero)
+            {
+                ClearWindowRegion(interop.Handle);
+                return;
+            }
 
             if (interop.Handle == IntPtr.Zero)
             {
@@ -406,6 +464,7 @@ on_error:
         }
         catch (Exception ex)
         {
+            ClearWindowRegion(interop.Handle);
             Logger.Error(ex, "Taskbar Widget error during position update");
         }
     }
@@ -442,8 +501,7 @@ on_error:
                 // Drop the hit-test region instead of keeping a stale one: a
                 // stale region leaves an invisible "ghost" widget that still
                 // eats taskbar clicks after topology changes.
-                try { UpdateWindowRegion(taskbarWindowHandle, Rect.Empty, Rect.Empty); }
-                catch (Exception ex) { Logger.Debug(ex, "Failed to reset taskbar widget region"); }
+                ClearWindowRegion(taskbarWindowHandle);
                 return;
             }
 
@@ -455,7 +513,11 @@ on_error:
                 // first, try to find the Taskbar.TaskbarFrame element in the XAML
                 // this should give us the actual bounds of the taskbar, excluding invisible margins on some Windows configurations
                 (bool success, Rect result) = await GetTaskbarFrameRect(taskbarHandle);
-                if (_isClosing) return;
+                if (_isClosing)
+                {
+                    ClearWindowRegion(taskbarWindowHandle);
+                    return;
+                }
                 if (success)
                 {
                     taskbarRect = new RECT
@@ -480,6 +542,11 @@ on_error:
 
             int taskbarHeight = taskbarRect.Bottom - taskbarRect.Top;
             int taskbarWidth = taskbarRect.Right - taskbarRect.Left;
+            if (taskbarHeight <= 0 || taskbarWidth <= 0)
+            {
+                ClearWindowRegion(taskbarWindowHandle);
+                return;
+            }
 
             // Vertical taskbar support: rotate and reposition widget when taskbar is taller than wide
             bool isVertical = taskbarHeight > taskbarWidth;
@@ -497,13 +564,22 @@ on_error:
             ScreenToClient(taskbarHandle, ref containerPos);
 
             // Apply using SetWindowPos (Bypassing WPF layout engine)
-            SetWindowPos(taskbarWindowHandle, 0,
+            if (!SetWindowPos(taskbarWindowHandle, 0,
                      containerPos.X, containerPos.Y,
                      containerWidth, containerHeight,
-                     SWP_NOZORDER | SWP_NOACTIVATE | SWP_ASYNCWINDOWPOS | SWP_SHOWWINDOW);
+                     SWP_NOZORDER | SWP_NOACTIVATE | SWP_ASYNCWINDOWPOS | SWP_SHOWWINDOW))
+            {
+                ClearWindowRegion(taskbarWindowHandle);
+                return;
+            }
+
             var wRect = await PositionWidget(taskbarHandle, taskbarRect, dpiScale, isMainTaskbarSelected, isVertical);
             var vRect = PositionVisualizer(taskbarHandle, taskbarRect, dpiScale, isMainTaskbarSelected, isVertical);
-            if (_isClosing) return;
+            if (_isClosing)
+            {
+                ClearWindowRegion(taskbarWindowHandle);
+                return;
+            }
 
             UpdateWindowRegion(taskbarWindowHandle, wRect, vRect);
 
@@ -512,7 +588,9 @@ on_error:
         catch (Exception ex)
         {
             // async void: an exception escaping this method would take the
-            // process down; the next timer tick retries placement.
+            // process down; the next timer tick retries placement. Do not leave
+            // the previous region active while that retry is pending.
+            ClearWindowRegion(taskbarWindowHandle);
             Logger.Error(ex, "Failed to calculate and set taskbar widget position");
         }
         finally
@@ -778,6 +856,7 @@ on_error:
             Dispatcher.Invoke(() =>
             {
                 Visibility = Visibility.Collapsed;
+                ClearWindowRegion(new WindowInteropHelper(this).Handle);
             });
             return;
         }
@@ -976,6 +1055,7 @@ on_error:
     protected override void OnClosed(EventArgs e)
     {
         _isClosing = true;
+        ClearWindowRegion(new WindowInteropHelper(this).Handle);
         _timer.Stop();
         _autoHideTimer?.Stop();
         _autoHideTimer = null;

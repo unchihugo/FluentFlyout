@@ -19,7 +19,7 @@
             MouseWheel="MainBorder_MouseWheel"
             ClipToBounds="True">
         <Grid>
-            <Image x:Name="BackgroundImage" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" Opacity="0.4">
+            <Image x:Name="BackgroundImage" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" Opacity="0.4" FlowDirection="LeftToRight">
                 <Image.Effect>
                     <BlurEffect Radius="80" />
                 </Image.Effect>
@@ -30,7 +30,7 @@
                         <ScaleTransform ScaleX="0.9" ScaleY="0.9" />
                     </Grid.RenderTransform>
                     <StackPanel Name="MainStackPanel" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Width="Auto" Margin="4,0,-100,0">
-                        <Border Name="SongImageBorder" CornerRadius="5" ClipToBounds="True" Width="36" Height="36" Panel.ZIndex="2">
+                        <Border Name="SongImageBorder" CornerRadius="5" ClipToBounds="True" Width="36" Height="36" Panel.ZIndex="2" FlowDirection="LeftToRight">
                             <Grid>
                                 <ui:SymbolIcon Name="SongImagePlaceholder" Symbol="MusicNote220" FontSize="24" Filled="True" Foreground="{DynamicResource MicaWPF.Brushes.SystemAccentColorTertiary}" />
                             </Grid>

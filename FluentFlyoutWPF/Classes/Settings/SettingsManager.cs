@@ -25,6 +25,13 @@ public class SettingsManager
     private static int _saveCounter;
     private static XmlSerializer? _exportSerializer;
 
+    // Replacement work is deliberately tracked independently from the
+    // UserSettings debounce CTS. A property-change save may already be
+    // replacing settings.xml when shutdown begins, and cancelling the debounce
+    // does not cancel that atomic file operation.
+    private static readonly object PendingReplacementTasksLock = new();
+    private static readonly HashSet<Task> PendingReplacementTasks = [];
+
     private static XmlSerializer GetExportSerializer()
     {
         if (_exportSerializer == null)
@@ -127,89 +134,155 @@ public class SettingsManager
     }
 
     /// <summary>
-    /// Saves the app settings to the settings file.
+    /// Saves the app settings to the settings file without blocking the caller
+    /// on an atomic replacement already in progress.
     /// </summary>
     public static void SaveSettings(string? filePath = null)
+    {
+        _ = SaveSettingsWithoutThrowingAsync(filePath);
+    }
+
+    private static async Task SaveSettingsWithoutThrowingAsync(string? filePath)
+    {
+        try
+        {
+            await SaveSettingsAsync(filePath).ConfigureAwait(false);
+        }
+        catch (UnauthorizedAccessException ex)
+        {
+            Logger.Error(ex, "No permission to write in settings file");
+        }
+        catch (Exception ex)
+        {
+            Logger.Error(ex, "Error saving settings");
+        }
+    }
+
+    /// <summary>
+    /// Saves settings and completes after an asynchronous atomic replacement has
+    /// finished. Use this when the caller must know that the file is on disk,
+    /// such as export and shutdown paths. Normal property changes should use
+    /// <see cref="SaveSettings(string?)"/> instead.
+    /// </summary>
+    public static async Task SaveSettingsAsync(string? filePath = null)
     {
         bool isExport = filePath != null;
         filePath ??= SettingsFilePath;
         // Unique temp name per save: the replace step runs asynchronously, so two
-        // saves scheduled close together shared one ".tmp" file. The first one to
-        // finish deleted the temp the second was still about to replace from,
-        // leaving settings.xml stale or missing -> settings reset on next start
-        // (#1013, #1072).
-        string tempPath = isExport
-            ? filePath + ".tmp"
-            : $"{filePath}.{Environment.ProcessId}.{Interlocked.Increment(ref _saveCounter)}.tmp";
+        // saves scheduled close together must never share a ".tmp" file. The
+        // first one to finish must not delete the temp the second is still about
+        // to replace from (#1013, #1072).
+        string tempPath = $"{filePath}.{Environment.ProcessId}.{Interlocked.Increment(ref _saveCounter)}.tmp";
         string backupPath = filePath + ".bak";
 
-        try
+        Task? replacementTask = null;
+        lock (SettingsFileLock)
         {
-            lock (SettingsFileLock)
+            string? directory = Path.GetDirectoryName(filePath);
+            if (directory != null && !Directory.Exists(directory))
             {
-                string? directory = Path.GetDirectoryName(filePath);
-                if (directory != null && !Directory.Exists(directory))
-                {
-                    Directory.CreateDirectory(directory);
-                }
+                Directory.CreateDirectory(directory);
+            }
 
-                _current ??= new UserSettings();
+            _current ??= new UserSettings();
 
-                using (var writer = new StreamWriter(tempPath, false))
-                {
-                    XmlSerializer xmlSerializer;
-                    if (isExport)
-                    {
-                        xmlSerializer = GetExportSerializer();
-                    }
-                    else
-                    {
-                        xmlSerializer = new XmlSerializer(typeof(UserSettings));
-                    }
-                    xmlSerializer.Serialize(writer, _current);
-                }
+            using (var writer = new StreamWriter(tempPath, false))
+            {
+                XmlSerializer xmlSerializer = isExport
+                    ? GetExportSerializer()
+                    : new XmlSerializer(typeof(UserSettings));
+                xmlSerializer.Serialize(writer, _current);
+            }
 
-                if (File.Exists(filePath))
-                    _ = Task.Run(async () =>
-                    {
-                        // Run asynchronously to avoid blocking the UI thread
-                        try
-                        {
-                            await TryReplaceSettingsFileAsync(filePath, tempPath, backupPath);
-                            Logger.Info("Settings successfully saved to {0}", filePath);
-                        }
-                        catch (Exception ex)
-                        {
-                            Logger.Error(ex, "Error replacing settings file");
-                        }
-                        finally
-                        {
-                            TryDeleteFileIfExists(tempPath);
-                        }
-                    });
-                else
+            if (File.Exists(filePath))
+            {
+                // Run asynchronously to keep normal in-app property changes
+                // non-blocking. The task is tracked separately so shutdown can
+                // wait for the actual File.Replace operation.
+                replacementTask = Task.Run(async () =>
                 {
                     try
                     {
-                        File.Move(tempPath, filePath, true);
+                        await TryReplaceSettingsFileAsync(filePath, tempPath, backupPath);
                         Logger.Info("Settings successfully saved to {0}", filePath);
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.Error(ex, "Error replacing settings file");
                     }
                     finally
                     {
                         TryDeleteFileIfExists(tempPath);
                     }
+                });
+
+                TrackPendingReplacementTask(replacementTask);
+            }
+            else
+            {
+                try
+                {
+                    File.Move(tempPath, filePath, true);
+                    Logger.Info("Settings successfully saved to {0}", filePath);
+                }
+                finally
+                {
+                    TryDeleteFileIfExists(tempPath);
                 }
             }
         }
-        catch (UnauthorizedAccessException ex)
+
+        if (replacementTask != null)
+            await replacementTask.ConfigureAwait(false);
+    }
+
+    private static void TrackPendingReplacementTask(Task replacementTask)
+    {
+        lock (PendingReplacementTasksLock)
         {
-            // if the app doesn't have permission to write to the settings file
-            Logger.Error(ex, "No permission to write in settings file");
+            PendingReplacementTasks.Add(replacementTask);
         }
-        catch (Exception ex)
+
+        _ = replacementTask.ContinueWith(
+            completedTask =>
+            {
+                lock (PendingReplacementTasksLock)
+                {
+                    PendingReplacementTasks.Remove(completedTask);
+                }
+            },
+            CancellationToken.None,
+            TaskContinuationOptions.ExecuteSynchronously,
+            TaskScheduler.Default);
+    }
+
+    /// <summary>
+    /// Completes all currently tracked atomic replacements. New replacement work
+    /// observed while waiting is included before this method returns.
+    /// </summary>
+    public static void WaitForPendingSettingsSaves()
+    {
+        while (true)
         {
-            // if the settings file cannot be saved
-            Logger.Error(ex, "Error saving settings");
+            Task[] pendingTasks;
+            lock (PendingReplacementTasksLock)
+            {
+                pendingTasks = [.. PendingReplacementTasks];
+            }
+
+            if (pendingTasks.Length == 0)
+                return;
+
+            try
+            {
+                Task.WhenAll(pendingTasks).GetAwaiter().GetResult();
+            }
+            catch (Exception ex)
+            {
+                // Replacement tasks log their own failure, but a fault must not
+                // prevent shutdown from observing/removing the remaining tasks.
+                Logger.Error(ex, "One or more settings replacements failed while waiting for shutdown");
+            }
         }
     }
 
