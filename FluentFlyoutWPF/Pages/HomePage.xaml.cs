@@ -44,7 +44,7 @@ public partial class HomePage : Page
         if (UpdateState.Current.LastUpdateCheck != default)
         {
             LastCheckedText.Text = string.Format(
-                Application.Current.FindResource("LastChecked")?.ToString(),
+                Application.Current.FindResource("LastChecked")?.ToString() ?? string.Empty,
                 UpdateState.Current.LastCheckedText);
         }
         else
@@ -73,7 +73,7 @@ public partial class HomePage : Page
         if (UpdateState.Current.IsUpdateAvailable)
         {
             string url = !string.IsNullOrEmpty(UpdateState.Current.UpdateUrl) ? UpdateState.Current.UpdateUrl : "https://fluentflyout.com/changelog/";
-            UpdateCheckerService.OpenUpdateUrl(url);
+            Notifications.OpenUrlInBrowser(url);
         }
         else
         {
@@ -166,22 +166,6 @@ public partial class HomePage : Page
         SettingsWindow.NavigateToPage(typeof(SystemPage));
     }
 
-    private void ViewMicrosoftStore_Click(object sender, System.Windows.RoutedEventArgs e)
-    {
-        try
-        {
-            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
-            {
-                FileName = "https://apps.microsoft.com/detail/9N45NSM4TNBP",
-                UseShellExecute = true
-            });
-        }
-        catch
-        {
-            Logger.Error("Failed to open Microsoft Store page");
-        }
-    }
-
     private void ViewLogs_Click(object sender, System.Windows.RoutedEventArgs e)
     {
         try
@@ -196,17 +180,6 @@ public partial class HomePage : Page
 
     private void ReportBug_Click(object sender, System.Windows.RoutedEventArgs e)
     {
-        try
-        {
-            Process.Start(new ProcessStartInfo
-            {
-                FileName = "https://github.com/unchihugo/FluentFlyout/issues/new/choose",
-                UseShellExecute = true
-            });
-        }
-        catch (Exception ex)
-        {
-            Logger.Error(ex, "Failed to open bug report page");
-        }
+        Notifications.OpenUrlInBrowser("https://github.com/unchihugo/FluentFlyout/issues/new/choose");
     }
 }
