@@ -288,4 +288,12 @@
     <system:String x:Key="TaskbarWidgetScrollingTextSpeedTitle">سرعة التمرير</system:String>
     <system:String x:Key="TaskbarWidgetScrollingTextSpeedDescription">سرعة تمرير النصوص (بكسل/ثانية). الإفتراضي هو 20.</system:String>
     <system:String x:Key="SearchSettings">إعدادات البحث</system:String>
+    <system:String x:Key="OnboardingTitle">إبدأ</system:String>
+    <system:String x:Key="SupporterTitle">داعم</system:String>
+    <system:String x:Key="SupporterDescription">شكراً لك!</system:String>
+    <system:String x:Key="TaskbarWidgetScrollVolumeTitle">تمرير لضبط مستوى الصوت</system:String>
+    <system:String x:Key="TaskbarWidgetScrollVolumeDescription">استخدم عجلة الفأرة فوق أيقونة شريط المهام لضبط مستوى الصوت</system:String>
+    <system:String x:Key="TaskbarWidgetScrollVolumeMaster">مفعل (مستوى الصوت الرئيسي)</system:String>
+    <system:String x:Key="TaskbarWidgetScrollVolumePlayer">مفعل (مستوى صوت المشغل)</system:String>
+    <system:String x:Key="OpenMediaPlayerText">إفتح مشغل الوسائط</system:String>
 </ResourceDictionary>
