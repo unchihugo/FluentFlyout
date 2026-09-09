@@ -2250,7 +2250,7 @@ public partial class MainWindow : MicaWindow
             // activation can target (or relaunch) a shut-down instance
             try
             {
-                ToastNotificationManagerCompat.Unregister();
+                ToastNotificationManagerCompat.Uninstall();
             }
             catch (Exception ex)
             {

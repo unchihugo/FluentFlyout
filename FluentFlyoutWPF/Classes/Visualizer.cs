@@ -539,7 +539,7 @@ namespace FluentFlyoutWPF.Classes
                 try
                 {
                     var status = session.ControlSession.GetPlaybackInfo()?.PlaybackStatus;
-                    return status == Windows.Media.Control.GlobalSystemMediaTransportControlsSessionPlaybackStatus.Playing;
+                    return status == global::Windows.Media.Control.GlobalSystemMediaTransportControlsSessionPlaybackStatus.Playing;
                 }
                 catch
                 {
