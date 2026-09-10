@@ -52,6 +52,9 @@ public static partial class NativeMethods
     internal const int WM_DISPLAYCHANGE = 0x007E;
     internal const int WM_DPICHANGED = 0x02E0;
     internal const int WM_DPICHANGED_AFTERPARENT = 0x02E3;
+    internal const int WM_NCHITTEST = 0x0084;
+    internal const int HTTRANSPARENT = -1;
+    internal const int HTCLIENT = 1;
 
     // SystemParametersInfo Actions
     internal const int SPI_SETWORKAREA = 0x002F;
