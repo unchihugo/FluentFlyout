@@ -4,6 +4,7 @@
 using FluentFlyout.Classes.Settings;
 using FluentFlyoutWPF;
 using FluentFlyoutWPF.Classes;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -19,6 +20,9 @@ public partial class TaskbarVisualizerControl : UserControl
     private const double DefaultTaskbarVisualizerHeight = 40;
     private const double SmallTaskbarVisualizerHeight = 28;
 
+    // the bar image is inset by 4px on both sides (see the Image margin in the XAML)
+    private const double ImageSideMargin = 4;
+
     // reference to main window for flyout functions
     private static readonly Visualizer visualizer = new();
 
@@ -28,6 +32,10 @@ public partial class TaskbarVisualizerControl : UserControl
 
         // Set DataContext for bindings
         DataContext = SettingsManager.Current;
+
+        visualizer.BitmapChanged += OnVisualizerBitmapChanged;
+
+        ApplyVisualizerWidth(SettingsManager.Current.TaskbarVisualizerWidth);
 
         if (SettingsManager.Current.TaskbarVisualizerEnabled)
         {
@@ -46,9 +54,52 @@ public partial class TaskbarVisualizerControl : UserControl
         Background = new SolidColorBrush(Color.FromArgb(1, 0, 0, 0));
     }
 
+    private void OnVisualizerBitmapChanged(System.Windows.Media.Imaging.WriteableBitmap? bitmap)
+    {
+        if (Dispatcher.CheckAccess())
+        {
+            VisualizerContainer.Source = bitmap;
+        }
+        else
+        {
+            Dispatcher.Invoke(() => VisualizerContainer.Source = bitmap);
+        }
+    }
+
+    /// <summary>
+    /// Applies the configured visualizer width (width of the bar area, in DIP).
+    /// The control is wider by the image margins so the bars are rendered 1:1.
+    /// </summary>
+    public void ApplyVisualizerWidth(int width)
+    {
+        int clamped = Math.Clamp(width, Visualizer.MinImageWidth, Visualizer.MaxImageWidth);
+
+        Width = clamped + (ImageSideMargin * 2);
+        VisualizerContainer.Width = clamped;
+
+        visualizer.RefreshBitmap();
+    }
+
     public void SetSmallTaskbarMode(bool isSmallTaskbar)
     {
         Height = isSmallTaskbar ? SmallTaskbarVisualizerHeight : DefaultTaskbarVisualizerHeight;
+    }
+
+    /// <summary>
+    /// Called when the width setting changes.
+    /// </summary>
+    public static void OnTaskbarVisualizerWidthChanged(int width)
+    {
+        MainWindow? mainWindow = Application.Current?.MainWindow as MainWindow;
+        mainWindow?.taskbarWindow?.TaskbarVisualizer?.ApplyVisualizerWidth(width);
+    }
+
+    /// <summary>
+    /// Called when the style setting changes; the next frame is drawn with the new style.
+    /// </summary>
+    public static void OnTaskbarVisualizerStyleChanged()
+    {
+        visualizer.RefreshBitmap();
     }
 
     public static void OnTaskbarVisualizerEnabledChanged(bool value)
