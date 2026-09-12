@@ -288,4 +288,12 @@ Możesz pomóc w tworzeniu tłumaczeń na stronie</system:String>
     <system:String x:Key="TaskbarWidgetScrollingTextLoopForeverDescription">Przewijaj tekst nieskończenie w jedną stronę zamiast przewijania w przód i w tył.</system:String>
     <system:String x:Key="TaskbarWidgetScrollingTextSpeedTitle">Prędkość Przewijania</system:String>
     <system:String x:Key="TaskbarWidgetScrollingTextSpeedDescription">Prędkość przewijania tekstu (pikseli na sekundę). Domyślna wartość to 20.</system:String>
+    <system:String x:Key="OnboardingTitle">Rozpocznij</system:String>
+    <system:String x:Key="SupporterTitle">Wspierający</system:String>
+    <system:String x:Key="SupporterDescription">Dziękuję!</system:String>
+    <system:String x:Key="TaskbarWidgetScrollVolumeTitle">Przewiń aby Dostosować Głośność</system:String>
+    <system:String x:Key="TaskbarWidgetScrollVolumeDescription">Użyj pokrętła myszy nad widżetem paska zadań aby dostosować głośność</system:String>
+    <system:String x:Key="TaskbarWidgetScrollVolumeMaster">Włączono (Głośność Główna)</system:String>
+    <system:String x:Key="TaskbarWidgetScrollVolumePlayer">Włączono (Głośność Odtwarzacza)</system:String>
+    <system:String x:Key="OpenMediaPlayerText">Otwórz odtwarzacz mediów</system:String>
 </ResourceDictionary>
