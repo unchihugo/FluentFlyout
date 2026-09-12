@@ -435,6 +435,36 @@ public partial class UserSettings : ObservableObject
     public partial bool TaskbarWidgetFixedWidth { get; set; }
 
     /// <summary>
+    /// Width of the taskbar widget in device independent pixels, used when <see cref="TaskbarWidgetFixedWidth"/>
+    /// is enabled.
+    /// </summary>
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(TaskbarWidgetFixedWidthValueText))]
+    public partial int TaskbarWidgetFixedWidthValue { get; set; }
+
+    /// <summary>
+    /// Text representation of <see cref="TaskbarWidgetFixedWidthValue"/> for the settings text box.
+    /// </summary>
+    [XmlIgnore]
+    public string TaskbarWidgetFixedWidthValueText
+    {
+        get => TaskbarWidgetFixedWidthValue.ToString();
+        set
+        {
+            if (int.TryParse(value, out var result))
+            {
+                TaskbarWidgetFixedWidthValue = Math.Clamp(result, TaskbarWidgetControl.MinFixedWidth, TaskbarWidgetControl.MaxFixedWidth);
+            }
+            else
+            {
+                TaskbarWidgetFixedWidthValue = TaskbarWidgetControl.DefaultFixedWidth;
+            }
+
+            OnPropertyChanged();
+        }
+    }
+
+    /// <summary>
     /// Gets or sets a value indicating whether the pause icon overlay should be completely hidden from view.
     /// </summary>
     [ObservableProperty]
@@ -752,6 +782,7 @@ public partial class UserSettings : ObservableObject
         TaskbarWidgetBackgroundBlur = false;
         TaskbarWidgetHideCompletely = false;
         TaskbarWidgetFixedWidth = false;
+        TaskbarWidgetFixedWidthValue = 240;
         TaskbarWidgetShowPauseOverlay = true;
         TaskbarWidgetControlsEnabled = false;
         TaskbarWidgetControlsPosition = 1;
@@ -921,6 +952,12 @@ public partial class UserSettings : ObservableObject
     }
 
     partial void OnTaskbarWidgetFixedWidthChanged(bool oldValue, bool newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+        UpdateTaskbar();
+    }
+
+    partial void OnTaskbarWidgetFixedWidthValueChanged(int oldValue, int newValue)
     {
         if (oldValue == newValue || _initializing) return;
         UpdateTaskbar();

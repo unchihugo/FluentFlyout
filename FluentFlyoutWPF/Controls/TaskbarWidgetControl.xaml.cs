@@ -40,6 +40,11 @@ public partial class TaskbarWidgetControl : UserControl
     private readonly double _scale = 0.9;
     private readonly int _nativeWidgetsPadding = 216;
 
+    // user configurable fixed width of the widget (DIP), see TaskbarWidgetFixedWidthValue
+    public const int MinFixedWidth = 80;
+    public const int MaxFixedWidth = 420;
+    public const int DefaultFixedWidth = 240; // same as the native Windows widget width
+
     // Cached width calculations
     private string _cachedTitleText = string.Empty;
     private string _cachedArtistText = string.Empty;
@@ -290,6 +295,17 @@ public partial class TaskbarWidgetControl : UserControl
 
         // maximum width limit, same as Windows native widget
         double maxLogicalWidth = _nativeWidgetsPadding / _scale;
+
+        // space taken by the playback controls (0 when they are disabled), so a fixed width can mean
+        // the total widget width instead of only the text area
+        double controlsWidth = 0;
+        if (SettingsManager.Current.TaskbarWidgetControlsEnabled && ControlsStackPanel.Visibility == Visibility.Visible)
+        {
+            controlsWidth = PreviousButton.Width + PlayPauseButton.Width + NextButton.Width;
+            if (!_isVertical)
+                controlsWidth += ControlsStackPanel.Margin.Left + ControlsStackPanel.Margin.Right;
+        }
+
         double logicalWidth;
 
         if (_isVertical)
@@ -298,8 +314,10 @@ public partial class TaskbarWidgetControl : UserControl
         }
         else if (SettingsManager.Current.TaskbarWidgetFixedWidth)
         {
-            // pin to maximum width so right-aligned controls don't shift between songs
-            logicalWidth = maxLogicalWidth;
+            // pin to the width configured by the user so right-aligned controls don't shift between songs;
+            // the configured value is the total width, so the text area gets whatever is left
+            double configuredWidth = Math.Clamp(SettingsManager.Current.TaskbarWidgetFixedWidthValue, MinFixedWidth, MaxFixedWidth);
+            logicalWidth = Math.Max(configuredWidth - controlsWidth, coverImageMargin + _extraMarginForText);
         }
         else
         {
@@ -333,14 +351,7 @@ public partial class TaskbarWidgetControl : UserControl
         }
 
         // add space for playback controls if enabled and visible
-        if (SettingsManager.Current.TaskbarWidgetControlsEnabled && ControlsStackPanel.Visibility == Visibility.Visible)
-        {
-            double controlsWidth = PreviousButton.Width + PlayPauseButton.Width + NextButton.Width;
-            if (!_isVertical)
-                controlsWidth += ControlsStackPanel.Margin.Left + ControlsStackPanel.Margin.Right;
-
-            logicalWidth += controlsWidth;
-        }
+        logicalWidth += controlsWidth;
 
         double logicalHeight = _isSmallTaskbar ? SmallTaskbarWidgetHeight : DefaultTaskbarWidgetHeight;
 
