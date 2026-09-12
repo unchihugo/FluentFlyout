@@ -27,6 +27,10 @@ public partial class TaskbarWindow : Window
 
     private const double SmallTaskbarDetectionThreshold = 40;
 
+    // limits for TaskbarWidgetLeftMargin (device independent pixels)
+    public const int MinCustomLeftMargin = 0;
+    public const int MaxCustomLeftMargin = 2000;
+
     private readonly DispatcherTimer _timer;
     private readonly int _nativeWidgetsPadding = 216;
     private readonly double _scale = 0.9;
@@ -486,6 +490,15 @@ on_error:
         switch (SettingsManager.Current.TaskbarWidgetPosition)
         {
             case 0: // near start (left for horizontal, top for vertical)
+                // custom left margin: place the widget's left edge (top edge on a vertical taskbar)
+                // at exactly the configured distance from the start of the taskbar
+                if (SettingsManager.Current.TaskbarWidgetUseCustomLeftMargin)
+                {
+                    primaryPos = (int)(Math.Clamp(SettingsManager.Current.TaskbarWidgetLeftMargin,
+                        MinCustomLeftMargin, MaxCustomLeftMargin) * dpiScale);
+                    break;
+                }
+
                 primaryPos = 20;
 
                 if (SettingsManager.Current.TaskbarVisualizerEnabled && SettingsManager.Current.TaskbarVisualizerPosition == 0)
@@ -682,6 +695,13 @@ on_error:
             default:
                 primaryPos = 0;
                 break;
+        }
+
+        // with a small custom left margin the visualizer would be pushed off the start of the taskbar,
+        // so keep it on screen by placing it after the widget instead
+        if (primaryPos < 0)
+        {
+            primaryPos = (int)(widgetPrimaryStart * dpiScale) + (int)(Widget.Width * dpiScale);
         }
 
         // Set visualizer position within canvas

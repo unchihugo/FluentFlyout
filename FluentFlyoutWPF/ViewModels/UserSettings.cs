@@ -6,6 +6,7 @@ using FluentFlyout.Classes;
 using FluentFlyout.Classes.Settings;
 using FluentFlyout.Classes.Utils;
 using FluentFlyout.Controls;
+using FluentFlyout.Windows;
 using FluentFlyoutWPF.Classes;
 using FluentFlyoutWPF.Models;
 using FluentFlyoutWPF.Windows;
@@ -435,6 +436,43 @@ public partial class UserSettings : ObservableObject
     public partial bool TaskbarWidgetFixedWidth { get; set; }
 
     /// <summary>
+    /// Gets or sets whether the widget is positioned by <see cref="TaskbarWidgetLeftMargin"/> instead of the
+    /// widget position / automatic padding settings (only used when the position is "near start").
+    /// </summary>
+    [ObservableProperty]
+    public partial bool TaskbarWidgetUseCustomLeftMargin { get; set; }
+
+    /// <summary>
+    /// Distance of the taskbar widget from the start of the taskbar (left edge, or top edge on a vertical
+    /// taskbar) in device independent pixels, used when <see cref="TaskbarWidgetUseCustomLeftMargin"/> is enabled.
+    /// </summary>
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(TaskbarWidgetLeftMarginText))]
+    public partial int TaskbarWidgetLeftMargin { get; set; }
+
+    /// <summary>
+    /// Text representation of <see cref="TaskbarWidgetLeftMargin"/> for the settings text box.
+    /// </summary>
+    [XmlIgnore]
+    public string TaskbarWidgetLeftMarginText
+    {
+        get => TaskbarWidgetLeftMargin.ToString();
+        set
+        {
+            if (int.TryParse(value, out var result))
+            {
+                TaskbarWidgetLeftMargin = Math.Clamp(result, TaskbarWindow.MinCustomLeftMargin, TaskbarWindow.MaxCustomLeftMargin);
+            }
+            else
+            {
+                TaskbarWidgetLeftMargin = 20;
+            }
+
+            OnPropertyChanged();
+        }
+    }
+
+    /// <summary>
     /// Gets or sets a value indicating whether the pause icon overlay should be completely hidden from view.
     /// </summary>
     [ObservableProperty]
@@ -752,6 +790,8 @@ public partial class UserSettings : ObservableObject
         TaskbarWidgetBackgroundBlur = false;
         TaskbarWidgetHideCompletely = false;
         TaskbarWidgetFixedWidth = false;
+        TaskbarWidgetUseCustomLeftMargin = false;
+        TaskbarWidgetLeftMargin = 20;
         TaskbarWidgetShowPauseOverlay = true;
         TaskbarWidgetControlsEnabled = false;
         TaskbarWidgetControlsPosition = 1;
@@ -921,6 +961,18 @@ public partial class UserSettings : ObservableObject
     }
 
     partial void OnTaskbarWidgetFixedWidthChanged(bool oldValue, bool newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+        UpdateTaskbar();
+    }
+
+    partial void OnTaskbarWidgetUseCustomLeftMarginChanged(bool oldValue, bool newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+        UpdateTaskbar();
+    }
+
+    partial void OnTaskbarWidgetLeftMarginChanged(int oldValue, int newValue)
     {
         if (oldValue == newValue || _initializing) return;
         UpdateTaskbar();
