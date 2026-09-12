@@ -565,6 +565,26 @@ public partial class UserSettings : ObservableObject
     public partial int TaskbarVisualizerBarCount { get; set; }
 
     /// <summary>
+    /// Width of the taskbar visualizer bar area, in device independent pixels (40 to 140).
+    /// </summary>
+    [ObservableProperty]
+    public partial int TaskbarVisualizerWidth { get; set; }
+
+    /// <summary>
+    /// The visualizer drawing style (0 = rounded bars, 1 = square bars, 2 = thin lines,
+    /// 3 = gradient bars, 4 = segmented bars, 5 = waveform line).
+    /// </summary>
+    [ObservableProperty]
+    public partial int TaskbarVisualizerStyle { get; set; }
+
+    /// <summary>
+    /// How the visualizer bars are colored (0 = single color, 1 = gradient from the album art palette,
+    /// 2 = rainbow sweep).
+    /// </summary>
+    [ObservableProperty]
+    public partial int TaskbarVisualizerColorMode { get; set; }
+
+    /// <summary>
     /// Whether the visualizer should be symmetrical/mirrored.
     /// </summary>
     [ObservableProperty]
@@ -766,6 +786,9 @@ public partial class UserSettings : ObservableObject
         TaskbarVisualizerPosition = 1;
         TaskbarVisualizerClickable = true;
         TaskbarVisualizerBarCount = 10;
+        TaskbarVisualizerWidth = 76;
+        TaskbarVisualizerStyle = 0;
+        TaskbarVisualizerColorMode = 0;
         TaskbarVisualizerCenteredBars = false;
         TaskbarVisualizerBaseline = false;
         TaskbarVisualizerAudioSensitivity = 2;
@@ -1001,6 +1024,25 @@ public partial class UserSettings : ObservableObject
     {
         if (oldValue == newValue || _initializing) return;
         Visualizer.ResizeBarList(newValue);
+    }
+
+    partial void OnTaskbarVisualizerWidthChanged(int oldValue, int newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+        TaskbarVisualizerControl.OnTaskbarVisualizerWidthChanged(newValue);
+        UpdateTaskbar();
+    }
+
+    partial void OnTaskbarVisualizerStyleChanged(int oldValue, int newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+        TaskbarVisualizerControl.OnTaskbarVisualizerStyleChanged();
+    }
+
+    partial void OnTaskbarVisualizerColorModeChanged(int oldValue, int newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+        TaskbarVisualizerControl.OnTaskbarVisualizerStyleChanged();
     }
 
     partial void OnTaskbarVisualizerBaselineChanged(bool oldValue, bool newValue)
