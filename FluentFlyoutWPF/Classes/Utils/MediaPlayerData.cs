@@ -252,9 +252,23 @@ public static class MediaPlayerData
         return false;
     }
 
-    private static bool IsBrowser(string processName) =>
-        new[] { "chrome", "msedge" }
-        .Contains(processName, StringComparer.OrdinalIgnoreCase);
+    private static readonly string[] BrowserProcessNames =
+    [
+        "chrome", "msedge", "chromium", "brave", "vivaldi", "opera", "opera_gx", "yandex", "thorium", "arc"
+    ];
+
+    /// <summary>
+    /// Whether a name belongs to a Chromium based browser. Media sessions are named after the process that owns
+    /// them, so this accepts a session id ("MSEdge", "chrome.exe") as well as a plain process name.
+    /// </summary>
+    public static bool IsBrowser(string? processName)
+    {
+        if (string.IsNullOrWhiteSpace(processName))
+            return false;
+
+        string name = System.IO.Path.GetFileNameWithoutExtension(processName.Trim());
+        return BrowserProcessNames.Contains(name, StringComparer.OrdinalIgnoreCase);
+    }
 
     /// <summary>
     /// Extracts the associated icon for a given process ID. Returns null if the process is inaccessible.

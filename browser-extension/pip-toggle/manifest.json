@@ -1,0 +1,29 @@
+{
+  "manifest_version": 3,
+  "name": "PiP Toggle (FluentFlyout companion)",
+  "version": "2.4.0",
+  "description": "Toggles picture-in-picture for the video that is playing in this browser, and lets the browser open it by itself when you switch away from the tab. The shortcut Ctrl+Shift+6 is global, so FluentFlyout can trigger it while the browser is in the background.",
+  "permissions": [
+    "scripting",
+    "storage",
+    "tabs"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_title": "Toggle picture-in-picture"
+  },
+  "commands": {
+    "toggle-pip": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+6"
+      },
+      "description": "Toggle picture-in-picture for the playing video",
+      "global": true
+    }
+  }
+}

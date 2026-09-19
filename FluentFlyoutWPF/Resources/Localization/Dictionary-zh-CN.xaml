@@ -169,6 +169,8 @@
     <system:String x:Key="UpdateAvailableNotificationButton">下载更新</system:String>
     <system:String x:Key="MediaFlyoutExcludeVolumeTitle">排除音量键</system:String>
     <system:String x:Key="MediaFlyoutExcludeVolumeDescription">当按下音量加/音量减/静音时不显示浮窗</system:String>
+    <system:String x:Key="WidgetTogglesBrowserPipTitle">小组件切换浏览器画中画</system:String>
+    <system:String x:Key="WidgetTogglesBrowserPipDescription">点击任务栏小组件时：已有画中画窗口就先关掉它（视频继续播）。否则只在"小组件当前显示的正是一个浏览器正在播放的内容"时才继续（音乐、本地播放器、暂停的会话都不动，照旧弹媒体浮窗）；随后由配套扩展 PiP Toggle 确认该页面确实在放视频并把它变成画中画——立刻进入，或登记浏览器自带的自动画中画（你切走标签页时小窗自己出现）。全程不需要激活那个网页</system:String>
     <system:String x:Key="TaskbarVisualizerTitle">任务栏频谱可视化</system:String>
     <system:String x:Key="TaskbarVisualizerDescription">在任务栏上显示当前实时播放音频的频谱可视化。专为现代系统设计，性能影响极低。</system:String>
     <system:String x:Key="TaskbarVisualizerEnabledTitle">启用任务栏频谱可视化（实验性）</system:String>

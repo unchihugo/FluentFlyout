@@ -14,6 +14,8 @@
     <System:String x:Key="TextBlockText3">Display a flyout when you press a media key</System:String>
     <System:String x:Key="MediaFlyoutExcludeVolumeTitle">Exclude Volume Keys</System:String>
     <System:String x:Key="MediaFlyoutExcludeVolumeDescription">Do not display the flyout when pressing volume up/down/mute</System:String>
+    <System:String x:Key="WidgetTogglesBrowserPipTitle">Widget toggles browser picture-in-picture</System:String>
+    <System:String x:Key="WidgetTogglesBrowserPipDescription">When the taskbar widget is clicked: an existing picture-in-picture window is closed first (the video keeps playing). Otherwise the click only does something when the widget is showing what a browser is playing right now (songs, local players and paused sessions are left to the media flyout as before); the companion extension PiP Toggle then checks that the page really plays a video and turns it into picture-in-picture - straight away, or by registering the browser's own automatic entry, which opens the corner window as soon as you look at something else. The video page never has to be activated for any of this.</System:String>
     <System:String x:Key="TextBlockText2">Choose from a preset of modern background blur styles</System:String>
     <System:String x:Key="BackgroundBlurOption1" xml:space="preserve"> None</System:String>
     <System:String x:Key="BackgroundBlurOption2" xml:space="preserve"> Style 1 (Cover Glow)</System:String>
