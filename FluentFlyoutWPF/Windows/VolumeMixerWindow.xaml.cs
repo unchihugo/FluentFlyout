@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2024-2026 The FluentFlyout Authors
+// Copyright (c) 2024-2026 The FluentFlyout Authors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 // Portions of this code are derived from:
@@ -35,6 +35,9 @@ public partial class VolumeMixerWindow : MicaWindow
     private readonly double _collapsedHeight = 50;
     private readonly double _normalWidth;
     private bool _isHiding = true;
+    public bool IsFlyoutVisible => !Dispatcher.HasShutdownStarted && (Dispatcher.CheckAccess()
+        ? Visibility == Visibility.Visible && !_isHiding
+        : Dispatcher.Invoke(() => Visibility == Visibility.Visible && !_isHiding));
 
     private long _lastFlyoutTime = 0;
     private readonly TimeSpan _flyoutCooldown = TimeSpan.FromMilliseconds(500);
@@ -99,7 +102,7 @@ public partial class VolumeMixerWindow : MicaWindow
             if (aboveMedia)
             {
                 Width = _mainWindow.Width;
-                _mainWindow.OpenAnimation(this, aboveReference: _mainWindow, reserveNativeVolumeOsdSpace: true);
+                _mainWindow.OpenAnimation(this, aboveReference: _mainWindow, reserveNativeVolumeOsdSpace: false);
             }
             else
             {
@@ -131,37 +134,56 @@ public partial class VolumeMixerWindow : MicaWindow
 
         try
         {
+            var initialMon = _mainWindow.getSelectedMonitor();
+            var currentInsets = MainWindow.GetAutoHideTaskbarInsets(initialMon);
+
+            var lastInteractionTime = DateTime.UtcNow;
+
             while (!token.IsCancellationRequested)
             {
                 await Task.Delay(100, token); // check if mouse is over every 100ms
                 // update master volume again because it can be slow to update when coming from a hardware key press
                 ViewModel.SyncMasterFromDevice();
 
+                if (!SettingsManager.Current.VolumeControlAboveMediaFlyout)
+                {
+                    var selectedMon = _mainWindow.getSelectedMonitor();
+                    var newInsets = MainWindow.GetAutoHideTaskbarInsets(selectedMon);
+                    if (newInsets != currentInsets)
+                    {
+                        currentInsets = newInsets;
+                        Dispatcher.Invoke(() =>
+                        {
+                            if (Visibility == Visibility.Visible && !_isHiding)
+                            {
+                                var placement = WindowHelper.GetPlacement(this);
+                                var (targetLeft, targetTop) = _mainWindow.GetFinalPosition(placement, selectedMon.workArea, selectedMon, false, overridePosition: 1);
+                                _mainWindow.SmoothMoveFlyout(this, targetLeft, targetTop, selectedMon);
+                            }
+                        });
+                    }
+                }
+
                 bool mouseOverThis = WindowHelper.IsMouseOverWindow(this);
                 bool mouseOverMedia = SettingsManager.Current.VolumeControlAboveMediaFlyout
                     && _mainWindow.Visibility == Visibility.Visible
                     && WindowHelper.IsMouseOverWindow(_mainWindow); // sync with media flyout
 
-                if (!mouseOverThis && !mouseOverMedia)
+                if (mouseOverThis || mouseOverMedia)
                 {
-                    await Task.Delay(SettingsManager.Current.VolumeControlDuration, token);
+                    lastInteractionTime = DateTime.UtcNow;
+                }
+                else if ((DateTime.UtcNow - lastInteractionTime).TotalMilliseconds >= SettingsManager.Current.VolumeControlDuration)
+                {
+                    _mainWindow.CloseAnimation(this);
+                    _isHiding = true;
+                    await Task.Delay(MainWindow.getDuration());
+                    if (_isHiding == false) return;
 
-                    mouseOverThis = WindowHelper.IsMouseOverWindow(this);
-                    mouseOverMedia = SettingsManager.Current.VolumeControlAboveMediaFlyout
-                        && _mainWindow.Visibility == Visibility.Visible
-                        && WindowHelper.IsMouseOverWindow(_mainWindow);
-
-                    if (!mouseOverThis && !mouseOverMedia)
-                    {
-                        _mainWindow.CloseAnimation(this);
-                        _isHiding = true;
-                        await Task.Delay(MainWindow.getDuration());
-                        if (_isHiding == false) return;
-
-                        WindowHelper.SetVisibility(this, false);
-                        ViewModel.IsExpanded = false;
-                        break;
-                    }
+                    WindowHelper.SetVisibility(this, false);
+                    Hide();
+                    ViewModel.IsExpanded = false;
+                    break;
                 }
             }
         }
@@ -267,20 +289,7 @@ public partial class VolumeMixerWindow : MicaWindow
     private void AnimateExpandCollapse(bool expand)
     {
         int msDuration = MainWindow.getDuration();
-        var easing = msDuration > 0 ? _mainWindow.getEasingStyle(true) : null;
-        var duration = new Duration(TimeSpan.FromMilliseconds(msDuration > 0 ? msDuration / 1.4 : 1));
-
-        bool isTop = false;
-
-        // check if the media flyout is at the top or bottom of the screen if applicable
-        if (SettingsManager.Current.VolumeControlAboveMediaFlyout)
-        {
-            isTop = SettingsManager.Current.Position switch
-            {
-                3 or 4 or 5 => true,
-                _ => false
-            };
-        }
+        bool isTop = SettingsManager.Current.VolumeControlAboveMediaFlyout && SettingsManager.Current.Position is >= 3 and <= 5;
 
         double expandedHeight;
         if (expand)
@@ -297,12 +306,33 @@ public partial class VolumeMixerWindow : MicaWindow
         double targetHeight = expand ? expandedHeight : _collapsedHeight;
         double currentHeight = ActualHeight;
         double heightDelta = targetHeight - currentHeight;
+        double targetTop = isTop ? Top : Top - heightDelta;
+        double targetChevronAngle = isTop ? (expand ? 0 : 180) : (expand ? 180 : 0);
 
-        // When at the top, chevron points down (0°) when collapsed and up (180°) when expanded.
-        // When at the bottom, chevron points up (180°) when expanded and down (0°) when collapsed.
+        if (msDuration == 0)
+        {
+            ChevronRotation.BeginAnimation(System.Windows.Media.RotateTransform.AngleProperty, null);
+            ChevronRotation.Angle = targetChevronAngle;
+
+            BeginAnimation(TopProperty, null);
+            BeginAnimation(HeightProperty, null);
+            Top = targetTop;
+            Height = targetHeight;
+
+            if (!expand)
+            {
+                SessionsExpanded.Visibility = Visibility.Collapsed;
+                SessionsSeparator.Visibility = Visibility.Collapsed;
+            }
+            return;
+        }
+
+        var easing = _mainWindow.getEasingStyle(true);
+        var duration = new Duration(TimeSpan.FromMilliseconds(msDuration / 1.4));
+
         var chevronAnimation = new DoubleAnimation
         {
-            To = isTop ? (expand ? 0 : 180) : (expand ? 180 : 0),
+            To = targetChevronAngle,
             Duration = duration,
             EasingFunction = easing
         };
@@ -324,7 +354,7 @@ public partial class VolumeMixerWindow : MicaWindow
         var topAnimation = new DoubleAnimation
         {
             From = Top,
-            To = isTop ? Top : Top - heightDelta,
+            To = targetTop,
             Duration = duration,
             EasingFunction = easing
         };
