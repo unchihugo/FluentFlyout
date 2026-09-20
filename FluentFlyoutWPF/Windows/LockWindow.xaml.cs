@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2024-2026 The FluentFlyout Authors
+// Copyright (c) 2024-2026 The FluentFlyout Authors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 using FluentFlyout.Classes;
@@ -64,14 +64,17 @@ public partial class LockWindow : MicaWindow
 
             int msDuration = (int)(MainWindow.getDuration() / 1.5);
 
-            if (SettingsManager.Current.LockKeysAnimated)
+            if (SettingsManager.Current.LockKeysAnimated && msDuration > 0)
             {
+                var easing = _mainWindow != null ? _mainWindow.getEasingStyle(true) : new QuadraticEase { EasingMode = EasingMode.EaseOut };
+                var duration = TimeSpan.FromMilliseconds(msDuration);
+
                 // animate indicator opacity
                 var opacityAnim = new DoubleAnimation
                 {
                     To = targetOpacity,
-                    Duration = TimeSpan.FromMilliseconds(msDuration),
-                    EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseOut }
+                    Duration = duration,
+                    EasingFunction = easing
                 };
                 LockIndicatorRectangle.BeginAnimation(OpacityProperty, opacityAnim);
 
@@ -79,8 +82,8 @@ public partial class LockWindow : MicaWindow
                 var widthAnim = new DoubleAnimation
                 {
                     To = targetWidth,
-                    Duration = TimeSpan.FromMilliseconds(msDuration),
-                    EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseOut }
+                    Duration = duration,
+                    EasingFunction = easing
                 };
                 LockIndicatorRectangle.BeginAnimation(WidthProperty, widthAnim);
 
@@ -88,8 +91,8 @@ public partial class LockWindow : MicaWindow
                 var rotationAnim = new DoubleAnimation
                 {
                     To = targetShackleAngle,
-                    Duration = TimeSpan.FromMilliseconds(msDuration),
-                    EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut }
+                    Duration = duration,
+                    EasingFunction = easing
                 };
                 ShackleRotation.BeginAnimation(System.Windows.Media.RotateTransform.AngleProperty, rotationAnim);
 
