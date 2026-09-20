@@ -480,14 +480,15 @@ public partial class MainWindow : MicaWindow
         return (baseMarginDip * monitor.dpiY / 96.0) + bottomInset;
     }
 
-    private static (bool isVisible, DateTime timestamp) _cachedNativeOsd;
+    private static (string deviceId, bool isVisible, DateTime timestamp) _cachedNativeOsd;
 
     /// <summary>
     /// Checks whether the Windows 11 volume OSD (XamlExplorerHostIslandWindow) is visible on screen.
     /// </summary>
     public static bool IsNativeVolumeOsdVisible(MonitorInfo? monitor = null)
     {
-        if ((DateTime.UtcNow - _cachedNativeOsd.timestamp).TotalMilliseconds < 250)
+        string deviceId = monitor?.deviceId ?? string.Empty;
+        if (_cachedNativeOsd.deviceId == deviceId && (DateTime.UtcNow - _cachedNativeOsd.timestamp).TotalMilliseconds < 250)
             return _cachedNativeOsd.isVisible;
 
         bool found = false;
@@ -516,7 +517,7 @@ public partial class MainWindow : MicaWindow
             Logger.Debug(ex, "Failed to check native volume OSD visibility");
         }
 
-        _cachedNativeOsd = (found, DateTime.UtcNow);
+        _cachedNativeOsd = (deviceId, found, DateTime.UtcNow);
         return found;
     }
 

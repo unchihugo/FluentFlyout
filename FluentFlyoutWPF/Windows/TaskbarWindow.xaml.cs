@@ -42,6 +42,7 @@ public partial class TaskbarWindow : Window
     private bool _positionUpdateInProgress;
     private bool _isClosing;
     private readonly Dictionary<string, Task<AutomationElement?>> _pendingFindTasks = [];
+    private readonly Dictionary<string, Task<Rect>> _pendingBoundsTasks = [];
     private readonly Dictionary<string, DateTime> _failedAutomationElements = [];
     private readonly Dictionary<string, Rect> _cachedElementBounds = [];
 
@@ -395,6 +396,7 @@ on_error:
         _trayElement = null;
         _taskbarFrameElement = null;
         _pendingFindTasks.Clear();
+        _pendingBoundsTasks.Clear();
         _failedAutomationElements.Clear();
         _cachedElementBounds.Clear();
     }
@@ -415,6 +417,7 @@ on_error:
             _trayElement = null;
             _taskbarFrameElement = null;
             _pendingFindTasks.Clear();
+            _pendingBoundsTasks.Clear();
             _failedAutomationElements.Clear();
             _cachedElementBounds.Clear();
         }
@@ -931,6 +934,28 @@ on_error:
             if (elementCache == null)
                 return (false, Rect.Empty);
 
+            if (_pendingBoundsTasks.TryGetValue(elementName, out var pendingBoundsTask))
+            {
+                if (!pendingBoundsTask.IsCompleted)
+                {
+                    if (_cachedElementBounds.TryGetValue(elementName, out var lastKnown))
+                        return (true, lastKnown);
+                    return (false, Rect.Empty);
+                }
+
+                _pendingBoundsTasks.Remove(elementName);
+
+                if (pendingBoundsTask.IsCompletedSuccessfully && pendingBoundsTask.Result != Rect.Empty)
+                {
+                    _cachedElementBounds[elementName] = pendingBoundsTask.Result;
+                    return (true, pendingBoundsTask.Result);
+                }
+
+                elementCache = null;
+                _cachedElementBounds.Remove(elementName);
+                return (false, Rect.Empty);
+            }
+
             Rect elementRect = Rect.Empty;
             var cachedElement = elementCache;
             var boundsTask = Task.Run(() =>
@@ -947,13 +972,30 @@ on_error:
 
             try
             {
-                if (boundsTask.Wait(50) && boundsTask.IsCompletedSuccessfully)
+                if (boundsTask.Wait(50))
                 {
-                    elementRect = boundsTask.Result;
+                    if (boundsTask.IsCompletedSuccessfully && boundsTask.Result != Rect.Empty)
+                    {
+                        elementRect = boundsTask.Result;
+                    }
+                    else
+                    {
+                        elementCache = null;
+                        _cachedElementBounds.Remove(elementName);
+                        return (false, Rect.Empty);
+                    }
                 }
-                else if (_cachedElementBounds.TryGetValue(elementName, out var lastKnown))
+                else
                 {
-                    elementRect = lastKnown;
+                    _pendingBoundsTasks[elementName] = boundsTask;
+                    if (_cachedElementBounds.TryGetValue(elementName, out var lastKnown))
+                    {
+                        elementRect = lastKnown;
+                    }
+                    else
+                    {
+                        return (false, Rect.Empty);
+                    }
                 }
             }
             catch (Exception)
@@ -1027,6 +1069,7 @@ on_error:
         _trayElement = null;
         _taskbarFrameElement = null;
         _pendingFindTasks.Clear();
+        _pendingBoundsTasks.Clear();
         _failedAutomationElements.Clear();
         _cachedElementBounds.Clear();
         base.OnClosed(e);
