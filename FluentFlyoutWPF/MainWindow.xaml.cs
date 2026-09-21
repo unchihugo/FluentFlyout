@@ -475,7 +475,7 @@ public partial class MainWindow : MicaWindow
     {
         double baseMarginDip = reserveNativeVolumeOsdSpace && (!SettingsManager.Current.VolumeControlEnabled || !SettingsManager.Current.VolumeControlAboveMediaFlyout)
             ? 80.0
-            : 11.2;
+            : 12.8;
 
         return (baseMarginDip * monitor.dpiY / 96.0) + bottomInset;
     }
@@ -669,13 +669,13 @@ public partial class MainWindow : MicaWindow
         var (leftInset, topInset, rightInset, bottomInset) = GetAutoHideTaskbarInsets(monitor);
 
         double marginX = 16.0 * monitor.dpiX / 96.0;
-        double marginY = 11.2 * monitor.dpiY / 96.0;
+        double marginY = 12.8 * monitor.dpiY / 96.0;
 
         double left = position switch
         {
             0 or 3 => workArea.Left + marginX + leftInset,
             2 or 5 => workArea.Left + workArea.Width - windowRect.Width - marginX - rightInset,
-            _ => workArea.Left + workArea.Width / 2 - windowRect.Width / 2
+            _ => workArea.Left + (workArea.Width - windowRect.Width) / 2.0
         };
         double top = position switch
         {
@@ -683,7 +683,7 @@ public partial class MainWindow : MicaWindow
             1 => workArea.Top + workArea.Height - windowRect.Height - GetBottomCenterFlyoutBottomMargin(reserveNativeVolumeOsdSpace, bottomInset, monitor),
             _ => workArea.Top + marginY + topInset
         };
-        return (left, top);
+        return (Math.Round(left), Math.Round(top));
     }
 
     public void OpenAnimation(MicaWindow window, bool alwaysBottom = false, MonitorInfo? selectedMonitor = null, MicaWindow? aboveReference = null, bool reserveNativeVolumeOsdSpace = false)
@@ -701,8 +701,8 @@ public partial class MainWindow : MicaWindow
 
         // Update the DPI by moving the window to the target workArea, ignoring WPF scaling
         WindowHelper.SetPosition(window, workArea.Left, workArea.Top);
-        double targetW = (window.Width > 0 && !double.IsNaN(window.Width) ? window.Width : (window.ActualWidth > 0 ? window.ActualWidth : 400.0)) * monitor.dpiX / 96.0;
-        double targetH = (window.Height > 0 && !double.IsNaN(window.Height) ? window.Height : (window.ActualHeight > 0 ? window.ActualHeight : 150.0)) * monitor.dpiY / 96.0;
+        double targetW = Math.Round((window.Width > 0 && !double.IsNaN(window.Width) ? window.Width : (window.ActualWidth > 0 ? window.ActualWidth : 400.0)) * monitor.dpiX / 96.0);
+        double targetH = Math.Round((window.Height > 0 && !double.IsNaN(window.Height) ? window.Height : (window.ActualHeight > 0 ? window.ActualHeight : 150.0)) * monitor.dpiY / 96.0);
         var windowRect = new Rect(0, 0, targetW, targetH);
 
         double window_left = 0;
@@ -711,13 +711,13 @@ public partial class MainWindow : MicaWindow
         if (aboveReference != null && aboveReference.IsVisible)
         {
             // Here we work with raw monitor coordinates, without taking DPI into account.
-            double refWidth = aboveReference.Width * monitor.dpiX / 96.0;
-            double refHeight = aboveReference.Height * monitor.dpiY / 96.0;
+            double refWidth = Math.Round(aboveReference.Width * monitor.dpiX / 96.0);
+            double refHeight = Math.Round(aboveReference.Height * monitor.dpiY / 96.0);
             var refRect = new Rect(0, 0, refWidth, refHeight);
             var (refLeft, refTop) = GetFinalPosition(refRect, workArea, monitor, reserveNativeVolumeOsdSpace);
 
-            window_left = refLeft + refWidth / 2 - windowRect.Width / 2;
-            double spacingY = 8.0 * monitor.dpiY / 96.0;
+            window_left = Math.Round(refLeft + (refWidth - windowRect.Width) / 2.0);
+            double spacingY = Math.Round(8.0 * monitor.dpiY / 96.0);
             double aboveTop = refTop - windowRect.Height - spacingY;
             bool isTop = SettingsManager.Current.Position is >= 3 and <= 5;
 
@@ -1258,8 +1258,8 @@ public partial class MainWindow : MicaWindow
                                 var volPlacement = WindowHelper.GetPlacement(volumeMixerWindow);
                                 double volRefWidth = placement.Width;
                                 double volRefHeight = placement.Height;
-                                double spacingY = 8.0 * activeMonitor.dpiY / 96.0;
-                                double volLeft = targetLeft + volRefWidth / 2 - volPlacement.Width / 2;
+                                double spacingY = Math.Round(8.0 * activeMonitor.dpiY / 96.0);
+                                double volLeft = Math.Round(targetLeft + (volRefWidth - volPlacement.Width) / 2.0);
                                 double volTop = targetTop - volPlacement.Height - spacingY;
                                 bool isTop = SettingsManager.Current.Position is >= 3 and <= 5;
                                 if (isTop)
