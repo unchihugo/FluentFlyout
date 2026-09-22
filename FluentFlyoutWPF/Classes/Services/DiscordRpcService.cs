@@ -1,7 +1,6 @@
 using DiscordRPC;
 using DiscordRPC.Logging;
 using FluentFlyout.Classes.Settings;
-using System;
 
 namespace FluentFlyoutWPF.Classes.Services
 {
@@ -55,12 +54,13 @@ namespace FluentFlyoutWPF.Classes.Services
 
                 var presence = new RichPresence()
                 {
+                    Type = ActivityType.Listening,
+                    StatusDisplay = StatusDisplayType.Details,
                     Details = Truncate(title, 128),
                     State = Truncate(string.IsNullOrWhiteSpace(artist) ? "Unknown Artist" : artist, 128),
                     Assets = new Assets()
                     {
                         LargeImageKey = "fluentflyout_logo",
-                        LargeImageText = "FluentFlyout"
                     }
                 };
 
@@ -69,7 +69,15 @@ namespace FluentFlyoutWPF.Classes.Services
                     if (position.HasValue)
                     {
                         var startDateTime = DateTime.UtcNow - position.Value;
-                        presence.Timestamps = new Timestamps(startDateTime);
+                        if (endTime.HasValue)
+                        {
+                            var endDateTime = DateTime.UtcNow + (endTime.Value - position.Value);
+                            presence.Timestamps = new Timestamps(startDateTime, endDateTime);
+                        }
+                        else
+                        {
+                            presence.Timestamps = new Timestamps(startDateTime);
+                        }
                     }
                     else
                     {
