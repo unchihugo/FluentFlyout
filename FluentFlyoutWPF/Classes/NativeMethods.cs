@@ -21,6 +21,9 @@ public static partial class NativeMethods
     internal const int WS_EX_NOACTIVATE = 0x08000000;
     internal const int WS_EX_LAYERED = 0x00080000;
     internal const int WS_EX_TRANSPARENT = 0x00000020;
+    internal const int WS_EX_TOPMOST = 0x00000008;
+    internal const int WS_MINIMIZEBOX = 0x00020000;
+    internal const int WS_MAXIMIZEBOX = 0x00010000;
 
     // SetWindowPos Flags
     internal const int HWND_TOPMOST = -1;
@@ -33,6 +36,8 @@ public static partial class NativeMethods
     internal const uint SWP_NOACTIVATE = 0x0010;
 
     // ShowWindow Commands
+    internal const int SW_HIDE = 0;
+    internal const int SW_SHOWNOACTIVATE = 4;
     internal const int SW_MINIMIZE = 6;
     internal const int SW_RESTORE = 9;
 
@@ -46,12 +51,22 @@ public static partial class NativeMethods
 
     // Keyboard Hook
     internal const int WH_KEYBOARD_LL = 13;
+    internal const int WM_CLOSE = 0x0010;
     internal const int WM_KEYDOWN = 0x0100;
     internal const int WM_KEYUP = 0x0101;
     internal const int WM_SETTINGCHANGE = 0x001A;
     internal const int WM_DISPLAYCHANGE = 0x007E;
     internal const int WM_DPICHANGED = 0x02E0;
     internal const int WM_DPICHANGED_AFTERPARENT = 0x02E3;
+
+    // Virtual Keys (the picture-in-picture shortcut of the companion browser extension is Ctrl+Shift+6)
+    internal const byte VK_CONTROL = 0x11;
+    internal const byte VK_SHIFT = 0x10;
+    internal const byte VK_6 = 0x36;
+    internal const byte VK_7 = 0x37;
+    internal const byte VK_8 = 0x38;
+    internal const byte VK_9 = 0x39;
+    internal const uint KEYEVENTF_KEYUP = 0x0002;
 
     // SystemParametersInfo Actions
     internal const int SPI_SETWORKAREA = 0x002F;
@@ -238,6 +253,10 @@ public static partial class NativeMethods
 
     [LibraryImport("user32.dll", SetLastError = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
+    internal static partial bool EnumChildWindows(IntPtr hWndParent, EnumWindowsProc enumProc, IntPtr lParam);
+
+    [LibraryImport("user32.dll", SetLastError = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
     internal static partial bool EnumThreadWindows(uint dwThreadId, EnumWindowsProc enumProc, IntPtr lParam);
 
     [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
@@ -253,11 +272,26 @@ public static partial class NativeMethods
     [return: MarshalAs(UnmanagedType.Bool)]
     internal static partial bool GetWindowRect(IntPtr hWnd, out RECT lpRect);
 
+    [LibraryImport("user32.dll", SetLastError = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static partial bool GetClientRect(IntPtr hWnd, out RECT lpRect);
+
+    [LibraryImport("user32.dll", SetLastError = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static partial bool ClientToScreen(IntPtr hWnd, ref POINT lpPoint);
+
     [LibraryImport("user32.dll")]
     internal static partial int SetWindowRgn(IntPtr hWnd, IntPtr hRgn, [MarshalAs(UnmanagedType.Bool)] bool bRedraw);
 
     [LibraryImport("user32.dll", SetLastError = true)]
     internal static partial uint GetWindowThreadProcessId(IntPtr hWnd, IntPtr lpdwProcessId);
+
+    [LibraryImport("user32.dll", EntryPoint = "GetWindowThreadProcessId", SetLastError = true)]
+    internal static partial uint GetWindowProcessId(IntPtr hWnd, out uint lpdwProcessId);
+
+    [LibraryImport("user32.dll")]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static partial bool IsWindow(IntPtr hWnd);
 
     [LibraryImport("user32.dll", SetLastError = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
@@ -266,6 +300,13 @@ public static partial class NativeMethods
     [LibraryImport("user32.dll")]
     [return: MarshalAs(UnmanagedType.Bool)]
     internal static partial bool IsIconic(IntPtr hWnd);
+
+    [LibraryImport("user32.dll")]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static partial bool IsWindowVisible(IntPtr hWnd);
+
+    [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
+    internal static extern int GetWindowText(IntPtr hWnd, StringBuilder lpString, int nMaxCount);
 
     [LibraryImport("user32.dll", EntryPoint = "SetWindowLongW")]
     internal static partial int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
@@ -307,6 +348,12 @@ public static partial class NativeMethods
 
     [LibraryImport("user32.dll")]
     internal static partial int SetWindowCompositionAttribute(IntPtr hwnd, ref WindowCompositionAttributeData data);
+
+    // user32 only exports the ...W and ...A variants of this one, and unlike DllImport the source generated
+    // imports do not add the suffix themselves
+    [LibraryImport("user32.dll", EntryPoint = "PostMessageW", SetLastError = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static partial bool PostMessage(IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam);
 
     [LibraryImport("user32.dll")]
     internal static partial void keybd_event(byte virtualKey, byte scanCode, uint flags, IntPtr extraInfo);

@@ -773,6 +773,15 @@ public partial class MainWindow : MicaWindow
     // for determining whether MediaPropertyChanged has no changes
     private string previousMediaProperty = "";
     private int previousMediaPropertyThumbnail = 0;
+
+    /// <summary>
+    /// Logs which kind of media the given process is playing, see <see cref="MediaKindHelper"/>.
+    /// </summary>
+    private async Task LogMediaKindAsync(string sessionId, int processId, string? mediaTitle, string? reportedPlaybackType)
+    {
+        MediaKind mediaKind = await MediaKindHelper.GetMediaKindAsync(processId, mediaTitle, reportedPlaybackType, sessionId);
+        Logger.Info("Media kind of {0}: {1} ({2})", sessionId, mediaKind, mediaTitle);
+    }
     private void MediaManager_OnAnyMediaPropertyChanged(MediaSession mediaSession, GlobalSystemMediaTransportControlsSessionMediaProperties mediaProperties)
     {
         // sometimes mediaSession.ControlSession can be null
@@ -807,6 +816,11 @@ public partial class MainWindow : MicaWindow
 
         previousMediaProperty = check;
         previousMediaPropertyThumbnail = checkThumbnail;
+
+        // note what kind of media is playing; the media session reports it unreliably, see MediaKindHelper
+        int? mediaProcessId = MediaPlayerData.GetAndCacheProcessId(currentActiveSession.Id);
+        if (mediaProcessId is int mediaProcess)
+            _ = LogMediaKindAsync(currentActiveSession.Id, mediaProcess, songInfo.Title, playbackInfo.PlaybackType?.ToString());
 
         var thumbnail = BitmapHelper.GetThumbnail(songInfo.Thumbnail);
         BitmapHelper.GetDominantColors(1);
@@ -972,6 +986,161 @@ public partial class MainWindow : MicaWindow
         _lastFlyoutTime = currentTime;
         ShowMediaFlyout();
         return true;
+    }
+
+    /// <summary>
+    /// Handles a click on the taskbar widget: toggles the browser's picture-in-picture window when there is one
+    /// to work with, otherwise opens (or hides) the media flyout.
+    /// </summary>
+    public async void ToggleFlyout()
+    {
+        if (await TryToggleBrowserPictureInPictureAsync())
+            return;
+
+        ShowMediaFlyout(toggleMode: true, forceShow: true);
+    }
+
+    /// <summary>
+    /// Closes the browser picture-in-picture window, or asks the browser to open one for the video it is
+    /// playing, see <see cref="BrowserPipHelper"/>. Does nothing when there is nothing to toggle, so that the
+    /// media flyout still opens in that case.
+    /// </summary>
+    private async Task<bool> TryToggleBrowserPictureInPictureAsync()
+    {
+        // null (the option is not in the settings file yet) counts as enabled
+        if (SettingsManager.Current.WidgetTogglesBrowserPip is false)
+            return false;
+
+        try
+        {
+            IntPtr pipWindow = BrowserPipHelper.FindPipWindow();
+            if (pipWindow != IntPtr.Zero)
+            {
+                Logger.Info("Widget click: a picture-in-picture window is open, asking the browser to leave it");
+                await CloseBrowserPictureInPictureAsync(pipWindow);
+                return true;
+            }
+
+            // the condition: the widget has to be showing what a browser is playing right now, because that is
+            // the thing this click is meant for. A local player, a song or a paused session is left alone and the
+            // media flyout handles it as before.
+            var shown = GetActiveMediaSession();
+            bool showsBrowserPlaying = shown is not null
+                && BrowserPipHelper.IsBrowserSession(shown.Id)
+                && shown.ControlSession?.GetPlaybackInfo()?.PlaybackStatus
+                    == GlobalSystemMediaTransportControlsSessionPlaybackStatus.Playing;
+
+            if (!showsBrowserPlaying)
+            {
+                Logger.Info("Widget click: the widget is not showing a browser that is playing, leaving the click to the media flyout");
+                return false;
+            }
+
+            // the extension decides whether that page really holds a playing video: it either enters
+            // picture-in-picture right away, or registers the browser's own automatic entry, which opens the
+            // corner window as soon as the user looks at something else. Neither needs the browser window to be
+            // focused, so the video page never has to be activated.
+            Logger.Info("Widget click: the widget shows a browser session ({0}), asking for picture-in-picture", shown.Id);
+            BrowserPipHelper.SendPipToggleHotkey();
+
+            // the click only counts when the window really appeared; otherwise the media flyout opens as usual and
+            // the click is never a no-op (that is also what happens for a song playing in a browser). The
+            // extension may need a moment: it can push a background page through the visibility change that the
+            // browser's own automatic entry waits for.
+            for (int attempt = 0; attempt < 10; attempt++)
+            {
+                await Task.Delay(200);
+
+                if (BrowserPipHelper.FindPipWindow() != IntPtr.Zero)
+                {
+                    Logger.Info("Widget click: the browser entered picture-in-picture");
+                    return true;
+                }
+            }
+
+            Logger.Info("Widget click: the browser did not enter picture-in-picture, opening the media flyout");
+            return false;
+        }
+        catch (Exception ex)
+        {
+            // a click on the widget must never take the whole application down
+            Logger.Error(ex, "Failed to toggle the browser picture-in-picture window");
+            return false;
+        }
+    }
+
+    /// <summary>
+    /// Closes the browser picture-in-picture window. The companion extension is asked first, because it leaves
+    /// picture-in-picture through the page API and the video keeps playing. When that does not happen (the
+    /// extension is not installed, or it did not react) the window is closed directly: the browser treats a
+    /// window closed from outside as its media being taken away and pauses it, so the playback is started again
+    /// through the media session right after. That makes closing work without the extension.
+    /// </summary>
+    private async Task CloseBrowserPictureInPictureAsync(IntPtr pipWindow)
+    {
+        try
+        {
+            BrowserPipHelper.SendPipToggleHotkey();
+
+            for (int attempt = 0; attempt < 6 && BrowserPipHelper.IsOpen(pipWindow); attempt++)
+                await Task.Delay(250);
+
+            if (!BrowserPipHelper.IsOpen(pipWindow))
+                return;
+
+            // the session of the window's own process is the right one; when it is not visible (two browser
+            // instances share one media session id, for example) any browser session is better than none
+            MediaSession? session = FindSessionForWindowProcess(pipWindow)
+                ?? mediaManager.CurrentMediaSessions.Values
+                    .FirstOrDefault(candidate => IsSessionAllowed(candidate)
+                        && BrowserPipHelper.IsBrowserSession(candidate.Id));
+
+            // only something that was playing is started again afterwards: a video the user paused himself, in
+            // whichever window, must stay paused
+            bool wasPlaying = session?.ControlSession?.GetPlaybackInfo()?.PlaybackStatus
+                == GlobalSystemMediaTransportControlsSessionPlaybackStatus.Playing;
+
+            BrowserPipHelper.ClosePipWindow(pipWindow);
+
+            if (session?.ControlSession == null || !wasPlaying)
+                return;
+
+            // the browser pauses the video when its picture-in-picture window is taken away, so start it again
+            for (int attempt = 0; attempt < 8; attempt++)
+            {
+                await Task.Delay(250);
+
+                var playbackInfo = session.ControlSession.GetPlaybackInfo();
+
+                if (playbackInfo?.PlaybackStatus == GlobalSystemMediaTransportControlsSessionPlaybackStatus.Playing)
+                    return;
+
+                if (playbackInfo?.PlaybackStatus == GlobalSystemMediaTransportControlsSessionPlaybackStatus.Paused)
+                {
+                    Logger.Info("Starting the video again after its picture-in-picture window was closed");
+                    await session.ControlSession.TryPlayAsync();
+                    return;
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger.Error(ex, "Failed to close the browser picture-in-picture window");
+        }
+    }
+
+    /// <summary>
+    /// Finds the media session of the process a browser window belongs to.
+    /// </summary>
+    private MediaSession? FindSessionForWindowProcess(IntPtr window)
+    {
+        int? processId = BrowserPipHelper.GetOwningProcessId(window);
+        if (processId is null)
+            return null;
+
+        return mediaManager.CurrentMediaSessions.Values
+            .Where(IsSessionAllowed)
+            .FirstOrDefault(session => MediaPlayerData.GetAndCacheProcessId(session.Id) == processId.Value);
     }
 
     public async void ShowMediaFlyout(bool toggleMode = false, bool forceShow = false)
@@ -1914,6 +2083,7 @@ public partial class MainWindow : MicaWindow
         await ExperimentsService.GetExperimentsAsync();
 
         BitmapHelper.GetDominantColors(1);
+
         volumeMixerWindow = new VolumeMixerWindow();
         taskbarWindow = new TaskbarWindow();
         UpdateTaskbar();

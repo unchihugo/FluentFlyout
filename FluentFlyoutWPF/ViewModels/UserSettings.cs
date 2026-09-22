@@ -90,6 +90,17 @@ public partial class UserSettings : ObservableObject
     [XmlIgnore] public bool IsDurationEditable => !MediaFlyoutAlwaysDisplay;
 
     /// <summary>
+    /// Gets or sets whether a click on the taskbar widget closes the browser's picture-in-picture window, or
+    /// asks the browser to open one for the video it is playing, instead of opening the media flyout.
+    /// <para>
+    /// Null means the setting was not in the settings file yet (the file predates the option), which counts as
+    /// enabled; <see cref="CompleteInitialization"/> fills it in after loading.
+    /// </para>
+    /// </summary>
+    [ObservableProperty]
+    public partial bool? WidgetTogglesBrowserPip { get; set; }
+
+    /// <summary>
     /// Flyout display duration (milliseconds)
     /// </summary>
     [ObservableProperty]
@@ -726,6 +737,7 @@ public partial class UserSettings : ObservableObject
         MediaFlyoutEnabled = true;
         MediaFlyoutAlwaysDisplay = false;
         MediaFlyoutVolumeKeysExcluded = false;
+        WidgetTogglesBrowserPip = true;
         NIconSymbol = false;
         NIconHide = false;
         DisableIfFullscreen = true;
@@ -844,6 +856,10 @@ public partial class UserSettings : ObservableObject
     internal void CompleteInitialization()
     {
         _initializing = false;
+
+        // options that were added after a settings file was written are "not set" in it, so they get their
+        // intended default here instead of the default of their type
+        WidgetTogglesBrowserPip ??= true;
     }
 
     partial void OnAppLanguageChanged(string oldValue, string newValue)
