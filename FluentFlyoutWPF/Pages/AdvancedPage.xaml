@@ -36,7 +36,7 @@
                             </StackPanel>
                         </ui:CardControl.Header>
                         <StackPanel Orientation="Horizontal">
-                            <ComboBox Name="FlyoutAnimationSpeedComboBox" SelectedIndex="{Binding FlyoutAnimationSpeed, Mode=TwoWay}">
+                            <ComboBox Name="FlyoutAnimationSpeedComboBox" SelectedIndex="{Binding FlyoutAnimationSpeed, Mode=TwoWay}" Style="{StaticResource DefaultComboBoxStyle}">
                                 <ComboBoxItem Content="{DynamicResource AnimationSpeedOff}" />
                                 <ComboBoxItem Content="0.5x" />
                                 <ComboBoxItem Content="1x" />
@@ -55,7 +55,7 @@
                             </StackPanel>
                         </ui:CardControl.Header>
                         <StackPanel Orientation="Horizontal">
-                            <ComboBox Name="AnimationEasingStylesComboBox" SelectedIndex="{Binding FlyoutAnimationEasingStyle, Mode=TwoWay}">
+                            <ComboBox Name="AnimationEasingStylesComboBox" SelectedIndex="{Binding FlyoutAnimationEasingStyle, Mode=TwoWay}" Style="{StaticResource DefaultComboBoxStyle}">
                                 <ComboBoxItem Content="{DynamicResource EasingLinear}" />
                                 <ComboBoxItem Content="{DynamicResource EasingSine}" />
                                 <ComboBoxItem Content="{DynamicResource EasingQuadratic}" />

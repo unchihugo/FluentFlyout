@@ -10,8 +10,8 @@
     <system:String x:Key="BackgroundBlurOption3" xml:space="preserve"> Styl 2 (Wschodzący Blask)</system:String>
     <system:String x:Key="BackgroundBlurOption4" xml:space="preserve"> Styl 3 (Rozmycie)</system:String>
     <system:String x:Key="BackgroundBlurTitle">Rozmycie Tła</system:String>
-    <system:String x:Key="AcrylicWindowTitle">Okno Akrylowe</system:String>
-    <system:String x:Key="AcrylicWindowDescription">Zastosuj przezroczysty efekt rozmycia akrylowego do panelu (wyłączenie powoduje powrót do stylu Mica)</system:String>
+    <system:String x:Key="AcrylicWindowTitle">Akrylowe Panele</system:String>
+    <system:String x:Key="AcrylicWindowDescription">Zastosuj przezroczysty efekt rozmycia akrylowego dla paneli</system:String>
     <system:String x:Key="CompactLayoutTitle">Układ Kompaktowy</system:String>
     <system:String x:Key="CompactLayoutDescription" xml:space="preserve">Smuklejszy i mniej inwazyjny układ:
 ukrywa powtarzanie, odtwarzanie losowe oraz informacje o odtwarzaczu</system:String>

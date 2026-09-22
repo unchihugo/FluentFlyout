@@ -78,7 +78,7 @@
     <system:String x:Key="AnimationDurationScaleDescription">加快或减慢浮窗过渡动画的速度（默认：1x）</system:String>
     <system:String x:Key="EasingSine" xml:space="preserve"> 正弦</system:String>
     <system:String x:Key="EasingCubic" xml:space="preserve"> 三次曲线</system:String>
-    <system:String x:Key="AnimationSpeedOff">关闭动画</system:String>
+    <system:String x:Key="AnimationSpeedOff">关闭</system:String>
     <system:String x:Key="DisableOnFullscreenTitle">检测到 DirectX 全屏程序时禁用浮窗</system:String>
     <system:String x:Key="NativeExperienceInfo">要体验原生 Windows 11 效果，请维持默认设置。</system:String>
     <system:String x:Key="EasingLinear" xml:space="preserve"> 线性</system:String>
@@ -288,4 +288,12 @@
     <system:String x:Key="TaskbarWidgetScrollingTextSpeedTitle">滚动速度</system:String>
     <system:String x:Key="TaskbarWidgetScrollingTextSpeedDescription">文本滚动速度（像素/秒），默认值为 20。</system:String>
     <system:String x:Key="SearchSettings">搜索设置</system:String>
+    <system:String x:Key="TaskbarWidgetScrollVolumeMaster">开启（主音量）</system:String>
+    <system:String x:Key="TaskbarWidgetScrollVolumePlayer">开启（播放器音量）</system:String>
+    <system:String x:Key="TaskbarWidgetScrollVolumeTitle">滚动滚轮调整音量</system:String>
+    <system:String x:Key="TaskbarWidgetScrollVolumeDescription">在任务栏小组件上滚动鼠标滚轮以调整音量</system:String>
+    <system:String x:Key="OpenMediaPlayerText">打开媒体播放器</system:String>
+    <system:String x:Key="OnboardingTitle">快速入门</system:String>
+    <system:String x:Key="SupporterTitle">赞助者</system:String>
+    <system:String x:Key="SupporterDescription">谢谢你！</system:String>
 </ResourceDictionary>

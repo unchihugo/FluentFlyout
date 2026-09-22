@@ -142,16 +142,25 @@ internal static class BitmapHelper
         }
 
         BitmapImage image = new();
-        using (var imageStream = thumbnail.OpenReadAsync().GetAwaiter().GetResult().AsStreamForRead())
+
+        try
         {
-            // initialize the BitmapImage
-            image.BeginInit();
-            image.CacheOption = BitmapCacheOption.OnLoad;
-            image.DecodePixelWidth = maxThumbnailSize;
-            image.StreamSource = imageStream;
-            image.EndInit();
+            using (var imageStream = thumbnail.OpenReadAsync().GetAwaiter().GetResult().AsStreamForRead())
+            {
+                // initialize the BitmapImage
+                image.BeginInit();
+                image.CacheOption = BitmapCacheOption.OnLoad;
+                image.DecodePixelWidth = maxThumbnailSize;
+                image.StreamSource = imageStream;
+                image.EndInit();
+            }
+            image.Freeze();
         }
-        image.Freeze();
+        catch (Exception ex)
+        {
+            Logger.Info(ex, "Failed to load thumbnail image");
+            return null;
+        }
 
         // add bitmap to thumbnail cache with empty brush
         _thumbnailCache.Set(hashCode, image);

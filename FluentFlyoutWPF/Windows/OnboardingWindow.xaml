@@ -6,6 +6,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
     xmlns:controls="clr-namespace:MicaWPF.Controls;assembly=MicaWPF"
+    xmlns:fluentflyoutcontrols="clr-namespace:FluentFlyout.Controls"
+    xmlns:settings="clr-namespace:FluentFlyout.Classes.Settings"
     xmlns:viewModels="clr-namespace:FluentFlyoutWPF.ViewModels"
     Title="Welcome to FluentFlyout"
 	Icon="/Resources/FluentFlyout2.ico"
@@ -39,7 +41,7 @@
             </Grid.RowDefinitions>
             <StackPanel Grid.Row="0" Margin="0,0,0,16" Orientation="Horizontal">
                 <Image Source="/Resources/FluentFlyout2.ico" Width="36" Height="36" Margin="0,0,12,-2" VerticalAlignment="Center" />
-                <TextBlock Text="Get started" FontSize="28" FontWeight="SemiBold" VerticalAlignment="Center" />
+                <TextBlock Text="{DynamicResource OnboardingTitle}" FontSize="28" FontWeight="SemiBold" VerticalAlignment="Center" />
             </StackPanel>
 
             <Grid Grid.Row="1" ColumnDefinitions="1.2*,*" x:Name="ContentsGrid">
@@ -168,8 +170,8 @@
                                                 <Style.Triggers>
                                                     <MultiDataTrigger>
                                                         <MultiDataTrigger.Conditions>
-                                                            <Condition Binding="{Binding IsStoreVersion}" Value="True"/>
-                                                            <Condition Binding="{Binding IsPremiumUnlocked}" Value="True"/>
+                                                            <Condition Binding="{Binding IsStoreVersion, Source={x:Static settings:SettingsManager.Current}}" Value="True"/>
+                                                            <Condition Binding="{Binding IsPremiumUnlocked, Source={x:Static settings:SettingsManager.Current}}" Value="True"/>
                                                         </MultiDataTrigger.Conditions>
                                                         <Setter Property="IsOpen" Value="True"/>
                                                     </MultiDataTrigger>
@@ -186,8 +188,8 @@
                                                 <Style.Triggers>
                                                     <MultiDataTrigger>
                                                         <MultiDataTrigger.Conditions>
-                                                            <Condition Binding="{Binding IsStoreVersion}" Value="True"/>
-                                                            <Condition Binding="{Binding IsPremiumUnlocked}" Value="False"/>
+                                                            <Condition Binding="{Binding IsStoreVersion, Source={x:Static settings:SettingsManager.Current}}" Value="True"/>
+                                                            <Condition Binding="{Binding IsPremiumUnlocked, Source={x:Static settings:SettingsManager.Current}}" Value="False"/>
                                                         </MultiDataTrigger.Conditions>
                                                         <Setter Property="Visibility" Value="Visible"/>
                                                     </MultiDataTrigger>
@@ -195,23 +197,12 @@
                                             </Style>
                                         </ui:InfoBar.Style>
                                         <StackPanel Orientation="Horizontal">
-                                            <ui:Button Name="UnlockPremiumButton"
-                                            Click="UnlockPremiumButton_Click" 
-                                            Appearance="Primary"
-                                            Margin="4,0,0,8" FontSize="12">
-                                                <ui:Button.Content>
-                                                    <StackPanel Orientation="Horizontal">
-                                                        <TextBlock Text="{DynamicResource UnlockPremiumButton}" />
-                                                        <TextBlock Text=" - " />
-                                                        <TextBlock Text="{Binding PremiumPrice}" />
-                                                    </StackPanel>
-                                                </ui:Button.Content>
-                                            </ui:Button>
+                                            <fluentflyoutcontrols:PremiumPurchaseButton Margin="4,8,0,8" />
                                         </StackPanel>
                                     </ui:InfoBar>
 
                                     <!-- GitHub Version InfoBar -->
-                                    <ui:InfoBar Grid.Row="1" Title="{DynamicResource PremiumGitHubMessage}" IsOpen="True" Severity="Informational" IsClosable="False" Visibility="{Binding IsStoreVersion, Converter={StaticResource BoolToCollapsedVisibleConverter}}" Margin="0,8,0,0" />
+                                    <ui:InfoBar Grid.Row="1" Title="{DynamicResource PremiumGitHubMessage}" IsOpen="True" Severity="Informational" IsClosable="False" Visibility="{Binding IsStoreVersion, Source={x:Static settings:SettingsManager.Current}, Converter={StaticResource BoolToCollapsedVisibleConverter}}" Margin="0,8,0,0" />
                                 </StackPanel>
                             </StackPanel>
                         </ui:PassiveScrollViewer>

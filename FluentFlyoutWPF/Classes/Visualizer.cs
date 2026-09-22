@@ -18,9 +18,13 @@ namespace FluentFlyoutWPF.Classes
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
         public static int BarCount = 10;
-        private readonly int ImageWidth = 76 * 3;
-        private readonly int ImageHeight = 32 * 3;
-        private readonly int BarSpacing = 2 * 3;
+
+        // Keep at 2: only an exact 2:1 minification turns WPF's default Linear
+        // filter into a true box average. Other factors discard the supersampling.
+        private const int Supersample = 2;
+        private readonly int ImageWidth = 76 * Supersample;
+        private readonly int ImageHeight = 32 * Supersample;
+        private readonly int BarSpacing = 2 * Supersample;
 
         private WasapiLoopbackCapture? _capture;
         private MMDevice? _renderDevice;
@@ -476,7 +480,7 @@ namespace FluentFlyoutWPF.Classes
             byte r = brush.Color.R;
 
             bool centeredBars = SettingsManager.Current.TaskbarVisualizerCenteredBars;
-            int barBaseline = SettingsManager.Current.TaskbarVisualizerBaseline ? 4 : 0;
+            int barBaseline = SettingsManager.Current.TaskbarVisualizerBaseline ? Supersample * 2 : 0;
 
             int centerY = ImageHeight / 2;
 
@@ -557,7 +561,7 @@ namespace FluentFlyoutWPF.Classes
         }
         private static float GetCornerRadius()
         {
-            return 6f / MathF.Max(1f, SettingsManager.Current.TaskbarVisualizerBarCount / 10f);
+            return (2f * Supersample) / MathF.Max(1f, SettingsManager.Current.TaskbarVisualizerBarCount / 10f);
         }
 
         private static float ClampRadius(float r, int width, int height)
@@ -592,6 +596,7 @@ namespace FluentFlyoutWPF.Classes
             for (int y = barY; y < barEndY && y < ImageHeight && y >= 0; y++)
             {
                 int row = y * stride;
+                float py = y + 0.5f;
 
                 for (int x = barX; x < barX + barWidth && x < ImageWidth; x++)
                 {
@@ -599,33 +604,35 @@ namespace FluentFlyoutWPF.Classes
                     if (index + 3 >= buffer.Length)
                         continue;
 
+                    float px = x + 0.5f;
+
                     // CENTER
-                    if (x >= innerLeft && x <= innerRight)
+                    if (px >= innerLeft && px <= innerRight)
                     {
                         WritePixel(buffer, index, b, g, r, 255);
                         continue;
                     }
 
                     // SIDES
-                    if (y >= innerTop && y <= innerBottom)
+                    if (py >= innerTop && py <= innerBottom)
                     {
                         WritePixel(buffer, index, b, g, r, 255);
                         continue;
                     }
 
                     // FLAT BOTTOM
-                    if (!centeredBars && y >= innerBottom)
+                    if (!centeredBars && py >= innerBottom)
                     {
                         WritePixel(buffer, index, b, g, r, 255);
                         continue;
                     }
 
                     // CORNERS
-                    float cx = x < innerLeft ? innerLeft : (x > innerRight ? innerRight : x);
-                    float cy = y < innerTop ? innerTop : (y > innerBottom ? innerBottom : y);
+                    float cx = px < innerLeft ? innerLeft : (px > innerRight ? innerRight : px);
+                    float cy = py < innerTop ? innerTop : (py > innerBottom ? innerBottom : py);
 
-                    float dx = x - cx;
-                    float dy = y - cy;
+                    float dx = px - cx;
+                    float dy = py - cy;
 
                     float distSq = dx * dx + dy * dy;
                     float sdf = (distSq - radiusSq) / (2f * radius);

@@ -1,19 +1,25 @@
 // Copyright (c) 2024-2026 The FluentFlyout Authors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+using FluentFlyout.Classes;
 using FluentFlyout.Classes.Settings;
 using FluentFlyoutWPF.ViewModels;
+using System.Windows;
 using System.Windows.Controls;
-namespace FluentFlyoutWPF.Pages;
 
-public partial class AboutPage : Page
+namespace FluentFlyout.Controls;
+
+public partial class PremiumPurchaseButton : UserControl
 {
-    public AboutViewModel AboutViewModel { get; } = new();
     public UserSettings UserSettings => SettingsManager.Current;
 
-    public AboutPage()
+    public PremiumPurchaseButton()
     {
         InitializeComponent();
-        DataContext = this;
+    }
+
+    private void PurchaseButton_Click(object sender, RoutedEventArgs e)
+    {
+        LicenseManager.UnlockPremium(sender);
     }
 }

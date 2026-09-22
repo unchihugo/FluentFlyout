@@ -1,7 +1,6 @@
 // Copyright (c) 2024-2026 The FluentFlyout Authors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-using FluentFlyout.Classes;
 using FluentFlyout.Classes.Settings;
 using System.Windows;
 using System.Windows.Controls;
@@ -16,8 +15,4 @@ public partial class VolumeMixerPage : Page
         DataContext = SettingsManager.Current;
     }
 
-    private async void UnlockPremiumButton_Click(object sender, RoutedEventArgs e)
-    {
-        LicenseManager.UnlockPremium(sender);
-    }
 }

@@ -95,8 +95,8 @@
                 <StackPanel Orientation="Horizontal">
                     <ui:SymbolIcon Symbol="Heart24" FontSize="24" Margin="0,0,10,0" Foreground="{DynamicResource AccentTextFillColorPrimaryBrush}" />
                     <StackPanel Orientation="Vertical" VerticalAlignment="Center">
-                        <ui:TextBlock Text="Supporter" FontWeight="SemiBold" />
-                        <ui:TextBlock Text="Thank you!" Opacity="0.5" FontSize="12" />
+                        <ui:TextBlock Text="{DynamicResource SupporterTitle}" FontWeight="SemiBold" />
+                        <ui:TextBlock Text="{DynamicResource SupporterDescription}" Opacity="0.5" FontSize="12" />
                     </StackPanel>
                 </StackPanel>
             </ui:Button>
@@ -338,18 +338,7 @@
                                 </Style>
                             </ui:InfoBar.Style>
                             <StackPanel Orientation="Horizontal">
-                                <ui:Button Name="UnlockPremiumButton"
-                                    Click="UnlockPremiumButton_Click" 
-                                    Appearance="Primary"
-                                    Margin="4,0,0,8" FontSize="12">
-                                    <ui:Button.Content>
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="{DynamicResource UnlockPremiumButton}" />
-                                            <TextBlock Text=" - " />
-                                            <TextBlock Text="{Binding PremiumPrice}" />
-                                        </StackPanel>
-                                    </ui:Button.Content>
-                                </ui:Button>
+                                <fluentflyoutcontrols:PremiumPurchaseButton Margin="4,0,0,4" />
                             </StackPanel>
                         </ui:InfoBar>
 

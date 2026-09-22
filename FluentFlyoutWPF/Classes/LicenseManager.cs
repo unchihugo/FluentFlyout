@@ -24,11 +24,15 @@ public class LicenseManager
     private StoreAppLicense? _appLicense;
     private StoreProduct? _productResult;
 
-    private const string PremiumAddOnId = "9N3XXQFPGFW5";
+    private const string PremiumOtpAddonOnId = "9N3XXQFPGFW5";
+    private const string PremiumSubscriptionAddonOnId = "9P75DCVR4FRC";
+    private const string PremiumTypeExperiment = "premiumType";
 
     private bool _isInitialized;
     private bool _isPremiumUnlocked;
     private bool _isStoreVersion;
+    private bool _isSubscriptionCohort;
+    private bool _subscriptionTrialAvailable;
 
     /// <summary>
     /// Gets the singleton instance of the LicenseManager
@@ -57,6 +61,11 @@ public class LicenseManager
     /// Gets whether premium features are unlocked
     /// </summary>
     public bool IsPremiumUnlocked => _isPremiumUnlocked;
+
+    /// <summary>
+    /// Gets whether this user is in the subscription cohort for the premium experiment.
+    /// </summary>
+    public bool IsSubscriptionCohort => _isSubscriptionCohort;
 
     private LicenseManager()
     {
@@ -91,18 +100,6 @@ public class LicenseManager
             // Get app license
             _appLicense = await _storeContext.GetAppLicenseAsync();
 
-            // if user ever ran a self-compiled or GitHub version, set store version to false
-            //if (!String.IsNullOrEmpty(SettingsManager.Current.LastKnownVersion) && SettingsManager.Current.IsStoreVersion == false)
-            //{
-            //    Debug.WriteLine("LicenseManager: Previous non-Store version detected.");
-            //    //_isStoreVersion = false;
-            //}
-            //else
-            //{
-            //    // Check if this is a Store version
-            //    _isStoreVersion = !string.IsNullOrEmpty(_appLicense?.SkuStoreId);
-            //}
-
             _isStoreVersion = !string.IsNullOrEmpty(_appLicense?.SkuStoreId);
 
             if (!_isStoreVersion)
@@ -116,6 +113,7 @@ public class LicenseManager
             {
                 // Store version - check if premium add-on is purchased
                 Logger.Info("Store version detected (SKU: {Sku})", _appLicense?.SkuStoreId);
+                _isSubscriptionCohort = ExperimentsService.CheckUuidInExperiment(PremiumTypeExperiment) == "B";
                 await CheckPremiumStatusAsync();
             }
 
@@ -148,45 +146,30 @@ public class LicenseManager
                 return;
             }
 
+            _isPremiumUnlocked = false;
+
             // check for premium
+            // If the user has purchased either the premium OTP or the subscription, we consider premium unlocked
             foreach (var addOnLicense in _appLicense.AddOnLicenses)
             {
                 StoreLicense license = addOnLicense.Value;
 
+                bool isPremiumSku =
+                    license.SkuStoreId.Contains(PremiumOtpAddonOnId, StringComparison.OrdinalIgnoreCase) ||
+                    license.SkuStoreId.Contains(PremiumSubscriptionAddonOnId, StringComparison.OrdinalIgnoreCase);
+
+                if (!isPremiumSku)
+                    continue;
+
                 if (license.IsActive)
                 {
                     _isPremiumUnlocked = true;
+                    Logger.Info($"Premium unlocked via SKU {license.SkuStoreId}");
                     return;
                 }
             }
 
             Logger.Debug("Premium not owned by user.");
-
-            // COMMENTED OUT: unreliable online check
-            // refresh license from the Store to ensure up-to-date status
-            //var addOnResult = await _storeContext.GetStoreProductsAsync(new[] { "Durable" }, new[] { PremiumAddOnId });
-
-            //if (addOnResult.ExtendedError != null)
-            //{
-            //    Debug.WriteLine($"LicenseManager: Error refreshing licenses - {addOnResult.ExtendedError.Message}");
-            //    return;
-            //}
-
-            //if (addOnResult.Products.TryGetValue(PremiumAddOnId, out StoreProduct storeProduct))
-            //{
-            //    if (storeProduct.IsInUserCollection) {
-            //        _isPremiumUnlocked = true;
-            //        Debug.WriteLine("LicenseManager: Premium confirmed in user collection.");
-            //    }
-            //    else
-            //    {
-            //        Debug.WriteLine("LicenseManager: Premium not owned by user.");
-            //    }
-            //}
-            //else
-            //{
-            //    Debug.WriteLine("LicenseManager: Premium add-on not found in refreshed licenses.");
-            //}
         }
         catch (Exception ex)
         {
@@ -220,8 +203,13 @@ public class LicenseManager
                 return (true, string.Empty);
             }
 
+            string addOnId = _isSubscriptionCohort ? PremiumSubscriptionAddonOnId : PremiumOtpAddonOnId;
+            string productKind = "Durable";
+
+            _ = TelemetryService.SendTelemetryEventAsync("premium_purchase_started", PremiumTypeExperiment);
+
             // Get the add-on
-            var addOnResult = await _storeContext.GetStoreProductsAsync(new[] { "Durable" }, new[] { PremiumAddOnId });
+            var addOnResult = await _storeContext.GetStoreProductsAsync(new[] { productKind }, new[] { addOnId });
 
             if (addOnResult.ExtendedError != null)
             {
@@ -229,14 +217,14 @@ public class LicenseManager
                 return (false, "Error getting add-ons - " + addOnResult.ExtendedError.Message);
             }
 
-            if (!addOnResult.Products.TryGetValue(PremiumAddOnId, out _productResult))
+            if (!addOnResult.Products.TryGetValue(addOnId, out _productResult))
             {
-                Logger.Warn("Premium add-on not found in store - {AddOnId}", PremiumAddOnId);
+                Logger.Warn("Premium add-on not found in store - {AddOnId}", addOnId);
                 return (false, "Premium add-on not found in store");
             }
 
             // Request purchase
-            var purchaseResult = await _storeContext.RequestPurchaseAsync(PremiumAddOnId);
+            var purchaseResult = await _storeContext.RequestPurchaseAsync(addOnId);
 
             if (purchaseResult.ExtendedError != null)
             {
@@ -250,13 +238,14 @@ public class LicenseManager
             {
                 _isPremiumUnlocked = true;
                 Logger.Info("Premium purchase successful");
-                _ = TelemetryService.SendTelemetryEventAsync("premium_purchase_succeeded");
+                _ = TelemetryService.SendTelemetryEventAsync("premium_purchase_succeeded", PremiumTypeExperiment);
                 return (true, string.Empty);
             }
             else if (status == StorePurchaseStatus.AlreadyPurchased)
             {
                 _isPremiumUnlocked = true;
                 Logger.Info("Premium already purchased");
+                _ = TelemetryService.SendTelemetryEventAsync("premium_purchase_succeeded", PremiumTypeExperiment);
                 return (true, string.Empty);
             }
             else
@@ -281,6 +270,7 @@ public class LicenseManager
             return;
 
         await CheckPremiumStatusAsync();
+        SettingsManager.Current.IsPremiumUnlocked = _isPremiumUnlocked;
     }
 
     /// <summary>
@@ -298,13 +288,15 @@ public class LicenseManager
             // previous price is cached - can change implementation to refresh if needed later
             if (_productResult != null)
             {
-                price = _productResult.Price?.FormattedPrice ?? "N/A";
-                SettingsManager.Current.PremiumPrice = price;
+                price = _isSubscriptionCohort ? _productResult.Price?.FormattedRecurrencePrice ?? "N/A" : _productResult.Price?.FormattedPrice ?? "N/A";
+                UpdatePremiumOfferDisplay(price);
 
                 return price;
             }
 
-            var addOnResult = await _storeContext.GetStoreProductsAsync(new[] { "Durable" }, new[] { PremiumAddOnId });
+            string addOnId = _isSubscriptionCohort ? PremiumSubscriptionAddonOnId : PremiumOtpAddonOnId;
+            string productKind = "Durable";
+            var addOnResult = await _storeContext.GetStoreProductsAsync(new[] { productKind }, new[] { addOnId });
 
             if (addOnResult.ExtendedError != null)
             {
@@ -312,14 +304,14 @@ public class LicenseManager
                 return null;
             }
 
-            if (!addOnResult.Products.TryGetValue(PremiumAddOnId, out _productResult))
+            if (!addOnResult.Products.TryGetValue(addOnId, out _productResult))
             {
-                Logger.Warn("Premium add-on not found in store - {AddOnId}", PremiumAddOnId);
+                Logger.Warn("Premium add-on not found in store - {AddOnId}", addOnId);
                 return null;
             }
 
-            price = _productResult.Price?.FormattedPrice ?? "N/A";
-            SettingsManager.Current.PremiumPrice = price;
+            price = _isSubscriptionCohort ? _productResult.Price?.FormattedRecurrencePrice ?? "N/A" : _productResult.Price?.FormattedPrice ?? "N/A";
+            UpdatePremiumOfferDisplay(price);
 
             return price;
         }
@@ -342,12 +334,32 @@ public class LicenseManager
         }
     }
 
+    private void UpdatePremiumOfferDisplay(string price)
+    {
+        if (!_isSubscriptionCohort)
+        {
+            SettingsManager.Current.PremiumPurchaseAction = Application.Current.TryFindResource("UnlockPremiumButton") as string ?? "Unlock Premium";
+            SettingsManager.Current.PremiumPrice = price;
+            return;
+        }
+
+        _subscriptionTrialAvailable = _productResult?.Skus.Any(sku =>
+            sku.IsSubscription && sku.SubscriptionInfo?.HasTrialPeriod == true) == true;
+        SettingsManager.Current.PremiumPurchaseAction = _subscriptionTrialAvailable ? "Start 1-week free trial" : "Subscribe";
+        SettingsManager.Current.PremiumPrice = _subscriptionTrialAvailable
+            ? $"{price}/mo after"
+            : $"{price}/month";
+    }
+
     public static async void UnlockPremium(object sender)
     {
+        object? originalContent = null;
+
         try
         {
             if (sender is Wpf.Ui.Controls.Button button)
             {
+                originalContent = button.Content;
                 button.IsEnabled = false;
                 button.Content = "Processing...";
             }
@@ -395,7 +407,7 @@ public class LicenseManager
             if (sender is Wpf.Ui.Controls.Button button)
             {
                 button.IsEnabled = true;
-                button.Content = Application.Current.TryFindResource("UnlockPremiumButton").ToString();
+                button.Content = originalContent;
             }
         }
     }
