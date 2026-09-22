@@ -197,15 +197,11 @@ public partial class VolumeMixerWindow : MicaWindow
     // derived from gpkgpk/HideVolumeOSD: https://github.com/gpkgpk/HideVolumeOSD
     private static void HideVolumeOsd()
     {
-        // find widget in XAML
-        IntPtr hwndXamlIsland, hwndOsd = IntPtr.Zero;
-        while ((hwndXamlIsland = FindWindowEx(IntPtr.Zero, IntPtr.Zero, "XamlExplorerHostIslandWindow", null)) != IntPtr.Zero)
+        // find widget in XAML; FindWindowEx must be given the previous handle as hwndChildAfter,
+        // otherwise it returns the same first island forever and this loop never terminates
+        IntPtr hwndXamlIsland = IntPtr.Zero, hwndOsd = IntPtr.Zero;
+        while ((hwndXamlIsland = FindWindowEx(IntPtr.Zero, hwndXamlIsland, "XamlExplorerHostIslandWindow", null)) != IntPtr.Zero)
         {
-            if (hwndXamlIsland == IntPtr.Zero)
-            {
-                continue;
-            }
-
             hwndOsd = FindWindowEx(hwndXamlIsland, IntPtr.Zero, "Windows.UI.Composition.DesktopWindowContentBridge", "DesktopWindowXamlSource");
             if (hwndOsd == IntPtr.Zero)
             {
@@ -220,7 +216,7 @@ public partial class VolumeMixerWindow : MicaWindow
                 continue;
             }
 
-            ShowWindow(hwndInputClass, 9); // SW_RESTORE
+            ShowWindow(hwndInputClass, SW_RESTORE);
             if (GetWindowRect(hwndInputClass, out RECT rect))
             {
                 if (rect.Top == 0 && rect.Left == 0 && rect.Bottom == 0 && rect.Right == 0)
