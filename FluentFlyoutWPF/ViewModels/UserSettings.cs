@@ -291,9 +291,6 @@ public partial class UserSettings : ObservableObject
     public partial bool PauseOtherSessionsEnabled { get; set; }
 
     [ObservableProperty]
-    public partial bool SessionSwitcherEnabled { get; set; }
-
-    [ObservableProperty]
     public partial string PinnedSessionId { get; set; }
 
     /// <summary>
@@ -740,7 +737,6 @@ public partial class UserSettings : ObservableObject
         LastKnownVersion = string.Empty;
         SeekbarEnabled = false;
         PauseOtherSessionsEnabled = false;
-        SessionSwitcherEnabled = true;
         PinnedSessionId = string.Empty;
         LockKeysAnimated = true;
         LockKeysInsertEnabled = true;
