@@ -919,11 +919,7 @@ public partial class MainWindow : MicaWindow
                 if (mediaKeysPressed || (!SettingsManager.Current.MediaFlyoutVolumeKeysExcluded && volumeKeysPressed))
                     result = TryShowMediaFlyoutDebounced();
 
-                if (SettingsManager.Current.VolumeControlEnabled)
-                {
-                    volumeMixerWindow?.ViewModel.SyncMasterFromDevice();
-                    volumeMixerWindow?.ShowFlyout();
-                }
+                ShowVolumeFlyout();
 
                 if (!result)
                 {
@@ -972,6 +968,15 @@ public partial class MainWindow : MicaWindow
         _lastFlyoutTime = currentTime;
         ShowMediaFlyout();
         return true;
+    }
+
+    private void ShowVolumeFlyout()
+    {
+        if (!SettingsManager.Current.VolumeControlEnabled)
+            return;
+
+        volumeMixerWindow?.ViewModel.SyncMasterFromDevice();
+        volumeMixerWindow?.ShowFlyout();
     }
 
     public async void ShowMediaFlyout(bool toggleMode = false, bool forceShow = false)
@@ -1709,18 +1714,13 @@ public partial class MainWindow : MicaWindow
                 _ => false
             };
 
-            bool isVolumeCommand = false;
-
-            if (!isMediaCommand && !SettingsManager.Current.MediaFlyoutVolumeKeysExcluded)
+            bool isVolumeCommand = cmd switch
             {
-                isVolumeCommand = cmd switch
-                {
-                    APPCOMMAND_VOLUME_MUTE => true,
-                    APPCOMMAND_VOLUME_DOWN => true,
-                    APPCOMMAND_VOLUME_UP => true,
-                    _ => false
-                };
-            }
+                APPCOMMAND_VOLUME_MUTE => true,
+                APPCOMMAND_VOLUME_DOWN => true,
+                APPCOMMAND_VOLUME_UP => true,
+                _ => false
+            };
 
             if (!isMediaCommand && !isVolumeCommand)
                 return 0;
@@ -1730,9 +1730,14 @@ public partial class MainWindow : MicaWindow
             if (!isKeyCommand)
                 return 0;
 
-            bool result = TryShowMediaFlyoutDebounced();
+            bool result = false;
+            if (isMediaCommand || (!SettingsManager.Current.MediaFlyoutVolumeKeysExcluded && isVolumeCommand))
+                result = TryShowMediaFlyoutDebounced();
 
-            if (!result)
+            if (isVolumeCommand)
+                ShowVolumeFlyout();
+
+            if (!result && !isVolumeCommand)
             {
                 return 0;
             }
