@@ -313,11 +313,32 @@ public partial class MainWindow : MicaWindow
 
         if (validSessions.Count == 0) return null;
 
+        var pinnedId = SettingsManager.Current.PinnedSessionId;
+        if (!string.IsNullOrEmpty(pinnedId))
+        {
+            var pinned = validSessions.FirstOrDefault(s => s.Id == pinnedId);
+            if (pinned != null)
+                return pinned;
+
+            SettingsManager.Current.PinnedSessionId = string.Empty;
+        }
+
         var focused = mediaManager.GetFocusedSession();
         if (focused != null && validSessions.Any(s => s.Id == focused.Id))
             return focused;
 
         return validSessions.FirstOrDefault();
+    }
+
+    public IReadOnlyList<MediaSession> GetSwitchableSessions()
+    {
+        return mediaManager.CurrentMediaSessions.Values.Where(IsSessionAllowed).ToList();
+    }
+
+    public void PinSession(string? sessionId)
+    {
+        SettingsManager.Current.PinnedSessionId = sessionId ?? string.Empty;
+        RefreshFilteredMedia();
     }
 
     public float? GetActiveMediaAppVolume()
@@ -888,6 +909,11 @@ public partial class MainWindow : MicaWindow
 #if DEBUG
         Logger.Debug("Session closed: " + (mediaSession.Id).ToString());
 #endif
+        if (!string.IsNullOrEmpty(SettingsManager.Current.PinnedSessionId)
+            && SettingsManager.Current.PinnedSessionId == mediaSession.Id)
+        {
+            SettingsManager.Current.PinnedSessionId = string.Empty;
+        }
         UpdateTaskbar();
     }
 
@@ -1340,7 +1366,110 @@ public partial class MainWindow : MicaWindow
     {
         if (!SettingsManager.Current.PlayerInfoEnabled || SettingsManager.Current.CompactLayout) return;
         e.Handled = true;
+
+        if (SettingsManager.Current.SessionSwitcherEnabled && GetSwitchableSessions().Count >= 2)
+        {
+            ShowSessionSwitcherMenu();
+            return;
+        }
+
         _ = TryOpenMediaPlayerAsync();
+    }
+
+    private void MediaIdButton_RightClick(object sender, MouseButtonEventArgs e)
+    {
+        if (!SettingsManager.Current.PlayerInfoEnabled || SettingsManager.Current.CompactLayout) return;
+        e.Handled = true;
+        _ = TryOpenMediaPlayerAsync();
+    }
+
+    private void ShowSessionSwitcherMenu()
+    {
+        var sessions = GetSwitchableSessions();
+        if (sessions.Count == 0) return;
+
+        string pinnedId = SettingsManager.Current.PinnedSessionId;
+        string autoText = TryFindResource("SessionSwitcherAuto") as string ?? "Automatic (focused app)";
+        string openPlayerText = TryFindResource("SessionSwitcherOpenPlayer") as string ?? "Open player app";
+
+        var menu = new System.Windows.Controls.ContextMenu
+        {
+            PlacementTarget = MediaIdButton,
+            Placement = PlacementMode.Top
+        };
+
+        var autoItem = new System.Windows.Controls.MenuItem
+        {
+            Header = autoText,
+            IsCheckable = true,
+            IsChecked = string.IsNullOrEmpty(pinnedId),
+            Tag = string.Empty
+        };
+        autoItem.Click += SessionMenuItem_Click;
+        menu.Items.Add(autoItem);
+        menu.Items.Add(new System.Windows.Controls.Separator());
+
+        foreach (var session in sessions)
+        {
+            string sessionId = session.Id ?? string.Empty;
+            (string appName, ImageSource? appIcon) = MediaPlayerData.GetAndCacheMediaPlayerData(sessionId);
+
+            string trackLabel = string.Empty;
+            bool isPlaying = false;
+            try
+            {
+                if (session.ControlSession != null)
+                {
+                    isPlaying = session.ControlSession.GetPlaybackInfo()?.PlaybackStatus
+                        == GlobalSystemMediaTransportControlsSessionPlaybackStatus.Playing;
+                    var props = TryGetMediaProperties(session.ControlSession);
+                    if (props != null && (!string.IsNullOrWhiteSpace(props.Title) || !string.IsNullOrWhiteSpace(props.Artist)))
+                        trackLabel = string.IsNullOrWhiteSpace(props.Artist) ? props.Title : $"{props.Title} - {props.Artist}";
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Warn(ex, "Failed to read properties for session {SessionId}", sessionId);
+            }
+
+            string header = string.IsNullOrEmpty(trackLabel) ? appName : $"{appName} ({trackLabel})";
+
+            var item = new System.Windows.Controls.MenuItem
+            {
+                Header = header,
+                ToolTip = string.IsNullOrEmpty(trackLabel) ? sessionId : $"{trackLabel}\n{sessionId}",
+                IsCheckable = true,
+                IsChecked = sessionId == pinnedId,
+                Tag = sessionId,
+                FontWeight = isPlaying ? FontWeights.Bold : FontWeights.Normal
+            };
+
+            if (appIcon != null)
+            {
+                item.Icon = new System.Windows.Controls.Image
+                {
+                    Source = appIcon,
+                    Width = 16,
+                    Height = 16
+                };
+            }
+
+            item.Click += SessionMenuItem_Click;
+            menu.Items.Add(item);
+        }
+
+        menu.Items.Add(new System.Windows.Controls.Separator());
+        var openItem = new System.Windows.Controls.MenuItem { Header = openPlayerText };
+        openItem.Click += (s, e) => _ = TryOpenMediaPlayerAsync();
+        menu.Items.Add(openItem);
+
+        menu.IsOpen = true;
+    }
+
+    private void SessionMenuItem_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender is not System.Windows.Controls.MenuItem { Tag: string sessionId }) return;
+        PinSession(string.IsNullOrEmpty(sessionId) ? null : sessionId);
     }
 
     private async void Back_Click(object sender, RoutedEventArgs e)

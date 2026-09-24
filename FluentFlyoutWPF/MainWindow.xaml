@@ -197,7 +197,8 @@
                                 <controls:Button Name="MediaIdButton" Padding="0" Height="28" Width="70"
                                     Margin="8,0,0,0"
                                     Style="{StaticResource MicaWPF.Styles.TransparentButton}"
-                                    Click="MediaIdButton_Click">
+                                    Click="MediaIdButton_Click"
+                                    MouseRightButtonUp="MediaIdButton_RightClick">
                                     <StackPanel Orientation="Horizontal" Margin="2,0">
                                         <Image x:Name="MediaIdIcon" Width="14" Height="14"/>
                                         <TextBlock Name="MediaId" VerticalAlignment="Center" FontSize="10" Width="48" Margin="4,0,0,0" FontWeight="Regular" Opacity="0.25" TextWrapping="Wrap" TextTrimming="CharacterEllipsis"/>
