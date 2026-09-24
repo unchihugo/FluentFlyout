@@ -33,6 +33,7 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,24">
                 <Border CornerRadius="10" ClipToBounds="True" Width="164" Height="98">
@@ -166,7 +167,7 @@
                 </ui:CardControl.Header>
                 <ui:ToggleSwitch Name="PauseOtherSessionsEnabledSwitch" IsChecked="{Binding PauseOtherSessionsEnabled, Mode=TwoWay}" />
             </ui:CardControl>
-            <ui:CardControl x:Name="MediaFlyoutExcludeVolumeTitleCard" Tag="Indexable" Grid.Row="15" Icon="{ui:SymbolIcon SpeakerOff24}" Margin="0,0,0,76">
+            <ui:CardControl x:Name="MediaFlyoutExcludeVolumeTitleCard" Tag="Indexable" Grid.Row="15" Icon="{ui:SymbolIcon SpeakerOff24}" Margin="0,0,0,3">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
                         <TextBlock Text="{DynamicResource MediaFlyoutExcludeVolumeTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
@@ -174,6 +175,15 @@
                     </StackPanel>
                 </ui:CardControl.Header>
                 <ui:ToggleSwitch Name="MediaFlyoutVolumeKeysExcludedSwitch" IsChecked="{Binding MediaFlyoutVolumeKeysExcluded, Mode=TwoWay}" />
+            </ui:CardControl>
+            <ui:CardControl x:Name="DiscordRpcTitleCard" Tag="Indexable" Grid.Row="16" Icon="{ui:SymbolIcon XboxController24}" Margin="0,0,0,76">
+                <ui:CardControl.Header>
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="{DynamicResource DiscordRpcEnabledTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
+                        <TextBlock Text="{DynamicResource DiscordRpcEnabledDescription}" FontSize="12" Opacity="0.5" />
+                    </StackPanel>
+                </ui:CardControl.Header>
+                <ui:ToggleSwitch Name="DiscordRpcSwitch" IsChecked="{Binding DiscordRpcEnabled, Mode=TwoWay}" />
             </ui:CardControl>
         </Grid>
     </StackPanel>
