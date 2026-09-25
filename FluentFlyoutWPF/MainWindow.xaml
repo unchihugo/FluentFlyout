@@ -54,6 +54,62 @@
                 </Setter.Value>
             </Setter>
         </Style>
+
+        <!-- The media selector opens above the flyout, so its content should travel upward into place. -->
+        <Style x:Key="MediaSessionContextMenuStyle"
+               TargetType="{x:Type ContextMenu}"
+               BasedOn="{StaticResource UiContextMenu}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ContextMenu}">
+                        <ui:EffectThicknessDecorator Thickness="30">
+                            <Border x:Name="MenuBorder"
+                                    Padding="0,3"
+                                    Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="1"
+                                    CornerRadius="8"
+                                    Opacity="0">
+                                <Border.Effect>
+                                    <DropShadowEffect BlurRadius="20"
+                                                      Direction="270"
+                                                      Opacity="0.135"
+                                                      ShadowDepth="10"
+                                                      Color="#202020"/>
+                                </Border.Effect>
+                                <Border.RenderTransform>
+                                    <TranslateTransform/>
+                                </Border.RenderTransform>
+                                <StackPanel ClipToBounds="True"
+                                            IsItemsHost="True"
+                                            KeyboardNavigation.DirectionalNavigation="Cycle"
+                                            Orientation="Vertical"/>
+                            </Border>
+                        </ui:EffectThicknessDecorator>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsOpen" Value="True">
+                                <Trigger.EnterActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="MenuBorder"
+                                                             Storyboard.TargetProperty="(Border.RenderTransform).(TranslateTransform.Y)"
+                                                             From="10" To="0" Duration="0:0:0.167">
+                                                <DoubleAnimation.EasingFunction>
+                                                    <CircleEase EasingMode="EaseOut"/>
+                                                </DoubleAnimation.EasingFunction>
+                                            </DoubleAnimation>
+                                            <DoubleAnimation Storyboard.TargetName="MenuBorder"
+                                                             Storyboard.TargetProperty="Opacity"
+                                                             From="0" To="1" Duration="0:0:0.12"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.EnterActions>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </controls:MicaWindow.Resources>
     <Window.Triggers>
         <EventTrigger RoutedEvent="Window.Loaded">
@@ -200,9 +256,249 @@
                                     Click="MediaIdButton_Click">
                                     <StackPanel Orientation="Horizontal" Margin="2,0">
                                         <Image x:Name="MediaIdIcon" Width="14" Height="14"/>
-                                        <TextBlock Name="MediaId" VerticalAlignment="Center" FontSize="10" Width="48" Margin="4,0,0,0" FontWeight="Regular" Opacity="0.25" TextWrapping="Wrap" TextTrimming="CharacterEllipsis"/>
+                                        <TextBlock Name="MediaId" VerticalAlignment="Center" FontSize="10" Width="48" Margin="4,0,0,0"
+                                                   FontWeight="Regular" Opacity="0.25" TextWrapping="Wrap"
+                                                   TextTrimming="CharacterEllipsis"/>
                                     </StackPanel>
                                 </controls:Button>
+
+                                <ui:SplitButton Name="MediaSessionSplitButton"
+                                    Height="28" Width="108" Padding="4,0"
+                                    Margin="8,0,0,0"
+                                    Appearance="Transparent"
+                                    Visibility="Collapsed"
+                                    ToolTip="{DynamicResource MediaSessionSelectorToolTip}"
+                                    PreviewMouseLeftButtonDown="MediaSessionSplitButton_PreviewMouseLeftButtonDown"
+                                    Click="MediaSessionSplitButton_Click">
+                                    <TextBlock Name="MediaSessionId" VerticalAlignment="Center" FontSize="10" Width="46"
+                                               FontWeight="Regular" Opacity="0.5" TextWrapping="NoWrap"
+                                               TextTrimming="CharacterEllipsis"/>
+                                    <ui:SplitButton.Template>
+                                        <ControlTemplate TargetType="{x:Type ui:SplitButton}">
+                                            <Border x:Name="ContentBorder"
+                                                    Width="{TemplateBinding Width}"
+                                                    Height="{TemplateBinding Height}"
+                                                    Background="Transparent"
+                                                    BorderBrush="Transparent"
+                                                    BorderThickness="1"
+                                                    CornerRadius="{TemplateBinding CornerRadius}">
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="28"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Border x:Name="PART_Content"
+                                                            Grid.Column="0"
+                                                            Background="Transparent">
+                                                        <Grid HorizontalAlignment="Stretch"
+                                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="28"/>
+                                                                <ColumnDefinition Width="*"/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <ContentPresenter x:Name="ControlIcon"
+                                                                              Grid.Column="0"
+                                                                              Margin="0"
+                                                                              HorizontalAlignment="Center"
+                                                                              VerticalAlignment="Center"
+                                                                              Content="{TemplateBinding Icon}"
+                                                                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                                              Focusable="False"
+                                                                              TextElement.FontSize="{TemplateBinding FontSize}"
+                                                                              TextElement.Foreground="{TemplateBinding Foreground}"/>
+                                                            <ContentPresenter x:Name="ContentPresenter"
+                                                                              Grid.Column="1"
+                                                                              HorizontalAlignment="Left"
+                                                                              VerticalAlignment="Center"
+                                                                              Content="{TemplateBinding Content}"
+                                                                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                                              TextElement.Foreground="{TemplateBinding Foreground}"/>
+                                                        </Grid>
+                                                    </Border>
+                                                    <Border x:Name="PART_Toggle"
+                                                            Grid.Column="1"
+                                                            Background="Transparent"
+                                                            CornerRadius="0,3,3,0">
+                                                        <ToggleButton x:Name="PART_ToggleButton"
+                                                                      HorizontalAlignment="Stretch"
+                                                                      VerticalAlignment="Stretch"
+                                                                      ClickMode="Press"
+                                                                      Focusable="False"
+                                                                      Foreground="{TemplateBinding Foreground}"
+                                                                      IsChecked="{TemplateBinding IsDropDownOpen}">
+                                                            <ToggleButton.Template>
+                                                                <ControlTemplate TargetType="{x:Type ToggleButton}">
+                                                                    <Border Background="Transparent">
+                                                                        <ContentPresenter HorizontalAlignment="Center"
+                                                                                          VerticalAlignment="Center"/>
+                                                                    </Border>
+                                                                </ControlTemplate>
+                                                            </ToggleButton.Template>
+                                                            <ui:SymbolIcon x:Name="DropDownGlyph"
+                                                                           FontSize="10"
+                                                                           Opacity="0.65"
+                                                                           Symbol="ChevronDown24"/>
+                                                        </ToggleButton>
+                                                    </Border>
+                                                </Grid>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <MultiTrigger>
+                                                    <MultiTrigger.Conditions>
+                                                        <Condition SourceName="PART_Toggle" Property="IsMouseOver" Value="True"/>
+                                                        <Condition Property="IsPressed" Value="False"/>
+                                                    </MultiTrigger.Conditions>
+                                                    <Setter TargetName="ContentBorder" Property="BorderBrush"
+                                                            Value="{DynamicResource ControlStrokeColorDefaultBrush}"/>
+                                                    <Setter TargetName="PART_Toggle" Property="Background"
+                                                            Value="{Binding MouseOverBackground, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                                    <Setter TargetName="DropDownGlyph" Property="Opacity" Value="1"/>
+                                                </MultiTrigger>
+                                                <MultiTrigger>
+                                                    <MultiTrigger.Conditions>
+                                                        <Condition SourceName="PART_Content" Property="IsMouseOver" Value="True"/>
+                                                        <Condition Property="IsPressed" Value="False"/>
+                                                    </MultiTrigger.Conditions>
+                                                    <Setter TargetName="ContentBorder" Property="Background"
+                                                            Value="{Binding MouseOverBackground, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                                    <Setter TargetName="ContentBorder" Property="BorderBrush"
+                                                            Value="{DynamicResource ControlStrokeColorDefaultBrush}"/>
+                                                </MultiTrigger>
+                                                <MultiTrigger>
+                                                    <MultiTrigger.Conditions>
+                                                        <Condition SourceName="PART_ToggleButton" Property="IsPressed" Value="True"/>
+                                                    </MultiTrigger.Conditions>
+                                                    <Setter TargetName="ContentBorder" Property="BorderBrush"
+                                                            Value="{DynamicResource ControlStrokeColorDefaultBrush}"/>
+                                                    <Setter TargetName="PART_Toggle" Property="Background"
+                                                            Value="{Binding PressedBackground, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                                    <Setter TargetName="DropDownGlyph" Property="Opacity" Value="1"/>
+                                                </MultiTrigger>
+                                                <MultiTrigger>
+                                                    <MultiTrigger.Conditions>
+                                                        <Condition SourceName="PART_Toggle" Property="IsMouseOver" Value="False"/>
+                                                        <Condition Property="IsPressed" Value="True"/>
+                                                    </MultiTrigger.Conditions>
+                                                    <Setter TargetName="ContentBorder" Property="Background"
+                                                            Value="{Binding PressedBackground, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                                    <Setter TargetName="ContentPresenter" Property="TextElement.Foreground"
+                                                            Value="{Binding PressedForeground, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                                    <Setter TargetName="ControlIcon" Property="TextElement.Foreground"
+                                                             Value="{Binding PressedForeground, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                                </MultiTrigger>
+                                                <Trigger Property="IsDropDownOpen" Value="True">
+                                                    <Setter TargetName="ContentBorder" Property="Background"
+                                                            Value="{Binding MouseOverBackground, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                                    <Setter TargetName="ContentBorder" Property="BorderBrush"
+                                                            Value="{DynamicResource ControlStrokeColorDefaultBrush}"/>
+                                                    <Setter TargetName="PART_Toggle" Property="Background"
+                                                            Value="{Binding PressedBackground, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                                    <Setter TargetName="DropDownGlyph" Property="Opacity" Value="1"/>
+                                                </Trigger>
+                                                <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                                                    <Setter TargetName="ContentBorder" Property="BorderBrush"
+                                                            Value="{DynamicResource ControlStrokeColorDefaultBrush}"/>
+                                                </Trigger>
+                                                <Trigger Property="IsEnabled" Value="False">
+                                                    <Setter TargetName="ContentBorder" Property="Background"
+                                                            Value="{DynamicResource ButtonBackgroundDisabled}"/>
+                                                    <Setter TargetName="ContentBorder" Property="BorderBrush"
+                                                            Value="{DynamicResource ButtonBorderBrushDisabled}"/>
+                                                    <Setter TargetName="ContentPresenter" Property="TextElement.Foreground"
+                                                            Value="{DynamicResource ButtonForegroundDisabled}"/>
+                                                </Trigger>
+                                                <Trigger Property="Content" Value="{x:Null}">
+                                                    <Setter TargetName="ControlIcon" Property="Margin" Value="0"/>
+                                                </Trigger>
+                                                <Trigger Property="Content" Value="">
+                                                    <Setter TargetName="ControlIcon" Property="Margin" Value="0"/>
+                                                </Trigger>
+                                                <Trigger Property="Icon" Value="{x:Null}">
+                                                    <Setter TargetName="ControlIcon" Property="Margin" Value="0"/>
+                                                    <Setter TargetName="ControlIcon" Property="Visibility" Value="Collapsed"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </ui:SplitButton.Template>
+                                    <ui:SplitButton.Flyout>
+                                        <ContextMenu Width="280" Style="{StaticResource MediaSessionContextMenuStyle}"
+                                                     Opened="MediaSessionMenu_Opened"
+                                                     Closed="MediaSessionMenu_Closed"/>
+                                    </ui:SplitButton.Flyout>
+                                </ui:SplitButton>
+
+                                <ui:DropDownButton Name="CompactMediaSessionButton"
+                                    Height="28" Width="56" Padding="0"
+                                    Margin="8,0,0,0"
+                                    Appearance="Transparent"
+                                    Visibility="Collapsed"
+                                    ToolTip="{DynamicResource MediaSessionSelectorToolTip}">
+                                    <ui:DropDownButton.Template>
+                                        <ControlTemplate TargetType="{x:Type ui:DropDownButton}">
+                                            <Border x:Name="ContentBorder"
+                                                    Width="{TemplateBinding Width}"
+                                                    Height="{TemplateBinding Height}"
+                                                    Background="{TemplateBinding Background}"
+                                                    CornerRadius="{TemplateBinding CornerRadius}">
+                                                <Border BorderBrush="{TemplateBinding BorderBrush}"
+                                                        BorderThickness="{TemplateBinding BorderThickness}"
+                                                        CornerRadius="{TemplateBinding CornerRadius}">
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="28"/>
+                                                            <ColumnDefinition Width="28"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <ContentPresenter x:Name="ControlIcon"
+                                                                          Grid.Column="0"
+                                                                          HorizontalAlignment="Center"
+                                                                          VerticalAlignment="Center"
+                                                                          Content="{TemplateBinding Icon}"
+                                                                          ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                                          Focusable="False"
+                                                                          TextElement.FontSize="{TemplateBinding FontSize}"
+                                                                          TextElement.Foreground="{TemplateBinding Foreground}"/>
+                                                        <ui:SymbolIcon Grid.Column="1"
+                                                                       HorizontalAlignment="Center"
+                                                                       VerticalAlignment="Center"
+                                                                       FontSize="10"
+                                                                       Symbol="ChevronDown24"/>
+                                                    </Grid>
+                                                </Border>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <MultiTrigger>
+                                                    <MultiTrigger.Conditions>
+                                                        <Condition Property="IsMouseOver" Value="True"/>
+                                                        <Condition Property="IsPressed" Value="False"/>
+                                                    </MultiTrigger.Conditions>
+                                                    <Setter TargetName="ContentBorder" Property="Background"
+                                                            Value="{Binding MouseOverBackground, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                                </MultiTrigger>
+                                                <MultiTrigger>
+                                                    <MultiTrigger.Conditions>
+                                                        <Condition Property="IsMouseOver" Value="True"/>
+                                                        <Condition Property="IsPressed" Value="True"/>
+                                                    </MultiTrigger.Conditions>
+                                                    <Setter TargetName="ContentBorder" Property="Background"
+                                                            Value="{Binding PressedBackground, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                                    <Setter TargetName="ControlIcon" Property="TextElement.Foreground"
+                                                            Value="{Binding PressedForeground, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                                </MultiTrigger>
+                                                <Trigger Property="IsEnabled" Value="False">
+                                                    <Setter TargetName="ContentBorder" Property="Background"
+                                                            Value="{DynamicResource ControlFillColorDisabledBrush}"/>
+                                                    <Setter TargetName="ContentBorder" Property="BorderBrush"
+                                                            Value="{DynamicResource ControlStrokeColorDefaultBrush}"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </ui:DropDownButton.Template>
+                                    <ui:DropDownButton.Flyout>
+                                        <ContextMenu Width="280" Style="{StaticResource MediaSessionContextMenuStyle}"
+                                                     Opened="MediaSessionMenu_Opened"
+                                                     Closed="MediaSessionMenu_Closed"/>
+                                    </ui:DropDownButton.Flyout>
+                                </ui:DropDownButton>
 
                             </StackPanel>
                         </Grid>
