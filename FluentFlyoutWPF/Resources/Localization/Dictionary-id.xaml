@@ -29,6 +29,8 @@ menyembunyikan tombol ulangi (repeat), acak (shuffle), serta informasi pemutar</
     <system:String x:Key="CenterTitleArtistTitle">Judul dengan Nama Artis ditengah</system:String>
     <system:String x:Key="CenterTitleArtistDescription">Sesuaikan teks ke tengah daripada ke kiri</system:String>
     <system:String x:Key="ShowMediaPlayerNameTitle">Tampilkan nama pemutar media</system:String>
+    <system:String x:Key="SessionSwitcherAuto">Otomatis</system:String>
+    <system:String x:Key="SessionSwitcherOpenPlayer">Buka app player</system:String>
     <system:String x:Key="RepeatButtonTitle">Tombol Ulangi*</system:String>
     <system:String x:Key="RepeatButtonDescription">Pilih diantara ulangi semua atau ulangi satu, meningkatkan lebar flyout</system:String>
     <system:String x:Key="ShuffleButtonTitle">Tombol Acak*</system:String>

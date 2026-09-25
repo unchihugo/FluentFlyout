@@ -313,6 +313,16 @@ public partial class MainWindow : MicaWindow
 
         if (validSessions.Count == 0) return null;
 
+        var pinnedId = SettingsManager.Current.PinnedSessionId;
+        if (!string.IsNullOrEmpty(pinnedId))
+        {
+            var pinned = validSessions.FirstOrDefault(s => s.Id == pinnedId);
+            if (pinned != null)
+                return pinned;
+
+            SettingsManager.Current.PinnedSessionId = string.Empty;
+        }
+
         var focused = mediaManager.GetFocusedSession();
         if (focused != null && validSessions.Any(s => s.Id == focused.Id))
             return focused;
@@ -888,6 +898,11 @@ public partial class MainWindow : MicaWindow
 #if DEBUG
         Logger.Debug("Session closed: " + (mediaSession.Id).ToString());
 #endif
+        if (!string.IsNullOrEmpty(SettingsManager.Current.PinnedSessionId)
+            && SettingsManager.Current.PinnedSessionId == mediaSession.Id)
+        {
+            SettingsManager.Current.PinnedSessionId = string.Empty;
+        }
         UpdateTaskbar();
     }
 
@@ -1345,6 +1360,7 @@ public partial class MainWindow : MicaWindow
     {
         if (!SettingsManager.Current.PlayerInfoEnabled || SettingsManager.Current.CompactLayout) return;
         e.Handled = true;
+
         _ = TryOpenMediaPlayerAsync();
     }
 
