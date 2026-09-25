@@ -32,6 +32,8 @@
     <system:String x:Key="MediaSessionSelectorToolTip">選擇媒體播放器</system:String>
     <system:String x:Key="MediaSessionPlaying">正在播放</system:String>
     <system:String x:Key="MediaSessionPaused">已暫停</system:String>
+    <system:String x:Key="MediaSessionSwitchingTitle">切換媒體播放器</system:String>
+    <system:String x:Key="MediaSessionSwitchingDescription">存在多個媒體工作階段時顯示播放器選擇按鈕</system:String>
     <system:String x:Key="MediaSessionAutoFollowTitle">新播放媒體自動接管</system:String>
     <system:String x:Key="MediaSessionAutoFollowDescription">關閉後保持手動選擇，直到該播放器結束</system:String>
     <system:String x:Key="RepeatButtonTitle">重複播放按鈕*</system:String>

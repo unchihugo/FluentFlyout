@@ -1083,7 +1083,8 @@ public partial class MainWindow : MicaWindow
         MediaSession mediaSession,
         GlobalSystemMediaTransportControlsSessionMediaProperties? songInfo = null)
     {
-        bool hasMultipleMediaSessions = GetAllowedMediaSessions().Count > 1;
+        bool hasMultipleMediaSessions = SettingsManager.Current.MediaSessionSwitchingEnabled &&
+                                        GetAllowedMediaSessions().Count > 1;
         if (_layout != SettingsManager.Current.CompactLayout ||
             _shuffleEnabled != SettingsManager.Current.ShuffleEnabled ||
             _repeatEnabled != SettingsManager.Current.RepeatEnabled ||
@@ -1277,7 +1278,8 @@ public partial class MainWindow : MicaWindow
 
     private void UpdateUILayout() // update the layout based on the settings
     {
-        bool hasMultipleMediaSessions = GetAllowedMediaSessions().Count > 1;
+        bool hasMultipleMediaSessions = SettingsManager.Current.MediaSessionSwitchingEnabled &&
+                                        GetAllowedMediaSessions().Count > 1;
         Dispatcher.Invoke(() =>
         {
             int extraWidth = SettingsManager.Current.RepeatEnabled ? 36 : 0;

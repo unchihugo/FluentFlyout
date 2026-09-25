@@ -36,7 +36,11 @@ public partial class MainWindow
 
         if (validSessions.Count == 0) return null;
 
-        if (_selectedMediaSessionId != null)
+        if (!SettingsManager.Current.MediaSessionSwitchingEnabled)
+        {
+            _selectedMediaSessionId = null;
+        }
+        else if (_selectedMediaSessionId != null)
         {
             var selectedSession = validSessions.FirstOrDefault(session => session.Id == _selectedMediaSessionId);
             if (selectedSession != null)
@@ -57,7 +61,8 @@ public partial class MainWindow
         MediaSession mediaSession,
         GlobalSystemMediaTransportControlsSessionPlaybackInfo? playbackInfo)
     {
-        if (!SettingsManager.Current.MediaSessionAutoFollowEnabled ||
+        if (!SettingsManager.Current.MediaSessionSwitchingEnabled ||
+            !SettingsManager.Current.MediaSessionAutoFollowEnabled ||
             _selectedMediaSessionId == null ||
             mediaSession.Id == _selectedMediaSessionId ||
             !IsSessionAllowed(mediaSession) ||
@@ -70,6 +75,7 @@ public partial class MainWindow
 
     private void UpdateMediaSessionSelectorVisibility(bool hasMultipleMediaSessions)
     {
+        hasMultipleMediaSessions &= SettingsManager.Current.MediaSessionSwitchingEnabled;
         bool compactLayout = SettingsManager.Current.CompactLayout;
         bool showPlayerInfo = SettingsManager.Current.PlayerInfoEnabled && !compactLayout;
 
@@ -93,6 +99,9 @@ public partial class MainWindow
         if (sender is not ContextMenu menu) return;
 
         menu.Items.Clear();
+        if (!SettingsManager.Current.MediaSessionSwitchingEnabled)
+            return;
+
         string? focusedSessionId = GetActiveMediaSession()?.Id;
         var entries = new List<(MediaSession Session, GlobalSystemMediaTransportControlsSessionMediaProperties? MediaProperties, string AppName, ImageSource? Icon, string Title, bool IsPlaying)>();
 
@@ -191,7 +200,8 @@ public partial class MainWindow
         MediaSession session,
         GlobalSystemMediaTransportControlsSessionMediaProperties? mediaProperties)
     {
-        if (!GetAllowedMediaSessions().Any(allowedSession => allowedSession.Id == session.Id))
+        if (!SettingsManager.Current.MediaSessionSwitchingEnabled ||
+            !GetAllowedMediaSessions().Any(allowedSession => allowedSession.Id == session.Id))
             return;
 
         _selectedMediaSessionId = session.Id;

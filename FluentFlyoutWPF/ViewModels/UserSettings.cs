@@ -291,6 +291,12 @@ public partial class UserSettings : ObservableObject
     public partial bool PauseOtherSessionsEnabled { get; set; }
 
     /// <summary>
+    /// Allow users to select which active media session FluentFlyout controls.
+    /// </summary>
+    [ObservableProperty]
+    public partial bool MediaSessionSwitchingEnabled { get; set; }
+
+    /// <summary>
     /// Return to automatic media-session selection when another allowed session starts playing
     /// after the user manually selected a player.
     /// </summary>
@@ -741,6 +747,7 @@ public partial class UserSettings : ObservableObject
         LastKnownVersion = string.Empty;
         SeekbarEnabled = false;
         PauseOtherSessionsEnabled = false;
+        MediaSessionSwitchingEnabled = true;
         MediaSessionAutoFollowEnabled = true;
         LockKeysAnimated = true;
         LockKeysInsertEnabled = true;
