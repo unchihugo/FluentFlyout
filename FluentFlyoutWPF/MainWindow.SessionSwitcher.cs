@@ -28,6 +28,13 @@ public partial class MainWindow
     {
         if (!SettingsManager.Current.PlayerInfoEnabled || SettingsManager.Current.CompactLayout) return;
         e.Handled = true;
+
+        if (GetSwitchableSessions().Count >= 2)
+        {
+            ShowSessionSwitcherMenu();
+            return;
+        }
+
         _ = TryOpenMediaPlayerAsync();
     }
 
