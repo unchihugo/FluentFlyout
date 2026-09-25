@@ -250,14 +250,27 @@
                                     <ui:SymbolIcon Name="SymbolShuffle" Symbol="ArrowShuffleOff24" Filled="false" Opacity="0.5" FontSize="18"/>
                                 </controls:Button>
 
-                                <ui:SplitButton Name="MediaIdButton"
+                                <controls:Button Name="MediaIdButton" Padding="0" Height="28" Width="70"
+                                    Margin="8,0,0,0"
+                                    Style="{StaticResource MicaWPF.Styles.TransparentButton}"
+                                    Click="MediaIdButton_Click">
+                                    <StackPanel Orientation="Horizontal" Margin="2,0">
+                                        <Image x:Name="MediaIdIcon" Width="14" Height="14"/>
+                                        <TextBlock Name="MediaId" VerticalAlignment="Center" FontSize="10" Width="48" Margin="4,0,0,0"
+                                                   FontWeight="Regular" Opacity="0.25" TextWrapping="Wrap"
+                                                   TextTrimming="CharacterEllipsis"/>
+                                    </StackPanel>
+                                </controls:Button>
+
+                                <ui:SplitButton Name="MediaSessionSplitButton"
                                     Height="28" Width="108" Padding="4,0"
                                     Margin="8,0,0,0"
                                     Appearance="Transparent"
+                                    Visibility="Collapsed"
                                     ToolTip="{DynamicResource MediaSessionSelectorToolTip}"
-                                    PreviewMouseLeftButtonDown="MediaIdButton_PreviewMouseLeftButtonDown"
-                                    Click="MediaIdButton_Click">
-                                    <TextBlock Name="MediaId" VerticalAlignment="Center" FontSize="10" Width="46"
+                                    PreviewMouseLeftButtonDown="MediaSessionSplitButton_PreviewMouseLeftButtonDown"
+                                    Click="MediaSessionSplitButton_Click">
+                                    <TextBlock Name="MediaSessionId" VerticalAlignment="Center" FontSize="10" Width="46"
                                                FontWeight="Regular" Opacity="0.5" TextWrapping="NoWrap"
                                                TextTrimming="CharacterEllipsis"/>
                                     <ui:SplitButton.Template>
@@ -265,9 +278,9 @@
                                             <Border x:Name="ContentBorder"
                                                     Width="{TemplateBinding Width}"
                                                     Height="{TemplateBinding Height}"
-                                                    Background="{TemplateBinding Background}"
-                                                    BorderBrush="{TemplateBinding BorderBrush}"
-                                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                                    Background="Transparent"
+                                                    BorderBrush="Transparent"
+                                                    BorderThickness="1"
                                                     CornerRadius="{TemplateBinding CornerRadius}">
                                                 <Grid>
                                                     <Grid.ColumnDefinitions>
@@ -276,8 +289,7 @@
                                                     </Grid.ColumnDefinitions>
                                                     <Border x:Name="PART_Content"
                                                             Grid.Column="0"
-                                                            Background="Transparent"
-                                                            CornerRadius="4,0,0,4">
+                                                            Background="Transparent">
                                                         <Grid HorizontalAlignment="Stretch"
                                                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
                                                             <Grid.ColumnDefinitions>
@@ -306,9 +318,7 @@
                                                     <Border x:Name="PART_Toggle"
                                                             Grid.Column="1"
                                                             Background="Transparent"
-                                                            BorderBrush="{DynamicResource DividerStrokeColorDefaultBrush}"
-                                                            BorderThickness="1,0,0,0"
-                                                            CornerRadius="0,4,4,0">
+                                                            CornerRadius="0,3,3,0">
                                                         <ToggleButton x:Name="PART_ToggleButton"
                                                                       HorizontalAlignment="Stretch"
                                                                       VerticalAlignment="Stretch"
@@ -324,7 +334,10 @@
                                                                     </Border>
                                                                 </ControlTemplate>
                                                             </ToggleButton.Template>
-                                                            <ui:SymbolIcon FontSize="10" Symbol="ChevronDown24"/>
+                                                            <ui:SymbolIcon x:Name="DropDownGlyph"
+                                                                           FontSize="10"
+                                                                           Opacity="0.65"
+                                                                           Symbol="ChevronDown24"/>
                                                         </ToggleButton>
                                                     </Border>
                                                 </Grid>
@@ -335,36 +348,57 @@
                                                         <Condition SourceName="PART_Toggle" Property="IsMouseOver" Value="True"/>
                                                         <Condition Property="IsPressed" Value="False"/>
                                                     </MultiTrigger.Conditions>
+                                                    <Setter TargetName="ContentBorder" Property="BorderBrush"
+                                                            Value="{DynamicResource ControlStrokeColorDefaultBrush}"/>
                                                     <Setter TargetName="PART_Toggle" Property="Background"
                                                             Value="{Binding MouseOverBackground, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                                    <Setter TargetName="DropDownGlyph" Property="Opacity" Value="1"/>
                                                 </MultiTrigger>
                                                 <MultiTrigger>
                                                     <MultiTrigger.Conditions>
                                                         <Condition SourceName="PART_Content" Property="IsMouseOver" Value="True"/>
                                                         <Condition Property="IsPressed" Value="False"/>
                                                     </MultiTrigger.Conditions>
-                                                    <Setter TargetName="PART_Content" Property="Background"
+                                                    <Setter TargetName="ContentBorder" Property="Background"
                                                             Value="{Binding MouseOverBackground, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                                    <Setter TargetName="ContentBorder" Property="BorderBrush"
+                                                            Value="{DynamicResource ControlStrokeColorDefaultBrush}"/>
                                                 </MultiTrigger>
                                                 <MultiTrigger>
                                                     <MultiTrigger.Conditions>
                                                         <Condition SourceName="PART_ToggleButton" Property="IsPressed" Value="True"/>
                                                     </MultiTrigger.Conditions>
+                                                    <Setter TargetName="ContentBorder" Property="BorderBrush"
+                                                            Value="{DynamicResource ControlStrokeColorDefaultBrush}"/>
                                                     <Setter TargetName="PART_Toggle" Property="Background"
                                                             Value="{Binding PressedBackground, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                                    <Setter TargetName="DropDownGlyph" Property="Opacity" Value="1"/>
                                                 </MultiTrigger>
                                                 <MultiTrigger>
                                                     <MultiTrigger.Conditions>
                                                         <Condition SourceName="PART_Toggle" Property="IsMouseOver" Value="False"/>
                                                         <Condition Property="IsPressed" Value="True"/>
                                                     </MultiTrigger.Conditions>
-                                                    <Setter TargetName="PART_Content" Property="Background"
+                                                    <Setter TargetName="ContentBorder" Property="Background"
                                                             Value="{Binding PressedBackground, RelativeSource={RelativeSource TemplatedParent}}"/>
                                                     <Setter TargetName="ContentPresenter" Property="TextElement.Foreground"
                                                             Value="{Binding PressedForeground, RelativeSource={RelativeSource TemplatedParent}}"/>
                                                     <Setter TargetName="ControlIcon" Property="TextElement.Foreground"
-                                                            Value="{Binding PressedForeground, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                                             Value="{Binding PressedForeground, RelativeSource={RelativeSource TemplatedParent}}"/>
                                                 </MultiTrigger>
+                                                <Trigger Property="IsDropDownOpen" Value="True">
+                                                    <Setter TargetName="ContentBorder" Property="Background"
+                                                            Value="{Binding MouseOverBackground, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                                    <Setter TargetName="ContentBorder" Property="BorderBrush"
+                                                            Value="{DynamicResource ControlStrokeColorDefaultBrush}"/>
+                                                    <Setter TargetName="PART_Toggle" Property="Background"
+                                                            Value="{Binding PressedBackground, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                                    <Setter TargetName="DropDownGlyph" Property="Opacity" Value="1"/>
+                                                </Trigger>
+                                                <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                                                    <Setter TargetName="ContentBorder" Property="BorderBrush"
+                                                            Value="{DynamicResource ControlStrokeColorDefaultBrush}"/>
+                                                </Trigger>
                                                 <Trigger Property="IsEnabled" Value="False">
                                                     <Setter TargetName="ContentBorder" Property="Background"
                                                             Value="{DynamicResource ButtonBackgroundDisabled}"/>

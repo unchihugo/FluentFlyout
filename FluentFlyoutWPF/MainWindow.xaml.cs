@@ -57,13 +57,6 @@ public partial class MainWindow : MicaWindow
     private bool _seekBarEnabled = SettingsManager.Current.SeekbarEnabled;
     private bool _alwaysDisplay = SettingsManager.Current.MediaFlyoutAlwaysDisplay;
     private bool _mediaSessionSupportsSeekbar = false; // default off to handle initialization
-    private bool _hasMultipleMediaSessions;
-    private bool _isMediaSessionMenuOpen;
-    private bool _mediaSessionTogglePointerDown;
-    private string? _selectedMediaSessionId;
-    private sealed record MediaSessionMenuSelection(
-        MediaSession Session,
-        GlobalSystemMediaTransportControlsSessionMediaProperties? MediaProperties);
     private bool _acrylicEnabled = false; // default off to handle initialization
     private int _themeOption = SettingsManager.Current.AppTheme;
 
@@ -315,34 +308,6 @@ public partial class MainWindow : MicaWindow
         return appName.Equals(entry, StringComparison.OrdinalIgnoreCase) || appId.Contains(entry, StringComparison.OrdinalIgnoreCase);
     }
 
-    private List<MediaSession> GetAllowedMediaSessions()
-    {
-        return mediaManager.CurrentMediaSessions.Values.Where(IsSessionAllowed).ToList();
-    }
-
-    public MediaSession? GetActiveMediaSession()
-    {
-        var validSessions = GetAllowedMediaSessions();
-
-        if (validSessions.Count == 0) return null;
-
-        if (_selectedMediaSessionId != null)
-        {
-            var selectedSession = validSessions.FirstOrDefault(session => session.Id == _selectedMediaSessionId);
-            if (selectedSession != null)
-                return selectedSession;
-
-            // The manually selected session was closed or filtered out. Return to Windows' automatic choice.
-            _selectedMediaSessionId = null;
-        }
-
-        var focused = mediaManager.GetFocusedSession();
-        if (focused != null && validSessions.Any(s => s.Id == focused.Id))
-            return focused;
-
-        return validSessions.FirstOrDefault();
-    }
-
     public float? GetActiveMediaAppVolume()
     {
         if (volumeMixerWindow?.ViewModel is not { } volumeMixerViewModel ||
@@ -439,142 +404,6 @@ public partial class MainWindow : MicaWindow
             Logger.Error(ex, "Failed to open media player");
         }
         return false;
-    }
-
-    private void MediaSessionMenu_Opened(object sender, RoutedEventArgs e)
-    {
-        _isMediaSessionMenuOpen = true;
-        if (!_isCleaningUp)
-            cts.Cancel();
-        if (sender is not ContextMenu menu) return;
-
-        menu.Items.Clear();
-        string? focusedSessionId = GetActiveMediaSession()?.Id;
-        var entries = new List<(MediaSession Session, GlobalSystemMediaTransportControlsSessionMediaProperties? MediaProperties, string AppName, ImageSource? Icon, string Title, bool IsPlaying)>();
-
-        foreach (var session in GetAllowedMediaSessions())
-        {
-            try
-            {
-                (string appName, ImageSource? icon) = MediaPlayerData.GetAndCacheMediaPlayerData(session.Id);
-                var mediaProperties = TryGetMediaProperties(session.ControlSession);
-                string title = mediaProperties?.Title ?? string.Empty;
-                bool isPlaying = session.ControlSession.GetPlaybackInfo().PlaybackStatus ==
-                                 GlobalSystemMediaTransportControlsSessionPlaybackStatus.Playing;
-
-                entries.Add((session, mediaProperties, appName, icon, title, isPlaying));
-            }
-            catch (Exception ex)
-            {
-                Logger.Warn(ex, $"Failed to add media session to selector: {session.Id}");
-            }
-        }
-
-        foreach (var entry in entries
-                     .OrderByDescending(entry => entry.Session.Id == (_selectedMediaSessionId ?? focusedSessionId))
-                     .ThenByDescending(entry => entry.IsPlaying)
-                     .ThenBy(entry => entry.AppName, StringComparer.CurrentCultureIgnoreCase))
-        {
-            var sessionItem = new Wpf.Ui.Controls.MenuItem
-            {
-                Header = CreateMediaSessionMenuHeader(entry.AppName, entry.Title, entry.IsPlaying),
-                Icon = CreateMediaPlayerIcon(entry.Icon),
-                Tag = new MediaSessionMenuSelection(entry.Session, entry.MediaProperties),
-                IsCheckable = true,
-                IsChecked = entry.Session.Id == focusedSessionId
-            };
-            sessionItem.Click += MediaSessionMenuItem_Click;
-            menu.Items.Add(sessionItem);
-        }
-    }
-
-    private void MediaSessionMenu_Closed(object sender, RoutedEventArgs e)
-    {
-        _isMediaSessionMenuOpen = false;
-        if (!_isCleaningUp && IsVisible && !SettingsManager.Current.MediaFlyoutAlwaysDisplay)
-            ShowMediaFlyout(forceShow: true, refreshUi: false);
-    }
-
-    private FrameworkElement CreateMediaSessionMenuHeader(string appName, string title, bool isPlaying)
-    {
-        string status = FindResource(isPlaying ? "MediaSessionPlaying" : "MediaSessionPaused").ToString() ?? string.Empty;
-        string subtitle = string.IsNullOrWhiteSpace(title) ? status : $"{title} · {status}";
-
-        var header = new StackPanel
-        {
-            Width = 210,
-            Margin = new Thickness(0, 2, 0, 2)
-        };
-        header.Children.Add(new TextBlock
-        {
-            Text = appName,
-            FontSize = 12,
-            FontWeight = FontWeights.SemiBold,
-            TextTrimming = TextTrimming.CharacterEllipsis
-        });
-        header.Children.Add(new TextBlock
-        {
-            Text = subtitle,
-            FontSize = 11,
-            Opacity = 0.55,
-            TextTrimming = TextTrimming.CharacterEllipsis
-        });
-        return header;
-    }
-
-    private static Wpf.Ui.Controls.IconElement CreateMediaPlayerIcon(ImageSource? icon)
-    {
-        if (icon != null)
-        {
-            return new Wpf.Ui.Controls.ImageIcon
-            {
-                Source = icon,
-                Width = 16,
-                Height = 16
-            };
-        }
-
-        return new Wpf.Ui.Controls.SymbolIcon(Wpf.Ui.Controls.SymbolRegular.AppGeneric20, 16, false);
-    }
-
-    private void MediaSessionMenuItem_Click(object sender, RoutedEventArgs e)
-    {
-        if (sender is Wpf.Ui.Controls.MenuItem { Tag: MediaSessionMenuSelection selection })
-            SelectMediaSession(selection.Session, selection.MediaProperties);
-    }
-
-    private void SelectMediaSession(
-        MediaSession session,
-        GlobalSystemMediaTransportControlsSessionMediaProperties? mediaProperties)
-    {
-        if (!GetAllowedMediaSessions().Any(allowedSession => allowedSession.Id == session.Id))
-            return;
-
-        _selectedMediaSessionId = session.Id;
-        var activeSession = GetActiveMediaSession();
-        if (activeSession == null) return;
-
-        Logger.Info($"Selected media session: {session.Id}");
-
-        mediaProperties ??= TryGetMediaProperties(activeSession.ControlSession);
-        UpdateTaskbar(activeSession, mediaProperties);
-        if (!IsVisible) return;
-
-        UpdateUI(activeSession, mediaProperties);
-        HandlePlayBackState(activeSession.ControlSession.GetPlaybackInfo()?.PlaybackStatus);
-    }
-
-    private static GlobalSystemMediaTransportControlsSessionMediaProperties? TryGetMediaProperties(GlobalSystemMediaTransportControlsSession controlSession)
-    {
-        try
-        {
-            return controlSession.TryGetMediaPropertiesAsync().GetAwaiter().GetResult();
-        }
-        catch (COMException ex)
-        {
-            Logger.Error(ex, "Failed to retrieve data from the player");
-            return null;
-        }
     }
 
     private void openSettings(object? sender, EventArgs e)
@@ -899,15 +728,7 @@ public partial class MainWindow : MicaWindow
         pauseOtherMediaSessionsIfNeeded(mediaSession);
 
         var changedPlaybackInfo = playbackInfo ?? mediaSession.ControlSession.GetPlaybackInfo();
-        if (SettingsManager.Current.MediaSessionAutoFollowEnabled
-            && _selectedMediaSessionId != null
-            && mediaSession.Id != _selectedMediaSessionId
-            && IsSessionAllowed(mediaSession)
-            && changedPlaybackInfo?.PlaybackStatus == GlobalSystemMediaTransportControlsSessionPlaybackStatus.Playing)
-        {
-            Logger.Info($"Following newly playing media session: {mediaSession.Id}");
-            _selectedMediaSessionId = mediaSession.Id;
-        }
+        FollowNewlyPlayingMediaSession(mediaSession, changedPlaybackInfo);
 
         var focusedSession = GetActiveMediaSession();
         if (focusedSession == null)
@@ -1362,14 +1183,12 @@ public partial class MainWindow : MicaWindow
 
                 (string title, ImageSource? icon) = MediaPlayerData.GetAndCacheMediaPlayerData(mediaSession.Id);
                 MediaId.Text = title;
-                MediaIdButton.Icon = CreateMediaPlayerIcon(icon);
+                MediaIdIcon.Source = icon;
+                MediaSessionId.Text = title;
+                MediaSessionSplitButton.Icon = CreateMediaPlayerIcon(icon);
                 CompactMediaSessionButton.Icon = CreateMediaPlayerIcon(icon);
 
-                bool compactLayout = SettingsManager.Current.CompactLayout;
-                bool showPlayerInfo = SettingsManager.Current.PlayerInfoEnabled && !compactLayout;
-                bool showCompactSelector = _hasMultipleMediaSessions && (compactLayout || !SettingsManager.Current.PlayerInfoEnabled);
-                MediaIdButton.Visibility = showPlayerInfo ? Visibility.Visible : Visibility.Collapsed;
-                CompactMediaSessionButton.Visibility = showCompactSelector ? Visibility.Visible : Visibility.Collapsed;
+                UpdateMediaSessionSelectorVisibility(_hasMultipleMediaSessions);
 
                 // background blurred image visibility setting
                 BackgroundImageStyle1.Visibility = SettingsManager.Current.MediaFlyoutBackgroundBlur == 1 ? Visibility.Visible : Visibility.Collapsed;
@@ -1463,7 +1282,9 @@ public partial class MainWindow : MicaWindow
         {
             int extraWidth = SettingsManager.Current.RepeatEnabled ? 36 : 0;
             extraWidth += SettingsManager.Current.ShuffleEnabled ? 36 : 0;
-            extraWidth += SettingsManager.Current.PlayerInfoEnabled ? 110 : 0;
+            extraWidth += SettingsManager.Current.PlayerInfoEnabled
+                ? hasMultipleMediaSessions ? 110 : 72
+                : 0;
             // keep minimum width at 72 even if all extra features are disabled to prevent the widget from being too small
             extraWidth = Math.Max(extraWidth, 72);
 
@@ -1479,8 +1300,7 @@ public partial class MainWindow : MicaWindow
                 ControlsStackPanelContainer.Width = 104;
                 ControlsStackPanelContainer.HorizontalAlignment = HorizontalAlignment.Left;
                 ControlsStackPanel.HorizontalAlignment = HorizontalAlignment.Left;
-                MediaIdButton.Visibility = Visibility.Collapsed;
-                CompactMediaSessionButton.Visibility = hasMultipleMediaSessions ? Visibility.Visible : Visibility.Collapsed;
+                UpdateMediaSessionSelectorVisibility(hasMultipleMediaSessions);
                 SongImageBorder.Margin = new Thickness(0);
                 SongImageBorder.Height = 36;
                 SongInfoStackPanel.Margin = new Thickness(8, 0, 0, 0);
@@ -1507,10 +1327,7 @@ public partial class MainWindow : MicaWindow
                 ControlsStackPanelContainer.Width = double.NaN;
                 ControlsStackPanelContainer.HorizontalAlignment = HorizontalAlignment.Stretch;
                 ControlsStackPanel.HorizontalAlignment = centerControlsWithSongInfo ? HorizontalAlignment.Center : HorizontalAlignment.Left;
-                MediaIdButton.Visibility = SettingsManager.Current.PlayerInfoEnabled ? Visibility.Visible : Visibility.Collapsed;
-                CompactMediaSessionButton.Visibility = hasMultipleMediaSessions && !SettingsManager.Current.PlayerInfoEnabled
-                    ? Visibility.Visible
-                    : Visibility.Collapsed;
+                UpdateMediaSessionSelectorVisibility(hasMultipleMediaSessions);
                 SongImageBorder.Margin = new Thickness(6);
                 SongImageBorder.Height = 78;
                 SongInfoStackPanel.Margin = new Thickness(12, 0, 0, 0);
@@ -1532,33 +1349,6 @@ public partial class MainWindow : MicaWindow
         _seekBarEnabled = SettingsManager.Current.SeekbarEnabled;
         _alwaysDisplay = SettingsManager.Current.MediaFlyoutAlwaysDisplay;
         _hasMultipleMediaSessions = hasMultipleMediaSessions;
-    }
-
-    private void MediaIdButton_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-    {
-        _mediaSessionTogglePointerDown =
-            MediaIdButton.Template.FindName("PART_Toggle", MediaIdButton) is FrameworkElement { IsMouseOver: true };
-    }
-
-    private void MediaIdButton_Click(object sender, RoutedEventArgs e)
-    {
-        bool toggleIsPointerOver =
-            MediaIdButton.Template.FindName("PART_Toggle", MediaIdButton) is FrameworkElement { IsMouseOver: true };
-
-        // A nested ToggleButton can also make the outer Button produce its own Click event.
-        // Use the pointer-down hit region in addition to the routed-event source so the
-        // drop-down half never activates the media player.
-        if (!ReferenceEquals(e.Source, sender) || _mediaSessionTogglePointerDown || toggleIsPointerOver)
-        {
-            e.Handled = true;
-            Dispatcher.BeginInvoke(() => _mediaSessionTogglePointerDown = false, DispatcherPriority.Input);
-            return;
-        }
-
-        _mediaSessionTogglePointerDown = false;
-        if (!SettingsManager.Current.PlayerInfoEnabled || SettingsManager.Current.CompactLayout) return;
-        e.Handled = true;
-        _ = TryOpenMediaPlayerAsync();
     }
 
     private async void Back_Click(object sender, RoutedEventArgs e)
