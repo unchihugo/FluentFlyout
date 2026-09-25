@@ -14,8 +14,8 @@
     <system:String x:Key="AcrylicWindowDescription">Застосувати прозорий акриловий ефект розмиття до випадаючих елементів</system:String>
     <system:String x:Key="CompactLayoutTitle">Компактне розташування</system:String>
     <system:String x:Key="CompactLayoutDescription" xml:space="preserve">Більш компактний і менш нав'язливий макет
-приховує повторення, перетасовку та інформацію про програвач</system:String>
-    <system:String x:Key="SelectedMonitorTitle">Цільовий деплей спливаючого меню</system:String>
+приховує повторення, перемішування та інформацію про програвач</system:String>
+    <system:String x:Key="SelectedMonitorTitle">Дисплей для відображення спливаючого меню</system:String>
     <system:String x:Key="FlyoutPositionTitle">Розташування спливаючого вікна</system:String>
     <system:String x:Key="PositionBottomLeft" xml:space="preserve"> Знизу ліворуч</system:String>
     <system:String x:Key="PositionBottomCenter" xml:space="preserve"> Знизу по центру</system:String>
@@ -34,9 +34,9 @@
     <system:String x:Key="RepeatButtonDescription">Виберіть між повторенням усіх або повторенням одного, збільшує ширину спливаючого меню</system:String>
     <system:String x:Key="ShuffleButtonTitle">Кнопка «Перемішати»*</system:String>
     <system:String x:Key="ShuffleButtonDescription">Збільшує ширину спливаючого меню</system:String>
-    <system:String x:Key="ShowSeekbarTitle">Показати смугу пошуку*</system:String>
-    <system:String x:Key="ShowSeekbarDescription">Інтерактивна смуга пошуку автоматично відображатиметься, якщо плеєр її підтримує</system:String>
-    <system:String x:Key="UnsupportedControlsWarning">*Деякі браузери/програвачі не підтримують функції повтору, випадкового відтворення та управління смугою пошуку.</system:String>
+    <system:String x:Key="ShowSeekbarTitle">Показати смугу прокрутки*</system:String>
+    <system:String x:Key="ShowSeekbarDescription">Автоматично відображатиметься інтерактивна смуга прокрутки , якщо плеєр її підтримує</system:String>
+    <system:String x:Key="UnsupportedControlsWarning">*Деякі браузери/програвачі не підтримують функції повтору, перемішування та керування смугою прокрутки.</system:String>
     <system:String x:Key="PauseOtherMediaTitle">Автоматично призупиняти інші медіа</system:String>
     <system:String x:Key="PauseOtherMediaDescription">Коли ви граєте або зосереджуєтеся на нових медіа, інші активні сесії автоматично призупиняються</system:String>
     <system:String x:Key="Disabled">Вимкнено</system:String>
@@ -48,7 +48,7 @@
     <system:String x:Key="TaskbarWidgetEnabledTitle">Увімкнути віджет панелі завдань</system:String>
     <system:String x:Key="TaskbarWidgetEnabledDescription">Показати компактний медіа-віджет на панелі завдань</system:String>
     <system:String x:Key="TaskbarWidgetVisualIssuesWarning">Якщо у вас виникли проблеми із відображенням, налаштуйте параметри нижче.</system:String>
-    <system:String x:Key="TaskbarWidgetSelectedMonitorTitle">Цільове вікно віджета</system:String>
+    <system:String x:Key="TaskbarWidgetSelectedMonitorTitle">Дисплей для відображення віджета</system:String>
     <system:String x:Key="TaskbarWidgetPosition">Позиція віджета</system:String>
     <system:String x:Key="TaskbarWidgetPaddingSettingsTitle">Налаштування відступів віджета</system:String>
     <system:String x:Key="TaskbarWidgetPaddingSettingsDescription">Налаштуйте відступи навколо віджета відповідно до стилю вашої панелі завдань</system:String>
@@ -69,13 +69,13 @@
     <system:String x:Key="MediaFlyoutExcludeVolumeDescription">Не відображати спливаюче вікно при натисканні кнопки збільшення/зменшення гучності/вимкнення звуку</system:String>
     <system:String x:Key="TaskbarWidgetClickableTitle">Натисніть, щоб відкрити спливаюче меню медіа, коли медіа присутнє</system:String>
     <system:String x:Key="TaskbarWidgetClickableDescription">Натискання віджета на панелі завдань відркиватиме плеєр</system:String>
-    <system:String x:Key="LockWindow_LockOff">вимк</system:String>
+    <system:String x:Key="LockWindow_LockOff">вимк.</system:String>
     <system:String x:Key="TaskbarWidgetBackgroundBlurTitle">Розмиття фону</system:String>
     <system:String x:Key="PremiumFeatureTitle">Преміум-функції</system:String>
     <system:String x:Key="TaskbarWidgetBackgroundBlurDescription">Додати ефект розмиття фону до віджету панелі завдань</system:String>
     <system:String x:Key="TaskbarWidgetHideCompletelyTitle">Приховати повністю, якщо немає медіа</system:String>
     <system:String x:Key="TaskbarVisualizerBaselineTitle">Показати основу</system:String>
-    <system:String x:Key="TaskbarWidgetCustomizationPerk">Віджет панелі завдань і візуалізатор</system:String>
+    <system:String x:Key="TaskbarWidgetCustomizationPerk">Увімкнути віджет та візуалізатор на панелі завдань</system:String>
     <system:String x:Key="AppThemeTitle">Тема програми</system:String>
     <system:String x:Key="AppThemeDefault"> Стандартна Windows</system:String>
     <system:String x:Key="AppThemeLight"> Світла</system:String>
@@ -84,7 +84,7 @@
     <system:String x:Key="AppThemeDark"> Темна</system:String>
     <system:String x:Key="TrayIconLeftClickOption1"> Відкрити Налаштування</system:String>
     <system:String x:Key="TaskbarVisualizerOutputDeviceTitle">Пристрій виведення</system:String>
-    <system:String x:Key="NextUpCustomizationTitle">Далі в черзі</system:String>
+    <system:String x:Key="NextUpCustomizationTitle">Спливаюче вікно «Далі»</system:String>
     <system:String x:Key="AnimationSettingsTitle">Налаштування анімації</system:String>
     <system:String x:Key="NextUpStayDurationDescription">(за замовчуванням: 2000 мс)</system:String>
     <system:String x:Key="LockKeysStayDurationDescription">(за замовчуванням: 2000 мс)</system:String>
@@ -133,7 +133,7 @@
     <system:String x:Key="TaskbarVisualizerAudioPeakLevelDescription">Потрібний рівень гучності, при якому смуги досягають максимальної висоти</system:String>
     <system:String x:Key="TaskbarVisualizerOutputDeviceDescription">Змініть джерело звуку візуалізатора, обравши інший вихідний пристрій у FluentFlyout.</system:String>
     <system:String x:Key="TaskbarVisualizerClickableTitle">Відкрити налаштування</system:String>
-    <system:String x:Key="TaskbarVisualizerClickableDescription">Натискання на візуалізатор вікдриває його сторінку його налаштувань</system:String>
+    <system:String x:Key="TaskbarVisualizerClickableDescription">Натискання на візуалізатор вікдриває сторінку його налаштувань</system:String>
     <system:String x:Key="PremiumFeatureDescription" xml:space="preserve">Ваш разовий внесок допоможе мені підтримувати та оновлювати FluentFlyout. Він миттєво надає вам пожиттєвий доступ до усіх преміальних функцій.
 
 Примітка: Цей проєкт має відкритий код, тому ці фукції також доступні безкоштовно через ручну установку з GitHub. Єдина нюанс - оновлення та встановлення програми доведеться робити самостійно.</system:String>
@@ -141,7 +141,7 @@
     <system:String x:Key="PremiumUnlockedMessage">Преміальні функції розблоковані. Дякую за вашу підтримку!</system:String>
     <system:String x:Key="PremiumGitHubMessage">Преміальні функції розблоковані для версій з GitHub або зібраних самостійно</system:String>
     <system:String x:Key="UnlockFullExperienceText">Відкрийте для себе повні можливості FluentFlyout:</system:String>
-    <system:String x:Key="AcrylicBlurOpacityPerk">Непрозорість акрилу</system:String>
+    <system:String x:Key="AcrylicBlurOpacityPerk">Налаштувати ефект розмиття «Акрил»</system:String>
     <system:String x:Key="HideTrayIconPerk">Сховати іконку в треї</system:String>
     <system:String x:Key="AllFuturePremiumFeatures">Всі майбутні Преміальні функції</system:String>
     <system:String x:Key="NextUpDescription" xml:space="preserve">Спливаюче вікно, що буде показувати наступне медіа після завершення поточного. З'являється тільки при автоматичному переході, тобто не з'явиться якщо натиснути "Далі" або "Назад".</system:String>
@@ -174,11 +174,11 @@
     <system:String x:Key="LockKeysStayDurationTitle">Тривалість відображення</system:String>
     <system:String x:Key="LockKeysBoldUITitle">Напівжирні шрифт та символи</system:String>
     <system:String x:Key="LockKeysBoldUIDescription">Виділяє символи та шрифт в спливаючому вікні</system:String>
-    <system:String x:Key="LockKeysCursorUITitle">Бажаний цільовий дисплей</system:String>
-    <system:String x:Key="LockKeysCursorUIDescription" xml:space="preserve">Оберіть, на якому моніторі відображати спливаюче вікно.</system:String>
+    <system:String x:Key="LockKeysCursorUITitle">Дисплей для відображення фіксацій</system:String>
+    <system:String x:Key="LockKeysCursorUIDescription" xml:space="preserve">Оберіть, на якому дисплеї відображати спливаюче вікно.</system:String>
     <system:String x:Key="MonitorWithFocusedWindow">Монітор з активним вікном</system:String>
     <system:String x:Key="MonitorWithCursor">Монітор з курсором</system:String>
-    <system:String x:Key="EnableInsertKeyTitle">Увімкнути сповіщення для клавіші Insert</system:String>
+    <system:String x:Key="EnableInsertKeyTitle">Увімкнути спливаюче вікно для клавіші Insert</system:String>
     <system:String x:Key="EnableInsertKeyDescription">Визначає, чи з'являтиметься вспливаюче вікно під час натискання клавіші Insert (вставлення/заміна)</system:String>
     <system:String x:Key="LaunchOnStartupDescription">Запускати згорнутим у трей при вході в Windows</system:String>
     <system:String x:Key="StartupAppsHyperlinkText">Програми, які автоматично запускаються під час входу</system:String>
@@ -186,7 +186,7 @@
     <system:String x:Key="UseAlbumArtAccentColorTitle">Використовувати Обкладинку Альбому як акцентуючий колір</system:String>
     <system:String x:Key="UseAlbumArtAccentColorDescription">Деякі елемнти інтерфейсу будуть використовувати колір обкладинки альбому замість системної теми</system:String>
     <system:String x:Key="TrayIconLeftClickBehaviorTitle">Дія при натисканні лівою кнопкою на піктограму в треї</system:String>
-    <system:String x:Key="TrayIconLeftClickBehaviorDescription">Оберіть, що буде відбуваьтся при тнатисканні лівою кнопкою миші на піктограму в треї</system:String>
+    <system:String x:Key="TrayIconLeftClickBehaviorDescription">Оберіть, що буде відбуватися при натисканні лівою кнопкою миші на піктограму в треї</system:String>
     <system:String x:Key="Win11TrayIconTitle">Стиль піктограми Windows 11</system:String>
     <system:String x:Key="Win11TrayIconDescription">Використовувати піктограму в треї в стилі Windows 11 (Перемкніть для оновлення)</system:String>
     <system:String x:Key="HideTrayIconTitle">Повністю сховати піктограму в треї</system:String>
@@ -199,11 +199,11 @@
     <system:String x:Key="AnimationEasingStyleDescription">(за замовчуванням: Квадратичний)</system:String>
     <system:String x:Key="NativeExperienceInfo">Для відповідності стилю Windows 11 рекомендуємо залишити ці налаштування за замовчуванням.</system:String>
     <system:String x:Key="DisableOnFullscreenTitle">Вимкнути спливаючі вікна, якщо виявлено повноекранну програму DirectX</system:String>
-    <system:String x:Key="DisableOnFullscreenDescription">Запобігає згортанню ігор DirectX в режимі ексклюзивногов ікна, якщо з'являється спливаюче вікно</system:String>
+    <system:String x:Key="DisableOnFullscreenDescription">Запобігає згортанню DirectX-ігор у режимі повного екрана при появі спливаючих вікон</system:String>
     <system:String x:Key="AcrylicBlurOpacityDescription">Налаштування ефекту прозорості на акрилових спливаючих вікнах (за замовчуванням: 175)</system:String>
     <system:String x:Key="AcrylicBlurOpacityTitle">Непрозорість акрилового розмиття</system:String>
     <system:String x:Key="HomeUpdateDescription">Що нового</system:String>
-    <system:String x:Key="TrayIconSectionTitle">Піктограма в лотку</system:String>
+    <system:String x:Key="TrayIconSectionTitle">Піктограма в треї</system:String>
     <system:String x:Key="SystemConfigure">Налаштувати</system:String>
     <system:String x:Key="AboutTitle">Про застосунок</system:String>
     <system:String x:Key="AboutContributorsTitle">❤️ Познайомтеся з нашими авторами</system:String>
@@ -217,10 +217,10 @@
 Ви можете допомогти з перекладом на</system:String>
     <system:String x:Key="UpdateToastTitle">FluentFlyout оновлено!</system:String>
     <system:String x:Key="UpdateToastMessage">Поточна версія {0}.</system:String>
-    <system:String x:Key="UpdateToastButton">Перегянути оновлення</system:String>
+    <system:String x:Key="UpdateToastButton">Переглянути оновлення</system:String>
     <system:String x:Key="ShowUpdateNotificationsTitle">Сповіщати про нові оновлення</system:String>
     <system:String x:Key="BackupRestoreCardTitle">Резервне копіювання та відновлення налаштувань</system:String>
-    <system:String x:Key="FailedToExportSettings">Не вдалося експортувати налаштування.Для детальної інформації перегляньте журнали.</system:String>
+    <system:String x:Key="FailedToExportSettings">Не вдалося експортувати налаштування. Для детальної інформації перегляньте журнали.</system:String>
     <system:String x:Key="SettingsImportedSuccessfully">Налаштування успішно імпортовані! Застосунок перезавантажиться, щоб застосувати зміни.</system:String>
     <system:String x:Key="ImportSettingsWarning">Це замінить усі ваші поточні налаштування. Продовжити?</system:String>
     <system:String x:Key="FailedToImportSettings">Не вдалося імпортувати налаштування. Для детальної інформації перевірте журнали.</system:String>
@@ -242,4 +242,58 @@
     <system:String x:Key="Next">Далі</system:String>
     <system:String x:Key="Finish">Закінчити</system:String>
     <system:String x:Key="OnboardingStepsCounter">Крок {0} з {1}</system:String>
+    <system:String x:Key="OnboardingTitle">Почати</system:String>
+    <system:String x:Key="TaskbarWidgetShowPauseOverlayDescription">Коли відтворення медіафайлу призупинено, відображає значок паузи над обкладинкою альбому</system:String>
+    <system:String x:Key="TaskbarWidgetShowPauseOverlayTitle">Відображати значок паузи над обкладинкою альбому</system:String>
+    <system:String x:Key="TaskbarVisualizerBaselineAutoHideDescription">Автоматично приховує основну лінію, коли аудіо не відтворюється</system:String>
+    <system:String x:Key="SupporterTitle">Прихильник</system:String>
+    <system:String x:Key="SupporterDescription">Дякую тобі!</system:String>
+    <system:String x:Key="EnableNumTitle">Увімкнути індикатор Num Lock</system:String>
+    <system:String x:Key="EnableNumDescription">Показувати індикатор, коли натиснуто Num Lock</system:String>
+    <system:String x:Key="EnableScrollTitle">Увімкнути індикатор Scroll Lock</system:String>
+    <system:String x:Key="EnableScrollDescription">Показувати індикатор, коли натиснуто Scroll Lock</system:String>
+    <system:String x:Key="AnonymousUsageDataTitle">Надсилати анонімні дані про використання</system:String>
+    <system:String x:Key="AnonymousUsageDataDescription">Допоможіть покращити застосунок, надсилаючи анонімні дані без особистої інформації</system:String>
+    <system:String x:Key="AppFilteringTitle">Фільтр програм</system:String>
+    <system:String x:Key="AppFilteringRulesDescription">Керування застосунками, які можуть відображатись в медіа</system:String>
+    <system:String x:Key="EnableAppFilteringTitle">Увімкнути фільтр</system:String>
+    <system:String x:Key="AppFilteringModeTitle">Режим фільтру</system:String>
+    <system:String x:Key="AppFilteringModeDescription">Оберіть, дозволяти чи блокувати вказані застосунки</system:String>
+    <system:String x:Key="AppFilteringModeBlacklist">Список заблокованих</system:String>
+    <system:String x:Key="AppFilteringModeWhitelist">Список дозволених</system:String>
+    <system:String x:Key="AllowedAppsTitle">Дозволені додатки</system:String>
+    <system:String x:Key="AllowedAppsDescription">Якщо у списку є застосунки, показуватиметься лише їхній медіавміст.</system:String>
+    <system:String x:Key="BlockedAppsTitle">Заборонені додатки</system:String>
+    <system:String x:Key="BlockedAppsDescription">Запобігає відображенню програми</system:String>
+    <system:String x:Key="AddAppManuallyText">Не можете знайти свій додаток? Введіть його назву нижче:</system:String>
+    <system:String x:Key="AppFilteringPlaceholderSpotify">Наприклад: Spotify.exe</system:String>
+    <system:String x:Key="AppFilteringPlaceholderChrome">Наприклад: Chrome.exe</system:String>
+    <system:String x:Key="AppFilteringComboBoxHint">Виберіть додаток, який зараз працює, щоб додати його</system:String>
+    <system:String x:Key="AddButton">Додати</system:String>
+    <system:String x:Key="RemoveButton">Видалити</system:String>
+    <system:String x:Key="SearchSettings">Пошук налаштувань</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextTitle">Прокручування тексту</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTitle">Увімкнути прокручування</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextDescription">Автоматично прокручувати довгий текст, який не поміщається</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextLoopForeverTitle">Безперервне прокручування</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextLoopForeverDescription">Забезпечить нескінченний цикл прокрутки тексту в одному напрямку замість прокрутки туди-сюди.</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextSpeedTitle">Швидкість прокручування</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextSpeedDescription">Швидкість прокручування тексту (пікселі/секунду). За замовчуванням – 20.</system:String>
+    <system:String x:Key="TaskbarWidgetScrollVolumeTitle">Регулювання гучності колесом миші</system:String>
+    <system:String x:Key="TaskbarWidgetScrollVolumeDescription">Використовуйте колесо миші над віджетом панелі завдань, щоб налаштувати гучність</system:String>
+    <system:String x:Key="TaskbarWidgetScrollVolumeMaster">Увімкнено (Загальна гучність)</system:String>
+    <system:String x:Key="TaskbarWidgetScrollVolumePlayer">Увімкнено (Гучність плеєра)</system:String>
+    <system:String x:Key="VolumeFlyoutDescription">Окреме випадаюче меню керування гучністю, яке розширюється до мікшера гучності та замінює стандартний інтерфейс керування гучністю Windows.</system:String>
+    <system:String x:Key="VolumeFlyoutTitle">Гучність</system:String>
+    <system:String x:Key="EnableVolumeFlyoutTitle">Увімкнути панель гучності</system:String>
+    <system:String x:Key="EnableVolumeFlyoutDescription">Замінює стандартну панель гучності Windows</system:String>
+    <system:String x:Key="VolumeAboveMediaFlyoutTitle">Розташовувати панель гучності над панеллю мультимедіа</system:String>
+    <system:String x:Key="VolumeFlyoutStayDurationTitle">Тривалість спливаючого меню гучності</system:String>
+    <system:String x:Key="VolumeMixerSectionTitle">Мікшер гучності</system:String>
+    <system:String x:Key="EnableVolumeMixerTitle">Увімкнути мікшер гучності</system:String>
+    <system:String x:Key="EnableVolumeMixerDescription">Точне регулювання гучності окремих додатків</system:String>
+    <system:String x:Key="VolumeMixerHighlightTitle">Виділяти програми, що відтворюють аудіо</system:String>
+    <system:String x:Key="VolumeMixerHighlightDescription">Перегляньте, які програми зараз відтворюють звук</system:String>
+    <system:String x:Key="MasterVolumeText">Загальна гучність</system:String>
+    <system:String x:Key="OpenMediaPlayerText">Відкрити медіаплеєр</system:String>
 </ResourceDictionary>
