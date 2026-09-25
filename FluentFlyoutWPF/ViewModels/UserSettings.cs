@@ -291,6 +291,13 @@ public partial class UserSettings : ObservableObject
     public partial bool PauseOtherSessionsEnabled { get; set; }
 
     /// <summary>
+    /// Return to automatic media-session selection when another allowed session starts playing
+    /// after the user manually selected a player.
+    /// </summary>
+    [ObservableProperty]
+    public partial bool MediaSessionAutoFollowEnabled { get; set; }
+
+    /// <summary>
     /// Enable subtle animations for the lock keys flyout indicator
     /// </summary>
     [ObservableProperty]
@@ -734,6 +741,7 @@ public partial class UserSettings : ObservableObject
         LastKnownVersion = string.Empty;
         SeekbarEnabled = false;
         PauseOtherSessionsEnabled = false;
+        MediaSessionAutoFollowEnabled = true;
         LockKeysAnimated = true;
         LockKeysInsertEnabled = true;
         MediaFlyoutBackgroundBlur = 0;
