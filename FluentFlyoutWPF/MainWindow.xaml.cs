@@ -48,7 +48,6 @@ public partial class MainWindow : MicaWindow
     public readonly WindowsMediaController.MediaManager mediaManager = new();
 
     // for detecting changes in settings (lazy way)
-    private int _position = SettingsManager.Current.Position;
     private bool _layout = SettingsManager.Current.CompactLayout;
     private bool _repeatEnabled = SettingsManager.Current.RepeatEnabled;
     private bool _shuffleEnabled = SettingsManager.Current.ShuffleEnabled;
@@ -76,6 +75,7 @@ public partial class MainWindow : MicaWindow
     internal TaskbarWindow? taskbarWindow;
 
     private VolumeMixerWindow? volumeMixerWindow;
+    private DateTime _lastVolumeKeyPressedTime = DateTime.MinValue;
 
     private readonly DispatcherTimer _displayRefreshTimer;
     private string _pendingDisplayRefreshReason = "Unknown";
@@ -340,6 +340,7 @@ public partial class MainWindow : MicaWindow
         {
             // 0 = disabled, 1 = master volume, 2 = active media session
             case 1:
+                _lastVolumeKeyPressedTime = DateTime.UtcNow;
                 bool success = volumeMixerViewModel.TryAdjustMasterVolume(delta);
 
                 if (success && SettingsManager.Current.VolumeControlEnabled)
@@ -450,52 +451,239 @@ public partial class MainWindow : MicaWindow
         return msDuration;
     }
 
-    public EasingFunctionBase getEasingStyle(bool easeOut)
+    public EasingFunctionBase? getEasingStyle(bool easeOut)
     {
         EasingMode easingMode = easeOut ? EasingMode.EaseOut : EasingMode.EaseIn;
-        EasingFunctionBase easingStyle = SettingsManager.Current.FlyoutAnimationEasingStyle switch
+        return SettingsManager.Current.FlyoutAnimationEasingStyle switch
         {
-            // 0 is linear, null
+            0 => null, // linear
             1 => new SineEase { EasingMode = easingMode }, // sine
             2 => new QuadraticEase { EasingMode = easingMode }, // quadratic
             _ => new CubicEase { EasingMode = easingMode }, // cubic
         };
-        return easingStyle;
     }
 
-    private MonitorUtil.MonitorInfo getSelectedMonitor()
+    internal MonitorUtil.MonitorInfo getSelectedMonitor()
     {
         return MonitorUtil.GetSelectedMonitor(SettingsManager.Current.FlyoutSelectedMonitor);
     }
 
     /// <summary>
-    /// Computes the final resting position (left, top) for a window based on the current
-    /// position setting and the selected monitor's work area.
+    /// Computes bottom margin for bottom-center placement, reserving space for the volume indicator and auto-hide taskbar.
     /// </summary>
-    private static double GetBottomCenterFlyoutBottomMargin(bool reserveNativeVolumeOsdSpace)
+    private static double GetBottomCenterFlyoutBottomMargin(bool reserveNativeVolumeOsdSpace, double bottomInset, MonitorInfo monitor)
     {
-        if (!reserveNativeVolumeOsdSpace)
-            return 16;
+        double baseMarginDip = reserveNativeVolumeOsdSpace && (!SettingsManager.Current.VolumeControlEnabled || !SettingsManager.Current.VolumeControlAboveMediaFlyout)
+            ? 80.0
+            : 12.8;
 
-        return SettingsManager.Current.VolumeControlEnabled && SettingsManager.Current.VolumeControlAboveMediaFlyout ? 16 : 80;
+        return (baseMarginDip * monitor.dpiY / 96.0) + bottomInset;
     }
 
-    private (double left, double top) GetFinalPosition(Rect windowRect, Rect workArea, bool reserveNativeVolumeOsdSpace = false)
+    private static (string deviceId, bool isVisible, DateTime timestamp) _cachedNativeOsd;
+
+    /// <summary>
+    /// Checks whether the Windows 11 volume OSD (XamlExplorerHostIslandWindow) is visible on screen.
+    /// </summary>
+    public static bool IsNativeVolumeOsdVisible(MonitorInfo? monitor = null)
     {
-        int position = SettingsManager.Current.Position;
+        string deviceId = monitor?.deviceId ?? string.Empty;
+        if (_cachedNativeOsd.deviceId == deviceId && (DateTime.UtcNow - _cachedNativeOsd.timestamp).TotalMilliseconds < 250)
+            return _cachedNativeOsd.isVisible;
+
+        bool found = false;
+        try
+        {
+            IntPtr h = IntPtr.Zero;
+            while ((h = FindWindowEx(IntPtr.Zero, h, "XamlExplorerHostIslandWindow", null)) != IntPtr.Zero)
+            {
+                if (IsWindowVisible(h) && GetWindowRect(h, out RECT r))
+                {
+                    int w = r.Right - r.Left;
+                    int hg = r.Bottom - r.Top;
+                    if (w is > 50 and < 600 && hg is > 20 and < 150)
+                    {
+                        if (monitor == null || monitor.Value.monitorArea.IntersectsWith(new Rect(r.Left, r.Top, w, hg)))
+                        {
+                            found = true;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger.Debug(ex, "Failed to check native volume OSD visibility");
+        }
+
+        _cachedNativeOsd = (deviceId, found, DateTime.UtcNow);
+        return found;
+    }
+
+    /// <summary>
+    /// Checks whether a volume indicator (Windows 11 OSD or custom VolumeMixerWindow) is active below the media flyout.
+    /// </summary>
+    public bool IsVolumeFlyoutActive(MonitorInfo? monitor = null)
+    {
+        var targetMonitor = monitor ?? getSelectedMonitor();
+        bool isRecentVolumeAction = (DateTime.UtcNow - _lastVolumeKeyPressedTime).TotalSeconds < 2.5 && targetMonitor.isPrimary;
+        bool isNativeActive = isRecentVolumeAction || IsNativeVolumeOsdVisible(targetMonitor);
+        bool isMixerActive = volumeMixerWindow != null && volumeMixerWindow.IsFlyoutVisible && !SettingsManager.Current.VolumeControlAboveMediaFlyout;
+        return isNativeActive || isMixerActive;
+    }
+
+    private static (string deviceId, (double left, double top, double right, double bottom) insets, DateTime timestamp) _cachedAutoHideInsets;
+
+    /// <summary>
+    /// Returns edge clearance in raw pixels for an auto-hidden taskbar across all 4 screen edges.
+    /// Returns 0 when collapsed (leaving only the hit strip), or visible thickness when expanded (#987, #1039).
+    /// </summary>
+    public static (double left, double top, double right, double bottom) GetAutoHideTaskbarInsets(MonitorInfo monitor)
+    {
+        if (monitor.monitorArea.Width <= 0 || monitor.monitorArea.Height <= 0)
+            return (0, 0, 0, 0);
+
+        if ((DateTime.UtcNow - _cachedAutoHideInsets.timestamp).TotalMilliseconds < 150 && _cachedAutoHideInsets.deviceId == monitor.deviceId)
+            return _cachedAutoHideInsets.insets;
+
+        (double left, double top, double right, double bottom) insets = (0, 0, 0, 0);
+        try
+        {
+            var data = APPBARDATA.Create();
+            int state = (int)SHAppBarMessage(ABM_GETSTATE, ref data);
+            if ((state & ABS_AUTOHIDE) == 0)
+            {
+                _cachedAutoHideInsets = (monitor.deviceId, (0, 0, 0, 0), DateTime.UtcNow);
+                return (0, 0, 0, 0);
+            }
+
+            if (monitor.isPrimary)
+            {
+                IntPtr trayHwnd = FindWindow("Shell_TrayWnd", null);
+                if (trayHwnd != IntPtr.Zero && GetWindowRect(trayHwnd, out RECT trayRect))
+                {
+                    var posData = APPBARDATA.Create(trayHwnd);
+                    uint edge = ABE_BOTTOM;
+                    if (SHAppBarMessage(ABM_GETTASKBARPOS, ref posData) != IntPtr.Zero)
+                    {
+                        edge = posData.uEdge;
+                    }
+
+                    insets = CalculateVisibleTaskbarInset(trayRect, monitor.monitorArea, edge);
+                }
+            }
+            else
+            {
+                // Find secondary taskbar on this monitor
+                IntPtr secHwnd = IntPtr.Zero;
+                bool found = false;
+                RECT secRect = default;
+
+                while ((secHwnd = FindWindowEx(IntPtr.Zero, secHwnd, "Shell_SecondaryTrayWnd", null)) != IntPtr.Zero)
+                {
+                    if (GetWindowRect(secHwnd, out secRect))
+                    {
+                        int secW = secRect.Right - secRect.Left;
+                        int secH = secRect.Bottom - secRect.Top;
+                        Rect secBounds = new(secRect.Left, secRect.Top, secW, secH);
+                        if (monitor.monitorArea.IntersectsWith(secBounds))
+                        {
+                            found = true;
+                            break;
+                        }
+                    }
+                }
+
+                if (found)
+                {
+                    int secWidth = secRect.Right - secRect.Left;
+                    int secHeight = secRect.Bottom - secRect.Top;
+                    bool isHorizontal = secWidth >= secHeight;
+
+                    uint edge;
+                    if (isHorizontal)
+                    {
+                        bool isTop = Math.Abs(secRect.Top - monitor.monitorArea.Top) < Math.Abs(secRect.Bottom - monitor.monitorArea.Bottom);
+                        edge = isTop ? ABE_TOP : ABE_BOTTOM;
+                    }
+                    else
+                    {
+                        bool isLeft = Math.Abs(secRect.Left - monitor.monitorArea.Left) < Math.Abs(secRect.Right - monitor.monitorArea.Right);
+                        edge = isLeft ? ABE_LEFT : ABE_RIGHT;
+                    }
+
+                    insets = CalculateVisibleTaskbarInset(secRect, monitor.monitorArea, edge);
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger.Debug(ex, "Failed to query auto-hide taskbar state");
+        }
+
+        _cachedAutoHideInsets = (monitor.deviceId, insets, DateTime.UtcNow);
+        return insets;
+    }
+
+    private static (double left, double top, double right, double bottom) CalculateVisibleTaskbarInset(
+        RECT trayRect, Rect monitorArea, uint edge)
+    {
+        // Measure visible taskbar thickness inside monitor boundaries
+        double visibleThickness = edge switch
+        {
+            ABE_BOTTOM => Math.Max(0, monitorArea.Bottom - trayRect.Top),
+            ABE_TOP => Math.Max(0, trayRect.Bottom - monitorArea.Top),
+            ABE_LEFT => Math.Max(0, trayRect.Right - monitorArea.Left),
+            ABE_RIGHT => Math.Max(0, monitorArea.Right - trayRect.Left),
+            _ => 0
+        };
+
+        // When collapsed, return 0 so flyouts sit near the screen edge
+        if (visibleThickness is <= 10 or > 500)
+            return (0, 0, 0, 0);
+
+        // Target the full taskbar thickness once unhiding starts
+        int taskbarThickness = edge switch
+        {
+            ABE_BOTTOM or ABE_TOP => trayRect.Bottom - trayRect.Top,
+            _ => trayRect.Right - trayRect.Left
+        };
+        double effectiveThickness = taskbarThickness > 10 && taskbarThickness < 500
+            ? Math.Max(visibleThickness, taskbarThickness)
+            : visibleThickness;
+
+        return edge switch
+        {
+            ABE_LEFT => (effectiveThickness, 0, 0, 0),
+            ABE_TOP => (0, effectiveThickness, 0, 0),
+            ABE_RIGHT => (0, 0, effectiveThickness, 0),
+            ABE_BOTTOM => (0, 0, 0, effectiveThickness),
+            _ => (0, 0, 0, 0)
+        };
+    }
+
+    public (double left, double top) GetFinalPosition(Rect windowRect, Rect workArea, MonitorInfo monitor, bool reserveNativeVolumeOsdSpace = false, int? overridePosition = null)
+    {
+        int position = overridePosition ?? SettingsManager.Current.Position;
+        var (leftInset, topInset, rightInset, bottomInset) = GetAutoHideTaskbarInsets(monitor);
+
+        double marginX = 16.0 * monitor.dpiX / 96.0;
+        double marginY = 12.8 * monitor.dpiY / 96.0;
+
         double left = position switch
         {
-            0 or 3 => workArea.Left + 16,
-            2 or 5 => workArea.Left + workArea.Width - windowRect.Width - 16,
-            _ => workArea.Left + workArea.Width / 2 - windowRect.Width / 2
+            0 or 3 => workArea.Left + marginX + leftInset,
+            2 or 5 => workArea.Left + workArea.Width - windowRect.Width - marginX - rightInset,
+            _ => workArea.Left + (workArea.Width - windowRect.Width) / 2.0
         };
         double top = position switch
         {
-            0 or 2 => workArea.Top + workArea.Height - windowRect.Height - 16,
-            1 => workArea.Top + workArea.Height - windowRect.Height - GetBottomCenterFlyoutBottomMargin(reserveNativeVolumeOsdSpace),
-            _ => workArea.Top + 16
+            0 or 2 => workArea.Top + workArea.Height - windowRect.Height - marginY - bottomInset,
+            1 => workArea.Top + workArea.Height - windowRect.Height - GetBottomCenterFlyoutBottomMargin(reserveNativeVolumeOsdSpace, bottomInset, monitor),
+            _ => workArea.Top + marginY + topInset
         };
-        return (left, top);
+        return (Math.Round(left), Math.Round(top));
     }
 
     public void OpenAnimation(MicaWindow window, bool alwaysBottom = false, MonitorInfo? selectedMonitor = null, MicaWindow? aboveReference = null, bool reserveNativeVolumeOsdSpace = false)
@@ -513,7 +701,9 @@ public partial class MainWindow : MicaWindow
 
         // Update the DPI by moving the window to the target workArea, ignoring WPF scaling
         WindowHelper.SetPosition(window, workArea.Left, workArea.Top);
-        var windowRect = WindowHelper.GetPlacement(window); // here we take the updated window size in raw coordinates.
+        double targetW = Math.Round((window.Width > 0 && !double.IsNaN(window.Width) ? window.Width : (window.ActualWidth > 0 ? window.ActualWidth : 400.0)) * monitor.dpiX / 96.0);
+        double targetH = Math.Round((window.Height > 0 && !double.IsNaN(window.Height) ? window.Height : (window.ActualHeight > 0 ? window.ActualHeight : 150.0)) * monitor.dpiY / 96.0);
+        var windowRect = new Rect(0, 0, targetW, targetH);
 
         double window_left = 0;
 
@@ -521,103 +711,47 @@ public partial class MainWindow : MicaWindow
         if (aboveReference != null && aboveReference.IsVisible)
         {
             // Here we work with raw monitor coordinates, without taking DPI into account.
-            double refWidth = aboveReference.Width * monitor.dpiX / 96.0;
-            double refHeight = aboveReference.Height * monitor.dpiY / 96.0;
+            double refWidth = Math.Round(aboveReference.Width * monitor.dpiX / 96.0);
+            double refHeight = Math.Round(aboveReference.Height * monitor.dpiY / 96.0);
             var refRect = new Rect(0, 0, refWidth, refHeight);
-            var (refLeft, refTop) = GetFinalPosition(refRect, workArea, reserveNativeVolumeOsdSpace);
+            var (refLeft, refTop) = GetFinalPosition(refRect, workArea, monitor, reserveNativeVolumeOsdSpace);
 
-            window_left = refLeft + refWidth / 2 - windowRect.Width / 2;
-            double aboveTop = refTop - windowRect.Height - 8;
-            bool isTop = SettingsManager.Current.Position switch
-            {
-                3 or 4 or 5 => true,
-                _ => false
-            };
+            window_left = Math.Round(refLeft + (refWidth - windowRect.Width) / 2.0);
+            double spacingY = Math.Round(8.0 * monitor.dpiY / 96.0);
+            double aboveTop = refTop - windowRect.Height - spacingY;
+            bool isTop = SettingsManager.Current.Position is >= 3 and <= 5;
 
             // If the reference window is too close to the top edge, we place the flyout below it instead of above to prevent it from going off-screen.
             if (isTop)
-                aboveTop = refTop + refHeight + 8;
+                aboveTop = refTop + refHeight + spacingY;
 
             moveAnimation.To = aboveTop;
+            double slideOffset = 20.0 * monitor.dpiY / 96.0;
             if (SettingsManager.Current.FlyoutAnimationSpeed == 0)
                 moveAnimation.From = moveAnimation.To;
             else
-                moveAnimation.From = isTop ? aboveTop - 20 : aboveTop + 20;
+                moveAnimation.From = isTop ? aboveTop - slideOffset : aboveTop + slideOffset;
         }
-        // default behavior: position the flyout based on the user's settings
-        else if (alwaysBottom == false)
-        {
-            _position = SettingsManager.Current.Position;
-            if (_position == 0)
-            {
-                window_left = workArea.Left + 16;
-                moveAnimation.To = workArea.Top + workArea.Height - windowRect.Height - 16;
-                if (SettingsManager.Current.FlyoutAnimationSpeed == 0) // if off, don't animate (just appear at the bottom)
-                    moveAnimation.From = moveAnimation.To;
-                else
-                    moveAnimation.From = workArea.Top + workArea.Height - windowRect.Height + 4; // appear from the bottom of the screen
-            }
-            else if (_position == 1)
-            {
-                window_left = workArea.Left + workArea.Width / 2 - windowRect.Width / 2;
-                double bottomMargin = GetBottomCenterFlyoutBottomMargin(reserveNativeVolumeOsdSpace);
-                double moveTo = workArea.Top + workArea.Height - windowRect.Height - bottomMargin;
-                moveAnimation.To = moveTo;
-                if (SettingsManager.Current.FlyoutAnimationSpeed == 0)
-                    moveAnimation.From = moveTo;
-                else
-                    moveAnimation.From = moveTo + 20;
-            }
-            else if (_position == 2)
-            {
-                window_left = workArea.Left + workArea.Width - windowRect.Width - 16;
-                moveAnimation.To = workArea.Top + workArea.Height - windowRect.Height - 16;
-                if (SettingsManager.Current.FlyoutAnimationSpeed == 0)
-                    moveAnimation.From = moveAnimation.To;
-                else
-                    moveAnimation.From = workArea.Top + workArea.Height - windowRect.Height + 4;
-            }
-            else if (_position == 3)
-            {
-                window_left = workArea.Left + 16;
-                moveAnimation.To = workArea.Top + 16;
-                if (SettingsManager.Current.FlyoutAnimationSpeed == 0)
-                    moveAnimation.From = moveAnimation.To;
-                else
-                    moveAnimation.From = workArea.Top + -4;
-            }
-            else if (_position == 4)
-            {
-                window_left = workArea.Left + workArea.Width / 2 - windowRect.Width / 2;
-                moveAnimation.To = workArea.Top + 16;
-                if (SettingsManager.Current.FlyoutAnimationSpeed == 0)
-                    moveAnimation.From = moveAnimation.To;
-                else
-                    moveAnimation.From = workArea.Top + -4;
-            }
-            else if (_position == 5)
-            {
-                window_left = workArea.Left + workArea.Width - windowRect.Width - 16;
-                moveAnimation.To = workArea.Top + 16;
-                if (SettingsManager.Current.FlyoutAnimationSpeed == 0)
-                    moveAnimation.From = moveAnimation.To;
-                else
-                    moveAnimation.From = workArea.Top + -4;
-            }
-        }
-        // other cases (e.g. if alwaysBottom is true): position the flyout at the bottom center of the screen
+        // default behavior: position the flyout based on the user's settings or alwaysBottom
         else
         {
-            window_left = workArea.Left + workArea.Width / 2 - windowRect.Width / 2;
-            moveAnimation.To = workArea.Top + workArea.Height - windowRect.Height - 16;
+            var (finalLeft, finalTop) = GetFinalPosition(windowRect, workArea, monitor, reserveNativeVolumeOsdSpace, overridePosition: alwaysBottom ? 1 : null);
+            window_left = finalLeft;
+            moveAnimation.To = finalTop;
+
+            bool isTop = !alwaysBottom && SettingsManager.Current.Position is >= 3 and <= 5;
+
+            double slideOffset = 20.0 * monitor.dpiY / 96.0;
             if (SettingsManager.Current.FlyoutAnimationSpeed == 0)
                 moveAnimation.From = moveAnimation.To;
             else
-                moveAnimation.From = workArea.Top + workArea.Height - windowRect.Height + 4;
+                moveAnimation.From = isTop ? finalTop - slideOffset : finalTop + slideOffset;
         }
 
         // Set the initial position in raw coordinates.
         WindowHelper.SetPosition(window, window_left, moveAnimation.From!.Value);
+
+        window.Left = window_left * 96.0 / monitor.dpiX;
 
         // Next coordinates will be used to set Window.Top, which takes DPI into account,
         // so we need to convert the coordinates to DPI scale.
@@ -627,54 +761,121 @@ public partial class MainWindow : MicaWindow
         int msDuration = getDuration();
 
         DoubleAnimation opacityAnimation = (DoubleAnimation)storyboard.Children[1];
-        if (SettingsManager.Current.FlyoutAnimationSpeed != 0) opacityAnimation.From = 0;
+        opacityAnimation.From = SettingsManager.Current.FlyoutAnimationSpeed == 0 ? 1 : 0;
         opacityAnimation.To = 1;
         opacityAnimation.Duration = new Duration(TimeSpan.FromMilliseconds(msDuration));
 
-        if (SettingsManager.Current.FlyoutAnimationEasingStyle == 0) moveAnimation.EasingFunction = opacityAnimation.EasingFunction = null;
-        else moveAnimation.EasingFunction = opacityAnimation.EasingFunction = getEasingStyle(true);
+        moveAnimation.EasingFunction = opacityAnimation.EasingFunction = getEasingStyle(true);
         moveAnimation.Duration = new Duration(TimeSpan.FromMilliseconds(msDuration));
 
+        window.BeginAnimation(Window.TopProperty, null);
+        window.BeginAnimation(Window.LeftProperty, null);
+        window.Top = moveAnimation.From!.Value;
+        window.Left = window_left * 96.0 / monitor.dpiX;
         storyboard.Begin(window);
         WindowHelper.SetVisibility(window, true);
         WindowHelper.SetTopmost(window);
     }
 
+    /// <summary>
+    /// Repositions an open flyout window with animation when the taskbar or volume OSD moves.
+    /// </summary>
+    public void SmoothMoveFlyout(MicaWindow window, double targetLeftRaw, double targetTopRaw, MonitorInfo monitor)
+    {
+        double targetTopDip = targetTopRaw * 96.0 / monitor.dpiY;
+        double currentTopDip = window.Top;
+
+        double targetLeftDip = targetLeftRaw * 96.0 / monitor.dpiX;
+        double currentLeftDip = window.Left;
+
+        bool needMoveTop = Math.Abs(currentTopDip - targetTopDip) >= 1.0;
+        bool needMoveLeft = Math.Abs(currentLeftDip - targetLeftDip) >= 1.0;
+
+        if (!needMoveTop && !needMoveLeft)
+            return;
+
+        if (SettingsManager.Current.FlyoutAnimationSpeed == 0)
+        {
+            if (needMoveTop)
+            {
+                window.BeginAnimation(Window.TopProperty, null);
+                window.Top = targetTopDip;
+            }
+            if (needMoveLeft)
+            {
+                window.BeginAnimation(Window.LeftProperty, null);
+                window.Left = targetLeftDip;
+            }
+            return;
+        }
+
+        int durationMs = Math.Clamp(getDuration(), 120, 300);
+        var easing = getEasingStyle(true);
+
+        void Animate(DependencyProperty prop, double from, double to)
+        {
+            var anim = new DoubleAnimation
+            {
+                From = from,
+                To = to,
+                Duration = TimeSpan.FromMilliseconds(durationMs),
+                EasingFunction = easing
+            };
+            window.BeginAnimation(prop, anim);
+        }
+
+        if (needMoveTop)
+            Animate(Window.TopProperty, currentTopDip, targetTopDip);
+
+        if (needMoveLeft)
+            Animate(Window.LeftProperty, currentLeftDip, targetLeftDip);
+    }
+
     public void CloseAnimation(MicaWindow window, MonitorInfo? selectedMonitor = null)
     {
+        var monitor = selectedMonitor != null ? selectedMonitor.Value : getSelectedMonitor();
+        var workArea = monitor.workArea;
+        Rect windowRect = WindowHelper.GetPlacement(window);
+
+        double currentTopDip = windowRect.Top * 96.0 / monitor.dpiY;
+        double currentLeftDip = windowRect.Left * 96.0 / monitor.dpiX;
+
+        window.BeginAnimation(Window.TopProperty, null);
+        window.BeginAnimation(Window.LeftProperty, null);
+        window.Top = currentTopDip;
+        window.Left = currentLeftDip;
+
         var eventTriggers = window.Triggers[0] as EventTrigger;
         var beginStoryboard = eventTriggers.Actions[0] as BeginStoryboard;
         var storyboard = beginStoryboard.Storyboard;
 
         DoubleAnimation moveAnimation = (DoubleAnimation)storyboard.Children[0];
-        var monitor = selectedMonitor != null ? selectedMonitor.Value : getSelectedMonitor();
-        var workArea = monitor.workArea;
-        Rect windowRect = WindowHelper.GetPlacement(window);
+        DoubleAnimation opacityAnimation = (DoubleAnimation)storyboard.Children[1];
 
-        // Use the window's actual current position as the animation start
-        moveAnimation.From = windowRect.Top;
-
-        if (SettingsManager.Current.FlyoutAnimationSpeed != 0)
-        {
-            // Determine slide direction
-            bool isTopHalf = windowRect.Top + windowRect.Height / 2 < workArea.Top + workArea.Height / 2;
-            moveAnimation.To = windowRect.Top + (isTopHalf ? -20 : 20);
-        }
-
-        moveAnimation.From *= 96.0 / monitor.dpiY;
-        if (moveAnimation.To != null)
-            moveAnimation.To *= 96.0 / monitor.dpiY;
+        moveAnimation.From = currentTopDip;
 
         int msDuration = getDuration();
 
-        DoubleAnimation opacityAnimation = (DoubleAnimation)storyboard.Children[1];
-        opacityAnimation.From = 1;
-        if (SettingsManager.Current.FlyoutAnimationSpeed != 0) opacityAnimation.To = 0;
-        opacityAnimation.Duration = new Duration(TimeSpan.FromMilliseconds(msDuration));
+        if (SettingsManager.Current.FlyoutAnimationSpeed == 0)
+        {
+            moveAnimation.To = currentTopDip;
+            opacityAnimation.From = 1;
+            opacityAnimation.To = 0;
+            moveAnimation.EasingFunction = opacityAnimation.EasingFunction = null;
+        }
+        else
+        {
+            bool isTopHalf = windowRect.Top + windowRect.Height / 2 < workArea.Top + workArea.Height / 2;
+            double slideOffsetDip = 20.0;
+            moveAnimation.To = currentTopDip + (isTopHalf ? -slideOffsetDip : slideOffsetDip);
+            opacityAnimation.From = 1;
+            opacityAnimation.To = 0;
+            moveAnimation.EasingFunction = opacityAnimation.EasingFunction = getEasingStyle(false);
+        }
 
-        if (SettingsManager.Current.FlyoutAnimationEasingStyle == 0) moveAnimation.EasingFunction = opacityAnimation.EasingFunction = null;
-        else moveAnimation.EasingFunction = opacityAnimation.EasingFunction = getEasingStyle(false);
-        moveAnimation.Duration = new Duration(TimeSpan.FromMilliseconds(msDuration));
+        var duration = new Duration(TimeSpan.FromMilliseconds(msDuration));
+        moveAnimation.Duration = duration;
+        opacityAnimation.Duration = duration;
 
         storyboard.Begin(window);
     }
@@ -911,6 +1112,10 @@ public partial class MainWindow : MicaWindow
 
             bool mediaKeysPressed = vkCode == 0xB3 || vkCode == 0xB0 || vkCode == 0xB1 || vkCode == 0xB2; // Play/Pause, next, previous, stop
             bool volumeKeysPressed = vkCode == 0xAD || vkCode == 0xAE || vkCode == 0xAF; // Mute, Volume Down, Volume Up
+            if (volumeKeysPressed)
+            {
+                _lastVolumeKeyPressedTime = DateTime.UtcNow;
+            }
 
             // MainWindow.WndProc() also handles media and volume keys
             if (mediaKeysPressed || volumeKeysPressed)
@@ -1013,10 +1218,13 @@ public partial class MainWindow : MicaWindow
             nextUpWindow = null;
         }
 
+        var initialMonitor = getSelectedMonitor();
+        bool isVolumeBelow = IsVolumeFlyoutActive(initialMonitor);
+
         if (_isHiding == true)
         {
             _isHiding = false;
-            OpenAnimation(this, reserveNativeVolumeOsdSpace: true);
+            OpenAnimation(this, selectedMonitor: initialMonitor, reserveNativeVolumeOsdSpace: isVolumeBelow);
         }
         cts.Cancel();
         cts = new CancellationTokenSource();
@@ -1026,29 +1234,62 @@ public partial class MainWindow : MicaWindow
 
         try
         {
+            var currentInsets = GetAutoHideTaskbarInsets(initialMonitor);
+            bool currentVolumeBelow = isVolumeBelow;
+            var lastInteractionTime = DateTime.UtcNow;
+
             while (!token.IsCancellationRequested)
             {
                 await Task.Delay(100, token); // check if mouse is over every 100ms
+
+                // Adjust flyout position if the taskbar unhides or the volume mixer opens
+                var activeMonitor = getSelectedMonitor();
+                var newInsets = GetAutoHideTaskbarInsets(activeMonitor);
+                bool newVolumeBelow = IsVolumeFlyoutActive(activeMonitor);
+                if (newInsets != currentInsets || newVolumeBelow != currentVolumeBelow)
+                {
+                    currentInsets = newInsets;
+                    currentVolumeBelow = newVolumeBelow;
+                    Dispatcher.Invoke(() =>
+                    {
+                        if (Visibility == Visibility.Visible && !_isHiding)
+                        {
+                            var placement = WindowHelper.GetPlacement(this);
+                            var (targetLeft, targetTop) = GetFinalPosition(placement, activeMonitor.workArea, activeMonitor, reserveNativeVolumeOsdSpace: newVolumeBelow);
+                            SmoothMoveFlyout(this, targetLeft, targetTop, activeMonitor);
+
+                            if (volumeMixerWindow != null && volumeMixerWindow.IsFlyoutVisible && SettingsManager.Current.VolumeControlAboveMediaFlyout)
+                            {
+                                var volPlacement = WindowHelper.GetPlacement(volumeMixerWindow);
+                                double volRefWidth = placement.Width;
+                                double volRefHeight = placement.Height;
+                                double spacingY = Math.Round(8.0 * activeMonitor.dpiY / 96.0);
+                                double volLeft = Math.Round(targetLeft + (volRefWidth - volPlacement.Width) / 2.0);
+                                double volTop = targetTop - volPlacement.Height - spacingY;
+                                bool isTop = SettingsManager.Current.Position is >= 3 and <= 5;
+                                if (isTop)
+                                    volTop = targetTop + volRefHeight + spacingY;
+
+                                SmoothMoveFlyout(volumeMixerWindow, volLeft, volTop, activeMonitor);
+                            }
+                        }
+                    });
+                }
 
                 bool mouseOverMedia = WindowHelper.IsMouseOverWindow(this);
                 bool mouseOverVolume = SettingsManager.Current.VolumeControlAboveMediaFlyout
                     && SettingsManager.Current.VolumeControlEnabled
                     && volumeMixerWindow != null
-                    && volumeMixerWindow.IsVisible
+                    && volumeMixerWindow.IsFlyoutVisible
                     && WindowHelper.IsMouseOverWindow(volumeMixerWindow); // sync with VolumeMixerWindow
 
-                if (!mouseOverMedia && !mouseOverVolume && !SettingsManager.Current.MediaFlyoutAlwaysDisplay)
+                if (mouseOverMedia || mouseOverVolume)
                 {
-                    await Task.Delay(SettingsManager.Current.Duration, token);
-
-                    mouseOverMedia = WindowHelper.IsMouseOverWindow(this);
-                    mouseOverVolume = SettingsManager.Current.VolumeControlAboveMediaFlyout
-                        && SettingsManager.Current.VolumeControlEnabled
-                        && volumeMixerWindow != null
-                        && volumeMixerWindow.IsVisible
-                        && WindowHelper.IsMouseOverWindow(volumeMixerWindow);
-
-                    if (!mouseOverMedia && !mouseOverVolume)
+                    lastInteractionTime = DateTime.UtcNow;
+                }
+                else if (!SettingsManager.Current.MediaFlyoutAlwaysDisplay)
+                {
+                    if ((DateTime.UtcNow - lastInteractionTime).TotalMilliseconds >= SettingsManager.Current.Duration)
                     {
                         CloseAnimation(this);
                         _isHiding = true;
@@ -1721,6 +1962,11 @@ public partial class MainWindow : MicaWindow
                 APPCOMMAND_VOLUME_UP => true,
                 _ => false
             };
+
+            if (isVolumeCommand)
+            {
+                _lastVolumeKeyPressedTime = DateTime.UtcNow;
+            }
 
             if (!isMediaCommand && !isVolumeCommand)
                 return 0;

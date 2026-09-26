@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2024-2026 The FluentFlyout Authors
+// Copyright (c) 2024-2026 The FluentFlyout Authors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 using FluentFlyout.Classes;
@@ -40,15 +40,13 @@ public static class WindowHelper
     {
         var handle = new WindowInteropHelper(window).Handle;
         uint flags = SWP_NOSIZE | SWP_NOZORDER | SWP_NOACTIVATE | (async ? SWP_ASYNCWINDOWPOS : (uint)0);
-        bool result = SetWindowPos(handle, 0, (int)x, (int)y, 0, 0, flags);
+        bool result = SetWindowPos(handle, 0, (int)Math.Round(x), (int)Math.Round(y), 0, 0, flags);
 
         if (!result)
         {
             int error = Marshal.GetLastWin32Error();
             Logger.Warn($"SetPosition failed for '{window.GetType().Name}' (HWND=0x{handle.ToInt64():X}, X={x}, Y={y}, Flags=0x{flags:X}), Win32Error={error}");
         }
-
-        return;
     }
 
     public static void SetNoActivate(Window window) // prevent window from stealing focus

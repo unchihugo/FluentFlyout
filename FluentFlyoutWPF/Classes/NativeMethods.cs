@@ -69,6 +69,16 @@ public static partial class NativeMethods
     internal const int APPCOMMAND_MEDIA_PLAY_PAUSE = 14;
     internal const int FAPPCOMMAND_KEY = 0x0000;
 
+    // AppBar (taskbar) messages and states
+    internal const uint ABM_GETSTATE = 0x00000004;
+    internal const uint ABM_GETTASKBARPOS = 0x00000005;
+    internal const int ABS_AUTOHIDE = 0x00000001;
+
+    internal const uint ABE_LEFT = 0;
+    internal const uint ABE_TOP = 1;
+    internal const uint ABE_RIGHT = 2;
+    internal const uint ABE_BOTTOM = 3;
+
     #endregion
 
     #region Enums
@@ -198,6 +208,25 @@ public static partial class NativeMethods
     }
 
     [StructLayout(LayoutKind.Sequential)]
+    internal struct APPBARDATA
+    {
+        public static readonly int Size = Marshal.SizeOf<APPBARDATA>();
+
+        public int cbSize;
+        public IntPtr hWnd;
+        public uint uCallbackMessage;
+        public uint uEdge;
+        public RECT rc;
+        public IntPtr lParam;
+
+        public static APPBARDATA Create(IntPtr hWnd = default) => new()
+        {
+            cbSize = Size,
+            hWnd = hWnd
+        };
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
     internal struct AccentPolicy
     {
         public AccentState AccentState;
@@ -252,6 +281,14 @@ public static partial class NativeMethods
     [LibraryImport("user32.dll", SetLastError = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     internal static partial bool GetWindowRect(IntPtr hWnd, out RECT lpRect);
+
+    [LibraryImport("user32.dll")]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static partial bool IsWindowVisible(IntPtr hWnd);
+
+    [LibraryImport("user32.dll", SetLastError = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static partial bool GetClientRect(IntPtr hWnd, out RECT lpRect);
 
     [LibraryImport("user32.dll")]
     internal static partial int SetWindowRgn(IntPtr hWnd, IntPtr hRgn, [MarshalAs(UnmanagedType.Bool)] bool bRedraw);
@@ -385,6 +422,9 @@ public static partial class NativeMethods
 
     [LibraryImport("shell32.dll")]
     internal static partial int SHQueryUserNotificationState(out QUERY_USER_NOTIFICATION_STATE pquns);
+
+    [LibraryImport("shell32.dll")]
+    internal static partial IntPtr SHAppBarMessage(uint dwMessage, ref APPBARDATA pData);
 
     #endregion
 }
