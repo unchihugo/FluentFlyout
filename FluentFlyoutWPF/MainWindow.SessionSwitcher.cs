@@ -29,23 +29,15 @@ public partial class MainWindow
         if (!SettingsManager.Current.PlayerInfoEnabled || SettingsManager.Current.CompactLayout) return;
         e.Handled = true;
 
-        if (GetSwitchableSessions().Count >= 2)
-        {
-            ShowSessionSwitcherMenu();
-            return;
-        }
-
-        _ = TryOpenMediaPlayerAsync();
+        ShowSessionSwitcherMenu();
     }
 
     private void ShowSessionSwitcherMenu()
     {
         var sessions = GetSwitchableSessions();
-        if (sessions.Count == 0) return;
 
         string pinnedId = SettingsManager.Current.PinnedSessionId;
         string autoText = TryFindResource("SessionSwitcherAuto") as string ?? string.Empty;
-        string openPlayerText = TryFindResource("SessionSwitcherOpenPlayer") as string ?? string.Empty;
 
         var menu = new System.Windows.Controls.ContextMenu
         {
@@ -87,11 +79,9 @@ public partial class MainWindow
                 Logger.Warn(ex, "Failed to read properties for session {SessionId}", sessionId);
             }
 
-            string header = string.IsNullOrEmpty(trackLabel) ? appName : $"{appName} ({trackLabel})";
-
             var item = new System.Windows.Controls.MenuItem
             {
-                Header = header,
+                Header = appName,
                 ToolTip = string.IsNullOrEmpty(trackLabel) ? sessionId : $"{trackLabel}\n{sessionId}",
                 IsCheckable = true,
                 IsChecked = sessionId == pinnedId,
@@ -112,11 +102,6 @@ public partial class MainWindow
             item.Click += SessionMenuItem_Click;
             menu.Items.Add(item);
         }
-
-        menu.Items.Add(new System.Windows.Controls.Separator());
-        var openItem = new System.Windows.Controls.MenuItem { Header = openPlayerText };
-        openItem.Click += (s, e) => _ = TryOpenMediaPlayerAsync();
-        menu.Items.Add(openItem);
 
         menu.IsOpen = true;
     }
