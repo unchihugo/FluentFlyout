@@ -290,6 +290,9 @@ public partial class UserSettings : ObservableObject
     [ObservableProperty]
     public partial bool PauseOtherSessionsEnabled { get; set; }
 
+    [ObservableProperty]
+    public partial string PinnedSessionId { get; set; }
+
     /// <summary>
     /// Enable subtle animations for the lock keys flyout indicator
     /// </summary>
@@ -734,6 +737,7 @@ public partial class UserSettings : ObservableObject
         LastKnownVersion = string.Empty;
         SeekbarEnabled = false;
         PauseOtherSessionsEnabled = false;
+        PinnedSessionId = string.Empty;
         LockKeysAnimated = true;
         LockKeysInsertEnabled = true;
         MediaFlyoutBackgroundBlur = 0;
