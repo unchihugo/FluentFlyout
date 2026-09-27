@@ -431,11 +431,15 @@ on_error:
             POINT containerPos = new() { X = taskbarRect.Left, Y = taskbarRect.Top };
             ScreenToClient(taskbarHandle, ref containerPos);
 
-            // Apply using SetWindowPos (Bypassing WPF layout engine)
-            SetWindowPos(taskbarWindowHandle, 0,
+            // Apply using SetWindowPos (Bypassing WPF layout engine).
+            // HWND_TOP keeps this child window at the top of the taskbar's child z-order:
+            // Explorer's taskbar XAML content bridge (Windows.UI.Composition.DesktopWindowContentBridge)
+            // spans the whole taskbar and otherwise ends up above this window, hiding the widget.
+            // Do NOT pass SWP_NOZORDER here, it would turn hWndInsertAfter into a no-op.
+            SetWindowPos(taskbarWindowHandle, HWND_TOP,
                      containerPos.X, containerPos.Y,
                      containerWidth, containerHeight,
-                     SWP_NOZORDER | SWP_NOACTIVATE | SWP_ASYNCWINDOWPOS | SWP_SHOWWINDOW);
+                     SWP_NOACTIVATE | SWP_ASYNCWINDOWPOS | SWP_SHOWWINDOW);
             var wRect = PositionWidget(taskbarHandle, taskbarRect, dpiScale, isMainTaskbarSelected, isVertical);
             var vRect = PositionVisualizer(taskbarHandle, taskbarRect, dpiScale, isMainTaskbarSelected, isVertical);
 
