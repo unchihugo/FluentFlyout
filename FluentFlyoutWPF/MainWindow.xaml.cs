@@ -1329,14 +1329,14 @@ public partial class MainWindow : MicaWindow
                 Width = 310 - 72 + extraWidth;
                 BodyStackPanel.Orientation = Orientation.Vertical;
                 BodyStackPanel.Width = 194 - 72 + extraWidth;
-                ControlsStackPanelContainer.Margin = new Thickness(12, 8, 0, 0);
+                ControlsStackPanelContainer.Margin = new Thickness(8, 8, 0, 0);
                 ControlsStackPanelContainer.Width = double.NaN;
                 ControlsStackPanelContainer.HorizontalAlignment = HorizontalAlignment.Stretch;
                 ControlsStackPanel.HorizontalAlignment = centerControlsWithSongInfo ? HorizontalAlignment.Center : HorizontalAlignment.Left;
                 MediaIdButton.Visibility = Visibility.Visible;
                 SongImageBorder.Margin = new Thickness(6);
-                SongImageBorder.Height = 78;
-                SongInfoStackPanel.Margin = new Thickness(12, 0, 0, 0);
+                SongImageBorder.Height = 82;
+                SongInfoStackPanel.Margin = new Thickness(8, 0, 0, 0);
                 SongInfoStackPanel.Width = 182 - 72 + extraWidth;
             }
 

@@ -136,8 +136,8 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
-                <StackPanel Grid.Row="0" Margin="12" Orientation="Horizontal">
-                    <Border Name="SongImageBorder" CornerRadius="6" BorderThickness="1" BorderBrush="#26FFFFFF" Margin="0" ClipToBounds="True" Width="78" Height="78">
+                <StackPanel Grid.Row="0" Margin="10" Orientation="Horizontal">
+                    <Border Name="SongImageBorder" CornerRadius="4" Margin="0" ClipToBounds="True" Width="82" Height="82">
                         <ui:SymbolIcon Name="SongImagePlaceholder" Symbol="MusicNote220" FontSize="40" Filled="True" Foreground="{DynamicResource MicaWPF.Brushes.SystemAccentColorSecondary}" Visibility="Collapsed" />
                         <Border.Background>
                             <ImageBrush x:Name="SongImage" Stretch="UniformToFill"/>
@@ -145,7 +145,7 @@
                     </Border>
                     <StackPanel Name="BodyStackPanel" Orientation="Vertical" VerticalAlignment="Center" Width="194">
                         <StackPanel Orientation="Horizontal">
-                            <StackPanel Name="SongInfoStackPanel" Margin="12,0,0,0" Orientation="Vertical" VerticalAlignment="Center" Width="182"
+                            <StackPanel Name="SongInfoStackPanel" Margin="8,0,0,0" Orientation="Vertical" VerticalAlignment="Center" Width="182"
                                         ToolTipService.InitialShowDelay="800"
                                         ToolTipService.Placement="Top"
                                         ToolTipService.VerticalOffset="-16">
@@ -153,7 +153,7 @@
                                 <TextBlock Name="SongArtist" Text="Artist Name" FontSize="14" FontWeight="Medium" Opacity="0.5" TextTrimming="CharacterEllipsis" />
                             </StackPanel>
                         </StackPanel>
-                        <Grid Name="ControlsStackPanelContainer" HorizontalAlignment="Stretch" Height="35" Margin="12,8,0,0">
+                        <Grid Name="ControlsStackPanelContainer" HorizontalAlignment="Stretch" Height="35" Margin="8,8,0,0">
                             <StackPanel Name="ControlsStackPanel" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
                                 <!--<ui:Button Name="ControlBack" Icon="{ui:SymbolIcon Previous20, Filled=True}" Width="28" Height="28" Padding="0" CornerRadius="999" Margin="0,0,8,0" Click="Back_Click" Focusable="False"/>-->
                                 <controls:Button
