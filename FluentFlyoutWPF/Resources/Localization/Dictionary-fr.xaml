@@ -296,4 +296,5 @@ Vous pouvez contribuer aux traductions sur</system:String>
     <system:String x:Key="SupporterTitle">Supporter</system:String>
     <system:String x:Key="TaskbarWidgetScrollVolumeMaster">Activé (volume principal)</system:String>
     <system:String x:Key="TaskbarWidgetScrollVolumePlayer">Activé (volume du lecteur)</system:String>
+    <system:String x:Key="SessionSwitcherAuto">Automatique</system:String>
 </ResourceDictionary>
