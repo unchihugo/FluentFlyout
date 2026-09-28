@@ -296,4 +296,5 @@
     <system:String x:Key="OnboardingTitle">Начать</system:String>
     <system:String x:Key="SupporterTitle">Поддержать проект</system:String>
     <system:String x:Key="SupporterDescription">Спасибо!</system:String>
+    <system:String x:Key="SessionSwitcherAuto">Автоматически</system:String>
 </ResourceDictionary>
