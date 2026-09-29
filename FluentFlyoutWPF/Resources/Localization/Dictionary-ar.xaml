@@ -296,4 +296,5 @@
     <system:String x:Key="TaskbarWidgetScrollVolumeMaster">مفعل (مستوى الصوت الرئيسي)</system:String>
     <system:String x:Key="TaskbarWidgetScrollVolumePlayer">مفعل (مستوى صوت المشغل)</system:String>
     <system:String x:Key="OpenMediaPlayerText">إفتح مشغل الوسائط</system:String>
+    <system:String x:Key="SessionSwitcherAuto">تلقائي</system:String>
 </ResourceDictionary>
