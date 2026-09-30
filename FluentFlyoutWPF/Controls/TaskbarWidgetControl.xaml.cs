@@ -571,7 +571,7 @@ public partial class TaskbarWidgetControl : UserControl
         Dispatcher.Invoke(() =>
         {
             string newTitle = !string.IsNullOrEmpty(title) ? title : "-";
-            string newArtist = !string.IsNullOrEmpty(artist) ? artist : "-";
+            string newArtist = artist ?? string.Empty;
 
             if (_actualTitle != newTitle || _actualArtist != newArtist)
             {
@@ -632,7 +632,7 @@ public partial class TaskbarWidgetControl : UserControl
             }
 
             SongTitle.Visibility = Visibility.Visible;
-            SongArtistContainer.Visibility = !_isSmallTaskbar && !_isVertical && !string.IsNullOrEmpty(artist)
+            SongArtistContainer.Visibility = !_isSmallTaskbar && !_isVertical && !string.IsNullOrEmpty(_actualArtist)
                 ? Visibility.Visible
                 : Visibility.Collapsed;
             SongInfoStackPanel.Visibility = _isVertical ? Visibility.Collapsed : Visibility.Visible;
