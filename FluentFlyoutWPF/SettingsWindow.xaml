@@ -86,6 +86,7 @@
 				<ui:NavigationViewItem Content="{DynamicResource TaskbarVisualizerTitle}" Icon="{ui:SymbolIcon SoundWaveCircle24}" TargetPageType="{x:Type pages:TaskbarVisualizerPage}" />
 				<ui:NavigationViewItem Content="{DynamicResource NextUpCustomizationTitle}" Icon="{ui:SymbolIcon MusicNote2Play20}" TargetPageType="{x:Type pages:NextUpPage}" />
 				<ui:NavigationViewItem Content="{DynamicResource LockKeysCustomizationTitle}" Icon="{ui:SymbolIcon LockMultiple24}" TargetPageType="{x:Type pages:LockKeysPage}" />
+				<ui:NavigationViewItem Content="{DynamicResource DiscordRpcEnabledTitle}" Icon="{ui:SymbolIcon XboxController24}" TargetPageType="{x:Type pages:DiscordRpcPage}" />
 				<ui:NavigationViewItem Content="{DynamicResource SystemSettingsTitle}" Icon="{ui:SymbolIcon Settings24}" TargetPageType="{x:Type pages:SystemPage}" />
 			</ui:NavigationView.MenuItems>
 			<ui:NavigationView.FooterMenuItems>

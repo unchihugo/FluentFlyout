@@ -236,7 +236,31 @@
                 </StackPanel>
             </ui:CardAction>
 
-            <ui:CardAction Grid.Row="3" Grid.Column="0" Margin="4" Padding="12,20" IsChevronVisible="True" Click="System_Click">
+            <ui:CardAction Grid.Row="3" Grid.Column="0" Margin="4" Padding="12,20" IsChevronVisible="True" Click="DiscordRpc_Click">
+                <ui:CardAction.Icon>
+                    <ui:SymbolIcon Symbol="XboxController24" FontSize="30" Filled="False" />
+                </ui:CardAction.Icon>
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <ui:TextBlock FontWeight="Medium" Text="{DynamicResource DiscordRpcEnabledTitle}" />
+                        <fluentflyoutcontrols:AccentBadge Text="PREVIEW" Margin="6,0,0,0" FontSize="8" />
+                    </StackPanel>
+                    <ui:TextBlock Appearance="Secondary" Text="{Binding DiscordRpcEnabled, Converter={StaticResource BoolToEnabledDisabledConverter}}">
+                        <ui:TextBlock.Style>
+                            <Style TargetType="ui:TextBlock">
+                                <Setter Property="Opacity" Value="1" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding DiscordRpcEnabled}" Value="False">
+                                        <Setter Property="Opacity" Value="0.5" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ui:TextBlock.Style>
+                    </ui:TextBlock>
+                </StackPanel>
+            </ui:CardAction>
+
+            <ui:CardAction Grid.Row="3" Grid.Column="1" Margin="4" Padding="12,20" IsChevronVisible="True" Click="System_Click">
                 <ui:CardAction.Icon>
                     <ui:SymbolIcon Symbol="Settings24" FontSize="30" Filled="False" />
                 </ui:CardAction.Icon>
