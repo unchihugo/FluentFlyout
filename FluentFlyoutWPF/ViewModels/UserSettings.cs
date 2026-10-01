@@ -438,6 +438,22 @@ public partial class UserSettings : ObservableObject
     public partial bool TaskbarWidgetFixedWidth { get; set; }
 
     /// <summary>
+    /// Gets or sets a value indicating whether the taskbar widget should automatically adapt its
+    /// layout (shrink the visualizer, squeeze text, collapse the artist row, or fall back to an
+    /// icon-only mode) when there is not enough room on the taskbar.
+    /// </summary>
+    [ObservableProperty]
+    public partial bool TaskbarWidgetAdaptiveWidth { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the widget should be hidden entirely when the
+    /// taskbar is completely full and there is no space left for even the album icon,
+    /// instead of drawing it over the app icons.
+    /// </summary>
+    [ObservableProperty]
+    public partial bool TaskbarWidgetHideWhenFull { get; set; }
+
+    /// <summary>
     /// Gets or sets a value indicating whether the pause icon overlay should be completely hidden from view.
     /// </summary>
     [ObservableProperty]
@@ -756,6 +772,15 @@ public partial class UserSettings : ObservableObject
         TaskbarWidgetBackgroundBlur = false;
         TaskbarWidgetHideCompletely = false;
         TaskbarWidgetFixedWidth = false;
+        TaskbarWidgetAdaptiveWidth = true;
+        TaskbarWidgetHideWhenFull = false;
+        TaskbarWidgetPriorityOrder =
+        [
+            WidgetLayoutElementNames.Icon,
+            WidgetLayoutElementNames.Visualizer,
+            WidgetLayoutElementNames.Controls,
+            WidgetLayoutElementNames.SongText,
+        ];
         TaskbarWidgetShowPauseOverlay = true;
         TaskbarWidgetControlsEnabled = false;
         TaskbarWidgetControlsPosition = 1;
@@ -847,6 +872,27 @@ public partial class UserSettings : ObservableObject
     /// </summary>
     internal void CompleteInitialization()
     {
+        // one-time migration: the original default hid the playback controls first, but the
+        // widget can shrink its text further - the visualizer should yield before them
+        var known = TaskbarWidgetPriorityOrder.Where(WidgetLayoutElementNames.IsKnown).Distinct().ToList();
+        if (known.SequenceEqual(new[]
+            {
+                WidgetLayoutElementNames.Icon,
+                WidgetLayoutElementNames.Controls,
+                WidgetLayoutElementNames.SongText,
+                WidgetLayoutElementNames.Visualizer,
+            }))
+        {
+            TaskbarWidgetPriorityOrder =
+            [
+                WidgetLayoutElementNames.Icon,
+                WidgetLayoutElementNames.Visualizer,
+                WidgetLayoutElementNames.Controls,
+                WidgetLayoutElementNames.SongText,
+            ];
+            SettingsManager.SaveSettings();
+        }
+
         _initializing = false;
     }
 
@@ -927,6 +973,31 @@ public partial class UserSettings : ObservableObject
     partial void OnTaskbarWidgetFixedWidthChanged(bool oldValue, bool newValue)
     {
         if (oldValue == newValue || _initializing) return;
+        UpdateTaskbar();
+    }
+
+    partial void OnTaskbarWidgetAdaptiveWidthChanged(bool oldValue, bool newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+        UpdateTaskbar();
+    }
+
+    partial void OnTaskbarWidgetHideWhenFullChanged(bool oldValue, bool newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+        UpdateTaskbar();
+    }
+
+    /// <summary>
+    /// Element hide order for adaptive width, lowest priority last (hidden first).
+    /// Valid entries: Icon, Controls, SongText, Visualizer.
+    /// </summary>
+    [ObservableProperty]
+    public partial List<string> TaskbarWidgetPriorityOrder { get; set; }
+
+    partial void OnTaskbarWidgetPriorityOrderChanged(List<string> oldValue, List<string> newValue)
+    {
+        if (_initializing) return;
         UpdateTaskbar();
     }
 
