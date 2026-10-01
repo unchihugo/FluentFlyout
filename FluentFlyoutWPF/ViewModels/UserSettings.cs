@@ -454,6 +454,13 @@ public partial class UserSettings : ObservableObject
     public partial bool TaskbarWidgetHideWhenFull { get; set; }
 
     /// <summary>
+    /// Gets or sets a value indicating whether the widget should smoothly animate its width
+    /// when the adaptive layout changes, instead of snapping instantly.
+    /// </summary>
+    [ObservableProperty]
+    public partial bool TaskbarWidgetWidthAnimation { get; set; }
+
+    /// <summary>
     /// Gets or sets a value indicating whether the pause icon overlay should be completely hidden from view.
     /// </summary>
     [ObservableProperty]
@@ -528,6 +535,37 @@ public partial class UserSettings : ObservableObject
     }
 
     /// <summary>
+    /// Gets or sets the duration of the taskbar widget width animation, in milliseconds.
+    /// </summary>
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(TaskbarWidgetWidthAnimationDurationMsText))]
+    public partial int TaskbarWidgetWidthAnimationDurationMs { get; set; }
+
+    [XmlIgnore]
+    public string TaskbarWidgetWidthAnimationDurationMsText
+    {
+        get => TaskbarWidgetWidthAnimationDurationMs.ToString();
+        set
+        {
+            if (int.TryParse(value, out var result))
+            {
+                TaskbarWidgetWidthAnimationDurationMs = result switch
+                {
+                    > 2000 => 2000,
+                    < 100 => 100,
+                    _ => result
+                };
+            }
+            else
+            {
+                TaskbarWidgetWidthAnimationDurationMs = 400;
+            }
+
+            OnPropertyChanged();
+        }
+    }
+
+    /// <summary>
     /// Gets or sets a value indicating whether the taskbar visualizer is enabled.
     /// </summary>
     /// <remarks>For now, this requires Premium and Taskbar Widget to be enabled.</remarks>
@@ -582,6 +620,27 @@ public partial class UserSettings : ObservableObject
     /// </summary>
     [ObservableProperty]
     public partial int TaskbarVisualizerBarCount { get; set; }
+
+    /// <summary>
+    /// Gets or sets whether the visualizer bars follow the album art accent color.
+    /// Only applies while UseAlbumArtAsAccentColor is enabled.
+    /// </summary>
+    [ObservableProperty]
+    public partial bool TaskbarVisualizerUseAccentColor { get; set; }
+
+    /// <summary>
+    /// Gets or sets whether the pause overlay icon follows the album art accent color.
+    /// Only applies while UseAlbumArtAsAccentColor is enabled.
+    /// </summary>
+    [ObservableProperty]
+    public partial bool TaskbarWidgetPauseIconUseAccentColor { get; set; }
+
+    /// <summary>
+    /// Gets or sets whether the music-note placeholder icon (no cover art / no media)
+    /// follows the album art accent color. Only applies while UseAlbumArtAsAccentColor is enabled.
+    /// </summary>
+    [ObservableProperty]
+    public partial bool TaskbarWidgetMusicNoteUseAccentColor { get; set; }
 
     /// <summary>
     /// Whether the visualizer should be symmetrical/mirrored.
@@ -774,6 +833,8 @@ public partial class UserSettings : ObservableObject
         TaskbarWidgetFixedWidth = false;
         TaskbarWidgetAdaptiveWidth = true;
         TaskbarWidgetHideWhenFull = false;
+        TaskbarWidgetWidthAnimation = false;
+        TaskbarWidgetWidthAnimationDurationMs = 400;
         TaskbarWidgetPriorityOrder =
         [
             WidgetLayoutElementNames.Icon,
@@ -790,6 +851,9 @@ public partial class UserSettings : ObservableObject
         TaskbarWidgetScrollingTextSpeed = 20;
         TaskbarWidgetScrollingTextLoopForever = false;
         TaskbarVisualizerEnabled = false;
+        TaskbarVisualizerUseAccentColor = true;
+        TaskbarWidgetPauseIconUseAccentColor = true;
+        TaskbarWidgetMusicNoteUseAccentColor = true;
         AppFilteringEnabled = false;
         AppFilteringMode = 0;
         TaskbarVisualizerPosition = 1;
@@ -893,6 +957,12 @@ public partial class UserSettings : ObservableObject
             SettingsManager.SaveSettings();
         }
 
+        // one-time migration: the sub-toggles didn't exist before, so they start matching
+        // the master album-art accent toggle (everything on when the accent is on)
+        TaskbarVisualizerUseAccentColor = UseAlbumArtAsAccentColor;
+        TaskbarWidgetPauseIconUseAccentColor = UseAlbumArtAsAccentColor;
+        TaskbarWidgetMusicNoteUseAccentColor = UseAlbumArtAsAccentColor;
+
         _initializing = false;
     }
 
@@ -988,6 +1058,12 @@ public partial class UserSettings : ObservableObject
         UpdateTaskbar();
     }
 
+    partial void OnTaskbarWidgetWidthAnimationChanged(bool oldValue, bool newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+        UpdateTaskbar();
+    }
+
     /// <summary>
     /// Element hide order for adaptive width, lowest priority last (hidden first).
     /// Valid entries: Icon, Controls, SongText, Visualizer.
@@ -1019,6 +1095,40 @@ public partial class UserSettings : ObservableObject
 
         MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
         mainWindow.taskbarWindow?.Widget?.ReorderControls();
+    }
+
+    partial void OnUseAlbumArtAsAccentColorChanged(bool oldValue, bool newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+
+        // the sub-toggles default to following the master switch; the user can turn them
+        // off individually afterwards
+        TaskbarVisualizerUseAccentColor = newValue;
+        TaskbarWidgetPauseIconUseAccentColor = newValue;
+        TaskbarWidgetMusicNoteUseAccentColor = newValue;
+
+        BitmapHelper.GetDominantColors(1);
+    }
+
+    partial void OnTaskbarVisualizerUseAccentColorChanged(bool oldValue, bool newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+        MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+        mainWindow.taskbarWindow?.RefreshVisualizer();
+    }
+
+    partial void OnTaskbarWidgetPauseIconUseAccentColorChanged(bool oldValue, bool newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+        MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+        mainWindow.taskbarWindow?.Widget?.ApplyAccentColors();
+    }
+
+    partial void OnTaskbarWidgetMusicNoteUseAccentColorChanged(bool oldValue, bool newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+        MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+        mainWindow.taskbarWindow?.Widget?.ApplyAccentColors();
     }
 
     partial void OnTaskbarVisualizerPositionChanged(int oldValue, int newValue)
@@ -1090,12 +1200,6 @@ public partial class UserSettings : ObservableObject
         // If newValue is true, refresh the visualizer by hiding it:
         // if audio is playing, it will be shown again, if not, it will remain hidden.
         TaskbarVisualizerHasContent = !newValue;
-    }
-
-    partial void OnUseAlbumArtAsAccentColorChanged(bool oldValue, bool newValue)
-    {
-        if (oldValue == newValue || _initializing) return;
-        BitmapHelper.GetDominantColors(1);
     }
 
     partial void OnAppFilteringEnabledChanged(bool oldValue, bool newValue)

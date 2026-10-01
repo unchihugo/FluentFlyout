@@ -1,5 +1,22 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib">
     <system:String x:Key="TitleText">වෙනස්කම්</system:String>
+    <system:String x:Key="TaskbarWidgetAdaptiveWidthTitle">අනුවර්තී විජට් පළල</system:String>
+    <system:String x:Key="TaskbarWidgetAdaptiveWidthDescription">කාර්ය තීරුවේ ප්‍රමාණවත් ඉඩක් නොමැති විට විජට් එක ස්වයංක්‍රීයව කුඩා කරන හෝ වැදගත් නොවන අංග බිඳ දමයි</system:String>
+    <system:String x:Key="TaskbarWidgetHideWhenFullTitle">කාර්ය තීරුව පිරී ඇති විට සැඟවීම</system:String>
+    <system:String x:Key="TaskbarWidgetHideWhenFullDescription">විකල්ප උපාමාරකය: ඇල්බම නිරූපකයට පවා ඉඩ නොමැති විට විජට් එක සම්පූර්ණයෙන් සැඟවේ</system:String>
+    <system:String x:Key="TaskbarWidgetPriorityTitle">අනුවර්තී පළල ප්‍රමුඛතාව</system:String>
+    <system:String x:Key="TaskbarWidgetPriorityDescription">කාර්ය තීරුවේ ඉඩ අඩු වූ විට පළමුව සැඟවෙන්නේ කුමක්දැයි තෝරන්න</system:String>
+    <system:String x:Key="TaskbarWidgetPriorityControls">ධාවන පාලක</system:String>
+    <system:String x:Key="TaskbarWidgetPrioritySongText">ගීත ශීර්ෂය සහ කලාකරු</system:String>
+    <system:String x:Key="TaskbarWidgetPriorityVisualizer">ශ්‍රව්‍ය දෘශ්‍යකරණය</system:String>
+    <system:String x:Key="TaskbarWidgetPriorityHiddenFirst">පළමුව සැඟවේ</system:String>
+    <system:String x:Key="TaskbarWidgetPriorityHiddenSecond">දෙවනුව සැඟවේ</system:String>
+    <system:String x:Key="TaskbarWidgetPriorityHiddenLast">අවසානයේ සැඟවේ</system:String>
+    <system:String x:Key="TaskbarWidgetPriorityHint">වෙනත් කිසිවක් නොගැලපෙන විට ඇල්බම නිරූපකය සැමවිටම උපාමාරකයක් ලෙස තබා ගනු ලැබේ.</system:String>
+    <system:String x:Key="TaskbarWidgetWidthAnimationTitle">සුමට පළල සජීවිකරණය</system:String>
+    <system:String x:Key="TaskbarWidgetWidthAnimationDescription">අනුවර්තී අංකරණය වෙනස් වූ විට ක්ෂණික මාරුවකට වෙනුවෙන් විජට් පළල සජීවිකරණය කරයි</system:String>
+    <system:String x:Key="TaskbarWidgetWidthAnimationSpeedTitle">සජීවිකරණ කාලසීමාව</system:String>
+    <system:String x:Key="TaskbarWidgetWidthAnimationSpeedDescription">පළල සජීවිකරණයේ කාලය මිලි තත්පර වලින් (100–2000). පෙරනිමිය 400 වේ.</system:String>
     <system:String x:Key="HomeTitle">මුල් පිටුව</system:String>
     <system:String x:Key="Enabled">ඔන් කලා</system:String>
     <system:String x:Key="Disabled">ඕෆ් කලා</system:String>
@@ -14,4 +31,9 @@
     <system:String x:Key="BackgroundBlurOption2" xml:space="preserve"> Cover එක දිලිසෙන (Style 1)</system:String>
     <system:String x:Key="BackgroundBlurOption3" xml:space="preserve"> ඉර පායනවා වගේ දිලිසෙන (Style 2)</system:String>
     <system:String x:Key="BackgroundBlurOption4" xml:space="preserve"> බොඳ වුන (Style 3)</system:String>
+    <system:String x:Key="TaskbarVisualizerUseAccentColorDescription">දෘශ්‍යකරණ තීරු ඇල්බමයේ ප්‍රමුඛ වර්ණයෙන් වර්ණ ගැන්වේ</system:String>
+    <system:String x:Key="TaskbarWidgetPauseIconAccentColorTitle">විරාම නිරූපකයේ වර්ණය</system:String>
+    <system:String x:Key="TaskbarWidgetPauseIconAccentColorDescription">විරාම උඩැකුරු නිරූපකය ඇල්බමයේ ප්‍රමුඛ වර්ණයෙන් වර්ණ ගැන්වේ</system:String>
+    <system:String x:Key="TaskbarWidgetMusicNoteAccentColorTitle">සංගීත සටහන් නිරූපකයේ වර්ණය</system:String>
+    <system:String x:Key="TaskbarWidgetMusicNoteAccentColorDescription">මාධ්‍යයක් වාදනය නොවන විට සංගීත සටහන් නිරූපකය ඇල්බමයේ ප්‍රමුඛ වර්ණයෙන් වර්ණ ගැන්වේ</system:String>
 </ResourceDictionary>

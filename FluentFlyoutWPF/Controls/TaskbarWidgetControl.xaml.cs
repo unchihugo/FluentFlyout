@@ -676,10 +676,22 @@ public partial class TaskbarWidgetControl : UserControl
                 PlayPauseButton.Icon = _isPaused ? new SymbolIcon(SymbolRegular.Play24, filled: true) : new SymbolIcon(SymbolRegular.Pause24, filled: true);
             }
 
-            // change color of icon
-            SolidColorBrush brush = BitmapHelper.SavedDominantColors.Count > 0 ?
-                BitmapHelper.SavedDominantColors.Last()
-                : (SolidColorBrush)Application.Current.TryFindResource("MicaWPF.Brushes.SystemAccentColorTertiary");
+            // pause overlay follows the pause-icon sub-toggle, music-note placeholder the
+            // music-note sub-toggle; both require the master album-art accent switch
+            SolidColorBrush brush;
+            bool accentMaster = SettingsManager.Current.UseAlbumArtAsAccentColor
+                && BitmapHelper.SavedDominantColors.Count > 0;
+            bool paused = _isPaused && icon != null;
+            if (accentMaster && (paused
+                ? SettingsManager.Current.TaskbarWidgetPauseIconUseAccentColor
+                : SettingsManager.Current.TaskbarWidgetMusicNoteUseAccentColor))
+            {
+                brush = BitmapHelper.SavedDominantColors.Last();
+            }
+            else
+            {
+                brush = (SolidColorBrush)Application.Current.TryFindResource("MicaWPF.Brushes.SystemAccentColorTertiary");
+            }
             SongImagePlaceholder.Foreground = brush;
 
             if (icon != null)
@@ -712,6 +724,31 @@ public partial class TaskbarWidgetControl : UserControl
 
             // element visibilities depend on the adaptive layout tier on top of the XAML bindings
             ApplyTierVisibility();
+        });
+    }
+
+    /// <summary>
+    /// Recolors the icon immediately when an accent sub-toggle changes.
+    /// </summary>
+    public void ApplyAccentColors()
+    {
+        Dispatcher.Invoke(() =>
+        {
+            SolidColorBrush brush;
+            bool accentMaster = SettingsManager.Current.UseAlbumArtAsAccentColor
+                && BitmapHelper.SavedDominantColors.Count > 0;
+            bool paused = _isPaused && SongImage.ImageSource != null;
+            if (accentMaster && (paused
+                ? SettingsManager.Current.TaskbarWidgetPauseIconUseAccentColor
+                : SettingsManager.Current.TaskbarWidgetMusicNoteUseAccentColor))
+            {
+                brush = BitmapHelper.SavedDominantColors.Last();
+            }
+            else
+            {
+                brush = (SolidColorBrush)Application.Current.TryFindResource("MicaWPF.Brushes.SystemAccentColorTertiary");
+            }
+            SongImagePlaceholder.Foreground = brush;
         });
     }
 
