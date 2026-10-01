@@ -20,6 +20,9 @@
   <PropertyGroup Condition="'$(Configuration)' == 'GitHub Release'">
     <DefineConstants>GITHUB_RELEASE</DefineConstants>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Resources\FluentFlyout2.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Content Remove="C:\Users\hu8go\.nuget\packages\dubya.windowsmediacontroller\2.5.5\contentFiles\any\net6.0-windows10.0.22000\Icon.ico" />
   </ItemGroup>
