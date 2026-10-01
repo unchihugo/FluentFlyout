@@ -61,6 +61,16 @@ public sealed record WidgetLayoutInputs
 
 public sealed record WidgetLayoutResult
 {
+    public required WidgetLayoutTier Tier { get; init; }
+    public required double WidgetWidth { get; init; }
+    public required double VisualizerWidth { get; init; }
+    public required bool ControlsShown { get; init; }
+    public required bool TextShown { get; init; }
+    public required bool IconShown { get; init; }
+
+    // width the content takes before squeezing; diagnostics only
+    public double NaturalWidth { get; init; }
+
     public static WidgetLayoutResult Hidden { get; } = new()
     {
         Tier = WidgetLayoutTier.Hidden,
@@ -70,13 +80,6 @@ public sealed record WidgetLayoutResult
         TextShown = false,
         IconShown = false,
     };
-
-    public required WidgetLayoutTier Tier { get; init; }
-    public required double WidgetWidth { get; init; }
-    public required double VisualizerWidth { get; init; }
-    public required bool ControlsShown { get; init; }
-    public required bool TextShown { get; init; }
-    public required bool IconShown { get; init; }
 }
 
 public static class WidgetLayoutSolver
@@ -86,11 +89,14 @@ public static class WidgetLayoutSolver
     // text container gets a small extra allowance over the measured text width
     private const double TextExtraMargin = 6;
     private const double MinTextContainerWidth = 56;
-    public const double VisualizerGap = 4;
+    public const double VisualizerGap = 6;
 
     public const double VisualizerFullWidth = 84;
     public const double MinimalIconWidth = 44;
     public const double MinimalIconWidthSmall = 32;
+
+    // how many span units the icon-only state may overlap into measured phantom padding
+    private const double IconOnlyGraceUnits = 12;
 
     public static WidgetLayoutResult Solve(WidgetLayoutInputs i)
     {
@@ -129,8 +135,16 @@ public static class WidgetLayoutSolver
             }
         }
 
+        bool iconOnlyGrace = false;
         if (!Fits(icon, controls, text, visualizer, visualizerWidth, i))
-            return WidgetLayoutResult.Hidden;
+        {
+            // button/tray rects include invisible hit-test padding, so near a full taskbar
+            // tolerate a small overlap rather than dropping the icon while space remains
+            bool iconOnly = !controls && !text && !visualizer;
+            if (!iconOnly || i.AvailableSpan < MinimalIconSize(i) - IconOnlyGraceUnits)
+                return WidgetLayoutResult.Hidden;
+            iconOnlyGrace = true;
+        }
 
         double natural = WidgetWidth(icon, controls, text, i);
         double visReserve = visualizer ? visualizerWidth / WidgetRenderScale + VisualizerGap : 0;
@@ -154,7 +168,7 @@ public static class WidgetLayoutSolver
         else
         {
             tier = controls ? WidgetLayoutTier.Compact : WidgetLayoutTier.Minimal;
-            width = Math.Min(natural, span);
+            width = iconOnlyGrace ? natural : Math.Min(natural, span);
         }
 
         // the minWidth floor only applies while text is shown; icon-only is allowed below it
@@ -169,6 +183,7 @@ public static class WidgetLayoutSolver
             ControlsShown = controls,
             TextShown = text,
             IconShown = icon,
+            NaturalWidth = natural,
         };
     }
 
