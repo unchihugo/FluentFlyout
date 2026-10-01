@@ -4,6 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+      xmlns:dd="urn:gong-wpf-dragdrop"
       xmlns:controls="clr-namespace:MicaWPF.Controls;assembly=MicaWPF"
       xmlns:viewModels="clr-namespace:FluentFlyoutWPF.ViewModels"
       xmlns:fluentflyoutcontrols="clr-namespace:FluentFlyout.Controls"
@@ -215,28 +216,20 @@
                 <ui:ToggleSwitch IsChecked="{Binding TaskbarWidgetFixedWidth, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}" />
             </ui:CardControl>
 
-            <ui:CardControl x:Name="TaskbarWidgetAdaptiveWidthTitleCard" Tag="Indexable" Grid.Row="10" Icon="{ui:SymbolIcon ArrowAutofitWidth24}" Margin="0,0,0,3">
-                <ui:CardControl.Header>
-                    <StackPanel Orientation="Vertical">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{DynamicResource TaskbarWidgetAdaptiveWidthTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
-                            <ui:InfoBadge Value=" NEW " FontWeight="Medium" FontSize="10" Margin="6,-2,0,-2" Severity="Success" />
-                        </StackPanel>
-                        <TextBlock Text="{DynamicResource TaskbarWidgetAdaptiveWidthDescription}" FontSize="12" Opacity="0.5" />
-                    </StackPanel>
-                </ui:CardControl.Header>
-                <ui:ToggleSwitch IsChecked="{Binding TaskbarWidgetAdaptiveWidth, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}" />
-            </ui:CardControl>
-
-            <ui:CardExpander x:Name="TaskbarWidgetPriorityCard" Tag="Indexable" Grid.Row="18" Icon="{ui:SymbolIcon ArrowAutofitWidth24}" ContentPadding="0" Margin="0,0,0,12"
-                             IsExpanded="{Binding TaskbarWidgetAdaptiveWidth, Mode=OneWay}">
+            <ui:CardExpander x:Name="TaskbarWidgetAdaptiveWidthCard" Tag="Indexable" Grid.Row="10" Icon="{ui:SymbolIcon ArrowAutofitWidth24}" ContentPadding="0" Margin="0,0,0,12">
                 <ui:CardExpander.Header>
-                    <StackPanel Orientation="Vertical">
-                        <TextBlock Text="{DynamicResource TaskbarWidgetPriorityTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
-                        <TextBlock Text="{DynamicResource TaskbarWidgetPriorityDescription}" FontSize="12" Opacity="0.5" />
-                    </StackPanel>
+                    <Grid ColumnDefinitions="*, Auto">
+                        <StackPanel Orientation="Vertical" Grid.Column="0">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{DynamicResource TaskbarWidgetAdaptiveWidthTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
+                                <ui:InfoBadge Value=" NEW " FontWeight="Medium" FontSize="10" Margin="6,-2,0,-2" Severity="Success" />
+                            </StackPanel>
+                            <TextBlock Text="{DynamicResource TaskbarWidgetAdaptiveWidthDescription}" FontSize="12" Opacity="0.5" />
+                        </StackPanel>
+                        <ui:ToggleSwitch Grid.Column="1" IsChecked="{Binding TaskbarWidgetAdaptiveWidth, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}" Margin="0,0,16,0" />
+                    </Grid>
                 </ui:CardExpander.Header>
-                <StackPanel Margin="52,16,16,16">
+                <StackPanel Margin="52,16,16,16" Opacity="{Binding TaskbarWidgetAdaptiveWidth, Converter={StaticResource BoolToFullHalfOpacityConverter}}">
                     <Grid Margin="0,0,0,12">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
@@ -248,43 +241,78 @@
                         </StackPanel>
                         <ui:ToggleSwitch Grid.Column="1" IsChecked="{Binding TaskbarWidgetHideWhenFull, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}" />
                     </Grid>
-                    <Grid>
+                    <Grid Margin="0,12,0,0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="0" Text="{DynamicResource TaskbarWidgetPriorityHiddenFirst}" FontSize="14" VerticalAlignment="Center" />
-                        <ComboBox x:Name="PriorityHiddenFirstComboBox" Grid.Column="1" Width="180" SelectionChanged="PriorityComboBox_SelectionChanged" Style="{StaticResource DefaultComboBoxStyle}">
-                            <ComboBoxItem Content="{DynamicResource TaskbarWidgetPriorityControls}" />
-                            <ComboBoxItem Content="{DynamicResource TaskbarWidgetPrioritySongText}" />
-                            <ComboBoxItem Content="{DynamicResource TaskbarWidgetPriorityVisualizer}" />
-                        </ComboBox>
+                        <StackPanel Grid.Column="0" Orientation="Vertical">
+                            <TextBlock Text="{DynamicResource TaskbarWidgetWidthAnimationTitle}" FontSize="14" VerticalAlignment="Center" />
+                            <TextBlock Text="{DynamicResource TaskbarWidgetWidthAnimationDescription}" FontSize="12" Opacity="0.5" TextWrapping="Wrap" />
+                        </StackPanel>
+                        <ui:ToggleSwitch Grid.Column="1" IsChecked="{Binding TaskbarWidgetWidthAnimation, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}" />
                     </Grid>
                     <Grid Margin="0,12,0,0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="0" Text="{DynamicResource TaskbarWidgetPriorityHiddenSecond}" FontSize="14" VerticalAlignment="Center" />
-                        <ComboBox x:Name="PriorityHiddenSecondComboBox" Grid.Column="1" Width="180" SelectionChanged="PriorityComboBox_SelectionChanged" Style="{StaticResource DefaultComboBoxStyle}">
-                            <ComboBoxItem Content="{DynamicResource TaskbarWidgetPriorityControls}" />
-                            <ComboBoxItem Content="{DynamicResource TaskbarWidgetPrioritySongText}" />
-                            <ComboBoxItem Content="{DynamicResource TaskbarWidgetPriorityVisualizer}" />
-                        </ComboBox>
+                        <StackPanel Grid.Column="0" Orientation="Vertical">
+                            <TextBlock Text="{DynamicResource TaskbarWidgetWidthAnimationSpeedTitle}" FontSize="14" VerticalAlignment="Center" />
+                            <TextBlock Text="{DynamicResource TaskbarWidgetWidthAnimationSpeedDescription}" FontSize="12" Opacity="0.5" TextWrapping="Wrap" />
+                        </StackPanel>
+                        <ui:TextBox Grid.Column="1" Width="60" ClearButtonEnabled="False" Text="{Binding TaskbarWidgetWidthAnimationDurationMsText, Mode=TwoWay}" IsEnabled="{Binding TaskbarWidgetWidthAnimation}" />
                     </Grid>
-                    <Grid Margin="0,12,0,0">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="0" Text="{DynamicResource TaskbarWidgetPriorityHiddenLast}" FontSize="14" VerticalAlignment="Center" />
-                        <ComboBox x:Name="PriorityHiddenLastComboBox" Grid.Column="1" Width="180" SelectionChanged="PriorityComboBox_SelectionChanged" Style="{StaticResource DefaultComboBoxStyle}">
-                            <ComboBoxItem Content="{DynamicResource TaskbarWidgetPriorityControls}" />
-                            <ComboBoxItem Content="{DynamicResource TaskbarWidgetPrioritySongText}" />
-                            <ComboBoxItem Content="{DynamicResource TaskbarWidgetPriorityVisualizer}" />
-                        </ComboBox>
-                    </Grid>
-                    <TextBlock Text="{DynamicResource TaskbarWidgetPriorityHint}" FontSize="12" Opacity="0.5" Margin="0,12,0,0" TextWrapping="Wrap" />
+                    <TextBlock Text="{DynamicResource TaskbarWidgetPriorityTitle}" FontSize="14" Margin="0,16,0,2" />
+                    <TextBlock Text="{DynamicResource TaskbarWidgetPriorityDescription}" FontSize="12" Opacity="0.5" TextWrapping="Wrap" />
+                    <ListBox x:Name="PriorityListBox" Margin="0,8,0,0" BorderThickness="0" Background="Transparent"
+                             ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                             dd:DragDrop.IsDragSource="True"
+                             dd:DragDrop.IsDropTarget="True"
+                             dd:DragDrop.UseDefaultDragAdorner="False"
+                             dd:DragDrop.DropHandler="{Binding RelativeSource={RelativeSource AncestorType=Page}}">
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="ListBoxItem">
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                <Setter Property="Padding" Value="0" />
+                                <Setter Property="Margin" Value="0,0,0,4" />
+                                <Setter Property="Background" Value="Transparent" />
+                                <Setter Property="Cursor" Value="Hand" />
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="ListBoxItem">
+                                            <Border x:Name="Root"
+                                                    Background="{DynamicResource ControlFillColorDefaultBrush}"
+                                                    BorderBrush="{DynamicResource ControlStrokeColorSecondaryBrush}"
+                                                    BorderThickness="1" CornerRadius="6" Padding="10,8">
+                                                <ContentPresenter />
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter TargetName="Root" Property="Background" Value="{DynamicResource ControlFillColorSecondaryBrush}" />
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <ui:SymbolIcon Grid.Column="0" Symbol="ReOrderDotsVertical24" FontSize="16" Opacity="0.6" />
+                                    <TextBlock Grid.Column="1" Text="{Binding DisplayName}" FontSize="14" VerticalAlignment="Center" Margin="12,0,0,0" />
+                                    <TextBlock Grid.Column="2" Text="{Binding RoleText}" FontSize="12" Opacity="0.5" VerticalAlignment="Center" />
+                                </Grid>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                    <TextBlock Text="{DynamicResource TaskbarWidgetPriorityHint}" FontSize="12" Opacity="0.5" Margin="0,8,0,0" TextWrapping="Wrap" />
                 </StackPanel>
             </ui:CardExpander>
 

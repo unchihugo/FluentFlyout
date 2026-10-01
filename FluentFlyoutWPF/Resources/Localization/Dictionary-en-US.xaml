@@ -83,6 +83,10 @@ hides repeat, shuffle and player info</System:String>
     <System:String x:Key="TaskbarWidgetPriorityVisualizer">Audio visualizer</System:String>
     <System:String x:Key="TaskbarWidgetHideWhenFullTitle">Hide when taskbar is full</System:String>
     <System:String x:Key="TaskbarWidgetHideWhenFullDescription">Optional fallback: hides the widget entirely when there is not even enough space left for the album icon</System:String>
+    <System:String x:Key="TaskbarWidgetWidthAnimationTitle">Smooth width animation</System:String>
+    <System:String x:Key="TaskbarWidgetWidthAnimationSpeedTitle">Animation duration</System:String>
+    <System:String x:Key="TaskbarWidgetWidthAnimationSpeedDescription">Duration of the width animation in milliseconds (100–2000). Default is 400.</System:String>
+    <System:String x:Key="TaskbarWidgetWidthAnimationDescription">Animate the widget width instead of snapping when the adaptive layout changes</System:String>
     <System:String x:Key="TaskbarWidgetAutoHideTitle">Autohide Widget</System:String>
     <System:String x:Key="TaskbarWidgetAutoHideDescription">Hides the widget automatically when media is paused</System:String>
     <System:String x:Key="TaskbarWidgetShowPauseOverlayTitle">Show Pause Icon Overlay</System:String>

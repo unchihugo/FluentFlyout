@@ -72,6 +72,9 @@ public partial class TaskbarWidgetControl : UserControl
     private double _lastControlsWidth;
     private bool _layoutTextDirty;
 
+    // while a width animation runs, marquee rebuilds are deferred to the final settle pass
+    public bool SuppressMarqueeUpdates { get; set; }
+
     public TaskbarWidgetControl()
     {
         InitializeComponent();
@@ -272,12 +275,45 @@ public partial class TaskbarWidgetControl : UserControl
     {
         var inputs = GetLayoutInputs(availableSpan);
         var layout = WidgetLayoutSolver.Solve(inputs);
+        LogAdaptiveLayout(layout, availableSpan);
         double logicalWidth = ApplyLayout(layout);
         double logicalHeight = _isSmallTaskbar ? SmallTaskbarWidgetHeight : DefaultTaskbarWidgetHeight;
         return (logicalWidth, logicalHeight, layout.VisualizerWidth);
     }
 
     private bool HasMedia => !string.IsNullOrEmpty(_actualTitle) || !string.IsNullOrEmpty(_actualArtist);
+
+    // last adaptive layout state logged; used to rate-limit the diagnostics below
+    private WidgetLayoutTier _lastLoggedTier = (WidgetLayoutTier)(-1);
+    private bool _lastLoggedTextShown = true;
+    private bool _lastLoggedControlsShown = true;
+    private bool _lastLoggedVisualizerShown = true;
+    private double _lastLoggedWidth = -1;
+
+    private void LogAdaptiveLayout(WidgetLayoutResult layout, double availableSpan)
+    {
+        if (!SettingsManager.Current.TaskbarWidgetAdaptiveWidth || SuppressMarqueeUpdates)
+            return;
+
+        bool visualizerShown = layout.VisualizerWidth > 0;
+        bool stateChanged = layout.Tier != _lastLoggedTier
+            || layout.TextShown != _lastLoggedTextShown
+            || layout.ControlsShown != _lastLoggedControlsShown
+            || visualizerShown != _lastLoggedVisualizerShown;
+
+        if (!stateChanged && Math.Abs(layout.WidgetWidth - _lastLoggedWidth) <= 8)
+            return;
+
+        Logger.Info($"Adaptive layout: {layout.Tier} width={layout.WidgetWidth:F0} " +
+            $"span={(double.IsInfinity(availableSpan) ? -1 : availableSpan):F0} natural={layout.NaturalWidth:F0} " +
+            $"text={layout.TextShown} controls={layout.ControlsShown} visualizer={visualizerShown}");
+
+        _lastLoggedTier = layout.Tier;
+        _lastLoggedTextShown = layout.TextShown;
+        _lastLoggedControlsShown = layout.ControlsShown;
+        _lastLoggedVisualizerShown = visualizerShown;
+        _lastLoggedWidth = layout.WidgetWidth;
+    }
 
     /// <summary>
     /// Refreshes the cached text width measurements. Returns true when the text changed.
@@ -381,11 +417,16 @@ public partial class TaskbarWidgetControl : UserControl
             widthChanged = true;
         }
 
-        // Refresh animations if layout bounds or text contents change
-        if (widthChanged || _layoutTextDirty)
+        // Refresh animations if layout bounds or text contents change. Skipped while the
+        // width animation runs - the final settle pass applies the real width and refreshes.
+        if ((widthChanged || _layoutTextDirty) && !SuppressMarqueeUpdates)
         {
             UpdateMarquees();
             _layoutTextDirty = false;
+        }
+        else if (widthChanged)
+        {
+            _layoutTextDirty = true; // remember to refresh marquees on the settle pass
         }
 
         ApplyTierVisibility();
@@ -676,10 +717,22 @@ public partial class TaskbarWidgetControl : UserControl
                 PlayPauseButton.Icon = _isPaused ? new SymbolIcon(SymbolRegular.Play24, filled: true) : new SymbolIcon(SymbolRegular.Pause24, filled: true);
             }
 
-            // change color of icon
-            SolidColorBrush brush = BitmapHelper.SavedDominantColors.Count > 0 ?
-                BitmapHelper.SavedDominantColors.Last()
-                : (SolidColorBrush)Application.Current.TryFindResource("MicaWPF.Brushes.SystemAccentColorTertiary");
+            // pause overlay follows the pause-icon sub-toggle, music-note placeholder the
+            // music-note sub-toggle; both require the master album-art accent switch
+            SolidColorBrush brush;
+            bool accentMaster = SettingsManager.Current.UseAlbumArtAsAccentColor
+                && BitmapHelper.SavedDominantColors.Count > 0;
+            bool paused = _isPaused && icon != null;
+            if (accentMaster && (paused
+                ? SettingsManager.Current.TaskbarWidgetPauseIconUseAccentColor
+                : SettingsManager.Current.TaskbarWidgetMusicNoteUseAccentColor))
+            {
+                brush = BitmapHelper.SavedDominantColors.Last();
+            }
+            else
+            {
+                brush = (SolidColorBrush)Application.Current.TryFindResource("MicaWPF.Brushes.SystemAccentColorTertiary");
+            }
             SongImagePlaceholder.Foreground = brush;
 
             if (icon != null)
@@ -712,6 +765,31 @@ public partial class TaskbarWidgetControl : UserControl
 
             // element visibilities depend on the adaptive layout tier on top of the XAML bindings
             ApplyTierVisibility();
+        });
+    }
+
+    /// <summary>
+    /// Recolors the icon immediately when an accent sub-toggle changes.
+    /// </summary>
+    public void ApplyAccentColors()
+    {
+        Dispatcher.Invoke(() =>
+        {
+            SolidColorBrush brush;
+            bool accentMaster = SettingsManager.Current.UseAlbumArtAsAccentColor
+                && BitmapHelper.SavedDominantColors.Count > 0;
+            bool paused = _isPaused && SongImage.ImageSource != null;
+            if (accentMaster && (paused
+                ? SettingsManager.Current.TaskbarWidgetPauseIconUseAccentColor
+                : SettingsManager.Current.TaskbarWidgetMusicNoteUseAccentColor))
+            {
+                brush = BitmapHelper.SavedDominantColors.Last();
+            }
+            else
+            {
+                brush = (SolidColorBrush)Application.Current.TryFindResource("MicaWPF.Brushes.SystemAccentColorTertiary");
+            }
+            SongImagePlaceholder.Foreground = brush;
         });
     }
 

@@ -5,12 +5,16 @@ using FluentFlyout.Classes.Settings;
 using FluentFlyout.Classes.Utils;
 using FluentFlyoutWPF.Classes;
 using FluentFlyoutWPF.Classes.Utils;
+using GongSolutions.Wpf.DragDrop;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 
 namespace FluentFlyoutWPF.Pages;
 
-public partial class TaskbarWidgetPage : Page
+public partial class TaskbarWidgetPage : Page, IDropTarget
 {
     public TaskbarWidgetPage()
     {
@@ -20,16 +24,35 @@ public partial class TaskbarWidgetPage : Page
         Loaded += (_, _) => LoadPriorityList();
     }
 
-    // hide-order dropdowns for adaptive width; the album icon is always kept as the fallback
-    private static readonly string[] PriorityElements =
-    [
-        WidgetLayoutElementNames.Controls,
-        WidgetLayoutElementNames.SongText,
-        WidgetLayoutElementNames.Visualizer,
-    ];
+    // drag-reorder items for the adaptive-width hide order; the album icon is always the
+    // fallback and never appears in the list
+    private sealed class PriorityItem(string name, string displayName) : INotifyPropertyChanged
+    {
+        public string Name { get; } = name;
+        public string DisplayName { get; } = displayName;
 
-    private bool _loadingPrioritySelection;
-    private int[] _previousPrioritySelection = [0, 1, 2];
+        private string _roleText = string.Empty;
+
+        // localized "Hidden first/second/last" hint, refreshed when the order changes
+        public string RoleText
+        {
+            get => _roleText;
+            set
+            {
+                if (_roleText == value)
+                    return;
+                _roleText = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        private void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+            => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    }
+
+    private readonly ObservableCollection<PriorityItem> _priorityItems = [];
 
     private void LoadPriorityList()
     {
@@ -39,65 +62,71 @@ public partial class TaskbarWidgetPage : Page
             .Distinct()
             .ToList();
 
-        foreach (var name in PriorityElements)
-            if (!order.Contains(name))
+        foreach (var name in WidgetLayoutElementNames.All)
+            if (name != WidgetLayoutElementNames.Icon && !order.Contains(name))
                 order.Add(name);
 
-        _loadingPrioritySelection = true;
-        SetPrioritySelection(PriorityHiddenFirstComboBox, order[0]);
-        SetPrioritySelection(PriorityHiddenSecondComboBox, order[1]);
-        SetPrioritySelection(PriorityHiddenLastComboBox, order[2]);
-        _previousPrioritySelection = [PriorityHiddenFirstComboBox.SelectedIndex, PriorityHiddenSecondComboBox.SelectedIndex, PriorityHiddenLastComboBox.SelectedIndex];
-        _loadingPrioritySelection = false;
-    }
-
-    private static void SetPrioritySelection(ComboBox comboBox, string name)
-    {
-        int index = Array.IndexOf(PriorityElements, name);
-        comboBox.SelectedIndex = Math.Clamp(index, 0, PriorityElements.Length - 1);
-    }
-
-    private static string? GetPriorityValue(ComboBox comboBox) =>
-        comboBox.SelectedIndex >= 0 ? PriorityElements[comboBox.SelectedIndex] : null;
-
-    private void PriorityComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-    {
-        if (_loadingPrioritySelection)
-            return;
-
-        string? changed = GetPriorityValue(sender as ComboBox);
-        if (changed == null)
-            return;
-
-        // resolve duplicate picks by swapping: the other dropdown holding this value
-        // takes the value the changed dropdown just released
-        ComboBox[] boxes = [PriorityHiddenFirstComboBox, PriorityHiddenSecondComboBox, PriorityHiddenLastComboBox];
-        int changedIndex = Array.FindIndex(boxes, box => ReferenceEquals(box, sender));
-        for (int i = 0; i < boxes.Length; i++)
+        _priorityItems.Clear();
+        foreach (var name in order)
         {
-            if (i == changedIndex)
-                continue;
-
-            int valueIndex = Array.IndexOf(PriorityElements, GetPriorityValue(boxes[i]));
-            if (valueIndex >= 0 && PriorityElements[valueIndex] == changed)
+            var resource = name switch
             {
-                int previous = _previousPrioritySelection[changedIndex];
-                _loadingPrioritySelection = true;
-                boxes[i].SelectedIndex = Math.Clamp(previous, 0, PriorityElements.Length - 1);
-                _loadingPrioritySelection = false;
-            }
+                WidgetLayoutElementNames.Controls => "TaskbarWidgetPriorityControls",
+                WidgetLayoutElementNames.SongText => "TaskbarWidgetPrioritySongText",
+                WidgetLayoutElementNames.Visualizer => "TaskbarWidgetPriorityVisualizer",
+                _ => null,
+            };
+            var displayName = resource != null
+                ? (TryFindResource(resource) as string ?? name)
+                : name;
+            _priorityItems.Add(new PriorityItem(name, displayName));
         }
 
-        _previousPrioritySelection = [PriorityHiddenFirstComboBox.SelectedIndex, PriorityHiddenSecondComboBox.SelectedIndex, PriorityHiddenLastComboBox.SelectedIndex];
+        RefreshRoleTexts();
+        PriorityListBox.ItemsSource = _priorityItems;
+    }
 
-        var resolved = boxes.Select(GetPriorityValue).ToList();
-        if (resolved.Any(p => p == null) || resolved.Distinct().Count() != 3)
+    private void RefreshRoleTexts()
+    {
+        string[] keys =
+        [
+            "TaskbarWidgetPriorityHiddenFirst",
+            "TaskbarWidgetPriorityHiddenSecond",
+            "TaskbarWidgetPriorityHiddenLast",
+        ];
+
+        for (int i = 0; i < _priorityItems.Count; i++)
+        {
+            var key = i < keys.Length ? keys[i] : keys[^1];
+            _priorityItems[i].RoleText = TryFindResource(key) as string ?? key;
+        }
+    }
+
+    // GongSolutions drop handler: the list reorders itself, we persist the new order
+    void IDropTarget.DragOver(IDropInfo dropInfo)
+    {
+        dropInfo.Effects = DragDropEffects.Move;
+    }
+
+    void IDropTarget.Drop(IDropInfo dropInfo)
+    {
+        var source = dropInfo.Data as PriorityItem;
+        if (source == null)
             return;
 
+        int insertIndex = dropInfo.InsertIndex;
+        int oldIndex = _priorityItems.IndexOf(source);
+        if (oldIndex < 0)
+            return;
+
+        _priorityItems.Move(oldIndex, Math.Clamp(insertIndex, 0, _priorityItems.Count - 1));
+        RefreshRoleTexts();
+
+        // lowest entry hides first (matches the solver's hide ladder)
         SettingsManager.Current.TaskbarWidgetPriorityOrder =
         [
             WidgetLayoutElementNames.Icon,
-            .. resolved.Cast<string>(),
+            .. _priorityItems.Select(item => item.Name),
         ];
         SettingsManager.SaveSettings();
     }

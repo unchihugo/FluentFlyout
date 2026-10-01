@@ -11,6 +11,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows;
 using System.Windows.Automation;
+using System.Windows.Media;
 using System.Windows.Controls;
 using System.Windows.Interop;
 using System.Windows.Media.Imaging;
@@ -75,6 +76,20 @@ public partial class TaskbarWindow : Window
     // hysteresis band (physical px) that absorbs jitter between layout tiers
     private const double SpanHysteresis = 4;
     private double _debouncedSpanPhysical = -1;
+
+    // width animation: 16ms DispatcherTimer pumps the frames (CompositionTarget.Rendering is
+    // unreliable for this reparented window); every frame recomputes the full layout
+    private const double WidthAnimationFrameMs = 16;
+
+    // user-configurable duration (ms); clamped so absurd values can't stall or skip the run
+    private double WidthAnimationDurationMs =>
+        Math.Clamp(SettingsManager.Current.TaskbarWidgetWidthAnimationDurationMs, 100, 2000);
+    private DateTime _animationStartUtc = DateTime.MinValue;
+    private double _animationFromSpan;
+    private double _animationTargetSpan = -1;
+    private bool _animationActive;
+    private int _animationFramesApplied;
+    private DispatcherTimer? _widthAnimationTimer;
 
     private GlobalSystemMediaTransportControlsSessionPlaybackStatus? _lastPlaybackStatus;
     private DispatcherTimer? _autoHideTimer;
@@ -324,7 +339,7 @@ on_error:
             Logger.Error("Taskbar Widget error during window region reset.");
     }
 
-    private void UpdatePosition()
+    private void UpdatePosition(bool immediate = false)
     {
         if (_isClosing || MainWindow.ExplorerRestarting)
         {
@@ -376,10 +391,17 @@ on_error:
 
             if (taskbarHandle != IntPtr.Zero && interop.Handle != IntPtr.Zero)
             {
-                Dispatcher.BeginInvoke(() =>
+                if (immediate)
                 {
                     CalculateAndSetPosition(taskbarHandle, interop.Handle, isMainTaskbarSelected);
-                }, DispatcherPriority.Background);
+                }
+                else
+                {
+                    Dispatcher.BeginInvoke(() =>
+                    {
+                        CalculateAndSetPosition(taskbarHandle, interop.Handle, isMainTaskbarSelected);
+                    }, DispatcherPriority.Background);
+                }
             }
         }
         catch (Exception ex)
@@ -501,6 +523,12 @@ on_error:
 
         if (windowEnd < windowStart)
         {
+            if (!_wasTaskbarFull)
+                Logger.Info($"Taskbar window collapsed: start={windowStart:F1} end={windowEnd:F1} " +
+                    $"groupEnd={groupEnd:F1} trayStart={(trayFound ? trayStart.ToString("F1") : "not found")} " +
+                    $"taskbarWidth={taskbarWidth}");
+            _wasTaskbarFull = true;
+
             if (SettingsManager.Current.TaskbarWidgetHideWhenFull)
             {
                 // taskbar 100% full: no gap fits even the icon - collapse to zero span so the
@@ -516,10 +544,16 @@ on_error:
                 windowEnd = primarySize;
             }
         }
+        else
+        {
+            _wasTaskbarFull = false;
+        }
 
-        // spans within the hysteresis band reuse the previously applied width
+        // spans within the hysteresis band reuse the previously applied width.
+        // Skipped while a width animation runs - the debounce would rewrite the interpolated
+        // span mid-run and stall the animation.
         double span = windowEnd - windowStart;
-        if (_debouncedSpanPhysical >= 0 && Math.Abs(span - _debouncedSpanPhysical) > 0.25
+        if (!_animationActive && _debouncedSpanPhysical >= 0 && Math.Abs(span - _debouncedSpanPhysical) > 0.25
             && Math.Abs(span - _debouncedSpanPhysical) <= SpanHysteresis)
         {
             windowEnd = windowStart + _debouncedSpanPhysical;
@@ -527,6 +561,126 @@ on_error:
         }
 
         _debouncedSpanPhysical = span;
+    }
+
+    /// <summary>
+    /// Eases the computed free window span toward the target span when width animation is
+    /// enabled, so the widget grows/shrinks smoothly instead of snapping between tiers.
+    /// </summary>
+    private void EaseWindowSpan(ref double windowStart, ref double windowEnd)
+    {
+        double targetSpan = windowEnd - windowStart;
+
+        if (!SettingsManager.Current.TaskbarWidgetWidthAnimation || targetSpan <= 0)
+        {
+            // disabled or hidden (taskbar full): always snap
+            StopWidthAnimation();
+            _animationTargetSpan = -1;
+            return;
+        }
+
+        if (_animationActive)
+        {
+            double progress = Math.Min((DateTime.UtcNow - _animationStartUtc).TotalMilliseconds / WidthAnimationDurationMs, 1);
+            double eased = 1 - Math.Pow(1 - progress, 3); // ease-out cubic
+            double currentSpan = _animationFromSpan + (_animationTargetSpan - _animationFromSpan) * eased;
+
+            if (Math.Abs(targetSpan - _animationTargetSpan) >= 0.5)
+            {
+                // target moved mid-run (tier change): retarget from the current position
+                _animationFromSpan = currentSpan;
+                _animationTargetSpan = targetSpan;
+                _animationStartUtc = DateTime.UtcNow;
+                currentSpan = _animationFromSpan;
+            }
+
+            windowEnd = windowStart + currentSpan;
+            return;
+        }
+
+        // start a new run from the last applied span - using the current target here would
+        // make from == target and the animation would never start at all
+        double fromSpan;
+        if (_animationTargetSpan >= 0)
+            fromSpan = _animationTargetSpan;
+        else if (_lastWindowEndPhysical > _lastWindowStartPhysical)
+            fromSpan = _lastWindowEndPhysical - _lastWindowStartPhysical;
+        else
+            return; // first layout after startup: nothing to animate from, snap
+
+        if (Math.Abs(targetSpan - fromSpan) < 0.5)
+        {
+            // already at the target; make sure no stale timer keeps running
+            StopWidthAnimation();
+            return;
+        }
+
+        _animationFromSpan = fromSpan;
+        _animationTargetSpan = targetSpan;
+        _animationStartUtc = DateTime.UtcNow;
+        _animationActive = true;
+        _animationFramesApplied = 0;
+        Logger.Info("Width animation started: {0:F0} -> {1:F0} px over {2:F0} ms", fromSpan, targetSpan, WidthAnimationDurationMs);
+        Widget.SuppressMarqueeUpdates = true;
+        EnsureWidthAnimationClock();
+        windowEnd = windowStart + fromSpan;
+    }
+
+    private void EnsureWidthAnimationClock()
+    {
+        if (_widthAnimationTimer != null)
+            return;
+
+        // Send priority: our own layout work is queued at Background, which would starve the
+        // animation ticks and make the whole run expire before a single frame applies
+        _widthAnimationTimer = new DispatcherTimer(DispatcherPriority.Send)
+        {
+            Interval = TimeSpan.FromMilliseconds(WidthAnimationFrameMs)
+        };
+        _widthAnimationTimer.Tick += OnWidthAnimationFrame;
+        _widthAnimationTimer.Start();
+    }
+
+    private void OnWidthAnimationFrame(object? sender, EventArgs e)
+    {
+        if (!_animationActive)
+        {
+            StopWidthAnimation();
+            return;
+        }
+
+        if ((DateTime.UtcNow - _animationStartUtc).TotalMilliseconds >= WidthAnimationDurationMs)
+        {
+            // run finished: snap to the target with a final layout pass (also refreshes the
+            // marquees suppressed during the run)
+            _animationActive = false;
+            StopWidthAnimation();
+            Widget.SuppressMarqueeUpdates = false;
+            Logger.Info("Width animation finished: {0} frames applied", _animationFramesApplied);
+            UpdatePosition(immediate: true);
+            return;
+        }
+
+        // immediate: animation frames must apply synchronously - deferring them through the
+        // background dispatcher queue lets frames drain late or bunched, which reads as a snap
+        _animationFramesApplied++;
+        UpdatePosition(immediate: true);
+    }
+
+    private void StopWidthAnimation()
+    {
+        _animationActive = false;
+        Widget.SuppressMarqueeUpdates = false;
+        _widthAnimationTimer?.Stop();
+        _widthAnimationTimer = null;
+    }
+
+    /// <summary>
+    /// Repaints the visualizer bars with the current accent color scheme.
+    /// </summary>
+    public void RefreshVisualizer()
+    {
+        FluentFlyout.Controls.TaskbarVisualizerControl.RefreshVisualizerColors();
     }
 
     /// <summary>
@@ -678,7 +832,7 @@ on_error:
             }
         }
 
-        Dispatcher.BeginInvoke(UpdatePosition, DispatcherPriority.Background);
+        Dispatcher.BeginInvoke(() => UpdatePosition(), DispatcherPriority.Background);
     }
 
     private static bool RectsDiffer(Rect a, Rect b) =>
@@ -729,6 +883,12 @@ on_error:
         return _lastTaskbarHandle;
     }
 
+    // WinEvent bursts (a window animating open fires dozens of events) coalesce into one
+    // scheduled update: the first event reacts immediately, the rest just re-mark stale
+    private DateTime _lastBurstUpdateUtc = DateTime.MinValue;
+    private bool _burstUpdateScheduled;
+    private bool _wasTaskbarFull;
+
     private void MarkTaskbarGroupStale()
     {
         if (!SettingsManager.Current.TaskbarWidgetAdaptiveWidth)
@@ -737,7 +897,26 @@ on_error:
         lock (_taskbarGroupRectLock)
             _taskbarGroupStale = true;
 
-        Dispatcher.BeginInvoke(UpdatePosition, DispatcherPriority.Background);
+        DateTime now = DateTime.UtcNow;
+        if ((now - _lastBurstUpdateUtc).TotalMilliseconds >= 50)
+        {
+            // outside a burst: react immediately
+            _lastBurstUpdateUtc = now;
+            Dispatcher.BeginInvoke(() => UpdatePosition(), DispatcherPriority.Background);
+            return;
+        }
+
+        // inside a burst: schedule exactly one trailing pass if none is pending
+        if (_burstUpdateScheduled)
+            return;
+        _burstUpdateScheduled = true;
+
+        Dispatcher.BeginInvoke(() =>
+        {
+            _burstUpdateScheduled = false;
+            _lastBurstUpdateUtc = DateTime.UtcNow;
+            UpdatePosition();
+        }, DispatcherPriority.Background);
     }
 
     private void CalculateAndSetPosition(IntPtr taskbarHandle, IntPtr taskbarWindowHandle, bool isMainTaskbarSelected)
@@ -809,7 +988,10 @@ on_error:
             // only the expensive window ops below are skipped when nothing changed
             double windowStartPhysical = 0, windowEndPhysical = -1;
             if (SettingsManager.Current.TaskbarWidgetAdaptiveWidth)
+            {
                 ComputeAdaptiveWindow(taskbarHandle, taskbarRect, dpiScale, isMainTaskbarSelected, isVertical, taskbarWidth, taskbarHeight, out windowStartPhysical, out windowEndPhysical);
+                EaseWindowSpan(ref windowStartPhysical, ref windowEndPhysical);
+            }
 
             var wRect = PositionWidget(taskbarHandle, taskbarRect, dpiScale, isMainTaskbarSelected, isVertical, windowStartPhysical, windowEndPhysical, out double visualizerWidth);
             var vRect = PositionVisualizer(taskbarHandle, taskbarRect, dpiScale, isMainTaskbarSelected, isVertical, visualizerWidth, windowStartPhysical, windowEndPhysical);
@@ -1115,15 +1297,26 @@ on_error:
         double widgetPrimaryStart = isVertical ? Canvas.GetTop(Widget) : Canvas.GetLeft(Widget);
         int primaryPos;
 
+        // physical pixels; the solver already reserves this much span
+        int gapPx = (int)(WidgetLayoutSolver.VisualizerGap * dpiScale * _scale);
+
         switch (SettingsManager.Current.TaskbarVisualizerPosition)
         {
             case 0: // before widget (left for horizontal, above for vertical)
                 primaryPos = (int)(widgetPrimaryStart * dpiScale) - (int)(TaskbarVisualizer.Width * dpiScale);
+
+                // near-start placement already shifts itself by the gap
+                if (SettingsManager.Current.TaskbarWidgetPosition != 0)
+                    primaryPos -= gapPx;
                 break;
 
             case 1: // after widget (right for horizontal, below for vertical)
                 // Widget.Width holds the logical width; after 90° rotation its visual height = Widget.Width * dpiScale
                 primaryPos = (int)(widgetPrimaryStart * dpiScale) + (int)(Widget.Width * dpiScale);
+
+                // near-end placement already shifts itself by the gap
+                if (SettingsManager.Current.TaskbarWidgetPosition != 2)
+                    primaryPos += gapPx;
                 break;
 
             default:
@@ -1238,6 +1431,27 @@ on_error:
     private (bool, Rect) GetTaskbarXamlElementRect(IntPtr taskbarHandle, ref AutomationElement? elementCache, string elementName)
     {
         if (taskbarHandle == IntPtr.Zero)
+            return (false, Rect.Empty);
+
+        // UIA queries cost up to 500-1000ms each; during an animation serve rects from the
+        // element cache instead, and never start a fresh search mid-run (full tree scan)
+        if (_animationActive && elementCache != null)
+        {
+            try
+            {
+                var cachedElement = elementCache;
+                Rect cachedRect = cachedElement.Current.BoundingRectangle;
+                if (cachedRect != Rect.Empty)
+                    return (true, cachedRect);
+            }
+            catch
+            {
+                // fall through to the normal (throttled) path below
+            }
+        }
+
+        // unresolved element mid-animation: skip (full tree scan); next idle update re-queries
+        if (_animationActive && elementCache == null)
             return (false, Rect.Empty);
 
         try
@@ -1359,6 +1573,7 @@ on_error:
         _timer.Stop();
         _autoHideTimer?.Stop();
         _autoHideTimer = null;
+        StopWidthAnimation();
         if (_winEventHook != IntPtr.Zero)
         {
             NativeMethods.UnhookWinEvent(_winEventHook);
