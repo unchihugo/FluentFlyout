@@ -530,6 +530,14 @@ on_error:
     }
 
     /// <summary>
+    /// Repaints the visualizer bars with the current accent color scheme.
+    /// </summary>
+    public void RefreshVisualizer()
+    {
+        FluentFlyout.Controls.TaskbarVisualizerControl.RefreshVisualizerColors();
+    }
+
+    /// <summary>
     /// Locates the start edge of the system tray along the primary axis. Combines the UIA
     /// "SystemTrayIcon" lookup with the classic TrayNotifyWnd fallback.
     /// </summary>
