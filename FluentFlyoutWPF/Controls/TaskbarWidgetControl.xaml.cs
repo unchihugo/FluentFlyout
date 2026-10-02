@@ -29,9 +29,19 @@ public partial class TaskbarWidgetControl : UserControl
     // Constants for cover image and control button sizes
     private const double DefaultCoverImageSize = 36;
     private const double SmallCoverImageSize = 24;
+    // design width of the icon block incl. layout slack (couples with the panel's -100 right margin)
     private const double DefaultCoverImageMargin = 55;
     private const double SmallCoverImageMargin = 43;
     private const double DefaultPlaceholderIconSize = 24;
+
+    // Fixed hide order: visualizer, then controls, then song text. The album icon never hides.
+    private static readonly WidgetLayoutElement[] AdaptivePriorityOrder =
+    [
+        WidgetLayoutElement.Icon,
+        WidgetLayoutElement.Visualizer,
+        WidgetLayoutElement.Controls,
+        WidgetLayoutElement.SongText,
+    ];
     private const double SmallPlaceholderIconSize = 18;
     private const double DefaultControlButtonSize = 32;
     private const double SmallControlButtonSize = 24;
@@ -47,7 +57,6 @@ public partial class TaskbarWidgetControl : UserControl
     private double _cachedArtistWidth = 0;
     private double _cachedTitleContainerWidth = -1;
     private double _cachedArtistContainerWidth = -1;
-    private readonly int _extraMarginForText = 6; // additional margin to avoid text clipping
 
     private double _cachedTitleOpacityMaskWidth = -1;
     private double _cachedArtistOpacityMaskWidth = -1;
@@ -64,6 +73,14 @@ public partial class TaskbarWidgetControl : UserControl
     private bool _isPaused;
     private bool _isVertical;
     private bool _isSmallTaskbar;
+
+    // adaptive layout state (see WidgetLayoutSolver)
+    private WidgetLayoutTier _layoutTier = WidgetLayoutTier.Full;
+    private bool _layoutControlsShown = true;
+    private bool _layoutTextShown = true;
+    private double _lastControlsWidth;
+    private bool _layoutTextDirty;
+
 
     public TaskbarWidgetControl()
     {
@@ -117,10 +134,8 @@ public partial class TaskbarWidgetControl : UserControl
     public void SetVerticalMode(bool isVertical)
     {
         _isVertical = isVertical;
-        SongInfoStackPanel.Visibility = isVertical ? Visibility.Collapsed : Visibility.Visible;
-        SongArtistContainer.Visibility = !_isSmallTaskbar && !isVertical && !string.IsNullOrEmpty(_actualArtist)
-            ? Visibility.Visible
-            : Visibility.Collapsed;
+        SongInfoStackPanel.Visibility = ResolveSongInfoVisibility();
+        SongArtistContainer.Visibility = ResolveArtistVisibility();
 
         var counterRotate = isVertical ? new RotateTransform(-90) : null;
 
@@ -137,9 +152,7 @@ public partial class TaskbarWidgetControl : UserControl
     public void SetSmallTaskbarMode(bool isSmallTaskbar)
     {
         _isSmallTaskbar = isSmallTaskbar;
-        SongArtistContainer.Visibility = !isSmallTaskbar && !_isVertical && !string.IsNullOrEmpty(_actualArtist)
-            ? Visibility.Visible
-            : Visibility.Collapsed;
+        SongArtistContainer.Visibility = ResolveArtistVisibility();
 
         double coverImageSize = isSmallTaskbar ? SmallCoverImageSize : DefaultCoverImageSize;
         SongImageBorder.Width = coverImageSize;
@@ -265,86 +278,176 @@ public partial class TaskbarWidgetControl : UserControl
         e.Handled = true;
     }
 
-    public (double logicalWidth, double logicalHeight) CalculateSize(double dpiScale)
+    public (double logicalWidth, double logicalHeight, double visualizerWidth) CalculateSize(double dpiScale, double availableSpan = double.PositiveInfinity)
     {
-        double coverImageMargin = _isSmallTaskbar ? SmallCoverImageMargin : DefaultCoverImageMargin;
+        var inputs = GetLayoutInputs(availableSpan);
+        var layout = WidgetLayoutSolver.Solve(inputs);
+        LogAdaptiveLayout(layout, availableSpan);
+        double logicalWidth = ApplyLayout(layout);
+        double logicalHeight = _isSmallTaskbar ? SmallTaskbarWidgetHeight : DefaultTaskbarWidgetHeight;
+        return (logicalWidth, logicalHeight, layout.VisualizerWidth);
+    }
 
-        // calculate widget width - use cached values if text hasn't changed
-        string currentTitle = _actualTitle;
-        string currentArtist = _actualArtist;
+    private bool HasMedia => !string.IsNullOrEmpty(_actualTitle) || !string.IsNullOrEmpty(_actualArtist);
 
+    // last adaptive layout state logged; used to rate-limit the diagnostics below
+    private WidgetLayoutTier _lastLoggedTier = (WidgetLayoutTier)(-1);
+    private bool _lastLoggedTextShown = true;
+    private bool _lastLoggedControlsShown = true;
+    private bool _lastLoggedVisualizerShown = true;
+    private double _lastLoggedWidth = -1;
+
+    private void LogAdaptiveLayout(WidgetLayoutResult layout, double availableSpan)
+    {
+        if (!SettingsManager.Current.TaskbarWidgetAdaptiveWidth)
+            return;
+
+        bool visualizerShown = layout.VisualizerWidth > 0;
+        bool stateChanged = layout.Tier != _lastLoggedTier
+            || layout.TextShown != _lastLoggedTextShown
+            || layout.ControlsShown != _lastLoggedControlsShown
+            || visualizerShown != _lastLoggedVisualizerShown;
+
+        if (!stateChanged && Math.Abs(layout.WidgetWidth - _lastLoggedWidth) <= 8)
+            return;
+
+        Logger.Info($"Adaptive layout: {layout.Tier} width={layout.WidgetWidth:F0} " +
+            $"span={(double.IsInfinity(availableSpan) ? -1 : availableSpan):F0} natural={layout.NaturalWidth:F0} " +
+            $"text={layout.TextShown} controls={layout.ControlsShown} visualizer={visualizerShown}");
+
+        _lastLoggedTier = layout.Tier;
+        _lastLoggedTextShown = layout.TextShown;
+        _lastLoggedControlsShown = layout.ControlsShown;
+        _lastLoggedVisualizerShown = visualizerShown;
+        _lastLoggedWidth = layout.WidgetWidth;
+    }
+
+    // Returns true when the text changed, so callers can skip a re-layout
+    private bool EnsureTextWidthsCached()
+    {
         bool textChanged = false;
 
-        if (!string.Equals(currentTitle, _cachedTitleText, StringComparison.Ordinal))
+        if (!string.Equals(_actualTitle, _cachedTitleText, StringComparison.Ordinal))
         {
-            _cachedTitleWidth = Math.Round(StringWidth.GetStringWidth(currentTitle, 400), 2);
-            _cachedTitleText = currentTitle;
+            _cachedTitleWidth = Math.Round(StringWidth.GetStringWidth(_actualTitle, 400), 2);
+            _cachedTitleText = _actualTitle;
             textChanged = true;
         }
-        if (!string.Equals(currentArtist, _cachedArtistText, StringComparison.Ordinal))
+        if (!string.Equals(_actualArtist, _cachedArtistText, StringComparison.Ordinal))
         {
-            _cachedArtistWidth = Math.Round(StringWidth.GetStringWidth(currentArtist, 400), 2);
-            _cachedArtistText = currentArtist;
+            _cachedArtistWidth = Math.Round(StringWidth.GetStringWidth(_actualArtist, 400), 2);
+            _cachedArtistText = _actualArtist;
             textChanged = true;
         }
 
-        // maximum width limit, same as Windows native widget
-        double maxLogicalWidth = _nativeWidgetsPadding / _scale;
-        double logicalWidth;
+        return textChanged;
+    }
 
-        if (_isVertical)
-        {
-            logicalWidth = coverImageMargin;
-        }
-        else if (SettingsManager.Current.TaskbarWidgetFixedWidth)
-        {
-            // pin to maximum width so right-aligned controls don't shift between songs
-            logicalWidth = maxLogicalWidth;
-        }
-        else
-        {
-            double contentWidth = _isSmallTaskbar ? _cachedTitleWidth : Math.Max(_cachedTitleWidth, _cachedArtistWidth);
-            logicalWidth = contentWidth + coverImageMargin + _extraMarginForText; // add margin for cover image
-            logicalWidth = Math.Min(logicalWidth, maxLogicalWidth);
-        }
+    private WidgetLayoutInputs GetLayoutInputs(double availableSpan)
+    {
+        _layoutTextDirty |= EnsureTextWidthsCached();
 
-        double newTitleContainerWidth = Math.Max(logicalWidth - coverImageMargin, 0);
-        double newArtistContainerWidth = Math.Max(logicalWidth - coverImageMargin, 0);
-        bool widthChanged = false;
-
-        if (_cachedTitleContainerWidth != newTitleContainerWidth)
+        bool controlsVisible = SettingsManager.Current.TaskbarWidgetControlsEnabled && HasMedia;
+        double controlsWidth = 0;
+        if (controlsVisible)
         {
-            SongTitleContainer.Width = newTitleContainerWidth;
-            _cachedTitleContainerWidth = newTitleContainerWidth;
-            widthChanged = true;
-        }
-
-        if (_cachedArtistContainerWidth != newArtistContainerWidth)
-        {
-            SongArtistContainer.Width = newArtistContainerWidth;
-            _cachedArtistContainerWidth = newArtistContainerWidth;
-            widthChanged = true;
-        }
-
-        // Refresh animations if layout bounds or text contents change
-        if (textChanged || widthChanged)
-        {
-            UpdateMarquees();
-        }
-
-        // add space for playback controls if enabled and visible
-        if (SettingsManager.Current.TaskbarWidgetControlsEnabled && ControlsStackPanel.Visibility == Visibility.Visible)
-        {
-            double controlsWidth = PreviousButton.Width + PlayPauseButton.Width + NextButton.Width;
+            controlsWidth = PreviousButton.Width + PlayPauseButton.Width + NextButton.Width;
             if (!_isVertical)
                 controlsWidth += ControlsStackPanel.Margin.Left + ControlsStackPanel.Margin.Right;
+        }
+        _lastControlsWidth = controlsWidth;
 
-            logicalWidth += controlsWidth;
+        return new WidgetLayoutInputs
+        {
+            AvailableSpan = availableSpan,
+            TitleWidth = _cachedTitleWidth,
+            ArtistWidth = _cachedArtistWidth,
+            CoverMargin = _isSmallTaskbar ? SmallCoverImageMargin : DefaultCoverImageMargin,
+            ControlsWidth = controlsWidth,
+            ControlsVisible = controlsVisible,
+            IsVertical = _isVertical,
+            IsSmallTaskbar = _isSmallTaskbar,
+            FixedWidth = SettingsManager.Current.TaskbarWidgetFixedWidth,
+            AdaptiveEnabled = SettingsManager.Current.TaskbarWidgetAdaptiveWidth,
+            VisualizerEnabled = SettingsManager.Current.TaskbarVisualizerEnabled,
+            MaxWidgetWidth = _nativeWidgetsPadding / _scale,
+            PriorityOrder = AdaptivePriorityOrder,
+        };
+    }
+
+    private double ApplyLayout(WidgetLayoutResult layout)
+    {
+        _layoutTier = layout.Tier;
+        _layoutControlsShown = layout.ControlsShown;
+        _layoutTextShown = layout.TextShown;
+
+        double coverImageMargin = _isSmallTaskbar ? SmallCoverImageMargin : DefaultCoverImageMargin;
+        // The solved width already excludes the controls when the tier hides them
+        double shownControlsWidth = layout.ControlsShown ? _lastControlsWidth : 0;
+        double newTextContainerWidth = layout.TextShown
+            ? Math.Max(layout.WidgetWidth - shownControlsWidth - coverImageMargin, 0)
+            : 0;
+        bool widthChanged = false;
+
+        if (_cachedTitleContainerWidth != newTextContainerWidth)
+        {
+            SongTitleContainer.Width = newTextContainerWidth;
+            _cachedTitleContainerWidth = newTextContainerWidth;
+            widthChanged = true;
         }
 
-        double logicalHeight = _isSmallTaskbar ? SmallTaskbarWidgetHeight : DefaultTaskbarWidgetHeight;
+        if (_cachedArtistContainerWidth != newTextContainerWidth)
+        {
+            SongArtistContainer.Width = newTextContainerWidth;
+            _cachedArtistContainerWidth = newTextContainerWidth;
+            widthChanged = true;
+        }
 
-        return (logicalWidth, logicalHeight);
+        // Refresh animations if layout bounds or text contents change.
+        if (widthChanged || _layoutTextDirty)
+        {
+            UpdateMarquees();
+            _layoutTextDirty = false;
+        }
+        else if (widthChanged)
+        {
+            _layoutTextDirty = true; // remember to refresh marquees on the settle pass
+        }
+
+        ApplyTierVisibility();
+        return layout.WidgetWidth;
+    }
+
+    // Visibilities depend on the adaptive layout tier on top of the XAML bindings
+    private void ApplyTierVisibility()
+    {
+        SongInfoStackPanel.Visibility = ResolveSongInfoVisibility();
+        SongArtistContainer.Visibility = ResolveArtistVisibility();
+        ControlsStackPanel.Visibility = ResolveControlsVisibility();
+        Visibility = _layoutTier == WidgetLayoutTier.Hidden ? Visibility.Collapsed : Visibility.Visible;
+    }
+
+    private Visibility ResolveSongInfoVisibility()
+    {
+        return !_isVertical && HasMedia && _layoutTextShown && _layoutTier != WidgetLayoutTier.Hidden
+            ? Visibility.Visible
+            : Visibility.Collapsed;
+    }
+
+    private Visibility ResolveArtistVisibility()
+    {
+        return !_isSmallTaskbar && !_isVertical && HasMedia && !string.IsNullOrEmpty(_actualArtist)
+            && _layoutTextShown && _layoutTier is not (WidgetLayoutTier.Compact or WidgetLayoutTier.Hidden)
+            ? Visibility.Visible
+            : Visibility.Collapsed;
+    }
+
+    private Visibility ResolveControlsVisibility()
+    {
+        return SettingsManager.Current.TaskbarWidgetControlsEnabled && HasMedia && _layoutControlsShown
+            && _layoutTier != WidgetLayoutTier.Hidden
+            ? Visibility.Visible
+            : Visibility.Collapsed;
     }
 
     public void UpdateMarquees()
@@ -517,11 +620,10 @@ public partial class TaskbarWidgetControl : UserControl
                     return;
                 }
 
-                ControlsStackPanel.Visibility = Visibility.Collapsed;
                 SongTitle.Text = string.Empty;
                 SongArtist.Text = string.Empty;
-                SongInfoStackPanel.Visibility = Visibility.Collapsed;
                 SongInfoStackPanel.ToolTip = string.Empty;
+                ApplyTierVisibility();
                 SongImagePlaceholder.Symbol = SymbolRegular.MusicNote220;
                 SongImagePlaceholder.Visibility = Visibility.Visible;
                 SongImage.ImageSource = null;
@@ -531,8 +633,6 @@ public partial class TaskbarWidgetControl : UserControl
                 MainBorder.Background = new SolidColorBrush(Colors.Transparent);
                 MainBorder.Background.Opacity = 0;
                 TopBorder.BorderBrush = Brushes.Transparent;
-
-                Visibility = Visibility.Visible;
             });
             return;
         }
@@ -632,18 +732,10 @@ public partial class TaskbarWidgetControl : UserControl
             }
 
             SongTitle.Visibility = Visibility.Visible;
-            SongArtistContainer.Visibility = !_isSmallTaskbar && !_isVertical && !string.IsNullOrEmpty(_actualArtist)
-                ? Visibility.Visible
-                : Visibility.Collapsed;
-            SongInfoStackPanel.Visibility = _isVertical ? Visibility.Collapsed : Visibility.Visible;
             BackgroundImage.Visibility = SettingsManager.Current.TaskbarWidgetBackgroundBlur ? Visibility.Visible : Visibility.Collapsed;
 
-            // on top of XAML visibility binding (XAML binding only hides when disabled in settings)
-            ControlsStackPanel.Visibility = SettingsManager.Current.TaskbarWidgetControlsEnabled
-                ? Visibility.Visible
-                : Visibility.Collapsed;
-
-            Visibility = Visibility.Visible;
+            // element visibilities depend on the adaptive layout tier on top of the XAML bindings
+            ApplyTierVisibility();
         });
     }
 

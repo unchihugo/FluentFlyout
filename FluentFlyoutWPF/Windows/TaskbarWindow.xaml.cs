@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 using FluentFlyout.Classes.Settings;
+using FluentFlyout.Classes.Utils;
 using FluentFlyoutWPF;
 using FluentFlyoutWPF.Classes;
 using FluentFlyoutWPF.Classes.Utils;
@@ -56,7 +57,11 @@ public partial class TaskbarWindow : Window
         DataContext = SettingsManager.Current;
 
         _timer = new DispatcherTimer();
-        _timer.Interval = TimeSpan.FromMilliseconds(1500); // slow auto-update for display changes
+        // Adaptive width needs a responsive poll; a measurement costs well under a millisecond
+        // because the taskbar anchors are memoised, so polling often is cheap.
+        _timer.Interval = TimeSpan.FromMilliseconds(SettingsManager.Current.TaskbarWidgetAdaptiveWidth
+            ? AdaptivePollIntervalMs
+            : IdlePollIntervalMs);
         _timer.Tick += (s, e) => UpdatePosition();
         _timer.Start();
 
@@ -353,19 +358,6 @@ on_error:
         }
     }
 
-    private void ResetTaskbarCachesIfHandleChanged(IntPtr taskbarHandle)
-    {
-        if (_lastTaskbarHandle == taskbarHandle)
-            return;
-
-        _lastTaskbarHandle = taskbarHandle;
-        _trayHandle = IntPtr.Zero;
-        _widgetElement = null;
-        _trayElement = null;
-        _taskbarFrameElement = null;
-        _pendingAutomationTasks.Clear();
-    }
-
     private void CalculateAndSetPosition(IntPtr taskbarHandle, IntPtr taskbarWindowHandle, bool isMainTaskbarSelected)
     {
         // Prevent overlapping updates - if a previous update is still running
@@ -440,53 +432,150 @@ on_error:
                      containerPos.X, containerPos.Y,
                      containerWidth, containerHeight,
                      SWP_NOACTIVATE | SWP_ASYNCWINDOWPOS | SWP_SHOWWINDOW);
-            var wRect = PositionWidget(taskbarHandle, taskbarRect, dpiScale, isMainTaskbarSelected, isVertical);
-            var vRect = PositionVisualizer(taskbarHandle, taskbarRect, dpiScale, isMainTaskbarSelected, isVertical);
 
-            UpdateWindowRegion(taskbarWindowHandle, wRect, vRect);
+            _skippedReposition = false;
+            var wRect = PositionWidget(taskbarHandle, taskbarRect, dpiScale, isMainTaskbarSelected, isVertical);
+            var vRect = PositionVisualizer(taskbarHandle, taskbarRect, dpiScale, isMainTaskbarSelected, isVertical, _adaptiveVisualizerWidth);
+
+            if (!_skippedReposition)
+                UpdateWindowRegion(taskbarWindowHandle, wRect, vRect);
 
             _lastSelectedMonitor = SettingsManager.Current.TaskbarWidgetSelectedMonitor;
         }
         finally
         {
             _positionUpdateInProgress = false;
+
+
         }
     }
 
-    private Rect PositionWidget(IntPtr taskbarHandle, RECT taskbarRect, double dpiScale, bool isMainTaskbarSelected, bool isVertical)
+    public void UpdateUi(string title, string artist, BitmapImage? icon, GlobalSystemMediaTransportControlsSessionPlaybackStatus? playbackStatus, GlobalSystemMediaTransportControlsSessionPlaybackControls? playbackControls = null)
     {
-        if (!SettingsManager.Current.TaskbarWidgetEnabled)
-            return Rect.Empty;
+        // Check premium status - hide widget if not unlocked
+        if ((!SettingsManager.Current.TaskbarWidgetEnabled || !SettingsManager.Current.IsPremiumUnlocked))
+        {
+            if (_timer.IsEnabled) // pause timer to save resources
+                _timer.Stop();
 
-        Widget.SetVerticalMode(isVertical);
+            Dispatcher.Invoke(() =>
+            {
+                Visibility = Visibility.Collapsed;
+            });
+            return;
+        }
 
-        // Calculate widget size
-        var (logicalWidth, logicalHeight) = Widget.CalculateSize(dpiScale);
+        // Autohide - Widget hides when playback is paused
+        _lastPlaybackStatus = playbackStatus;
 
-        int physicalWidth = (int)(logicalWidth * dpiScale * _scale);
-        int physicalHeight = (int)(logicalHeight * dpiScale);
+        if ((SettingsManager.Current.TaskbarWidgetAutoHide))
+        {
+            if (playbackStatus == GlobalSystemMediaTransportControlsSessionPlaybackStatus.Playing)
+            {
+                _autoHideTimer?.Stop();
+                _autoHideTimer = null;
 
-        int taskbarHeight = taskbarRect.Bottom - taskbarRect.Top;
-        int taskbarWidth = taskbarRect.Right - taskbarRect.Left;
+                Dispatcher.Invoke(() =>
+                {
+                    Visibility = Visibility.Visible;
+                });
+            }
+            else
+            {
+                // Start delayed hide
+                if (_autoHideTimer == null)
+                {
+                    var localTimer = new DispatcherTimer
+                    {
+                        Interval = TimeSpan.FromMilliseconds(750)
+                    };
 
-        // Apply orientation transform
-        Widget.LayoutTransform = isVertical ? new System.Windows.Media.RotateTransform(90) : null;
-        Widget.RenderTransform = System.Windows.Media.Transform.Identity;
+                    localTimer.Tick += (s, e) =>
+                    {
+                        localTimer.Stop();
+                        if (_autoHideTimer == localTimer)
+                            _autoHideTimer = null;
 
-        // On a vertical taskbar the widget is rotated 90°, so the axes flip:
-        //   primarySize = taskbarHeight, positioning runs along Y
-        //   crossSize   = taskbarWidth,  widget is centered along X
-        //   physicalWidth  = visual extent along primary axis (logical width = visual height after rotation)
-        //   physicalHeight = visual extent along cross axis   (logical height = visual width after rotation)
-        int primarySize = isVertical ? taskbarHeight : taskbarWidth;
-        int crossSize = isVertical ? taskbarWidth : taskbarHeight;
+                        if (_lastPlaybackStatus != GlobalSystemMediaTransportControlsSessionPlaybackStatus.Playing)
+                        {
+                            Dispatcher.Invoke(() =>
+                            {
+                                Visibility = Visibility.Collapsed;
+                            });
+                        }
+                    };
 
-        // Center on the cross axis; both orientations use physicalHeight for the cross dimension
-        int crossPos = (crossSize - physicalHeight) / 2;
+                    _autoHideTimer = localTimer;
+                    localTimer.Start();
+                }
+            }
+        }
 
-        // Primary axis position (calculated per-case below)
-        int primaryPos = 0;
+        if (!_timer.IsEnabled)
+            _timer.Start();
 
+        // Delegate UI update to widget control
+        Widget.UpdateUi(title, artist, icon, playbackStatus, playbackControls);
+
+        // Update position after UI change
+        Dispatcher.BeginInvoke(() => UpdatePosition(), DispatcherPriority.Background);
+
+        Dispatcher.Invoke(() =>
+        {
+            Visibility = Visibility.Visible;
+        });
+    }
+
+    public void RefreshAppVolumeTooltip()
+    {
+        Widget.RefreshAppVolumeTooltip();
+    }
+
+    /// <summary>
+    /// Attempts to locate the Windows taskbar widgets button and retrieves its bounding rectangle.
+    /// </summary>
+    /// <returns>A tuple where the first value indicates whether the widgets button was found (<see langword="true"/> if found;
+    /// otherwise, <see langword="false"/>), and the second value is the bounding rectangle of the button if found, or
+    /// <see cref="Rect.Empty"/> if not found.</returns>
+    private (bool, Rect) GetTaskbarWidgetRect(IntPtr taskbarHandle)
+    {
+        return GetTaskbarXamlElementRect(taskbarHandle, ref _widgetElement, "WidgetsButton");
+    }
+
+    private (bool, Rect) GetSystemTrayRect(IntPtr taskbarHandle)
+    {
+        return GetTaskbarXamlElementRect(taskbarHandle, ref _trayElement, "SystemTrayIcon");
+    }
+
+    private (bool, Rect) GetTaskbarFrameRect(IntPtr taskbarHandle)
+    {
+        return GetTaskbarXamlElementRect(taskbarHandle, ref _taskbarFrameElement, "TaskbarFrame");
+    }
+
+    protected override void OnClosed(EventArgs e)
+    {
+        _isClosing = true;
+
+        _timer.Stop();
+        _autoHideTimer?.Stop();
+        _autoHideTimer = null;
+        _widgetElement = null;
+        _trayElement = null;
+        _taskbarFrameElement = null;
+        _pendingAutomationTasks.Clear();
+        _elementBoundsCache.Clear();
+        _elementMissingUntil.Clear();
+        base.OnClosed(e);
+    }
+
+    /// <remarks>
+    /// Skipped when adaptive width already measured a free gap, because this path re-runs a
+    /// blocking UI Automation query on every call.
+    /// </remarks>
+    private void ApplyLegacyWidgetPosition(IntPtr taskbarHandle, RECT taskbarRect, double dpiScale,
+        bool isMainTaskbarSelected, bool isVertical, int taskbarWidth, int taskbarHeight, int primarySize,
+        int physicalWidth, ref int primaryPos)
+    {
         switch (SettingsManager.Current.TaskbarWidgetPosition)
         {
             case 0: // near start (left for horizontal, top for vertical)
@@ -631,8 +720,120 @@ on_error:
                 }
                 break;
         }
+    }
+    private Rect PositionWidget(IntPtr taskbarHandle, RECT taskbarRect, double dpiScale, bool isMainTaskbarSelected, bool isVertical)
+    {
+        if (!SettingsManager.Current.TaskbarWidgetEnabled)
+            return Rect.Empty;
+
+        Widget.SetVerticalMode(isVertical);
+
+        int taskbarHeight = taskbarRect.Bottom - taskbarRect.Top;
+        int taskbarWidth = taskbarRect.Right - taskbarRect.Left;
+
+        // Measure the free gap first so the solver can pick a tier that fits
+        double availableSpanLogical = double.PositiveInfinity;
+        double adaptiveStart = 0, adaptiveEnd = 0;
+        bool adaptiveSpanMeasured = false;
+        if (SettingsManager.Current.TaskbarWidgetAdaptiveWidth)
+        {
+            (adaptiveStart, adaptiveEnd, adaptiveSpanMeasured) = ComputeAdaptiveSpanPhysical(taskbarHandle, taskbarRect, isMainTaskbarSelected, isVertical);
+
+            // No real gap: constrain to icon-only, since infinity would return the full natural
+            // width and draw the widget across the icons and tray.
+            availableSpanLogical = adaptiveSpanMeasured
+                ? (adaptiveEnd - adaptiveStart) / (dpiScale * _scale)
+                : WidgetLayoutSolver.MinimalIconWidth;
+        }
+
+        // Calculate widget size
+        var (logicalWidth, logicalHeight, visualizerWidth) = Widget.CalculateSize(dpiScale, availableSpanLogical);
+        _adaptiveVisualizerWidth = visualizerWidth;
+
+        int physicalWidth = (int)(logicalWidth * dpiScale * _scale);
+        int physicalHeight = (int)(logicalHeight * dpiScale);
+
+        // Apply orientation transform
+        Widget.LayoutTransform = isVertical ? new System.Windows.Media.RotateTransform(90) : null;
+        Widget.RenderTransform = System.Windows.Media.Transform.Identity;
+
+        // On a vertical taskbar the widget is rotated 90°, so the axes flip:
+        //   primarySize = taskbarHeight, positioning runs along Y
+        //   crossSize   = taskbarWidth,  widget is centered along X
+        //   physicalWidth  = visual extent along primary axis (logical width = visual height after rotation)
+        //   physicalHeight = visual extent along cross axis   (logical height = visual width after rotation)
+        int primarySize = isVertical ? taskbarHeight : taskbarWidth;
+        int crossSize = isVertical ? taskbarWidth : taskbarHeight;
+
+        // Center on the cross axis; both orientations use physicalHeight for the cross dimension
+        int crossPos = (crossSize - physicalHeight) / 2;
+
+        // Primary axis position (calculated per-case below)
+        int primaryPos = 0;
+
+        if (!adaptiveSpanMeasured)
+        {
+            ApplyLegacyWidgetPosition(taskbarHandle, taskbarRect, dpiScale,
+                isMainTaskbarSelected, isVertical, taskbarWidth, taskbarHeight,
+                primarySize, physicalWidth, ref primaryPos);
+        }
 
         primaryPos += SettingsManager.Current.TaskbarWidgetManualPadding;
+
+        // Anchor inside the measured gap: the legacy switch above assumes the full natural width,
+        // so once the solver shrinks the widget that anchor would hug the wrong edge.
+        if (adaptiveSpanMeasured && adaptiveEnd > adaptiveStart)
+        {
+            // The visualizer must be part of the anchored group, or it lands past the gap
+            double visPhysical = visualizerWidth > 0 ? visualizerWidth * dpiScale : 0;
+            bool visBefore = SettingsManager.Current.TaskbarVisualizerPosition == 0;
+            bool visAfter = SettingsManager.Current.TaskbarVisualizerPosition == 1 && visPhysical > 0;
+
+            switch (SettingsManager.Current.TaskbarWidgetPosition)
+            {
+                case 0:
+                    // visualizer sits before the widget, so start the group at the gap's left edge
+                    primaryPos = (int)(adaptiveStart + (visBefore ? visPhysical : 0));
+                    break;
+
+                case 2:
+                    // visualizer sits after the widget, so end the group at the gap's right edge
+                    primaryPos = (int)(adaptiveEnd - physicalWidth - (visAfter ? visPhysical : 0));
+                    break;
+
+                default:
+                    primaryPos = (int)((adaptiveStart + adaptiveEnd) / 2) - physicalWidth / 2;
+                    break;
+            }
+
+            if (primaryPos < 0)
+                primaryPos = 0;
+        }
+
+        // Every assignment below invalidates WPF layout, and a measured pass costs ~35ms of
+        // UI-thread time, so skip the block entirely when nothing moved.
+        bool geometryUnchanged = _lastGeometryValid
+            && _lastPrimaryPos == primaryPos
+            && _lastCrossPos == crossPos
+            && _lastPhysicalWidth == physicalWidth
+            && _lastPhysicalHeight == physicalHeight
+            && _lastIsVertical == isVertical
+            && _lastVisualizerWidth == _adaptiveVisualizerWidth
+            && Math.Abs(Widget.Width - physicalWidth / dpiScale) < 0.01;
+
+        if (geometryUnchanged)
+        {
+            _skippedReposition = true;
+            return _lastWidgetRect;
+        }
+
+        _lastGeometryValid = true;
+        _lastPrimaryPos = primaryPos;
+        _lastCrossPos = crossPos;
+        _lastPhysicalWidth = physicalWidth;
+        _lastPhysicalHeight = physicalHeight;
+        _lastIsVertical = isVertical;
+        _lastVisualizerWidth = _adaptiveVisualizerWidth;
 
         // Set widget position within canvas
         // primaryPos → left (horizontal) or top (vertical); crossPos → top (horizontal) or left (vertical)
@@ -644,13 +845,24 @@ on_error:
         // After 90° LayoutTransform the visual bounding rect has swapped dimensions
         double rectW = isVertical ? physicalHeight : physicalWidth;
         double rectH = isVertical ? physicalWidth : physicalHeight;
-        return new Rect(Canvas.GetLeft(Widget) * dpiScale, Canvas.GetTop(Widget) * dpiScale, rectW, rectH);
+        _lastWidgetRect = new Rect(Canvas.GetLeft(Widget) * dpiScale, Canvas.GetTop(Widget) * dpiScale, rectW, rectH);
+        return _lastWidgetRect;
     }
-
-    private Rect PositionVisualizer(IntPtr taskbarHandle, RECT taskbarRect, double dpiScale, bool isMainTaskbarSelected, bool isVertical)
+    private Rect PositionVisualizer(IntPtr taskbarHandle, RECT taskbarRect, double dpiScale, bool isMainTaskbarSelected, bool isVertical, double visualizerWidth)
     {
-        if (!SettingsManager.Current.TaskbarVisualizerEnabled)
+        // The solver decides whether the visualizer survives the shrink
+        if (!SettingsManager.Current.TaskbarVisualizerEnabled || visualizerWidth <= 0)
+        {
+            // Assigning these every pass would invalidate layout on a control that repaints per audio frame
+            if (TaskbarVisualizer.Visibility != Visibility.Collapsed)
+                TaskbarVisualizer.Visibility = Visibility.Collapsed;
             return Rect.Empty;
+        }
+
+        if (TaskbarVisualizer.Visibility != Visibility.Visible)
+            TaskbarVisualizer.Visibility = Visibility.Visible;
+        if (Math.Abs(TaskbarVisualizer.Width - visualizerWidth) > 0.01)
+            TaskbarVisualizer.Width = visualizerWidth;
 
         // Rotate visualizer 90° on vertical taskbar so it fits the slim width
         TaskbarVisualizer.LayoutTransform = isVertical ? new System.Windows.Media.RotateTransform(90) : null;
@@ -698,88 +910,6 @@ on_error:
         double rectH = isVertical ? TaskbarVisualizer.Width * dpiScale : TaskbarVisualizer.Height * dpiScale;
         return new Rect(Canvas.GetLeft(TaskbarVisualizer) * dpiScale, Canvas.GetTop(TaskbarVisualizer) * dpiScale, rectW, rectH);
     }
-
-    public void UpdateUi(string title, string artist, BitmapImage? icon, GlobalSystemMediaTransportControlsSessionPlaybackStatus? playbackStatus, GlobalSystemMediaTransportControlsSessionPlaybackControls? playbackControls = null)
-    {
-        // Check premium status - hide widget if not unlocked
-        if ((!SettingsManager.Current.TaskbarWidgetEnabled || !SettingsManager.Current.IsPremiumUnlocked))
-        {
-            if (_timer.IsEnabled) // pause timer to save resources
-                _timer.Stop();
-
-            Dispatcher.Invoke(() =>
-            {
-                Visibility = Visibility.Collapsed;
-            });
-            return;
-        }
-
-        // Autohide - Widget hides when playback is paused
-        _lastPlaybackStatus = playbackStatus;
-
-        if ((SettingsManager.Current.TaskbarWidgetAutoHide))
-        {
-            if (playbackStatus == GlobalSystemMediaTransportControlsSessionPlaybackStatus.Playing)
-            {
-                _autoHideTimer?.Stop();
-                _autoHideTimer = null;
-
-                Dispatcher.Invoke(() =>
-                {
-                    Visibility = Visibility.Visible;
-                });
-            }
-            else
-            {
-                // Start delayed hide
-                if (_autoHideTimer == null)
-                {
-                    var localTimer = new DispatcherTimer
-                    {
-                        Interval = TimeSpan.FromMilliseconds(750)
-                    };
-
-                    localTimer.Tick += (s, e) =>
-                    {
-                        localTimer.Stop();
-                        if (_autoHideTimer == localTimer)
-                            _autoHideTimer = null;
-
-                        if (_lastPlaybackStatus != GlobalSystemMediaTransportControlsSessionPlaybackStatus.Playing)
-                        {
-                            Dispatcher.Invoke(() =>
-                            {
-                                Visibility = Visibility.Collapsed;
-                            });
-                        }
-                    };
-
-                    _autoHideTimer = localTimer;
-                    localTimer.Start();
-                }
-            }
-        }
-
-        if (!_timer.IsEnabled)
-            _timer.Start();
-
-        // Delegate UI update to widget control
-        Widget.UpdateUi(title, artist, icon, playbackStatus, playbackControls);
-
-        // Update position after UI change
-        Dispatcher.BeginInvoke(() => UpdatePosition(), DispatcherPriority.Background);
-
-        Dispatcher.Invoke(() =>
-        {
-            Visibility = Visibility.Visible;
-        });
-    }
-
-    public void RefreshAppVolumeTooltip()
-    {
-        Widget.RefreshAppVolumeTooltip();
-    }
-
     private (bool, Rect) GetTaskbarXamlElementRect(IntPtr taskbarHandle, ref AutomationElement? elementCache, string elementName)
     {
         if (taskbarHandle == IntPtr.Zero)
@@ -789,11 +919,22 @@ on_error:
         {
             // reset if monitor changed
             if (_lastSelectedMonitor != SettingsManager.Current.TaskbarWidgetSelectedMonitor)
+            {
                 elementCache = null;
+                _elementBoundsCache.Clear();
+                _elementMissingUntil.Clear();
+            }
 
             // find widget in XAML
             if (elementCache == null)
             {
+                // Back off after a miss rather than re-walking the subtree on every pass
+                if (_elementMissingUntil.TryGetValue(elementName, out DateTime retryAfter)
+                    && DateTime.UtcNow < retryAfter)
+                {
+                    return (false, Rect.Empty);
+                }
+
                 if (_pendingAutomationTasks.TryGetValue(elementName, out var pendingTask) && !pendingTask.IsCompleted)
                     return (false, Rect.Empty);
 
@@ -809,12 +950,21 @@ on_error:
                 if (!findTask.Wait(1000))
                 {
                     Logger.Warn("Timeout querying taskbar XAML element: " + elementName);
+                    _elementMissingUntil[elementName] = DateTime.UtcNow.AddMilliseconds(TaskbarElementMissingCacheMs);
                     return (false, Rect.Empty);
                 }
 
                 // Propagate any exception from the background thread
                 findTask.GetAwaiter().GetResult();
                 elementCache = found;
+
+                if (elementCache == null)
+                {
+                    _elementMissingUntil[elementName] = DateTime.UtcNow.AddMilliseconds(TaskbarElementMissingCacheMs);
+                    return (false, Rect.Empty);
+                }
+
+                _elementMissingUntil.Remove(elementName);
             }
 
             if (elementCache == null) // widget most likely disabled
@@ -826,6 +976,13 @@ on_error:
                 {
                     elementCache = null;
                     return (false, Rect.Empty);
+                }
+
+                // Reading BoundingRectangle is a blocking cross-process call, so cache it briefly
+                if (_elementBoundsCache.TryGetValue(elementName, out var cachedBounds)
+                    && DateTime.UtcNow - cachedBounds.Time < TimeSpan.FromMilliseconds(TaskbarElementBoundsCacheMs))
+                {
+                    return (cachedBounds.Found, cachedBounds.Rect);
                 }
 
                 var cachedElement = elementCache;
@@ -844,9 +1001,12 @@ on_error:
                 if (elementRect == Rect.Empty) // widget shown before but most likely disabled now
                 {
                     elementCache = null; // reset cache
+                    _elementBoundsCache.Remove(elementName);
+                    _elementMissingUntil[elementName] = DateTime.UtcNow.AddMilliseconds(TaskbarElementMissingCacheMs);
                     return (false, Rect.Empty);
                 }
 
+                _elementBoundsCache[elementName] = (DateTime.UtcNow, true, elementRect);
                 return (true, elementRect);
             }
             catch (ElementNotAvailableException)
@@ -875,39 +1035,5 @@ on_error:
             elementCache = null; // reset cache on error
             return (false, Rect.Empty);
         }
-    }
-
-    /// <summary>
-    /// Attempts to locate the Windows taskbar widgets button and retrieves its bounding rectangle.
-    /// </summary>
-    /// <returns>A tuple where the first value indicates whether the widgets button was found (<see langword="true"/> if found;
-    /// otherwise, <see langword="false"/>), and the second value is the bounding rectangle of the button if found, or
-    /// <see cref="Rect.Empty"/> if not found.</returns>
-    private (bool, Rect) GetTaskbarWidgetRect(IntPtr taskbarHandle)
-    {
-        return GetTaskbarXamlElementRect(taskbarHandle, ref _widgetElement, "WidgetsButton");
-    }
-
-    private (bool, Rect) GetSystemTrayRect(IntPtr taskbarHandle)
-    {
-        return GetTaskbarXamlElementRect(taskbarHandle, ref _trayElement, "SystemTrayIcon");
-    }
-
-    private (bool, Rect) GetTaskbarFrameRect(IntPtr taskbarHandle)
-    {
-        return GetTaskbarXamlElementRect(taskbarHandle, ref _taskbarFrameElement, "TaskbarFrame");
-    }
-
-    protected override void OnClosed(EventArgs e)
-    {
-        _isClosing = true;
-        _timer.Stop();
-        _autoHideTimer?.Stop();
-        _autoHideTimer = null;
-        _widgetElement = null;
-        _trayElement = null;
-        _taskbarFrameElement = null;
-        _pendingAutomationTasks.Clear();
-        base.OnClosed(e);
     }
 }
