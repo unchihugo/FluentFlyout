@@ -220,6 +220,11 @@ Lưu ý: Vì đây là một dự án mã nguồn mở, các tính năng này c�
     <system:String x:Key="LockKeysCursorUITitle">Màn hình hiển thị</system:String>
     <system:String x:Key="UseAlbumArtAccentColorTitle">(Media flyout) Màu nút phát tương xứng với ảnh bìa</system:String>
     <system:String x:Key="UseAlbumArtAccentColorDescription">Khi tắt, màu nút phát sẽ tương tự màu accent của hệ thống</system:String>
+    <system:String x:Key="TaskbarVisualizerUseAccentColorDescription">Tô màu các thanh hiển thị bằng màu nhấn từ ảnh bìa album</system:String>
+    <system:String x:Key="TaskbarWidgetPauseIconAccentColorTitle">Màu biểu tượng tạm dừng</system:String>
+    <system:String x:Key="TaskbarWidgetPauseIconAccentColorDescription">Tô màu biểu tượng lớp phủ tạm dừng bằng màu nhấn từ ảnh bìa album</system:String>
+    <system:String x:Key="TaskbarWidgetMusicNoteAccentColorTitle">Màu biểu tượng nốt nhạc</system:String>
+    <system:String x:Key="TaskbarWidgetMusicNoteAccentColorDescription">Tô màu biểu tượng nốt nhạc (khi không phát phương tiện nào) bằng màu nhấn từ ảnh bìa album</system:String>
     <system:String x:Key="MonitorWithFocusedWindow">Màn hình có cửa sổ hiện hành</system:String>
     <system:String x:Key="LockKeysCursorUIDescription" xml:space="preserve">Chọn màn hình hiển thị flyout.</system:String>
     <system:String x:Key="TaskbarVisualizerClickableTitle">Khi được nhấn, mở tab cấu hình của chính nó</system:String>
@@ -248,6 +253,23 @@ Lưu ý: Vì đây là một dự án mã nguồn mở, các tính năng này c�
     <system:String x:Key="VolumeMixerHighlightDescription">Highlight ứng dụng có tiếng</system:String>
     <system:String x:Key="MasterVolumeText">Nhấn để tắt/bật tiếng</system:String>
     <system:String x:Key="TaskbarWidgetFixedWidthTitle">Cố định chiều rộng widget</system:String>
+    <system:String x:Key="TaskbarWidgetAdaptiveWidthTitle">Chiều rộng widget thích ứng</system:String>
+    <system:String x:Key="TaskbarWidgetAdaptiveWidthDescription">Tự động thu nhỏ widget hoặc thu gọn các thành phần ít quan trọng khi không đủ không gian trên thanh tác vụ</system:String>
+    <system:String x:Key="TaskbarWidgetWidthAnimationTitle">Hiệu ứng chiều rộng mượt mà</system:String>
+    <system:String x:Key="TaskbarWidgetWidthAnimationDescription">Tạo hiệu ứng cho chiều rộng widget thay vì chuyển đột ngột khi bố cục thích ứng thay đổi</system:String>
+    <system:String x:Key="TaskbarWidgetWidthAnimationSpeedTitle">Thời lượng hiệu ứng</system:String>
+    <system:String x:Key="TaskbarWidgetWidthAnimationSpeedDescription">Thời lượng hiệu ứng chiều rộng tính bằng mili giây (100–2000). Mặc định là 400.</system:String>
+    <system:String x:Key="TaskbarWidgetPriorityTitle">Độ ưu tiên chiều rộng thích ứng</system:String>
+    <system:String x:Key="TaskbarWidgetPriorityDescription">Chọn thứ bị ẩn trước khi thanh tác vụ hết chỗ trống</system:String>
+    <system:String x:Key="TaskbarWidgetPriorityControls">Điều khiển phát</system:String>
+    <system:String x:Key="TaskbarWidgetPrioritySongText">Tên bài hát và nghệ sĩ</system:String>
+    <system:String x:Key="TaskbarWidgetPriorityVisualizer">Trình hiển thị âm thanh</system:String>
+    <system:String x:Key="TaskbarWidgetPriorityHiddenFirst">Ẩn trước tiên</system:String>
+    <system:String x:Key="TaskbarWidgetPriorityHiddenSecond">Ẩn thứ hai</system:String>
+    <system:String x:Key="TaskbarWidgetPriorityHiddenLast">Ẩn sau cùng</system:String>
+    <system:String x:Key="TaskbarWidgetPriorityHint">Biểu tượng album luôn được giữ làm phương án dự phòng khi không còn gì vừa chỗ.</system:String>
+    <system:String x:Key="TaskbarWidgetHideWhenFullTitle">Ẩn khi thanh tác vụ đã đầy</system:String>
+    <system:String x:Key="TaskbarWidgetHideWhenFullDescription">Phương án dự phòng tùy chọn: ẩn hoàn toàn widget khi không còn đủ chỗ ngay cả cho biểu tượng album</system:String>
     <system:String x:Key="TaskbarWidgetFixedWidthDescription">Giữ nguyên chiều rộng của widget thay vì tự động điều chỉnh kích thước để phù hợp với tiêu đề và nghệ thuật văn bản</system:String>
     <system:String x:Key="EnableCapsTitle">Bật biểu tượng Caps Lock</system:String>
     <system:String x:Key="EnableCapsDescription">Hiển thị khi nhấn phím Caps Lock</system:String>

@@ -47,6 +47,23 @@ nasumičnu reprodukciju i informacije o mediju</system:String>
     <system:String x:Key="TaskbarWidgetCustomizationTitle">Widget za Traku</system:String>
     <system:String x:Key="TaskbarWidgetDescription">Kompaktni i ugrađeni widget koji se nastanjuje na vašoj Windows Traci za trenutni pristup vašem mediju. Pritisnite widget kako bi proširili puni medijski iskočni prozor.</system:String>
     <system:String x:Key="TaskbarWidgetEnabledTitle">Omogući Widget za Traku</system:String>
+    <system:String x:Key="TaskbarWidgetAdaptiveWidthTitle">Prilagodljiva širina widgeta</system:String>
+    <system:String x:Key="TaskbarWidgetAdaptiveWidthDescription">Automatski smanjuje widget ili sažima manje važne elemente kada nema dovoljno prostora na programskoj traci</system:String>
+    <system:String x:Key="TaskbarWidgetWidthAnimationTitle">Glatka animacija širine</system:String>
+    <system:String x:Key="TaskbarWidgetWidthAnimationDescription">Animira širinu widgeta umjesto trenjačne promjene kad se prilagodljivi raspored promijeni</system:String>
+    <system:String x:Key="TaskbarWidgetWidthAnimationSpeedTitle">Trajanje animacije</system:String>
+    <system:String x:Key="TaskbarWidgetWidthAnimationSpeedDescription">Trajanje animacije širine u milisekundama (100–2000). Zadana vrijednost je 400.</system:String>
+    <system:String x:Key="TaskbarWidgetPriorityTitle">Prioritet prilagodljive širine</system:String>
+    <system:String x:Key="TaskbarWidgetPriorityDescription">Odaberite što se prvo skriva kad traci ponestane prostora</system:String>
+    <system:String x:Key="TaskbarWidgetPriorityControls"> kontrole reprodukcije</system:String>
+    <system:String x:Key="TaskbarWidgetPrioritySongText">Naslov pjesme i izvođač</system:String>
+    <system:String x:Key="TaskbarWidgetPriorityVisualizer">Vizualizator zvuka</system:String>
+    <system:String x:Key="TaskbarWidgetPriorityHiddenFirst">Prvo se skriva</system:String>
+    <system:String x:Key="TaskbarWidgetPriorityHiddenSecond">Drugo se skriva</system:String>
+    <system:String x:Key="TaskbarWidgetPriorityHiddenLast">Zadnje se skriva</system:String>
+    <system:String x:Key="TaskbarWidgetPriorityHint">Ikona albuma uvijek se zadržava kao rezerva kad ništa drugo ne stane.</system:String>
+    <system:String x:Key="TaskbarWidgetHideWhenFullTitle">Sakrij kad je traka puna</system:String>
+    <system:String x:Key="TaskbarWidgetHideWhenFullDescription">Neobavezan pad: potpuno sakriva widget kada nema dovoljno prostora čak ni za ikonu albuma</system:String>
     <system:String x:Key="TaskbarWidgetEnabledDescription">Prikaži kompaktni medijski widget na traci</system:String>
     <system:String x:Key="TaskbarWidgetVisualIssuesWarning">Konfigurirajte postavke ispod ako Vam se pojavljuju vizualne poteškoće.</system:String>
     <system:String x:Key="TaskbarWidgetSelectedMonitorTitle">Target Zaslon za Widget</system:String>
@@ -60,4 +77,9 @@ nasumičnu reprodukciju i informacije o mediju</system:String>
     <system:String x:Key="TaskbarWidgetBackgroundBlurTitle">Pozadinsko Zamućenje</system:String>
     <system:String x:Key="TaskbarWidgetBackgroundBlurDescription">Dodaj efekt pozadinskog zamućenja widgetu za traku</system:String>
     <system:String x:Key="TaskbarWidgetHideCompletelyTitle">Kompletno Sakrij Kada Nema Nikakvog Medija</system:String>
+    <system:String x:Key="TaskbarVisualizerUseAccentColorDescription">Oboji stupove vizualizatora akcentnom bojom naslovnice albuma</system:String>
+    <system:String x:Key="TaskbarWidgetPauseIconAccentColorTitle">Boja ikone pauze</system:String>
+    <system:String x:Key="TaskbarWidgetPauseIconAccentColorDescription">Boji ikonu preklopa pauze akcentnom bojom albuma</system:String>
+    <system:String x:Key="TaskbarWidgetMusicNoteAccentColorTitle">Boja ikone glazbene note</system:String>
+    <system:String x:Key="TaskbarWidgetMusicNoteAccentColorDescription">Boji ikonu glazbene note (kada se ništa ne reproducira) akcentnom bojom albuma</system:String>
 </ResourceDictionary>

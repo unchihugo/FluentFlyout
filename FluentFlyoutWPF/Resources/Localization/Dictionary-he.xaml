@@ -91,6 +91,23 @@
     <system:String x:Key="TaskbarWidgetHideCompletelyDescription">מסתיר את כל הווידג'ט כאשר אין מדיה זמינה, במקום להציג אייקון מדיה</system:String>
     <system:String x:Key="TaskbarWidgetControlsDescription">הצג כפתורי שליטה על המדיה בווידג'ט</system:String>
     <system:String x:Key="TaskbarWidgetAnimatedTitle">אנימציות ווידג'ט</system:String>
+    <system:String x:Key="TaskbarWidgetAdaptiveWidthTitle">רוחב ווידג׳ט מסתגל</system:String>
+    <system:String x:Key="TaskbarWidgetAdaptiveWidthDescription">מכווץ את הווידג׳ט או מקפל אלמנטים פחות חשובים באופן אוטומטי כשאין מספיק מקום בשורת המשימות</system:String>
+    <system:String x:Key="TaskbarWidgetWidthAnimationTitle">הנפשת רוחב חלקה</system:String>
+    <system:String x:Key="TaskbarWidgetWidthAnimationDescription">מנפיש את רוחב הווידג׳ט במקום מעבר פתאומי כאשר הפריסה המסתגלת משתנה</system:String>
+    <system:String x:Key="TaskbarWidgetWidthAnimationSpeedTitle">משך ההנפשה</system:String>
+    <system:String x:Key="TaskbarWidgetWidthAnimationSpeedDescription">משך הנפשת הרוחב במילישניות (100–2000). ברירת המחדל היא 400.</system:String>
+    <system:String x:Key="TaskbarWidgetPriorityTitle">עדיפות רוחב מסתגל</system:String>
+    <system:String x:Key="TaskbarWidgetPriorityDescription">בחרו מה מוסתר ראשון כאשר אזל המקום בשורת המשימות</system:String>
+    <system:String x:Key="TaskbarWidgetPriorityControls">פקדי הפעלה</system:String>
+    <system:String x:Key="TaskbarWidgetPrioritySongText">כותרת השיר והאמן</system:String>
+    <system:String x:Key="TaskbarWidgetPriorityVisualizer">מציג שמע</system:String>
+    <system:String x:Key="TaskbarWidgetPriorityHiddenFirst">מוסתר ראשון</system:String>
+    <system:String x:Key="TaskbarWidgetPriorityHiddenSecond">מוסתר שני</system:String>
+    <system:String x:Key="TaskbarWidgetPriorityHiddenLast">מוסתר אחרון</system:String>
+    <system:String x:Key="TaskbarWidgetPriorityHint">סמל האלבום תמיד נשמר כגיבוי כאשר שום דבר אחר לא נכנס.</system:String>
+    <system:String x:Key="TaskbarWidgetHideWhenFullTitle">הסתר כאשר שורת המשימות מלאה</system:String>
+    <system:String x:Key="TaskbarWidgetHideWhenFullDescription">גיבוי אופציונלי: מסתיר את הווידג׳ט כולו כשכבר אין מספיק מקום אפילו לסמל האלבום</system:String>
     <system:String x:Key="TaskbarWidgetAnimatedDescription">הפעלת אנימציות עדינות לווידג'ט</system:String>
     <system:String x:Key="PremiumFeatureDescription" xml:space="preserve">תרומה חד־פעמית שלך עוזרת לשמור על FluentFlyout חי ומעודכן. היא פותחת את כל אפשרויות הפרימיום לנצח.
         
@@ -203,6 +220,11 @@
     <system:String x:Key="MonitorWithCursor">מסך שבו מצביע העכבר</system:String>
     <system:String x:Key="UseAlbumArtAccentColorTitle">השתמש בעטיפת האלבום כצבע הדגשה</system:String>
     <system:String x:Key="UseAlbumArtAccentColorDescription">חלק ממרכיבי הממשק ישתמשו בצבע מעטיפת האלבום במקום בצבע מערכת ההפעלה</system:String>
+    <system:String x:Key="TaskbarVisualizerUseAccentColorDescription">צובע את מוטות מציג הקצב בצבע ההדגשה של עטיפת האלבום</system:String>
+    <system:String x:Key="TaskbarWidgetPauseIconAccentColorTitle">צבע סמל ההשהיה</system:String>
+    <system:String x:Key="TaskbarWidgetPauseIconAccentColorDescription">צובע את סמל שכבת ההשהיה בצבע ההדגשה של עטיפת האלבום</system:String>
+    <system:String x:Key="TaskbarWidgetMusicNoteAccentColorTitle">צבע סמל תו המוזיקה</system:String>
+    <system:String x:Key="TaskbarWidgetMusicNoteAccentColorDescription">צובע את סמל תו המוזיקה (כאשר אין מדיה מתנגנת) בצבע ההדגשה של עטיפת האלבום</system:String>
     <system:String x:Key="AppearanceBehaviorSectionTitle">מראה והתנהגות</system:String>
     <system:String x:Key="SponsorMeLink">נתינת חסות</system:String>
     <system:String x:Key="BuyMeCoffeeLink">לקנות לי קפה</system:String>

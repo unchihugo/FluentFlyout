@@ -40,6 +40,23 @@ piilottaa toistamisen, shufflen sekä soittimen tiedot</system:String>
     <system:String x:Key="TaskbarWidgetCustomizationTitle">Tehtäväpalkin Widgetin Mukauttaminen</system:String>
     <system:String x:Key="TaskbarWidgetDescription">Kompakti sisäänrakennettu widget joka pysyy Windows Tehtäväpalkissasi nopeaan median valintaan. Klikkaa widgettiä laajentaaksesi koko Media Flyoutin (kun kytketty päälle).</system:String>
     <system:String x:Key="TaskbarWidgetEnabledTitle">Aktivoi Tehtäväpalkin Widget</system:String>
+    <system:String x:Key="TaskbarWidgetAdaptiveWidthTitle">Sopeutuva widgetin leveys</system:String>
+    <system:String x:Key="TaskbarWidgetAdaptiveWidthDescription">Kutistaa widgetin tai piilottaa vähemmän tärkeät osat automaattisesti, kun tehtäväpalkissa ei ole tarpeeksi tilaa</system:String>
+    <system:String x:Key="TaskbarWidgetWidthAnimationTitle">Sujuva leveysanimaatio</system:String>
+    <system:String x:Key="TaskbarWidgetWidthAnimationDescription">Animoi widgetin leveyden äkillisen siirtymän sijaan, kun asettelu muuttuu</system:String>
+    <system:String x:Key="TaskbarWidgetWidthAnimationSpeedTitle">Animoinnin kesto</system:String>
+    <system:String x:Key="TaskbarWidgetWidthAnimationSpeedDescription">Leveysanimaation kesto millisekunteina (100–2000). Oletusarvo on 400.</system:String>
+    <system:String x:Key="TaskbarWidgetPriorityTitle">Sopeutuvan leveyden prioriteetti</system:String>
+    <system:String x:Key="TaskbarWidgetPriorityDescription">Valitse, mitä piilotetaan ensin, kun tehtäväpalkin tila loppuu</system:String>
+    <system:String x:Key="TaskbarWidgetPriorityControls">Tointonappeja</system:String>
+    <system:String x:Key="TaskbarWidgetPrioritySongText">Kappaleen nimi ja esittäjä</system:String>
+    <system:String x:Key="TaskbarWidgetPriorityVisualizer">äänivisualisointi</system:String>
+    <system:String x:Key="TaskbarWidgetPriorityHiddenFirst">Piilotetaan ensin</system:String>
+    <system:String x:Key="TaskbarWidgetPriorityHiddenSecond">Piilotetaan toisena</system:String>
+    <system:String x:Key="TaskbarWidgetPriorityHiddenLast">Piilotetaan viimeisenä</system:String>
+    <system:String x:Key="TaskbarWidgetPriorityHint">Albumikuvake säilytetään aina varalla, kun muuta ei mahdu.</system:String>
+    <system:String x:Key="TaskbarWidgetHideWhenFullTitle">Piilota, kun tehtäväpalkki on täynnä</system:String>
+    <system:String x:Key="TaskbarWidgetHideWhenFullDescription">Valinnainen varmistus: piilottaa widgetin kokonaan, kun tilaa ei ole edes albumikuvakkeelle</system:String>
     <system:String x:Key="TaskbarWidgetEnabledDescription">Näytä kompakti media widget tehtäväpalkissa</system:String>
     <system:String x:Key="TaskbarWidgetVisualIssuesWarning">Muuta alla olevia asetuksia mikäli kohtaat ongelmia näkymässä.</system:String>
     <system:String x:Key="TaskbarWidgetPaddingTitle">Laajenna sisennystä Windowsin Widgets painikkeessa</system:String>
@@ -63,4 +80,9 @@ Huomaa: Koska kyseessä on avoimen lähdekoodin projekti, nämä toiminnot ovat 
     <system:String x:Key="PremiumPurchaseCancelled">Osto peruttu.</system:String>
     <system:String x:Key="HomeTitle">Koti</system:String>
     <system:String x:Key="Enabled">Käytössä</system:String>
+    <system:String x:Key="TaskbarVisualizerUseAccentColorDescription">Värittää visualisointipalkit albumin kansikuvan aksenttivärillä</system:String>
+    <system:String x:Key="TaskbarWidgetPauseIconAccentColorTitle">Taukokuvakkeen väri</system:String>
+    <system:String x:Key="TaskbarWidgetPauseIconAccentColorDescription">Värittää taukopeitteen kuvakkeen albumin aksenttivärillä</system:String>
+    <system:String x:Key="TaskbarWidgetMusicNoteAccentColorTitle">Nuottikuvakkeen väri</system:String>
+    <system:String x:Key="TaskbarWidgetMusicNoteAccentColorDescription">Värittää nuottikuvakkeen (kun mitään ei toisteta) albumin aksenttivärillä</system:String>
 </ResourceDictionary>

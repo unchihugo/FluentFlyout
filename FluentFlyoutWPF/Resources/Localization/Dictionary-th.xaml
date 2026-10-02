@@ -50,4 +50,26 @@
     <system:String x:Key="PauseOtherMediaTitle">หยุดสื่อที่เล่นอยู่ก่อนหน้านี้อัตโนมัติ</system:String>
     <system:String x:Key="PauseOtherMediaDescription">เมื่อคุณเล่นสื่อตัวใหม่ สื่ออื่นๆที่เคยเล่นอยู่จะถูกหยุดโดยอัตโนมัติ</system:String>
     <system:String x:Key="TaskbarWidgetCustomizationTitle">Widget ของ Taskbar</system:String>
+    <system:String x:Key="TaskbarWidgetAdaptiveWidthTitle">ความกว้างวิดเจ็ตแบบปรับอัตโนมัติ</system:String>
+    <system:String x:Key="TaskbarWidgetAdaptiveWidthDescription">ย่อขนาดวิดเจ็ตหรือยุบองค์ประกอบที่สำคัญน้อยกว่าโดยอัตโนมัติเมื่อมีพื้นที่ในแถบงานไม่เพียงพอ</system:String>
+    <system:String x:Key="TaskbarWidgetHideWhenFullTitle">ซ่อนเมื่อแถบงานเต็ม</system:String>
+    <system:String x:Key="TaskbarWidgetHideWhenFullDescription">ทางเลือกสำรอง: ซ่อนวิดเจ็ตทั้งหมดเมื่อไม่มีพื้นที่เหลือพอสำหรับไอคอนอัลบั้ม</system:String>
+    <system:String x:Key="TaskbarWidgetPriorityTitle">ลำดับความสำคัญความกว้างแบบปรับอัตโนมัติ</system:String>
+    <system:String x:Key="TaskbarWidgetPriorityDescription">เลือกว่าจะซ่อนอะไรก่อนเมื่อแถบงานมีพื้นที่ไม่พอ</system:String>
+    <system:String x:Key="TaskbarWidgetPriorityControls">ปุ่มควบคุมการเล่น</system:String>
+    <system:String x:Key="TaskbarWidgetPrioritySongText">ชื่อเพลงและศิลปิน</system:String>
+    <system:String x:Key="TaskbarWidgetPriorityVisualizer">ตัวแสดงภาพคลื่นเสียง</system:String>
+    <system:String x:Key="TaskbarWidgetPriorityHiddenFirst">ซ่อนก่อน</system:String>
+    <system:String x:Key="TaskbarWidgetPriorityHiddenSecond">ซ่อนที่สอง</system:String>
+    <system:String x:Key="TaskbarWidgetPriorityHiddenLast">ซ่อนสุดท้าย</system:String>
+    <system:String x:Key="TaskbarWidgetPriorityHint">ไอคอนอัลบั้มจะถูกเก็บไว้เป็นทางเลือกสำรองเสมอเมื่อไม่มีอะไรเหลือที่ว่าง</system:String>
+    <system:String x:Key="TaskbarWidgetWidthAnimationTitle">แอนิเมชันความกว้างแบบนุ่มนวล</system:String>
+    <system:String x:Key="TaskbarWidgetWidthAnimationDescription">ทำให้ความกว้างของวิดเจ็ตเคลื่อนไหวแทนที่จะสลับทันทีเมื่อเลย์เอาต์แบบปรับเปลี่ยน</system:String>
+    <system:String x:Key="TaskbarWidgetWidthAnimationSpeedTitle">ระยะเวลาแอนิเมชัน</system:String>
+    <system:String x:Key="TaskbarWidgetWidthAnimationSpeedDescription">ระยะเวลาของแอนิเมชันความกว้างเป็นมิลลิวินาที (100–2000) ค่าเริ่มต้นคือ 400</system:String>
+    <system:String x:Key="TaskbarVisualizerUseAccentColorDescription">ระบายสีแท่งตัวแสดงภาพด้วยสีเน้นจากปกอัลบั้ม</system:String>
+    <system:String x:Key="TaskbarWidgetPauseIconAccentColorTitle">สีไอคอนหยุดชั่วคราว</system:String>
+    <system:String x:Key="TaskbarWidgetPauseIconAccentColorDescription">ระบายสีไอคอนซ้อนหยุดชั่วคราวด้วยสีเน้นจากปกอัลบั้ม</system:String>
+    <system:String x:Key="TaskbarWidgetMusicNoteAccentColorTitle">สีไอคอนโน้ตเพลง</system:String>
+    <system:String x:Key="TaskbarWidgetMusicNoteAccentColorDescription">ระบายสีไอคอนโน้ตเพลง (เมื่อไม่มีสื่อเล่นอยู่) ด้วยสีเน้นจากปกอัลบั้ม</system:String>
 </ResourceDictionary>

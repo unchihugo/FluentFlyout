@@ -139,6 +139,11 @@ Megjegyzés: Mivel ez egy nyílt forráskódú projekt, ezek a funkciók ingyene
     <system:String x:Key="AppThemeDark"> Sötét</system:String>
     <system:String x:Key="UseAlbumArtAccentColorTitle">Használja az album borítójának színét kiemelő színként</system:String>
     <system:String x:Key="UseAlbumArtAccentColorDescription">Néhány felhasználói felület elem az album borítójának színét használja a rendszer téma helyett</system:String>
+    <system:String x:Key="TaskbarVisualizerUseAccentColorDescription">A vizualizátor sávjait az albumborító kiemelő színére színezi</system:String>
+    <system:String x:Key="TaskbarWidgetPauseIconAccentColorTitle">Szünet ikon színe</system:String>
+    <system:String x:Key="TaskbarWidgetPauseIconAccentColorDescription">A szünet átfedés ikonját az albumborító kiemelő színére színezi</system:String>
+    <system:String x:Key="TaskbarWidgetMusicNoteAccentColorTitle">Kottajel ikon színe</system:String>
+    <system:String x:Key="TaskbarWidgetMusicNoteAccentColorDescription">A kottajel ikont (ha nem megy lejátszás) az albumborító kiemelő színére színezi</system:String>
     <system:String x:Key="TrayIconLeftClickBehaviorTitle">Tálca ikon bal kattintás viselkedése</system:String>
     <system:String x:Key="TrayIconLeftClickBehaviorDescription">Válassza ki, mi történjen, amikor bal kattint a tálca ikonra</system:String>
     <system:String x:Key="TrayIconLeftClickOption1"> Beállítások megnyitása</system:String>
@@ -267,5 +272,22 @@ Segíts te is a fordításban a(z)</system:String>
     <system:String x:Key="VolumeMixerHighlightDescription">Lássa mely alkalmazások játszanak jelenleg hangot</system:String>
     <system:String x:Key="MasterVolumeText">Fő hangerő</system:String>
     <system:String x:Key="TaskbarWidgetFixedWidthTitle">Widget szélességének rögzítése</system:String>
+    <system:String x:Key="TaskbarWidgetAdaptiveWidthTitle">Alkalmazkodó widgetszélesség</system:String>
+    <system:String x:Key="TaskbarWidgetAdaptiveWidthDescription">Automatikusan zsugorítja a widgetet vagy összecsukja a kevésbé fontos elemeket, ha nincs elég hely a tálcán</system:String>
+    <system:String x:Key="TaskbarWidgetWidthAnimationTitle">Finom szélesség-animáció</system:String>
+    <system:String x:Key="TaskbarWidgetWidthAnimationDescription">A widget szélességét animálja az azonnali váltás helyett, ha az adaptív elrendezés változik</system:String>
+    <system:String x:Key="TaskbarWidgetWidthAnimationSpeedTitle">Animáció időtartama</system:String>
+    <system:String x:Key="TaskbarWidgetWidthAnimationSpeedDescription">A szélesség-animáció időtartama ezredmásodpercben (100–2000). Alapértelmezés: 400.</system:String>
+    <system:String x:Key="TaskbarWidgetPriorityTitle">Alkalmazkodó szélesség prioritás</system:String>
+    <system:String x:Key="TaskbarWidgetPriorityDescription">Válassza ki, mi rejtőzzön el először, amikor elfogy a hely a tálcán</system:String>
+    <system:String x:Key="TaskbarWidgetPriorityControls">Lejátszásvezérlők</system:String>
+    <system:String x:Key="TaskbarWidgetPrioritySongText">Számcím és előadó</system:String>
+    <system:String x:Key="TaskbarWidgetPriorityVisualizer">Hangvizualizáló</system:String>
+    <system:String x:Key="TaskbarWidgetPriorityHiddenFirst">Először elrejtve</system:String>
+    <system:String x:Key="TaskbarWidgetPriorityHiddenSecond">Másodikként elrejtve</system:String>
+    <system:String x:Key="TaskbarWidgetPriorityHiddenLast">Utoljára elrejtve</system:String>
+    <system:String x:Key="TaskbarWidgetPriorityHint">Az albumborító ikonja mindig tartalékként marad, ha más már nem fér oda.</system:String>
+    <system:String x:Key="TaskbarWidgetHideWhenFullTitle">Elrejtés, ha a tálca megtelt</system:String>
+    <system:String x:Key="TaskbarWidgetHideWhenFullDescription">Opcionális tartalék: teljesen elrejti a widgetet, ha már az albumborító ikonjának sem marad hely</system:String>
     <system:String x:Key="TaskbarWidgetFixedWidthDescription">A widget szélességét tartsa állandóan, ne pedig a címhez és az előadó nevéhez igazítsa</system:String>
 </ResourceDictionary>

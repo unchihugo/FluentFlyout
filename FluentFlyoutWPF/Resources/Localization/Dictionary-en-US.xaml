@@ -180,6 +180,12 @@ Note: As an open-source project, these features are also available for free via 
     <System:String x:Key="AppThemeDark"> Dark</System:String>
     <System:String x:Key="UseAlbumArtAccentColorTitle">Use Album Art as Accent Color</System:String>
     <System:String x:Key="UseAlbumArtAccentColorDescription">Some UI elements will use the album art color instead of the system theme</System:String>
+    <System:String x:Key="UseAlbumArtAccentColorOptionUiBars">Visualizer bar color</System:String>
+    <System:String x:Key="TaskbarVisualizerUseAccentColorDescription">Colors the visualizer bars with the album art accent color</System:String>
+    <System:String x:Key="TaskbarWidgetPauseIconAccentColorTitle">Pause icon color</System:String>
+    <System:String x:Key="TaskbarWidgetPauseIconAccentColorDescription">Colors the pause overlay icon with the album art accent color</System:String>
+    <System:String x:Key="TaskbarWidgetMusicNoteAccentColorTitle">Music note icon color</System:String>
+    <System:String x:Key="TaskbarWidgetMusicNoteAccentColorDescription">Colors the music note icon (when no media is playing) with the album art accent color</System:String>
     <System:String x:Key="TrayIconLeftClickBehaviorTitle">Tray Icon Left Click Behavior</System:String>
     <System:String x:Key="TrayIconLeftClickBehaviorDescription">Choose what happens when you left click the tray icon</System:String>
     <System:String x:Key="TrayIconLeftClickOption1"> Open Settings</System:String>
