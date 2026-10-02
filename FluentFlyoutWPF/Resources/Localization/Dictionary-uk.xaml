@@ -296,4 +296,5 @@
     <system:String x:Key="VolumeMixerHighlightDescription">Перегляньте, які програми зараз відтворюють звук</system:String>
     <system:String x:Key="MasterVolumeText">Загальна гучність</system:String>
     <system:String x:Key="OpenMediaPlayerText">Відкрити медіаплеєр</system:String>
+    <system:String x:Key="SessionSwitcherAuto">Автоматично</system:String>
 </ResourceDictionary>
