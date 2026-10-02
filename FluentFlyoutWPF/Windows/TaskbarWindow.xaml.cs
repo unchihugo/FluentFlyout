@@ -11,9 +11,9 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows;
 using System.Windows.Automation;
-using System.Windows.Media;
 using System.Windows.Controls;
 using System.Windows.Interop;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using Windows.Media.Control;
@@ -475,50 +475,50 @@ on_error:
         switch (SettingsManager.Current.TaskbarWidgetPosition)
         {
             case 1: // center: use the free gap that leaves the most room around the icon cluster
-            {
-                windowStart = 20;
-                windowEnd = trayFound ? trayStart - 4 : primarySize - 20;
-
-                if (groupFound && groupStart < windowEnd && groupEnd > windowStart)
                 {
-                    // the group covers the middle - fall back to the larger side gap
-                    double leftGap = groupStart - 4 - windowStart;
-                    double rightGap = windowEnd - (groupEnd + 4);
-                    if (leftGap >= rightGap && leftGap > 0)
-                        windowEnd = Math.Min(windowEnd, groupStart - 4);
-                    else if (rightGap > 0)
-                        windowStart = Math.Max(windowStart, groupEnd + 4);
+                    windowStart = 20;
+                    windowEnd = trayFound ? trayStart - 4 : primarySize - 20;
+
+                    if (groupFound && groupStart < windowEnd && groupEnd > windowStart)
+                    {
+                        // the group covers the middle - fall back to the larger side gap
+                        double leftGap = groupStart - 4 - windowStart;
+                        double rightGap = windowEnd - (groupEnd + 4);
+                        if (leftGap >= rightGap && leftGap > 0)
+                            windowEnd = Math.Min(windowEnd, groupStart - 4);
+                        else if (rightGap > 0)
+                            windowStart = Math.Max(windowStart, groupEnd + 4);
+                    }
+                    break;
                 }
-                break;
-            }
 
             case 2: // near end: keep the legacy anchor, but never grow into the app icon cluster
-            {
-                double rightLimit;
-                if (!isVertical && SettingsManager.Current.TaskbarWidgetPadding && widgetBtnInEndHalf)
-                    rightLimit = widgetBtnStart - 1;
-                else if (trayFound)
-                    rightLimit = trayStart - (isVertical ? 2 : isMainTaskbarSelected ? 6 : 1);
-                else
-                    rightLimit = primarySize - 20;
+                {
+                    double rightLimit;
+                    if (!isVertical && SettingsManager.Current.TaskbarWidgetPadding && widgetBtnInEndHalf)
+                        rightLimit = widgetBtnStart - 1;
+                    else if (trayFound)
+                        rightLimit = trayStart - (isVertical ? 2 : isMainTaskbarSelected ? 6 : 1);
+                    else
+                        rightLimit = primarySize - 20;
 
-                windowEnd = rightLimit;
-                windowStart = 20;
-                if (groupFound && groupEnd + 4 < rightLimit)
-                    windowStart = groupEnd + 4;
-                break;
-            }
+                    windowEnd = rightLimit;
+                    windowStart = 20;
+                    if (groupFound && groupEnd + 4 < rightLimit)
+                        windowStart = groupEnd + 4;
+                    break;
+                }
 
             default: // near start
-            {
-                windowStart = SettingsManager.Current.TaskbarWidgetPadding && widgetBtnInStartHalf ? widgetBtnEnd + 2 : 20;
-                windowEnd = trayFound ? trayStart - 4 : primarySize - 20;
+                {
+                    windowStart = SettingsManager.Current.TaskbarWidgetPadding && widgetBtnInStartHalf ? widgetBtnEnd + 2 : 20;
+                    windowEnd = trayFound ? trayStart - 4 : primarySize - 20;
 
-                // keep clear of the centered group (fixed buttons + icons) whenever a gap exists
-                if (groupFound && groupStart - 4 > windowStart)
-                    windowEnd = Math.Min(windowEnd, groupStart - 4);
-                break;
-            }
+                    // keep clear of the centered group (fixed buttons + icons) whenever a gap exists
+                    if (groupFound && groupStart - 4 > windowStart)
+                        windowEnd = Math.Min(windowEnd, groupStart - 4);
+                    break;
+                }
         }
 
         if (windowEnd < windowStart)

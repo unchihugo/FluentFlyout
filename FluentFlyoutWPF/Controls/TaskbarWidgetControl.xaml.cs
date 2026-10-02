@@ -640,8 +640,8 @@ public partial class TaskbarWidgetControl : UserControl
                 SongTitle.Text = string.Empty;
                 SongArtist.Text = string.Empty;
                 SongInfoStackPanel.ToolTip = string.Empty;
-        ApplyTierVisibility();
-        SongImagePlaceholder.Symbol = SymbolRegular.MusicNote220;
+                ApplyTierVisibility();
+                SongImagePlaceholder.Symbol = SymbolRegular.MusicNote220;
                 SongImagePlaceholder.Visibility = Visibility.Visible;
                 SongImage.ImageSource = null;
                 BackgroundImage.Source = null;
