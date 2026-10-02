@@ -225,6 +225,7 @@ Vous pouvez contribuer aux traductions sur</system:String>
     <system:String x:Key="DefaultLockLayoutPosition">Par défaut (Affichage de Cible du Volet)</system:String>
     <system:String x:Key="MonitorWithFocusedWindow">Écran avec une fênetre active</system:String>
     <system:String x:Key="UseAlbumArtAccentColorDescription">Quelques éléments de l'UI utilisera les couleurs de l'image de l'album au lieu d'utiliser le thème du système</system:String>
+    <system:String x:Key="UseAlbumArtAccentColorOptionUiBars">Couleur des barres du visualiseur</system:String>
     <system:String x:Key="TaskbarVisualizerUseAccentColorDescription">Colore les barres du visualiseur avec la couleur d'accentuation de la pochette de l'album</system:String>
     <system:String x:Key="TaskbarWidgetPauseIconAccentColorTitle">Couleur de l'icône de pause</system:String>
     <system:String x:Key="TaskbarWidgetPauseIconAccentColorDescription">Colore l'icône de superposition de pause avec la couleur d'accentuation de la pochette de l'album</system:String>

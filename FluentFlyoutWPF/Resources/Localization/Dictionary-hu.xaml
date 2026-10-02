@@ -139,6 +139,7 @@ Megjegyzés: Mivel ez egy nyílt forráskódú projekt, ezek a funkciók ingyene
     <system:String x:Key="AppThemeDark"> Sötét</system:String>
     <system:String x:Key="UseAlbumArtAccentColorTitle">Használja az album borítójának színét kiemelő színként</system:String>
     <system:String x:Key="UseAlbumArtAccentColorDescription">Néhány felhasználói felület elem az album borítójának színét használja a rendszer téma helyett</system:String>
+    <system:String x:Key="UseAlbumArtAccentColorOptionUiBars">A vizualizátor sávjainak színe</system:String>
     <system:String x:Key="TaskbarVisualizerUseAccentColorDescription">A vizualizátor sávjait az albumborító kiemelő színére színezi</system:String>
     <system:String x:Key="TaskbarWidgetPauseIconAccentColorTitle">Szünet ikon színe</system:String>
     <system:String x:Key="TaskbarWidgetPauseIconAccentColorDescription">A szünet átfedés ikonját az albumborító kiemelő színére színezi</system:String>

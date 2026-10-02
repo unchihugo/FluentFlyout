@@ -226,6 +226,7 @@ Poznámka: Jelikož se jedná o open-source projekt, jsou tyto funkce k dispozic
     <system:String x:Key="LockKeysAnimatedDescription">Zapnout jemné animace pro indikátor zámku</system:String>
     <system:String x:Key="UseAlbumArtAccentColorTitle">Použít obrázek alba jako akcentovou barvu</system:String>
     <system:String x:Key="UseAlbumArtAccentColorDescription">Některé UI elementy použijí barvu z obrázku alba místo systémové barvy</system:String>
+    <system:String x:Key="UseAlbumArtAccentColorOptionUiBars">Barva pruhů vizualizéru</system:String>
     <system:String x:Key="TaskbarVisualizerUseAccentColorDescription">Zabarví pruhy vizualizéru akcentní barvou z obalu alba</system:String>
     <system:String x:Key="TaskbarWidgetPauseIconAccentColorTitle">Barva ikony pauzy</system:String>
     <system:String x:Key="TaskbarWidgetPauseIconAccentColorDescription">Zabarví překryvou ikonu pauzy akcentní barvou z obalu alba</system:String>

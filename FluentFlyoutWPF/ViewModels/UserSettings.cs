@@ -29,7 +29,10 @@ public partial class UserSettings : ObservableObject
         .. typeof(UserSettings)
             .GetProperties(BindingFlags.Instance | BindingFlags.Public)
             .Where(property => property.CanWrite && property.GetCustomAttribute<XmlIgnoreAttribute>() is null)
-            .Select(property => property.Name)
+            .Select(property => property.Name),
+
+        // [XmlIgnore] so the serializer uses the array surrogate below, but still persisted
+        nameof(TaskbarWidgetPriorityOrder),
     ];
 
     /// <summary>
@@ -442,6 +445,12 @@ public partial class UserSettings : ObservableObject
     /// layout (shrink the visualizer, squeeze text, collapse the artist row, or fall back to an
     /// icon-only mode) when there is not enough room on the taskbar.
     /// </summary>
+    /// <remarks>
+    /// Defaults to <c>false</c> so existing users keep the exact positioning behaviour they had
+    /// before this feature landed; the feature is opt-in from the settings page. Note that XML
+    /// deserialization only overwrites keys present in the file, so this default also applies to
+    /// settings written by earlier versions.
+    /// </remarks>
     [ObservableProperty]
     public partial bool TaskbarWidgetAdaptiveWidth { get; set; }
 
@@ -831,7 +840,7 @@ public partial class UserSettings : ObservableObject
         TaskbarWidgetBackgroundBlur = false;
         TaskbarWidgetHideCompletely = false;
         TaskbarWidgetFixedWidth = false;
-        TaskbarWidgetAdaptiveWidth = true;
+        TaskbarWidgetAdaptiveWidth = false;
         TaskbarWidgetHideWhenFull = false;
         TaskbarWidgetWidthAnimation = false;
         TaskbarWidgetWidthAnimationDurationMs = 400;
@@ -936,32 +945,45 @@ public partial class UserSettings : ObservableObject
     /// </summary>
     internal void CompleteInitialization()
     {
-        // one-time migration: the original default hid the playback controls first, but the
-        // widget can shrink its text further - the visualizer should yield before them
-        var known = TaskbarWidgetPriorityOrder.Where(WidgetLayoutElementNames.IsKnown).Distinct().ToList();
-        if (known.SequenceEqual(new[]
-            {
-                WidgetLayoutElementNames.Icon,
-                WidgetLayoutElementNames.Controls,
-                WidgetLayoutElementNames.SongText,
-                WidgetLayoutElementNames.Visualizer,
-            }))
+        // No priority-order migration is needed here: TaskbarWidgetPriorityOrder is new in this
+        // version, so an existing settings.xml simply has no <TaskbarWidgetPriorityOrder> element
+        // and the constructor default (the current intended order) is what deserialization keeps.
+        //
+        // A previous revision of this branch did migrate by comparing the stored order against
+        // the old default. That was both useless and harmful: it could never fire on a real
+        // upgrade (the constructor already supplies the new default), but it *would* silently
+        // overwrite the order of any user who deliberately chose that exact sequence, on every
+        // launch. Keep this normalization defensive instead - never value-based.
+        TaskbarWidgetPriorityOrder ??=
+        [
+            WidgetLayoutElementNames.Icon,
+            WidgetLayoutElementNames.Visualizer,
+            WidgetLayoutElementNames.Controls,
+            WidgetLayoutElementNames.SongText,
+        ];
+
+        // Self-heal the stored order: drop unknown names and duplicates, and append any element
+        // that is missing. Older builds appended on every load (see TaskbarWidgetPriorityOrderXml),
+        // so an existing settings.xml can legitimately contain the order repeated several times.
         {
-            TaskbarWidgetPriorityOrder =
-            [
-                WidgetLayoutElementNames.Icon,
-                WidgetLayoutElementNames.Visualizer,
-                WidgetLayoutElementNames.Controls,
-                WidgetLayoutElementNames.SongText,
-            ];
-            SettingsManager.SaveSettings();
+            var normalized = new List<string>();
+            foreach (var name in TaskbarWidgetPriorityOrder)
+                if (WidgetLayoutElementNames.IsKnown(name) && !normalized.Contains(name))
+                    normalized.Add(name);
+
+            foreach (var name in WidgetLayoutElementNames.All)
+                if (!normalized.Contains(name))
+                    normalized.Add(name);
+
+            if (!normalized.SequenceEqual(TaskbarWidgetPriorityOrder))
+                TaskbarWidgetPriorityOrder = normalized;
         }
 
-        // one-time migration: the sub-toggles didn't exist before, so they start matching
-        // the master album-art accent toggle (everything on when the accent is on)
-        TaskbarVisualizerUseAccentColor = UseAlbumArtAsAccentColor;
-        TaskbarWidgetPauseIconUseAccentColor = UseAlbumArtAsAccentColor;
-        TaskbarWidgetMusicNoteUseAccentColor = UseAlbumArtAsAccentColor;
+        // The accent sub-toggles are likewise left exactly as deserialized/constructed. They must
+        // NOT be re-assigned here: doing so overwrote the user's saved choice on every launch
+        // (turning one off came back on at the next start). They follow the master
+        // UseAlbumArtAsAccentColor switch at runtime via OnUseAlbumArtAsAccentColorChanged, which
+        // fires only when the user actually flips that switch.
 
         _initializing = false;
     }
@@ -1068,8 +1090,31 @@ public partial class UserSettings : ObservableObject
     /// Element hide order for adaptive width, lowest priority last (hidden first).
     /// Valid entries: Icon, Controls, SongText, Visualizer.
     /// </summary>
+    [XmlIgnore]
     [ObservableProperty]
     public partial List<string> TaskbarWidgetPriorityOrder { get; set; }
+
+    /// <summary>
+    /// XML surrogate for <see cref="TaskbarWidgetPriorityOrder"/>.
+    /// </summary>
+    /// <remarks>
+    /// This property is NOT [XmlIgnore] on purpose - that would drop the setting from
+    /// PersistedPropertyNames and stop it auto-saving.
+    /// <para/>
+    /// It exists because <see cref="System.Xml.Serialization.XmlSerializer"/> APPENDS to a
+    /// collection property that already holds a non-empty constructor default instead of
+    /// replacing it. With a default order of 4 entries, every load added another 4, so the
+    /// stored list grew 4 -> 8 -> 12 -> ... on each restart. Round-tripping through an array
+    /// makes the serializer overwrite the value. (Empty-default collections such as
+    /// AllowedApps/BlockedApps are unaffected, which is why only this setting showed it.)
+    /// </remarks>
+    [XmlArray("TaskbarWidgetPriorityOrder")]
+    [XmlArrayItem("string")]
+    public string[] TaskbarWidgetPriorityOrderXml
+    {
+        get => TaskbarWidgetPriorityOrder is null ? [] : [.. TaskbarWidgetPriorityOrder];
+        set => TaskbarWidgetPriorityOrder = value is null ? [] : [.. value];
+    }
 
     partial void OnTaskbarWidgetPriorityOrderChanged(List<string> oldValue, List<string> newValue)
     {

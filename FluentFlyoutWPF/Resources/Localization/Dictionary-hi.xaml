@@ -222,6 +222,7 @@
     <system:String x:Key="TaskbarVisualizerClickableDescription">विज़ुअलाइज़र पर क्लिक करने से इसका सेटिंग पृष्ठ खुल जाएगा</system:String>
     <system:String x:Key="UseAlbumArtAccentColorTitle">एल्बम आर्ट को एक्सेंट कलर के रूप में उपयोग करें</system:String>
     <system:String x:Key="UseAlbumArtAccentColorDescription">कुछ यूआई तत्व सिस्टम थीम के बजाय एल्बम कला रंग का उपयोग करेंगे</system:String>
+    <system:String x:Key="UseAlbumArtAccentColorOptionUiBars">विज़ुअलाइज़र बार का रंग</system:String>
     <system:String x:Key="TaskbarVisualizerUseAccentColorDescription">विज़ुअलाइज़र बार को एल्बम आर्ट एक्सेंट रंग से रंगता है</system:String>
     <system:String x:Key="TaskbarWidgetPauseIconAccentColorTitle">पॉज़ आइकन का रंग</system:String>
     <system:String x:Key="TaskbarWidgetPauseIconAccentColorDescription">पॉज़ ओवरले आइकन को एल्बम आर्ट एक्सेंट रंग से रंगता है</system:String>

@@ -207,6 +207,7 @@
     <system:String x:Key="MonitorWithFocusedWindow">目前焦點視窗所在的螢幕</system:String>
     <system:String x:Key="UseAlbumArtAccentColorTitle">將專輯封面作為主題色</system:String>
     <system:String x:Key="UseAlbumArtAccentColorDescription">部分使用者介面元素將使用專輯封面顏色，而不是系統主題顏色</system:String>
+    <system:String x:Key="UseAlbumArtAccentColorOptionUiBars">視覺化長條顏色</system:String>
     <system:String x:Key="TaskbarVisualizerUseAccentColorDescription">以專輯封面的強調色為視覺化長條著色</system:String>
     <system:String x:Key="TaskbarWidgetPauseIconAccentColorTitle">暫停圖示顏色</system:String>
     <system:String x:Key="TaskbarWidgetPauseIconAccentColorDescription">以專輯封面的強調色為暫停覆蓋圖示著色</system:String>

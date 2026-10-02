@@ -141,6 +141,7 @@ Nota: Com a projecte de codi obert, aquestes opcions també estan disponibles de
     <system:String x:Key="AppThemeDark"> Fosc</system:String>
     <system:String x:Key="UseAlbumArtAccentColorTitle">Usar el Color d'Accent de la Caratula de l'Àlbum</system:String>
     <system:String x:Key="UseAlbumArtAccentColorDescription">Alguns elements d'UI utilitzaran el color de la portada en comptes del sistema</system:String>
+    <system:String x:Key="UseAlbumArtAccentColorOptionUiBars">Color de les barres del visualitzador</system:String>
     <system:String x:Key="TaskbarVisualizerUseAccentColorDescription">Acoloreix les barres del visualitzador amb el color d'accent de la portada de l'àlbum</system:String>
     <system:String x:Key="TaskbarWidgetPauseIconAccentColorTitle">Color de la icona de pausa</system:String>
     <system:String x:Key="TaskbarWidgetPauseIconAccentColorDescription">Acoloreix la icona superposada de pausa amb el color d'accent de la portada de l'àlbum</system:String>

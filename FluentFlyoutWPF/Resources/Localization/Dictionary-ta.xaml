@@ -59,6 +59,7 @@
     <system:String x:Key="LockWindow_NumLock">நம் லாக்</system:String>
     <system:String x:Key="LockWindow_ScrollLock">ஸ்க்ரோல் லாக்</system:String>
     <system:String x:Key="LockWindow_InsertPressed">இன்சர்ட் அழுத்தப்பட்டது</system:String>
+    <system:String x:Key="UseAlbumArtAccentColorOptionUiBars">காட்சிப்படுத்தி பட்டி வண்ணம்</system:String>
     <system:String x:Key="TaskbarVisualizerUseAccentColorDescription">காட்சிப்படுத்தி பட்டிகளை ஆல்பம் அட்டை வண்ணத்தால் வண்ணமயமாக்கும்</system:String>
     <system:String x:Key="TaskbarWidgetPauseIconAccentColorTitle">இடைநிறுத்த படவுரு வண்ணம்</system:String>
     <system:String x:Key="TaskbarWidgetPauseIconAccentColorDescription">இடைநிறுத்த மேலடுக்கு படவுருவை ஆல்பம் அட்டை வண்ணத்தால் வண்ணமயமாக்கும்</system:String>

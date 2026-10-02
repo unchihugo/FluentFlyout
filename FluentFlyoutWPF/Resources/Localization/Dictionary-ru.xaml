@@ -226,6 +226,7 @@
     <system:String x:Key="TaskbarVisualizerClickableDescription">Нажатие на визуализатор откроет страницу его настроек</system:String>
     <system:String x:Key="UseAlbumArtAccentColorTitle">Использовать обложку альбома как акцентный цвет</system:String>
     <system:String x:Key="UseAlbumArtAccentColorDescription">Некоторые элементы интерфейса будут использовать цвет обложки альбома вместо системной темы</system:String>
+    <system:String x:Key="UseAlbumArtAccentColorOptionUiBars">Цвет полос визуализатора</system:String>
     <system:String x:Key="TaskbarVisualizerUseAccentColorDescription">Окрашивает полосы визуализатора в акцентный цвет обложки альбома</system:String>
     <system:String x:Key="TaskbarWidgetPauseIconAccentColorTitle">Цвет значка паузы</system:String>
     <system:String x:Key="TaskbarWidgetPauseIconAccentColorDescription">Окрашивает значок паузы в акцентный цвет обложки альбома</system:String>

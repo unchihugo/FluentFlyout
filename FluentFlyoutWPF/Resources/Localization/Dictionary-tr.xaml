@@ -221,6 +221,7 @@ Not: Açık kaynaklı bir proje olduğundan, bu özellikler GitHub'daki manuel y
     <system:String x:Key="LockKeysAnimatedDescription">Kilit tuşu göstergesi için hafif animasyonları etkinleştir</system:String>
     <system:String x:Key="UseAlbumArtAccentColorTitle">Albüm Kapağını Vurgu Rengi Olarak Kullan</system:String>
     <system:String x:Key="UseAlbumArtAccentColorDescription">Bazı kullanıcı arayüzü öğeleri, sistem teması yerine albüm kapağı rengini kullanır</system:String>
+    <system:String x:Key="UseAlbumArtAccentColorOptionUiBars">Görselleştirici çubuklarının rengi</system:String>
     <system:String x:Key="TaskbarVisualizerUseAccentColorDescription">Görselleştirici çubuklarını albüm kapağı vurgu rengiyle renklendirir</system:String>
     <system:String x:Key="TaskbarWidgetPauseIconAccentColorTitle">Duraklat simgesinin rengi</system:String>
     <system:String x:Key="TaskbarWidgetPauseIconAccentColorDescription">Duraklatma kaplama simgesini albüm kapağı vurgu rengiyle renklendirir</system:String>

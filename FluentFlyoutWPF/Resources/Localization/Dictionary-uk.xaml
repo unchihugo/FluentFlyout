@@ -185,6 +185,7 @@
     <system:String x:Key="StartupAppsSettingsInfo">Якщо це налаштування не працює належним чином, перевірте</system:String>
     <system:String x:Key="UseAlbumArtAccentColorTitle">Використовувати Обкладинку Альбому як акцентуючий колір</system:String>
     <system:String x:Key="UseAlbumArtAccentColorDescription">Деякі елемнти інтерфейсу будуть використовувати колір обкладинки альбому замість системної теми</system:String>
+    <system:String x:Key="UseAlbumArtAccentColorOptionUiBars">Колір смуг візуалізатора</system:String>
     <system:String x:Key="TaskbarVisualizerUseAccentColorDescription">Розфарбовує смуги візуалізатора акцентним кольором обкладинки альбому</system:String>
     <system:String x:Key="TaskbarWidgetPauseIconAccentColorTitle">Колір піктограми паузи</system:String>
     <system:String x:Key="TaskbarWidgetPauseIconAccentColorDescription">Розфарбовує накладену піктограму паузи акцентним кольором обкладинки альбому</system:String>

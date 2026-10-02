@@ -220,6 +220,7 @@
     <system:String x:Key="LockKeysAnimatedDescription">ロックキーインジケーターに微妙なアニメーションを有効にする</system:String>
     <system:String x:Key="UseAlbumArtAccentColorTitle">アルバムアートをアクセントカラーとして使用する</system:String>
     <system:String x:Key="UseAlbumArtAccentColorDescription">一部のUI要素は、システムテーマではなくアルバムアートの色を使用します</system:String>
+    <system:String x:Key="UseAlbumArtAccentColorOptionUiBars">ビジュアライザーのバーの色</system:String>
     <system:String x:Key="TaskbarVisualizerUseAccentColorDescription">ビジュアライザーのバーをアルバムアートのアクセントカラーで色付けします</system:String>
     <system:String x:Key="TaskbarWidgetPauseIconAccentColorTitle">一時停止アイコンの色</system:String>
     <system:String x:Key="TaskbarWidgetPauseIconAccentColorDescription">一時停止オーバーレイアイコンをアルバムアートのアクセントカラーで色付けします</system:String>

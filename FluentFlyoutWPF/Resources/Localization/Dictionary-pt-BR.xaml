@@ -226,6 +226,7 @@ Nota: Como um projeto de código aberto, esses recursos também estão disponív
     <system:String x:Key="MonitorWithCursor">Monitor com o cursor</system:String>
     <system:String x:Key="UseAlbumArtAccentColorTitle">Usar capa do álbum como cor de destaque</system:String>
     <system:String x:Key="UseAlbumArtAccentColorDescription">Alguns elementos da interface usarão a cor da capa do álbum em vez do tema do sistema</system:String>
+    <system:String x:Key="UseAlbumArtAccentColorOptionUiBars">Cor das barras do visualizador</system:String>
     <system:String x:Key="TaskbarVisualizerUseAccentColorDescription">Colore as barras do visualizador com a cor de destaque da capa do álbum</system:String>
     <system:String x:Key="TaskbarWidgetPauseIconAccentColorTitle">Cor do ícone de pausa</system:String>
     <system:String x:Key="TaskbarWidgetPauseIconAccentColorDescription">Colore o ícone de sobreposição de pausa com a cor de destaque da capa do álbum</system:String>

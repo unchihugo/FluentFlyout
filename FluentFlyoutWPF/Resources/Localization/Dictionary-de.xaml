@@ -230,6 +230,7 @@ Du kannst helfen, die App zu übersetzen auf</system:String>
     <system:String x:Key="LockKeysAnimatedDescription">Aktiviere subtile Animationen für die Sperrtasten-Anzeige</system:String>
     <system:String x:Key="UseAlbumArtAccentColorTitle">Verwenden Sie das Albumcover als Akzentfarbe</system:String>
     <system:String x:Key="UseAlbumArtAccentColorDescription">Einige UI-Elemente verwenden die Farbe des Albumcovers anstelle des Systemdesigns.</system:String>
+    <system:String x:Key="UseAlbumArtAccentColorOptionUiBars">Farbe der Visualizer-Balken</system:String>
     <system:String x:Key="TaskbarVisualizerUseAccentColorDescription">Färbert die Balken des Visualizers mit der Akzentfarbe des Albumcovers</system:String>
     <system:String x:Key="TaskbarWidgetPauseIconAccentColorTitle">Farbe des Pausensymbols</system:String>
     <system:String x:Key="TaskbarWidgetPauseIconAccentColorDescription">Färbert das Pausen-Overlay-Symbol mit der Akzentfarbe des Albumcovers</system:String>

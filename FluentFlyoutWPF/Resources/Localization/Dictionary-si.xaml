@@ -31,6 +31,7 @@
     <system:String x:Key="BackgroundBlurOption2" xml:space="preserve"> Cover එක දිලිසෙන (Style 1)</system:String>
     <system:String x:Key="BackgroundBlurOption3" xml:space="preserve"> ඉර පායනවා වගේ දිලිසෙන (Style 2)</system:String>
     <system:String x:Key="BackgroundBlurOption4" xml:space="preserve"> බොඳ වුන (Style 3)</system:String>
+    <system:String x:Key="UseAlbumArtAccentColorOptionUiBars">දෘශ්‍යකරණ තීරු වර්ණය</system:String>
     <system:String x:Key="TaskbarVisualizerUseAccentColorDescription">දෘශ්‍යකරණ තීරු ඇල්බමයේ ප්‍රමුඛ වර්ණයෙන් වර්ණ ගැන්වේ</system:String>
     <system:String x:Key="TaskbarWidgetPauseIconAccentColorTitle">විරාම නිරූපකයේ වර්ණය</system:String>
     <system:String x:Key="TaskbarWidgetPauseIconAccentColorDescription">විරාම උඩැකුරු නිරූපකය ඇල්බමයේ ප්‍රමුඛ වර්ණයෙන් වර්ණ ගැන්වේ</system:String>

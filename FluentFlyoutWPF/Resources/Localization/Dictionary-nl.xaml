@@ -179,6 +179,7 @@ verbergt herhalen, shuffle en spelerinfo</system:String>
     <system:String x:Key="AppThemeDark"> Donker</system:String>
     <system:String x:Key="UseAlbumArtAccentColorTitle">Gebruik AlmubHoes als Accenten Kleur</system:String>
     <system:String x:Key="UseAlbumArtAccentColorDescription">Somige UI elementen gaan de albumhoes kleur gebruiken inplaats van het systeem thema</system:String>
+    <system:String x:Key="UseAlbumArtAccentColorOptionUiBars">Kleur van de visualizerbalken</system:String>
     <system:String x:Key="TaskbarVisualizerUseAccentColorDescription">Kleurt de visualizerbalken met de accentkleur van de albumhoes</system:String>
     <system:String x:Key="TaskbarWidgetPauseIconAccentColorTitle">Kleur van het pauzepictogram</system:String>
     <system:String x:Key="TaskbarWidgetPauseIconAccentColorDescription">Kleurt het pauze-overlaypictogram met de accentkleur van de albumhoes</system:String>

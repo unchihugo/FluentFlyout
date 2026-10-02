@@ -226,6 +226,7 @@ Puoi contribuire alla traduzione su</system:String>
     <system:String x:Key="MonitorWithCursor">Schermo con cursore</system:String>
     <system:String x:Key="UseAlbumArtAccentColorTitle">Colore Accento dalla Copertina Album</system:String>
     <system:String x:Key="UseAlbumArtAccentColorDescription">Alcuni elementi dell’interfaccia useranno il colore della copertina invece del tema di sistema</system:String>
+    <system:String x:Key="UseAlbumArtAccentColorOptionUiBars">Colore delle barre del visualizzatore</system:String>
     <system:String x:Key="TaskbarVisualizerUseAccentColorDescription">Colora le barre del visualizzatore con il colore di accento della copertina dell'album</system:String>
     <system:String x:Key="TaskbarWidgetPauseIconAccentColorTitle">Colore dell'icona di pausa</system:String>
     <system:String x:Key="TaskbarWidgetPauseIconAccentColorDescription">Colora l'icona di sovrapposizione di pausa con il colore di accento della copertina dell'album</system:String>

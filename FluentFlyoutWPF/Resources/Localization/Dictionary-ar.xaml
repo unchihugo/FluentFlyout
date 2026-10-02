@@ -226,6 +226,7 @@
     <system:String x:Key="MonitorWithCursor">الشاشة التي تحتوي المؤشر</system:String>
     <system:String x:Key="UseAlbumArtAccentColorTitle">إستعمل صورة الألبوم كألوان تكميلية</system:String>
     <system:String x:Key="UseAlbumArtAccentColorDescription">ستستخدم بعض عناصر الواجهة لون صورة الألبوم بدلاً من سمة النظام</system:String>
+    <system:String x:Key="UseAlbumArtAccentColorOptionUiBars">لون أعمدة مؤثر الصوت</system:String>
     <system:String x:Key="TaskbarVisualizerUseAccentColorDescription">يلوّن أعمدة مؤثر الصوت بلون صورة الألبوم المكمّل</system:String>
     <system:String x:Key="TaskbarWidgetPauseIconAccentColorTitle">لون أيقونة الإيقاف</system:String>
     <system:String x:Key="TaskbarWidgetPauseIconAccentColorDescription">يلوّن أيقونة تراكب الإيقاف بلون صورة الألبوم المكمّل</system:String>

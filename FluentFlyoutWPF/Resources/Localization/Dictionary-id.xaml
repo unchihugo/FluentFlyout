@@ -227,6 +227,7 @@ Anda dapat membantu berkontribusi dalam menerjemahkan di</system:String>
     <system:String x:Key="MonitorWithCursor">Monitor dengan kursor</system:String>
     <system:String x:Key="UseAlbumArtAccentColorTitle">Gunakan gambar album sebagai warna aksen</system:String>
     <system:String x:Key="UseAlbumArtAccentColorDescription">Beberapa elemen UI akan menggunakan warna pada gambar album dari pada tema sistem</system:String>
+    <system:String x:Key="UseAlbumArtAccentColorOptionUiBars">Warna bilah visualizer</system:String>
     <system:String x:Key="TaskbarVisualizerUseAccentColorDescription">Mewarnai bilah visualizer dengan warna aksen dari gambar album</system:String>
     <system:String x:Key="TaskbarWidgetPauseIconAccentColorTitle">Warna ikon jeda</system:String>
     <system:String x:Key="TaskbarWidgetPauseIconAccentColorDescription">Mewarnai ikon hamparan jeda dengan warna aksen dari gambar album</system:String>

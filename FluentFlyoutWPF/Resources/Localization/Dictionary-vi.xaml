@@ -220,6 +220,7 @@ Lưu ý: Vì đây là một dự án mã nguồn mở, các tính năng này c�
     <system:String x:Key="LockKeysCursorUITitle">Màn hình hiển thị</system:String>
     <system:String x:Key="UseAlbumArtAccentColorTitle">(Media flyout) Màu nút phát tương xứng với ảnh bìa</system:String>
     <system:String x:Key="UseAlbumArtAccentColorDescription">Khi tắt, màu nút phát sẽ tương tự màu accent của hệ thống</system:String>
+    <system:String x:Key="UseAlbumArtAccentColorOptionUiBars">Màu các thanh hiển thị</system:String>
     <system:String x:Key="TaskbarVisualizerUseAccentColorDescription">Tô màu các thanh hiển thị bằng màu nhấn từ ảnh bìa album</system:String>
     <system:String x:Key="TaskbarWidgetPauseIconAccentColorTitle">Màu biểu tượng tạm dừng</system:String>
     <system:String x:Key="TaskbarWidgetPauseIconAccentColorDescription">Tô màu biểu tượng lớp phủ tạm dừng bằng màu nhấn từ ảnh bìa album</system:String>

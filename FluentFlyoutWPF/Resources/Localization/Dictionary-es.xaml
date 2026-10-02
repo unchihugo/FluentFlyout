@@ -227,6 +227,7 @@ Nota: Como proyecto de código abierto, estas opciones también están disponibl
     <system:String x:Key="MonitorWithCursor">Monitor con el cursor</system:String>
     <system:String x:Key="UseAlbumArtAccentColorTitle">Usar el Color de Acento de la Caratula del Álbum</system:String>
     <system:String x:Key="UseAlbumArtAccentColorDescription">Algunos elementos de IU usaran el color de la portada en vez de el del sistema</system:String>
+    <system:String x:Key="UseAlbumArtAccentColorOptionUiBars">Color de las barras del visualizador</system:String>
     <system:String x:Key="TaskbarVisualizerUseAccentColorDescription">Colorea las barras del visualizador con el color de acento de la portada del álbum</system:String>
     <system:String x:Key="TaskbarWidgetPauseIconAccentColorTitle">Color del icono de pausa</system:String>
     <system:String x:Key="TaskbarWidgetPauseIconAccentColorDescription">Colorea el icono superpuesto de pausa con el color de acento de la portada del álbum</system:String>

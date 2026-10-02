@@ -80,6 +80,7 @@ Huomaa: Koska kyseessä on avoimen lähdekoodin projekti, nämä toiminnot ovat 
     <system:String x:Key="PremiumPurchaseCancelled">Osto peruttu.</system:String>
     <system:String x:Key="HomeTitle">Koti</system:String>
     <system:String x:Key="Enabled">Käytössä</system:String>
+    <system:String x:Key="UseAlbumArtAccentColorOptionUiBars">Visualisointipalkkien väri</system:String>
     <system:String x:Key="TaskbarVisualizerUseAccentColorDescription">Värittää visualisointipalkit albumin kansikuvan aksenttivärillä</system:String>
     <system:String x:Key="TaskbarWidgetPauseIconAccentColorTitle">Taukokuvakkeen väri</system:String>
     <system:String x:Key="TaskbarWidgetPauseIconAccentColorDescription">Värittää taukopeitteen kuvakkeen albumin aksenttivärillä</system:String>

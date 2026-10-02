@@ -225,6 +225,7 @@ Możesz pomóc w tworzeniu tłumaczeń na stronie</system:String>
     <system:String x:Key="MonitorWithCursor">Monitor z kursorem</system:String>
     <system:String x:Key="UseAlbumArtAccentColorTitle">Użyj okładki albumu jako Koloru Akcentu</system:String>
     <system:String x:Key="UseAlbumArtAccentColorDescription">Niektóre elementy interfejsu będą używać okładki albumu jako kolor zamiast motywu systemowego</system:String>
+    <system:String x:Key="UseAlbumArtAccentColorOptionUiBars">Kolor słupków wizualizera</system:String>
     <system:String x:Key="TaskbarVisualizerUseAccentColorDescription">Koloruje słupki wizualizera kolorem okładki albumu jako kolorem akcentu</system:String>
     <system:String x:Key="TaskbarWidgetPauseIconAccentColorTitle">Kolor ikony pauzy</system:String>
     <system:String x:Key="TaskbarWidgetPauseIconAccentColorDescription">Koloruje ikonę nakładki pauzy kolorem okładki albumu</system:String>

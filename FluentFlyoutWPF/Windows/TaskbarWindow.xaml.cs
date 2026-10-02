@@ -34,6 +34,15 @@ public partial class TaskbarWindow : Window
     private readonly int _nativeWidgetsPadding = 216;
     private readonly double _scale = 0.9;
 
+    /// <summary>
+    /// The widget/visualizer gap in physical pixels. The gap is a logical constant, and logical
+    /// widget units convert to physical px via dpiScale * _scale - the same factor used for the
+    /// widget width itself. Both PositionWidget and PositionVisualizer must use this helper;
+    /// adding the raw constant on one side only detaches the visualizer from the widget at any
+    /// DPI other than 100%.
+    /// </summary>
+    private double VisualizerGapPx(double dpiScale) => WidgetLayoutSolver.VisualizerGap * dpiScale * _scale;
+
     private IntPtr _trayHandle;
     private AutomationElement? _widgetElement;
     private AutomationElement? _trayElement;
@@ -70,6 +79,7 @@ public partial class TaskbarWindow : Window
     private const uint WINEVENT_OUTOFCONTEXT = 0;
     private const int GA_ROOT = 2;
     private IntPtr _winEventHook;
+    private uint _winEventHookPid;
     private NativeMethods.WinEventProc? _winEventProc;
     private DateTime _lastGroupLocationEventUtc = DateTime.MinValue;
 
@@ -431,6 +441,10 @@ on_error:
             _taskbarGroupQueryTask = null;
         }
         _debouncedSpanPhysical = -1;
+
+        // the taskbar handle is only known now, so (re)install the hook here rather than
+        // relying on Window_Loaded, which runs before the first position update
+        InstallWinEventHook();
     }
 
     /// <summary>
@@ -840,7 +854,9 @@ on_error:
 
     private void InstallWinEventHook()
     {
-        if (_winEventHook != IntPtr.Zero || _lastTaskbarHandle == IntPtr.Zero)
+        // The taskbar handle is not known until the first UpdatePosition tick, which is later
+        // than Window_Loaded, so this is also called from ResetTaskbarCachesIfHandleChanged.
+        if (_lastTaskbarHandle == IntPtr.Zero || _isClosing)
             return;
 
         // scope the hook to explorer only; a global hook turns every app's UI activity
@@ -849,9 +865,30 @@ on_error:
         if (explorerPid == 0)
             return;
 
+        // already hooked to this explorer process - repeat calls are a cheap no-op
+        if (_winEventHook != IntPtr.Zero && _winEventHookPid == explorerPid)
+            return;
+
+        // Explorer restarted (or the taskbar moved to another explorer process): the old hook
+        // is scoped to a PID that no longer exists, so events would go silent forever.
+        UninstallWinEventHook();
+
         _winEventProc = OnWinEvent;
         _winEventHook = NativeMethods.SetWinEventHook(EventObjectShow, EventObjectStateChange,
             IntPtr.Zero, _winEventProc, explorerPid, 0, WINEVENT_OUTOFCONTEXT);
+        _winEventHookPid = explorerPid;
+        Logger.Info("WinEvent hook installed for explorer pid {0}.", explorerPid);
+    }
+
+    private void UninstallWinEventHook()
+    {
+        if (_winEventHook == IntPtr.Zero)
+            return;
+
+        NativeMethods.UnhookWinEvent(_winEventHook);
+        _winEventHook = IntPtr.Zero;
+        _winEventProc = null;
+        _winEventHookPid = 0;
     }
 
     private void OnWinEvent(IntPtr hWinEventHook, uint eventType, IntPtr hwnd, int idObject, int idChild, uint dwEventThread, uint dwmsEventTime)
@@ -1088,7 +1125,7 @@ on_error:
                 primaryPos = 20;
 
                 if (SettingsManager.Current.TaskbarVisualizerEnabled && SettingsManager.Current.TaskbarVisualizerPosition == 0)
-                    primaryPos += (int)(TaskbarVisualizer.Width * dpiScale) + (int)WidgetLayoutSolver.VisualizerGap;
+                    primaryPos += (int)(TaskbarVisualizer.Width * dpiScale) + (int)VisualizerGapPx(dpiScale);
 
                 if (!SettingsManager.Current.TaskbarWidgetPadding)
                     break;
@@ -1125,12 +1162,12 @@ on_error:
                 {
                     // center the widget + visualizer group inside the free window
                     double visPhysical = visualizerWidth > 0 ? visualizerWidth * dpiScale : 0;
-                    double groupPhysical = physicalWidth + (visPhysical > 0 ? visPhysical + WidgetLayoutSolver.VisualizerGap : 0);
+                    double groupPhysical = physicalWidth + (visPhysical > 0 ? visPhysical + VisualizerGapPx(dpiScale) : 0);
                     double spanPhysical = Math.Max(windowEndPhysical - windowStartPhysical, 0);
                     double groupStart = windowStartPhysical + Math.Max((spanPhysical - groupPhysical) / 2.0, 0);
                     groupStart = Math.Min(groupStart, Math.Max(windowEndPhysical - groupPhysical, windowStartPhysical));
                     primaryPos = (int)(groupStart
-                        + (visPhysical > 0 && SettingsManager.Current.TaskbarVisualizerPosition == 0 ? visPhysical + WidgetLayoutSolver.VisualizerGap : 0));
+                        + (visPhysical > 0 && SettingsManager.Current.TaskbarVisualizerPosition == 0 ? visPhysical + VisualizerGapPx(dpiScale) : 0));
                 }
                 else
                 {
@@ -1138,9 +1175,9 @@ on_error:
 
                     if (SettingsManager.Current.TaskbarVisualizerEnabled)
                         if (SettingsManager.Current.TaskbarVisualizerPosition == 0)
-                            primaryPos += (int)(TaskbarVisualizer.Width * dpiScale) / 2 + (int)WidgetLayoutSolver.VisualizerGap;
+                            primaryPos += (int)(TaskbarVisualizer.Width * dpiScale) / 2 + (int)VisualizerGapPx(dpiScale);
                         else
-                            primaryPos -= (int)(TaskbarVisualizer.Width * dpiScale) / 2 - (int)WidgetLayoutSolver.VisualizerGap;
+                            primaryPos -= (int)(TaskbarVisualizer.Width * dpiScale) / 2 - (int)VisualizerGapPx(dpiScale);
                 }
                 break;
 
@@ -1148,7 +1185,7 @@ on_error:
                 try
                 {
                     if (SettingsManager.Current.TaskbarVisualizerEnabled && SettingsManager.Current.TaskbarVisualizerPosition == 1)
-                        primaryPos -= (int)(TaskbarVisualizer.Width * dpiScale) - (int)WidgetLayoutSolver.VisualizerGap;
+                        primaryPos -= (int)(TaskbarVisualizer.Width * dpiScale) - (int)VisualizerGapPx(dpiScale);
 
                     // Horizontal only: try to position next to native Widgets button on the end side
                     if (!isVertical && SettingsManager.Current.TaskbarWidgetPadding)
@@ -1247,9 +1284,9 @@ on_error:
         if (adaptive && !isVertical && windowEndPhysical > windowStartPhysical)
         {
             bool visBefore = visualizerWidth > 0 && SettingsManager.Current.TaskbarVisualizerPosition == 0;
-            double visPhysical = visBefore ? visualizerWidth * dpiScale + WidgetLayoutSolver.VisualizerGap : 0;
+            double visPhysical = visBefore ? visualizerWidth * dpiScale + VisualizerGapPx(dpiScale) : 0;
             double minPos = windowStartPhysical + visPhysical;
-            double maxPos = windowEndPhysical - physicalWidth - (visBefore ? 0 : visualizerWidth * dpiScale + WidgetLayoutSolver.VisualizerGap);
+            double maxPos = windowEndPhysical - physicalWidth - (visBefore ? 0 : visualizerWidth * dpiScale + VisualizerGapPx(dpiScale));
             primaryPos = (int)Math.Clamp(primaryPos, minPos, Math.Max(minPos, maxPos));
         }
 
@@ -1298,7 +1335,7 @@ on_error:
         int primaryPos;
 
         // physical pixels; the solver already reserves this much span
-        int gapPx = (int)(WidgetLayoutSolver.VisualizerGap * dpiScale * _scale);
+        int gapPx = (int)VisualizerGapPx(dpiScale);
 
         switch (SettingsManager.Current.TaskbarVisualizerPosition)
         {
@@ -1574,12 +1611,7 @@ on_error:
         _autoHideTimer?.Stop();
         _autoHideTimer = null;
         StopWidthAnimation();
-        if (_winEventHook != IntPtr.Zero)
-        {
-            NativeMethods.UnhookWinEvent(_winEventHook);
-            _winEventHook = IntPtr.Zero;
-            _winEventProc = null;
-        }
+        UninstallWinEventHook();
         _widgetElement = null;
         _trayElement = null;
         _taskbarFrameElement = null;

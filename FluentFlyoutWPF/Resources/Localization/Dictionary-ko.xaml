@@ -226,6 +226,7 @@
     <system:String x:Key="TaskbarVisualizerClickableDescription">비주얼라이저를 클릭하여 설정 페이지 열기</system:String>
     <system:String x:Key="UseAlbumArtAccentColorTitle">앨범 아트를 강조 색상으로 사용</system:String>
     <system:String x:Key="UseAlbumArtAccentColorDescription">시스템 테마 대신 앨범 아트의 색상을 UI 요소에 적용</system:String>
+    <system:String x:Key="UseAlbumArtAccentColorOptionUiBars">시각화 막대 색상</system:String>
     <system:String x:Key="TaskbarVisualizerUseAccentColorDescription">시각화 막대를 앨범 아트 강조 색상으로 색칠합니다</system:String>
     <system:String x:Key="TaskbarWidgetPauseIconAccentColorTitle">일시정지 아이콘 색상</system:String>
     <system:String x:Key="TaskbarWidgetPauseIconAccentColorDescription">일시정지 오버레이 아이콘을 앨범 아트 강조 색상으로 색칠합니다</system:String>

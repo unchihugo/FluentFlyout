@@ -137,6 +137,7 @@ Poznámka: Keďže ide o open-source projekt, tieto funkcie sú k dispozícii aj
     <system:String x:Key="AppThemeDark"> Tmavý</system:String>
     <system:String x:Key="UseAlbumArtAccentColorTitle">Použiť Obal Albumu ako Farbu Pozadia</system:String>
     <system:String x:Key="UseAlbumArtAccentColorDescription">Niektoré prvky používateľského rozhrania budú používať farbu obrázka albumu namiesto systémovej témy</system:String>
+    <system:String x:Key="UseAlbumArtAccentColorOptionUiBars">Farba stĺpcov vizualizéra</system:String>
     <system:String x:Key="TaskbarVisualizerUseAccentColorDescription">Zafarbí pruhy vizualizéra akcentovou farbou z obalu albumu</system:String>
     <system:String x:Key="TaskbarWidgetPauseIconAccentColorTitle">Farba ikony pauzy</system:String>
     <system:String x:Key="TaskbarWidgetPauseIconAccentColorDescription">Zafarbí prekryvnú ikonu pauzy akcentovou farbou z obalu albumu</system:String>

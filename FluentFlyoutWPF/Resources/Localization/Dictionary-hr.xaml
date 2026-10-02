@@ -77,6 +77,7 @@ nasumičnu reprodukciju i informacije o mediju</system:String>
     <system:String x:Key="TaskbarWidgetBackgroundBlurTitle">Pozadinsko Zamućenje</system:String>
     <system:String x:Key="TaskbarWidgetBackgroundBlurDescription">Dodaj efekt pozadinskog zamućenja widgetu za traku</system:String>
     <system:String x:Key="TaskbarWidgetHideCompletelyTitle">Kompletno Sakrij Kada Nema Nikakvog Medija</system:String>
+    <system:String x:Key="UseAlbumArtAccentColorOptionUiBars">Boja stupova vizualizatora</system:String>
     <system:String x:Key="TaskbarVisualizerUseAccentColorDescription">Oboji stupove vizualizatora akcentnom bojom naslovnice albuma</system:String>
     <system:String x:Key="TaskbarWidgetPauseIconAccentColorTitle">Boja ikone pauze</system:String>
     <system:String x:Key="TaskbarWidgetPauseIconAccentColorDescription">Boji ikonu preklopa pauze akcentnom bojom albuma</system:String>

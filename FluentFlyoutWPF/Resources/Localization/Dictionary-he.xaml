@@ -220,6 +220,7 @@
     <system:String x:Key="MonitorWithCursor">מסך שבו מצביע העכבר</system:String>
     <system:String x:Key="UseAlbumArtAccentColorTitle">השתמש בעטיפת האלבום כצבע הדגשה</system:String>
     <system:String x:Key="UseAlbumArtAccentColorDescription">חלק ממרכיבי הממשק ישתמשו בצבע מעטיפת האלבום במקום בצבע מערכת ההפעלה</system:String>
+    <system:String x:Key="UseAlbumArtAccentColorOptionUiBars">צבע מוטות מציג הקצב</system:String>
     <system:String x:Key="TaskbarVisualizerUseAccentColorDescription">צובע את מוטות מציג הקצב בצבע ההדגשה של עטיפת האלבום</system:String>
     <system:String x:Key="TaskbarWidgetPauseIconAccentColorTitle">צבע סמל ההשהיה</system:String>
     <system:String x:Key="TaskbarWidgetPauseIconAccentColorDescription">צובע את סמל שכבת ההשהיה בצבע ההדגשה של עטיפת האלבום</system:String>
