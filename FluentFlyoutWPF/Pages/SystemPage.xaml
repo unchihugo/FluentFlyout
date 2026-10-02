@@ -45,17 +45,49 @@
                     <ui:TextBlock Text="{Binding AcrylicBlurOpacity}" Width="24" TextAlignment="Center" Margin="12,0,0,0" />
                 </StackPanel>
             </ui:CardControl>
-            <ui:CardControl x:Name="UseAlbumArtAccentColorCard" Tag="Indexable" Icon="{ui:SymbolIcon EyeDropper24}" Margin="0,0,0,12">
-                <ui:CardControl.Header>
-                    <StackPanel Orientation="Vertical">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{DynamicResource UseAlbumArtAccentColorTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
+            <ui:CardExpander x:Name="UseAlbumArtAccentColorCard" Tag="Indexable" Icon="{ui:SymbolIcon EyeDropper24}" ContentPadding="0" Margin="0,0,0,12">
+                <ui:CardExpander.Header>
+                    <Grid ColumnDefinitions="*, Auto">
+                        <StackPanel Orientation="Vertical" Grid.Column="0">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{DynamicResource UseAlbumArtAccentColorTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
+                                <ui:InfoBadge Value=" UPDATED " FontWeight="Medium" FontSize="10" Margin="6,-2,0,-2" Severity="Attention" />
+                            </StackPanel>
+                            <TextBlock Text="{DynamicResource UseAlbumArtAccentColorDescription}" FontSize="12" Opacity="0.5" />
                         </StackPanel>
-                        <TextBlock Text="{DynamicResource UseAlbumArtAccentColorDescription}" FontSize="12" Opacity="0.5" />
-                    </StackPanel>
-                </ui:CardControl.Header>
-                <ui:ToggleSwitch IsChecked="{Binding UseAlbumArtAsAccentColor, Mode=TwoWay}" />
-            </ui:CardControl>
+                        <ui:ToggleSwitch Grid.Column="1" IsChecked="{Binding UseAlbumArtAsAccentColor, Mode=TwoWay}" Margin="0,0,16,0" />
+                    </Grid>
+                </ui:CardExpander.Header>
+                <StackPanel Opacity="{Binding UseAlbumArtAsAccentColor, Converter={StaticResource BoolToFullHalfOpacityConverter}}">
+                    <ui:CardControl Background="Transparent" BorderBrush="{ui:ThemeResource CardStrokeColorDefaultSolidBrush}" BorderThickness="0,0,0,1" CornerRadius="0" Padding="52,16,16,16">
+                        <ui:CardControl.Header>
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock Text="{DynamicResource UseAlbumArtAccentColorOptionUiBars}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
+                                <TextBlock Text="{DynamicResource TaskbarVisualizerUseAccentColorDescription}" FontSize="12" Opacity="0.5" />
+                            </StackPanel>
+                        </ui:CardControl.Header>
+                        <ui:ToggleSwitch IsChecked="{Binding TaskbarVisualizerUseAccentColor, Mode=TwoWay}" />
+                    </ui:CardControl>
+                    <ui:CardControl Background="Transparent" BorderBrush="{ui:ThemeResource CardStrokeColorDefaultSolidBrush}" BorderThickness="0,0,0,1" CornerRadius="0" Padding="52,16,16,16">
+                        <ui:CardControl.Header>
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock Text="{DynamicResource TaskbarWidgetPauseIconAccentColorTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
+                                <TextBlock Text="{DynamicResource TaskbarWidgetPauseIconAccentColorDescription}" FontSize="12" Opacity="0.5" />
+                            </StackPanel>
+                        </ui:CardControl.Header>
+                        <ui:ToggleSwitch IsChecked="{Binding TaskbarWidgetPauseIconUseAccentColor, Mode=TwoWay}" />
+                    </ui:CardControl>
+                    <ui:CardControl Background="Transparent" BorderBrush="{ui:ThemeResource CardStrokeColorDefaultSolidBrush}" BorderThickness="0" CornerRadius="0" Padding="52,16,16,16">
+                        <ui:CardControl.Header>
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock Text="{DynamicResource TaskbarWidgetMusicNoteAccentColorTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
+                                <TextBlock Text="{DynamicResource TaskbarWidgetMusicNoteAccentColorDescription}" FontSize="12" Opacity="0.5" />
+                            </StackPanel>
+                        </ui:CardControl.Header>
+                        <ui:ToggleSwitch IsChecked="{Binding TaskbarWidgetMusicNoteUseAccentColor, Mode=TwoWay}" />
+                    </ui:CardControl>
+                </StackPanel>
+            </ui:CardExpander>
             <ui:CardControl x:Name="AppLanguageCard" Tag="Indexable" Icon="{ui:SymbolIcon Globe24}" Margin="0,0,0,3">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
