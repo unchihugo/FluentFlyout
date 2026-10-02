@@ -1668,7 +1668,8 @@ public partial class MainWindow : MicaWindow
         var monitors = MonitorUtil.GetMonitors();
         if (monitors.Count == 0)
         {
-            Logger.Warn($"Display environment refresh skipped because no monitors were found ({reason})");
+            Logger.Warn($"Display environment refresh skipped because no monitors were found ({reason}); retrying");
+            ScheduleDisplayEnvironmentRefresh(reason);
             return;
         }
 
@@ -1796,6 +1797,7 @@ public partial class MainWindow : MicaWindow
         }
         else if (msg == WM_DISPLAYCHANGE)
         {
+            taskbarWindow?.NotifyDisplayChanged();
             ScheduleDisplayEnvironmentRefresh("WM_DISPLAYCHANGE");
             return 0;
         }
