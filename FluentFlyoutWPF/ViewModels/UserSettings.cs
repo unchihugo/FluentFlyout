@@ -438,6 +438,21 @@ public partial class UserSettings : ObservableObject
     public partial bool TaskbarWidgetFixedWidth { get; set; }
 
     /// <summary>
+    /// Gets or sets a value indicating whether the taskbar widget should shrink or hide
+    /// elements when taskbar space is constrained. Defaults to false, so existing users keep
+    /// the layout they had.
+    /// </summary>
+    [ObservableProperty]
+    public partial bool TaskbarWidgetAdaptiveWidth { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the taskbar widget hides entirely when not
+    /// even the album icon fits. Only consulted while adaptive width is enabled.
+    /// </summary>
+    [ObservableProperty]
+    public partial bool TaskbarWidgetHideWhenFull { get; set; }
+
+    /// <summary>
     /// Gets or sets a value indicating whether the pause icon overlay should be completely hidden from view.
     /// </summary>
     [ObservableProperty]
@@ -756,6 +771,8 @@ public partial class UserSettings : ObservableObject
         TaskbarWidgetBackgroundBlur = false;
         TaskbarWidgetHideCompletely = false;
         TaskbarWidgetFixedWidth = false;
+        TaskbarWidgetAdaptiveWidth = false;
+        TaskbarWidgetHideWhenFull = false;
         TaskbarWidgetShowPauseOverlay = true;
         TaskbarWidgetControlsEnabled = false;
         TaskbarWidgetControlsPosition = 1;
@@ -925,6 +942,18 @@ public partial class UserSettings : ObservableObject
     }
 
     partial void OnTaskbarWidgetFixedWidthChanged(bool oldValue, bool newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+        UpdateTaskbar();
+    }
+
+    partial void OnTaskbarWidgetAdaptiveWidthChanged(bool oldValue, bool newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+        UpdateTaskbar();
+    }
+
+    partial void OnTaskbarWidgetHideWhenFullChanged(bool oldValue, bool newValue)
     {
         if (oldValue == newValue || _initializing) return;
         UpdateTaskbar();

@@ -35,6 +35,7 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <StackPanel Orientation="Horizontal" Margin="0,0,0,24">
                 <Border CornerRadius="10" ClipToBounds="True" Width="164" Height="98">
@@ -209,6 +210,28 @@
                     </StackPanel>
                 </ui:CardControl.Header>
                 <ui:ToggleSwitch IsChecked="{Binding TaskbarWidgetFixedWidth, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}" />
+            </ui:CardControl>
+            <ui:CardControl x:Name="TaskbarWidgetAdaptiveWidthCard" Tag="Indexable" Grid.Row="17" Icon="{ui:SymbolIcon ArrowAutofitHeight24}" Margin="0,0,0,3">
+                <ui:CardControl.Header>
+                    <StackPanel Orientation="Vertical">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{DynamicResource TaskbarWidgetAdaptiveWidthTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
+                        </StackPanel>
+                        <TextBlock Text="{DynamicResource TaskbarWidgetAdaptiveWidthDescription}" FontSize="12" Opacity="0.5" />
+                    </StackPanel>
+                </ui:CardControl.Header>
+                <ui:ToggleSwitch IsChecked="{Binding TaskbarWidgetAdaptiveWidth, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}" />
+            </ui:CardControl>
+            <ui:CardControl x:Name="TaskbarWidgetHideWhenFullCard" Tag="Indexable" Grid.Row="18" Icon="{ui:SymbolIcon EyeOff24}" Margin="0,0,0,12">
+                <ui:CardControl.Header>
+                    <StackPanel Orientation="Vertical">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{DynamicResource TaskbarWidgetHideWhenFullTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
+                        </StackPanel>
+                        <TextBlock Text="{DynamicResource TaskbarWidgetHideWhenFullDescription}" FontSize="12" Opacity="0.5" />
+                    </StackPanel>
+                </ui:CardControl.Header>
+                <ui:ToggleSwitch IsChecked="{Binding TaskbarWidgetHideWhenFull, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}" />
             </ui:CardControl>
             <ui:CardControl x:Name="TaskbarWidgetAutoHideTitleCard" Tag="Indexable" Grid.Row="10" Icon="{ui:SymbolIcon EyeLines24}" Margin="0,0,0,12">
                 <ui:CardControl.Header>
