@@ -288,4 +288,12 @@
     <system:String x:Key="TaskbarWidgetScrollingTextLoopForeverDescription">텍스트를 한 방향으로 계속 스크롤하기.</system:String>
     <system:String x:Key="TaskbarWidgetScrollingTextSpeedTitle">스크롤 속도</system:String>
     <system:String x:Key="TaskbarWidgetScrollingTextSpeedDescription">텍스트 스크롤 속도 설정(픽셀/초). 기본값은 20.</system:String>
+    <system:String x:Key="OnboardingTitle">시작하기</system:String>
+    <system:String x:Key="SupporterTitle">후원자</system:String>
+    <system:String x:Key="SupporterDescription">감사합니다!</system:String>
+    <system:String x:Key="TaskbarWidgetScrollVolumeTitle">스크롤하여 볼륨 조절</system:String>
+    <system:String x:Key="TaskbarWidgetScrollVolumeDescription">작업 표시줄 위젯에 마우스를 올려 스크롤로 볼륨 조절</system:String>
+    <system:String x:Key="TaskbarWidgetScrollVolumeMaster">사용 (마스터 볼륨)</system:String>
+    <system:String x:Key="TaskbarWidgetScrollVolumePlayer">사용 (플레이어 볼륨)</system:String>
+    <system:String x:Key="OpenMediaPlayerText">미디어 플레이어 열기</system:String>
 </ResourceDictionary>
