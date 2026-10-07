@@ -54,6 +54,62 @@
                 </Setter.Value>
             </Setter>
         </Style>
+
+        <!-- The media selector opens above the flyout, so its content should travel upward into place. -->
+        <Style x:Key="MediaSessionContextMenuStyle"
+               TargetType="{x:Type ContextMenu}"
+               BasedOn="{StaticResource UiContextMenu}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ContextMenu}">
+                        <ui:EffectThicknessDecorator Thickness="30">
+                            <Border x:Name="MenuBorder"
+                                    Padding="0,3"
+                                    Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="1"
+                                    CornerRadius="8"
+                                    Opacity="0">
+                                <Border.Effect>
+                                    <DropShadowEffect BlurRadius="20"
+                                                      Direction="270"
+                                                      Opacity="0.135"
+                                                      ShadowDepth="10"
+                                                      Color="#202020"/>
+                                </Border.Effect>
+                                <Border.RenderTransform>
+                                    <TranslateTransform/>
+                                </Border.RenderTransform>
+                                <StackPanel ClipToBounds="True"
+                                            IsItemsHost="True"
+                                            KeyboardNavigation.DirectionalNavigation="Cycle"
+                                            Orientation="Vertical"/>
+                            </Border>
+                        </ui:EffectThicknessDecorator>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsOpen" Value="True">
+                                <Trigger.EnterActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="MenuBorder"
+                                                             Storyboard.TargetProperty="(Border.RenderTransform).(TranslateTransform.Y)"
+                                                             From="10" To="0" Duration="0:0:0.167">
+                                                <DoubleAnimation.EasingFunction>
+                                                    <CircleEase EasingMode="EaseOut"/>
+                                                </DoubleAnimation.EasingFunction>
+                                            </DoubleAnimation>
+                                            <DoubleAnimation Storyboard.TargetName="MenuBorder"
+                                                             Storyboard.TargetProperty="Opacity"
+                                                             From="0" To="1" Duration="0:0:0.12"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.EnterActions>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </controls:MicaWindow.Resources>
     <Window.Triggers>
         <EventTrigger RoutedEvent="Window.Loaded">
@@ -197,6 +253,8 @@
                                 <controls:Button Name="MediaIdButton" Padding="0" Height="28" Width="70"
                                     Margin="8,0,0,0"
                                     Style="{StaticResource MicaWPF.Styles.TransparentButton}"
+                                    ToolTip="{DynamicResource MediaSessionSelectorToolTip}"
+                                    ToolTipService.IsEnabled="{Binding MediaSessionSwitchingEnabled}"
                                     Click="MediaIdButton_Click"
                                     MouseRightButtonUp="MediaIdButton_RightClick">
                                     <StackPanel Orientation="Horizontal" Margin="2,0">

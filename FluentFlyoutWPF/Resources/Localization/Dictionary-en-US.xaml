@@ -42,6 +42,15 @@ hides repeat, shuffle and player info</System:String>
     <System:String x:Key="CenterTitleArtistDescription">Align text to the center instead of the left</System:String>
     <System:String x:Key="ShowMediaPlayerNameTitle">Show Media Player name</System:String>
     <System:String x:Key="SessionSwitcherAuto">Automatic</System:String>
+    <System:String x:Key="MediaSessionSelectorToolTip">Right-click to choose a media player</System:String>
+    <System:String x:Key="MediaSessionPlaying">Playing</System:String>
+    <System:String x:Key="MediaSessionPaused">Paused</System:String>
+    <System:String x:Key="MediaSessionFollowSystem">Follow system</System:String>
+    <System:String x:Key="MediaSessionSystemTarget">Current target: {0}</System:String>
+    <System:String x:Key="MediaSessionSwitchingTitle">Media player switching</System:String>
+    <System:String x:Key="MediaSessionSwitchingDescription">Allow right-click player selection</System:String>
+    <System:String x:Key="MediaSessionAutoFollowTitle">Follow system on new playback</System:String>
+    <System:String x:Key="MediaSessionAutoFollowDescription">Only after selecting a player</System:String>
     <System:String x:Key="RepeatButtonTitle">Repeat Button*</System:String>
     <System:String x:Key="RepeatButtonDescription">Choose between repeat all or repeat one, increases flyout width</System:String>
     <System:String x:Key="ShuffleButtonTitle">Shuffle Button*</System:String>

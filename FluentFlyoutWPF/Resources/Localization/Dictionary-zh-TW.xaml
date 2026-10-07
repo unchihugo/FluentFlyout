@@ -29,6 +29,15 @@
     <system:String x:Key="CenterTitleArtistTitle">置中顯示標題及作者</system:String>
     <system:String x:Key="CenterTitleArtistDescription">將文字置中對齊，而不是左對齊</system:String>
     <system:String x:Key="ShowMediaPlayerNameTitle">顯示媒體播放器名稱</system:String>
+    <system:String x:Key="MediaSessionSelectorToolTip">按右鍵選擇媒體播放器</system:String>
+    <system:String x:Key="MediaSessionPlaying">正在播放</system:String>
+    <system:String x:Key="MediaSessionPaused">已暫停</system:String>
+    <system:String x:Key="MediaSessionFollowSystem">跟隨系統</system:String>
+    <system:String x:Key="MediaSessionSystemTarget">目前目標：{0}</system:String>
+    <system:String x:Key="MediaSessionSwitchingTitle">切換媒體播放器</system:String>
+    <system:String x:Key="MediaSessionSwitchingDescription">允許按右鍵選擇播放器</system:String>
+    <system:String x:Key="MediaSessionAutoFollowTitle">新播放時恢復跟隨系統</system:String>
+    <system:String x:Key="MediaSessionAutoFollowDescription">僅在手動選擇後生效</system:String>
     <system:String x:Key="RepeatButtonTitle">重複播放按鈕*</system:String>
     <system:String x:Key="RepeatButtonDescription">選擇全部重複或單一重複，增加彈出視窗寬度</system:String>
     <system:String x:Key="ShuffleButtonTitle">隨機播放按鈕*</system:String>
