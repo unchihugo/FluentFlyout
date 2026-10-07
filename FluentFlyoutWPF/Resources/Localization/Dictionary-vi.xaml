@@ -295,4 +295,5 @@ Lưu ý: Vì đây là một dự án mã nguồn mở, các tính năng này c�
     <system:String x:Key="TaskbarWidgetScrollVolumeMaster">Bật (Âm Lượng Tổng)</system:String>
     <system:String x:Key="TaskbarWidgetScrollVolumePlayer">Bật (Âm Lượng Trình Phát)</system:String>
     <system:String x:Key="OpenMediaPlayerText">Mở trình phát phương tiện</system:String>
+    <system:String x:Key="SessionSwitcherAuto">Tự động</system:String>
 </ResourceDictionary>
