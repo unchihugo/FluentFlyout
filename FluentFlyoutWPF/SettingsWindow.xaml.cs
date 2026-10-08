@@ -3,6 +3,7 @@
 
 using FluentFlyout.Classes;
 using FluentFlyout.Classes.Settings;
+using FluentFlyoutWPF.Classes.Utils;
 using FluentFlyoutWPF.Pages;
 using System.Text.RegularExpressions;
 using System.Windows;
@@ -40,6 +41,52 @@ public partial class SettingsWindow : FluentWindow
 
         InitializeComponent();
         instance = this;
+
+        WindowStartupLocation = WindowStartupLocation.Manual;
+
+        var settings = SettingsManager.Current;
+        double targetWidth = settings.SettingsWindowWidth >= MinWidth ? settings.SettingsWindowWidth : 900;
+        double targetHeight = settings.SettingsWindowHeight >= MinHeight ? settings.SettingsWindowHeight : 700;
+
+        Rect workArea = GetWorkAreaForBounds(settings.SettingsWindowLeft, settings.SettingsWindowTop, targetWidth, targetHeight);
+
+        targetWidth = Math.Max(MinWidth, Math.Min(targetWidth, workArea.Width));
+        targetHeight = Math.Max(MinHeight, Math.Min(targetHeight, workArea.Height));
+
+        double targetLeft = settings.SettingsWindowLeft;
+        double targetTop = settings.SettingsWindowTop;
+
+        if (double.IsNaN(targetLeft) || double.IsNaN(targetTop))
+        {
+            targetLeft = workArea.Left + (workArea.Width - targetWidth) / 2;
+            targetTop = workArea.Top + (workArea.Height - targetHeight) / 2;
+        }
+        else
+        {
+            if (targetLeft + targetWidth > workArea.Right)
+                targetLeft = workArea.Right - targetWidth;
+            if (targetLeft < workArea.Left)
+                targetLeft = workArea.Left;
+
+            if (targetTop + targetHeight > workArea.Bottom)
+                targetTop = workArea.Bottom - targetHeight;
+            if (targetTop < workArea.Top)
+                targetTop = workArea.Top;
+        }
+
+        Width = targetWidth;
+        Height = targetHeight;
+        Left = targetLeft;
+        Top = targetTop;
+
+        if (settings.SettingsWindowState == WindowState.Maximized)
+        {
+            WindowState = WindowState.Maximized;
+        }
+
+        LocationChanged += SettingsWindow_LocationChanged;
+        SizeChanged += SettingsWindow_SizeChanged;
+        StateChanged += SettingsWindow_StateChanged;
 
         Closed += (s, e) => instance = null;
         DataContext = SettingsManager.Current;
@@ -239,8 +286,60 @@ public partial class SettingsWindow : FluentWindow
         BuildSearchItems();
     }
 
+    private void SettingsWindow_LocationChanged(object? sender, EventArgs e)
+    {
+        if (WindowState == WindowState.Normal)
+        {
+            SettingsManager.Current.SettingsWindowLeft = Left;
+            SettingsManager.Current.SettingsWindowTop = Top;
+        }
+    }
+
+    private void SettingsWindow_SizeChanged(object sender, SizeChangedEventArgs e)
+    {
+        if (WindowState == WindowState.Normal)
+        {
+            SettingsManager.Current.SettingsWindowWidth = e.NewSize.Width;
+            SettingsManager.Current.SettingsWindowHeight = e.NewSize.Height;
+            SettingsManager.Current.SettingsWindowLeft = Left;
+            SettingsManager.Current.SettingsWindowTop = Top;
+        }
+    }
+
+    private void SettingsWindow_StateChanged(object? sender, EventArgs e)
+    {
+        if (WindowState == WindowState.Maximized)
+        {
+            SettingsManager.Current.SettingsWindowState = WindowState.Maximized;
+        }
+        else if (WindowState == WindowState.Normal)
+        {
+            SettingsManager.Current.SettingsWindowState = WindowState.Normal;
+        }
+    }
+
     private void SettingsWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
     {
+        if (WindowState == WindowState.Normal)
+        {
+            SettingsManager.Current.SettingsWindowWidth = ActualWidth;
+            SettingsManager.Current.SettingsWindowHeight = ActualHeight;
+            SettingsManager.Current.SettingsWindowLeft = Left;
+            SettingsManager.Current.SettingsWindowTop = Top;
+            SettingsManager.Current.SettingsWindowState = WindowState.Normal;
+        }
+        else if (RestoreBounds.Width >= MinWidth && RestoreBounds.Height >= MinHeight)
+        {
+            SettingsManager.Current.SettingsWindowWidth = RestoreBounds.Width;
+            SettingsManager.Current.SettingsWindowHeight = RestoreBounds.Height;
+            SettingsManager.Current.SettingsWindowLeft = RestoreBounds.Left;
+            SettingsManager.Current.SettingsWindowTop = RestoreBounds.Top;
+            if (WindowState == WindowState.Maximized)
+            {
+                SettingsManager.Current.SettingsWindowState = WindowState.Maximized;
+            }
+        }
+
         SettingsManager.SaveSettings();
     }
 
@@ -262,6 +361,53 @@ public partial class SettingsWindow : FluentWindow
                 Logger.Error(ex, "Error resetting scroll position in SettingsWindow");
             }
         }), System.Windows.Threading.DispatcherPriority.Loaded);
+    }
+
+    private static Rect GetWorkAreaForBounds(double left, double top, double width, double height)
+    {
+        if (double.IsNaN(left) || double.IsNaN(top))
+        {
+            return SystemParameters.WorkArea;
+        }
+
+        try
+        {
+            var monitors = MonitorUtil.GetMonitors();
+            var targetRect = new Rect(left, top, Math.Max(1, width), Math.Max(1, height));
+            Rect bestWorkArea = Rect.Empty;
+            double maxIntersectionArea = -1;
+
+            foreach (var monitor in monitors)
+            {
+                double dpiX = monitor.dpiX > 0 ? monitor.dpiX : 96.0;
+                double dpiY = monitor.dpiY > 0 ? monitor.dpiY : 96.0;
+                var monitorWorkAreaDips = new Rect(
+                    monitor.workArea.Left * 96.0 / dpiX,
+                    monitor.workArea.Top * 96.0 / dpiY,
+                    monitor.workArea.Width * 96.0 / dpiX,
+                    monitor.workArea.Height * 96.0 / dpiY);
+
+                var intersection = Rect.Intersect(targetRect, monitorWorkAreaDips);
+                double area = (!intersection.IsEmpty) ? intersection.Width * intersection.Height : 0;
+
+                if (area > maxIntersectionArea)
+                {
+                    maxIntersectionArea = area;
+                    bestWorkArea = monitorWorkAreaDips;
+                }
+            }
+
+            if (!bestWorkArea.IsEmpty && maxIntersectionArea > 0)
+            {
+                return bestWorkArea;
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger.Error(ex, "Error getting work area for window bounds");
+        }
+
+        return SystemParameters.WorkArea;
     }
 
     // helper functions to traverse visual tree
