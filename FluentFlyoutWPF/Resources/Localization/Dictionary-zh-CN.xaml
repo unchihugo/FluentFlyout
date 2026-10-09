@@ -209,6 +209,9 @@
     <system:String x:Key="ImportSuccessful">导入成功</system:String>
     <system:String x:Key="ImportFailed">导入失败</system:String>
     <system:String x:Key="SettingsExportedSuccessfully">设置导出成功！</system:String>
+    <system:String x:Key="PositionDefault">默认</system:String>
+    <system:String x:Key="TaskbarWidgetCoverPositionTitle">封面位置</system:String>
+    <system:String x:Key="TaskbarWidgetCoverPositionDescription">默认靠左，如果小组件位置设置为右下角，则默认靠右。</system:String>
     <system:String x:Key="TaskbarWidgetControlsPositionTitle">媒体控制按键位置</system:String>
     <system:String x:Key="TaskbarWidgetControlsPositionDescription">选择媒体控制按钮在小组件内的显示位置</system:String>
     <system:String x:Key="BackupRestoreCardTitle">将你的设置进行备份和恢复</system:String>
