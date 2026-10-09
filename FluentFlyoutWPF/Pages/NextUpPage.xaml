@@ -21,6 +21,8 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <StackPanel Orientation="Horizontal" Margin="0,0,0,24">
                 <Border CornerRadius="10" ClipToBounds="True" Width="164" Height="98">
@@ -39,7 +41,22 @@
                 </ui:CardControl.Header>
                 <ui:ToggleSwitch Name="NextUpSwitch" IsChecked="{Binding NextUpEnabled, Mode=TwoWay}" />
             </ui:CardControl>
-            <ui:CardControl x:Name="NextUpStayDurationTitleCard" Tag="Indexable" Grid.Row="3" Icon="{ui:SymbolIcon Timer24}" Margin="0,0,0,76">
+            <ui:CardControl x:Name="NextUpPositionTitleCard" Tag="Indexable" Grid.Row="2" Icon="{ui:SymbolIcon ArrowMove24}" Margin="0,0,0,12">
+                <ui:CardControl.Header>
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="{DynamicResource NextUpPositionTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
+                    </StackPanel>
+                </ui:CardControl.Header>
+                <ComboBox Name="NextUpPositionComboBox" SelectedIndex="{Binding NextUpPosition, Mode=TwoWay}">
+                    <ComboBoxItem Content="{DynamicResource PositionBottomLeft}" />
+                    <ComboBoxItem Content="{DynamicResource PositionBottomCenter}" />
+                    <ComboBoxItem Content="{DynamicResource PositionBottomRight}" />
+                    <ComboBoxItem Content="{DynamicResource PositionTopLeft}" />
+                    <ComboBoxItem Content="{DynamicResource PositionTopCenter}" />
+                    <ComboBoxItem Content="{DynamicResource PositionTopRight}" />
+                </ComboBox>
+            </ui:CardControl>
+            <ui:CardControl x:Name="NextUpStayDurationTitleCard" Tag="Indexable" Grid.Row="3" Icon="{ui:SymbolIcon Timer24}" Margin="0,0,0,3">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
                         <TextBlock Text="{DynamicResource NextUpStayDurationTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
@@ -50,6 +67,23 @@
                     <ui:TextBox Name="NextUpDurationTextBox" Width="60" ClearButtonEnabled="False" Text="{Binding NextUpDurationText, Mode=TwoWay}" />
                     <TextBlock Text="{DynamicResource MillisecondsUnit}" FontSize="14" FontWeight="Regular" Margin="10,0,0,0" VerticalAlignment="Center" />
                 </StackPanel>
+            </ui:CardControl>
+            <ui:CardControl x:Name="NextUpCenterTitleArtistTitleCard" Tag="Indexable" Grid.Row="4" Icon="{ui:SymbolIcon AlignLeft24}" Margin="0,0,0,3">
+                <ui:CardControl.Header>
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="{DynamicResource NextUpCenterTitleArtistTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
+                    </StackPanel>
+                </ui:CardControl.Header>
+                <ui:ToggleSwitch Name="NextUpCenterTitleArtistSwitch" IsChecked="{Binding NextUpCenterTitleArtist, Mode=TwoWay}" />
+            </ui:CardControl>
+            <ui:CardControl x:Name="NextUpShowUpNextTextTitleCard" Tag="Indexable" Grid.Row="5" Icon="{ui:SymbolIcon Subtitles24}" Margin="0,0,0,76">
+                <ui:CardControl.Header>
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="{DynamicResource NextUpShowUpNextTextTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
+                        <TextBlock Text="{DynamicResource NextUpShowUpNextTextDescription}" FontSize="12" Opacity="0.5" />
+                    </StackPanel>
+                </ui:CardControl.Header>
+                <ui:ToggleSwitch Name="NextUpShowUpNextTextSwitch" IsChecked="{Binding NextUpShowUpNextText, Mode=TwoWay}" />
             </ui:CardControl>
         </Grid>
     </StackPanel>
