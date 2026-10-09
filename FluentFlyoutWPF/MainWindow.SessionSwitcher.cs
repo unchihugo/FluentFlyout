@@ -4,7 +4,6 @@
 using FluentFlyout.Classes.Settings;
 using FluentFlyout.Classes.Utils;
 using System.Windows;
-using System.Windows.Input;
 using System.Windows.Media;
 using Windows.Media.Control;
 using static WindowsMediaController.MediaManager;
@@ -22,14 +21,6 @@ public partial class MainWindow
     {
         SettingsManager.Current.PinnedSessionId = sessionId ?? string.Empty;
         RefreshFilteredMedia();
-    }
-
-    private void MediaIdButton_RightClick(object sender, MouseButtonEventArgs e)
-    {
-        if (!SettingsManager.Current.PlayerInfoEnabled || SettingsManager.Current.CompactLayout) return;
-        e.Handled = true;
-
-        ShowSessionSwitcherMenu();
     }
 
     private void ShowSessionSwitcherMenu()

@@ -1295,7 +1295,7 @@ public partial class MainWindow : MicaWindow
         {
             int extraWidth = SettingsManager.Current.RepeatEnabled ? 36 : 0;
             extraWidth += SettingsManager.Current.ShuffleEnabled ? 36 : 0;
-            extraWidth += SettingsManager.Current.PlayerInfoEnabled ? 72 : 0;
+            extraWidth += SettingsManager.Current.PlayerInfoEnabled ? 90 : 0;
             // keep minimum width at 72 even if all extra features are disabled to prevent the widget from being too small
             extraWidth = Math.Max(extraWidth, 72);
 
@@ -1360,6 +1360,12 @@ public partial class MainWindow : MicaWindow
     {
         if (!SettingsManager.Current.PlayerInfoEnabled || SettingsManager.Current.CompactLayout) return;
         e.Handled = true;
+
+        if (e.OriginalSource is ToggleButton dropdownButton)
+        {
+            ShowSessionSwitcherMenu();
+            return;
+        }
 
         _ = TryOpenMediaPlayerAsync();
     }
