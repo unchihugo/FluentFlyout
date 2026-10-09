@@ -37,6 +37,10 @@ public partial class TaskbarWidgetControl : UserControl
     private const double SmallControlButtonSize = 24;
     private const float TaskbarVolumeStep = 0.02f;
 
+    // must match SongTitle/SongArtists FontSize in XAML so that they layout and marquee distances agree
+    private const int SongTextFontSize = 14;
+    private const int SongTextFontWeight = 400;
+
     private readonly double _scale = 0.9;
     private readonly int _nativeWidgetsPadding = 216;
 
@@ -49,10 +53,21 @@ public partial class TaskbarWidgetControl : UserControl
     private double _cachedArtistContainerWidth = -1;
     private readonly int _extraMarginForText = 6; // additional margin to avoid text clipping
 
+    // opacity mask caches for fading glyph alpha at edges
     private double _cachedTitleOpacityMaskWidth = -1;
     private double _cachedArtistOpacityMaskWidth = -1;
     private LinearGradientBrush? _cachedTitleOpacityMask;
     private LinearGradientBrush? _cachedArtistOpacityMask;
+
+    // skip restarting Forever animations when nothing major changed (prevents blinks/jumps)
+    private double _lastTitleScrollDistance = double.NaN;
+    private double _lastArtistScrollDistance = double.NaN;
+    private int _lastTitleAnimSpeed = -1;
+    private int _lastArtistAnimSpeed = -1;
+    private bool _lastTitleLoopForever;
+    private bool _lastArtistLoopForever;
+    private string _lastTitleMarqueeText = string.Empty;
+    private string _lastArtistMarqueeText = string.Empty;
 
     private string _actualTitle = string.Empty;
     private string _actualArtist = string.Empty;
@@ -277,13 +292,13 @@ public partial class TaskbarWidgetControl : UserControl
 
         if (!string.Equals(currentTitle, _cachedTitleText, StringComparison.Ordinal))
         {
-            _cachedTitleWidth = Math.Round(StringWidth.GetStringWidth(currentTitle, 400), 2);
+            _cachedTitleWidth = Math.Round(StringWidth.GetStringWidth(currentTitle, SongTextFontWeight, SongTextFontSize), 2);
             _cachedTitleText = currentTitle;
             textChanged = true;
         }
         if (!string.Equals(currentArtist, _cachedArtistText, StringComparison.Ordinal))
         {
-            _cachedArtistWidth = Math.Round(StringWidth.GetStringWidth(currentArtist, 400), 2);
+            _cachedArtistWidth = Math.Round(StringWidth.GetStringWidth(currentArtist, SongTextFontWeight, SongTextFontSize), 2);
             _cachedArtistText = currentArtist;
             textChanged = true;
         }
@@ -358,7 +373,12 @@ public partial class TaskbarWidgetControl : UserControl
         UpdateMarquee(SongArtist, SongArtistContainer, _cachedArtistWidth, artistAvailableWidth, isScrollingEnabled);
     }
 
-    private void UpdateMarquee(System.Windows.Controls.TextBlock textBlock, Canvas container, double textWidth, double availableWidth, bool isEnabled)
+    private void UpdateMarquee(
+        System.Windows.Controls.TextBlock textBlock,
+        Canvas container,
+        double textWidth,
+        double availableWidth,
+        bool isEnabled)
     {
         if (textBlock.RenderTransform as TranslateTransform is not { } transform) return;
 
@@ -367,7 +387,10 @@ public partial class TaskbarWidgetControl : UserControl
         bool isTitle = textBlock == SongTitle;
         double containerWidth = container.Width;
 
-        // references moved outside so they may be called in the else block later
+        ref double lastScrollDistance = ref (isTitle ? ref _lastTitleScrollDistance : ref _lastArtistScrollDistance);
+        ref int lastSpeed = ref (isTitle ? ref _lastTitleAnimSpeed : ref _lastArtistAnimSpeed);
+        ref bool lastLoop = ref (isTitle ? ref _lastTitleLoopForever : ref _lastArtistLoopForever);
+        ref string lastMarqueeText = ref (isTitle ? ref _lastTitleMarqueeText : ref _lastArtistMarqueeText);
         ref double cachedMaskWidth = ref (isTitle ? ref _cachedTitleOpacityMaskWidth : ref _cachedArtistOpacityMaskWidth);
         ref LinearGradientBrush? cachedMask = ref (isTitle ? ref _cachedTitleOpacityMask : ref _cachedArtistOpacityMask);
 
@@ -378,10 +401,12 @@ public partial class TaskbarWidgetControl : UserControl
 
             string origText = isTitle ? _actualTitle : _actualArtist;
 
+            // non-breaking spaces keep the loop gap from collapsing under WPF whitespace rules.
+            const string spacer = "\u00A0\u00A0\u00A0\u00A0\u00A0";
+
             if (cachedMask == null || Math.Abs(containerWidth - cachedMaskWidth) > 0.5)
             {
-                // 12.0 is the width in pixels of the gradient fade on the left and right hand edges of the 
-                // text container.
+                // Mask alpha fades the rendered glyphs at each edge (~12px), independent of character shape.
                 double fadeFraction = 12.0 / containerWidth;
                 if (fadeFraction > 0.5) fadeFraction = 0.5;
 
@@ -391,7 +416,6 @@ public partial class TaskbarWidgetControl : UserControl
                     EndPoint = new Point(containerWidth, 0),
                     MappingMode = BrushMappingMode.Absolute
                 };
-
                 cachedMask.GradientStops.Add(new GradientStop(Color.FromArgb(0, 255, 255, 255), 0.0));
                 cachedMask.GradientStops.Add(new GradientStop(Color.FromArgb(255, 255, 255, 255), fadeFraction));
                 cachedMask.GradientStops.Add(new GradientStop(Color.FromArgb(255, 255, 255, 255), 1.0 - fadeFraction));
@@ -401,21 +425,43 @@ public partial class TaskbarWidgetControl : UserControl
 
             container.OpacityMask = cachedMask;
 
+            double scrollDistance;
             if (loopForever)
             {
-                // continuous looping should have the fades constantly active (as its infinite)
+                // measure the live TextBlock so scrollDistance matches rendered width (fonts/DPI/ClearType).
+                textBlock.Text = origText + spacer;
+                textBlock.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+                scrollDistance = textBlock.DesiredSize.Width;
+                textBlock.Text = origText + spacer + origText;
+            }
+            else
+            {
+                // extra padding so text clears the container edge before reversing.
+                scrollDistance = textWidth - containerWidth + 10;
+                textBlock.Text = origText;
+            }
+
+            bool needsRestart =
+                lastMarqueeText != origText
+                || Math.Abs(scrollDistance - lastScrollDistance) > 0.5
+                || lastSpeed != speed
+                || lastLoop != loopForever;
+
+            if (!needsRestart)
+                return;
+
+            lastMarqueeText = origText;
+            lastScrollDistance = scrollDistance;
+            lastSpeed = speed;
+            lastLoop = loopForever;
+
+            if (loopForever)
+            {
+                // Continuous loop keeps both edge fades active.
                 cachedMask.GradientStops[0].BeginAnimation(GradientStop.ColorProperty, null);
                 cachedMask.GradientStops[3].BeginAnimation(GradientStop.ColorProperty, null);
                 cachedMask.GradientStops[0].Color = Color.FromArgb(0, 255, 255, 255);
                 cachedMask.GradientStops[3].Color = Color.FromArgb(0, 255, 255, 255);
-
-                // \u00A0 are non-breaking spaces, which prevents WPF from collapsing and/or trimming
-                // them
-                string spacer = "\u00A0\u00A0\u00A0\u00A0\u00A0";
-                textBlock.Text = origText + spacer + origText;
-
-                double spacerWidth = StringWidth.GetStringWidth(spacer, 400);
-                double scrollDistance = textWidth + spacerWidth;
 
                 double durationToScroll = scrollDistance / speed;
                 var animation = new DoubleAnimation
@@ -430,13 +476,8 @@ public partial class TaskbarWidgetControl : UserControl
             }
             else
             {
-                // Adding 10 pixels gives extra padding so the text scrolls past the container's edge before
-                // resetting or reversing; this prevents abrupt cutoffs
-                double scrollDistance = textWidth - containerWidth + 10;
-                textBlock.Text = origText;
-
                 double durationSeconds = scrollDistance / speed;
-                double pauseDuration = 2.0; // wait 2 seconds at the start and end of the scroll
+                double pauseDuration = 2.0;
                 double tWaitStart = pauseDuration;
                 double tScrollEnd = tWaitStart + durationSeconds;
                 double tWaitEnd = tScrollEnd + pauseDuration;
@@ -451,12 +492,8 @@ public partial class TaskbarWidgetControl : UserControl
                 animation.KeyFrames.Add(new LinearDoubleKeyFrame(0, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(tScrollBackEnd))));
                 animation.KeyFrames.Add(new LinearDoubleKeyFrame(0, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(tTotalCycle))));
 
-                // sync fades with the "ping pong" movement
                 Color transparentWhite = Color.FromArgb(0, 255, 255, 255);
                 Color solidWhite = Color.FromArgb(255, 255, 255, 255);
-
-                // 300 ms is the capped duration for the fade transition; we clamp it so that the fade animation
-                // doesn't overlap with the scroll animation on certain shorter texts
                 TimeSpan fadeTime = TimeSpan.FromMilliseconds(Math.Min(300, durationSeconds * 1000 / 2.0));
 
                 var leftColorAnim = new ColorAnimationUsingKeyFrames { RepeatBehavior = RepeatBehavior.Forever };
@@ -483,9 +520,13 @@ public partial class TaskbarWidgetControl : UserControl
         }
         else
         {
+            lastScrollDistance = double.NaN;
+            lastSpeed = -1;
+            lastLoop = false;
+            lastMarqueeText = string.Empty;
+
             if (cachedMask != null)
             {
-                // Prevent memory leaks and/or unwanted behavior by clearing the color animations when the mask is hidden
                 cachedMask.GradientStops[0].BeginAnimation(GradientStop.ColorProperty, null);
                 cachedMask.GradientStops[3].BeginAnimation(GradientStop.ColorProperty, null);
             }
@@ -493,7 +534,7 @@ public partial class TaskbarWidgetControl : UserControl
             transform.BeginAnimation(TranslateTransform.XProperty, null);
             transform.X = 0;
             textBlock.Text = isTitle ? _actualTitle : _actualArtist;
-            textBlock.Width = containerWidth;
+            textBlock.Width = double.IsNaN(containerWidth) ? double.NaN : containerWidth;
             textBlock.TextTrimming = TextTrimming.CharacterEllipsis;
             container.OpacityMask = null;
         }
@@ -575,8 +616,12 @@ public partial class TaskbarWidgetControl : UserControl
 
             if (_actualTitle != newTitle || _actualArtist != newArtist)
             {
-                // changed info
-                if (SettingsManager.Current.TaskbarWidgetAnimated)
+                // session reconnects (e.g. Spotify minimize/restore) often flash through "-" / empty.
+                bool recoveringFromPlaceholder =
+                    string.IsNullOrEmpty(_actualTitle) || _actualTitle == "-"
+                    || string.IsNullOrEmpty(_actualArtist) || _actualArtist == "-";
+
+                if (SettingsManager.Current.TaskbarWidgetAnimated && !recoveringFromPlaceholder)
                 {
                     AnimateEntrance();
                 }
@@ -586,6 +631,10 @@ public partial class TaskbarWidgetControl : UserControl
 
                 SongTitle.Text = _actualTitle;
                 SongArtist.Text = _actualArtist;
+
+                // refresh marquee immediately so Forever scroll isn't left on stale text until the next position tick.
+                InvalidateMarqueeAnimationState();
+                UpdateMarquees();
             }
 
             // Update tooltip with song info and the active app volume
@@ -663,13 +712,22 @@ public partial class TaskbarWidgetControl : UserControl
             SongInfoStackPanel.ToolTip += $" ({appVolume:P0})";
     }
 
+    private void InvalidateMarqueeAnimationState()
+    {
+        _lastTitleScrollDistance = double.NaN;
+        _lastArtistScrollDistance = double.NaN;
+        _lastTitleAnimSpeed = -1;
+        _lastArtistAnimSpeed = -1;
+        _lastTitleMarqueeText = string.Empty;
+        _lastArtistMarqueeText = string.Empty;
+    }
+
     private async void AnimateEntrance()
     {
         try
         {
             int msDuration = MainWindow.getDuration();
 
-            // opacity and left to right animation for SongInfoStackPanel
             DoubleAnimation opacityAnimation = new()
             {
                 From = 0.0,
@@ -686,13 +744,21 @@ public partial class TaskbarWidgetControl : UserControl
                 EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseOut }
             };
 
-            // Apply animations
-            SongInfoStackPanel.BeginAnimation(OpacityProperty, opacityAnimation);
+            // scrolling already animates the glyphs; opacity From=0 on the same panel causes a visible hitch.
+            if (SettingsManager.Current.TaskbarWidgetScrollingEnabled)
+            {
+                SongInfoStackPanel.BeginAnimation(OpacityProperty, null);
+                SongInfoStackPanel.Opacity = 1;
+            }
+            else
+            {
+                SongInfoStackPanel.BeginAnimation(OpacityProperty, opacityAnimation);
+            }
+
             TranslateTransform translateTransform = new();
             SongInfoStackPanel.RenderTransform = translateTransform;
             translateTransform.BeginAnimation(TranslateTransform.XProperty, translateAnimation);
 
-            // don't play ControlsStackPanel animation if it's not enabled
             if (!SettingsManager.Current.TaskbarWidgetControlsEnabled)
                 return;
 
