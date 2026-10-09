@@ -181,6 +181,7 @@ public partial class MainWindow : MicaWindow
         mediaManager.OnAnyMediaPropertyChanged += MediaManager_OnAnyMediaPropertyChanged;
         mediaManager.OnAnyPlaybackStateChanged += CurrentSession_OnPlaybackStateChanged;
         mediaManager.OnAnyTimelinePropertyChanged += MediaManager_OnAnyTimelinePropertyChanged;
+        mediaManager.OnAnySessionOpened += MediaManager_OnAnySessionOpened;
         mediaManager.OnAnySessionClosed += MediaManager_OnAnySessionClosed;
 
         WM_TASKBARCREATED = RegisterWindowMessage("TaskbarCreated");
@@ -893,6 +894,11 @@ public partial class MainWindow : MicaWindow
         }
     }
 
+    private void MediaManager_OnAnySessionOpened(MediaSession mediaSession)
+    {
+        Dispatcher.BeginInvoke(RefreshSessionSwitcherAfterListChange);
+    }
+
     private void MediaManager_OnAnySessionClosed(MediaSession mediaSession)
     {
 #if DEBUG
@@ -904,6 +910,17 @@ public partial class MainWindow : MicaWindow
             SettingsManager.Current.PinnedSessionId = string.Empty;
         }
         UpdateTaskbar();
+        Dispatcher.BeginInvoke(RefreshSessionSwitcherAfterListChange);
+    }
+
+    private void RefreshSessionSwitcherAfterListChange()
+    {
+        if (!IsVisible) return;
+
+        if (GetActiveMediaSession() is { } activeSession)
+            UpdateUI(activeSession);
+        else
+            UpdateUILayout();
     }
 
     private static IntPtr SetHook(LowLevelKeyboardProc proc) // set the keyboard hook
@@ -994,7 +1011,7 @@ public partial class MainWindow : MicaWindow
         volumeMixerWindow?.ShowFlyout();
     }
 
-    public async void ShowMediaFlyout(bool toggleMode = false, bool forceShow = false)
+    public async void ShowMediaFlyout(bool toggleMode = false, bool forceShow = false, bool refreshUi = true)
     {
         var activeSession = GetActiveMediaSession();
         if (activeSession == null ||
@@ -1018,7 +1035,8 @@ public partial class MainWindow : MicaWindow
             return;
         }
 
-        UpdateUI(activeSession);
+        if (refreshUi)
+            UpdateUI(activeSession);
         if (_seekBarEnabled)
             HandlePlayBackState(activeSession.ControlSession.GetPlaybackInfo().PlaybackStatus);
 
@@ -1052,7 +1070,7 @@ public partial class MainWindow : MicaWindow
                     && volumeMixerWindow.IsVisible
                     && WindowHelper.IsMouseOverWindow(volumeMixerWindow); // sync with VolumeMixerWindow
 
-                if (!mouseOverMedia && !mouseOverVolume && !SettingsManager.Current.MediaFlyoutAlwaysDisplay)
+                if (!mouseOverMedia && !mouseOverVolume && !_isMediaSessionMenuOpen && !SettingsManager.Current.MediaFlyoutAlwaysDisplay)
                 {
                     await Task.Delay(SettingsManager.Current.Duration, token);
 
@@ -1063,7 +1081,7 @@ public partial class MainWindow : MicaWindow
                         && volumeMixerWindow.IsVisible
                         && WindowHelper.IsMouseOverWindow(volumeMixerWindow);
 
-                    if (!mouseOverMedia && !mouseOverVolume)
+                    if (!mouseOverMedia && !mouseOverVolume && !_isMediaSessionMenuOpen)
                     {
                         CloseAnimation(this);
                         _isHiding = true;
@@ -1091,13 +1109,15 @@ public partial class MainWindow : MicaWindow
 
     private void UpdateUI(MediaSession mediaSession)
     {
+        bool hasMultipleMediaSessions = GetSwitchableSessions().Count > 1;
         if (_layout != SettingsManager.Current.CompactLayout ||
             _shuffleEnabled != SettingsManager.Current.ShuffleEnabled ||
             _repeatEnabled != SettingsManager.Current.RepeatEnabled ||
             _playerInfoEnabled != SettingsManager.Current.PlayerInfoEnabled ||
             _centerTitleArtist != SettingsManager.Current.CenterTitleArtist ||
             _seekBarEnabled != SettingsManager.Current.SeekbarEnabled ||
-            _alwaysDisplay != SettingsManager.Current.MediaFlyoutAlwaysDisplay)
+            _alwaysDisplay != SettingsManager.Current.MediaFlyoutAlwaysDisplay ||
+            _hasMultipleMediaSessions != hasMultipleMediaSessions)
             UpdateUILayout();
 
         // sometimes mediaSession.ControlSession can be null
@@ -1189,9 +1209,10 @@ public partial class MainWindow : MicaWindow
 
                 if (SettingsManager.Current.PlayerInfoEnabled && !SettingsManager.Current.CompactLayout)
                 {
-                    MediaIdButton.Visibility = Visibility.Visible;
                     (string title, ImageSource? Icon) = MediaPlayerData.GetAndCacheMediaPlayerData(mediaSession.Id);
                     MediaId.Text = title;
+                    MediaSessionId.Text = title;
+                    MediaSessionSplitButton.Icon = CreateMediaPlayerIcon(Icon);
                     if (Icon != null)
                     {
                         MediaIdIcon.Source = Icon;
@@ -1202,7 +1223,13 @@ public partial class MainWindow : MicaWindow
                         MediaIdIcon.Visibility = Visibility.Collapsed;
                     }
                 }
-                else MediaIdButton.Visibility = Visibility.Collapsed;
+                else if (hasMultipleMediaSessions)
+                {
+                    (_, ImageSource? icon) = MediaPlayerData.GetAndCacheMediaPlayerData(mediaSession.Id);
+                    CompactMediaSessionButton.Icon = CreateMediaPlayerIcon(icon);
+                }
+
+                UpdateMediaSessionSelectorVisibility(hasMultipleMediaSessions);
 
                 // background blurred image visibility setting
                 BackgroundImageStyle1.Visibility = SettingsManager.Current.MediaFlyoutBackgroundBlur == 1 ? Visibility.Visible : Visibility.Collapsed;
@@ -1291,11 +1318,14 @@ public partial class MainWindow : MicaWindow
 
     private void UpdateUILayout() // update the layout based on the settings
     {
+        bool hasMultipleMediaSessions = GetSwitchableSessions().Count > 1;
         Dispatcher.Invoke(() =>
         {
             int extraWidth = SettingsManager.Current.RepeatEnabled ? 36 : 0;
             extraWidth += SettingsManager.Current.ShuffleEnabled ? 36 : 0;
-            extraWidth += SettingsManager.Current.PlayerInfoEnabled ? 72 : 0;
+            extraWidth += SettingsManager.Current.PlayerInfoEnabled
+                ? hasMultipleMediaSessions ? 110 : 72
+                : hasMultipleMediaSessions ? 64 : 0;
             // keep minimum width at 72 even if all extra features are disabled to prevent the widget from being too small
             extraWidth = Math.Max(extraWidth, 72);
 
@@ -1311,11 +1341,16 @@ public partial class MainWindow : MicaWindow
                 ControlsStackPanelContainer.Width = 104;
                 ControlsStackPanelContainer.HorizontalAlignment = HorizontalAlignment.Left;
                 ControlsStackPanel.HorizontalAlignment = HorizontalAlignment.Left;
-                MediaIdButton.Visibility = Visibility.Collapsed;
+                UpdateMediaSessionSelectorVisibility(hasMultipleMediaSessions);
                 SongImageBorder.Margin = new Thickness(0);
                 SongImageBorder.Height = 36;
                 SongInfoStackPanel.Margin = new Thickness(8, 0, 0, 0);
                 SongInfoStackPanel.Width = 182;
+                if (hasMultipleMediaSessions)
+                {
+                    SongInfoStackPanel.Width -= 64;
+                    ControlsStackPanelContainer.Width += 64;
+                }
                 if (SettingsManager.Current.MediaFlyoutAlwaysDisplay)
                 {
                     SongInfoStackPanel.Width -= 36;
@@ -1333,7 +1368,7 @@ public partial class MainWindow : MicaWindow
                 ControlsStackPanelContainer.Width = double.NaN;
                 ControlsStackPanelContainer.HorizontalAlignment = HorizontalAlignment.Stretch;
                 ControlsStackPanel.HorizontalAlignment = centerControlsWithSongInfo ? HorizontalAlignment.Center : HorizontalAlignment.Left;
-                MediaIdButton.Visibility = Visibility.Visible;
+                UpdateMediaSessionSelectorVisibility(hasMultipleMediaSessions);
                 SongImageBorder.Margin = new Thickness(6);
                 SongImageBorder.Height = 78;
                 SongInfoStackPanel.Margin = new Thickness(12, 0, 0, 0);
@@ -1354,6 +1389,7 @@ public partial class MainWindow : MicaWindow
         _centerTitleArtist = SettingsManager.Current.CenterTitleArtist;
         _seekBarEnabled = SettingsManager.Current.SeekbarEnabled;
         _alwaysDisplay = SettingsManager.Current.MediaFlyoutAlwaysDisplay;
+        _hasMultipleMediaSessions = hasMultipleMediaSessions;
     }
 
     private async void MediaIdButton_Click(object sender, RoutedEventArgs e)
@@ -1527,6 +1563,7 @@ public partial class MainWindow : MicaWindow
             mediaManager.OnAnyMediaPropertyChanged -= MediaManager_OnAnyMediaPropertyChanged;
             mediaManager.OnAnyPlaybackStateChanged -= CurrentSession_OnPlaybackStateChanged;
             mediaManager.OnAnyTimelinePropertyChanged -= MediaManager_OnAnyTimelinePropertyChanged;
+            mediaManager.OnAnySessionOpened -= MediaManager_OnAnySessionOpened;
             mediaManager.OnAnySessionClosed -= MediaManager_OnAnySessionClosed;
 
             // dispose managed resources

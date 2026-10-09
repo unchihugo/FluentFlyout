@@ -34,17 +34,23 @@ public partial class MainWindow
 
     private void ShowSessionSwitcherMenu()
     {
-        var sessions = GetSwitchableSessions();
-
-        string pinnedId = SettingsManager.Current.PinnedSessionId;
-        string autoText = TryFindResource("SessionSwitcherAuto") as string ?? string.Empty;
-
         var menu = new System.Windows.Controls.ContextMenu
         {
             PlacementTarget = MediaIdButton,
             Placement = System.Windows.Controls.Primitives.PlacementMode.Top
         };
 
+        PopulateSessionSwitcherMenu(menu);
+        menu.IsOpen = true;
+    }
+
+    private void PopulateSessionSwitcherMenu(System.Windows.Controls.ItemsControl menu)
+    {
+        var sessions = GetSwitchableSessions();
+        string pinnedId = SettingsManager.Current.PinnedSessionId;
+        string autoText = TryFindResource("SessionSwitcherAuto") as string ?? string.Empty;
+
+        menu.Items.Clear();
         var autoItem = new System.Windows.Controls.MenuItem
         {
             Header = autoText,
@@ -102,8 +108,6 @@ public partial class MainWindow
             item.Click += SessionMenuItem_Click;
             menu.Items.Add(item);
         }
-
-        menu.IsOpen = true;
     }
 
     private void SessionMenuItem_Click(object sender, RoutedEventArgs e)
