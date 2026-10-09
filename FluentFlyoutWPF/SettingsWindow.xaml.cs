@@ -68,7 +68,6 @@ public partial class SettingsWindow : FluentWindow
             WindowState = WindowState.Maximized;
         }
 
-
         Closed += (s, e) => instance = null;
         DataContext = SettingsManager.Current;
 
@@ -270,24 +269,16 @@ public partial class SettingsWindow : FluentWindow
 
     private void SettingsWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
     {
-        if (WindowState == WindowState.Normal)
+        var settings = SettingsManager.Current;
+        var bounds = WindowState == WindowState.Normal ? new Rect(Left, Top, ActualWidth, ActualHeight) : RestoreBounds;
+
+        if (bounds.Width >= MinWidth && bounds.Height >= MinHeight)
         {
-            SettingsManager.Current.SettingsWindowWidth = ActualWidth;
-            SettingsManager.Current.SettingsWindowHeight = ActualHeight;
-            SettingsManager.Current.SettingsWindowLeft = Left;
-            SettingsManager.Current.SettingsWindowTop = Top;
-            SettingsManager.Current.SettingsWindowState = WindowState.Normal;
-        }
-        else if (RestoreBounds.Width >= MinWidth && RestoreBounds.Height >= MinHeight)
-        {
-            SettingsManager.Current.SettingsWindowWidth = RestoreBounds.Width;
-            SettingsManager.Current.SettingsWindowHeight = RestoreBounds.Height;
-            SettingsManager.Current.SettingsWindowLeft = RestoreBounds.Left;
-            SettingsManager.Current.SettingsWindowTop = RestoreBounds.Top;
-            if (WindowState == WindowState.Maximized)
-            {
-                SettingsManager.Current.SettingsWindowState = WindowState.Maximized;
-            }
+            settings.SettingsWindowWidth = bounds.Width;
+            settings.SettingsWindowHeight = bounds.Height;
+            settings.SettingsWindowLeft = bounds.Left;
+            settings.SettingsWindowTop = bounds.Top;
+            settings.SettingsWindowState = WindowState == WindowState.Maximized ? WindowState.Maximized : WindowState.Normal;
         }
 
         SettingsManager.SaveSettings();
