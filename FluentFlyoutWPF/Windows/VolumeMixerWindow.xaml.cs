@@ -160,6 +160,7 @@ public partial class VolumeMixerWindow : MicaWindow
 
                         WindowHelper.SetVisibility(this, false);
                         ViewModel.IsExpanded = false;
+                        _ = Task.Run(() => ShowVolumeOsd());
                         break;
                     }
                 }
