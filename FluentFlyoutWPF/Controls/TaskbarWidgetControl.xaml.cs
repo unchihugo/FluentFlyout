@@ -97,21 +97,64 @@ public partial class TaskbarWidgetControl : UserControl
     public void ReorderControls()
     {
         // Remove ControlsStackPanel from MainStackPanel
+        // Remove media elements too before rebuilding the order
         MainStackPanel.Children.Remove(ControlsStackPanel);
+        MainStackPanel.Children.Remove(SongImageBorder);
+        MainStackPanel.Children.Remove(SongInfoStackPanel);
+
+        bool controlsOnLeft = SettingsManager.Current.TaskbarWidgetControlsPosition == 0;
+        bool coverOnRight = IsCoverOnRight();
 
         // Reorder based on position setting
-        if (SettingsManager.Current.TaskbarWidgetControlsPosition == 0)
+        if (controlsOnLeft)
         {
-            // Left: Controls, Image, Info
-            MainStackPanel.Children.Insert(0, ControlsStackPanel);
+            // Left: Controls, Image/Info content
+            MainStackPanel.Children.Add(ControlsStackPanel);
             ControlsStackPanel.Margin = new Thickness(2, 0, 6, 0); // for some reason margins are weird on left side
+        }
+
+        if (coverOnRight)
+        {
+            // Right cover: Info, Image
+            MainStackPanel.Children.Add(SongInfoStackPanel);
+            MainStackPanel.Children.Add(SongImageBorder);
         }
         else
         {
-            // Right: Image, Info, Controls
+            // Left cover: Image, Info
+            MainStackPanel.Children.Add(SongImageBorder);
+            MainStackPanel.Children.Add(SongInfoStackPanel);
+        }
+
+        if (!controlsOnLeft)
+        {
+            // Right: Image/Info content, Controls
             MainStackPanel.Children.Add(ControlsStackPanel);
             ControlsStackPanel.Margin = new Thickness(8, 0, 0, 0);
         }
+
+        ApplyCoverPositionLayout(coverOnRight);
+        UpdateMarquees();
+    }
+
+    private static bool IsCoverOnRight()
+    {
+        return SettingsManager.Current.TaskbarWidgetCoverPosition switch
+        {
+            1 => false,
+            2 => true,
+            _ => SettingsManager.Current.TaskbarWidgetPosition == 2
+        };
+    }
+
+    private void ApplyCoverPositionLayout(bool coverOnRight)
+    {
+        SongInfoStackPanel.Margin = coverOnRight
+            ? new Thickness(0, 0, 8, 0)
+            : new Thickness(8, 0, 0, 0);
+
+        SongTitle.TextAlignment = coverOnRight ? TextAlignment.Right : TextAlignment.Left;
+        SongArtist.TextAlignment = coverOnRight ? TextAlignment.Right : TextAlignment.Left;
     }
 
     public void SetVerticalMode(bool isVertical)
@@ -364,8 +407,10 @@ public partial class TaskbarWidgetControl : UserControl
 
         int speed = SettingsManager.Current.TaskbarWidgetScrollingTextSpeed;
         bool loopForever = SettingsManager.Current.TaskbarWidgetScrollingTextLoopForever;
+        bool isRightAligned = IsCoverOnRight();
         bool isTitle = textBlock == SongTitle;
         double containerWidth = container.Width;
+        textBlock.TextAlignment = isRightAligned ? TextAlignment.Right : TextAlignment.Left;
 
         // references moved outside so they may be called in the else block later
         ref double cachedMaskWidth = ref (isTitle ? ref _cachedTitleOpacityMaskWidth : ref _cachedArtistOpacityMaskWidth);
@@ -416,12 +461,13 @@ public partial class TaskbarWidgetControl : UserControl
 
                 double spacerWidth = StringWidth.GetStringWidth(spacer, 400);
                 double scrollDistance = textWidth + spacerWidth;
+                double startOffset = isRightAligned ? containerWidth - textWidth : 0;
 
                 double durationToScroll = scrollDistance / speed;
                 var animation = new DoubleAnimation
                 {
-                    From = 0,
-                    To = -scrollDistance,
+                    From = startOffset,
+                    To = startOffset - scrollDistance,
                     Duration = TimeSpan.FromSeconds(durationToScroll),
                     RepeatBehavior = RepeatBehavior.Forever
                 };
@@ -434,6 +480,8 @@ public partial class TaskbarWidgetControl : UserControl
                 // resetting or reversing; this prevents abrupt cutoffs
                 double scrollDistance = textWidth - containerWidth + 10;
                 textBlock.Text = origText;
+                double startOffset = isRightAligned ? containerWidth - textWidth : 0;
+                double endOffset = isRightAligned ? 10 : -scrollDistance;
 
                 double durationSeconds = scrollDistance / speed;
                 double pauseDuration = 2.0; // wait 2 seconds at the start and end of the scroll
@@ -444,12 +492,12 @@ public partial class TaskbarWidgetControl : UserControl
                 double tTotalCycle = tScrollBackEnd + pauseDuration;
 
                 var animation = new DoubleAnimationUsingKeyFrames { RepeatBehavior = RepeatBehavior.Forever };
-                animation.KeyFrames.Add(new LinearDoubleKeyFrame(0, KeyTime.FromTimeSpan(TimeSpan.Zero)));
-                animation.KeyFrames.Add(new LinearDoubleKeyFrame(0, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(tWaitStart))));
-                animation.KeyFrames.Add(new LinearDoubleKeyFrame(-scrollDistance, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(tScrollEnd))));
-                animation.KeyFrames.Add(new LinearDoubleKeyFrame(-scrollDistance, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(tWaitEnd))));
-                animation.KeyFrames.Add(new LinearDoubleKeyFrame(0, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(tScrollBackEnd))));
-                animation.KeyFrames.Add(new LinearDoubleKeyFrame(0, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(tTotalCycle))));
+                animation.KeyFrames.Add(new LinearDoubleKeyFrame(startOffset, KeyTime.FromTimeSpan(TimeSpan.Zero)));
+                animation.KeyFrames.Add(new LinearDoubleKeyFrame(startOffset, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(tWaitStart))));
+                animation.KeyFrames.Add(new LinearDoubleKeyFrame(endOffset, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(tScrollEnd))));
+                animation.KeyFrames.Add(new LinearDoubleKeyFrame(endOffset, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(tWaitEnd))));
+                animation.KeyFrames.Add(new LinearDoubleKeyFrame(startOffset, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(tScrollBackEnd))));
+                animation.KeyFrames.Add(new LinearDoubleKeyFrame(startOffset, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(tTotalCycle))));
 
                 // sync fades with the "ping pong" movement
                 Color transparentWhite = Color.FromArgb(0, 255, 255, 255);
@@ -460,20 +508,20 @@ public partial class TaskbarWidgetControl : UserControl
                 TimeSpan fadeTime = TimeSpan.FromMilliseconds(Math.Min(300, durationSeconds * 1000 / 2.0));
 
                 var leftColorAnim = new ColorAnimationUsingKeyFrames { RepeatBehavior = RepeatBehavior.Forever };
-                leftColorAnim.KeyFrames.Add(new DiscreteColorKeyFrame(solidWhite, KeyTime.FromTimeSpan(TimeSpan.Zero)));
-                leftColorAnim.KeyFrames.Add(new LinearColorKeyFrame(solidWhite, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(tWaitStart))));
-                leftColorAnim.KeyFrames.Add(new LinearColorKeyFrame(transparentWhite, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(tWaitStart) + fadeTime)));
-                leftColorAnim.KeyFrames.Add(new LinearColorKeyFrame(transparentWhite, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(tScrollBackEnd) - fadeTime)));
-                leftColorAnim.KeyFrames.Add(new LinearColorKeyFrame(solidWhite, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(tScrollBackEnd))));
-                leftColorAnim.KeyFrames.Add(new LinearColorKeyFrame(solidWhite, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(tTotalCycle))));
+                leftColorAnim.KeyFrames.Add(new DiscreteColorKeyFrame(isRightAligned ? transparentWhite : solidWhite, KeyTime.FromTimeSpan(TimeSpan.Zero)));
+                leftColorAnim.KeyFrames.Add(new LinearColorKeyFrame(isRightAligned ? transparentWhite : solidWhite, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(tWaitStart))));
+                leftColorAnim.KeyFrames.Add(new LinearColorKeyFrame(isRightAligned ? solidWhite : transparentWhite, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(tWaitStart) + fadeTime)));
+                leftColorAnim.KeyFrames.Add(new LinearColorKeyFrame(isRightAligned ? solidWhite : transparentWhite, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(tScrollBackEnd) - fadeTime)));
+                leftColorAnim.KeyFrames.Add(new LinearColorKeyFrame(isRightAligned ? transparentWhite : solidWhite, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(tScrollBackEnd))));
+                leftColorAnim.KeyFrames.Add(new LinearColorKeyFrame(isRightAligned ? transparentWhite : solidWhite, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(tTotalCycle))));
 
                 var rightColorAnim = new ColorAnimationUsingKeyFrames { RepeatBehavior = RepeatBehavior.Forever };
-                rightColorAnim.KeyFrames.Add(new DiscreteColorKeyFrame(transparentWhite, KeyTime.FromTimeSpan(TimeSpan.Zero)));
-                rightColorAnim.KeyFrames.Add(new LinearColorKeyFrame(transparentWhite, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(tScrollEnd) - fadeTime)));
-                rightColorAnim.KeyFrames.Add(new LinearColorKeyFrame(solidWhite, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(tScrollEnd))));
-                rightColorAnim.KeyFrames.Add(new LinearColorKeyFrame(solidWhite, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(tWaitEnd))));
-                rightColorAnim.KeyFrames.Add(new LinearColorKeyFrame(transparentWhite, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(tWaitEnd) + fadeTime)));
-                rightColorAnim.KeyFrames.Add(new LinearColorKeyFrame(transparentWhite, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(tTotalCycle))));
+                rightColorAnim.KeyFrames.Add(new DiscreteColorKeyFrame(isRightAligned ? solidWhite : transparentWhite, KeyTime.FromTimeSpan(TimeSpan.Zero)));
+                rightColorAnim.KeyFrames.Add(new LinearColorKeyFrame(isRightAligned ? solidWhite : transparentWhite, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(tScrollEnd) - fadeTime)));
+                rightColorAnim.KeyFrames.Add(new LinearColorKeyFrame(isRightAligned ? transparentWhite : solidWhite, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(tScrollEnd))));
+                rightColorAnim.KeyFrames.Add(new LinearColorKeyFrame(isRightAligned ? transparentWhite : solidWhite, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(tWaitEnd))));
+                rightColorAnim.KeyFrames.Add(new LinearColorKeyFrame(isRightAligned ? solidWhite : transparentWhite, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(tWaitEnd) + fadeTime)));
+                rightColorAnim.KeyFrames.Add(new LinearColorKeyFrame(isRightAligned ? solidWhite : transparentWhite, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(tTotalCycle))));
 
                 cachedMask.GradientStops[0].BeginAnimation(GradientStop.ColorProperty, leftColorAnim);
                 cachedMask.GradientStops[3].BeginAnimation(GradientStop.ColorProperty, rightColorAnim);
