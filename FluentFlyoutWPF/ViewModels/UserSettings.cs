@@ -29,7 +29,10 @@ public partial class UserSettings : ObservableObject
         .. typeof(UserSettings)
             .GetProperties(BindingFlags.Instance | BindingFlags.Public)
             .Where(property => property.CanWrite && property.GetCustomAttribute<XmlIgnoreAttribute>() is null)
-            .Select(property => property.Name)
+            .Select(property => property.Name),
+
+        // [XmlIgnore] so the serializer uses the array surrogate below, but still persisted
+        nameof(TaskbarWidgetPriorityOrder),
     ];
 
     /// <summary>
@@ -438,6 +441,35 @@ public partial class UserSettings : ObservableObject
     public partial bool TaskbarWidgetFixedWidth { get; set; }
 
     /// <summary>
+    /// Gets or sets a value indicating whether the taskbar widget should automatically adapt its
+    /// layout (shrink the visualizer, squeeze text, collapse the artist row, or fall back to an
+    /// icon-only mode) when there is not enough room on the taskbar.
+    /// </summary>
+    /// <remarks>
+    /// Defaults to <c>false</c> so existing users keep the exact positioning behaviour they had
+    /// before this feature landed; the feature is opt-in from the settings page. Note that XML
+    /// deserialization only overwrites keys present in the file, so this default also applies to
+    /// settings written by earlier versions.
+    /// </remarks>
+    [ObservableProperty]
+    public partial bool TaskbarWidgetAdaptiveWidth { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the widget should be hidden entirely when the
+    /// taskbar is completely full and there is no space left for even the album icon,
+    /// instead of drawing it over the app icons.
+    /// </summary>
+    [ObservableProperty]
+    public partial bool TaskbarWidgetHideWhenFull { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the widget should smoothly animate its width
+    /// when the adaptive layout changes, instead of snapping instantly.
+    /// </summary>
+    [ObservableProperty]
+    public partial bool TaskbarWidgetWidthAnimation { get; set; }
+
+    /// <summary>
     /// Gets or sets a value indicating whether the pause icon overlay should be completely hidden from view.
     /// </summary>
     [ObservableProperty]
@@ -512,6 +544,37 @@ public partial class UserSettings : ObservableObject
     }
 
     /// <summary>
+    /// Gets or sets the duration of the taskbar widget width animation, in milliseconds.
+    /// </summary>
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(TaskbarWidgetWidthAnimationDurationMsText))]
+    public partial int TaskbarWidgetWidthAnimationDurationMs { get; set; }
+
+    [XmlIgnore]
+    public string TaskbarWidgetWidthAnimationDurationMsText
+    {
+        get => TaskbarWidgetWidthAnimationDurationMs.ToString();
+        set
+        {
+            if (int.TryParse(value, out var result))
+            {
+                TaskbarWidgetWidthAnimationDurationMs = result switch
+                {
+                    > 2000 => 2000,
+                    < 100 => 100,
+                    _ => result
+                };
+            }
+            else
+            {
+                TaskbarWidgetWidthAnimationDurationMs = 400;
+            }
+
+            OnPropertyChanged();
+        }
+    }
+
+    /// <summary>
     /// Gets or sets a value indicating whether the taskbar visualizer is enabled.
     /// </summary>
     /// <remarks>For now, this requires Premium and Taskbar Widget to be enabled.</remarks>
@@ -566,6 +629,27 @@ public partial class UserSettings : ObservableObject
     /// </summary>
     [ObservableProperty]
     public partial int TaskbarVisualizerBarCount { get; set; }
+
+    /// <summary>
+    /// Gets or sets whether the visualizer bars follow the album art accent color.
+    /// Only applies while UseAlbumArtAsAccentColor is enabled.
+    /// </summary>
+    [ObservableProperty]
+    public partial bool TaskbarVisualizerUseAccentColor { get; set; }
+
+    /// <summary>
+    /// Gets or sets whether the pause overlay icon follows the album art accent color.
+    /// Only applies while UseAlbumArtAsAccentColor is enabled.
+    /// </summary>
+    [ObservableProperty]
+    public partial bool TaskbarWidgetPauseIconUseAccentColor { get; set; }
+
+    /// <summary>
+    /// Gets or sets whether the music-note placeholder icon (no cover art / no media)
+    /// follows the album art accent color. Only applies while UseAlbumArtAsAccentColor is enabled.
+    /// </summary>
+    [ObservableProperty]
+    public partial bool TaskbarWidgetMusicNoteUseAccentColor { get; set; }
 
     /// <summary>
     /// Whether the visualizer should be symmetrical/mirrored.
@@ -756,6 +840,17 @@ public partial class UserSettings : ObservableObject
         TaskbarWidgetBackgroundBlur = false;
         TaskbarWidgetHideCompletely = false;
         TaskbarWidgetFixedWidth = false;
+        TaskbarWidgetAdaptiveWidth = false;
+        TaskbarWidgetHideWhenFull = false;
+        TaskbarWidgetWidthAnimation = false;
+        TaskbarWidgetWidthAnimationDurationMs = 400;
+        TaskbarWidgetPriorityOrder =
+        [
+            WidgetLayoutElementNames.Icon,
+            WidgetLayoutElementNames.Visualizer,
+            WidgetLayoutElementNames.Controls,
+            WidgetLayoutElementNames.SongText,
+        ];
         TaskbarWidgetShowPauseOverlay = true;
         TaskbarWidgetControlsEnabled = false;
         TaskbarWidgetControlsPosition = 1;
@@ -765,6 +860,9 @@ public partial class UserSettings : ObservableObject
         TaskbarWidgetScrollingTextSpeed = 20;
         TaskbarWidgetScrollingTextLoopForever = false;
         TaskbarVisualizerEnabled = false;
+        TaskbarVisualizerUseAccentColor = true;
+        TaskbarWidgetPauseIconUseAccentColor = true;
+        TaskbarWidgetMusicNoteUseAccentColor = true;
         AppFilteringEnabled = false;
         AppFilteringMode = 0;
         TaskbarVisualizerPosition = 1;
@@ -847,6 +945,46 @@ public partial class UserSettings : ObservableObject
     /// </summary>
     internal void CompleteInitialization()
     {
+        // No priority-order migration is needed here: TaskbarWidgetPriorityOrder is new in this
+        // version, so an existing settings.xml simply has no <TaskbarWidgetPriorityOrder> element
+        // and the constructor default (the current intended order) is what deserialization keeps.
+        //
+        // A previous revision of this branch did migrate by comparing the stored order against
+        // the old default. That was both useless and harmful: it could never fire on a real
+        // upgrade (the constructor already supplies the new default), but it *would* silently
+        // overwrite the order of any user who deliberately chose that exact sequence, on every
+        // launch. Keep this normalization defensive instead - never value-based.
+        TaskbarWidgetPriorityOrder ??=
+        [
+            WidgetLayoutElementNames.Icon,
+            WidgetLayoutElementNames.Visualizer,
+            WidgetLayoutElementNames.Controls,
+            WidgetLayoutElementNames.SongText,
+        ];
+
+        // Self-heal the stored order: drop unknown names and duplicates, and append any element
+        // that is missing. Older builds appended on every load (see TaskbarWidgetPriorityOrderXml),
+        // so an existing settings.xml can legitimately contain the order repeated several times.
+        {
+            var normalized = new List<string>();
+            foreach (var name in TaskbarWidgetPriorityOrder)
+                if (WidgetLayoutElementNames.IsKnown(name) && !normalized.Contains(name))
+                    normalized.Add(name);
+
+            foreach (var name in WidgetLayoutElementNames.All)
+                if (!normalized.Contains(name))
+                    normalized.Add(name);
+
+            if (!normalized.SequenceEqual(TaskbarWidgetPriorityOrder))
+                TaskbarWidgetPriorityOrder = normalized;
+        }
+
+        // The accent sub-toggles are likewise left exactly as deserialized/constructed. They must
+        // NOT be re-assigned here: doing so overwrote the user's saved choice on every launch
+        // (turning one off came back on at the next start). They follow the master
+        // UseAlbumArtAsAccentColor switch at runtime via OnUseAlbumArtAsAccentColorChanged, which
+        // fires only when the user actually flips that switch.
+
         _initializing = false;
     }
 
@@ -930,6 +1068,60 @@ public partial class UserSettings : ObservableObject
         UpdateTaskbar();
     }
 
+    partial void OnTaskbarWidgetAdaptiveWidthChanged(bool oldValue, bool newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+        UpdateTaskbar();
+    }
+
+    partial void OnTaskbarWidgetHideWhenFullChanged(bool oldValue, bool newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+        UpdateTaskbar();
+    }
+
+    partial void OnTaskbarWidgetWidthAnimationChanged(bool oldValue, bool newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+        UpdateTaskbar();
+    }
+
+    /// <summary>
+    /// Element hide order for adaptive width, lowest priority last (hidden first).
+    /// Valid entries: Icon, Controls, SongText, Visualizer.
+    /// </summary>
+    [XmlIgnore]
+    [ObservableProperty]
+    public partial List<string> TaskbarWidgetPriorityOrder { get; set; }
+
+    /// <summary>
+    /// XML surrogate for <see cref="TaskbarWidgetPriorityOrder"/>.
+    /// </summary>
+    /// <remarks>
+    /// This property is NOT [XmlIgnore] on purpose - that would drop the setting from
+    /// PersistedPropertyNames and stop it auto-saving.
+    /// <para/>
+    /// It exists because <see cref="System.Xml.Serialization.XmlSerializer"/> APPENDS to a
+    /// collection property that already holds a non-empty constructor default instead of
+    /// replacing it. With a default order of 4 entries, every load added another 4, so the
+    /// stored list grew 4 -> 8 -> 12 -> ... on each restart. Round-tripping through an array
+    /// makes the serializer overwrite the value. (Empty-default collections such as
+    /// AllowedApps/BlockedApps are unaffected, which is why only this setting showed it.)
+    /// </remarks>
+    [XmlArray("TaskbarWidgetPriorityOrder")]
+    [XmlArrayItem("string")]
+    public string[] TaskbarWidgetPriorityOrderXml
+    {
+        get => TaskbarWidgetPriorityOrder is null ? [] : [.. TaskbarWidgetPriorityOrder];
+        set => TaskbarWidgetPriorityOrder = value is null ? [] : [.. value];
+    }
+
+    partial void OnTaskbarWidgetPriorityOrderChanged(List<string> oldValue, List<string> newValue)
+    {
+        if (_initializing) return;
+        UpdateTaskbar();
+    }
+
     partial void OnTaskbarWidgetShowPauseOverlayChanged(bool oldValue, bool newValue)
     {
         if (oldValue == newValue || _initializing) return;
@@ -948,6 +1140,40 @@ public partial class UserSettings : ObservableObject
 
         MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
         mainWindow.taskbarWindow?.Widget?.ReorderControls();
+    }
+
+    partial void OnUseAlbumArtAsAccentColorChanged(bool oldValue, bool newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+
+        // the sub-toggles default to following the master switch; the user can turn them
+        // off individually afterwards
+        TaskbarVisualizerUseAccentColor = newValue;
+        TaskbarWidgetPauseIconUseAccentColor = newValue;
+        TaskbarWidgetMusicNoteUseAccentColor = newValue;
+
+        BitmapHelper.GetDominantColors(1);
+    }
+
+    partial void OnTaskbarVisualizerUseAccentColorChanged(bool oldValue, bool newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+        MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+        mainWindow.taskbarWindow?.RefreshVisualizer();
+    }
+
+    partial void OnTaskbarWidgetPauseIconUseAccentColorChanged(bool oldValue, bool newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+        MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+        mainWindow.taskbarWindow?.Widget?.ApplyAccentColors();
+    }
+
+    partial void OnTaskbarWidgetMusicNoteUseAccentColorChanged(bool oldValue, bool newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+        MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+        mainWindow.taskbarWindow?.Widget?.ApplyAccentColors();
     }
 
     partial void OnTaskbarVisualizerPositionChanged(int oldValue, int newValue)
@@ -1019,12 +1245,6 @@ public partial class UserSettings : ObservableObject
         // If newValue is true, refresh the visualizer by hiding it:
         // if audio is playing, it will be shown again, if not, it will remain hidden.
         TaskbarVisualizerHasContent = !newValue;
-    }
-
-    partial void OnUseAlbumArtAsAccentColorChanged(bool oldValue, bool newValue)
-    {
-        if (oldValue == newValue || _initializing) return;
-        BitmapHelper.GetDominantColors(1);
     }
 
     partial void OnAppFilteringEnabledChanged(bool oldValue, bool newValue)

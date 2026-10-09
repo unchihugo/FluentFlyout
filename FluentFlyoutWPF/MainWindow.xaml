@@ -54,6 +54,49 @@
                 </Setter.Value>
             </Setter>
         </Style>
+
+        <!-- Media seekbar: same geometry as the WPF-UI slider template, but the elapsed
+             (left) side of the track is filled with the album accent color set in code. -->
+        <Style x:Key="SeekbarFillButtonStyle" TargetType="{x:Type RepeatButton}">
+            <Setter Property="IsTabStop" Value="False" />
+            <Setter Property="Focusable" Value="False" />
+            <Setter Property="Background" Value="{Binding Background, RelativeSource={RelativeSource AncestorType=Slider}}" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type RepeatButton}">
+                        <Border Background="{TemplateBinding Background}" Height="4" CornerRadius="2" VerticalAlignment="Center" />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <ControlTemplate x:Key="SeekbarSliderTemplate" TargetType="{x:Type Slider}">
+            <Grid Background="Transparent">
+                <Border x:Name="TrackBackground" Height="4" CornerRadius="2" VerticalAlignment="Center"
+                        Background="{DynamicResource SliderTrackFill}" />
+                <Track x:Name="PART_Track">
+                    <Track.DecreaseRepeatButton>
+                        <RepeatButton Command="Slider.DecreaseLarge" Style="{StaticResource SeekbarFillButtonStyle}" />
+                    </Track.DecreaseRepeatButton>
+                    <Track.Thumb>
+                        <Thumb x:Name="Thumb" Style="{DynamicResource UiSliderThumbStyle}" />
+                    </Track.Thumb>
+                    <Track.IncreaseRepeatButton>
+                        <RepeatButton Command="Slider.IncreaseLarge" Focusable="False" IsTabStop="False">
+                            <RepeatButton.Template>
+                                <ControlTemplate TargetType="{x:Type RepeatButton}">
+                                    <Border Background="Transparent" />
+                                </ControlTemplate>
+                            </RepeatButton.Template>
+                        </RepeatButton>
+                    </Track.IncreaseRepeatButton>
+                </Track>
+            </Grid>
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter TargetName="Thumb" Property="Foreground" Value="{DynamicResource SliderThumbBackgroundPointerOver}" />
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
     </controls:MicaWindow.Resources>
     <Window.Triggers>
         <EventTrigger RoutedEvent="Window.Loaded">
@@ -213,6 +256,7 @@
                     <TextBlock Name="SeekbarCurrentDuration" Text="-:--" Opacity="0.5" FontSize="12" DockPanel.Dock="Left" Width="45" Margin="0,0,2,0" TextAlignment="Left" VerticalAlignment="Center" Height="18"/>
                     <TextBlock Name="SeekbarMaxDuration" Text="-:--" Opacity="0.5" FontSize="12" DockPanel.Dock="Right" Width="45" Margin="2,0,0,0" TextAlignment="Right" VerticalAlignment="Center" Height="18"/>
                     <Slider Name="Seekbar" Value="0" Maximum="100" Minimum="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" VerticalContentAlignment="Center" Height="18"
+                            Template="{StaticResource SeekbarSliderTemplate}"
                             IsMoveToPointEnabled="True"
                             PreviewMouseLeftButtonDown="Seekbar_OnPreviewMouseLeftButtonDown"
                             PreviewMouseLeftButtonUp="Seekbar_OnPreviewMouseLeftButtonUp"
