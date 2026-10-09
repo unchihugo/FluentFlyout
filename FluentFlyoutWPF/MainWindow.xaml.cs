@@ -994,6 +994,29 @@ public partial class MainWindow : MicaWindow
         volumeMixerWindow?.ShowFlyout();
     }
 
+    /// <summary>
+    /// Shows the media flyout, optionally together with the volume flyout when
+    /// "sync with media flyout" is enabled. Used by manual triggers (tray icon, taskbar widget)
+    /// so both flyouts open and close as one.
+    /// </summary>
+    public void ShowMediaFlyoutWithVolume(bool toggleMode = false, bool forceShow = false)
+    {
+        bool shouldShowVolumeFlyoutWithMedia = GetActiveMediaSession() != null
+            && (forceShow || SettingsManager.Current.MediaFlyoutEnabled)
+            && !FullscreenDetector.IsFullscreenApplicationRunning()
+            && SettingsManager.Current.VolumeControlEnabled
+            && SettingsManager.Current.VolumeControlSyncWithMediaFlyout;
+        bool isToggleClose = toggleMode && Visibility == Visibility.Visible && !_isHiding;
+
+        if (shouldShowVolumeFlyoutWithMedia && isToggleClose)
+            volumeMixerWindow?.HideFlyout();
+
+        ShowMediaFlyout(toggleMode, forceShow);
+
+        if (shouldShowVolumeFlyoutWithMedia && !isToggleClose)
+            ShowVolumeFlyout();
+    }
+
     public async void ShowMediaFlyout(bool toggleMode = false, bool forceShow = false)
     {
         var activeSession = GetActiveMediaSession();
@@ -1977,7 +2000,7 @@ public partial class MainWindow : MicaWindow
             //ThemeService themeService = new ThemeService();
             //themeService.ChangeTheme(MicaWPF.Core.Enums.WindowsTheme.Light);
         }
-        else if (SettingsManager.Current.NIconLeftClick == 1) ShowMediaFlyout();
+        else if (SettingsManager.Current.NIconLeftClick == 1) ShowMediaFlyoutWithVolume();
     }
 
     private Task PauseOtherSessions(MediaSession currentMediaSession)

@@ -172,6 +172,29 @@ public partial class VolumeMixerWindow : MicaWindow
         }
     }
 
+    /// <summary>
+    /// Hides the flyout immediately, without waiting for the stay duration.
+    /// Used when the volume flyout is synced with the media flyout.
+    /// </summary>
+    public async void HideFlyout()
+    {
+        if (_isHiding)
+            return;
+
+        _cts.Cancel();
+        _mainWindow.CloseAnimation(this);
+        _isHiding = true;
+        _lastFlyoutTime = 0;
+        await Task.Delay(MainWindow.getDuration());
+
+        if (!_isHiding)
+            return;
+
+        WindowHelper.SetVisibility(this, false);
+        ViewModel.IsExpanded = false;
+        _ = Task.Run(() => ShowVolumeOsd());
+    }
+
     private void OnViewModelPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
     {
         if (e.PropertyName == nameof(VolumeMixerViewModel.IsExpanded))
