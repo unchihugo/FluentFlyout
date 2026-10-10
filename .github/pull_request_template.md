@@ -1,4 +1,4 @@
-## Summary
+## Description
 
 <!-- What does this PR do? Keep it concise but clear. -->
 
@@ -17,17 +17,6 @@ Closes #issue-number
 - [ ] Refactor (no functional changes)
 - [ ] Style (formatting, naming)
 - [ ] Other
-
-## What Changed
-
-<!-- Bullet points of key changes made in this PR. -->
-
-- 
-- 
-
-## Additional Information
-
-<!-- Any other information, such as screenshots -->
 
 ## Checklist
 - [ ] Code changes are manually tested and working.
