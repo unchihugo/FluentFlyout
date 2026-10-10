@@ -296,4 +296,5 @@
     <system:String x:Key="OnboardingTitle">快速入门</system:String>
     <system:String x:Key="SupporterTitle">赞助者</system:String>
     <system:String x:Key="SupporterDescription">谢谢你！</system:String>
+    <system:String x:Key="SessionSwitcherAuto">自动</system:String>
 </ResourceDictionary>

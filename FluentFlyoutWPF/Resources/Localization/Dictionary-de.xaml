@@ -288,4 +288,12 @@ Du kannst helfen, die App zu übersetzen auf</system:String>
     <system:String x:Key="TaskbarWidgetScrollingTextLoopForeverDescription">Lassen Sie den Text in einer Richtung endlos durchlaufen, anstatt ihn hin und her scrollen zu lassen.</system:String>
     <system:String x:Key="TaskbarWidgetScrollingTextSpeedTitle">Scrollgeschwindigkeit</system:String>
     <system:String x:Key="TaskbarWidgetScrollingTextSpeedDescription">Geschwindigkeit, mit der der Text scrollt (Pixel/Sekunde). Der Standardwert ist 20.</system:String>
+    <system:String x:Key="OnboardingTitle">Anfangen</system:String>
+    <system:String x:Key="SupporterTitle">Supporter</system:String>
+    <system:String x:Key="SupporterDescription">Danke!</system:String>
+    <system:String x:Key="TaskbarWidgetScrollVolumeTitle">Scrollen um die Lautstärke anzupassen</system:String>
+    <system:String x:Key="TaskbarWidgetScrollVolumeDescription">Benutze das Mausrad auf dem Taskleisten-Widget um die Lautstärke anzupassen</system:String>
+    <system:String x:Key="TaskbarWidgetScrollVolumeMaster">An (Gesamtlautstärke)</system:String>
+    <system:String x:Key="TaskbarWidgetScrollVolumePlayer">An (Player Lautstärke)</system:String>
+    <system:String x:Key="OpenMediaPlayerText">Media Player öffnen</system:String>
 </ResourceDictionary>

@@ -288,4 +288,7 @@ Nota: Como proyecto de código abierto, estas opciones también están disponibl
     <system:String x:Key="TaskbarWidgetScrollingTextSpeedTitle">Velocidad del Scroll</system:String>
     <system:String x:Key="SearchSettings">Ajustes de búsqueda</system:String>
     <system:String x:Key="TaskbarVisualizerBaselineAutoHideDescription">Oculta automáticamente la base cuando no se reproduce audio</system:String>
+    <system:String x:Key="OnboardingTitle">Empezar</system:String>
+    <system:String x:Key="SessionSwitcherAuto">Automático</system:String>
+    <system:String x:Key="SupporterDescription">¡Gracias!</system:String>
 </ResourceDictionary>
