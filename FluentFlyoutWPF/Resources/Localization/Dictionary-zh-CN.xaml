@@ -296,4 +296,7 @@
     <system:String x:Key="OnboardingTitle">快速入门</system:String>
     <system:String x:Key="SupporterTitle">赞助者</system:String>
     <system:String x:Key="SupporterDescription">谢谢你！</system:String>
+    <system:String x:Key="VolumeSyncWithMediaFlyoutTitle">随媒体浮窗显示</system:String>
+    <system:String x:Key="VolumeSyncWithMediaFlyoutDescription" xml:space="preserve">从任务栏小组件唤起或收起媒体浮窗时一同显隐音量浮窗
+如“单击托盘图标时行为”设为“显示媒体浮窗”，触发时音量浮窗也将一同显示</system:String>
 </ResourceDictionary>
