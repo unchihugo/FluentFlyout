@@ -33,6 +33,36 @@ public partial class UserSettings : ObservableObject
     ];
 
     /// <summary>
+    /// Saved width of the settings window
+    /// </summary>
+    [ObservableProperty]
+    public partial double SettingsWindowWidth { get; set; }
+
+    /// <summary>
+    /// Saved height of the settings window
+    /// </summary>
+    [ObservableProperty]
+    public partial double SettingsWindowHeight { get; set; }
+
+    /// <summary>
+    /// Saved horizontal position of the settings window
+    /// </summary>
+    [ObservableProperty]
+    public partial double SettingsWindowLeft { get; set; }
+
+    /// <summary>
+    /// Saved vertical position of the settings window
+    /// </summary>
+    [ObservableProperty]
+    public partial double SettingsWindowTop { get; set; }
+
+    /// <summary>
+    /// Saved window state of the settings window
+    /// </summary>
+    [ObservableProperty]
+    public partial WindowState SettingsWindowState { get; set; }
+
+    /// <summary>
     /// Use a compact layout
     /// </summary>
     [ObservableProperty]
@@ -719,6 +749,11 @@ public partial class UserSettings : ObservableObject
         NextUpDuration = 2000;
         NIconLeftClick = 0;
         CenterTitleArtist = false;
+        SettingsWindowWidth = 900;
+        SettingsWindowHeight = 700;
+        SettingsWindowLeft = double.NaN;
+        SettingsWindowTop = double.NaN;
+        SettingsWindowState = WindowState.Normal;
         FlyoutAnimationEasingStyle = 2;
         LockKeysEnabled = true;
         LockKeysCapsEnabled = true;
