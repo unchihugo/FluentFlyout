@@ -297,4 +297,5 @@
     <system:String x:Key="MasterVolumeText">Загальна гучність</system:String>
     <system:String x:Key="OpenMediaPlayerText">Відкрити медіаплеєр</system:String>
     <system:String x:Key="SessionSwitcherAuto">Автоматично</system:String>
+    <system:String x:Key="ContextMenuSessionSwitcher">Змінити сеанс</system:String>
 </ResourceDictionary>
