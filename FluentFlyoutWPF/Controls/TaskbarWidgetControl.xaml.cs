@@ -734,6 +734,11 @@ public partial class TaskbarWidgetControl : UserControl
         _ = _mainWindow.TryOpenMediaPlayerAsync();
     }
 
+    private void TaskbarContextMenu_Opened(object sender, RoutedEventArgs e)
+    {
+        _mainWindow?.PopulateSessionSwitcherMenu(ContextMenuSessionSwitcher);
+    }
+
     private void ContextMenuSettings_Click(object sender, RoutedEventArgs e)
     {
         SettingsWindow.ShowInstance();
