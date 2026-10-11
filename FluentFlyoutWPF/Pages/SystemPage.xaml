@@ -186,7 +186,7 @@
             </ui:CardControl>
 
             <!-- app filtering -->
-            <ui:CardAction x:Name="AppFilteringTitleCard" Tag="Indexable" Margin="0,0,0,4" IsChevronVisible="True" Click="AppFiltering_Click">
+            <ui:CardAction x:Name="AppFilteringTitleCard" Tag="Indexable" Margin="0,0,0,4" Icon="{ui:SymbolIcon Filter24}" IsChevronVisible="True" Click="AppFiltering_Click">
                 <StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <ui:TextBlock Text="{DynamicResource AppFilteringTitle}" />
