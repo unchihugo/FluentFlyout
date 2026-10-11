@@ -1295,7 +1295,7 @@ public partial class MainWindow : MicaWindow
         {
             int extraWidth = SettingsManager.Current.RepeatEnabled ? 36 : 0;
             extraWidth += SettingsManager.Current.ShuffleEnabled ? 36 : 0;
-            extraWidth += SettingsManager.Current.PlayerInfoEnabled ? 72 : 0;
+            extraWidth += SettingsManager.Current.PlayerInfoEnabled ? 90 : 0;
             // keep minimum width at 72 even if all extra features are disabled to prevent the widget from being too small
             extraWidth = Math.Max(extraWidth, 72);
 
@@ -1329,14 +1329,14 @@ public partial class MainWindow : MicaWindow
                 Width = 310 - 72 + extraWidth;
                 BodyStackPanel.Orientation = Orientation.Vertical;
                 BodyStackPanel.Width = 194 - 72 + extraWidth;
-                ControlsStackPanelContainer.Margin = new Thickness(12, 8, 0, 0);
+                ControlsStackPanelContainer.Margin = new Thickness(8, 8, 0, 0);
                 ControlsStackPanelContainer.Width = double.NaN;
                 ControlsStackPanelContainer.HorizontalAlignment = HorizontalAlignment.Stretch;
                 ControlsStackPanel.HorizontalAlignment = centerControlsWithSongInfo ? HorizontalAlignment.Center : HorizontalAlignment.Left;
                 MediaIdButton.Visibility = Visibility.Visible;
                 SongImageBorder.Margin = new Thickness(6);
-                SongImageBorder.Height = 78;
-                SongInfoStackPanel.Margin = new Thickness(12, 0, 0, 0);
+                SongImageBorder.Height = 82;
+                SongInfoStackPanel.Margin = new Thickness(8, 0, 0, 0);
                 SongInfoStackPanel.Width = 182 - 72 + extraWidth;
             }
 
@@ -1360,6 +1360,12 @@ public partial class MainWindow : MicaWindow
     {
         if (!SettingsManager.Current.PlayerInfoEnabled || SettingsManager.Current.CompactLayout) return;
         e.Handled = true;
+
+        if (e.OriginalSource is ToggleButton dropdownButton)
+        {
+            ShowSessionSwitcherMenu();
+            return;
+        }
 
         _ = TryOpenMediaPlayerAsync();
     }
