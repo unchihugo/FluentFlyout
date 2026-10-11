@@ -179,6 +179,8 @@ public partial class TaskbarWidgetControl : UserControl
     {
         if (string.IsNullOrEmpty(SongTitle.Text + SongArtist.Text)) return;
 
+        RefreshAppVolumeTooltip();
+
         SolidColorBrush targetBackgroundBrush;
         // hover effects with animations, hard-coded colors because I can't find the resource brushes
         WindowsThemeDetector.GetWindowsTheme(out _, out var systemTheme);
