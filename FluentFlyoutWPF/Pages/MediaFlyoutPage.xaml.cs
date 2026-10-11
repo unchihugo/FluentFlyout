@@ -13,4 +13,9 @@ public partial class MediaFlyoutPage : Page
         InitializeComponent();
         DataContext = SettingsManager.Current;
     }
+
+    private void AppFiltering_Click(object sender, System.Windows.RoutedEventArgs e)
+    {
+        SettingsWindow.NavigateToPage(typeof(AppFilteringPage));
+    }
 }
