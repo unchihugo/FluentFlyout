@@ -56,6 +56,7 @@ public partial class MainWindow : MicaWindow
     private bool _centerTitleArtist = SettingsManager.Current.CenterTitleArtist;
     private bool _seekBarEnabled = SettingsManager.Current.SeekbarEnabled;
     private bool _alwaysDisplay = SettingsManager.Current.MediaFlyoutAlwaysDisplay;
+    private bool _showDragHandle = SettingsManager.Current.MediaFlyoutShowDragHandle;
     private bool _mediaSessionSupportsSeekbar = false; // default off to handle initialization
     private bool _acrylicEnabled = false; // default off to handle initialization
     private int _themeOption = SettingsManager.Current.AppTheme;
@@ -68,6 +69,12 @@ public partial class MainWindow : MicaWindow
     private readonly Timer _positionTimer;
     private bool _isActive;
     private bool _isDragging;
+    private bool _isDraggingFlyout;
+    private bool _hasDraggedFlyout;
+    private NativeMethods.POINT _dragStartCursor;
+    private Rect _dragStartWindowRect;
+    private Rect _dragStartVolumeRect;
+    private bool _hasVolumeMixerOpen;
     private bool _isHiding = true;
 
     private LockWindow? lockWindow;
@@ -490,9 +497,88 @@ public partial class MainWindow : MicaWindow
         return SettingsManager.Current.VolumeControlEnabled && SettingsManager.Current.VolumeControlAboveMediaFlyout ? 16 : 80;
     }
 
+    public void UpdatePositionFromSettings()
+    {
+        if (Application.Current == null || Dispatcher.HasShutdownStarted)
+        {
+            return;
+        }
+
+        Dispatcher.Invoke(() =>
+        {
+            if (!IsVisible || _isDraggingFlyout)
+            {
+                return;
+            }
+
+            var monitor = getSelectedMonitor();
+            var workArea = monitor.workArea;
+            var windowRect = WindowHelper.GetPlacement(this);
+            double rawWidth = Width > 0 ? (Width * monitor.dpiX / 96.0) : windowRect.Width;
+            double rawHeight = Height > 0 ? (Height * monitor.dpiY / 96.0) : windowRect.Height;
+            windowRect = new Rect(windowRect.Left, windowRect.Top, rawWidth, rawHeight);
+            var (finalLeft, finalTop) = GetFinalPosition(windowRect, workArea, reserveNativeVolumeOsdSpace: true);
+
+            WindowHelper.SetPosition(this, finalLeft, finalTop);
+
+            if (volumeMixerWindow != null && volumeMixerWindow.IsVisible)
+            {
+                if (SettingsManager.Current.VolumeControlAboveMediaFlyout)
+                {
+                    volumeMixerWindow.Width = this.Width;
+                    volumeMixerWindow.UpdateLayout();
+                    var volRect = WindowHelper.GetPlacement(volumeMixerWindow);
+                    double volRawHeight = volumeMixerWindow.ActualHeight > 0
+                        ? (volumeMixerWindow.ActualHeight * monitor.dpiY / 96.0)
+                        : (volRect.Height > 0 ? volRect.Height : (volumeMixerWindow.Height * monitor.dpiY / 96.0));
+
+                    bool isTop = SettingsManager.Current.Position switch
+                    {
+                        3 or 4 or 5 => true,
+                        6 => finalTop < (workArea.Top + workArea.Height / 2),
+                        _ => false
+                    };
+                    double volLeft = finalLeft;
+                    double volTop = isTop ? finalTop + windowRect.Height + 8 : finalTop - volRawHeight - 8;
+                    WindowHelper.SetPositionAndSize(volumeMixerWindow, volLeft, volTop, windowRect.Width, volRawHeight);
+                    volumeMixerWindow.UpdateChevronOrientation();
+                }
+                else
+                {
+                    volumeMixerWindow.Width = volumeMixerWindow.NormalWidth;
+                    volumeMixerWindow.UpdateLayout();
+                    var volRect = WindowHelper.GetPlacement(volumeMixerWindow);
+                    double volRawWidth = volumeMixerWindow.NormalWidth * monitor.dpiX / 96.0;
+                    double volRawHeight = volumeMixerWindow.ActualHeight > 0
+                        ? (volumeMixerWindow.ActualHeight * monitor.dpiY / 96.0)
+                        : (volRect.Height > 0 ? volRect.Height : (volumeMixerWindow.Height * monitor.dpiY / 96.0));
+
+                    double volLeft = workArea.Left + workArea.Width / 2 - volRawWidth / 2;
+                    double volTop = workArea.Top + workArea.Height - volRawHeight - 16;
+                    WindowHelper.SetPositionAndSize(volumeMixerWindow, volLeft, volTop, volRawWidth, volRawHeight);
+                    volumeMixerWindow.UpdateChevronOrientation();
+                }
+            }
+        });
+    }
+
     private (double left, double top) GetFinalPosition(Rect windowRect, Rect workArea, bool reserveNativeVolumeOsdSpace = false)
     {
         int position = SettingsManager.Current.Position;
+        if (position == 6)
+        {
+            double customLeft = SettingsManager.Current.CustomFlyoutLeft;
+            double customTop = SettingsManager.Current.CustomFlyoutTop;
+            if (!double.IsNaN(customLeft) && !double.IsNaN(customTop))
+            {
+                double customClampedLeft = Math.Max(workArea.Left, Math.Min(customLeft, workArea.Left + workArea.Width - windowRect.Width));
+                double customClampedTop = Math.Max(workArea.Top, Math.Min(customTop, workArea.Top + workArea.Height - windowRect.Height));
+                return (customClampedLeft, customClampedTop);
+            }
+
+            return (workArea.Left + 16, workArea.Top + workArea.Height - windowRect.Height - 16);
+        }
+
         double left = position switch
         {
             0 or 3 => workArea.Left + 16,
@@ -524,6 +610,9 @@ public partial class MainWindow : MicaWindow
         // Update the DPI by moving the window to the target workArea, ignoring WPF scaling
         WindowHelper.SetPosition(window, workArea.Left, workArea.Top);
         var windowRect = WindowHelper.GetPlacement(window); // here we take the updated window size in raw coordinates.
+        double rawWidth = window.Width > 0 ? (window.Width * monitor.dpiX / 96.0) : windowRect.Width;
+        double rawHeight = window.Height > 0 ? (window.Height * monitor.dpiY / 96.0) : windowRect.Height;
+        windowRect = new Rect(windowRect.Left, windowRect.Top, rawWidth, rawHeight);
 
         double window_left = 0;
 
@@ -531,22 +620,32 @@ public partial class MainWindow : MicaWindow
         if (aboveReference != null && aboveReference.IsVisible)
         {
             // Here we work with raw monitor coordinates, without taking DPI into account.
-            double refWidth = aboveReference.Width * monitor.dpiX / 96.0;
-            double refHeight = aboveReference.Height * monitor.dpiY / 96.0;
+            var refPlacement = WindowHelper.GetPlacement(aboveReference);
+            double refWidth = aboveReference.Width > 0 ? (aboveReference.Width * monitor.dpiX / 96.0) : refPlacement.Width;
+            double refHeight = aboveReference.Height > 0 ? (aboveReference.Height * monitor.dpiY / 96.0) : refPlacement.Height;
+
             var refRect = new Rect(0, 0, refWidth, refHeight);
             var (refLeft, refTop) = GetFinalPosition(refRect, workArea, reserveNativeVolumeOsdSpace);
+
+            if (refPlacement.Left != refLeft || refPlacement.Top != refTop)
+            {
+                WindowHelper.SetPosition(aboveReference, refLeft, refTop);
+            }
 
             window_left = refLeft + refWidth / 2 - windowRect.Width / 2;
             double aboveTop = refTop - windowRect.Height - 8;
             bool isTop = SettingsManager.Current.Position switch
             {
                 3 or 4 or 5 => true,
+                6 => refTop < (workArea.Top + workArea.Height / 2),
                 _ => false
             };
 
             // If the reference window is too close to the top edge, we place the flyout below it instead of above to prevent it from going off-screen.
             if (isTop)
                 aboveTop = refTop + refHeight + 8;
+            else
+                aboveTop = Math.Max(workArea.Top, aboveTop);
 
             moveAnimation.To = aboveTop;
             if (SettingsManager.Current.FlyoutAnimationSpeed == 0)
@@ -613,6 +712,32 @@ public partial class MainWindow : MicaWindow
                     moveAnimation.From = moveAnimation.To;
                 else
                     moveAnimation.From = workArea.Top + -4;
+            }
+            else if (_position == 6)
+            {
+                double targetLeft = SettingsManager.Current.CustomFlyoutLeft;
+                double targetTop = SettingsManager.Current.CustomFlyoutTop;
+
+                if (double.IsNaN(targetLeft) || double.IsNaN(targetTop))
+                {
+                    targetLeft = workArea.Left + 16;
+                    targetTop = workArea.Top + workArea.Height - windowRect.Height - 16;
+                }
+                else
+                {
+                    targetLeft = Math.Max(workArea.Left, Math.Min(targetLeft, workArea.Left + workArea.Width - windowRect.Width));
+                    targetTop = Math.Max(workArea.Top, Math.Min(targetTop, workArea.Top + workArea.Height - windowRect.Height));
+                }
+
+                window_left = targetLeft;
+                moveAnimation.To = targetTop;
+                if (SettingsManager.Current.FlyoutAnimationSpeed == 0)
+                    moveAnimation.From = moveAnimation.To;
+                else
+                {
+                    bool isTopHalf = targetTop < (workArea.Top + workArea.Height / 2);
+                    moveAnimation.From = isTopHalf ? targetTop - 8 : targetTop + 8;
+                }
             }
         }
         // other cases (e.g. if alwaysBottom is true): position the flyout at the bottom center of the screen
@@ -1032,6 +1157,10 @@ public partial class MainWindow : MicaWindow
         {
             _isHiding = false;
             OpenAnimation(this, reserveNativeVolumeOsdSpace: true);
+            if (volumeMixerWindow != null && volumeMixerWindow.IsVisible && SettingsManager.Current.VolumeControlAboveMediaFlyout)
+            {
+                UpdatePositionFromSettings();
+            }
         }
         cts.Cancel();
         cts = new CancellationTokenSource();
@@ -1039,11 +1168,21 @@ public partial class MainWindow : MicaWindow
         Visibility = Visibility.Visible;
         WindowHelper.SetTopmost(this);
 
+        await RunFlyoutAutoHideLoopAsync(token);
+    }
+
+    private async Task RunFlyoutAutoHideLoopAsync(CancellationToken token)
+    {
         try
         {
             while (!token.IsCancellationRequested)
             {
                 await Task.Delay(100, token); // check if mouse is over every 100ms
+
+                if (_isDraggingFlyout)
+                {
+                    continue;
+                }
 
                 bool mouseOverMedia = WindowHelper.IsMouseOverWindow(this);
                 bool mouseOverVolume = SettingsManager.Current.VolumeControlAboveMediaFlyout
@@ -1055,6 +1194,11 @@ public partial class MainWindow : MicaWindow
                 if (!mouseOverMedia && !mouseOverVolume && !SettingsManager.Current.MediaFlyoutAlwaysDisplay)
                 {
                     await Task.Delay(SettingsManager.Current.Duration, token);
+
+                    if (_isDraggingFlyout)
+                    {
+                        continue;
+                    }
 
                     mouseOverMedia = WindowHelper.IsMouseOverWindow(this);
                     mouseOverVolume = SettingsManager.Current.VolumeControlAboveMediaFlyout
@@ -1083,6 +1227,19 @@ public partial class MainWindow : MicaWindow
         }
     }
 
+    private void RestartFlyoutAutoHide()
+    {
+        if (Visibility != Visibility.Visible || _isHiding)
+        {
+            return;
+        }
+
+        cts.Cancel();
+        cts = new CancellationTokenSource();
+        var token = cts.Token;
+        _ = RunFlyoutAutoHideLoopAsync(token);
+    }
+
     private void UpdateMediaFlyoutCloseButtonVisibility()
     {
         MediaFlyoutCloseButton.Visibility = SettingsManager.Current.MediaFlyoutAlwaysDisplay && !SettingsManager.Current.CompactLayout ? Visibility.Visible : Visibility.Collapsed;
@@ -1097,7 +1254,8 @@ public partial class MainWindow : MicaWindow
             _playerInfoEnabled != SettingsManager.Current.PlayerInfoEnabled ||
             _centerTitleArtist != SettingsManager.Current.CenterTitleArtist ||
             _seekBarEnabled != SettingsManager.Current.SeekbarEnabled ||
-            _alwaysDisplay != SettingsManager.Current.MediaFlyoutAlwaysDisplay)
+            _alwaysDisplay != SettingsManager.Current.MediaFlyoutAlwaysDisplay ||
+            _showDragHandle != SettingsManager.Current.MediaFlyoutShowDragHandle)
             UpdateUILayout();
 
         // sometimes mediaSession.ControlSession can be null
@@ -1304,7 +1462,8 @@ public partial class MainWindow : MicaWindow
             if (SettingsManager.Current.CompactLayout) // compact layout
             {
                 Height = 60 + extraHeight;
-                Width = 400;
+                Width = SettingsManager.Current.MediaFlyoutShowDragHandle ? 428 : 400;
+                MediaFlyoutTopRightPanel.Margin = new Thickness(0, 16, 8, 0);
                 BodyStackPanel.Orientation = Orientation.Horizontal;
                 BodyStackPanel.Width = 300;
                 ControlsStackPanelContainer.Margin = new Thickness(2, 0, 0, 0);
@@ -1324,6 +1483,7 @@ public partial class MainWindow : MicaWindow
             }
             else // normal layout
             {
+                MediaFlyoutTopRightPanel.Margin = new Thickness(0, 8, 8, 0);
                 bool centerControlsWithSongInfo = SettingsManager.Current.CenterTitleArtist && !SettingsManager.Current.PlayerInfoEnabled;
                 Height = 112 + extraHeight;
                 Width = 310 - 72 + extraWidth;
@@ -1345,6 +1505,14 @@ public partial class MainWindow : MicaWindow
             SongArtist.HorizontalAlignment = alignment;
 
             SeekbarWrapper.Visibility = SettingsManager.Current.SeekbarEnabled ? Visibility.Visible : Visibility.Collapsed;
+            MediaFlyoutDragHandle.Visibility = SettingsManager.Current.MediaFlyoutShowDragHandle ? Visibility.Visible : Visibility.Collapsed;
+
+            if (volumeMixerWindow != null && volumeMixerWindow.IsVisible && SettingsManager.Current.VolumeControlAboveMediaFlyout)
+            {
+                volumeMixerWindow.Width = Width;
+                volumeMixerWindow.UpdateLayout();
+                UpdatePositionFromSettings();
+            }
         });
 
         _layout = SettingsManager.Current.CompactLayout;
@@ -1354,6 +1522,17 @@ public partial class MainWindow : MicaWindow
         _centerTitleArtist = SettingsManager.Current.CenterTitleArtist;
         _seekBarEnabled = SettingsManager.Current.SeekbarEnabled;
         _alwaysDisplay = SettingsManager.Current.MediaFlyoutAlwaysDisplay;
+        _showDragHandle = SettingsManager.Current.MediaFlyoutShowDragHandle;
+    }
+
+    public void UpdateMediaFlyoutLayout()
+    {
+        Dispatcher.Invoke(UpdateUILayout);
+    }
+
+    public void UpdateMediaFlyoutDragHandleVisibility()
+    {
+        UpdateMediaFlyoutLayout();
     }
 
     private async void MediaIdButton_Click(object sender, RoutedEventArgs e)
@@ -2012,5 +2191,158 @@ public partial class MainWindow : MicaWindow
     {
         // Use the updated ShowMediaFlyout method with toggle mode to close the flyout
         ShowMediaFlyout(toggleMode: true);
+    }
+
+    private void MediaFlyoutDragHandle_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+    {
+        if (e.ChangedButton == MouseButton.Left)
+        {
+            if (NativeMethods.GetCursorPos(out _dragStartCursor))
+            {
+                _dragStartWindowRect = WindowHelper.GetPlacement(this);
+                if (volumeMixerWindow != null && volumeMixerWindow.IsVisible && SettingsManager.Current.VolumeControlAboveMediaFlyout)
+                {
+                    volumeMixerWindow.Width = this.Width;
+                    volumeMixerWindow.UpdateLayout();
+                    var volRect = WindowHelper.GetPlacement(volumeMixerWindow);
+                    var monitor = getSelectedMonitor();
+                    double volRawHeight = volumeMixerWindow.ActualHeight > 0
+                        ? (volumeMixerWindow.ActualHeight * monitor.dpiY / 96.0)
+                        : (volRect.Height > 0 ? volRect.Height : (volumeMixerWindow.Height * monitor.dpiY / 96.0));
+                    WindowHelper.SetPositionAndSize(volumeMixerWindow, _dragStartWindowRect.Left, volRect.Top, _dragStartWindowRect.Width, volRawHeight);
+
+                    _hasVolumeMixerOpen = true;
+                    _dragStartVolumeRect = new Rect(_dragStartWindowRect.Left, volRect.Top, _dragStartWindowRect.Width, volRawHeight);
+                }
+                else
+                {
+                    _hasVolumeMixerOpen = false;
+                }
+
+                _isDraggingFlyout = true;
+                _hasDraggedFlyout = false;
+                MediaFlyoutDragHandle.CaptureMouse();
+                cts.Cancel();
+                e.Handled = true;
+            }
+        }
+    }
+
+    private void MediaFlyoutDragHandle_PreviewMouseMove(object sender, MouseEventArgs e)
+    {
+        if (!_isDraggingFlyout || e.LeftButton != MouseButtonState.Pressed)
+        {
+            return;
+        }
+
+        if (NativeMethods.GetCursorPos(out NativeMethods.POINT currentCursor))
+        {
+            int deltaX = currentCursor.X - _dragStartCursor.X;
+            int deltaY = currentCursor.Y - _dragStartCursor.Y;
+
+            if (!_hasDraggedFlyout && (Math.Abs(deltaX) > 2 || Math.Abs(deltaY) > 2))
+            {
+                _hasDraggedFlyout = true;
+            }
+
+            if (_hasDraggedFlyout)
+            {
+                var monitor = getSelectedMonitor();
+                var workArea = monitor.workArea;
+
+                double minDeltaX = workArea.Left - _dragStartWindowRect.Left;
+                double maxDeltaX = (workArea.Left + workArea.Width) - (_dragStartWindowRect.Left + _dragStartWindowRect.Width);
+                double minDeltaY = workArea.Top - _dragStartWindowRect.Top;
+                double maxDeltaY = (workArea.Top + workArea.Height) - (_dragStartWindowRect.Top + _dragStartWindowRect.Height);
+
+                if (_hasVolumeMixerOpen && volumeMixerWindow != null && volumeMixerWindow.IsVisible)
+                {
+                    double volMinDeltaX = workArea.Left - _dragStartVolumeRect.Left;
+                    double volMaxDeltaX = (workArea.Left + workArea.Width) - (_dragStartVolumeRect.Left + _dragStartVolumeRect.Width);
+                    double volMinDeltaY = workArea.Top - _dragStartVolumeRect.Top;
+                    double volMaxDeltaY = (workArea.Top + workArea.Height) - (_dragStartVolumeRect.Top + _dragStartVolumeRect.Height);
+
+                    minDeltaX = Math.Max(minDeltaX, volMinDeltaX);
+                    maxDeltaX = Math.Min(maxDeltaX, volMaxDeltaX);
+                    minDeltaY = Math.Max(minDeltaY, volMinDeltaY);
+                    maxDeltaY = Math.Min(maxDeltaY, volMaxDeltaY);
+                }
+
+                double clampedDeltaX = Math.Max(minDeltaX, Math.Min(deltaX, maxDeltaX));
+                double clampedDeltaY = Math.Max(minDeltaY, Math.Min(deltaY, maxDeltaY));
+
+                double newLeft = _dragStartWindowRect.Left + clampedDeltaX;
+                double newTop = _dragStartWindowRect.Top + clampedDeltaY;
+
+                WindowHelper.SetPosition(this, newLeft, newTop);
+
+                if (_hasVolumeMixerOpen && volumeMixerWindow != null && volumeMixerWindow.IsVisible)
+                {
+                    WindowHelper.SetPosition(volumeMixerWindow, _dragStartVolumeRect.Left + clampedDeltaX, _dragStartVolumeRect.Top + clampedDeltaY);
+                }
+
+                e.Handled = true;
+            }
+        }
+    }
+
+    private void MediaFlyoutDragHandle_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+    {
+        if (_isDraggingFlyout)
+        {
+            EndFlyoutDrag();
+            e.Handled = true;
+        }
+    }
+
+    private void MediaFlyoutDragHandle_LostMouseCapture(object sender, MouseEventArgs e)
+    {
+        if (_isDraggingFlyout)
+        {
+            EndFlyoutDrag();
+        }
+    }
+
+    private void EndFlyoutDrag()
+    {
+        if (!_isDraggingFlyout)
+        {
+            return;
+        }
+
+        _isDraggingFlyout = false;
+        if (MediaFlyoutDragHandle.IsMouseCaptured)
+        {
+            MediaFlyoutDragHandle.ReleaseMouseCapture();
+        }
+
+        if (_hasDraggedFlyout)
+        {
+            var currentPlacement = WindowHelper.GetPlacement(this);
+            SettingsManager.Current.CustomFlyoutLeft = currentPlacement.Left;
+            SettingsManager.Current.CustomFlyoutTop = currentPlacement.Top;
+            SettingsManager.Current.Position = 6;
+            _hasDraggedFlyout = false;
+
+            if (_hasVolumeMixerOpen && volumeMixerWindow != null && volumeMixerWindow.IsVisible && SettingsManager.Current.VolumeControlAboveMediaFlyout)
+            {
+                var monitor = getSelectedMonitor();
+                var workArea = monitor.workArea;
+                volumeMixerWindow.Width = this.Width;
+                volumeMixerWindow.UpdateLayout();
+                var volRect = WindowHelper.GetPlacement(volumeMixerWindow);
+                double volRawHeight = volumeMixerWindow.ActualHeight > 0
+                    ? (volumeMixerWindow.ActualHeight * monitor.dpiY / 96.0)
+                    : (volRect.Height > 0 ? volRect.Height : (volumeMixerWindow.Height * monitor.dpiY / 96.0));
+
+                bool isTop = currentPlacement.Top < (workArea.Top + workArea.Height / 2);
+                double volLeft = currentPlacement.Left;
+                double volTop = isTop ? currentPlacement.Top + currentPlacement.Height + 8 : currentPlacement.Top - volRawHeight - 8;
+                WindowHelper.SetPositionAndSize(volumeMixerWindow, volLeft, volTop, currentPlacement.Width, volRawHeight);
+                volumeMixerWindow.UpdateChevronOrientation();
+            }
+        }
+
+        RestartFlyoutAutoHide();
     }
 }

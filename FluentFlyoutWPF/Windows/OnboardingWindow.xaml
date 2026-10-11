@@ -117,6 +117,7 @@
                                                 <ComboBoxItem Content="{DynamicResource PositionTopLeft}" />
                                                 <ComboBoxItem Content="{DynamicResource PositionTopCenter}" />
                                                 <ComboBoxItem Content="{DynamicResource PositionTopRight}" />
+                                                <ComboBoxItem Content="{DynamicResource PositionCustom}" />
                                             </ComboBox>
                                             <TextBlock Margin="0,16,0,0" Text="{DynamicResource SelectedMonitorTitle}" FontSize="14" FontWeight="Regular" />
                                                         <ComboBox Margin="0,8,0,0" x:Name="FlyoutSelectedMonitorComboBox" SelectedIndex="{Binding Settings.FlyoutSelectedMonitor, Mode=TwoWay}" ></ComboBox>
