@@ -297,4 +297,5 @@
     <system:String x:Key="SupporterTitle">赞助者</system:String>
     <system:String x:Key="SupporterDescription">谢谢你！</system:String>
     <system:String x:Key="SessionSwitcherAuto">自动</system:String>
+    <system:String x:Key="ContextMenuSessionSwitcher">切换媒体会话</system:String>
 </ResourceDictionary>
