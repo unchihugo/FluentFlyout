@@ -62,6 +62,16 @@
                 <ui:ToggleSwitch IsChecked="{Binding VolumeControlEnabled, Mode=TwoWay}" />
             </ui:CardControl>
 
+            <ui:CardControl x:Name="VolumeFlyoutShortcutTitleCard" Tag="Indexable" Icon="{ui:SymbolIcon Symbol=Keyboard24}" Margin="0,0,0,24">
+                <ui:CardControl.Header>
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="{DynamicResource VolumeFlyoutShortcutTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
+                        <TextBlock Text="{DynamicResource VolumeFlyoutShortcutDescription}" FontSize="12" Opacity="0.5" />
+                    </StackPanel>
+                </ui:CardControl.Header>
+                <ui:ToggleSwitch IsChecked="{Binding VolumeFlyoutShortcutEnabled, Mode=TwoWay}" />
+            </ui:CardControl>
+
             <ui:CardControl x:Name="VolumeAboveMediaFlyoutTitleCard" Tag="Indexable" Icon="{ui:SymbolIcon ArrowMove24}" Margin="0,0,0,3">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">

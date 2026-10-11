@@ -595,6 +595,9 @@ public partial class UserSettings : ObservableObject
     public partial bool VolumeControlEnabled { get; set; }
 
     [ObservableProperty]
+    public partial bool VolumeFlyoutShortcutEnabled { get; set; }
+
+    [ObservableProperty]
     public partial bool VolumeControlAboveMediaFlyout { get; set; }
 
     [ObservableProperty]
@@ -776,6 +779,7 @@ public partial class UserSettings : ObservableObject
         TaskbarVisualizerAudioPeakLevel = 3;
         TaskbarVisualizerBaselineAutoHide = false;
         VolumeControlEnabled = false;
+        VolumeFlyoutShortcutEnabled = true;
         VolumeControlAboveMediaFlyout = false;
         VolumeControlDuration = 3000;
         VolumeMixerEnabled = false;
