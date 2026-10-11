@@ -338,7 +338,7 @@ public partial class MainWindow : MicaWindow
 
         int? processId = MediaPlayerData.GetAndCacheProcessId(activeSession.Id);
         return processId.HasValue
-            ? volumeMixerViewModel.Sessions.FirstOrDefault(session => session.ProcessId == processId.Value)?.Volume
+            ? volumeMixerViewModel.GetSessionVolume(processId.Value)
             : null;
     }
 
