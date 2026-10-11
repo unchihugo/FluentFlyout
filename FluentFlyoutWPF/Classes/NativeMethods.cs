@@ -356,6 +356,18 @@ public static partial class NativeMethods
     [return: MarshalAs(UnmanagedType.Bool)]
     internal static partial bool DeleteObject(IntPtr hObject);
 
+    [LibraryImport("user32.dll")]
+    internal static partial IntPtr SetWinEventHook(uint eventMin, uint eventMax, IntPtr hmodWinEventProc, WinEventProc pfnWinEventProc, uint idProcess, uint idThread, uint dwFlags);
+
+    [LibraryImport("user32.dll", SetLastError = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static partial bool UnhookWinEvent(IntPtr hWinEventHook);
+
+    [LibraryImport("user32.dll")]
+    internal static partial IntPtr GetAncestor(IntPtr hWnd, uint gaFlags);
+
+    internal delegate void WinEventProc(IntPtr hWinEventHook, uint eventType, IntPtr hwnd, int idObject, int idChild, uint dwEventThread, uint dwmsEventTime);
+
     #endregion
 
     #region dwmapi.dll

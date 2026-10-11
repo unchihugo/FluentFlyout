@@ -34,6 +34,7 @@ FluentFlyout; akıcı animasyonlar sunar, sisteminizin renk temalarıyla uyum sa
 - **“Up Next” flyout’u: Bir şarkı bittiğinde sıradaki içeriği gösterir**
 - **Kilit Tuşları flyout’u: Kilit tuşlarının durumunu tek bakışta gösterir**
 - **Görev çubuğu bileşeni: Medya bilgilerini doğrudan Windows görev çubuğunda gösterir**
+- **Uyarlanabilir genişlik: Görev çubuğu alanı azaldığında bileşen öğelerini otomatik olarak küçültür veya gizler; yapılandırılabilir öncelik sırası ve yumuşak animasyon sunar**
 - Windows’a özgü, yerel görünümlü tasarım
 - Fluent 2 bileşenleri kullanır
 - Windows Mica bulanıklığını kullanır

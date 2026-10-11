@@ -201,6 +201,17 @@ namespace FluentFlyoutWPF.Classes
             _barValues = new float[BarCount];
         }
 
+        /// <summary>
+        /// Repaints the bars with the current color scheme.
+        /// </summary>
+        public void RefreshColors()
+        {
+            if (!_isRunning)
+                return;
+
+            UpdateBitmap();
+        }
+
         public void Start()
         {
             if (_isRunning)
@@ -470,10 +481,18 @@ namespace FluentFlyoutWPF.Classes
 
         private unsafe void DrawBars(int stride, Span<byte> buffer)
         {
-            // Resolve brush once 
-            SolidColorBrush brush = BitmapHelper.SavedDominantColors.Count > 0
-                ? BitmapHelper.SavedDominantColors.Last()
-                : (SolidColorBrush)Application.Current.TryFindResource("MicaWPF.Brushes.SystemAccentColorTertiary");
+            // Resolve brush once. The bars follow the album art accent only when both the
+            // master switch and the visualizer sub-toggle are on; otherwise theme accent.
+            SolidColorBrush brush;
+            if (SettingsManager.Current.UseAlbumArtAsAccentColor && SettingsManager.Current.TaskbarVisualizerUseAccentColor
+                && BitmapHelper.SavedDominantColors.Count > 0)
+            {
+                brush = BitmapHelper.SavedDominantColors.Last();
+            }
+            else
+            {
+                brush = (SolidColorBrush)Application.Current.TryFindResource("MicaWPF.Brushes.SystemAccentColorTertiary");
+            }
 
             byte b = brush.Color.B;
             byte g = brush.Color.G;

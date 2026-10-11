@@ -33,6 +33,7 @@ FluentFlyout features smooth animations, blends with your system's color themes 
 - **"Up Next" flyout: shows what's next when a song ends**
 - **Lock Keys flyout: displays the status of lock keys at a glance**
 - **Taskbar widget: shows media info directly on the Windows taskbar**
+- **Adaptive widget width: automatically shrinks or hides widget elements when taskbar space runs out, with a configurable priority order and smooth animation**
 - Native Windows-like design
 - Uses Fluent 2 components
 - Utilises Windows Mica blur

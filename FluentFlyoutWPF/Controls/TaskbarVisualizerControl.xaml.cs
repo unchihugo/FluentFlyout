@@ -74,6 +74,14 @@ public partial class TaskbarVisualizerControl : UserControl
         visualizer.Dispose();
     }
 
+    /// <summary>
+    /// Repaints the visualizer bars with the current accent color scheme.
+    /// </summary>
+    public static void RefreshVisualizerColors()
+    {
+        visualizer?.RefreshColors();
+    }
+
     // TODO: The following mouse events are almost the same as the ones in TaskbarWidgetControl.xaml.cs.
     // We should find a way to unify these methods instead of duplicating them.
 

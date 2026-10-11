@@ -1214,6 +1214,16 @@ public partial class MainWindow : MicaWindow
                 {
                     SolidColorBrush brush = BitmapHelper.SavedDominantColors.First();
                     ControlPlayPause.Background = brush;
+
+                    // seekbar fill follows the album accent too (softer than the button)
+                    var fillBrush = brush.Clone();
+                    fillBrush.Opacity = 0.65;
+                    fillBrush.Freeze();
+                    Seekbar.Background = fillBrush;
+                }
+                else
+                {
+                    Seekbar.Background = null; // no album colors: fall back to the plain track
                 }
 
                 // acrylic effect setting
