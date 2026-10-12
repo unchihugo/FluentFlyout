@@ -197,14 +197,14 @@ public partial class MainWindow : MicaWindow
         {
             LocalizationManager.ApplyLocalization();
 
-            try // update last known version. gets the version of the app, works only in release mode
+            try // update last known version. gets the version of the app
             {
                 var version = Package.Current.Id.Version;
-                SettingsManager.Current.LastKnownVersion = $"v{version.Major}.{version.Minor}.{version.Build}";
+                SettingsManager.Current.LastKnownVersion = $"{version.Major}.{version.Minor}.{version.Build}-f2.0.0";
             }
             catch
             {
-                SettingsManager.Current.LastKnownVersion = "debug";
+                SettingsManager.Current.LastKnownVersion = UpdateCheckerService.CurrentAppVersion;
             }
 
             Logger.Info($"Current version: {SettingsManager.Current.LastKnownVersion}");
@@ -999,16 +999,15 @@ public partial class MainWindow : MicaWindow
 
     private void MediaManager_OnAnyTimelinePropertyChanged(MediaSession mediaSession, GlobalSystemMediaTransportControlsSessionTimelineProperties timelineProperties)
     {
-        _lastSelfUpdateTimestamp = DateTime.Now;
-
         if (GetActiveMediaSession() is not { } session || session.Id != mediaSession.Id) return;
 
         if (_seekBarEnabled)
         {
             Dispatcher.Invoke(() =>
             {
-                if (!IsActive || _isDragging) return;
+                if (Visibility != Visibility.Visible || _isHiding || _isDragging) return;
 
+                _lastSelfUpdateTimestamp = DateTime.Now;
                 UpdateSeekbarCurrentDuration(session.ControlSession.GetTimelineProperties().Position);
                 HandlePlayBackState(session.ControlSession.GetPlaybackInfo().PlaybackStatus);
             });
@@ -2208,6 +2207,27 @@ public partial class MainWindow : MicaWindow
     {
         clipboardHistoryWindow ??= new ClipboardHistoryWindow(this);
         clipboardHistoryWindow.ToggleFromTaskbar(anchorRect, taskbarRect, returnFocusWindow);
+    }
+
+    private float _volumeScrollAccumulator = 0f;
+
+    public void AdjustMasterVolumeFromWheel(int delta)
+    {
+        volumeMixerWindow ??= new VolumeMixerWindow();
+
+        _volumeScrollAccumulator += (delta / 120.0f) * 0.02f;
+        if (MathF.Abs(_volumeScrollAccumulator) >= 0.01f)
+        {
+            float step = _volumeScrollAccumulator;
+            _volumeScrollAccumulator = 0f;
+
+            volumeMixerWindow.ViewModel.AdjustMasterVolume(step);
+
+            if (!volumeMixerWindow.IsTaskbarAnchored && SettingsManager.Current.VolumeControlEnabled)
+            {
+                volumeMixerWindow.ShowFlyout();
+            }
+        }
     }
 
     private void nIcon_LeftClick(Wpf.Ui.Tray.Controls.NotifyIcon sender, RoutedEventArgs e) // change the behavior of the tray icon

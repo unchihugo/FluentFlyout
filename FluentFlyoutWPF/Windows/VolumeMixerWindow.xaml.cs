@@ -37,6 +37,7 @@ public partial class VolumeMixerWindow : MicaWindow
     private readonly double _normalWidth;
     private bool _isHiding = true;
     private bool _isTaskbarAnchored;
+    public bool IsTaskbarAnchored => _isTaskbarAnchored;
     private bool _taskbarExpandDownward;
     private bool _suppressExpandCollapseAnimation;
     private int _taskbarAnimationGeneration;
@@ -83,7 +84,7 @@ public partial class VolumeMixerWindow : MicaWindow
 
         long currentTime = Environment.TickCount64;
 
-        if (currentTime - _lastFlyoutTime < _flyoutCooldown.TotalMilliseconds)
+        if (_isHiding && currentTime - _lastFlyoutTime < _flyoutCooldown.TotalMilliseconds)
         {
             return;
         }
@@ -165,6 +166,8 @@ public partial class VolumeMixerWindow : MicaWindow
 
                         WindowHelper.SetVisibility(this, false);
                         ViewModel.IsExpanded = false;
+                        _isHiding = false;
+                        _ = Task.Run(() => ShowVolumeOsd());
                         break;
                     }
                 }
@@ -180,7 +183,7 @@ public partial class VolumeMixerWindow : MicaWindow
 
     public async void ShowFromTaskbar(Rect anchorRect, Rect taskbarRect)
     {
-        if ((DateTime.UtcNow - _lastTaskbarCloseTime).TotalMilliseconds < 350)
+        if ((DateTime.UtcNow - _lastTaskbarCloseTime).TotalMilliseconds < 150)
         {
             return;
         }
@@ -192,6 +195,9 @@ public partial class VolumeMixerWindow : MicaWindow
         }
 
         _cts.Cancel();
+        _taskbarAnimationGeneration++;
+        BeginAnimation(TopProperty, null);
+        BeginAnimation(OpacityProperty, null);
         WindowHelper.SetVisibility(this, false);
         _isHiding = false;
         _isTaskbarAnchored = true;
@@ -292,7 +298,7 @@ public partial class VolumeMixerWindow : MicaWindow
         BeginAnimation(OpacityProperty, null);
         WindowHelper.SetVisibility(this, false);
         _isTaskbarAnchored = false;
-        _isHiding = true;
+        _isHiding = false;
         _lastFlyoutTime = 0;
         SetExpandedImmediately(false);
     }
@@ -334,6 +340,7 @@ public partial class VolumeMixerWindow : MicaWindow
         BeginAnimation(OpacityProperty, null);
         Opacity = 1;
         SetExpandedImmediately(false);
+        _isHiding = false;
     }
 
     private void SetTaskbarActivation(bool allowActivation)
@@ -431,13 +438,9 @@ public partial class VolumeMixerWindow : MicaWindow
     private static void HideVolumeOsd()
     {
         // find widget in XAML
-        IntPtr hwndXamlIsland, hwndOsd = IntPtr.Zero;
-        while ((hwndXamlIsland = FindWindowEx(IntPtr.Zero, IntPtr.Zero, "XamlExplorerHostIslandWindow", null)) != IntPtr.Zero)
+        IntPtr hwndXamlIsland = IntPtr.Zero, hwndOsd = IntPtr.Zero;
+        while ((hwndXamlIsland = FindWindowEx(IntPtr.Zero, hwndXamlIsland, "XamlExplorerHostIslandWindow", null)) != IntPtr.Zero)
         {
-            if (hwndXamlIsland == IntPtr.Zero)
-            {
-                continue;
-            }
 
             hwndOsd = FindWindowEx(hwndXamlIsland, IntPtr.Zero, "Windows.UI.Composition.DesktopWindowContentBridge", "DesktopWindowXamlSource");
             if (hwndOsd == IntPtr.Zero)

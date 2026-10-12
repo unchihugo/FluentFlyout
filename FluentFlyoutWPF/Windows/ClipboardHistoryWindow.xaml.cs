@@ -45,7 +45,7 @@ public partial class ClipboardHistoryWindow : MicaWindow
     {
         try
         {
-            if ((DateTime.UtcNow - _lastCloseTime).TotalMilliseconds < 350)
+            if ((DateTime.UtcNow - _lastCloseTime).TotalMilliseconds < 150)
             {
                 return;
             }

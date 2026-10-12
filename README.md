@@ -1,142 +1,137 @@
 <p align="center">
-	<picture>
-		<source width="65%" alt="fluentflyout-title" media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/daa2969f-8ad2-4832-8253-26133a50c921" />
-		<source width="65%" alt="fluentflyout-title" media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/3e75e514-b9a6-40e3-b170-af9d29a82bb4" />
-		<img width="65%" alt="fluentflyout-title" src="https://github.com/user-attachments/assets/daa2969f-8ad2-4832-8253-26133a50c921">
-	</picture>
+  <picture>
+    <source width="70%" alt="FluentFlyout Title" media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/daa2969f-8ad2-4832-8253-26133a50c921" />
+    <source width="70%" alt="FluentFlyout Title" media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/3e75e514-b9a6-40e3-b170-af9d29a82bb4" />
+    <img width="70%" alt="FluentFlyout Title" src="https://github.com/user-attachments/assets/daa2969f-8ad2-4832-8253-26133a50c921">
+  </picture>
+</p>
+
+<h1 align="center">✨ FluentFlyout (KoksMen Edition) ✨</h1>
+<h3 align="center">🚀 Версия форка: <em>v2.15.0-f2.0.0</em> 🪄</h3>
+
+<p align="center">
+  <b>Современные плавные оверлеи Windows 11 с оптимизацией для игр, буфером обмена, регулировкой звука колесиком мыши и автообновлениями через GitHub Releases</b><br>
+  <i>Modern fluent flyouts for Windows 11 enhanced with gaming safeguards, clipboard history, mouse wheel volume control, and GitHub Releases auto-updater</i>
 </p>
 
 <p align="center">
-	<img alt="GitHub Release" src="https://img.shields.io/github/v/release/unchihugo/FluentFlyout">
-	<img alt="Static Badge" src="https://img.shields.io/badge/downloads-250K%2B-blue?color=limegreen">
-	<a href="https://hosted.weblate.org/engage/fluentflyout/"><img src="https://hosted.weblate.org/widget/fluentflyout/svg-badge.svg" alt="Translation status"/></a>
-	<img alt="GitHub contributors" src="https://img.shields.io/github/contributors-anon/unchihugo/fluentflyout?labelColor=midnightblue&color=goldenrod">
+  <a href="https://github.com/KoksMen/FluentFlyout/releases"><img src="https://img.shields.io/badge/Version-v2.15.0--f2.0.0-7c4dff?style=for-the-badge&logo=github&logoColor=white" alt="FluentFlyout v2.15.0-f2.0.0" /></a>
+  <img src="https://img.shields.io/badge/.NET-10.0-512BD4?style=for-the-badge&logo=dotnet&logoColor=white" alt=".NET 10.0" />
+  <img src="https://img.shields.io/badge/Platform-Windows%2010%20%7C%2011%20(x64)-0078D6?style=for-the-badge&logo=windows&logoColor=white" alt="Windows 10/11" />
+  <img src="https://img.shields.io/badge/Signature-Authenticode%20SHA--256-success?style=for-the-badge&logo=windows&logoColor=white" alt="Authenticode Signed" />
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-GPL--3.0-orange?style=for-the-badge" alt="License GPL-3.0" /></a>
 </p>
+
 <p align="center">
-  <strong>English</strong> | <a href="https://github.com/unchihugo/FluentFlyout/blob/master/README.zh.md">简体中文</a> | <a href="https://github.com/unchihugo/FluentFlyout/blob/master/README.nl.md">Nederlands</a> | <a href="https://github.com/unchihugo/FluentFlyout/blob/master/README.tr.md">Türkçe</a> | <a href="https://github.com/unchihugo/FluentFlyout/blob/master/README.ru.md">Русский</a> | <a href="https://github.com/unchihugo/FluentFlyout/blob/master/README.kr.md">한국어</a>
+  <a href="#-fluentflyout-на-русском"><b>🇷🇺 Перейти к русской версии</b></a> •
+  <a href="#-fluentflyout-in-english"><b>🇬🇧 Switch to English Version</b></a>
+</p>
+
+<p align="center">
+  <a href="https://github.com/KoksMen/FluentFlyout/releases/latest">
+    <img src="https://img.shields.io/badge/⬇️%20Скачать%20релиз-FluentFlyout%20v2.15.0--f2.0.0-blue?style=for-the-badge" alt="Download Release" />
+  </a>
 </p>
 
 ---
-FluentFlyout is the modern Flyout app for Windows, built with Fluent 2 Design principles.  
-The UI seemingly blends in with Windows 11, providing you an uninterrupted, clean, and native-like experience when controlling your media, lock keys, and more.  
 
-FluentFlyout features smooth animations, blends with your system's color themes and includes a suite of personalization settings while providing media controls, information and more in nice and modern looking popup flyouts.
+# 🇷🇺 FluentFlyout (На русском)
 
-<a href="https://apps.microsoft.com/detail/9n45nsm4tnbp?referrer=appbadge&cid=GitHub_README&mode=direct">
-	<img src="https://get.microsoft.com/images/en-us%20dark.svg" width="200"/>
-</a>
+## 💡 О проекте
 
-<img alt="FluentFlyoutHero-Cinemascope" src="https://github.com/user-attachments/assets/a7c7e2db-e21b-4435-9acc-0b2c5f38eb7d" />
+**FluentFlyout (KoksMen Edition)** — это расширенный и глубоко оптимизированный форк популярного приложения FluentFlyout для Windows 10/11. 
 
-## Features ✨
-- **Audio flyout: Displays Cover, Title, Artist and media controls**
-- **"Up Next" flyout: shows what's next when a song ends**
-- **Lock Keys flyout: displays the status of lock keys at a glance**
-- **Taskbar widget: shows media info directly on the Windows taskbar**
-- Native Windows-like design
-- Uses Fluent 2 components
-- Utilises Windows Mica blur
-- Supports Light and Dark mode
-- Matches your device color theme
-- Smooth animations
-- Customizable flyout positions
-- Includes Repeat All, Repeat One and Shuffle
-- Sits unobtrusively in system tray
+Оригинальное приложение предоставляет красивые оверлеи в стиле **Fluent 2 Design**, однако в игровых сценариях и при активной работе на панели задач сталкивалось с рядом ограничений: случайное сворачивание полноэкранных игр оверлеями, задержки UI Automation в таскбаре, отсутствие прямой регулировки звука колесиком мыши и привязка к оригинальным обновлениям.
 
-<p align="center">
-    <a href="https://www.windowscentral.com/microsoft/windows-11/microsoft-is-too-busy-with-ai-to-fix-windows-11s-design-so-developers-stepped-up"><img height="40px" alt="Windows Central" src="https://cdn.mos.cms.futurecdn.net/pJbSHFPBawZknTYBZnj9tS-970-80.jpg.webp"></a>
-    &nbsp;&nbsp;&nbsp;
-    <a href="https://www.neowin.net/news/this-free-unofficial-app-promises-big-list-of-modern-windows-11-fluent-customization-options/"><img height="40px" alt="Neowin" src="https://upload.wikimedia.org/wikipedia/en/1/11/Neowin_Logo_1.png"></a>
-</p>
-<p align="center">
-  <em>"Windows 11 may have just gained another must-have app."</em> — <strong><a href="https://www.windowscentral.com/microsoft/windows-11/microsoft-is-too-busy-with-ai-to-fix-windows-11s-design-so-developers-stepped-up">Windows Central</a></strong><br>
-  <em>"Does a better job than what Microsoft officially offers."</em> — <strong><a href="https://www.neowin.net/news/this-free-unofficial-app-promises-big-list-of-modern-windows-11-fluent-customization-options/">Neowin</a></strong>
-</p>
+Этот форк решает эти проблемы, превращая FluentFlyout в надежный, сверхбыстрый и универсальный инструмент для повседневной работы и гейминга! 🚀
 
-## Taskbar widget ⏯️
-<div align="center">
-	<img height="440px" width="auto" src="https://github.com/user-attachments/assets/43963c54-e2d8-4b93-9842-482e12b2c592" />
-</div>
+---
 
-<details close>
-<summary>Video showcase</summary>
-	
-https://github.com/user-attachments/assets/bfc7666f-1d59-4cbf-8d15-3855671cb147
+## 🌟 Ключевые возможности и улучшения форка
 
-</details>
+### 🔄 1. Встроенное автообновление через GitHub Releases (как в Portal-Windows)
+- **Прямая интеграция с репозиторием:** Приложение больше не опрашивает сторонние домены, а проверяет обновления напрямую из официальных релизов форка `KoksMen/FluentFlyout` через защищённый GitHub REST API.
+- **Интеллектуальное семантическое версионирование:** Двухуровневый парсер `ForkVersion` корректно сопоставляет версии форка (`2.15.0-f2.0.0` > `2.13.1-f1.7.0`).
+- **Полноценная работа в Portable-режиме:** Устранена ошибка, из-за которой в автономных `.exe` сборках версия определялась как `"debug"` и блокировала автообновления.
+- **Автоматический выбор ассета:** Автоматическое определение прямых ссылок на загрузку `FluentFlyout.exe` или `Portable_x64_AMD.zip`.
 
-## Flyouts and more 🎵
-<div align="center">
-	<img height="205px" width="auto" src="https://github.com/user-attachments/assets/4dab1c12-594a-4785-bddc-0da1783bf1c8"> <img height="205px" src="https://github.com/user-attachments/assets/b4306026-b274-418b-a39e-78877e7610a7"> 	<img height="190px" src="https://github.com/user-attachments/assets/39de69fe-54c8-4b22-880c-7f0370b8dd9c"> <img height="190px" src="https://github.com/user-attachments/assets/a25adb0e-963a-49a5-8abb-d9a288c2ad9a"> <img height="190px" src="https://github.com/user-attachments/assets/2de44e7b-7e6c-4575-bf3b-0be2f741c994">
-</div>
-<details open>
-<summary>v2.0 screenshots</summary>
-<div align="center">
-	<img height="220px" width="auto" src="https://github.com/user-attachments/assets/e45592d5-8576-4d6a-8679-56baacccd585"> <img height="220px" width="auto" src="https://github.com/user-attachments/assets/ff2fcfab-8e24-48cf-9bdf-d35252eb3e67">
-</div>
-</details>
+### 🎮 2. Раздельные режимы полноэкранного экрана (Gaming Safeguard)
+- **Exclusive Fullscreen Toggle:** Независимый переключатель для 3D-игр в эксклюзивном полном экране. При его отключении FluentFlyout автоматически уступает системному OSD, **полностью предотвращая случайное сворачивание игр и потерю фокуса**.
+- **Borderless Fullscreen:** Отдельная настройка для игр в окне без рамок и полноэкранного просмотра видео (например, в YouTube).
+- **Скрытие Caps Lock в играх:** Индикатор Caps Lock больше не сворачивает игры при случайном нажатии.
 
-## How to install 📥
-### Which version should you choose? 
-The **Microsoft Store version** provides automatic updates, but has a one-time purchase to unlock a few extra features.  
-The **GitHub version** is completely free and open-source, but requires manual updates.  
-Read more about the project's model in the [Sustainability & The Microsoft Store](#sustainability--the-microsoft-store-) section below.
+### ⚡ 3. Молниеносный отклик кнопок Микшера и Буфера обмена
+- **Устранение подвисаний UI-потока:** Заменены блокирующие синхронные вызовы UI Automation `.Wait(1000)` на прямой и сверхбыстрый Win32 API (`GetWindowRect`). Всплывающие окна открываются мгновенно при первом же клике.
+- **Асинхронный поиск элементов таскбара:** Поиск XAML-островков Windows 11 вынесен в фоновый поток с отрицательным кэшированием (TTL 5000 мс).
+- **Исправление повторного клика:** Сброс флагов анимации скрытия и дебаунс 150 мс гарантируют, что кнопка микшера больше не залипает и всегда доступна.
 
-### Using Microsoft Store
-<a href="https://apps.microsoft.com/detail/9n45nsm4tnbp?referrer=appbadge&cid=GitHub_README_2&mode=direct">
-	<img src="https://get.microsoft.com/images/en-us%20dark.svg" width="300"/>
-</a>
+### 🔊 4. Регулировка громкости колесиком мыши (Volume Wheel Scroll)
+- **Колесико над кнопкой микшера:** Прокрутка колесика мыши над иконкой микшера в таскбаре плавно меняет общую громкость системы (шаг 2% за клик).
+- **Колесико над медиа-виджетом:** Прокрутка над мини-виджетом трека также меняет громкость без необходимости открывать микшер.
+- **Моментальный оверлей (Flyout OSD):** При прокрутке сразу показывается красивый оверлей громкости FluentFlyout с текущим значением звука.
 
-> Looking for FluentFlyout Settings? You can access it by clicking the system tray icon
-### Using .msixbundle installer
-1. Go to the [latest release](https://github.com/unchihugo/FluentFlyout/releases/latest) page
-2. Download the **"*.cer"** file *(real certificates cost a lot of money)*
-3. Open the certificate and press **"Install Certificate..."**
-4. On the Certificate Import Wizard, select **"Local Machine"**, press **"Next"** and grant Admin Access
-5. Select **"Place all certificates in the following store"**, then **"Browse..."**, choose **"Trusted Root Certification Authorities"** and **"OK"**
-6. Finally, press **"Next"** and then **"Finish"**. It might ask you to confirm, press **Yes**
-7. Download the **"*.msixbundle"** file
-8. The App Installer will pop up, press **"Install"**, or **"Update"** if you've installed FluentFlyout before
+### 📋 5. Быстрый доступ к буферу обмена
+- Встроенная кнопка буфера обмена на панели задач для быстрого просмотра и вставки недавних фрагментов текста без задержек.
 
-## Contributing 💖
-Please feel free to contribute in any way you can! Check out [CONTRIBUTING.md](https://github.com/unchihugo/FluentFlyout/blob/master/.github/CONTRIBUTING.md) to get started.
-If you want to help with translations, please visit our [Weblate page](https://hosted.weblate.org/engage/fluentflyout/).
+### 🔏 6. Надежная цифровая подпись (Authenticode)
+- Все релизные сборки подписаны цифровым сертификатом `CN=xXKoksMenXx, O=xXTeam, C=RU` (Thumbprint: `C6C4A602CD20A275BC0B4E07AC0F73CAC7D414F7`) с RFC 3161 меткой времени доверенного центра Sectigo SHA-256.
 
-### Translation Status
-<a href="https://hosted.weblate.org/engage/fluentflyout/">
-<img src="https://hosted.weblate.org/widget/fluentflyout/multi-auto.svg" alt="Translation status" />
-</a>
+---
 
-### Thanks to our amazing team of contributors!
-<a href="https://github.com/unchihugo/fluentflyout/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=unchihugo/fluentflyout&anon=1" />
-</a>
+## 📦 Скачивание и установка
 
-## Sustainability & The Microsoft Store 💰
-FluentFlyout is and always will be free and open-source. You can download the latest builds from the [Releases](https://github.com/unchihugo/FluentFlyout/releases/latest) tab or compile the project yourself to access the full feature set without restrictions.
+Загрузите актуальную версию из раздела [**Releases**](https://github.com/KoksMen/FluentFlyout/releases/latest):
 
-Maintaining a project of this scale takes time and effort. To support ongoing development, the Microsoft Store version offers a convenient way to install the app and includes a few optional features unlockable via a small payment (€2.99, varies by region).
+| Файл | Описание | Тип |
+| :--- | :--- | :--- |
+| **`FluentFlyout.exe`** | Автономный Single-File исполняемый файл (Self-Contained) | Рекомендуется для большинства пользователей |
+| **`Portable_x64_AMD.zip`** | Портативный zip-архив с исполняемым файлом | Для портативной распаковки в любую папку |
+| **`FluentFlyout-v2.15.0-f2.0.0-Portable-x64.zip`** | Полный архив релиза | Каталожная копия релиза |
 
-- **Microsoft Store version:** provides automatic background updates and one-click installation. A small set of features is unlocked with a one-time purchase to help fund development.
-- **GitHub version:** Completely free, fully featured, and open-source. The only trade-off is that updates and installation must be done manually.
+> [!TIP]
+> Установка .NET Runtime не требуется: все необходимые компоненты уже встроены внутрь исполняемого файла!
 
-Thank you for your support and understanding!
+---
 
-## Credits 🙌
-- [Hugo Li](https://unchihugo.github.io) - Original Developer, Microsoft Store Publisher, CN & NL Translations
-- [LiAuTraver](https://github.com/LiAuTraver) - Code Contributor (app theme switcher)
-- [AksharDP](https://github.com/AksharDP) - Code Contributor (media seekbar & duration)
-- [Hykerisme](https://github.com/Hykerisme) - CN Translation
-- [nopeless](https://github.com/nopeless) - Code Contributor (QoL features)
-- All our amazing contributors! Check the full list on our [GitHub Contributors page](https://github.com/unchihugo/FluentFlyout/graphs/contributors?all=1)
+## 🛠️ Сборка из исходного кода
 
-### Dependencies
-- [CommunityToolkit.Mvvm](https://github.com/CommunityToolkit/dotnet)
-- [Dubya.WindowsMediaController](https://github.com/DubyaDude/WindowsMediaController)
-- [MicaWPF](https://github.com/Simnico99/MicaWPF)
-- [Microsoft.Toolkit.Uwp.Notifications](https://github.com/CommunityToolkit/WindowsCommunityToolkit)
-- [NAudio](https://github.com/naudio/NAudio)
-- [NLog](https://nlog-project.org/)
-- [System.Drawing.Common](https://dot.net/)
-- [WPF-UI](https://github.com/lepoco/wpfui)
-- [WPF-UI-Tray](https://github.com/lepoco/wpfui)
+Для самостоятельной сборки потребуется [.NET 10.0 SDK](https://dotnet.microsoft.com/download):
+
+```powershell
+# Клонирование репозитория
+git clone https://github.com/KoksMen/FluentFlyout.git
+cd FluentFlyout
+
+# Сборка и публикация автономного Single-File релиза
+dotnet publish FluentFlyoutWPF\FluentFlyout.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -o publish\win-x64
+```
+
+---
+
+# 🇬🇧 FluentFlyout (In English)
+
+## 💡 About This Project
+
+**FluentFlyout (KoksMen Edition)** is an enhanced and performance-hardened fork of FluentFlyout for Windows 10/11.
+
+While the original application provides gorgeous **Fluent 2 Design** flyouts, it suffered from certain limitations in gaming and taskbar responsiveness: game minimizations during fullscreen gameplay, UI thread automation freezes, lack of mouse wheel volume control, and hardcoded external update endpoints.
+
+This fork addresses these pain points, making FluentFlyout ultra-responsive, lightweight, and truly gaming-friendly! 🚀
+
+---
+
+## 🌟 Key Fork Enhancements
+
+- **🔄 GitHub Releases Auto-Updater:** Integrated directly with `KoksMen/FluentFlyout` GitHub API. SemVer comparator cleanly handles fork versioning (`2.15.0-f2.0.0`).
+- **🎮 Dual Fullscreen Modes (Gaming Safeguard):** Separate toggles for exclusive fullscreen games and borderless windows. Flyouts will never minimize your games or steal focus.
+- **⚡ Instant Taskbar Button Responsiveness:** Replaced synchronous `.Wait(1000)` UI Automation bottlenecks with instant Win32 `GetWindowRect` calls.
+- **🔊 Mouse Wheel Volume Adjustment:** Scroll your mouse wheel directly over the Taskbar Mixer button or Media Widget to change system volume with on-screen flyout feedback.
+- **📋 Taskbar Clipboard History:** Dedicated quick-action clipboard button on the taskbar with smooth, instant rendering.
+- **🔏 Authenticode Code Signing:** Release binaries signed with SHA-256 Authenticode and Sectigo RFC 3161 timestamps.
+
+---
+
+## 📜 Лицензия / License
+
+Проект распространяется под лицензией **GNU General Public License v3.0 (GPL-3.0)**.  
+Подробности доступны в файле [LICENSE](LICENSE).

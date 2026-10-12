@@ -676,7 +676,7 @@ public partial class TaskbarWidgetControl : UserControl
     private void MainBorder_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
     {
         e.Handled = true;
-        // Disabled per user request
+        (_mainWindow ?? (MainWindow)Application.Current.MainWindow)?.AdjustMasterVolumeFromWheel(e.Delta);
     }
 
     private void MainBorder_PreviewMouseRightButtonUp(object sender, MouseButtonEventArgs e)

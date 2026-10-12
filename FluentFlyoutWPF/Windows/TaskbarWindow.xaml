@@ -20,7 +20,7 @@
         xmlns:viewModels="clr-namespace:FluentFlyoutWPF.ViewModels"
 		d:DataContext="{d:DesignInstance viewModels:UserSettings}">
     <Canvas Name="WidgetCanvas" Background="Transparent">
-        <StackPanel x:Name="QuickActionsPanel" Orientation="Horizontal" VerticalAlignment="Center">
+        <StackPanel x:Name="QuickActionsPanel" Orientation="Horizontal" VerticalAlignment="Center" Panel.ZIndex="10">
             <Border x:Name="MixerButton"
                     Width="36" Height="36" Margin="0,0,4,0"
                     CornerRadius="6"
@@ -29,7 +29,8 @@
                     ToolTip="{DynamicResource TaskbarMixerButtonTitle}"
                     MouseEnter="QuickAction_MouseEnter"
                     MouseLeave="QuickAction_MouseLeave"
-                    PreviewMouseLeftButtonUp="MixerButton_Click">
+                    PreviewMouseLeftButtonUp="MixerButton_Click"
+                    PreviewMouseWheel="MixerButton_PreviewMouseWheel">
                 <Border.Background>
                     <SolidColorBrush Color="#01FFFFFF" />
                 </Border.Background>
@@ -75,6 +76,6 @@
             </Border>
         </StackPanel>
 		<controls:TaskbarVisualizerControl x:Name="TaskbarVisualizer" Margin="0,1,0,0" />
-        <controls:TaskbarWidgetControl x:Name="Widget" />
+        <controls:TaskbarWidgetControl x:Name="Widget" Visibility="Collapsed" />
     </Canvas>
 </Window>

@@ -11,7 +11,7 @@
              TextOptions.TextRenderingMode="ClearType" TextOptions.TextFormattingMode="Ideal"
              FontFamily="{Binding FontFamily}"
              FlowDirection="{Binding FlowDirection}">
-    <Border Name="MainBorder" CornerRadius="6" Background="Transparent" MouseEnter="Grid_MouseEnter" MouseLeave="Grid_MouseLeave" MouseLeftButtonUp="Grid_MouseLeftButtonUp" ClipToBounds="True">
+    <Border Name="MainBorder" CornerRadius="6" Background="Transparent" MouseEnter="Grid_MouseEnter" MouseLeave="Grid_MouseLeave" MouseLeftButtonUp="Grid_MouseLeftButtonUp" PreviewMouseWheel="MainBorder_PreviewMouseWheel" ClipToBounds="True">
         <Grid Background="Transparent">
             <Image x:Name="BackgroundImage" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" Opacity="0.4">
                 <Image.Effect>

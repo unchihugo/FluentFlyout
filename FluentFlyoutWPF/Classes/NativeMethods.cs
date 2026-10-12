@@ -23,6 +23,7 @@ public static partial class NativeMethods
     internal const int WS_EX_TRANSPARENT = 0x00000020;
 
     // SetWindowPos Flags
+    internal const int HWND_TOP = 0;
     internal const int HWND_TOPMOST = -1;
     internal const uint SWP_NOSIZE = 0x0001;
     internal const uint SWP_NOMOVE = 0x0002;

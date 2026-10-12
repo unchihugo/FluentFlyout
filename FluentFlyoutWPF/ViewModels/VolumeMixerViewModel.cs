@@ -130,6 +130,26 @@ public partial class VolumeMixerViewModel : ObservableObject, IDisposable
             IsMasterMuted = mute;
     }
 
+    public void AdjustMasterVolume(float delta)
+    {
+        if (_device == null)
+        {
+            AttachDevice(AudioDeviceMonitor.Instance.GetDefaultRenderDevice());
+            if (_device == null) return;
+        }
+
+        float current = _device.AudioEndpointVolume.MasterVolumeLevelScalar;
+        float newVolume = Math.Clamp(current + delta, 0f, 1f);
+        newVolume = MathF.Round(newVolume * 100f) / 100f;
+
+        if (newVolume > 0f && IsMasterMuted)
+        {
+            IsMasterMuted = false;
+        }
+
+        MasterVolume = newVolume;
+    }
+
 
     [RelayCommand]
     public void RefreshSessions()

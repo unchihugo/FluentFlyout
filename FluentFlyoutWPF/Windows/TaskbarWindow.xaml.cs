@@ -31,15 +31,22 @@ public partial class TaskbarWindow : Window
     private readonly int _nativeWidgetsPadding = 216;
     private readonly double _scale = 0.9;
 
+    private sealed class AutomationElementCacheEntry
+    {
+        public AutomationElement? Element;
+        public Rect Bounds = Rect.Empty;
+        public DateTime LastBoundsTime = DateTime.MinValue;
+        public DateTime NegativeCacheUntil = DateTime.MinValue;
+        public bool IsSearching;
+        public bool IsQueryingBounds;
+    }
+
     private IntPtr _trayHandle;
-    private AutomationElement? _widgetElement;
-    private AutomationElement? _trayElement;
-    private AutomationElement? _taskbarFrameElement;
+    private readonly Dictionary<string, AutomationElementCacheEntry> _automationCaches = [];
     // reference to main window for flyout functions
     private MainWindow? _mainWindow;
     private int _lastSelectedMonitor = -1;
     private bool _positionUpdateInProgress;
-    private readonly Dictionary<string, Task> _pendingAutomationTasks = [];
 
     private GlobalSystemMediaTransportControlsSessionPlaybackStatus? _lastPlaybackStatus;
     private DispatcherTimer? _autoHideTimer;
@@ -404,11 +411,15 @@ on_error:
             POINT containerPos = new() { X = taskbarRect.Left, Y = taskbarRect.Top };
             ScreenToClient(taskbarHandle, ref containerPos);
 
-            // Apply using SetWindowPos (Bypassing WPF layout engine)
-            SetWindowPos(taskbarWindowHandle, 0,
+            // Apply using SetWindowPos (Bypassing WPF layout engine).
+            // HWND_TOP keeps this child window at the top of the taskbar's child z-order:
+            // Explorer's taskbar XAML content bridge (Windows.UI.Composition.DesktopWindowContentBridge)
+            // spans the whole taskbar and otherwise ends up above this window, hiding the widget.
+            // Do NOT pass SWP_NOZORDER here, it would turn hWndInsertAfter into a no-op.
+            SetWindowPos(taskbarWindowHandle, HWND_TOP,
                      containerPos.X, containerPos.Y,
                      containerWidth, containerHeight,
-                     SWP_NOZORDER | SWP_NOACTIVATE | SWP_ASYNCWINDOWPOS | SWP_SHOWWINDOW);
+                     SWP_NOACTIVATE | SWP_ASYNCWINDOWPOS | SWP_SHOWWINDOW);
             var qRect = PositionQuickActions(taskbarHandle, taskbarRect, dpiScale, isMainTaskbarSelected, isVertical);
             var wRect = PositionWidget(taskbarHandle, taskbarRect, dpiScale, isMainTaskbarSelected, isVertical);
             var vRect = PositionVisualizer(taskbarHandle, taskbarRect, dpiScale, isMainTaskbarSelected, isVertical);
@@ -476,12 +487,20 @@ on_error:
                         ? nativeWidgetRect.Bottom < (taskbarRect.Top + taskbarRect.Bottom) / 2.0
                         : nativeWidgetRect.Right < (taskbarRect.Left + taskbarRect.Right) / 2.0;
 
-                    if (found && inStartHalf)
+                    if (found && inStartHalf && nativeWidgetRect.Width > 0 && nativeWidgetRect.Height > 0)
                     {
                         // Convert absolute screen position to relative position within taskbar
                         primaryPos = isVertical
                             ? (int)(nativeWidgetRect.Bottom - taskbarRect.Top) + 2
                             : (int)(nativeWidgetRect.Right - taskbarRect.Left) + 2;
+
+                        if (quickActionsWidth > 0)
+                        {
+                            primaryPos += quickActionsWidth + 4;
+                        }
+
+                        if (SettingsManager.Current.TaskbarVisualizerEnabled && SettingsManager.Current.TaskbarVisualizerPosition == 0)
+                            primaryPos += (int)(TaskbarVisualizer.Width * dpiScale) + 4;
                     }
                 }
                 catch (Exception ex)
@@ -678,7 +697,7 @@ on_error:
         int crossPos = (crossSize - (int)(36 * dpiScale)) / 2;
 
         int quickActionsWidth = (SettingsManager.Current.TaskbarMixerButtonEnabled ? 40 : 0) + (SettingsManager.Current.TaskbarClipboardButtonEnabled ? 40 : 0);
-        int primaryPos = 20;
+        int primaryPos = 12;
 
         if (SettingsManager.Current.TaskbarWidgetPadding)
         {
@@ -689,7 +708,7 @@ on_error:
                     ? nativeWidgetRect.Bottom < (taskbarRect.Top + taskbarRect.Bottom) / 2.0
                     : nativeWidgetRect.Right < (taskbarRect.Left + taskbarRect.Right) / 2.0;
 
-                if (found && inStartHalf)
+                if (found && inStartHalf && nativeWidgetRect.Width > 0 && nativeWidgetRect.Height > 0)
                 {
                     primaryPos = isVertical
                         ? (int)(nativeWidgetRect.Bottom - taskbarRect.Top) + 2
@@ -698,16 +717,19 @@ on_error:
             }
             catch { }
         }
-        double left = (isVertical ? crossPos : primaryPos) / dpiScale;
-        double top = (isVertical ? primaryPos : crossPos) / dpiScale;
 
-        Canvas.SetLeft(QuickActionsPanel, left);
-        Canvas.SetTop(QuickActionsPanel, top);
+        double logicalLeft = (isVertical ? crossPos : primaryPos) / dpiScale;
+        double logicalTop = (isVertical ? primaryPos : crossPos) / dpiScale;
 
-        double width = (quickActionsWidth + 16) * dpiScale;
-        double height = crossSize * dpiScale;
+        Canvas.SetLeft(QuickActionsPanel, logicalLeft);
+        Canvas.SetTop(QuickActionsPanel, logicalTop);
 
-        return new Rect((left - 4) * dpiScale, (isVertical ? primaryPos : 0) * dpiScale, width, (isVertical ? width : crossSize) * dpiScale);
+        double physicalLeft = isVertical ? crossPos : primaryPos;
+        double physicalTop = isVertical ? primaryPos : crossPos;
+        double physicalW = (isVertical ? 36 : quickActionsWidth) * dpiScale;
+        double physicalH = (isVertical ? quickActionsWidth : 36) * dpiScale;
+
+        return new Rect(physicalLeft, physicalTop, physicalW, physicalH);
     }
 
     private static Rect GetElementLogicalScreenRect(FrameworkElement element)
@@ -790,10 +812,14 @@ on_error:
     }
 
     private void MixerButton_Click(object sender, RoutedEventArgs e)
-
     {
-        (bool foundTaskbar, Rect taskbarRect) = GetTaskbarFrameRect(GetSelectedTaskbarHandle(out _));
-        if (!foundTaskbar)
+        IntPtr taskbarHandle = GetSelectedTaskbarHandle(out _);
+        Rect taskbarRect;
+        if (taskbarHandle != IntPtr.Zero && GetWindowRect(taskbarHandle, out RECT tr))
+        {
+            taskbarRect = new Rect(tr.Left, tr.Top, tr.Right - tr.Left, tr.Bottom - tr.Top);
+        }
+        else
         {
             taskbarRect = new Rect(0, SystemParameters.PrimaryScreenHeight - 40, SystemParameters.PrimaryScreenWidth, 40);
         }
@@ -801,6 +827,12 @@ on_error:
         _mainWindow?.ShowVolumeMixerFromTaskbar(
             GetElementLogicalScreenRect(MixerButton),
             taskbarRect);
+    }
+
+    private void MixerButton_PreviewMouseWheel(object sender, System.Windows.Input.MouseWheelEventArgs e)
+    {
+        e.Handled = true;
+        (_mainWindow ?? (MainWindow)Application.Current.MainWindow)?.AdjustMasterVolumeFromWheel(e.Delta);
     }
 
     private void ClipboardButton_Click(object sender, RoutedEventArgs e)
@@ -818,8 +850,13 @@ on_error:
             return;
         }
 
-        (bool foundTaskbar, Rect taskbarRect) = GetTaskbarFrameRect(GetSelectedTaskbarHandle(out _));
-        if (!foundTaskbar)
+        IntPtr taskbarHandle = GetSelectedTaskbarHandle(out _);
+        Rect taskbarRect;
+        if (taskbarHandle != IntPtr.Zero && GetWindowRect(taskbarHandle, out RECT tr))
+        {
+            taskbarRect = new Rect(tr.Left, tr.Top, tr.Right - tr.Left, tr.Bottom - tr.Top);
+        }
+        else
         {
             taskbarRect = new Rect(0, SystemParameters.PrimaryScreenHeight - 40, SystemParameters.PrimaryScreenWidth, 40);
         }
@@ -923,99 +960,144 @@ on_error:
         });
     }
 
-    private (bool, Rect) GetTaskbarXamlElementRect(IntPtr taskbarHandle, ref AutomationElement? elementCache, string elementName)
+    private (bool, Rect) GetTaskbarXamlElementRect(IntPtr taskbarHandle, string elementName)
     {
         if (taskbarHandle == IntPtr.Zero)
             return (false, Rect.Empty);
 
         try
         {
-            // reset if monitor changed
             if (_lastSelectedMonitor != SettingsManager.Current.TaskbarWidgetSelectedMonitor)
-                elementCache = null;
-
-            // find widget in XAML
-            if (elementCache == null)
             {
-                if (_pendingAutomationTasks.TryGetValue(elementName, out var pendingTask) && !pendingTask.IsCompleted)
-                    return (false, Rect.Empty);
+                _automationCaches.Clear();
+            }
 
-                AutomationElement? found = null;
-                var findTask = Task.Run(() =>
+            if (!_automationCaches.TryGetValue(elementName, out var cache))
+            {
+                cache = new AutomationElementCacheEntry();
+                _automationCaches[elementName] = cache;
+            }
+
+            DateTime now = DateTime.UtcNow;
+
+            // If we have a cached element
+            if (cache.Element != null)
+            {
+                // If cached bounds are fresh (less than 2.5 seconds old) and valid, return immediately
+                if (now - cache.LastBoundsTime < TimeSpan.FromMilliseconds(2500) && cache.Bounds != Rect.Empty && cache.Bounds.Width > 0 && cache.Bounds.Height > 0)
                 {
-                    var root = AutomationElement.FromHandle(taskbarHandle);
-                    found = root.FindFirst(TreeScope.Descendants,
-                        new PropertyCondition(AutomationElement.AutomationIdProperty, elementName));
+                    return (true, cache.Bounds);
+                }
+
+                // If bounds need refresh and not already querying in background, start background refresh
+                if (!cache.IsQueryingBounds)
+                {
+                    cache.IsQueryingBounds = true;
+                    var elem = cache.Element;
+                    Task.Run(() =>
+                    {
+                        try
+                        {
+                            Rect b = elem.Current.BoundingRectangle;
+                            Dispatcher.InvokeAsync(() =>
+                            {
+                                cache.IsQueryingBounds = false;
+                                if (b != Rect.Empty && b.Width > 0 && b.Height > 0)
+                                {
+                                    cache.Bounds = b;
+                                    cache.LastBoundsTime = DateTime.UtcNow;
+                                }
+                                else
+                                {
+                                    // Element bounds invalid or hidden
+                                    cache.Element = null;
+                                    cache.Bounds = Rect.Empty;
+                                    cache.NegativeCacheUntil = DateTime.UtcNow.AddSeconds(20);
+                                }
+                            });
+                        }
+                        catch
+                        {
+                            Dispatcher.InvokeAsync(() =>
+                            {
+                                cache.IsQueryingBounds = false;
+                                cache.Element = null;
+                                cache.Bounds = Rect.Empty;
+                                cache.NegativeCacheUntil = DateTime.UtcNow.AddSeconds(20);
+                            });
+                        }
+                    });
+                }
+
+                // Return existing bounds if valid while background update is running
+                if (cache.Bounds != Rect.Empty && cache.Bounds.Width > 0 && cache.Bounds.Height > 0)
+                {
+                    return (true, cache.Bounds);
+                }
+
+                return (false, Rect.Empty);
+            }
+
+            // Element is not cached. Check negative cache
+            if (now < cache.NegativeCacheUntil)
+            {
+                return (false, Rect.Empty);
+            }
+
+            // Launch background search if not already searching
+            if (!cache.IsSearching)
+            {
+                cache.IsSearching = true;
+                Task.Run(() =>
+                {
+                    try
+                    {
+                        var root = AutomationElement.FromHandle(taskbarHandle);
+                        var found = root.FindFirst(TreeScope.Descendants,
+                            new PropertyCondition(AutomationElement.AutomationIdProperty, elementName));
+
+                        Rect b = Rect.Empty;
+                        if (found != null)
+                        {
+                            try { b = found.Current.BoundingRectangle; } catch { }
+                        }
+
+                        Dispatcher.InvokeAsync(() =>
+                        {
+                            cache.IsSearching = false;
+                            if (found != null && b != Rect.Empty && b.Width > 0 && b.Height > 0)
+                            {
+                                cache.Element = found;
+                                cache.Bounds = b;
+                                cache.LastBoundsTime = DateTime.UtcNow;
+                                UpdatePosition();
+                            }
+                            else
+                            {
+                                cache.Element = null;
+                                cache.Bounds = Rect.Empty;
+                                cache.NegativeCacheUntil = DateTime.UtcNow.AddSeconds(20);
+                            }
+                        });
+                    }
+                    catch
+                    {
+                        Dispatcher.InvokeAsync(() =>
+                        {
+                            cache.IsSearching = false;
+                            cache.Element = null;
+                            cache.Bounds = Rect.Empty;
+                            cache.NegativeCacheUntil = DateTime.UtcNow.AddSeconds(20);
+                        });
+                    }
                 });
-                _pendingAutomationTasks[elementName] = findTask;
-
-                if (!findTask.Wait(1000))
-                {
-                    Logger.Warn("Timeout querying taskbar XAML element: " + elementName);
-                    return (false, Rect.Empty);
-                }
-
-                // Propagate any exception from the background thread
-                findTask.GetAwaiter().GetResult();
-                elementCache = found;
             }
 
-            if (elementCache == null) // widget most likely disabled
-                return (false, Rect.Empty);
-
-            try
-            {
-                if (_pendingAutomationTasks.TryGetValue(elementName, out var pendingTask) && !pendingTask.IsCompleted)
-                {
-                    elementCache = null;
-                    return (false, Rect.Empty);
-                }
-
-                var cachedElement = elementCache;
-                var boundsTask = Task.Run(() => cachedElement.Current.BoundingRectangle);
-                _pendingAutomationTasks[elementName] = boundsTask;
-
-                if (!boundsTask.Wait(500))
-                {
-                    Logger.Warn("Timeout getting bounds for taskbar XAML element: " + elementName);
-                    elementCache = null;
-                    return (false, Rect.Empty);
-                }
-
-                Rect elementRect = boundsTask.GetAwaiter().GetResult();
-
-                if (elementRect == Rect.Empty) // widget shown before but most likely disabled now
-                {
-                    elementCache = null; // reset cache
-                    return (false, Rect.Empty);
-                }
-
-                return (true, elementRect);
-            }
-            catch (ElementNotAvailableException)
-            {
-                // element became stale, reset cache
-                Logger.Warn("Taskbar XAML element became stale, resetting cache: " + elementName);
-                elementCache = null;
-                return (false, Rect.Empty);
-            }
-        }
-        catch (COMException ex)
-        {
-            Logger.Warn(ex, "COM error retrieving taskbar XAML element Rect: " + elementName);
-            elementCache = null; // reset cache on error
-            return (false, Rect.Empty);
-        }
-        catch (ElementNotAvailableException)
-        {
-            Logger.Warn("Taskbar XAML element not available, resetting cache: " + elementName);
-            elementCache = null;
             return (false, Rect.Empty);
         }
         catch (Exception ex)
         {
             Logger.Error(ex, "Error retrieving taskbar XAML element Rect: " + elementName);
-            elementCache = null; // reset cache on error
             return (false, Rect.Empty);
         }
     }
@@ -1028,17 +1110,17 @@ on_error:
     /// <see cref="Rect.Empty"/> if not found.</returns>
     private (bool, Rect) GetTaskbarWidgetRect(IntPtr taskbarHandle)
     {
-        return GetTaskbarXamlElementRect(taskbarHandle, ref _widgetElement, "WidgetsButton");
+        return GetTaskbarXamlElementRect(taskbarHandle, "WidgetsButton");
     }
 
     private (bool, Rect) GetSystemTrayRect(IntPtr taskbarHandle)
     {
-        return GetTaskbarXamlElementRect(taskbarHandle, ref _trayElement, "SystemTrayIcon");
+        return GetTaskbarXamlElementRect(taskbarHandle, "SystemTrayIcon");
     }
 
     private (bool, Rect) GetTaskbarFrameRect(IntPtr taskbarHandle)
     {
-        return GetTaskbarXamlElementRect(taskbarHandle, ref _taskbarFrameElement, "TaskbarFrame");
+        return GetTaskbarXamlElementRect(taskbarHandle, "TaskbarFrame");
     }
 
     private static Rect GetElementScreenRect(FrameworkElement element)

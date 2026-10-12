@@ -72,7 +72,7 @@ public partial class HomePage : Page
 
         if (UpdateState.Current.IsUpdateAvailable)
         {
-            string url = !string.IsNullOrEmpty(UpdateState.Current.UpdateUrl) ? UpdateState.Current.UpdateUrl : "https://fluentflyout.com/changelog/";
+            string url = !string.IsNullOrEmpty(UpdateState.Current.UpdateUrl) ? UpdateState.Current.UpdateUrl : UpdateCheckerService.ReleasesWebUrl;
             UpdateCheckerService.OpenUpdateUrl(url);
         }
         else

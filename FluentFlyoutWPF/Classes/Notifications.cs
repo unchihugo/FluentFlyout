@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2024-2026 The FluentFlyout Authors
+// Copyright (c) 2024-2026 The FluentFlyout Authors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 using FluentFlyout.Classes.Settings;
@@ -6,6 +6,7 @@ using Microsoft.Toolkit.Uwp.Notifications;
 using NLog;
 using System.Runtime.InteropServices;
 using System.Windows;
+using FluentFlyoutWPF.Classes.Services;
 
 namespace FluentFlyout.Classes;
 
@@ -50,7 +51,7 @@ internal static class Notifications
 
     public static void OpenChangelogInBrowser()
     {
-        OpenUrlInBrowser("https://fluentflyout.com/changelog/");
+        OpenUrlInBrowser(UpdateCheckerService.ReleasesWebUrl);
     }
 
     /// <summary>
