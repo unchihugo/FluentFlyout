@@ -264,7 +264,7 @@
     <system:String x:Key="AppFilteringModeBlacklist">黑名单模式</system:String>
     <system:String x:Key="AppFilteringModeWhitelist">白名单模式</system:String>
     <system:String x:Key="AllowedAppsTitle">允许的应用</system:String>
-    <system:String x:Key="AllowedAppsDescription">仅显示下方列表中应用的媒体信息。</system:String>
+    <system:String x:Key="AllowedAppsDescription">仅显示下方列表中应用的媒体信息</system:String>
     <system:String x:Key="BlockedAppsDescription">不显示下方列表中应用的媒体信息</system:String>
     <system:String x:Key="BlockedAppsTitle">排除的应用</system:String>
     <system:String x:Key="AppFilteringComboBoxHint">选择一个当前正在播放媒体的应用进行添加</system:String>
