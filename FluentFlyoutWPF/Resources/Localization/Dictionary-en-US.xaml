@@ -45,6 +45,7 @@ hides repeat, shuffle and player info</System:String>
     <System:String x:Key="CenterTitleArtistTitle">Center Title and Artist</System:String>
     <System:String x:Key="CenterTitleArtistDescription">Align text to the center instead of the left</System:String>
     <System:String x:Key="ShowMediaPlayerNameTitle">Show Media Player name</System:String>
+    <System:String x:Key="ContextMenuSessionSwitcher">Switch sessions</System:String>
     <System:String x:Key="SessionSwitcherAuto">Automatic</System:String>
     <System:String x:Key="RepeatButtonTitle">Repeat Button*</System:String>
     <System:String x:Key="RepeatButtonDescription">Choose between repeat all or repeat one, increases flyout width</System:String>
@@ -198,6 +199,7 @@ Note: As an open-source project, these features are also available for free via 
     <System:String x:Key="UpdatesSectionTitle">Updates</System:String>
     <System:String x:Key="SystemConfigure">Configure</System:String>
     <System:String x:Key="AppFilteringTitle">App Filtering</System:String>
+    <System:String x:Key="RelatedSettingsTitle">Related settings</System:String>
     <System:String x:Key="AppFilteringRulesDescription">Control which applications can display media</System:String>
     <System:String x:Key="EnableAppFilteringTitle">Enable Filtering</System:String>
     <System:String x:Key="AppFilteringModeTitle">Filtering Mode</System:String>

@@ -135,18 +135,28 @@ public partial class VolumeMixerViewModel : ObservableObject, IDisposable
 
     public bool TryAdjustSessionVolume(int processId, float delta)
     {
-        var session = Sessions.FirstOrDefault(session => session.ProcessId == processId);
+        var session = FindSession(processId);
 
         if (session == null)
-        {
-            RefreshSessions();
-            session = Sessions.FirstOrDefault(session => session.ProcessId == processId);
-        }
-
-        if (session == null) return false;
+            return false;
 
         session.AdjustVolume(delta);
         return true;
+    }
+
+    public float? GetSessionVolume(int processId)
+    {
+        return FindSession(processId)?.Volume;
+    }
+
+    private AudioSessionModel? FindSession(int processId)
+    {
+        var session = Sessions.FirstOrDefault(session => session.ProcessId == processId);
+        if (session != null)
+            return session;
+
+        RefreshSessions();
+        return Sessions.FirstOrDefault(session => session.ProcessId == processId);
     }
 
 

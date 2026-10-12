@@ -179,6 +179,8 @@ public partial class TaskbarWidgetControl : UserControl
     {
         if (string.IsNullOrEmpty(SongTitle.Text + SongArtist.Text)) return;
 
+        RefreshAppVolumeTooltip();
+
         SolidColorBrush targetBackgroundBrush;
         // hover effects with animations, hard-coded colors because I can't find the resource brushes
         WindowsThemeDetector.GetWindowsTheme(out _, out var systemTheme);
@@ -732,6 +734,11 @@ public partial class TaskbarWidgetControl : UserControl
         if (_mainWindow == null) return;
 
         _ = _mainWindow.TryOpenMediaPlayerAsync();
+    }
+
+    private void TaskbarContextMenu_Opened(object sender, RoutedEventArgs e)
+    {
+        _mainWindow?.PopulateSessionSwitcherMenu(ContextMenuSessionSwitcher);
     }
 
     private void ContextMenuSettings_Click(object sender, RoutedEventArgs e)
