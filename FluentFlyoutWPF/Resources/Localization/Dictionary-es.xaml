@@ -291,4 +291,5 @@ Nota: Como proyecto de código abierto, estas opciones también están disponibl
     <system:String x:Key="OnboardingTitle">Empezar</system:String>
     <system:String x:Key="SessionSwitcherAuto">Automático</system:String>
     <system:String x:Key="SupporterDescription">¡Gracias!</system:String>
+    <system:String x:Key="ContextMenuSessionSwitcher">Cambiar de sesión</system:String>
 </ResourceDictionary>
