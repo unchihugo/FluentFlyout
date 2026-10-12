@@ -941,7 +941,9 @@ public partial class MainWindow : MicaWindow
                         && (GetAsyncKeyState(VK_CONTROL) & 0x8000) != 0
                         && (GetAsyncKeyState(VK_MENU) & 0x8000) != 0)
                     {
-                        ShowVolumeFlyout();
+                        var activeSession = GetActiveMediaSession();
+                        if (activeSession == null) ShowVolumeFlyout();
+                        else ShowMediaFlyout(withVolume: true);
                     }
                 }
             }
