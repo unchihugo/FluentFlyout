@@ -1147,4 +1147,28 @@ public partial class UserSettings : ObservableObject
         MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
         mainWindow?.UpdateMediaFlyoutLayout();
     }
+
+    partial void OnMediaFlyoutAlwaysDisplayChanged(bool oldValue, bool newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+
+        MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+        mainWindow?.UpdateMediaFlyoutLayout();
+    }
+
+    partial void OnCenterTitleArtistChanged(bool oldValue, bool newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+
+        MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+        mainWindow?.UpdateMediaFlyoutLayout();
+    }
+
+    partial void OnSeekbarEnabledChanged(bool oldValue, bool newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+
+        MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+        mainWindow?.UpdateMediaFlyoutLayout();
+    }
 }

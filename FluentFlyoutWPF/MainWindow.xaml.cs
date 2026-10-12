@@ -519,7 +519,7 @@ public partial class MainWindow : MicaWindow
             windowRect = new Rect(windowRect.Left, windowRect.Top, rawWidth, rawHeight);
             var (finalLeft, finalTop) = GetFinalPosition(windowRect, workArea, reserveNativeVolumeOsdSpace: true);
 
-            WindowHelper.SetPosition(this, finalLeft, finalTop);
+            WindowHelper.SetPositionAndSize(this, finalLeft, finalTop, rawWidth, rawHeight);
 
             if (volumeMixerWindow != null && volumeMixerWindow.IsVisible)
             {
@@ -1506,11 +1506,11 @@ public partial class MainWindow : MicaWindow
 
             SeekbarWrapper.Visibility = SettingsManager.Current.SeekbarEnabled ? Visibility.Visible : Visibility.Collapsed;
             MediaFlyoutDragHandle.Visibility = SettingsManager.Current.MediaFlyoutShowDragHandle ? Visibility.Visible : Visibility.Collapsed;
+            UpdateMediaFlyoutCloseButtonVisibility();
+            UpdateLayout();
 
-            if (volumeMixerWindow != null && volumeMixerWindow.IsVisible && SettingsManager.Current.VolumeControlAboveMediaFlyout)
+            if (IsVisible)
             {
-                volumeMixerWindow.Width = Width;
-                volumeMixerWindow.UpdateLayout();
                 UpdatePositionFromSettings();
             }
         });
