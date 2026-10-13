@@ -298,4 +298,5 @@ Not: Açık kaynaklı bir proje olduğundan, bu özellikler GitHub'daki manuel y
     <system:String x:Key="TaskbarWidgetScrollVolumeMaster">Açık (ana ses)</system:String>
     <system:String x:Key="TaskbarWidgetScrollVolumePlayer">Açık (oynatıcı sesi)</system:String>
     <system:String x:Key="OpenMediaPlayerText">Medya oynatıcıyı aç</system:String>
+    <system:String x:Key="RelatedSettingsTitle">İlgili ayarlar</system:String>
 </ResourceDictionary>
