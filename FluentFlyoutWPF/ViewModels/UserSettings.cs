@@ -242,12 +242,6 @@ public partial class UserSettings : ObservableObject
     public partial bool MediaFlyoutVolumeKeysExcluded { get; set; }
 
     /// <summary>
-    /// Display media flyout when media or volume is changed from headphones or other external devices
-    /// </summary>
-    [ObservableProperty]
-    public partial bool MediaFlyoutHeadsetControlsEnabled { get; set; }
-
-    /// <summary>
     /// Use symbol-style tray icon
     /// </summary>
     [ObservableProperty]
@@ -735,7 +729,6 @@ public partial class UserSettings : ObservableObject
         MediaFlyoutEnabled = true;
         MediaFlyoutAlwaysDisplay = false;
         MediaFlyoutVolumeKeysExcluded = false;
-        MediaFlyoutHeadsetControlsEnabled = false;
         NIconSymbol = false;
         NIconHide = false;
         DisableIfFullscreen = true;

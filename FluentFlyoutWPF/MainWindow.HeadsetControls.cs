@@ -4,7 +4,6 @@
 using FluentFlyout.Classes.Settings;
 using FluentFlyoutWPF.Classes;
 using Windows.Media.Control;
-using static FluentFlyout.Classes.NativeMethods;
 using static WindowsMediaController.MediaManager;
 
 namespace FluentFlyoutWPF;
@@ -15,8 +14,6 @@ public partial class MainWindow
 
     private ExternalVolumeMonitor? _externalVolumeMonitor;
     private readonly Dictionary<string, GlobalSystemMediaTransportControlsSessionPlaybackStatus> _lastPlaybackStatuses = [];
-
-    private static bool HeadsetControlsEnabled => SettingsManager.Current.MediaFlyoutHeadsetControlsEnabled;
 
     private void InitializeHeadsetControls()
     {
@@ -43,22 +40,8 @@ public partial class MainWindow
         }
     }
 
-    private static bool IsHeadsetAppCommand(int device)
-    {
-        if (device != FAPPCOMMAND_OEM)
-            return false;
-
-#if DEBUG
-        Logger.Debug("App command received from OEM device, headset controls enabled: " + HeadsetControlsEnabled);
-#endif
-        return HeadsetControlsEnabled;
-    }
-
     private void HeadsetControls_OnExternalVolumeChanged(object? sender, EventArgs e)
     {
-        if (!HeadsetControlsEnabled)
-            return;
-
         Dispatcher.BeginInvoke(() =>
         {
             if (!SettingsManager.Current.MediaFlyoutVolumeKeysExcluded)
@@ -71,9 +54,6 @@ public partial class MainWindow
     private void HeadsetControls_OnPlaybackStateChanged(MediaSession mediaSession, GlobalSystemMediaTransportControlsSessionPlaybackInfo? playbackInfo = null)
     {
         var (previousStatus, currentStatus) = UpdateLastPlaybackStatus(mediaSession, playbackInfo);
-
-        if (!HeadsetControlsEnabled)
-            return;
 
         bool isPlayPauseToggle =
             (previousStatus == GlobalSystemMediaTransportControlsSessionPlaybackStatus.Playing && currentStatus == GlobalSystemMediaTransportControlsSessionPlaybackStatus.Paused) ||

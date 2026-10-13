@@ -1746,7 +1746,7 @@ public partial class MainWindow : MicaWindow
                 return 0;
 
             bool isKeyCommand = device == FAPPCOMMAND_KEY;
-            bool isHeadsetCommand = IsHeadsetAppCommand(device);
+            bool isHeadsetCommand = device == FAPPCOMMAND_OEM;
 
             if (!isKeyCommand && !isHeadsetCommand)
                 return 0;
