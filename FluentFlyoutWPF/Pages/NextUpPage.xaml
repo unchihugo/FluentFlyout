@@ -15,13 +15,7 @@
 
     <StackPanel MaxWidth="1000" Margin="16">
         <TextBlock Text="{DynamicResource NextUpCustomizationTitle}" FontSize="24" FontWeight="SemiBold" Margin="0,0,0,20" />
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
+        <StackPanel>
             <StackPanel Orientation="Horizontal" Margin="0,0,0,24">
                 <Border CornerRadius="10" ClipToBounds="True" Width="164" Height="98">
                     <Border.Background>
@@ -30,7 +24,7 @@
                 </Border>
                 <TextBlock FontSize="14" FontWeight="Regular" HorizontalAlignment="Stretch" Opacity="0.75" Margin="12,0,0,0" MaxWidth="450" TextWrapping="WrapWithOverflow" Text="{DynamicResource NextUpDescription}" />
             </StackPanel>
-            <ui:CardControl x:Name="EnableNextUpTitleCard" Tag="Indexable" Grid.Row="1" Icon="{ui:SymbolIcon MusicNote2Play20}" Margin="0,0,0,24">
+            <ui:CardControl x:Name="EnableNextUpTitleCard" Tag="Indexable" Icon="{ui:SymbolIcon MusicNote2Play20}" Margin="0,0,0,24">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
                         <TextBlock Text="{DynamicResource EnableNextUpTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
@@ -39,7 +33,7 @@
                 </ui:CardControl.Header>
                 <ui:ToggleSwitch Name="NextUpSwitch" IsChecked="{Binding NextUpEnabled, Mode=TwoWay}" />
             </ui:CardControl>
-            <ui:CardControl x:Name="NextUpStayDurationTitleCard" Tag="Indexable" Grid.Row="3" Icon="{ui:SymbolIcon Timer24}" Margin="0,0,0,76">
+            <ui:CardControl x:Name="NextUpStayDurationTitleCard" Tag="Indexable" Icon="{ui:SymbolIcon Timer24}" Margin="0,0,0,3">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
                         <TextBlock Text="{DynamicResource NextUpStayDurationTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
@@ -51,6 +45,10 @@
                     <TextBlock Text="{DynamicResource MillisecondsUnit}" FontSize="14" FontWeight="Regular" Margin="10,0,0,0" VerticalAlignment="Center" />
                 </StackPanel>
             </ui:CardControl>
-        </Grid>
+            <TextBlock Text="{DynamicResource RelatedSettingsTitle}" FontSize="14" FontWeight="SemiBold" Margin="0,12,0,6" />
+            <ui:CardAction x:Name="AppFilteringTitleCard" Tag="Indexable" Margin="0,0,0,76" Icon="{ui:SymbolIcon Filter24}" IsChevronVisible="True" Click="AppFiltering_Click">
+                <ui:TextBlock Text="{DynamicResource AppFilteringTitle}" />
+            </ui:CardAction>
+        </StackPanel>
     </StackPanel>
 </Page>

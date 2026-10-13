@@ -25,4 +25,9 @@ public partial class TaskbarWidgetPage : Page
             () => SettingsManager.Current.TaskbarWidgetSelectedMonitor,
             value => SettingsManager.Current.TaskbarWidgetSelectedMonitor = value);
     }
+
+    private void AppFiltering_Click(object sender, System.Windows.RoutedEventArgs e)
+    {
+        SettingsWindow.NavigateToPage(typeof(AppFilteringPage));
+    }
 }
