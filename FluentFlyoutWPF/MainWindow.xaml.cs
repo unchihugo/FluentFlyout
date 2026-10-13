@@ -48,7 +48,6 @@ public partial class MainWindow : MicaWindow
     public readonly WindowsMediaController.MediaManager mediaManager = new();
 
     // for detecting changes in settings (lazy way)
-    private int _position = SettingsManager.Current.Position;
     private bool _layout = SettingsManager.Current.CompactLayout;
     private bool _repeatEnabled = SettingsManager.Current.RepeatEnabled;
     private bool _shuffleEnabled = SettingsManager.Current.ShuffleEnabled;
@@ -491,9 +490,18 @@ public partial class MainWindow : MicaWindow
         return SettingsManager.Current.VolumeControlEnabled && SettingsManager.Current.VolumeControlAboveMediaFlyout ? 16 : 80;
     }
 
-    private (double left, double top) GetFinalPosition(Rect windowRect, Rect workArea, bool reserveNativeVolumeOsdSpace = false)
+    /// <summary>
+    /// Clamps a flyout position setting to a valid position (0-5). Out-of-range
+    /// values fall back to bottom center.
+    /// </summary>
+    private static int NormalizeFlyoutPosition(int position)
     {
-        int position = SettingsManager.Current.Position;
+        return position is >= 0 and <= 5 ? position : 1;
+    }
+
+    private (double left, double top) GetFinalPosition(Rect windowRect, Rect workArea, bool reserveNativeVolumeOsdSpace = false, int? positionOverride = null)
+    {
+        int position = NormalizeFlyoutPosition(positionOverride ?? SettingsManager.Current.Position);
         double left = position switch
         {
             0 or 3 => workArea.Left + 16,
@@ -509,7 +517,7 @@ public partial class MainWindow : MicaWindow
         return (left, top);
     }
 
-    public void OpenAnimation(MicaWindow window, bool alwaysBottom = false, MonitorInfo? selectedMonitor = null, MicaWindow? aboveReference = null, bool reserveNativeVolumeOsdSpace = false)
+    public void OpenAnimation(MicaWindow window, bool alwaysBottom = false, MonitorInfo? selectedMonitor = null, MicaWindow? aboveReference = null, bool reserveNativeVolumeOsdSpace = false, int? positionOverride = null)
     {
         var eventTriggers = window.Triggers[0] as EventTrigger;
         var beginStoryboard = eventTriggers.Actions[0] as BeginStoryboard;
@@ -518,6 +526,7 @@ public partial class MainWindow : MicaWindow
         DoubleAnimation moveAnimation = (DoubleAnimation)storyboard.Children[0];
         var monitor = selectedMonitor != null ? selectedMonitor.Value : getSelectedMonitor();
         var workArea = monitor.workArea;
+        int position = NormalizeFlyoutPosition(positionOverride ?? SettingsManager.Current.Position);
 
         // prevent flickering
         WindowHelper.SetVisibility(window, false); // window.Visibility = Visibility.Hidden works with some delay
@@ -535,11 +544,11 @@ public partial class MainWindow : MicaWindow
             double refWidth = aboveReference.Width * monitor.dpiX / 96.0;
             double refHeight = aboveReference.Height * monitor.dpiY / 96.0;
             var refRect = new Rect(0, 0, refWidth, refHeight);
-            var (refLeft, refTop) = GetFinalPosition(refRect, workArea, reserveNativeVolumeOsdSpace);
+            var (refLeft, refTop) = GetFinalPosition(refRect, workArea, reserveNativeVolumeOsdSpace, position);
 
             window_left = refLeft + refWidth / 2 - windowRect.Width / 2;
             double aboveTop = refTop - windowRect.Height - 8;
-            bool isTop = SettingsManager.Current.Position switch
+            bool isTop = position switch
             {
                 3 or 4 or 5 => true,
                 _ => false
@@ -558,8 +567,7 @@ public partial class MainWindow : MicaWindow
         // default behavior: position the flyout based on the user's settings
         else if (alwaysBottom == false)
         {
-            _position = SettingsManager.Current.Position;
-            if (_position == 0)
+            if (position == 0)
             {
                 window_left = workArea.Left + 16;
                 moveAnimation.To = workArea.Top + workArea.Height - windowRect.Height - 16;
@@ -568,7 +576,7 @@ public partial class MainWindow : MicaWindow
                 else
                     moveAnimation.From = workArea.Top + workArea.Height - windowRect.Height + 4; // appear from the bottom of the screen
             }
-            else if (_position == 1)
+            else if (position == 1)
             {
                 window_left = workArea.Left + workArea.Width / 2 - windowRect.Width / 2;
                 double bottomMargin = GetBottomCenterFlyoutBottomMargin(reserveNativeVolumeOsdSpace);
@@ -579,7 +587,7 @@ public partial class MainWindow : MicaWindow
                 else
                     moveAnimation.From = moveTo + 20;
             }
-            else if (_position == 2)
+            else if (position == 2)
             {
                 window_left = workArea.Left + workArea.Width - windowRect.Width - 16;
                 moveAnimation.To = workArea.Top + workArea.Height - windowRect.Height - 16;
@@ -588,7 +596,7 @@ public partial class MainWindow : MicaWindow
                 else
                     moveAnimation.From = workArea.Top + workArea.Height - windowRect.Height + 4;
             }
-            else if (_position == 3)
+            else if (position == 3)
             {
                 window_left = workArea.Left + 16;
                 moveAnimation.To = workArea.Top + 16;
@@ -597,7 +605,7 @@ public partial class MainWindow : MicaWindow
                 else
                     moveAnimation.From = workArea.Top + -4;
             }
-            else if (_position == 4)
+            else if (position == 4)
             {
                 window_left = workArea.Left + workArea.Width / 2 - windowRect.Width / 2;
                 moveAnimation.To = workArea.Top + 16;
@@ -606,7 +614,7 @@ public partial class MainWindow : MicaWindow
                 else
                     moveAnimation.From = workArea.Top + -4;
             }
-            else if (_position == 5)
+            else if (position == 5)
             {
                 window_left = workArea.Left + workArea.Width - windowRect.Width - 16;
                 moveAnimation.To = workArea.Top + 16;
