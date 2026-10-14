@@ -62,6 +62,7 @@ public partial class MainWindow : MicaWindow
     private int _themeOption = SettingsManager.Current.AppTheme;
 
     static Mutex singleton = new Mutex(true, "FluentFlyout"); // to prevent multiple instances of the app
+    private bool _volumeShortcutKeyDown;
     private NextUpWindow? nextUpWindow = null; // to prevent multiple instances of NextUpWindow
     private string currentTitle = ""; // to prevent NextUpWindow from showing the same song
 
@@ -1045,9 +1046,32 @@ public partial class MainWindow : MicaWindow
 
     private IntPtr HookCallback(int nCode, IntPtr wParam, IntPtr lParam)
     {
-        if (nCode >= 0 && (wParam == WM_KEYDOWN || wParam == WM_KEYUP))
+        if (nCode >= 0 && (wParam == WM_KEYDOWN || wParam == WM_KEYUP || wParam == WM_SYSKEYDOWN || wParam == WM_SYSKEYUP))
         {
             int vkCode = Marshal.ReadInt32(lParam);
+            bool isKeyDown = wParam == WM_KEYDOWN || wParam == WM_SYSKEYDOWN;
+            bool isKeyUp = wParam == WM_KEYUP || wParam == WM_SYSKEYUP;
+
+            if (vkCode == VK_V)
+            {
+                if (isKeyUp)
+                {
+                    _volumeShortcutKeyDown = false;
+                }
+                else if (isKeyDown && !_volumeShortcutKeyDown)
+                {
+                    _volumeShortcutKeyDown = true;
+
+                    if (SettingsManager.Current.VolumeFlyoutShortcutEnabled
+                        && (GetAsyncKeyState(VK_CONTROL) & 0x8000) != 0
+                        && (GetAsyncKeyState(VK_MENU) & 0x8000) != 0)
+                    {
+                        var activeSession = GetActiveMediaSession();
+                        if (activeSession == null) ShowVolumeFlyout();
+                        else ShowMediaFlyout(withVolume: true);
+                    }
+                }
+            }
 
             bool mediaKeysPressed = vkCode == 0xB3 || vkCode == 0xB0 || vkCode == 0xB1 || vkCode == 0xB2; // Play/Pause, next, previous, stop
             bool volumeKeysPressed = vkCode == 0xAD || vkCode == 0xAE || vkCode == 0xAF; // Mute, Volume Down, Volume Up
@@ -1069,7 +1093,7 @@ public partial class MainWindow : MicaWindow
 
             if (SettingsManager.Current.LockKeysEnabled
                 && !FullscreenDetector.IsFullscreenApplicationRunning()
-                && wParam == WM_KEYUP)
+                && isKeyUp)
             {
                 if (vkCode == 0x14 && SettingsManager.Current.LockKeysCapsEnabled) // Caps Lock
                 {
@@ -1119,7 +1143,15 @@ public partial class MainWindow : MicaWindow
         volumeMixerWindow?.ShowFlyout();
     }
 
-    public async void ShowMediaFlyout(bool toggleMode = false, bool forceShow = false)
+    /// <summary>
+    /// Shows the media flyout.
+    /// </summary>
+    /// <param name="withVolume">
+    /// Also shows the volume flyout, and hides it again when this call hides the media flyout.
+    /// Passed by the manual triggers (tray icon, taskbar widget) so the two stay in sync;
+    /// the media and volume key handlers already show both on their own.
+    /// </param>
+    public async void ShowMediaFlyout(bool toggleMode = false, bool forceShow = false, bool withVolume = false)
     {
         var activeSession = GetActiveMediaSession();
         if (activeSession == null ||
@@ -1127,9 +1159,14 @@ public partial class MainWindow : MicaWindow
             FullscreenDetector.IsFullscreenApplicationRunning())
             return;
 
+        bool showVolumeTogether = withVolume && SettingsManager.Current.VolumeControlEnabled;
+
         // If in toggle mode and flyout is visible, close it
         if (toggleMode && Visibility == Visibility.Visible && !_isHiding)
         {
+            if (showVolumeTogether)
+                volumeMixerWindow?.HideFlyout(); // start both close animations back to back
+
             CloseAnimation(this);
             _isHiding = true;
             cts.Cancel();
@@ -1167,6 +1204,9 @@ public partial class MainWindow : MicaWindow
         var token = cts.Token;
         Visibility = Visibility.Visible;
         WindowHelper.SetTopmost(this);
+
+        if (showVolumeTogether)
+            ShowVolumeFlyout(); // the media flyout is already on screen: both appear together
 
         await RunFlyoutAutoHideLoopAsync(token);
     }
@@ -2162,7 +2202,7 @@ public partial class MainWindow : MicaWindow
             //ThemeService themeService = new ThemeService();
             //themeService.ChangeTheme(MicaWPF.Core.Enums.WindowsTheme.Light);
         }
-        else if (SettingsManager.Current.NIconLeftClick == 1) ShowMediaFlyout();
+        else if (SettingsManager.Current.NIconLeftClick == 1) ShowMediaFlyout(withVolume: true);
     }
 
     private Task PauseOtherSessions(MediaSession currentMediaSession)
@@ -2196,7 +2236,7 @@ public partial class MainWindow : MicaWindow
     private void MediaFlyoutCloseButton_Click(object sender, RoutedEventArgs e)
     {
         // Use the updated ShowMediaFlyout method with toggle mode to close the flyout
-        ShowMediaFlyout(toggleMode: true);
+        ShowMediaFlyout(toggleMode: true, withVolume: true);
     }
 
     private void MediaFlyoutDragHandle_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)

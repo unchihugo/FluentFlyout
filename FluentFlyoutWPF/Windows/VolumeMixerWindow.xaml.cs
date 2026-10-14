@@ -176,14 +176,7 @@ public partial class VolumeMixerWindow : MicaWindow
 
                     if (!mouseOverThis && !mouseOverMedia)
                     {
-                        _mainWindow.CloseAnimation(this);
-                        _isHiding = true;
-                        await Task.Delay(MainWindow.getDuration());
-                        if (_isHiding == false) return;
-
-                        WindowHelper.SetVisibility(this, false);
-                        ViewModel.IsExpanded = false;
-                        _ = Task.Run(() => ShowVolumeOsd());
+                        await FinishHideAsync();
                         break;
                     }
                 }
@@ -193,6 +186,38 @@ public partial class VolumeMixerWindow : MicaWindow
         {
             // do nothing
         }
+    }
+
+    /// <summary>
+    /// Hides the flyout immediately, without waiting for the stay duration.
+    /// Used when the volume flyout is synced with the media flyout.
+    /// </summary>
+    public async void HideFlyout()
+    {
+        if (_isHiding)
+            return;
+
+        _cts.Cancel();
+        _lastFlyoutTime = 0; // dismissed on purpose: don't let the show cooldown swallow the next trigger
+        await FinishHideAsync();
+    }
+
+    /// <summary>
+    /// Plays the close animation, waits for it and hides the window.
+    /// Returns without hiding when the flyout was reopened while the animation was running.
+    /// </summary>
+    private async Task FinishHideAsync()
+    {
+        _mainWindow.CloseAnimation(this);
+        _isHiding = true;
+        await Task.Delay(MainWindow.getDuration());
+
+        if (!_isHiding)
+            return;
+
+        WindowHelper.SetVisibility(this, false);
+        ViewModel.IsExpanded = false;
+        _ = Task.Run(() => ShowVolumeOsd());
     }
 
     private void OnViewModelPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
