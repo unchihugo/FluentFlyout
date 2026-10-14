@@ -299,4 +299,5 @@
     <system:String x:Key="SessionSwitcherAuto">Автоматически</system:String>
     <system:String x:Key="ContextMenuSessionSwitcher">Переключить сеанс</system:String>
     <system:String x:Key="RelatedSettingsTitle">Связанные настройки</system:String>
+    <system:String x:Key="VolumeFlyoutShortcutTitle">Сочетание клавиш</system:String>
 </ResourceDictionary>
