@@ -300,4 +300,5 @@
     <system:String x:Key="ContextMenuSessionSwitcher">Переключить сеанс</system:String>
     <system:String x:Key="RelatedSettingsTitle">Связанные настройки</system:String>
     <system:String x:Key="VolumeFlyoutShortcutTitle">Сочетание клавиш</system:String>
+    <system:String x:Key="VolumeFlyoutShortcutDescription">Нажмите cочетание клавиш, чтобы открыть всплывающее меню громкости.</system:String>
 </ResourceDictionary>
