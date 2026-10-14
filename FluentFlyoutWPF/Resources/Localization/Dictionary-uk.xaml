@@ -298,4 +298,7 @@
     <system:String x:Key="OpenMediaPlayerText">Відкрити медіаплеєр</system:String>
     <system:String x:Key="SessionSwitcherAuto">Автоматично</system:String>
     <system:String x:Key="ContextMenuSessionSwitcher">Змінити сеанс</system:String>
+    <system:String x:Key="RelatedSettingsTitle">Пов’язані налаштування</system:String>
+    <system:String x:Key="VolumeFlyoutShortcutTitle">Сполучення клавіш</system:String>
+    <system:String x:Key="VolumeFlyoutShortcutDescription">Натисніть сполучення клавіш, щоб відкрити спливаюче меню гучності.</system:String>
 </ResourceDictionary>
