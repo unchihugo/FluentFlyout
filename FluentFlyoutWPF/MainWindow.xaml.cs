@@ -184,6 +184,8 @@ public partial class MainWindow : MicaWindow
         mediaManager.OnAnyTimelinePropertyChanged += MediaManager_OnAnyTimelinePropertyChanged;
         mediaManager.OnAnySessionClosed += MediaManager_OnAnySessionClosed;
 
+        InitializeHeadsetControls();
+
         WM_TASKBARCREATED = RegisterWindowMessage("TaskbarCreated");
         WM_SHELLHOOK = RegisterWindowMessage("SHELLHOOK");
         RegisterShellHookWindow(new WindowInteropHelper(this).Handle);
@@ -1575,6 +1577,8 @@ public partial class MainWindow : MicaWindow
             mediaManager.OnAnyTimelinePropertyChanged -= MediaManager_OnAnyTimelinePropertyChanged;
             mediaManager.OnAnySessionClosed -= MediaManager_OnAnySessionClosed;
 
+            DisposeHeadsetControls();
+
             // dispose managed resources
             _positionTimer?.Change(Timeout.Infinite, Timeout.Infinite);
             _positionTimer?.Dispose();
@@ -1788,8 +1792,9 @@ public partial class MainWindow : MicaWindow
                 return 0;
 
             bool isKeyCommand = device == FAPPCOMMAND_KEY;
+            bool isHeadsetCommand = device == FAPPCOMMAND_OEM;
 
-            if (!isKeyCommand)
+            if (!isKeyCommand && !isHeadsetCommand)
                 return 0;
 
             bool result = false;

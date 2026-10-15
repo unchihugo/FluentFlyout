@@ -74,6 +74,7 @@ public static partial class NativeMethods
     internal const int APPCOMMAND_MEDIA_STOP = 13;
     internal const int APPCOMMAND_MEDIA_PLAY_PAUSE = 14;
     internal const int FAPPCOMMAND_KEY = 0x0000;
+    internal const int FAPPCOMMAND_OEM = 0x1000;
 
     #endregion
 
@@ -220,6 +221,13 @@ public static partial class NativeMethods
         public int SizeOfData;
     }
 
+    [StructLayout(LayoutKind.Sequential)]
+    internal struct LASTINPUTINFO
+    {
+        public uint cbSize;
+        public uint dwTime;
+    }
+
     #endregion
 
     #region Delegates
@@ -350,6 +358,10 @@ public static partial class NativeMethods
 
     [LibraryImport("user32.dll", SetLastError = true)]
     internal static partial IntPtr GetForegroundWindow();
+
+    [LibraryImport("user32.dll")]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static partial bool GetLastInputInfo(ref LASTINPUTINFO plii);
     #endregion
 
     #region gdi32.dll
