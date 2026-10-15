@@ -61,6 +61,7 @@ public partial class MainWindow : MicaWindow
     private int _themeOption = SettingsManager.Current.AppTheme;
 
     static Mutex singleton = new Mutex(true, "FluentFlyout"); // to prevent multiple instances of the app
+    private bool _volumeShortcutKeyDown;
     private NextUpWindow? nextUpWindow = null; // to prevent multiple instances of NextUpWindow
     private string currentTitle = ""; // to prevent NextUpWindow from showing the same song
 
@@ -182,6 +183,8 @@ public partial class MainWindow : MicaWindow
         mediaManager.OnAnyPlaybackStateChanged += CurrentSession_OnPlaybackStateChanged;
         mediaManager.OnAnyTimelinePropertyChanged += MediaManager_OnAnyTimelinePropertyChanged;
         mediaManager.OnAnySessionClosed += MediaManager_OnAnySessionClosed;
+
+        InitializeHeadsetControls();
 
         WM_TASKBARCREATED = RegisterWindowMessage("TaskbarCreated");
         WM_SHELLHOOK = RegisterWindowMessage("SHELLHOOK");
@@ -920,9 +923,32 @@ public partial class MainWindow : MicaWindow
 
     private IntPtr HookCallback(int nCode, IntPtr wParam, IntPtr lParam)
     {
-        if (nCode >= 0 && (wParam == WM_KEYDOWN || wParam == WM_KEYUP))
+        if (nCode >= 0 && (wParam == WM_KEYDOWN || wParam == WM_KEYUP || wParam == WM_SYSKEYDOWN || wParam == WM_SYSKEYUP))
         {
             int vkCode = Marshal.ReadInt32(lParam);
+            bool isKeyDown = wParam == WM_KEYDOWN || wParam == WM_SYSKEYDOWN;
+            bool isKeyUp = wParam == WM_KEYUP || wParam == WM_SYSKEYUP;
+
+            if (vkCode == VK_V)
+            {
+                if (isKeyUp)
+                {
+                    _volumeShortcutKeyDown = false;
+                }
+                else if (isKeyDown && !_volumeShortcutKeyDown)
+                {
+                    _volumeShortcutKeyDown = true;
+
+                    if (SettingsManager.Current.VolumeFlyoutShortcutEnabled
+                        && (GetAsyncKeyState(VK_CONTROL) & 0x8000) != 0
+                        && (GetAsyncKeyState(VK_MENU) & 0x8000) != 0)
+                    {
+                        var activeSession = GetActiveMediaSession();
+                        if (activeSession == null) ShowVolumeFlyout();
+                        else ShowMediaFlyout(withVolume: true);
+                    }
+                }
+            }
 
             bool mediaKeysPressed = vkCode == 0xB3 || vkCode == 0xB0 || vkCode == 0xB1 || vkCode == 0xB2; // Play/Pause, next, previous, stop
             bool volumeKeysPressed = vkCode == 0xAD || vkCode == 0xAE || vkCode == 0xAF; // Mute, Volume Down, Volume Up
@@ -944,7 +970,7 @@ public partial class MainWindow : MicaWindow
 
             if (SettingsManager.Current.LockKeysEnabled
                 && !FullscreenDetector.IsFullscreenApplicationRunning()
-                && wParam == WM_KEYUP)
+                && isKeyUp)
             {
                 if (vkCode == 0x14 && SettingsManager.Current.LockKeysCapsEnabled) // Caps Lock
                 {
@@ -1551,6 +1577,8 @@ public partial class MainWindow : MicaWindow
             mediaManager.OnAnyTimelinePropertyChanged -= MediaManager_OnAnyTimelinePropertyChanged;
             mediaManager.OnAnySessionClosed -= MediaManager_OnAnySessionClosed;
 
+            DisposeHeadsetControls();
+
             // dispose managed resources
             _positionTimer?.Change(Timeout.Infinite, Timeout.Infinite);
             _positionTimer?.Dispose();
@@ -1764,8 +1792,9 @@ public partial class MainWindow : MicaWindow
                 return 0;
 
             bool isKeyCommand = device == FAPPCOMMAND_KEY;
+            bool isHeadsetCommand = device == FAPPCOMMAND_OEM;
 
-            if (!isKeyCommand)
+            if (!isKeyCommand && !isHeadsetCommand)
                 return 0;
 
             bool result = false;
