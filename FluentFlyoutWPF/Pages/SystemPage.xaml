@@ -190,7 +190,6 @@
                 <StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <ui:TextBlock Text="{DynamicResource AppFilteringTitle}" />
-                        <ui:InfoBadge Value=" NEW " FontWeight="Medium" FontSize="10" Margin="6,-2,0,-2" Severity="Success" />
                     </StackPanel>
                 </StackPanel>
             </ui:CardAction>
