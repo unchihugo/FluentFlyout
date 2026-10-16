@@ -299,4 +299,6 @@ Nota: Como proyecto de código abierto, estas opciones también están disponibl
     <system:String x:Key="TaskbarWidgetScrollVolumePlayer">Volumen del Reproductor</system:String>
     <system:String x:Key="TaskbarWidgetScrollVolumeMaster">Volumen Maestro</system:String>
     <system:String x:Key="VolumeFlyoutShortcutTitle">Atajos del Teclado</system:String>
+    <system:String x:Key="VolumeFlyoutShortcutDescription">Presionar atajos del teclado para mostrar el Flyout de Volumen.</system:String>
+    <system:String x:Key="OpenMediaPlayerText">Abrir Reproductor</system:String>
 </ResourceDictionary>
