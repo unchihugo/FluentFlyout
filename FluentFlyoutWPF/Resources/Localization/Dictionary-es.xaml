@@ -288,4 +288,14 @@ Nota: Como proyecto de código abierto, estas opciones también están disponibl
     <system:String x:Key="TaskbarWidgetScrollingTextSpeedTitle">Velocidad del Scroll</system:String>
     <system:String x:Key="SearchSettings">Ajustes de búsqueda</system:String>
     <system:String x:Key="TaskbarVisualizerBaselineAutoHideDescription">Oculta automáticamente la base cuando no se reproduce audio</system:String>
+    <system:String x:Key="OnboardingTitle">Empezar</system:String>
+    <system:String x:Key="SessionSwitcherAuto">Automático</system:String>
+    <system:String x:Key="SupporterDescription">¡Gracias!</system:String>
+    <system:String x:Key="ContextMenuSessionSwitcher">Cambiar de sesión</system:String>
+    <system:String x:Key="SupporterTitle">Colaborador</system:String>
+    <system:String x:Key="RelatedSettingsTitle">Ajustes relacionados</system:String>
+    <system:String x:Key="TaskbarWidgetScrollVolumeTitle">Ajustar el volumen</system:String>
+    <system:String x:Key="TaskbarWidgetScrollVolumeDescription">Utilice la rueda del ratón sobre el widget de la barra de tareas para ajustar el volumen</system:String>
+    <system:String x:Key="TaskbarWidgetScrollVolumePlayer">Volumen del Reproductor</system:String>
+    <system:String x:Key="TaskbarWidgetScrollVolumeMaster">Volumen Maestro</system:String>
 </ResourceDictionary>
