@@ -81,6 +81,18 @@ public partial class UserSettings : ObservableObject
     public partial int Position { get; set; }
 
     /// <summary>
+    /// Custom X coordinate for the media flyout
+    /// </summary>
+    [ObservableProperty]
+    public partial double CustomFlyoutLeft { get; set; }
+
+    /// <summary>
+    /// Custom Y coordinate for the media flyout
+    /// </summary>
+    [ObservableProperty]
+    public partial double CustomFlyoutTop { get; set; }
+
+    /// <summary>
     /// Scale for flyout animation speed
     /// </summary>
     [ObservableProperty]
@@ -270,6 +282,12 @@ public partial class UserSettings : ObservableObject
     /// </summary>
     [ObservableProperty]
     public partial bool MediaFlyoutVolumeKeysExcluded { get; set; }
+
+    /// <summary>
+    /// Show drag handle on media flyout
+    /// </summary>
+    [ObservableProperty]
+    public partial bool MediaFlyoutShowDragHandle { get; set; } = true;
 
     /// <summary>
     /// Use symbol-style tray icon
@@ -742,6 +760,8 @@ public partial class UserSettings : ObservableObject
         CompactLayout = false;
         FlyoutSelectedMonitor = 0;
         Position = 0;
+        CustomFlyoutLeft = double.NaN;
+        CustomFlyoutTop = double.NaN;
         FlyoutAnimationSpeed = 2;
         PlayerInfoEnabled = true;
         RepeatEnabled = false;
@@ -767,6 +787,7 @@ public partial class UserSettings : ObservableObject
         MediaFlyoutEnabled = true;
         MediaFlyoutAlwaysDisplay = false;
         MediaFlyoutVolumeKeysExcluded = false;
+        MediaFlyoutShowDragHandle = true;
         NIconSymbol = false;
         NIconHide = false;
         DisableIfFullscreen = true;
@@ -1094,11 +1115,99 @@ public partial class UserSettings : ObservableObject
         }
     }
 
+    partial void OnPositionChanged(int oldValue, int newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+
+        MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+        mainWindow?.UpdatePositionFromSettings();
+    }
+
+    partial void OnVolumeControlAboveMediaFlyoutChanged(bool oldValue, bool newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+
+        MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+        mainWindow?.UpdatePositionFromSettings();
+    }
+
     partial void OnVolumeControlEnabledChanged(bool oldValue, bool newValue)
     {
-        if (newValue == true || oldValue == newValue || _initializing) return;
+        if (oldValue == newValue || _initializing) return;
 
-        // re-enable native volume flyout
-        VolumeMixerWindow.ShowVolumeOsd();
+        if (!newValue)
+        {
+            // re-enable native volume flyout
+            VolumeMixerWindow.ShowVolumeOsd();
+        }
+        else if (VolumeControlAboveMediaFlyout)
+        {
+            MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+            mainWindow?.UpdatePositionFromSettings();
+        }
+    }
+
+    partial void OnMediaFlyoutShowDragHandleChanged(bool oldValue, bool newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+
+        MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+        mainWindow?.UpdateMediaFlyoutDragHandleVisibility();
+    }
+
+    partial void OnCompactLayoutChanged(bool oldValue, bool newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+
+        MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+        mainWindow?.UpdateMediaFlyoutLayout();
+    }
+
+    partial void OnRepeatEnabledChanged(bool oldValue, bool newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+
+        MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+        mainWindow?.UpdateMediaFlyoutLayout();
+    }
+
+    partial void OnShuffleEnabledChanged(bool oldValue, bool newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+
+        MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+        mainWindow?.UpdateMediaFlyoutLayout();
+    }
+
+    partial void OnPlayerInfoEnabledChanged(bool oldValue, bool newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+
+        MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+        mainWindow?.UpdateMediaFlyoutLayout();
+    }
+
+    partial void OnMediaFlyoutAlwaysDisplayChanged(bool oldValue, bool newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+
+        MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+        mainWindow?.UpdateMediaFlyoutLayout();
+    }
+
+    partial void OnCenterTitleArtistChanged(bool oldValue, bool newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+
+        MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+        mainWindow?.UpdateMediaFlyoutLayout();
+    }
+
+    partial void OnSeekbarEnabledChanged(bool oldValue, bool newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+
+        MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+        mainWindow?.UpdateMediaFlyoutLayout();
     }
 }
