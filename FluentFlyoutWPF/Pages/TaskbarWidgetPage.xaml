@@ -208,7 +208,13 @@
                         <TextBlock Text="{DynamicResource TaskbarWidgetFixedWidthDescription}" FontSize="12" Opacity="0.5" />
                     </StackPanel>
                 </ui:CardControl.Header>
-                <ui:ToggleSwitch IsChecked="{Binding TaskbarWidgetFixedWidth, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}" />
+                <StackPanel Orientation="Horizontal">
+                    <ui:TextBox Width="60" ClearButtonEnabled="False" Text="{Binding TaskbarWidgetFixedWidthValueText, Mode=TwoWay}"
+                                IsEnabled="{Binding TaskbarWidgetFixedWidth}" />
+                    <TextBlock Text="{DynamicResource PixelsUnit}" FontSize="14" FontWeight="Regular" Margin="10,0,0,0" VerticalAlignment="Center"
+                               IsEnabled="{Binding TaskbarWidgetFixedWidth}" />
+                    <ui:ToggleSwitch IsChecked="{Binding TaskbarWidgetFixedWidth, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}" Margin="16,0,0,0" />
+                </StackPanel>
             </ui:CardControl>
             <ui:CardControl x:Name="TaskbarWidgetAutoHideTitleCard" Tag="Indexable" Grid.Row="10" Icon="{ui:SymbolIcon EyeLines24}" Margin="0,0,0,12">
                 <ui:CardControl.Header>
