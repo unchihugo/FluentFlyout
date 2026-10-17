@@ -300,5 +300,5 @@
     <system:String x:Key="ContextMenuSessionSwitcher">切换媒体会话</system:String>
     <system:String x:Key="RelatedSettingsTitle">相关设置</system:String>
     <system:String x:Key="VolumeFlyoutShortcutTitle">键盘快捷键</system:String>
-    <system:String x:Key="VolumeFlyoutShortcutDescription">按下快捷键以显示音量浮窗。</system:String>
+    <system:String x:Key="VolumeFlyoutShortcutDescription">按下快捷键以显示音量浮窗</system:String>
 </ResourceDictionary>
