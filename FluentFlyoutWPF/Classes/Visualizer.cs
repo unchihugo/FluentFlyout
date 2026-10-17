@@ -22,9 +22,36 @@ namespace FluentFlyoutWPF.Classes
         // Keep at 2: only an exact 2:1 minification turns WPF's default Linear
         // filter into a true box average. Other factors discard the supersampling.
         private const int Supersample = 2;
-        private readonly int ImageWidth = 76 * Supersample;
+
+        // user-configurable width of the bar area (DIP), see TaskbarVisualizerWidth
+        public const int MinImageWidth = 40;
+        public const int MaxImageWidth = 140;
+        public const int DefaultImageWidth = 76;
+
+        // visualizer styles, see TaskbarVisualizerStyle
+        public const int StyleRounded = 0;
+        public const int StyleSquare = 1;
+        public const int StyleThin = 2;
+        public const int StyleGradient = 3;
+        public const int StyleSegmented = 4;
+        public const int StyleWaveform = 5;
+        public const int StyleCount = 6;
+
+        // visualizer color modes, see TaskbarVisualizerColorMode
+        public const int ColorModeSingle = 0;
+        public const int ColorModeAlbumArt = 1;
+        public const int ColorModeRainbow = 2;
+        public const int ColorModeCount = 3;
+
+        private int ImageWidth => Math.Clamp(SettingsManager.Current.TaskbarVisualizerWidth, MinImageWidth, MaxImageWidth) * Supersample;
         private readonly int ImageHeight = 32 * Supersample;
         private readonly int BarSpacing = 2 * Supersample;
+
+        /// <summary>
+        /// Raised when the backing bitmap is (re)created (e.g. after the width setting changed),
+        /// so the hosting control can rebind its image source.
+        /// </summary>
+        public event Action<WriteableBitmap?>? BitmapChanged;
 
         private WasapiLoopbackCapture? _capture;
         private MMDevice? _renderDevice;
@@ -146,6 +173,29 @@ namespace FluentFlyoutWPF.Classes
                     _bitmap = new WriteableBitmap(ImageWidth, ImageHeight, 96, 96, PixelFormats.Bgra32, null);
                 }
             });
+        }
+
+        /// <summary>
+        /// Recreates the bitmap when the configured width changed and redraws it.
+        /// Used when the width or the style setting is changed from the settings UI.
+        /// </summary>
+        public void RefreshBitmap()
+        {
+            int targetWidth = ImageWidth;
+
+            bool needsRecreate;
+            lock (_lock)
+            {
+                needsRecreate = _bitmap == null || _bitmap.PixelWidth != targetWidth || _bitmap.PixelHeight != ImageHeight;
+            }
+
+            if (needsRecreate)
+            {
+                InitializeBitmap();
+                BitmapChanged?.Invoke(Bitmap);
+            }
+
+            UpdateBitmap();
         }
 
         private void OnDefaultDeviceChanged(object? sender, DefaultDeviceChangedEventArgs e)
@@ -470,35 +520,41 @@ namespace FluentFlyoutWPF.Classes
 
         private unsafe void DrawBars(int stride, Span<byte> buffer)
         {
-            // Resolve brush once 
-            SolidColorBrush brush = BitmapHelper.SavedDominantColors.Count > 0
-                ? BitmapHelper.SavedDominantColors.Last()
-                : (SolidColorBrush)Application.Current.TryFindResource("MicaWPF.Brushes.SystemAccentColorTertiary");
-
-            byte b = brush.Color.B;
-            byte g = brush.Color.G;
-            byte r = brush.Color.R;
+            // Resolve the palette once per frame (see TaskbarVisualizerColorMode)
+            (byte r, byte g, byte b)[] barColors = GetBarColors();
 
             bool centeredBars = SettingsManager.Current.TaskbarVisualizerCenteredBars;
             int barBaseline = SettingsManager.Current.TaskbarVisualizerBaseline ? Supersample * 2 : 0;
 
             int centerY = ImageHeight / 2;
 
+            int style = Math.Clamp(SettingsManager.Current.TaskbarVisualizerStyle, 0, StyleCount - 1);
+
             // Horizontal layout 
             ComputeLayout(ImageWidth, BarCount, BarSpacing,
-                out int barWidth,
+                out int slotWidth,
                 out int offsetX);
-
-            // Radius 
-            float baseRadius = GetCornerRadius();
 
             // AA constants 
             const float aa = 1.25f;
             float invAA = 1f / aa;
 
+            if (style == StyleWaveform)
+            {
+                DrawWaveform(buffer, stride, offsetX, slotWidth, centerY, barBaseline, centeredBars, barColors);
+                return;
+            }
+
+            // "thin" draws a narrow bar centered inside its slot
+            int barWidth = style == StyleThin ? Math.Max(Supersample, slotWidth / 3) : slotWidth;
+
+            // Radius 
+            float baseRadius = GetCornerRadius();
+
             for (int i = 0; i < BarCount; i++)
             {
-                int barX = offsetX + i * (barWidth + BarSpacing);
+                int slotX = offsetX + i * (slotWidth + BarSpacing);
+                int barX = slotX + (slotWidth - barWidth) / 2;
 
                 int barHeight = GetBarHeight(_barValues[i], barBaseline);
 
@@ -508,16 +564,228 @@ namespace FluentFlyoutWPF.Classes
                 ComputeVertical(centeredBars, centerY, barHeight, out int barY, out int barEndY);
 
                 // Clamp radius per bar
-                float radius = ClampRadius(baseRadius, barWidth, barHeight);
-                float radiusSq = radius * radius;
+                float radius = style switch
+                {
+                    StyleSquare => 0f,
+                    StyleThin => barWidth * 0.5f,
+                    _ => ClampRadius(baseRadius, barWidth, barHeight),
+                };
+
+                var (r, g, b) = i < barColors.Length ? barColors[i] : barColors[^1];
 
                 RasterizeBar(
                     buffer, stride,
                     barX, barWidth,
                     barY, barEndY,
                     centeredBars,
-                    radius, radiusSq, invAA,
-                    b, g, r);
+                    radius, radius * radius, invAA,
+                    b, g, r,
+                    style == StyleSegmented ? Supersample : 0,
+                    style == StyleGradient);
+            }
+        }
+
+        /// <summary>
+        /// Colors used by the visualizer, one entry per bar, based on <c>TaskbarVisualizerColorMode</c>:
+        /// 0 = single color (accent / cover's dominant color), 1 = gradient built from the album art palette,
+        /// 2 = rainbow sweep.
+        /// </summary>
+        private (byte r, byte g, byte b)[] GetBarColors()
+        {
+            int count = Math.Min(BarCount, _barValues?.Length ?? 0);
+            if (count <= 0)
+                return [];
+
+            var colors = new (byte r, byte g, byte b)[count];
+            int mode = Math.Clamp(SettingsManager.Current.TaskbarVisualizerColorMode, 0, ColorModeCount - 1);
+
+            if (mode == ColorModeAlbumArt)
+            {
+                var palette = BitmapHelper.GetVisualizerPalette(4);
+                if (palette.Count >= 2)
+                {
+                    for (int i = 0; i < count; i++)
+                    {
+                        float t = count == 1 ? 0f : i / (float)(count - 1);
+                        colors[i] = SamplePalette(palette, t);
+                    }
+                    return colors;
+                }
+
+                // only one color available -> use it for every bar
+                if (palette.Count == 1)
+                {
+                    Color single = palette[0].Color;
+                    for (int i = 0; i < count; i++)
+                        colors[i] = (single.R, single.G, single.B);
+                    return colors;
+                }
+            }
+            else if (mode == ColorModeRainbow)
+            {
+                // start the sweep at the cover's dominant hue so it still matches the artwork
+                double baseHue = 0;
+                var coverColors = BitmapHelper.GetVisualizerPalette(1);
+                if (coverColors.Count > 0)
+                    baseHue = GetHue(coverColors[0].Color);
+
+                for (int i = 0; i < count; i++)
+                {
+                    float t = count == 1 ? 0f : i / (float)(count - 1);
+                    colors[i] = FromHsv((baseHue + (t * 300.0)) % 360.0, 0.78, 0.95);
+                }
+                return colors;
+            }
+
+            // single color for all bars
+            SolidColorBrush brush = BitmapHelper.SavedDominantColors.Count > 0
+                ? BitmapHelper.SavedDominantColors.Last()
+                : (SolidColorBrush)Application.Current.TryFindResource("MicaWPF.Brushes.SystemAccentColorTertiary");
+
+            Color flat = brush.Color;
+            for (int i = 0; i < count; i++)
+                colors[i] = (flat.R, flat.G, flat.B);
+
+            return colors;
+        }
+
+        private static (byte r, byte g, byte b) SamplePalette(List<SolidColorBrush> palette, float t)
+        {
+            t = Math.Clamp(t, 0f, 1f);
+
+            float scaled = t * (palette.Count - 1);
+            int i0 = (int)MathF.Floor(scaled);
+            int i1 = Math.Min(i0 + 1, palette.Count - 1);
+            float f = scaled - i0;
+
+            Color c0 = palette[i0].Color;
+            Color c1 = palette[i1].Color;
+
+            return ((byte)(c0.R + (c1.R - c0.R) * f),
+                    (byte)(c0.G + (c1.G - c0.G) * f),
+                    (byte)(c0.B + (c1.B - c0.B) * f));
+        }
+
+        private static (byte r, byte g, byte b) SampleRamp((byte r, byte g, byte b)[] ramp, float t)
+        {
+            if (ramp.Length == 0)
+                return (255, 255, 255);
+            if (ramp.Length == 1)
+                return ramp[0];
+
+            t = Math.Clamp(t, 0f, 1f);
+
+            float scaled = t * (ramp.Length - 1);
+            int i0 = (int)MathF.Floor(scaled);
+            int i1 = Math.Min(i0 + 1, ramp.Length - 1);
+            float f = scaled - i0;
+
+            return ((byte)(ramp[i0].r + (ramp[i1].r - ramp[i0].r) * f),
+                    (byte)(ramp[i0].g + (ramp[i1].g - ramp[i0].g) * f),
+                    (byte)(ramp[i0].b + (ramp[i1].b - ramp[i0].b) * f));
+        }
+
+        private static double GetHue(Color c)
+        {
+            double r = c.R / 255.0, g = c.G / 255.0, b = c.B / 255.0;
+            double max = Math.Max(r, Math.Max(g, b));
+            double min = Math.Min(r, Math.Min(g, b));
+            double delta = max - min;
+
+            if (delta < 1e-6)
+                return 0;
+
+            double hue;
+            if (max == r) hue = 60 * (((g - b) / delta) % 6);
+            else if (max == g) hue = 60 * (((b - r) / delta) + 2);
+            else hue = 60 * (((r - g) / delta) + 4);
+
+            return (hue + 360) % 360;
+        }
+
+        private static (byte r, byte g, byte b) FromHsv(double h, double s, double v)
+        {
+            double c = v * s;
+            double x = c * (1 - Math.Abs(((h / 60.0) % 2) - 1));
+            double m = v - c;
+
+            double r, g, b;
+            if (h < 60) { r = c; g = x; b = 0; }
+            else if (h < 120) { r = x; g = c; b = 0; }
+            else if (h < 180) { r = 0; g = c; b = x; }
+            else if (h < 240) { r = 0; g = x; b = c; }
+            else if (h < 300) { r = x; g = 0; b = c; }
+            else { r = c; g = 0; b = x; }
+
+            return ((byte)((r + m) * 255), (byte)((g + m) * 255), (byte)((b + m) * 255));
+        }
+
+        /// <summary>
+        /// Style 5 (waveform): a continuous line that follows the interpolated bar values.
+        /// </summary>
+        private unsafe void DrawWaveform(
+            Span<byte> buffer,
+            int stride,
+            int offsetX,
+            int slotWidth,
+            int centerY,
+            int barBaseline,
+            bool centeredBars,
+            (byte r, byte g, byte b)[] barColors)
+        {
+            if (_barValues == null || _barValues.Length == 0)
+                return;
+
+            int count = Math.Min(BarCount, _barValues.Length);
+            if (count <= 0)
+                return;
+
+            int thickness = Supersample + 1;
+            float pitch = slotWidth + BarSpacing;
+
+            for (int x = 0; x < ImageWidth; x++)
+            {
+                float pos = (x - offsetX) / pitch - 0.5f;
+                float value;
+
+                if (pos <= 0f)
+                {
+                    value = _barValues[0];
+                }
+                else if (pos >= count - 1)
+                {
+                    value = _barValues[count - 1];
+                }
+                else
+                {
+                    int i0 = (int)pos;
+                    float f = pos - i0;
+                    float v0 = _barValues[i0];
+                    float v1 = i0 + 1 < count ? _barValues[i0 + 1] : v0;
+                    value = v0 + (v1 - v0) * f;
+                }
+
+                int height = GetBarHeight(value, barBaseline);
+                if (height <= 0)
+                    continue;
+
+                int lineY = centeredBars ? centerY - (height >> 1) : ImageHeight - height;
+
+                int yStart = Math.Max(0, lineY - thickness / 2);
+                int yEnd = Math.Min(ImageHeight, yStart + thickness);
+
+                // follow the palette along the horizontal axis
+                float colorT = ImageWidth <= 1 ? 0f : x / (float)(ImageWidth - 1);
+                var (cr, cg, cb) = SampleRamp(barColors, colorT);
+
+                for (int y = yStart; y < yEnd; y++)
+                {
+                    int index = y * stride + (x << 2);
+                    if (index + 3 >= buffer.Length)
+                        continue;
+
+                    WritePixel(buffer, index, cb, cg, cr, 255);
+                }
             }
         }
 
@@ -581,7 +849,9 @@ namespace FluentFlyoutWPF.Classes
             float radius,
             float radiusSq,
             float invAA,
-            byte b, byte g, byte r)
+            byte b, byte g, byte r,
+            int segmentGap = 0,
+            bool verticalFade = false)
         {
             float left = barX;
             float right = barX + barWidth;
@@ -593,8 +863,23 @@ namespace FluentFlyoutWPF.Classes
             float innerTop = top + radius;
             float innerBottom = bottom - radius;
 
+            int barHeight = barEndY - barY;
+            int segmentPitch = segmentGap * 3;
+
             for (int y = barY; y < barEndY && y < ImageHeight && y >= 0; y++)
             {
+                // segmented (VU meter) styles leave small gaps between the segments
+                if (segmentGap > 0 && ((barEndY - 1 - y) % segmentPitch) < segmentGap)
+                    continue;
+
+                // gradient styles fade the bar out towards its base
+                int rowAlpha = 255;
+                if (verticalFade && barHeight > 1)
+                {
+                    float t = (y - barY) / (float)(barHeight - 1); // 0 at the tip, 1 at the base
+                    rowAlpha = (int)(255 * (1f - 0.7f * t));
+                }
+
                 int row = y * stride;
                 float py = y + 0.5f;
 
@@ -609,21 +894,21 @@ namespace FluentFlyoutWPF.Classes
                     // CENTER
                     if (px >= innerLeft && px <= innerRight)
                     {
-                        WritePixel(buffer, index, b, g, r, 255);
+                        WritePixel(buffer, index, b, g, r, (byte)rowAlpha);
                         continue;
                     }
 
                     // SIDES
                     if (py >= innerTop && py <= innerBottom)
                     {
-                        WritePixel(buffer, index, b, g, r, 255);
+                        WritePixel(buffer, index, b, g, r, (byte)rowAlpha);
                         continue;
                     }
 
                     // FLAT BOTTOM
                     if (!centeredBars && py >= innerBottom)
                     {
-                        WritePixel(buffer, index, b, g, r, 255);
+                        WritePixel(buffer, index, b, g, r, (byte)rowAlpha);
                         continue;
                     }
 
@@ -644,7 +929,7 @@ namespace FluentFlyoutWPF.Classes
 
                     if (alpha > 1f) alpha = 1f;
 
-                    WritePixel(buffer, index, b, g, r, (byte)(255 * alpha));
+                    WritePixel(buffer, index, b, g, r, (byte)(rowAlpha * alpha));
                 }
             }
         }

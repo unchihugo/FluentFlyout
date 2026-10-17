@@ -126,6 +126,51 @@
                 </StackPanel>
             </ui:CardControl>
 
+            <ui:CardControl x:Name="TaskbarVisualizerWidthTitleCard" Tag="Indexable" Icon="{ui:SymbolIcon AutoFitWidth24}" Margin="0,0,0,3">
+                <ui:CardControl.Header>
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="{DynamicResource TaskbarVisualizerWidthTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
+                        <TextBlock Text="{DynamicResource TaskbarVisualizerWidthDescription}" FontSize="12" Opacity="0.5" />
+                    </StackPanel>
+                </ui:CardControl.Header>
+                <StackPanel Orientation="Horizontal" Opacity="{Binding IsPremiumUnlocked, Converter={StaticResource BoolToFullHalfOpacityConverter}}" >
+                    <Slider Minimum="40" Maximum="140" Value="{Binding TaskbarVisualizerWidth, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}" TickFrequency="4" IsSnapToTickEnabled="True" Width="150"
+                            IsMoveToPointEnabled="True" />
+                    <ui:TextBlock Text="{Binding TaskbarVisualizerWidth}" Width="24" TextAlignment="Center" Margin="12,0,0,0" />
+                </StackPanel>
+            </ui:CardControl>
+
+            <ui:CardControl x:Name="TaskbarVisualizerStyleTitleCard" Tag="Indexable" Icon="{ui:SymbolIcon PaintBrush24}" Margin="0,0,0,3">
+                <ui:CardControl.Header>
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="{DynamicResource TaskbarVisualizerStyleTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
+                        <TextBlock Text="{DynamicResource TaskbarVisualizerStyleDescription}" FontSize="12" Opacity="0.5" />
+                    </StackPanel>
+                </ui:CardControl.Header>
+                <ComboBox SelectedIndex="{Binding TaskbarVisualizerStyle}" IsEnabled="{Binding IsPremiumUnlocked}" Style="{StaticResource DefaultComboBoxStyle}">
+                    <ComboBoxItem Content="{DynamicResource TaskbarVisualizerStyleRounded}" />
+                    <ComboBoxItem Content="{DynamicResource TaskbarVisualizerStyleSquare}" />
+                    <ComboBoxItem Content="{DynamicResource TaskbarVisualizerStyleThin}" />
+                    <ComboBoxItem Content="{DynamicResource TaskbarVisualizerStyleGradient}" />
+                    <ComboBoxItem Content="{DynamicResource TaskbarVisualizerStyleSegmented}" />
+                    <ComboBoxItem Content="{DynamicResource TaskbarVisualizerStyleWaveform}" />
+                </ComboBox>
+            </ui:CardControl>
+
+            <ui:CardControl x:Name="TaskbarVisualizerColorModeTitleCard" Tag="Indexable" Icon="{ui:SymbolIcon ColorFill24}" Margin="0,0,0,3">
+                <ui:CardControl.Header>
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="{DynamicResource TaskbarVisualizerColorModeTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
+                        <TextBlock Text="{DynamicResource TaskbarVisualizerColorModeDescription}" FontSize="12" Opacity="0.5" />
+                    </StackPanel>
+                </ui:CardControl.Header>
+                <ComboBox SelectedIndex="{Binding TaskbarVisualizerColorMode}" IsEnabled="{Binding IsPremiumUnlocked}" Style="{StaticResource DefaultComboBoxStyle}">
+                    <ComboBoxItem Content="{DynamicResource TaskbarVisualizerColorSingle}" />
+                    <ComboBoxItem Content="{DynamicResource TaskbarVisualizerColorAlbumArt}" />
+                    <ComboBoxItem Content="{DynamicResource TaskbarVisualizerColorRainbow}" />
+                </ComboBox>
+            </ui:CardControl>
+
             <ui:CardControl x:Name="TaskbarVisualizerCenteredBarsTitleCard" Tag="Indexable" Icon="{ui:SymbolIcon AlignCenterHorizontal24, Filled=True}" Margin="0,0,0,3">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
