@@ -29,8 +29,6 @@ $attach = [regex]::Matches($main, "(?m)^\s*mediaManager\.(?:$events) \+= [^;]+;"
     ForEach-Object { $_.Value.Trim() }
 $detach = [regex]::Matches($main, "(?m)^\s*mediaManager\.(?:$events) -= [^;]+;") |
     ForEach-Object { $_.Value.Trim() }
-$constructor = $main.Substring(0, $main.IndexOf('    private async Task CheckForExperimentsOnStartupAsync'))
-$initialRefresh = if ($constructor.Contains('RefreshFilteredMedia();')) { 'RefreshFilteredMedia();' } else { '' }
 $generated = @"
 using FluentFlyout.Classes.Settings;
 using Windows.Media.Control;
@@ -41,7 +39,7 @@ namespace FluentFlyoutWPF;
 public partial class MainWindow
 {
 $($methods -join "`n")
-    private void AttachMediaEvents() { $($attach -join ' ') $initialRefresh }
+    private void AttachMediaEvents() { $($attach -join ' ') }
     private void DetachMediaEvents() { $($detach -join ' ') }
 }
 "@

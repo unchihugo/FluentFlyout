@@ -112,11 +112,6 @@ var tests = new (string Name, Action Run)[]
         window.Dispatcher.Drain();
         Equal(updates, window.Updates);
     }),
-    ("pre-existing sessions are refreshed without an initial library event", () =>
-    {
-        var (window, manager, spotify, edge) = Create(false);
-        Equal(edge.Id, window.TaskbarTarget);
-    }),
     ("focus changes preserve a manual selection", () =>
     {
         var (window, manager, spotify, edge) = Create();

@@ -224,8 +224,6 @@ public partial class MainWindow : MicaWindow
             // check for updates on startup
             _ = CheckForUpdatesOnStartupAsync();
         });
-
-        RefreshFilteredMedia();
     }
 
     private async Task CheckForExperimentsOnStartupAsync(string previousVersion)
