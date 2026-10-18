@@ -320,15 +320,11 @@ public partial class UserSettings : ObservableObject
     [ObservableProperty]
     public partial bool PauseOtherSessionsEnabled { get; set; }
 
-    /// <summary>
-    /// Allow users to select which active media session FluentFlyout controls.
-    /// </summary>
     [ObservableProperty]
-    public partial bool MediaSessionSwitchingEnabled { get; set; }
+    public partial string PinnedSessionId { get; set; }
 
     /// <summary>
-    /// Return to Windows' media-session selection when another allowed session starts playing
-    /// after the user manually selected a player.
+    /// Release the manual player selection when another allowed session starts playing.
     /// </summary>
     [ObservableProperty]
     public partial bool MediaSessionAutoFollowEnabled { get; set; }
@@ -785,7 +781,7 @@ public partial class UserSettings : ObservableObject
         LastKnownVersion = string.Empty;
         SeekbarEnabled = false;
         PauseOtherSessionsEnabled = false;
-        MediaSessionSwitchingEnabled = true;
+        PinnedSessionId = string.Empty;
         MediaSessionAutoFollowEnabled = true;
         LockKeysAnimated = true;
         LockKeysInsertEnabled = true;
@@ -1083,14 +1079,6 @@ public partial class UserSettings : ObservableObject
 
         MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
         mainWindow?.RefreshFilteredMedia();
-    }
-
-    partial void OnMediaSessionSwitchingEnabledChanged(bool oldValue, bool newValue)
-    {
-        if (oldValue == newValue || _initializing) return;
-
-        if (Application.Current?.MainWindow is MainWindow mainWindow)
-            mainWindow.RefreshFilteredMedia();
     }
 
     partial void OnAppFilteringModeChanged(int oldValue, int newValue)

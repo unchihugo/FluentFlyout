@@ -117,5 +117,15 @@
                 </StackPanel>
             </ui:CardControl>
         </StackPanel>
+        <TextBlock Text="{DynamicResource MediaFlyoutTitle}" FontSize="14" FontWeight="SemiBold" Margin="0,0,0,6" />
+        <ui:CardControl x:Name="MediaSessionAutoFollowTitleCard" Tag="Indexable" Icon="{ui:SymbolIcon VideoPlayPause24}">
+            <ui:CardControl.Header>
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Text="{DynamicResource MediaSessionAutoFollowTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
+                    <TextBlock Text="{DynamicResource MediaSessionAutoFollowDescription}" FontSize="12" Opacity="0.5" TextWrapping="Wrap" MaxWidth="450" />
+                </StackPanel>
+            </ui:CardControl.Header>
+            <ui:ToggleSwitch IsChecked="{Binding MediaSessionAutoFollowEnabled, Mode=TwoWay}" />
+        </ui:CardControl>
     </StackPanel>
 </Page>
