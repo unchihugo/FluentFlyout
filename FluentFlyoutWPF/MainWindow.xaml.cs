@@ -182,6 +182,8 @@ public partial class MainWindow : MicaWindow
         mediaManager.OnAnyMediaPropertyChanged += MediaManager_OnAnyMediaPropertyChanged;
         mediaManager.OnAnyPlaybackStateChanged += CurrentSession_OnPlaybackStateChanged;
         mediaManager.OnAnyTimelinePropertyChanged += MediaManager_OnAnyTimelinePropertyChanged;
+        mediaManager.OnFocusedSessionChanged += MediaManager_OnFocusedSessionChanged;
+        mediaManager.OnAnySessionOpened += MediaManager_OnAnySessionOpened;
         mediaManager.OnAnySessionClosed += MediaManager_OnAnySessionClosed;
 
         InitializeHeadsetControls();
@@ -222,6 +224,8 @@ public partial class MainWindow : MicaWindow
             // check for updates on startup
             _ = CheckForUpdatesOnStartupAsync();
         });
+
+        RefreshFilteredMedia();
     }
 
     private async Task CheckForExperimentsOnStartupAsync(string previousVersion)
@@ -373,24 +377,41 @@ public partial class MainWindow : MicaWindow
 
     public void RefreshFilteredMedia()
     {
-        UpdateTaskbar();
+        if (_isCleaningUp) return;
+        if (!Dispatcher.CheckAccess())
+        {
+            Dispatcher.BeginInvoke(new Action(RefreshFilteredMedia));
+            return;
+        }
+
+        var activeSession = GetActiveMediaSession();
+        UpdateTaskbar(activeSession);
+        if (activeSession == null)
+        {
+            HandlePlayBackState(GlobalSystemMediaTransportControlsSessionPlaybackStatus.Closed);
+            if (IsVisible)
+            {
+                cts.Cancel();
+                _isHiding = true;
+                Hide();
+            }
+            return;
+        }
 
         if (IsVisible)
         {
-            var activeSession = GetActiveMediaSession();
-
-            // UpdateUI handles a null value internally so we haven't checked for null here.
-            UpdateUI(activeSession!);
-
-            if (activeSession != null)
-            {
-                HandlePlayBackState(activeSession.ControlSession.GetPlaybackInfo()?.PlaybackStatus);
-            }
-            else
-            {
-                HandlePlayBackState(GlobalSystemMediaTransportControlsSessionPlaybackStatus.Closed);
-            }
+            UpdateUI(activeSession);
+            RefreshSeekbarPosition(activeSession);
+            HandlePlayBackState(activeSession.ControlSession.GetPlaybackInfo()?.PlaybackStatus);
         }
+    }
+
+    private void RefreshSeekbarPosition(MediaSession mediaSession)
+    {
+        if (!_seekBarEnabled || _isDragging) return;
+
+        _lastSelfUpdateTimestamp = DateTime.Now;
+        UpdateSeekbarCurrentDuration(mediaSession.ControlSession.GetTimelineProperties().Position);
     }
 
     public async Task<bool> TrySkipPreviousAsync()
@@ -694,7 +715,11 @@ public partial class MainWindow : MicaWindow
 
     public void UpdateTaskbar()
     {
-        var activeSession = GetActiveMediaSession();
+        UpdateTaskbar(GetActiveMediaSession());
+    }
+
+    private void UpdateTaskbar(MediaSession? activeSession)
+    {
         if (!mediaManager.IsStarted || activeSession == null)
         {
             taskbarWindow?.UpdateUi("-", "-", null, GlobalSystemMediaTransportControlsSessionPlaybackStatus.Closed);
@@ -896,8 +921,25 @@ public partial class MainWindow : MicaWindow
         }
     }
 
+    private void MediaManager_OnFocusedSessionChanged(MediaSession mediaSession)
+    {
+        RefreshFilteredMedia();
+    }
+
+    private void MediaManager_OnAnySessionOpened(MediaSession mediaSession)
+    {
+        RefreshFilteredMedia();
+    }
+
     private void MediaManager_OnAnySessionClosed(MediaSession mediaSession)
     {
+        if (_isCleaningUp) return;
+        if (!Dispatcher.CheckAccess())
+        {
+            Dispatcher.BeginInvoke(new Action(() => MediaManager_OnAnySessionClosed(mediaSession)));
+            return;
+        }
+
 #if DEBUG
         Logger.Debug("Session closed: " + (mediaSession.Id).ToString());
 #endif
@@ -906,7 +948,7 @@ public partial class MainWindow : MicaWindow
         {
             SettingsManager.Current.PinnedSessionId = string.Empty;
         }
-        UpdateTaskbar();
+        RefreshFilteredMedia();
     }
 
     private static IntPtr SetHook(LowLevelKeyboardProc proc) // set the keyboard hook
@@ -1058,6 +1100,7 @@ public partial class MainWindow : MicaWindow
         }
 
         UpdateUI(activeSession);
+        RefreshSeekbarPosition(activeSession);
         if (_seekBarEnabled)
             HandlePlayBackState(activeSession.ControlSession.GetPlaybackInfo().PlaybackStatus);
 
@@ -1575,6 +1618,8 @@ public partial class MainWindow : MicaWindow
             mediaManager.OnAnyMediaPropertyChanged -= MediaManager_OnAnyMediaPropertyChanged;
             mediaManager.OnAnyPlaybackStateChanged -= CurrentSession_OnPlaybackStateChanged;
             mediaManager.OnAnyTimelinePropertyChanged -= MediaManager_OnAnyTimelinePropertyChanged;
+            mediaManager.OnFocusedSessionChanged -= MediaManager_OnFocusedSessionChanged;
+            mediaManager.OnAnySessionOpened -= MediaManager_OnAnySessionOpened;
             mediaManager.OnAnySessionClosed -= MediaManager_OnAnySessionClosed;
 
             DisposeHeadsetControls();
