@@ -296,4 +296,9 @@ Możesz pomóc w tworzeniu tłumaczeń na stronie</system:String>
     <system:String x:Key="TaskbarWidgetScrollVolumeMaster">Włączono (Głośność Główna)</system:String>
     <system:String x:Key="TaskbarWidgetScrollVolumePlayer">Włączono (Głośność Odtwarzacza)</system:String>
     <system:String x:Key="OpenMediaPlayerText">Otwórz odtwarzacz mediów</system:String>
+    <system:String x:Key="ContextMenuSessionSwitcher">Przełącz sesje</system:String>
+    <system:String x:Key="SessionSwitcherAuto">Automatycznie</system:String>
+    <system:String x:Key="RelatedSettingsTitle">Powiązane ustawienia</system:String>
+    <system:String x:Key="VolumeFlyoutShortcutTitle">Skróty Klawiszowe</system:String>
+    <system:String x:Key="VolumeFlyoutShortcutDescription">Wciśnij skrót klawiszowy aby pokazać Panel Głośności.</system:String>
 </ResourceDictionary>
