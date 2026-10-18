@@ -766,6 +766,8 @@ public partial class MainWindow : MicaWindow
             return;
         }
 
+        if (focusedSession.Id != mediaSession.Id) return;
+
         var tbSongInfo = TryGetMediaProperties(focusedSession.ControlSession);
         if (tbSongInfo != null)
         {
@@ -779,12 +781,13 @@ public partial class MainWindow : MicaWindow
         if (IsVisible)
         {
             UpdateUI(focusedSession);
-            HandlePlayBackState(playbackInfo?.PlaybackStatus);
+            HandlePlayBackState(focusedSession.ControlSession.GetPlaybackInfo()?.PlaybackStatus);
         }
     }
 
     // for determining whether MediaPropertyChanged has no changes
     private string previousMediaProperty = "";
+    private string previousMediaPropertySessionId = "";
     private int previousMediaPropertyThumbnail = 0;
     private void MediaManager_OnAnyMediaPropertyChanged(MediaSession mediaSession, GlobalSystemMediaTransportControlsSessionMediaProperties mediaProperties)
     {
@@ -795,12 +798,16 @@ public partial class MainWindow : MicaWindow
 #if DEBUG
         Logger.Debug("Media property changed: " + mediaProperties.Title + " " + mediaSession.ControlSession.GetPlaybackInfo().PlaybackStatus);
 #endif
+        pauseOtherMediaSessionsIfNeeded(mediaSession);
+
         var currentActiveSession = GetActiveMediaSession();
         if (currentActiveSession == null)
         {
             taskbarWindow?.UpdateUi("-", "-", null, GlobalSystemMediaTransportControlsSessionPlaybackStatus.Closed);
             return;
         }
+
+        if (currentActiveSession.Id != mediaSession.Id) return;
 
         var songInfo = TryGetMediaProperties(currentActiveSession.ControlSession);
         if (songInfo == null)
@@ -811,7 +818,7 @@ public partial class MainWindow : MicaWindow
         string check = songInfo.Title + songInfo.Artist + playbackInfo.PlaybackStatus;
         int checkThumbnail = BitmapHelper.GetStableThumbnailHash(songInfo.Thumbnail);
         bool onlyThumbnailChanged = false;
-        if (previousMediaProperty == check)
+        if (previousMediaPropertySessionId == currentActiveSession.Id && previousMediaProperty == check)
         {
             onlyThumbnailChanged = true;
             if (previousMediaPropertyThumbnail == checkThumbnail)
@@ -819,14 +826,13 @@ public partial class MainWindow : MicaWindow
         }
 
         previousMediaProperty = check;
+        previousMediaPropertySessionId = currentActiveSession.Id;
         previousMediaPropertyThumbnail = checkThumbnail;
 
         var thumbnail = BitmapHelper.GetThumbnail(songInfo.Thumbnail);
         BitmapHelper.GetDominantColors(1);
 
         taskbarWindow?.UpdateUi(songInfo.Title, songInfo.Artist, thumbnail, playbackInfo.PlaybackStatus, playbackInfo.Controls);
-
-        pauseOtherMediaSessionsIfNeeded(mediaSession);
 
         if (SettingsManager.Current.NextUpEnabled && !FullscreenDetector.IsFullscreenApplicationRunning()) // show NextUpWindow if enabled in settings
         {
