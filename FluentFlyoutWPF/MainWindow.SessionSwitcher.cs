@@ -5,7 +5,6 @@ using FluentFlyout.Classes.Settings;
 using FluentFlyout.Classes.Utils;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 using System.Windows.Media;
 using Windows.Media.Control;
 using static WindowsMediaController.MediaManager;
@@ -90,19 +89,10 @@ public partial class MainWindow
         });
     }
 
-    private void MediaIdButton_RightClick(object sender, MouseButtonEventArgs e)
-    {
-        if (!SettingsManager.Current.MediaSessionSwitchingEnabled ||
-            !SettingsManager.Current.PlayerInfoEnabled ||
-            SettingsManager.Current.CompactLayout)
-            return;
-
-        e.Handled = true;
-        ShowSessionSwitcherMenu();
-    }
-
     private void ShowSessionSwitcherMenu()
     {
+        if (!SettingsManager.Current.MediaSessionSwitchingEnabled) return;
+
         var menu = new ContextMenu
         {
             Width = 280,
@@ -120,14 +110,18 @@ public partial class MainWindow
         _isMediaSessionMenuOpen = true;
         if (!_isCleaningUp)
             cts.Cancel();
-        if (sender is not ContextMenu menu) return;
+        if (sender is ContextMenu menu)
+            PopulateSessionSwitcherMenu(menu);
+    }
 
+    internal void PopulateSessionSwitcherMenu(ItemsControl menu)
+    {
         menu.Items.Clear();
-        if (!SettingsManager.Current.MediaSessionSwitchingEnabled)
-            return;
+        var allowedSessions = GetAllowedMediaSessions();
+        menu.IsEnabled = SettingsManager.Current.MediaSessionSwitchingEnabled && allowedSessions.Count > 0;
+        if (!menu.IsEnabled) return;
 
         string? focusedSessionId = GetActiveMediaSession()?.Id;
-        var allowedSessions = GetAllowedMediaSessions();
         var systemSession = GetSystemMediaSession(allowedSessions);
         var entries = new List<(MediaSession Session, GlobalSystemMediaTransportControlsSessionMediaProperties? MediaProperties, string AppName, ImageSource? Icon, string Title, bool IsPlaying)>();
 

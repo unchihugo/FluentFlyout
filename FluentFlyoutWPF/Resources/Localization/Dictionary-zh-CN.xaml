@@ -30,13 +30,12 @@
     <system:String x:Key="RepeatButtonTitle">循环按钮*</system:String>
     <system:String x:Key="PositionBottomLeft" xml:space="preserve"> 左下角</system:String>
     <system:String x:Key="ShowMediaPlayerNameTitle">显示播放器名称</system:String>
-    <system:String x:Key="MediaSessionSelectorToolTip">右键选择媒体播放器</system:String>
     <system:String x:Key="MediaSessionPlaying">正在播放</system:String>
     <system:String x:Key="MediaSessionPaused">已暂停</system:String>
     <system:String x:Key="MediaSessionFollowSystem">跟随系统</system:String>
     <system:String x:Key="MediaSessionSystemTarget">当前目标：{0}</system:String>
     <system:String x:Key="MediaSessionSwitchingTitle">切换媒体播放器</system:String>
-    <system:String x:Key="MediaSessionSwitchingDescription">允许右键选择播放器</system:String>
+    <system:String x:Key="MediaSessionSwitchingDescription">允许手动选择播放器</system:String>
     <system:String x:Key="MediaSessionAutoFollowTitle">新播放时恢复跟随系统</system:String>
     <system:String x:Key="MediaSessionAutoFollowDescription">仅在手动选择后生效</system:String>
     <system:String x:Key="RepeatButtonDescription">可选择循环播放或单曲循环，会增大浮窗宽度</system:String>
@@ -273,7 +272,7 @@
     <system:String x:Key="AppFilteringModeBlacklist">黑名单模式</system:String>
     <system:String x:Key="AppFilteringModeWhitelist">白名单模式</system:String>
     <system:String x:Key="AllowedAppsTitle">允许的应用</system:String>
-    <system:String x:Key="AllowedAppsDescription">仅显示下方列表中应用的媒体信息。</system:String>
+    <system:String x:Key="AllowedAppsDescription">仅显示下方列表中应用的媒体信息</system:String>
     <system:String x:Key="BlockedAppsDescription">不显示下方列表中应用的媒体信息</system:String>
     <system:String x:Key="BlockedAppsTitle">排除的应用</system:String>
     <system:String x:Key="AppFilteringComboBoxHint">选择一个当前正在播放媒体的应用进行添加</system:String>
@@ -305,4 +304,9 @@
     <system:String x:Key="OnboardingTitle">快速入门</system:String>
     <system:String x:Key="SupporterTitle">赞助者</system:String>
     <system:String x:Key="SupporterDescription">谢谢你！</system:String>
+    <system:String x:Key="SessionSwitcherAuto">自动</system:String>
+    <system:String x:Key="ContextMenuSessionSwitcher">切换媒体会话</system:String>
+    <system:String x:Key="RelatedSettingsTitle">相关设置</system:String>
+    <system:String x:Key="VolumeFlyoutShortcutTitle">键盘快捷键</system:String>
+    <system:String x:Key="VolumeFlyoutShortcutDescription">按下快捷键以显示音量浮窗。</system:String>
 </ResourceDictionary>

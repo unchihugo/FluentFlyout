@@ -288,4 +288,15 @@ Nota: Como um projeto de código aberto, esses recursos também estão disponív
     <system:String x:Key="TaskbarWidgetScrollingTextSpeedTitle">Velocidade de rolagem</system:String>
     <system:String x:Key="TaskbarWidgetScrollingTextSpeedDescription">Velocidade em que o texto rola (pixels/segundo). O padrão é 20.</system:String>
     <system:String x:Key="SearchSettings">Pesquisar configurações</system:String>
+    <system:String x:Key="OnboardingTitle">Começar</system:String>
+    <system:String x:Key="ContextMenuSessionSwitcher">Alternar sessões</system:String>
+    <system:String x:Key="SessionSwitcherAuto">Automático</system:String>
+    <system:String x:Key="SupporterTitle">Apoiador</system:String>
+    <system:String x:Key="SupporterDescription">Obrigado!</system:String>
+    <system:String x:Key="TaskbarWidgetScrollVolumeTitle">Role para ajustar o volume</system:String>
+    <system:String x:Key="TaskbarWidgetScrollVolumeDescription">Use a roda do mouse sobre o widget da barra de tarefas para ajustar o volume</system:String>
+    <system:String x:Key="TaskbarWidgetScrollVolumeMaster">Ativado (Volume principal)</system:String>
+    <system:String x:Key="TaskbarWidgetScrollVolumePlayer">Ativado (Volume do reprodutor)</system:String>
+    <system:String x:Key="OpenMediaPlayerText">Abrir reprodutor de mídia</system:String>
+    <system:String x:Key="RelatedSettingsTitle">Configurações relacionadas</system:String>
 </ResourceDictionary>

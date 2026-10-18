@@ -305,7 +305,7 @@
                 <ui:ToggleSwitch IsChecked="{Binding TaskbarWidgetAnimated, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}" />
             </ui:CardControl>
 
-            <ui:CardControl x:Name="TaskbarWidgetShowPauseOverlayTitleCard" Tag="Indexable" Grid.Row="16" Icon="{ui:SymbolIcon Pause24}" Margin="0,0,0,76">
+            <ui:CardControl x:Name="TaskbarWidgetShowPauseOverlayTitleCard" Tag="Indexable" Grid.Row="16" Icon="{ui:SymbolIcon Pause24}" Margin="0,0,0,12">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
                         <TextBlock Text="{DynamicResource TaskbarWidgetShowPauseOverlayTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
@@ -315,5 +315,9 @@
                 <ui:ToggleSwitch IsChecked="{Binding TaskbarWidgetShowPauseOverlay, Mode=TwoWay}" IsEnabled="{Binding IsPremiumUnlocked}" />
             </ui:CardControl>
         </StackPanel>
+        <TextBlock Text="{DynamicResource RelatedSettingsTitle}" FontSize="14" FontWeight="SemiBold" Margin="0,12,0,6" />
+        <ui:CardAction x:Name="AppFilteringTitleCard" Tag="Indexable" Margin="0,0,0,76" Icon="{ui:SymbolIcon Filter24}" IsChevronVisible="True" Click="AppFiltering_Click">
+            <ui:TextBlock Text="{DynamicResource AppFilteringTitle}" />
+        </ui:CardAction>
     </StackPanel>
 </Page>
