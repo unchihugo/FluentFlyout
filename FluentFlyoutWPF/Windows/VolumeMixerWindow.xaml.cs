@@ -13,6 +13,8 @@ using FluentFlyoutWPF.Classes;
 using FluentFlyoutWPF.ViewModels;
 using MicaWPF.Controls;
 using NLog;
+using System.ComponentModel;
+using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Media.Animation;
 using static FluentFlyout.Classes.NativeMethods;
@@ -224,11 +226,18 @@ public partial class VolumeMixerWindow : MicaWindow
         {
             try
             {
-                SetWindowLong(_nativeOsdElement, GWL_EXSTYLE,
+                Marshal.SetLastPInvokeError(0);
+                int prevStyle = SetWindowLong(_nativeOsdElement, GWL_EXSTYLE,
                     _nativeOsdOriginalExStyle | WS_EX_LAYERED | WS_EX_TRANSPARENT);
-                SetWindowPos(_nativeOsdElement, 0, -99999, -99999, 0, 0,
-                    SWP_NOSIZE | SWP_NOZORDER | SWP_NOACTIVATE);
+                if (prevStyle == 0 && Marshal.GetLastWin32Error() != 0)
+                    throw new Win32Exception(Marshal.GetLastWin32Error(), "SetWindowLong failed");
+
+                if (!SetWindowPos(_nativeOsdElement, 0, -99999, -99999, 0, 0,
+                    SWP_NOSIZE | SWP_NOZORDER | SWP_NOACTIVATE))
+                    throw new Win32Exception(Marshal.GetLastWin32Error(), "SetWindowPos failed");
+
                 ShowWindow(_nativeOsdElement, SW_MINIMIZE);
+                Logger.Debug("Successfully hid volume OSD.");
                 return;
             }
             catch (Exception ex)

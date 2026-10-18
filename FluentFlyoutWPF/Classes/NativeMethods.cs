@@ -281,7 +281,7 @@ public static partial class NativeMethods
     [return: MarshalAs(UnmanagedType.Bool)]
     internal static partial bool IsIconic(IntPtr hWnd);
 
-    [LibraryImport("user32.dll", EntryPoint = "SetWindowLongW")]
+    [LibraryImport("user32.dll", EntryPoint = "SetWindowLongW", SetLastError = true)]
     internal static partial int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
 
     [LibraryImport("user32.dll", EntryPoint = "GetWindowLongW", SetLastError = true)]
@@ -295,7 +295,7 @@ public static partial class NativeMethods
     [DllImport("user32.dll", SetLastError = true)]
     internal static extern bool SetWindowPos(IntPtr hWnd, int hWndInsertAfter, int x, int y, int cx, int cy, uint uFlags);
 
-    [DllImport("user32.dll")]
+    [DllImport("user32.dll", SetLastError = true)]
     internal static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
 
     [LibraryImport("user32.dll")]
