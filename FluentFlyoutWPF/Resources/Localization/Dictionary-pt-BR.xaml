@@ -299,4 +299,6 @@ Nota: Como um projeto de código aberto, esses recursos também estão disponív
     <system:String x:Key="TaskbarWidgetScrollVolumePlayer">Ativado (Volume do reprodutor)</system:String>
     <system:String x:Key="OpenMediaPlayerText">Abrir reprodutor de mídia</system:String>
     <system:String x:Key="RelatedSettingsTitle">Configurações relacionadas</system:String>
+    <system:String x:Key="VolumeFlyoutShortcutDescription">Pressione as teclas de atalho para exibir o menu flutuante de volume.</system:String>
+    <system:String x:Key="VolumeFlyoutShortcutTitle">Atalho de teclado</system:String>
 </ResourceDictionary>
