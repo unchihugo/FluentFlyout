@@ -3,6 +3,7 @@
 
 using FluentFlyout.Classes.Settings;
 using FluentFlyout.Classes.Utils;
+using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Media;
 using Windows.Media.Control;
@@ -12,29 +13,60 @@ namespace FluentFlyoutWPF;
 
 public partial class MainWindow
 {
-    private void RestoreSystemFollowOnNewPlayback(
-        MediaSession mediaSession,
-        GlobalSystemMediaTransportControlsSessionPlaybackInfo? playbackInfo)
-    {
-        string pinnedId = SettingsManager.Current.PinnedSessionId;
-        if (!SettingsManager.Current.MediaSessionAutoFollowEnabled ||
-            string.IsNullOrEmpty(pinnedId) ||
-            mediaSession.Id == pinnedId ||
-            !IsSessionAllowed(mediaSession) ||
-            (playbackInfo ?? mediaSession.ControlSession.GetPlaybackInfo())?.PlaybackStatus !=
-                GlobalSystemMediaTransportControlsSessionPlaybackStatus.Playing)
-            return;
+    private readonly Lock _sessionPlaybackStateLock = new();
+    private readonly Dictionary<MediaSession, bool> _sessionPlaybackStates = [];
 
-        SettingsManager.Current.PinnedSessionId = string.Empty;
+    private void CaptureSessionPlaybackStates()
+    {
+        foreach (var session in mediaManager.CurrentMediaSessions.Values)
+        {
+            if (GetSessionPlayingState(session) is { } isPlaying)
+                _sessionPlaybackStates[session] = isPlaying;
+        }
     }
 
-    private void MediaManager_OnFocusedSessionChanged(MediaSession mediaSession)
+    private static bool? GetSessionPlayingState(MediaSession mediaSession)
     {
-        Dispatcher.BeginInvoke(() =>
+        try
         {
-            if (!_isCleaningUp && string.IsNullOrEmpty(SettingsManager.Current.PinnedSessionId))
-                RefreshFilteredMedia();
-        });
+            return mediaSession.ControlSession?.GetPlaybackInfo()?.PlaybackStatus is { } status
+                ? status == GlobalSystemMediaTransportControlsSessionPlaybackStatus.Playing
+                : null;
+        }
+        catch (COMException)
+        {
+            // A session can disappear during sampling; an unreadable state is not a playback transition.
+            return null;
+        }
+    }
+
+    private void RestoreSystemFollowOnNewPlayback(MediaSession mediaSession)
+    {
+        lock (_sessionPlaybackStateLock)
+        {
+            // Read current state under the lock so a delayed event snapshot cannot invent a playback transition.
+            if (GetSessionPlayingState(mediaSession) is not { } isPlaying)
+                return;
+
+            bool wasPlaying = _sessionPlaybackStates.TryGetValue(mediaSession, out bool previous) && previous;
+            _sessionPlaybackStates[mediaSession] = isPlaying;
+
+            string pinnedId = SettingsManager.Current.PinnedSessionId;
+            if (!isPlaying || wasPlaying ||
+                !SettingsManager.Current.MediaSessionAutoFollowEnabled ||
+                string.IsNullOrEmpty(pinnedId) ||
+                mediaSession.Id == pinnedId ||
+                !IsSessionAllowed(mediaSession))
+                return;
+
+            SettingsManager.Current.PinnedSessionId = string.Empty;
+        }
+    }
+
+    private void ForgetSessionPlaybackState(MediaSession mediaSession)
+    {
+        lock (_sessionPlaybackStateLock)
+            _sessionPlaybackStates.Remove(mediaSession);
     }
 
     public IReadOnlyList<MediaSession> GetSwitchableSessions()
@@ -44,7 +76,12 @@ public partial class MainWindow
 
     public void PinSession(string? sessionId)
     {
-        SettingsManager.Current.PinnedSessionId = sessionId ?? string.Empty;
+        lock (_sessionPlaybackStateLock)
+        {
+            if (!string.IsNullOrEmpty(sessionId))
+                CaptureSessionPlaybackStates();
+            SettingsManager.Current.PinnedSessionId = sessionId ?? string.Empty;
+        }
         RefreshFilteredMedia();
     }
 

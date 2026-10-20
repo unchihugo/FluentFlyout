@@ -171,6 +171,7 @@ public partial class MainWindow : MicaWindow
         cts = new CancellationTokenSource();
 
         mediaManager.Start();
+        CaptureSessionPlaybackStates();
 
         _hookProc = HookCallback;
         _hookId = SetHook(_hookProc);
@@ -182,8 +183,9 @@ public partial class MainWindow : MicaWindow
         mediaManager.OnAnyMediaPropertyChanged += MediaManager_OnAnyMediaPropertyChanged;
         mediaManager.OnAnyPlaybackStateChanged += CurrentSession_OnPlaybackStateChanged;
         mediaManager.OnAnyTimelinePropertyChanged += MediaManager_OnAnyTimelinePropertyChanged;
-        mediaManager.OnFocusedSessionChanged += MediaManager_OnFocusedSessionChanged;
         mediaManager.OnAnySessionClosed += MediaManager_OnAnySessionClosed;
+        mediaManager.OnAnySessionOpened += RestoreSystemFollowOnNewPlayback;
+        mediaManager.OnAnySessionClosed += ForgetSessionPlaybackState;
 
         InitializeHeadsetControls();
 
@@ -758,7 +760,7 @@ public partial class MainWindow : MicaWindow
 #if DEBUG
         Logger.Debug("Playback state changed: " + mediaSession.Id + " " + mediaSession.ControlSession.GetPlaybackInfo().PlaybackStatus);
 #endif     
-        RestoreSystemFollowOnNewPlayback(mediaSession, playbackInfo);
+        RestoreSystemFollowOnNewPlayback(mediaSession);
         pauseOtherMediaSessionsIfNeeded(mediaSession);
 
         var focusedSession = GetActiveMediaSession();
@@ -781,7 +783,7 @@ public partial class MainWindow : MicaWindow
         if (IsVisible)
         {
             UpdateUI(focusedSession);
-            HandlePlayBackState(focusedSession.ControlSession.GetPlaybackInfo()?.PlaybackStatus);
+            HandlePlayBackState(playbackInfo?.PlaybackStatus);
         }
     }
 
@@ -1577,8 +1579,9 @@ public partial class MainWindow : MicaWindow
             mediaManager.OnAnyMediaPropertyChanged -= MediaManager_OnAnyMediaPropertyChanged;
             mediaManager.OnAnyPlaybackStateChanged -= CurrentSession_OnPlaybackStateChanged;
             mediaManager.OnAnyTimelinePropertyChanged -= MediaManager_OnAnyTimelinePropertyChanged;
-            mediaManager.OnFocusedSessionChanged -= MediaManager_OnFocusedSessionChanged;
             mediaManager.OnAnySessionClosed -= MediaManager_OnAnySessionClosed;
+            mediaManager.OnAnySessionOpened -= RestoreSystemFollowOnNewPlayback;
+            mediaManager.OnAnySessionClosed -= ForgetSessionPlaybackState;
 
             DisposeHeadsetControls();
 
