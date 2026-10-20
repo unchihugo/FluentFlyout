@@ -39,12 +39,17 @@ public partial class TaskbarWindow : Window
     private MainWindow? _mainWindow;
     private int _lastSelectedMonitor = -1;
     private IntPtr _lastTaskbarHandle;
+    private RECT _lastTaskbarRect;
+    private uint _lastTaskbarDpi;
     private bool _positionUpdateInProgress;
     private bool _isClosing;
     private readonly Dictionary<string, Task> _pendingAutomationTasks = [];
+    private readonly Dictionary<string, Rect> _elementRectCache = [];
 
     private GlobalSystemMediaTransportControlsSessionPlaybackStatus? _lastPlaybackStatus;
     private DispatcherTimer? _autoHideTimer;
+    private Rect _currentWidgetRect = Rect.Empty;
+    private Rect _currentVisualizerRect = Rect.Empty;
 
     public TaskbarWindow()
     {
@@ -68,6 +73,10 @@ public partial class TaskbarWindow : Window
         base.OnSourceInitialized(e);
         HwndSource source = (HwndSource)PresentationSource.FromDependencyObject(this);
         source.AddHook(WindowProc);
+
+        // Ensure window starts with an empty region so it never blocks taskbar input prior to positioning
+        IntPtr emptyRgn = CreateRectRgn(0, 0, 0, 0);
+        SetWindowRgn(source.Handle, emptyRgn, true);
     }
 
     private IntPtr WindowProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
@@ -93,6 +102,50 @@ public partial class TaskbarWindow : Window
         // Also prevents the widget from blocking taskbar's message processing, which is another source of freezes.
         switch (msg)
         {
+            case WM_DISPLAYCHANGE:
+                NotifyDisplayChanged();
+                break;
+
+            case WM_NCHITTEST:
+                // Non-client hit testing: pass through mouse events outside the active interactive
+                // widget or visualizer bounds directly to the underlying Windows taskbar.
+                // This prevents TaskbarWindow from blocking taskbar buttons, start menu, tray icons,
+                // or third-party taskbar mods even if layout/region updates are delayed during startup.
+                int screenX = unchecked((short)(long)lParam);
+                int screenY = unchecked((short)((long)lParam >> 16));
+                POINT pt = new() { X = screenX, Y = screenY };
+                ScreenToClient(hwnd, ref pt);
+
+                bool hit = false;
+                if (SettingsManager.Current.TaskbarWidgetEnabled && SettingsManager.Current.IsPremiumUnlocked &&
+                    Visibility == Visibility.Visible && Widget.IsVisible && _currentWidgetRect != Rect.Empty)
+                {
+                    if (pt.X >= _currentWidgetRect.Left && pt.X < _currentWidgetRect.Right &&
+                        pt.Y >= _currentWidgetRect.Top && pt.Y < _currentWidgetRect.Bottom)
+                    {
+                        hit = true;
+                    }
+                }
+
+                if (!hit && SettingsManager.Current.TaskbarVisualizerEnabled && SettingsManager.Current.IsPremiumUnlocked &&
+                    Visibility == Visibility.Visible && TaskbarVisualizer.IsVisible && _currentVisualizerRect != Rect.Empty)
+                {
+                    if (pt.X >= _currentVisualizerRect.Left && pt.X < _currentVisualizerRect.Right &&
+                        pt.Y >= _currentVisualizerRect.Top && pt.Y < _currentVisualizerRect.Bottom)
+                    {
+                        hit = true;
+                    }
+                }
+
+                if (!hit)
+                {
+                    handled = true;
+                    return (IntPtr)HTTRANSPARENT;
+                }
+
+                handled = false;
+                return IntPtr.Zero;
+
             case 0x003D: // WM_GETOBJECT (Sent by Microsoft UI Automation to obtain information about an accessible object contained in a server application)
             case 0x0018: // WM_SHOWWINDOW
             case 0x0046: // WM_WINDOWPOSCHANGING - Triggers during alt-tabs, window changes
@@ -126,12 +179,17 @@ public partial class TaskbarWindow : Window
     private IntPtr GetSelectedTaskbarHandle(out bool isMainTaskbarSelected)
     {
         var monitors = MonitorUtil.GetMonitors();
-        var selectedMonitor = monitors[Math.Clamp(SettingsManager.Current.TaskbarWidgetSelectedMonitor, 0, monitors.Count - 1)];
         isMainTaskbarSelected = true;
 
+        // Get the main taskbar handle
+        IntPtr mainHwnd = FindWindow("Shell_TrayWnd", null);
+        if (monitors.Count == 0)
+            return mainHwnd;
+
+        var selectedMonitor = monitors[Math.Clamp(SettingsManager.Current.TaskbarWidgetSelectedMonitor, 0, monitors.Count - 1)];
+
         // Get the main taskbar and check if it is on the selected monitor.
-        var mainHwnd = FindWindow("Shell_TrayWnd", null);
-        if (MonitorUtil.GetMonitor(mainHwnd).deviceId == selectedMonitor.deviceId)
+        if (mainHwnd != IntPtr.Zero && MonitorUtil.GetMonitor(mainHwnd).deviceId == selectedMonitor.deviceId)
             return mainHwnd;
 
         if (monitors.Count == 1)
@@ -141,7 +199,7 @@ public partial class TaskbarWindow : Window
         if (monitors.Count == 2)
         {
             var hwnd = FindWindow("Shell_SecondaryTrayWnd", null);
-            if (MonitorUtil.GetMonitor(hwnd).deviceId == selectedMonitor.deviceId)
+            if (hwnd != IntPtr.Zero && MonitorUtil.GetMonitor(hwnd).deviceId == selectedMonitor.deviceId)
             {
                 return hwnd;
             }
@@ -160,7 +218,7 @@ public partial class TaskbarWindow : Window
         IntPtr checkWindowClass(IntPtr wnd)
         {
             var len = GetClassName(wnd, className, className.Capacity);
-            if (className.Equals("Shell_SecondaryTrayWnd"))
+            if (className.ToString().Equals("Shell_SecondaryTrayWnd", StringComparison.OrdinalIgnoreCase))
             {
                 if (MonitorUtil.GetMonitor(wnd).deviceId == selectedMonitor.deviceId)
                 {
@@ -215,10 +273,14 @@ public partial class TaskbarWindow : Window
             var interop = new WindowInteropHelper(this);
             IntPtr taskbarWindowHandle = interop.Handle;
 
-            //Background = _hitTestTransparent; // ensures that non-content areas also trigger MouseEnter event
-
             IntPtr taskbarHandle = GetSelectedTaskbarHandle(out bool isMainTaskbarSelected);
-            ResetTaskbarCachesIfHandleChanged(taskbarHandle);
+            if (taskbarHandle == IntPtr.Zero)
+            {
+                Logger.Warn("Taskbar handle not available during setup, will retry on timer.");
+                return;
+            }
+
+            ResetTaskbarCachesIfGeometryChanged(taskbarHandle);
 
             // This prevents the window from trying to float above the taskbar as a separate entity
             int style = GetWindowLong(taskbarWindowHandle, GWL_STYLE);
@@ -226,6 +288,12 @@ public partial class TaskbarWindow : Window
             SetWindowLong(taskbarWindowHandle, GWL_STYLE, style);
 
             SetParent(taskbarWindowHandle, taskbarHandle); // if this window is created faster than the Taskbar is loaded, then taskbarHandle will be NULL.
+
+            if (!SettingsManager.Current.TaskbarWidgetEnabled || !SettingsManager.Current.IsPremiumUnlocked)
+            {
+                Visibility = Visibility.Collapsed;
+                return;
+            }
 
             CalculateAndSetPosition(taskbarHandle, taskbarWindowHandle, isMainTaskbarSelected);
         }
@@ -235,58 +303,129 @@ public partial class TaskbarWindow : Window
         }
     }
 
+    public void NotifyDisplayChanged()
+    {
+        Dispatcher.BeginInvoke(() =>
+        {
+            try
+            {
+                ResetTaskbarCaches();
+                UpdatePosition();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "Taskbar Widget error during display change notification");
+            }
+        }, DispatcherPriority.Background);
+    }
+
+    public void ResetTaskbarCaches()
+    {
+        _lastTaskbarHandle = IntPtr.Zero;
+        _lastTaskbarRect = default;
+        _lastTaskbarDpi = 0;
+        _trayHandle = IntPtr.Zero;
+        _widgetElement = null;
+        _trayElement = null;
+        _taskbarFrameElement = null;
+        _pendingAutomationTasks.Clear();
+        _elementRectCache.Clear();
+        _lastSelectedMonitor = -1;
+    }
+
+    private void ResetTaskbarCachesIfGeometryChanged(IntPtr taskbarHandle)
+    {
+        GetWindowRect(taskbarHandle, out RECT currentRect);
+        uint currentDpi = GetDpiForWindow(taskbarHandle);
+
+        if (_lastTaskbarHandle != taskbarHandle ||
+            currentRect.Left != _lastTaskbarRect.Left ||
+            currentRect.Top != _lastTaskbarRect.Top ||
+            currentRect.Right != _lastTaskbarRect.Right ||
+            currentRect.Bottom != _lastTaskbarRect.Bottom ||
+            currentDpi != _lastTaskbarDpi)
+        {
+            _lastTaskbarHandle = taskbarHandle;
+            _lastTaskbarRect = currentRect;
+            _lastTaskbarDpi = currentDpi;
+            _trayHandle = IntPtr.Zero;
+            _widgetElement = null;
+            _trayElement = null;
+            _taskbarFrameElement = null;
+            _pendingAutomationTasks.Clear();
+            _elementRectCache.Clear();
+        }
+    }
+
+    /// <summary>
+    /// Rejects region rects that cannot represent a real on-screen widget
+    /// (NaN/infinity from transient layout, overflowed int casts). Returns
+    /// <see cref="Rect.Empty"/> (click-through) instead of a taskbar-eating region.
+    /// </summary>
+    private static Rect SanitizeRegionRect(Rect rect)
+    {
+        if (rect == Rect.Empty)
+            return rect;
+
+        if (double.IsNaN(rect.X) || double.IsNaN(rect.Y) || double.IsNaN(rect.Width) || double.IsNaN(rect.Height) ||
+            double.IsInfinity(rect.X) || double.IsInfinity(rect.Y) || double.IsInfinity(rect.Width) || double.IsInfinity(rect.Height) ||
+            rect.Width <= 0 || rect.Height <= 0 ||
+            rect.X < 0 || rect.Y < 0 ||
+            rect.Width > 100000 || rect.Height > 100000)
+            return Rect.Empty;
+
+        return rect;
+    }
+
     private void UpdateWindowRegion(IntPtr windowHandle, params Rect[] rects)
     {
         IntPtr rgn = CreateRectRgn(0, 0, 0, 0);
-        foreach (var r in rects)
+        bool success = true;
+
+        foreach (Rect rawRect in rects)
         {
+            Rect r = SanitizeRegionRect(rawRect);
             // make sure rect is not empty - happens when setting elements to collapsed
             if (r == Rect.Empty)
+            {
                 continue;
+            }
 
             IntPtr newRgn = CreateRectRgn((int)r.Left, (int)r.Top, (int)r.Right, (int)r.Bottom);
             if (newRgn == IntPtr.Zero)
             {
                 Logger.Error($"Taskbar Widget error during CreateRectRgn({(int)r.Left}, {(int)r.Top}, {(int)r.Right}, {(int)r.Bottom}).");
-                goto on_error;
+                success = false;
+                break;
             }
 
             if (CombineRgn(rgn, rgn, newRgn, 2 /*RGN_OR*/) == 0)
             {
                 Logger.Error($"Taskbar Widget error during CombineRgn. Combined regions: {string.Join(", ", rects.Select(i => $"RECT({(int)i.Left}, {(int)i.Top}, {(int)i.Right}, {(int)i.Bottom})"))}");
                 DeleteObject(newRgn);
-                goto on_error;
+                success = false;
+                break;
             }
 
             DeleteObject(newRgn);
         }
 
-        if (SetWindowRgn(windowHandle, rgn, true) == 0)
+        if (success && SetWindowRgn(windowHandle, rgn, true) != 0)
         {
-            Logger.Error($"Taskbar Widget error during SetWindowRgn.");
-            goto on_error;
+            return;
         }
 
-        // Simple debugging to display the window region:
-#if false
-        var whiteRect = WidgetCanvas.Children.Cast<FrameworkElement>().FirstOrDefault(e => e.Name == "test_border");
-        if (whiteRect == null)
-        {
-            whiteRect = new System.Windows.Shapes.Rectangle() { Name = "test_border", Width = 20000, Height = 20000, Fill = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Colors.Black) };
-            WidgetCanvas.Children.Add(whiteRect);
-            Canvas.SetLeft(whiteRect, -10000);
-            Canvas.SetTop(whiteRect, -10000);
-        }
-#endif
-
-        return;
-
-on_error:
-
-// All regions that were not sent without errors to SetWindowRgn must be destroyed manually
+        // All regions that were not sent without errors to SetWindowRgn must be destroyed manually
         DeleteObject(rgn);
-        if (SetWindowRgn(windowHandle, IntPtr.Zero, true) == 0)
+
+        // Do NOT reset to IntPtr.Zero (full window) as that makes the widget swallow all taskbar clicks!
+        // Instead, assign an empty region to keep taskbar interactive.
+        IntPtr emptyRgn = CreateRectRgn(0, 0, 0, 0);
+        if (SetWindowRgn(windowHandle, emptyRgn, true) == 0)
+        {
+            DeleteObject(emptyRgn);
             Logger.Error("Taskbar Widget error during window region reset.");
+        }
     }
 
     private void UpdatePosition()
@@ -305,7 +444,7 @@ on_error:
         {
             var interop = new WindowInteropHelper(this);
             IntPtr taskbarHandle = GetSelectedTaskbarHandle(out bool isMainTaskbarSelected);
-            ResetTaskbarCachesIfHandleChanged(taskbarHandle);
+            ResetTaskbarCachesIfGeometryChanged(taskbarHandle);
 
             if (interop.Handle == IntPtr.Zero)
             {
@@ -353,18 +492,6 @@ on_error:
         }
     }
 
-    private void ResetTaskbarCachesIfHandleChanged(IntPtr taskbarHandle)
-    {
-        if (_lastTaskbarHandle == taskbarHandle)
-            return;
-
-        _lastTaskbarHandle = taskbarHandle;
-        _trayHandle = IntPtr.Zero;
-        _widgetElement = null;
-        _trayElement = null;
-        _taskbarFrameElement = null;
-        _pendingAutomationTasks.Clear();
-    }
 
     private void CalculateAndSetPosition(IntPtr taskbarHandle, IntPtr taskbarWindowHandle, bool isMainTaskbarSelected)
     {
@@ -381,7 +508,13 @@ on_error:
 
             // Guard against invalid DPI (e.g. during explorer restart when handle is stale)
             if (dpiScale <= 0)
+            {
+                _currentWidgetRect = Rect.Empty;
+                _currentVisualizerRect = Rect.Empty;
+                try { UpdateWindowRegion(taskbarWindowHandle, Rect.Empty, Rect.Empty); }
+                catch (Exception ex) { Logger.Debug(ex, "Failed to reset taskbar widget region"); }
                 return;
+            }
 
             // Get Taskbar dimensions
             RECT taskbarRect;
@@ -431,6 +564,58 @@ on_error:
             POINT containerPos = new() { X = taskbarRect.Left, Y = taskbarRect.Top };
             ScreenToClient(taskbarHandle, ref containerPos);
 
+            Rect wRect = Rect.Empty;
+            Rect vRect = Rect.Empty;
+
+            try
+            {
+                wRect = PositionWidget(taskbarHandle, taskbarRect, dpiScale, isMainTaskbarSelected, isVertical);
+            }
+            catch (Exception ex)
+            {
+                Logger.Warn(ex, "Failed to position taskbar widget");
+            }
+
+            try
+            {
+                vRect = PositionVisualizer(taskbarHandle, taskbarRect, dpiScale, isMainTaskbarSelected, isVertical);
+            }
+            catch (Exception ex)
+            {
+                Logger.Warn(ex, "Failed to position taskbar visualizer");
+            }
+
+            _currentWidgetRect = SanitizeRegionRect(wRect);
+            _currentVisualizerRect = SanitizeRegionRect(vRect);
+
+            bool isMediaPlaying = _lastPlaybackStatus == GlobalSystemMediaTransportControlsSessionPlaybackStatus.Playing;
+            bool isWidgetActive = SettingsManager.Current.TaskbarWidgetEnabled &&
+                                  SettingsManager.Current.IsPremiumUnlocked &&
+                                  Visibility == Visibility.Visible &&
+                                  (!SettingsManager.Current.TaskbarWidgetAutoHide || isMediaPlaying);
+
+            bool isVisualizerActive = SettingsManager.Current.TaskbarVisualizerEnabled &&
+                                      SettingsManager.Current.IsPremiumUnlocked &&
+                                      Visibility == Visibility.Visible;
+
+            Rect effectiveWidgetRect = isWidgetActive ? _currentWidgetRect : Rect.Empty;
+            Rect effectiveVisualizerRect = isVisualizerActive ? _currentVisualizerRect : Rect.Empty;
+
+            bool hasVisibleContent = effectiveWidgetRect != Rect.Empty || effectiveVisualizerRect != Rect.Empty;
+
+            if (!hasVisibleContent)
+            {
+                _currentWidgetRect = Rect.Empty;
+                _currentVisualizerRect = Rect.Empty;
+                UpdateWindowRegion(taskbarWindowHandle, Rect.Empty, Rect.Empty);
+                SetWindowPos(taskbarWindowHandle, 0, 0, 0, 0, 0,
+                    SWP_NOZORDER | SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE | SWP_HIDEWINDOW);
+                return;
+            }
+
+            // Update window region FIRST before showing to ensure no full-taskbar hit-test blocking window is created
+            UpdateWindowRegion(taskbarWindowHandle, effectiveWidgetRect, effectiveVisualizerRect);
+
             // Apply using SetWindowPos (Bypassing WPF layout engine).
             // HWND_TOP keeps this child window at the top of the taskbar's child z-order:
             // Explorer's taskbar XAML content bridge (Windows.UI.Composition.DesktopWindowContentBridge)
@@ -440,10 +625,6 @@ on_error:
                      containerPos.X, containerPos.Y,
                      containerWidth, containerHeight,
                      SWP_NOACTIVATE | SWP_ASYNCWINDOWPOS | SWP_SHOWWINDOW);
-            var wRect = PositionWidget(taskbarHandle, taskbarRect, dpiScale, isMainTaskbarSelected, isVertical);
-            var vRect = PositionVisualizer(taskbarHandle, taskbarRect, dpiScale, isMainTaskbarSelected, isVertical);
-
-            UpdateWindowRegion(taskbarWindowHandle, wRect, vRect);
 
             _lastSelectedMonitor = SettingsManager.Current.TaskbarWidgetSelectedMonitor;
         }
@@ -634,6 +815,10 @@ on_error:
 
         primaryPos += SettingsManager.Current.TaskbarWidgetManualPadding;
 
+        // Clamp positions to ensure widget coordinates are strictly within valid taskbar boundaries
+        primaryPos = Math.Clamp(primaryPos, 0, Math.Max(0, primarySize - physicalWidth));
+        crossPos = Math.Clamp(crossPos, 0, Math.Max(0, crossSize - physicalHeight));
+
         // Set widget position within canvas
         // primaryPos → left (horizontal) or top (vertical); crossPos → top (horizontal) or left (vertical)
         Canvas.SetLeft(Widget, (isVertical ? crossPos : primaryPos) / dpiScale);
@@ -688,6 +873,13 @@ on_error:
                 break;
         }
 
+        int primarySize = isVertical ? taskbarHeight : taskbarWidth;
+        int visualizerPrimarySize = isVertical ? (int)(TaskbarVisualizer.Height * dpiScale) : (int)(TaskbarVisualizer.Width * dpiScale);
+        int visualizerCrossSize = isVertical ? (int)(TaskbarVisualizer.Width * dpiScale) : (int)(TaskbarVisualizer.Height * dpiScale);
+
+        primaryPos = Math.Clamp(primaryPos, 0, Math.Max(0, primarySize - visualizerPrimarySize));
+        crossPos = Math.Clamp(crossPos, 0, Math.Max(0, crossSize - visualizerCrossSize));
+
         // Set visualizer position within canvas
         // primaryPos → left (horizontal) or top (vertical); crossPos → top (horizontal) or left (vertical)
         Canvas.SetLeft(TaskbarVisualizer, (isVertical ? crossPos : primaryPos) / dpiScale);
@@ -710,6 +902,7 @@ on_error:
             Dispatcher.Invoke(() =>
             {
                 Visibility = Visibility.Collapsed;
+                UpdatePosition();
             });
             return;
         }
@@ -727,6 +920,7 @@ on_error:
                 Dispatcher.Invoke(() =>
                 {
                     Visibility = Visibility.Visible;
+                    UpdatePosition();
                 });
             }
             else
@@ -750,6 +944,7 @@ on_error:
                             Dispatcher.Invoke(() =>
                             {
                                 Visibility = Visibility.Collapsed;
+                                UpdatePosition();
                             });
                         }
                     };
@@ -789,90 +984,60 @@ on_error:
         {
             // reset if monitor changed
             if (_lastSelectedMonitor != SettingsManager.Current.TaskbarWidgetSelectedMonitor)
-                elementCache = null;
-
-            // find widget in XAML
-            if (elementCache == null)
             {
-                if (_pendingAutomationTasks.TryGetValue(elementName, out var pendingTask) && !pendingTask.IsCompleted)
-                    return (false, Rect.Empty);
+                elementCache = null;
+                _elementRectCache.Remove(elementName);
+            }
 
-                AutomationElement? found = null;
-                var findTask = Task.Run(() =>
+            // Return cached bounding rect immediately without any UI thread blocking
+            if (_elementRectCache.TryGetValue(elementName, out Rect cachedRect) && cachedRect != Rect.Empty)
+            {
+                return (true, cachedRect);
+            }
+
+            // If a background query is already running for this element, return false without waiting
+            if (_pendingAutomationTasks.TryGetValue(elementName, out var pendingTask) && !pendingTask.IsCompleted)
+            {
+                return (false, Rect.Empty);
+            }
+
+            // Launch non-blocking background task to resolve element and bounds
+            var queryTask = Task.Run(() =>
+            {
+                try
                 {
                     var root = AutomationElement.FromHandle(taskbarHandle);
-                    found = root.FindFirst(TreeScope.Descendants,
+                    var element = root?.FindFirst(TreeScope.Descendants,
                         new PropertyCondition(AutomationElement.AutomationIdProperty, elementName));
-                });
-                _pendingAutomationTasks[elementName] = findTask;
 
-                if (!findTask.Wait(1000))
-                {
-                    Logger.Warn("Timeout querying taskbar XAML element: " + elementName);
-                    return (false, Rect.Empty);
+                    if (element != null)
+                    {
+                        Rect rect = element.Current.BoundingRectangle;
+                        if (rect != Rect.Empty)
+                        {
+                            Dispatcher.BeginInvoke(() =>
+                            {
+                                if (!_isClosing)
+                                {
+                                    _elementRectCache[elementName] = rect;
+                                    UpdatePosition();
+                                }
+                            }, DispatcherPriority.Background);
+                        }
+                    }
                 }
-
-                // Propagate any exception from the background thread
-                findTask.GetAwaiter().GetResult();
-                elementCache = found;
-            }
-
-            if (elementCache == null) // widget most likely disabled
-                return (false, Rect.Empty);
-
-            try
-            {
-                if (_pendingAutomationTasks.TryGetValue(elementName, out var pendingTask) && !pendingTask.IsCompleted)
+                catch (Exception ex)
                 {
-                    elementCache = null;
-                    return (false, Rect.Empty);
+                    Logger.Debug(ex, "Background query for taskbar XAML element failed: " + elementName);
                 }
+            });
 
-                var cachedElement = elementCache;
-                var boundsTask = Task.Run(() => cachedElement.Current.BoundingRectangle);
-                _pendingAutomationTasks[elementName] = boundsTask;
-
-                if (!boundsTask.Wait(500))
-                {
-                    Logger.Warn("Timeout getting bounds for taskbar XAML element: " + elementName);
-                    elementCache = null;
-                    return (false, Rect.Empty);
-                }
-
-                Rect elementRect = boundsTask.GetAwaiter().GetResult();
-
-                if (elementRect == Rect.Empty) // widget shown before but most likely disabled now
-                {
-                    elementCache = null; // reset cache
-                    return (false, Rect.Empty);
-                }
-
-                return (true, elementRect);
-            }
-            catch (ElementNotAvailableException)
-            {
-                // element became stale, reset cache
-                Logger.Warn("Taskbar XAML element became stale, resetting cache: " + elementName);
-                elementCache = null;
-                return (false, Rect.Empty);
-            }
-        }
-        catch (COMException ex)
-        {
-            Logger.Warn(ex, "COM error retrieving taskbar XAML element Rect: " + elementName);
-            elementCache = null; // reset cache on error
-            return (false, Rect.Empty);
-        }
-        catch (ElementNotAvailableException)
-        {
-            Logger.Warn("Taskbar XAML element not available, resetting cache: " + elementName);
-            elementCache = null;
+            _pendingAutomationTasks[elementName] = queryTask;
             return (false, Rect.Empty);
         }
         catch (Exception ex)
         {
-            Logger.Error(ex, "Error retrieving taskbar XAML element Rect: " + elementName);
-            elementCache = null; // reset cache on error
+            Logger.Error(ex, "Error initiating taskbar XAML element query: " + elementName);
             return (false, Rect.Empty);
         }
     }
@@ -904,10 +1069,22 @@ on_error:
         _timer.Stop();
         _autoHideTimer?.Stop();
         _autoHideTimer = null;
-        _widgetElement = null;
-        _trayElement = null;
-        _taskbarFrameElement = null;
-        _pendingAutomationTasks.Clear();
+        ResetTaskbarCaches();
+
+        try
+        {
+            var interop = new WindowInteropHelper(this);
+            if (interop.Handle != IntPtr.Zero)
+            {
+                IntPtr emptyRgn = CreateRectRgn(0, 0, 0, 0);
+                SetWindowRgn(interop.Handle, emptyRgn, true);
+                SetParent(interop.Handle, IntPtr.Zero);
+                SetWindowPos(interop.Handle, 0, 0, 0, 0, 0,
+                    SWP_NOZORDER | SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE | SWP_HIDEWINDOW);
+            }
+        }
+        catch { }
+
         base.OnClosed(e);
     }
 }
