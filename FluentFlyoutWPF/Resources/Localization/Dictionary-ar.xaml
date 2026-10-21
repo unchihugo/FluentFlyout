@@ -300,4 +300,5 @@
     <system:String x:Key="ContextMenuSessionSwitcher">تغيير الجلسة</system:String>
     <system:String x:Key="RelatedSettingsTitle">إعدادات مشابهة</system:String>
     <system:String x:Key="VolumeFlyoutShortcutDescription">إضغط على مفاتيح الإختصار لإظهار قائمة تحكم مستوى الصوت.</system:String>
+    <system:String x:Key="VolumeFlyoutShortcutTitle">إختصار لوحة المفاتيح</system:String>
 </ResourceDictionary>
