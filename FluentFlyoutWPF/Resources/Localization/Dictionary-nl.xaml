@@ -20,8 +20,8 @@
     <system:String x:Key="BackgroundBlurOption2" xml:space="preserve"> Stijl 1 (Albumhoes schijn)</system:String>
     <system:String x:Key="BackgroundBlurOption3" xml:space="preserve"> Stijl 2 (Stijgende schijn)</system:String>
     <system:String x:Key="BackgroundBlurOption4" xml:space="preserve"> Stijl 3 (Vervaging)</system:String>
-    <system:String x:Key="AcrylicWindowTitle">Acrylvenster</system:String>
-    <system:String x:Key="AcrylicWindowDescription">Transparant Acrylic-effect toepassen op de flyout (uit schakelt terug naar Mica)</system:String>
+    <system:String x:Key="AcrylicWindowTitle">Acrylflyout</system:String>
+    <system:String x:Key="AcrylicWindowDescription">Transparant Acrylic-effect toepassen op de flyout</system:String>
     <system:String x:Key="CompactLayoutDescription" xml:space="preserve">Slankere, minder storende indeling
 verbergt herhalen, shuffle en spelerinfo</system:String>
     <system:String x:Key="SelectedMonitorTitle">Flyout-doelscherm</system:String>
@@ -119,9 +119,9 @@ verbergt herhalen, shuffle en spelerinfo</system:String>
     <system:String x:Key="PremiumPurchaseFailed">Aankoop mislukt. Probeer het alstublieft opnieuw.</system:String>
     <system:String x:Key="PremiumPurchaseCancelled">Aankoop geannuleerd.</system:String>
     <system:String x:Key="UnlockFullExperienceText">Ontgrendel de volledige FluentFlyout ervaring:</system:String>
-    <system:String x:Key="TaskbarWidgetCustomizationPerk">Taakbalk Widget en Visualisator</system:String>
+    <system:String x:Key="TaskbarWidgetCustomizationPerk">Schakel de Taskbarwidget en Visualizer in</system:String>
     <system:String x:Key="AllFuturePremiumFeatures">Alle premium-functies</system:String>
-    <system:String x:Key="NextUpCustomizationTitle">Volgende Video/Nummer Flyout</system:String>
+    <system:String x:Key="NextUpCustomizationTitle">Volgende in de lijst Flyout</system:String>
     <system:String x:Key="NextUpStayDurationDescription">(standaard: 2000 ms)</system:String>
     <system:String x:Key="LockKeysCustomizationTitle">Lock-toetsen Flyout</system:String>
     <system:String x:Key="EnableLockKeysTitle">Lock-toetsen Flyout inschakelen</system:String>
@@ -131,9 +131,9 @@ verbergt herhalen, shuffle en spelerinfo</system:String>
     <system:String x:Key="TaskbarWidgetFixedWidthDescription">Houdt de widget op een vaste breedte inplaats van het te vervormen naar de groote van de titel en artiest tekst</system:String>
     <system:String x:Key="TaskbarWidgetShowPauseOverlayTitle">Toon Pauze Icoon Overlay</system:String>
     <system:String x:Key="TaskbarWidgetShowPauseOverlayDescription">Als media gepauzeerd is, toon en pauze icoon over het albumhoes</system:String>
-    <system:String x:Key="TaskbarVisualizerOutputDeviceDescription">Verander wat de vizualiseerder naar luistert door te veranderen naar FluentFlyuouts uitgangs audio apparaat</system:String>
+    <system:String x:Key="TaskbarVisualizerOutputDeviceDescription">Verander wat de visualizer naar luistert door FluentFlyout's audio uitgang aan te passen</system:String>
     <system:String x:Key="VolumeMixerHighlightPerk">Markeer actieve aps in de Volume Mixer</system:String>
-    <system:String x:Key="LockKeysDescription" xml:space="preserve">Check uw lock-toest status op een ogenblik. Vershijnt nadat Caps-Lock, Num-Lock of Scroll Lock toets werdt ingeduwd. Gemakelijk voor laptops of toestenborden zonder toetsen indicators</system:String>
+    <system:String x:Key="LockKeysDescription" xml:space="preserve">Check uw lock-toets status op een ogenblik. Verschijnt nadat Caps-Lock, Num-Lock of Scroll Lock toets werd ingeduwd. Gemakkelijk voor laptops of toestenborden zonder toetsenindicators.</system:String>
     <system:String x:Key="EnableLockKeysDescription">Toont of de specifieke lock-toest in- of uitgeschakeld is</system:String>
     <system:String x:Key="EnableCapsTitle">Caps-Lock indicator aandoen</system:String>
     <system:String x:Key="EnableCapsDescription">Toont waneer de Caps-Lock toets is ingedrukt</system:String>
@@ -160,14 +160,31 @@ verbergt herhalen, shuffle en spelerinfo</system:String>
     <system:String x:Key="AppThemeDefault"> Windows Standaard</system:String>
     <system:String x:Key="AppThemeLight"> Licht</system:String>
     <system:String x:Key="AppThemeDark"> Donker</system:String>
-    <system:String x:Key="UseAlbumArtAccentColorTitle">Gebruik AlmubHoes als Accenten Kleur</system:String>
+    <system:String x:Key="UseAlbumArtAccentColorTitle">Gebruik Albumhoes als AccentKleur</system:String>
     <system:String x:Key="UseAlbumArtAccentColorDescription">Somige UI elementen gaan de albumhoes kleur gebruiken inplaats van het systeem thema</system:String>
     <system:String x:Key="TrayIconLeftClickBehaviorTitle">Systeembalk Icoon Linker Klik Gedrag</system:String>
     <system:String x:Key="TrayIconLeftClickBehaviorDescription">Kies wat er gebbeurt als je linker-klikt op de systeemback icoon</system:String>
-    <system:String x:Key="TrayIconLeftClickOption2"> .Toon Media Flyout</system:String>
+    <system:String x:Key="TrayIconLeftClickOption2"> Toon Media-Flyout</system:String>
     <system:String x:Key="Win11TrayIconTitle">Windows 11 Achitge Systeembalk</system:String>
     <system:String x:Key="CheckingForUpdates">Controleren...</system:String>
     <system:String x:Key="UpdateAvailableNotificationTitle">Update Verkrijgbaar!</system:String>
     <system:String x:Key="UpdateAvailableNotificationMessage">Een niewe versie ({0}) is verkrijgbaar.</system:String>
     <system:String x:Key="UpdateAvailableNotificationButton">Download Update</system:String>
+    <system:String x:Key="Back">Terug</system:String>
+    <system:String x:Key="Next">Volgende</system:String>
+    <system:String x:Key="Finish">Afwerken</system:String>
+    <system:String x:Key="OnboardingTitle">Begin</system:String>
+    <system:String x:Key="OnboardingStepsCounter">Stap {0} van {1}</system:String>
+    <system:String x:Key="TaskbarVisualizerBaselineAutoHideDescription">Verbergt automatisch de basislijn wanneer er geen audio speelt</system:String>
+    <system:String x:Key="PremiumFeatureDescription" xml:space="preserve">Met je eenmalige bijdrage help je me om FluentFlyout levend en up-to-date te houden. Hiermee ontgrendel je direct en voorgoed alle premium-aanpassingsfuncties.
+
+Opmerking: Aangezien dit een open-sourceproject is, zijn deze functies ook gratis beschikbaar via de handmatige installer op GitHub. Het enige verschil is dat je updates en de installatie zelf moet uitvoeren.</system:String>
+    <system:String x:Key="SupporterTitle">Donator</system:String>
+    <system:String x:Key="SupporterDescription">Bedankt!</system:String>
+    <system:String x:Key="AcrylicBlurOpacityPerk">Pas het acrylvervagingseffect aan</system:String>
+    <system:String x:Key="NextUpDescription" xml:space="preserve">Een flyout toont wat er vervolgens zal worden afgespeeld wanneer een nummer/video eindigt. Verschijnt alleen wanneer het volgende item automatisch speelt, als manueel op volgende/vorige manueel is geklikt, zal de hoofdflyout in de plaats verschijnen.</system:String>
+    <system:String x:Key="EnableNextUpTitle">Schakel Next Up Flyout in</system:String>
+    <system:String x:Key="AnonymousUsageDataTitle">Verstuur anonieme gebruikersdata</system:String>
+    <system:String x:Key="AnonymousUsageDataDescription">Help de app te verbeteren door anonieme, non-identificeerbare gebruikersdata te verzenden</system:String>
+    <system:String x:Key="Win11TrayIconDescription">Gebruik een systeemvakpictogram dat overeenkomt met Windows 11 (klik om het thema te herladen)</system:String>
 </ResourceDictionary>
