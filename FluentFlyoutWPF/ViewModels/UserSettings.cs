@@ -163,6 +163,24 @@ public partial class UserSettings : ObservableObject
     [NotifyPropertyChangedFor(nameof(NextUpDurationText))]
     public partial int NextUpDuration { get; set; }
 
+    /// <summary>
+    /// 'Next Up' flyout position on screen
+    /// </summary>
+    [ObservableProperty]
+    public partial int NextUpPosition { get; set; }
+
+    /// <summary>
+    /// Center the title and artist text in the 'Next Up' flyout
+    /// </summary>
+    [ObservableProperty]
+    public partial bool NextUpCenterTitleArtist { get; set; }
+
+    /// <summary>
+    /// Show the 'Up next' label in the 'Next Up' flyout
+    /// </summary>
+    [ObservableProperty]
+    public partial bool NextUpShowUpNextText { get; set; }
+
     [XmlIgnore]
     public string NextUpDurationText
     {
@@ -750,6 +768,9 @@ public partial class UserSettings : ObservableObject
         Duration = 3000;
         NextUpEnabled = false;
         NextUpDuration = 2000;
+        NextUpPosition = -1;
+        NextUpCenterTitleArtist = false;
+        NextUpShowUpNextText = true;
         NIconLeftClick = 0;
         CenterTitleArtist = false;
         SettingsWindowWidth = 900;
@@ -886,7 +907,21 @@ public partial class UserSettings : ObservableObject
     /// </summary>
     internal void CompleteInitialization()
     {
+        bool settingsChanged = NormalizeDeserializedSettings();
         _initializing = false;
+
+        if (settingsChanged)
+        {
+            SettingsManager.SaveSettings();
+        }
+    }
+
+    private bool NormalizeDeserializedSettings()
+    {
+        if (NextUpPosition is >= 0 and <= 5) return false;
+
+        NextUpPosition = Position is >= 0 and <= 5 ? Position : 1;
+        return true;
     }
 
     partial void OnAppLanguageChanged(string oldValue, string newValue)

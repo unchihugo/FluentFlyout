@@ -39,7 +39,7 @@
     </Window.Triggers>
 
     <Grid Margin="12,0,12,0" ColumnDefinitions="Auto, Auto, *">
-        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+        <StackPanel x:Name="UpNextStackPanel" Orientation="Horizontal" VerticalAlignment="Center">
             <ui:SymbolIcon Symbol="MusicNote120" Filled="True" Width="14" Height="14" FontSize="14" VerticalAlignment="Center" Margin="0,0,2,0"/>
             <TextBlock x:Name="UpNextTextBlock" Text="{DynamicResource NextUpWindow_UpNextText}" FontSize="12" VerticalAlignment="Center" FontWeight="Medium"/>
         </StackPanel>
@@ -50,8 +50,8 @@
             </Border.Background>
         </Border>
         <StackPanel Grid.Column="2" Name="SongInfoStackPanel" Margin="6,0,0,0" Orientation="Vertical" VerticalAlignment="Center">
-            <TextBlock Name="SongTitle" Text="Song Title" FontSize="14" FontWeight="Medium" TextTrimming="CharacterEllipsis"/>
-            <TextBlock Name="SongArtist" Text="Artist Name" FontSize="14" FontWeight="Medium" Opacity="0.5" TextTrimming="CharacterEllipsis"/>
+            <TextBlock Name="SongTitle" Text="Song Title" FontSize="14" FontWeight="Medium" TextTrimming="CharacterEllipsis" HorizontalAlignment="Stretch"/>
+            <TextBlock Name="SongArtist" Text="Artist Name" FontSize="14" FontWeight="Medium" Opacity="0.5" TextTrimming="CharacterEllipsis" HorizontalAlignment="Stretch"/>
         </StackPanel>
     </Grid>
 </controls:MicaWindow>
