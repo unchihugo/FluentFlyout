@@ -289,4 +289,16 @@ Anda dapat membantu berkontribusi dalam menerjemahkan di</system:String>
     <system:String x:Key="TaskbarWidgetScrollingTextSpeedTitle">Kecepatan Gulir</system:String>
     <system:String x:Key="TaskbarWidgetScrollingTextLoopForeverDescription">Gulirkan teks terus-menerus ke satu arah, bukan bolak-balik.</system:String>
     <system:String x:Key="TaskbarWidgetScrollingTextSpeedDescription">Kecepatan gulir teks (piksel/detik). Nilai bawaan adalah 20.</system:String>
+    <system:String x:Key="OnboardingTitle">Memulai</system:String>
+    <system:String x:Key="ContextMenuSessionSwitcher">Beralih sesi</system:String>
+    <system:String x:Key="SupporterTitle">Pendukung</system:String>
+    <system:String x:Key="SupporterDescription">Terima kasih!</system:String>
+    <system:String x:Key="RelatedSettingsTitle">Pengaturan terkait</system:String>
+    <system:String x:Key="TaskbarWidgetScrollVolumeTitle">Gulir untuk Menyesuaikan Volume</system:String>
+    <system:String x:Key="TaskbarWidgetScrollVolumeDescription">Gunakan tetikus wheel antar widget bilah tugas untuk menyesuaikan volume</system:String>
+    <system:String x:Key="TaskbarWidgetScrollVolumeMaster">Aktif (Volume Master)</system:String>
+    <system:String x:Key="TaskbarWidgetScrollVolumePlayer">Aktif (Volume Pemutar)</system:String>
+    <system:String x:Key="VolumeFlyoutShortcutTitle">Pintasan Papan Ketik</system:String>
+    <system:String x:Key="VolumeFlyoutShortcutDescription">Pencet pintasan key untuk menampilkan Volume Flyout.</system:String>
+    <system:String x:Key="OpenMediaPlayerText">Buka pemutar media</system:String>
 </ResourceDictionary>
