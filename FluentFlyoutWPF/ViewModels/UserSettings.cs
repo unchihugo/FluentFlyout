@@ -486,6 +486,12 @@ public partial class UserSettings : ObservableObject
     public partial int TaskbarWidgetControlsPosition { get; set; }
 
     /// <summary>
+    /// Hide media controls until the pointer hovers over the taskbar widget.
+    /// </summary>
+    [ObservableProperty]
+    public partial bool TaskbarWidgetControlsAutoHide { get; set; }
+
+    /// <summary>
     /// Gets or sets a value indicating whether the taskbar widget should play animations.
     /// </summary>
     [ObservableProperty]
@@ -797,6 +803,7 @@ public partial class UserSettings : ObservableObject
         TaskbarWidgetShowPauseOverlay = true;
         TaskbarWidgetControlsEnabled = false;
         TaskbarWidgetControlsPosition = 1;
+        TaskbarWidgetControlsAutoHide = false;
         TaskbarWidgetAnimated = true;
         TaskbarWidgetScrollingEnabled = false;
         TaskbarWidgetScrollVolumeMode = 1;
