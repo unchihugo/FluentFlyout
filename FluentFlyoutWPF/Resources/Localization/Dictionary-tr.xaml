@@ -288,4 +288,15 @@ Not: Açık kaynaklı bir proje olduğundan, bu özellikler GitHub'daki manuel y
     <system:String x:Key="TaskbarWidgetScrollingTextLoopForeverDescription">Metni ileri geri kaydırmak yerine tek yönde sonsuz döngüye al.</system:String>
     <system:String x:Key="TaskbarWidgetScrollingTextSpeedTitle">Kaydırma Hızı</system:String>
     <system:String x:Key="TaskbarWidgetScrollingTextSpeedDescription">Metnin kayma hızı (piksel/saniye). Varsayılan: 20.</system:String>
+    <system:String x:Key="OnboardingTitle">Başlayın</system:String>
+    <system:String x:Key="ContextMenuSessionSwitcher">Oturumları değiştirin</system:String>
+    <system:String x:Key="SessionSwitcherAuto">Otomatik</system:String>
+    <system:String x:Key="SupporterTitle">Destekçi</system:String>
+    <system:String x:Key="SupporterDescription">Teşekkürler!</system:String>
+    <system:String x:Key="TaskbarWidgetScrollVolumeTitle">Sesi arttırmak için kaydırın</system:String>
+    <system:String x:Key="TaskbarWidgetScrollVolumeDescription">Sesi arttırmak için görev çubuğu üzerinde fare tekerleğini kaydırın</system:String>
+    <system:String x:Key="TaskbarWidgetScrollVolumeMaster">Açık (ana ses)</system:String>
+    <system:String x:Key="TaskbarWidgetScrollVolumePlayer">Açık (oynatıcı sesi)</system:String>
+    <system:String x:Key="OpenMediaPlayerText">Medya oynatıcıyı aç</system:String>
+    <system:String x:Key="RelatedSettingsTitle">İlgili ayarlar</system:String>
 </ResourceDictionary>

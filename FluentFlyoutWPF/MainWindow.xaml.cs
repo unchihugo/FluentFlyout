@@ -191,6 +191,8 @@ public partial class MainWindow : MicaWindow
         mediaManager.OnAnyTimelinePropertyChanged += MediaManager_OnAnyTimelinePropertyChanged;
         mediaManager.OnAnySessionClosed += MediaManager_OnAnySessionClosed;
 
+        InitializeHeadsetControls();
+
         WM_TASKBARCREATED = RegisterWindowMessage("TaskbarCreated");
         WM_SHELLHOOK = RegisterWindowMessage("SHELLHOOK");
         RegisterShellHookWindow(new WindowInteropHelper(this).Handle);
@@ -597,8 +599,16 @@ public partial class MainWindow : MicaWindow
 
     public void OpenAnimation(MicaWindow window, bool alwaysBottom = false, MonitorInfo? selectedMonitor = null, MicaWindow? aboveReference = null, bool reserveNativeVolumeOsdSpace = false)
     {
-        var eventTriggers = window.Triggers[0] as EventTrigger;
-        var beginStoryboard = eventTriggers.Actions[0] as BeginStoryboard;
+        if (window.Triggers[0] is not EventTrigger eventTriggers)
+        {
+            Logger.Error("OpenAnimation: EventTriggers is null.");
+            return;
+        }
+        if (eventTriggers.Actions[0] is not BeginStoryboard beginStoryboard)
+        {
+            Logger.Error("OpenAnimation: BeginStoryboard is null.");
+            return;
+        }
         var storyboard = beginStoryboard.Storyboard;
 
         DoubleAnimation moveAnimation = (DoubleAnimation)storyboard.Children[0];
@@ -778,8 +788,16 @@ public partial class MainWindow : MicaWindow
 
     public void CloseAnimation(MicaWindow window, MonitorInfo? selectedMonitor = null)
     {
-        var eventTriggers = window.Triggers[0] as EventTrigger;
-        var beginStoryboard = eventTriggers.Actions[0] as BeginStoryboard;
+        if (window.Triggers[0] is not EventTrigger eventTriggers)
+        {
+            Logger.Error("CloseAnimation: EventTriggers is null.");
+            return;
+        }
+        if (eventTriggers.Actions[0] is not BeginStoryboard beginStoryboard)
+        {
+            Logger.Error("CloseAnimation: BeginStoryboard is null.");
+            return;
+        }
         var storyboard = beginStoryboard.Storyboard;
 
         DoubleAnimation moveAnimation = (DoubleAnimation)storyboard.Children[0];
@@ -1591,17 +1609,17 @@ public partial class MainWindow : MicaWindow
 
     private async void Back_Click(object sender, RoutedEventArgs e)
     {
-        TrySkipPreviousAsync();
+        _ = TrySkipPreviousAsync();
     }
 
     private async void PlayPause_Click(object sender, RoutedEventArgs e)
     {
-        TryTogglePlayPauseAsync();
+        _ = TryTogglePlayPauseAsync();
     }
 
     private async void Forward_Click(object sender, RoutedEventArgs e)
     {
-        TrySkipNextAsync();
+        _ = TrySkipNextAsync();
     }
 
     private async void Repeat_Click(object sender, RoutedEventArgs e)
@@ -1753,6 +1771,8 @@ public partial class MainWindow : MicaWindow
             mediaManager.OnAnyPlaybackStateChanged -= CurrentSession_OnPlaybackStateChanged;
             mediaManager.OnAnyTimelinePropertyChanged -= MediaManager_OnAnyTimelinePropertyChanged;
             mediaManager.OnAnySessionClosed -= MediaManager_OnAnySessionClosed;
+
+            DisposeHeadsetControls();
 
             // dispose managed resources
             _positionTimer?.Change(Timeout.Infinite, Timeout.Infinite);
@@ -1967,8 +1987,9 @@ public partial class MainWindow : MicaWindow
                 return 0;
 
             bool isKeyCommand = device == FAPPCOMMAND_KEY;
+            bool isHeadsetCommand = device == FAPPCOMMAND_OEM;
 
-            if (!isKeyCommand)
+            if (!isKeyCommand && !isHeadsetCommand)
                 return 0;
 
             bool result = false;
