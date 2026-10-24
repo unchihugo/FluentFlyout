@@ -236,9 +236,9 @@
     <system:String x:Key="LegacyTaskbarWidthTitle">舊版工作列寬度</system:String>
     <system:String x:Key="LegacyTaskbarWidthDescription">對工作列小工具使用舊版工作列寬度</system:String>
     <system:String x:Key="VolumeMixerHighlightPerk">在音量合成器中顯示正在使用的應用</system:String>
-    <system:String x:Key="EnableCapsTitle">啟用大寫鎖定指示器</system:String>
-    <system:String x:Key="EnableCapsDescription">顯示Caps Lock 鍵在何時按下</system:String>
-    <system:String x:Key="EnableNumTitle">啟用 Num Lock 指示符</system:String>
+    <system:String x:Key="EnableCapsTitle">啟用Caps Lock指示器</system:String>
+    <system:String x:Key="EnableCapsDescription">在Caps Lock 鍵按下時顯示</system:String>
+    <system:String x:Key="EnableNumTitle">啟用Num Lock 指示符</system:String>
     <system:String x:Key="VolumeFlyoutTitle">音量浮動視窗</system:String>
     <system:String x:Key="VolumeAboveMediaFlyoutTitle">將音量視窗置於媒體視窗之上</system:String>
     <system:String x:Key="VolumeMixerHighlightDescription">看看哪些應用程式正在輸出音頻</system:String>
@@ -249,7 +249,7 @@
     <system:String x:Key="Next">下一步</system:String>
     <system:String x:Key="Finish">結束</system:String>
     <system:String x:Key="TaskbarWidgetFixedWidthTitle">固定小工具寬度</system:String>
-    <system:String x:Key="EnableScrollTitle">啟用 Scroll Lock 指示符</system:String>
+    <system:String x:Key="EnableScrollTitle">啟用Scroll Lock 指示器</system:String>
     <system:String x:Key="OnboardingStepsCounter">第 {0} 步 / 共 {1} 步</system:String>
     <system:String x:Key="BlockedAppsDescription">不顯示下方列表中應用的媒體信息</system:String>
     <system:String x:Key="AddAppManuallyText">找不到您的應用？在下方直接輸入：</system:String>
@@ -270,4 +270,8 @@
     <system:String x:Key="TaskbarWidgetScrollingTextSpeedTitle">滾動速度</system:String>
     <system:String x:Key="VolumeFlyoutShortcutTitle">鍵盤快速鍵</system:String>
     <system:String x:Key="MasterVolumeText">主音量</system:String>
+    <system:String x:Key="SupporterTitle">贊助者</system:String>
+    <system:String x:Key="SupporterDescription">感謝您!</system:String>
+    <system:String x:Key="EnableNumDescription">在Num lock 鍵按下時顯示</system:String>
+    <system:String x:Key="EnableScrollDescription">在Scroll Lock 鍵按下時顯示</system:String>
 </ResourceDictionary>
