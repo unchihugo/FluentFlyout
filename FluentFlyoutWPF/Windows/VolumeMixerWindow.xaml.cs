@@ -13,6 +13,8 @@ using FluentFlyoutWPF.Classes;
 using FluentFlyoutWPF.ViewModels;
 using MicaWPF.Controls;
 using NLog;
+using System.ComponentModel;
+using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Media.Animation;
 using static FluentFlyout.Classes.NativeMethods;
@@ -74,13 +76,10 @@ public partial class VolumeMixerWindow : MicaWindow
 
         if (_isHiding)
         {
-            if (_nativeOsdElement == IntPtr.Zero)
+            _ = Task.Run(() =>
             {
-                _ = Task.Run(() =>
-                {
-                    HideVolumeOsd();
-                });
-            }
+                HideVolumeOsd();
+            });
 
             _isHiding = false;
             if (SettingsManager.Current.VolumeMixerAcrylicWindowEnabled)
@@ -223,6 +222,31 @@ public partial class VolumeMixerWindow : MicaWindow
     // derived from gpkgpk/HideVolumeOSD: https://github.com/gpkgpk/HideVolumeOSD
     private static void HideVolumeOsd()
     {
+        if (_nativeOsdElement != IntPtr.Zero)
+        {
+            try
+            {
+                Marshal.SetLastPInvokeError(0);
+                int prevStyle = SetWindowLong(_nativeOsdElement, GWL_EXSTYLE,
+                    _nativeOsdOriginalExStyle | WS_EX_LAYERED | WS_EX_TRANSPARENT);
+                if (prevStyle == 0 && Marshal.GetLastWin32Error() != 0)
+                    throw new Win32Exception(Marshal.GetLastWin32Error(), "SetWindowLong failed");
+
+                if (!SetWindowPos(_nativeOsdElement, 0, -99999, -99999, 0, 0,
+                    SWP_NOSIZE | SWP_NOZORDER | SWP_NOACTIVATE))
+                    throw new Win32Exception(Marshal.GetLastWin32Error(), "SetWindowPos failed");
+
+                ShowWindow(_nativeOsdElement, SW_SHOWMINNOACTIVE);
+                Logger.Debug("Successfully hid volume OSD.");
+                return;
+            }
+            catch (Exception ex)
+            {
+                // continue with search for OSD window if the previous handle is invalid
+                Logger.Warn(ex, "Failed to hide volume OSD using previous handle. Attempting to find it again.");
+            }
+        }
+
         // find widget in XAML; FindWindowEx must be given the previous handle as hwndChildAfter,
         // otherwise it returns the same first island forever and this loop never terminates
         IntPtr hwndXamlIsland = IntPtr.Zero, hwndOsd = IntPtr.Zero;
@@ -242,7 +266,7 @@ public partial class VolumeMixerWindow : MicaWindow
                 continue;
             }
 
-            ShowWindow(hwndInputClass, SW_RESTORE);
+            ShowWindow(hwndInputClass, SW_SHOWNOACTIVATE);
             if (GetWindowRect(hwndInputClass, out RECT rect))
             {
                 if (rect.Top == 0 && rect.Left == 0 && rect.Bottom == 0 && rect.Right == 0)
@@ -266,8 +290,8 @@ public partial class VolumeMixerWindow : MicaWindow
             _nativeOsdOriginalExStyle | WS_EX_LAYERED | WS_EX_TRANSPARENT);
         SetWindowPos(_nativeOsdElement, 0, -99999, -99999, 0, 0,
             SWP_NOSIZE | SWP_NOZORDER | SWP_NOACTIVATE);
-        ShowWindow(_nativeOsdElement, SW_MINIMIZE);
-        Logger.Info("Successfully hid volume OSD.");
+        ShowWindow(_nativeOsdElement, SW_SHOWMINNOACTIVE);
+        Logger.Debug("Successfully hid volume OSD.");
     }
 
     public static void ShowVolumeOsd()
@@ -281,9 +305,8 @@ public partial class VolumeMixerWindow : MicaWindow
         SetWindowLong(_nativeOsdElement, GWL_EXSTYLE, _nativeOsdOriginalExStyle);
         SetWindowPos(_nativeOsdElement, 0, 0, 0, 0, 0,
             SWP_NOSIZE | SWP_NOZORDER | SWP_NOACTIVATE);
-        ShowWindow(_nativeOsdElement, SW_RESTORE);
-        _nativeOsdElement = IntPtr.Zero;
-        Logger.Info("Successfully restored volume OSD.");
+        ShowWindow(_nativeOsdElement, SW_SHOWNOACTIVATE);
+        Logger.Debug("Successfully restored volume OSD.");
     }
 
     private void AnimateExpandCollapse(bool expand)

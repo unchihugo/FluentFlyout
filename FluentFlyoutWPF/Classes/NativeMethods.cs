@@ -34,7 +34,8 @@ public static partial class NativeMethods
     internal const uint SWP_NOACTIVATE = 0x0010;
 
     // ShowWindow Commands
-    internal const int SW_MINIMIZE = 6;
+    internal const int SW_SHOWNOACTIVATE = 4;
+    internal const int SW_SHOWMINNOACTIVE = 7;
     internal const int SW_RESTORE = 9;
 
     // Monitor Flags
@@ -281,7 +282,7 @@ public static partial class NativeMethods
     [return: MarshalAs(UnmanagedType.Bool)]
     internal static partial bool IsIconic(IntPtr hWnd);
 
-    [LibraryImport("user32.dll", EntryPoint = "SetWindowLongW")]
+    [LibraryImport("user32.dll", EntryPoint = "SetWindowLongW", SetLastError = true)]
     internal static partial int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
 
     [LibraryImport("user32.dll", EntryPoint = "GetWindowLongW", SetLastError = true)]
@@ -295,7 +296,7 @@ public static partial class NativeMethods
     [DllImport("user32.dll", SetLastError = true)]
     internal static extern bool SetWindowPos(IntPtr hWnd, int hWndInsertAfter, int x, int y, int cx, int cy, uint uFlags);
 
-    [DllImport("user32.dll")]
+    [DllImport("user32.dll", SetLastError = true)]
     internal static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
 
     [LibraryImport("user32.dll")]
