@@ -274,4 +274,25 @@
     <system:String x:Key="SupporterDescription">感謝您!</system:String>
     <system:String x:Key="EnableNumDescription">在Num lock 鍵按下時顯示</system:String>
     <system:String x:Key="EnableScrollDescription">在Scroll Lock 鍵按下時顯示</system:String>
+    <system:String x:Key="AppFilteringModeWhitelist">允許清單</system:String>
+    <system:String x:Key="AllowedAppsTitle">允許的應用程式</system:String>
+    <system:String x:Key="ContextMenuSessionSwitcher">切換會話</system:String>
+    <system:String x:Key="AppFilteringRulesDescription">控制應用程式顯示媒體</system:String>
+    <system:String x:Key="AppFilteringModeDescription">選擇應用程式的允許和封鎖狀態</system:String>
+    <system:String x:Key="AllowedAppsDescription">下列的應用程式只會顯示媒體信息</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextTitle">滾動文本</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTitle">啟用滾動</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextDescription">自動滾動無法顯示的長文本</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextLoopForeverTitle">連續滾動</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextSpeedDescription">文本滾動速度 (像素/秒). 預設是20.</system:String>
+    <system:String x:Key="TaskbarWidgetScrollVolumeTitle">滾動以調整音量</system:String>
+    <system:String x:Key="TaskbarWidgetScrollVolumeDescription">使用滑鼠滾輪在工作列調整音量</system:String>
+    <system:String x:Key="TaskbarWidgetScrollVolumeMaster">開啟 (主音量)</system:String>
+    <system:String x:Key="TaskbarWidgetScrollVolumePlayer">開啟 (播放器音量)</system:String>
+    <system:String x:Key="VolumeFlyoutDescription">一個獨立的音量控制浮動視窗, 可展開為音量合成器, 並取代 Windows 預設的音量介面.</system:String>
+    <system:String x:Key="EnableVolumeFlyoutDescription">取代 Windows 預設的音量介面</system:String>
+    <system:String x:Key="VolumeFlyoutStayDurationTitle">音量浮動視窗停留時間</system:String>
+    <system:String x:Key="EnableVolumeMixerTitle">啟用音量合成器</system:String>
+    <system:String x:Key="EnableVolumeMixerDescription">精確控制個別應用程式</system:String>
+    <system:String x:Key="OpenMediaPlayerText">開啟媒體播放器</system:String>
 </ResourceDictionary>
