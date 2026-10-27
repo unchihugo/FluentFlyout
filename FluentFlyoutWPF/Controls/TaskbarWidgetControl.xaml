@@ -59,7 +59,10 @@
                             </Canvas>
                         </StackPanel>
 
-                        <StackPanel Name="ControlsStackPanel" Orientation="Horizontal" VerticalAlignment="Center" Width="Auto">
+                        <StackPanel Name="ControlsStackPanel" Orientation="Horizontal" VerticalAlignment="Center" Width="Auto" Opacity="1">
+                            <StackPanel.RenderTransform>
+                                <TranslateTransform X="0" />
+                            </StackPanel.RenderTransform>
                             <StackPanel.Style>
                                 <Style TargetType="StackPanel">
                                     <Setter Property="Visibility" Value="Collapsed" />

@@ -10,6 +10,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
+using System.Windows.Threading;
 using Windows.Media.Control;
 using Wpf.Ui.Controls;
 
@@ -64,6 +65,12 @@ public partial class TaskbarWidgetControl : UserControl
     private bool _isPaused;
     private bool _isVertical;
     private bool _isSmallTaskbar;
+    private readonly DispatcherTimer _controlsHideTimer;
+    private readonly DispatcherTimer _controlsShowTimer;
+    private bool _controlsLayoutVisible = true;
+    private int _controlsAnimationGeneration;
+
+    public event EventHandler? LayoutInvalidated;
 
     public TaskbarWidgetControl()
     {
@@ -74,6 +81,22 @@ public partial class TaskbarWidgetControl : UserControl
 
         // Set DataContext for bindings
         DataContext = SettingsManager.Current;
+
+        _controlsHideTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(250) };
+        _controlsHideTimer.Tick += (_, _) =>
+        {
+            _controlsHideTimer.Stop();
+            AnimateControlsVisibility(false);
+        };
+        _controlsShowTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(400) };
+        _controlsShowTimer.Tick += (_, _) =>
+        {
+            _controlsShowTimer.Stop();
+            if (MainBorder.IsMouseOver && SettingsManager.Current.TaskbarWidgetControlsAutoHide)
+                AnimateControlsVisibility(true);
+        };
+        Loaded += TaskbarWidgetControl_Loaded;
+        Unloaded += TaskbarWidgetControl_Unloaded;
 
         MainBorder.SizeChanged += (s, e) =>
         {
@@ -177,6 +200,13 @@ public partial class TaskbarWidgetControl : UserControl
 
     private void Grid_MouseEnter(object sender, MouseEventArgs e)
     {
+        _controlsHideTimer.Stop();
+        if (SettingsManager.Current.TaskbarWidgetControlsAutoHide)
+        {
+            _controlsShowTimer.Stop();
+            _controlsShowTimer.Start();
+        }
+
         if (string.IsNullOrEmpty(SongTitle.Text + SongArtist.Text)) return;
 
         RefreshAppVolumeTooltip();
@@ -225,6 +255,13 @@ public partial class TaskbarWidgetControl : UserControl
 
     private void Grid_MouseLeave(object sender, MouseEventArgs e)
     {
+        _controlsShowTimer.Stop();
+        if (SettingsManager.Current.TaskbarWidgetControlsAutoHide)
+        {
+            _controlsHideTimer.Stop();
+            _controlsHideTimer.Start();
+        }
+
         if (string.IsNullOrEmpty(SongTitle.Text + SongArtist.Text)) return;
 
         // Animate back to transparent
@@ -246,6 +283,119 @@ public partial class TaskbarWidgetControl : UserControl
         MainBorder.Background?.BeginAnimation(SolidColorBrush.OpacityProperty, backgroundOpacityAnimation);
 
         TopBorder.BorderBrush = Brushes.Transparent;
+    }
+
+    private void TaskbarWidgetControl_Loaded(object sender, RoutedEventArgs e)
+    {
+        WeakEventManager<FluentFlyoutWPF.ViewModels.UserSettings, System.ComponentModel.PropertyChangedEventArgs>.AddHandler(
+            SettingsManager.Current, nameof(SettingsManager.Current.PropertyChanged), Settings_PropertyChanged);
+        ApplyControlsAutoHideSetting(animate: false);
+    }
+
+    private void TaskbarWidgetControl_Unloaded(object sender, RoutedEventArgs e)
+    {
+        _controlsHideTimer.Stop();
+        _controlsShowTimer.Stop();
+        WeakEventManager<FluentFlyoutWPF.ViewModels.UserSettings, System.ComponentModel.PropertyChangedEventArgs>.RemoveHandler(
+            SettingsManager.Current, nameof(SettingsManager.Current.PropertyChanged), Settings_PropertyChanged);
+    }
+
+    private void Settings_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == nameof(SettingsManager.Current.TaskbarWidgetControlsAutoHide) ||
+            e.PropertyName == nameof(SettingsManager.Current.TaskbarWidgetControlsEnabled))
+            Dispatcher.BeginInvoke(() => ApplyControlsAutoHideSetting(animate: true));
+    }
+
+    private void ApplyControlsAutoHideSetting(bool animate)
+    {
+        _controlsHideTimer.Stop();
+        _controlsShowTimer.Stop();
+        if (!SettingsManager.Current.TaskbarWidgetControlsEnabled || !SettingsManager.Current.TaskbarWidgetControlsAutoHide)
+        {
+            AnimateControlsVisibility(true, animate);
+            return;
+        }
+
+        if (MainBorder.IsMouseOver)
+        {
+            if (animate) _controlsShowTimer.Start();
+            else AnimateControlsVisibility(true, animate: false);
+        }
+        else
+        {
+            AnimateControlsVisibility(false, animate);
+        }
+    }
+
+    private void AnimateControlsVisibility(bool show, bool animate = true)
+    {
+        if (!SettingsManager.Current.TaskbarWidgetControlsEnabled) show = false;
+        else if (!SettingsManager.Current.TaskbarWidgetControlsAutoHide) show = true;
+        if (string.IsNullOrEmpty(_actualTitle + _actualArtist)) show = false;
+
+        int generation = ++_controlsAnimationGeneration;
+        if (show)
+        {
+            bool layoutChanged = !_controlsLayoutVisible;
+            _controlsLayoutVisible = true;
+            ControlsStackPanel.Visibility = SettingsManager.Current.TaskbarWidgetControlsEnabled &&
+                !string.IsNullOrEmpty(_actualTitle + _actualArtist) ? Visibility.Visible : Visibility.Collapsed;
+            ControlsStackPanel.IsHitTestVisible = true;
+            if (layoutChanged) LayoutInvalidated?.Invoke(this, EventArgs.Empty);
+        }
+
+        var transform = (TranslateTransform)ControlsStackPanel.RenderTransform;
+        double direction = SettingsManager.Current.TaskbarWidgetControlsPosition == 0 ? -1 : 1;
+        double targetX = show ? 0 : 5 * direction;
+        if (!animate)
+        {
+            ControlsStackPanel.BeginAnimation(OpacityProperty, null);
+            transform.BeginAnimation(TranslateTransform.XProperty, null);
+            ControlsStackPanel.Opacity = show ? 1 : 0;
+            transform.X = targetX;
+            ControlsStackPanel.IsHitTestVisible = show;
+            bool layoutChanged = _controlsLayoutVisible != show;
+            _controlsLayoutVisible = show;
+            if (!show) ControlsStackPanel.Visibility = Visibility.Collapsed;
+            if (layoutChanged) LayoutInvalidated?.Invoke(this, EventArgs.Empty);
+            return;
+        }
+
+        var easing = new CubicEase { EasingMode = show ? EasingMode.EaseOut : EasingMode.EaseIn };
+        var opacityAnimation = new DoubleAnimation
+        {
+            From = ControlsStackPanel.Opacity,
+            To = show ? 1 : 0,
+            Duration = TimeSpan.FromMilliseconds(show ? 180 : 150),
+            EasingFunction = easing
+        };
+
+        if (!show)
+        {
+            ControlsStackPanel.IsHitTestVisible = false;
+            opacityAnimation.Completed += (_, _) =>
+            {
+                if (generation != _controlsAnimationGeneration || MainBorder.IsMouseOver ||
+                    !SettingsManager.Current.TaskbarWidgetControlsAutoHide || !SettingsManager.Current.TaskbarWidgetControlsEnabled)
+                    return;
+                bool layoutChanged = _controlsLayoutVisible;
+                _controlsLayoutVisible = false;
+                ControlsStackPanel.Visibility = Visibility.Collapsed;
+                if (layoutChanged) LayoutInvalidated?.Invoke(this, EventArgs.Empty);
+            };
+        }
+        else ControlsStackPanel.IsHitTestVisible = true;
+
+        var slideAnimation = new DoubleAnimation
+        {
+            From = transform.X,
+            To = targetX,
+            Duration = TimeSpan.FromMilliseconds(show ? 180 : 150),
+            EasingFunction = easing
+        };
+        ControlsStackPanel.BeginAnimation(OpacityProperty, opacityAnimation);
+        transform.BeginAnimation(TranslateTransform.XProperty, slideAnimation);
     }
 
     private void Grid_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
