@@ -10,6 +10,7 @@
 using FluentFlyout.Classes;
 using FluentFlyout.Classes.Settings;
 using FluentFlyoutWPF.Classes;
+using FluentFlyoutWPF.Classes.Utils;
 using FluentFlyoutWPF.ViewModels;
 using MicaWPF.Controls;
 using NLog;
@@ -35,6 +36,7 @@ public partial class VolumeMixerWindow : MicaWindow
     private CancellationTokenSource _cts;
     private MainWindow _mainWindow;
     private readonly double _collapsedHeight = 50;
+    public double NormalWidth => _normalWidth;
     private readonly double _normalWidth;
     private bool _isHiding = true;
 
@@ -95,16 +97,27 @@ public partial class VolumeMixerWindow : MicaWindow
             ViewModel.OnPollTick(null, EventArgs.Empty);
 
             bool aboveMedia = SettingsManager.Current.VolumeControlAboveMediaFlyout;
+            var monitor = MonitorUtil.GetSelectedMonitor(SettingsManager.Current.FlyoutSelectedMonitor);
             if (aboveMedia)
             {
                 Width = _mainWindow.Width;
+                UpdateLayout();
+                double rawWidth = _mainWindow.Width * monitor.dpiX / 96.0;
+                double rawHeight = _collapsedHeight * monitor.dpiY / 96.0;
+                WindowHelper.SetSize(this, rawWidth, rawHeight);
                 _mainWindow.OpenAnimation(this, aboveReference: _mainWindow, reserveNativeVolumeOsdSpace: true);
             }
             else
             {
                 Width = _normalWidth;
+                UpdateLayout();
+                double rawWidth = _normalWidth * monitor.dpiX / 96.0;
+                double rawHeight = _collapsedHeight * monitor.dpiY / 96.0;
+                WindowHelper.SetSize(this, rawWidth, rawHeight);
                 _mainWindow.OpenAnimation(this, alwaysBottom: true);
             }
+
+            UpdateChevronOrientation();
 
             Show();
             WindowHelper.SetTopmost(this);
@@ -120,6 +133,16 @@ public partial class VolumeMixerWindow : MicaWindow
         }
         else
         {
+            if (SettingsManager.Current.VolumeControlAboveMediaFlyout)
+            {
+                if (Width != _mainWindow.Width)
+                {
+                    Width = _mainWindow.Width;
+                    UpdateLayout();
+                    _mainWindow.UpdatePositionFromSettings();
+                }
+            }
+
             // only expand if the flyout isn't expanded already
             if (startExpanded) ViewModel.IsExpanded = true;
         }
@@ -309,20 +332,49 @@ public partial class VolumeMixerWindow : MicaWindow
         Logger.Debug("Successfully restored volume OSD.");
     }
 
+    public void UpdateChevronOrientation()
+    {
+        if (Application.Current == null || Dispatcher.HasShutdownStarted)
+        {
+            return;
+        }
+
+        Dispatcher.Invoke(() =>
+        {
+            bool isTop = false;
+            if (SettingsManager.Current.VolumeControlAboveMediaFlyout)
+            {
+                var mediaPlacement = WindowHelper.GetPlacement(_mainWindow);
+                var monitor = MonitorUtil.GetSelectedMonitor(SettingsManager.Current.FlyoutSelectedMonitor);
+                isTop = SettingsManager.Current.Position switch
+                {
+                    3 or 4 or 5 => true,
+                    6 => mediaPlacement.Top < (monitor.workArea.Top + monitor.workArea.Height / 2),
+                    _ => false
+                };
+            }
+
+            ChevronRotation.Angle = isTop ? (ViewModel.IsExpanded ? 0 : 180) : (ViewModel.IsExpanded ? 180 : 0);
+        });
+    }
+
     private void AnimateExpandCollapse(bool expand)
     {
         int msDuration = MainWindow.getDuration();
         var easing = msDuration > 0 ? _mainWindow.getEasingStyle(true) : null;
         var duration = new Duration(TimeSpan.FromMilliseconds(msDuration > 0 ? msDuration / 1.4 : 1));
 
+        var monitor = MonitorUtil.GetSelectedMonitor(SettingsManager.Current.FlyoutSelectedMonitor);
         bool isTop = false;
 
         // check if the media flyout is at the top or bottom of the screen if applicable
         if (SettingsManager.Current.VolumeControlAboveMediaFlyout)
         {
+            var mediaPlacement = WindowHelper.GetPlacement(_mainWindow);
             isTop = SettingsManager.Current.Position switch
             {
                 3 or 4 or 5 => true,
+                6 => mediaPlacement.Top < (monitor.workArea.Top + monitor.workArea.Height / 2),
                 _ => false
             };
         }
@@ -364,12 +416,15 @@ public partial class VolumeMixerWindow : MicaWindow
             EasingFunction = easing
         };
 
+        var currentPlacement = WindowHelper.GetPlacement(this);
+        double currentDipTop = currentPlacement.Top * 96.0 / monitor.dpiY;
+
         // When at the top, the window grows downward so Top stays fixed.
         // When at the bottom, the window grows upward so Top shifts up by heightDelta.
         var topAnimation = new DoubleAnimation
         {
-            From = Top,
-            To = isTop ? Top : Top - heightDelta,
+            From = currentDipTop,
+            To = isTop ? currentDipTop : currentDipTop - heightDelta,
             Duration = duration,
             EasingFunction = easing
         };

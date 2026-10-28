@@ -51,6 +51,36 @@ public static class WindowHelper
         return;
     }
 
+    public static void SetPositionAndSize(Window window, double x, double y, double width, double height, bool async = false) // set the position and size of the window, ignoring WPF
+    {
+        var handle = new WindowInteropHelper(window).Handle;
+        uint flags = SWP_NOZORDER | SWP_NOACTIVATE | (async ? SWP_ASYNCWINDOWPOS : (uint)0);
+        bool result = SetWindowPos(handle, 0, (int)x, (int)y, (int)width, (int)height, flags);
+
+        if (!result)
+        {
+            int error = Marshal.GetLastWin32Error();
+            Logger.Warn($"SetPositionAndSize failed for '{window.GetType().Name}' (HWND=0x{handle.ToInt64():X}, X={x}, Y={y}, Width={width}, Height={height}, Flags=0x{flags:X}), Win32Error={error}");
+        }
+
+        return;
+    }
+
+    public static void SetSize(Window window, double width, double height) // set the size of the window without moving it, ignoring WPF
+    {
+        var handle = new WindowInteropHelper(window).Handle;
+        uint flags = SWP_NOMOVE | SWP_NOZORDER | SWP_NOACTIVATE;
+        bool result = SetWindowPos(handle, 0, 0, 0, (int)width, (int)height, flags);
+
+        if (!result)
+        {
+            int error = Marshal.GetLastWin32Error();
+            Logger.Warn($"SetSize failed for '{window.GetType().Name}' (HWND=0x{handle.ToInt64():X}, Width={width}, Height={height}), Win32Error={error}");
+        }
+
+        return;
+    }
+
     public static void SetNoActivate(Window window) // prevent window from stealing focus
     {
         window.ShowActivated = false;
