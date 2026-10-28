@@ -1798,11 +1798,14 @@ public partial class MainWindow : MicaWindow
                 return 0;
 
             bool result = false;
-            if (isMediaCommand || (!SettingsManager.Current.MediaFlyoutVolumeKeysExcluded && isVolumeCommand))
-                result = TryShowMediaFlyoutDebounced();
 
-            if (isVolumeCommand)
+            if (isMediaCommand || isVolumeCommand)
+            {
+                if (isMediaCommand || (!SettingsManager.Current.MediaFlyoutVolumeKeysExcluded && isVolumeCommand))
+                    result = TryShowMediaFlyoutDebounced();
+
                 ShowVolumeFlyout();
+            }
 
             if (!result && !isVolumeCommand)
             {
