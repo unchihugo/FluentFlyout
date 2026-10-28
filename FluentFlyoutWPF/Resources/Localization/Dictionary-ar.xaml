@@ -297,4 +297,8 @@
     <system:String x:Key="TaskbarWidgetScrollVolumePlayer">مفعل (مستوى صوت المشغل)</system:String>
     <system:String x:Key="OpenMediaPlayerText">إفتح مشغل الوسائط</system:String>
     <system:String x:Key="SessionSwitcherAuto">تلقائي</system:String>
+    <system:String x:Key="ContextMenuSessionSwitcher">تغيير الجلسة</system:String>
+    <system:String x:Key="RelatedSettingsTitle">إعدادات مشابهة</system:String>
+    <system:String x:Key="VolumeFlyoutShortcutDescription">إضغط على مفاتيح الإختصار لإظهار قائمة تحكم مستوى الصوت.</system:String>
+    <system:String x:Key="VolumeFlyoutShortcutTitle">إختصار لوحة المفاتيح</system:String>
 </ResourceDictionary>
