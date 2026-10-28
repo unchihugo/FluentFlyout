@@ -44,14 +44,14 @@
                                     ToolTipService.Placement="RelativePoint"
                                     ToolTipService.VerticalOffset="-16">
                             <Canvas x:Name="SongTitleContainer" ClipToBounds="True" Height="19">
-                                <TextBlock x:Name="SongTitle" Text="" FontWeight="Normal">
+                                <TextBlock x:Name="SongTitle" Text="" FontSize="14" FontWeight="Normal">
                                     <TextBlock.RenderTransform>
                                         <TranslateTransform />
                                     </TextBlock.RenderTransform>
                                 </TextBlock>
                             </Canvas>
                             <Canvas x:Name="SongArtistContainer" ClipToBounds="True" Margin="0,-1.5,0,0" Height="19">
-                                <TextBlock x:Name="SongArtist" Text="" FontWeight="Normal" Opacity="0.5">
+                                <TextBlock x:Name="SongArtist" Text="" FontSize="14" FontWeight="Normal" Opacity="0.5">
                                     <TextBlock.RenderTransform>
                                         <TranslateTransform />
                                     </TextBlock.RenderTransform>
