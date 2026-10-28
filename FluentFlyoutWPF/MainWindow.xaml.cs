@@ -966,23 +966,7 @@ public partial class MainWindow : MicaWindow
                 }
             }
 
-            bool mediaKeysPressed = vkCode == 0xB3 || vkCode == 0xB0 || vkCode == 0xB1 || vkCode == 0xB2; // Play/Pause, next, previous, stop
-            bool volumeKeysPressed = vkCode == 0xAD || vkCode == 0xAE || vkCode == 0xAF; // Mute, Volume Down, Volume Up
-
-            // MainWindow.WndProc() also handles media and volume keys
-            if (mediaKeysPressed || volumeKeysPressed)
-            {
-                bool result = false;
-                if (mediaKeysPressed || (!SettingsManager.Current.MediaFlyoutVolumeKeysExcluded && volumeKeysPressed))
-                    result = TryShowMediaFlyoutDebounced();
-
-                ShowVolumeFlyout();
-
-                if (!result)
-                {
-                    return CallNextHookEx(_hookId, nCode, wParam, lParam);
-                }
-            }
+            // Don't check media/volume: WndProc() already handles media and volume keys, so it's redundant and can cause triggers even on rebound keys.
 
             if (SettingsManager.Current.LockKeysEnabled
                 && !FullscreenDetector.IsFullscreenApplicationRunning()
@@ -1814,11 +1798,14 @@ public partial class MainWindow : MicaWindow
                 return 0;
 
             bool result = false;
-            if (isMediaCommand || (!SettingsManager.Current.MediaFlyoutVolumeKeysExcluded && isVolumeCommand))
-                result = TryShowMediaFlyoutDebounced();
 
-            if (isVolumeCommand)
+            if (isMediaCommand || isVolumeCommand)
+            {
+                if (isMediaCommand || (!SettingsManager.Current.MediaFlyoutVolumeKeysExcluded && isVolumeCommand))
+                    result = TryShowMediaFlyoutDebounced();
+
                 ShowVolumeFlyout();
+            }
 
             if (!result && !isVolumeCommand)
             {
