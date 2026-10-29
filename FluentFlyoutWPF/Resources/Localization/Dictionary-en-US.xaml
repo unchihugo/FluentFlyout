@@ -43,6 +43,8 @@ hides repeat, shuffle and player info</System:String>
     <System:String x:Key="ShowMediaPlayerNameTitle">Show Media Player name</System:String>
     <System:String x:Key="ContextMenuSessionSwitcher">Switch sessions</System:String>
     <System:String x:Key="SessionSwitcherAuto">Automatic</System:String>
+    <System:String x:Key="MediaSessionAutoFollowTitle">Make manual player selection temporary</System:String>
+    <System:String x:Key="MediaSessionAutoFollowDescription">After choosing a player from the media flyout's player list, return to automatic selection when another player starts playing.</System:String>
     <System:String x:Key="RepeatButtonTitle">Repeat Button*</System:String>
     <System:String x:Key="RepeatButtonDescription">Choose between repeat all or repeat one, increases flyout width</System:String>
     <System:String x:Key="ShuffleButtonTitle">Shuffle Button*</System:String>
