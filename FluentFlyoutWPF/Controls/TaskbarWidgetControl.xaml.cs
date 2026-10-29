@@ -65,10 +65,11 @@ public partial class TaskbarWidgetControl : UserControl
     private bool _isPaused;
     private bool _isVertical;
     private bool _isSmallTaskbar;
-    private readonly DispatcherTimer _controlsHideTimer;
-    private readonly DispatcherTimer _controlsShowTimer;
+    private readonly DispatcherTimer _controlsTransitionTimer;
+    private bool _pendingControlsVisibility;
     private bool _controlsLayoutVisible = true;
     private int _controlsAnimationGeneration;
+    private bool? _controlsAnimationTargetVisible;
 
     public event EventHandler? LayoutInvalidated;
 
@@ -82,18 +83,14 @@ public partial class TaskbarWidgetControl : UserControl
         // Set DataContext for bindings
         DataContext = SettingsManager.Current;
 
-        _controlsHideTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(250) };
-        _controlsHideTimer.Tick += (_, _) =>
+        _controlsTransitionTimer = new DispatcherTimer();
+        _controlsTransitionTimer.Tick += (_, _) =>
         {
-            _controlsHideTimer.Stop();
-            AnimateControlsVisibility(false);
-        };
-        _controlsShowTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(400) };
-        _controlsShowTimer.Tick += (_, _) =>
-        {
-            _controlsShowTimer.Stop();
-            if (MainBorder.IsMouseOver && SettingsManager.Current.TaskbarWidgetControlsAutoHide)
-                AnimateControlsVisibility(true);
+            _controlsTransitionTimer.Stop();
+            // The delay prevents flicker when the pointer briefly crosses the widget.
+            // Mouse events choose the target; this single timer only delays applying it.
+            if (_pendingControlsVisibility ? MainBorder.IsMouseOver : !MainBorder.IsMouseOver)
+                AnimateControlsVisibility(_pendingControlsVisibility);
         };
         Loaded += TaskbarWidgetControl_Loaded;
         Unloaded += TaskbarWidgetControl_Unloaded;
@@ -200,12 +197,8 @@ public partial class TaskbarWidgetControl : UserControl
 
     private void Grid_MouseEnter(object sender, MouseEventArgs e)
     {
-        _controlsHideTimer.Stop();
         if (SettingsManager.Current.TaskbarWidgetControlsAutoHide)
-        {
-            _controlsShowTimer.Stop();
-            _controlsShowTimer.Start();
-        }
+            ScheduleControlsVisibility(show: true);
 
         if (string.IsNullOrEmpty(SongTitle.Text + SongArtist.Text)) return;
 
@@ -255,12 +248,8 @@ public partial class TaskbarWidgetControl : UserControl
 
     private void Grid_MouseLeave(object sender, MouseEventArgs e)
     {
-        _controlsShowTimer.Stop();
         if (SettingsManager.Current.TaskbarWidgetControlsAutoHide)
-        {
-            _controlsHideTimer.Stop();
-            _controlsHideTimer.Start();
-        }
+            ScheduleControlsVisibility(show: false);
 
         if (string.IsNullOrEmpty(SongTitle.Text + SongArtist.Text)) return;
 
@@ -294,8 +283,7 @@ public partial class TaskbarWidgetControl : UserControl
 
     private void TaskbarWidgetControl_Unloaded(object sender, RoutedEventArgs e)
     {
-        _controlsHideTimer.Stop();
-        _controlsShowTimer.Stop();
+        _controlsTransitionTimer.Stop();
         WeakEventManager<FluentFlyoutWPF.ViewModels.UserSettings, System.ComponentModel.PropertyChangedEventArgs>.RemoveHandler(
             SettingsManager.Current, nameof(SettingsManager.Current.PropertyChanged), Settings_PropertyChanged);
     }
@@ -309,8 +297,7 @@ public partial class TaskbarWidgetControl : UserControl
 
     private void ApplyControlsAutoHideSetting(bool animate)
     {
-        _controlsHideTimer.Stop();
-        _controlsShowTimer.Stop();
+        _controlsTransitionTimer.Stop();
         if (!SettingsManager.Current.TaskbarWidgetControlsEnabled || !SettingsManager.Current.TaskbarWidgetControlsAutoHide)
         {
             AnimateControlsVisibility(true, animate);
@@ -319,13 +306,24 @@ public partial class TaskbarWidgetControl : UserControl
 
         if (MainBorder.IsMouseOver)
         {
-            if (animate) _controlsShowTimer.Start();
+            if (animate) ScheduleControlsVisibility(show: true);
             else AnimateControlsVisibility(true, animate: false);
         }
         else
         {
-            AnimateControlsVisibility(false, animate);
+            if (animate) ScheduleControlsVisibility(show: false);
+            else AnimateControlsVisibility(false, animate: false);
         }
+    }
+
+    private void ScheduleControlsVisibility(bool show)
+    {
+        _controlsTransitionTimer.Stop();
+        _pendingControlsVisibility = show;
+        // Showing has a longer hover delay; hiding is slightly delayed to avoid
+        // collapsing controls while the pointer moves between their child elements.
+        _controlsTransitionTimer.Interval = TimeSpan.FromMilliseconds(show ? 400 : 250);
+        _controlsTransitionTimer.Start();
     }
 
     private void AnimateControlsVisibility(bool show, bool animate = true)
@@ -333,6 +331,15 @@ public partial class TaskbarWidgetControl : UserControl
         if (!SettingsManager.Current.TaskbarWidgetControlsEnabled) show = false;
         else if (!SettingsManager.Current.TaskbarWidgetControlsAutoHide) show = true;
         if (string.IsNullOrEmpty(_actualTitle + _actualArtist)) show = false;
+
+        // Several events can request the same state (for example, a track update
+        // arriving while the hover timer is running). Restarting an in-flight
+        // animation from its current value makes it appear randomly faster or instant.
+        // Only start a new animation when the requested target actually changes.
+        if (animate && _controlsAnimationTargetVisible == show)
+            return;
+
+        _controlsAnimationTargetVisible = show;
 
         int generation = ++_controlsAnimationGeneration;
         if (show)
@@ -346,7 +353,8 @@ public partial class TaskbarWidgetControl : UserControl
         }
 
         var transform = (TranslateTransform)ControlsStackPanel.RenderTransform;
-        double direction = SettingsManager.Current.TaskbarWidgetControlsPosition == 0 ? -1 : 1;
+        // Controls on the left should slide left when hidden; controls on the right slide right.
+        double direction = SettingsManager.Current.TaskbarWidgetControlsPosition == 0 ? 1 : -1;
         double targetX = show ? 0 : 5 * direction;
         if (!animate)
         {
@@ -362,12 +370,27 @@ public partial class TaskbarWidgetControl : UserControl
             return;
         }
 
-        var easing = new CubicEase { EasingMode = show ? EasingMode.EaseOut : EasingMode.EaseIn };
+        // Keep all control visibility transitions on one animation path. Cancel any
+        // entrance/previous visibility clocks first so they cannot override this one.
+        double currentOpacity = ControlsStackPanel.Opacity;
+        double currentX = transform.X;
+        ControlsStackPanel.BeginAnimation(OpacityProperty, null);
+        transform.BeginAnimation(TranslateTransform.XProperty, null);
+        ControlsStackPanel.Opacity = currentOpacity;
+        transform.X = currentX;
+
+        int transitionDurationMs = MainWindow.getDuration();
+        if (transitionDurationMs <= 0)
+        {
+            AnimateControlsVisibility(show, animate: false);
+            return;
+        }
+        var easing = new CubicEase { EasingMode = show ? EasingMode.EaseOut : EasingMode.EaseInOut };
         var opacityAnimation = new DoubleAnimation
         {
-            From = ControlsStackPanel.Opacity,
+            From = currentOpacity,
             To = show ? 1 : 0,
-            Duration = TimeSpan.FromMilliseconds(show ? 180 : 150),
+            Duration = TimeSpan.FromMilliseconds(transitionDurationMs),
             EasingFunction = easing
         };
 
@@ -389,9 +412,9 @@ public partial class TaskbarWidgetControl : UserControl
 
         var slideAnimation = new DoubleAnimation
         {
-            From = transform.X,
+            From = currentX,
             To = targetX,
-            Duration = TimeSpan.FromMilliseconds(show ? 180 : 150),
+            Duration = TimeSpan.FromMilliseconds(transitionDurationMs),
             EasingFunction = easing
         };
         ControlsStackPanel.BeginAnimation(OpacityProperty, opacityAnimation);
@@ -696,6 +719,7 @@ public partial class TaskbarWidgetControl : UserControl
         }
 
         // adjust UI based on available controls
+        bool mediaInfoChanged = false;
         Dispatcher.Invoke(() =>
         {
             if (SettingsManager.Current.TaskbarWidgetControlsEnabled && playbackControls != null)
@@ -727,6 +751,7 @@ public partial class TaskbarWidgetControl : UserControl
 
             if (_actualTitle != newTitle || _actualArtist != newArtist)
             {
+                mediaInfoChanged = true;
                 // changed info
                 if (SettingsManager.Current.TaskbarWidgetAnimated)
                 {
@@ -789,14 +814,15 @@ public partial class TaskbarWidgetControl : UserControl
                 : Visibility.Collapsed;
             SongInfoStackPanel.Visibility = _isVertical ? Visibility.Collapsed : Visibility.Visible;
             BackgroundImage.Visibility = SettingsManager.Current.TaskbarWidgetBackgroundBlur ? Visibility.Visible : Visibility.Collapsed;
-
-            // on top of XAML visibility binding (XAML binding only hides when disabled in settings)
-            ControlsStackPanel.Visibility = SettingsManager.Current.TaskbarWidgetControlsEnabled
-                ? Visibility.Visible
-                : Visibility.Collapsed;
+            BackgroundImage.Opacity = SettingsManager.Current.TaskbarWidgetBackgroundBlur ? 0.4 : 0;
 
             Visibility = Visibility.Visible;
         });
+
+        // Reconcile visibility when a new track first supplies media information.
+        // Do not run this on every playback update: doing so would continually reset the hover timer.
+        if (mediaInfoChanged)
+            Dispatcher.BeginInvoke(() => ApplyControlsAutoHideSetting(animate: true), DispatcherPriority.Background);
     }
 
     public void RefreshAppVolumeTooltip()
@@ -844,14 +870,10 @@ public partial class TaskbarWidgetControl : UserControl
             SongInfoStackPanel.RenderTransform = translateTransform;
             translateTransform.BeginAnimation(TranslateTransform.XProperty, translateAnimation);
 
-            // don't play ControlsStackPanel animation if it's not enabled
-            if (!SettingsManager.Current.TaskbarWidgetControlsEnabled)
-                return;
-
-            ControlsStackPanel.BeginAnimation(OpacityProperty, opacityAnimation);
-            TranslateTransform translateTransform2 = new();
-            ControlsStackPanel.RenderTransform = translateTransform2;
-            translateTransform2.BeginAnimation(TranslateTransform.XProperty, translateAnimation);
+            // ControlsStackPanel visibility is animated exclusively by
+            // ApplyControlsAutoHideSetting / AnimateControlsVisibility. Running a
+            // second entrance animation here raced with auto-hide and caused instant,
+            // inconsistent, or unexpectedly fast transitions.
         }
         catch (Exception ex)
         {
