@@ -43,15 +43,6 @@ public partial class TaskbarWindow : Window
     private bool _isClosing;
     private readonly Dictionary<string, Task> _pendingAutomationTasks = [];
 
-    private const double WidgetWidthAnimationDurationMs = 180;
-    private DispatcherTimer? _widgetWidthAnimationTimer;
-    private bool _widgetWidthAnimationActive;
-    private double _widgetWidthAnimationFrom;
-    private double _widgetWidthAnimationTarget;
-    private DateTime _widgetWidthAnimationStartUtc = DateTime.MinValue;
-    private double _lastWidgetWidthTargetPhysical = -1;
-    private double _lastWidgetWidthRenderedPhysical = -1;
-
     private GlobalSystemMediaTransportControlsSessionPlaybackStatus? _lastPlaybackStatus;
     private DispatcherTimer? _autoHideTimer;
 
@@ -474,7 +465,10 @@ on_error:
         var (logicalWidth, logicalHeight) = Widget.CalculateSize(dpiScale);
 
         int targetPhysicalWidth = (int)(logicalWidth * dpiScale * _scale);
-        int physicalWidth = GetAnimatedWidgetWidth(targetPhysicalWidth);
+        // Widget.CalculateSize is the source of truth. UpdatePosition is already
+        // triggered by layout invalidation and the regular position timer, so a
+        // second hand-written width animation loop is unnecessary here.
+        int physicalWidth = targetPhysicalWidth;
         int physicalHeight = (int)(logicalHeight * dpiScale);
 
         int taskbarHeight = taskbarRect.Bottom - taskbarRect.Top;
@@ -656,62 +650,6 @@ on_error:
         double rectW = isVertical ? physicalHeight : physicalWidth;
         double rectH = isVertical ? physicalWidth : physicalHeight;
         return new Rect(Canvas.GetLeft(Widget) * dpiScale, Canvas.GetTop(Widget) * dpiScale, rectW, rectH);
-    }
-
-    private int GetAnimatedWidgetWidth(int targetWidth)
-    {
-        if (_lastWidgetWidthTargetPhysical < 0)
-        {
-            _lastWidgetWidthTargetPhysical = targetWidth;
-            _lastWidgetWidthRenderedPhysical = targetWidth;
-            return targetWidth;
-        }
-
-        double currentWidth = _lastWidgetWidthRenderedPhysical > 0 ? _lastWidgetWidthRenderedPhysical : targetWidth;
-        if (Math.Abs(targetWidth - _lastWidgetWidthTargetPhysical) >= 0.5)
-        {
-            _widgetWidthAnimationFrom = currentWidth;
-            _widgetWidthAnimationTarget = targetWidth;
-            _widgetWidthAnimationStartUtc = DateTime.UtcNow;
-            _widgetWidthAnimationActive = Math.Abs(targetWidth - currentWidth) >= 0.5;
-            _lastWidgetWidthTargetPhysical = targetWidth;
-            if (_widgetWidthAnimationActive)
-            {
-                _widgetWidthAnimationTimer ??= new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(16) };
-                _widgetWidthAnimationTimer.Tick -= WidgetWidthAnimationTimer_Tick;
-                _widgetWidthAnimationTimer.Tick += WidgetWidthAnimationTimer_Tick;
-                _widgetWidthAnimationTimer.Start();
-            }
-        }
-
-        if (!_widgetWidthAnimationActive)
-        {
-            _lastWidgetWidthRenderedPhysical = targetWidth;
-            return targetWidth;
-        }
-
-        double progress = Math.Clamp((DateTime.UtcNow - _widgetWidthAnimationStartUtc).TotalMilliseconds / WidgetWidthAnimationDurationMs, 0, 1);
-        double eased = 1 - Math.Pow(1 - progress, 3);
-        int width = (int)Math.Round(_widgetWidthAnimationFrom + (_widgetWidthAnimationTarget - _widgetWidthAnimationFrom) * eased);
-        _lastWidgetWidthRenderedPhysical = width;
-        if (progress >= 1)
-        {
-            _widgetWidthAnimationActive = false;
-            _lastWidgetWidthRenderedPhysical = targetWidth;
-            _widgetWidthAnimationTimer?.Stop();
-            return targetWidth;
-        }
-        return width;
-    }
-
-    private void WidgetWidthAnimationTimer_Tick(object? sender, EventArgs e)
-    {
-        if (!_widgetWidthAnimationActive)
-        {
-            _widgetWidthAnimationTimer?.Stop();
-            return;
-        }
-        UpdatePosition();
     }
 
     private Rect PositionVisualizer(IntPtr taskbarHandle, RECT taskbarRect, double dpiScale, bool isMainTaskbarSelected, bool isVertical)
@@ -971,8 +909,6 @@ on_error:
         _timer.Stop();
         _autoHideTimer?.Stop();
         _autoHideTimer = null;
-        _widgetWidthAnimationTimer?.Stop();
-        _widgetWidthAnimationTimer = null;
         _widgetElement = null;
         _trayElement = null;
         _taskbarFrameElement = null;
