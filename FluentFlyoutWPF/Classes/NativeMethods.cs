@@ -34,7 +34,8 @@ public static partial class NativeMethods
     internal const uint SWP_NOACTIVATE = 0x0010;
 
     // ShowWindow Commands
-    internal const int SW_MINIMIZE = 6;
+    internal const int SW_SHOWNOACTIVATE = 4;
+    internal const int SW_SHOWMINNOACTIVE = 7;
     internal const int SW_RESTORE = 9;
 
     // Monitor Flags
