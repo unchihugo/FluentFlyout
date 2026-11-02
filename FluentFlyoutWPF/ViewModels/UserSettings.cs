@@ -675,8 +675,29 @@ public partial class UserSettings : ObservableObject
     /// Gets whether premium features are unlocked (runtime only, not persisted)
     /// </summary>
     [XmlIgnore]
+    [NotifyPropertyChangedFor(nameof(IsPremiumUnlockedBannerOpen))]
     [ObservableProperty]
     public partial bool IsPremiumUnlocked { get; set; }
+
+    /// <summary>
+    /// Gets or sets whether the premium unlocked banner has been closed.
+    /// </summary>
+    [NotifyPropertyChangedFor(nameof(IsPremiumUnlockedBannerOpen))]
+    [ObservableProperty]
+    public partial bool PremiumUnlockedBannerClosedOnce { get; set; }
+
+    [XmlIgnore]
+    public bool IsPremiumUnlockedBannerOpen
+    {
+        get => IsStoreVersion && IsPremiumUnlocked && !PremiumUnlockedBannerClosedOnce;
+        set
+        {
+            if (!value && IsStoreVersion && IsPremiumUnlocked)
+            {
+                PremiumUnlockedBannerClosedOnce = true;
+            }
+        }
+    }
 
     /// <summary>
     /// Gets or sets the opacity level of the acrylic blur effect.
@@ -690,6 +711,7 @@ public partial class UserSettings : ObservableObject
     /// <summary>
     /// Gets whether this is a Store version. Once false, always false (only if last known version was not null).
     /// </summary>
+    [NotifyPropertyChangedFor(nameof(IsPremiumUnlockedBannerOpen))]
     [ObservableProperty]
     public partial bool IsStoreVersion { get; set; }
 
