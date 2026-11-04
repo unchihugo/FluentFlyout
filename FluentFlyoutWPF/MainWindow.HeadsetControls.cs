@@ -3,25 +3,25 @@
 
 using FluentFlyout.Classes.Settings;
 using FluentFlyoutWPF.Classes;
-using Windows.Media.Control;
-using static WindowsMediaController.MediaManager;
 
 namespace FluentFlyoutWPF;
 
 public partial class MainWindow
 {
+    // TODO: Commented out lines are heuristic checks for play/pause toggles that aren't completely reliable, so they are disabled for now. If a better method is found, they can be re-enabled.
+
     private const int LocalInputGracePeriodMs = 500;
 
     private ExternalVolumeMonitor? _externalVolumeMonitor;
-    private readonly Dictionary<string, GlobalSystemMediaTransportControlsSessionPlaybackStatus> _lastPlaybackStatuses = [];
+    //private readonly Dictionary<string, GlobalSystemMediaTransportControlsSessionPlaybackStatus> _lastPlaybackStatuses = [];
 
     private void InitializeHeadsetControls()
     {
-        foreach (var session in mediaManager.CurrentMediaSessions.Values)
-            UpdateLastPlaybackStatus(session);
+        //foreach (var session in mediaManager.CurrentMediaSessions.Values)
+        //    UpdateLastPlaybackStatus(session);
 
-        mediaManager.OnAnyPlaybackStateChanged += HeadsetControls_OnPlaybackStateChanged;
-        mediaManager.OnAnySessionClosed += HeadsetControls_OnSessionClosed;
+        //mediaManager.OnAnyPlaybackStateChanged += HeadsetControls_OnPlaybackStateChanged;
+        //mediaManager.OnAnySessionClosed += HeadsetControls_OnSessionClosed;
 
         _externalVolumeMonitor = new ExternalVolumeMonitor(LocalInputGracePeriodMs);
         _externalVolumeMonitor.ExternalVolumeChanged += HeadsetControls_OnExternalVolumeChanged;
@@ -29,8 +29,8 @@ public partial class MainWindow
 
     private void DisposeHeadsetControls()
     {
-        mediaManager.OnAnyPlaybackStateChanged -= HeadsetControls_OnPlaybackStateChanged;
-        mediaManager.OnAnySessionClosed -= HeadsetControls_OnSessionClosed;
+        //mediaManager.OnAnyPlaybackStateChanged -= HeadsetControls_OnPlaybackStateChanged;
+        //mediaManager.OnAnySessionClosed -= HeadsetControls_OnSessionClosed;
 
         if (_externalVolumeMonitor != null)
         {
@@ -51,50 +51,50 @@ public partial class MainWindow
         });
     }
 
-    private void HeadsetControls_OnPlaybackStateChanged(MediaSession mediaSession, GlobalSystemMediaTransportControlsSessionPlaybackInfo? playbackInfo = null)
-    {
-        var (previousStatus, currentStatus) = UpdateLastPlaybackStatus(mediaSession, playbackInfo);
+    //    private void HeadsetControls_OnPlaybackStateChanged(MediaSession mediaSession, GlobalSystemMediaTransportControlsSessionPlaybackInfo? playbackInfo = null)
+    //    {
+    //        var (previousStatus, currentStatus) = UpdateLastPlaybackStatus(mediaSession, playbackInfo);
 
-        bool isPlayPauseToggle =
-            (previousStatus == GlobalSystemMediaTransportControlsSessionPlaybackStatus.Playing && currentStatus == GlobalSystemMediaTransportControlsSessionPlaybackStatus.Paused) ||
-            (previousStatus == GlobalSystemMediaTransportControlsSessionPlaybackStatus.Paused && currentStatus == GlobalSystemMediaTransportControlsSessionPlaybackStatus.Playing);
+    //        bool isPlayPauseToggle =
+    //            (previousStatus == GlobalSystemMediaTransportControlsSessionPlaybackStatus.Playing && currentStatus == GlobalSystemMediaTransportControlsSessionPlaybackStatus.Paused) ||
+    //            (previousStatus == GlobalSystemMediaTransportControlsSessionPlaybackStatus.Paused && currentStatus == GlobalSystemMediaTransportControlsSessionPlaybackStatus.Playing);
 
-        if (!isPlayPauseToggle || LocalInputDetector.HadInputWithin(LocalInputGracePeriodMs))
-            return;
+    //        if (!isPlayPauseToggle || LocalInputDetector.HadInputWithin(LocalInputGracePeriodMs))
+    //            return;
 
-        Dispatcher.BeginInvoke(() =>
-        {
-            if (GetActiveMediaSession()?.Id != mediaSession.Id)
-                return;
+    //        Dispatcher.BeginInvoke(() =>
+    //        {
+    //            if (GetActiveMediaSession()?.Id != mediaSession.Id)
+    //                return;
 
-#if DEBUG
-            Logger.Debug("Play/pause without key press detected: " + mediaSession.Id + " " + currentStatus);
-#endif
-            TryShowMediaFlyoutDebounced();
-        });
-    }
+    //#if DEBUG
+    //            Logger.Debug("Play/pause without key press detected: " + mediaSession.Id + " " + currentStatus);
+    //#endif
+    //            TryShowMediaFlyoutDebounced();
+    //        });
+    //    }
 
-    private void HeadsetControls_OnSessionClosed(MediaSession mediaSession)
-    {
-        lock (_lastPlaybackStatuses)
-            _lastPlaybackStatuses.Remove(mediaSession.Id);
-    }
+    //    private void HeadsetControls_OnSessionClosed(MediaSession mediaSession)
+    //    {
+    //        lock (_lastPlaybackStatuses)
+    //            _lastPlaybackStatuses.Remove(mediaSession.Id);
+    //    }
 
-    private (GlobalSystemMediaTransportControlsSessionPlaybackStatus? Previous, GlobalSystemMediaTransportControlsSessionPlaybackStatus? Current)
-        UpdateLastPlaybackStatus(MediaSession mediaSession, GlobalSystemMediaTransportControlsSessionPlaybackInfo? playbackInfo = null)
-    {
-        // sometimes mediaSession.ControlSession can be null
-        var currentStatus = playbackInfo?.PlaybackStatus ?? mediaSession.ControlSession?.GetPlaybackInfo()?.PlaybackStatus;
-        if (currentStatus == null)
-            return (null, null);
+    //    private (GlobalSystemMediaTransportControlsSessionPlaybackStatus? Previous, GlobalSystemMediaTransportControlsSessionPlaybackStatus? Current)
+    //        UpdateLastPlaybackStatus(MediaSession mediaSession, GlobalSystemMediaTransportControlsSessionPlaybackInfo? playbackInfo = null)
+    //    {
+    //        // sometimes mediaSession.ControlSession can be null
+    //        var currentStatus = playbackInfo?.PlaybackStatus ?? mediaSession.ControlSession?.GetPlaybackInfo()?.PlaybackStatus;
+    //        if (currentStatus == null)
+    //            return (null, null);
 
-        lock (_lastPlaybackStatuses)
-        {
-            GlobalSystemMediaTransportControlsSessionPlaybackStatus? previousStatus =
-                _lastPlaybackStatuses.TryGetValue(mediaSession.Id, out var lastStatus) ? lastStatus : null;
+    //        lock (_lastPlaybackStatuses)
+    //        {
+    //            GlobalSystemMediaTransportControlsSessionPlaybackStatus? previousStatus =
+    //                _lastPlaybackStatuses.TryGetValue(mediaSession.Id, out var lastStatus) ? lastStatus : null;
 
-            _lastPlaybackStatuses[mediaSession.Id] = currentStatus.Value;
-            return (previousStatus, currentStatus);
-        }
-    }
+    //            _lastPlaybackStatuses[mediaSession.Id] = currentStatus.Value;
+    //            return (previousStatus, currentStatus);
+    //        }
+    //    }
 }

@@ -297,4 +297,8 @@ Vous pouvez contribuer aux traductions sur</system:String>
     <system:String x:Key="TaskbarWidgetScrollVolumeMaster">Activé (volume principal)</system:String>
     <system:String x:Key="TaskbarWidgetScrollVolumePlayer">Activé (volume du lecteur)</system:String>
     <system:String x:Key="SessionSwitcherAuto">Automatique</system:String>
+    <system:String x:Key="ContextMenuSessionSwitcher">Changer de session</system:String>
+    <system:String x:Key="RelatedSettingsTitle">Paramètres associés</system:String>
+    <system:String x:Key="VolumeFlyoutShortcutDescription">Appuyez sur la combinaison de touches pour afficher le menu déroulant du volume.</system:String>
+    <system:String x:Key="VolumeFlyoutShortcutTitle">Raccourci clavier</system:String>
 </ResourceDictionary>

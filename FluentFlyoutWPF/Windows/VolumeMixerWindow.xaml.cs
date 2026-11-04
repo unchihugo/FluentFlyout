@@ -236,7 +236,7 @@ public partial class VolumeMixerWindow : MicaWindow
                     SWP_NOSIZE | SWP_NOZORDER | SWP_NOACTIVATE))
                     throw new Win32Exception(Marshal.GetLastWin32Error(), "SetWindowPos failed");
 
-                ShowWindow(_nativeOsdElement, SW_MINIMIZE);
+                ShowWindow(_nativeOsdElement, SW_SHOWMINNOACTIVE);
                 Logger.Debug("Successfully hid volume OSD.");
                 return;
             }
@@ -266,7 +266,7 @@ public partial class VolumeMixerWindow : MicaWindow
                 continue;
             }
 
-            ShowWindow(hwndInputClass, SW_RESTORE);
+            ShowWindow(hwndInputClass, SW_SHOWNOACTIVATE);
             if (GetWindowRect(hwndInputClass, out RECT rect))
             {
                 if (rect.Top == 0 && rect.Left == 0 && rect.Bottom == 0 && rect.Right == 0)
@@ -290,7 +290,7 @@ public partial class VolumeMixerWindow : MicaWindow
             _nativeOsdOriginalExStyle | WS_EX_LAYERED | WS_EX_TRANSPARENT);
         SetWindowPos(_nativeOsdElement, 0, -99999, -99999, 0, 0,
             SWP_NOSIZE | SWP_NOZORDER | SWP_NOACTIVATE);
-        ShowWindow(_nativeOsdElement, SW_MINIMIZE);
+        ShowWindow(_nativeOsdElement, SW_SHOWMINNOACTIVE);
         Logger.Debug("Successfully hid volume OSD.");
     }
 
@@ -305,7 +305,7 @@ public partial class VolumeMixerWindow : MicaWindow
         SetWindowLong(_nativeOsdElement, GWL_EXSTYLE, _nativeOsdOriginalExStyle);
         SetWindowPos(_nativeOsdElement, 0, 0, 0, 0, 0,
             SWP_NOSIZE | SWP_NOZORDER | SWP_NOACTIVATE);
-        ShowWindow(_nativeOsdElement, SW_RESTORE);
+        ShowWindow(_nativeOsdElement, SW_SHOWNOACTIVATE);
         Logger.Debug("Successfully restored volume OSD.");
     }
 

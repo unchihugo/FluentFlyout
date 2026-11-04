@@ -297,5 +297,8 @@ Nota: Como proyecto de código abierto, estas opciones también están disponibl
     <system:String x:Key="TaskbarWidgetScrollVolumeTitle">Ajustar el volumen</system:String>
     <system:String x:Key="TaskbarWidgetScrollVolumeDescription">Utilice la rueda del ratón sobre el widget de la barra de tareas para ajustar el volumen</system:String>
     <system:String x:Key="TaskbarWidgetScrollVolumePlayer">Volumen del Reproductor</system:String>
-    <system:String x:Key="TaskbarWidgetScrollVolumeMaster">Volumen Maestro</system:String>
+    <system:String x:Key="TaskbarWidgetScrollVolumeMaster">Volumen principal</system:String>
+    <system:String x:Key="VolumeFlyoutShortcutTitle">Atajos del Teclado</system:String>
+    <system:String x:Key="VolumeFlyoutShortcutDescription">Presionar atajos del teclado para mostrar el Flyout de Volumen.</system:String>
+    <system:String x:Key="OpenMediaPlayerText">Abrir el reproductor</system:String>
 </ResourceDictionary>

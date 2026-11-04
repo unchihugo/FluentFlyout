@@ -299,4 +299,6 @@ Not: Açık kaynaklı bir proje olduğundan, bu özellikler GitHub'daki manuel y
     <system:String x:Key="TaskbarWidgetScrollVolumePlayer">Açık (oynatıcı sesi)</system:String>
     <system:String x:Key="OpenMediaPlayerText">Medya oynatıcıyı aç</system:String>
     <system:String x:Key="RelatedSettingsTitle">İlgili ayarlar</system:String>
+    <system:String x:Key="VolumeFlyoutShortcutTitle">Klavye kısayolu</system:String>
+    <system:String x:Key="VolumeFlyoutShortcutDescription">Ses menüsünü açmak için kısayol tuşlarına basın.</system:String>
 </ResourceDictionary>
