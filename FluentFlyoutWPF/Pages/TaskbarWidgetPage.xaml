@@ -45,23 +45,7 @@
                 <TextBlock FontSize="14" FontWeight="Regular" HorizontalAlignment="Stretch" Opacity="0.75" Margin="12,0,0,0" MaxWidth="450" TextWrapping="WrapWithOverflow" Text="{DynamicResource TaskbarWidgetDescription}" />
             </StackPanel>
 
-            <!-- Premium Status InfoBar (only shown for Store versions) -->
-            <ui:InfoBar Grid.Row="1" Title="{DynamicResource PremiumUnlockedMessage}" Severity="Success" IsClosable="True" Margin="0,0,0,3">
-                <ui:InfoBar.Style>
-                    <Style TargetType="ui:InfoBar" BasedOn="{StaticResource {x:Type ui:InfoBar}}">
-                        <Setter Property="IsOpen" Value="False" />
-                        <Style.Triggers>
-                            <MultiDataTrigger>
-                                <MultiDataTrigger.Conditions>
-                                    <Condition Binding="{Binding IsStoreVersion}" Value="True" />
-                                    <Condition Binding="{Binding IsPremiumUnlocked}" Value="True" />
-                                </MultiDataTrigger.Conditions>
-                                <Setter Property="IsOpen" Value="True" />
-                            </MultiDataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </ui:InfoBar.Style>
-            </ui:InfoBar>
+            <fluentflyoutcontrols:PremiumUnlockedBanner Grid.Row="1" Margin="0,0,0,3" />
 
             <!-- Premium Locked InfoBar (only shown for Store versions without premium) -->
             <ui:InfoBar Grid.Row="1" IsOpen="True" Severity="Warning" IsClosable="False" Margin="0,0,0,3">
