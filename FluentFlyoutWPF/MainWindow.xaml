@@ -112,15 +112,38 @@
     </Window.Triggers>
 
     <Grid>
-        <controls:Button x:Name="MediaFlyoutCloseButton"
-                         Width="28" Height="28" 
-                         Style="{StaticResource MicaWPF.Styles.TransparentButton}"
-                         HorizontalAlignment="Right" VerticalAlignment="Top"
-                         Margin="0,8,8,0"
-                         Click="MediaFlyoutCloseButton_Click"
-                         Visibility="Collapsed"  >
-            <ui:SymbolIcon Symbol="Dismiss20" Filled="True"/>
-        </controls:Button>
+        <StackPanel x:Name="MediaFlyoutTopRightPanel" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,8,8,0" Panel.ZIndex="10">
+            <Border x:Name="MediaFlyoutDragHandle"
+                    Width="24" Height="28"
+                    Background="Transparent"
+                    ToolTipService.InitialShowDelay="400"
+                    ToolTip="{DynamicResource MediaFlyoutDragHandleTooltip}"
+                    PreviewMouseLeftButtonDown="MediaFlyoutDragHandle_PreviewMouseLeftButtonDown"
+                    PreviewMouseMove="MediaFlyoutDragHandle_PreviewMouseMove"
+                    PreviewMouseLeftButtonUp="MediaFlyoutDragHandle_PreviewMouseLeftButtonUp"
+                    LostMouseCapture="MediaFlyoutDragHandle_LostMouseCapture">
+                <Border.Style>
+                    <Style TargetType="{x:Type Border}">
+                        <Setter Property="Opacity" Value="0.4"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Opacity" Value="0.9"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
+                <ui:SymbolIcon Symbol="ReOrderDotsVertical20"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"/>
+            </Border>
+            <controls:Button x:Name="MediaFlyoutCloseButton"
+                             Width="28" Height="28" 
+                             Style="{StaticResource MicaWPF.Styles.TransparentButton}"
+                             Click="MediaFlyoutCloseButton_Click"
+                             Visibility="Collapsed">
+                <ui:SymbolIcon Symbol="Dismiss20" Filled="True"/>
+            </controls:Button>
+        </StackPanel>
         <Grid>
             <Image x:Name="BackgroundImageStyle1" Stretch="UniformToFill" Opacity="1" IsHitTestVisible="False" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" Visibility="Collapsed" ClipToBounds="True">
                 <Image.RenderTransform>
