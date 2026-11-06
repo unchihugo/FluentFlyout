@@ -5,7 +5,8 @@
     <system:String x:Key="TextBlockText1">Hiển thị flyout</system:String>
     <system:String x:Key="TextBlockText3">Hiển thị flyout</system:String>
     <system:String x:Key="CompactLayoutTitle">Flyout tối giản</system:String>
-    <system:String x:Key="CompactLayoutDescription" xml:space="preserve">Ẩn tên ứng dụng đang phát, nút lặp lại và nút xáo trộn</system:String>
+    <system:String x:Key="CompactLayoutDescription" xml:space="preserve">Bố cục nhỏ và bớt chiếm diện tích hơn
+ẩn tên ứng dụng đang phát, nút lặp lại và nút xáo trộn</system:String>
     <system:String x:Key="FlyoutPositionTitle">Vị trí giao diện</system:String>
     <system:String x:Key="PositionBottomLeft" xml:space="preserve"> Phía dưới, bên trái</system:String>
     <system:String x:Key="PositionBottomCenter" xml:space="preserve"> Phía dưới, ở giữa</system:String>
@@ -69,7 +70,7 @@
     <system:String x:Key="EasingSine" xml:space="preserve"> Hàm sin (SineEase)</system:String>
     <system:String x:Key="EasingQuadratic" xml:space="preserve"> Nửa đường cong parabol (𝑡²)</system:String>
     <system:String x:Key="EasingCubic" xml:space="preserve"> Nửa đường cong parabol (𝑡³)</system:String>
-    <system:String x:Key="NativeExperienceInfo">Để các flyout hiện, ẩn đồng đều với thanh âm lượng của Windows, bạn nên đặt lựa chọn mặc định</system:String>
+    <system:String x:Key="NativeExperienceInfo">Để đồng nhất với trải nghiệm gốc trên Windows 11, bạn nên đặt lựa chọn mặc định.</system:String>
     <system:String x:Key="DisableOnFullscreenTitle">Khi có cửa sổ DirectX toàn màn hình, không hiển thị flyout nào</system:String>
     <system:String x:Key="DisableOnFullscreenDescription">Giúp tránh cho game khỏi bị thu nhỏ khi có flyout xuất hiện</system:String>
     <system:String x:Key="AppLanguageTitle">Ngôn ngữ</system:String>
@@ -78,7 +79,7 @@ hoặc chia sẻ cảm nhận của bạn trên Microsoft Store!</system:String>
     <system:String x:Key="GitHubRepoLink">Trang GitHub</system:String>
     <system:String x:Key="CloseButton">Đóng</system:String>
     <system:String x:Key="AcrylicWindowTitle">Nền acrylic</system:String>
-    <system:String x:Key="AcrylicWindowDescription">Khi tắt, giao diện sẽ áp dụng nền Mica, phù hợp với thiết kế của Windows 11</system:String>
+    <system:String x:Key="AcrylicWindowDescription">Áp dụng hiệu ứng làm mờ acrylic trong suốt cho flyout</system:String>
     <system:String x:Key="BackgroundBlurTitle">In mờ ảnh bìa trên nền</system:String>
     <system:String x:Key="BackgroundBlurOption1" xml:space="preserve"> Không in mờ</system:String>
     <system:String x:Key="BackgroundBlurOption2" xml:space="preserve"> In mờ bên trái</system:String>
@@ -95,7 +96,7 @@ Bạn có thể hỗ trợ dịch tại</system:String>
     <system:String x:Key="TaskbarWidgetEnabledDescription">Hiển thị widget trên thanh taskbar</system:String>
     <system:String x:Key="TaskbarWidgetVisualIssuesWarning">Nếu vị trí của widget chưa vừa ý bạn, bạn nên thay đổi các lựa chọn sau.</system:String>
     <system:String x:Key="TaskbarWidgetPosition">Vị trí giao diện</system:String>
-    <system:String x:Key="TaskbarWidgetPaddingTitle">Tách khỏi nút Widgets</system:String>
+    <system:String x:Key="TaskbarWidgetPaddingTitle">Padding tự động cho nút Widgets của Windows</system:String>
     <system:String x:Key="TaskbarWidgetPaddingDescription">Cho khỏi bị đè lên nút Widgets của Windows</system:String>
     <system:String x:Key="SelectedMonitorTitle">Màn hình hiển thị flyout</system:String>
     <system:String x:Key="TaskbarWidgetDescription">Widget giúp theo dõi nội dung. Ngoài ra, có thể mở rộng với các nút phát/ngừng phát, chuyển tiếp, quay về. Khi nhấn, nó sẽ mở lên media flyout.</system:String>
@@ -112,14 +113,14 @@ Bạn có thể hỗ trợ dịch tại</system:String>
     <system:String x:Key="TaskbarWidgetControlsDescription">Hiển thị các nút phát, chuyển tiếp và quay về</system:String>
     <system:String x:Key="TaskbarWidgetAnimatedTitle">Hiệu ứng chuyển tiếp</system:String>
     <system:String x:Key="TaskbarWidgetAnimatedDescription">Hiệu ứng chỉ áp dụng cho chữ</system:String>
-    <system:String x:Key="PremiumFeatureTitle">obsolete</system:String>
+    <system:String x:Key="PremiumFeatureTitle">Tính năng Premium</system:String>
     <system:String x:Key="PremiumFeatureDescription" xml:space="preserve">Khoản đóng góp một lần của bạn giúp tôi tiếp tục duy trì và cập nhật FluentFlyout. Nó sẽ mở khóa ngay lập tức tất cả các tính năng tùy chỉnh cao cấp, vĩnh viễn.
         
 Lưu ý: Vì đây là một dự án mã nguồn mở, các tính năng này cũng có sẵn miễn phí thông qua trình cài đặt thủ công trên GitHub. Nhược điểm duy nhất là việc cài đặt và cập nhật sẽ phải được thực hiện thủ công.</system:String>
     <system:String x:Key="PremiumLockedMessage">Tính năng đã bị khóa</system:String>
     <system:String x:Key="PremiumUnlockedMessage">Đã mở khóa bản Premium. Cảm ơn bạn đã ủng hộ!</system:String>
     <system:String x:Key="PremiumGitHubMessage">Vì đây là bản GitHub, premium đã được mở khóa miễn phí</system:String>
-    <system:String x:Key="UnlockPremiumButton">Mua gói premium</system:String>
+    <system:String x:Key="UnlockPremiumButton">Mở khóa Premium</system:String>
     <system:String x:Key="PremiumPurchaseSuccess">Đã mở khóa Premium thành công!</system:String>
     <system:String x:Key="PremiumPurchaseFailed">Giao dịch không thành công. Xin bạn thử lại.</system:String>
     <system:String x:Key="PremiumPurchaseCancelled">Giao dịch đã hủy.</system:String>
@@ -157,13 +158,13 @@ Lưu ý: Vì đây là một dự án mã nguồn mở, các tính năng này c�
     <system:String x:Key="AboutTitle">Về ứng dụng</system:String>
     <system:String x:Key="AboutContributorsTitle">Ghi nhận đóng góp</system:String>
     <system:String x:Key="AboutContributorsDescription">Cảm ơn các bạn sau đây đã đóng góp cho FluentFlyout:</system:String>
-    <system:String x:Key="AboutOpenSourceLicensesTitle">Danh sách API mã nguồn mở</system:String>
-    <system:String x:Key="AboutOpenSourceLicensesDescription">FluentFlyout đã sử dụng các API mã nguồn mở sau đây:</system:String>
+    <system:String x:Key="AboutOpenSourceLicensesTitle">Các giấy phép mã nguồn mở</system:String>
+    <system:String x:Key="AboutOpenSourceLicensesDescription">FluentFlyout được xây dựng với các gói mã nguồn mở sau đây:</system:String>
     <system:String x:Key="UpdateAvailable">Có cập nhật mới</system:String>
     <system:String x:Key="UpToDate">Đang ở bản mới nhất</system:String>
     <system:String x:Key="LastChecked">Xác nhận lần cuối: {0}</system:String>
     <system:String x:Key="CheckingForUpdates">Đang kiểm tra...</system:String>
-    <system:String x:Key="UpdateAvailableNotificationTitle">Có cập nhật mới</system:String>
+    <system:String x:Key="UpdateAvailableNotificationTitle">Có cập nhật mới!</system:String>
     <system:String x:Key="UpdateAvailableNotificationMessage">Bạn có thể cập nhật lên {0}.</system:String>
     <system:String x:Key="UpdateAvailableNotificationButton">Cập nhật</system:String>
     <system:String x:Key="MediaFlyoutExcludeVolumeTitle">Không hiển thị flyout khi nhấn các phím: tăng, giảm, tắt âm lượng</system:String>
@@ -195,7 +196,7 @@ Lưu ý: Vì đây là một dự án mã nguồn mở, các tính năng này c�
     <system:String x:Key="ShowUpdateNotificationsTitle">Thông báo nếu phát hiện cập nhật mới</system:String>
     <system:String x:Key="TaskbarWidgetCloseableFlyoutTitle">Đóng Flyout khi bấm chuột lần 2</system:String>
     <system:String x:Key="TaskbarWidgetCloseableFlyoutDescription">Đóng Flyout nếu cửa sổ đã mở khi nhấp vào tiện ích trên thanh tác vụ</system:String>
-    <system:String x:Key="SettingsExportedSuccessfully">Xuất cấu hình thành công.</system:String>
+    <system:String x:Key="SettingsExportedSuccessfully">Xuất cấu hình thành công!</system:String>
     <system:String x:Key="SettingsImportedSuccessfully">FluentFlyout sẽ khởi động lại để áp dụng cấu hình.</system:String>
     <system:String x:Key="ExportSuccessful">Xuất cấu hình thành công</system:String>
     <system:String x:Key="ExportFailed">Xuất cấu hình không thành công</system:String>
@@ -296,4 +297,8 @@ Lưu ý: Vì đây là một dự án mã nguồn mở, các tính năng này c�
     <system:String x:Key="TaskbarWidgetScrollVolumePlayer">Bật (Âm Lượng Trình Phát)</system:String>
     <system:String x:Key="OpenMediaPlayerText">Mở trình phát phương tiện</system:String>
     <system:String x:Key="SessionSwitcherAuto">Tự động</system:String>
+    <system:String x:Key="ContextMenuSessionSwitcher">Thay đổi phiên</system:String>
+    <system:String x:Key="RelatedSettingsTitle">Cài đặt liên quan</system:String>
+    <system:String x:Key="VolumeFlyoutShortcutTitle">Phím tắt bàn phím</system:String>
+    <system:String x:Key="VolumeFlyoutShortcutDescription">Nhấn phím tắt để hiện Flyout âm lượng.</system:String>
 </ResourceDictionary>
