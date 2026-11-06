@@ -30,6 +30,8 @@
     <system:String x:Key="RepeatButtonTitle">循环按钮*</system:String>
     <system:String x:Key="PositionBottomLeft" xml:space="preserve"> 左下角</system:String>
     <system:String x:Key="ShowMediaPlayerNameTitle">显示播放器名称</system:String>
+    <system:String x:Key="MediaSessionAutoFollowTitle">手动选择播放器仅临时生效</system:String>
+    <system:String x:Key="MediaSessionAutoFollowDescription">在媒体弹窗的播放器列表中选择后，其他播放器开始播放时恢复自动选择。</system:String>
     <system:String x:Key="RepeatButtonDescription">可选择循环播放或单曲循环，会增大浮窗宽度</system:String>
     <system:String x:Key="ShuffleButtonTitle">随机播放按钮*</system:String>
     <system:String x:Key="ShuffleButtonDescription">会增大浮窗宽度</system:String>
