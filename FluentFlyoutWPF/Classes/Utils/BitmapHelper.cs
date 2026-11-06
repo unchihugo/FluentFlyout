@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2024-2026 The FluentFlyout Authors
+// Copyright (c) 2024-2026 The FluentFlyout Authors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 using FluentFlyout.Classes.Settings;
@@ -100,6 +100,11 @@ internal static class BitmapHelper
     // current or latest dominant colors
     private static List<SolidColorBrush>? _currentDominantColors;
 
+    // cached palette used by the taskbar visualizer (kept separate from the accent colors above)
+    private static List<SolidColorBrush>? _visualizerPalette;
+    private static int _visualizerPaletteHashCode;
+    private static int _visualizerPaletteColorCount = -1;
+
     public static List<SolidColorBrush> SavedDominantColors
     {
         get => _currentDominantColors ??= [];
@@ -197,26 +202,146 @@ internal static class BitmapHelper
     /// <returns>List of dominant colors from cached Bitmap as SolidColorBrush</returns>
     public static List<SolidColorBrush> GetDominantColors(int colorCount, int maxIterations = 15)
     {
-        int hashCode = _currentHashCodeContext.Value != 0 ? _currentHashCodeContext.Value : _currentHashCode;
+        int hashCode = CurrentDominantColorHashCode();
 
         if (!SettingsManager.Current.UseAlbumArtAsAccentColor || hashCode == 0)
         {
-            // control color (buttons, etc.)
-            var accent = (SolidColorBrush)Application.Current.TryFindResource("MicaWPF.Brushes.SystemAccentColorSecondary");
-            if (!accent.IsFrozen)
-                accent = accent.Clone();
-            accent.Freeze();
-
-            // accent color (for non-control elements)
-            var accent2 = (SolidColorBrush)Application.Current.TryFindResource("MicaWPF.Brushes.SystemAccentColorTertiary");
-            if (!accent2.IsFrozen)
-                accent2 = accent2.Clone();
-            accent2.Freeze();
-
-            _currentDominantColors = [accent, accent2];
+            _currentDominantColors = GetAccentColorBrushes();
             return _currentDominantColors;
         }
 
+        // check if we've already calculated colors for this thumbnail by checking
+        // the current hash with cache (dumb method because we're assuming it's always the latest)
+        if (_dominantColorsCache.TryGetValue(hashCode, out var cachedColors) && cachedColors != null)
+        {
+            _currentDominantColors = cachedColors;
+            return _currentDominantColors;
+        }
+
+        var extracted = ExtractDominantColors(hashCode, colorCount, maxIterations);
+        if (extracted.Count > 0)
+        {
+            _currentDominantColors = extracted;
+            _dominantColorsCache.Set(hashCode, extracted);
+        }
+
+        return _currentDominantColors ?? [];
+    }
+
+    /// <summary>
+    /// Palette extracted from the currently playing album art, used by the taskbar visualizer.
+    /// Unlike <see cref="GetDominantColors"/> this always reads the cover art (no matter what the
+    /// accent color setting says), skips the light/dark theme adjustments so the colors stay vivid,
+    /// and leaves the shared dominant color cache untouched so the rest of the UI is unaffected.
+    /// </summary>
+    public static List<SolidColorBrush> GetVisualizerPalette(int colorCount, int maxIterations = 15)
+    {
+        int hashCode = CurrentDominantColorHashCode();
+
+        if (hashCode == 0)
+            return GetAccentColorBrushes(); // no cover art available
+
+        if (_visualizerPalette != null && _visualizerPaletteHashCode == hashCode && _visualizerPaletteColorCount == colorCount)
+            return _visualizerPalette;
+
+        var palette = ExtractDominantColors(hashCode, colorCount, maxIterations, applyThemeAdjustment: false);
+        if (palette.Count > 0)
+        {
+            // make the bars pop (album art can be very muted) and order the palette by hue so the
+            // gradient across the bars is smooth instead of following the arbitrary k-means order
+            palette = [.. palette
+                .Select(brush => new SolidColorBrush(BoostVibrance(brush.Color)))
+                .OrderBy(brush => GetHue(brush.Color))];
+
+            foreach (var brush in palette)
+                brush.Freeze();
+
+            _visualizerPalette = palette;
+            _visualizerPaletteHashCode = hashCode;
+            _visualizerPaletteColorCount = colorCount;
+        }
+
+        return palette;
+    }
+
+    /// <summary>
+    /// Slightly boosts saturation and lifts very dark colors so muted album art still
+    /// produces visible visualizer bars.
+    /// </summary>
+    private static Color BoostVibrance(Color color)
+    {
+        double r = color.R / 255.0, g = color.G / 255.0, b = color.B / 255.0;
+
+        double max = Math.Max(r, Math.Max(g, b));
+        double min = Math.Min(r, Math.Min(g, b));
+        double value = max;
+        double saturation = max <= 0 ? 0 : (max - min) / max;
+        double hue = GetHue(color);
+
+        saturation = Math.Min(0.92, (saturation * 1.45) + 0.12);
+        value = Math.Clamp(value, 0.4, 1.0);
+
+        return FromHsv(hue, saturation, value);
+    }
+
+    private static double GetHue(Color color)
+    {
+        double r = color.R / 255.0, g = color.G / 255.0, b = color.B / 255.0;
+
+        double max = Math.Max(r, Math.Max(g, b));
+        double min = Math.Min(r, Math.Min(g, b));
+        double delta = max - min;
+
+        if (delta < 1e-6)
+            return 0;
+
+        double hue;
+        if (max == r) hue = 60 * (((g - b) / delta) % 6);
+        else if (max == g) hue = 60 * (((b - r) / delta) + 2);
+        else hue = 60 * (((r - g) / delta) + 4);
+
+        return (hue + 360) % 360;
+    }
+
+    private static Color FromHsv(double hue, double saturation, double value)
+    {
+        double c = value * saturation;
+        double x = c * (1 - Math.Abs(((hue / 60.0) % 2) - 1));
+        double m = value - c;
+
+        double r, g, b;
+        if (hue < 60) { r = c; g = x; b = 0; }
+        else if (hue < 120) { r = x; g = c; b = 0; }
+        else if (hue < 180) { r = 0; g = c; b = x; }
+        else if (hue < 240) { r = 0; g = x; b = c; }
+        else if (hue < 300) { r = x; g = 0; b = c; }
+        else { r = c; g = 0; b = x; }
+
+        return Color.FromArgb(255, (byte)((r + m) * 255), (byte)((g + m) * 255), (byte)((b + m) * 255));
+    }
+
+    private static int CurrentDominantColorHashCode()
+        => _currentHashCodeContext.Value != 0 ? _currentHashCodeContext.Value : _currentHashCode;
+
+    private static List<SolidColorBrush> GetAccentColorBrushes()
+    {
+        // control color (buttons, etc.)
+        var accent = (SolidColorBrush)Application.Current.TryFindResource("MicaWPF.Brushes.SystemAccentColorSecondary");
+        if (!accent.IsFrozen)
+            accent = accent.Clone();
+        accent.Freeze();
+
+        // accent color (for non-control elements)
+        var accent2 = (SolidColorBrush)Application.Current.TryFindResource("MicaWPF.Brushes.SystemAccentColorTertiary");
+        if (!accent2.IsFrozen)
+            accent2 = accent2.Clone();
+        accent2.Freeze();
+
+        return [accent, accent2];
+    }
+
+    private static List<SolidColorBrush> ExtractDominantColors(int hashCode, int colorCount, int maxIterations, bool applyThemeAdjustment = true)
+    {
         // start timing
 #if DEBUG
         Stopwatch stopwatch = Stopwatch.StartNew();
@@ -224,19 +349,11 @@ internal static class BitmapHelper
 
         try
         {
-            // check if we've already calculated colors for this thumbnail by checking
-            // the current hash with cache (dumb method because we're assuming it's always the latest)
-            if (_dominantColorsCache.TryGetValue(hashCode, out var cachedColors) && cachedColors != null)
-            {
-                _currentDominantColors = cachedColors;
-                return _currentDominantColors;
-            }
-
             // convert BitmapImage to BGRA byte array
             if (!_thumbnailCache.TryGetValue(hashCode, out var sourceBitmap) || sourceBitmap == null)
             {
                 Logger.Warn($"Thumbnail cache miss while extracting dominant colors");
-                return _currentDominantColors ?? [];
+                return [];
             }
 
             var formattedBitmap = new FormatConvertedBitmap();
@@ -379,7 +496,7 @@ internal static class BitmapHelper
                 result = [.. centroids.Select(c => Color.FromArgb(255, (byte)c[0], (byte)c[1], (byte)c[2]))];
             }
 
-            if (ApplicationThemeManager.GetSystemTheme() == SystemTheme.Dark)
+            if (applyThemeAdjustment && ApplicationThemeManager.GetSystemTheme() == SystemTheme.Dark)
             {
                 // lighten colors and add contrast when in dark mode
                 result = [.. result
@@ -406,7 +523,7 @@ internal static class BitmapHelper
                     return Color.FromArgb(c.A, ToGamma(r), ToGamma(g), ToGamma(b));
                 })];
             }
-            else
+            else if (applyThemeAdjustment)
             {
                 // just desaturate when in light mode
                 result = [.. result
@@ -434,16 +551,11 @@ internal static class BitmapHelper
                 return brush;
             }).ToList();
 
-            _currentDominantColors = brushes;
-
-            // save brushes to cache with current hash as key
-            _dominantColorsCache.Set(hashCode, _currentDominantColors);
-
 #if DEBUG
             stopwatch.Stop();
             Logger.Debug($"Dominant color extraction took {stopwatch.Elapsed.TotalMilliseconds} ms");
 #endif
-            return _currentDominantColors;
+            return brushes;
         }
         catch (Exception ex)
         {
