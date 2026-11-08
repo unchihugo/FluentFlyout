@@ -76,10 +76,7 @@ public partial class VolumeMixerWindow : MicaWindow
 
         if (_isHiding)
         {
-            _ = Task.Run(() =>
-            {
-                HideVolumeOsd();
-            });
+            _ = Task.Run(HideVolumeOsd);
 
             _isHiding = false;
             if (SettingsManager.Current.VolumeMixerAcrylicWindowEnabled)
