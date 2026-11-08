@@ -220,13 +220,13 @@ public partial class UserSettings : ObservableObject
 
     [ObservableProperty]
     public partial bool LockKeysScrollEnabled { get; set; }
-    
+
     /// <summary>
     /// Lock keys flyout position on screen
     /// </summary>
     [ObservableProperty]
     public partial int LockKeysPosition { get; set; }
-    
+
     /// <summary>
     /// Lock keys flyout display duration (milliseconds)
     /// </summary>
