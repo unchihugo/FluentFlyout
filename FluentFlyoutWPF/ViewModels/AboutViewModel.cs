@@ -26,7 +26,7 @@ public partial class AboutViewModel : ObservableObject
         "Hikaru11747",
         "FireWall-code",
         "Saransh", // saransh-ops
-        "Jonas Schips", // zen1337th
+        "zen1th", // zxn1thdev
         "LgCuwukii" // lgc2333
      ];
 
