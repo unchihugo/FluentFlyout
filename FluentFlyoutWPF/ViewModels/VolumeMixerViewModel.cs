@@ -254,7 +254,8 @@ public partial class VolumeMixerViewModel : ObservableObject, IDisposable
     {
         SyncMasterFromDevice();
 
-        foreach (var session in Sessions)
+        // iterate over a copy: SyncFromDevice can raise VolumeChanged, and its handlers may call RefreshSessions()
+        foreach (var session in Sessions.ToArray())
         {
             session.SyncFromDevice();
             //Logger.Trace("Session '{0}' (PID {1}) - Volume: {2}, Muted: {3}, State: {4}",
