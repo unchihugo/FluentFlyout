@@ -13,12 +13,12 @@
     <system:String x:Key="TextBlockText1">הפעלת חלון נשלף של מדיה</system:String>
     <system:String x:Key="TextBlockText3">מציג חלון נשלף בעת לחיצה על מקש מדיה</system:String>
     <system:String x:Key="TextBlockText2">בחר מתוך סגנונות מודרניים מוגדרים מראש של טשטוש רקע</system:String>
-    <system:String x:Key="AcrylicWindowTitle">חלון אקרילי</system:String>
+    <system:String x:Key="AcrylicWindowTitle">חלוניות אקריליק</system:String>
     <system:String x:Key="BackgroundBlurOption2" xml:space="preserve"> סגנון 1 (זוהר עטיפה)</system:String>
     <system:String x:Key="BackgroundBlurOption3" xml:space="preserve"> סגנון 2 (זוהר מתרומם)</system:String>
     <system:String x:Key="BackgroundBlurOption4" xml:space="preserve"> סגנון 3 (טשטוש)</system:String>
     <system:String x:Key="BackgroundBlurTitle">טשטוש רקע</system:String>
-    <system:String x:Key="AcrylicWindowDescription">החלת אפקט טשטוש אקרילי שקוף על החלון הנשלף (כבוי מחזיר ל-Mica)</system:String>
+    <system:String x:Key="AcrylicWindowDescription">החל אפקט טשטוש אקריליק שקוף על החלוניות</system:String>
     <system:String x:Key="CompactLayoutDescription" xml:space="preserve">פריסה דקה ופחות פולשנית
 מסתירה חזרה, ערבוב ומידע על הנגן</system:String>
     <system:String x:Key="SelectedMonitorTitle">תצוגת יעד של החלון הנשלף</system:String>
@@ -248,4 +248,57 @@
     <system:String x:Key="VolumeMixerHighlightTitle">הדגשת אפליקציות המשמיעות שמע</system:String>
     <system:String x:Key="VolumeMixerHighlightDescription">הצג אילו אפליקציות מפיקות שמע כרגע</system:String>
     <system:String x:Key="MasterVolumeText">עוצמת קול כללית</system:String>
+    <system:String x:Key="Back">חזור</system:String>
+    <system:String x:Key="Next">הבא</system:String>
+    <system:String x:Key="Finish">סיים</system:String>
+    <system:String x:Key="OnboardingStepsCounter">צעד {0} מתוך {1}</system:String>
+    <system:String x:Key="SessionSwitcherAuto">אוטומטי</system:String>
+    <system:String x:Key="AppFilteringModeBlacklist">רשימת חסימה</system:String>
+    <system:String x:Key="AppFilteringPlaceholderSpotify">לדוגמה Spotify.exe</system:String>
+    <system:String x:Key="AppFilteringPlaceholderChrome">לדוגמה Chrome.exe</system:String>
+    <system:String x:Key="AddButton">הוסף</system:String>
+    <system:String x:Key="RemoveButton">הסר</system:String>
+    <system:String x:Key="SearchSettings">הגדרות חיפוש</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextSpeedTitle">מהירות גלילה</system:String>
+    <system:String x:Key="OpenMediaPlayerText">פתח נגן מדיה</system:String>
+    <system:String x:Key="TaskbarWidgetFixedWidthTitle">רוחב ווידג'ט קבוע</system:String>
+    <system:String x:Key="TaskbarWidgetFixedWidthDescription">השאר את הווידג'ט ברוחב קבוע במקום לשנות את גודלו לפי טקסט הכותרת והאמן</system:String>
+    <system:String x:Key="TaskbarVisualizerBaselineAutoHideDescription">מסתיר אוטומטית את קו הבסיס כשלא מתנגן שום שמע</system:String>
+    <system:String x:Key="SupporterTitle">תומך</system:String>
+    <system:String x:Key="SupporterDescription">תודה רבה!</system:String>
+    <system:String x:Key="EnableCapsTitle">הפעל חיווי Caps Lock</system:String>
+    <system:String x:Key="EnableCapsDescription">מוצג בעת לחיצה על מקש Caps Lock</system:String>
+    <system:String x:Key="EnableNumTitle">הפעל חיווי Num Lock</system:String>
+    <system:String x:Key="EnableNumDescription">מוצג בעת לחיצה על מקש Num Lock</system:String>
+    <system:String x:Key="EnableScrollTitle">הפעל חיווי Scroll Lock</system:String>
+    <system:String x:Key="EnableScrollDescription">מוצג בעת לחיצה על מקש Scroll Lock</system:String>
+    <system:String x:Key="AnonymousUsageDataTitle">שלח נתוני שימוש אנונימיים</system:String>
+    <system:String x:Key="AnonymousUsageDataDescription">עזור לשפר את היישום על ידי שליחת נתוני שימוש אנונימיים שאינם מזהים</system:String>
+    <system:String x:Key="AppFilteringTitle">סינון יישומים</system:String>
+    <system:String x:Key="RelatedSettingsTitle">הגדרות קשורות</system:String>
+    <system:String x:Key="AppFilteringRulesDescription">בחר אילו יישומים יוצגו בווידג'ט המדיה</system:String>
+    <system:String x:Key="EnableAppFilteringTitle">הפעל סינון</system:String>
+    <system:String x:Key="AppFilteringModeTitle">מצב סינון</system:String>
+    <system:String x:Key="AppFilteringModeDescription">בחר אם היישומים שברשימה יותרו או ייחסמו</system:String>
+    <system:String x:Key="AppFilteringModeWhitelist">רשימת היתרים</system:String>
+    <system:String x:Key="AllowedAppsTitle">יישומים מותרים</system:String>
+    <system:String x:Key="AllowedAppsDescription">אם רשומים כאן יישומים כלשהם, יוצג רק המדיה שלהם.</system:String>
+    <system:String x:Key="BlockedAppsTitle">יישומים חסומים</system:String>
+    <system:String x:Key="BlockedAppsDescription">מונע את הצגת המדיה של היישומים שברשימה</system:String>
+    <system:String x:Key="AddAppManuallyText">לא מוצא את היישום שלך? הקלד אותו כאן:</system:String>
+    <system:String x:Key="AppFilteringComboBoxHint">בחר יישום שמנגן כעת כדי להוסיף אותו</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextTitle">טקסט נגלל</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTitle">הפעל גלילה</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextDescription">גולל אוטומטית טקסט ארוך שאינו נכנס במלואו</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextLoopForeverTitle">גלילה רציפה</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextLoopForeverDescription">מחזיר את הטקסט בלולאה אינסופית לכיוון אחד, במקום לגלול הלוך ושוב.</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextSpeedDescription">מהירות גלילת הטקסט (פיקסלים לשנייה). ברירת המחדל היא 20.</system:String>
+    <system:String x:Key="TaskbarWidgetScrollVolumeTitle">כוונון עוצמת שמע בגלילה</system:String>
+    <system:String x:Key="TaskbarWidgetScrollVolumeDescription">מאפשר לכוונן את עוצמת השמע באמצעות גלגלת העכבר מעל ווידג'ט שורת המשימות</system:String>
+    <system:String x:Key="TaskbarWidgetScrollVolumeMaster">פועל (עוצמת שמע ראשית)</system:String>
+    <system:String x:Key="TaskbarWidgetScrollVolumePlayer">פועל (עוצמת שמע של הנגן)</system:String>
+    <system:String x:Key="VolumeFlyoutShortcutTitle">קיצור מקלדת</system:String>
+    <system:String x:Key="VolumeFlyoutShortcutDescription">לחץ על מקשי הקיצור כדי להציג את חלונית עוצמת השמע.</system:String>
+    <system:String x:Key="OnboardingTitle">בואו נתחיל</system:String>
+    <system:String x:Key="ContextMenuSessionSwitcher">החלף נגן</system:String>
 </ResourceDictionary>
