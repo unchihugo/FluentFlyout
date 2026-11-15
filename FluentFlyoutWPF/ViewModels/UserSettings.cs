@@ -324,6 +324,12 @@ public partial class UserSettings : ObservableObject
     public partial string PinnedSessionId { get; set; }
 
     /// <summary>
+    /// Release the manual player selection when another allowed session starts playing.
+    /// </summary>
+    [ObservableProperty]
+    public partial bool MediaSessionAutoFollowEnabled { get; set; }
+
+    /// <summary>
     /// Enable subtle animations for the lock keys flyout indicator
     /// </summary>
     [ObservableProperty]
@@ -798,6 +804,7 @@ public partial class UserSettings : ObservableObject
         SeekbarEnabled = false;
         PauseOtherSessionsEnabled = false;
         PinnedSessionId = string.Empty;
+        MediaSessionAutoFollowEnabled = true;
         LockKeysAnimated = true;
         LockKeysInsertEnabled = true;
         MediaFlyoutBackgroundBlur = 0;
