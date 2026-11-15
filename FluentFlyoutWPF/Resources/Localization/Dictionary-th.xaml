@@ -15,7 +15,7 @@
     <system:String x:Key="BackgroundBlurOption3" xml:space="preserve"> สไตล์ที่ 2 (Rising Glow)</system:String>
     <system:String x:Key="BackgroundBlurOption4" xml:space="preserve"> สไตล์ที่ 3 (เบลอ)</system:String>
     <system:String x:Key="BackgroundBlurTitle">พื้นหลังเบลอ</system:String>
-    <system:String x:Key="AcrylicWindowTitle">หน้าต่างอะคริลิก</system:String>
+    <system:String x:Key="AcrylicWindowTitle">เมนูลอยอะคริลิก</system:String>
     <system:String x:Key="AcrylicWindowDescription">ใช้เอฟเฟกต์เบลอแบบอะคริลิกโปร่งใสกับส่วนที่เลื่อนออกมา (ปิดใช้งานจะกลับไปเป็น Mica)</system:String>
     <system:String x:Key="CompactLayoutTitle">เลย์เอาต์แบบแน่น</system:String>
     <system:String x:Key="CompactLayoutDescription" xml:space="preserve">รูปแบบที่เรียบง่ายและไม่เกะกะ
@@ -50,4 +50,13 @@
     <system:String x:Key="PauseOtherMediaTitle">หยุดสื่อที่เล่นอยู่ก่อนหน้านี้อัตโนมัติ</system:String>
     <system:String x:Key="PauseOtherMediaDescription">เมื่อคุณเล่นสื่อตัวใหม่ สื่ออื่นๆที่เคยเล่นอยู่จะถูกหยุดโดยอัตโนมัติ</system:String>
     <system:String x:Key="TaskbarWidgetCustomizationTitle">Widget ของ Taskbar</system:String>
+    <system:String x:Key="OnboardingTitle">เริ่มต้นใช้งาน</system:String>
+    <system:String x:Key="ContextMenuSessionSwitcher">สลับเซสชัน</system:String>
+    <system:String x:Key="TaskbarWidgetDescription">วิดเจ็ตขนาดกะทัดรัดที่ฝังอยู่บนแถบงาน (Taskbar) ของ Windows ช่วยให้คุณเข้าถึงสื่อต่างๆ ได้ทันที เพียงคลิกที่วิดเจ็ตเพื่อขยายหน้าต่าง Media Flyout แบบเต็มรูปแบบขึ้นมา</system:String>
+    <system:String x:Key="TaskbarWidgetEnabledTitle">เปิดใช้วิดเจ็ตแถบงาน</system:String>
+    <system:String x:Key="TaskbarWidgetEnabledDescription">แสดงวิดเจ็ตขนาดกะทัดรัดบนแถบงาน</system:String>
+    <system:String x:Key="TaskbarWidgetVisualIssuesWarning">โปรดกำหนดค่าตัวเลือกต่างๆ ด้านล่างนี้ หากคุณพบปัญหาเกี่ยวกับการแสดงผล</system:String>
+    <system:String x:Key="TaskbarWidgetSelectedMonitorTitle">การแสดงผลวิดเจ็ต</system:String>
+    <system:String x:Key="TaskbarWidgetPosition">ตำแหน่งวิดเจ็ต</system:String>
+    <system:String x:Key="TaskbarWidgetPaddingSettingsTitle">ตั้งค่าระยะห่างของวิดเจ็ต</system:String>
 </ResourceDictionary>
