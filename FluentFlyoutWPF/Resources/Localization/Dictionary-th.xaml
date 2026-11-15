@@ -59,4 +59,5 @@
     <system:String x:Key="TaskbarWidgetSelectedMonitorTitle">การแสดงผลวิดเจ็ต</system:String>
     <system:String x:Key="TaskbarWidgetPosition">ตำแหน่งวิดเจ็ต</system:String>
     <system:String x:Key="TaskbarWidgetPaddingSettingsTitle">ตั้งค่าระยะห่างของวิดเจ็ต</system:String>
+    <system:String x:Key="SessionSwitcherAuto">อัตโนมัติ</system:String>
 </ResourceDictionary>
