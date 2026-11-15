@@ -142,6 +142,7 @@ Note: As an open-source project, these features are also available for free via 
     <System:String x:Key="LockKeysStayDurationDescription">(default: 2000 ms)</System:String>
     <System:String x:Key="LockKeysBoldUITitle">Bold Symbol and Font</System:String>
     <System:String x:Key="LockKeysBoldUIDescription">Emphasizes the flyout symbol and font</System:String>
+    <System:String x:Key="LockKeysPositionTitle">Lock Keys Position</System:String>
     <System:String x:Key="LockKeysCursorUITitle">Preferred Target Display</System:String>
     <System:String x:Key="LockKeysCursorUIDescription" xml:space="preserve">Choose which monitor to display the flyout.</System:String>
     <System:String x:Key="DefaultLockLayoutPosition">Default (Flyout Target Display)</System:String>

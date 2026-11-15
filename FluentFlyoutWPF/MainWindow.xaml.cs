@@ -511,7 +511,7 @@ public partial class MainWindow : MicaWindow
         return (left, top);
     }
 
-    public void OpenAnimation(MicaWindow window, bool alwaysBottom = false, MonitorInfo? selectedMonitor = null, MicaWindow? aboveReference = null, bool reserveNativeVolumeOsdSpace = false)
+    public void OpenAnimation(MicaWindow window, bool alwaysBottom = false, MonitorInfo? selectedMonitor = null, MicaWindow? aboveReference = null, bool reserveNativeVolumeOsdSpace = false, int? position = null)
     {
         if (window.Triggers[0] is not EventTrigger eventTriggers)
         {
@@ -568,7 +568,7 @@ public partial class MainWindow : MicaWindow
         // default behavior: position the flyout based on the user's settings
         else if (alwaysBottom == false)
         {
-            _position = SettingsManager.Current.Position;
+            _position = position ?? SettingsManager.Current.Position;
             if (_position == 0)
             {
                 window_left = workArea.Left + 16;
