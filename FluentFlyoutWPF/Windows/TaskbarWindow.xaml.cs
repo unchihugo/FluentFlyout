@@ -717,6 +717,9 @@ on_error:
         // Autohide - Widget hides when playback is paused
         _lastPlaybackStatus = playbackStatus;
 
+        bool hideWhilePaused = SettingsManager.Current.TaskbarWidgetAutoHide
+            && playbackStatus != GlobalSystemMediaTransportControlsSessionPlaybackStatus.Playing;
+
         if ((SettingsManager.Current.TaskbarWidgetAutoHide))
         {
             if (playbackStatus == GlobalSystemMediaTransportControlsSessionPlaybackStatus.Playing)
@@ -731,8 +734,8 @@ on_error:
             }
             else
             {
-                // Start delayed hide
-                if (_autoHideTimer == null)
+                // Start delayed hide (not needed if the widget is already hidden)
+                if (_autoHideTimer == null && Dispatcher.Invoke(() => Visibility == Visibility.Visible))
                 {
                     var localTimer = new DispatcherTimer
                     {
@@ -769,10 +772,15 @@ on_error:
         // Update position after UI change
         Dispatcher.BeginInvoke(() => UpdatePosition(), DispatcherPriority.Background);
 
-        Dispatcher.Invoke(() =>
+        // Don't re-show a widget that auto-hide has hidden: updates for paused/closed sessions
+        // (e.g. another, filtered-out app being paused) must not make it flash up again
+        if (!hideWhilePaused)
         {
-            Visibility = Visibility.Visible;
-        });
+            Dispatcher.Invoke(() =>
+            {
+                Visibility = Visibility.Visible;
+            });
+        }
     }
 
     public void RefreshAppVolumeTooltip()
