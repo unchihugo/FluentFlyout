@@ -722,20 +722,20 @@ on_error:
 
         if ((SettingsManager.Current.TaskbarWidgetAutoHide))
         {
-            if (playbackStatus == GlobalSystemMediaTransportControlsSessionPlaybackStatus.Playing)
+            // Media events arrive on arbitrary threads. A DispatcherTimer is bound to the dispatcher of the thread
+            // that creates it, so one created on a thread without a message loop never ticks and, being kept in
+            // _autoHideTimer, blocks every later hide timer. Keep all of this on the UI thread.
+            Dispatcher.Invoke(() =>
             {
-                _autoHideTimer?.Stop();
-                _autoHideTimer = null;
-
-                Dispatcher.Invoke(() =>
+                if (playbackStatus == GlobalSystemMediaTransportControlsSessionPlaybackStatus.Playing)
                 {
+                    _autoHideTimer?.Stop();
+                    _autoHideTimer = null;
+
                     Visibility = Visibility.Visible;
-                });
-            }
-            else
-            {
+                }
                 // Start delayed hide (not needed if the widget is already hidden)
-                if (_autoHideTimer == null && Dispatcher.Invoke(() => Visibility == Visibility.Visible))
+                else if (_autoHideTimer == null && Visibility == Visibility.Visible)
                 {
                     var localTimer = new DispatcherTimer
                     {
@@ -750,17 +750,14 @@ on_error:
 
                         if (_lastPlaybackStatus != GlobalSystemMediaTransportControlsSessionPlaybackStatus.Playing)
                         {
-                            Dispatcher.Invoke(() =>
-                            {
-                                Visibility = Visibility.Collapsed;
-                            });
+                            Visibility = Visibility.Collapsed;
                         }
                     };
 
                     _autoHideTimer = localTimer;
                     localTimer.Start();
                 }
-            }
+            });
         }
 
         if (!_timer.IsEnabled)
