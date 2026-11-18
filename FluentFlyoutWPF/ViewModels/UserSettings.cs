@@ -979,6 +979,12 @@ public partial class UserSettings : ObservableObject
         UpdateTaskbar();
     }
 
+    partial void OnTaskbarWidgetAutoHideChanged(bool oldValue, bool newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+        UpdateTaskbar();
+    }
+
     partial void OnTaskbarWidgetHideCompletelyChanged(bool oldValue, bool newValue)
     {
         if (oldValue == newValue || _initializing) return;
