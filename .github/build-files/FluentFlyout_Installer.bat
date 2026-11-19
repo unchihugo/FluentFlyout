@@ -10,10 +10,17 @@ ECHO   Please follow the prompts in the blue window.
 ECHO ===================================================
 ECHO.
 
+IF NOT EXIST "%~dp0SystemFiles\Add-AppDevPackage.ps1" (
+    ECHO Could not find the SystemFiles folder next to this installer.
+    ECHO Extract the whole ZIP first, then run the installer from the extracted folder.
+    PAUSE
+    EXIT /B 1
+)
+
 cd /d "%~dp0SystemFiles"
 
-:: Run the VS generated script
-PowerShell -NoProfile -ExecutionPolicy Bypass -Command "& './Add-AppDevPackage.ps1' -SkipLoggingTelemetry"
+:: Run the VS generated script (absolute path, so it does not depend on the current directory)
+PowerShell -NoProfile -ExecutionPolicy Bypass -File "%~dp0SystemFiles\Add-AppDevPackage.ps1" -SkipLoggingTelemetry
 
 IF %ERRORLEVEL% NEQ 0 (
     ECHO.
