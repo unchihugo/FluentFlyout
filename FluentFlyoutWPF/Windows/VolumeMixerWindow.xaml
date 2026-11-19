@@ -53,8 +53,15 @@
                        ToolTipService.InitialShowDelay="0"
                        ToolTipService.Placement="Right">
                 <Grid>
-                    <ui:SymbolIcon Symbol="{Binding ViewModel.MasterVolume, Converter={StaticResource VolumeToSpeaker}}" FontSize="16"
-                                   Visibility="{Binding ViewModel.IsMasterMuted, Converter={StaticResource BoolToCollapsedVisibleConverter}}" />
+                        <ui:SymbolIcon FontSize="16"
+                                   Visibility="{Binding ViewModel.IsMasterMuted, Converter={StaticResource BoolToCollapsedVisibleConverter}}">
+                        <ui:SymbolIcon.Symbol>
+                            <MultiBinding Converter="{StaticResource VolumeToSpeaker}">
+                                <Binding Path="ViewModel.MasterVolume" />
+                                <Binding Path="ViewModel.EndpointType" />
+                            </MultiBinding>
+                        </ui:SymbolIcon.Symbol>
+                    </ui:SymbolIcon>
                     <ui:SymbolIcon Symbol="SpeakerMute28" FontSize="16"
                                    Visibility="{Binding ViewModel.IsMasterMuted, Converter={StaticResource BoolToVisibleCollapsedConverter}}" />
                 </Grid>
