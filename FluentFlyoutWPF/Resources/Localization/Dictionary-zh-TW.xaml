@@ -300,4 +300,5 @@
     <system:String x:Key="AnonymousUsageDataTitle">傳送匿名使用資料</system:String>
     <system:String x:Key="TaskbarWidgetScrollingTextLoopForeverDescription">讓文字固定朝同一方向無限循環，而非來回滾動</system:String>
     <system:String x:Key="VolumeFlyoutShortcutDescription">按下快速鍵即可顯示音量浮動視窗。</system:String>
+    <system:String x:Key="AppFilteringTitle">應用程式篩選</system:String>
 </ResourceDictionary>
