@@ -296,5 +296,8 @@
     <system:String x:Key="EnableVolumeMixerDescription">精確控制個別應用程式</system:String>
     <system:String x:Key="OpenMediaPlayerText">開啟媒體播放器</system:String>
     <system:String x:Key="TaskbarVisualizerBaselineAutoHideDescription">當沒有音訊播放時，自動隱藏基線</system:String>
-    <system:String x:Key="AnonymousUsageDataDescription">傳送匿名且無法識別身分的使用資料，協助改善應用程式</system:String>
+    <system:String x:Key="AnonymousUsageDataDescription">傳送匿名且無法辨識身分的使用資料，協助改善應用程式</system:String>
+    <system:String x:Key="AnonymousUsageDataTitle">傳送匿名使用資料</system:String>
+    <system:String x:Key="TaskbarWidgetScrollingTextLoopForeverDescription">讓文字固定朝同一方向無限循環，而非來回滾動</system:String>
+    <system:String x:Key="VolumeFlyoutShortcutDescription">按下快速鍵即可顯示音量浮動視窗。</system:String>
 </ResourceDictionary>
