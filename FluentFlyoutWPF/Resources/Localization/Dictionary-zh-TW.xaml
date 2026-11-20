@@ -295,4 +295,6 @@
     <system:String x:Key="EnableVolumeMixerTitle">啟用音量合成器</system:String>
     <system:String x:Key="EnableVolumeMixerDescription">精確控制個別應用程式</system:String>
     <system:String x:Key="OpenMediaPlayerText">開啟媒體播放器</system:String>
+    <system:String x:Key="TaskbarVisualizerBaselineAutoHideDescription">當沒有音訊播放時，自動隱藏基線</system:String>
+    <system:String x:Key="AnonymousUsageDataDescription">傳送匿名且無法識別身分的使用資料，協助改善應用程式</system:String>
 </ResourceDictionary>
