@@ -30,14 +30,25 @@
                         <ScaleTransform ScaleX="0.9" ScaleY="0.9" />
                     </Grid.RenderTransform>
                     <StackPanel Name="MainStackPanel" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Width="Auto" Margin="4,0,-100,0">
-                        <Border Name="SongImageBorder" CornerRadius="5" ClipToBounds="True" Width="36" Height="36" Panel.ZIndex="2">
-                            <Grid>
-                                <ui:SymbolIcon Name="SongImagePlaceholder" Symbol="MusicNote220" FontSize="24" Filled="True" Foreground="{DynamicResource MicaWPF.Brushes.SystemAccentColorTertiary}" />
-                            </Grid>
-                            <Border.Background>
-                                <ImageBrush x:Name="SongImage" Stretch="UniformToFill" />
-                            </Border.Background>
-                        </Border>
+                        <Grid x:Name="SongImageBorder" Width="36" Height="36" Panel.ZIndex="2" >
+                            <Border x:Name="AlbumArtBorder" CornerRadius="5" ClipToBounds="True">
+                                <Border.Background>
+                                    <ImageBrush x:Name="SongImage" Stretch="UniformToFill" AlignmentX="Center" AlignmentY="Center" />
+                                </Border.Background>
+                            </Border>
+                            <ui:SymbolIcon Name="SongImagePlaceholder" Symbol="MusicNote220" FontSize="24" Filled="True" Foreground="{DynamicResource MicaWPF.Brushes.SystemAccentColorTertiary}" />
+                            <Image x:Name="MediaPlayerIconImage"
+                                   Width="12" Height="12"
+                                   HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                                   Stretch="Uniform"
+                                   Panel.ZIndex="3"
+                                   Visibility="Collapsed"
+                                   RenderOptions.BitmapScalingMode="Fant">
+                                <Image.Clip>
+                                    <EllipseGeometry Center="6,6" RadiusX="6" RadiusY="6" />
+                                </Image.Clip>
+                            </Image>
+                        </Grid>
 
                         <StackPanel Name="SongInfoStackPanel" Orientation="Vertical" VerticalAlignment="Center" Width="Auto" Margin="8,0,0,0"
                                     ToolTipService.InitialShowDelay="800"

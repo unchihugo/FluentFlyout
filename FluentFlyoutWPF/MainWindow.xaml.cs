@@ -723,8 +723,9 @@ public partial class MainWindow : MicaWindow
 
         var playbackInfo = activeSession.ControlSession.GetPlaybackInfo();
         var thumbnail = BitmapHelper.GetThumbnail(songInfo.Thumbnail);
+        var mediaPlayerIcon = MediaPlayerData.GetAndCacheMediaPlayerData(activeSession.Id).Item2;
         BitmapHelper.GetDominantColors(1);
-        taskbarWindow?.UpdateUi(songInfo.Title, songInfo.Artist, thumbnail, playbackInfo.PlaybackStatus, playbackInfo.Controls);
+        taskbarWindow?.UpdateUi(songInfo.Title, songInfo.Artist, thumbnail, playbackInfo.PlaybackStatus, playbackInfo.Controls, mediaPlayerIcon);
     }
 
     public void reportBug(object? sender, EventArgs e)
@@ -786,10 +787,11 @@ public partial class MainWindow : MicaWindow
         if (tbSongInfo != null)
         {
             var tbThumbnail = BitmapHelper.GetThumbnail(tbSongInfo.Thumbnail);
+            var mediaPlayerIcon = MediaPlayerData.GetAndCacheMediaPlayerData(focusedSession.Id).Item2;
             BitmapHelper.GetDominantColors(1);
             var tbPlayback = focusedSession.ControlSession.GetPlaybackInfo();
 
-            taskbarWindow?.UpdateUi(tbSongInfo.Title, tbSongInfo.Artist, tbThumbnail, tbPlayback?.PlaybackStatus, tbPlayback?.Controls);
+            taskbarWindow?.UpdateUi(tbSongInfo.Title, tbSongInfo.Artist, tbThumbnail, tbPlayback?.PlaybackStatus, tbPlayback?.Controls, mediaPlayerIcon);
         }
 
         if (IsVisible)
@@ -838,9 +840,10 @@ public partial class MainWindow : MicaWindow
         previousMediaPropertyThumbnail = checkThumbnail;
 
         var thumbnail = BitmapHelper.GetThumbnail(songInfo.Thumbnail);
+        var mediaPlayerIcon = MediaPlayerData.GetAndCacheMediaPlayerData(currentActiveSession.Id).Item2;
         BitmapHelper.GetDominantColors(1);
 
-        taskbarWindow?.UpdateUi(songInfo.Title, songInfo.Artist, thumbnail, playbackInfo.PlaybackStatus, playbackInfo.Controls);
+        taskbarWindow?.UpdateUi(songInfo.Title, songInfo.Artist, thumbnail, playbackInfo.PlaybackStatus, playbackInfo.Controls, mediaPlayerIcon);
 
         pauseOtherMediaSessionsIfNeeded(mediaSession);
 
