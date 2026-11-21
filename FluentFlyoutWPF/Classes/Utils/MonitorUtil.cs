@@ -27,6 +27,9 @@ public static class MonitorUtil
     public static MonitorInfo GetSelectedMonitor(int index = 0)
     {
         var monitors = GetMonitors();
+        if (monitors.Count == 0)
+            return default;
+
         return monitors[Math.Clamp(index, 0, monitors.Count - 1)];
     }
 
