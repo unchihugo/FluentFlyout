@@ -13,6 +13,8 @@ namespace FluentFlyoutWPF;
 /// </summary>
 public partial class App : Application
 {
+    private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+
     protected override async void OnStartup(StartupEventArgs e)
     {
         // log unhandled exceptions before crashing
@@ -21,6 +23,19 @@ public partial class App : Application
             NLog.LogManager.GetCurrentClassLogger().Fatal(args.ExceptionObject as Exception, "Unhandled exception occurred");
             NLog.LogManager.Flush(); // Ensure logs are written before application dies
         };
+
+        // Register before asynchronous startup work so Restart Manager can restart the app after an update.
+        int restartRegistrationResult = NativeMethods.RegisterApplicationRestart(
+            null,
+            NativeMethods.RESTART_NO_CRASH | NativeMethods.RESTART_NO_HANG);
+        if (restartRegistrationResult == NativeMethods.S_OK)
+        {
+            Logger.Info("Registered for application restart after an update");
+        }
+        else
+        {
+            Logger.Warn($"Failed to register for application restart. HRESULT: 0x{restartRegistrationResult:X8}");
+        }
 
         // Register AUMID for toast notifications
         ToastNotificationManagerCompat.OnActivated += Notifications.HandleNotificationActivation;

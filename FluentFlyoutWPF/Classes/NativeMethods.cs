@@ -398,8 +398,14 @@ public static partial class NativeMethods
 
     #region kernel32.dll
 
+    internal const uint RESTART_NO_CRASH = 1;
+    internal const uint RESTART_NO_HANG = 2;
+
     [LibraryImport("kernel32.dll", EntryPoint = "GetModuleHandleW", SetLastError = true, StringMarshalling = StringMarshalling.Utf16)]
     internal static partial IntPtr GetModuleHandle(string lpModuleName);
+
+    [LibraryImport("kernel32.dll", EntryPoint = "RegisterApplicationRestart", StringMarshalling = StringMarshalling.Utf16)]
+    internal static partial int RegisterApplicationRestart(string? pwzCommandLine, uint dwFlags);
 
     #endregion
 
