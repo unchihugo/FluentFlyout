@@ -6,7 +6,6 @@ using System.Globalization;
 using System.IO;
 using System.Net;
 using System.Net.Http;
-using System.Text;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 
@@ -30,6 +29,7 @@ public sealed record ChangelogFeed(
 
 public static class ChangelogService
 {
+    private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
     private const string ChangelogPageUrl = "https://fluentflyout.com/changelog/";
     // TODO: change to real URL
     private const string ChangelogApiUrl = "http://localhost:4321/api/changelogs";
@@ -65,8 +65,6 @@ public static class ChangelogService
 
     public static bool HasUnseenUpdate(string currentVersion, string lastViewedVersion)
     {
-        // TODO: Remove this check once the changelog endpoint is live and stable
-        return true;
         if (string.IsNullOrWhiteSpace(currentVersion)
             || currentVersion.Equals("debug", StringComparison.OrdinalIgnoreCase)
             || string.IsNullOrWhiteSpace(lastViewedVersion))
@@ -100,6 +98,10 @@ public static class ChangelogService
         }
 
         var viewAllUrl = ValidateViewAllUrl(payload.ViewAllUrl);
+        if (!string.IsNullOrWhiteSpace(lastViewedVersion) && !TryParseVersion(lastViewedVersion, out _))
+        {
+            Logger.Warn("Cannot compare changelog releases with invalid last viewed version {0}", lastViewedVersion);
+        }
         var releases = new List<ChangelogRelease>(payload.Releases.Count);
         foreach (var apiRelease in payload.Releases)
         {
@@ -130,54 +132,6 @@ public static class ChangelogService
         return new ChangelogFeed(releases, viewAllUrl);
     }
 
-    public static string CreateHtmlDocument(ChangelogRelease release, bool isDarkTheme)
-    {
-        string background = isDarkTheme ? "#202020" : "#F3F3F3";
-        string foreground = isDarkTheme ? "#F1F1F1" : "#202020";
-        string muted = isDarkTheme ? "#C8C8C8" : "#5D5D5D";
-        string border = isDarkTheme ? "#484848" : "#D0D0D0";
-        string link = isDarkTheme ? "#7CC7FF" : "#0067C0";
-        string scrollbarTrack = isDarkTheme ? "#202020" : "#F3F3F3";
-        string scrollbarThumb = isDarkTheme ? "#454545" : "#C7C7C7";
-
-        var html = new StringBuilder();
-        html.Append("<!doctype html><html><head><meta charset=\"utf-8\">");
-        html.Append("<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\"><style>");
-        html.Append("html,body{margin:0;min-height:100%;overflow-x:hidden;background:").Append(background).Append(";}");
-        html.Append("html,body{scrollbar-base-color:").Append(scrollbarThumb);
-        html.Append(";scrollbar-face-color:").Append(scrollbarThumb);
-        html.Append(";scrollbar-track-color:").Append(scrollbarTrack);
-        html.Append(";scrollbar-arrow-color:").Append(muted);
-        html.Append(";scrollbar-shadow-color:").Append(scrollbarTrack);
-        html.Append(";scrollbar-highlight-color:").Append(scrollbarThumb);
-        html.Append(";scrollbar-3dlight-color:").Append(scrollbarTrack);
-        html.Append(";scrollbar-darkshadow-color:").Append(scrollbarTrack).Append(";}");
-        html.Append("body{box-sizing:border-box;padding:20px;font-family:'Segoe UI Variable','Segoe UI',sans-serif;");
-        html.Append("font-size:15px;line-height:1.55;color:").Append(foreground).Append(";}");
-        html.Append("h1{font-size:25px;line-height:1.25;margin:0 0 4px;font-weight:600;}");
-        html.Append("h2{font-size:21px;margin:1.5em 0 .55em;}h3{font-size:17px;margin:1.2em 0 .4em;}");
-        html.Append(".release-date{margin:0 0 24px;color:").Append(muted).Append(";font-size:13px;}");
-        html.Append("a{color:").Append(link).Append(";}img{max-width:100%;height:auto;}");
-        html.Append("blockquote{border-left:3px solid ").Append(link).Append(";margin-left:0;padding-left:14px;}");
-        html.Append("table{border-collapse:collapse;max-width:100%;}th,td{border:1px solid ").Append(border);
-        html.Append(";padding:6px 9px;}pre,code{font-family:Consolas,monospace;word-wrap:break-word;}");
-        html.Append("pre{white-space:pre-wrap;padding:10px;background:").Append(isDarkTheme ? "#2A2A2A" : "#E8E8E8").Append(";}");
-        html.Append("</style></head><body><h1>");
-        html.Append(WebUtility.HtmlEncode(release.NavigationTitle));
-        html.Append("</h1>");
-
-        if (!string.IsNullOrWhiteSpace(release.ReleaseDate))
-        {
-            html.Append("<p class=\"release-date\">");
-            html.Append(WebUtility.HtmlEncode(release.ReleaseDate));
-            html.Append("</p>");
-        }
-
-        html.Append(release.ContentHtml);
-        html.Append("</body></html>");
-        return html.ToString();
-    }
-
     private static bool IsNewerThan(string releaseVersion, string lastViewedVersion)
     {
         if (string.IsNullOrWhiteSpace(lastViewedVersion))
@@ -190,8 +144,8 @@ public static class ChangelogService
             return false;
         }
 
-        return !TryParseVersion(lastViewedVersion, out var lastViewed)
-            || release!.CompareTo(lastViewed) > 0;
+        return TryParseVersion(lastViewedVersion, out var lastViewed)
+            && release!.CompareTo(lastViewed) > 0;
     }
 
     private static bool TryParseVersion(string? value, out Version? version)

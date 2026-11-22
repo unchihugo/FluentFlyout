@@ -7,7 +7,8 @@ using FluentFlyoutWPF.Classes.Services;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
-using Wpf.Ui.Appearance;
+using System.Windows.Media;
+using System.Windows.Threading;
 using Wpf.Ui.Controls;
 
 namespace FluentFlyoutWPF.Windows;
@@ -21,6 +22,9 @@ public partial class ChangelogWindow : FluentWindow
     private readonly CancellationTokenSource _loadCancellation = new();
     private readonly Stopwatch _openDuration = Stopwatch.StartNew();
     private string _viewAllUrl = string.Empty;
+    private NavigationViewItem? _activeReleaseItem;
+    private CancellationTokenSource? _renderCancellation;
+    private bool _versionRecorded;
 
     public ChangelogWindow(string lastViewedVersion, string currentVersion)
     {
@@ -43,18 +47,20 @@ public partial class ChangelogWindow : FluentWindow
                 return;
             }
 
-            ReleaseNavigation.ItemsSource = feed.Releases;
-            ReleaseContentBrowser.Visibility = Visibility.Visible;
-            StatusPanel.Visibility = Visibility.Collapsed;
-            _viewAllUrl = feed.ViewAllUrl;
-            ViewAllFooter.Visibility = Visibility.Visible;
-            ReleaseNavigation.SelectedIndex = 0;
-
-            if (ChangelogService.HasUnseenUpdate(_currentVersion, _lastViewedVersion))
+            foreach (var release in feed.Releases)
             {
-                SettingsManager.Current.LastViewedChangelogVersion = _currentVersion;
-                SettingsManager.SaveSettings();
+                var item = new NavigationViewItem
+                {
+                    Content = release,
+                    ContentTemplate = (DataTemplate)FindResource("ReleaseNavigationContent"),
+                };
+                item.Click += ReleaseNavigationItem_Click;
+                ReleaseNavigation.MenuItems.Add(item);
+                item.Template = (ControlTemplate)FindResource("ReleaseNavigationItemTemplate");
             }
+            _viewAllUrl = feed.ViewAllUrl;
+            ViewAllButton.Visibility = Visibility.Visible;
+            await SelectReleaseAsync((NavigationViewItem)ReleaseNavigation.MenuItems[0]);
         }
         catch (OperationCanceledException) when (_loadCancellation.IsCancellationRequested)
         {
@@ -62,38 +68,101 @@ public partial class ChangelogWindow : FluentWindow
         catch (Exception ex)
         {
             Logger.Error(ex, "Failed to load changelog releases");
-            StatusText.Text = Application.Current.TryFindResource("ChangelogLoadFailedText")?.ToString()
-                ?? "The changelog could not be loaded.";
-            OpenOnlineButton.Visibility = Visibility.Visible;
+            ShowLoadError();
         }
     }
 
-    private void ReleaseNavigation_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    private async void ReleaseNavigationItem_Click(object sender, RoutedEventArgs e)
     {
-        if (ReleaseNavigation.SelectedItem is not ChangelogRelease release)
+        if (sender is NavigationViewItem item
+            && (item != _activeReleaseItem || OpenOnlineButton.Visibility == Visibility.Visible))
+        {
+            await SelectReleaseAsync(item);
+        }
+    }
+
+    private async Task SelectReleaseAsync(NavigationViewItem item)
+    {
+        if (item.Content is not ChangelogRelease release)
         {
             return;
         }
 
-        bool isDarkTheme = ApplicationThemeManager.GetAppTheme() != ApplicationTheme.Light;
-        ReleaseContentBrowser.NavigateToString(
-            ChangelogService.CreateHtmlDocument(release, isDarkTheme));
+        _renderCancellation?.Cancel();
+        var cancellation = CancellationTokenSource.CreateLinkedTokenSource(_loadCancellation.Token);
+        _renderCancellation = cancellation;
+        _activeReleaseItem?.Deactivate(ReleaseNavigation);
+        _activeReleaseItem = item;
+        item.Activate(ReleaseNavigation);
+        ReleaseContentScroll.Visibility = Visibility.Collapsed;
+        StatusPanel.Visibility = Visibility.Visible;
+        LoadingRing.Visibility = Visibility.Visible;
+        OpenOnlineButton.Visibility = Visibility.Collapsed;
+        StatusText.Text = "";
+
+        try
+        {
+            var content = new StackPanel();
+            await ChangelogRenderer.RenderAsync(release.ContentHtml, content, cancellation.Token);
+            cancellation.Token.ThrowIfCancellationRequested();
+            ReleaseTitle.Text = release.NavigationTitle;
+            ReleaseDate.Text = release.ReleaseDate;
+            ReleaseContent.Content = content;
+            ReleaseContentScroll.ScrollToTop();
+            ReleaseContentScroll.Visibility = Visibility.Visible;
+            await WaitForRenderAsync(cancellation.Token);
+            cancellation.Token.ThrowIfCancellationRequested();
+            StatusPanel.Visibility = Visibility.Collapsed;
+
+            if (!_versionRecorded && ChangelogService.HasUnseenUpdate(_currentVersion, _lastViewedVersion))
+            {
+                SettingsManager.Current.LastViewedChangelogVersion = _currentVersion;
+                SettingsManager.SaveSettings();
+                _versionRecorded = true;
+            }
+        }
+        catch (OperationCanceledException) when (cancellation.IsCancellationRequested)
+        {
+        }
+        catch (Exception ex)
+        {
+            Logger.Error(ex, "Failed to render changelog release {0}", release.Version);
+            ReleaseContentScroll.Visibility = Visibility.Collapsed;
+            ShowLoadError();
+        }
+        finally
+        {
+            if (_renderCancellation == cancellation)
+            {
+                _renderCancellation = null;
+            }
+            cancellation.Dispose();
+        }
     }
 
-    private void ReleaseContentBrowser_Navigating(
-        object sender,
-        System.Windows.Navigation.NavigatingCancelEventArgs e)
+    private async Task WaitForRenderAsync(CancellationToken cancellationToken)
     {
-        if (e.Uri == null || string.Equals(e.Uri.Scheme, "about", StringComparison.OrdinalIgnoreCase))
+        var rendered = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        EventHandler handler = (_, _) => rendered.TrySetResult();
+        CompositionTarget.Rendering += handler;
+        using var registration = cancellationToken.Register(() => rendered.TrySetCanceled(cancellationToken));
+        try
         {
-            return;
+            await rendered.Task;
+            await Dispatcher.InvokeAsync(() => { }, DispatcherPriority.ContextIdle, cancellationToken);
         }
+        finally
+        {
+            CompositionTarget.Rendering -= handler;
+        }
+    }
 
-        e.Cancel = true;
-        if (string.Equals(e.Uri.Scheme, Uri.UriSchemeHttps, StringComparison.OrdinalIgnoreCase))
-        {
-            Notifications.OpenUrlInBrowser(e.Uri.AbsoluteUri);
-        }
+    private void ShowLoadError()
+    {
+        LoadingRing.Visibility = Visibility.Collapsed;
+        StatusPanel.Visibility = Visibility.Visible;
+        StatusText.Text = Application.Current.TryFindResource("ChangelogLoadFailedText")?.ToString();
+        OpenOnlineButton.Visibility = Visibility.Visible;
     }
 
     private void OpenOnlineButton_Click(object sender, RoutedEventArgs e)

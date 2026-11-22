@@ -6,7 +6,7 @@
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
     mc:Ignorable="d"
     Width="1000" Height="720" MinWidth="760" MinHeight="500"
-    Title="{DynamicResource ChangelogWindowTitle}"
+    Title="{DynamicResource ChangelogWindowTitle}" Icon="/Resources/FluentFlyout2.ico"
     WindowStartupLocation="CenterOwner"
     ExtendsContentIntoTitleBar="True"
     WindowBackdropType="Mica"
@@ -18,6 +18,64 @@
     ui:Design.Foreground="{DynamicResource TextFillColorPrimaryBrush}"
     Loaded="ChangelogWindow_Loaded"
     Closed="ChangelogWindow_Closed">
+
+    <ui:FluentWindow.Resources>
+        <DataTemplate x:Key="ReleaseNavigationContent">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <StackPanel>
+                    <TextBlock Text="{Binding NavigationTitle}" FontSize="13" TextWrapping="Wrap" />
+                    <TextBlock Text="{Binding ReleaseDate}" FontSize="11" Opacity="0.6" Margin="0,3,0,0" />
+                </StackPanel>
+                <Border
+                    Grid.Column="1"
+                    Background="{DynamicResource AccentFillColorDefaultBrush}"
+                    CornerRadius="4"
+                    Padding="5,2"
+                    Margin="8,1,0,0"
+                    VerticalAlignment="Top"
+                    Visibility="{Binding IsNew, Converter={StaticResource BoolToVisibleCollapsedConverter}}">
+                    <TextBlock Text="NEW" Foreground="{DynamicResource TextOnAccentFillColorPrimaryBrush}"
+                               FontSize="9" FontWeight="SemiBold" />
+                </Border>
+            </Grid>
+        </DataTemplate>
+        <ControlTemplate x:Key="ReleaseNavigationItemTemplate" TargetType="{x:Type ui:NavigationViewItem}">
+            <Border x:Name="ItemBorder" MinHeight="40"
+                    Background="{DynamicResource NavigationViewItemBackground}"
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="{DynamicResource NavigationViewItemThickness}"
+                    CornerRadius="{TemplateBinding Border.CornerRadius}">
+                <Grid>
+                    <Rectangle x:Name="ActiveIndicator" Width="3" Height="16" HorizontalAlignment="Left"
+                               Fill="{DynamicResource NavigationViewSelectionIndicatorForeground}"
+                               RadiusX="2" RadiusY="2" Opacity="0" />
+                    <ContentPresenter Margin="12,8" HorizontalAlignment="Stretch" VerticalAlignment="Center"
+                                      Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}"
+                                      TextElement.Foreground="{TemplateBinding Foreground}" />
+                </Grid>
+            </Border>
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsActive" Value="True">
+                    <Setter TargetName="ActiveIndicator" Property="Opacity" Value="1" />
+                    <Setter TargetName="ItemBorder" Property="Background" Value="{DynamicResource NavigationViewItemBackgroundSelected}" />
+                </Trigger>
+                <MultiTrigger>
+                    <MultiTrigger.Conditions>
+                        <Condition Property="IsMouseOver" Value="True" />
+                        <Condition Property="IsActive" Value="False" />
+                    </MultiTrigger.Conditions>
+                    <Setter TargetName="ItemBorder" Property="Background" Value="{DynamicResource NavigationViewItemBackgroundPointerOver}" />
+                </MultiTrigger>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter TargetName="ItemBorder" Property="Background" Value="{DynamicResource NavigationViewItemBackgroundPressed}" />
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+    </ui:FluentWindow.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
@@ -34,130 +92,60 @@
             <ui:TitleBar.Icon>
                 <ui:ImageIcon Source="/Resources/FluentFlyout2.ico" />
             </ui:TitleBar.Icon>
+            <ui:TitleBar.Resources>
+                <Style TargetType="{x:Type ui:TitleBarButton}"
+                       BasedOn="{StaticResource {x:Type ui:TitleBarButton}}">
+                    <Setter Property="Height" Value="48" />
+                    <Setter Property="Width" Value="48" />
+                </Style>
+            </ui:TitleBar.Resources>
         </ui:TitleBar>
 
-        <Grid Grid.Row="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="280" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-
-            <Border Grid.Column="0" BorderBrush="#33808080" BorderThickness="0,0,1,0">
-                <Grid Margin="12">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-
-                    <TextBlock
-                        Grid.Row="0"
-                        Text="{DynamicResource ChangelogAllUpdatesTitle}"
-                        FontSize="13"
-                        FontWeight="SemiBold"
-                        Opacity="0.7"
-                        Margin="8,4,8,10" />
-
-                    <ListBox
-                        x:Name="ReleaseNavigation"
-                        Grid.Row="1"
-                        Background="Transparent"
-                        BorderThickness="0"
-                        SelectionChanged="ReleaseNavigation_SelectionChanged"
-                        ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-                        <ListBox.ItemContainerStyle>
-                            <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource {x:Type ListBoxItem}}">
-                                <Setter Property="Padding" Value="10,8" />
-                                <Setter Property="Margin" Value="0,2" />
-                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                            </Style>
-                        </ListBox.ItemContainerStyle>
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="Auto" />
-                                    </Grid.ColumnDefinitions>
-                                    <StackPanel Grid.Column="0">
-                                        <TextBlock
-                                            Text="{Binding NavigationTitle}"
-                                            FontSize="13"
-                                            TextWrapping="Wrap" />
-                                        <TextBlock
-                                            Text="{Binding ReleaseDate}"
-                                            FontSize="11"
-                                            Opacity="0.6"
-                                            Margin="0,3,0,0" />
-                                    </StackPanel>
-                                    <Border
-                                        Grid.Column="1"
-                                        Background="#0078D4"
-                                        CornerRadius="4"
-                                        Padding="5,2"
-                                        Margin="8,1,0,0"
-                                        VerticalAlignment="Top"
-                                        Visibility="{Binding IsNew, Converter={StaticResource BoolToVisibleCollapsedConverter}}">
-                                        <TextBlock
-                                            Text="NEW"
-                                            Foreground="White"
-                                            FontSize="9"
-                                            FontWeight="SemiBold" />
-                                    </Border>
-                                </Grid>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
-
-                    <Border
-                        x:Name="ViewAllFooter"
-                        Grid.Row="2"
-                        BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
-                        BorderThickness="0,1,0,0"
-                        Margin="4,8,4,0"
-                        Padding="0,8,0,0"
-                        Visibility="Collapsed">
-                        <Button
-                            x:Name="ViewAllButton"
-                            Click="ViewAllButton_Click"
-                            Background="Transparent"
-                            BorderThickness="0"
-                            Padding="10,8"
-                            HorizontalContentAlignment="Stretch">
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                <TextBlock
-                                    Text="{DynamicResource ChangelogViewAllUpdatesButton}"
-                                    FontSize="13" />
-                                <TextBlock
-                                    Text="↗"
-                                    FontSize="15"
-                                    Margin="6,0,0,0"
-                                    Foreground="{DynamicResource AccentTextFillColorPrimaryBrush}" />
-                            </StackPanel>
-                        </Button>
-                    </Border>
-                </Grid>
-            </Border>
-
-            <Grid Grid.Column="1">
-                <WebBrowser
-                    x:Name="ReleaseContentBrowser"
+        <ui:NavigationView x:Name="ReleaseNavigation" Grid.Row="1"
+                           PaneDisplayMode="Left" IsPaneOpen="True" IsPaneToggleVisible="False"
+                           IsBackButtonVisible="Collapsed" OpenPaneLength="280" FrameMargin="0"
+                           IsTopSeparatorVisible="False" IsFooterSeparatorVisible="False">
+            <ui:NavigationView.PaneHeader>
+                <ui:TextBlock Text="{DynamicResource ChangelogAllUpdatesTitle}" FontSize="13"
+                              FontWeight="SemiBold" Opacity="0.7" Margin="16,12,8,12" />
+            </ui:NavigationView.PaneHeader>
+            <ui:NavigationView.FooterMenuItems>
+                <ui:NavigationViewItem x:Name="ViewAllButton"
+                                       Content="{DynamicResource ChangelogViewAllUpdatesButton}"
+                                       Icon="{ui:SymbolIcon Open20}"
+                                       Click="ViewAllButton_Click" Visibility="Collapsed" />
+            </ui:NavigationView.FooterMenuItems>
+            <ui:NavigationView.ContentOverlay>
+            <Grid Background="{DynamicResource CardBackground}">
+                <ScrollViewer
+                    x:Name="ReleaseContentScroll"
                     Visibility="Collapsed"
-                    Navigating="ReleaseContentBrowser_Navigating" />
+                    VerticalScrollBarVisibility="Auto"
+                    HorizontalScrollBarVisibility="Disabled">
+                    <StackPanel Margin="32,24,32,32">
+                        <Border BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="0,0,0,1" Padding="0,0,0,8">
+                            <ui:TextBlock x:Name="ReleaseTitle" FontSize="28" FontWeight="SemiBold" TextWrapping="Wrap" />
+                        </Border>
+                        <ui:TextBlock x:Name="ReleaseDate" Appearance="Secondary" FontSize="13" Margin="0,8,0,24" />
+                        <ContentControl x:Name="ReleaseContent" />
+                    </StackPanel>
+                </ScrollViewer>
 
                 <StackPanel
                     x:Name="StatusPanel"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Margin="24">
+                    <ui:ProgressRing x:Name="LoadingRing" IsIndeterminate="True" Width="48" Height="48"
+                                     HorizontalAlignment="Center"/>
                     <TextBlock
                         x:Name="StatusText"
-                        Text="{DynamicResource ChangelogLoadingText}"
+                        Text=""
                         TextWrapping="Wrap"
                         TextAlignment="Center"
                         Opacity="0.75"
                         MaxWidth="420" />
-                    <Button
+                    <ui:Button
                         x:Name="OpenOnlineButton"
                         Content="{DynamicResource ChangelogOpenOnlineButton}"
                         Click="OpenOnlineButton_Click"
@@ -166,6 +154,7 @@
                         Margin="0,16,0,0" />
                 </StackPanel>
             </Grid>
-        </Grid>
+            </ui:NavigationView.ContentOverlay>
+        </ui:NavigationView>
     </Grid>
 </ui:FluentWindow>
