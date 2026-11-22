@@ -33,6 +33,10 @@ hides repeat, shuffle and player info</System:String>
     <System:String x:Key="PositionTopLeft" xml:space="preserve"> Top Left</System:String>
     <System:String x:Key="PositionTopCenter" xml:space="preserve"> Top Center</System:String>
     <System:String x:Key="PositionTopRight" xml:space="preserve"> Top Right</System:String>
+    <System:String x:Key="PositionCustom" xml:space="preserve"> Custom</System:String>
+    <System:String x:Key="MediaFlyoutDragHandleTooltip">Drag to reposition flyout</System:String>
+    <System:String x:Key="MediaFlyoutShowDragHandleTitle">Show drag handle</System:String>
+    <System:String x:Key="MediaFlyoutShowDragHandleDescription">Displays a handle on the flyout for dragging it to a custom position</System:String>
     <System:String x:Key="FlyoutStayDurationTitle">Flyout Stay Duration</System:String>
     <System:String x:Key="FlyoutStayDurationDescription">(default: 3000 ms)</System:String>
     <System:String x:Key="MillisecondsUnit">ms</System:String>
