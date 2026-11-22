@@ -204,16 +204,24 @@ public partial class MainWindow : MicaWindow
         {
             LocalizationManager.ApplyLocalization();
 
+            string currentVersion;
             try // update last known version. gets the version of the app, works only in release mode
             {
                 var version = Package.Current.Id.Version;
-                SettingsManager.Current.LastKnownVersion = $"v{version.Major}.{version.Minor}.{version.Build}";
+                currentVersion = $"v{version.Major}.{version.Minor}.{version.Build}";
             }
             catch
             {
-                SettingsManager.Current.LastKnownVersion = "debug";
+                currentVersion = "debug";
             }
 
+            if (string.IsNullOrWhiteSpace(SettingsManager.Current.LastViewedChangelogVersion))
+            {
+                SettingsManager.Current.LastViewedChangelogVersion =
+                    string.IsNullOrWhiteSpace(previousVersion) ? currentVersion : previousVersion;
+            }
+
+            SettingsManager.Current.LastKnownVersion = currentVersion;
             Logger.Info($"Current version: {SettingsManager.Current.LastKnownVersion}");
 
             Notifications.ShowFirstOrUpdateNotification(previousVersion, SettingsManager.Current.LastKnownVersion);

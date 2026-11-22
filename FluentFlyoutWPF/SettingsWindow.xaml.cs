@@ -4,7 +4,9 @@
 using FluentFlyout.Classes;
 using FluentFlyout.Classes.Settings;
 using FluentFlyoutWPF.Classes.Utils;
+using FluentFlyoutWPF.Classes.Services;
 using FluentFlyoutWPF.Pages;
+using FluentFlyoutWPF.Windows;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
@@ -264,6 +266,16 @@ public partial class SettingsWindow : FluentWindow
         };
 
         BuildSearchItems();
+
+        var settings = SettingsManager.Current;
+        if (ChangelogService.HasUnseenUpdate(settings.LastKnownVersion, settings.LastViewedChangelogVersion))
+        {
+            var changelogWindow = new ChangelogWindow(settings.LastViewedChangelogVersion, settings.LastKnownVersion)
+            {
+                Owner = this
+            };
+            changelogWindow.Show();
+        }
     }
 
 

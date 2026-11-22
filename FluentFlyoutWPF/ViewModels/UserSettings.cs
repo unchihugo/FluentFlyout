@@ -309,6 +309,12 @@ public partial class UserSettings : ObservableObject
     public partial string LastKnownVersion { get; set; }
 
     /// <summary>
+    /// Last app version whose changelog was successfully opened.
+    /// </summary>
+    [ObservableProperty]
+    public partial string LastViewedChangelogVersion { get; set; }
+
+    /// <summary>
     /// Show seekbar if the player supports it
     /// </summary>
     [ObservableProperty]
@@ -801,6 +807,7 @@ public partial class UserSettings : ObservableObject
         LockKeysBoldUi = false;
         LockKeysMonitorPreference = 0;
         LastKnownVersion = string.Empty;
+        LastViewedChangelogVersion = string.Empty;
         SeekbarEnabled = false;
         PauseOtherSessionsEnabled = false;
         PinnedSessionId = string.Empty;

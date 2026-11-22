@@ -49,6 +49,7 @@
     <PackageReference Include="unchihugo.WPF-UI" Version="4.4.2" />
     <PackageReference Include="WPF-UI.Tray" Version="4.3.0" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
+    <PackageReference Include="HtmlAgilityPack" Version="1.12.4" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="NLog.config">
