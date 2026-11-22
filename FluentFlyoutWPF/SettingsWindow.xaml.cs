@@ -3,8 +3,8 @@
 
 using FluentFlyout.Classes;
 using FluentFlyout.Classes.Settings;
-using FluentFlyoutWPF.Classes.Utils;
 using FluentFlyoutWPF.Classes.Services;
+using FluentFlyoutWPF.Classes.Utils;
 using FluentFlyoutWPF.Pages;
 using FluentFlyoutWPF.Windows;
 using System.Text.RegularExpressions;

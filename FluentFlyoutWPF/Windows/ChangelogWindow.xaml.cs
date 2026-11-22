@@ -60,7 +60,12 @@ public partial class ChangelogWindow : FluentWindow
             }
             _viewAllUrl = feed.ViewAllUrl;
             ViewAllButton.Visibility = Visibility.Visible;
-            await SelectReleaseAsync((NavigationViewItem)ReleaseNavigation.MenuItems[0]);
+
+            if (ReleaseNavigation.MenuItems.Count > 0
+                && ReleaseNavigation.MenuItems[0] is NavigationViewItem firstItem)
+            {
+                await SelectReleaseAsync(firstItem);
+            }
         }
         catch (OperationCanceledException) when (_loadCancellation.IsCancellationRequested)
         {
