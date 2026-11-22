@@ -32,7 +32,7 @@ public static class ChangelogService
     private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
     private const string ChangelogPageUrl = "https://fluentflyout.com/changelog/";
     // TODO: change to real URL
-    private const string ChangelogApiUrl = "http://localhost:4321/api/changelogs";
+    private const string ChangelogApiUrl = "https://fluentflyout.com/api/changelogs";
 
     private static readonly HttpClient _client = new()
     {
