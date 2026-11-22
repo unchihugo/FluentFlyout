@@ -11,10 +11,14 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: microsoft-store-publish-9N45NSM4TNBP
+  cancel-in-progress: false
+
 jobs:
   build:
     runs-on: windows-latest
-    
+
     strategy:
       matrix:
         configuration: ["GitHub Release", "Release"]
@@ -56,6 +60,24 @@ jobs:
             /p:AppxPackageDir="$env:GITHUB_WORKSPACE\AppxPackages\\" `
             /p:AppxPackageSigningEnabled=false `
 
+      - name: Locate Store upload package
+        if: matrix.configuration == 'Release'
+        id: store-package
+        shell: pwsh
+        run: |
+          $packages = @(Get-ChildItem `
+            -Path "$env:GITHUB_WORKSPACE\AppxPackages" `
+            -Filter '*.msixupload' `
+            -File `
+            -Recurse)
+
+          if ($packages.Count -ne 1) {
+            $found = ($packages.FullName -join [Environment]::NewLine)
+            throw "Expected exactly one .msixupload package, but found $($packages.Count).`n$found"
+          }
+
+          "path=$($packages[0].FullName)" >> $env:GITHUB_OUTPUT
+
       - name: Prepare installer structure
         run: |
           $outDir = "$env:GITHUB_WORKSPACE\InstallerOutput"
@@ -71,3 +93,22 @@ jobs:
         with:
           name: FluentFlyout_${{ env.APP_VERSION }}_${{ env.PLATFORM }}_${{ matrix.configuration == 'GitHub Release' && 'Installer' || 'Release' }}
           path: InstallerOutput\
+
+      - name: Setup Microsoft Store CLI
+        if: matrix.configuration == 'Release'
+        uses: microsoft/microsoft-store-apppublisher@v1.4
+
+      - name: Configure Microsoft Store credentials
+        if: matrix.configuration == 'Release'
+        shell: pwsh
+        run: |
+          msstore reconfigure `
+            --tenantId 'eca1c770-2170-43fe-a5c1-fc1006748f9a' `
+            --sellerId '89329040' `
+            --clientId '2087cf02-d592-4753-ae3a-52b412bede97' `
+            --clientSecret '${{ secrets.MS_ENTRA_KEY }}'
+
+      - name: Publish to Microsoft Store
+        if: matrix.configuration == 'Release'
+        shell: pwsh
+        run: msstore publish '${{ steps.store-package.outputs.path }}' -id '9N45NSM4TNBP'
