@@ -3,6 +3,7 @@
 
 using NAudio.CoreAudioApi;
 using NAudio.CoreAudioApi.Interfaces;
+using System.Runtime.InteropServices;
 
 namespace FluentFlyoutWPF.Classes;
 
@@ -77,6 +78,36 @@ public class AudioDeviceMonitor : IDisposable
             Logger.Error(ex, "Failed to get default render device");
             return null;
         }
+    }
+
+    private static readonly PropertyKey PKEY_AudioEndpoint_FormFactor = new(
+        new Guid("1da5d803-d492-4edd-8c23-e0c0ffee7f0e"), 0);
+
+    public static AudioEndpointType GetEndpointType(MMDevice? device)
+    {
+        if (device == null)
+            return AudioEndpointType.Speakers;
+
+        try
+        {
+            var prop = device.Properties[PKEY_AudioEndpoint_FormFactor];
+            if (prop.Value is uint formFactor)
+            {
+                return formFactor switch
+                {
+                    3 or 5 => AudioEndpointType.Headphones,  // Headphones or Headset
+                    9 => AudioEndpointType.DigitalDisplay,     // HDMI / DisplayPort
+                    1 => AudioEndpointType.Speakers,
+                    _ => AudioEndpointType.Other
+                };
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger.Warn(ex, "Failed to read audio endpoint form factor");
+        }
+
+        return AudioEndpointType.Speakers;
     }
 
     public MMDevice? GetDeviceById(string deviceId)
