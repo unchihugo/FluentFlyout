@@ -248,6 +248,11 @@ You can help contribute translations on</System:String>
     <System:String x:Key="UpdateToastTitle">FluentFlyout has been updated!</System:String>
     <System:String x:Key="UpdateToastMessage">You are now on {0}.</System:String>
     <System:String x:Key="UpdateToastButton">View Updates</System:String>
+    <System:String x:Key="ChangelogWindowTitle">What’s new</System:String>
+    <System:String x:Key="ChangelogAllUpdatesTitle">All updates</System:String>
+    <System:String x:Key="ChangelogLoadFailedText">The changelog could not be loaded. Check your connection and try again.</System:String>
+    <System:String x:Key="ChangelogOpenOnlineButton">Open changelog online</System:String>
+    <System:String x:Key="ChangelogViewAllUpdatesButton">View all updates</System:String>
     <System:String x:Key="SearchSettings">Search settings</System:String>
     <System:String x:Key="UpdateAvailable">Update available</System:String>
     <System:String x:Key="UpToDate">Up to date</System:String>
