@@ -33,6 +33,11 @@ public partial class TaskbarWidgetControl : UserControl
     private const double SmallCoverImageMargin = 43;
     private const double DefaultPlaceholderIconSize = 24;
     private const double SmallPlaceholderIconSize = 18;
+    private const double DefaultMediaPlayerIconSize = 12;
+    private const double SmallMediaPlayerIconSize = 10;
+    private const double DefaultMediaPlayerCutoutSize = 18;
+    private const double SmallMediaPlayerCutoutSize = 16;
+    private const double MediaPlayerIconOffset = 2;
     private const double DefaultControlButtonSize = 32;
     private const double SmallControlButtonSize = 24;
     private const float TaskbarVolumeStep = 0.02f;
@@ -145,6 +150,15 @@ public partial class TaskbarWidgetControl : UserControl
         SongImageBorder.Width = coverImageSize;
         SongImageBorder.Height = coverImageSize;
         SongImagePlaceholder.FontSize = isSmallTaskbar ? SmallPlaceholderIconSize : DefaultPlaceholderIconSize;
+        double mediaPlayerIconSize = isSmallTaskbar ? SmallMediaPlayerIconSize : DefaultMediaPlayerIconSize;
+        MediaPlayerIconImage.Width = mediaPlayerIconSize;
+        MediaPlayerIconImage.Height = mediaPlayerIconSize;
+        MediaPlayerIconImage.Margin = new Thickness(0, 0, -MediaPlayerIconOffset, -MediaPlayerIconOffset);
+        MediaPlayerIconImage.Clip = new EllipseGeometry(
+            new System.Windows.Point(mediaPlayerIconSize / 2, mediaPlayerIconSize / 2),
+            mediaPlayerIconSize / 2,
+            mediaPlayerIconSize / 2);
+        UpdateAlbumArtCutoutMask(MediaPlayerIconImage.Visibility == Visibility.Visible);
 
         double controlButtonSize = isSmallTaskbar ? SmallControlButtonSize : DefaultControlButtonSize;
         foreach (var button in new Wpf.Ui.Controls.Button[] { PreviousButton, PlayPauseButton, NextButton })
@@ -152,6 +166,34 @@ public partial class TaskbarWidgetControl : UserControl
             button.Width = controlButtonSize;
             button.Height = controlButtonSize;
         }
+    }
+
+    private void UpdateAlbumArtCutoutMask(bool showCutout)
+    {
+        double coverImageSize = _isSmallTaskbar ? SmallCoverImageSize : DefaultCoverImageSize;
+        Geometry maskGeometry = new RectangleGeometry(new Rect(0, 0, coverImageSize, coverImageSize), 5, 5);
+        if (showCutout)
+        {
+            double mediaPlayerIconSize = _isSmallTaskbar ? SmallMediaPlayerIconSize : DefaultMediaPlayerIconSize;
+            double cutoutSize = _isSmallTaskbar ? SmallMediaPlayerCutoutSize : DefaultMediaPlayerCutoutSize;
+            double cutoutCenter = coverImageSize - mediaPlayerIconSize / 2 + MediaPlayerIconOffset;
+            var cutoutGeometry = new EllipseGeometry(
+                new System.Windows.Point(cutoutCenter, cutoutCenter),
+                cutoutSize / 2,
+                cutoutSize / 2);
+            maskGeometry = new CombinedGeometry(GeometryCombineMode.Exclude, maskGeometry, cutoutGeometry);
+        }
+
+        var mask = new DrawingBrush(new GeometryDrawing(Brushes.White, null, maskGeometry))
+        {
+            Stretch = Stretch.Fill,
+            Viewbox = new Rect(0, 0, coverImageSize, coverImageSize),
+            ViewboxUnits = BrushMappingMode.Absolute,
+            Viewport = new Rect(0, 0, 1, 1),
+            ViewportUnits = BrushMappingMode.RelativeToBoundingBox
+        };
+        mask.Freeze();
+        AlbumArtBorder.OpacityMask = mask;
     }
 
     public void SetMainWindow(MainWindow mainWindow)
@@ -178,6 +220,8 @@ public partial class TaskbarWidgetControl : UserControl
     private void Grid_MouseEnter(object sender, MouseEventArgs e)
     {
         if (string.IsNullOrEmpty(SongTitle.Text + SongArtist.Text)) return;
+
+        RefreshAppVolumeTooltip();
 
         SolidColorBrush targetBackgroundBrush;
         // hover effects with animations, hard-coded colors because I can't find the resource brushes
@@ -251,7 +295,7 @@ public partial class TaskbarWidgetControl : UserControl
         if (_mainWindow == null) return;
 
         // toggle main flyout when clicked
-        _mainWindow.ShowMediaFlyout(toggleMode: true, forceShow: true);
+        _mainWindow.ShowMediaFlyout(toggleMode: true, forceShow: true, withVolume: true);
     }
 
     private void MainBorder_MouseWheel(object sender, MouseWheelEventArgs e)
@@ -499,7 +543,7 @@ public partial class TaskbarWidgetControl : UserControl
         }
     }
 
-    public void UpdateUi(string title, string artist, BitmapImage? icon, GlobalSystemMediaTransportControlsSessionPlaybackStatus? playbackStatus, GlobalSystemMediaTransportControlsSessionPlaybackControls? playbackControls = null)
+    public void UpdateUi(string title, string artist, BitmapImage? icon, GlobalSystemMediaTransportControlsSessionPlaybackStatus? playbackStatus, GlobalSystemMediaTransportControlsSessionPlaybackControls? playbackControls = null, ImageSource? mediaPlayerIcon = null)
     {
         if (title == "-" && artist == "-")
         {
@@ -510,6 +554,9 @@ public partial class TaskbarWidgetControl : UserControl
                 _actualArtist = string.Empty;
                 _songInfoTooltip = string.Empty;
                 _appVolume = null;
+                MediaPlayerIconImage.Source = null;
+                MediaPlayerIconImage.Visibility = Visibility.Collapsed;
+                UpdateAlbumArtCutoutMask(false);
 
                 if (SettingsManager.Current.TaskbarWidgetHideCompletely)
                 {
@@ -571,7 +618,7 @@ public partial class TaskbarWidgetControl : UserControl
         Dispatcher.Invoke(() =>
         {
             string newTitle = !string.IsNullOrEmpty(title) ? title : "-";
-            string newArtist = !string.IsNullOrEmpty(artist) ? artist : "-";
+            string newArtist = artist ?? string.Empty;
 
             if (_actualTitle != newTitle || _actualArtist != newArtist)
             {
@@ -621,7 +668,7 @@ public partial class TaskbarWidgetControl : UserControl
                 }
                 SongImage.ImageSource = icon;
                 BackgroundImage.Source = icon;
-                SongImageBorder.Margin = new Thickness(0, 0, 0, -2); // align image better when cover is present
+                SongImageBorder.Margin = new Thickness(0, 0, 0, 0); // align image better when cover is present
             }
             else
             {
@@ -631,8 +678,15 @@ public partial class TaskbarWidgetControl : UserControl
                 BackgroundImage.Source = null;
             }
 
+            bool showMediaPlayerIcon = SettingsManager.Current.TaskbarWidgetShowMediaPlayerIcon
+                && icon != null
+                && mediaPlayerIcon != null;
+            MediaPlayerIconImage.Source = showMediaPlayerIcon ? mediaPlayerIcon : null;
+            MediaPlayerIconImage.Visibility = showMediaPlayerIcon ? Visibility.Visible : Visibility.Collapsed;
+            UpdateAlbumArtCutoutMask(showMediaPlayerIcon);
+
             SongTitle.Visibility = Visibility.Visible;
-            SongArtistContainer.Visibility = !_isSmallTaskbar && !_isVertical && !string.IsNullOrEmpty(artist)
+            SongArtistContainer.Visibility = !_isSmallTaskbar && !_isVertical && !string.IsNullOrEmpty(_actualArtist)
                 ? Visibility.Visible
                 : Visibility.Collapsed;
             SongInfoStackPanel.Visibility = _isVertical ? Visibility.Collapsed : Visibility.Visible;
@@ -732,6 +786,11 @@ public partial class TaskbarWidgetControl : UserControl
         if (_mainWindow == null) return;
 
         _ = _mainWindow.TryOpenMediaPlayerAsync();
+    }
+
+    private void TaskbarContextMenu_Opened(object sender, RoutedEventArgs e)
+    {
+        _mainWindow?.PopulateSessionSwitcherMenu(ContextMenuSessionSwitcher);
     }
 
     private void ContextMenuSettings_Click(object sender, RoutedEventArgs e)

@@ -17,7 +17,7 @@ namespace FluentFlyoutWPF.Windows;
 public partial class NextUpWindow : MicaWindow
 {
     MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
-    public NextUpWindow(string title, string artist, BitmapImage thumbnail)
+    public NextUpWindow(string title, string artist, BitmapImage? thumbnail)
     {
         DataContext = SettingsManager.Current;
         WindowStartupLocation = WindowStartupLocation.Manual;
@@ -62,10 +62,9 @@ public partial class NextUpWindow : MicaWindow
         wait();
     }
 
-    public void UpdateThumbnail(BitmapImage thumbnail)
+    public void UpdateThumbnail(BitmapImage? thumbnail)
     {
         SongImage.ImageSource = thumbnail;
-        if (SongImage.ImageSource == null) SongImagePlaceholder.Visibility = Visibility.Visible;
-        else SongImagePlaceholder.Visibility = Visibility.Collapsed;
+        SongImagePlaceholder.Visibility = SongImage.ImageSource == null ? Visibility.Visible : Visibility.Collapsed;
     }
 }

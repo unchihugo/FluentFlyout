@@ -1,0 +1,10 @@
+<UserControl x:Class="FluentFlyout.Controls.PremiumUnlockedBanner"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+             x:Name="Root">
+    <ui:InfoBar Title="{DynamicResource PremiumUnlockedMessage}"
+                Severity="Success"
+                IsClosable="True"
+                IsOpen="{Binding UserSettings.IsPremiumUnlockedBannerOpen, ElementName=Root, Mode=TwoWay}" />
+</UserControl>

@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2024-2026 The FluentFlyout Authors
+// Copyright (c) 2024-2026 The FluentFlyout Authors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 using FluentFlyout.Classes;
@@ -73,6 +73,35 @@ public static class MonitorUtil
     public static MonitorInfo GetMonitor(Window window, MonitorFromWindowFlags flag = MonitorFromWindowFlags.DEFAULTTONEAREST)
     {
         return GetMonitor(new WindowInteropHelper(window).Handle, flag);
+    }
+
+    internal static MonitorInfo GetMonitor(POINT point, MonitorFromWindowFlags flag = MonitorFromWindowFlags.DEFAULTTONEAREST)
+    {
+        var hMonitor = MonitorFromPoint(point, flag);
+        return GetMonitorInfoInternal(hMonitor);
+    }
+
+    public static Rect GetWorkAreaDips(double left, double top)
+    {
+        if (double.IsNaN(left) || double.IsNaN(top))
+        {
+            return SystemParameters.WorkArea;
+        }
+
+        var monitor = GetMonitor(new POINT { X = (int)left, Y = (int)top });
+        if (monitor.workArea.IsEmpty)
+        {
+            return SystemParameters.WorkArea;
+        }
+
+        double dpiX = monitor.dpiX > 0 ? monitor.dpiX : 96.0;
+        double dpiY = monitor.dpiY > 0 ? monitor.dpiY : 96.0;
+
+        return new Rect(
+            monitor.workArea.Left * 96.0 / dpiX,
+            monitor.workArea.Top * 96.0 / dpiY,
+            monitor.workArea.Width * 96.0 / dpiX,
+            monitor.workArea.Height * 96.0 / dpiY);
     }
 
     public static IReadOnlyList<MonitorInfo> GetMonitors()

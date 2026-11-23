@@ -12,7 +12,10 @@ public static class TelemetryService
     private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
     private const string ApiEndpoint = "events";
 
-    public static async Task SendTelemetryEventAsync(string eventName, string? experimentId = null)
+    public static async Task SendTelemetryEventAsync(
+        string eventName,
+        string? experimentId = null,
+        IReadOnlyDictionary<string, object>? eventData = null)
     {
         if (!SettingsManager.Current.AnonymousTelemetryAllowed) return;
 
@@ -22,15 +25,20 @@ public static class TelemetryService
                 + "-"
                 + (SettingsManager.Current.IsStoreVersion ? "store" : "github");
 
-            var telemetryData = new
+            var telemetryData = new Dictionary<string, object>
             {
-                eventName,
-                experimentId = experimentId ?? string.Empty,
-                variant = ExperimentsService.CheckUuidInExperiment(experimentId ?? string.Empty),
-                userId = SettingsManager.Current.Uuid,
-                sessionId = SettingsManager.Current.SessionId,
-                appVersion,
+                ["eventName"] = eventName,
+                ["experimentId"] = experimentId ?? string.Empty,
+                ["variant"] = ExperimentsService.CheckUuidInExperiment(experimentId ?? string.Empty),
+                ["userId"] = SettingsManager.Current.Uuid,
+                ["sessionId"] = SettingsManager.Current.SessionId,
+                ["appVersion"] = appVersion,
             };
+
+            if (eventData != null)
+            {
+                telemetryData["eventData"] = eventData;
+            }
 
             await FluentFlyoutApiClient.PostAsJsonAsync(ApiEndpoint, telemetryData);
         }

@@ -296,4 +296,9 @@
     <system:String x:Key="OnboardingTitle">Начать</system:String>
     <system:String x:Key="SupporterTitle">Поддержать проект</system:String>
     <system:String x:Key="SupporterDescription">Спасибо!</system:String>
+    <system:String x:Key="SessionSwitcherAuto">Автоматически</system:String>
+    <system:String x:Key="ContextMenuSessionSwitcher">Переключить сеанс</system:String>
+    <system:String x:Key="RelatedSettingsTitle">Связанные настройки</system:String>
+    <system:String x:Key="VolumeFlyoutShortcutTitle">Сочетание клавиш</system:String>
+    <system:String x:Key="VolumeFlyoutShortcutDescription">Нажмите cочетание клавиш, чтобы открыть всплывающее меню громкости.</system:String>
 </ResourceDictionary>

@@ -33,6 +33,36 @@ public partial class UserSettings : ObservableObject
     ];
 
     /// <summary>
+    /// Saved width of the settings window
+    /// </summary>
+    [ObservableProperty]
+    public partial double SettingsWindowWidth { get; set; }
+
+    /// <summary>
+    /// Saved height of the settings window
+    /// </summary>
+    [ObservableProperty]
+    public partial double SettingsWindowHeight { get; set; }
+
+    /// <summary>
+    /// Saved horizontal position of the settings window
+    /// </summary>
+    [ObservableProperty]
+    public partial double SettingsWindowLeft { get; set; }
+
+    /// <summary>
+    /// Saved vertical position of the settings window
+    /// </summary>
+    [ObservableProperty]
+    public partial double SettingsWindowTop { get; set; }
+
+    /// <summary>
+    /// Saved window state of the settings window
+    /// </summary>
+    [ObservableProperty]
+    public partial WindowState SettingsWindowState { get; set; }
+
+    /// <summary>
     /// Use a compact layout
     /// </summary>
     [ObservableProperty]
@@ -279,6 +309,12 @@ public partial class UserSettings : ObservableObject
     public partial string LastKnownVersion { get; set; }
 
     /// <summary>
+    /// Last app version whose changelog was successfully opened.
+    /// </summary>
+    [ObservableProperty]
+    public partial string LastViewedChangelogVersion { get; set; }
+
+    /// <summary>
     /// Show seekbar if the player supports it
     /// </summary>
     [ObservableProperty]
@@ -289,6 +325,9 @@ public partial class UserSettings : ObservableObject
     /// </summary>
     [ObservableProperty]
     public partial bool PauseOtherSessionsEnabled { get; set; }
+
+    [ObservableProperty]
+    public partial string PinnedSessionId { get; set; }
 
     /// <summary>
     /// Enable subtle animations for the lock keys flyout indicator
@@ -439,6 +478,12 @@ public partial class UserSettings : ObservableObject
     /// </summary>
     [ObservableProperty]
     public partial bool TaskbarWidgetShowPauseOverlay { get; set; }
+
+    /// <summary>
+    /// Gets or sets whether the media player's icon is shown on the taskbar widget album art.
+    /// </summary>
+    [ObservableProperty]
+    public partial bool TaskbarWidgetShowMediaPlayerIcon { get; set; }
 
     /// <summary>
     /// Whether taskbar widget controls (pause, previous, next) are enabled.
@@ -592,6 +637,9 @@ public partial class UserSettings : ObservableObject
     public partial bool VolumeControlEnabled { get; set; }
 
     [ObservableProperty]
+    public partial bool VolumeFlyoutShortcutEnabled { get; set; }
+
+    [ObservableProperty]
     public partial bool VolumeControlAboveMediaFlyout { get; set; }
 
     [ObservableProperty]
@@ -639,8 +687,29 @@ public partial class UserSettings : ObservableObject
     /// Gets whether premium features are unlocked (runtime only, not persisted)
     /// </summary>
     [XmlIgnore]
+    [NotifyPropertyChangedFor(nameof(IsPremiumUnlockedBannerOpen))]
     [ObservableProperty]
     public partial bool IsPremiumUnlocked { get; set; }
+
+    /// <summary>
+    /// Gets or sets whether the premium unlocked banner has been closed.
+    /// </summary>
+    [NotifyPropertyChangedFor(nameof(IsPremiumUnlockedBannerOpen))]
+    [ObservableProperty]
+    public partial bool PremiumUnlockedBannerClosedOnce { get; set; }
+
+    [XmlIgnore]
+    public bool IsPremiumUnlockedBannerOpen
+    {
+        get => IsStoreVersion && IsPremiumUnlocked && !PremiumUnlockedBannerClosedOnce;
+        set
+        {
+            if (!value && IsStoreVersion && IsPremiumUnlocked)
+            {
+                PremiumUnlockedBannerClosedOnce = true;
+            }
+        }
+    }
 
     /// <summary>
     /// Gets or sets the opacity level of the acrylic blur effect.
@@ -654,6 +723,7 @@ public partial class UserSettings : ObservableObject
     /// <summary>
     /// Gets whether this is a Store version. Once false, always false (only if last known version was not null).
     /// </summary>
+    [NotifyPropertyChangedFor(nameof(IsPremiumUnlockedBannerOpen))]
     [ObservableProperty]
     public partial bool IsStoreVersion { get; set; }
 
@@ -719,6 +789,11 @@ public partial class UserSettings : ObservableObject
         NextUpDuration = 2000;
         NIconLeftClick = 0;
         CenterTitleArtist = false;
+        SettingsWindowWidth = 900;
+        SettingsWindowHeight = 700;
+        SettingsWindowLeft = double.NaN;
+        SettingsWindowTop = double.NaN;
+        SettingsWindowState = WindowState.Normal;
         FlyoutAnimationEasingStyle = 2;
         LockKeysEnabled = true;
         LockKeysCapsEnabled = true;
@@ -735,8 +810,10 @@ public partial class UserSettings : ObservableObject
         LockKeysBoldUi = false;
         LockKeysMonitorPreference = 0;
         LastKnownVersion = string.Empty;
+        LastViewedChangelogVersion = string.Empty;
         SeekbarEnabled = false;
         PauseOtherSessionsEnabled = false;
+        PinnedSessionId = string.Empty;
         LockKeysAnimated = true;
         LockKeysInsertEnabled = true;
         MediaFlyoutBackgroundBlur = 0;
@@ -756,6 +833,7 @@ public partial class UserSettings : ObservableObject
         TaskbarWidgetHideCompletely = false;
         TaskbarWidgetFixedWidth = false;
         TaskbarWidgetShowPauseOverlay = true;
+        TaskbarWidgetShowMediaPlayerIcon = true;
         TaskbarWidgetControlsEnabled = false;
         TaskbarWidgetControlsPosition = 1;
         TaskbarWidgetAnimated = true;
@@ -775,6 +853,7 @@ public partial class UserSettings : ObservableObject
         TaskbarVisualizerAudioPeakLevel = 3;
         TaskbarVisualizerBaselineAutoHide = false;
         VolumeControlEnabled = false;
+        VolumeFlyoutShortcutEnabled = true;
         VolumeControlAboveMediaFlyout = false;
         VolumeControlDuration = 3000;
         VolumeMixerEnabled = false;
@@ -932,6 +1011,12 @@ public partial class UserSettings : ObservableObject
         UpdateTaskbar();
     }
 
+    partial void OnTaskbarWidgetAutoHideChanged(bool oldValue, bool newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+        UpdateTaskbar();
+    }
+
     partial void OnTaskbarWidgetHideCompletelyChanged(bool oldValue, bool newValue)
     {
         if (oldValue == newValue || _initializing) return;
@@ -945,6 +1030,12 @@ public partial class UserSettings : ObservableObject
     }
 
     partial void OnTaskbarWidgetShowPauseOverlayChanged(bool oldValue, bool newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+        UpdateTaskbar();
+    }
+
+    partial void OnTaskbarWidgetShowMediaPlayerIconChanged(bool oldValue, bool newValue)
     {
         if (oldValue == newValue || _initializing) return;
         UpdateTaskbar();

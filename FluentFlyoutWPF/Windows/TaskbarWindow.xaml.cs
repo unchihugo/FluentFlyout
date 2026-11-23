@@ -11,6 +11,7 @@ using System.Windows;
 using System.Windows.Automation;
 using System.Windows.Controls;
 using System.Windows.Interop;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using Windows.Media.Control;
@@ -431,11 +432,15 @@ on_error:
             POINT containerPos = new() { X = taskbarRect.Left, Y = taskbarRect.Top };
             ScreenToClient(taskbarHandle, ref containerPos);
 
-            // Apply using SetWindowPos (Bypassing WPF layout engine)
-            SetWindowPos(taskbarWindowHandle, 0,
+            // Apply using SetWindowPos (Bypassing WPF layout engine).
+            // HWND_TOP keeps this child window at the top of the taskbar's child z-order:
+            // Explorer's taskbar XAML content bridge (Windows.UI.Composition.DesktopWindowContentBridge)
+            // spans the whole taskbar and otherwise ends up above this window, hiding the widget.
+            // Do NOT pass SWP_NOZORDER here, it would turn hWndInsertAfter into a no-op.
+            SetWindowPos(taskbarWindowHandle, HWND_TOP,
                      containerPos.X, containerPos.Y,
                      containerWidth, containerHeight,
-                     SWP_NOZORDER | SWP_NOACTIVATE | SWP_ASYNCWINDOWPOS | SWP_SHOWWINDOW);
+                     SWP_NOACTIVATE | SWP_ASYNCWINDOWPOS | SWP_SHOWWINDOW);
             var wRect = PositionWidget(taskbarHandle, taskbarRect, dpiScale, isMainTaskbarSelected, isVertical);
             var vRect = PositionVisualizer(taskbarHandle, taskbarRect, dpiScale, isMainTaskbarSelected, isVertical);
 
@@ -695,7 +700,7 @@ on_error:
         return new Rect(Canvas.GetLeft(TaskbarVisualizer) * dpiScale, Canvas.GetTop(TaskbarVisualizer) * dpiScale, rectW, rectH);
     }
 
-    public void UpdateUi(string title, string artist, BitmapImage? icon, GlobalSystemMediaTransportControlsSessionPlaybackStatus? playbackStatus, GlobalSystemMediaTransportControlsSessionPlaybackControls? playbackControls = null)
+    public void UpdateUi(string title, string artist, BitmapImage? icon, GlobalSystemMediaTransportControlsSessionPlaybackStatus? playbackStatus, GlobalSystemMediaTransportControlsSessionPlaybackControls? playbackControls = null, ImageSource? mediaPlayerIcon = null)
     {
         // Check premium status - hide widget if not unlocked
         if ((!SettingsManager.Current.TaskbarWidgetEnabled || !SettingsManager.Current.IsPremiumUnlocked))
@@ -713,22 +718,25 @@ on_error:
         // Autohide - Widget hides when playback is paused
         _lastPlaybackStatus = playbackStatus;
 
+        bool hideWhilePaused = SettingsManager.Current.TaskbarWidgetAutoHide
+            && playbackStatus != GlobalSystemMediaTransportControlsSessionPlaybackStatus.Playing;
+
         if ((SettingsManager.Current.TaskbarWidgetAutoHide))
         {
-            if (playbackStatus == GlobalSystemMediaTransportControlsSessionPlaybackStatus.Playing)
+            // Media events arrive on arbitrary threads. A DispatcherTimer is bound to the dispatcher of the thread
+            // that creates it, so one created on a thread without a message loop never ticks and, being kept in
+            // _autoHideTimer, blocks every later hide timer. Keep all of this on the UI thread.
+            Dispatcher.Invoke(() =>
             {
-                _autoHideTimer?.Stop();
-                _autoHideTimer = null;
-
-                Dispatcher.Invoke(() =>
+                if (playbackStatus == GlobalSystemMediaTransportControlsSessionPlaybackStatus.Playing)
                 {
+                    _autoHideTimer?.Stop();
+                    _autoHideTimer = null;
+
                     Visibility = Visibility.Visible;
-                });
-            }
-            else
-            {
-                // Start delayed hide
-                if (_autoHideTimer == null)
+                }
+                // Start delayed hide (not needed if the widget is already hidden)
+                else if (_autoHideTimer == null && Visibility == Visibility.Visible)
                 {
                     var localTimer = new DispatcherTimer
                     {
@@ -743,32 +751,34 @@ on_error:
 
                         if (_lastPlaybackStatus != GlobalSystemMediaTransportControlsSessionPlaybackStatus.Playing)
                         {
-                            Dispatcher.Invoke(() =>
-                            {
-                                Visibility = Visibility.Collapsed;
-                            });
+                            Visibility = Visibility.Collapsed;
                         }
                     };
 
                     _autoHideTimer = localTimer;
                     localTimer.Start();
                 }
-            }
+            });
         }
 
         if (!_timer.IsEnabled)
             _timer.Start();
 
         // Delegate UI update to widget control
-        Widget.UpdateUi(title, artist, icon, playbackStatus, playbackControls);
+        Widget.UpdateUi(title, artist, icon, playbackStatus, playbackControls, mediaPlayerIcon);
 
         // Update position after UI change
         Dispatcher.BeginInvoke(() => UpdatePosition(), DispatcherPriority.Background);
 
-        Dispatcher.Invoke(() =>
+        // Don't re-show a widget that auto-hide has hidden: updates for paused/closed sessions
+        // (e.g. another, filtered-out app being paused) must not make it flash up again
+        if (!hideWhilePaused)
         {
-            Visibility = Visibility.Visible;
-        });
+            Dispatcher.Invoke(() =>
+            {
+                Visibility = Visibility.Visible;
+            });
+        }
     }
 
     public void RefreshAppVolumeTooltip()

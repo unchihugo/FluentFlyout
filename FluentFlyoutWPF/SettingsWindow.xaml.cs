@@ -3,7 +3,10 @@
 
 using FluentFlyout.Classes;
 using FluentFlyout.Classes.Settings;
+using FluentFlyoutWPF.Classes.Services;
+using FluentFlyoutWPF.Classes.Utils;
 using FluentFlyoutWPF.Pages;
+using FluentFlyoutWPF.Windows;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
@@ -40,6 +43,32 @@ public partial class SettingsWindow : FluentWindow
 
         InitializeComponent();
         instance = this;
+
+        var settings = SettingsManager.Current;
+
+        Width = settings.SettingsWindowWidth >= MinWidth ? settings.SettingsWindowWidth : 900;
+        Height = settings.SettingsWindowHeight >= MinHeight ? settings.SettingsWindowHeight : 700;
+
+        if (!double.IsNaN(settings.SettingsWindowLeft) && !double.IsNaN(settings.SettingsWindowTop))
+        {
+            WindowStartupLocation = WindowStartupLocation.Manual;
+            var workArea = MonitorUtil.GetWorkAreaDips(settings.SettingsWindowLeft, settings.SettingsWindowTop);
+
+            Width = Math.Max(MinWidth, Math.Min(Width, workArea.Width));
+            Height = Math.Max(MinHeight, Math.Min(Height, workArea.Height));
+
+            Left = Math.Max(workArea.Left, Math.Min(settings.SettingsWindowLeft, workArea.Right - Width));
+            Top = Math.Max(workArea.Top, Math.Min(settings.SettingsWindowTop, workArea.Bottom - Height));
+        }
+        else
+        {
+            WindowStartupLocation = WindowStartupLocation.CenterScreen;
+        }
+
+        if (settings.SettingsWindowState == WindowState.Maximized)
+        {
+            WindowState = WindowState.Maximized;
+        }
 
         Closed += (s, e) => instance = null;
         DataContext = SettingsManager.Current;
@@ -237,10 +266,33 @@ public partial class SettingsWindow : FluentWindow
         };
 
         BuildSearchItems();
+
+        var settings = SettingsManager.Current;
+        if (ChangelogService.HasUnseenUpdate(settings.LastKnownVersion, settings.LastViewedChangelogVersion))
+        {
+            var changelogWindow = new ChangelogWindow(settings.LastViewedChangelogVersion, settings.LastKnownVersion)
+            {
+                Owner = this
+            };
+            changelogWindow.Show();
+        }
     }
+
 
     private void SettingsWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
     {
+        var settings = SettingsManager.Current;
+        var bounds = WindowState == WindowState.Normal ? new Rect(Left, Top, ActualWidth, ActualHeight) : RestoreBounds;
+
+        if (bounds.Width >= MinWidth && bounds.Height >= MinHeight)
+        {
+            settings.SettingsWindowWidth = bounds.Width;
+            settings.SettingsWindowHeight = bounds.Height;
+            settings.SettingsWindowLeft = bounds.Left;
+            settings.SettingsWindowTop = bounds.Top;
+            settings.SettingsWindowState = WindowState == WindowState.Maximized ? WindowState.Maximized : WindowState.Normal;
+        }
+
         SettingsManager.SaveSettings();
     }
 
@@ -263,6 +315,7 @@ public partial class SettingsWindow : FluentWindow
             }
         }), System.Windows.Threading.DispatcherPriority.Loaded);
     }
+
 
     // helper functions to traverse visual tree
 

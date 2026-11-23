@@ -19,6 +19,7 @@ public static class MediaPlayerData
         public required string Title { get; set; }
         public ImageSource? Icon { get; set; }
         public int ProcessId { get; set; }
+        public required DateTime ProcessIdCheckedAt { get; set; }
     }
     // cache for media player info to avoid redundant process lookups
     private static readonly ConcurrentDictionary<string, CachedMediaPlayerInfo> mediaPlayerCache = [];
@@ -119,7 +120,8 @@ public static class MediaPlayerData
             {
                 Title = shellTitle,
                 Icon = shellIcon,
-                ProcessId = -1 // no process match, -1 avoids colliding with real PIDs
+                ProcessId = -1, // no process match, -1 avoids colliding with real PIDs
+                ProcessIdCheckedAt = DateTime.UtcNow
             };
 
             return (shellTitle, shellIcon);
@@ -141,7 +143,8 @@ public static class MediaPlayerData
         {
             Title = mediaTitle,
             Icon = mediaIcon,
-            ProcessId = processData.ProcessId
+            ProcessId = processData.ProcessId,
+            ProcessIdCheckedAt = DateTime.UtcNow
         };
 
         return (mediaTitle, mediaIcon);
@@ -151,9 +154,35 @@ public static class MediaPlayerData
     {
         GetAndCacheMediaPlayerData(mediaPlayerId);
 
-        if (!mediaPlayerCache.TryGetValue(mediaPlayerId, out var cachedInfo)
-            && (!mediaPlayerIdVariants.TryGetValue(mediaPlayerId, out var variantKey)
-            || !mediaPlayerCache.TryGetValue(variantKey, out cachedInfo))) return null;
+        string cacheKey;
+        if (mediaPlayerCache.TryGetValue(mediaPlayerId, out var cachedInfo))
+        {
+            cacheKey = mediaPlayerId;
+        }
+        else if (mediaPlayerIdVariants.TryGetValue(mediaPlayerId, out var variantKey)
+            && mediaPlayerCache.TryGetValue(variantKey, out cachedInfo))
+        {
+            cacheKey = variantKey;
+        }
+        else
+        {
+            return null;
+        }
+
+        if (cachedInfo.ProcessId > 0)
+            return cachedInfo.ProcessId;
+
+        if (DateTime.UtcNow - cachedInfo.ProcessIdCheckedAt < TimeSpan.FromSeconds(CACHE_DURATION_SECONDS))
+            return null;
+
+        mediaPlayerCache.TryRemove(cacheKey, out _);
+        mediaPlayerIdVariants.TryRemove(mediaPlayerId, out _);
+        GetAndCacheMediaPlayerData(mediaPlayerId);
+
+        if (!mediaPlayerCache.TryGetValue(mediaPlayerId, out cachedInfo)
+            && (!mediaPlayerIdVariants.TryGetValue(mediaPlayerId, out var refreshedVariantKey)
+            || !mediaPlayerCache.TryGetValue(refreshedVariantKey, out cachedInfo)))
+            return null;
 
         return cachedInfo.ProcessId > 0 ? cachedInfo.ProcessId : null;
     }
@@ -286,7 +315,8 @@ public static class MediaPlayerData
                 {
                     Title = title,
                     Icon = icon,
-                    ProcessId = processId
+                    ProcessId = processId,
+                    ProcessIdCheckedAt = DateTime.UtcNow
                 };
             }
 

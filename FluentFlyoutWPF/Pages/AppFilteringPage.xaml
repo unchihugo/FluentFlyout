@@ -22,7 +22,6 @@
                 <StackPanel Orientation="Vertical">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="{DynamicResource EnableAppFilteringTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
-                        <ui:InfoBadge Value=" NEW " FontWeight="Medium" FontSize="10" Margin="6,-2,0,-2" Severity="Success" />
                     </StackPanel>
                     <TextBlock Text="{DynamicResource AppFilteringRulesDescription}" FontSize="12" Opacity="0.5" />
                 </StackPanel>

@@ -166,7 +166,7 @@
                 </ui:CardControl.Header>
                 <ui:ToggleSwitch Name="PauseOtherSessionsEnabledSwitch" IsChecked="{Binding PauseOtherSessionsEnabled, Mode=TwoWay}" />
             </ui:CardControl>
-            <ui:CardControl x:Name="MediaFlyoutExcludeVolumeTitleCard" Tag="Indexable" Grid.Row="15" Icon="{ui:SymbolIcon SpeakerOff24}" Margin="0,0,0,76">
+            <ui:CardControl x:Name="MediaFlyoutExcludeVolumeTitleCard" Tag="Indexable" Grid.Row="15" Icon="{ui:SymbolIcon SpeakerOff24}" Margin="0,0,0,12">
                 <ui:CardControl.Header>
                     <StackPanel Orientation="Vertical">
                         <TextBlock Text="{DynamicResource MediaFlyoutExcludeVolumeTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
@@ -176,5 +176,9 @@
                 <ui:ToggleSwitch Name="MediaFlyoutVolumeKeysExcludedSwitch" IsChecked="{Binding MediaFlyoutVolumeKeysExcluded, Mode=TwoWay}" />
             </ui:CardControl>
         </Grid>
+        <TextBlock Text="{DynamicResource RelatedSettingsTitle}" FontSize="14" FontWeight="SemiBold" Margin="0,12,0,6" />
+        <ui:CardAction x:Name="AppFilteringTitleCard" Tag="Indexable" Margin="0,0,0,76" Icon="{ui:SymbolIcon Filter24}" IsChevronVisible="True" Click="AppFiltering_Click">
+            <ui:TextBlock Text="{DynamicResource AppFilteringTitle}" />
+        </ui:CardAction>
     </StackPanel>
 </Page>

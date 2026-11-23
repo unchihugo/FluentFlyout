@@ -54,12 +54,27 @@
                     <StackPanel Orientation="Vertical">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="{DynamicResource EnableVolumeFlyoutTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
-                            <ui:InfoBadge Value=" NEW " FontWeight="Medium" FontSize="10" Margin="2,-2,0,-2" Severity="Success" />
                         </StackPanel>
                         <TextBlock Text="{DynamicResource EnableVolumeFlyoutDescription}" FontSize="12" Opacity="0.5" />
                     </StackPanel>
                 </ui:CardControl.Header>
                 <ui:ToggleSwitch IsChecked="{Binding VolumeControlEnabled, Mode=TwoWay}" />
+            </ui:CardControl>
+
+            <ui:CardControl x:Name="VolumeFlyoutShortcutTitleCard" Tag="Indexable" Icon="{ui:SymbolIcon Symbol=Keyboard24}" Margin="0,0,0,3">
+                <ui:CardControl.Header>
+                    <StackPanel Orientation="Vertical">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{DynamicResource VolumeFlyoutShortcutTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
+                            <ui:InfoBadge Value=" NEW " FontWeight="Medium" FontSize="10" Margin="2,-2,0,-2" Severity="Success" />
+                        </StackPanel>
+                        <TextBlock Text="{DynamicResource VolumeFlyoutShortcutDescription}" FontSize="12" Opacity="0.5" />
+                    </StackPanel>
+                </ui:CardControl.Header>
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <ui:Button Appearance="Transparent" Content="Ctrl + Alt + V" IsHitTestVisible="False" Margin="0,0,12,0" />
+                    <ui:ToggleSwitch IsChecked="{Binding VolumeFlyoutShortcutEnabled, Mode=TwoWay}" />
+                </StackPanel>
             </ui:CardControl>
 
             <ui:CardControl x:Name="VolumeAboveMediaFlyoutTitleCard" Tag="Indexable" Icon="{ui:SymbolIcon ArrowMove24}" Margin="0,0,0,3">

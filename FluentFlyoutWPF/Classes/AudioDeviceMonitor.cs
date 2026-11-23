@@ -56,8 +56,8 @@ public class AudioDeviceMonitor : IDisposable
 
     private void OnDefaultDeviceChanged(object? sender, DefaultDeviceChangedEventArgs e)
     {
-        // Render devices are output devices, no e.Role check because roles are quite often randomly assigned
-        if (e.DataFlow != DataFlow.Render)
+        // Match GetDefaultRenderDevice so other roles cannot redirect audio controls.
+        if (e.DataFlow != DataFlow.Render || e.Role != Role.Multimedia)
             return;
 
         Logger.Info("Default audio output device changed");

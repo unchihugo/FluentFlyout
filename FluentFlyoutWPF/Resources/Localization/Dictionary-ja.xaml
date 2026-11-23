@@ -286,4 +286,15 @@
     <system:String x:Key="TaskbarWidgetScrollingTextSpeedDescription">テキストがスクロールする速度 (ピクセル/秒)。既定値は 20。</system:String>
     <system:String x:Key="TaskbarVisualizerBaselineAutoHideDescription">オーディオが再生されていないときは、ベースラインを自動的に非表示にします</system:String>
     <system:String x:Key="TaskbarWidgetScrollingTitle">スクロールを有効化</system:String>
+    <system:String x:Key="OnboardingTitle">始める</system:String>
+    <system:String x:Key="ContextMenuSessionSwitcher">セッションを切り替える</system:String>
+    <system:String x:Key="SessionSwitcherAuto">自動</system:String>
+    <system:String x:Key="SupporterTitle">支援者</system:String>
+    <system:String x:Key="SupporterDescription">ありがとうございます！</system:String>
+    <system:String x:Key="RelatedSettingsTitle">関連設定</system:String>
+    <system:String x:Key="TaskbarWidgetScrollVolumeTitle">スクロールで音量を調節</system:String>
+    <system:String x:Key="TaskbarWidgetScrollVolumeDescription">タスクバーのウィジェット上でスクロールすることで音量を調節できます</system:String>
+    <system:String x:Key="TaskbarWidgetScrollVolumeMaster">オン (システムの音量)</system:String>
+    <system:String x:Key="TaskbarWidgetScrollVolumePlayer">オン (プレイヤーのみの音量)</system:String>
+    <system:String x:Key="OpenMediaPlayerText">メディアプレイヤーを開く</system:String>
 </ResourceDictionary>
