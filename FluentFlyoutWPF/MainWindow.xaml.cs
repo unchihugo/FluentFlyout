@@ -184,6 +184,8 @@ public partial class MainWindow : MicaWindow
         mediaManager.OnAnyTimelinePropertyChanged += MediaManager_OnAnyTimelinePropertyChanged;
         mediaManager.OnAnySessionClosed += MediaManager_OnAnySessionClosed;
 
+        RefreshDiscordPresence();
+
         InitializeHeadsetControls();
 
         WM_TASKBARCREATED = RegisterWindowMessage("TaskbarCreated");
@@ -382,6 +384,7 @@ public partial class MainWindow : MicaWindow
     public void RefreshFilteredMedia()
     {
         UpdateTaskbar();
+        RefreshDiscordPresence();
 
         if (IsVisible)
         {
@@ -780,10 +783,29 @@ public partial class MainWindow : MicaWindow
     private void UpdateDiscordPresence(MediaSession session)
     {
         var songInfo = TryGetMediaProperties(session.ControlSession);
-        if (songInfo == null) return;
+        if (songInfo == null)
+        {
+            DiscordRpcService.ClearPresence();
+            return;
+        }
+
         var playbackInfo = session.ControlSession.GetPlaybackInfo();
         var timeline = session.ControlSession.GetTimelineProperties();
-        DiscordRpcService.UpdatePresence(songInfo.Title, songInfo.Artist, playbackInfo?.PlaybackStatus == GlobalSystemMediaTransportControlsSessionPlaybackStatus.Playing, timeline?.Position, timeline?.EndTime);
+        DiscordRpcService.UpdatePresence(songInfo, playbackInfo?.PlaybackStatus == GlobalSystemMediaTransportControlsSessionPlaybackStatus.Playing, timeline?.Position, timeline?.EndTime);
+    }
+
+    public void RefreshDiscordPresence()
+    {
+        DiscordRpcService.Initialize();
+
+        if (GetActiveMediaSession() is { } session)
+        {
+            UpdateDiscordPresence(session);
+        }
+        else
+        {
+            DiscordRpcService.ClearPresence();
+        }
     }
 
     private void CurrentSession_OnPlaybackStateChanged(MediaSession mediaSession, GlobalSystemMediaTransportControlsSessionPlaybackInfo? playbackInfo = null)
@@ -797,6 +819,7 @@ public partial class MainWindow : MicaWindow
         if (focusedSession == null)
         {
             taskbarWindow?.UpdateUi("-", "-", null, GlobalSystemMediaTransportControlsSessionPlaybackStatus.Closed);
+            DiscordRpcService.ClearPresence();
             return;
         }
 
@@ -835,6 +858,7 @@ public partial class MainWindow : MicaWindow
         if (currentActiveSession == null)
         {
             taskbarWindow?.UpdateUi("-", "-", null, GlobalSystemMediaTransportControlsSessionPlaybackStatus.Closed);
+            DiscordRpcService.ClearPresence();
             return;
         }
 
@@ -947,11 +971,7 @@ public partial class MainWindow : MicaWindow
             SettingsManager.Current.PinnedSessionId = string.Empty;
         }
         UpdateTaskbar();
-        var activeSession = GetActiveMediaSession();
-        if (activeSession == null)
-        {
-            DiscordRpcService.ClearPresence();
-        }
+        RefreshDiscordPresence();
     }
 
     private static IntPtr SetHook(LowLevelKeyboardProc proc) // set the keyboard hook

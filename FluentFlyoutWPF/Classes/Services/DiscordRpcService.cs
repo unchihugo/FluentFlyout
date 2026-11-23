@@ -6,6 +6,7 @@ using DiscordRPC.Logging;
 using FluentFlyout.Classes.Settings;
 using System.Net.Http;
 using System.Text.Json;
+using Windows.Media.Control;
 
 namespace FluentFlyoutWPF.Classes.Services
 {
@@ -18,8 +19,9 @@ namespace FluentFlyoutWPF.Classes.Services
 
         private static readonly HttpClient Http = CreateHttpClient();
         private static readonly Dictionary<string, string?> _coverCache = new(); // null = looked up, no cover found
-        private static readonly HashSet<string> _coverLookupsInFlight = new();
-        private static (string Title, string Artist, bool IsPlaying, TimeSpan? Position, TimeSpan? EndTime)? _lastRequest;
+        private static readonly Dictionary<string, long> _coverLookupsInFlight = new();
+        private static (GlobalSystemMediaTransportControlsSessionMediaProperties MediaProperties, bool IsPlaying, TimeSpan? Position, TimeSpan? EndTime)? _lastRequest;
+        private static long _lifecycleVersion;
 
         private static HttpClient CreateHttpClient()
         {
@@ -45,7 +47,11 @@ namespace FluentFlyoutWPF.Classes.Services
             }
         }
 
-        public static void UpdatePresence(string title, string artist, bool isPlaying, TimeSpan? position = null, TimeSpan? endTime = null)
+        public static void UpdatePresence(
+            GlobalSystemMediaTransportControlsSessionMediaProperties mediaProperties,
+            bool isPlaying,
+            TimeSpan? position = null,
+            TimeSpan? endTime = null)
         {
             lock (_lock)
             {
@@ -63,26 +69,30 @@ namespace FluentFlyoutWPF.Classes.Services
 
                 if (_client == null || !_client.IsInitialized) return;
 
-                if (string.IsNullOrWhiteSpace(title))
+                if (string.IsNullOrWhiteSpace(mediaProperties.Title))
                 {
                     _lastRequest = null;
                     _client.ClearPresence();
                     return;
                 }
 
-                _lastRequest = (title, artist, isPlaying, position, endTime);
-                var coverUrl = GetCoverUrl(title, artist);
+                _lastRequest = (mediaProperties, isPlaying, position, endTime);
+                var coverUrl = GetCoverUrl(mediaProperties.Title, mediaProperties.Artist);
+                var albumTitle = string.IsNullOrWhiteSpace(mediaProperties.AlbumTitle)
+                    ? null
+                    : Truncate(mediaProperties.AlbumTitle, 128);
 
                 var presence = new RichPresence()
                 {
                     Type = ActivityType.Listening,
                     StatusDisplay = StatusDisplayType.Details,
-                    Details = Truncate(title, 128),
-                    State = Truncate(string.IsNullOrWhiteSpace(artist) ? "Unknown Artist" : artist, 128),
+                    Details = Truncate(mediaProperties.Title, 128),
+                    State = Truncate(string.IsNullOrWhiteSpace(mediaProperties.Artist) ? "Unknown Artist" : mediaProperties.Artist, 128),
                     Assets = coverUrl != null
                         ? new Assets()
                         {
                             LargeImageKey = coverUrl,
+                            LargeImageText = albumTitle,
                             SmallImageKey = "fluentflyout_logo",
                             SmallImageText = "FluentFlyout",
                             SmallImageUrl = "https://fluentflyout.com/"
@@ -90,7 +100,8 @@ namespace FluentFlyoutWPF.Classes.Services
                         : new Assets()
                         {
                             LargeImageKey = "fluentflyout_logo",
-                            LargeImageUrl = "https://fluentflyout.com/"
+                            LargeImageUrl = "https://fluentflyout.com/",
+                            LargeImageText = albumTitle
                         }
                 };
 
@@ -139,13 +150,16 @@ namespace FluentFlyoutWPF.Classes.Services
             var key = $"{title}\n{artist}";
             if (_coverCache.TryGetValue(key, out var cached)) return cached;
 
-            if (_coverLookupsInFlight.Add(key))
-                _ = Task.Run(() => LookupCoverAsync(title, artist, key));
+            if (!_coverLookupsInFlight.ContainsKey(key))
+            {
+                _coverLookupsInFlight[key] = _lifecycleVersion;
+                _ = Task.Run(() => LookupCoverAsync(title, artist, key, _lifecycleVersion));
+            }
 
             return null;
         }
 
-        private static async Task LookupCoverAsync(string title, string artist, string key)
+        private static async Task LookupCoverAsync(string title, string artist, string key, long lifecycleVersion)
         {
             string? coverUrl = null;
             try
@@ -159,12 +173,20 @@ namespace FluentFlyoutWPF.Classes.Services
 
             lock (_lock)
             {
+                if (!_coverLookupsInFlight.TryGetValue(key, out var currentVersion)
+                    || currentVersion != lifecycleVersion)
+                    return;
+
                 if (_coverCache.Count > 200) _coverCache.Clear();
                 _coverCache[key] = coverUrl;
                 _coverLookupsInFlight.Remove(key);
 
-                if (coverUrl != null && _lastRequest is { } r && $"{r.Title}\n{r.Artist}" == key)
-                    UpdatePresence(r.Title, r.Artist, r.IsPlaying, r.Position, r.EndTime);
+                if (coverUrl != null
+                    && _lastRequest is { } r
+                    && $"{r.MediaProperties.Title}\n{r.MediaProperties.Artist}" == key)
+                {
+                    UpdatePresence(r.MediaProperties, r.IsPlaying, r.Position, r.EndTime);
+                }
             }
         }
 
@@ -204,6 +226,10 @@ namespace FluentFlyoutWPF.Classes.Services
 
         private static void DisposeInternal()
         {
+            _lastRequest = null;
+            _lifecycleVersion++;
+            _coverLookupsInFlight.Clear();
+
             if (!_isInitialized) return;
 
             if (_client != null)

@@ -945,7 +945,15 @@ public partial class UserSettings : ObservableObject
         }
         else
         {
-            FluentFlyoutWPF.Classes.Services.DiscordRpcService.Initialize();
+            MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+            if (mainWindow != null)
+            {
+                mainWindow.RefreshDiscordPresence();
+            }
+            else
+            {
+                FluentFlyoutWPF.Classes.Services.DiscordRpcService.Initialize();
+            }
         }
     }
 
