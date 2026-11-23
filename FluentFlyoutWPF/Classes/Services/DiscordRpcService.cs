@@ -79,7 +79,7 @@ namespace FluentFlyoutWPF.Classes.Services
                 _lastRequest = (mediaProperties, isPlaying, position, endTime);
                 var coverUrl = GetCoverUrl(mediaProperties.Title, mediaProperties.Artist);
                 var albumTitle = string.IsNullOrWhiteSpace(mediaProperties.AlbumTitle)
-                    ? null
+                    ? string.Empty
                     : Truncate(mediaProperties.AlbumTitle, 128);
 
                 var presence = new RichPresence()
@@ -195,22 +195,24 @@ namespace FluentFlyoutWPF.Classes.Services
             static string Escape(string s) => s.Replace("\\", "\\\\").Replace("\"", "\\\"");
 
             var query = Uri.EscapeDataString($"recording:\"{Escape(title)}\" AND artist:\"{Escape(artist)}\"");
-            using var response = await Http.GetAsync($"https://musicbrainz.org/ws/2/recording/?query={query}&fmt=json&limit=1");
+            using var response = await Http.GetAsync(
+                $"https://musicbrainz.org/ws/2/recording/?query={query}&fmt=json&limit=5");
             if (!response.IsSuccessStatusCode) return null;
 
             using var json = JsonDocument.Parse(await response.Content.ReadAsStringAsync());
-            if (!json.RootElement.TryGetProperty("recordings", out var recordings) || recordings.GetArrayLength() == 0) return null;
+            if (!json.RootElement.TryGetProperty("recordings", out var recordings)) return null;
 
-            var recording = recordings[0];
-            if (!recording.TryGetProperty("score", out var score) || score.GetInt32() < 90) return null;
-            if (!recording.TryGetProperty("releases", out var releases)) return null;
-
-            // the recording may appear on releases without artwork, so check the first few
-            foreach (var release in releases.EnumerateArray().Take(3))
+            foreach (var recording in recordings.EnumerateArray())
             {
-                var url = $"https://coverartarchive.org/release/{release.GetProperty("id").GetString()}/front-500";
-                using var head = await Http.SendAsync(new HttpRequestMessage(HttpMethod.Head, url));
-                if (head.IsSuccessStatusCode) return url;
+                if (!recording.TryGetProperty("score", out var score) || score.GetInt32() < 90) continue;
+                if (!recording.TryGetProperty("releases", out var releases)) continue;
+
+                foreach (var release in releases.EnumerateArray().Take(5))
+                {
+                    var url = $"https://coverartarchive.org/release/{release.GetProperty("id").GetString()}/front-500";
+                    using var head = await Http.SendAsync(new HttpRequestMessage(HttpMethod.Head, url));
+                    if (head.IsSuccessStatusCode) return url;
+                }
             }
 
             return null;
