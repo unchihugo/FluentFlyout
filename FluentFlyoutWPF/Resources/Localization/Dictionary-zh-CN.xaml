@@ -303,4 +303,5 @@
     <system:String x:Key="VolumeFlyoutShortcutDescription">按下快捷键以显示音量浮窗</system:String>
     <system:String x:Key="TaskbarWidgetShowMediaPlayerIconTitle">显示媒体播放器图标</system:String>
     <system:String x:Key="TaskbarWidgetShowMediaPlayerIconDescription">在专辑封面右下角显示对应媒体播放器的图标</system:String>
+    <system:String x:Key="ChangelogWindowTitle">更新内容</system:String>
 </ResourceDictionary>
