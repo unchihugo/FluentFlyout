@@ -306,4 +306,6 @@
     <system:String x:Key="ChangelogViewAllUpdatesButton">Посмотреть все обновления</system:String>
     <system:String x:Key="TaskbarWidgetShowMediaPlayerIconTitle">Показать значок медиаплеера</system:String>
     <system:String x:Key="TaskbarWidgetShowMediaPlayerIconDescription">Отображает значок медиаплеера в правом нижнем углу обложки альбома</system:String>
+    <system:String x:Key="ChangelogAllUpdatesTitle">Все обновления</system:String>
+    <system:String x:Key="ChangelogOpenOnlineButton">Открыть список изменений</system:String>
 </ResourceDictionary>
