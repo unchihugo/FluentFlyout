@@ -58,7 +58,6 @@ public partial class MainWindow : MicaWindow
     private bool _alwaysDisplay = SettingsManager.Current.MediaFlyoutAlwaysDisplay;
     private bool _mediaSessionSupportsSeekbar = false; // default off to handle initialization
     private bool _acrylicEnabled = false; // default off to handle initialization
-    private int _themeOption = SettingsManager.Current.AppTheme;
 
     static Mutex singleton = new Mutex(true, "FluentFlyout"); // to prevent multiple instances of the app
     private bool _volumeShortcutKeyDown;
@@ -1270,8 +1269,7 @@ public partial class MainWindow : MicaWindow
                 }
 
                 // acrylic effect setting
-                if (SettingsManager.Current.MediaFlyoutAcrylicWindowEnabled != _acrylicEnabled
-                || SettingsManager.Current.AppTheme != _themeOption) // if theme changes, reapply acrylic for updated background color
+                if (SettingsManager.Current.MediaFlyoutAcrylicWindowEnabled != _acrylicEnabled)
                 {
                     _acrylicEnabled = SettingsManager.Current.MediaFlyoutAcrylicWindowEnabled;
                     ToggleBlur(); // called enabled but it actually toggles based on the setting
@@ -1903,12 +1901,10 @@ public partial class MainWindow : MicaWindow
             {
                 // update theme for taskbar widget since it's independent from the main app theme
                 ThemeManager.UpdateTaskbarWidget();
-                // update Acrylic windows background colors
-                WindowBlurHelper.AdjustBlurOpacityForAllWindows(SettingsManager.Current.AcrylicBlurOpacity);
             }
             catch (Exception ex)
             {
-                Logger.Error(ex, "Failed to apply theme changes to taskbar widgets or Acrylic windows");
+                Logger.Error(ex, "Failed to apply theme changes to the taskbar widget");
             }
             return 0;
         }
