@@ -34,6 +34,9 @@ public partial class VolumeMixerViewModel : ObservableObject, IDisposable
     public partial string DeviceName { get; set; }
 
     [ObservableProperty]
+    public partial AudioEndpointType EndpointType { get; set; }
+
+    [ObservableProperty]
     public partial bool IsExpanded { get; set; }
 
     public ObservableCollection<AudioSessionModel> Sessions { get; } = [];
@@ -64,6 +67,7 @@ public partial class VolumeMixerViewModel : ObservableObject, IDisposable
         if (_device == null)
         {
             DeviceName = string.Empty;
+            EndpointType = AudioEndpointType.Speakers;
             MasterVolume = 0f;
             IsMasterMuted = false;
             ClearSessions();
@@ -71,6 +75,7 @@ public partial class VolumeMixerViewModel : ObservableObject, IDisposable
         }
 
         DeviceName = _device.FriendlyName;
+        EndpointType = AudioDeviceMonitor.GetEndpointType(_device);
         SyncMasterFromDevice();
         RefreshSessions();
     }
