@@ -301,4 +301,9 @@
     <system:String x:Key="RelatedSettingsTitle">Связанные настройки</system:String>
     <system:String x:Key="VolumeFlyoutShortcutTitle">Сочетание клавиш</system:String>
     <system:String x:Key="VolumeFlyoutShortcutDescription">Нажмите cочетание клавиш, чтобы открыть всплывающее меню громкости.</system:String>
+    <system:String x:Key="ChangelogWindowTitle">Что нового</system:String>
+    <system:String x:Key="ChangelogLoadFailedText">Не удалось загрузить список изменений. Проверьте подключение и повторите попытку.</system:String>
+    <system:String x:Key="ChangelogViewAllUpdatesButton">Посмотреть все обновления</system:String>
+    <system:String x:Key="TaskbarWidgetShowMediaPlayerIconTitle">Показать значок медиаплеера</system:String>
+    <system:String x:Key="TaskbarWidgetShowMediaPlayerIconDescription">Отображает значок медиаплеера в правом нижнем углу обложки альбома</system:String>
 </ResourceDictionary>
