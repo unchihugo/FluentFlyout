@@ -67,6 +67,7 @@ public partial class VolumeMixerViewModel : ObservableObject, IDisposable
         if (_device == null)
         {
             DeviceName = string.Empty;
+            EndpointType = AudioEndpointType.Speakers;
             MasterVolume = 0f;
             IsMasterMuted = false;
             ClearSessions();
