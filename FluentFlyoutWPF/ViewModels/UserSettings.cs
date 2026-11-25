@@ -498,6 +498,12 @@ public partial class UserSettings : ObservableObject
     public partial int TaskbarWidgetControlsPosition { get; set; }
 
     /// <summary>
+    /// Taskbar widget seekbar presentation. 0/1: Bottom border (1 retained for existing settings), 2: Cover ring, 3: Off.
+    /// </summary>
+    [ObservableProperty]
+    public partial int TaskbarWidgetSeekbarMode { get; set; }
+
+    /// <summary>
     /// Gets or sets a value indicating whether the taskbar widget should play animations.
     /// </summary>
     [ObservableProperty]
@@ -833,6 +839,7 @@ public partial class UserSettings : ObservableObject
         TaskbarWidgetShowMediaPlayerIcon = true;
         TaskbarWidgetControlsEnabled = false;
         TaskbarWidgetControlsPosition = 1;
+        TaskbarWidgetSeekbarMode = 0;
         TaskbarWidgetAnimated = true;
         TaskbarWidgetScrollingEnabled = false;
         TaskbarWidgetScrollVolumeMode = 1;
@@ -1037,6 +1044,12 @@ public partial class UserSettings : ObservableObject
         mainWindow.taskbarWindow?.Widget?.ReorderControls();
     }
 
+    partial void OnTaskbarWidgetSeekbarModeChanged(int oldValue, int newValue)
+    {
+        if (oldValue == newValue || _initializing) return;
+        UpdateTaskbar();
+    }
+
     partial void OnTaskbarVisualizerPositionChanged(int oldValue, int newValue)
     {
         if (oldValue == newValue || _initializing) return;
@@ -1112,6 +1125,8 @@ public partial class UserSettings : ObservableObject
     {
         if (oldValue == newValue || _initializing) return;
         BitmapHelper.GetDominantColors(1);
+        MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+        mainWindow.taskbarWindow?.Widget?.UpdateCoverProgressColor();
     }
 
     partial void OnAppFilteringEnabledChanged(bool oldValue, bool newValue)
