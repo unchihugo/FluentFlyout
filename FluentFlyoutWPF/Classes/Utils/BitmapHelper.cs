@@ -224,10 +224,13 @@ internal static class BitmapHelper
             uint scaledWidth = (uint)Math.Max(pixelWidth, Math.Round(width * scale));
             uint scaledHeight = (uint)Math.Max(pixelHeight, Math.Round(height * scale));
 
+            // BitmapTransform scales the image as stored, before any EXIF quarter turn, and crops it after
+            bool quarterTurned = decoder.OrientedPixelWidth != decoder.PixelWidth;
+
             var transform = new global::Windows.Graphics.Imaging.BitmapTransform
             {
-                ScaledWidth = scaledWidth,
-                ScaledHeight = scaledHeight,
+                ScaledWidth = quarterTurned ? scaledHeight : scaledWidth,
+                ScaledHeight = quarterTurned ? scaledWidth : scaledHeight,
                 InterpolationMode = global::Windows.Graphics.Imaging.BitmapInterpolationMode.Fant,
                 Bounds = new global::Windows.Graphics.Imaging.BitmapBounds
                 {
