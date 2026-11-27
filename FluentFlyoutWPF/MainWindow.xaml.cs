@@ -84,11 +84,14 @@ public partial class MainWindow : MicaWindow
 
     internal static volatile bool ExplorerRestarting = false;
 
+    private readonly FantCover _songCover;
+
     public MainWindow()
     {
         DataContext = SettingsManager.Current;
         WindowHelper.SetNoActivate(this); // prevents some fullscreen apps from minimizing
         InitializeComponent();
+        _songCover = new FantCover(SongImageBorder, SongImage);
         WindowHelper.SetTopmost(this); // more prevention of fullscreen apps minimizing
 
         _displayRefreshTimer = new DispatcherTimer(DispatcherPriority.Background)
@@ -1167,7 +1170,7 @@ public partial class MainWindow : MicaWindow
             {
                 SongTitle.Text = "No media playing";
                 SongArtist.Text = string.Empty;
-                SongImage.ImageSource = null;
+                _songCover.Source = null;
                 SymbolPlayPause.Symbol = Wpf.Ui.Controls.SymbolRegular.Stop16;
                 ControlPlayPause.IsEnabled = false;
                 ControlPlayPause.Opacity = 0.35;
@@ -1285,7 +1288,7 @@ public partial class MainWindow : MicaWindow
                 SongTitle.Text = songInfo.Title;
                 SongArtist.Text = songInfo.Artist;
                 var image = BitmapHelper.GetThumbnail(songInfo.Thumbnail);
-                SongImage.ImageSource = image;
+                _songCover.Source = image;
 
                 // set tooltip
                 SongInfoStackPanel.ToolTip = string.Empty;
