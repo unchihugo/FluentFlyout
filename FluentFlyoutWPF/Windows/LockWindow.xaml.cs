@@ -149,7 +149,7 @@ public partial class LockWindow : MicaWindow
         {
             _isHiding = false;
             _openedMonitor = GetPreferredTargetDisplay();
-            _mainWindow.OpenAnimation(window: this, alwaysBottom: true, selectedMonitor: _openedMonitor);
+            _mainWindow.OpenAnimation(window: this, selectedMonitor: _openedMonitor, position: SettingsManager.Current.LockKeysPosition);
         }
         cts.Cancel();
         cts = new CancellationTokenSource();
