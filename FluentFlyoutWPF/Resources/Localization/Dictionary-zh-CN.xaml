@@ -301,4 +301,11 @@
     <system:String x:Key="RelatedSettingsTitle">相关设置</system:String>
     <system:String x:Key="VolumeFlyoutShortcutTitle">键盘快捷键</system:String>
     <system:String x:Key="VolumeFlyoutShortcutDescription">按下快捷键以显示音量浮窗</system:String>
+    <system:String x:Key="TaskbarWidgetShowMediaPlayerIconTitle">显示媒体播放器图标</system:String>
+    <system:String x:Key="TaskbarWidgetShowMediaPlayerIconDescription">在专辑封面右下角显示对应媒体播放器的图标</system:String>
+    <system:String x:Key="ChangelogWindowTitle">更新内容</system:String>
+    <system:String x:Key="ChangelogAllUpdatesTitle">所有更新</system:String>
+    <system:String x:Key="ChangelogLoadFailedText">无法加载更新日志。请检查您的网络连接并重试。</system:String>
+    <system:String x:Key="ChangelogOpenOnlineButton">在浏览器中打开更新日志</system:String>
+    <system:String x:Key="ChangelogViewAllUpdatesButton">查看所有更新</system:String>
 </ResourceDictionary>

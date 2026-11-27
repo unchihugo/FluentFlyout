@@ -296,4 +296,9 @@
     <system:String x:Key="TaskbarWidgetScrollVolumeMaster">사용 (마스터 볼륨)</system:String>
     <system:String x:Key="TaskbarWidgetScrollVolumePlayer">사용 (플레이어 볼륨)</system:String>
     <system:String x:Key="OpenMediaPlayerText">미디어 플레이어 열기</system:String>
+    <system:String x:Key="ContextMenuSessionSwitcher">세션 전환</system:String>
+    <system:String x:Key="SessionSwitcherAuto">자동</system:String>
+    <system:String x:Key="RelatedSettingsTitle">관련 설정</system:String>
+    <system:String x:Key="VolumeFlyoutShortcutTitle">키보드 바로가기</system:String>
+    <system:String x:Key="VolumeFlyoutShortcutDescription">바로가기 키를 눌러 볼륨 Flyout을 표시합니다.</system:String>
 </ResourceDictionary>
