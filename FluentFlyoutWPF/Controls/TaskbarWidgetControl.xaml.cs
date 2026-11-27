@@ -261,6 +261,7 @@ public partial class TaskbarWidgetControl : UserControl
         bool hasProgress = _timelineDuration > TimeSpan.Zero && !_isVertical;
         bool presentationChanged = mode != _lastSeekbarMode;
         _lastSeekbarMode = mode;
+        MainStackPanel.Margin = new Thickness(4, mode == 0 ? -2 : 0, -100, 0);
 
         SongArtistContainer.Visibility = !_isSmallTaskbar && !_isVertical && !string.IsNullOrEmpty(_actualArtist)
             ? Visibility.Visible
