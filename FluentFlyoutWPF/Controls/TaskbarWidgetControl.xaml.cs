@@ -10,6 +10,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
+using System.Windows.Threading;
 using Windows.Media.Control;
 using Wpf.Ui.Controls;
 
@@ -68,7 +70,14 @@ public partial class TaskbarWidgetControl : UserControl
     private MainWindow? _mainWindow;
     private bool _isPaused;
     private bool _isVertical;
+    private bool _isTaskbarOnLeft;
     private bool _isSmallTaskbar;
+    private readonly DispatcherTimer _seekbarTimer;
+    private TimeSpan _timelinePosition;
+    private TimeSpan _timelineDuration;
+    private DateTimeOffset _timelineUpdatedAt;
+    private bool _timelineIsPlaying;
+    private int _lastSeekbarMode = -1;
 
     private readonly FantCover _songCover;
 
@@ -87,7 +96,10 @@ public partial class TaskbarWidgetControl : UserControl
         {
             var rect = new RectangleGeometry(new Rect(0, 0, MainBorder.ActualWidth, MainBorder.ActualHeight), 6, 6);
             MainBorder.Clip = rect;
+            RefreshSeekbarProgress();
         };
+
+        SongImageBorder.SizeChanged += (_, _) => RefreshSeekbarProgress();
 
         // for hover animation
         if (MainBorder.Background is not SolidColorBrush)
@@ -97,6 +109,12 @@ public partial class TaskbarWidgetControl : UserControl
         }
 
         Background = new SolidColorBrush(Color.FromArgb(1, 0, 0, 0));
+
+        _seekbarTimer = new DispatcherTimer(DispatcherPriority.Render)
+        {
+            Interval = TimeSpan.FromMilliseconds(100)
+        };
+        _seekbarTimer.Tick += (_, _) => RefreshSeekbarProgress();
 
         // Initialize control order
         ReorderControls();
@@ -122,9 +140,10 @@ public partial class TaskbarWidgetControl : UserControl
         }
     }
 
-    public void SetVerticalMode(bool isVertical)
+    public void SetVerticalMode(bool isVertical, bool isTaskbarOnLeft = true)
     {
         _isVertical = isVertical;
+        _isTaskbarOnLeft = isTaskbarOnLeft;
         SongInfoStackPanel.Visibility = isVertical ? Visibility.Collapsed : Visibility.Visible;
         SongArtistContainer.Visibility = !_isSmallTaskbar && !isVertical && !string.IsNullOrEmpty(_actualArtist)
             ? Visibility.Visible
@@ -140,6 +159,15 @@ public partial class TaskbarWidgetControl : UserControl
             button.RenderTransformOrigin = new System.Windows.Point(0.5, 0.5);
             button.RenderTransform = (Transform?)counterRotate ?? Transform.Identity;
         }
+
+        // The widget itself is rotated by TaskbarWindow on vertical taskbars.
+        // Its local bottom edge becomes the visual left edge after rotation;
+        // use the local top edge on a right-side taskbar so the seekbar appears on the right.
+        BottomProgressContainer.VerticalAlignment = !isVertical || isTaskbarOnLeft
+            ? VerticalAlignment.Bottom
+            : VerticalAlignment.Top;
+
+        UpdateSeekbarPresentation();
     }
 
     public void SetSmallTaskbarMode(bool isSmallTaskbar)
@@ -169,6 +197,10 @@ public partial class TaskbarWidgetControl : UserControl
             button.Width = controlButtonSize;
             button.Height = controlButtonSize;
         }
+
+        CoverProgressRing.Width = coverImageSize;
+        CoverProgressRing.Height = coverImageSize;
+        UpdateSeekbarPresentation();
     }
 
     private void UpdateAlbumArtCutoutMask(bool showCutout)
@@ -204,6 +236,184 @@ public partial class TaskbarWidgetControl : UserControl
         _mainWindow = mainWindow;
     }
 
+    public void UpdatePlaybackProgress(TimeSpan position, TimeSpan duration, DateTimeOffset lastUpdatedAt, bool isPlaying)
+    {
+        Dispatcher.Invoke(() =>
+        {
+            _timelinePosition = position < TimeSpan.Zero ? TimeSpan.Zero : position;
+            _timelineDuration = duration > TimeSpan.Zero ? duration : TimeSpan.Zero;
+            _timelineUpdatedAt = lastUpdatedAt;
+            _timelineIsPlaying = isPlaying;
+            if (_timelineDuration > TimeSpan.Zero && _timelineIsPlaying)
+            {
+                if (!_seekbarTimer.IsEnabled)
+                    _seekbarTimer.Start();
+            }
+            else
+            {
+                _seekbarTimer.Stop();
+            }
+
+            UpdateSeekbarPresentation();
+            RefreshSeekbarProgress();
+        });
+    }
+
+    public void StopPlaybackProgress()
+    {
+        if (Dispatcher.CheckAccess())
+            _seekbarTimer.Stop();
+        else
+            Dispatcher.BeginInvoke(() => _seekbarTimer.Stop());
+    }
+
+    private void UpdateSeekbarPresentation()
+    {
+        int mode = Math.Clamp(SettingsManager.Current.TaskbarWidgetSeekbarMode, 0, 3);
+        bool hasProgress = _timelineDuration > TimeSpan.Zero;
+        bool presentationChanged = mode != _lastSeekbarMode;
+        _lastSeekbarMode = mode;
+        MainStackPanel.Margin = new Thickness(4, mode == 0 ? -2 : 0, -100, 0);
+
+        SongArtistContainer.Visibility = !_isSmallTaskbar && !_isVertical && !string.IsNullOrEmpty(_actualArtist)
+            ? Visibility.Visible
+            : Visibility.Collapsed;
+        BottomProgressContainer.Visibility = (mode == 0 || mode == 1) && hasProgress ? Visibility.Visible : Visibility.Collapsed;
+        CoverProgressRing.Visibility = mode == 2 && hasProgress ? Visibility.Visible : Visibility.Collapsed;
+
+        if (presentationChanged)
+            UpdateMarquees();
+    }
+
+    private void RefreshSeekbarProgress()
+    {
+        if (_timelineDuration <= TimeSpan.Zero)
+        {
+            UpdateProgressVisuals(0);
+            return;
+        }
+
+        TimeSpan position = _timelinePosition;
+        if (_timelineIsPlaying && _timelineUpdatedAt != default)
+            position += DateTimeOffset.Now - _timelineUpdatedAt;
+
+        double ratio = Math.Clamp(position.TotalSeconds / _timelineDuration.TotalSeconds, 0, 1);
+
+        UpdateProgressVisuals(ratio);
+    }
+
+    private void UpdateProgressVisuals(double ratio)
+    {
+        ratio = Math.Clamp(ratio, 0, 1);
+
+        double bottomWidth = MainBorder.ActualWidth;
+        if (bottomWidth > 0)
+            BottomProgressFill.Width = bottomWidth * ratio;
+
+        UpdateCoverProgressRing(ratio);
+    }
+
+    private void UpdateCoverProgressRing(double ratio)
+    {
+        double size = SongImageBorder.ActualWidth;
+        if (size <= 0 || ratio <= 0)
+        {
+            CoverProgressRing.Data = Geometry.Empty;
+            return;
+        }
+
+        // Album artwork is square, so the progress indicator follows its rounded-square outline.
+        double stroke = CoverProgressRing.StrokeThickness;
+        double inset = stroke / 2;
+        double edge = size - inset;
+        double cornerRadius = Math.Max(0, Math.Min(5, size / 2) - inset);
+        double straight = Math.Max(0, edge - inset - 2 * cornerRadius);
+        double arcLength = Math.PI * cornerRadius / 2;
+        double perimeter = straight * 4 + arcLength * 4;
+        if (perimeter <= 0)
+            return;
+
+        var points = new List<Point>();
+        void AddLine(Point start, Point end, double length)
+        {
+            int steps = Math.Max(1, (int)Math.Ceiling(length / 1.5));
+            for (int i = 0; i <= steps; i++)
+            {
+                double t = (double)i / steps;
+                points.Add(new Point(start.X + (end.X - start.X) * t, start.Y + (end.Y - start.Y) * t));
+            }
+        }
+        void AddCorner(Point center, double startAngle)
+        {
+            int steps = Math.Max(4, (int)Math.Ceiling(90 * cornerRadius / 1.5));
+            for (int i = 0; i <= steps; i++)
+            {
+                double angle = (startAngle + 90.0 * i / steps) * Math.PI / 180;
+                points.Add(new Point(center.X + cornerRadius * Math.Cos(angle), center.Y + cornerRadius * Math.Sin(angle)));
+            }
+        }
+
+        double left = inset;
+        double top = inset;
+        double right = edge;
+        double bottom = edge;
+        AddLine(new Point(left + cornerRadius, top), new Point(right - cornerRadius, top), straight);
+        AddCorner(new Point(right - cornerRadius, top + cornerRadius), -90);
+        AddLine(new Point(right, top + cornerRadius), new Point(right, bottom - cornerRadius), straight);
+        AddCorner(new Point(right - cornerRadius, bottom - cornerRadius), 0);
+        AddLine(new Point(right - cornerRadius, bottom), new Point(left + cornerRadius, bottom), straight);
+        AddCorner(new Point(left + cornerRadius, bottom - cornerRadius), 90);
+        AddLine(new Point(left, bottom - cornerRadius), new Point(left, top + cornerRadius), straight);
+        AddCorner(new Point(left + cornerRadius, top + cornerRadius), 180);
+
+        var sampled = new List<Point>();
+        double targetLength = perimeter * ratio;
+        double travelled = 0;
+        Point previous = points[0];
+        sampled.Add(previous);
+        for (int i = 1; i < points.Count && travelled < targetLength; i++)
+        {
+            Point next = points[i];
+            double segmentLength = (next - previous).Length;
+            if (travelled + segmentLength >= targetLength)
+            {
+                double t = segmentLength <= 0 ? 0 : (targetLength - travelled) / segmentLength;
+                sampled.Add(new Point(previous.X + (next.X - previous.X) * t, previous.Y + (next.Y - previous.Y) * t));
+                break;
+            }
+
+            travelled += segmentLength;
+            sampled.Add(next);
+            previous = next;
+        }
+
+        if (ratio >= 0.9999)
+            sampled.Add(points[0]);
+
+        PathFigure figure = new() { StartPoint = sampled[0], IsClosed = false };
+        if (sampled.Count > 1)
+            figure.Segments.Add(new PolyLineSegment(sampled.Skip(1), true));
+        PathGeometry geometry = new();
+        geometry.Figures.Add(figure);
+        CoverProgressRing.Data = geometry;
+    }
+
+    public void UpdateCoverProgressColor()
+    {
+        if (SettingsManager.Current.UseAlbumArtAsAccentColor && BitmapHelper.SavedDominantColors.Count > 0)
+        {
+            SolidColorBrush brush = BitmapHelper.SavedDominantColors.Last();
+            BottomProgressFill.Background = brush;
+            CoverProgressRing.Stroke = brush;
+        }
+        else
+        {
+            // Restore the XAML DynamicResource values so Windows accent changes keep flowing through.
+            BottomProgressFill.ClearValue(Border.BackgroundProperty);
+            CoverProgressRing.ClearValue(Shape.StrokeProperty);
+        }
+    }
+
     public void ApplyWindowsTheme()
     {
         WindowsThemeDetector.GetWindowsTheme(out _, out var systemTheme);
@@ -215,6 +425,11 @@ public partial class TaskbarWidgetControl : UserControl
 
         SongTitle.Foreground = foreground;
         SongArtist.Foreground = foreground;
+        var progressTrackBrush = new SolidColorBrush(Color.FromArgb(0x40,
+            isDark ? (byte)255 : (byte)0,
+            isDark ? (byte)255 : (byte)0,
+            isDark ? (byte)255 : (byte)0));
+        BottomProgressTrack.Background = progressTrackBrush;
         PreviousButton.Foreground = foreground;
         PlayPauseButton.Foreground = foreground;
         NextButton.Foreground = foreground;
@@ -557,6 +772,10 @@ public partial class TaskbarWidgetControl : UserControl
                 _actualArtist = string.Empty;
                 _songInfoTooltip = string.Empty;
                 _appVolume = null;
+                _timelinePosition = TimeSpan.Zero;
+                _timelineDuration = TimeSpan.Zero;
+                _timelineIsPlaying = false;
+                _seekbarTimer.Stop();
                 MediaPlayerIconImage.Source = null;
                 MediaPlayerIconImage.Visibility = Visibility.Collapsed;
                 UpdateAlbumArtCutoutMask(false);
@@ -581,6 +800,7 @@ public partial class TaskbarWidgetControl : UserControl
                 MainBorder.Background = new SolidColorBrush(Colors.Transparent);
                 MainBorder.Background.Opacity = 0;
                 TopBorder.BorderBrush = Brushes.Transparent;
+                UpdateSeekbarPresentation();
 
                 Visibility = Visibility.Visible;
             });
@@ -634,6 +854,8 @@ public partial class TaskbarWidgetControl : UserControl
                 _actualTitle = newTitle;
                 _actualArtist = newArtist;
 
+                _timelinePosition = TimeSpan.Zero;
+                _timelineDuration = TimeSpan.Zero;
                 SongTitle.Text = _actualTitle;
                 SongArtist.Text = _actualArtist;
             }
@@ -655,6 +877,7 @@ public partial class TaskbarWidgetControl : UserControl
                 BitmapHelper.SavedDominantColors.Last()
                 : (SolidColorBrush)Application.Current.TryFindResource("MicaWPF.Brushes.SystemAccentColorTertiary");
             SongImagePlaceholder.Foreground = brush;
+            UpdateCoverProgressColor();
 
             if (icon != null)
             {
@@ -699,6 +922,8 @@ public partial class TaskbarWidgetControl : UserControl
             ControlsStackPanel.Visibility = SettingsManager.Current.TaskbarWidgetControlsEnabled
                 ? Visibility.Visible
                 : Visibility.Collapsed;
+
+            UpdateSeekbarPresentation();
 
             Visibility = Visibility.Visible;
         });

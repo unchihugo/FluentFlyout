@@ -48,6 +48,9 @@
                                     <EllipseGeometry Center="6,6" RadiusX="6" RadiusY="6" />
                                 </Image.Clip>
                             </Image>
+                            <Path x:Name="CoverProgressRing" Stroke="{DynamicResource MicaWPF.Brushes.SystemAccentColor}"
+                                  StrokeThickness="2" StrokeStartLineCap="Round" StrokeEndLineCap="Round"
+                                  Fill="Transparent" Visibility="Collapsed" IsHitTestVisible="False" />
                         </Grid>
 
                         <StackPanel Name="SongInfoStackPanel" Orientation="Vertical" VerticalAlignment="Center" Width="Auto" Margin="8,0,0,0"
@@ -89,6 +92,11 @@
                     </StackPanel>
                 </Grid>
             </Border>
+            <Grid x:Name="BottomProgressContainer" Height="2" VerticalAlignment="Bottom" Visibility="Collapsed" IsHitTestVisible="False">
+                <Border x:Name="BottomProgressTrack" Background="#30FFFFFF" />
+                <Border x:Name="BottomProgressFill" Width="0" HorizontalAlignment="Left"
+                        Background="{DynamicResource MicaWPF.Brushes.SystemAccentColor}" />
+            </Grid>
             <Grid.ContextMenu>
                 <ContextMenu Style="{StaticResource UiContextMenu}" Opened="TaskbarContextMenu_Opened">
                     <ui:MenuItem x:Name="ContextMenuSessionSwitcher" Header="Switch sessions">

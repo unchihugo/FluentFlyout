@@ -459,7 +459,16 @@ on_error:
         if (!SettingsManager.Current.TaskbarWidgetEnabled)
             return Rect.Empty;
 
-        Widget.SetVerticalMode(isVertical);
+        bool isTaskbarOnLeft = true;
+        if (isVertical)
+        {
+            var monitorArea = MonitorUtil.GetMonitor(taskbarHandle).monitorArea;
+            double distanceToLeft = Math.Abs(taskbarRect.Left - monitorArea.Left);
+            double distanceToRight = Math.Abs(monitorArea.Right - taskbarRect.Right);
+            isTaskbarOnLeft = distanceToLeft <= distanceToRight;
+        }
+
+        Widget.SetVerticalMode(isVertical, isTaskbarOnLeft);
 
         // Calculate widget size
         var (logicalWidth, logicalHeight) = Widget.CalculateSize(dpiScale);
@@ -786,6 +795,23 @@ on_error:
         Widget.RefreshAppVolumeTooltip();
     }
 
+    public void UpdatePlaybackProgress(TimeSpan position, TimeSpan duration, DateTimeOffset lastUpdatedAt, bool isPlaying)
+    {
+        if (!SettingsManager.Current.TaskbarWidgetEnabled || !SettingsManager.Current.IsPremiumUnlocked)
+        {
+            Widget.StopPlaybackProgress();
+            return;
+        }
+
+        if (!Dispatcher.CheckAccess())
+        {
+            Dispatcher.BeginInvoke(() => Widget.UpdatePlaybackProgress(position, duration, lastUpdatedAt, isPlaying));
+            return;
+        }
+
+        Widget.UpdatePlaybackProgress(position, duration, lastUpdatedAt, isPlaying);
+    }
+
     private (bool, Rect) GetTaskbarXamlElementRect(IntPtr taskbarHandle, ref AutomationElement? elementCache, string elementName)
     {
         if (taskbarHandle == IntPtr.Zero)
@@ -910,6 +936,7 @@ on_error:
         _timer.Stop();
         _autoHideTimer?.Stop();
         _autoHideTimer = null;
+        Widget.StopPlaybackProgress();
         _widgetElement = null;
         _trayElement = null;
         _taskbarFrameElement = null;

@@ -724,6 +724,7 @@ public partial class MainWindow : MicaWindow
         if (!mediaManager.IsStarted || activeSession == null)
         {
             taskbarWindow?.UpdateUi("-", "-", null, GlobalSystemMediaTransportControlsSessionPlaybackStatus.Closed);
+            UpdateTaskbarPlaybackProgress();
             return;
         }
 
@@ -736,6 +737,30 @@ public partial class MainWindow : MicaWindow
         var mediaPlayerIcon = MediaPlayerData.GetAndCacheMediaPlayerData(activeSession.Id).Item2;
         BitmapHelper.GetDominantColors(1);
         taskbarWindow?.UpdateUi(songInfo.Title, songInfo.Artist, thumbnail, playbackInfo.PlaybackStatus, playbackInfo.Controls, mediaPlayerIcon);
+        UpdateTaskbarPlaybackProgress(activeSession);
+    }
+
+    private void UpdateTaskbarPlaybackProgress(MediaSession? mediaSession = null)
+    {
+        var session = mediaSession ?? GetActiveMediaSession();
+        if (session?.ControlSession == null)
+        {
+            taskbarWindow?.UpdatePlaybackProgress(TimeSpan.Zero, TimeSpan.Zero, DateTimeOffset.Now, false);
+            return;
+        }
+
+        var timeline = session.ControlSession.GetTimelineProperties();
+        TimeSpan duration = timeline.MaxSeekTime > timeline.StartTime
+            ? timeline.MaxSeekTime - timeline.StartTime
+            : timeline.EndTime - timeline.StartTime;
+        TimeSpan position = timeline.Position - timeline.StartTime;
+        var playbackInfo = session.ControlSession.GetPlaybackInfo();
+
+        taskbarWindow?.UpdatePlaybackProgress(
+            position,
+            duration,
+            timeline.LastUpdatedTime,
+            playbackInfo.PlaybackStatus == GlobalSystemMediaTransportControlsSessionPlaybackStatus.Playing);
     }
 
     public void reportBug(object? sender, EventArgs e)
@@ -790,6 +815,7 @@ public partial class MainWindow : MicaWindow
         if (focusedSession == null)
         {
             taskbarWindow?.UpdateUi("-", "-", null, GlobalSystemMediaTransportControlsSessionPlaybackStatus.Closed);
+            UpdateTaskbarPlaybackProgress();
             return;
         }
 
@@ -803,6 +829,8 @@ public partial class MainWindow : MicaWindow
 
             taskbarWindow?.UpdateUi(tbSongInfo.Title, tbSongInfo.Artist, tbThumbnail, tbPlayback?.PlaybackStatus, tbPlayback?.Controls, mediaPlayerIcon);
         }
+
+        UpdateTaskbarPlaybackProgress(focusedSession);
 
         if (IsVisible)
         {
@@ -827,6 +855,7 @@ public partial class MainWindow : MicaWindow
         if (currentActiveSession == null)
         {
             taskbarWindow?.UpdateUi("-", "-", null, GlobalSystemMediaTransportControlsSessionPlaybackStatus.Closed);
+            UpdateTaskbarPlaybackProgress();
             return;
         }
 
@@ -854,6 +883,7 @@ public partial class MainWindow : MicaWindow
         BitmapHelper.GetDominantColors(1);
 
         taskbarWindow?.UpdateUi(songInfo.Title, songInfo.Artist, thumbnail, playbackInfo.PlaybackStatus, playbackInfo.Controls, mediaPlayerIcon);
+        UpdateTaskbarPlaybackProgress(currentActiveSession);
 
         pauseOtherMediaSessionsIfNeeded(mediaSession);
 
@@ -911,6 +941,8 @@ public partial class MainWindow : MicaWindow
     private void MediaManager_OnAnyTimelinePropertyChanged(MediaSession mediaSession, GlobalSystemMediaTransportControlsSessionTimelineProperties timelineProperties)
     {
         if (GetActiveMediaSession() is not { } session || session.Id != mediaSession.Id) return;
+
+        UpdateTaskbarPlaybackProgress(session);
 
         if (_seekBarEnabled)
         {

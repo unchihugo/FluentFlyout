@@ -242,7 +242,7 @@
                 </ComboBox>
             </ui:CardControl>
 
-            <ui:CardExpander x:Name="TaskbarWidgetScrollingTextCard" Tag="Indexable" Grid.Row="14" Icon="{ui:SymbolIcon TextDirectionHorizontalRight24}" ContentPadding="0" Margin="0,0,0,12">
+            <ui:CardExpander x:Name="TaskbarWidgetScrollingTextCard" Tag="Indexable" Grid.Row="14" Icon="{ui:SymbolIcon TextDirectionHorizontalRight24}" ContentPadding="0" Margin="0,0,0,3">
                 <ui:CardExpander.Header>
                     <Grid ColumnDefinitions="*, Auto">
                         <StackPanel Orientation="Vertical">
@@ -278,6 +278,20 @@
                     </ui:CardControl>
                 </StackPanel>
             </ui:CardExpander>
+
+            <ui:CardControl x:Name="TaskbarWidgetSeekbarModeTitleCard" Tag="Indexable" Grid.Row="15" Icon="{ui:SymbolIcon SlideArrowRight24}" Margin="0,0,0,12">
+                <ui:CardControl.Header>
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="{DynamicResource TaskbarWidgetSeekbarModeTitle}" FontSize="14" FontWeight="Regular" VerticalAlignment="Center" />
+                        <TextBlock Text="{DynamicResource TaskbarWidgetSeekbarModeDescription}" FontSize="12" Opacity="0.5" />
+                    </StackPanel>
+                </ui:CardControl.Header>
+                <ComboBox SelectedValue="{Binding TaskbarWidgetSeekbarMode, Mode=TwoWay}" SelectedValuePath="Tag" IsEnabled="{Binding IsPremiumUnlocked}" Style="{StaticResource DefaultComboBoxStyle}">
+                    <ComboBoxItem Content="None" Tag="3" />
+                    <ComboBoxItem Content="Bottom Line" Tag="0" />
+                    <ComboBoxItem Content="Cover Progress" Tag="2" />
+                </ComboBox>
+            </ui:CardControl>
 
             <ui:CardControl x:Name="TaskbarWidgetAnimatedTitleCard" Tag="Indexable" Grid.Row="13" Icon="{ui:SymbolIcon Wand24}" Margin="0,0,0,3">
                 <ui:CardControl.Header>
