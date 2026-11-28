@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 using FluentFlyout.Classes.Settings;
+using FluentFlyout.Classes.Utils;
 using Microsoft.Toolkit.Uwp.Notifications;
 using NLog;
 using System.Runtime.InteropServices;
@@ -134,6 +135,30 @@ internal static class Notifications
         catch (Exception ex)
         {
             Logger.Error(ex, "Failed to show update available notification");
+        }
+    }
+
+    /// <summary>
+    /// Show a Windows notification when a media application could not be launched
+    /// </summary>
+    /// <param name="appName">Display name of the application</param>
+    /// <param name="result">The non-successful launch result</param>
+    public static void ShowMediaAppLaunchFailedNotification(string appName, MediaAppLaunchResult result)
+    {
+        try
+        {
+            string messageKey = result == MediaAppLaunchResult.NotInstalled
+                ? "MediaAppNotFoundNotificationMessage"
+                : "MediaAppLaunchFailedNotificationMessage";
+
+            new ToastContentBuilder()
+                .AddText(string.Format(Application.Current.FindResource("MediaAppLaunchFailedNotificationTitle").ToString(), appName))
+                .AddText(string.Format(Application.Current.FindResource(messageKey).ToString(), appName))
+                .Show();
+        }
+        catch (Exception ex)
+        {
+            Logger.Error(ex, "Failed to show media app launch notification");
         }
     }
 

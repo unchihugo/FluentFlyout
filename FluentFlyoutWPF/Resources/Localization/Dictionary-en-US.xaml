@@ -261,6 +261,9 @@ You can help contribute translations on</System:String>
     <System:String x:Key="UpdateAvailableNotificationTitle">Update Available!</System:String>
     <System:String x:Key="UpdateAvailableNotificationMessage">A new version ({0}) is available.</System:String>
     <System:String x:Key="UpdateAvailableNotificationButton">Download Update</System:String>
+    <System:String x:Key="MediaAppLaunchFailedNotificationTitle">Couldn't open {0}</System:String>
+    <System:String x:Key="MediaAppNotFoundNotificationMessage">{0} doesn't seem to be installed on this device.</System:String>
+    <System:String x:Key="MediaAppLaunchFailedNotificationMessage">Something went wrong while starting {0}. See the logs for details.</System:String>
     <System:String x:Key="ShowUpdateNotificationsTitle">Show notifications for new updates</System:String>
     <System:String x:Key="BackupRestoreSectionTitle">Back up &amp; restore</System:String>
     <System:String x:Key="BackupRestoreCardTitle">Back up and restore your settings</System:String>

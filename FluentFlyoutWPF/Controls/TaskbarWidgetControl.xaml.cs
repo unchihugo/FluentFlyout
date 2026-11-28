@@ -297,6 +297,13 @@ public partial class TaskbarWidgetControl : UserControl
     {
         if (_mainWindow == null) return;
 
+        // the flyout cannot open without an active session, so use the click to open the music app and resume playback
+        if (_mainWindow.GetActiveMediaSession() == null)
+        {
+            _ = _mainWindow.LaunchMediaAppAndResumeAsync(MediaAppLauncher.Spotify);
+            return;
+        }
+
         // toggle main flyout when clicked
         _mainWindow.ShowMediaFlyout(toggleMode: true, forceShow: true, withVolume: true);
     }

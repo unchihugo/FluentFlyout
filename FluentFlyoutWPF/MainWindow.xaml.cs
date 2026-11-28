@@ -1580,6 +1580,7 @@ public partial class MainWindow : MicaWindow
         try
         {
             _isCleaningUp = true;
+            CancelMediaAppLaunch();
             _displayRefreshTimer.Stop();
             _displayRefreshTimer.Tick -= DisplayRefreshTimer_Tick;
 
