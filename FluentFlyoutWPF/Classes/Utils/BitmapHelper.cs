@@ -4,6 +4,7 @@
 using FluentFlyout.Classes.Settings;
 using System.Diagnostics;
 using System.IO;
+using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 using System.Windows;
 using System.Windows.Media;
@@ -145,7 +146,15 @@ internal static class BitmapHelper
 
         try
         {
+            byte[] bytes;
             using (var imageStream = thumbnail.OpenReadAsync().GetAwaiter().GetResult().AsStreamForRead())
+            using (var copy = new MemoryStream())
+            {
+                imageStream.CopyTo(copy);
+                bytes = copy.ToArray();
+            }
+
+            using (var imageStream = new MemoryStream(bytes))
             {
                 // initialize the BitmapImage
                 image.BeginInit();
@@ -155,6 +164,9 @@ internal static class BitmapHelper
                 image.EndInit();
             }
             image.Freeze();
+
+            // keep the original file so covers can be shrunk from it to the exact size they're drawn at
+            _coverSources.AddOrUpdate(image, new CoverSource(bytes));
         }
         catch (Exception ex)
         {
@@ -168,6 +180,91 @@ internal static class BitmapHelper
         _currentHashCode = hashCode;
         _currentHashCodeContext.Value = hashCode;
         return image;
+    }
+
+    // the original thumbnail file behind each BitmapImage from GetThumbnail, and the sizes made from it
+    private sealed class CoverSource(byte[] bytes)
+    {
+        public byte[] Bytes { get; } = bytes;
+        public Dictionary<(int Width, int Height), BitmapSource> Sizes { get; } = [];
+    }
+
+    private static readonly ConditionalWeakTable<BitmapImage, CoverSource> _coverSources = new();
+
+    /// <summary>
+    /// Shrinks a thumbnail from <see cref="GetThumbnail"/> once, from its original file, to exactly
+    /// <paramref name="pixelWidth"/> x <paramref name="pixelHeight"/> pixels with WIC's Fant filter,
+    /// cropped to fill like Stretch.UniformToFill. Drawn at that size, WPF doesn't scale it again.
+    /// Windows' own media controls (Quick Settings) shrink covers the same way.
+    /// </summary>
+    /// <returns>The sized cover, or null if it can't be made (the caller then shows the thumbnail as is)</returns>
+    internal static BitmapSource? GetCoverForSize(BitmapImage? thumbnail, int pixelWidth, int pixelHeight)
+    {
+        if (thumbnail == null || pixelWidth <= 0 || pixelHeight <= 0)
+            return null;
+
+        if (!_coverSources.TryGetValue(thumbnail, out var source))
+            return null;
+
+        lock (source)
+        {
+            if (source.Sizes.TryGetValue((pixelWidth, pixelHeight), out var cached))
+                return cached;
+        }
+
+        try
+        {
+            using var stream = new MemoryStream(source.Bytes).AsRandomAccessStream();
+            var decoder = global::Windows.Graphics.Imaging.BitmapDecoder.CreateAsync(stream).GetAwaiter().GetResult();
+            uint width = decoder.OrientedPixelWidth;
+            uint height = decoder.OrientedPixelHeight;
+
+            // scale so the image covers the target, then crop the middle (Stretch.UniformToFill)
+            double scale = Math.Max((double)pixelWidth / width, (double)pixelHeight / height);
+            uint scaledWidth = (uint)Math.Max(pixelWidth, Math.Round(width * scale));
+            uint scaledHeight = (uint)Math.Max(pixelHeight, Math.Round(height * scale));
+
+            // BitmapTransform scales the image as stored, before any EXIF quarter turn, and crops it after
+            bool quarterTurned = decoder.OrientedPixelWidth != decoder.PixelWidth;
+
+            var transform = new global::Windows.Graphics.Imaging.BitmapTransform
+            {
+                ScaledWidth = quarterTurned ? scaledHeight : scaledWidth,
+                ScaledHeight = quarterTurned ? scaledWidth : scaledHeight,
+                InterpolationMode = global::Windows.Graphics.Imaging.BitmapInterpolationMode.Fant,
+                Bounds = new global::Windows.Graphics.Imaging.BitmapBounds
+                {
+                    X = (scaledWidth - (uint)pixelWidth) / 2,
+                    Y = (scaledHeight - (uint)pixelHeight) / 2,
+                    Width = (uint)pixelWidth,
+                    Height = (uint)pixelHeight
+                }
+            };
+
+            var pixelData = decoder.GetPixelDataAsync(
+                global::Windows.Graphics.Imaging.BitmapPixelFormat.Bgra8,
+                global::Windows.Graphics.Imaging.BitmapAlphaMode.Premultiplied,
+                transform,
+                global::Windows.Graphics.Imaging.ExifOrientationMode.RespectExifOrientation,
+                global::Windows.Graphics.Imaging.ColorManagementMode.DoNotColorManage).GetAwaiter().GetResult();
+
+            var cover = BitmapSource.Create(pixelWidth, pixelHeight, 96, 96, PixelFormats.Pbgra32, null,
+                pixelData.DetachPixelData(), pixelWidth * 4);
+            cover.Freeze();
+
+            lock (source)
+            {
+                source.Sizes[(pixelWidth, pixelHeight)] = cover;
+            }
+
+            Logger.Debug($"Cover shrunk with Fant from {width}x{height} to {pixelWidth}x{pixelHeight}");
+            return cover;
+        }
+        catch (Exception ex)
+        {
+            Logger.Info(ex, $"Failed to shrink cover to {pixelWidth}x{pixelHeight}");
+            return null;
+        }
     }
 
     internal static CroppedBitmap? CropToSquare(BitmapImage? sourceImage)

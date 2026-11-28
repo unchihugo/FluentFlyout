@@ -70,9 +70,12 @@ public partial class TaskbarWidgetControl : UserControl
     private bool _isVertical;
     private bool _isSmallTaskbar;
 
+    private readonly FantCover _songCover;
+
     public TaskbarWidgetControl()
     {
         InitializeComponent();
+        _songCover = new FantCover(SongImageBorder, SongImage, _scale);
 
         // Apply Windows theme colors (independent of the app theme setting)
         ApplyWindowsTheme();
@@ -578,7 +581,7 @@ public partial class TaskbarWidgetControl : UserControl
                 SongInfoStackPanel.ToolTip = string.Empty;
                 SongImagePlaceholder.Symbol = SymbolRegular.MusicNote220;
                 SongImagePlaceholder.Visibility = Visibility.Visible;
-                SongImage.ImageSource = null;
+                _songCover.Source = null;
                 BackgroundImage.Source = null;
                 SongImageBorder.Margin = new Thickness(0, 0, 0, -3); // align music note better when no cover
 
@@ -673,7 +676,7 @@ public partial class TaskbarWidgetControl : UserControl
                     SongImagePlaceholder.Visibility = Visibility.Collapsed;
                     SongImage.Opacity = 1;
                 }
-                SongImage.ImageSource = icon;
+                _songCover.Source = icon;
                 BackgroundImage.Source = icon;
                 SongImageBorder.Margin = new Thickness(0, 0, 0, 0); // align image better when cover is present
             }
@@ -681,7 +684,7 @@ public partial class TaskbarWidgetControl : UserControl
             {
                 SongImagePlaceholder.Symbol = SymbolRegular.MusicNote220;
                 SongImagePlaceholder.Visibility = Visibility.Visible;
-                SongImage.ImageSource = null;
+                _songCover.Source = null;
                 BackgroundImage.Source = null;
             }
 

@@ -17,6 +17,7 @@ namespace FluentFlyoutWPF.Windows;
 public partial class NextUpWindow : MicaWindow
 {
     MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+    private FantCover? _songCover;
     public NextUpWindow(string title, string artist, BitmapImage? thumbnail)
     {
         DataContext = SettingsManager.Current;
@@ -64,7 +65,8 @@ public partial class NextUpWindow : MicaWindow
 
     public void UpdateThumbnail(BitmapImage? thumbnail)
     {
-        SongImage.ImageSource = thumbnail;
-        SongImagePlaceholder.Visibility = SongImage.ImageSource == null ? Visibility.Visible : Visibility.Collapsed;
+        _songCover ??= new FantCover(SongImageBorder, SongImage);
+        _songCover.Source = thumbnail;
+        SongImagePlaceholder.Visibility = thumbnail == null ? Visibility.Visible : Visibility.Collapsed;
     }
 }

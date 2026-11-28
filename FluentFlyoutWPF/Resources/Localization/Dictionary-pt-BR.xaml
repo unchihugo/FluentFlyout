@@ -301,4 +301,11 @@ Nota: Como um projeto de código aberto, esses recursos também estão disponív
     <system:String x:Key="RelatedSettingsTitle">Configurações relacionadas</system:String>
     <system:String x:Key="VolumeFlyoutShortcutDescription">Pressione as teclas de atalho para exibir o menu flutuante de volume.</system:String>
     <system:String x:Key="VolumeFlyoutShortcutTitle">Atalho de teclado</system:String>
+    <system:String x:Key="TaskbarWidgetShowMediaPlayerIconTitle">Mostrar ícone do reprodutor de mídia</system:String>
+    <system:String x:Key="TaskbarWidgetShowMediaPlayerIconDescription">Exibir o ícone do reprodutor de mídia no canto inferior direito da capa do álbum</system:String>
+    <system:String x:Key="ChangelogWindowTitle">Novidades</system:String>
+    <system:String x:Key="ChangelogAllUpdatesTitle">Todas as atualizações</system:String>
+    <system:String x:Key="ChangelogLoadFailedText">Não foi possível carregar o registro de alterações. Verifique sua conexão e tente novamente.</system:String>
+    <system:String x:Key="ChangelogOpenOnlineButton">Abrir registro de alterações online</system:String>
+    <system:String x:Key="ChangelogViewAllUpdatesButton">Ver todas as atualizações</system:String>
 </ResourceDictionary>

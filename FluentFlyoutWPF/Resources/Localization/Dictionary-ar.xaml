@@ -301,4 +301,11 @@
     <system:String x:Key="RelatedSettingsTitle">إعدادات مشابهة</system:String>
     <system:String x:Key="VolumeFlyoutShortcutDescription">إضغط على مفاتيح الإختصار لإظهار قائمة تحكم مستوى الصوت.</system:String>
     <system:String x:Key="VolumeFlyoutShortcutTitle">إختصار لوحة المفاتيح</system:String>
+    <system:String x:Key="TaskbarWidgetShowMediaPlayerIconTitle">اظهر شعار مشغل الوسائط</system:String>
+    <system:String x:Key="TaskbarWidgetShowMediaPlayerIconDescription">اظهر شعار مشغل الوسائط في أسفل يمين صورة الالبوم</system:String>
+    <system:String x:Key="ChangelogWindowTitle">ما الجديد</system:String>
+    <system:String x:Key="ChangelogAllUpdatesTitle">كل التحديثات</system:String>
+    <system:String x:Key="ChangelogLoadFailedText">لا يمكن تحميل السجل. تحقق من اتصالك وحاول مجددًا.</system:String>
+    <system:String x:Key="ChangelogOpenOnlineButton">فتح سجل التغييرات</system:String>
+    <system:String x:Key="ChangelogViewAllUpdatesButton">استعراض كل التحديثات</system:String>
 </ResourceDictionary>

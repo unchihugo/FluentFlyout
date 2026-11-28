@@ -12,7 +12,7 @@
 verbirgt autom. Wiederholung, Shuffle und Player-Information</system:String>
     <system:String x:Key="FlyoutPositionTitle">Position des Flyouts</system:String>
     <system:String x:Key="PositionBottomLeft" xml:space="preserve"> Unten Links</system:String>
-    <system:String x:Key="PositionBottomCenter" xml:space="preserve"> Untere Mitte</system:String>
+    <system:String x:Key="PositionBottomCenter" xml:space="preserve"> Unten Mitte</system:String>
     <system:String x:Key="PositionBottomRight" xml:space="preserve"> Unten rechts</system:String>
     <system:String x:Key="PositionTopLeft" xml:space="preserve"> Oben links</system:String>
     <system:String x:Key="PositionTopCenter" xml:space="preserve"> Oben mittig</system:String>
@@ -59,7 +59,7 @@ Anmerkung: Als Open-Source-Projekt sind diese Funktionen auch kostenlos verfügb
     <system:String x:Key="LockWindow_LockOn">an</system:String>
     <system:String x:Key="MediaFlyoutTitle">Medien-Flyout</system:String>
     <system:String x:Key="TextBlockText1">Aktiviere Media Flyout</system:String>
-    <system:String x:Key="TextBlockText3">Zeigt ein Flyout an, wenn eine Medientaste gedrückt wird.</system:String>
+    <system:String x:Key="TextBlockText3">Zeigt ein Flyout an, wenn eine Medientaste gedrückt wird</system:String>
     <system:String x:Key="TaskbarWidgetPosition">Widget Position</system:String>
     <system:String x:Key="TaskbarWidgetBackgroundBlurDescription">Füge Hintergrundunschärfe für das Taskleisten Widget hinzu.</system:String>
     <system:String x:Key="TaskbarWidgetHideCompletelyTitle">Komplett verstecken, wenn keine Medien abgespielt werden.</system:String>
@@ -296,4 +296,9 @@ Du kannst helfen, die App zu übersetzen auf</system:String>
     <system:String x:Key="TaskbarWidgetScrollVolumeMaster">An (Gesamtlautstärke)</system:String>
     <system:String x:Key="TaskbarWidgetScrollVolumePlayer">An (Player Lautstärke)</system:String>
     <system:String x:Key="OpenMediaPlayerText">Media Player öffnen</system:String>
+    <system:String x:Key="ContextMenuSessionSwitcher">Sitzung wechseln</system:String>
+    <system:String x:Key="SessionSwitcherAuto">Automatik</system:String>
+    <system:String x:Key="RelatedSettingsTitle">Zugehörige Einstellungen</system:String>
+    <system:String x:Key="VolumeFlyoutShortcutTitle">Tastenkombination</system:String>
+    <system:String x:Key="VolumeFlyoutShortcutDescription">Drücken Sie Tastenkombinationen, um das Lautstärke-Overlay anzuzeigen.</system:String>
 </ResourceDictionary>

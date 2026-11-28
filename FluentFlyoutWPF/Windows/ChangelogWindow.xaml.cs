@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Threading;
 using Wpf.Ui.Controls;
 
@@ -115,6 +116,7 @@ public partial class ChangelogWindow : FluentWindow
             ReleaseContent.Content = content;
             ReleaseContentScroll.ScrollToTop();
             ReleaseContentScroll.Visibility = Visibility.Visible;
+            AnimateReleaseContent();
             await WaitForRenderAsync(cancellation.Token);
             cancellation.Token.ThrowIfCancellationRequested();
             StatusPanel.Visibility = Visibility.Collapsed;
@@ -143,6 +145,20 @@ public partial class ChangelogWindow : FluentWindow
             }
             cancellation.Dispose();
         }
+    }
+
+    private void AnimateReleaseContent()
+    {
+        var transform = new TranslateTransform(0, 28);
+        ReleaseContentScroll.RenderTransform = transform;
+        transform.BeginAnimation(
+            TranslateTransform.YProperty,
+            new DoubleAnimation
+            {
+                To = 0,
+                Duration = TimeSpan.FromMilliseconds(300),
+                EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut },
+            });
     }
 
     private async Task WaitForRenderAsync(CancellationToken cancellationToken)

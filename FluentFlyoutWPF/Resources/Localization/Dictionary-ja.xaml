@@ -297,4 +297,6 @@
     <system:String x:Key="TaskbarWidgetScrollVolumeMaster">オン (システムの音量)</system:String>
     <system:String x:Key="TaskbarWidgetScrollVolumePlayer">オン (プレイヤーのみの音量)</system:String>
     <system:String x:Key="OpenMediaPlayerText">メディアプレイヤーを開く</system:String>
+    <system:String x:Key="VolumeFlyoutShortcutTitle">キーボードショートカット</system:String>
+    <system:String x:Key="VolumeFlyoutShortcutDescription">ショートカットキーを押すと、音量表示が表示されます。</system:String>
 </ResourceDictionary>
