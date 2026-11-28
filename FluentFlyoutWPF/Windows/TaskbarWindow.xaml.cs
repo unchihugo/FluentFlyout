@@ -459,7 +459,16 @@ on_error:
         if (!SettingsManager.Current.TaskbarWidgetEnabled)
             return Rect.Empty;
 
-        Widget.SetVerticalMode(isVertical);
+        bool isTaskbarOnLeft = true;
+        if (isVertical)
+        {
+            var monitorArea = MonitorUtil.GetMonitor(taskbarHandle).monitorArea;
+            double distanceToLeft = Math.Abs(taskbarRect.Left - monitorArea.Left);
+            double distanceToRight = Math.Abs(monitorArea.Right - taskbarRect.Right);
+            isTaskbarOnLeft = distanceToLeft <= distanceToRight;
+        }
+
+        Widget.SetVerticalMode(isVertical, isTaskbarOnLeft);
 
         // Calculate widget size
         var (logicalWidth, logicalHeight) = Widget.CalculateSize(dpiScale);

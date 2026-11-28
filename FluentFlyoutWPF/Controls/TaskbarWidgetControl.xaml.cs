@@ -70,6 +70,7 @@ public partial class TaskbarWidgetControl : UserControl
     private MainWindow? _mainWindow;
     private bool _isPaused;
     private bool _isVertical;
+    private bool _isTaskbarOnLeft;
     private bool _isSmallTaskbar;
     private readonly DispatcherTimer _seekbarTimer;
     private TimeSpan _timelinePosition;
@@ -136,9 +137,10 @@ public partial class TaskbarWidgetControl : UserControl
         }
     }
 
-    public void SetVerticalMode(bool isVertical)
+    public void SetVerticalMode(bool isVertical, bool isTaskbarOnLeft = true)
     {
         _isVertical = isVertical;
+        _isTaskbarOnLeft = isTaskbarOnLeft;
         SongInfoStackPanel.Visibility = isVertical ? Visibility.Collapsed : Visibility.Visible;
         SongArtistContainer.Visibility = !_isSmallTaskbar && !isVertical && !string.IsNullOrEmpty(_actualArtist)
             ? Visibility.Visible
@@ -154,6 +156,13 @@ public partial class TaskbarWidgetControl : UserControl
             button.RenderTransformOrigin = new System.Windows.Point(0.5, 0.5);
             button.RenderTransform = (Transform?)counterRotate ?? Transform.Identity;
         }
+
+        // The widget itself is rotated by TaskbarWindow on vertical taskbars.
+        // Its local bottom edge becomes the visual left edge after rotation;
+        // use the local top edge on a right-side taskbar so the seekbar appears on the right.
+        BottomProgressContainer.VerticalAlignment = !isVertical || isTaskbarOnLeft
+            ? VerticalAlignment.Bottom
+            : VerticalAlignment.Top;
 
         UpdateSeekbarPresentation();
     }
@@ -258,7 +267,7 @@ public partial class TaskbarWidgetControl : UserControl
     private void UpdateSeekbarPresentation()
     {
         int mode = Math.Clamp(SettingsManager.Current.TaskbarWidgetSeekbarMode, 0, 3);
-        bool hasProgress = _timelineDuration > TimeSpan.Zero && !_isVertical;
+        bool hasProgress = _timelineDuration > TimeSpan.Zero;
         bool presentationChanged = mode != _lastSeekbarMode;
         _lastSeekbarMode = mode;
         MainStackPanel.Margin = new Thickness(4, mode == 0 ? -2 : 0, -100, 0);
