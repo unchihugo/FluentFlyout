@@ -116,13 +116,17 @@
                                        Click="ViewAllButton_Click" Visibility="Collapsed" />
             </ui:NavigationView.FooterMenuItems>
             <ui:NavigationView.ContentOverlay>
-            <Grid Background="{DynamicResource CardBackground}">
+            <Border Background="{DynamicResource CardBackground}"
+                    TextElement.Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+                    CornerRadius="8,0,0,0"
+                    ClipToBounds="True">
+                <Grid>
                 <ScrollViewer
                     x:Name="ReleaseContentScroll"
                     Visibility="Collapsed"
                     VerticalScrollBarVisibility="Auto"
                     HorizontalScrollBarVisibility="Disabled">
-                    <StackPanel Margin="32,24,32,32">
+                    <StackPanel MaxWidth="1000" Margin="32,24,32,32">
                         <Border BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="0,0,0,1" Padding="0,0,0,8">
                             <ui:TextBlock x:Name="ReleaseTitle" FontSize="28" FontWeight="SemiBold" TextWrapping="Wrap" />
                         </Border>
@@ -153,7 +157,8 @@
                         HorizontalAlignment="Center"
                         Margin="0,16,0,0" />
                 </StackPanel>
-            </Grid>
+                </Grid>
+            </Border>
             </ui:NavigationView.ContentOverlay>
         </ui:NavigationView>
     </Grid>
